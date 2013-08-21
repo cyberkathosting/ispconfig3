@@ -146,4 +146,10 @@ $wb['monitor_title_iptables_txt'] = 'Règles IPTables';
 $wb['monitor_title_beancounter_txt'] = 'Compteur OpenVz VE';
 $wb['monitor_updates_nosupport_txt'] = 'Votre distribution nest pas supportée par le moniteur';
 $wb['monitor_beancounter_nosupport_txt'] = 'Ce serveur n\'est pas un VE OpenVz et n\'a pas d\'information de compteur';
+$wb['Show Monit'] = 'Show Monit';
+$wb['no_monit_url_defined_txt'] = 'No Monit URL defined.';
+$wb['no_permissions_to_view_monit_txt'] = 'You are not allowed to access Monit.';
+$wb['Show Munin'] = 'Show Munin';
+$wb['no_munin_url_defined_txt'] = 'No Munin URL defined.';
+$wb['no_permissions_to_view_munin_txt'] = 'You are not allowed to access Munin.';
 ?>

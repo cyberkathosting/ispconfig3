@@ -8,4 +8,6 @@ $wb['toolsarea_head_txt'] = 'Csomagok';
 $wb['repoupdate_txt'] = 'Csomaglista frissítése';
 $wb['package_id_txt'] = 'local App-ID';
 $wb['no_packages_txt'] = 'No packages available';
+$wb['edit_txt'] = 'Edit';
+$wb['delete_txt'] = 'Delete';
 ?>

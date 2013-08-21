@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Шаблоны клиентов';
 $wb['template_type_txt'] = 'Тип';
 $wb['template_name_txt'] = 'Имя шаблона';
+$wb['template_id_txt'] = 'Template ID';
 ?>

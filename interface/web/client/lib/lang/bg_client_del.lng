@@ -3,4 +3,5 @@ $wb['confirm_action_txt'] = 'Потвърди действието';
 $wb['delete_explanation'] = 'This action will delete the following number of records associated with this client';
 $wb['btn_save_txt'] = 'Изтрии клиента';
 $wb['btn_cancel_txt'] = 'Отказ, без изтриване на клиента';
+$wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>

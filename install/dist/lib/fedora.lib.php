@@ -163,7 +163,23 @@ class installer_dist extends installer_base {
 		if(!is_group($cf['vmail_groupname'])) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
-		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");		
+		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+
+		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
+		$rbl_list = '';
+		if (@isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
+			$rbl_hosts = explode(",",str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
+			foreach ($rbl_hosts as $key => $value) {
+				$rbl_list .= ", reject_rbl_client ". $value;
+			}
+		}
+		unset($rbl_hosts);
+		unset($server_ini_array);
 
 		//* These postconf commands will be executed on installation and update
         $postconf_placeholders = array('{config_dir}' => $config_dir,

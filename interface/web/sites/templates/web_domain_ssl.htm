@@ -1,6 +1,15 @@
 <h2><tmpl_var name="list_head_txt"></h2>
 <p><tmpl_var name="list_desc_txt"></p>
 
+<tmpl_if name="config_error_msg">
+<div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
+                <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
+				<div>
+				<div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div><div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+				</div>
+</div>
+</tmpl_if>
+
 <div class="panel panel_web_domain">
 
     <div class="pnl_formsarea">

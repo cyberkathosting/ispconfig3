@@ -5,4 +5,6 @@ $wb['policy_id_txt'] = 'Policy';
 $wb['email_txt'] = 'E-mail (Patroon)';
 $wb['fullname_txt'] = 'Naam';
 $wb['local_txt'] = 'Locaal';
+$wb['email_error_notempty'] = 'The email address must not be empty.';
+$wb['fullname_error_notempty'] = 'The name must not be empty.';
 ?>

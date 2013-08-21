@@ -53,6 +53,13 @@ class page_action extends tform_actions {
 	function onBeforeDelete() {
 		global $app;
 		
+		// check new style
+        $rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client_template_assigned WHERE client_template_id = ".$this->id);
+		if($rec['number'] > 0) {
+			$app->error($app->tform->lng('template_del_aborted_txt'));
+		}
+        
+        // check old style
 		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE template_master = ".$this->id." OR template_additional like '%/".$this->id."/%'");
 		if($rec['number'] > 0) {
 			$app->error($app->tform->lng('template_del_aborted_txt'));

@@ -25,7 +25,7 @@ try {
 			'zip' => '21337',
 			'city' => 'london',
 			'state' => 'bavaria',
-			'country' => 'UK',
+			'country' => 'GB',
 			'telephone' => '123456789',
 			'mobile' => '987654321',
 			'fax' => '546718293',

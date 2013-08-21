@@ -373,6 +373,15 @@ public function toLower($record) {
 
       return true;
     }
+	
+	//** Deletes a record and saves the changes into the datalog
+    public function datalogError($errormsg) {
+      global $app;
+	  
+	  if(isset($app->modules->current_datalog_id) && $app->modules->current_datalog_id > 0) $this->query("UPDATE sys_datalog set error = '".$this->quote($errormsg)."' WHERE datalog_id = ".$app->modules->current_datalog_id);
+
+      return true;
+    }
 
 
     public function freeResult($query) 

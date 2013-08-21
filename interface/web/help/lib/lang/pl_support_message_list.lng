@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Wiadomości';
 $wb['sender_id_txt'] = 'Nadawca';
 $wb['subject_txt'] = 'Temat';
 $wb['add_new_record_txt'] = 'Wyślij wiadomość';
+$wb['date_txt'] = 'Date';
 ?>

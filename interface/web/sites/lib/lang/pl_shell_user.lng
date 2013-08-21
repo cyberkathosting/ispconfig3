@@ -26,4 +26,6 @@ $wb['generate_password_txt'] = 'Generuj hasło';
 $wb['repeat_password_txt'] = 'Powtórz hasło';
 $wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
 $wb['password_match_txt'] = 'Hasła pasują';
+$wb['username_must_not_exceed_32_chars_txt'] = 'The username must not exceed 32 characters.';
+$wb['username_not_allowed_txt'] = 'The username is not allowed.';
 ?>

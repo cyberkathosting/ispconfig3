@@ -166,7 +166,7 @@ class page_action extends tform_actions {
 			}
 			
 			// Check the quota and adjust
-			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0) {
+			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0 && $app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 				$mailquota = $tmp["mailquota"] / 1024 / 1024;
 				$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);

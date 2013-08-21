@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Сообщение службы поддержки';
 $wb['sender_id_txt'] = 'От';
 $wb['subject_txt'] = 'Тема';
 $wb['add_new_record_txt'] = 'Создайте новое сообщение службы поддержки';
+$wb['date_txt'] = 'Date';
 ?>

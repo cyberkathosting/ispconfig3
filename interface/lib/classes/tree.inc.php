@@ -147,14 +147,14 @@ class tree
     
     function deltree($tree_id) {
     	// lösche Einträge recursiv
-    	$this->_deltree_recurse(&$this->obj[$this->root_id],$tree_id, 0);
+    	$this->_deltree_recurse($this->obj[$this->root_id],$tree_id, 0);
     }
     
     /*
     	Hilfsfunktion für deltree
     */
     
-    function _deltree_recurse($myobj,$tree_id,$delete) {
+    function _deltree_recurse(&$myobj,$tree_id,$delete) {
 		if(is_array($myobj->childs)) {
             foreach($myobj->childs as $val) {
             	
@@ -164,7 +164,7 @@ class tree
                 }
                 
                 // recurse durch Objekte
-            	$this->_deltree_recurse(&$val,$tree_id,$delete);
+            	$this->_deltree_recurse($val,$tree_id,$delete);
                 
                 // lösche Eintrag
                 if($delete == 1) {

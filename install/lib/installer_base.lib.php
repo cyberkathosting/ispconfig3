@@ -400,7 +400,7 @@ class installer_base {
 				$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 			}
 
-			$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
+			$query = "GRANT SELECT, UPDATE(`status`, `error`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
 			if ($verbose){
 				echo $query ."\n";
 			}
@@ -2094,8 +2094,8 @@ class installer_base {
 		}
 
 		$root_cron_jobs = array(
-				"* * * * * ".$install_dir."/server/server.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log",
-				"30 00 * * * ".$install_dir."/server/cron_daily.sh > /dev/null 2>> ".$conf['ispconfig_log_dir']."/cron.log"
+				"* * * * * ".$install_dir."/server/server.sh 2>&1 > /dev/null | while read line; do echo `/bin/date` \"\$line\" >> ".$conf['ispconfig_log_dir']."/cron.log; done",
+				"30 00 * * * ".$install_dir."/server/cron_daily.sh 2>&1 > /dev/null | while read line; do echo `/bin/date` \"\$line\" >> ".$conf['ispconfig_log_dir']."/cron.log; done"
 		);
 
 		if ($conf['nginx']['installed'] == true) {

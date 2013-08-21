@@ -156,7 +156,7 @@ class app {
     
                 } // if
 				
-				if($priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
+				if(isset($conf['admin_notify_priority']) && $priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
 					// send notification to admin
 					$mailBody = $log_msg;
 					$mailSubject = substr($log_msg,0,50).'...';

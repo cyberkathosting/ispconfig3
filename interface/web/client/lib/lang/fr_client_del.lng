@@ -3,4 +3,5 @@ $wb['confirm_action_txt'] = 'Confirmer laction';
 $wb['delete_explanation'] = 'Cette action va supprimer le nombre d\'enregistrements suivants associés avec le client';
 $wb['btn_save_txt'] = 'Effacer le client';
 $wb['btn_cancel_txt'] = 'Annuler sans effacer le client';
+$wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>

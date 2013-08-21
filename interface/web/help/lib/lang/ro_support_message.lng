@@ -5,4 +5,11 @@ $wb['subject_txt'] = 'Subiect';
 $wb['message_txt'] = 'Mesaj';
 $wb['tstamp_txt'] = 'Timestamp';
 $wb['reply_txt'] = 'Reply';
+$wb['date_txt'] = 'Date';
+$wb['support_request_subject_txt'] = 'Support Request';
+$wb['support_request_txt'] = 'You have got a support request. Please don\'t reply to this email, but process the support request inside ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'You have got a reply to your support request. Please don\'t reply to this email, but process the message inside ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'Your reply to the support request has been sent. Please don\'t reply to this email.';
+$wb['support_request_sent_txt'] = 'Your support request has been sent. Please don\'t reply to this email.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'The message could not be sent because the recipient and/or the sender email address is not valid.';
 ?>

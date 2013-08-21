@@ -351,7 +351,7 @@ class ApsGUIController extends ApsBase
         $app->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
 		*/
 		
-		$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.value =  aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
+		$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
 		$tmp = $app->db->queryOneRecord($sql);
 		if($tmp['database_id'] > 0) $app->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 		

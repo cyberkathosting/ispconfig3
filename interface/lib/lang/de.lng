@@ -131,4 +131,6 @@ $wb['datalog_status_i_web_folder_user'] = 'Verzeichnisschutz Benutzer anlegen';
 $wb['datalog_status_u_web_folder_user'] = 'Verzeichnisschutz Benutzer ändern';
 $wb['datalog_status_d_web_folder_user'] = 'Verzeichnisschutz Benutzer löschen';
 $wb['login_as_txt'] = 'Anmelden als';
+$wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
+$wb['no_destination_perm'] = 'Sie haben keine Berechtigung für dieses Ziel.';
 ?>

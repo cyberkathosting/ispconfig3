@@ -7,4 +7,5 @@ $wb['server_id_txt'] = 'Server';
 $wb['database_name_txt'] = 'Datenbankname';
 $wb['add_new_record_txt'] = 'Neue Datenbank hinzufügen';
 $wb['database_user_txt'] = 'Database user';
+$wb['parent_domain_id_txt'] = 'Domain';
 ?>

@@ -8,4 +8,5 @@ $wb['database_user_txt'] = 'Datenbank Benutzer';
 $wb['database_name_txt'] = 'Datenbankname';
 $wb['add_new_record_txt'] = 'Neue Datenbank hinzufügen';
 $wb['sys_groupid_txt'] = 'Kunde';
+$wb['parent_domain_id_txt'] = 'Domain';
 ?>

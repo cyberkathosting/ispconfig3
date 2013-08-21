@@ -21,4 +21,5 @@ $wb['pw_reset_txt'] = 'Password reset';
 $wb['pw_button_txt'] = 'Resend password';
 $wb['email_txt'] = 'Email';
 $wb['theme_not_compatible'] = 'The chosen theme is not compatible with the current ISPConfig version. Please check for a new version of the theme.<br />The default theme as been activated automatically.';
+$wb['back_txt'] = 'Back';
 ?>

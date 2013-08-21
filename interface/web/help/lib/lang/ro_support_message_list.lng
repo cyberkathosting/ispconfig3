@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Mesaj catre Support ';
 $wb['sender_id_txt'] = 'Expeditor';
 $wb['subject_txt'] = 'Subiect';
 $wb['add_new_record_txt'] = 'Creatie mesaj nou catre support';
+$wb['date_txt'] = 'Date';
 ?>

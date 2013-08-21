@@ -49,4 +49,7 @@ $wb['client_username_web_check_disabled_txt'] = 'Disable client username check f
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Show autoresponder tab in mail account details';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show mail filter tab in mail account details';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show custom mailfilter tab in mail account details';
+$wb['webmail_url_error_regex'] = 'Invalid webmail URL';
+$wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
+$wb['webmail_url_note_txt'] = 'Placeholder:';
 ?>

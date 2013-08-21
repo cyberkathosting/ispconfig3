@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'サポートメッセージ';
 $wb['sender_id_txt'] = '送信者';
 $wb['subject_txt'] = '件名';
 $wb['add_new_record_txt'] = 'サポートメッセージを作成する';
+$wb['date_txt'] = 'Date';
 ?>

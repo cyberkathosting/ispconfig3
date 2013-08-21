@@ -146,4 +146,10 @@ $wb['monitor_title_iptables_txt'] = 'IPTables zaštita';
 $wb['Show fail2ban-Log'] = 'Prikaži Fail2Ban log';
 $wb['Show IPTables'] = 'Prikaži IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Prikaži OpenVz VE BeanCounter';
+$wb['Show Monit'] = 'Show Monit';
+$wb['no_monit_url_defined_txt'] = 'No Monit URL defined.';
+$wb['no_permissions_to_view_monit_txt'] = 'You are not allowed to access Monit.';
+$wb['Show Munin'] = 'Show Munin';
+$wb['no_munin_url_defined_txt'] = 'No Munin URL defined.';
+$wb['no_permissions_to_view_munin_txt'] = 'You are not allowed to access Munin.';
 ?>

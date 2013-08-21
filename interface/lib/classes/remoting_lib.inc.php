@@ -133,6 +133,8 @@ class remoting_lib {
 				}
 			}
 			unset($form);
+			
+			$this->dateformat = $app->lng('conf_format_dateshort');
 				
             return true;
         }

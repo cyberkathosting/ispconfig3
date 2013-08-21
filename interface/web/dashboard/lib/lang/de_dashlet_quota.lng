@@ -1,8 +1,8 @@
 <?php
-$wb["quota_txt"] = 'Webseiten-Speicherplatz';
-$wb["domain_txt"] = 'Domain / Webseite';
-$wb["used_txt"] = 'Verwendet';
-$wb["hard_txt"] = 'Hard Limit';
-$wb["soft_txt"] = 'Soft Limit';
-$wb["no_sites_txt"] = 'Keine Webseite gefunden.';
+$wb['quota_txt'] = 'Webseiten-Speicherplatz';
+$wb['domain_txt'] = 'Domain / Webseite';
+$wb['used_txt'] = 'Verwendet';
+$wb['hard_txt'] = 'Hard Limit';
+$wb['soft_txt'] = 'Soft Limit';
+$wb['no_sites_txt'] = 'Keine Webseite gefunden.';
 ?>

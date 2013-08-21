@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Pesan Dukungan';
 $wb['sender_id_txt'] = 'Pengirim';
 $wb['subject_txt'] = 'Judul';
 $wb['add_new_record_txt'] = 'Buat Pesan Dukungan Baru';
+$wb['date_txt'] = 'Date';
 ?>

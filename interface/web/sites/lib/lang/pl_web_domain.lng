@@ -112,4 +112,11 @@ $wb['available_nginx_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw ngin
 $wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw Proxy:';
 $wb['no_server_error'] = 'No server selected.';
+$wb['no_backup_txt'] = 'No backup';
+$wb['daily_backup_txt'] = 'Daily';
+$wb['weekly_backup_txt'] = 'Weekly';
+$wb['monthly_backup_txt'] = 'Monthly';
+$wb['rewrite_rules_txt'] = 'Rewrite Rules';
+$wb['invalid_rewrite_rules_txt'] = 'Invalid Rewrite Rules';
+$wb['allowed_rewrite_rule_directives_txt'] = 'Allowed Directives:';
 ?>

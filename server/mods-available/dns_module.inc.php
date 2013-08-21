@@ -130,9 +130,9 @@ class dns_module {
 		
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
-			exec($conf['init_scripts'] . '/' . $daemon . ' restart', $retval['output'], $retval['retval']);
+			exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
 		} else {
-			exec($conf['init_scripts'] . '/' . $daemon . ' reload', $retval['output'], $retval['retval']);
+			exec($conf['init_scripts'] . '/' . $daemon . ' reload 2>&1', $retval['output'], $retval['retval']);
 		}
 		return $retval;
 	}
@@ -179,7 +179,7 @@ class dns_module {
 		}
 
 		$retval = array('output' => '', 'retval' => 0);
-		exec($conf['init_scripts'] . '/' . $daemon . ' restart', $retval['output'], $retval['retval']);
+		exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
 
 //     unset $tmps;
 		return $retval;

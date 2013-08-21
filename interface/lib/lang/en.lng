@@ -133,4 +133,6 @@ $wb['datalog_status_u_web_folder_user'] = 'Update folder protection user';
 $wb['datalog_status_d_web_folder_user'] = 'Delete folder protection user';
 
 $wb['login_as_txt'] = 'Log in as';
+$wb["no_domain_perm"] = 'You have no permission for this domain.';
+$wb["no_destination_perm"] = 'You have no permission for this destination.';
 ?>

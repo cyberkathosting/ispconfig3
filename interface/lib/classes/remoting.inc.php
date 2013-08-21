@@ -1103,7 +1103,40 @@ class remoting {
 		}
 		$app->uses('remoting_lib');
 		$app->remoting_lib->loadFormDef('../client/form/client.tform.php');
-		return $app->remoting_lib->getDataRecord($client_id);
+		$data = $app->remoting_lib->getDataRecord($client_id);
+        
+        // we need to get the new-style templates for backwards-compatibility - maybe we remove this in a later version
+        if(is_array($data) && count($data) > 0) {
+            if(isset($data['client_id'])) {
+                // this is a single record
+                if($data['template_additional'] == '') {
+                    $tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ' . $data['client_id']);
+                    $tpl_arr = array();
+                    if($tpls) {
+                        foreach($tpls as $tpl) $tpl_arr[] = $tpl['item'];
+                    }
+                    $data['template_additional'] = implode('/', $tpl_arr);
+                    unset($tpl_arr);
+                    unset($tpls);
+                }
+            } elseif(isset($data[0]['client_id'])) {
+                // multiple client records
+                foreach($data as $index => $client) {
+                    if($client['template_additional'] == '') {
+                        $tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ' . $client['client_id']);
+                        $tpl_arr = array();
+                        if($tpls) {
+                            foreach($tpls as $tpl) $tpl_arr[] = $tpl['item'];
+                        }
+                        $data[$index]['template_additional'] = implode('/', $tpl_arr); // dont use the $client array here - changes would not be returned to soap
+                    }
+                    unset($tpl_arr);
+                    unset($tpls);
+                }
+            }
+        }
+        
+        return $data;
 	}
 	
 	public function client_get_id($session_id, $sys_userid)
@@ -1169,6 +1202,33 @@ class remoting {
 					$this->server->fault('permission_denied','You do not have the permissions to access this function.');
 					return false;
 			}
+            
+            $app->uses('remoting_lib');
+            $app->remoting_lib->loadFormDef('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php');
+            $old_rec = $app->remoting_lib->getDataRecord($client_id);
+            
+            // we need the previuos templates assigned here
+            $this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
+            if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
+                // check previous type of storing templates
+                $tpls = explode('/', $old_rec['template_additional']);
+                $this->oldTemplatesAssigned = array();
+                foreach($tpls as $item) {
+                    $item = trim($item);
+                    if(!$item) continue;
+                    $this->oldTemplatesAssigned[] = array('assigned_template_id' => 0, 'client_template_id' => $item, 'client_id' => $client_id);
+                }
+                unset($tpls);
+            }
+            if(isset($params['template_additional'])) {
+                $app->uses('client_templates');
+                $templates = explode('/', $params['template_additional']);
+                $params['template_additional'] = '';
+                $app->client_templates->update_client_templates($client_id, $templates);
+                unset($templates);
+            }
+
+            
             if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
 			$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params, 'client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_update');
 			
@@ -1176,7 +1236,120 @@ class remoting {
 			
 			return $affected_rows;
 	}
+    
+    public function client_template_additional_get($session_id, $client_id) {
+        global $app;
 
+		if(!$this->checkPerm($session_id, 'client_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+        
+        if(@is_numeric($client_id)) {
+            $sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ".$client_id;
+            return $app->db->queryOneRecord($sql);
+        } else {
+            $this->server->fault('The ID must be an integer.');
+            return array();
+        }
+    }
+    
+    private function _set_client_formdata($client_id) {
+        global $app;
+        
+        $this->id = $client_id;
+        $this->dataRecord = $app->db->queryOneRecord('SELECT * FROM `client` WHERE `client_id` = ' . $client_id);
+        $this->oldDataRecord = $this->dataRecord;
+        
+        $this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
+        if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
+            // check previous type of storing templates
+            $tpls = explode('/', $this->oldDataRecord['template_additional']);
+            $this->oldTemplatesAssigned = array();
+            foreach($tpls as $item) {
+                $item = trim($item);
+                if(!$item) continue;
+                $this->oldTemplatesAssigned[] = array('assigned_template_id' => 0, 'client_template_id' => $item, 'client_id' => $client_id);
+            }
+            unset($tpls);
+        }
+    }
+    
+    public function client_template_additional_add($session_id, $client_id, $template_id) {
+        global $app;
+        
+		if(!$this->checkPerm($session_id, 'client_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+        
+        if(@is_numeric($client_id) && @is_numeric($template_id)) {
+            // check if client exists
+            $check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ' . $client_id);
+            if(!$check) {
+                $this->server->fault('Invalid client');
+                return false;
+            }
+            // check if template exists
+            $check = $app->db->queryOneRecord('SELECT `template_id` FROM `client_template` WHERE `template_id` = ' . $template_id);
+            if(!$check) {
+                $this->server->fault('Invalid template');
+                return false;
+            }
+            
+            // for the update event we have to cheat a bit
+            $this->_set_client_formdata($client_id);
+            
+            $sql = "INSERT INTO `client_template_assigned` (`client_id`, `client_template_id`) VALUES (" . $client_id . ", " . $template_id . ")";
+            $app->db->query($sql);
+            $insert_id = $app->db->insertID();
+            
+            $app->plugin->raiseEvent('client:client:on_after_update',$this);
+            
+            return $insert_id;
+        } else {
+            $this->server->fault('The IDs must be of type integer.');
+            return false;
+        }
+    }
+
+    public function client_template_additional_delete($session_id, $client_id, $assigned_template_id) {
+        global $app;
+        
+		if(!$this->checkPerm($session_id, 'client_update')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+        
+        if(@is_numeric($client_id) && @is_numeric($template_id)) {
+            // check if client exists
+            $check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ' . $client_id);
+            if(!$check) {
+                $this->server->fault('Invalid client');
+                return false;
+            }
+            // check if template exists
+            $check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `assigned_template_id` = ' . $assigned_template_id);
+            if(!$check) {
+                $this->server->fault('Invalid template');
+                return false;
+            }
+            
+            // for the update event we have to cheat a bit
+            $this->_set_client_formdata($client_id);
+            
+            $sql = "DELETE FROM `client_template_assigned` WHERE `assigned_template_id` = " . $template_id . " AND `client_id` = " . $client_id;
+            $app->db->query($sql);
+            $affected_rows = $app->db->affectedRows();
+            
+            $app->plugin->raiseEvent('client:client:on_after_update',$this);
+            
+            return $affected_rows;
+        } else {
+            $this->server->fault('The IDs must be of type integer.');
+            return false;
+        }
+    }
 
 	public function client_delete($session_id,$client_id)
 	{

@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Klient-Šablóny';
 $wb['template_type_txt'] = 'Typ';
 $wb['template_name_txt'] = 'Meno šablóny';
+$wb['template_id_txt'] = 'Template ID';
 ?>

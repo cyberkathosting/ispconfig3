@@ -193,10 +193,14 @@ class listform {
     public function getPagingSQL($sql_where = '1') 
     {
         global $app, $conf;
-        
-        //* Add Global Limit from selectbox
-        if(!empty($_POST['search_limit']) AND $app->functions->intval($_POST['search_limit'])){
+		
+		//* Add Global Limit from selectbox
+        if(!empty($_POST['search_limit']) AND $app->functions->intval($_POST['search_limit']) > 0){
 			$_SESSION['search']['limit'] = $app->functions->intval($_POST['search_limit']);
+		}
+		
+		if(preg_match('{^[0-9]$}',$_SESSION['search']['limit'])){
+			$_SESSION['search']['limit'] = 15;
 		}
 
         //* Get Config variables

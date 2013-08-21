@@ -145,6 +145,7 @@ CREATE TABLE `client` (
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `company_name` varchar(64) DEFAULT NULL,
   `company_id` varchar(30) DEFAULT NULL,
+  `gender` enum('','m','f') NOT NULL DEFAULT '',
   `contact_name` varchar(64) DEFAULT NULL,
   `customer_no` varchar(64) DEFAULT NULL,
   `vat_id` varchar(64) DEFAULT NULL,
@@ -225,6 +226,9 @@ CREATE TABLE `client` (
   `template_master` int(11) unsigned NOT NULL DEFAULT '0',
   `template_additional` text NOT NULL DEFAULT '',
   `created_at` bigint(20) DEFAULT NULL,
+  `locked` enum('n','y') NOT NULL DEFAULT 'n',
+  `canceled` enum('n','y') NOT NULL DEFAULT 'n',
+  `tmp_data` mediumblob,
   `id_rsa` varchar(2000) NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
   PRIMARY KEY (`client_id`)
@@ -313,6 +317,19 @@ CREATE TABLE `client_template` (
   PRIMARY KEY  (`template_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table  `client_template_assigned`
+-- 
+
+CREATE TABLE `client_template_assigned` (
+  `assigned_template_id` bigint(20) NOT NULL auto_increment,
+  `client_id` bigint(11) NOT NULL DEFAULT '0',
+  `client_template_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`assigned_template_id`),
+  KEY `client_id` (`client_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --
@@ -1428,6 +1445,7 @@ CREATE TABLE `sys_datalog` (
   `user` varchar(255) NOT NULL default '',
   `data` longtext NOT NULL,
   `status` set('pending','ok','warning','error') NOT NULL default 'ok',
+  `error` mediumtext,
   PRIMARY KEY  (`datalog_id`),
   KEY `server_id` (`server_id`,`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -2179,6 +2197,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.2');
+INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.3');
 
 SET FOREIGN_KEY_CHECKS = 1;

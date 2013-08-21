@@ -16,16 +16,19 @@ try {
 
 	//* Parameters
 	$reseller_id = 1;
-	$c_id = 1;
+	$client_id = 1;
 
 
 	//* Get the client record
-	$client_record = $client->client_get($session_id, $reseller_id);
+	$client_record = $client->client_get($session_id, $client_id);
 
 	//* Change parameters
 	$client_record['country'] = 'de';
 	$client_record['username'] = 'mguy';
 	$client_record['contact_name'] = 'brush';
+	
+	//* We set the client password to a empty string as we do not want to change it.
+	$client_record['password'] = '';
 	
 	$affected_rows = $client->client_update($session_id, $c_id, $reseller_id, $client_record);
 

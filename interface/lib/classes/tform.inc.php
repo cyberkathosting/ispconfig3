@@ -552,9 +552,10 @@ class tform {
 												$new_record[$key] = $out;
 										break;
 
-								case 'PASSWORD':
-										$new_record[$key] = '';
-								break;
+                                case 'PASSWORD':
+                                        //$new_record[$key] = '';
+										$new_record[$key] = htmlspecialchars($field['default']);
+                                break;
 
 								case 'CHECKBOX':
 										// $checked = (empty($field["default"]))?'':' CHECKED';
@@ -1257,7 +1258,7 @@ class tform {
 		function getDataRecord($primary_id) {
 			global $app;
 			$escape = '`';
-			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
+			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id." AND ".$this->getAuthSQL('r',$this->formDef['db_table']);
 			return $app->db->queryOneRecord($sql);
 		}
 
@@ -1267,7 +1268,7 @@ class tform {
 
 				$app->db->datalogSave($this->formDef['db_table'], $action, $this->formDef['db_table_idx'], $primary_id, $record_old, $record_new);
 				return true;
-
+<<<<<<< .mine
 				/*
 				// Add backticks for incomplete table names.
 				if(stristr($this->formDef['db_table'],'.')) {
@@ -1331,7 +1332,7 @@ class tform {
 				return true;
 				*/
 
-		}
+=======>>>>>>> .theirs		}
 
 		function getAuthSQL($perm, $table = '') {
 				if($_SESSION["s"]["user"]["typ"] == 'admin') {

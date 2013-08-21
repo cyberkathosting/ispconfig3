@@ -49,8 +49,8 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-
-
+    var $_template_additional = array();
+    
 	function onShowNew() {
 		global $app, $conf;
 		
@@ -92,8 +92,28 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
-		parent::onSubmit();
+        
+        if($this->id != 0) {
+            $this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $this->id);
+            if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
+                // check previous type of storing templates
+                $tpls = explode('/', $this->oldDataRecord['template_additional']);
+                $this->oldTemplatesAssigned = array();
+                foreach($tpls as $item) {
+                    $item = trim($item);
+                    if(!$item) continue;
+                    $this->oldTemplatesAssigned[] = array('assigned_template_id' => 0, 'client_template_id' => $item, 'client_id' => $this->id);
+                }
+                unset($tpls);
+            }
+        } else {
+            $this->oldTemplatesAssigned = array();
+        }
+        
+        $this->_template_additional = explode('/', $this->dataRecord['template_additional']);
+        $this->dataRecord['template_additional'] = '';
+        
+        parent::onSubmit();
 	}
 
 	function onShowEnd() {
@@ -110,16 +130,44 @@ class page_action extends tform_actions {
 		}
 		$app->tpl->setVar('tpl_add_select',$option);
 
-		$sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
-		$result = $app->db->queryOneRecord($sql);
-		$tplAdd = explode("/", $result['template_additional']);
-		$text = '';
-		foreach($tplAdd as $item){
-			if (trim($item) != ''){
-				if ($text != '') $text .= '';
-				$text .= '<li>' . $tpl[$item]. '</li>';
-			}
-		}
+        // check for new-style records
+        $result = $app->db->queryAllRecords('SELECT assigned_template_id, client_template_id FROM client_template_assigned WHERE client_id = ' . $this->id);
+        if($result && count($result) > 0) {
+            // new style
+            $items = array();
+            $text = '';
+            foreach($result as $item){
+                if (trim($item['client_template_id']) != ''){
+                    if ($text != '') $text .= '';
+                    $text .= '<li rel="' . $item['assigned_template_id'] . '">' . $tpl[$item['client_template_id']];
+                    $text .= '<a href="#" class="button icons16 icoDelete"></a>';
+                                        $tmp = new stdClass();
+                    $tmp->id = $item['assigned_template_id'];
+                    $tmp->data = '';
+                    $app->plugin->raiseEvent('get_client_template_details', $tmp);
+                    if($tmp->data != '') $text .= '<br /><em>' . $tmp->data . '</em>';
+
+                    $text .= '</li>';
+                    $items[] = $item['assigned_template_id'] . ':' . $item['client_template_id'];
+                }
+            }
+
+            $tmprec = $app->tform->getHTML(array('template_additional' => implode('/', $items)), $this->active_tab, 'EDIT');
+            $app->tpl->setVar('template_additional', $tmprec['template_additional']);
+            unset($tmprec);
+        } else {
+            // old style
+            $sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
+            $result = $app->db->queryOneRecord($sql);
+            $tplAdd = explode("/", $result['template_additional']);
+            $text = '';
+            foreach($tplAdd as $item){
+                if (trim($item) != ''){
+                    if ($text != '') $text .= '';
+                    $text .= '<li>' . $tpl[$item]. '<a href="#" class="button icons16 icoDelete"></a></li>';
+                }
+            }
+        }
 
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module','client');
@@ -127,7 +175,7 @@ class page_action extends tform_actions {
 		parent::onShowEnd();
 
 	}
-
+    
 	/*
 	 This function is called automatically right after
 	 the data was successful inserted in the database.
@@ -180,6 +228,10 @@ class page_action extends tform_actions {
 		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);
 		
+        if(isset($this->dataRecord['template_master'])) {
+            $app->uses('client_templates');
+            $app->client_templates->update_client_templates($this->id, $this->_template_additional);
+        }
 
 		parent::onAfterInsert();
 	}
@@ -218,6 +270,99 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
+        if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
+        if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) {
+            /** lock all the things like web, mail etc. - easy to extend */
+            
+            // get tmp_data of client
+            $client_data = $app->db->queryOneRecord('SELECT `tmp_data` FROM `client` WHERE `client_id` = ' . $this->id);
+            
+            if($client_data['tmp_data'] == '') $tmp_data = array();
+            else $tmp_data = unserialize($client_data['tmp_data']);
+            
+            if(!is_array($tmp_data)) $tmp_data = array();
+            
+            // database tables with their primary key columns
+            $to_disable = array('cron' => 'id',
+                                'ftp_user' => 'ftp_user_id',
+                                'mail_domain' => 'domain_id',
+                                'mail_forwarding' => 'forwarding_id',
+                                'mail_get' => 'mailget_id',
+                                'openvz_vm' => 'vm_id',
+                                'shell_user' => 'shell_user_id',
+                                'webdav_user' => 'webdav_user_id',
+                                'web_database' => 'database_id',
+                                'web_domain' => 'domain_id',
+                                'web_folder' => 'web_folder_id',
+                                'web_folder_user' => 'web_folder_user_id'
+                               );
+            
+            $udata = $app->db->queryOneRecord('SELECT `userid` FROM `sys_user` WHERE `client_id` = ' . $this->id);
+            $gdata = $app->db->queryOneRecord('SELECT `groupid` FROM `sys_group` WHERE `client_id` = ' . $this->id);
+            $sys_groupid = $gdata['groupid'];
+            $sys_userid = $udata['userid'];
+            
+            $entries = array();
+            if($this->dataRecord['locked'] == 'y') {
+                $prev_active = array();
+                $prev_sysuser = array();
+                foreach($to_disable as $current => $keycolumn) {
+                    $prev_active[$current] = array();
+                    $prev_sysuser[$current] = array();
+                    
+                    $entries = $app->db->queryAllRecords('SELECT `' . $keycolumn . '` as `id`, `sys_userid`, `active` FROM `' . $current . '` WHERE `sys_groupid` = ' . $sys_groupid);
+                    foreach($entries as $item) {
+                        
+                        if($item['active'] != 'y') $prev_active[$current][$item['id']]['active'] = 'n';
+                        if($item['sys_userid'] != $sys_userid) $prev_sysuser[$current][$item['id']]['active'] = $item['sys_userid'];
+                        // we don't have to store these if y, as everything without previous state gets enabled later
+                        
+                        $app->db->datalogUpdate($current, array('active' => 'n', 'sys_userid' => $_SESSION["s"]["user"]["userid"]), $keycolumn, $item['id']);
+                    }
+                }
+                
+                $tmp_data['prev_active'] = $prev_active;
+                $tmp_data['prev_sys_userid'] = $prev_sysuser;
+                $app->db->query("UPDATE `client` SET `tmp_data` = '" . $app->db->quote(serialize($tmp_data)) . "' WHERE `client_id` = " . $this->id);
+                unset($prev_active);
+                unset($prev_sysuser);
+            } elseif($this->dataRecord['locked'] == 'n') {
+                foreach($to_disable as $current => $keycolumn) {
+                    $entries = $app->db->queryAllRecords('SELECT `' . $keycolumn . '` as `id` FROM `' . $current . '` WHERE `sys_groupid` = ' . $sys_groupid);
+                    foreach($entries as $item) {
+                        $set_active = 'y';
+                        $set_sysuser = $sys_userid;
+                        if(array_key_exists('prev_active', $tmp_data) == true
+                            && array_key_exists($current, $tmp_data['prev_active']) == true
+                            && array_key_exists($item['id'], $tmp_data['prev_active'][$current]) == true
+                            && $tmp_data['prev_active'][$current][$item['id']] == 'n') $set_active = 'n';
+                        if(array_key_exists('prev_sysuser', $tmp_data) == true
+                            && array_key_exists($current, $tmp_data['prev_sysuser']) == true
+                            && array_key_exists($item['id'], $tmp_data['prev_sysuser'][$current]) == true
+                            && $tmp_data['prev_sysuser'][$current][$item['id']] != $sys_userid) $set_sysuser = $tmp_data['prev_sysuser'][$current][$item['id']];
+                        
+                        $app->db->datalogUpdate($current, array('active' => $set_active, 'sys_userid' => $set_sysuser), $keycolumn, $item['id']);
+                    }
+                }
+                if(array_key_exists('prev_active', $tmp_data)) unset($tmp_data['prev_active']);
+                $app->db->query("UPDATE `client` SET `tmp_data` = '" . $app->db->quote(serialize($tmp_data)) . "' WHERE `client_id` = " . $this->id);
+            }
+            unset($tmp_data);
+            unset($entries);
+            unset($to_disable);
+        }
+        
+        if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
+        if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
+            if($this->dataRecord['canceled'] == 'y') {
+                $sql = "UPDATE sys_user SET active = '0' WHERE client_id = " . $this->id;
+                $app->db->query($sql);
+            } elseif($this->dataRecord['canceled'] == 'n') {
+                $sql = "UPDATE sys_user SET active = '1' WHERE client_id = " . $this->id;
+                $app->db->query($sql);
+            }
+        }
+        
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
 			$language = $app->db->quote($this->dataRecord["language"]);
@@ -236,6 +381,11 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 		
+        if(isset($this->dataRecord['template_master'])) {
+            $app->uses('client_templates');
+            $app->client_templates->update_client_templates($this->id, $this->_template_additional);
+        }
+        
 		parent::onAfterUpdate();
 	}
 }

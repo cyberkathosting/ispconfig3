@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Asiakasmallit';
 $wb['template_type_txt'] = 'Tyyppi';
 $wb['template_name_txt'] = 'Asiakasmallin nimi';
+$wb['template_id_txt'] = 'Template ID';
 ?>

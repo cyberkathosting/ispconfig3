@@ -212,9 +212,9 @@ class web_module {
 
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
-			exec($conf['init_scripts'] . '/' . $daemon . ' restart', $retval['output'], $retval['retval']);
+			exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
 		} else {
-			exec($conf['init_scripts'] . '/' . $daemon . ' reload', $retval['output'], $retval['retval']);
+			exec($conf['init_scripts'] . '/' . $daemon . ' reload 2>&1', $retval['output'], $retval['retval']);
 		}
 		return $retval;
 	}
@@ -231,7 +231,7 @@ class web_module {
 		if(!$init_script) $init_script = $conf['init_scripts'].'/'.$web_config['php_fpm_init_script'];
 		
 		$retval = array('output' => '', 'retval' => 0);
-		exec($init_script.' '.$action, $retval['output'], $retval['retval']);
+		exec($init_script.' '.$action.' 2>&1', $retval['output'], $retval['retval']);
 		return $retval;
 	}
 

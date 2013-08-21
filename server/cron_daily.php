@@ -33,6 +33,7 @@ require(SCRIPT_PATH."/lib/config.inc.php");
 require(SCRIPT_PATH."/lib/app.inc.php");
 
 set_time_limit(0);
+ini_set('error_reporting', E_ALL & ~E_NOTICE);
 
 // make sure server_id is always an int
 $conf['server_id'] = intval($conf['server_id']);
@@ -742,10 +743,10 @@ if ($app->dbmaster == $app->db) {
 
 				//* Send traffic notifications
 				if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
-
+                    
 					$placeholders = array('{domain}' => $rec['domain'],
-										  '{admin_mail}' => $global_config['admin_mail']);
-
+                                          '{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'));
+                    
 					$recipients = array();
 					//* send email to admin
 					if($global_config['admin_mail'] != '' && $web_config['overtraffic_notify_admin'] == 'y') {
@@ -860,7 +861,7 @@ if ($app->dbmaster == $app->db) {
                 // send notification - everything ok again
                 if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y')) {
                     $placeholders = array('{domain}' => $rec['domain'],
-                                          '{admin_mail}' => $global_config['admin_mail'],
+                                          '{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
                                           '{used}' => $rec['used'],
                                           '{soft}' => $rec['soft'],
                                           '{hard}' => $rec['hard'],
@@ -897,7 +898,7 @@ if ($app->dbmaster == $app->db) {
 				$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
 
                 $placeholders = array('{domain}' => $rec['domain'],
-                                      '{admin_mail}' => $global_config['admin_mail'],
+                                      '{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
                                       '{used}' => $rec['used'],
                                       '{soft}' => $rec['soft'],
                                       '{hard}' => $rec['hard'],
@@ -990,7 +991,7 @@ if ($app->dbmaster == $app->db) {
                 // send notification - everything ok again
                 if($rec['last_quota_notification'] && $mail_config['overquota_notify_onok'] == 'y' && ($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y')) {
                     $placeholders = array('{email}' => $rec['email'],
-                              '{admin_mail}' => $global_config['admin_mail'],
+                              '{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
                               '{used}' => $rec['used'],
                               '{name}' => $rec['name'],
                               '{quota}' => $rec['quota'],
@@ -1027,7 +1028,7 @@ if ($app->dbmaster == $app->db) {
 				$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
 
                 $placeholders = array('{email}' => $rec['email'],
-                          '{admin_mail}' => $global_config['admin_mail'],
+                          '{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
                           '{used}' => $rec['used'],
                           '{name}' => $rec['name'],
                           '{quota}' => $rec['quota'],
@@ -1237,7 +1238,8 @@ if($backup_dir != '') {
 
 				if ($rec['type'] == 'mysql') {
 					$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
-					$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
+					//$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
+					$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
 					exec($command, $tmp_output, $retval);
 
 					//* Compress the backup with gzip

@@ -3,4 +3,5 @@ $wb['confirm_action_txt'] = 'Επιβεβαίωση ενέργειας';
 $wb['delete_explanation'] = 'Η ενέργεια θα διαγράψει τις παρακάτω εγγραφές που αφορούν τον πελάτη';
 $wb['btn_save_txt'] = 'Διαγραφή πελάτη';
 $wb['btn_cancel_txt'] = 'Ακύρωση χωρίς διαγραφή πελάτη';
+$wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>

@@ -4,4 +4,5 @@ $wb['quota_txt'] = 'Quota';
 $wb['name_txt'] = 'Name';
 $wb['email_txt'] = 'Email Address';
 $wb['used_txt'] = 'Used space';
+$wb['percentage_txt'] = 'Used %';
 ?>

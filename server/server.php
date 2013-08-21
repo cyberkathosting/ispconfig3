@@ -71,7 +71,8 @@ if ($app->dbmaster->connect_error == NULL) {
 	unset($server_db_record);
 	
 	// retrieve admin email address for notifications
-	$sys_ini = $app->dbmaster->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
+	//$sys_ini = $app->dbmaster->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
+	$sys_ini = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
 	$conf['sys_ini'] = $app->ini_parser->parse_ini_string(stripslashes($sys_ini['config']));
 	$conf['admin_mail'] = $conf['sys_ini']['mail']['admin_mail'];
 	unset($sys_ini);

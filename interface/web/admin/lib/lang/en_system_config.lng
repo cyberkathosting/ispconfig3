@@ -55,4 +55,11 @@ $wb['mailbox_show_custom_rules_tab_txt'] = 'Show custom mailfilter tab in mail a
 $wb['webmail_url_error_regex'] = 'Invalid webmail URL';
 $wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
 $wb['webmail_url_note_txt'] = 'Placeholder:';
+$wb['available_dashlets_note_txt'] = 'Available Dashlets:';
+$wb['admin_dashlets_left_txt'] = 'Left Admin Dashlets';
+$wb['admin_dashlets_right_txt'] = 'Right Admin Dashlets';
+$wb['reseller_dashlets_left_txt'] = 'Left Reseller Dashlets';
+$wb['reseller_dashlets_right_txt'] = 'Right Reseller Dashlets';
+$wb['client_dashlets_left_txt'] = 'Left Client Dashlets';
+$wb['client_dashlets_right_txt'] = 'Right Client Dashlets';
 ?>

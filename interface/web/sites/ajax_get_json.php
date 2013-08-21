@@ -34,11 +34,12 @@ require_once('../../lib/app.inc.php');
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
-$app->uses('getconf');
+$app->uses('getconf,tform');
 
 $server_id = $app->functions->intval($_GET["server_id"]);
 $web_id = $app->functions->intval($_GET["web_id"]);
 $php_type = $_GET["php_type"];
+$client_group_id = $app->functions->intval($_GET['client_group_id']);
 $type = $_GET["type"];
 
 //if($_SESSION["s"]["user"]["typ"] == 'admin') {
@@ -55,7 +56,7 @@ $type = $_GET["type"];
 	
 	if($type == 'getserverid'){
 		$json = '{"serverid":"';
-		$sql = "SELECT server_id FROM web_domain WHERE domain_id = $web_id";
+		$sql = "SELECT server_id FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
 		$server = $app->db->queryOneRecord($sql);
 		$json .= $server['server_id'];
 		unset($server);
@@ -69,10 +70,26 @@ $type = $_GET["type"];
 		$web_config = $app->getconf->get_server_config($server_id, 'web');
 		if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 		if($server_type == 'nginx' && $php_type == 'fast-cgi') $php_type = 'php-fpm';
-		// get client id
 		$sql_where = '';
-		if($_SESSION["s"]["user"]["typ"] != 'admin'){
-			$sql_where = " AND client_id = ".$_SESSION["s"]["user"]["client_id"];
+		
+		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"] . ")";
+		//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
+		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $client_group_id");
+			//$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"];
+			$sql_where = " AND (client_id = 0";
+			if($app->functions->intval($client['client_id']) > 0) $sql_where .= " OR client_id = ".$app->functions->intval($client['client_id']);
+			$sql_where .= ")";
+		//* Admin: If the logged in user is admin
+		} else {
+			//$sql_where = '';
+			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $client_group_id");
+			//$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"];
+			$sql_where = " AND (client_id = 0";
+			if($app->functions->intval($client['client_id']) > 0) $sql_where .= " OR client_id = ".$app->functions->intval($client['client_id']);
+			$sql_where .= ")";
 		}
 		
 		if($php_type == 'php-fpm'){
@@ -99,7 +116,7 @@ $type = $_GET["type"];
 	
 	if($type == 'getphptype'){
 		$json = '{"phptype":"';
-		$sql = "SELECT php FROM web_domain WHERE domain_id = $web_id";
+		$sql = "SELECT php FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
 		$php = $app->db->queryOneRecord($sql);
 		$json .= $php['php'];
 		unset($php);
@@ -108,7 +125,7 @@ $type = $_GET["type"];
 	
 	if($type == 'getredirecttype'){
 		$json = '{"redirecttype":"';
-		$sql = "SELECT redirect_type FROM web_domain WHERE domain_id = $web_id";
+		$sql = "SELECT redirect_type FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
 		$redirect = $app->db->queryOneRecord($sql);
 		$json .= $redirect['redirect_type'];
 		unset($redirect);
@@ -138,7 +155,7 @@ $type = $_GET["type"];
     if($type == 'getdatabaseusers') {
         $json = '{}';
 		
-		$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id";
+		$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
         $group = $app->db->queryOneRecord($sql);
         if($group) {
             $sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $group['sys_groupid'] . "'";

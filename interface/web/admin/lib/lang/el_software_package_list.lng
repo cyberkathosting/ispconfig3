@@ -8,4 +8,6 @@ $wb['toolsarea_head_txt'] = 'Πακέτα';
 $wb['repoupdate_txt'] = 'Ενημέρωση λίστας πακκέτων';
 $wb['package_id_txt'] = 'τοπικό App-ID';
 $wb['no_packages_txt'] = 'No packages available';
+$wb['edit_txt'] = 'Edit';
+$wb['delete_txt'] = 'Delete';
 ?>

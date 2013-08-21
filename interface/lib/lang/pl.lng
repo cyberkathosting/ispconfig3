@@ -131,4 +131,6 @@ $wb['datalog_status_i_web_folder_user'] = 'Utwórz konto dla zabezpieczonego fol
 $wb['datalog_status_u_web_folder_user'] = 'Edytuj konto zabezpieczonego folderu';
 $wb['datalog_status_d_web_folder_user'] = 'Usuń konto zabezpieczonego folderu';
 $wb['login_as_txt'] = 'Zaloguj jako';
+$wb['no_domain_perm'] = 'You have no permission for this domain.';
+$wb['no_destination_perm'] = 'You have no permission for this destination.';
 ?>

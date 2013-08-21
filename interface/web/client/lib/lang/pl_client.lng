@@ -143,4 +143,5 @@ $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any ma
 $wb['aps_limits_txt'] = 'Limity Instalatora APS';
 $wb['limit_aps_txt'] = 'Maks. liczba instalacji APS';
 $wb['limit_aps_error_notint'] = 'Limit instalacji APS musi być liczbą';
+$wb['default_slave_dnsserver_txt'] = 'Default Secondary DNS Server';
 ?>

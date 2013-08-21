@@ -113,16 +113,30 @@ class page_action extends tform_actions {
 		}
 		$app->tpl->setVar('tpl_add_select',$option);
 
-		$sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
-		$result = $app->db->queryOneRecord($sql);
-		$tplAdd = explode("/", $result['template_additional']);
-		$text = '';
-		foreach($tplAdd as $item){
-			if (trim($item) != ''){
-				if ($text != '') $text .= '<br />';
-				$text .= $tpl[$item];
-			}
-		}
+        // check for new-style records
+        $result = $app->db->queryAllRecords('SELECT assigned_template_id, client_template_id FROM client_template_assigned WHERE client_id = ' . $this->id);
+        if($result && count($result) > 0) {
+            // new style
+            $text = '';
+            foreach($result as $item){
+                if (trim($item['client_template_id']) != ''){
+                    if ($text != '') $text .= '';
+                    $text .= '<li rel="' . $item['assigned_template_id'] . '">' . $tpl[$item['client_template_id']]. '<a href="#" class="button icons16 icoDelete"></a></li>';
+                }
+            }
+        } else {
+            // old style
+            $sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
+            $result = $app->db->queryOneRecord($sql);
+            $tplAdd = explode("/", $result['template_additional']);
+            $text = '';
+            foreach($tplAdd as $item){
+                if (trim($item) != ''){
+                    if ($text != '') $text .= '';
+                    $text .= '<li>' . $tpl[$item]. '<a href="#" class="button icons16 icoDelete"></a></li>';
+                }
+            }
+        }
 
 		$app->tpl->setVar('template_additional_list', $text);
 

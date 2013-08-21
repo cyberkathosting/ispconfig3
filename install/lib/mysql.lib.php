@@ -35,7 +35,7 @@ class db
 	var $dbUser = "";		  // database authorized user
 	var $dbPass = "";		  // user's password
 	var $dbCharset = "";      // what charset comes and goes to mysql: utf8 / latin1
-	var $linkId = 0;		  // last result of mysql_connect()
+	var $linkId = false;		  // last result of mysql_connect()
 	var $queryId = 0;		  // last result of mysql_query()
 	var $record	= array();	  // last record fetched
     var $autoCommit = 1;      // Autocommit Transactions
@@ -61,8 +61,8 @@ class db
 	// error handler
 	function updateError($location)
 	{
-		$this->errorNumber = mysql_errno();
-		$this->errorMessage = mysql_error();
+		$this->errorNumber = mysqli_errno($this->linkId);
+		$this->errorMessage = mysqli_error($this->linkId);
 		$this->errorLocation = $location;
 		if($this->errorNumber && $this->show_error_messages)
 		{
@@ -73,16 +73,16 @@ class db
 
 	function connect()
 	{
-		if($this->linkId == 0)
+		if(!$this->linkId)
 		{
-			$this->linkId = mysql_connect($this->dbHost, $this->dbUser, $this->dbPass);
+			$this->linkId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
 
 			if(!$this->linkId)
 			{
-				$this->updateError('DB::connect()<br />mysql_connect');
+				$this->updateError('DB::connect()<br />mysqli_connect');
 				return false;
 			}
-			$this->queryId = @mysql_query('SET NAMES '.$this->dbCharset, $this->linkId);
+			$this->queryId = @mysqli_query($this->linkId, 'SET NAMES '.$this->dbCharset);
 		}
 		return true;
 	}
@@ -94,14 +94,14 @@ class db
 			return false;
 		}
 		if($this->dbName != '') {
-			if(!mysql_select_db($this->dbName, $this->linkId))
+			if(!mysqli_select_db($this->linkId, $this->dbName))
 			{
-				$this->updateError('DB::connect()<br />mysql_select_db');
+				$this->updateError('DB::connect()<br />mysqli_select_db');
 				return false;
 			}
 		}
-		$this->queryId = @mysql_query($queryString, $this->linkId);
-		$this->updateError('DB::query('.$queryString.')<br />mysql_query');
+		$this->queryId = @mysqli_query($this->linkId, $queryString);
+		$this->updateError('DB::query('.$queryString.')<br />mysqli_query');
 		if(!$this->queryId)
 		{
 			return false;
@@ -138,8 +138,8 @@ class db
 	// returns the next record in an array
 	function nextRecord()
 	{
-        $this->record = mysql_fetch_assoc($this->queryId);
-		$this->updateError('DB::nextRecord()<br />mysql_fetch_array');
+        $this->record = mysqli_fetch_assoc($this->queryId);
+		$this->updateError('DB::nextRecord()<br />mysqli_fetch_array');
 		if(!$this->record || !is_array($this->record))
 		{
 			return false;
@@ -151,18 +151,18 @@ class db
 	// returns number of rows returned by the last select query
 	function numRows()
 	{
-		return mysql_num_rows($this->queryId);
+		return mysqli_num_rows($this->queryId);
 	}
 	
 	function affectedRows()
 	{
-		return mysql_affected_rows($this->linkId);
+		return mysqli_affected_rows($this->linkId);
 	}
 	
 	// returns mySQL insert id
 	function insertID()
 	{
-		return mysql_insert_id($this->linkId);
+		return mysqli_insert_id($this->linkId);
 	}
     
     // Check der variablen
@@ -175,7 +175,7 @@ class db
 	// Check der variablen
     function quote($formfield)
     {
-        return mysql_real_escape_string($formfield);
+        return mysqli_real_escape_string($this->linkId, $formfield);
     }
 	
 	// Check der variablen
@@ -359,11 +359,22 @@ class db
 		if($database_name == ''){
             $database_name = $this->dbName;
         }
-        $result = mysql_query("SHOW TABLES FROM `$database_name`");
+		
+		$tables = $this->queryAllRecords("SHOW TABLES FROM `$database_name`");
+		$tb_names = array();
+		if(is_array($tables) && !empty($tables)){
+			for($i = 0; $i < sizeof($tables); $i++){
+				$tb_names[$i] = $tables[$i]['Tables_in_'.$database_name];
+			}
+		}
+		
+		/*
+        $result = mysqli_query("SHOW TABLES FROM `$database_name`");
         $tb_names = array();
-        for ($i = 0; $i < mysql_num_rows($result); $i++) {
+        for ($i = 0; $i < mysqli_num_rows($result); $i++) {
             $tb_names[$i] = mysql_tablename($result, $i);
         }
+		*/
         return $tb_names;       
    }
    
@@ -438,35 +449,7 @@ class db
     } else {
         return false;
     }
-    
-    
-    //$this->createTable('tester',$columns);
-    
-    /*
-    $result = mysql_list_fields($go_info["server"]["db_name"],$table_name);
-    $fields = mysql_num_fields ($result);
-    $i = 0;
-    $table = mysql_field_table ($result, $i);
-    while ($i < $fields) {
-        $name  = mysql_field_name  ($result, $i);
-        $type  = mysql_field_type  ($result, $i);
-        $len   = mysql_field_len   ($result, $i);
-        $flags = mysql_field_flags ($result, $i);
-        print_r($flags);
-        
-        $columns = array(name => $name,
-                    type =>     "",
-                    defaultValue =>  "",
-                    isnull =>   1,
-                    option =>   "");
-        $returnvar[] = $columns;
-        
-        $i++;
-    }
-    */
-    
-    
-   
+
    }
    
    function mapType($metaType,$typeValue) {

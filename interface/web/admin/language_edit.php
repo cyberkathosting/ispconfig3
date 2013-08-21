@@ -85,7 +85,7 @@ $app->tpl->setVar("file_path", $file_path);
 $keyword_list = array();
 if(isset($wb) && is_array($wb)) {
 	foreach($wb as $key => $val) {
-		$keyword_list[] = array('key' => $key, 'val' => $val);
+		$keyword_list[] = array('key' => $key, 'val' => htmlentities($val));
 	}
 
 	$app->tpl->setLoop('records', $keyword_list);

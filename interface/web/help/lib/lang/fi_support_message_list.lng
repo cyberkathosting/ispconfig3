@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Tukipyynnöt';
 $wb['sender_id_txt'] = 'Tukipyynnön lähettäjä';
 $wb['subject_txt'] = 'Tukipyynnön aihe';
 $wb['add_new_record_txt'] = 'Lähetä uusi tukipyyntö';
+$wb['date_txt'] = 'Date';
 ?>

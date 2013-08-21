@@ -69,6 +69,12 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 		
+		//* Check if destination email belongs to user
+		if(isset($_POST["destination"])) {
+			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+			if($email["email"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->lng("no_destination_perm");
+		}
+		
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client

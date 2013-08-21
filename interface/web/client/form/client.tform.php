@@ -100,6 +100,12 @@ $form["tabs"]['address'] = array (
 			'cols'		=> '',
 			'searchable' => 2
 		),
+		'gender' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'SELECT',
+			'default'	=> '',
+			'value'		=> array('' => '', 'm' => 'gender_m_txt', 'f' => 'gender_f_txt')
+		),
 		'contact_name' => array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'TEXT',
@@ -453,6 +459,18 @@ $form["tabs"]['address'] = array (
 			'rows'		=> '',
 			'cols'		=> '',
 			'searchable' => 2
+		),
+		'locked' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+		'canceled' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
 		),
 	##################################
 	# END Datatable fields

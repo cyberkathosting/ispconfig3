@@ -940,6 +940,7 @@ class nginx_plugin {
 		if($vhost_data['php'] == 'fast-cgi') $vhost_data['php'] = 'php-fpm';
 		
 		// Custom rewrite rules
+		/*
 		$final_rewrite_rules = array();
 		$custom_rewrite_rules = $data['new']['rewrite_rules'];
 		// Make sure we only have Unix linebreaks
@@ -949,6 +950,85 @@ class nginx_plugin {
 		if(is_array($custom_rewrite_rule_lines) && !empty($custom_rewrite_rule_lines)){
 			foreach($custom_rewrite_rule_lines as $custom_rewrite_rule_line){
 				$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+			}
+		}
+		$tpl->setLoop('rewrite_rules', $final_rewrite_rules);
+		*/
+		
+		// Custom rewrite rules
+		$final_rewrite_rules = array();
+		
+		if(isset($data['new']['rewrite_rules']) && trim($data['new']['rewrite_rules']) != '') {
+			$custom_rewrite_rules = trim($data['new']['rewrite_rules']);
+			$custom_rewrites_are_valid = true;
+			// use this counter to make sure all curly brackets are properly closed
+			$if_level = 0;
+			// Make sure we only have Unix linebreaks
+			$custom_rewrite_rules = str_replace("\r\n", "\n", $custom_rewrite_rules);
+			$custom_rewrite_rules = str_replace("\r", "\n", $custom_rewrite_rules);
+			$custom_rewrite_rule_lines = explode("\n", $custom_rewrite_rules);
+			if(is_array($custom_rewrite_rule_lines) && !empty($custom_rewrite_rule_lines)){
+				foreach($custom_rewrite_rule_lines as $custom_rewrite_rule_line){
+					// ignore comments
+					if(substr(ltrim($custom_rewrite_rule_line),0,1) == '#'){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// empty lines
+					if(trim($custom_rewrite_rule_line) == ''){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// rewrite
+					if(preg_match('@^\s*rewrite\s+(^/)?\S+(\$)?\s+\S+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// if
+					if(preg_match('@^\s*if\s+\(\s*\$\S+(\s+(\!?(=|~|~\*))\s+(\S+|\".+\"))?\s*\)\s*\{\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						$if_level += 1;
+						continue;
+					}
+					// if - check for files, directories, etc.
+					if(preg_match('@^\s*if\s+\(\s*\!?-(f|d|e|x)\s+\S+\s*\)\s*\{\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						$if_level += 1;
+						continue;
+					}
+					// break
+					if(preg_match('@^\s*break\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// return code [ text ]
+					if(preg_match('@^\s*return\s+\d\d\d.*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// return code URL
+					// return URL
+					if(preg_match('@^\s*return(\s+\d\d\d)?\s+(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*\@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// set
+					if(preg_match('@^\s*set\s+\$\S+\s+\S+\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					// closing curly bracket
+					if(trim($custom_rewrite_rule_line) == '}'){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						$if_level -= 1;
+						continue;
+					}
+					$custom_rewrites_are_valid = false;
+					break;
+				}
+			}
+			if(!$custom_rewrites_are_valid || $if_level != 0){
+				$final_rewrite_rules = array();
 			}
 		}
 		$tpl->setLoop('rewrite_rules', $final_rewrite_rules);
@@ -1538,7 +1618,7 @@ class nginx_plugin {
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
 			$nginx_online_status_before_restart = $this->_checkTcp('localhost',80);
-			$app->log('nginx status is: '.$nginx_online_status_before_restart,LOGLEVEL_DEBUG);
+			$app->log('nginx status is: '.($nginx_online_status_before_restart === true? 'running' : 'down'),LOGLEVEL_DEBUG);
 
 			$retval = $app->services->restartService('httpd','restart'); // $retval['retval'] is 0 on success and > 0 on failure
 			$app->log('nginx restart return value is: '.$retval['retval'],LOGLEVEL_DEBUG);
@@ -1548,15 +1628,19 @@ class nginx_plugin {
 		
 			//* Check if nginx restarted successfully if it was online before
 			$nginx_online_status_after_restart = $this->_checkTcp('localhost',80);
-			$app->log('nginx online status after restart is: '.$nginx_online_status_after_restart,LOGLEVEL_DEBUG);
+			$app->log('nginx online status after restart is: '.($nginx_online_status_after_restart === true? 'running' : 'down'),LOGLEVEL_DEBUG);
 			if($nginx_online_status_before_restart && !$nginx_online_status_after_restart || $retval['retval'] > 0) { 
 				$app->log('nginx did not restart after the configuration change for website '.$data['new']['domain'].'. Reverting the configuration. Saved non-working config as '.$vhost_file.'.err',LOGLEVEL_WARN);
 				if(is_array($retval['output']) && !empty($retval['output'])){
 					$app->log('Reason for nginx restart failure: '.implode("\n", $retval['output']),LOGLEVEL_WARN);
+					$app->dbmaster->datalogError(implode("\n", $retval['output']));
 				} else {
 					// if no output is given, check again
 					exec('nginx -t 2>&1', $tmp_output, $tmp_retval);
-					if($tmp_retval > 0 && is_array($tmp_output) && !empty($tmp_output)) $app->log('Reason for nginx restart failure: '.implode("\n", $tmp_output),LOGLEVEL_WARN);
+					if($tmp_retval > 0 && is_array($tmp_output) && !empty($tmp_output)){
+						$app->log('Reason for nginx restart failure: '.implode("\n", $tmp_output),LOGLEVEL_WARN);
+						$app->dbmaster->datalogError(implode("\n", $tmp_output));
+					}
 					unset($tmp_output, $tmp_retval);
 				}
 				$app->system->copy($vhost_file,$vhost_file.'.err');

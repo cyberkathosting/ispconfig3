@@ -571,7 +571,8 @@ if($install_mode == 'standard') {
 	}*/
 	
 	//** Configure ISPConfig :-)
-	if(strtolower($inst->simple_query('Install ISPConfig Web Interface',array('y','n'),'y')) == 'y') {
+	$install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
+	if(strtolower($inst->simple_query('Install ISPConfig Web Interface',array('y','n'),$install_ispconfig_interface_default)) == 'y') {
 		swriteln('Installing ISPConfig');
 		
 		//** We want to check if the server is a module or cgi based php enabled server

@@ -3,4 +3,5 @@ $wb['confirm_action_txt'] = 'Vahvista toiminto';
 $wb['delete_explanation'] = 'Tämä toiminto alla olevan määrän tämän asiakkaan tietueita';
 $wb['btn_save_txt'] = 'Poista käyttäjä';
 $wb['btn_cancel_txt'] = 'Keskeytä poistamatta asiakasta';
+$wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>

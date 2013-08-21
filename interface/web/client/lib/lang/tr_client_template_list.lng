@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Müşteri-Şablon';
 $wb['template_type_txt'] = 'Çeşit';
 $wb['template_name_txt'] = 'Şablon adı';
+$wb['template_id_txt'] = 'Template ID';
 ?>

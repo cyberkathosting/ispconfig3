@@ -3,4 +3,5 @@ $wb['confirm_action_txt'] = 'İşlemi onaylayın';
 $wb['delete_explanation'] = 'Bu işlem ilgili müşteri ile alakalı bütün kayıtları silecektir.';
 $wb['btn_save_txt'] = 'Müşteriyi sil';
 $wb['btn_cancel_txt'] = 'İptal et';
+$wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>

@@ -55,6 +55,12 @@ class plugin_backuplist extends plugin_base {
 				if(isset($_GET['backup_action'])) {
 					$backup_id = $app->functions->intval($_GET['backup_id']);
 					
+					//* check if the user is  owner of the parent domain
+					$domain_backup = $app->db->queryOneRecord("SELECT parent_domain_id FROM web_backup WHERE backup_id = ".$backup_id);
+					if(!$app->tform->checkOwnerPermisssions($this->dataRecord["parent_domain_id"])){
+						$app->error($app->tform->lng('no_domain_perm'));
+					}
+					
 					if($_GET['backup_action'] == 'download' && $backup_id > 0) {
 						$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";
 						$tmp = $app->db->queryOneRecord($sql);

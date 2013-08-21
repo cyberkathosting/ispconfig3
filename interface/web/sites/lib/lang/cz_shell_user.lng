@@ -26,4 +26,6 @@ $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
+$wb['username_must_not_exceed_32_chars_txt'] = 'The username must not exceed 32 characters.';
+$wb['username_not_allowed_txt'] = 'The username is not allowed.';
 ?>

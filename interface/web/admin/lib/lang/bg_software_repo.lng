@@ -4,4 +4,5 @@ $wb['repo_url_txt'] = 'URL';
 $wb['repo_username_txt'] = 'Потребител (не е задължително)';
 $wb['repo_password_txt'] = 'Парола (не е задължително)';
 $wb['active_txt'] = 'Активен';
+$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
 ?>

@@ -38,6 +38,7 @@
                         <th class="tbl_col_remote_access" scope="col"><tmpl_var name="remote_access_txt"></th>
                         <th class="tbl_col_type" scope="col"><tmpl_var name="type_txt"></th>
                         <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
+						<th class="tbl_col_parent_domain_id" scope="col"><tmpl_var name="parent_domain_id_txt"></th>
                         <th class="tbl_col_database_user_id" scope="col"><tmpl_var name="database_user_txt"></th>
                         <th class="tbl_col_database_name" scope="col"><tmpl_var name="database_name_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
@@ -47,6 +48,7 @@
                         <td class="tbl_col_remote_access"><select name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
                         <td class="tbl_col_type"><select name="search_type">{tmpl_var name='search_type'}</select></td>
                         <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+						<td class="tbl_col_parent_domain_id"><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td class="tbl_col_database_user_id"><select name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
                         <td class="tbl_col_database_name"><input type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}"/></td>
                         <td class="tbl_col_buttons">
@@ -61,6 +63,7 @@
                             <td class="tbl_col_remote_access"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="remote_access"}</a></td>
                             <td class="tbl_col_type"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="type"}</a></td>
                             <td class="tbl_col_server_id"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
+							<td class="tbl_col_parent_domain_id"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="parent_domain_id"}</a></td>
                             <td class="tbl_col_database_user"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_user_id"}</a></td>
                             <td class="tbl_col_database_name"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database_name"}</a></td>
                             <td class="tbl_col_buttons">

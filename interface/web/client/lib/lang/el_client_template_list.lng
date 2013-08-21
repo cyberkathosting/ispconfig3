@@ -2,4 +2,5 @@
 $wb['list_head_txt'] = 'Πρότυπα Πελάτη';
 $wb['template_type_txt'] = 'Τύπος';
 $wb['template_name_txt'] = 'Όνομα Προτύπου';
+$wb['template_id_txt'] = 'Template ID';
 ?>

@@ -642,40 +642,65 @@ function pass_contains(pass, check) {
 	return false;
 }
 
+var new_tpl_add_id = 0;
 function addAdditionalTemplate(){
-	var tpl_add = document.getElementById('template_additional').value;
-	
-	  var tpl_list = document.getElementById('template_additional_list').innerHTML;
-	  var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
-	  var addTplId = addTemplate[0];
-	  var addTplText = addTemplate[1];
+    var tpl_add = jQuery('#template_additional').val();
+    var addTemplate = jQuery('#tpl_add_select').val().split('|',2);
+	var addTplId = addTemplate[0];
+	var addTplText = addTemplate[1];
 	if(addTplId > 0) {
-	  var newVal = tpl_add + '/' + addTplId + '/';
-	  newVal = newVal.replace('//', '/');
-	  var newList = tpl_list + '<br>' + addTplText;
-	  newList = newList.replace('<br><br>', '<br>');
-	  document.getElementById('template_additional').value = newVal;
-	  document.getElementById('template_additional_list').innerHTML = newList;
-	  alert('additional template ' + addTplText + ' added to customer');
+        var newVal = tpl_add.split('/');
+        new_tpl_add_id += 1;
+        var delbtn = jQuery('<a href="#"></a>').attr('class', 'button icons16 icoDelete').click(function(e) {
+            e.preventDefault();
+            delAdditionalTemplate($(this).parent().attr('rel'));
+        });
+        newVal[newVal.length] = 'n' + new_tpl_add_id + ':' + addTplId;
+	    jQuery('<li>' + addTplText + '</li>').attr('rel', 'n' + new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
+	    jQuery('#template_additional').val(newVal.join('/'));
+	    alert('additional template ' + addTplText + ' added to customer');
 	} else {
-	  alert('no additional template selcted');
+	    alert('no additional template selcted');
 	}
 }
 
-function delAdditionalTemplate(){
-	var tpl_add = document.getElementById('template_additional').value;
-	if(tpl_add != '') {
-		var tpl_list = document.getElementById('template_additional_list').innerHTML;
+function delAdditionalTemplate(tpl_id){
+    var tpl_add = jQuery('#template_additional').val();
+	if(tpl_id) {
+        // new style
+		var $el = jQuery('#template_additional_list ul').find('li[rel="' + tpl_id + '"]').eq(0); // only the first
+        var addTplText = $el.text();
+        $el.remove();
+        
+		var oldVal = tpl_add.split('/');
+		var newVal = new Array();
+        for(var i = 0; i < oldVal.length; i++) {
+            var tmp = oldVal[i].split(':', 2);
+            if(tmp.length == 2 && tmp[0] == tpl_id) continue;
+            newVal[newVal.length] = oldVal[i];
+        }
+        jQuery('#template_additional').val(newVal.join('/'));
+		alert('additional template ' + addTplText + ' deleted from customer');
+    } else if(tpl_add != '') {
+        // old style
 		var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
 		var addTplId = addTemplate[0];
 		var addTplText = addTemplate[1];
+
+		jQuery('#template_additional_list ul').find('li:not([rel])').each(function() {
+            var text = jQuery(this).text();
+            if(text == addTplText) {
+                jQuery(this).remove();
+                return false;
+            }
+            return this;
+        });
+        
 		var newVal = tpl_add;
-		newVal = newVal.replace(addTplId, '');
+        var repl = new RegExp('(^|\/)' + addTplId + '(\/|$)');
+		newVal = newVal.replace(repl, '');
 		newVal = newVal.replace('//', '/');
-		var newList = tpl_list.replace(addTplText, '');
-		newList = newList.replace('<br><br>', '<br>');
-		document.getElementById('template_additional').value = newVal;
-		document.getElementById('template_additional_list').innerHTML = newList;
+		jQuery('#template_additional').val(newVal);
 		alert('additional template ' + addTplText + ' deleted from customer');
   } else {
   	alert('no additional template selcted');

@@ -13,4 +13,5 @@ $wb['name_error_empty'] = 'Hostname boş.';
 $wb['name_error_regex'] = 'Hostname yanlış formatta.';
 $wb['data_error_empty'] = 'Mail sunucusu hostname boş';
 $wb['data_error_regex'] = 'Mail sunucusu hostname geçersiz formatta';
+$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 ?>

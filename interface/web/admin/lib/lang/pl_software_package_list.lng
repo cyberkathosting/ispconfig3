@@ -8,4 +8,6 @@ $wb['toolsarea_head_txt'] = 'Pakiety';
 $wb['repoupdate_txt'] = 'Aktualizuj listę pakietów';
 $wb['package_id_txt'] = 'lokalny App-ID';
 $wb['no_packages_txt'] = 'Brak dostępnych pakietów';
+$wb['edit_txt'] = 'Edit';
+$wb['delete_txt'] = 'Delete';
 ?>

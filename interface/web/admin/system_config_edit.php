@@ -78,6 +78,24 @@ class page_action extends tform_actions {
 		$app->tpl->setVar($record);
 	}
 	
+	function onShowEnd() {
+		global $app, $conf;
+		
+		// available dashlets
+		$available_dashlets_txt = '';
+		$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets'); 
+		while ($file = @readdir ($handle)) { 
+			if ($file != '.' && $file != '..' && !is_dir($file)) {
+				$available_dashlets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.substr($file,0,-4).']<pre class="addPlaceholderContent" style="display:none;">['.substr($file,0,-4).'],</pre></a> ';
+			}
+		}
+		
+		if($available_dashlets_txt == '') $available_dashlets_txt = '------';
+		$app->tpl->setVar("available_dashlets_txt",$available_dashlets_txt);
+		
+		parent::onShowEnd();
+	}
+	
     function onSubmit() {
         global $app;
         
@@ -135,8 +153,9 @@ class page_action extends tform_actions {
         $server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 		
-		$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
-		if($conf['demo_mode'] != true) $app->db->query($sql);
+		//$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
+		//if($conf['demo_mode'] != true) $app->db->query($sql);
+		if($conf['demo_mode'] != true) $app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($server_config_str)."'", 'sysini_id', 1);
 
 		/*
 		 * If we should use the domain-module, we have to insert all existing domains into the table

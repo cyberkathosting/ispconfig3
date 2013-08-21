@@ -98,6 +98,12 @@ class page_action extends tform_actions {
 		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
 		if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 		
+		//* Check if destination email belongs to user
+		if(isset($_POST["destination"])) {
+			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+			if($email["email"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->lng("no_destination_perm");
+		}
+		
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client

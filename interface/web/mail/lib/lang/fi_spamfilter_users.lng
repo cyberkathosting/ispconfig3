@@ -5,4 +5,6 @@ $wb['policy_id_txt'] = 'Kohtelutapa';
 $wb['email_txt'] = 'Sähköpostiosoite (RegExp)';
 $wb['fullname_txt'] = 'Koko nimi';
 $wb['local_txt'] = 'Paikallinen';
+$wb['email_error_notempty'] = 'The email address must not be empty.';
+$wb['fullname_error_notempty'] = 'The name must not be empty.';
 ?>
