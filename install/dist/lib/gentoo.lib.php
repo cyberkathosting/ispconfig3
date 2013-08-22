@@ -156,6 +156,19 @@ class installer extends installer_base
 			$command = 'mkdir '.$cf['vmail_mailbox_base'].'/mailfilters';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
+
+		//* postfix-dkim
+		$full_file_name=$config_dir.'/tag_as_originating.re';
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.$configfile.'~');
+	        }
+        	$this->write_config_file($full_file_name,'/^/ FILTER amavis:[127.0.0.1]:10026');
+
+	        $full_file_name=$config_dir.'/tag_as_foreign.re';
+        	if(is_file($full_file_name)) {
+                	copy($full_file_name, $config_dir.$configfile.'~');
+	        }
+		$this->write_config_file($full_file_name,'/^/ FILTER amavis:[127.0.0.1]:10024');
 		
 		//* Chmod and chown the .mailfilter file
 		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';

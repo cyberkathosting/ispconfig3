@@ -1,0 +1,8 @@
+<?php
+$wb["public_key_txt"] = 'Public-Key';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Aktiv';
+$wb["record_exists_txt"] = 'DNS-Eintrag bereits vorhanden';
+$wb["limit_dns_record_txt"] = 'Die max. Anzahl von DNS Eintraegen fuer den Account ist erreicht.';
+$wb["no_zone_perm"] = 'Fehlende Berechtigung zum Hinzufuegen eines Eintrags zur DNS-Zone.';
+?>

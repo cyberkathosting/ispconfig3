@@ -117,8 +117,8 @@ class mail_plugin_dkim {
 	function restart_amavis() {
 		global $app,$conf;
 		$initfile=$conf['init_scripts'].'/amavis';
-		$app->log('Restarting amavis.',LOGLEVEL_DEBUG);
-		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' restart',$output);
+		$app->log('Reloading amavis.',LOGLEVEL_DEBUG);
+		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' reload',$output);
 		foreach($output as $logline) $app->log($logline,LOGLEVEL_DEBUG);
 	}
 

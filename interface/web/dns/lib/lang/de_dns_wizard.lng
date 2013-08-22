@@ -9,6 +9,7 @@ $wb['btn_save_txt'] = 'DNS Eintrag hinzufügen';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'E-Mail Adresse';
+$wb['dkim_txt'] = 'DKIM aktiviert';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP Adresse';
