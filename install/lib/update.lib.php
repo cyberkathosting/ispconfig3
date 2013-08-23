@@ -27,6 +27,15 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+//* Installer patch stub class
+class installer_patch_update {
+   protected function onBeforeSQL() {
+   }
+   protected function onAfterSQL() {
+   }
+}
+
+//* DB dump function
 function prepareDBDump() {
 	global $conf;
 
@@ -151,16 +160,39 @@ function updateDbAndIni() {
 		$found = true;
 		while($found == true) {
 			$next_db_version = intval($current_db_version + 1);
-			$patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
-			if(is_file($patch_filename)) {
+			$sql_patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
+			$php_patch_filename = realpath(dirname(__FILE__).'/../').'/patches/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.php';
+			
+			if(is_file($sql_patch_filename)) {
+				
+				//* Load php patch file and instantiate object
+				if(is_file($php_patch_filename)) {
+					$php_patch_class_name = 'upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT);
+					include_once($php_patch_filename);
+					$php_patch = new $php_patch_class_name;
+				}
+				
+				//* Exec onBeforeSQL function
+				if(isset($php_patch) && is_object($php_patch)) {
+					$php_patch->onBeforeSQL();
+					swriteln($inst->lng('Executing PHP patch file').': '.$php_patch_filename);
+				}
+				
 				//* Load patch file into database
 				if( !empty($conf["mysql"]["admin_password"]) ) {
-					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$patch_filename);
+					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
 				} else {
-					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$patch_filename);
+					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
 				}
-				swriteln($inst->lng('Loading SQL patch file').': '.$patch_filename);
+				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
+				
+				//* Exec onAfterSQL function
+				if(isset($php_patch) && is_object($php_patch)) {
+					$php_patch->onAfterSQL();
+				}
+				
 				$current_db_version = $next_db_version;
+				if(isset($php_patch)) unset($php_patch);
 			} else {
 				$found = false;
 			}
@@ -331,5 +363,7 @@ function updateDbAndIni() {
 	unset($tpl_ini_array);
 	unset($new_ini);
 }
+
+
 
 ?>

@@ -34,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
+define('INSTALLER_RUN', true);
+
 //** The banner on the command line
 echo "\n\n".str_repeat('-',80)."\n";
 echo " _____ ___________   _____              __ _         ____
