@@ -420,6 +420,21 @@ class remoting {
 		}
 	}
 	
+    // needed from inside the remoting plugins
+    public function server_get($session_id, $server_id, $section ='') {
+        global $app;        
+        if(!$this->checkPerm($session_id, 'server_get')) {
+            throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+        }
+        if (!empty($session_id) && !empty($server_id)) {    
+            $app->uses('remoting_lib , getconf');        
+            $section_config =  $app->getconf->get_server_config($server_id,$section);        
+            return $section_config;
+        } else {
+            return false;
+        }
+    }
 	
 	/**
    	* Get a list of functions

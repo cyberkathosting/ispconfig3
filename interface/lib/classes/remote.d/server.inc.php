@@ -46,20 +46,6 @@ class remoting_server extends remoting {
 	    @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
 	    @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
     */
-    public function server_get($session_id, $server_id, $section ='') {
-        global $app;        
-        if(!$this->checkPerm($session_id, 'server_get')) {
-            throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
-        }
-        if (!empty($session_id) && !empty($server_id)) {    
-            $app->uses('remoting_lib , getconf');        
-            $section_config =  $app->getconf->get_server_config($server_id,$section);        
-            return $section_config;
-        } else {
-            return false;
-        }
-    }
 	
 	public function server_get_serverid_by_ip($session_id, $ipaddress)
     {
