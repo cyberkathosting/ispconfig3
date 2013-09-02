@@ -88,7 +88,7 @@ class cronjob_monitor_raid extends cronjob {
 				/* fetch the next line */
 				$line = $tmp[$i];
 
-				if ((strpos($line, '[U_]') !== false) || (strpos($line, '[_U]') !== false)) {
+				if ((strpos($line, 'U_]') !== false) || (strpos($line, '[_U') !== false) || (strpos($line, 'U_U') !== false)) {
 					/* One Disk is not working.
 					 * if the next line starts with "[>" or "[=" then
 					 * recovery (resync) is in state and the state is
