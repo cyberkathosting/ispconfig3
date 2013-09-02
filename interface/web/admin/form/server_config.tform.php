@@ -278,7 +278,7 @@ $form["tabs"]['mail'] = array(
 				'dkim_path' => array(
 						'datatype' => 'VARCHAR',
 						'formtype' => 'TEXT',
-						'default' => '/var/db/dkim',
+						'default' => '/var/lib/amavis/dkim',
 						'validators'    => array (  0 => array ('type'  => 'CUSTOM',
 																'class' => 'validate_dkim',
 																'function' => 'check_dkim_path',

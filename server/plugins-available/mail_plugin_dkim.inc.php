@@ -105,7 +105,7 @@ class mail_plugin_dkim {
 				$check=false;
                		}
 		} else {
-			$app->log('Unable to write DKIM settings; Check your config!',LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings. Check your config!',LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
