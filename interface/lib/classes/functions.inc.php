@@ -322,7 +322,13 @@ class functions {
             return intval($string);
         }
     }
-    
+
+    public function formatBytes($size, $precision = 2) {
+        $base=log($size)/log(1024);
+        $suffixes=array('','k','M','G','T');
+        return round(pow(1024,$base-floor($base)),$precision).$suffixes[floor($base)];
+    }
+
     /** IDN converter wrapper.
      * all converter classes should be placed in ISPC_CLASS_PATH.'/idn/'
      */

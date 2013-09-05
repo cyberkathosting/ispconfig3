@@ -106,6 +106,11 @@ $items[] = array( 'title' 	=> "Show Disk usage",
                   'link'	=> 'monitor/show_data.php?type=disk_usage',
                   'html_id' => 'disk_usage');
 
+$items[] = array( 'title'       => "Show MySQL Database size",
+                  'target'      => 'content',
+                  'link'        => 'monitor/show_data.php?type=database_size',
+                  'html_id' => 'database_usage');
+
 $items[] = array( 'title' 	=> "Show Memory usage",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=mem_usage',
