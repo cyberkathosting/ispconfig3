@@ -74,7 +74,8 @@ class ISPConfigJSONHandler {
         $ret->code = $code;
         $ret->message = $message;
         $ret->response = $data;
-        header('Content-Type: application/x-json; charset="utf-8"');
+        
+        header('Content-Type: application/json; charset="utf-8"');
         print json_encode($ret);
         exit;
     }
