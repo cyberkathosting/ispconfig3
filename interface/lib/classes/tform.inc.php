@@ -57,7 +57,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *        Hint: The auto increment (ID) filed of the table has not be be definied separately.
 *
 */
-
+global $app;
 $app->load('tform_base');
 class tform extends tform_base {
 		/*

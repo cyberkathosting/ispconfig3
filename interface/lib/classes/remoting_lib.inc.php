@@ -63,7 +63,7 @@ Copyright (c) Tri-Plex technology
 *        Hint: The auto increment (ID) filed of the table has not be be definied separately.
 *
 */
-
+global $app;
 $app->load('tform_base');
 class remoting_lib extends tform_base {
 	
@@ -78,7 +78,8 @@ class remoting_lib extends tform_base {
 
 		
 		//* Load the form definition from file. - special version for remoting
-    	function loadFormDef($file) {
+        // module parameter is only for compatibility with base class
+    	function loadFormDef($file, $module = '') {
 			global $app,$conf;
             
 			include($file);
@@ -156,23 +157,25 @@ class remoting_lib extends tform_base {
         /**
         * Converts the data in the array to human readable format
         * Datatype conversion e.g. to show the data in lists
+        * tab parameter is only there for compatibility with params of base class
         *
         * @param record
         * @return record
         */
-        function decode($record) {
+        function decode($record, $tab = '') {
 			    return $this->_decode($record, '', true);
         }
 
         /**
         * Get the key => value array of a form filled from a datasource definitiom
-        *
+        * dummy parameter is only there for compatibility with params of base class
+        * 
         * @param field = array with field definition
         * @param record = Dataset as array
         * @return key => value array for the value field of a form
         */
 
-        function getDatasourceData($field, $record) {
+        function getDatasourceData($field, $record, $dummy = '') {
 			return $this->_getDatasourceData($field, $record, true);
         }
 
@@ -180,11 +183,12 @@ class remoting_lib extends tform_base {
         /**
         * Rewrite the record data to be stored in the database
         * and check values with regular expressions.
-        *
+        * dummy parameter is only there for compatibility with params of base class
+        * 
         * @param record = Datensatz als Array
         * @return record
         */
-        function encode($record,$dbencode = true) {
+        function encode($record,$dbencode = true, $dummy = '') {
 			$new_record = $this->_encode($record, '', $dbencode, true);
 			if(isset($record['_ispconfig_pw_crypted'])) $new_record['_ispconfig_pw_crypted'] = $record['_ispconfig_pw_crypted']; // this one is not in form definitions!
 			
@@ -193,13 +197,14 @@ class remoting_lib extends tform_base {
 
         /**
         * Create SQL statement
-        *
+        * dummy parameter is only there for compatibility with params of base class
+        * 
         * @param record = Datensatz als Array
         * @param action = INSERT oder UPDATE
         * @param primary_id
         * @return record
         */
-        function getSQL($record, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '') {
+        function getSQL($record, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '', $dummy = '') {
 
                 global $app;
 
