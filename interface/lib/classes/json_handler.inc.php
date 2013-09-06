@@ -82,7 +82,11 @@ class ISPConfigJSONHandler {
     
     public function run() {
         
-        $method = reset(array_keys($_GET));
+        if(!isset($_GET) || !is_array($_GET) || count($_GET) < 1) {
+            $this->_return_json('invalid_method', 'Method not provided in json call');
+        }
+        $keys = array_keys($_GET);
+        $method = reset($keys);
         $params = array();
 
         if(is_array($_POST)) {

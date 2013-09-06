@@ -59,14 +59,15 @@ class remoting {
         $app->uses('remoting_lib');
 
         $this->_methods = $methods;
-		/*
+		
+        /*
         $this->app = $app;
         $this->conf = $conf;
 		*/
     }
     
     //* remote login function
-	public function login($username, $password)
+	public function login($username, $password, $client_login = false)
     {
 		global $app, $conf;
 		
@@ -95,24 +96,74 @@ class remoting {
 		$username = $app->db->quote($username);
 		$password = $app->db->quote($password);
 		
-		$sql = "SELECT * FROM remote_user WHERE remote_username = '$username' and remote_password = md5('$password')";
-		$remote_user = $app->db->queryOneRecord($sql);
-		if($remote_user['remote_userid'] > 0) {
-			//* Create a remote user session
-			srand ((double)microtime()*1000000);
-			$remote_session = md5(rand());
-			$remote_userid = $remote_user['remote_userid'];
-			$remote_functions = $remote_user['remote_functions'];
-			$tstamp = time() + $this->session_timeout;
-			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
+        if($client_login == true) {
+            $sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
+            $user = $app->db->queryOneRecord($sql);
+            if($user) {
+                $saved_password = stripslashes($user['passwort']);
+
+                if(substr($saved_password,0,3) == '$1$') {
+                    //* The password is crypt-md5 encrypted
+                    $salt = '$1$'.substr($saved_password,3,8).'$';
+
+                    if(crypt(stripslashes($password),$salt) != $saved_password) {
+                        throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
+                        return false;
+                    }
+                } else {
+                    //* The password is md5 encrypted
+                    if(md5($password) != $saved_password) {
+                        throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
+                        return false;
+                    }
+                }
+            } else {
+                throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
+                return false;
+            }
+            if($user['active'] != 1) {
+                throw new SoapFault('client_login_failed', 'The login failed. User is blocked.');
+                return false;
+            }
+            
+            // now we need the client data
+            $client = $app->db->queryOneRecord("SELECT client.can_use_api FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = " . $app->functions->intval($user['default_group']));
+            if(!$client || $client['can_use_api'] != 'y') {
+                throw new SoapFault('client_login_failed', 'The login failed. Client may not use api.');
+                return false;
+            }
+            
+            //* Create a remote user session
+            //srand ((double)microtime()*1000000);
+            $remote_session = md5(mt_rand().uniqid('ispco'));
+            $remote_userid = $user['userid'];
+            $remote_functions = '';
+            $tstamp = time() + $this->session_timeout;
+            $sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,client_login,tstamp'
                    .') VALUES ('
-                   ." '$remote_session',$remote_userid,'$remote_functions',$tstamp)";
-			$app->db->query($sql);
-			return $remote_session;
+                   ." '$remote_session',$remote_userid,'$remote_functions',1,$tstamp)";
+            $app->db->query($sql);
+            return $remote_session;
 		} else {
-			throw new SoapFault('login_failed', 'The login failed. Username or password wrong.');
-			return false;
-		}
+            $sql = "SELECT * FROM remote_user WHERE remote_username = '$username' and remote_password = md5('$password')";
+            $remote_user = $app->db->queryOneRecord($sql);
+            if($remote_user['remote_userid'] > 0) {
+                //* Create a remote user session
+                //srand ((double)microtime()*1000000);
+                $remote_session = md5(mt_rand().uniqid('ispco'));
+                $remote_userid = $remote_user['remote_userid'];
+                $remote_functions = $remote_user['remote_functions'];
+                $tstamp = time() + $this->session_timeout;
+                $sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
+                       .') VALUES ('
+                       ." '$remote_session',$remote_userid,'$remote_functions',$tstamp)";
+                $app->db->query($sql);
+                return $remote_session;
+            } else {
+                throw new SoapFault('login_failed', 'The login failed. Username or password wrong.');
+                return false;
+            }
+        }
 		
 	}
 	
@@ -389,6 +440,16 @@ class remoting {
             return false;
         }
 		
+        $_SESSION['client_login'] = $session['client_login'];
+        if($session['client_login'] == 1) {
+            // permissions are checked at an other place
+            $_SESSION['client_sys_userid'] = $session['remote_userid'];
+            $app->remoting_lib->loadUserProfile(); // load the profile - we ALWAYS need this on client logins!
+            return true;
+        } else {
+            $_SESSION['client_sys_userid'] = 0;
+        }
+        
 		$dobre= str_replace(';',',',$session['remote_functions']);
 		$check = in_array($function_name, explode(',', $dobre) );
 		if(!$check) {
