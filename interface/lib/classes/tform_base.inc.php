@@ -657,7 +657,7 @@ class tform_base {
 		* @param record = Datensatz als Array
 		* @return record
 		*/
-		function _encode($record,$tab,$dbencode = true,$api = false) {
+		protected function _encode($record,$tab,$dbencode = true,$api = false) {
 			global $app;
 			if($api == true) $fields = &$this->formDef['fields'];
 			else $fields = &$this->formDef['tabs'][$tab]['fields'];
