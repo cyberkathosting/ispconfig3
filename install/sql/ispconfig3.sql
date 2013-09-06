@@ -228,6 +228,7 @@ CREATE TABLE `client` (
   `created_at` bigint(20) DEFAULT NULL,
   `locked` enum('n','y') NOT NULL DEFAULT 'n',
   `canceled` enum('n','y') NOT NULL DEFAULT 'n',
+  `can_use_api` enum('n','y') NOT NULL DEFAULT 'n',
   `tmp_data` mediumblob,
   `id_rsa` varchar(2000) NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
