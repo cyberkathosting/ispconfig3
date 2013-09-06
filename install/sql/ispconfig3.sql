@@ -1087,6 +1087,7 @@ CREATE TABLE `remote_session` (
   `remote_session` varchar(64) NOT NULL,
   `remote_userid` int(11) unsigned NOT NULL,
   `remote_functions` text NOT NULL,
+  `client_login` tinyint(1) unsigned NOT NULL default '0',
   `tstamp` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`remote_session`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
