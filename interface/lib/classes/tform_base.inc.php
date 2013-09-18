@@ -166,6 +166,7 @@ class tform_base {
 		* @return record
 		*/
 		protected function _decode($record, $tab = '', $api = false) {
+            global $app;
 				$new_record = '';
 				if($api == false) {
 					$table_idx = $this->formDef['db_table_idx'];
