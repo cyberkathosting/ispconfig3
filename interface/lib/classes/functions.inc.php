@@ -61,52 +61,6 @@ class functions {
 		$app->ispcmail->send($to);
 		$app->ispcmail->finish();
 		
-		/* left in here just for the case...
-		if($filepath != '') {
-			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
-			
-			$content = file_get_contents($filepath);
-			$content = chunk_split(base64_encode($content));
-			$uid = strtoupper(md5(uniqid(time())));
-			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
-			
-			if($filename == '') {
-				$path_parts = pathinfo($filepath);
-				$filename = $path_parts["basename"];
-				unset($path_parts);
-			}
-
-			$header = "Return-Path: $from\nFrom: $from\nReply-To: $from\n";
-			if($cc != '') $header .= "Cc: $cc\n";
-			if($bcc != '') $header .= "Bcc: $bcc\n";
-			$header .= "MIME-Version: 1.0\n";
-			$header .= "Content-Type: multipart/mixed; boundary=$uid\n";
-
-			$header .= "--$uid\n";
-			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
-			$header .= "Content-Transfer-Encoding: 8bit\n\n";
-			$header .= "$text\n";
-
-			$header .= "--$uid\n";
-			$header .= "Content-Type: $filetype; name=\"$filename\"\n";
-
-			$header .= "Content-Transfer-Encoding: base64\n";
-			$header .= "Content-Disposition: attachment; filename=\"$filename\"\n\n";
-			$header .= "$content\n";
-
-			$header .= "--$uid--";
-
-			mail($to, $subject, "", $header);
-		} else {
-			$header = "From: $from\nReply-To: $from\n";
-			if($cc != '') $header .= "Cc: $cc\n";
-			if($bcc != '') $header .= "Bcc: $bcc\n";
-			$header .= "Content-Type: text/plain;\n\tcharset=\"UTF-8\"\n";
-			$header .= "Content-Transfer-Encoding: 8bit\n\n";
-			$subject      = "=?utf-8?B?".base64_encode($subject)."?=";
-			mail($to, $subject, $text, $header);
-		}
-		*/
 		return true;
 	}
 	

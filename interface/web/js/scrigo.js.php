@@ -18,6 +18,7 @@ var requestsRunning = 0;
 var indicatorPaddingH = -1;
 var indicatorPaddingW = -1;
 var indicatorCompleted = false;
+var registeredHooks = new Array();
 redirect = '';
 
 function reportError(request) {
@@ -26,6 +27,20 @@ function reportError(request) {
 	   ajax request worked. */
 	   
 	/*alert(request);*/
+}
+
+function registerHook(name, callback) {
+    if(!registeredHooks[name]) registeredHooks[name] = new Array();
+    var newindex = registeredHooks[name].length;
+    registeredHooks[name][newindex] = callback;
+}
+
+function callHook(name, params) {
+    if(!registeredHooks[name]) return;
+    for(var i = 0; i < registeredHooks[name].length; i++) {
+        var callback = registeredHooks[name][i];
+        callback(name, params);
+    }
 }
 
 function resetFormChanged() {
@@ -73,7 +88,9 @@ function hideLoadIndicator() {
     }
 }
 
-function onAfterContentLoad() {
+function onAfterContentLoad(url, data) {
+    if(!data) data = '';
+    else data = '&' + data;
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
@@ -81,6 +98,7 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 <?php
 }
 ?>
+    callHook('onAfterContentLoad', {'url': url, 'data': data });
 }
 
 function loadContentRefresh(pagename) {
@@ -96,7 +114,7 @@ function loadContentRefresh(pagename) {
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
 												jQuery('#pageContent').html(jqXHR.responseText);
-                                                onAfterContentLoad();
+                                                onAfterContentLoad(pagename, "refresh="+document.getElementById('refreshinterval').value);
                                                 pageFormChanged = false;
 											},
 											error: function() {
@@ -175,7 +193,7 @@ function submitLoginForm(formname) {
 													document.location.href = 'index.php';
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad('content.php', jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
 												loadMenus();
@@ -213,7 +231,7 @@ function submitForm(formname,target) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -252,7 +270,7 @@ function submitFormConfirm(formname,target,confirmation) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -330,7 +348,7 @@ function loadContent(pagename) {
 													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
 													
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(pagename, (params ? params : null));
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -357,7 +375,7 @@ function loadInitContent() {
 													loadContent(parts[1]);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad('content.php', "s_mod=login&s_pg=index");
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
