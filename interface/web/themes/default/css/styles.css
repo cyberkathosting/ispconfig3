@@ -1506,7 +1506,7 @@ p.value {
 /* content_ispc
 -------------------------------------------------------------- */
 .tipsy {
-    font-size: 10px;
+    font-size: 12px !important;
     position: absolute;
     padding: 5px;
     z-index: 100000;
