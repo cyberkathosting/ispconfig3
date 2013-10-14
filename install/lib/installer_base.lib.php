@@ -132,7 +132,7 @@ class installer_base {
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
-		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		// if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
@@ -1365,6 +1365,7 @@ class installer_base {
 		exec('chown root:root '.$conf["squid"]["config_dir"].'/'.$configfile);
 	}
 
+	/*
 	public function configure_ufw_firewall()
 	{
 		$configfile = 'ufw.conf';
@@ -1374,8 +1375,9 @@ class installer_base {
 		exec('chmod 600 /etc/ufw/ufw.conf');
 		exec('chown root:root /etc/ufw/ufw.conf');
 	}
+	*/
 
-	public function configure_bastille_firewall() {
+	public function configure_firewall() {
 		global $conf;
 
 		$dist_init_scripts = $conf['init_scripts'];
@@ -1691,6 +1693,7 @@ class installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		$content = str_replace('{theme}', $conf['theme'], $content);
+		$content = str_replace('{language_file_import_enabled}', ($conf['language_file_import_enabled'] == true)?'true':'false', $content);
 
 		wf($install_dir.'/interface/lib/'.$configfile, $content);
 
@@ -1715,6 +1718,7 @@ class installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		$content = str_replace('{theme}', $conf['theme'], $content);
+		$content = str_replace('{language_file_import_enabled}', ($conf['language_file_import_enabled'] == true)?'true':'false', $content);
 
 		wf($install_dir.'/server/lib/'.$configfile, $content);
 

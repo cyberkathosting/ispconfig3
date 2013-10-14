@@ -7,5 +7,5 @@ $wb['mx_txt'] = 'Να μην γίνει lookup στον MX';
 $wb['sort_order_txt'] = 'Ταξινόμηση κατά';
 $wb['active_txt'] = 'Ενεργό';
 $wb['limit_mailrouting_txt'] = 'Το μέγιστο πλήθος των δρομολογήσεων email για τον λογαριασμό σας, εξαντλήθηκε.';
-$wb['transport_txt'] = 'Transport';
+$wb['transport_txt'] = 'Δρομολογήση';
 ?>

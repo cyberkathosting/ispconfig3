@@ -11,3 +11,4 @@ $wb['command_txt'] = 'Befehl';
 $wb['add_new_cron_txt'] = 'Neuen Cronjob anlegen';
 $wb['parent_domain_id_txt'] = 'Webseite';
 ?>
+

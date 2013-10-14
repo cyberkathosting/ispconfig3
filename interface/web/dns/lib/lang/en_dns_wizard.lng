@@ -9,7 +9,6 @@ $wb["btn_save_txt"] = 'Create DNS-Record';
 $wb["btn_cancel_txt"] = 'Cancel';
 $wb['domain_txt'] = 'Domain';
 $wb['email_txt'] = 'Email';
-$wb['dkim_txt'] = 'DKIM enabled';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP Address';

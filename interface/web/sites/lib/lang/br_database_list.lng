@@ -6,4 +6,5 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['database_user_txt'] = 'Usuário do Banco';
 $wb['database_name_txt'] = 'Nome do banco';
 $wb['add_new_record_txt'] = 'Adcionar um novo banco';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

@@ -5,4 +5,5 @@ $wb['btn_save_txt'] = 'Importuj wybrane pliki języka';
 $wb['language_overwrite_txt'] = 'Nadpisz plik jeśli istnieje.';
 $wb['btn_cancel_txt'] = 'Wróć';
 $wb['ignore_version_txt'] = 'Pomiń sprawdzanie wersji ISPConfig';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>

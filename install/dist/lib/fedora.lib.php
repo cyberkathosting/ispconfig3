@@ -845,6 +845,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		$content = str_replace('{theme}', $conf['theme'], $content);
+		$content = str_replace('{language_file_import_enabled}', ($conf['language_file_import_enabled'] == true)?'true':'false', $content);
 		
 		wf("$install_dir/interface/lib/$configfile", $content);
 		
@@ -869,6 +870,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{language}', $conf['language'], $content);
 		$content = str_replace('{timezone}', $conf['timezone'], $content);
 		$content = str_replace('{theme}', $conf['theme'], $content);
+		$content = str_replace('{language_file_import_enabled}', ($conf['language_file_import_enabled'] == true)?'true':'false', $content);
 
 		wf("$install_dir/server/lib/$configfile", $content);
 		

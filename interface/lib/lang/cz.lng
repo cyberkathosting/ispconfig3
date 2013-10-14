@@ -71,7 +71,7 @@ $wb['datepicker_prevText'] = 'Předchozí';
 $wb['logout_txt'] = 'Odhlášení';
 $wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 $wb['submit_confirmation'] = 'Opravdu chcete provést tuto akci ?';
-$wb['top_menu_mailuser'] = 'E-mailový uživatel';
+$wb['top_menu_mailuser'] = 'E-mail. uživ.';
 $wb['globalsearch_resultslimit_of_txt'] = 'z';
 $wb['globalsearch_resultslimit_results_txt'] = 'výsledky';
 $wb['globalsearch_noresults_text_txt'] = 'Žádné výsledky.';
@@ -130,7 +130,8 @@ $wb['datalog_status_d_web_folder'] = 'Odstranění chráněného adresáře hesl
 $wb['datalog_status_i_web_folder_user'] = 'Vytvoření uživatele pro adresáře chráněné heslem';
 $wb['datalog_status_u_web_folder_user'] = 'Aktualizace nastavení uživatele pro adresáře chráněné heslem';
 $wb['datalog_status_d_web_folder_user'] = 'Odstranění uživatele pro adresáře chráněné heslem';
-$wb['login_as_txt'] = 'Přihlaste se jako';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['no_destination_perm'] = 'You have no permission for this destination.';
+$wb['login_as_txt'] = 'Přihlašte se jako';
+$wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu. ';
+$wb['no_destination_perm'] = 'Nemáte oprávnění pro tuto destinaci.';
 ?>
+

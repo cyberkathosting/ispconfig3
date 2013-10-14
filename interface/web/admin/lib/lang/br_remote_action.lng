@@ -8,5 +8,5 @@ $wb['do_ispcupdate_desc'] = 'Esta ação fará uma atualização do ISPConfig3 n
 $wb['action_scheduled'] = 'Esta ação está agendada para execução';
 $wb['select_all_server'] = 'Todos os servidores';
 $wb['ispconfig_update_title'] = 'ISPConfig update instructions';
-$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Click here for detailed update instructions</a>';
+$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Click here for detailed update instructins</a>';
 ?>

@@ -132,6 +132,25 @@ if($_POST['create'] == 1) {
 	
 	$error = '';
 	
+	// apply filters
+	if(isset($_POST['domain']) && $_POST['domain'] != ''){
+		$_POST['domain'] = $app->functions->idn_encode($_POST['domain']);
+		$_POST['domain'] = strtolower($_POST['domain']);
+	}
+	if(isset($_POST['ns1']) && $_POST['ns1'] != ''){
+		$_POST['ns1'] = $app->functions->idn_encode($_POST['ns1']);
+		$_POST['ns1'] = strtolower($_POST['ns1']);
+	}
+	if(isset($_POST['ns2']) && $_POST['ns2'] != ''){
+		$_POST['ns2'] = $app->functions->idn_encode($_POST['ns2']);
+		$_POST['ns2'] = strtolower($_POST['ns2']);
+	}
+	if(isset($_POST['email']) && $_POST['email'] != ''){
+		$_POST['email'] = $app->functions->idn_encode($_POST['email']);
+		$_POST['email'] = strtolower($_POST['email']);
+	}
+	
+	
 	if(isset($_POST['domain']) && $_POST['domain'] == '') $error .= $app->lng('error_domain_empty').'<br />';
 	elseif(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,30}$/',$_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
 
@@ -176,14 +195,6 @@ if($_POST['create'] == 1) {
 	if($_POST['ns1'] != '') $tpl_content = str_replace('{NS1}',$_POST['ns1'],$tpl_content);
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}',$_POST['ns2'],$tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}',$_POST['email'],$tpl_content);
-	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/',$_POST['domain'])) {
-		$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = '".$app->db->quote($_POST['domain'])."' AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'));		
-		if ($public_key!='') {
-			$dns_record=str_replace(array("\r\n", "\n", "\r","-----BEGIN PUBLIC KEY-----","-----END PUBLIC KEY-----"),'',$public_key['dkim_public']);
-			$tpl_content = str_replace('{DKIM}','TXT|default._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record,$tpl_content);
-		} 
-	}
-
 	
 	// Parse the template
 	$tpl_rows = explode("\n",$tpl_content);

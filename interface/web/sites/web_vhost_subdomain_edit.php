@@ -164,53 +164,6 @@ class page_action extends tform_actions {
             // add limits to template to be able to hide settings
             foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
             
-            $sites_config = $app->getconf->get_global_config('sites');
-            if($sites_config['reseller_can_use_options']) {
-                // Directive Snippets
-                $php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y'");
-                $php_directive_snippets_txt = '';
-                if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
-                        foreach($php_directive_snippets as $php_directive_snippet){
-                            $php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$php_directive_snippet['snippet'].'</pre></a> ';
-                        }
-                }
-                if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
-                $app->tpl->setVar("php_directive_snippets_txt",$php_directive_snippets_txt);
-                
-                if($server_type == 'apache'){
-                    $apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y'");
-                    $apache_directive_snippets_txt = '';
-                    if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
-                            foreach($apache_directive_snippets as $apache_directive_snippet){
-                                $apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$apache_directive_snippet['snippet'].'</pre></a> ';
-                            }
-                    }
-                    if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
-                    $app->tpl->setVar("apache_directive_snippets_txt",$apache_directive_snippets_txt);
-                }
-                
-                if($server_type == 'nginx'){
-                    $nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y'");
-                    $nginx_directive_snippets_txt = '';
-                    if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
-                            foreach($nginx_directive_snippets as $nginx_directive_snippet){
-                                $nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$nginx_directive_snippet['snippet'].'</pre></a> ';
-                            }
-                    }
-                    if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
-                    $app->tpl->setVar("nginx_directive_snippets_txt",$nginx_directive_snippets_txt);
-                }
-                
-                $proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y'");
-                $proxy_directive_snippets_txt = '';
-                if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
-                        foreach($proxy_directive_snippets as $proxy_directive_snippet){
-                            $proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$proxy_directive_snippet['snippet'].'</pre></a> ';
-                        }
-                }
-                if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
-                $app->tpl->setVar("proxy_directive_snippets_txt",$proxy_directive_snippets_txt);
-            }
             
 			//* Admin: If the logged in user is admin
 		} else {
@@ -527,6 +480,62 @@ class page_action extends tform_actions {
 		
 			} else {
 				$app->tform->errorMessage .= $app->tform->lng("error_php_fpm_pm_settings_txt").'<br>';
+			}
+		}
+		
+		// Check rewrite rules
+		$server_type = $web_config['server_type'];
+		
+		if($server_type == 'nginx' && isset($this->dataRecord['rewrite_rules']) && trim($this->dataRecord['rewrite_rules']) != '') {
+			$rewrite_rules = trim($this->dataRecord['rewrite_rules']);
+			$rewrites_are_valid = true;
+			// use this counter to make sure all curly brackets are properly closed
+			$if_level = 0;
+			// Make sure we only have Unix linebreaks
+			$rewrite_rules = str_replace("\r\n", "\n", $rewrite_rules);
+			$rewrite_rules = str_replace("\r", "\n", $rewrite_rules);
+			$rewrite_rule_lines = explode("\n", $rewrite_rules);
+			if(is_array($rewrite_rule_lines) && !empty($rewrite_rule_lines)){
+				foreach($rewrite_rule_lines as $rewrite_rule_line){
+					// ignore comments
+					if(substr(ltrim($rewrite_rule_line),0,1) == '#') continue;
+					// empty lines
+					if(trim($rewrite_rule_line) == '') continue;
+					// rewrite
+					if(preg_match('@^\s*rewrite\s+(^/)?\S+(\$)?\s+\S+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $rewrite_rule_line)) continue;
+					// if
+					if(preg_match('@^\s*if\s+\(\s*\$\S+(\s+(\!?(=|~|~\*))\s+(\S+|\".+\"))?\s*\)\s*\{\s*$@', $rewrite_rule_line)){
+						$if_level += 1;
+						continue;
+					}
+					// if - check for files, directories, etc.
+					if(preg_match('@^\s*if\s+\(\s*\!?-(f|d|e|x)\s+\S+\s*\)\s*\{\s*$@', $rewrite_rule_line)){
+						$if_level += 1;
+						continue;
+					}
+					// break
+					if(preg_match('@^\s*break\s*;\s*$@', $rewrite_rule_line)){
+						continue;
+					}
+					// return code [ text ]
+					if(preg_match('@^\s*return\s+\d\d\d.*;\s*$@', $rewrite_rule_line)) continue;
+					// return code URL
+					// return URL
+					if(preg_match('@^\s*return(\s+\d\d\d)?\s+(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*\@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*\s*;\s*$@', $rewrite_rule_line)) continue;
+					// set
+					if(preg_match('@^\s*set\s+\$\S+\s+\S+\s*;\s*$@', $rewrite_rule_line)) continue;
+					// closing curly bracket
+					if(trim($rewrite_rule_line) == '}'){
+						$if_level -= 1;
+						continue;
+					}
+					$rewrites_are_valid = false;
+					break;
+				}
+			}
+			
+			if(!$rewrites_are_valid || $if_level != 0){
+				$app->tform->errorMessage .= $app->tform->lng("invalid_rewrite_rules_txt").'<br>';
 			}
 		}
 

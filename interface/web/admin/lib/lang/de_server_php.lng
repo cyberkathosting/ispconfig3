@@ -14,3 +14,4 @@ $wb['php_fpm_init_script_txt'] = 'Pfad zum PHP-FPM Init Script';
 $wb['php_fpm_ini_dir_txt'] = 'Pfad zum php.ini Verzeichnis';
 $wb['php_fpm_pool_dir_txt'] = 'Pfad zum PHP-FPM Pool Verzeichnis';
 ?>
+

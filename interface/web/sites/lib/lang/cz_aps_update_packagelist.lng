@@ -1,7 +1,8 @@
 <?php
-$wb['head_txt'] = 'Update Packagelist';
+$wb['head_txt'] = 'Aktualizace seznamu balíčků';
 $wb['list_desc_txt'] = '';
-$wb['btn_start_txt'] = 'Update Packagelist';
+$wb['btn_start_txt'] = 'Aktualizace seznamu balíčků';
 $wb['btn_cancel_txt'] = 'Zrušit';
-$wb['legend_txt'] = 'Here you can update the list of available packages. Please note that this can take up to five minutes. You can leave this page if you like; the process will continue in the background.';
+$wb['legend_txt'] = 'Zde si můžete aktualizovat seznam dostupných balíčků. Vezměte prosím na vědomí, že aktualizace může trvat až několik minut. Po spuštění aktualizace můžete následně opustit tuto sekci. Tento proces bude pokračovat na pozadí.';
 ?>
+

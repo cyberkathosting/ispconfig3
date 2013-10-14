@@ -53,3 +53,4 @@ $wb['webmail_url_error_regex'] = 'Invalid webmail URL';
 $wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
 $wb['webmail_url_note_txt'] = 'Placeholder:';
 ?>
+

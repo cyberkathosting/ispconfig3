@@ -1,15 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['list_head_txt'] = 'Υπάρχοντα Αντίγραφα Ασφαλείας';
+$wb['date_txt'] = 'Ημερομηνία';
+$wb['backup_type_txt'] = 'Τύπος';
+$wb['filename_txt'] = 'Αρχείο Αντιγράφου Ασφαλείας';
+$wb['restore_backup_txt'] = 'Επαναφορά Αντιγράφου Ασφαλείας';
+$wb['download_backup_txt'] = 'Μεταφόρτωση Αντιγράφου Ασφαλείας';
+$wb['download_info_txt'] = 'Το Αντιγράφου Ασφαλείας θα είναι διαθέσιμο για μεταφόρτωση στον φάκελο Αντιγράφων Ασφαλείας του website σε λίγα λεπτά.';
+$wb['restore_info_txt'] = 'Η επαναφορά του Αντιγράφου Ασφαλείας ξεκίνησε. Η ενέργεια απαιτεί πολλά λεπτά για την ολοκλήρωσή της.';
+$wb['restore_confirm_txt'] = 'Η επαναφορά θα αντικαταστήσει αρχεία στο website. Είστε σίγουροι ότι θέλετε να κάνετε επαναφορά του Αντιγράφου Ασφαλείας?';
+$wb['download_pending_txt'] = 'Υπάρχει ήδη σε αναμονή μια εργασία μεταφόρτωσης Αντιγράφου Ασφαλείας.';
+$wb['restore_pending_txt'] = 'Υπάρχει ήδη σε αναμονή μια εργασία επαναφοράς Αντιγράφου Ασφαλείας.';
+$wb['backup_type_mysql'] = 'Βάση Δεδομένων MySQL';
+$wb['backup_type_web'] = 'Αρχεία Website';
 ?>

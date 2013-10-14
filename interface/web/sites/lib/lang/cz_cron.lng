@@ -10,12 +10,13 @@ $wb['run_month_txt'] = 'Měsíce';
 $wb['run_wday_txt'] = 'Dny týdne';
 $wb['command_txt'] = 'Příkaz ke spuštění (příkazy jsou spuštěny přes sh, url přes wget)';
 $wb['limit_cron_txt'] = 'Dosažen maximální počet cron úloh pro Váš účet.';
-$wb['limit_cron_frequency_txt'] = 'Frekvence cron úloh překročila povolený limit';
+$wb['limit_cron_frequency_txt'] = 'Frekvence cron úloh překročila povolený limit (standardní povolená nejnižší hodnota je 1 x za 5 min. */5)';
 $wb['run_min_error_format'] = 'Chybný formát pro minuty.';
 $wb['run_hour_error_format'] = 'Chybný formát pror hodiny.';
 $wb['run_mday_error_format'] = 'Chybný formát pro dny měsíce.';
 $wb['run_month_error_format'] = 'Chybný formát pro měsíce.';
 $wb['run_wday_error_format'] = 'Chybný formát pro dny týdne.';
 $wb['command_error_format'] = 'Chybná formát příkazu. V případě URL je povoleno volání pouze http/https.';
-$wb['unknown_fieldtype_error'] = 'Bylp použito pole neznámého typu.';
+$wb['unknown_fieldtype_error'] = 'Bylo použito pole neznámého typu.';
 ?>
+

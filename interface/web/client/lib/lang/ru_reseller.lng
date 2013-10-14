@@ -143,4 +143,9 @@ $wb['aps_limits_txt'] = 'APS Installer Limits';
 $wb['limit_aps_txt'] = 'Max. number of APS instances';
 $wb['limit_aps_error_notint'] = 'The APS instances limit must be a number.';
 $wb['default_slave_dnsserver_txt'] = 'Default Secondary DNS Server';
+$wb['locked_txt'] = 'Locked';
+$wb['canceled_txt'] = 'Canceled';
+$wb['gender_m_txt'] = 'Mr.';
+$wb['gender_f_txt'] = 'Ms.';
+$wb['gender_txt'] = 'Title';
 ?>

@@ -6,4 +6,5 @@ $wb['server_id_txt'] = 'Server';
 $wb['database_user_txt'] = 'Όνομα Χρήστη Βάσης Δεδομένων';
 $wb['database_name_txt'] = 'Όνομα Βάσης Δεδομένων';
 $wb['add_new_record_txt'] = 'Νέα Βάσης Δεδομένων';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

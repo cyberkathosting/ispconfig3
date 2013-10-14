@@ -5,4 +5,5 @@ $wb['btn_save_txt'] = 'A kiválasztott nyelvi fájl importálása';
 $wb['language_overwrite_txt'] = 'Létző fájlokat felülírja.';
 $wb['btn_cancel_txt'] = 'Vissza';
 $wb['ignore_version_txt'] = 'Ne ellenőrizze az ISPConfig verziószámát';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>

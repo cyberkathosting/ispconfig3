@@ -1,8 +1,8 @@
 <?php
-$wb["quota_txt"] = 'Website Harddisk Quota';
-$wb["domain_txt"] = 'Domain / Website';
-$wb["used_txt"] = 'Used space';
-$wb["hard_txt"] = 'Hard limit';
-$wb["soft_txt"] = 'Soft limit';
-$wb["no_sites_txt"] = 'No web sites found.';
+$wb['quota_txt'] = 'Όρια χρήσης δίσκου για Website';
+$wb['domain_txt'] = 'Domain/Website';
+$wb['used_txt'] = 'Χώρος σε χρήση';
+$wb['hard_txt'] = 'Απόλυτο Όριο';
+$wb['soft_txt'] = 'Διαλακτικό Όριο';
+$wb['no_sites_txt'] = 'Δεν βρέθηκαν websites.';
 ?>

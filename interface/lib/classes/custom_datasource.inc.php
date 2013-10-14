@@ -105,6 +105,9 @@ class custom_datasource {
 			case 'default_dnsserver':
 				$field = 'dns_server';
 			break;
+			case 'default_slave_dnsserver':
+				$field = 'dns_server';
+			break;
 			case 'default_fileserver':
 				$field = 'file_server';
 			break;

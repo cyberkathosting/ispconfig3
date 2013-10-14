@@ -64,9 +64,6 @@ if(!$app->auth->is_admin()) {
     if($client['limit_ssl'] != 'y') $ssl_available = false;
 }
 
-$app->uses('getconf');
-$web_config = $app->getconf->get_global_config('sites');
-
 $form["tabs"]['domain'] = array (
 	'title' 	=> "Domain",
 	'width' 	=> 100,
@@ -308,6 +305,14 @@ $form["tabs"]['redirect'] = array (
 			'default'	=> '',
 			'value'		=> array('' => 'no_redirect_txt', 'non_www_to_www' => 'domain.tld => www.domain.tld', 'www_to_non_www' => 'www.domain.tld => domain.tld', '*_domain_tld_to_domain_tld' => '*.doman.tld => domain.tld', '*_domain_tld_to_www_domain_tld' => '*.domain.tld => www.domain.tld', '*_to_domain_tld' => '* => domain.tld', '*_to_www_domain_tld' => '* => www.domain.tld')
 		),
+		'rewrite_rules' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXT',
+			'default'	=> '',
+			'value'		=> '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
+		),
 	##################################
 	# ENDE Datatable fields
 	##################################
@@ -520,8 +525,7 @@ $form["tabs"]['backup'] = array (
 
 // }
 
-if($_SESSION["s"]["user"]["typ"] == 'admin'
-    || ($web_config['reseller_can_use_options'] == 'y' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 $form["tabs"]['advanced'] = array (
 	'title' 	=> "Options",

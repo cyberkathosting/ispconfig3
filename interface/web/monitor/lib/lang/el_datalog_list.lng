@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Jobqueue';
-$wb['tstamp_txt'] = 'Date';
+$wb['list_head_txt'] = 'Ουρά Ενεργειών';
+$wb['tstamp_txt'] = 'Ημερομηνία';
 $wb['server_id_txt'] = 'Server';
-$wb['dbtable_txt'] = 'DB Table';
-$wb['action_txt'] = 'Action';
-$wb['status_txt'] = 'Status';
+$wb['dbtable_txt'] = 'Πίνακας DB';
+$wb['action_txt'] = 'Ενέργεια';
+$wb['status_txt'] = 'Κατάσταση';
 ?>

@@ -1,0 +1,142 @@
+#!/usr/bin/php
+<?php
+
+/*
+Copyright (c) 2013, Marius Cramer, pixcept KG
+ISPConfig Copyright (c) 2009-2013, Till Brehm, projektfarm Gmbh
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of ISPConfig nor the names of its contributors
+      may be used to endorse or promote products derived from this software without
+      specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+function sread() {
+    $input = fgets(STDIN);
+    return rtrim($input);
+}
+
+function swrite($text = '') {
+	echo $text;
+}
+
+function swriteln($text = '') {
+	echo $text."\n";
+}
+
+function simple_query($query, $answers, $default)
+{		
+		$finished = false;
+		do {
+			if(is_array($answers)) {
+                $answers_str = implode(',', $answers);
+                swrite($query.' ('.$answers_str.') ['.$default.']: ');
+            } else {
+                swrite($query.': ');
+            }
+			$input = sread();
+			
+			//* Stop the installation
+			if($input == 'quit') {
+				swriteln("Patch terminated by user.\n");
+				die();
+			}
+			
+			//* Select the default
+			if($input == '') {
+				$answer = $default;
+				$finished = true;
+			}
+			
+            //* Set answer id valid
+			if(!is_array($answers) || in_array($input, $answers)) {
+				$answer = $input;
+				$finished = true;
+			}
+			
+		} while ($finished == false);
+		swriteln();
+		return $answer;
+}
+
+function is_installed($appname) {
+	exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out,$returncode);
+	if(isset($out[0]) && stristr($out[0],$appname) && $returncode == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+echo "\n\n".str_repeat('-',80)."\n";
+echo " _____ ___________   _____              __ _       
+|_   _/  ___| ___ \ /  __ \            / _(_)      
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+  | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
+ _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
+ \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
+                                              __/ |
+                                             |___/ ";
+echo "\n".str_repeat('-',80)."\n";
+echo "\n\n>> Patch tool  \n\n";
+echo "Please enter the patch id that you want to be applied to your ISPConfig installation.\nPlease be aware that we take NO responsibility that this will work for you.\nOnly use patches if you know what you are doing.\n\n";
+
+if(!is_installed('patch')) {
+	swriteln("The program 'patch' is missing on your server. Please install it and try again.");
+}
+
+$patch_id = simple_query('Enter patch id', false, '');
+if($patch_id == '') {
+    swriteln("Patch terminated by user.\n");
+    die();
+} elseif(preg_match('/^[a-zA-Z0-9_\-]+$/', $patch_id) == false) {
+    swriteln("Invalid patch id.\n");
+    die();
+}
+
+$patch_data = @file_get_contents('http://ispconfig.org/downloads/patches/' . $patch_id . '.diff');
+if(!$patch_data) {
+    swriteln("Patch with id " . $patch_id . " does not exist.\n");
+    die();
+}
+
+$patch_text = @file_get_contents('http://ispconfig.org/downloads/patches/' . $patch_id . '.txt');
+if($patch_text) {
+    $ok = simple_query("Patch description:\n".str_repeat("-", 80)."\n".$patch_text."\n".str_repeat("-", 80)."\nDo you really want to apply this patch now?", array('y','n'), 'y');
+    if($ok != 'y') {
+        swriteln("Patch terminated by user.\n");
+        die();
+    }
+}
+
+$temp_file = tempnam(sys_get_temp_dir(), 'ispc');
+
+file_put_contents($temp_file, $patch_data);
+chdir('/usr/local/ispconfig');
+
+passthru('patch -p0 < ' . escapeshellarg($temp_file));
+
+unlink($temp_file);
+
+exit;
+
+?>

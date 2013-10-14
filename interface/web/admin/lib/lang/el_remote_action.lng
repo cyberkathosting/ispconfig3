@@ -7,6 +7,6 @@ $wb['do_ispcupdate_caption'] = 'Εκκίνηση αναβάθμισης ISPConfi
 $wb['do_ispcupdate_desc'] = 'Αυτή η ενέργεια κάνει αναβάθμιση στο ISPConfig3 στον επιλεγμένο σας server.<br><br><strong>ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ ΜΕ ΔΙΚΗ ΣΑΣ ΕΥΘΥΝΗ!</strong>';
 $wb['action_scheduled'] = 'Η ενέργεια προγραμματίστηκε για εκτέλεση';
 $wb['select_all_server'] = 'Σε όλους τους servers';
-$wb['ispconfig_update_title'] = 'ISPConfig update instructions';
-$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Click here for detailed update instructions</a>';
+$wb['ispconfig_update_title'] = 'Οδηγίες ενημέρωσης ISPConfig';
+$wb['ispconfig_update_text'] = 'Εισέλθετε ως χρήστης root σε κάποιο κέλυφος στον server σας και εκτελέστε την εντολή<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />για να εκκινήστε την ενημέρωση του ISPConfig.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Πατήστε εδώ για λεπτομερείς οδηγίες</a>';
 ?>

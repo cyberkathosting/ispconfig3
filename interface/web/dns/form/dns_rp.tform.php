@@ -75,16 +75,16 @@ $form["tabs"]['dns'] = array (
 			'width'		=> '30',
 			'maxlength'	=> '255'
 		),
-        'filters'   => array( 0 => array( 'event' => 'SAVE',
+		'name' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'TEXT',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
                                           'type' => 'IDNTOASCII'),
                               1 => array( 'event' => 'SHOW',
                                           'type' => 'IDNTOUTF8'),
                               2 => array( 'event' => 'SAVE',
                                           'type' => 'TOLOWER')
                             ),
-		'name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
 			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
 														'regex' => '/^[\w\.\-]{0,255}$/',
 														'errmsg'=> 'name_error_regex'),

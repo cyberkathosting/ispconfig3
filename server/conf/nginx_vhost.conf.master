@@ -121,7 +121,7 @@ server {
             access_log off;
         }
 		
-        location /stats {
+        location /stats/ {
             <tmpl_var name='web_document_root_www_proxy'>
             index index.html index.php;
             auth_basic "Members Only";

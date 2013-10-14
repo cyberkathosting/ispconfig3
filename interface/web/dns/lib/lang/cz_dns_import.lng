@@ -5,10 +5,11 @@ $wb['btn_save_txt'] = 'Importovat vybraný DNS zonový soubor';
 $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['domain_txt'] = 'Doména';
 $wb['zone_file_successfully_imported_txt'] = 'Zónový soubor byl úspěšně importován !';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
+$wb['error_no_valid_zone_file_txt'] = 'Chyba, neplatný zónový soubor nebo jeho formát !';
 $wb['zonefile_to_import_txt'] = 'Vybrat soubor s DNS zónou ';
 $wb['domain_field_desc_txt'] = 'Může být ponechána nevyplněná, pokud je název domény názvem souboru nebo je v obsahu souboru s DNS zónou.';
 $wb['title'] = 'Importovat soubory zón';
 $wb['no_file_uploaded_error'] = 'Nelze odeslat DNS zonový soubor';
 $wb['zone_file_import_txt'] = 'Importovat vybraný DNS zonový soubor';
 ?>
+

@@ -778,11 +778,5 @@ $spam_admin = undef;
 $DO_SYSLOG = 1;
 $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
-# DKIM
-
-$enable_dkim_verification = 1;
-$enable_dkim_signing = 1; # load DKIM signing code,
-@dkim_signature_options_bysender_maps = (
-{ '.' => { ttl => 21*24*3600, c => 'relaxed/simple' } } );
 
 1;  # insure a defined return

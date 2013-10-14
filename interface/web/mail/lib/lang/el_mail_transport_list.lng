@@ -3,7 +3,7 @@ $wb['list_head_txt'] = 'Προχωρημένη Δρομολογήση Email ';
 $wb['active_txt'] = 'Ενεργό';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
-$wb['transport_txt'] = 'Μεταφορά';
+$wb['transport_txt'] = 'Δρομολογήση';
 $wb['sort_order_txt'] = 'Ταξινόμηση κατά';
-$wb['add_new_record_txt'] = 'Νέα μεταφορά';
+$wb['add_new_record_txt'] = 'Νέα Δρομολογήση';
 ?>

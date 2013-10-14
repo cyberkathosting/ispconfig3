@@ -7,3 +7,4 @@ $wb['version_txt'] = 'Version';
 $wb['action_txt'] = 'Aktion';
 $wb['no_updates_txt'] = 'Keine Updates verfügbar';
 ?>
+

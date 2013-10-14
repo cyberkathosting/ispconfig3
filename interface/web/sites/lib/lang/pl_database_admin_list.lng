@@ -7,4 +7,5 @@ $wb['database_user_txt'] = 'Nazwa użytkownika bazy';
 $wb['database_name_txt'] = 'Nazwa bazy danych';
 $wb['add_new_record_txt'] = 'Dodaj nową bazę danych';
 $wb['sys_groupid_txt'] = 'Klient';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

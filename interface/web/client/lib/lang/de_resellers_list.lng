@@ -9,3 +9,4 @@ $wb['add_new_record_txt'] = 'Neuen Reseller hinzufügen';
 $wb['customer_no_txt'] = 'Kundennummer';
 $wb['username_txt'] = 'Benutzername';
 ?>
+

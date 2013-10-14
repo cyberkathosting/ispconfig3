@@ -6,7 +6,7 @@ $wb['username_txt'] = 'Benutzername';
 $wb['password_txt'] = 'Passwort';
 $wb['password_strength_txt'] = 'Passwortkomplexität';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_webdav_user_txt'] = 'Die maximale Anzahl an WebDAV Benutzer für Ihr Konto wurde erreicht.';
+$wb['limit_webdav_user_txt'] = 'Die max. Anzahl an WebDAV Benutzer für Ihr Konto wurde erreicht.';
 $wb['username_error_empty'] = 'Benutzername ist leer.';
 $wb['username_error_unique'] = 'Der Benutzername muss einzigartig sein.';
 $wb['username_error_regex'] = 'Der Benutzername enthält nicht erlaubte Zeichen.';
@@ -19,3 +19,4 @@ $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 ?>
+

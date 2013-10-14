@@ -199,9 +199,10 @@ class listform {
 			$_SESSION['search']['limit'] = $app->functions->intval($_POST['search_limit']);
 		}
 		
-		if(preg_match('{^[0-9]$}',$_SESSION['search']['limit'])){
-			$_SESSION['search']['limit'] = 15;
-		}
+		//if(preg_match('{^[0-9]$}',$_SESSION['search']['limit'])){
+		//	$_SESSION['search']['limit'] = 15;
+		//}
+		if(intval($_SESSION['search']['limit']) < 1) $_SESSION['search']['limit'] = 15;
 
         //* Get Config variables
         $list_name          = $this->listDef['name'];

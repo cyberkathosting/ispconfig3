@@ -8,3 +8,4 @@ $wb['local_txt'] = 'Lokal';
 $wb['email_error_notempty'] = 'Die E-Mail-Adresse darf nicht leer sein.';
 $wb['fullname_error_notempty'] = 'Der Name darf nicht leer sein.';
 ?>
+

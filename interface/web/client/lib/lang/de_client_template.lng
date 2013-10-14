@@ -88,3 +88,4 @@ $wb['aps_limits_txt'] = 'APS Installationsassistent Limits';
 $wb['limit_aps_txt'] = 'Max. Anzahl an APS-Instanzen';
 $wb['limit_aps_error_notint'] = 'Das APS Instanzen Limit muss eine Zahl sein.';
 ?>
+

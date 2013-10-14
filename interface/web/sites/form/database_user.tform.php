@@ -29,7 +29,7 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
-
+	
 	Search:
 	- searchable = 1 or searchable = 2 include the field in the search
 	- searchable = 1: this field will be the title of the search result
@@ -103,14 +103,6 @@ $form["tabs"]['database_user'] = array (
 			'datatype'	=> 'VARCHAR',
 			'formtype'	=> 'PASSWORD',
 			'encryption' => 'MYSQL',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
-		),
-		'database_password_mongo' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
 			'default'	=> '',
 			'value'		=> '',
 			'width'		=> '30',

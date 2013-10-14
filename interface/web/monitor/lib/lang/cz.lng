@@ -145,11 +145,12 @@ $wb['monitor_beancounter_nosupport_txt'] = 'Tento server nemá nainstalován VE 
 $wb['monitor_title_iptables_txt'] = 'IPTables Pravidla';
 $wb['Show fail2ban-Log'] = 'Zobrazit Fail2Ban Log';
 $wb['Show IPTables'] = 'Zobrazit IPTables pravidla';
-$wb['Show OpenVz VE BeanCounter'] = 'Ukázat OpenVz VE BeanCounter';
-$wb['Show Monit'] = 'Show Monit';
+$wb['Show OpenVz VE BeanCounter'] = 'Zobrazit OpenVz VE BeanCounter';
+$wb['Show Monit'] = 'Zobrazit Monit';
 $wb['no_monit_url_defined_txt'] = 'No Monit URL defined.';
 $wb['no_permissions_to_view_monit_txt'] = 'You are not allowed to access Monit.';
-$wb['Show Munin'] = 'Show Munin';
+$wb['Show Munin'] = 'Zobrazit Munin';
 $wb['no_munin_url_defined_txt'] = 'No Munin URL defined.';
 $wb['no_permissions_to_view_munin_txt'] = 'You are not allowed to access Munin.';
 ?>
+

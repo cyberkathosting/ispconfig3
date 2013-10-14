@@ -13,3 +13,4 @@ $wb['name_error_regex'] = 'Hostname má chybný formát.';
 $wb['data_error_empty'] = 'Informace o hostovi je prázdná';
 $wb['data_error_regex'] = 'Informace o hostovi má chybný formát';
 ?>
+

@@ -13,3 +13,4 @@ $wb['source_ip_txt'] = 'Ausgangs Adresse';
 $wb['active_txt'] = 'Aktiv';
 $wb['iptables_error_unique'] = 'Es besteht bereits eine Firewall Regel für diesen Server.';
 ?>
+

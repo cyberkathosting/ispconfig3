@@ -755,13 +755,6 @@ class monitor_tools {
 				$data['mysqlserver'] = 0;
 				$state = 'error'; // because service is down
 			}
-
-			if ($this->_checkTcp('localhost', 27017)) {
-				$data['mongodbserver'] = 1;
-			} else {
-				$data['mongodbserver'] = 0;
-				$state = 'error'; // because service is down
-			}
 		}
 
 		/*
@@ -907,7 +900,7 @@ class monitor_tools {
 			/*
 			 * Fetch the output
 			 */
-			$data['output'] = $aptData;
+			$data['output'] = shell_exec('apt-get -s -q dist-upgrade');
 		} elseif (file_exists('/etc/gentoo-release')) {
 
 			/*
@@ -1068,7 +1061,7 @@ class monitor_tools {
 				/* fetch the next line */
 				$line = $tmp[$i];
 
-				if ((strpos($line, '[U_]') !== false) || (strpos($line, '[_U]') !== false)) {
+				if ((strpos($line, 'U_]') !== false) || (strpos($line, '[_U') !== false) || (strpos($line, 'U_U') !== false)) {
 					/* One Disk is not working.
 					 * if the next line starts with "[>" or "[=" then
 					 * recovery (resync) is in state and the state is
@@ -1285,51 +1278,6 @@ class monitor_tools {
 		} else {
 			/*
 			 * fail2ban is not installed, so there is no data and no state
-			 *
-			 * no_state, NOT unknown, because "unknown" is shown as state
-			 * inside the GUI. no_state is hidden.
-			 *
-			 * We have to write NO DATA inside the DB, because the GUI
-			 * could not know, if there is any dat, or not...
-			 */
-			$state = 'no_state';
-			$data = '';
-		}
-
-		/*
-		 * Return the Result
-		 */
-		$res['server_id'] = $server_id;
-		$res['type'] = $type;
-		$res['data'] = $data;
-		$res['state'] = $state;
-		return $res;
-	}
-
-	public function monitorMongoDB() {
-		global $conf;
-
-		/* the id of the server as int */
-		$server_id = intval($conf['server_id']);
-
-		/** The type of the data */
-		$type = 'log_mongodb';
-
-		/* This monitoring is only available if MongoDB is installed */
-		system('which mongod', $retval); // Debian, Ubuntu, Fedora
-		if ($retval !== 0)
-			system('which mongod', $retval); // CentOS
-		if ($retval === 0) {
-			/*  Get the data of the log */
-			$data = $this->_getLogData($type);
-
-			/*
-			 * At this moment, there is no state (maybe later)
-			 */
-			$state = 'no_state';
-		} else {
-			/*
-			 * MongoDB is not installed, so there is no data and no state
 			 *
 			 * no_state, NOT unknown, because "unknown" is shown as state
 			 * inside the GUI. no_state is hidden.
@@ -1796,9 +1744,6 @@ class monitor_tools {
 				} elseif ($dist == 'gentoo') {
 					$logfile = '/var/log/fail2ban.log';
 				}
-				break;
-			case 'log_mongodb':
-					$logfile = '/var/log/mongodb/mongodb.log';
 				break;
 			case 'log_ispconfig':
 				if ($dist == 'debian') {

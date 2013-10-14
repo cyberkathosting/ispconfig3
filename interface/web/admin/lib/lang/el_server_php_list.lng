@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Additional PHP Versions';
+$wb['list_head_txt'] = 'Πρόσθετες εκδόσεις PHP';
 $wb['server_id_txt'] = 'Server';
-$wb['add_new_record_txt'] = 'Add new PHP version';
-$wb['client_id_txt'] = 'Client';
-$wb['name_txt'] = 'PHP Name';
+$wb['add_new_record_txt'] = 'Προσθήκη νέας έκδοσης PHP';
+$wb['client_id_txt'] = 'Πελάτης';
+$wb['name_txt'] = 'Όνομα PHP';
 ?>

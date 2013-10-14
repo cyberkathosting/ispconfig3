@@ -148,9 +148,11 @@ $conf['theme'] = '{theme}';
 $conf['html_content_encoding'] = 'utf-8'; // example: utf-8, iso-8859-1, ...
 $conf['logo'] = 'themes/default/images/header_logo.png';
 
+
 //** Default Language and Timezone
 $conf['language'] = '{language}';
 $conf['debug_language'] = false;
+$conf['language_file_import_enabled'] = {language_file_import_enabled}; // Bool value: true / false
 
 //* Complete timezone list: http://php.net/manual/en/timezones.php
 $conf['timezone'] = '{timezone}';

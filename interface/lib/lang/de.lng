@@ -134,3 +134,4 @@ $wb['login_as_txt'] = 'Anmelden als';
 $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['no_destination_perm'] = 'Sie haben keine Berechtigung für dieses Ziel.';
 ?>
+

@@ -23,3 +23,4 @@ $wb['email_txt'] = 'E-mail';
 $wb['theme_not_compatible'] = 'Zvolené téma není kompatibilní s aktuální verzí ISPConfig. Zkontrolujte prosím, zda není nová verze tématu.<br />Výchozí motiv byl aktivován automaticky.';
 $wb['back_txt'] = 'Back';
 ?>
+

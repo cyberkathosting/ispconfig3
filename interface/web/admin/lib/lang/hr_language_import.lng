@@ -5,4 +5,5 @@ $wb['btn_save_txt'] = 'Importiraj selektiranu jezičnu datoteku';
 $wb['language_overwrite_txt'] = 'Prebriši datoteku, ukoliko već postoji.';
 $wb['btn_cancel_txt'] = 'Natrag';
 $wb['ignore_version_txt'] = 'Preskoči provjeru ISPConfig verzije';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>

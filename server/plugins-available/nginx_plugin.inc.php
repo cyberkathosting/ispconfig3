@@ -170,15 +170,15 @@ class nginx_plugin {
 
 			$rand_file = escapeshellcmd($rand_file);
 			$key_file = escapeshellcmd($key_file);
-			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') != false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
-			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') != false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
-			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') != false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
+			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
 			$config_file = escapeshellcmd($ssl_cnf_file);
 			$crt_file = escapeshellcmd($crt_file);
-			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') != false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
+			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 				

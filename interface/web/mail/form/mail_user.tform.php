@@ -38,8 +38,6 @@
 
 */
 global $app;
-$app->uses('getconf');
-$global_config = $app->getconf->get_global_config();
 
 $form["title"] 			= "Mailbox";
 $form["description"] 	= "";
@@ -232,118 +230,115 @@ $form["tabs"]['mailuser'] = array (
 	)
 );
 
-if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
-	$form["tabs"]['autoresponder'] = array (
-		'title' 	=> "Autoresponder",
-		'width' 	=> 100,
-		'template' 	=> "templates/mail_user_autoresponder_edit.htm",
-		'fields' 	=> array (
-		##################################
-		# Begin Datatable fields
-		##################################
-			'autoresponder_subject' => array (
-				'datatype'  => 'VARCHAR',
-				'formtype'  => 'TEXT',
-				'default'   => 'Out of office reply',
-				'value'     => '',
-				'width'		=> '30',
-				'maxlength'	=> '255'
-			),
-			'autoresponder_text' => array (
-				'datatype'	=> 'TEXT',
-				'formtype'	=> 'TEXTAREA',
-				'default'	=> '',
-				'value'		=> '',
-				'cols'		=> '30',
-				'rows'		=> '15'
-			),
-			'autoresponder' => array (
-				'datatype'	=> 'VARCHAR',
-				'formtype'	=> 'CHECKBOX',
-				'default'	=> 'n',
-				'value'		=> array(1 => 'y',0 => 'n')
-			),
-			'autoresponder_start_date' => array (
-				'datatype'	=> 'DATETIME',
-				'formtype'	=> 'DATETIME',
-				'validators'=> array ( 0 => array ( 'type' => 'CUSTOM',
-					'class' => 'validate_autoresponder',
-					'function' => 'start_date',
-					'errmsg'=> 'autoresponder_start_date_is_required'),
-				)
-			),
-			'autoresponder_end_date' => array (
-				'datatype'	=> 'DATETIME',
-				'formtype'	=> 'DATETIME',
-				'validators'=> array ( 	0 => array (	'type'	=> 'CUSTOM',
-					'class' => 'validate_autoresponder',
-					'function' => 'end_date',
-					'errmsg'=> 'autoresponder_end_date_isgreater'),
-				 ),
-			),
-		##################################
-		# END Datatable fields
-		##################################
-		)
-	);
-}
-
-
-if ($global_config['mail']['mailbox_show_mail_filter_tab'] === 'y') {
-	$form["tabs"]['filter_records'] = array (
-		'title' 	=> "Mail Filter",
-		'width' 	=> 100,
-		'template' 	=> "templates/mail_user_mailfilter_edit.htm",
-		'fields' 	=> array (
-		##################################
-		# Begin Datatable fields
-		##################################
-			'move_junk' => array (
-				'datatype'	=> 'VARCHAR',
-				'formtype'	=> 'CHECKBOX',
-				'default'	=> 'n',
-				'value'		=> array(0 => 'n',1 => 'y')
-			),
-		##################################
-		# END Datatable fields
-		##################################
+$form["tabs"]['autoresponder'] = array (
+	'title' 	=> "Autoresponder",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_user_autoresponder_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'autoresponder_subject' => array (
+			'datatype'  => 'VARCHAR',
+			'formtype'  => 'TEXT',
+			'default'   => 'Out of office reply',
+			'value'     => '',
+			'width'		=> '30',
+			'maxlength'	=> '255'
 		),
-		'plugins' => array (
-			'filter_records' => array (
-				'class'   => 'plugin_listview',
-				'options' => array(
-						'listdef' => 'list/mail_user_filter.list.php',
-						'sqlextwhere' => "mailuser_id = ".@$app->functions->intval(@$_REQUEST['id']),
-						'sql_order_by' => "ORDER BY rulename"
-					)
+		'autoresponder_text' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '15'
+		),
+		'autoresponder' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(1 => 'y',0 => 'n')
+		),
+		'autoresponder_start_date' => array (
+			'datatype'	=> 'DATETIME',
+			'formtype'	=> 'DATETIME',
+			'validators'=> array ( 0 => array ( 'type' => 'CUSTOM',
+				'class' => 'validate_autoresponder',
+				'function' => 'start_date',
+				'errmsg'=> 'autoresponder_start_date_is_required'),
 			)
-		)
-	);
+		),
+		'autoresponder_end_date' => array (
+			'datatype'	=> 'DATETIME',
+			'formtype'	=> 'DATETIME',
+			'validators'=> array ( 	0 => array (	'type'	=> 'CUSTOM',
+													'class' => 'validate_autoresponder',
+													'function' => 'end_date',
+													'errmsg'=> 'autoresponder_end_date_isgreater'),
+								 ),
+		),
+	##################################
+	# END Datatable fields
+	##################################
+	)
+);
+
+$form["tabs"]['filter_records'] = array (
+	'title' 	=> "Mail Filter",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_user_mailfilter_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'move_junk' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'CHECKBOX',
+			'default'	=> 'n',
+			'value'		=> array(0 => 'n',1 => 'y')
+		),
+	##################################
+	# END Datatable fields
+	##################################
+	),
+	'plugins' => array (
+     	'filter_records' => array (
+         	'class'   => 'plugin_listview',
+     		'options' => array(
+				'listdef' => 'list/mail_user_filter.list.php',
+				'sqlextwhere' => "mailuser_id = ".@$app->functions->intval(@$_REQUEST['id']),
+				'sql_order_by' => "ORDER BY rulename"
+			)
+        )
+	)
+);
+
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+
+$form["tabs"]['mailfilter'] = array (
+	'title' 	=> "Custom Rules",
+	'width' 	=> 100,
+	'template' 	=> "templates/mail_user_custom_rules_edit.htm",
+	'fields' 	=> array (
+	##################################
+	# Begin Datatable fields
+	##################################
+		'custom_mailfilter' => array (
+			'datatype'	=> 'TEXT',
+			'formtype'	=> 'TEXTAREA',
+			'default'	=> '',
+			'value'		=> '',
+			'cols'		=> '30',
+			'rows'		=> '15'
+		),
+	##################################
+	# END Datatable fields
+	##################################
+	)
+);
+
 }
 
-
-if ($_SESSION["s"]["user"]["typ"] == 'admin' && $global_config['mail']['mailbox_show_custom_rules_tab'] === 'y') {
-	$form["tabs"]['mailfilter'] = array (
-		'title' 	=> "Custom Rules",
-		'width' 	=> 100,
-		'template' 	=> "templates/mail_user_custom_rules_edit.htm",
-		'fields' 	=> array (
-		##################################
-		# Begin Datatable fields
-		##################################
-			'custom_mailfilter' => array (
-				'datatype'	=> 'TEXT',
-				'formtype'	=> 'TEXTAREA',
-				'default'	=> '',
-				'value'		=> '',
-				'cols'		=> '30',
-				'rows'		=> '15'
-			),
-		##################################
-		# END Datatable fields
-		##################################
-		)
-	);
-}
 
 ?>

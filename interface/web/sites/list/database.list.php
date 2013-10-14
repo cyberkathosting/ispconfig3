@@ -70,19 +70,6 @@ $liste["item"][] = array(	'field'		=> "remote_access",
 							'width'		=> "",
 							'value'		=> array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>",'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
-$liste["item"][] = array(	'field'		=> "type",
-							'datatype'	=> "VARCHAR",
-							'formtype'	=> "SELECT",
-							'op'		=> "=",
-							'prefix'	=> "",
-							'suffix'	=> "",
-							'width'		=> "",
-							'value'		=> array(
-							                  'mongo' => "MongoDB",
-							                  'mysql' => "MySQL"
-							               )
-						);
-
 if($_SESSION['s']['user']['typ'] == 'admin') {
 $liste["item"][] = array(	'field'		=> "sys_groupid",
 							'datatype'	=> "INTEGER",
