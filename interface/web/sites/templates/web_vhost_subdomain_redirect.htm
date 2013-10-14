@@ -21,6 +21,10 @@
                     {tmpl_var name='seo_redirect'}
                 </select>
             </div>
+			<div class="ctrlHolder nginx">
+                <label for="rewrite_rules">{tmpl_var name='rewrite_rules_txt'}</label>
+                <textarea name="rewrite_rules" id="rewrite_rules" rows='10' cols='50' style="width:400px;">{tmpl_var name='rewrite_rules'}</textarea>&nbsp;<b>{tmpl_var name="allowed_rewrite_rule_directives_txt"}</b><br><br>&nbsp;break<br>&nbsp;if<br>&nbsp;return<br>&nbsp;rewrite<br>&nbsp;set<br><br>&nbsp;<a href="http://wiki.nginx.org/HttpRewriteModule" target="_blank">http://wiki.nginx.org/HttpRewriteModule</a>
+            </div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -58,6 +62,7 @@
                 jQuery('#redirect_type option[value="R,L"]').hide();
                 jQuery('#redirect_type option[value="R=301,L"]').hide();
                 if(selected != "no" && selected != "" && selected != "last" && selected != "break" && selected != "redirect" && selected != "permanent" && selected != "proxy") jQuery('#redirect_type option[value="no"]').attr('selected', 'selected');
+				jQuery('.nginx').show();
             } else {
                 jQuery('#redirect_type option[value="last"]').attr('disabled','disabled');
                 jQuery('#redirect_type option[value="break"]').attr('disabled','disabled');
@@ -71,6 +76,7 @@
                 jQuery('#redirect_type option[value="permanent"]').hide();
 				jQuery('#redirect_type option[value="proxy"]').hide();
                 if(selected != "no" && selected != "" && selected != "R" && selected != "L" && selected != "R,L" && selected != "R=301,L") jQuery('#redirect_type option[value="no"]').attr('selected', 'selected');
+				jQuery('.nginx').hide();
             }
         });
     }

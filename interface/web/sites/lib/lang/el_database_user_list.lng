@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Database user';
-$wb['database_user_txt'] = 'Database user';
-$wb['add_new_record_txt'] = 'Add new user';
+$wb['list_head_txt'] = 'Χρήστης Βάσης Δεδομένων';
+$wb['database_user_txt'] = 'Χρήστης Βάσης Δεδομένων';
+$wb['add_new_record_txt'] = 'Προσθήκη νέου χρήστη';
 ?>

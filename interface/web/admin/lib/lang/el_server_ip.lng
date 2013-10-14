@@ -7,5 +7,5 @@ $wb['ip_error_unique'] = 'Η Διεύθυνση IP πρέπει να είναι 
 $wb['client_id_txt'] = 'Πελάτης';
 $wb['ip_type_txt'] = 'Τύπος';
 $wb['virtualhost_port_txt'] = 'Θύρες HTTP';
-$wb['error_port_syntax'] = 'Invalid chars in port field, please enter only comma separated numbers. Example: 80,443';
+$wb['error_port_syntax'] = 'Μη έγκυροι χαρακτήρες στο πεδίο θύρας, παρακαλούμε εισάγετε μόνο αριθμούς χωρισμένους με κόμματα. Παράδειγμα: 80,443';
 ?>

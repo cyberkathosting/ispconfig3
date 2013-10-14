@@ -5,7 +5,7 @@ $wb['cryptpwd_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
 $wb['active_txt'] = 'Aktivní';
 $wb['email_error_isemail'] = 'E-mail adresa je chybná.';
-$wb['email_error_unique'] = 'Duplikování email adresy.';
+$wb['email_error_unique'] = 'Duplikování e-mail adresy.';
 $wb['autoresponder_text_txt'] = 'Text';
 $wb['autoresponder_txt'] = 'Aktivní';
 $wb['autoresponder_start_date_txt'] = 'Začít od';
@@ -48,3 +48,4 @@ $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 ?>
+

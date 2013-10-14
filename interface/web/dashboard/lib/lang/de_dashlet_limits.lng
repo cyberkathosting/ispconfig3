@@ -1,5 +1,5 @@
 <?php
-$wb['limits_txt'] = 'Kontolimits';
+$wb['limits_txt'] = 'Kontobeschränkungen';
 $wb['of_txt'] = 'von';
 $wb['unlimited_txt'] = 'unlimitiert';
 $wb['limit_maildomain_txt'] = 'Anzahl der E-Mail Domains';
@@ -28,3 +28,4 @@ $wb['limit_client_txt'] = 'Anzahl der Kunden';
 $wb['limit_database_txt'] = 'Anzahl der Datenbanken';
 $wb['limit_mailmailinglist_txt'] = 'Anzahl der Mailinglisten';
 ?>
+

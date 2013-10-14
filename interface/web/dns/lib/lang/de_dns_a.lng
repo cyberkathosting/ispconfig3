@@ -14,3 +14,4 @@ $wb['data_error_empty'] = 'IPv4 Adresse ist leer';
 $wb['data_error_regex'] = 'IPv4 Adressen Format ist ungültig';
 $wb['data_error_duplicate'] = 'Doppelter A oder CNAME Eintrag';
 ?>
+

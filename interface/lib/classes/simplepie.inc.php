@@ -9200,7 +9200,7 @@ class SimplePie_Misc
 		return $return;
 	}
 
-	function element_implode($element)
+	static function element_implode($element)
 	{
 		$full = "<$element[tag]";
 		foreach ($element['attribs'] as $key => $value)
@@ -10879,7 +10879,7 @@ class SimplePie_Misc
 	 * @param string $data Input data
 	 * @return string Output data
 	 */
-	function entities_decode($data)
+	static function entities_decode($data)
 	{
 		$decoder = new SimplePie_Decode_HTML_Entities($data);
 		return $decoder->parse();

@@ -5,4 +5,5 @@ $wb['btn_save_txt'] = 'Import  file limba selectata';
 $wb['language_overwrite_txt'] = 'suprascrie  file, daca exista';
 $wb['btn_cancel_txt'] = 'inapoi';
 $wb['ignore_version_txt'] = 'Skip ISPConfig version check';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>

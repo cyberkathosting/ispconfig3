@@ -44,5 +44,6 @@ $wb['Global Filters'] = 'Globální filtry';
 $wb['Domain Alias'] = 'Alias domény';
 $wb['Relay Recipients'] = 'Relay adresáti';
 $wb['Statistics'] = 'Statistiky';
-$wb['Mailbox quota'] = 'Mailbox kvóta';
+$wb['Mailbox quota'] = 'Kvóta e-mailové schránky';
 ?>
+

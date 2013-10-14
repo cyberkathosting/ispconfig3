@@ -6,3 +6,4 @@ $wb['email_txt'] = 'E-Mail Adresse';
 $wb['used_txt'] = 'Verbrauchter Speicherplatz';
 $wb['percentage_txt'] = 'Verbraucht in %';
 ?>
+

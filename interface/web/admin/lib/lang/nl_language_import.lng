@@ -5,4 +5,5 @@ $wb['btn_save_txt'] = 'Importeer het geselecteerde taalbestand';
 $wb['language_overwrite_txt'] = 'Overschrijf bestand, als dit bestaat.';
 $wb['btn_cancel_txt'] = 'Terug';
 $wb['ignore_version_txt'] = 'Sla ISPConfig versie controle over';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb["mailquota_txt"] = 'Mailbox Quota';
-$wb["email_txt"] = 'Email Address';
-$wb["name_txt"] = 'Name';
-$wb["used_txt"] = 'Used Space';
-$wb["quota_txt"] = 'Quota';
-$wb["no_email_accounts_txt"] = 'No email accounts found.';
+$wb['mailquota_txt'] = 'Όρια Mailbox';
+$wb['email_txt'] = 'Διεύθυνση Email';
+$wb['name_txt'] = 'Όνομα';
+$wb['used_txt'] = 'Χώρος σε χρήση';
+$wb['quota_txt'] = 'Όριο';
+$wb['no_email_accounts_txt'] = 'Δεν βρέθηκαν λογαριασμοί email.';
 ?>

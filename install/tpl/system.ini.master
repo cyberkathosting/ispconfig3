@@ -23,7 +23,6 @@ dblist_phpmyadmin_link=y
 phpmyadmin_url=/phpmyadmin
 webftp_url=
 client_username_web_check_disabled=n
-reseller_can_use_options=n
 
 [tools]
 

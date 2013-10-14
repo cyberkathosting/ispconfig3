@@ -6,3 +6,4 @@ $wb['destination_txt'] = 'Ziel';
 $wb['email_txt'] = 'E-Mail';
 $wb['add_new_record_txt'] = 'Neue E-Mail Weiterleitung hinzufügen';
 ?>
+

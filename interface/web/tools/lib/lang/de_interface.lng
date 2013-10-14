@@ -5,3 +5,4 @@ $wb['language_txt'] = 'Sprache';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';
 ?>
+

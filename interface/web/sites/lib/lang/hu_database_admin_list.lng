@@ -7,4 +7,5 @@ $wb['database_user_txt'] = 'Felhasználó';
 $wb['database_name_txt'] = 'Adatbázis';
 $wb['add_new_record_txt'] = 'Új adatbázis';
 $wb['sys_groupid_txt'] = 'Ügyfél';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

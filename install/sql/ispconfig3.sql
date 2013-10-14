@@ -26,24 +26,24 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
--- Includes
---
+-- Includes 
+-- 
 -- iso_country_list.sql
---
+-- 
 -- This will create and then populate a MySQL table with a list of the names and
 -- ISO 3166 codes for countries in existence as of the date below.
---
+-- 
 -- For updates to this file, see http://27.org/isocountrylist/
 -- For more about ISO 3166, see http://www.iso.ch/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html
---
+-- 
 -- Created by getisocountrylist.pl on Sun Nov  2 14:59:20 2003.
 -- Wm. Rhodes <iso_country_list@27.org>
---
+-- 
 
---
+-- 
 -- ISPConfig 3
 -- DB-Version: 3.0.0.9
---
+-- 
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -257,9 +257,9 @@ CREATE TABLE `client_circle` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `client_template`
---
+-- 
 
 CREATE TABLE `client_template` (
   `template_id` int(11) unsigned NOT NULL auto_increment,
@@ -267,7 +267,7 @@ CREATE TABLE `client_template` (
   `sys_groupid` int(11) unsigned NOT NULL default '0',
   `sys_perm_user` varchar(5) default NULL,
   `sys_perm_group` varchar(5) default NULL,
-  `sys_perm_other` varchar(5) default NULL,
+  `sys_perm_other` varchar(5) default NULL,  
   `template_name` varchar(64) NOT NULL,
   `template_type` varchar(1) NOT NULL default 'm',
   `limit_maildomain` int(11) NOT NULL default '-1',
@@ -348,9 +348,9 @@ CREATE TABLE `country` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `cron`
---
+-- 
 CREATE TABLE `cron` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `sys_userid` int(11) unsigned NOT NULL default '0',
@@ -373,9 +373,9 @@ CREATE TABLE `cron` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `directive_snippets`
---
+-- 
 
 CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `directive_snippets_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -393,9 +393,9 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `dns_rr`
---
+-- 
 
 CREATE TABLE `dns_rr` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -443,9 +443,9 @@ CREATE TABLE `dns_slave` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `dns_soa`
---
+-- 
 
 CREATE TABLE `dns_soa` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -475,9 +475,9 @@ CREATE TABLE `dns_soa` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `dns_template`
---
+-- 
 
 CREATE TABLE `dns_template` (
   `template_id` int(11) unsigned NOT NULL auto_increment,
@@ -511,9 +511,9 @@ CREATE TABLE `domain` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `firewall`
---
+-- 
 
 CREATE TABLE `firewall` (
   `firewall_id` int(11) unsigned NOT NULL auto_increment,
@@ -531,9 +531,9 @@ CREATE TABLE `firewall` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `ftp_user`
---
+-- 
 
 CREATE TABLE `ftp_user` (
   `ftp_user_id` int(11) unsigned NOT NULL auto_increment,
@@ -625,9 +625,9 @@ CREATE TABLE `iptables` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_access`
---
+-- 
 
 CREATE TABLE `mail_access` (
   `access_id` int(11) unsigned NOT NULL auto_increment,
@@ -647,9 +647,9 @@ CREATE TABLE `mail_access` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_content_filter`
---
+-- 
 
 CREATE TABLE `mail_content_filter` (
   `content_filter_id` int(11) unsigned NOT NULL auto_increment,
@@ -669,9 +669,9 @@ CREATE TABLE `mail_content_filter` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_domain`
---
+-- 
 
 CREATE TABLE `mail_domain` (
   `domain_id` int(11) unsigned NOT NULL auto_increment,
@@ -682,9 +682,6 @@ CREATE TABLE `mail_domain` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `domain` varchar(255) NOT NULL default '',
-  `dkim` ENUM( 'n', 'y' ) NOT NULL default 'n',
-  `dkim_private` mediumtext NOT NULL default '',
-  `dkim_public` mediumtext NOT NULL default '',
   `active` enum('n','y') NOT NULL,
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
@@ -693,9 +690,9 @@ CREATE TABLE `mail_domain` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_forwarding`
---
+-- 
 
 CREATE TABLE `mail_forwarding` (
   `forwarding_id` int(11) unsigned NOT NULL auto_increment,
@@ -716,9 +713,9 @@ CREATE TABLE `mail_forwarding` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_get`
---
+-- 
 
 CREATE TABLE `mail_get` (
   `mailget_id` int(11) unsigned NOT NULL auto_increment,
@@ -782,9 +779,9 @@ CREATE TABLE IF NOT EXISTS `mail_relay_recipient` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_traffic`
---
+-- 
 
 CREATE TABLE `mail_traffic` (
   `traffic_id` int(11) unsigned NOT NULL auto_increment,
@@ -797,9 +794,9 @@ CREATE TABLE `mail_traffic` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_transport`
---
+-- 
 
 CREATE TABLE `mail_transport` (
   `transport_id` int(11) unsigned NOT NULL auto_increment,
@@ -820,9 +817,9 @@ CREATE TABLE `mail_transport` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_user`
---
+-- 
 
 CREATE TABLE `mail_user` (
   `mailuser_id` int(11) unsigned NOT NULL auto_increment,
@@ -866,9 +863,9 @@ CREATE TABLE `mail_user` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `mail_user_filter`
---
+-- 
 
 CREATE TABLE `mail_user_filter` (
   `filter_id` int(11) unsigned NOT NULL auto_increment,
@@ -1079,9 +1076,9 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `remote_session`
---
+-- 
 
 CREATE TABLE `remote_session` (
   `remote_session` varchar(64) NOT NULL,
@@ -1094,9 +1091,9 @@ CREATE TABLE `remote_session` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `remote_user`
---
+-- 
 
 CREATE TABLE `remote_user` (
   `remote_userid` int(11) unsigned NOT NULL auto_increment,
@@ -1113,9 +1110,9 @@ CREATE TABLE `remote_user` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `server`
---
+-- 
 
 CREATE TABLE `server` (
   `server_id` int(11) unsigned NOT NULL auto_increment,
@@ -1143,9 +1140,9 @@ CREATE TABLE `server` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `server_ip`
---
+-- 
 
 CREATE TABLE `server_ip` (
   `server_ip_id` int(11) unsigned NOT NULL auto_increment,
@@ -1219,9 +1216,9 @@ CREATE TABLE `shell_user` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `software_package`
---
+-- 
 
 CREATE TABLE `software_package` (
   `package_id` int(11) unsigned NOT NULL auto_increment,
@@ -1242,9 +1239,9 @@ CREATE TABLE `software_package` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `software_repo`
---
+-- 
 
 CREATE TABLE `software_repo` (
   `software_repo_id` int(11) unsigned NOT NULL auto_increment,
@@ -1263,9 +1260,9 @@ CREATE TABLE `software_repo` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `software_update`
---
+-- 
 
 CREATE TABLE `software_update` (
   `software_update_id` int(11) unsigned NOT NULL auto_increment,
@@ -1285,9 +1282,9 @@ CREATE TABLE `software_update` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `software_update_inst`
---
+-- 
 
 CREATE TABLE `software_update_inst` (
   `software_update_inst_id` int(11) unsigned NOT NULL auto_increment,
@@ -1301,9 +1298,9 @@ CREATE TABLE `software_update_inst` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `spamfilter_policy`
---
+-- 
 
 CREATE TABLE `spamfilter_policy` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1354,9 +1351,9 @@ CREATE TABLE `spamfilter_policy` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `spamfilter_users`
---
+-- 
 
 CREATE TABLE `spamfilter_users` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1377,9 +1374,9 @@ CREATE TABLE `spamfilter_users` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `spamfilter_wblist`
---
+-- 
 
 CREATE TABLE `spamfilter_wblist` (
   `wblist_id` int(11) unsigned NOT NULL auto_increment,
@@ -1399,9 +1396,9 @@ CREATE TABLE `spamfilter_wblist` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `support_message`
---
+-- 
 
 CREATE TABLE `support_message` (
   `support_message_id` int(11) unsigned NOT NULL auto_increment,
@@ -1450,8 +1447,23 @@ CREATE TABLE IF NOT EXISTS `sys_cron` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table  `sys_datalog`
+-- Table structure for table `sys_cron`
 --
+
+CREATE TABLE IF NOT EXISTS `sys_cron` (
+  `name` varchar(50) NOT NULL,
+  `last_run` datetime NULL DEFAULT NULL,
+  `next_run` datetime NULL DEFAULT NULL,
+  `running` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table  `sys_datalog`
+-- 
 
 CREATE TABLE `sys_datalog` (
   `datalog_id` int(11) unsigned NOT NULL auto_increment,
@@ -1470,9 +1482,9 @@ CREATE TABLE `sys_datalog` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_dbsync`
---
+-- 
 
 CREATE TABLE `sys_dbsync` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1494,9 +1506,9 @@ CREATE TABLE `sys_dbsync` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_filesync`
---
+-- 
 
 CREATE TABLE `sys_filesync` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1514,9 +1526,9 @@ CREATE TABLE `sys_filesync` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_group`
---
+-- 
 
 CREATE TABLE `sys_group` (
   `groupid` int(11) unsigned NOT NULL auto_increment,
@@ -1528,9 +1540,9 @@ CREATE TABLE `sys_group` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_ini`
---
+-- 
 
 CREATE TABLE `sys_ini` (
   `sysini_id` int(11) unsigned NOT NULL auto_increment,
@@ -1540,9 +1552,9 @@ CREATE TABLE `sys_ini` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_log`
---
+-- 
 
 CREATE TABLE `sys_log` (
   `syslog_id` int(11) unsigned NOT NULL auto_increment,
@@ -1608,9 +1620,9 @@ CREATE TABLE IF NOT EXISTS `sys_theme` (
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `sys_user`
---
+-- 
 
 CREATE TABLE `sys_user` (
   `userid` int(11) unsigned NOT NULL auto_increment,
@@ -1631,7 +1643,7 @@ CREATE TABLE `sys_user` (
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
-  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '', 
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1668,11 +1680,10 @@ CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `parent_domain_id` int(10) unsigned NOT NULL,
-  `backup_type` enum('web','mongodb','mysql') NOT NULL DEFAULT 'web',
+  `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `filesize` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1724,15 +1735,14 @@ CREATE TABLE IF NOT EXISTS `web_database_user` (
   `database_user` varchar(64) DEFAULT NULL,
   `database_user_prefix` varchar(50) NOT NULL default '',
   `database_password` varchar(64) DEFAULT NULL,
-  `database_password_mongo` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`database_user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Table structure for table  `web_domain`
---
+-- 
 
 CREATE TABLE `web_domain` (
   `domain_id` int(11) unsigned NOT NULL auto_increment,
@@ -2132,41 +2142,41 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`) VALUE
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `dns_template`
---
+-- 
 
 INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=86400\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600', 'y');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `help_faq`
---
+-- 
 
 INSERT INTO `help_faq` VALUES (1,1,0,'I would like to know ...','Yes, of course.',1,1,'riud','riud','r');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `help_faq_sections`
---
+-- 
 
 INSERT INTO `help_faq_sections` VALUES (1,'General',0,NULL,NULL,NULL,NULL,NULL);
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `software_repo`
---
+-- 
 
 INSERT INTO `software_repo` (`software_repo_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `repo_name`, `repo_url`, `repo_username`, `repo_password`, `active`) VALUES (1, 1, 1, 'riud', 'riud', '', 'ISPConfig Addons', 'http://repo.ispconfig.org/addons/', '', '', 'n');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `spamfilter_policy`
---
+-- 
 
 INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES(1, 1, 0, 'riud', 'riud', 'r', 'Non-paying', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'Y', '', '', '', '', '', '', 3, 7, 10, 0, 0, '', '', '', '', 'N', 'N', 'N', '', '', '', '', '', '', '', 0, '');
 INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `policy_name`, `virus_lover`, `spam_lover`, `banned_files_lover`, `bad_header_lover`, `bypass_virus_checks`, `bypass_spam_checks`, `bypass_banned_checks`, `bypass_header_checks`, `spam_modifies_subj`, `virus_quarantine_to`, `spam_quarantine_to`, `banned_quarantine_to`, `bad_header_quarantine_to`, `clean_quarantine_to`, `other_quarantine_to`, `spam_tag_level`, `spam_tag2_level`, `spam_kill_level`, `spam_dsn_cutoff_level`, `spam_quarantine_cutoff_level`, `addr_extension_virus`, `addr_extension_spam`, `addr_extension_banned`, `addr_extension_bad_header`, `warnvirusrecip`, `warnbannedrecip`, `warnbadhrecip`, `newvirus_admin`, `virus_admin`, `banned_admin`, `bad_header_admin`, `spam_admin`, `spam_subject_tag`, `spam_subject_tag2`, `message_size_limit`, `banned_rulenames`) VALUES(2, 1, 0, 'riud', 'riud', 'r', 'Uncensored', 'Y', 'Y', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, 3, 999, 999, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -2178,34 +2188,34 @@ INSERT INTO `spamfilter_policy` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `sys_group`
---
+-- 
 
 INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (1, 'admin', 'Administrators group', 0);
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `sys_ini`
---
+-- 
 
 INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `sys_user`
---
+-- 
 
 INSERT INTO `sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default', 'global', 'themes/default/images/header_logo.png');
 INSERT INTO `sys_theme` (`var_id`, `tpl_name`, `username`, `logo_url`) VALUES (NULL, 'default-v2', 'global', 'themes/default-v2/images/header_logo.png');
 
 -- --------------------------------------------------------
 
---
+-- 
 -- Dumping data for table `sys_user`
---
+-- 
 
 INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `username`, `passwort`, `modules`, `startmodule`, `app_theme`, `typ`, `active`, `language`, `groups`, `default_group`, `client_id`) VALUES (1, 1, 0, 'riud', 'riud', '', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'dashboard,admin,client,mail,monitor,sites,dns,vm,tools,help', 'dashboard', 'default', 'admin', 1, 'en', '1,2', 1, 0);
 

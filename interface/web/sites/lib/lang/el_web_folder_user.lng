@@ -4,10 +4,10 @@ $wb['username_txt'] = 'Όνομα Χρήστη';
 $wb['password_txt'] = 'Συνθηματικό';
 $wb['active_txt'] = 'Ενεργός';
 $wb['folder_error_empty'] = 'Δεν επιλέχθηκε φάκελος web.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['password_strength_txt'] = 'Ισχύς Συνθηματικού';
+$wb['generate_password_txt'] = 'Δημιουργία Συνθηματικού';
+$wb['repeat_password_txt'] = 'Επανάληψη Συνθηματικού';
+$wb['password_mismatch_txt'] = 'Τα Συνθηματικά δεν ταιριάζουν.';
+$wb['password_match_txt'] = 'Τα Συνθηματικά ταιριάζουν.';
 $wb['no_folder_perm'] = 'You have no permission for this folder.';
 ?>

@@ -125,20 +125,7 @@ $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE t
 if(isset($record['data'])) {
 	$data = unserialize($record['data']);
 
-  $logData = explode("\n", htmlspecialchars($data));
-  $logDataHtml = '';
-  /* set css class for each line of log, depending on key words in each line */
-  foreach($logData as $val) {
-    if (strpos($val, 'ERROR') !== FALSE) {
-      $logDataHtml .= "<div class='logerror'>$val</div>";   
-    } elseif (strpos($val, 'WARN') !== FALSE) {
-      $logDataHtml .= "<div class='logwarn'>$val</div>";   
-    } elseif (strpos($val, 'INFO') !== FALSE) {
-      $logDataHtml .= "<div class='loginfo'>$val</div>";   
-    } else {
-      $logDataHtml .= "<div class='log'>$val</div>";   
-    }
-  }
+	$logData = nl2br(htmlspecialchars($data));
 
 	$app->tpl->setVar("log_data", $logData);
 } else {

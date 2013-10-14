@@ -2,5 +2,5 @@
 $wb['list_head_txt'] = 'Domains';
 $wb['add_new_record_txt'] = 'Νέο Domain';
 $wb['domain_txt'] = 'Domain';
-$wb['user_txt'] = 'Client';
+$wb['user_txt'] = 'Πελάτης';
 ?>

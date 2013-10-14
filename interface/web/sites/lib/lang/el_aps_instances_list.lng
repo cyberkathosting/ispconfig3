@@ -1,13 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
-$wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
-$wb['reinstall_txt'] = 'Reinstall';
+$wb['list_head_txt'] = 'Εγκατεστημένα Πακέτα';
+$wb['name_txt'] = 'Όνομα';
+$wb['version_txt'] = 'Έκδοση';
+$wb['customer_txt'] = 'Πελάτης';
+$wb['status_txt'] = 'Κατάσταση';
+$wb['install_location_txt'] = 'Τοποθεσία εγκατάστασης';
+$wb['pkg_delete_confirmation'] = 'Θέλετε οπωσδήποτε να διαγράψετε αυτή την εγκατάσταση?';
+$wb['pkg_reinstall_confirmation'] = 'Θέλετε οπωσδήποτε να ξανακάνετε την εγκατάσταση αυτού του πακέτου με τις ίδιες ρυθμίσεις?';
+$wb['filter_txt'] = 'Αναζήτηση';
+$wb['delete_txt'] = 'Διαγραφή';
+$wb['reinstall_txt'] = 'Επανεγκατάσταση';
 ?>

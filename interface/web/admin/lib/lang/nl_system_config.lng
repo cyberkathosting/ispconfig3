@@ -16,9 +16,6 @@ $wb['shelluser_prefix_error_regex'] = 'Char niet toegestaan in shell gebruiker v
 $wb['webdavuser_prefix_error_regex'] = 'Char niet toegestaan in webdav gebruiker voorvoegsel.';
 $wb['dblist_phpmyadmin_link_txt'] = 'Link naar phpmyadmin in DB lijst';
 $wb['mailboxlist_webmail_link_txt'] = 'Link naar webmail in Mailbox lijst';
-$wb['mailbox_show_autoresponder_tab_txt'] = 'Toon Autoresponder tabblad in Mailbox detail';
-$wb['mailbox_show_mail_filter_tab_txt'] = 'Toon Mail Filter tabblad in Mailbox detail';
-$wb['mailbox_show_custom_rules_tab_txt'] 'Toon Custom Rules tabblad in Mailbox detail';
 $wb['webmail_url_txt'] = 'Webmail URL';
 $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 $wb['use_domain_module_txt'] = 'Gebruik de domein-module om nieuwe domeinen toe te voegen';
@@ -55,4 +52,11 @@ $wb['mailbox_show_custom_rules_tab_txt'] = 'Show custom mailfilter tab in mail a
 $wb['webmail_url_error_regex'] = 'Invalid webmail URL';
 $wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
 $wb['webmail_url_note_txt'] = 'Placeholder:';
+$wb['available_dashlets_note_txt'] = 'Available Dashlets:';
+$wb['admin_dashlets_left_txt'] = 'Left Admin Dashlets';
+$wb['admin_dashlets_right_txt'] = 'Right Admin Dashlets';
+$wb['reseller_dashlets_left_txt'] = 'Left Reseller Dashlets';
+$wb['reseller_dashlets_right_txt'] = 'Right Reseller Dashlets';
+$wb['client_dashlets_left_txt'] = 'Left Client Dashlets';
+$wb['client_dashlets_right_txt'] = 'Right Client Dashlets';
 ?>

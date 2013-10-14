@@ -6,3 +6,4 @@ $wb['add_new_record_txt'] = 'Neues E-Mail Konto hinzufügen';
 $wb['name_txt'] = 'Realname';
 $wb['login_txt'] = 'Anmelden';
 ?>
+

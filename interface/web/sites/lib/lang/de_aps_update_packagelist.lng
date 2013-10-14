@@ -1,7 +1,8 @@
 <?php
 $wb['head_txt'] = 'Paketliste aktualisieren';
-$wb['list_desc_txt'] = '';
+$wb['list_desc_txt'] = 'APS Paketlisten aktualisieren.';
 $wb['btn_start_txt'] = 'Paketliste aktualisieren';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['legend_txt'] = 'Hier können Sie die Liste der verfügbaren Pakete aktualisieren. Dies kann bis zu fünf Minuten dauern. Wenn Sie möchten, können Sie diese Seite verlassen; der Prozeß läuft im Hintergrund weiter.';
 ?>
+

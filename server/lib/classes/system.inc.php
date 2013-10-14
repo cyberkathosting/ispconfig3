@@ -780,7 +780,8 @@ class system{
 		if(substr($path,0,1) != '/') return false;
 		
 		//* We allow only some characters in the path
-		if(!preg_match('/^\/[a-zA-Z0-9_\/\.\-]{1,}$/',$path)) return false;
+		// * is allowed, for example it is part of wildcard certificates/keys: *.example.com.crt
+		if(!preg_match('@^/[-a-zA-Z0-9_/.*~]{1,}$@',$path)) return false;
 		
 		//* Check path for symlinks
 		$path_parts = explode('/',$path);

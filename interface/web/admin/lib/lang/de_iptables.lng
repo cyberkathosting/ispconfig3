@@ -6,8 +6,9 @@ $wb['protocol_txt'] = 'Protokoll';
 $wb['table_txt'] = 'Table';
 $wb['target_txt'] = 'Ziel';
 $wb['state_txt'] = 'Status';
-$wb['destination_ip_txt'] = 'Ziel Address';
+$wb['destination_ip_txt'] = 'Ziel Adresse';
 $wb['source_ip_txt'] = 'Ausgangs Adresse';
 $wb['active_txt'] = 'Aktiv';
 $wb['iptables_error_unique'] = 'Es besteht bereits eine Firewall Regel für diesen Server.';
 ?>
+

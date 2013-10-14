@@ -1,9 +1,10 @@
 <?php
 $wb['email_txt'] = 'E-mail';
-$wb['destination_txt'] = 'Cílový email';
+$wb['destination_txt'] = 'Cílový e-mail';
 $wb['active_txt'] = 'Aktivní';
 $wb['limit_mailforward_txt'] = 'Dosažen maximální počet email předávání pro Váš účet.';
 $wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
 $wb['domain_txt'] = 'Doména';
 $wb['source_txt'] = 'Zdrojový e-mail';
 ?>
+

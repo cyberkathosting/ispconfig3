@@ -455,9 +455,6 @@ class monitor_tools {
 					$logfile = '/var/log/fail2ban.log';
 				}
 				break;
-			case 'log_mongodb':
-					$logfile = '/var/log/mongodb/mongodb.log';
-				break;
 			case 'log_ispconfig':
 				if ($dist == 'debian') {
 					$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';

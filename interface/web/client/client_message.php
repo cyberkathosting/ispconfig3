@@ -91,10 +91,15 @@ if(isset($_POST) && count($_POST) > 1) {
 				//* Parse client details into message
 				$message = $_POST['message'];
 				foreach($client as $key => $val) {
-					if($key != 'password'){
-						$message = str_replace('{'.$key.'}', $val, $message);
-					} else {
-						$message = str_replace('{'.$key.'}', '---', $message);
+					switch ($key) {
+						case 'password':
+							$message = str_replace('{'.$key.'}', '---', $message);
+							break;
+						case 'gender':
+							$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
+							break;
+						default:
+							$message = str_replace('{'.$key.'}', $val, $message);
 					}
 				}
 				
@@ -145,7 +150,13 @@ $sql = "SHOW COLUMNS FROM client WHERE Field NOT IN ('client_id', 'sys_userid', 
 $field_names = $app->db->queryAllRecords($sql);
 if(!empty($field_names) && is_array($field_names)){
 	foreach($field_names as $field_name){
-		if($field_name['Field'] != '') $message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{'.$field_name['Field'].'}</a> ';
+		if($field_name['Field'] != ''){
+			if($field_name['Field'] == 'gender'){
+				$message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{salutation}</a> ';
+			} else {
+				$message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{'.$field_name['Field'].'}</a> ';
+			}
+		}
 	}
 }
 $app->tpl->setVar('message_variables',trim($message_variables));

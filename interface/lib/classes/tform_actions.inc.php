@@ -77,7 +77,16 @@ class tform_actions {
 
         function onSubmit() {
                 global $app, $conf;
-
+                
+                // check if the client is locked - he may not change anything, then.
+				if(!$app->auth->is_admin()) {
+					$client_group_id = $_SESSION["s"]["user"]["default_group"];
+					$client = $app->db->queryOneRecord("SELECT client.locked FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$app->functions->intval($client_group_id));
+					if(is_array($client) && $client['locked'] == 'y') {
+						$app->tform->errorMessage .= $app->lng("client_you_are_locked")."<br />";
+					}
+				}
+                
                 // Calling the action functions
                 if($this->id > 0) {
 					$app->tform->action == 'EDIT';

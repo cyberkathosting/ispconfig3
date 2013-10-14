@@ -2,10 +2,10 @@
 $wb['list_head_txt'] = 'Datenbank';
 $wb['active_txt'] = 'Aktiv';
 $wb['remote_access_txt'] = 'Remotezugriff';
-$wb['type_txt'] = 'Typ';
 $wb['server_id_txt'] = 'Server';
-$wb['database_name_txt'] = 'Datenbankname';
+$wb['database_name_txt'] = 'Datenbank Name';
 $wb['add_new_record_txt'] = 'Neue Datenbank hinzufügen';
-$wb['database_user_txt'] = 'Database user';
+$wb['database_user_txt'] = 'Datenbank Benutzer';
 $wb['parent_domain_id_txt'] = 'Domain';
 ?>
+

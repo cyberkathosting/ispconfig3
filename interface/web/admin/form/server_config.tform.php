@@ -86,14 +86,16 @@ $form["tabs"]['server'] = array(
 			'width' => '15',
 			'maxlength' => '255'
 		),
+		/*
 		'v6_prefix' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-						'validators' => array(0 => array('type' => 'ISV6PREFIX',
-										'errmsg' => 'v6_prefix_wrong'),
-						),
+                        'validators' => array(0 => array('type' => 'ISV6PREFIX',
+                                        'errmsg' => 'v6_prefix_wrong'),
+                        ),
 		'default' => ''
 		),
+		*/
 		'gateway' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -117,13 +119,13 @@ $form["tabs"]['server'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => 'server1.domain.tld',
-			'filters'   => array( 0 => array( 'event' => 'SAVE',
-											  'type' => 'IDNTOASCII'),
-								  1 => array( 'event' => 'SHOW',
-											  'type' => 'IDNTOUTF8'),
-								  2 => array( 'event' => 'SAVE',
-											  'type' => 'TOLOWER')
-								),
+            'filters'   => array( 0 => array( 'event' => 'SAVE',
+                                              'type' => 'IDNTOASCII'),
+                                  1 => array( 'event' => 'SHOW',
+                                              'type' => 'IDNTOUTF8'),
+                                  2 => array( 'event' => 'SAVE',
+                                              'type' => 'TOLOWER')
+                                ),
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'hostname_error_empty'),
 			),
@@ -182,9 +184,9 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
-																'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
-																'errmsg'=> 'monit_url_error_regex'),
-												),
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+                                                                'errmsg'=> 'monit_url_error_regex'),
+                                                ),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -210,9 +212,9 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
-																'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
-																'errmsg'=> 'munin_url_error_regex'),
-												),
+                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+                                                                'errmsg'=> 'munin_url_error_regex'),
+                                                ),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -419,8 +421,8 @@ $form["tabs"]['mail'] = array(
 			'formtype' => 'TEXT',
 			'default' => '7',
 			'value' => '',
-			'width' => '20',
-			'maxlength' => '255'
+            'width' => '20',
+            'maxlength' => '255'
 		),
 		'overquota_notify_onok' => array(
 			'datatype' => 'VARCHAR',
@@ -659,8 +661,8 @@ $form["tabs"]['web'] = array(
 			'formtype' => 'TEXT',
 			'default' => '7',
 			'value' => '',
-			'width' => '20',
-			'maxlength' => '255'
+            'width' => '20',
+            'maxlength' => '255'
 		),
 		'overquota_notify_onok' => array(
 			'datatype' => 'VARCHAR',
@@ -816,17 +818,6 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '4000'
-		),
-		'php_ini_check_minutes' => array(
-			'datatype' => 'INTEGER',
-			'formtype' => 'TEXT',
-			'default' => '1',
-			'validators' => array(0 => array('type' => 'NOTEMPTY',
-					'errmsg' => 'php_ini_check_minutes_error_empty'),
-			),
-			'value' => '',
-			'width' => '10',
-			'maxlength' => '255'
 		),
 		'nginx_cgi_socket' => array(
 			'datatype' => 'VARCHAR',
@@ -1301,12 +1292,6 @@ $form["tabs"]['rescue'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'do_not_try_rescue_httpd' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'n',
-			'value' => array(0 => 'n', 1 => 'y')
-		),
-		'do_not_try_rescue_mongodb' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',

@@ -7,3 +7,4 @@ $wb['source_error_notempty'] = 'E-Mail Adresse ist leer.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Die maximale Anzahl an E-Mail Filtern für Ihr Konto wurde erreicht.';
 ?>
+

@@ -11,3 +11,4 @@ $wb['resync_dns_txt'] = 'Resynchronizovat DNS záznamy';
 $wb['btn_start_txt'] = 'Zahájit';
 $wb['btn_cancel_txt'] = 'Zrušit';
 ?>
+

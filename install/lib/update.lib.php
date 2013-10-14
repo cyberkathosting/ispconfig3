@@ -169,7 +169,11 @@ function updateDbAndIni() {
 				if(is_file($php_patch_filename)) {
 					$php_patch_class_name = 'upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT);
 					include_once($php_patch_filename);
-					$php_patch = new $php_patch_class_name;
+					if(class_exists($php_patch_class_name)) {
+						$php_patch = new $php_patch_class_name;
+					} else {
+						swriteln($inst->lng('WARNING: PHP patch file').': '.$php_patch_filename.' '.$inst->lng('contains errors.'));
+					}
 				}
 				
 				//* Exec onBeforeSQL function

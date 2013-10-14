@@ -4,5 +4,6 @@ $wb['language_select_txt'] = 'Sprache auswählen';
 $wb['module_txt'] = 'Modul';
 $wb['lang_file_txt'] = 'Sprachdatei';
 $wb['btn_save_txt'] = 'Speichern';
-$wb['btn_cancel_txt'] = 'Zurück';
+$wb['btn_cancel_txt'] = 'Abbrechen';
 ?>
+

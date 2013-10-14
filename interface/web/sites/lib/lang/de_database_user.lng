@@ -1,6 +1,6 @@
 <?php
-$wb['database_user_txt'] = 'Datenbank-Benutzer';
-$wb['database_password_txt'] = 'Datenbank-Passwort';
+$wb['database_user_txt'] = 'Datenbank Benutzer';
+$wb['database_password_txt'] = 'Datenbank Passwort';
 $wb['client_txt'] = 'Kunde';
 $wb['active_txt'] = 'Aktiv';
 $wb['database_user_error_empty'] = 'Datenbank Benutzer ist leer.';
@@ -21,3 +21,4 @@ $wb['globalsearch_noresults_limit_txt'] = '0 Treffer';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Suche';
 $wb['globalsearch_suggestions_text_txt'] = 'Vorschläge';
 ?>
+

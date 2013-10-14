@@ -171,11 +171,11 @@ $wb['web_folder_protection_txt'] = 'Make web folders immutable (extended attribu
 $wb['overtraffic_notify_admin_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení adminovi';
 $wb['overtraffic_notify_client_txt'] = 'Při překročení limitu přenesených dat, poslat oznámení klientovi';
 $wb['rbl_error_regex'] = 'Please specify valid RBL hostnames.';
-$wb['overquota_notify_admin_txt'] = 'Send quota warnings to admin';
-$wb['overquota_notify_client_txt'] = 'Send quota warnings to client';
+$wb['overquota_notify_admin_txt'] = 'Poslat varování o překročení nebo vyčerpání kvót adminovi';
+$wb['overquota_notify_client_txt'] = 'Poslat varování o překročení nebo vyčerpání kvót uživateli';
 $wb['overquota_notify_onok_txt'] = 'Send quota ok message to client';
-$wb['overquota_notify_freq_txt'] = 'Send quota warning each X days';
-$wb['overquota_notify_freq_note_txt'] = '0 = send message just once, no repeated messages';
+$wb['overquota_notify_freq_txt'] = 'Poslat varování o kvótách každý X dní';
+$wb['overquota_notify_freq_note_txt'] = '0 = poslat zprávu pouze jednou, žádné opakované zprávy';
 $wb['admin_notify_events_txt'] = 'Send email to admin starting with the following level';
 $wb['no_notifications_txt'] = 'No Notifications';
 $wb['monit_url_txt'] = 'Monit URL';
@@ -189,3 +189,4 @@ $wb['munin_password_txt'] = 'Munin Password';
 $wb['munin_url_error_regex'] = 'Invalid Munin URL';
 $wb['munin_url_note_txt'] = 'Placeholder:';
 ?>
+

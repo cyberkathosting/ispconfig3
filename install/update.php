@@ -101,6 +101,7 @@ $conf['theme'] = $conf_old['theme'];
 if($conf['language'] == '{language}') $conf['language'] = 'en';
 $conf['timezone'] = (isset($conf_old['timezone']))?$conf_old['timezone']:'UTC';
 if($conf['timezone'] == '{timezone}' or trim($conf['timezone']) == '') $conf['timezone'] = 'UTC';
+$conf['language_file_import_enabled'] = (isset($conf_old['language_file_import_enabled']))?$conf_old['language_file_import_enabled']:true;
 
 if(isset($conf_old["dbmaster_host"])) $conf["mysql"]["master_host"] = $conf_old["dbmaster_host"];
 if(isset($conf_old["dbmaster_database"])) $conf["mysql"]["master_database"] = $conf_old["dbmaster_database"];
@@ -343,15 +344,10 @@ if($reconfigure_services_answer == 'yes') {
 
 	
 	if($conf['services']['firewall']) {
-		if($conf['ufw']['installed'] == true) {
-			//* Configure Ubuntu Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Ubuntu Firewall');
-			$inst->configure_ufw_firewall();
-		} else {
+		if($conf['bastille']['installed'] == true) {
 			//* Configure Bastille Firewall
 			swriteln('Configuring Bastille Firewall');
-			$inst->configure_bastille_firewall();
+			$inst->configure_firewall();
 		}
 	}
 	
@@ -433,7 +429,7 @@ if($reconfigure_services_answer == 'yes') {
 	}
 	
 	if($conf['services']['firewall']) {
-		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
+		//if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
 

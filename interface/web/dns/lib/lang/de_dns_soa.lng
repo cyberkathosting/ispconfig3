@@ -36,3 +36,4 @@ $wb['minimum_range_error'] = 'Min. Minimum ist 60 Sekunden.';
 $wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
 $wb['xfer_error_regex'] = 'Bitte Beachten: Verwenden Sie eine IP Adresse.';
 ?>
+

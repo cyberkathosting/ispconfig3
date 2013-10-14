@@ -7,3 +7,4 @@ $wb['duplicate_mailbox_txt'] = 'Es existiert bereits ein E-Mail Konto mit dieser
 $wb['domain_txt'] = 'Domain';
 $wb['source_txt'] = 'Quell E-Mail Adresse';
 ?>
+

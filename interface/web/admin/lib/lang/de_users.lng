@@ -31,3 +31,4 @@ $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['username_error_collision'] = 'Der Benutzername darf nicht <b>web<b> oder <b>web<b> gefolgt von einer Zahl sein.';
 ?>
+

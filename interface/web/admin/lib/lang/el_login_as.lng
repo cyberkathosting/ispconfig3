@@ -1,11 +1,11 @@
 <?php
-$wb['login_1_txt'] = 'Do you want to login as user';
-$wb['login_2_txt'] = 'If you do so, you can \\"go back\\" by clicking at logout.';
-$wb['btn_yes_txt'] = 'Yes, login as Client';
-$wb['btn_back_txt'] = 'No, back to list';
-$wb['udp_port_help_txt'] = 'Separated by comma';
-$wb['active_txt'] = 'Active';
-$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
-$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
-$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+$wb['login_1_txt'] = 'Θέλετε να εισέλθετε ως χρήστης;';
+$wb['login_2_txt'] = 'Αν το κάνετε, μπορείτε να  \\"επιστρέψετε\\" κάνοντας αποσύνδεση.';
+$wb['btn_yes_txt'] = 'Ναι, είσοδος ως Πελάτης';
+$wb['btn_back_txt'] = 'Όχι, επιστροφή στην λίστα';
+$wb['udp_port_help_txt'] = 'διαχωρισμός με κόμα';
+$wb['active_txt'] = 'Εν Ενεργεία';
+$wb['firewall_error_unique'] = 'Υπάρχει ήδη μια εγγραφή Firewall για αυτόν τον server.';
+$wb['tcp_ports_error_regex'] = 'Μη έγκυρος χαρακτήρας για τον ορισμός θύρας tcp. Επιτρεπόμενοι χαρακτήρες είναι οι αριθμοί, η \\":\\" και οι \\",\\".';
+$wb['udp_ports_error_regex'] = 'Μη έγκυρος χαρακτήρας για τον ορισμός θύρας udp. Επιτρεπόμενοι χαρακτήρες είναι οι αριθμοί, η \\":\\" και οι \\",\\".';
 ?>

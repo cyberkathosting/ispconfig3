@@ -9,3 +9,4 @@ $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalldatensatz für die
 $wb['tcp_ports_error_regex'] = 'Zeichen nicht erlaubt in TCP Port Definition. Erlaubte Zeichen sind Nummern, : und ,.';
 $wb['udp_ports_error_regex'] = 'Zeichen nicht erlaubt in UDP Port Definition. Erlaubte Zeichen sind Nummern, : und ,.';
 ?>
+

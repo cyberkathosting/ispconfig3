@@ -195,11 +195,6 @@ $items[] = array( 'title' 	=> "Show fail2ban-Log",
                   'link'	=> 'monitor/show_data.php?type=fail2ban',
                   'html_id' => 'fai2ban');
 
-$items[] = array( 'title' 	=> "Show MongoDB-Log",
-                  'target' 	=> 'content',
-                  'link'	=> 'monitor/show_data.php?type=mongodb',
-                  'html_id' => 'mongodb');
-
 $items[] = array( 'title' 	=> "Show IPTables",
                   'target' 	=> 'content',
                   'link'	=> 'monitor/show_data.php?type=iptables',

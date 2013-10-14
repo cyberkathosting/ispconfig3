@@ -1,6 +1,6 @@
 <?php
 $wb['database_user_txt'] = 'Uživatel databáze';
-$wb['database_password_txt'] = 'Heslo databazového uživatele';
+$wb['database_password_txt'] = 'Heslo databázového uživatele';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
 $wb['client_txt'] = 'Klient';
 $wb['active_txt'] = 'Aktivní';
@@ -21,3 +21,4 @@ $wb['globalsearch_noresults_limit_txt'] = '0 výsledků';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 ?>
+

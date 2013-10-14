@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Webseiten Festplattenbeschränkung';
-$wb['domain_txt'] = 'Domain / Webseite';
-$wb['system_user_txt'] = 'Linux Benutzer';
+$wb['list_head_txt'] = 'Webseiten Speicherplatz';
+$wb['domain_txt'] = 'Domain';
+$wb['system_user_txt'] = 'System Benutzer';
 $wb['used_txt'] = 'Verwendeter Speicherplatz';
 $wb['hard_txt'] = 'Hard Limit';
 $wb['soft_txt'] = 'Soft Limit';
 $wb['files_txt'] = 'Dateien';
 ?>
+

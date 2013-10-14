@@ -193,7 +193,8 @@ class mail_plugin {
 		$mailTarget       = $data["new"]["email"];
 		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
 
-		mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
+		//* Send the welcome email only on the "master" mail server to avoid duplicate emails
+		if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
 		
 	}
 	

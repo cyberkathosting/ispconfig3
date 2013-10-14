@@ -16,3 +16,4 @@ $wb['source_server_error_regex'] = 'POP3/IMAP server není validní doménový n
 $wb['source_read_all_txt'] = 'Načíst všechny e-maily (včetně již přečtené pošty)';
 $wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>
+

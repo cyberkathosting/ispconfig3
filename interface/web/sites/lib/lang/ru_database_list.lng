@@ -6,4 +6,5 @@ $wb['server_id_txt'] = 'Сервер';
 $wb['database_name_txt'] = 'Имя БД';
 $wb['add_new_record_txt'] = 'Добавить новую БД';
 $wb['database_user_txt'] = 'Database user';
+$wb['parent_domain_id_txt'] = 'Website';
 ?>

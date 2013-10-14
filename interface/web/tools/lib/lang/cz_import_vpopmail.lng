@@ -1,0 +1,8 @@
+<?php
+$wb['head_txt'] = 'Importovat e-mailové konfigurace z Vpopmail';
+$wb['legend_txt'] = 'Remote database server connection details';
+$wb['btn_start_txt'] = 'Spustit import';
+$wb['btn_connect_txt'] = 'Připojit ke vzdálenému serveru';
+$wb['btn_cancel_txt'] = 'Zrušit';
+?>
+

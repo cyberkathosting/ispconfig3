@@ -16,9 +16,9 @@ $wb['db_history_txt'] = 'Ιστορικό Αναίρεσης';
 $wb['tab_default_txt'] = 'Προεπιλεγμένη Καρτέλα';
 $wb['list_default_txt'] = 'Προεπιλεγμένη Λίστα';
 $wb['auth_txt'] = 'Δικαιώματα';
-$wb['auth_preset_userid_txt'] = 'UserID';
-$wb['auth_preset_groupid_txt'] = 'GroupID';
-$wb['auth_preset_perm_user_txt'] = 'Perm. User';
-$wb['auth_preset_perm_group_txt'] = 'Perm. Group';
-$wb['auth_preset_perm_other_txt'] = 'Perm. Other';
+$wb['auth_preset_userid_txt'] = 'ID Χρήστη';
+$wb['auth_preset_groupid_txt'] = 'ID Ομάδας';
+$wb['auth_preset_perm_user_txt'] = 'Δικαιώμ. Χρήστη';
+$wb['auth_preset_perm_group_txt'] = 'Δικαιώμ. Ομάδας';
+$wb['auth_preset_perm_other_txt'] = 'Δικαιώμ. Άλλων';
 ?>

@@ -75,12 +75,6 @@ $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 # Set the log_level to 5 for debugging
 $log_level = 0;                # (defaults to 0)
 
-# DKIM
-
-$enable_dkim_verification = 1;
-$enable_dkim_signing = 1; # load DKIM signing code,
-@dkim_signature_options_bysender_maps = (
-{ '.' => { ttl => 21*24*3600, c => 'relaxed/simple' } } );
 
 #------------ Do not modify anything below this line -------------
 1;  # insure a defined return
