@@ -7,4 +7,3 @@ $wb['groups_txt'] = 'Gruppen';
 $wb['add_new_record_txt'] = 'Neuen Benutzer hinzufügen';
 $wb['warning_txt'] = '<b>WARNUNG:</b> Bitte hier keine Benutzereinstellungen verändern. Benutzen Sie die Kunden- und Resellereinstellungen im Kundenmodul. Modifizieren der Benutzer oder Gruppen hier könnte zum Datenverlust führen!';
 ?>
-

@@ -20,4 +20,3 @@ $wb['listname_error_unique'] = 'Es beseht bereits eine Mailingliste mit diesem N
 $wb['email_error_isemail'] = 'Die E-Mail Adresse ist falsch.';
 $wb['mailinglist_txt'] = 'Mailingliste';
 ?>
-

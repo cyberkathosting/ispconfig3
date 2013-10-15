@@ -15,5 +15,6 @@ $wb['recipient_txt'] = 'Empfänger';
 $wb['all_clients_resellers_txt'] = 'Alle Kunden und Reseller';
 $wb['all_clients_txt'] = 'Alle Kunden';
 $wb['variables_txt'] = 'Variablen:';
+$wb['gender_m_txt'] = 'Herr';
+$wb['gender_f_txt'] = 'Frau';
 ?>
-

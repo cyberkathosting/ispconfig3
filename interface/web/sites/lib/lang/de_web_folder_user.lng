@@ -11,4 +11,3 @@ $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['no_folder_perm'] = 'Sie haben keine Berechtigung für diesen Ordner.';
 ?>
-

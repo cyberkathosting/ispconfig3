@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Benutzerberechtigungen';
 $wb['auth_preset_perm_group_txt'] = 'Gruppenberechtigungen';
 $wb['auth_preset_perm_other_txt'] = 'andere Berechtigungen';
 ?>
-

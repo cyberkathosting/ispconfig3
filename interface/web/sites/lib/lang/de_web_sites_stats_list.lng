@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Webseiten Datentransfer';
+$wb['list_head_txt'] = 'Webseiten-Datentransfer';
 $wb['domain_txt'] = 'Domain';
 $wb['this_month_txt'] = 'Aktueller Monat';
-$wb['last_month_txt'] = 'Vergangenes Monat';
+$wb['last_month_txt'] = 'Vergangener Monat';
 $wb['this_year_txt'] = 'Aktuelles Jahr';
 $wb['last_year_txt'] = 'Vergangenes Jahr';
 $wb['sum_txt'] = 'Summe';
 ?>
-

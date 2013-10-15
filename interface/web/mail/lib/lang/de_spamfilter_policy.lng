@@ -36,4 +36,3 @@ $wb['spam_admin_txt'] = 'SPAM Administrator';
 $wb['message_size_limit_txt'] = 'Nachrichtengrößen Limit';
 $wb['banned_rulenames_txt'] = 'Banned Richtliniennamen';
 ?>
-

@@ -23,7 +23,7 @@ $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';
 $wb['Options'] = 'Optionen';
 $wb['Domain'] = 'Domain';
-$wb['Redirect'] = 'Weiterleitung';
+$wb['Redirect'] = 'Umleitung';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Seiten';
 $wb['APS Installer'] = 'APS Installationsassistent';
@@ -33,4 +33,3 @@ $wb['Update Packagelist'] = 'Paketliste aktualisieren';
 $wb['error_proxy_requires_url'] = 'Weiterleitungstyp ';
 $wb['Subdomain (Vhost)'] = 'Subdomain (vHost)';
 ?>
-

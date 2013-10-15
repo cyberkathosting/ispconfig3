@@ -9,4 +9,3 @@ $wb['template_name_error_empty'] = 'Template-Name ist leer.';
 $wb['template_file_error_empty'] = 'Template-Dateiname ist leer.';
 $wb['Template'] = 'Template';
 ?>
-

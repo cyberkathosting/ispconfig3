@@ -4,4 +4,3 @@ $wb['fields_txt'] = 'Felder';
 $wb['template_txt'] = 'Vorlage';
 $wb['visible_txt'] = 'Sichtbar';
 ?>
-

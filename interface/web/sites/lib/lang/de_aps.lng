@@ -54,6 +54,5 @@ $wb['installation_error_txt'] = 'Installationsfehler';
 $wb['installation_success_txt'] = 'Installiert';
 $wb['installation_remove_txt'] = 'Deinstallation vorgemerkt';
 $wb['packagelist_update_finished_txt'] = 'APS Paketlistenupdate beendet.';
-$wb['limit_aps_txt'] = 'Die maximale Anzahl an APS Instanzen für Ihr Konto wurde erreicht.';
+$wb['limit_aps_txt'] = 'Die maximale Anzahl an APS-Instanzen für Ihr Konto wurde erreicht.';
 ?>
-

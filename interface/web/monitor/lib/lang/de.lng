@@ -153,4 +153,3 @@ $wb['Show Munin'] = 'Munin anzeigen';
 $wb['no_munin_url_defined_txt'] = 'Keine Munin-URL definiert.';
 $wb['no_permissions_to_view_munin_txt'] = 'Sie haben nicht die Berechtigung, auf Munin zuzugreifen.';
 ?>
-

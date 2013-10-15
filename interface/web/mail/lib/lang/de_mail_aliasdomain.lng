@@ -9,4 +9,3 @@ $wb['source_error_empty'] = 'Quell Domain ist leer.';
 $wb['source_error_unique'] = 'Quell Domain duplizieren.';
 $wb['source_error_regex'] = 'Ungültiger Quell Domainname.';
 ?>
-

@@ -9,4 +9,3 @@ $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalleintrag für diese
 $wb['tcp_ports_error_regex'] = 'Es sind nur Zahlen in der TCP Port Definition erlaubt. ';
 $wb['udp_ports_error_regex'] = 'Es sind nur Zahlen in der UDP Port Definition erlaubt., ';
 ?>
-

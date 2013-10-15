@@ -52,5 +52,11 @@ $wb['mailbox_show_custom_rules_tab_txt'] = 'Zeige Benutzerregel Reiter in E-Mail
 $wb['webmail_url_error_regex'] = 'Falsche Webmail URL';
 $wb['phpmyadmin_url_note_txt'] = 'Platzhalter:';
 $wb['webmail_url_note_txt'] = 'Platzhalter:';
+$wb['available_dashlets_note_txt'] = 'Verfügbare Dashlets:';
+$wb['admin_dashlets_left_txt'] = 'Admin-Dashlets links';
+$wb['admin_dashlets_right_txt'] = 'Admin-Dashlets rechts';
+$wb['reseller_dashlets_left_txt'] = 'Reseller-Dashlets links';
+$wb['reseller_dashlets_right_txt'] = 'Reseller-Dashlets rechts';
+$wb['client_dashlets_left_txt'] = 'Kunden-Dashlets links';
+$wb['client_dashlets_right_txt'] = 'Kunden-Dashlets rechts';
 ?>
-
