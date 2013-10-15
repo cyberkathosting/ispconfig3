@@ -20,7 +20,7 @@ Server
 
 - Add a backend plugin to configure network card settings. The IP address
   settings are stored in the server_ip table.
--- This works now on Debian Squeeze (Lenny too I would guess) 2011-06-28
+-- This works now on Debian and Ubuntu Linux.
 
 
 Mail module
