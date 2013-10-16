@@ -525,9 +525,16 @@ class page_action extends tform_actions {
             if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
             if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
             if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
+			
+			// only generate quota and traffic warnings if value has changed
+			if($this->id > 0) {
+				$old_web_values = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+			} else {
+				$old_web_values = $_POST;
+			}
             
 			//* Check the website quota of the client
-			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0) {
+			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
 				$webquota = $tmp["webquota"];
 				$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
@@ -543,7 +550,7 @@ class page_action extends tform_actions {
 			}
 
 			//* Check the traffic quota of the client
-			if(isset($_POST["traffic_quota"]) && $client["limit_traffic_quota"] > 0) {
+			if(isset($_POST["traffic_quota"]) && $client["limit_traffic_quota"] > 0 && $_POST["traffic_quota"] != $old_web_values["traffic_quota"]) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 				$trafficquota = $tmp["trafficquota"];
 				$new_traffic_quota = $app->functions->intval($this->dataRecord["traffic_quota"]);
@@ -563,7 +570,7 @@ class page_action extends tform_actions {
 				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
 
 				//* Check the website quota of the client
-				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0) {
+				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
 					$webquota = $tmp["webquota"];
 					$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
@@ -579,7 +586,7 @@ class page_action extends tform_actions {
 				}
 
 				//* Check the traffic quota of the client
-				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0) {
+				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0 && $_POST["traffic_quota"] != $old_web_values["traffic_quota"]) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
 					$trafficquota = $tmp["trafficquota"];
 					$new_traffic_quota = $app->functions->intval($this->dataRecord["traffic_quota"]);
