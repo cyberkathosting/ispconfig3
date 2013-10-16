@@ -2490,6 +2490,7 @@ class nginx_plugin {
 	private function nginx_replace($matches){
 		$location = 'location'.($matches[1] != '' ? ' '.$matches[1] : '').' '.$matches[2].' '.$matches[3];
 		if($matches[4] == '##merge##' || $matches[7] == '##merge##') $location .= ' ##merge##';
+		if($matches[4] == '##delete##' || $matches[7] == '##delete##') $location .= ' ##delete##';
 		$location .= "\n";
 		$location .= $matches[5]."\n";
 		$location .= $matches[6];
@@ -2528,7 +2529,7 @@ class nginx_plugin {
 					}
 				}
 				*/
-				$pattern = '/^[^\S\n]*location[^\S\n]+(?:(.+)[^\S\n]+)?(.+)[^\S\n]*(\{)[^\S\n]*(##merge##)?[^\S\n]*(.+)[^\S\n]*(\})[^\S\n]*(##merge##)?[^\S\n]*$/';
+				$pattern = '/^[^\S\n]*location[^\S\n]+(?:(.+)[^\S\n]+)?(.+)[^\S\n]*(\{)[^\S\n]*(##merge##|##delete##)?[^\S\n]*(.+)[^\S\n]*(\})[^\S\n]*(##merge##|##delete##)?[^\S\n]*$/';
 				$lines[$h] = preg_replace_callback($pattern, array($this, 'nginx_replace') ,$lines[$h]);
 			}
 		}
@@ -2540,6 +2541,7 @@ class nginx_plugin {
 			
 		if(is_array($lines) && !empty($lines)){	
 			$locations = array();
+			$locations_to_delete = array();
 			$islocation = false;
 			$linecount = sizeof($lines);
 			$server_count = 0;
@@ -2566,12 +2568,12 @@ class nginx_plugin {
 					unset($loc_parts);
 					
 					if(!isset($locations[$location]['action'])) $locations[$location]['action'] = 'replace';
-					if(substr($l, -9) == '##merge##'){
-						$locations[$location]['action'] = 'merge';
-					}
+					if(substr($l, -9) == '##merge##') $locations[$location]['action'] = 'merge';
+					if(substr($l, -10) == '##delete##') $locations[$location]['action'] = 'delete';
 					
 					if(!isset($locations[$location]['open_tag'])) $locations[$location]['open_tag'] = '        location '.$location.' {';
 					if(!isset($locations[$location]['location']) || $locations[$location]['action'] == 'replace') $locations[$location]['location'] = '';
+					if($locations[$location]['action'] == 'delete') $locations_to_delete[] = $location;
 					if(!isset($locations[$location]['end_tag'])) $locations[$location]['end_tag'] = '        }';
 					if(!isset($locations[$location]['start_line'])) $locations[$location]['start_line'] = $i;
 
@@ -2598,6 +2600,12 @@ class nginx_plugin {
 			}
 			
 			if(is_array($locations) && !empty($locations)){
+				if(is_array($locations_to_delete) && !empty($locations_to_delete)){
+					foreach($locations_to_delete as $location_to_delete){
+						if(isset($locations[$location_to_delete])) unset($locations[$location_to_delete]);
+					}
+				}
+			
 				foreach($locations as $key => $val){
 					$new_location = $val['open_tag']."\n".$val['location'].$val['end_tag'];
 					$lines[$val['start_line']] = $new_location;
