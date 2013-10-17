@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
 Copyright (c) 2007 - 2013, Till Brehm, projektfarm Gmbh
 Copyright (c) 2013, Florian Schaal, info@schaal-24.de
 All rights reserved.
@@ -27,6 +27,9 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
 OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+@author Florian Schaal, info@schaal-24.de
+@copyrighth Florian Schaal, info@schaal-24.de
 */
 
 class mail_plugin_dkim {
@@ -37,9 +40,9 @@ class mail_plugin_dkim {
 	// private variables
 	var $action = '';
 
-	/* 
-		This function is called during ispconfig installation to determine
-		if a symlink shall be created for this plugin.
+	/** 
+	* This function is called during ispconfig installation to determine
+	* if a symlink shall be created for this plugin.
 	*/
 	function onInstall() {
 		global $conf;
@@ -52,8 +55,8 @@ class mail_plugin_dkim {
 
 	}
 
-	/*
-	 	This function is called when the plugin is loaded
+	/**
+	* This function is called when the plugin is loaded
 	*/
 	function onLoad() {
 		global $app,$conf;
@@ -65,8 +68,9 @@ class mail_plugin_dkim {
 		$app->plugins->registerEvent('mail_domain_update',$this->plugin_name,'domain_dkim_update');
 	}
 
-        /*
-                This function gets the amavisd-config file
+        /**
+        * This function gets the amavisd-config file
+	* @return string path to the amavisd-config for dkim-keys
         */
 	function get_amavis_config() {
 		$pos_config=array(
@@ -84,9 +88,11 @@ class mail_plugin_dkim {
 		return $amavis_configfile;
 	}
 
-	/*
-		This function checks the relevant configs and disables dkim for the domain 
-		if the directory for dkim is not writeable or does not exist
+	/**
+	* This function checks the relevant configs and disables dkim for the domain 
+	* if the directory for dkim is not writeable or does not exist
+	* @param array $data mail-settings
+	* @return boolean - true when the amavis-config and the dkim-dir are writeable
 	*/
 	function check_system($data) {
 		global $app,$mail_config;
@@ -105,25 +111,29 @@ class mail_plugin_dkim {
 				$check=false;
                		}
 		} else {
-			$app->log('Unable to write DKIM settings. Check your config!',LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings; Check your config!',LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
 	}
         
-	/*
-		This function restarts amavis
+	/**
+	* This function restarts amavis
 	*/
 	function restart_amavis() {
 		global $app,$conf;
 		$initfile=$conf['init_scripts'].'/amavis';
-		$app->log('Reloading amavis.',LOGLEVEL_DEBUG);
-		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' reload',$output);
+		$app->log('Restarting amavis.',LOGLEVEL_DEBUG);
+		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' restart',$output);
 		foreach($output as $logline) $app->log($logline,LOGLEVEL_DEBUG);
 	}
 
-	/*
-                This function writes the keyfiles (public and private)
+	/**
+        * This function writes the keyfiles (public and private)
+	* @param string $key_file full path to the key-file
+	* @param string $key_value private-key
+	* @param string $key_domain mail-domain
+	* @return bool - true when the key is written to disk
         */
 	function write_dkim_key($key_file,$key_value,$key_domain) {
                 global $app,$mailconfig;
@@ -143,8 +153,10 @@ class mail_plugin_dkim {
 		return $success;
 	}
 
-	/*
-		This function removes the keyfiles
+	/**
+	* This function removes the keyfiles
+	* @param string $key_file full path to the key-file
+	* @param string $key_domain mail-domain
 	*/
 	function remove_dkim_key($key_file,$key_domain) {
 		global $app;
@@ -158,8 +170,9 @@ class mail_plugin_dkim {
 		} else $app->log('Unable to delete the DKIM Public-key for '.$key_domain.' (not found).',LOGLEVEL_DEBUG);
 	}
 
-	/*
-		This function adds the entry to the amavisd-config
+	/**
+	* This function adds the entry to the amavisd-config
+	* @param string $key_domain mail-domain
 	*/
 	function add_to_amavis($key_domain) {
 		global $app,$mail_config;
@@ -172,8 +185,9 @@ class mail_plugin_dkim {
 		}
 	}
 
-	/*
-		This function removes the entry from the amavisd-config
+	/**
+	* This function removes the entry from the amavisd-config
+	* @param string $key_domain mail-domain
 	*/
 	function remove_from_amavis($key_domain) {
 		global $app;
@@ -193,24 +207,31 @@ class mail_plugin_dkim {
 		} else $app->log('Unable to delete the DKIM settings from amavis-config for '.$key_domain.'.',LOGLEVEL_ERROR);
 	}
 
-	/*
-		This function controlls new key-files and amavisd-entries
+	/**
+	* This function controlls new key-files and amavisd-entries
+	* @param array $data mail-settings
 	*/
 	function add_dkim($data) {
 		global $app;
-                $mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		if ( substr($mail_config['dkim_path'],strlen($mail_config['dkim_path'])-1) == '/' )
-			$mail_config['dkim_path'] = substr($mail_config['dkim_path'],0,strlen($mail_config['dkim_path'])-1);
-		if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'],$data['new']['dkim_private'],$data['new']['domain'])) {
-	       	        $this->add_to_amavis($data['new']['domain']);
-		} else {
-			$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.',LOGLEVEL_ERROR);
+		if ($data['new']['active'] == 'y') {
+	                $mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			if ( substr($mail_config['dkim_path'],strlen($mail_config['dkim_path'])-1) == '/' )
+				$mail_config['dkim_path'] = substr($mail_config['dkim_path'],0,strlen($mail_config['dkim_path'])-1);
+			if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'],$data['new']['dkim_private'],$data['new']['domain'])) {
+	       		        $this->add_to_amavis($data['new']['domain']);
+			} else {
+				$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.',LOGLEVEL_ERROR);
+			}
+		}
+		else {
+			$app->log('DKIM for '.$data['new']['domain'].' not written to disk - domain is inactive',LOGLEVEL_DEBUG);
 		}
 	}
 
-	/*
-		This function controlls the removement of keyfiles (public and private)
-		and the entry in the amavisd-config
+	/**
+	* This function controlls the removement of keyfiles (public and private)
+	* and the entry in the amavisd-config
+	* @param array $data mail-settings
 	*/
 	function remove_dkim($_data) {
 		global $app;
@@ -221,19 +242,28 @@ class mail_plugin_dkim {
                	$this->remove_from_amavis($_data['domain']);
 	}
 
-	/*
-		Functions called by onLoad
+	/**
+	* Function called by onLoad
+	* deletes dkim-keys
 	*/
 	function domain_dkim_delete($event_name,$data) {
 		if (isset($data['old']['dkim']) && $data['old']['dkim'] == 'y') $this->remove_dkim($data['old']);
 	}
 
+	/**
+	* Function called by onLoad
+	* insert dkim-keys
+	*/
 	function domain_dkim_insert($event_name,$data) {
 		if (isset($data['new']['dkim']) && $data['new']['dkim']=='y' && $this->check_system($data)) {
 			$this->add_dkim($data);
 		}
 	}
 
+	/**
+	* Function called by onLoad
+	* chang dkim-settings
+	*/
 	function domain_dkim_update($event_name,$data) {
 		global $app;
                 /* get the config */
