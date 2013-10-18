@@ -80,7 +80,33 @@ class backup_plugin {
 					$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'],LOGLEVEL_DEBUG);
 				}
 			}
-			
+
+			//* Restore a MongoDB backup
+			if($action_name == 'backup_restore' && $backup['backup_type'] == 'mongodb') {
+				if(file_exists($backup_dir.'/'.$backup['filename'])) {
+					//$parts = explode('_',$backup['filename']);
+					//$db_name = $parts[1];
+					preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.tar\.gz$@', $backup['filename'], $matches);
+					$db_name = $matches[1];
+
+					// extract tar.gz archive
+					$dump_directory = str_replace(".tar.gz", "", $backup['filename']);
+					$extracted = "/usr/local/ispconfig/server/temp";
+					exec("tar -xzvf ".escapeshellarg($backup_dir.'/'.$backup['filename'])." --directory=".escapeshellarg($extracted));
+					$restore_directory = $extracted."/".$dump_directory."/".$db_name;
+
+					// mongorestore -h 127.0.0.1 -u root -p 123456 --authenticationDatabase admin -d c1debug --drop ./toRestore
+					$command = "mongorestore -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ".$db_name." --drop ".escapeshellarg($restore_directory);
+					exec($command);
+					exec("rm -rf ".escapeshellarg($extracted."/".$dump_directory));
+				}
+
+				unset($clientdb_host);
+				unset($clientdb_user);
+				unset($clientdb_password);
+				$app->log('Restored MongoDB backup '.$backup_dir.'/'.$backup['filename'],LOGLEVEL_DEBUG);
+			}
+
 			//* Restore a mysql backup
 			if($action_name == 'backup_restore' && $backup['backup_type'] == 'mysql') {
 				//* Load sql dump into db

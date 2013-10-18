@@ -17,4 +17,3 @@ $wb['data_error_regex'] = 'Servereintrag-Format ungültig';
 $wb['srv_error_regex'] = 'Ungültiges Server Record Format. Der ServerRecord muss 3 Text Strings getrennt durch Leerzeichen beinhalten.';
 $wb['aux_txt'] = 'Priorität';
 ?>
-

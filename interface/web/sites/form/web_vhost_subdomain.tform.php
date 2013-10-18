@@ -64,6 +64,9 @@ if(!$app->auth->is_admin()) {
     if($client['limit_ssl'] != 'y') $ssl_available = false;
 }
 
+$app->uses('getconf');
+$web_config = $app->getconf->get_global_config('sites');
+
 $form["tabs"]['domain'] = array (
 	'title' 	=> "Domain",
 	'width' 	=> 100,
@@ -525,7 +528,8 @@ $form["tabs"]['backup'] = array (
 
 // }
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+if($_SESSION["s"]["user"]["typ"] == 'admin'
+    || ($web_config['reseller_can_use_options'] == 'y' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 
 $form["tabs"]['advanced'] = array (
 	'title' 	=> "Options",

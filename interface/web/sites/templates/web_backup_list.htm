@@ -16,6 +16,7 @@
                         <th class="tbl_col_date" scope="col"><tmpl_var name="date_txt"></th>
                         <th class="tbl_col_date" scope="col"><tmpl_var name="backup_type_txt"></th>
                         <th class="tbl_col_filename" scope="col"><tmpl_var name="filename_txt"></th>
+                        <th class="tbl_col_filename" scope="col"><tmpl_var name="filesize_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                 </thead>
@@ -25,6 +26,7 @@
                             <td class="tbl_col_date">{tmpl_var name="date"}</td>
                             <td class="tbl_col_date">{tmpl_var name="backup_type"}</td>
                             <td class="tbl_col_filename">{tmpl_var name="filename"}</td>
+                            <td class="tbl_col_filesize">{tmpl_var name="filesize"}</td>
                             <td class="tbl_col_buttons">
                                 <div class="buttons">
                                     <button class="button iconstxt icoRestore" type="button" onclick="confirm_action('sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');"><span>{tmpl_var name="restore_backup_txt"}</span></button>

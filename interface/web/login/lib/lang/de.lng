@@ -23,4 +23,3 @@ $wb['error_maintenance_mode'] = 'Diese ISPConfig Installation wird gerade gewart
 $wb['theme_not_compatible'] = 'Das gewählte Design ist mit dieser ISPConfig Version nicht kompatibel. Bitte prüfen Sie, ob ein Update des Themes verfügbar ist.<br />Es wurde nun automatisch das Standard Design aktiviert.';
 $wb['back_txt'] = 'Zur&uuml;ck';
 ?>
-

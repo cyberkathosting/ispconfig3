@@ -9,4 +9,3 @@ $wb['limit_mailcatchall_txt'] = 'Die maximale Anzahl an Catchall Einträgen für
 $wb['source_txt'] = 'Quelle';
 $wb['destination_error_isemail'] = 'Das Ziel ist keine gültige E-Mail Adresse.';
 ?>
-

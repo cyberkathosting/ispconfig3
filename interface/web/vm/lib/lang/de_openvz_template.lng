@@ -91,4 +91,3 @@ $wb['swappages_error_empty'] = 'Swappages ist leer.';
 $wb['Template'] = 'Template';
 $wb['Advanced'] = 'Erweitert';
 ?>
-

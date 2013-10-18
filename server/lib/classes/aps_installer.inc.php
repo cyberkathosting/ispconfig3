@@ -445,11 +445,11 @@ class ApsInstaller extends ApsBase
                 $this->file_owner_user = $owner_res['system_user']; 
                 $this->file_owner_group = $owner_res['system_group'];
                 exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
-				
-				//* Chown stats directory back
-				if(is_dir($this->local_installpath.'stats')) {
-					exec('chown -R root:root '.escapeshellarg($this->local_installpath.'stats'));
-				}
+
+		//* Chown stats directory back
+		if(is_dir($this->local_installpath.'stats')) {
+			exec('chown -R root:root '.escapeshellarg($this->local_installpath.'stats'));
+		}
             }
         }
         catch(Exception $e)

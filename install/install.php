@@ -260,10 +260,17 @@ if($install_mode == 'standard') {
 	$inst->configure_apps_vhost();
     
 	//* Configure Firewall
-	//* Configure Bastille Firewall
-	$conf['services']['firewall'] = true;
-	swriteln('Configuring Bastille Firewall');
-	$inst->configure_firewall();
+	if($conf['ufw']['installed'] == true) { 
+		//* Configure Ubuntu Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring Ubuntu Firewall');
+		$inst->configure_ufw_firewall();
+	} else {
+		//* Configure Bastille Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring Bastille Firewall');
+		$inst->configure_bastille_firewall();
+	}
 
     //* Configure Fail2ban
     if($conf['fail2ban']['installed'] == true) {
@@ -331,7 +338,7 @@ if($install_mode == 'standard') {
 	if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['bind']['init_script']))					system($conf['init_scripts'].'/'.$conf['bind']['init_script'].' restart &> /dev/null');
 	//if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 	if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['nginx']['init_script']))					system($conf['init_scripts'].'/'.$conf['nginx']['init_script'].' restart &> /dev/null');
-	//if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
+	if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 }else{
 	
 	//* In expert mode, we select the services in the following steps, only db is always available
@@ -547,18 +554,17 @@ if($install_mode == 'standard') {
 	
 	//** Configure Firewall
 	if(strtolower($inst->simple_query('Configure Firewall Server',array('y','n'),'y')) == 'y') {	
-		//if($conf['bastille']['installed'] == true) {
-			//* Configure Bastille Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Bastille Firewall');
-			$inst->configure_firewall();
-		/*} elseif($conf['ufw']['installed'] == true) {
+		if($conf['ufw']['installed'] == true) {
 			//* Configure Ubuntu Firewall
 			$conf['services']['firewall'] = true;
 			swriteln('Configuring Ubuntu Firewall');
 			$inst->configure_ufw_firewall();
+		} else {
+			//* Configure Bastille Firewall
+			$conf['services']['firewall'] = true;
+			swriteln('Configuring Bastille Firewall');
+			$inst->configure_bastille_firewall();
 		}
-		*/
 	}
 	
 	//** Configure Firewall

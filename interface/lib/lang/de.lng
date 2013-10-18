@@ -133,5 +133,7 @@ $wb['datalog_status_d_web_folder_user'] = 'Verzeichnisschutz Benutzer löschen';
 $wb['login_as_txt'] = 'Anmelden als';
 $wb['no_domain_perm'] = 'Sie haben keine Berechtigung für diese Domain.';
 $wb['no_destination_perm'] = 'Sie haben keine Berechtigung für dieses Ziel.';
+$wb['client_you_are_locked'] = 'Sie haben keine Berechtigung, Einstellungen zu verändern.';
+$wb['gender_m_txt'] = 'Herr';
+$wb['gender_f_txt'] = 'Frau';
 ?>
-

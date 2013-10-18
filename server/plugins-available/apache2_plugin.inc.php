@@ -88,8 +88,97 @@ class apache2_plugin {
 		
 		$app->plugins->registerEvent('ftp_user_delete',$this->plugin_name,'ftp_user_delete');
 		
+        $app->plugins->registerAction('php_ini_changed', $this->plugin_name, 'php_ini_changed');
 	}
+    
+    // check for php.ini changes
+    
+    
+    // Handle php.ini changes
+    function php_ini_changed($event_name, $data) {
+        global $app, $conf;
+        
+        $app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
+        
+        /* $data contains an array with these keys:
+         * file -> full path of changed php_ini
+         * mode -> web_domain php modes to change (mod, fast-cgi, php-fpm or '' for all except 'mod')
+         * php_version -> php ini path that changed (additional php versions)
+         */
+        
+        $qrystr = "SELECT * FROM web_domain WHERE custom_php_ini != ''";
+        if($data['mode'] == 'mod') {
+            $qrystr .= " AND php = 'mod'";
+        } elseif($data['mode'] == 'fast-cgi') {
+            $qrystr .= " AND php = 'fast-cgi'";
+            if($data['php_version']) {
+                $qrystr .= " AND fastcgi_php_version LIKE '%:" . $app->db->quote($data['php_version']) . "'";
+            }
+        } elseif($data['mode'] == 'php-fpm') {
+            $qrystr .= " AND php = 'php-fpm'";
+            if($data['php_version']) {
+                $qrystr .= " AND fastcgi_php_version LIKE '%:" . $app->db->quote($data['php_version']) . ":%'";
+            }
+        } else {
+            $qrystr .= " AND php != 'mod' AND php != 'fast-cgi'";
+        }
+        
+        
+        //** Get all the webs
+        $web_domains = $app->db->queryAllRecords($qrystr);
+        foreach($web_domains as $web_data) {
+            $custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$web_data['system_user'];
+            $web_folder = 'web';
+            if($web_data['type'] == 'vhostsubdomain') {
+                $web_folder = $web_data['web_folder'];
+                $custom_php_ini_dir .= '_' . $web_folder;
+            }
+            if(!is_dir($web_config['website_basedir'].'/conf')) $app->system->mkdir($web_config['website_basedir'].'/conf');
 
+
+            if(!is_dir($custom_php_ini_dir)) $app->system->mkdir($custom_php_ini_dir);
+            $php_ini_content = '';
+            if($web_data['php'] == 'mod') {
+                $master_php_ini_path = $web_config['php_ini_path_apache'];
+            } else {
+                if($web_data['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
+                    $master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
+                } else {
+                    $master_php_ini_path = $web_config['php_ini_path_cgi'];
+                }
+            }
+            if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
+                $php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
+            }
+            $php_ini_content .= str_replace("\r",'',trim($web_data['custom_php_ini']));
+            $app->system->file_put_contents($custom_php_ini_dir.'/php.ini',$php_ini_content);
+            $app->log('Info: rewrote custom php.ini for web ' . $web_data['domain_id'] . ' (' . $web_data['domain'] . ').',LOGLEVEL_DEBUG);
+        }
+        
+        if(count($web_domains) > 0) {
+            //* We do not check the apache config here - we only changed the php.ini
+            //* Check if this is a chrooted setup
+            if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
+                $apache_chrooted = true;
+                $app->log('Info: Apache is chrooted.',LOGLEVEL_DEBUG);
+            } else {
+                $apache_chrooted = false;
+            }
+            
+            $app->log('Info: rewrote all php.ini and reloading apache now.',LOGLEVEL_DEBUG);
+            if($apache_chrooted) {
+                $app->services->restartServiceDelayed('httpd','restart');
+            } else {
+                // request a httpd reload when all records have been processed
+                $app->services->restartServiceDelayed('httpd','reload');
+            }
+        } else {
+            $app->log('Info: No webs affected by php.ini change.',LOGLEVEL_DEBUG);
+        }
+    }
+    
 	// Handle the creation of SSL certificates
 	function ssl($event_name,$data) {
 		global $app, $conf;

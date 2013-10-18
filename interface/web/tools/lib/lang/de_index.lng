@@ -2,4 +2,3 @@
 $wb['page_head_txt'] = 'ISPConfig Einstellungen';
 $wb['page_desc_txt'] = 'Benutzereinstellungen ändern';
 ?>
-

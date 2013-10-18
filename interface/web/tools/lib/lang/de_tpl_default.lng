@@ -5,4 +5,3 @@ $wb['btn_cancel_txt'] = 'Zurück';
 $wb['list_head_txt'] = 'Standard Design Einstellungen';
 $wb['list_desc_txt'] = 'Spezielle Optionen des standard Designs ändern';
 ?>
-

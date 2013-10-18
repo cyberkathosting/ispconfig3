@@ -5,5 +5,5 @@ $wb['btn_save_txt'] = 'Ausgewählte Sprache importieren';
 $wb['language_overwrite_txt'] = 'Datei überschreiben, falls diese schon existiert.';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['ignore_version_txt'] = 'ISPConfig Versionsüberprüfung überspringen';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>
-

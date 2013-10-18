@@ -35,7 +35,7 @@ class rescue_core_module {
 	/* No actions at this time. maybe later... */
 	var $actions_available = array();
 	/**
-	 * The monitoring-Data of this module. 
+	 * The monitoring-Data of this module.
 	 * [0] are the actual data, [1] are the data 1 minnute ago [2] are teh data 2 minuntes...
 	 */
 	private $_monitoringData = array();

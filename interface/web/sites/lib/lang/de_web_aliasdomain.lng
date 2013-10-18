@@ -113,4 +113,3 @@ $wb['proxy_directives_txt'] = 'Proxy Direktiven';
 $wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
 $wb['Domain'] = 'Aliasdomain';
 ?>
-

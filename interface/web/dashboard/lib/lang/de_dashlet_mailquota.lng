@@ -6,4 +6,3 @@ $wb['used_txt'] = 'Verwendet';
 $wb['quota_txt'] = 'Verfügbar';
 $wb['no_email_accounts_txt'] = 'Kein E-Mail Konto gefunden.';
 ?>
-

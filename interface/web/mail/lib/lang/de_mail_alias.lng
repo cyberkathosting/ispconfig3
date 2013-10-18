@@ -12,4 +12,3 @@ $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'Dieser E-Mail Alias existiert bereits.';
 $wb['source_txt'] = 'Alias';
 ?>
-

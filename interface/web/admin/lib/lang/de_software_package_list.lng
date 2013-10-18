@@ -11,4 +11,3 @@ $wb['no_packages_txt'] = 'Keine Softwarepakete verfügbar';
 $wb['edit_txt'] = 'Bearbeiten';
 $wb['delete_txt'] = 'Löschen';
 ?>
-

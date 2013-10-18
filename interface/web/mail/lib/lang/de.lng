@@ -46,4 +46,3 @@ $wb['Domain Alias'] = 'E-Mail Domain Alias';
 $wb['Relay Recipients'] = 'Relay Empfänger';
 $wb['Mailbox quota'] = 'E-Mail Konto Speichernutzung';
 ?>
-

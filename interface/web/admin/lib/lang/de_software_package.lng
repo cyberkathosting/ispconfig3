@@ -4,4 +4,3 @@ $wb['package_key_txt'] = 'Softwarepaket Schlüssel';
 $wb['Software Package'] = 'Softwarepaket';
 $wb['Modify software package details'] = 'Softwarepaket Einstellungen bearbeiten';
 ?>
-

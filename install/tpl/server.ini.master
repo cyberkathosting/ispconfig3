@@ -8,6 +8,7 @@ dnsserver=mydns
 auto_network_configuration=n
 ip_address=0.0.0.0
 netmask=255.255.255.0
+v6_prefix=
 gateway=0.0.0.0
 hostname=server1.domain.tld
 nameservers=8.8.8.8,8.8.4.4
@@ -45,6 +46,7 @@ overquota_notify_admin=y
 overquota_notify_client=y
 overquota_notify_freq=7
 overquota_notify_onok=n
+sendmail_path=/usr/sbin/sendmail
 
 [getmail]
 getmail_config_dir=/etc/getmail
@@ -91,6 +93,7 @@ add_web_users_to_sshusers_group=y
 connect_userid_to_webid=n
 connect_userid_to_webid_start=10000
 web_folder_protection=y
+php_ini_check_minutes=1
 overquota_notify_admin=y
 overquota_notify_client=y
 overquota_notify_freq=7

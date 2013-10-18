@@ -267,7 +267,7 @@ CREATE TABLE `client_template` (
   `sys_groupid` int(11) unsigned NOT NULL default '0',
   `sys_perm_user` varchar(5) default NULL,
   `sys_perm_group` varchar(5) default NULL,
-  `sys_perm_other` varchar(5) default NULL,  
+  `sys_perm_other` varchar(5) default NULL,
   `template_name` varchar(64) NOT NULL,
   `template_type` varchar(1) NOT NULL default 'm',
   `limit_maildomain` int(11) NOT NULL default '-1',
@@ -682,6 +682,9 @@ CREATE TABLE `mail_domain` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `domain` varchar(255) NOT NULL default '',
+  `dkim` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `dkim_private` mediumtext NOT NULL default '',
+  `dkim_public` mediumtext NOT NULL default '',
   `active` enum('n','y') NOT NULL,
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
@@ -1447,23 +1450,8 @@ CREATE TABLE IF NOT EXISTS `sys_cron` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sys_cron`
---
-
-CREATE TABLE IF NOT EXISTS `sys_cron` (
-  `name` varchar(50) NOT NULL,
-  `last_run` datetime NULL DEFAULT NULL,
-  `next_run` datetime NULL DEFAULT NULL,
-  `running` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
--- --------------------------------------------------------
-
--- 
 -- Table structure for table  `sys_datalog`
--- 
+--
 
 CREATE TABLE `sys_datalog` (
   `datalog_id` int(11) unsigned NOT NULL auto_increment,
@@ -1643,7 +1631,7 @@ CREATE TABLE `sys_user` (
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
-  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '', 
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1680,10 +1668,11 @@ CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `parent_domain_id` int(10) unsigned NOT NULL,
-  `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web',
+  `backup_type` enum('web','mongodb','mysql') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
+  `filesize` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1735,6 +1724,7 @@ CREATE TABLE IF NOT EXISTS `web_database_user` (
   `database_user` varchar(64) DEFAULT NULL,
   `database_user_prefix` varchar(50) NOT NULL default '',
   `database_password` varchar(64) DEFAULT NULL,
+  `database_password_mongo` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`database_user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

@@ -170,6 +170,9 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 	$app->modules->loadModules('all');
 	//** Load the plugins that are in the plugins-enabled folder
 	$app->plugins->loadPlugins('all');
+	
+	$app->plugins->raiseAction('server_plugins_loaded', '');
+	
 	if ($tmp_num_records > 0) {
 		$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
 		//** Go through the sys_datalog table and call the processing functions

@@ -144,5 +144,9 @@ $wb['aps_limits_txt'] = 'APS Installationsassistent Beschränkungen';
 $wb['limit_aps_txt'] = 'Max. Anzahl an APS Instanzen';
 $wb['limit_aps_error_notint'] = 'Die APS Instanzen Beschränkung muss eine Zahl sein.';
 $wb['default_slave_dnsserver_txt'] = 'Standard Secondary DNS Server';
+$wb['locked_txt'] = 'Gesperrt (deaktiviert alle Webs, etc.)';
+$wb['canceled_txt'] = 'Gek&uuml;ndigt (verhindert Kundenlogin)';
+$wb['gender_txt'] = 'Anrede';
+$wb['gender_m_txt'] = 'Herr';
+$wb['gender_f_txt'] = 'Frau';
 ?>
-

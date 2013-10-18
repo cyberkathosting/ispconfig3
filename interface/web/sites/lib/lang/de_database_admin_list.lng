@@ -9,4 +9,3 @@ $wb['add_new_record_txt'] = 'Neue Datenbank hinzufügen';
 $wb['sys_groupid_txt'] = 'Kunde';
 $wb['parent_domain_id_txt'] = 'Domain';
 ?>
-

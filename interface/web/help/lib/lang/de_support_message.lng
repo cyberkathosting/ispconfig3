@@ -13,4 +13,3 @@ $wb['answer_to_support_request_sent_txt'] = 'Ihre Antwort auf die Supportanfrage
 $wb['support_request_sent_txt'] = 'Ihre Supportanfrage ist verschickt worden. Bitte antworten Sie nicht auf diese E-Mail.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Die Nachricht konnte nicht verschickt werden, da die Empfänger- und/oder die Sender E-Mail-Adresse nicht gültig ist.';
 ?>
-

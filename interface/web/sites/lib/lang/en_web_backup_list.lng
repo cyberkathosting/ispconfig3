@@ -3,6 +3,7 @@ $wb['list_head_txt'] = 'Existing backups';
 $wb['date_txt'] = 'Date';
 $wb['backup_type_txt'] = 'Type';
 $wb['filename_txt'] = 'Backup file';
+$wb['filesize_txt'] = 'Filesize';
 $wb['restore_backup_txt'] = 'Restore';
 $wb['download_backup_txt'] = 'Download';
 $wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
@@ -10,6 +11,7 @@ $wb['restore_info_txt'] = 'Restore of the backup has been started. This action t
 $wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
 $wb['download_pending_txt'] = 'There is already a pending backup download job.';
 $wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
+$wb['backup_type_mongodb'] = 'MongoDB Database';
 $wb['backup_type_mysql'] = 'MySQL Database';
 $wb['backup_type_web'] = 'Website files';
 

@@ -120,4 +120,3 @@ $wb['invalid_rewrite_rules_txt'] = 'Unzulässige Rewrite Rules';
 $wb['allowed_rewrite_rule_directives_txt'] = 'Erlaubte Direktiven:';
 $wb['configuration_error_txt'] = 'KONFIGURATIONSFEHLER';
 ?>
-

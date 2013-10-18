@@ -6,4 +6,3 @@ $wb['repo_password_txt'] = 'Passwort (optional)';
 $wb['active_txt'] = 'Aktiv';
 $wb['Software Repository which may contain addons or updates'] = 'Software Archiv, das Add-Ons oder Updates enthalten kann';
 ?>
-
