@@ -129,6 +129,20 @@ class functions {
 		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
 	}
 	
+	//* convert currency formatted number back to floating number
+	public function currency_unformat($number) {
+		global $app;
+        
+		$number_format_dec_point = $app->lng('number_format_dec_point');
+		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
+		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
+		
+		if($number_format_thousands_sep != '') $number = str_replace($number_format_thousands_sep, '', $number);
+		if($number_format_dec_point != '.' && $number_format_dec_point != '') $number = str_replace($number_format_dec_point, '.', $number);
+		
+		return (double)$number;
+	}
+	
 	public function get_ispconfig_url() {
 		global $app;
 		
