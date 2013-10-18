@@ -728,8 +728,9 @@ class ApsGUIController extends ApsBase
             // Using parse_url() to filter malformed URLs
             $path = dirname(parse_url($_SERVER['PHP_SELF'], PHP_URL_PATH)).'/'.
                     basename($this->interface_pkg_dir).'/'.$pkg['path'].'/'.basename((string)$icon);
-			// nginx: if $_SERVER['PHP_SELF'] is doubled, remove /sites/aps_packagedetails_show.php from beginning of path
-			$path = preg_replace('@^/sites/aps_packagedetails_show.php(.*)@', '$1', $path);
+	    // nginx: if $_SERVER['PHP_SELF'] is doubled, remove /sites/aps_packagedetails_show.php from beginning of path
+	    $path = preg_replace('@^/sites/aps_packagedetails_show.php(.*)@', '$1', $path);
+
             $pkg['Icon'] = $path;
         }
         else $pkg['Icon'] = '';
@@ -743,8 +744,8 @@ class ApsGUIController extends ApsBase
                 // Using parse_url() to filter malformed URLs
                 $path = dirname(parse_url($_SERVER['PHP_SELF'], PHP_URL_PATH)).'/'.
                         basename($this->interface_pkg_dir).'/'.$pkg['path'].'/'.basename((string)$screen['path']);
-				// nginx: if $_SERVER['PHP_SELF'] is doubled, remove /sites/aps_packagedetails_show.php from beginning of path		
-				$path = preg_replace('@^/sites/aps_packagedetails_show.php(.*)@', '$1', $path);
+		// nginx: if $_SERVER['PHP_SELF'] is doubled, remove /sites/aps_packagedetails_show.php from beginning of path
+		$path = preg_replace('@^/sites/aps_packagedetails_show.php(.*)@', '$1', $path);
 
                 $pkg['Screenshots'][] = array('ScreenPath' => $path,
                                               'ScreenDescription' => htmlspecialchars(trim((string)$screen->description)));

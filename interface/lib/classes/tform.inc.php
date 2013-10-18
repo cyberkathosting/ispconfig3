@@ -92,78 +92,78 @@ class tform extends tform_base {
 
 						return $result;
 
-                }
+				}
 
-        }
+		}
 
-        function getNextTab() {
-                // Which tab is shown
-                if($this->errorMessage == '') {
-                    // If there is no error
-                    if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
-                                // If the next tab is known
-                                $active_tab = $_REQUEST["next_tab"];
-                    } else {
-                        // else use the default tab
-                        $active_tab = $this->formDef['tab_default'];
-                    }
-                } else {
-                    // Show the same tab again in case of an error
-                    $active_tab = $_SESSION["s"]["form"]["tab"];
-                }
+		function getNextTab() {
+				// Which tab is shown
+				if($this->errorMessage == '') {
+					// If there is no error
+					if(isset($_REQUEST["next_tab"]) && $_REQUEST["next_tab"] != '') {
+								// If the next tab is known
+								$active_tab = $_REQUEST["next_tab"];
+					} else {
+						// else use the default tab
+						$active_tab = $this->formDef['tab_default'];
+					}
+				} else {
+					// Show the same tab again in case of an error
+					$active_tab = $_SESSION["s"]["form"]["tab"];
+				}
 
-                return $active_tab;
-        }
+				return $active_tab;
+		}
 
-        function getCurrentTab() {
-                return $_SESSION["s"]["form"]["tab"];
-        }
-		
+		function getCurrentTab() {
+				return $_SESSION["s"]["form"]["tab"];
+		}
+
 		function isReadonlyTab($tab, $primary_id) {
 			global $app, $conf;
-			
+
 			// Add backticks for incomplete table names.
-            if(stristr($this->formDef['db_table'],'.')) {
-                $escape = '';
-            } else {
-                $escape = '`';
-            }
-			
+			if(stristr($this->formDef['db_table'],'.')) {
+				$escape = '';
+			} else {
+				$escape = '`';
+			}
+
 			$sql = "SELECT sys_userid FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id;
-            $record = $app->db->queryOneRecord($sql);
-			
+			$record = $app->db->queryOneRecord($sql);
+
 			// return true if the readonly flag of the form is set and the current loggedin user is not the owner of the record.
 			if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true && $record['sys_userid'] != $_SESSION["s"]["user"]["userid"]) {
 				return true;
 			} else {
 				return false;
 			}
-        }
-		
-		
+		}
+
+
 		// translation function for forms, tries the form wordbook first and if this fails, it tries the global wordbook
 		function lng($msg) {
 			global $app,$conf;
-			
+
 			if(isset($this->wordbook[$msg])) {
 				return $this->wordbook[$msg];
 			} else {
 				return $app->lng($msg);
 			}
-			
+
 		}
-		
+
 		function checkClientLimit($limit_name,$sql_where = '') {
 			global $app;
-			
+
 			$check_passed = true;
 			$limit_name = $app->db->quote($limit_name);
 			if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
-			
+
 			// Get the limits of the client that is currently logged in
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			// Check if the user may add another item
 			if($client["number"] >= 0) {
 				$sql = "SELECT count(".$this->formDef['db_table_idx'].") as number FROM ".$this->formDef['db_table']." WHERE ".$this->getAuthSQL('u');
@@ -171,33 +171,33 @@ class tform extends tform_base {
 				$tmp = $app->db->queryOneRecord($sql);
 				if($tmp["number"] >= $client["number"]) $check_passed = false;
 			}
-			
+
 			return $check_passed;
 		}
-		
+
 		function checkResellerLimit($limit_name,$sql_where = '') {
 			global $app;
-			
+
 			$check_passed = true;
 			$limit_name = $app->db->quote($limit_name);
 			if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
-			
+
 			// Get the limits of the client that is currently logged in
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			//* If the client belongs to a reseller, we will check against the reseller Limit too
 			if($client['parent_client_id'] != 0) {
-				
+
 				//* first we need to know the groups of this reseller
 				$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ".$client['parent_client_id']);
 				$reseller_groups = $tmp["groups"];
 				$reseller_userid = $tmp["userid"];
-				
+
 				// Get the limits of the reseller of the logged in client
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
 				$reseller = $app->db->queryOneRecord("SELECT $limit_name as number FROM client WHERE client_id = ".$client['parent_client_id']);
-			
+
 				// Check if the user may add another item
 				if($reseller["number"] >= 0) {
 					$sql = "SELECT count(".$this->formDef['db_table_idx'].") as number FROM ".$this->formDef['db_table']." WHERE (sys_groupid IN (".$reseller_groups.") or sys_userid = ".$reseller_userid.")";
@@ -206,13 +206,13 @@ class tform extends tform_base {
 					if($tmp["number"] >= $reseller["number"]) $check_passed = false;
 				}
 			}
-			
+
 			return $check_passed;
 		}
-		
+
 		//* get the difference record of two arrays
 		function getDiffRecord($record_old,$record_new) {
-			
+
 			if(is_array($record_new) && count($record_new) > 0) {
 			foreach($record_new as $key => $val) {
 				if(@$record_old[$key] != $val) {
@@ -231,17 +231,17 @@ class tform extends tform_base {
 					}
 				}
 			return $diffrec;
-		
+
 		}
-		
+
 		/**
 		 * Generate HTML for DATETIME fields.
-		 * 
+		 *
 		 * @access private
 		 * @param string $form_element Name of the form element.
 		 * @param string $default_value Selected value for fields.
 		 * @param bool $display_secons Include seconds selection.
-		 * @return string HTML	
+		 * @return string HTML
 		 */
 		function _getDateTimeHTML($form_element, $default_value, $display_seconds=false)
 		{
@@ -249,54 +249,54 @@ class tform extends tform_base {
 			$_showdate = ($_datetime === false) ? false : true;
 
 			$dselect = array('day','month','year','hour','minute');
-            if ($display_seconds === true) {
+			if ($display_seconds === true) {
 			 	$dselect[] = 'second';
 			}
-			 
+
 			$out = '';
-			 
+
 			foreach ($dselect as $dt_element)
 			{
 			 	$dt_options = array();
 			 	$dt_space = 1;
-			 	
+
 			 	switch ($dt_element) {
 			 		case 'day':
 					 	for ($i = 1; $i <= 31; $i++) {
-				            $dt_options[] = array('name' =>  sprintf('%02d', $i),
-				            					  'value' => sprintf('%d', $i));
-				        }
-				        $selected_value = date('d', $_datetime);
+							$dt_options[] = array('name' =>  sprintf('%02d', $i),
+												  'value' => sprintf('%d', $i));
+						}
+						$selected_value = date('d', $_datetime);
 			 			break;
-			 			
+
 			 		case 'month':
 				 		for ($i = 1; $i <= 12; $i++) {
-				            $dt_options[] = array('name' => strftime('%b', mktime(0, 0, 0, $i, 1, 2000)),
-				            					  'value' => strftime('%m', mktime(0, 0, 0, $i, 1, 2000)));
-				        }
-				        $selected_value = date('n', $_datetime);
+							$dt_options[] = array('name' => strftime('%b', mktime(0, 0, 0, $i, 1, 2000)),
+												  'value' => strftime('%m', mktime(0, 0, 0, $i, 1, 2000)));
+						}
+						$selected_value = date('n', $_datetime);
 			 			break;
-			 			
+
 			 		case 'year':
 					 	$start_year = strftime("%Y");
 						$years = range((int)$start_year, (int)($start_year+3));
-				        
-				        foreach ($years as $year) {
-				        	$dt_options[] = array('name' => $year,
-				            					 'value' => $year);
-				        }
-				        $selected_value = date('Y', $_datetime);
-				        $dt_space = 2;
+
+						foreach ($years as $year) {
+							$dt_options[] = array('name' => $year,
+												 'value' => $year);
+						}
+						$selected_value = date('Y', $_datetime);
+						$dt_space = 2;
 			 			break;
-			 			
+
 			 		case 'hour':
 			 			foreach(range(0, 23) as $hour) {
 			 				$dt_options[] = array('name' =>  sprintf('%02d', $hour),
-            			    					  'value' => sprintf('%d', $hour));
+												  'value' => sprintf('%d', $hour));
 			 			}
 			 			$selected_value = date('G', $_datetime);
 			 			break;
-			 			
+
 			 		case 'minute':
 			 			foreach(range(0, 59) as $minute) {
 			 				if (($minute % 5) == 0) {
@@ -306,23 +306,23 @@ class tform extends tform_base {
 			 			}
 			 			$selected_value = (int)floor(date('i', $_datetime));
 			 			break;
-			 			
-			 		case 'second':	
+
+			 		case 'second':
 			 			foreach(range(0, 59) as $second) {
 			 				$dt_options[] = array('name' =>  sprintf('%02d', $second),
-							      				  'value' => sprintf('%d', $second));
+								  				  'value' => sprintf('%d', $second));
 			 			}
 			 			$selected_value = (int)floor(date('s', $_datetime));
 			 			break;
 			 	}
-					 	
+
 				$out .= "<select name=\"".$form_element."[$dt_element]\" id=\"".$form_element."_$dt_element\" class=\"selectInput\" style=\"width: auto; float: none;\">";
 				if (!$_showdate) {
 					$out .= "<option value=\"-\" selected=\"selected\">--</option>" . PHP_EOL;
 				} else {
 					$out .= "<option value=\"-\">--</option>" . PHP_EOL;
 				}
-				 
+
 				foreach ($dt_options as $dt_opt) {
 					if ( $_showdate && ($selected_value == $dt_opt['value']) ) {
 						$out .= "<option value=\"{$dt_opt['value']}\" selected=\"selected\">{$dt_opt['name']}</option>" . PHP_EOL;
@@ -330,10 +330,10 @@ class tform extends tform_base {
 						$out .= "<option value=\"{$dt_opt['value']}\">{$dt_opt['name']}</option>" . PHP_EOL;
 					}
 				}
-												        
+
 				$out .= '</select>' . str_repeat('&nbsp;', $dt_space);
 			}
-			
+
 			return $out;
 		}
 }
