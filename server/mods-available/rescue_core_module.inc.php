@@ -363,6 +363,7 @@ class rescue_core_module {
 	private function _rescueDaemon($daemon){
 		global $conf;
 		
+		$app->uses('system');
 		// if you need to find all restarts search for "['init_scripts']"
 		/*
 		 * First we stop the running service "normally"
@@ -374,7 +375,7 @@ class rescue_core_module {
 		 * So we have to try to stop but if this will not work, we have to kill the stopping
 		 * of the service
 		 */
-		exec($conf['init_scripts'] . '/' . $daemon . ' stop && (sleep 3; kill $!; sleep 2; kill -9 $!) &> /dev/null');
+		exec($app->system->getinitcommand($daemon, 'stop').' && (sleep 3; kill $!; sleep 2; kill -9 $!) &> /dev/null');
 		
 		/*
 		 * OK, we tryed to stop it normally, maybe this worked maybe not. So we have to look
@@ -385,7 +386,7 @@ class rescue_core_module {
 		/*
 		 * There are no more zombies left. Lets start the service..
 		 */
-		exec($conf['init_scripts'] . '/' . $daemon . ' start');
+		exec($app->system->getinitcommand($daemon, 'start'));
 	}
 }
 ?>

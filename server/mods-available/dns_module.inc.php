@@ -121,6 +121,8 @@ class dns_module {
 	function restartBind($action = 'restart') {
 		global $app,$conf;
 		
+		$app->uses('system');
+		
 		$daemon = '';
 		if(is_file($conf['init_scripts'] . '/' . 'bind9')) {
 			$daemon = 'bind9';
@@ -130,9 +132,9 @@ class dns_module {
 		
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
-			exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
+			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
 		} else {
-			exec($conf['init_scripts'] . '/' . $daemon . ' reload 2>&1', $retval['output'], $retval['retval']);
+			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
 		}
 		return $retval;
 	}
@@ -140,6 +142,7 @@ class dns_module {
 	function restartPowerDNS($action = 'restart') {
 		global $app,$conf;
 	
+		$app->uses('system');
 		$app->log("restartPDNS called.",LOGLEVEL_DEBUG);
 
 /**     Since PowerDNS does not currently allow to limit AXFR for specific zones to specific
@@ -179,7 +182,7 @@ class dns_module {
 		}
 
 		$retval = array('output' => '', 'retval' => 0);
-		exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
+		exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
 
 //     unset $tmps;
 		return $retval;

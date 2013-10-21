@@ -194,7 +194,7 @@ class web_module {
 		global $app,$conf;
 		
 		// load the server configuration options
-		$app->uses('getconf');
+		$app->uses('getconf,system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
 		$daemon = '';
@@ -212,9 +212,10 @@ class web_module {
 
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
-			exec($conf['init_scripts'] . '/' . $daemon . ' restart 2>&1', $retval['output'], $retval['retval']);
+			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
+			
 		} else {
-			exec($conf['init_scripts'] . '/' . $daemon . ' reload 2>&1', $retval['output'], $retval['retval']);
+			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
 		}
 		return $retval;
 	}
@@ -223,15 +224,21 @@ class web_module {
 		global $app,$conf;
 		
 		// load the server configuration options
-		$app->uses('getconf');
+		$app->uses('getconf,system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		
 		list($action, $init_script) = explode(':', $action);
 		
-		if(!$init_script) $init_script = $conf['init_scripts'].'/'.$web_config['php_fpm_init_script'];
+		if(!$init_script){
+			//$init_script = $conf['init_scripts'].'/'.$web_config['php_fpm_init_script'];
+			$initcommand = $app->system->getinitcommand($web_config['php_fpm_init_script'], $action);
+		} else {
+			$path_parts = pathinfo($init_script);
+			$initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
+		}
 		
 		$retval = array('output' => '', 'retval' => 0);
-		exec($init_script.' '.$action.' 2>&1', $retval['output'], $retval['retval']);
+		exec($initcommand.' 2>&1', $retval['output'], $retval['retval']);
 		return $retval;
 	}
 
