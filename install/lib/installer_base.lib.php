@@ -1074,7 +1074,7 @@ class installer_base {
 
 
 	public function configure_pureftpd() {
-		global $conf;
+		global $conf, $inst;
 
 		$config_dir = $conf['pureftpd']['config_dir'];
 
