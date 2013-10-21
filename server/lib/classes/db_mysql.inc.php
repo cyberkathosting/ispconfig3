@@ -280,7 +280,7 @@ public function toLower($record) {
                         return;
                 }
                 /* Get database-size from information_schema */
-                $result=mysql_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$database_name."';",$link);
+		$result=mysql_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".mysql_real_escape_string($database_name)."';",$link);
                 $this->close;
                 if (!$result) {
                         $app->log('Unable to get the database-size'.mysql_error($link),LOGLEVEL_DEBUG);
