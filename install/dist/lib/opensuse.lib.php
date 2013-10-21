@@ -265,7 +265,7 @@ class installer_dist extends installer_base {
 		$command = 'chmod 755  /var/run/authdaemon.courier-imap';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		
-		//* Changing maildrop lines in posfix master.cf
+		//* Changing maildrop lines in posfix master.cf 
 		if(is_file($config_dir.'/master.cf')){
             copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
         }

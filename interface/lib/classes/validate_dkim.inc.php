@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
 Copyright (c) 2007 - 2013, Till Brehm, projektfarm Gmbh
 Copyright (c) 2013, Florian Schaal, info@schaal-24.de
 All rights reserved.
@@ -27,6 +27,9 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
 OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+@author Florian Schaal, info@schaal-24.de
+@copyrighth Florian Schaal, info@schaal-24.de
 */
 
 class validate_dkim {
@@ -39,8 +42,10 @@ class validate_dkim {
 			return $errmsg."<br>\r\n";
 		}
     	}
-    
-    	/* Validator function for private DKIM-Key */
+
+	/**
+	* Validator function for private DKIM-Key 
+	*/
     	function check_private_key($field_name, $field_value, $validator) {
 		$dkim_enabled=$_POST['dkim'];
 		if ($dkim_enabled == 'y') {
@@ -50,21 +55,30 @@ class validate_dkim {
 		}
 	}
 
-	/* Validator function for DKIM Path */
+	/**
+	* Validator function for DKIM Path 
+	* @return boolean - true when the dkim-path exists and is writeable
+	*/
 	function check_dkim_path($field_name, $field_value, $validator) {
 		if(empty($field_value)) return $this->get_error($validator['errmsg']);
 		if (substr(sprintf('%o', fileperms($field_value)),-3) <= 600)
 			return $this->get_error($validator['errmsg']);
 	}
 
-	/* Check function for DNS-Template */
+	/** 
+	* Check function for DNS-Template 
+	*/
 	function check_template($field_name, $field_value, $validator) {
 		$dkim=false;
 		foreach($field_value as $field ) { if($field == 'DKIM') $dkim=true; }
 		if ($dkim && $field_value[0]!='DOMAIN') return $this->get_error($validator['errmsg']);
 	}
 
-	/* Validator function for $_POST */
+	/**
+	* Validator function for $_POST 
+	*
+	* @return boolean - true if $POST contains a real key-file
+	*/
 	function validate_post($key,$value) {
 		switch ($key) {
 			case 'public':	

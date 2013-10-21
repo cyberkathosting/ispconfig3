@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
 Copyright (c) 2007 - 2013, Till Brehm, projektfarm Gmbh
 Copyright (c) 2013, Florian Schaal, info@schaal-24.de
 All rights reserved.
@@ -26,13 +27,10 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
 OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
-/*
-	This script is invoked by interface/web/mail/templates/mail_domain_edit.htm
-	to generate or show the DKIM Private-key.
-
-	returns DKIM Private-Key and DKIM Public-Key
+This script is invoked by interface/js/mail_domain_dkim.js
+to generate or show the DKIM Private-key and to show the Private-key.
+returns DKIM Private-Key and DKIM Public-Key
 */ 
 
 require_once('../../lib/config.inc.php');
@@ -47,9 +45,10 @@ $app->auth->check_module_permissions('mail');
 header('Content-Type: text/xml; charset=utf-8');
 header('Cache-Control: must-revalidate, pre-check=0, no-store, no-cache, max-age=0, post-check=0');
 
-/*
-	This function fix PHP's messing up POST input containing characters space, dot, 
-	open square bracket and others to be compatible with with the deprecated register_globals
+/**
+* This function fix PHP's messing up POST input containing characters space, dot, 
+* open square bracket and others to be compatible with with the deprecated register_globals
+* @return array POST
 */
 function getRealPOST() {
     $pairs = explode("&", file_get_contents("php://input"));
@@ -63,6 +62,11 @@ function getRealPOST() {
     return $vars;
 }
 
+/**
+* This function formats the public-key
+* @param array $pubkey
+* @return string public-key
+*/
 function pub_key($pubkey) {
         $public_key='';
         foreach($pubkey as $values) $public_key=$public_key.$values."\n";

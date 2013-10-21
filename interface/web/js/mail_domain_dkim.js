@@ -69,4 +69,3 @@ This Javascript is invoked by
 
 var serverType = jQuery('#dkim_private').val();
 setRequest('show','{tmpl_var name="domain"}',serverType);
-

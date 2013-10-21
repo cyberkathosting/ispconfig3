@@ -69,5 +69,3 @@ This Javascript is invoked by
 
 var serverType = jQuery('#zone').val();
 setRequest(serverType);
-
-
