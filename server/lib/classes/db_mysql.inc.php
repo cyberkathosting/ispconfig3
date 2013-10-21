@@ -265,6 +265,31 @@ public function toLower($record) {
 
     }
 
+        /**
+        * Function to get the database-size
+        * @param string $database_name
+        * @return int - database-size in bytes
+        */
+        public function getDatabaseSize($database_name) {
+                global $app;
+                include('lib/mysql_clientdb.conf');
+                /* Connect to the database */
+                $link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+                if (!$link) {
+                        $app->log('Unable to connect to the database'.mysql_error($link),LOGLEVEL_DEBUG);
+                        return;
+                }
+                /* Get database-size from information_schema */
+                $result=mysql_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$database_name."';",$link);
+                $this->close;
+                if (!$result) {
+                        $app->log('Unable to get the database-size'.mysql_error($link),LOGLEVEL_DEBUG);
+                        return;
+                }
+                $database_size = mysql_fetch_row($result);
+                return $database_size[0];
+        }
+
     //** Function to fill the datalog with a full differential record.
     public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
       global $app,$conf;
