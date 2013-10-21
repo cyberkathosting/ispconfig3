@@ -1074,7 +1074,7 @@ class installer_base {
 
 
 	public function configure_pureftpd() {
-		global $conf, $inst;
+		global $conf;
 
 		$config_dir = $conf['pureftpd']['config_dir'];
 
@@ -1109,7 +1109,7 @@ class installer_base {
 
 		if(is_file('/etc/inetd.conf')) {
 			replaceLine('/etc/inetd.conf','/usr/sbin/pure-ftpd-wrapper','#ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper',0,0);
-			exec($inst->getinitcommand('openbsd-inetd', 'restart'));
+			exec($this->getinitcommand('openbsd-inetd', 'restart'));
 			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
