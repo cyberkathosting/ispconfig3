@@ -276,7 +276,13 @@ class functions {
             return intval($string);
         }
     }
-
+    
+    /**
+    * Function to change bytes to kB, MB, GB or TB
+    * @param int $size - size in bytes
+    * @param int precicion - after-comma-numbers (default: 2)
+    * @return string - formated bytes
+    */
     public function formatBytes($size, $precision = 2) {
         $base=log($size)/log(1024);
         $suffixes=array('','k','M','G','T');
