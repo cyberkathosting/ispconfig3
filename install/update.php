@@ -364,7 +364,12 @@ if($reconfigure_services_answer == 'yes') {
 
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
-
+if($conf['apache']['installed'] == true){
+	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
+if($conf['nginx']['installed'] == true){
+	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
 
 if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
