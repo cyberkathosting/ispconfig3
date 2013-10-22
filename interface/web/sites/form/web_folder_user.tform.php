@@ -50,8 +50,6 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$auth_sql = (isset($app->tform) ? $app->tform->getAuthSQL('r', 'web_domain') : '1');
-
 $form["tabs"]['user'] = array (
 	'title' 	=> "Folder",
 	'width' 	=> 100,
@@ -76,7 +74,7 @@ $form["tabs"]['user'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "Select concat(web_domain.domain,' ',web_folder.path) as name, web_folder.web_folder_id from web_domain, web_folder WHERE web_domain.domain_id = web_folder.parent_domain_id AND ".$auth_sql." ORDER BY web_domain.domain",
+										'querystring' => "Select concat(web_domain.domain,' ',web_folder.path, ' :: ', server.server_name) as name, web_folder.web_folder_id from web_domain, web_folder, server WHERE web_domain.domain_id = web_folder.parent_domain_id AND web_domain.server_id = server.server_id AND {AUTHSQL::web_domain} ORDER BY web_domain.domain",
 										'keyfield'=> 'web_folder_id',
 										'valuefield'=> 'name'
 									 ),

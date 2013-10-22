@@ -106,9 +106,9 @@ $form["tabs"]['domain'] = array (
 			'formtype'	=> 'SELECT',
 			'default'	=> '',
 			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => "SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND {AUTHSQL} ORDER BY domain",
+										'querystring' => "SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id = server.server_id AND {AUTHSQL::web_domain} ORDER BY web_domain.domain",
 										'keyfield'=> 'domain_id',
-										'valuefield'=> 'domain'
+										'valuefield'=> 'parent_domain'
 									 ),
 			'value'		=> ''
 		),
