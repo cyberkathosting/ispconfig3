@@ -1103,7 +1103,7 @@ if($backup_dir != '') {
 		chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 	}
 
-	$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND (type = 'vhost' OR type = 'vhostsubdomain') AND backup_interval != 'none'";
+	$sql = "SELECT * FROM web_domain WHERE server_id = ".$conf['server_id']." AND (type = 'vhost' OR type = 'vhostsubdomain')";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 		foreach($records as $rec) {
@@ -1136,16 +1136,18 @@ if($backup_dir != '') {
 					exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=backup\* --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
 				}
 				if($retval == 0 || $backup_mode != 'userzip'){ // tar can return 1 (due to harmless warings) and still create valid backups
-					chown($web_backup_dir.'/'.$web_backup_file, 'root');
-					chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
-					chmod($web_backup_dir.'/'.$web_backup_file, 0750);
+					if(is_file($web_backup_dir.'/'.$web_backup_file)){
+						chown($web_backup_dir.'/'.$web_backup_file, 'root');
+						chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
+						chmod($web_backup_dir.'/'.$web_backup_file, 0750);
 
-					//* Insert web backup record in database
-					//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-					//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-					$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-					$app->db->query($sql);
-					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						//* Insert web backup record in database
+						//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
+						//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
+						$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
+						$app->db->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					}
 				} else {
 					if(is_file($web_backup_dir.'/'.$web_backup_file)) unlink($web_backup_dir.'/'.$web_backup_file);
 				}
@@ -1198,7 +1200,7 @@ if($backup_dir != '') {
 
 			/* If backup_interval is set to none and we have a
 			backup directory for the website, then remove the backups */
-			if($rec['backup_interval'] == 'none') {
+			if($rec['backup_interval'] == 'none' || $rec['backup_interval'] == '') {
 				$web_id = $rec['domain_id'];
 				$web_user = $rec['system_user'];
 				$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
@@ -1209,7 +1211,7 @@ if($backup_dir != '') {
 		}
 	}
 
-	$sql = "SELECT * FROM web_database WHERE server_id = '".$conf['server_id']."' AND backup_interval != 'none'";
+	$sql = "SELECT * FROM web_database WHERE server_id = ".$conf['server_id']." AND backup_interval != 'none' AND backup_interval != ''";
 	$records = $app->db->queryAllRecords($sql);
 	if(is_array($records)) {
 
@@ -1239,17 +1241,18 @@ if($backup_dir != '') {
 				if($retval == 0) exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
 				
 				if($retval == 0){
-					chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
-					chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
-					chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
+					if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')){
+						chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);
+						chown($db_backup_dir.'/'.$db_backup_file.'.gz', fileowner($db_backup_dir));
+						chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
 
-					//* Insert web backup record in database
-					//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-					//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-					$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-					$app->db->query($sql);
-					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
-
+						//* Insert web backup record in database
+						//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+						//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
+						$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
+						$app->db->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					}
 				} else {
 					if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')) unlink($db_backup_dir.'/'.$db_backup_file.'.gz');
 				}

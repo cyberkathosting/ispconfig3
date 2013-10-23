@@ -108,7 +108,8 @@ class plugin_backuplist extends plugin_base {
 				}
 				
 				//* Get the data
-				$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$this->form->id." ORDER BY tstamp DESC, backup_type ASC";
+				$web = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$this->form->id);
+				$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$this->form->id." AND server_id = ".$web['server_id']." ORDER BY tstamp DESC, backup_type ASC";
                 $records = $app->db->queryAllRecords($sql);
 
                 $bgcolor = "#FFFFFF";
