@@ -58,10 +58,10 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 		$munin_password = trim($server_config['munin_password']);
 		$auth_string = '';
 		if($munin_user != ''){
-			$auth_string = $munin_user;
+			$auth_string = rawurlencode($munin_user);
 		}
 		if($munin_user != '' && $munin_password != ''){
-			$auth_string .= ':'.$munin_password;
+			$auth_string .= ':'.rawurlencode($munin_password);
 		}
 		if($auth_string != '') $auth_string .= '@';
 	
