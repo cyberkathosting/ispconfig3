@@ -139,4 +139,6 @@ $wb['client_you_are_locked'] = 'You have no permission to change any settings.';
 $wb['gender_m_txt'] = 'Mr.';
 $wb['gender_f_txt'] = 'Ms.';
 $wb['client_cannot_be_deleted_because_of_billing_module_txt'] = 'This client has records in the billing module, therefore he cannot be deleted.';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>
