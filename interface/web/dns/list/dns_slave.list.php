@@ -64,9 +64,9 @@ $liste["item"][] = array(   'field'	=> "server_id",
                             'op'	=> "like",
                             'prefix'	=> "%",
                             'suffix'	=> "%",
-                            'datasource'=> array (  'type'   => 'CUSTOM',
-                                                    'class'=> 'custom_datasource',
-                                                    'function'=> 'dns_servers'
+                            'datasource'=> array (  'type' => 'CUSTOM',
+                                                    'class' => 'custom_datasource',
+                                                    'function' => 'slave_dns_servers'
                                                 ),
                             'width'	=> "",
                             'value'	=> "");
