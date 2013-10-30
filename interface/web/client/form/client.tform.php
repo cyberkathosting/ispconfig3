@@ -356,7 +356,7 @@ $form["tabs"]['address'] = array (
 			'value'		=> '',
 			'separator'	=> '',
 			'width'		=> '30',
-			'maxlength'	=> '20',
+			'maxlength'	=> '255',
 			'rows'		=> '',
 			'cols'		=> ''
 		),
