@@ -72,8 +72,8 @@ class cronjob_monitor_database_size extends cronjob {
 		/** The state of the database-usage */
 		$state = 'ok';
 
-		/** Fetch the data of ALL databases into an array */
-		$records = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = $server_id");
+		/** Fetch the data of all active databases into an array */
+		$records = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = $server_id AND active='y' GROUP BY sys_groupid, database_name ASC");
 		if(is_array($records) && !empty($records)) {
 			$data = array();
 			for ($i = 0; $i < sizeof($records); $i++) {
