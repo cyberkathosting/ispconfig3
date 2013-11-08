@@ -115,6 +115,34 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id",$client_select);
 		
 		}
+
+		if($_SESSION["s"]["user"]["typ"] != 'admin')
+		{
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
+
+			$only_one_server = count($client_dns['dns_servers_ids']) === 1;
+			$app->tpl->setVar('only_one_server', $only_one_server);
+
+			if ($only_one_server) {
+				$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
+			}
+
+			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
+			$dns_servers = $app->db->queryAllRecords($sql);
+
+			$options_dns_servers = "";
+
+			foreach ($dns_servers as $dns_server) {
+				$options_dns_servers .= "<option value='$dns_server[server_id]'>$dns_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("client_server_id", $options_dns_servers);
+			unset($options_dns_servers);
+
+		}
 		
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -133,19 +161,17 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
+
+			// Check if chosen server is in authorized servers for this client
+			if (!(is_array($client['dns_servers_ids']) && in_array($this->dataRecord["server_id"], $client['dns_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
+				$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+			}
 		
 			// When the record is updated
-			if($this->id > 0) {
-				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
-				$this->dataRecord["server_id"] = $tmp["server_id"];
-				unset($tmp);
-			// When the record is inserted
-			} else {
-				// set the server ID to the default dnsserver of the client
-				$this->dataRecord["server_id"] = $client["default_dnsserver"];
-				
+			if(!($this->id > 0)) {
 				// Check if the user may add another maildomain.
 				if($client["limit_dns_zone"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");

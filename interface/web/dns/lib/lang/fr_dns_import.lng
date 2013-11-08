@@ -11,4 +11,6 @@ $wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filen
 $wb['title'] = 'Import Zone Files';
 $wb['no_file_uploaded_error'] = 'No zonefile uploaded';
 $wb['zone_file_import_txt'] = 'Zone File Import';
+$wb['error_no_server_id'] = 'Aucun serveur fourni.';
+$wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autorisé pour ce compte.';
 ?>

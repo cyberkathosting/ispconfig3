@@ -73,22 +73,46 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_dbserver]");
-			$app->tpl->setVar("server_id","<option value='$client[default_dbserver]'>$tmp[server_name]</option>");
+			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
+
+			$only_one_server = count($tmp) === 1;
+			$app->tpl->setVar('only_one_server', $only_one_server);
+
+			if ($only_one_server) {
+				$app->tpl->setVar('server_id_value', $tmp[0]['server_id']);
+			}
+
+			foreach ($tmp as $db_server) {
+				$options_db_servers .= "<option value='$db_server[server_id]'>$db_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("server_id", $options_db_servers);
 			unset($tmp);
 
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, db_servers, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
-			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
+			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
+
+			$only_one_server = count($tmp) === 1;
+			$app->tpl->setVar('only_one_server', $only_one_server);
+
+			if ($only_one_server) {
+				$app->tpl->setVar('server_id_value', $tmp[0]['server_id']);
+			}
+
+			foreach ($tmp as $db_server) {
+				$options_db_servers .= "<option value='$db_server[server_id]'>$db_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("server_id", $options_db_servers);
 			unset($tmp);
 
 		} else {
@@ -142,21 +166,17 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT default_dbserver, limit_database FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client['db_servers_ids'] = explode(',', $client['db_servers']);
+
+			// Check if chosen server is in authorized servers for this client
+			if (!(is_array($client['db_servers_ids']) && in_array($this->dataRecord["server_id"], $client['db_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
+				$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+			}
 
 			// When the record is updated
-			if($this->id > 0) {
-				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ".$app->functions->intval($this->id));
-				$this->dataRecord["server_id"] = $tmp["server_id"];
-				unset($tmp);
-				// When the record is inserted
-			} else {
-				// set the server ID to the default dbserver of the client
-				$this->dataRecord["server_id"] = $client["default_dbserver"];
-
-
-				// Check if the user may add another database
+			if(!($this->id > 0)) {// Check if the user may add another database
 				if($client["limit_database"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE sys_groupid = $client_group_id");
 					if($tmp["number"] >= $client["limit_database"]) {

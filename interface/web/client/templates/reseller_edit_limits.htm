@@ -33,9 +33,9 @@
             <div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
             <div>
                 <div class="ctrlHolder">
-                    <label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
-                    <select name="default_webserver" id="default_webserver" class="selectInput">
-                        {tmpl_var name='default_webserver'}
+                    <label for="web_servers">{tmpl_var name='web_servers_txt'}</label>
+                    <select data-placeholder="{tmpl_var name='web_servers_placeholder'}" multiple name="web_servers[]" id="web_servers" class="selectInput chosen-select">
+                        {tmpl_var name='web_servers'}
                     </select>
                 </div>
                 <div class="ctrlHolder">
@@ -140,9 +140,9 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
-                    <label for="default_mailserver">{tmpl_var name='default_mailserver_txt'}</label>
-                    <select name="default_mailserver" id="default_mailserver" class="selectInput">
-                        {tmpl_var name='default_mailserver'}
+                    <label for="mail_servers">{tmpl_var name='mail_servers_txt'}</label>
+                    <select data-placeholder="{tmpl_var name='mail_servers_placeholder'}" multiple name="mail_servers[]" id="mail_servers" class="selectInput chosen-select">
+                        {tmpl_var name='mail_servers'}
                     </select>
                 </div>
                 <div class="ctrlHolder">
@@ -205,9 +205,9 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='database_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
-                    <label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
-                    <select name="default_dbserver" id="default_dbserver" class="selectInput">
-                        {tmpl_var name='default_dbserver'}
+                    <label for="db_servers">{tmpl_var name='db_servers_txt'}</label>
+                    <select data-placeholder="{tmpl_var name='db_servers_placeholder'}" multiple name="db_servers[]" id="db_servers" class="selectInput chosen-select">
+                        {tmpl_var name='db_servers'}
                     </select>
                 </div>
                 <div class="ctrlHolder">
@@ -235,9 +235,9 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='dns_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
-                    <label for="default_dnsserver">{tmpl_var name='default_dnsserver_txt'}</label>
-                    <select name="default_dnsserver" id="default_dnsserver" class="selectInput">
-                        {tmpl_var name='default_dnsserver'}
+                    <label for="dns_servers">{tmpl_var name='dns_servers_txt'}</label>
+                    <select data-placeholder="{tmpl_var name='dns_servers_placeholder'}" multiple name="dns_servers[]" id="dns_servers" class="selectInput chosen-select">
+                        {tmpl_var name='dns_servers'}
                     </select>
                 </div>
                 <div class="ctrlHolder">

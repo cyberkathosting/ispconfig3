@@ -18,12 +18,23 @@
                         {tmpl_var name='client_group_id'}
                     </select>
                 </div>
+            <tmpl_else>
+                <tmpl_if name="only_one_server">
+                    <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
+                <tmpl_else>
+                    <div class="ctrlHolder">
+                        <label for="server_id">{tmpl_var name='server_id_txt'}</label>
+                        <select name="server_id" id="server_id" class="selectInput">
+                            {tmpl_var name='server_id'}
+                        </select>
+                    </div>
+                </tmpl_if>
             </tmpl_if>
             <div class="ctrlHolder">
                 <label for="domain">{tmpl_var name='domain_txt'}</label>
-                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" /><p class="value"><tmpl_var name='domain_field_desc_txt'}</p>
+                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" /><p class="value">{tmpl_var name='domain_field_desc_txt'}</p>
             </div>    
-            <div class="ctrlHolder"">
+            <div class="ctrlHolder">
                 <label for="file">{tmpl_var name='zonefile_to_import_txt'}</label>
                 <input name="file" id="file" size="30" type="file" class="fileUpload" />
             </div>

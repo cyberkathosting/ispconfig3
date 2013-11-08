@@ -511,6 +511,25 @@ $form["tabs"]['limits'] = array (
 			'value'		=> '',
 			'name'		=> 'default_mailserver'
 		),
+		'mail_servers' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'MULTIPLE',
+			'separator' => ',',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'client_servers'
+									 ),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'no_mail_server_error'),
+                                        1 => array (	'type'	=> 'CUSTOM',
+                                                        'class' => 'validate_client',
+                                                        'function' => 'check_used_servers',
+                                                        'errmsg'=> 'mail_servers_used'),
+                                    ),
+			'value'		=> '',
+			'name'		=> 'mail_servers'
+		),
 		'limit_maildomain' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -718,6 +737,25 @@ $form["tabs"]['limits'] = array (
 			'value'		=> '',
 			'name'		=> 'default_webserver'
 		),
+		'web_servers' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'MULTIPLE',
+			'separator' => ',',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'client_servers'
+									 ),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'no_web_server_error'),
+                                        1 => array (	'type'	=> 'CUSTOM',
+                                                        'class' => 'validate_client',
+                                                        'function' => 'check_used_servers',
+                                                        'errmsg'=> 'web_servers_used'),
+                                    ),
+			'value'		=> '',
+			'name'		=> 'web_servers'
+		),
 		'limit_web_domain' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -903,6 +941,25 @@ $form["tabs"]['limits'] = array (
 			'value'		=> '',
 			'name'		=> 'default_dnsserver'
 		),
+		'dns_servers' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'MULTIPLE',
+			'separator' => ',',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'client_servers'
+									 ),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'no_dns_server_error'),
+                                        1 => array (	'type'	=> 'CUSTOM',
+                                                        'class' => 'validate_client',
+                                                        'function' => 'check_used_servers',
+                                                        'errmsg'=> 'dns_servers_used'),
+                                    ),
+			'value'		=> '',
+			'name'		=> 'dns_servers'
+		),
 		'limit_dns_zone' => array (
 			'datatype'	=> 'INTEGER',
 			'formtype'	=> 'TEXT',
@@ -980,6 +1037,25 @@ $form["tabs"]['limits'] = array (
 									 ),
 			'value'		=> '',
 			'name'		=> 'default_dbserver'
+		),
+		'db_servers' => array (
+			'datatype'	=> 'VARCHAR',
+			'formtype'	=> 'MULTIPLE',
+			'separator' => ',',
+			'default'	=> '1',
+			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
+										'class'=> 'custom_datasource',
+										'function'=> 'client_servers'
+									 ),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+                                                        'errmsg'=> 'no_db_server_error'),
+                                        1 => array (	'type'	=> 'CUSTOM',
+                                                        'class' => 'validate_client',
+                                                        'function' => 'check_used_servers',
+                                                        'errmsg'=> 'db_servers_used'),
+                                    ),
+			'value'		=> '',
+			'name'		=> 'db_servers'
 		),
 		'limit_database' => array (
 			'datatype'	=> 'INTEGER',

@@ -49,12 +49,17 @@ $sys_groupid = (isset($_POST['client_group_id']))?$app->functions->intval($_POST
 $domain = (isset($_POST['domain'])&&!empty($_POST['domain']))?$_POST['domain']:NULL;
 
 // get the correct server_id
-if($_SESSION['s']['user']['typ'] == 'admin') {
-	$server_id = (isset($_POST['server_id']))?$app->functions->intval($_POST['server_id']):1;
-} else {
-	$client_group_id = $_SESSION["s"]["user"]["default_group"];
-	$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-	$server_id = $client["default_dnsserver"];
+if (isset($_POST['server_id'])) {
+	$server_id = $app->functions->intval($_POST['server_id']);
+	$post_server_id = true;
+}
+else if (isset($_POST['server_id_value'])) {
+	$server_id = $app->functions->intval($_POST['server_id_value']);
+	$post_server_id = true;
+}
+else {
+	$server_id = 1;
+	$post_server_id = false;
 }
 
 
@@ -118,6 +123,34 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 	}
 
 	$app->tpl->setVar("client_group_id",$client_select);
+}
+
+if($_SESSION["s"]["user"]["typ"] != 'admin')
+{
+	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+	$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
+
+	$only_one_server = count($client_dns['dns_servers_ids']) === 1;
+	$app->tpl->setVar('only_one_server', $only_one_server);
+
+	if ($only_one_server) {
+		$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
+	}
+
+	$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
+	$dns_servers = $app->db->queryAllRecords($sql);
+
+	$options_dns_servers = "";
+
+	foreach ($dns_servers as $dns_server) {
+		$options_dns_servers .= "<option value='$dns_server[server_id]'>$dns_server[server_name]</option>";
+	}
+
+	$app->tpl->setVar("server_id", $options_dns_servers);
+	unset($options_dns_servers);
+
 }
 
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_import.lng';

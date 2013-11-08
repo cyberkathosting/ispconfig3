@@ -94,7 +94,8 @@ function onAfterContentLoad(url, data) {
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
-    $('#pageContent').find("select").combobox();
+    $('#pageContent').find("select:not(.chosen-select)").combobox();
+    $('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
 ?>

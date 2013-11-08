@@ -95,6 +95,46 @@ class validate_client {
 		
 		
 	}
+
+	function check_used_servers($field_name, $field_value, $validator)
+	{
+		global $app;
+
+		if (is_array($field_value))
+		{
+			$client_id = intval($_POST['id']);
+			$used_servers = null;
+
+			switch ($field_name) 
+			{
+				case 'web_servers':
+	        		$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM web_domain INNER JOIN sys_user ON web_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+					break;
+
+				case 'dns_servers':
+	        		$used_servers = $app->db->queryAllRecords('SELECT id FROM dns_rr INNER JOIN sys_user ON dns_rr.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+					break;
+
+				case 'db_servers':
+	        		$used_servers = $app->db->queryAllRecords('SELECT database_id FROM web_database INNER JOIN sys_user ON web_database.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+					break;
+
+				case 'mail_servers':
+	        		$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+					break;
+			}
+
+	        if ($used_servers === null || count($used_servers)) 
+	        {
+				$errmsg = $validator['errmsg'];
+	        	if(isset($app->tform->wordbook[$errmsg])) {
+					return $app->tform->wordbook[$errmsg]."<br>\r\n";
+				} else {
+					return $errmsg."<br>\r\n";
+				}
+	        }
+		}
+	}
 	
 	
 	

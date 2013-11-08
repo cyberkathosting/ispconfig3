@@ -225,7 +225,7 @@ class page_action extends tform_actions {
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
 		$default_dbserver = $app->functions->intval($tmp['server_id']);
 		
-		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
+		$sql = "UPDATE client SET mail_servers = $default_mailserver, web_servers = $default_webserver, dns_servers = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, db_servers = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);
 		
         if(isset($this->dataRecord['template_master'])) {
