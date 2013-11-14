@@ -346,4 +346,5 @@ if ($_SESSION["s"]["user"]["typ"] == 'admin' && $global_config['mail']['mailbox_
 	);
 }
 
+
 ?>
