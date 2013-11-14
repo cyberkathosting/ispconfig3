@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class listform_actions {
-	
+
 	private $id;
 	public $idx_key;
 	public $DataRowColor;
@@ -37,139 +37,139 @@ class listform_actions {
 	public $SQLOrderBy = '';
 	public $SQLExtSelect = '';
 	private $sortKeys;
-    
-    private function _sort($aOne, $aTwo) {
-        if(!is_array($aOne) || !is_array($aTwo)) return 0;
-        
-        if(!is_array($this->sortKeys)) $this->sortKeys = array($this->sortKeys);
-        foreach($this->sortKeys as $sKey => $sDir) {
-            if(is_numeric($sKey)) {
-                $sKey = $sDir;
-                $sDir = 'ASC';
-            }
-            $a = $aOne[$sKey];
-            $b = $aTwo[$sKey];
-            if(is_string($a)) $a = strtolower($a);
-            if(is_string($b)) $b = strtolower($b);
-            if($a < $b) return ($sDir == 'DESC' ? 1 : -1);
-            elseif($a > $b) return ($sDir == 'DESC' ? -1 : 1);
-        }
-        return 0;
-    }
-    
+
+	private function _sort($aOne, $aTwo) {
+		if(!is_array($aOne) || !is_array($aTwo)) return 0;
+
+		if(!is_array($this->sortKeys)) $this->sortKeys = array($this->sortKeys);
+		foreach($this->sortKeys as $sKey => $sDir) {
+			if(is_numeric($sKey)) {
+				$sKey = $sDir;
+				$sDir = 'ASC';
+			}
+			$a = $aOne[$sKey];
+			$b = $aTwo[$sKey];
+			if(is_string($a)) $a = strtolower($a);
+			if(is_string($b)) $b = strtolower($b);
+			if($a < $b) return $sDir == 'DESC' ? 1 : -1;
+			elseif($a > $b) return $sDir == 'DESC' ? -1 : 1;
+		}
+		return 0;
+	}
+
 	public function onLoad()
-    {
+	{
 		global $app, $conf, $list_def_file;
-		
+
 		$app->uses('tpl,listform,tform');
-		
+
 		//* Clear session variable that is used when lists are embedded with the listview plugin
 		$_SESSION['s']['form']['return_to'] = '';
-		
+
 		// Load list definition
 		$app->listform->loadListDef($list_def_file);
-		
+
 		if(!is_file('templates/'.$app->listform->listDef["name"].'_list.htm')) {
 			$app->uses('listform_tpl_generator');
 			$app->listform_tpl_generator->buildHTML($app->listform->listDef);
 		}
-		
+
 		$app->tpl->newTemplate("listpage.tpl.htm");
-		$app->tpl->setInclude('content_tpl','templates/'.$app->listform->listDef["name"].'_list.htm');
-		
+		$app->tpl->setInclude('content_tpl', 'templates/'.$app->listform->listDef["name"].'_list.htm');
+
 		//* Manipulate order by for sorting / Every list has a stored value
 		//* Against notice error
 		if(!isset($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
-		  $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = '';
+			$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = '';
 		}
-        
-        $php_sort = false;
-        
+
+		$php_sort = false;
+
 		if(!empty($_GET['orderby'])){
-		  $order = str_replace('tbl_col_','',$_GET['orderby']);
-		  
-		  //* Check the css class submited value
-		  if (preg_match("/^[a-z\_]{1,}$/",$order)) {
-            
-            if(isset($app->listform->listDef['phpsort']) && is_array($app->listform->listDef['phpsort']) && in_array($order, $app->listform->listDef['phpsort'])) {
-                $php_sort = true;
-            } else {
-                // prepend correct table
-                $prepend_table = $app->listform->listDef['table'];
-                if(trim($app->listform->listDef['additional_tables']) != '' && is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
-                    foreach($app->listform->listDef['item'] as $field) {
-                        if($field['field'] == $order && $field['table'] != ''){
-                            $prepend_table = $field['table'];
-                            break;
-                        }
-                    }
-                }
-                $order = $prepend_table.'.'.$order;
-            }
-			
-		    if($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] == $order){
-				$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order.' DESC';
-		    } else {
-				$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order;
-		    }
-            $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php'] = $php_sort;
-		  }
+			$order = str_replace('tbl_col_', '', $_GET['orderby']);
+
+			//* Check the css class submited value
+			if (preg_match("/^[a-z\_]{1,}$/", $order)) {
+
+				if(isset($app->listform->listDef['phpsort']) && is_array($app->listform->listDef['phpsort']) && in_array($order, $app->listform->listDef['phpsort'])) {
+					$php_sort = true;
+				} else {
+					// prepend correct table
+					$prepend_table = $app->listform->listDef['table'];
+					if(trim($app->listform->listDef['additional_tables']) != '' && is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
+						foreach($app->listform->listDef['item'] as $field) {
+							if($field['field'] == $order && $field['table'] != ''){
+								$prepend_table = $field['table'];
+								break;
+							}
+						}
+					}
+					$order = $prepend_table.'.'.$order;
+				}
+
+				if($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] == $order){
+					$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order.' DESC';
+				} else {
+					$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'] = $order;
+				}
+				$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php'] = $php_sort;
+			}
 		}
 
 		// If a manuel oder by like customers isset the sorting will be infront
 		if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']) && !$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']){
-          if(empty($this->SQLOrderBy)){
-		    $this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
-		  } else {
-		    $this->SQLOrderBy = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'].', ',$this->SQLOrderBy);
-		  }
+			if(empty($this->SQLOrderBy)){
+				$this->SQLOrderBy = "ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
+			} else {
+				$this->SQLOrderBy = str_replace("ORDER BY ", "ORDER BY ".$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'].', ', $this->SQLOrderBy);
+			}
 		}
-		
+
 		if($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']) $php_sort = true;
-		
+
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
 
 		$this->DataRowColor = "#FFFFFF";
 		$records_new = '';
 		if(is_array($records)) {
-			$this->idx_key = $app->listform->listDef["table_idx"]; 
+			$this->idx_key = $app->listform->listDef["table_idx"];
 			foreach($records as $rec) {
 				$records_new[] = $this->prepareDataRow($rec);
 			}
 		}
-        
-        if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']) && $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']) {
-            $order_by = $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
-            $order_dir = 'ASC';
-            if(substr($order_by, -5) === ' DESC') {
-                $order_by = substr($order_by, 0, -5);
-                $order_dir = 'DESC';
-            }
-            $this->sortKeys = array($order_by => $order_dir);
-            uasort($records_new, array($this, '_sort'));
-        }
-        if($php_sort) {
+
+		if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']) && $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']) {
+			$order_by = $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'];
+			$order_dir = 'ASC';
+			if(substr($order_by, -5) === ' DESC') {
+				$order_by = substr($order_by, 0, -5);
+				$order_dir = 'DESC';
+			}
+			$this->sortKeys = array($order_by => $order_dir);
+			uasort($records_new, array($this, '_sort'));
+		}
+		if($php_sort) {
 			$records_new = array_slice($records_new, $app->listform->getPagingValue('offset'), $app->listform->getPagingValue('records_per_page'));
 		}
-        
-		$app->tpl->setLoop('records',$records_new);
+
+		$app->tpl->setLoop('records', $records_new);
 
 		$this->onShow();
-		
-		
+
+
 	}
-	
+
 	public function prepareDataRow($rec)
-    {
+	{
 		global $app;
-		
+
 		$rec = $app->listform->decode($rec);
 
 		//* Alternating datarow colors
 		$this->DataRowColor = ($this->DataRowColor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 		$rec['bgcolor'] = $this->DataRowColor;
-		
+
 		//* substitute value for select fields
 		if(is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
 			foreach($app->listform->listDef['item'] as $field) {
@@ -184,12 +184,12 @@ class listform_actions {
 				}
 			}
 		}
-		
+
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
 		return $rec;
 	}
-	
+
 	public function getQueryString($no_limit = false) {
 		global $app;
 		$sql_where = '';
@@ -199,32 +199,32 @@ class listform_actions {
 			if($_SESSION['s']['user']['typ'] == "admin") {
 				$sql_where = '';
 			} else {
-				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and'; 
-                //$sql_where = $app->tform->getAuthSQL('r').' and';
+				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and';
+				//$sql_where = $app->tform->getAuthSQL('r').' and';
 			}
-		}		
+		}
 		if($this->SQLExtWhere != '') {
 			$sql_where .= ' '.$this->SQLExtWhere.' and';
 		}
-		
+
 		$sql_where = $app->listform->getSearchSQL($sql_where);
 		if($app->listform->listDef['join_sql']) $sql_where .= ' AND '.$app->listform->listDef['join_sql'];
 		$app->tpl->setVar($app->listform->searchValues);
-		
+
 		$order_by_sql = $this->SQLOrderBy;
 
 		//* Generate SQL for paging
 		$limit_sql = $app->listform->getPagingSQL($sql_where);
-		$app->tpl->setVar('paging',$app->listform->pagingHTML);
+		$app->tpl->setVar('paging', $app->listform->pagingHTML);
 
 		$extselect = '';
 		$join = '';
-		
+
 		if($this->SQLExtSelect != '') {
-			if(substr($this->SQLExtSelect,0,1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect; 
+			if(substr($this->SQLExtSelect, 0, 1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect;
 			$extselect .= $this->SQLExtSelect;
 		}
-		
+
 		$table_selects = array();
 		$table_selects[] = trim($app->listform->listDef['table']).'.*';
 		$app->listform->listDef['additional_tables'] = trim($app->listform->listDef['additional_tables']);
@@ -241,53 +241,54 @@ class listform_actions {
 		//echo $sql;
 		return $sql;
 	}
-	
-	
+
+
 	public function onShow()
-    {
+	{
 		global $app;
-		
+
 		//* Set global Language File
 		$lng_file = ISPC_LIB_PATH.'/lang/'.$_SESSION['s']['language'].'.lng';
 		if(!file_exists($lng_file))
-		$lng_file = ISPC_LIB_PATH.'/lang/en.lng';
-		include($lng_file);
+			$lng_file = ISPC_LIB_PATH.'/lang/en.lng';
+		include $lng_file;
 		$app->tpl->setVar($wb);
-		
+
 		//* Limit each page
-		$limits = array('5'=>'5','15'=>'15','25'=>'25','50'=>'50','100'=>'100','999999999' => 'all');
+		$limits = array('5'=>'5', '15'=>'15', '25'=>'25', '50'=>'50', '100'=>'100', '999999999' => 'all');
 
 		//* create options and set selected, if default -> 15 is selected
 
 		$options = '';
 		foreach($limits as $key => $val){
-		  $options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
+			$options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
 		}
-		$app->tpl->setVar('search_limit','<select name="search_limit" class="search_limit">'.$options.'</select>');
-		
-		$app->tpl->setVar('toolsarea_head_txt',$app->lng('toolsarea_head_txt'));
+		$app->tpl->setVar('search_limit', '<select name="search_limit" class="search_limit">'.$options.'</select>');
+
+		$app->tpl->setVar('toolsarea_head_txt', $app->lng('toolsarea_head_txt'));
 		$app->tpl->setVar($app->listform->wordbook);
 		$app->tpl->setVar('form_action', $app->listform->listDef['file']);
-		
-        if(isset($_SESSION['show_info_msg'])) {
-            $app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
-            unset($_SESSION['show_info_msg']);
-        }
-        if(isset($_SESSION['show_error_msg'])) {
-            $app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
-            unset($_SESSION['show_error_msg']);
-        }
-        
+
+		if(isset($_SESSION['show_info_msg'])) {
+			$app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
+			unset($_SESSION['show_info_msg']);
+		}
+		if(isset($_SESSION['show_error_msg'])) {
+			$app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
+			unset($_SESSION['show_error_msg']);
+		}
+
 		//* Parse the templates and send output to the browser
 		$this->onShowEnd();
 	}
-	
+
 	public function onShowEnd()
-    {
+	{
 		global $app;
 		$app->tpl_defaults();
 		$app->tpl->pparse();
 	}
+
 }
 
 ?>

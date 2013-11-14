@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('vm');
@@ -40,7 +40,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION
 
 	$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);
-		$ip_select = "";
+	$ip_select = "";
 	if(is_array($ips)) {
 		foreach( $ips as $ip) {
 			//$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
@@ -50,6 +50,6 @@ if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION
 	unset($tmp);
 	unset($ips);
 }
-$ip_select = substr($ip_select,0,-1);
+$ip_select = substr($ip_select, 0, -1);
 echo $ip_select;
 ?>

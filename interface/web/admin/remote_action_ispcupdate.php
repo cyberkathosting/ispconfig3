@@ -29,8 +29,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //die('Function has been removed.');
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -45,7 +45,7 @@ $app->tpl->setInclude('content_tpl', 'templates/remote_action_ispcupdate.htm');
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_remote_action.lng';
-include($lng_file);
+include $lng_file;
 
 /*
  * We need a list of all Servers
@@ -80,20 +80,20 @@ if (1 == 0 && isset($_POST['server_select'])) {
 	}
 	foreach ($servers as $serverId) {
 		$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-				"VALUES (".
-				(int)$serverId . ", " .
-				time() . ", " .
-				"'ispc_update', " .
-				"'', " .
-				"'pending', " .
-				"''" .
-				")";
+			"VALUES (".
+			(int)$serverId . ", " .
+			time() . ", " .
+			"'ispc_update', " .
+			"'', " .
+			"'pending', " .
+			"''" .
+			")";
 		$app->db->query($sql);
 	}
 	$msg = $wb['action_scheduled'];
 }
 
-$app->tpl->setVar('msg',$msg);
+$app->tpl->setVar('msg', $msg);
 
 $app->tpl->setVar($wb);
 

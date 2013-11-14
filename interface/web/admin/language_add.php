@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -46,13 +46,13 @@ $app->tpl->setInclude('content_tpl', 'templates/language_add.htm');
 $language_option = '';
 $error = '';
 $msg = '';
-$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'],0,2):'en';
+$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'], 0, 2):'en';
 if(!preg_match("/^[a-z]{2}$/i", $selected_language)) die('unallowed characters in selected language name.');
 
-$handle = opendir(ISPC_ROOT_PATH.'/lib/lang/'); 
-while ($file = readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-		$tmp_lng = substr($file,0,-4);
+$handle = opendir(ISPC_ROOT_PATH.'/lib/lang/');
+while ($file = readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		$tmp_lng = substr($file, 0, -4);
 		if($tmp_lng !='') {
 			$selected = ($tmp_lng == $selected_language)?'SELECTED':'';
 			$language_option .= "<option value='$tmp_lng' $selected>$tmp_lng</option>";
@@ -60,29 +60,29 @@ while ($file = readdir ($handle)) {
 		}
 	}
 }
-$app->tpl->setVar('language_option',$language_option);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('language_option', $language_option);
+$app->tpl->setVar('error', $error);
 
 if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
 	$lng_new = $_POST['lng_new'];
 	if(!preg_match("/^[a-z]{2}$/i", $lng_new)) die('unallowed characters in language name.');
-	
+
 	//* Copy the main language file
-	copy(ISPC_LIB_PATH."/lang/$selected_language.lng",ISPC_LIB_PATH."/lang/$lng_new.lng");
-	
+	copy(ISPC_LIB_PATH."/lang/$selected_language.lng", ISPC_LIB_PATH."/lang/$lng_new.lng");
+
 	//* Make a copy of every language file
 	$bgcolor = '#FFFFFF';
 	$language_files_list = array();
-	$handle = @opendir(ISPC_WEB_PATH); 
-	while ($file = @readdir ($handle)) { 
-	   	if ($file != '.' && $file != '..') {
-	        if(@is_dir(ISPC_WEB_PATH.'/'.$file.'/lib/lang')) {
+	$handle = @opendir(ISPC_WEB_PATH);
+	while ($file = @readdir($handle)) {
+		if ($file != '.' && $file != '..') {
+			if(@is_dir(ISPC_WEB_PATH.'/'.$file.'/lib/lang')) {
 				$handle2 = opendir(ISPC_WEB_PATH.'/'.$file.'/lib/lang');
-				while ($lang_file = @readdir ($handle2)) {
-					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file,0,2) == $selected_language) {
-						$new_lang_file = $lng_new.substr($lang_file,2);
+				while ($lang_file = @readdir($handle2)) {
+					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file, 0, 2) == $selected_language) {
+						$new_lang_file = $lng_new.substr($lang_file, 2);
 						//echo ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file.' ## '.ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$new_lang_file;
-						copy(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file,ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$new_lang_file);
+						copy(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file, ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$new_lang_file);
 						$msg = 'Added new language '.$lng_new;
 					}
 				}
@@ -91,11 +91,11 @@ if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
 	}
 }
 
-$app->tpl->setVar('msg',$msg);
+$app->tpl->setVar('msg', $msg);
 
-//* load language file 
+//* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_add.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

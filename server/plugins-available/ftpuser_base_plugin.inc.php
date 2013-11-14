@@ -29,103 +29,103 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class ftpuser_base_plugin {
-	
+
 	var $plugin_name = 'ftpuser_base_plugin';
 	var $class_name = 'ftpuser_base_plugin';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
 		global $conf;
-		
+
 		if($conf['services']['web'] == true) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
-	
-		
+
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
+
 	function onLoad() {
 		global $app;
-		
+
 		/*
 		Register for the events
 		*/
-		
-		$app->plugins->registerEvent('ftp_user_insert',$this->plugin_name,'insert');
-		$app->plugins->registerEvent('ftp_user_update',$this->plugin_name,'update');
-		$app->plugins->registerEvent('ftp_user_delete',$this->plugin_name,'delete');
 
-		
-	}
-	
-	
-	function insert($event_name,$data) {
-		global $app, $conf;
-		
-        $app->uses('system');
-        
-    if(!is_dir($data['new']['dir'])) {
-      $app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.",LOGLEVEL_DEBUG);
-      
-      $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
-      
-	  //* Check if the resulting path is inside the docroot
-	  if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
-		$app->log('User dir is outside of docroot.',LOGLEVEL_WARN);
-		return false;
-	  }
-	  
-      $app->system->web_folder_protection($web['document_root'],false);
-      exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
-      exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
-	  $app->system->web_folder_protection($web['document_root'],true);
-      
-	  $app->log("Added ftpuser_dir: ".$data['new']['dir'],LOGLEVEL_DEBUG);
-    }
-    
-	}
-	
-	function update($event_name,$data) {
-		global $app, $conf;
-		
-        $app->uses('system');
-        
-    if(!is_dir($data['new']['dir'])) {
-      $app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.",LOGLEVEL_DEBUG);
-      
-      $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
-      
-	  //* Check if the resulting path is inside the docroot
-	  if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
-		$app->log('User dir is outside of docroot.',LOGLEVEL_WARN);
-		return false;
-	  }
+		$app->plugins->registerEvent('ftp_user_insert', $this->plugin_name, 'insert');
+		$app->plugins->registerEvent('ftp_user_update', $this->plugin_name, 'update');
+		$app->plugins->registerEvent('ftp_user_delete', $this->plugin_name, 'delete');
 
-      $app->system->web_folder_protection($web['document_root'],false);
-      exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
-      exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
-	  $app->system->web_folder_protection($web['document_root'],true);
-      
-      $app->log("Added ftpuser_dir: ".$data['new']['dir'],LOGLEVEL_DEBUG);
-    }
+
 	}
-	
-	function delete($event_name,$data) {
+
+
+	function insert($event_name, $data) {
 		global $app, $conf;
-		
-    $app->log("Ftpuser:".$data['new']['username']." deleted.",LOGLEVEL_DEBUG);
-		
+
+		$app->uses('system');
+
+		if(!is_dir($data['new']['dir'])) {
+			$app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.", LOGLEVEL_DEBUG);
+
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+
+			//* Check if the resulting path is inside the docroot
+			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {
+				$app->log('User dir is outside of docroot.', LOGLEVEL_WARN);
+				return false;
+			}
+
+			$app->system->web_folder_protection($web['document_root'], false);
+			exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
+			exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
+			$app->system->web_folder_protection($web['document_root'], true);
+
+			$app->log("Added ftpuser_dir: ".$data['new']['dir'], LOGLEVEL_DEBUG);
+		}
+
 	}
-	
-	
-	
+
+	function update($event_name, $data) {
+		global $app, $conf;
+
+		$app->uses('system');
+
+		if(!is_dir($data['new']['dir'])) {
+			$app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.", LOGLEVEL_DEBUG);
+
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+
+			//* Check if the resulting path is inside the docroot
+			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {
+				$app->log('User dir is outside of docroot.', LOGLEVEL_WARN);
+				return false;
+			}
+
+			$app->system->web_folder_protection($web['document_root'], false);
+			exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
+			exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
+			$app->system->web_folder_protection($web['document_root'], true);
+
+			$app->log("Added ftpuser_dir: ".$data['new']['dir'], LOGLEVEL_DEBUG);
+		}
+	}
+
+	function delete($event_name, $data) {
+		global $app, $conf;
+
+		$app->log("Ftpuser:".$data['new']['username']." deleted.", LOGLEVEL_DEBUG);
+
+	}
+
+
+
 
 } // end class
 

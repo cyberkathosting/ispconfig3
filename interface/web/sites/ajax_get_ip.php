@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -43,7 +43,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION
 
 	//* Get global web config
 	$web_config = $app->getconf->get_server_config($server_id, 'web');
-	
+
 	$sql = "SELECT ip_address FROM server_ip WHERE ip_type = '$ip_type' AND server_id = $server_id";
 	$ips = $app->db->queryAllRecords($sql);
 	// $ip_select = "<option value=''></option>";
@@ -62,5 +62,5 @@ if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION
 	unset($ips);
 }
 
-echo substr($ip_select,0,-1);
+echo substr($ip_select, 0, -1);
 ?>

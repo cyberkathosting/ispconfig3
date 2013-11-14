@@ -1,6 +1,6 @@
 <?php
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mailuser');
@@ -14,7 +14,7 @@ $error = '';
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_index.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $sql = "SELECT * FROM mail_user WHERE mailuser_id = ".$_SESSION['s']['user']['mailuser_id'];
@@ -35,16 +35,16 @@ $rec2 = $app->db->queryOneRecord($sql2);
 
 $app->tpl->setVar($rec2);
 
-$app->tpl->setVar('msg',$msg);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('msg', $msg);
+$app->tpl->setVar('error', $error);
 
 if(isset($_SESSION['show_info_msg'])) {
-    $app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
-    unset($_SESSION['show_info_msg']);
+	$app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
+	unset($_SESSION['show_info_msg']);
 }
 if(isset($_SESSION['show_error_msg'])) {
-    $app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
-    unset($_SESSION['show_error_msg']);
+	$app->tpl->setVar('show_error_msg', $_SESSION['show_error_msg']);
+	unset($_SESSION['show_error_msg']);
 }
 
 

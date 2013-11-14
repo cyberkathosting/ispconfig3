@@ -33,9 +33,9 @@ class ini_parser{
 	var $config;
 
 	function parse_ini_string($ini) {
-		$ini = str_replace("\r\n","\n",$ini);
-		$lines = explode("\n",$ini);
-		
+		$ini = str_replace("\r\n", "\n", $ini);
+		$lines = explode("\n", $ini);
+
 		foreach($lines as $line) {
 			$line = trim($line);
 			if($line != '') {
@@ -58,8 +58,8 @@ class ini_parser{
 			$content .= "[$section]\n";
 			foreach($data as $item => $value) {
 				if($value != '') {
-					$value 	= trim($value);
-					$item 	= trim($item);
+					$value  = trim($value);
+					$item  = trim($item);
 					$content .= "$item=$value\n";
 				}
 			}

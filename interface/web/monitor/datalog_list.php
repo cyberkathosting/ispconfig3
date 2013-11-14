@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /******************************************
 * Begin Form configuration
@@ -52,7 +52,7 @@ $sql = '(';
 foreach($servers as $sv) {
 	$sql .= " (sys_datalog.datalog_id > ".$sv['updated']." AND sys_datalog.server_id = ".$sv['server_id'].") OR ";
 }
-$sql = substr($sql,0,-4);
+$sql = substr($sql, 0, -4);
 $sql .= ')';
 
 $app->listform_actions->SQLExtWhere = $sql;

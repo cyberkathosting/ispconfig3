@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -41,9 +41,9 @@ $app->uses('tpl,tform');
 $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/client_message.htm');
 
-//* load language file 
+//* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_client_message.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $msg = '';
@@ -51,18 +51,18 @@ $error = '';
 
 //* Save data
 if(isset($_POST) && count($_POST) > 1) {
-	
+
 	//* Check values
 	if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i", $_POST['sender'])) $error .= $wb['sender_invalid_error'].'<br />';
 	if(empty($_POST['subject'])) $error .= $wb['subject_invalid_error'].'<br />';
 	if(empty($_POST['message'])) $error .= $wb['message_invalid_error'].'<br />';
-	
+
 	//* Send message
 	if($error == '') {
 		if($app->functions->intval($_POST['recipient']) > 0){
 			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".$app->functions->intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
 			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
-				$tmp_client_ids = explode(',',$circle['client_ids']);
+				$tmp_client_ids = explode(',', $circle['client_ids']);
 				$where = array();
 				foreach($tmp_client_ids as $tmp_client_id){
 					$where[] = 'client_id = '.$tmp_client_id;
@@ -82,7 +82,7 @@ if(isset($_POST) && count($_POST) > 1) {
 				$sql = "SELECT * FROM client WHERE email != '' AND parent_client_id = '$client_id'";
 			}
 		}
-		
+
 		//* Get clients
 		$clients = $app->db->queryAllRecords($sql);
 		if(is_array($clients)) {
@@ -92,28 +92,28 @@ if(isset($_POST) && count($_POST) > 1) {
 				$message = $_POST['message'];
 				foreach($client as $key => $val) {
 					switch ($key) {
-						case 'password':
-							$message = str_replace('{'.$key.'}', '---', $message);
-							break;
-						case 'gender':
-							$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
-							break;
-						default:
-							$message = str_replace('{'.$key.'}', $val, $message);
+					case 'password':
+						$message = str_replace('{'.$key.'}', '---', $message);
+						break;
+					case 'gender':
+						$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
+						break;
+					default:
+						$message = str_replace('{'.$key.'}', $val, $message);
 					}
 				}
-				
+
 				//* Send the email
 				$app->functions->mail($client['email'], $_POST['subject'], $message, $_POST['sender']);
 				$msg .= $client['email'].', ';
 			}
-			$msg = substr($msg,0,-2);
+			$msg = substr($msg, 0, -2);
 		}
-		
+
 	} else {
-		$app->tpl->setVar('sender',$_POST['sender']);
-		$app->tpl->setVar('subject',$_POST['subject']);
-		$app->tpl->setVar('message',$_POST['message']);
+		$app->tpl->setVar('sender', $_POST['sender']);
+		$app->tpl->setVar('subject', $_POST['subject']);
+		$app->tpl->setVar('message', $_POST['message']);
 	}
 } else {
 	// pre-fill Sender field with reseller's email address
@@ -122,7 +122,7 @@ if(isset($_POST) && count($_POST) > 1) {
 		if($client_id > 0){
 			$sql = "SELECT email FROM client WHERE client_id = ".$client_id;
 			$client = $app->db->queryOneRecord($sql);
-			if($client['email'] != '') $app->tpl->setVar('sender',$client['email']);
+			if($client['email'] != '') $app->tpl->setVar('sender', $client['email']);
 		}
 	}
 }
@@ -136,12 +136,12 @@ if(is_array($circles) && !empty($circles)){
 		$recipient .= '<option value="'.$circle['circle_id'].'"'.($app->functions->intval($_POST['recipient']) == $circle['circle_id'] ? ' selected="selected"' : '').'>'.$circle['circle_name'].'</option>';
 	}
 }
-$app->tpl->setVar('recipient',$recipient);
+$app->tpl->setVar('recipient', $recipient);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
-	$app->tpl->setVar('form_legend_txt',$wb['form_legend_admin_txt']);
+	$app->tpl->setVar('form_legend_txt', $wb['form_legend_admin_txt']);
 } else {
-	$app->tpl->setVar('form_legend_txt',$wb['form_legend_client_txt']);
+	$app->tpl->setVar('form_legend_txt', $wb['form_legend_client_txt']);
 }
 
 //message variables
@@ -159,10 +159,10 @@ if(!empty($field_names) && is_array($field_names)){
 		}
 	}
 }
-$app->tpl->setVar('message_variables',trim($message_variables));
+$app->tpl->setVar('message_variables', trim($message_variables));
 
-$app->tpl->setVar('okmsg',$msg);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('okmsg', $msg);
+$app->tpl->setVar('error', $error);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

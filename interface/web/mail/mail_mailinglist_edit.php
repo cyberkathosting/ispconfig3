@@ -38,8 +38,8 @@ $tform_def_file = "form/mail_mailinglist.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -49,11 +49,11 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
-	
+
+
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_mailmailinglist')) {
@@ -63,13 +63,13 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_mailmailinglist_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
-	
+
 	function onShowEnd() {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Clients of the user
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("client_group_id",$client_select);
+			$app->tpl->setVar("client_group_id", $client_select);
 
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
@@ -103,9 +103,9 @@ class page_action extends tform_actions {
 					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("client_group_id",$client_select);
+			$app->tpl->setVar("client_group_id", $client_select);
 		}
-		
+
 		// Getting Domains of the user
 		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
 		$domains = $app->db->queryAllRecords($sql);
@@ -116,8 +116,8 @@ class page_action extends tform_actions {
 				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
 			}
 		}
-		$app->tpl->setVar("domain_option",$domain_select);
-		
+		$app->tpl->setVar("domain_option", $domain_select);
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -127,19 +127,19 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
-		
+
 		parent::onShowEnd();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_mailmailinglist, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			//* Check if Domain belongs to user
 			if(isset($_POST["domain"])) {
 				$domain = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."' AND ".$app->tform->getAuthSQL('r'));
@@ -151,19 +151,19 @@ class page_action extends tform_actions {
 				//Check if email is in use
 				$check = $app->db->queryOneRecord("SELECT count(source) as number FROM mail_forwarding WHERE source = '".$this->dataRecord["listname"]."@".$this->dataRecord["domain"]."'");
 				if($check['number'] != 0) {
-						$app->error($app->tform->wordbook["email_in_use_txt"]);
+					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
-				
+
 				$check = $app->db->queryOneRecord("SELECT count(email) as number FROM mail_user WHERE email = '".$this->dataRecord["listname"]."@".$this->dataRecord["domain"]."'");
 				if($check['number'] != 0) {
-						$app->error($app->tform->wordbook["email_in_use_txt"]);
+					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
-				
+
 				$check = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE listname = '".$this->dataRecord["listname"]."' AND domain = '".$this->dataRecord["domain"]."'");
 				if($check['number'] != 0) {
-						$app->error($app->tform->wordbook["email_in_use_txt"]);
+					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
-				
+
 				// Check if the user may add another mail_domain
 				if($client["limit_mailmailinglist"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE sys_groupid = $client_group_id");
@@ -182,7 +182,7 @@ class page_action extends tform_actions {
 
 		parent::onSubmit();
 	}
-	
+
 	function onBeforeInsert() {
 		global $app, $conf;
 
@@ -190,7 +190,7 @@ class page_action extends tform_actions {
 		$domain = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."'");
 		$this->dataRecord["server_id"] = $domain['server_id'];
 	}
-	
+
 	function onAfterInsert() {
 		global $app, $conf;
 
@@ -205,10 +205,10 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE mail_mailinglist SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE mailinglist_id = ".$this->id);
 		}
 	}
-	
+
 	function onBeforeUpdate() {
 		global $app, $conf;
-		
+
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -219,7 +219,7 @@ class page_action extends tform_actions {
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
 			$rec = $app->db->queryOneRecord("SELECT domain from mail_mailinglist WHERE mailinglist_id = ".$this->id);
-			if($rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id,'u')) {
+			if($rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id, 'u')) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
 				$this->dataRecord["domain"] = $rec['domain'];
@@ -227,10 +227,10 @@ class page_action extends tform_actions {
 			unset($rec);
 		}
 	}
-	
+
 	function onAfterUpdate() {
 		global $app, $conf;
-		
+
 		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
@@ -242,7 +242,7 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE mail_mailinglist SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE mailinglist_id = ".$this->id);
 		}
 	}
-	
+
 }
 
 $app->tform_actions = new page_action;

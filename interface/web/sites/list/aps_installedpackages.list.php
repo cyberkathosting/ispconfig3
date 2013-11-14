@@ -48,26 +48,26 @@ $liste['auth'] = 'no'; // Handling it myself (check for admin)
 
 // Search fields
 $liste["item"][] = array('field'    => 'name',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'TEXT',
-                         'op'       => 'LIKE',
-                         'prefix'   => '%',
-                         'suffix'   => '%',
-                         'width'    => '',
-                         'value'    => '',
-						 'table'	=> 'aps_packages');
- 
+	'datatype' => 'VARCHAR',
+	'formtype' => 'TEXT',
+	'op'       => 'LIKE',
+	'prefix'   => '%',
+	'suffix'   => '%',
+	'width'    => '',
+	'value'    => '',
+	'table' => 'aps_packages');
+
 $liste["item"][] = array('field'    => 'version',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'TEXT',
-                         'op'       => 'like',
-                         'prefix'   => '%',
-                         'suffix'   => '%',
-                         'width'    => '',
-                         'value'    => '',
-						 'table'	=> 'aps_packages');
- 
- /*
+	'datatype' => 'VARCHAR',
+	'formtype' => 'TEXT',
+	'op'       => 'like',
+	'prefix'   => '%',
+	'suffix'   => '%',
+	'width'    => '',
+	'value'    => '',
+	'table' => 'aps_packages');
+
+/*
 $liste["item"][] = array('field'    => 'customer_id',
                          'datatype' => 'INTEGER',
                          'formtype' => 'SELECT',
@@ -77,17 +77,17 @@ $liste["item"][] = array('field'    => 'customer_id',
                          'width'    => '',
                          'value'    => '');
 */
-                         
+
 $liste["item"][] = array('field'    => 'instance_status',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'SELECT',
-                         'op'       => '=',
-                         'prefix'   => '',
-                         'suffix'   => '',
-                         'width'    => '',
-                         'value'    => array(INSTANCE_INSTALL => $app->lng('Installation_task'),
-                                             INSTANCE_ERROR => $app->lng('Installation_error'),
-                                             INSTANCE_SUCCESS => $app->lng('Installation_success'),
-                                             INSTANCE_REMOVE => $app->lng('Installation_remove')),
-						 'table'	=> 'aps_instances'); 
+	'datatype' => 'VARCHAR',
+	'formtype' => 'SELECT',
+	'op'       => '=',
+	'prefix'   => '',
+	'suffix'   => '',
+	'width'    => '',
+	'value'    => array(INSTANCE_INSTALL => $app->lng('Installation_task'),
+		INSTANCE_ERROR => $app->lng('Installation_error'),
+		INSTANCE_SUCCESS => $app->lng('Installation_success'),
+		INSTANCE_REMOVE => $app->lng('Installation_remove')),
+	'table' => 'aps_instances');
 ?>

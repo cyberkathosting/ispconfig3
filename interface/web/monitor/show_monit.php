@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
@@ -47,9 +47,9 @@ $title = 'Monit ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . 
 $app->tpl->setVar("list_head_txt", $title);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
-	
+
 	$app->uses('getconf');
-	$server_config = $app->getconf->get_server_config($_SESSION['monitor']['server_id'],'server');
+	$server_config = $app->getconf->get_server_config($_SESSION['monitor']['server_id'], 'server');
 
 	$monit_url = trim($server_config['monit_url']);
 	if($monit_url != ''){
@@ -64,11 +64,11 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 			$auth_string .= ':'.rawurlencode($monit_password);
 		}
 		if($auth_string != '') $auth_string .= '@';
-	
+
 		$monit_url_parts = parse_url($monit_url);
-  
+
 		$monit_url = $monit_url_parts['scheme'].'://'.$auth_string.$monit_url_parts['host'].(isset($monit_url_parts['port']) ? ':' . $monit_url_parts['port'] : '').(isset($monit_url_parts['path']) ? $monit_url_parts['path'] : '').(isset($monit_url_parts['query']) ? '?' . $monit_url_parts['query'] : '').(isset($monit_url_parts['fragment']) ? '#' . $monit_url_parts['fragment'] : '');
-	
+
 		$app->tpl->setVar("monit_url", $monit_url);
 	} else {
 		$app->tpl->setVar("no_monit_url_defined_txt", $app->lng("no_monit_url_defined_txt"));

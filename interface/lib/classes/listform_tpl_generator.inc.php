@@ -29,11 +29,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class listform_tpl_generator {
-	
-	function buildHTML($listDef,$module = '') {
-		
+
+	function buildHTML($listDef, $module = '') {
+
 		global $app;
-		
+
 		if($module == '') $module = $_SESSION["s"]["module"]["name"];
 
 		$lang = array();
@@ -57,22 +57,22 @@ class listform_tpl_generator {
         <thead>
           <tr>
 ';
-		
+
 		$lang["list_head_txt"] = $listDef["name"];
-      $colcount = 0;
+		$colcount = 0;
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			$html .= "            <th class=\"tbl_col_".$key."\" scope=\"col\"><tmpl_var name=\"".$key."_txt\"></th>\n";
 			$lang[$key."_txt"] = $key;
-         $colcount++;
+			$colcount++;
 		}
-		
+
 		$html .= '            <th class="tbl_col_buttons" scope="col">&nbsp;</th>
           </tr>
           <tr>
 ';
-  
-  		foreach($listDef["item"] as $field) {
+
+		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			if($field["formtype"] == 'SELECT') {
 				$html .= "            <td class=\"tbl_col_".$key."\"><select name=\"".$listDef["search_prefix"].$key."\" onChange=\"submitForm('pageForm','".$module."/".$listDef["file"]."');\">{tmpl_var name='".$listDef["search_prefix"].$key."'}</select></td>\n";
@@ -80,7 +80,7 @@ class listform_tpl_generator {
 				$html .= "            <td class=\"tbl_col_".$key."\"><input type=\"text\" name=\"".$listDef["search_prefix"].$key."\" value=\"{tmpl_var name='".$listDef["search_prefix"].$key."'}\" /></td>\n";
 			}
 		}
-		
+
 		$html .= '            <td class="tbl_col_buttons"><div class="buttons"><button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="'."submitForm('pageForm','".$module."/".$listDef["file"]."');".'"><span>{tmpl_var name="filter_txt"}</span></button></div></td>
           </tr>
         </thead>
@@ -88,14 +88,14 @@ class listform_tpl_generator {
           <tmpl_loop name="records">
           <tr class="tbl_row_<tmpl_if name=\'__EVEN__\'}even<tmpl_else>uneven</tmpl_if>">
 ';
-		
+
 		foreach($listDef["item"] as $field) {
 			$key = $field["field"];
 			$html .= "            <td class=\"tbl_col_".$key."\"><a href=\"#\" onclick=\"loadContent('".$module."/".$listDef["edit_file"]."?id={tmpl_var name='id'}');\">{tmpl_var name=\"".$key."\"}</a></td>\n";
 		}
-		
+
 		$html .= "            <td class=\"tbl_col_buttons\">
-              <div class=\"buttons icons16\">    
+              <div class=\"buttons icons16\">
                 <a class=\"button icons16 icoDelete\" href=\"javascript: del_record('".$module."/".$listDef["delete_file"]."?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');\"><span>{tmpl_var name='delete_txt'}</span></a>
               </div>
             </td>
@@ -107,7 +107,7 @@ class listform_tpl_generator {
               </tr>
           </tmpl_unless>
         </tbody>";
-  $html .= '
+		$html .= '
         <tfoot>
           <tr>
             <td class="tbl_footer tbl_paging" colspan="'.(count($listDef["item"])+1).'"><tmpl_var name="paging"></td>
@@ -119,26 +119,26 @@ class listform_tpl_generator {
 
 </div>
 ';
-		
+
 		if($module == '') {
 			$filename = 'templates/'.$listDef["name"].'_list.htm';
 		} else {
 			$filename = '../'.$module.'/templates/'.$listDef["name"].'_list.htm';
 		}
-		
-		
+
+
 		// save template
-		if (!$handle = fopen($filename, 'w')) { 
-        	print "Cannot open file ($filename)"; 
-        	exit; 
-   		} 
- 
-   		if (!fwrite($handle, $html)) { 
-			print "Cannot write to file ($filename)"; 
-			exit; 
+		if (!$handle = fopen($filename, 'w')) {
+			print "Cannot open file ($filename)";
+			exit;
+		}
+
+		if (!fwrite($handle, $html)) {
+			print "Cannot write to file ($filename)";
+			exit;
 		}
 		fclose($handle);
-		
+
 		/*$lang["page_txt"] = 'Page';
 		$lang["page_of_txt"] = 'of';
 		$lang["page_next_txt"] = 'Next';
@@ -147,37 +147,37 @@ class listform_tpl_generator {
 		$lang["filter_txt"] = 'Filter';
 		$lang["add_new_record_txt"] = 'Add new record';
 		*/
-		
+
 		// save language file
-		$this->lng_add($lang,$listDef,$module);
-    }
-	
-	function lng_add($lang,$listDef,$module = '') {
-		global $go_api, $go_info,$conf;
-		
+		$this->lng_add($lang, $listDef, $module);
+	}
+
+	function lng_add($lang, $listDef, $module = '') {
+		global $go_api, $go_info, $conf;
+
 		if($module == '') {
 			$lng_file = "lib/lang/".$conf["language"]."_".$listDef['name']."_list.lng";
 		} else {
 			$lng_file = '../'.$module."/lib/lang/en_".$listDef['name']."_list.lng";
 		}
-		
+
 		if(is_file($lng_file)) {
-			include_once($lng_file);
+			include_once $lng_file;
 		} else {
 			$wb = array();
 		}
-		
-		$wb_out = array_merge($lang,$wb);
-		
+
+		$wb_out = array_merge($lang, $wb);
+
 		if(is_array($wb_out)) {
-			$fp = fopen ($lng_file, "w");
-			fwrite($fp,"<?php\n");
+			$fp = fopen($lng_file, "w");
+			fwrite($fp, "<?php\n");
 			foreach($wb_out as $key => $val) {
 				$new_line = '$wb["'.$key.'"] = '."'$val';\n";
-				fwrite($fp,$new_line);
-				
+				fwrite($fp, $new_line);
+
 			}
-			fwrite($fp,"?>");
+			fwrite($fp, "?>");
 			fclose($fp);
 		}
 	}

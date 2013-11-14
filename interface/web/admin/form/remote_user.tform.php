@@ -40,21 +40,21 @@ $modules = explode(',', $_SESSION['s']['user']['modules']);
 if(is_array($modules)) {
 	foreach($modules as $mt) {
 		if(is_file(ISPC_WEB_PATH.'/'.$mt.'/lib/remote.conf.php')) {
-			include(ISPC_WEB_PATH."/$mt/lib/remote.conf.php");
+			include ISPC_WEB_PATH."/$mt/lib/remote.conf.php";
 		}
 	}
 }
 
-$form["title"] 			= "Remote user";
-$form["description"] 	= "";
-$form["name"] 			= "remote_user";
-$form["action"]			= "remote_user_edit.php";
-$form["db_table"]		= "remote_user";
-$form["db_table_idx"]	= "remote_userid";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "remote_user";
-$form["list_default"]	= "remote_user_list.php";
-$form["auth"]			= 'yes'; // yes / no
+$form["title"]    = "Remote user";
+$form["description"]  = "";
+$form["name"]    = "remote_user";
+$form["action"]   = "remote_user_edit.php";
+$form["db_table"]  = "remote_user";
+$form["db_table_idx"] = "remote_userid";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "remote_user";
+$form["list_default"] = "remote_user_list.php";
+$form["auth"]   = 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -63,67 +63,67 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['remote_user'] = array (
-	'title' 	=> "Remote User",
-	'width' 	=> 100,
-	'template' 	=> "templates/remote_user_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "Remote User",
+	'width'  => 100,
+	'template'  => "templates/remote_user_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'remote_userid' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT remote_userid,remote_username FROM remote_user WHERE {AUTHSQL} ORDER BY remote_username',
-										'keyfield'=> 'remote_userid',
-										'valuefield'=> 'remote_username'
-									 ),
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT remote_userid,remote_username FROM remote_user WHERE {AUTHSQL} ORDER BY remote_username',
+				'keyfield'=> 'remote_userid',
+				'valuefield'=> 'remote_username'
+			),
+			'value'  => ''
 		),
-		
+
 		'remote_username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'username_error_unique'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{0,64}$/',
-														'errmsg'=> 'username_error_regex'),
-2 => array (	'type' => 'NOTEMPTY',
-		'errmsg'=> 'username_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'UNIQUE',
+					'errmsg'=> 'username_error_unique'),
+				1 => array ( 'type' => 'REGEX',
+					'regex' => '/^[\w\.\-]{0,64}$/',
+					'errmsg'=> 'username_error_regex'),
+				2 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'username_error_empty'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'remote_password' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'PASSWORD',
 			'encryption' => 'MD5',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'remote_functions' => array (
-			'datatype'	=> 'TEXT',
-			'formtype'	=> 'CHECKBOXARRAY',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> $function_list,
-			'separator'	=> ';',
-			'width'		=> '',
-			'maxlength'	=> '',
-			'rows'		=> '5',
-			'cols'		=> '30'
+			'datatype' => 'TEXT',
+			'formtype' => 'CHECKBOXARRAY',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => $function_list,
+			'separator' => ';',
+			'width'  => '',
+			'maxlength' => '',
+			'rows'  => '5',
+			'cols'  => '30'
 		)
-		
-	##################################
-	# ENDE Datatable fields
-	##################################
+
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 

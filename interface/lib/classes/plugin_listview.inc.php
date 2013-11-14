@@ -30,153 +30,154 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class plugin_listview extends plugin_base {
 
-        var $module;
-        var $form;
-        var $tab;
-        var $record_id;
-        var $formdef;
-        var $options;
+	var $module;
+	var $form;
+	var $tab;
+	var $record_id;
+	var $formdef;
+	var $options;
 
-        function onShow() {
+	function onShow() {
 
-                global $app;
+		global $app;
 
-                $app->uses('listform');
-                $app->listform->loadListDef($this->options["listdef"]);
+		$app->uses('listform');
+		$app->listform->loadListDef($this->options["listdef"]);
 
-                //$app->listform->SQLExtWhere = "type = 'alias'";
+		//$app->listform->SQLExtWhere = "type = 'alias'";
 
-                $listTpl = new tpl;
-                $listTpl->newTemplate('templates/'.$app->listform->listDef["name"].'_list.htm');
-				
-				//die(print_r($app->tform_actions));
+		$listTpl = new tpl;
+		$listTpl->newTemplate('templates/'.$app->listform->listDef["name"].'_list.htm');
 
-                // Changing some of the list values to reflect that the list is called within a tform page
-                $app->listform->listDef["file"] = $app->tform->formDef["action"];
-                // $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
-				$app->listform->listDef["page_params"] = "&id=".$this->form->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
-				$listTpl->setVar('parent_id',$this->form->id);
-				$listTpl->setVar('theme', $_SESSION['s']['theme']);
+		//die(print_r($app->tform_actions));
 
-                // Generate the SQL for searching
-                $sql_where = "";
-                if($app->listform->listDef["auth"] != 'no') {
-                        if($_SESSION["s"]["user"]["typ"] != "admin") {
+		// Changing some of the list values to reflect that the list is called within a tform page
+		$app->listform->listDef["file"] = $app->tform->formDef["action"];
+		// $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
+		$app->listform->listDef["page_params"] = "&id=".$this->form->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
+		$listTpl->setVar('parent_id', $this->form->id);
+		$listTpl->setVar('theme', $_SESSION['s']['theme']);
+
+		// Generate the SQL for searching
+		$sql_where = "";
+		if($app->listform->listDef["auth"] != 'no') {
+			if($_SESSION["s"]["user"]["typ"] != "admin") {
 				$sql_where = $app->tform->getAuthSQL('r')." and";
-                        }
-                }
+			}
+		}
 
-                if($this->options["sqlextwhere"] != '') {
-                        $sql_where .= " ".$this->options["sqlextwhere"]." and";
-                }
+		if($this->options["sqlextwhere"] != '') {
+			$sql_where .= " ".$this->options["sqlextwhere"]." and";
+		}
 
-                $sql_where = $app->listform->getSearchSQL($sql_where);
-                $listTpl->setVar($app->listform->searchValues);
+		$sql_where = $app->listform->getSearchSQL($sql_where);
+		$listTpl->setVar($app->listform->searchValues);
 
-                // Generate SQL for paging
-                $limit_sql = $app->listform->getPagingSQL($sql_where);
-                $listTpl->setVar("paging",$app->listform->pagingHTML);
-				
-				$sql_order_by = '';
-				if(isset($this->options["sql_order_by"])) {
-					$sql_order_by = $this->options["sql_order_by"];
-				}
+		// Generate SQL for paging
+		$limit_sql = $app->listform->getPagingSQL($sql_where);
+		$listTpl->setVar("paging", $app->listform->pagingHTML);
+
+		$sql_order_by = '';
+		if(isset($this->options["sql_order_by"])) {
+			$sql_order_by = $this->options["sql_order_by"];
+		}
 
 		//* Limit each page
-		$limits = array('5'=>'5','15'=>'15','25'=>'25','50'=>'50','100'=>'100','999999999' => 'all');
+		$limits = array('5'=>'5', '15'=>'15', '25'=>'25', '50'=>'50', '100'=>'100', '999999999' => 'all');
 
 		//* create options and set selected, if default -> 15 is selected
 		$options='';
 		foreach($limits as $key => $val){
-		  $options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
+			$options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
 		}
-		$listTpl->setVar('search_limit','<select name="search_limit" style="width:50px">'.$options.'</select>');
+		$listTpl->setVar('search_limit', '<select name="search_limit" style="width:50px">'.$options.'</select>');
 
 
 		//Sorting
 		if(!isset($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
-		  $_SESSION['search'][$app->listform->listDef["name"]]['order'] = '';
+			$_SESSION['search'][$app->listform->listDef["name"]]['order'] = '';
 		}
 
 		if(!empty($_GET['orderby'])){
-		  $order = str_replace('tbl_col_','',$_GET['orderby']);
-		  //* Check the css class submited value
-		  if (preg_match("/^[a-z\_]{1,}$/",$order)) {
-		    if($_SESSION['search'][$app->listform->listDef["name"]]['order'] == $order){
-		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order.' DESC';
-		    } else {
-		      $_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order;
-		    }
-		  }
+			$order = str_replace('tbl_col_', '', $_GET['orderby']);
+			//* Check the css class submited value
+			if (preg_match("/^[a-z\_]{1,}$/", $order)) {
+				if($_SESSION['search'][$app->listform->listDef["name"]]['order'] == $order){
+					$_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order.' DESC';
+				} else {
+					$_SESSION['search'][$app->listform->listDef["name"]]['order'] = $order;
+				}
+			}
 		}
 
 		// If a manuel oder by like customers isset the sorting will be infront
 		if(!empty($_SESSION['search'][$app->listform->listDef["name"]]['order'])){
-		  if(empty($sql_order_by)){
-		    $sql_order_by = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'];
-		  } else {
-		    $sql_order_by = str_replace("ORDER BY ","ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'].', ',$sql_order_by);
-		  }
+			if(empty($sql_order_by)){
+				$sql_order_by = "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'];
+			} else {
+				$sql_order_by = str_replace("ORDER BY ", "ORDER BY ".$_SESSION['search'][$app->listform->listDef["name"]]['order'].', ', $sql_order_by);
+			}
 		}
-		
-				// Loading language field
-                $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
-                include($lng_file);
-                $listTpl->setVar($wb);
-				
 
-                // Get the data
-                $records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
+		// Loading language field
+		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
+		include $lng_file;
+		$listTpl->setVar($wb);
 
-                $bgcolor = "#FFFFFF";
-                if(is_array($records)) {
-                        $idx_key = $app->listform->listDef["table_idx"];
-                        foreach($records as $rec) {
 
-                                $rec = $app->listform->decode($rec);
+		// Get the data
+		$records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
 
-                                // Change of color
-                                $bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
-                                $rec["bgcolor"] = $bgcolor;
-								
-								// substitute value for select fields
-								foreach($app->listform->listDef["item"] as $field) {
-									$key = $field["field"];
-									if($field['formtype'] == "SELECT") {
-										if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
-											// Set a additional image variable for bolean fields
-											$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
-										}
-										//* substitute value for select field
-										@$rec[$key] = $field['value'][$rec[$key]];
-									}
-									// Create a lowercase version of every item
-									$rec[$key.'_lowercase'] = strtolower($rec[$key]);
-								}
+		$bgcolor = "#FFFFFF";
+		if(is_array($records)) {
+			$idx_key = $app->listform->listDef["table_idx"];
+			foreach($records as $rec) {
 
-                                // The variable "id" contains always the index field
-                                $rec["id"] = $rec[$idx_key];
-								$rec["delete_confirmation"] = $wb['delete_confirmation'];
+				$rec = $app->listform->decode($rec);
 
-                                $records_new[] = $rec;
-                        }
-                }
+				// Change of color
+				$bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
+				$rec["bgcolor"] = $bgcolor;
 
-                $listTpl->setLoop('records',@$records_new);
+				// substitute value for select fields
+				foreach($app->listform->listDef["item"] as $field) {
+					$key = $field["field"];
+					if($field['formtype'] == "SELECT") {
+						if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
+							// Set a additional image variable for bolean fields
+							$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
+						}
+						//* substitute value for select field
+						@$rec[$key] = $field['value'][$rec[$key]];
+					}
+					// Create a lowercase version of every item
+					$rec[$key.'_lowercase'] = strtolower($rec[$key]);
+				}
 
-                // Setting Returnto information in the session
-                $list_name = $app->listform->listDef["name"];
-                // $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
-				$_SESSION["s"]["list"][$list_name]["parent_id"] = $this->form->id;
-				$_SESSION["s"]["list"][$list_name]["parent_name"] = $app->tform->formDef["name"];
-                $_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
-                $_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
-                $_SESSION["s"]["form"]["return_to"] = $list_name;
-				//die(print_r($_SESSION["s"]["list"][$list_name]));
+				// The variable "id" contains always the index field
+				$rec["id"] = $rec[$idx_key];
+				$rec["delete_confirmation"] = $wb['delete_confirmation'];
 
-                return $listTpl->grab();
+				$records_new[] = $rec;
+			}
+		}
 
-        }
+		$listTpl->setLoop('records', @$records_new);
+
+		// Setting Returnto information in the session
+		$list_name = $app->listform->listDef["name"];
+		// $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
+		$_SESSION["s"]["list"][$list_name]["parent_id"] = $this->form->id;
+		$_SESSION["s"]["list"][$list_name]["parent_name"] = $app->tform->formDef["name"];
+		$_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
+		$_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
+		$_SESSION["s"]["form"]["return_to"] = $list_name;
+		//die(print_r($_SESSION["s"]["list"][$list_name]));
+
+		return $listTpl->grab();
+
+	}
+
 }
 
 ?>

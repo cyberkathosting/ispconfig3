@@ -34,7 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 error_reporting(E_ALL|E_STRICT);
 
 //** The banner on the command line
-echo "\n\n".str_repeat('-',80)."\n";
+echo "\n\n".str_repeat('-', 80)."\n";
 echo " _____ ___________   _____              __ _         ____
 |_   _/  ___| ___ \ /  __ \            / _(_)       /__  \
   | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _    _/ /
@@ -43,17 +43,17 @@ echo " _____ ___________   _____              __ _         ____
  \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, | \____/
                                               __/ |
                                              |___/ ";
-	echo "\n".str_repeat('-',80)."\n";
-	echo "\n\n>>This script tries to repair the client rights  \n\n";
+echo "\n".str_repeat('-', 80)."\n";
+echo "\n\n>>This script tries to repair the client rights  \n\n";
 
 //** Include the library with the basic installer functions
-require_once('lib/install.lib.php');
+require_once 'lib/install.lib.php';
 
 //** Include the library with the basic updater functions
-require_once('lib/update.lib.php');
+require_once 'lib/update.lib.php';
 
 //** Include the base class of the installer class
-require_once('lib/installer_base.lib.php');
+require_once 'lib/installer_base.lib.php';
 
 //** Ensure that current working directory is install directory
 $cur_dir = getcwd();
@@ -62,16 +62,16 @@ if(realpath(dirname(__FILE__)) != $cur_dir) die("Please run installation/update 
 //** Get distribution identifier
 $dist = get_distname();
 
-include_once("/usr/local/ispconfig/server/lib/config.inc.php");
+include_once "/usr/local/ispconfig/server/lib/config.inc.php";
 $conf_old = $conf;
 unset($conf);
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
 //** Include the distribution-specific installer class library and configuration
-if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
-include_once('dist/lib/'.$dist['id'].'.lib.php');
-include_once('dist/conf/'.$dist['id'].'.conf.php');
+if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
+include_once 'dist/lib/'.$dist['id'].'.lib.php';
+include_once 'dist/conf/'.$dist['id'].'.conf.php';
 
 //** Get hostname
 exec('hostname -f', $tmp_out);
@@ -87,15 +87,15 @@ if($conf["mysql"]["master_host"] != '' && $conf["mysql"]["host"] != $conf["mysql
 /*
  * Try to read the DB-admin settings
  */
-$clientdb_host			= '';
-$clientdb_user			= '';
-$clientdb_password		= '';
-include_once("/usr/local/ispconfig/server/lib/mysql_clientdb.conf");
+$clientdb_host   = '';
+$clientdb_user   = '';
+$clientdb_password  = '';
+include_once "/usr/local/ispconfig/server/lib/mysql_clientdb.conf";
 $conf["mysql"]["admin_user"] = $clientdb_user;
 $conf["mysql"]["admin_password"] = $clientdb_password;
-$clientdb_host			= '';
-$clientdb_user			= '';
-$clientdb_password		= '';
+$clientdb_host   = '';
+$clientdb_user   = '';
+$clientdb_password  = '';
 
 //** There is a error if user for mysql admin_password if empty
 if( empty($conf["mysql"]["admin_password"]) ) {
@@ -105,7 +105,7 @@ if( empty($conf["mysql"]["admin_password"]) ) {
 $inst = new installer();
 
 //** Initialize the MySQL server connection
-include_once('lib/mysql.lib.php');
+include_once 'lib/mysql.lib.php';
 
 //* initialize the database
 $inst->db = new db();

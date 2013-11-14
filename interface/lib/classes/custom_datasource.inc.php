@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class custom_datasource {
-	
+
 	function master_templates($field, $record) {
 		global $app, $conf;
 		$records = $app->db->queryAllRecords("SELECT template_id,template_name FROM client_template WHERE template_type ='m'");
@@ -40,10 +40,10 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
-	
+
 	function dns_servers($field, $record) {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -62,10 +62,10 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
-	
+
 	function slave_dns_servers($field, $record) {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -84,10 +84,10 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
-	
+
 	function webdav_domains($field, $record) {
 		global $app, $conf;
-		
+
 		$servers = $app->db->queryAllRecords("SELECT * FROM server WHERE active = 1 AND mirror_server_id = 0");
 		$server_ids = array();
 		$app->uses('getconf');
@@ -100,7 +100,7 @@ class custom_datasource {
 		if(count($server_ids) == 0) return array();
 		$server_ids = implode(',', $server_ids);
 		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (".$server_ids.") AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain");
-		
+
 		$records_new = array();
 		if(is_array($records)) {
 			foreach($records as $rec) {
@@ -110,40 +110,40 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
-	
-	
+
+
 	function client_servers($field, $record) {
 		global $app, $conf;
-		
+
 		$server_type = $field['name'];
-		
+
 		switch($server_type) {
-			case 'default_mailserver':
-				$field = 'mail_server';
+		case 'default_mailserver':
+			$field = 'mail_server';
 			break;
-			case 'default_webserver':
-				$field = 'web_server';
+		case 'default_webserver':
+			$field = 'web_server';
 			break;
-			case 'default_dnsserver':
-				$field = 'dns_server';
+		case 'default_dnsserver':
+			$field = 'dns_server';
 			break;
-			case 'default_slave_dnsserver':
-				$field = 'dns_server';
+		case 'default_slave_dnsserver':
+			$field = 'dns_server';
 			break;
-			case 'default_fileserver':
-				$field = 'file_server';
+		case 'default_fileserver':
+			$field = 'file_server';
 			break;
-			case 'default_dbserver':
-				$field = 'db_server';
+		case 'default_dbserver':
+			$field = 'db_server';
 			break;
-			case 'default_vserverserver':
-				$field = 'vserver_server';
+		case 'default_vserverserver':
+			$field = 'vserver_server';
 			break;
-			default:
-				$field = 'web_server';
+		default:
+			$field = 'web_server';
 			break;
 		}
-		
+
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -154,14 +154,14 @@ class custom_datasource {
 				$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['server_id'];
 			} else {
 				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
-				$app->log('Unable to find default server for client in custom_datasource.inc.php',1);
+				$app->log('Unable to find default server for client in custom_datasource.inc.php', 1);
 				$sql = "SELECT server_id,server_name FROM server WHERE $field = 1 ORDER BY server_name";
 			}
 		} else {
 			//* The logged in user is admin, so we show him all available servers of a specific type.
 			$sql = "SELECT server_id,server_name FROM server WHERE $field = 1 ORDER BY server_name";
 		}
-		
+
 		$records = $app->db->queryAllRecords($sql);
 		$records_new = array();
 		if(is_array($records)) {
@@ -172,8 +172,8 @@ class custom_datasource {
 		}
 		return $records_new;
 	}
-	
-	
+
+
 
 }
 

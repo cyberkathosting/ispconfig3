@@ -38,8 +38,8 @@ $tform_def_file = "form/spamfilter_policy.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -51,7 +51,7 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_spamfilter_policy')) {
@@ -61,13 +61,13 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_spamfilter_policy_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
-				
+
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
@@ -83,9 +83,10 @@ class page_action extends tform_actions {
 				unset($tmp);
 			}
 		} // end if user is not admin
-		
+
 		parent::onSubmit();
 	}
+
 }
 
 $app->tform_actions = new page_action;

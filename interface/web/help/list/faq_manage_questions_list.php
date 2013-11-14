@@ -10,7 +10,7 @@ $liste['table'] = 'help_faq';
 $liste['table_idx'] = 'hf_id';
 
 // Search Field Prefix
-#$liste['search_prefix'] = 'search_';
+//$liste['search_prefix'] = 'search_';
 
 // Records per page
 $liste['records_per_page']= 30;
@@ -32,16 +32,16 @@ $liste['auth'] = 'yes';
 
 
 $liste["item"][] = array(   'field'     => "hf_section",
-                            'datatype'  => "VARCHAR",
-                            'formtype'  => "SELECT",
-                            'op'        => "=",
-                            'prefix'    => "",
-                            'suffix'    => "",
-                            'datasource'    => array (  'type'  => 'SQL',
-														'querystring' => 'SELECT a.hf_section, b.hfs_name FROM help_faq a, help_faq_sections b WHERE (a.hf_section = b.hfs_id)',
-                                                        'keyfield'=> 'hf_section',
-                                                        'valuefield'=> 'hfs_name'
-                                                      ),
-                            'width'     => "",
-                            'value'     => "");
+	'datatype'  => "VARCHAR",
+	'formtype'  => "SELECT",
+	'op'        => "=",
+	'prefix'    => "",
+	'suffix'    => "",
+	'datasource'    => array (  'type'  => 'SQL',
+		'querystring' => 'SELECT a.hf_section, b.hfs_name FROM help_faq a, help_faq_sections b WHERE (a.hf_section = b.hfs_id)',
+		'keyfield'=> 'hf_section',
+		'valuefield'=> 'hfs_name'
+	),
+	'width'     => "",
+	'value'     => "");
 ?>

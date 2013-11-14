@@ -59,16 +59,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 			= "Software Package";
-$form["description"] 	= "Modify software package details";
-$form["name"] 			= "software_package";
-$form["action"]			= "software_package_edit.php";
-$form["db_table"]		= "software_package";
-$form["db_table_idx"]	= "package_id";
-$form["db_history"]		= "no";
-$form["tab_default"]	= "software_package";
-$form["list_default"]	= "software_package_list.php";
-$form["auth"]			= 'yes';
+$form["title"]    = "Software Package";
+$form["description"]  = "Modify software package details";
+$form["name"]    = "software_package";
+$form["action"]   = "software_package_edit.php";
+$form["db_table"]  = "software_package";
+$form["db_table_idx"] = "package_id";
+$form["db_history"]  = "no";
+$form["tab_default"] = "software_package";
+$form["list_default"] = "software_package_list.php";
+$form["auth"]   = 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -77,40 +77,40 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['software_package'] = array (
-	'title' 	=> "Software Package",
-	'width' 	=> 80,
-	'template' 	=> "templates/software_package_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => "Software Package",
+	'width'  => 80,
+	'template'  => "templates/software_package_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'package_title' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '40',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '40',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'package_key' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '40',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '40',
+			'rows'  => '',
+			'cols'  => ''
 		),
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 ?>

@@ -59,8 +59,8 @@ class ini_parser{
 			$content .= "[$section]\n";
 			foreach($data as $item => $value) {
 				if($item != ''){
-					$value 	= trim($value);
-					$item 	= trim($item);
+					$value  = trim($value);
+					$item  = trim($item);
 					$content .= "$item=$value\n";
 				}
 			}

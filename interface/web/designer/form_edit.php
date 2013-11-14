@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
@@ -39,15 +39,15 @@ $app->auth->check_module_permissions('designer');
 // Lade Template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/form_edit.htm');
+$app->tpl->setInclude('content_tpl', 'templates/form_edit.htm');
 
 // Importing variables
 $module_name = $_REQUEST["module_name"];
 $form_name = $_REQUEST["form_name"];
 
 // Checking imported variables
-if(!preg_match('/^[A-Za-z0-9_]{1,50}$/',$module_name)) die("module_name contains invalid chars.");
-if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$form_name)) die("form_name contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{1,50}$/', $module_name)) die("module_name contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $form_name)) die("form_name contains invalid chars.");
 
 $id = $form_name;
 
@@ -59,52 +59,52 @@ if(count($_POST) > 1) {
 		$action = 'INSERT';
 	}
 
-	
+
 	if($error == '') {
-		
+
 		$filename = "../".$module_name."/form/".$form_name.".tform.php";
 		$form_new = $_POST["form"];
-		
+
 		if(@is_file($filename)) {
-			include_once($filename);
+			include_once $filename;
 			$tabs = $form["tabs"];
 			unset($form["tabs"]);
 			$form_new["tabs"] = $tabs;
 		}
-		
-		$file_content = "<?php\r\n".'$form = '.var_export($form_new,true)."\r\n?>";
-		
-		die($file_content);
-		
-		// writing module.conf
-		if (!$handle = fopen($filename, 'w')) { 
-			print "Cannot open file ($filename)"; 
-			exit; 
-		} 
 
-		if (!fwrite($handle, $file_content)) { 
-			print "Cannot write to file ($filename)"; 
-			exit; 
-		} 
-    
+		$file_content = "<?php\r\n".'$form = '.var_export($form_new, true)."\r\n?>";
+
+		die($file_content);
+
+		// writing module.conf
+		if (!$handle = fopen($filename, 'w')) {
+			print "Cannot open file ($filename)";
+			exit;
+		}
+
+		if (!fwrite($handle, $file_content)) {
+			print "Cannot write to file ($filename)";
+			exit;
+		}
+
 		fclose($handle);
-		
+
 		// zu Liste springen
-    	header("Location: form_list.php");
-        exit;
-			
+		header("Location: form_list.php");
+		exit;
+
 	} else {
-		$app->tpl->setVar("error","<b>Fehler:</b><br>".$error);
+		$app->tpl->setVar("error", "<b>Fehler:</b><br>".$error);
 		$app->tpl->setVar($_POST);
 	}
 }
 
 if($id != '') {
-// Datensatz besteht bereits
+	// Datensatz besteht bereits
 	// bestehenden Datensatz anzeigen
 	if($error == '') {
 		// es liegt ein Fehler vor
-		include_once("../".$module_name."/form/".$form_name.".tform.php");
+		include_once "../".$module_name."/form/".$form_name.".tform.php";
 		//$tabs = $form["tabs"];
 		unset($form["tabs"]);
 		$record = $form;
@@ -123,7 +123,7 @@ if($id != '') {
 	}
 	$record["readonly"] = 'style="background-color: #EEEEEE;" readonly';
 } else {
-// neuer datensatz
+	// neuer datensatz
 	if($error == '') {
 		// es liegt kein Fehler vor
 		// Pewsets
@@ -132,7 +132,7 @@ if($id != '') {
 		// ein Fehler
 		$record = $_POST;
 		unset($_POST["tabs"]);
-		
+
 	}
 	$record["readonly"] = '';
 }
@@ -141,7 +141,7 @@ $record["id"] = $form_name;
 
 $app->tpl->setVar($record);
 
-include_once("lib/lang/".$_SESSION["s"]["language"]."_form_edit.lng");
+include_once "lib/lang/".$_SESSION["s"]["language"]."_form_edit.lng";
 $app->tpl->setVar($wb);
 
 // Defaultwerte setzen

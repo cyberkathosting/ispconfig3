@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
@@ -39,7 +39,7 @@ $app->uses('tools_monitor');
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/show_log.htm');
+$app->tpl->setInclude('content_tpl', 'templates/show_log.htm');
 
 // Importing the GET values
 $refresh = (isset($_GET["refresh"]))?$app->functions->intval($_GET["refresh"]):0;
@@ -54,51 +54,51 @@ $monTransRefreshsq = $app->lng("monitor_settings_refreshsq_txt");
  Setting the db-type and the caption
  */
 switch($logParam) {
-	case 'log_mail':
-		$logId = 'log_mail';
-		$title = $app->lng("monitor_logs_mail_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_mail_warn':
-		$logId = 'log_mail_warn';
-		$title = $app->lng("monitor_logs_mailwarn_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_mail_err':
-		$logId = 'log_mail_err';
-		$title = $app->lng("monitor_logs_mailerr_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_messages':
-		$logId = 'log_messages';
-		$title = $app->lng("monitor_logs_messages_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_ispc_cron':
-		$logId = 'log_ispc_cron';
-		$title = $app->lng("monitor_logs_ispccron_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_freshclam':
-		$logId = 'log_freshclam';
-		$title = $app->lng("monitor_logs_freshclam_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_clamav':
-		$logId = 'log_clamav';
-		$title = $app->lng("monitor_logs_clamav_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	case 'log_ispconfig':
-		$logId = 'log_ispconfig';
-		$title = $app->lng("monitor_logs_ispc_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
-		$description = '';
-		break;
-	default:
-		$logId = '???';
-		$title = '???';
-		$description = '';
-		break;
+case 'log_mail':
+	$logId = 'log_mail';
+	$title = $app->lng("monitor_logs_mail_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_mail_warn':
+	$logId = 'log_mail_warn';
+	$title = $app->lng("monitor_logs_mailwarn_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_mail_err':
+	$logId = 'log_mail_err';
+	$title = $app->lng("monitor_logs_mailerr_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_messages':
+	$logId = 'log_messages';
+	$title = $app->lng("monitor_logs_messages_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_ispc_cron':
+	$logId = 'log_ispc_cron';
+	$title = $app->lng("monitor_logs_ispccron_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_freshclam':
+	$logId = 'log_freshclam';
+	$title = $app->lng("monitor_logs_freshclam_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_clamav':
+	$logId = 'log_clamav';
+	$title = $app->lng("monitor_logs_clamav_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+case 'log_ispconfig':
+	$logId = 'log_ispconfig';
+	$title = $app->lng("monitor_logs_ispc_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+	$description = '';
+	break;
+default:
+	$logId = '???';
+	$title = '???';
+	$description = '';
+	break;
 }
 
 
@@ -107,7 +107,7 @@ switch($logParam) {
  Attention: the core-moule ist triggered every 5 minutes,
             so reload every 2 minutes is impossible!
 */
-$refresh_values = array('0' => '- '.$app->lng("No Refresh").' -','5' => '5 '.$app->lng("minutes"),'10' => '10 '.$app->lng("minutes"),'15' => '15 '.$app->lng("minutes"),'30' => '30 '.$app->lng("minutes"),'60' => '60 '.$app->lng("minutes"));
+$refresh_values = array('0' => '- '.$app->lng("No Refresh").' -', '5' => '5 '.$app->lng("minutes"), '10' => '10 '.$app->lng("minutes"), '15' => '15 '.$app->lng("minutes"), '30' => '30 '.$app->lng("minutes"), '60' => '60 '.$app->lng("minutes"));
 $tmp = '';
 foreach($refresh_values as $key => $val) {
 	if($key == $refresh) {
@@ -116,7 +116,7 @@ foreach($refresh_values as $key => $val) {
 		$tmp .= "<option value='$key'>$val</option>";
 	}
 }
-$app->tpl->setVar("refresh",$tmp);
+$app->tpl->setVar("refresh", $tmp);
 
 
 /* fetch the Data from the DB */
@@ -133,7 +133,7 @@ if(isset($record['data'])) {
 }
 
 $app->tpl->setVar("list_head_txt", $title);
-$app->tpl->setVar("log_id",$logId);
+$app->tpl->setVar("log_id", $logId);
 $app->tpl->setVar("list_desc_txt", $description);
 $app->tpl->setVar("time", $app->tools_monitor->getDataTime($logId));
 $app->tpl->setVar("monTransDate", $monTransDate);

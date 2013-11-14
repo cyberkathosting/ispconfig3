@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -46,13 +46,13 @@ $app->tpl->setInclude('content_tpl', 'templates/language_complete.htm');
 $language_option = '';
 $error = '';
 $msg = '';
-$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'],0,2):'en';
+$selected_language = (isset($_REQUEST['lng_select']))?substr($_REQUEST['lng_select'], 0, 2):'en';
 if(!preg_match("/^[a-z]{2}$/i", $selected_language)) die('unallowed characters in selected language name.');
 
-$handle = opendir(ISPC_ROOT_PATH.'/lib/lang/'); 
-while ($file = readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-		$tmp_lng = substr($file,0,-4);
+$handle = opendir(ISPC_ROOT_PATH.'/lib/lang/');
+while ($file = readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		$tmp_lng = substr($file, 0, -4);
 		if($tmp_lng !='' && $tmp_lng != 'en') {
 			$selected = ($tmp_lng == $selected_language)?'SELECTED':'';
 			$language_option .= "<option value='$tmp_lng' $selected>$tmp_lng</option>";
@@ -60,65 +60,65 @@ while ($file = readdir ($handle)) {
 		}
 	}
 }
-$app->tpl->setVar('language_option',$language_option);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('language_option', $language_option);
+$app->tpl->setVar('error', $error);
 
 // Export the language file
 if(isset($_POST['lng_select']) && $error == '') {
-	
+
 	// complete the global langauge file
-	merge_langfile(ISPC_LIB_PATH."/lang/".$selected_language.".lng",ISPC_LIB_PATH."/lang/en.lng");
-	
+	merge_langfile(ISPC_LIB_PATH."/lang/".$selected_language.".lng", ISPC_LIB_PATH."/lang/en.lng");
+
 	// Go trough all language files
 	$bgcolor = '#FFFFFF';
 	$language_files_list = array();
-	$handle = @opendir(ISPC_WEB_PATH); 
-	while ($file = @readdir ($handle)) { 
-	   	if ($file != '.' && $file != '..') {
-	        if(@is_dir(ISPC_WEB_PATH.'/'.$file.'/lib/lang')) {
+	$handle = @opendir(ISPC_WEB_PATH);
+	while ($file = @readdir($handle)) {
+		if ($file != '.' && $file != '..') {
+			if(@is_dir(ISPC_WEB_PATH.'/'.$file.'/lib/lang')) {
 				$handle2 = opendir(ISPC_WEB_PATH.'/'.$file.'/lib/lang');
-				while ($lang_file = @readdir ($handle2)) {
-					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file,0,2) == 'en') {
-						$target_lang_file = $selected_language.substr($lang_file,2);
-						merge_langfile(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$target_lang_file,ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file);
+				while ($lang_file = @readdir($handle2)) {
+					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file, 0, 2) == 'en') {
+						$target_lang_file = $selected_language.substr($lang_file, 2);
+						merge_langfile(ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$target_lang_file, ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file);
 					}
 				}
 				$handle2 = opendir(ISPC_WEB_PATH.'/'.$file.'/lib/lang');
-				while ($lang_file = @readdir ($handle2)) {
-					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file,0,2) == $selected_language) {
-						$master_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/en'.substr($lang_file,2);
+				while ($lang_file = @readdir($handle2)) {
+					if ($lang_file != '.' && $lang_file != '..' && substr($lang_file, 0, 2) == $selected_language) {
+						$master_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/en'.substr($lang_file, 2);
 						$target_lang_file=ISPC_WEB_PATH.'/'.$file.'/lib/lang/'.$lang_file;
 						if(!file_exists($master_lang_file)){
-						unlink($target_lang_file);
-						$msg.="File $target_lang_file removed because does not exist in master language<br />";
+							unlink($target_lang_file);
+							$msg.="File $target_lang_file removed because does not exist in master language<br />";
 						}
 					}
 				}//Finish of remove the files how not exists in master language
 			}
 		}
 	}
-if($msg=='')
-$msg="No files created, removed or modified<br />";
+	if($msg=='')
+		$msg="No files created, removed or modified<br />";
 }
 
-function merge_langfile($langfile,$masterfile) {
+function merge_langfile($langfile, $masterfile) {
 	global $msg;
-	
+
 	if(is_file($langfile)) {
-	
+
 		// Load the english language file
-		include($masterfile);
+		include $masterfile;
 		if(isset($wb) && is_array($wb)) {
 			$wb_master = $wb;
 			unset($wb);
 		} else {
 			$wb_master = array();
 		}
-	
+
 		// Load the incomplete language file
 		$wb = array();
-		include($langfile);
-	
+		include $langfile;
+
 		$n = 0;
 		foreach($wb_master as $key => $val) {
 			if(!isset($wb[$key])) {
@@ -126,7 +126,7 @@ function merge_langfile($langfile,$masterfile) {
 				$n++;
 			}
 		}
-		
+
 		$r = 0;
 		foreach($wb as $key => $val) {
 			if(!isset($wb_master[$key])) {
@@ -134,31 +134,31 @@ function merge_langfile($langfile,$masterfile) {
 				$r++;
 			}
 		}
-	
+
 		$file_content = "<?php\n";
 		foreach($wb as $key => $val) {
-			$val = str_replace("'","\\'",$val);
-			$val = str_replace('"','\"',$val);
+			$val = str_replace("'", "\\'", $val);
+			$val = str_replace('"', '\"', $val);
 			$file_content .= '$wb['."'$key'".'] = '."'$val';\n";
 		}
 		$file_content .= "?>\n";
-		
+
 		if($n!=0)
-		$msg .= "Added $n lines to the file $langfile<br />";
+			$msg .= "Added $n lines to the file $langfile<br />";
 		if($r!=0)
-		$msg .= "Removed $r lines to the file $langfile<br />";
-		file_put_contents($langfile ,$file_content);
+			$msg .= "Removed $r lines to the file $langfile<br />";
+		file_put_contents($langfile , $file_content);
 	} else {
 		$msg .= "File does not exist yet. Copied file $masterfile to $langfile<br />";
-		copy($masterfile,$langfile);
+		copy($masterfile, $langfile);
 	}
 }
 
-$app->tpl->setVar('msg',$msg);
+$app->tpl->setVar('msg', $msg);
 
-//* load language file 
+//* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_complete.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

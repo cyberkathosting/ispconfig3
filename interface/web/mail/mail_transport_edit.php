@@ -38,8 +38,8 @@ $tform_def_file = "form/mail_transport.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -50,10 +50,10 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_mailrouting')) {
@@ -63,15 +63,15 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_mailrouting_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
-	
+
 	function onShowEnd() {
 		global $app, $conf;
-		
-		$tmp_parts = explode(":",$this->dataRecord["transport"]);
-		if(!empty($this->id) && !stristr($this->dataRecord["transport"],':')) {
+
+		$tmp_parts = explode(":", $this->dataRecord["transport"]);
+		if(!empty($this->id) && !stristr($this->dataRecord["transport"], ':')) {
 			$rec["type"] = 'custom';
 		} else {
 			if(empty($this->id) && empty($tmp_parts[0])) {
@@ -87,15 +87,15 @@ class page_action extends tform_actions {
 		} else {
 			$dest = $this->dataRecord["transport"];
 		}
-		if(@substr($dest,0,1) == '[') {
+		if(@substr($dest, 0, 1) == '[') {
 			$rec["mx"] = 'checked="CHECKED"';
-			$rec["destination"] = @str_replace(']','',@str_replace('[','',$dest));
+			$rec["destination"] = @str_replace(']', '', @str_replace('[', '', $dest));
 		} else {
 			$rec["mx"] = '';
 			$rec["destination"] = @$dest;
 		}
-		
-		$types = array('smtp' => 'smtp','uucp' => 'uucp','slow' => 'slow', 'error' => 'error', 'custom' => 'custom','' => 'null');
+
+		$types = array('smtp' => 'smtp', 'uucp' => 'uucp', 'slow' => 'slow', 'error' => 'error', 'custom' => 'custom', '' => 'null');
 		$type_select = '';
 		if(is_array($types)) {
 			foreach( $types as $key => $val) {
@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar($rec);
 		unset($type);
 		unset($types);
-		
+
 		parent::onShowEnd();
 	}
 
@@ -129,7 +129,7 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-				
+
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
@@ -145,11 +145,11 @@ class page_action extends tform_actions {
 				unset($tmp);
 			}
 		} // end if user is not admin
-		
+
 		//* Compose transport field
 		if($this->dataRecord["mx"] == 'y') {
-			if(stristr($this->dataRecord["destination"],':')) {
-				$tmp_parts = explode(":",$this->dataRecord["destination"]);
+			if(stristr($this->dataRecord["destination"], ':')) {
+				$tmp_parts = explode(":", $this->dataRecord["destination"]);
 				$transport = '['.$tmp_parts[0].']:'.$tmp_parts[1];
 			} else {
 				$transport = '['.$this->dataRecord["destination"].']';
@@ -157,20 +157,20 @@ class page_action extends tform_actions {
 		} else {
 			$transport = $this->dataRecord["destination"];
 		}
-		
+
 		if($this->dataRecord["type"] == 'custom') {
 			$this->dataRecord["transport"] = $transport;
 		} else {
 			$this->dataRecord["transport"] = $this->dataRecord["type"].':'.$transport;
 		}
-		
+
 		unset($this->dataRecord["type"]);
 		unset($this->dataRecord["mx"]);
 		unset($this->dataRecord["destination"]);
-		
+
 		parent::onSubmit();
 	}
-	
+
 }
 
 $page = new page_action;

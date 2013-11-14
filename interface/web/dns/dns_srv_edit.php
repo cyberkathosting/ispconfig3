@@ -38,8 +38,8 @@ $tform_def_file = "form/dns_srv.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('dns');
@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 
 		// Split the 3 parts of the SRV Record apart
 		$split = explode(' ', $this->dataRecord['data']);
-		
+
 		$app->tpl->setVar('weight', $split[0]);
 		$app->tpl->setVar('port', $split[1]);
 		$app->tpl->setVar('target', $split[2]);
@@ -151,6 +151,7 @@ class page_action extends tform_actions {
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
 		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
 	}
+
 }
 
 $page = new page_action;

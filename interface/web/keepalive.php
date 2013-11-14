@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
-require_once('../lib/config.inc.php');
-require_once('../lib/app.inc.php');
+require_once '../lib/config.inc.php';
+require_once '../lib/app.inc.php';
 
 ?>

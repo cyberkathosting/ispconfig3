@@ -38,8 +38,8 @@ $tform_def_file = "form/domain.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -52,11 +52,11 @@ class page_action extends tform_actions {
 
 	function onBeforeDelete() {
 		global $app; $conf;
-		
+
 		//* load language file
 		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
-		include($lng_file);
-		
+		include $lng_file;
+
 		/*
 		 * We can only delete domains if they are NOT in use
 		 */
@@ -67,13 +67,14 @@ class page_action extends tform_actions {
 		if (is_array($res)){
 			$app->error($wb['error_domain_in mailuse']);
 		}
-		
+
 		$sql = "SELECT domain_id FROM web_domain WHERE domain = '" . $app->db->quote($domain) . "'";
 		$res = $app->db->queryOneRecord($sql);
 		if (is_array($res)){
 			$app->error($wb['error_domain_in webuse']);
 		}
 	}
+
 }
 
 $page = new page_action;

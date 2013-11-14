@@ -38,8 +38,8 @@ $tform_def_file = "form/database.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_dbserver]");
-			$app->tpl->setVar("server_id","<option value='$client[default_dbserver]'>$tmp[server_name]</option>");
+			$app->tpl->setVar("server_id", "<option value='$client[default_dbserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -85,10 +85,10 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, default_webserver, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			
+
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_webserver]");
-			$app->tpl->setVar("server_id","<option value='$client[default_webserver]'>$tmp[server_name]</option>");
+			$app->tpl->setVar("server_id", "<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
 		} else {
@@ -108,19 +108,19 @@ class page_action extends tform_actions {
 		 * If the names are restricted -> remove the restriction, so that the
 		 * data can be edited
 		 */
-		
+
 		//* Get the database name and database user prefix
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-		
+
 		if ($this->dataRecord['database_name'] != ""){
 			/* REMOVE the restriction */
 			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix));
 		}
-        
-        $app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
-		
+
+		$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -136,9 +136,9 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
-        $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
-        if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
-        
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -166,21 +166,21 @@ class page_action extends tform_actions {
 
 			}
 		} else {
-            // check if client of database parent domain is client of db user!
-            $web_group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
-            if($this->dataRecord['database_user_id']) {
-                $group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_user_id'])."'");
-                if($group['sys_groupid'] != $web_group['sys_groupid']) {
-                    $app->error($app->tform->wordbook['database_client_differs_txt']);
-                }
-            }
-            if($this->dataRecord['database_ro_user_id']) {
-                $group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_ro_user_id'])."'");
-                if($group['sys_groupid'] != $web_group['sys_groupid']) {
-                    $app->error($app->tform->wordbook['database_client_differs_txt']);
-                }
-            }
-        }
+			// check if client of database parent domain is client of db user!
+			$web_group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
+			if($this->dataRecord['database_user_id']) {
+				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_user_id'])."'");
+				if($group['sys_groupid'] != $web_group['sys_groupid']) {
+					$app->error($app->tform->wordbook['database_client_differs_txt']);
+				}
+			}
+			if($this->dataRecord['database_ro_user_id']) {
+				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_ro_user_id'])."'");
+				if($group['sys_groupid'] != $web_group['sys_groupid']) {
+					$app->error($app->tform->wordbook['database_client_differs_txt']);
+				}
+			}
+		}
 
 
 		parent::onSubmit();
@@ -191,31 +191,31 @@ class page_action extends tform_actions {
 
 		//* Site shall not be empty
 		if($this->dataRecord['parent_domain_id'] == 0) $app->tform->errorMessage .= $app->tform->lng("database_site_error_empty").'<br />';
-		
+
 		//* Get the database name and database user prefix
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-		
+
 		//* Prevent that the database name and charset is changed
 		$old_record = $app->tform->getDataRecord($this->id);
-        $dbname_prefix = $app->tools_sites->getPrefix($old_record['database_name_prefix'], $dbname_prefix);
-        $this->dataRecord['database_name_prefix'] = $dbname_prefix;
-        
+		$dbname_prefix = $app->tools_sites->getPrefix($old_record['database_name_prefix'], $dbname_prefix);
+		$this->dataRecord['database_name_prefix'] = $dbname_prefix;
+
 		if($old_record["database_name"] != $dbname_prefix . $this->dataRecord["database_name"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
 		}
 		if($old_record["database_charset"] != $this->dataRecord["database_charset"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
 		}
-		
-        if(!$this->dataRecord['database_user_id']) {
-            $app->tform->errorMessage .= $app->tform->wordbook["database_user_missing_txt"].'<br />';
-        }
-        
+
+		if(!$this->dataRecord['database_user_id']) {
+			$app->tform->errorMessage .= $app->tform->wordbook["database_user_missing_txt"].'<br />';
+		}
+
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
-		
+
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -226,31 +226,31 @@ class page_action extends tform_actions {
 			}
 		}
 		unset($old_record);
-		
-		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
-		
+
+		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}', $dbname_prefix . $this->dataRecord['database_name'], $app->tform->wordbook["database_name_error_len"]).'<br />';
+
 		//* Check database name and user against blacklist
-		$dbname_blacklist = array($conf['db_database'],'mysql');
-		if(in_array($dbname_prefix . $this->dataRecord['database_name'],$dbname_blacklist)) {
+		$dbname_blacklist = array($conf['db_database'], 'mysql');
+		if(in_array($dbname_prefix . $this->dataRecord['database_name'], $dbname_blacklist)) {
 			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
 		}
-		
+
 		if ($app->tform->errorMessage == ''){
 			/* restrict the names if there is no error */
-            /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
+			/* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
 			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
 		}
-		
+
 		//* Check for duplicates
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."' AND database_id != '".$this->id."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->lng('database_name_error_unique').'<br />';
-		
-        // get the web server ip (parent domain)
-        $tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
-        if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
-            // we need remote access rights for this server, so get it's ip address
-            $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
-            if($server_config['ip_address']!='') {
+
+		// get the web server ip (parent domain)
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
+			// we need remote access rights for this server, so get it's ip address
+			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
+			if($server_config['ip_address']!='') {
 				/*
                 if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
@@ -258,7 +258,7 @@ class page_action extends tform_actions {
                     $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
                 }
 				*/
-				
+
 				if($this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
@@ -267,25 +267,25 @@ class page_action extends tform_actions {
 						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
 							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
 						}
-                        $tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
-                        $tmp = array_unique($tmp);
-                        $this->dataRecord['remote_ips'] = implode(',', $tmp);
-                        unset($tmp);
+						$tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
+						$tmp = array_unique($tmp);
+						$this->dataRecord['remote_ips'] = implode(',', $tmp);
+						unset($tmp);
 					}
 				}
-            }
-        }
-        
-        
+			}
+		}
+
+
 		parent::onBeforeUpdate();
 	}
 
 	function onBeforeInsert() {
 		global $app, $conf, $interfaceConf;
-		
+
 		//* Site shell not be empty
 		if($this->dataRecord['parent_domain_id'] == 0) $app->tform->errorMessage .= $app->tform->lng("database_site_error_empty").'<br />';
-		
+
 		//* Database username and database name shall not be empty
 		if($this->dataRecord['database_name'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_name_error_empty"].'<br />';
 
@@ -293,32 +293,32 @@ class page_action extends tform_actions {
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
-        $this->dataRecord['database_name_prefix'] = $dbname_prefix;
-		
-		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}',$dbname_prefix . $this->dataRecord['database_name'],$app->tform->wordbook["database_name_error_len"]).'<br />';
-		
+		$this->dataRecord['database_name_prefix'] = $dbname_prefix;
+
+		if(strlen($dbname_prefix . $this->dataRecord['database_name']) > 64) $app->tform->errorMessage .= str_replace('{db}', $dbname_prefix . $this->dataRecord['database_name'], $app->tform->wordbook["database_name_error_len"]).'<br />';
+
 		//* Check database name and user against blacklist
-		$dbname_blacklist = array($conf['db_database'],'mysql');
-		if(in_array($dbname_prefix . $this->dataRecord['database_name'],$dbname_blacklist)) {
+		$dbname_blacklist = array($conf['db_database'], 'mysql');
+		if(in_array($dbname_prefix . $this->dataRecord['database_name'], $dbname_blacklist)) {
 			$app->tform->errorMessage .= $app->lng('Database name not allowed.').'<br />';
 		}
-		
+
 		/* restrict the names */
-        /* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
+		/* crop user and db names if they are too long -> mysql: user: 16 chars / db: 64 chars */
 		if ($app->tform->errorMessage == ''){
 			$this->dataRecord['database_name'] = substr($dbname_prefix . $this->dataRecord['database_name'], 0, 64);
 		}
-		
+
 		//* Check for duplicates
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->tform->lng('database_name_error_unique').'<br />';
 
-        // get the web server ip (parent domain)
-        $tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
-        if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
-            // we need remote access rights for this server, so get it's ip address
-            $server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
-            if($server_config['ip_address']!='') {
+		// get the web server ip (parent domain)
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
+			// we need remote access rights for this server, so get it's ip address
+			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
+			if($server_config['ip_address']!='') {
 				/*
                 if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
                 $this->dataRecord['remote_access'] = 'y';
@@ -326,7 +326,7 @@ class page_action extends tform_actions {
                     $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
                 }
 				*/
-				
+
 				if($this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
@@ -335,55 +335,55 @@ class page_action extends tform_actions {
 						if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
 							$this->dataRecord['remote_ips'] .= ',' . $server_config['ip_address'];
 						}
-                        $tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
-                        $tmp = array_unique($tmp);
-                        $this->dataRecord['remote_ips'] = implode(',', $tmp);
-                        unset($tmp);
+						$tmp = preg_split('/\s*,\s*/', $this->dataRecord['remote_ips']);
+						$tmp = array_unique($tmp);
+						$this->dataRecord['remote_ips'] = implode(',', $tmp);
+						unset($tmp);
 					}
 				}
-            }
-        }
-        
+			}
+		}
+
 		parent::onBeforeInsert();
 	}
 
-    function onInsertSave($sql) {
-        global $app, $conf;
-        
-        $app->uses('sites_database_plugin');
-        
-        //$app->sites_database_plugin->processDatabaseInsert($this);
-        
-        $app->db->query($sql);
-        if($app->db->errorMessage != '') die($app->db->errorMessage);
-        $new_id = $app->db->insertID();
-        
-        return $new_id;
-    }
+	function onInsertSave($sql) {
+		global $app, $conf;
 
-    function onUpdateSave($sql) {
-        global $app;
-        if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(),$this->id)) {
-            
-            $app->uses('sites_database_plugin');
-            //$app->sites_database_plugin->processDatabaseUpdate($this);
+		$app->uses('sites_database_plugin');
 
-            $app->db->query($sql);
-            if($app->db->errorMessage != '') die($app->db->errorMessage);
-        }
-    }
-    
+		//$app->sites_database_plugin->processDatabaseInsert($this);
+
+		$app->db->query($sql);
+		if($app->db->errorMessage != '') die($app->db->errorMessage);
+		$new_id = $app->db->insertID();
+
+		return $new_id;
+	}
+
+	function onUpdateSave($sql) {
+		global $app;
+		if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(), $this->id)) {
+
+			$app->uses('sites_database_plugin');
+			//$app->sites_database_plugin->processDatabaseUpdate($this);
+
+			$app->db->query($sql);
+			if($app->db->errorMessage != '') die($app->db->errorMessage);
+		}
+	}
+
 	function onAfterInsert() {
 		global $app, $conf;
-		
+
 		if($this->dataRecord["parent_domain_id"] > 0) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-		
+
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $web['sys_groupid'];
 			$backup_interval = $web['backup_interval'];
 			$backup_copies = $web['backup_copies'];
-		
+
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
 			$app->db->query($sql);
 		}
@@ -394,12 +394,12 @@ class page_action extends tform_actions {
 
 		if($this->dataRecord["parent_domain_id"] > 0) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-		
+
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $web['sys_groupid'];
 			$backup_interval = $web['backup_interval'];
 			$backup_copies = $web['backup_copies'];
-		
+
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
 			$app->db->query($sql);
 		}

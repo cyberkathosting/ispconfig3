@@ -48,13 +48,13 @@ class cmstree
     // - icon       :icon im node-tree, optional
     // - modul      :modul des Eintrages, noch nicht verwendet
     // - doc_id     :id des zugeh�rigen Dokumentes
-    
+
     public function node_list()
     {
         global $app;
-    
+
 	    $nodes = $app->db->queryAllRecords('SELECT * FROM media_cat order by sort, name');
-        
+
         $optionlist = array();
         $my0 = new nodetree();
 
@@ -74,11 +74,11 @@ class cmstree
                 $$ordner->childs[] = &$$id;
             }
         }
-       
-        $this->ptree($my0, 0, $optionlist);       
+
+        $this->ptree($my0, 0, $optionlist);
         return is_array($nodes) ?  $optionlist : false;
     }
-    
+
     private function ptree($myobj, $tiefe, &$optionlist){
      	global $_SESSION;
 		$tiefe += 1;
@@ -87,7 +87,7 @@ class cmstree
         if(is_array($myobj->childs) and ($_SESSION['s']['cat_open'][$id] == 1 or $tiefe <= 1)) {
         	foreach($myobj->childs as $val) {
 				// kategorie 		=> str_repeat('- &nbsp;',$tiefe) . $val->btext,
-				
+
 				// Ergebnisse Formatieren
 				/*
 				if($tiefe == 0) {
@@ -104,7 +104,7 @@ class cmstree
 				} else {
 					$kategorie = "<div class='mnuLevel".$tiefe."'>&nbsp; <a href='treenavi.php?kat=".$val->id."' class='navtext' onclick=\"parent.content.location='media_list.php?search_media_cat_id=".$val->id."'\" style=\"text-decoration: none;\"><img src='../themes/default/icons/folder_closed.png' border='0'> ".$val->btext."</a></div>";
 				}
-				
+
 				$optionlist[] = array( 	media_cat 		=> $kategorie,
                                    		media_cat_id 	=> $val->id,
 										depth			=> $tiefe);

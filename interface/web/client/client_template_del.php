@@ -39,8 +39,8 @@ $tform_def_file = "form/client_template.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -52,20 +52,21 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 	function onBeforeDelete() {
 		global $app;
-		
+
 		// check new style
-        $rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client_template_assigned WHERE client_template_id = ".$this->id);
+		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client_template_assigned WHERE client_template_id = ".$this->id);
 		if($rec['number'] > 0) {
 			$app->error($app->tform->lng('template_del_aborted_txt'));
 		}
-        
-        // check old style
+
+		// check old style
 		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE template_master = ".$this->id." OR template_additional like '%/".$this->id."/%'");
 		if($rec['number'] > 0) {
 			$app->error($app->tform->lng('template_del_aborted_txt'));
 		}
-		
+
 	}
+
 }
 
 $page = new page_action;

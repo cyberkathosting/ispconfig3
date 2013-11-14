@@ -34,32 +34,31 @@ $liste['auth'] = 'yes';
 //****** Search fields
 
 $liste['item'][] = array(
-            'field'      => 'remote_userid',
-            'datatype'   => 'VARCHAR',
-            'formtype'   => 'SELECT',
-            'op'         => '=',
-            'prefix'     => '',
-            'suffix'     => '',
-            'width'      => '',
-            'datasource' => array(
-                    'type' => 'SQL',
-                    'querystring' => 'SELECT remote_userid,remote_username FROM remote_user WHERE {AUTHSQL} ORDER BY remote_username',
-                    'keyfield'    => 'remote_userid',
-                    'valuefield'  => 'remote_userid'
-                                  ),
-            'value'      => ''
-        );
+	'field'      => 'remote_userid',
+	'datatype'   => 'VARCHAR',
+	'formtype'   => 'SELECT',
+	'op'         => '=',
+	'prefix'     => '',
+	'suffix'     => '',
+	'width'      => '',
+	'datasource' => array(
+		'type' => 'SQL',
+		'querystring' => 'SELECT remote_userid,remote_username FROM remote_user WHERE {AUTHSQL} ORDER BY remote_username',
+		'keyfield'    => 'remote_userid',
+		'valuefield'  => 'remote_userid'
+	),
+	'value'      => ''
+);
 
 $liste['item'][] = array(
-            'field'      => 'remote_username',
-            'datatype'   => 'VARCHAR',
-            'formtype'   => 'TEXT',
-            'op'         => 'like',
-            'prefix'     => '%',
-            'suffix'     => '%',
-            'width'      => '',
-            'value'      => ''
-        );
+	'field'      => 'remote_username',
+	'datatype'   => 'VARCHAR',
+	'formtype'   => 'TEXT',
+	'op'         => 'like',
+	'prefix'     => '%',
+	'suffix'     => '%',
+	'width'      => '',
+	'value'      => ''
+);
 
 ?>
-

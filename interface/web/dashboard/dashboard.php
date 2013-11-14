@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('dashboard');
@@ -39,7 +39,7 @@ $app->tpl->newTemplate("templates/dashboard.htm");
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 //* set Default - Values
@@ -94,12 +94,12 @@ $app->tpl->setVar('welcome_user', $welcome);
 $info = array();
 
 if(isset($_SESSION['show_info_msg'])) {
-    $info[] = array('info_msg' => '<p>'.$_SESSION['show_info_msg'].'</p>');
-    unset($_SESSION['show_info_msg']);
+	$info[] = array('info_msg' => '<p>'.$_SESSION['show_info_msg'].'</p>');
+	unset($_SESSION['show_info_msg']);
 }
 if(isset($_SESSION['show_error_msg'])) {
-    $app->tpl->setloop('error', array(array('error_msg' => '<p>'.$_SESSION['show_error_msg'].'</p>')));
-    unset($_SESSION['show_error_msg']);
+	$app->tpl->setloop('error', array(array('error_msg' => '<p>'.$_SESSION['show_error_msg'].'</p>')));
+	unset($_SESSION['show_error_msg']);
 }
 
 
@@ -113,7 +113,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	}
 	$v1 = ISPC_APP_VERSION;
 	$v2 = $_SESSION['s']['new_ispconfig_version'];
-	$this_version = explode(".",$v1);
+	$this_version = explode(".", $v1);
 	/*
 	$this_fullversion = (($this_version[0] < 10) ? '0'.$this_version[0] : $this_version[0]) .
 			    ((isset($this_version[1]) && $this_version[1] < 10) ? '0'.$this_version[1] : $this_version[1]) .
@@ -121,20 +121,20 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			    ((isset($this_version[3]) && $this_version[3] < 10) ? (($this_version[3] < 1) ? '00' : '0'.$this_version[3]) : @$this_version[3]);
 
 	*/
-	
-	$new_version = explode(".",$v2);
+
+	$new_version = explode(".", $v2);
 	/*
 	$new_fullversion =  (($new_version[0] < 10) ? '0'.$new_version[0] : $new_version[0]) .
 			    ((isset($new_version[1]) && $new_version[1] < 10) ? '0'.$new_version[1] : $new_version[1]) .
 			    ((isset($new_version[2]) && $new_version[2] < 10) ? '0'.$new_version[2] : $new_version[2]) .
 			    ((isset($new_version[3]) && $new_version[3] < 10) ? (($new_version[3] < 1) ? '00' : '0'.$new_version[3]) : @$new_version[3]);
 	*/
-	
-	$this_fullversion = str_pad($this_version[0], 2,'0',STR_PAD_LEFT).str_pad($this_version[1], 2,'0',STR_PAD_LEFT).@str_pad($this_version[2], 2,'0',STR_PAD_LEFT).@str_pad($this_version[3], 2,'0',STR_PAD_LEFT);
-	$new_fullversion = str_pad($new_version[0], 2,'0',STR_PAD_LEFT).str_pad($new_version[1], 2,'0',STR_PAD_LEFT).@str_pad($new_version[2], 2,'0',STR_PAD_LEFT).@str_pad($new_version[3], 2,'0',STR_PAD_LEFT);
+
+	$this_fullversion = str_pad($this_version[0], 2, '0', STR_PAD_LEFT).str_pad($this_version[1], 2, '0', STR_PAD_LEFT).@str_pad($this_version[2], 2, '0', STR_PAD_LEFT).@str_pad($this_version[3], 2, '0', STR_PAD_LEFT);
+	$new_fullversion = str_pad($new_version[0], 2, '0', STR_PAD_LEFT).str_pad($new_version[1], 2, '0', STR_PAD_LEFT).@str_pad($new_version[2], 2, '0', STR_PAD_LEFT).@str_pad($new_version[3], 2, '0', STR_PAD_LEFT);
 	if($new_fullversion > $this_fullversion) {
-		$info[] = array('info_msg' => '<p>There is a new Version of ISPConfig 3 available!</p>' . 
-			'<p>This Version: <b>' . $v1 . '</b></p>' . 
+		$info[] = array('info_msg' => '<p>There is a new Version of ISPConfig 3 available!</p>' .
+			'<p>This Version: <b>' . $v1 . '</b></p>' .
 			'<p>New Version : <b>' . $v2 .  '</b></p>' .
 			'<p><a href="http://www.ispconfig.org/ispconfig-3/download" target="ISPC">See more...</a></p>');
 	}
@@ -144,12 +144,12 @@ $app->tpl->setloop('info', $info);
 
 /* Load the dashlets*/
 $dashlet_list = array();
-$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets'); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..' && !is_dir($file)) {
-        $dashlet_name = substr($file,0,-4);
+$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
+while ($file = @readdir($handle)) {
+	if ($file != '.' && $file != '..' && !is_dir($file)) {
+		$dashlet_name = substr($file, 0, -4);
 		$dashlet_class = 'dashlet_'.$dashlet_name;
-		include_once(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file);
+		include_once ISPC_WEB_PATH.'/dashboard/dashlets/'.$file;
 		$dashlet_list[$dashlet_name] = new $dashlet_class;
 	}
 }
@@ -157,7 +157,7 @@ while ($file = @readdir ($handle)) {
 
 /* Which dashlets in which column */
 /******************************************************************************/
-$default_leftcol_dashlets = array('modules','invoices','quota','mailquota');
+$default_leftcol_dashlets = array('modules', 'invoices', 'quota', 'mailquota');
 $default_rightcol_dashlets = array('limits');
 
 $app->uses('getconf');
@@ -165,10 +165,10 @@ $dashlets_config = $app->getconf->get_global_config('misc');
 //* Client: If the logged in user is not admin and has no sub clients (no reseller)
 if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 	$role = 'client';
-//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
+	//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 } elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 	$role = 'reseller';
-//* Admin: If the logged in user is admin
+	//* Admin: If the logged in user is admin
 } else {
 	$role = 'admin';
 }
@@ -177,7 +177,7 @@ $dashlets_config[$role.'_dashlets_right'] = trim($dashlets_config[$role.'_dashle
 
 if($dashlets_config[$role.'_dashlets_left'] != ''){
 	preg_match_all('@\[(.*?)\]@', $dashlets_config[$role.'_dashlets_left'], $matches);
-	$leftcol_dashlets = $matches[1]; 
+	$leftcol_dashlets = $matches[1];
 } else {
 	$leftcol_dashlets = $default_leftcol_dashlets;
 }

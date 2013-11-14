@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "Server";
-$form["description"] 	= "";
-$form["name"] 			= "server";
-$form["action"]			= "server_edit.php";
-$form["db_table"]		= "server";
-$form["db_table_idx"]	= "server_id";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "services";
-$form["list_default"]	= "server_list.php";
-$form["auth"]			= 'yes';
+$form["title"]    = "Server";
+$form["description"]  = "";
+$form["name"]    = "server";
+$form["action"]   = "server_edit.php";
+$form["db_table"]  = "server";
+$form["db_table_idx"] = "server_id";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "services";
+$form["list_default"] = "server_list.php";
+$form["auth"]   = 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 1; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -51,62 +51,62 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['services'] = array (
-	'title' 	=> "Services",
-	'width' 	=> 100,
-	'template' 	=> "templates/server_edit_services.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "Services",
+	'width'  => 100,
+	'template'  => "templates/server_edit_services.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'server_name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'mail_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'web_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'dns_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'file_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'db_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'vserver_server' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> '0',
-			'value'		=> array(0 => 0,1 => 1)
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'default' => '0',
+			'value'  => array(0 => 0, 1 => 1)
 		),
 		'mirror_server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => ''
 		),
 		/*
 		'update' => array (
@@ -117,14 +117,14 @@ $form["tabs"]['services'] = array (
 		),
 		*/
 		'active' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '1',
-			'value'		=> array(0 => 'No', 1 => 'Yes')
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'value'  => array(0 => 'No', 1 => 'Yes')
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 

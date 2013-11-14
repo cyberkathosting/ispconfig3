@@ -39,8 +39,8 @@ $tform_def_file = "form/web_domain.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -52,45 +52,45 @@ class page_action extends tform_actions {
 
 	function onBeforeDelete() {
 		global $app; $conf;
-		
-		if($app->tform->checkPerm($this->id,'d') == false) $app->error($app->lng('error_no_delete_permission'));
-		
+
+		if($app->tform->checkPerm($this->id, 'd') == false) $app->error($app->lng('error_no_delete_permission'));
+
 		//* Delete all records that belong to this web.
 		$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE parent_domain_id = '".$app->functions->intval($this->id)."' AND type != 'vhost'");
 		foreach($records as $rec) {
-			$app->db->datalogDelete('web_domain','domain_id',$rec['domain_id']);
+			$app->db->datalogDelete('web_domain', 'domain_id', $rec['domain_id']);
 		}
-		
+
 		//* Delete all records that belong to this web.
 		$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
-			$app->db->datalogDelete('ftp_user','ftp_user_id',$rec['ftp_user_id']);
+			$app->db->datalogDelete('ftp_user', 'ftp_user_id', $rec['ftp_user_id']);
 		}
-		
+
 		//* Delete all records that belong to this web.
 		$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
-			$app->db->datalogDelete('shell_user','shell_user_id',$rec['shell_user_id']);
+			$app->db->datalogDelete('shell_user', 'shell_user_id', $rec['shell_user_id']);
 		}
-        
-        //* Delete all records that belong to this web.
-        $records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            $app->db->datalogDelete('cron','id',$rec['id']);
-        }
-		
+
+		//* Delete all records that belong to this web.
+		$records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('cron', 'id', $rec['id']);
+		}
+
 		//* Delete all records that belong to this web
-        $records = $app->db->queryAllRecords("SELECT webdav_user_id FROM webdav_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            $app->db->datalogDelete('webdav_user','webdav_user_id',$rec['webdav_user_id']);
-        }
-		
+		$records = $app->db->queryAllRecords("SELECT webdav_user_id FROM webdav_user WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('webdav_user', 'webdav_user_id', $rec['webdav_user_id']);
+		}
+
 		//* Delete all records that belong to this web
-        $records = $app->db->queryAllRecords("SELECT backup_id FROM web_backup WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            $app->db->datalogDelete('web_backup','backup_id',$rec['backup_id']);
-        }
-		
+		$records = $app->db->queryAllRecords("SELECT backup_id FROM web_backup WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
+		foreach($records as $rec) {
+			$app->db->datalogDelete('web_backup', 'backup_id', $rec['backup_id']);
+		}
+
 		//* Delete all records that belog to this web.
 		$web_domain = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
 		if($web_domain['domain'] != ''){
@@ -98,24 +98,25 @@ class page_action extends tform_actions {
 			if(is_array($aps_instances) && !empty($aps_instances)){
 				foreach($aps_instances as $aps_instance){
 					if($aps_instance['instance_id'] > 0){
-						$app->db->datalogDelete('aps_instances_settings','instance_id',$aps_instance['instance_id']);
-						$app->db->datalogDelete('aps_instances','id',$aps_instance['instance_id']);
+						$app->db->datalogDelete('aps_instances_settings', 'instance_id', $aps_instance['instance_id']);
+						$app->db->datalogDelete('aps_instances', 'id', $aps_instance['instance_id']);
 					}
 				}
 			}
 		}
-		
+
 		//* Delete all web folders
-        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            //* Delete all web folder users
+		$records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
+		foreach($records as $rec) {
+			//* Delete all web folder users
 			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");
 			foreach($records2 as $rec2) {
-				$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec2['web_folder_user_id']);
-        }
-			$app->db->datalogDelete('web_folder','web_folder_id',$rec['web_folder_id']);
-        }
+				$app->db->datalogDelete('web_folder_user', 'web_folder_user_id', $rec2['web_folder_user_id']);
+			}
+			$app->db->datalogDelete('web_folder', 'web_folder_id', $rec['web_folder_id']);
+		}
 	}
+
 }
 
 $page = new page_action;

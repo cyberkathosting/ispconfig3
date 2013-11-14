@@ -38,8 +38,8 @@ $tform_def_file = "form/users.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -49,33 +49,33 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onBeforeInsert() {
 		global $app, $conf;
-		
-		if(!in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+
+		if(!in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
 	}
-	
+
 	function onBeforeUpdate() {
 		global $app, $conf;
-		
+
 		if($conf['demo_mode'] == true && $_REQUEST['id'] <= 3) $app->error('This function is disabled in demo mode.');
-		
-		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+
+		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
 		$this->oldDataRecord = $app->tform->getDataRecord($this->id);
 	}
-	
+
 	/*
 	 This function is called automatically right after
 	 the data was successful updated in the database.
 	*/
 	function onAfterUpdate() {
 		global $app, $conf;
-		
+
 		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ".$this->id);
 		$client_id = $client['client_id'];
 		$username = $app->db->quote($this->dataRecord["username"]);
@@ -89,28 +89,28 @@ class page_action extends tform_actions {
 			$app->db->datalogUpdate("sys_group", "name = '$username'", 'groupid', $tmp['groupid']);
 			unset($tmp);
 		}
-		
+
 		// password changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["passwort"]) && $this->dataRecord["passwort"] != '') {
 			$password = $app->db->quote($this->dataRecord["passwort"]);
 			$salt="$1$";
 			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0,63)];
+				$salt.=$base64_alphabet[mt_rand(0, 63)];
 			}
 			$salt.="$";
-			$password = crypt(stripslashes($password),$salt);
+			$password = crypt(stripslashes($password), $salt);
 			$sql = "UPDATE client SET password = '$password' WHERE client_id = $client_id AND username = '$username'";
 			$app->db->query($sql);
 		}
-		
+
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
 			$language = $app->db->quote($this->dataRecord["language"]);
 			$sql = "UPDATE client SET language = '$language' WHERE client_id = $client_id AND username = '$username'";
 			$app->db->query($sql);
 		}
-		
+
 		// reseller status changed
 		/*
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {

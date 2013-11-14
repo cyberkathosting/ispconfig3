@@ -31,22 +31,22 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class sites_database_plugin {
 
 	public function processDatabaseInsert($form_page) {
-        global $app;
-        
+		global $app;
+
 		/*if($form_page->dataRecord["parent_domain_id"] > 0) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($form_page->dataRecord["parent_domain_id"]));
-		
+
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $web['sys_groupid'];
         } else {
             $sys_groupid = $form_page->dataRecord['sys_groupid'];
         }
-        
-        
+
+
         if($form_page->dataRecord['database_user_id']) {
             // check if there has already been a database on this server with that user
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . $app->functions->intval($form_page->dataRecord['server_id']) . "' AND (`database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "')");
-            
+
             if($check && $check['cnt'] < 1) {
                 // we need to make a datalog insert for the database users that are connected to this database
                 $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "'");
@@ -60,7 +60,7 @@ class sites_database_plugin {
         if($form_page->dataRecord['database_ro_user_id']) {
             // check if there has already been a database on this server with that user
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . $app->functions->intval($form_page->dataRecord['server_id']) . "' AND (`database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "')");
-            
+
             if($check && $check['cnt'] < 1) {
                 // we need to make a datalog insert for the database users that are connected to this database
                 $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "'");
@@ -70,22 +70,22 @@ class sites_database_plugin {
                 }
             }
         }*/
-    }
-    
-    public function processDatabaseUpdate($form_page) {
-        global $app;
-        
-        /*$old_record = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_id` = ' . $app->functions->intval($form_page->id));
-        
+	}
+
+	public function processDatabaseUpdate($form_page) {
+		global $app;
+
+		/*$old_record = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_id` = ' . $app->functions->intval($form_page->id));
+
         if($form_page->dataRecord["parent_domain_id"] > 0) {
             $web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($form_page->dataRecord["parent_domain_id"]));
-        
+
             //* The Database user shall be owned by the same group then the website
             $sys_groupid = $web['sys_groupid'];
         } else {
             $sys_groupid = $form_page->dataRecord['sys_groupid'];
         }
-        
+
         // check if database user has changed
         if($old_record['database_user_id'] && $old_record['database_user_id'] != $form_page->dataRecord['database_user_id'] && $old_record['database_user_id'] != $form_page->dataRecord['database_ro_user_id']) {
             // check if any database on the server still uses this one
@@ -112,11 +112,11 @@ class sites_database_plugin {
                 }
             }
         }*/
-        
-        /*if($form_page->dataRecord['database_user_id']) {
+
+		/*if($form_page->dataRecord['database_user_id']) {
             // check if there has already been a database on this server with that user
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . $app->functions->intval($form_page->dataRecord['server_id']) . "' AND (`database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "' OR `database_ro_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "')");
-            
+
             if($check && $check['cnt'] < 1) {
                 // we need to make a datalog insert for the database users that are connected to this database
                 $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_user_id']) . "'");
@@ -130,7 +130,7 @@ class sites_database_plugin {
         if($form_page->dataRecord['database_ro_user_id']) {
             // check if there has already been a database on this server with that user
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . $app->functions->intval($form_page->dataRecord['server_id']) . "' AND (`database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "' OR `database_ro_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "')");
-            
+
             if($check && $check['cnt'] < 1) {
                 // we need to make a datalog insert for the database users that are connected to this database
                 $db_user = $app->db->queryOneRecord("SELECT * FROM `web_database_user` WHERE `database_user_id` = '" . $app->functions->intval($form_page->dataRecord['database_ro_user_id']) . "'");
@@ -140,13 +140,13 @@ class sites_database_plugin {
                 }
             }
         }*/
-        
-    }
-    
-    public function processDatabaseDelete($primary_id) {
-        global $app;
-        
-        /*$old_record = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_id` = ' . $app->functions->intval($primary_id));
+
+	}
+
+	public function processDatabaseDelete($primary_id) {
+		global $app;
+
+		/*$old_record = $app->db->queryOneRecord('SELECT * FROM `web_database` WHERE `database_id` = ' . $app->functions->intval($primary_id));
         if($old_record['database_user_id']) {
             // check if any database on the server still uses this one
             $check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `server_id` = '" . $app->functions->intval($old_record['server_id']) . "' AND (`database_user_id` = '" . $app->functions->intval($old_record['database_user_id']) . "' OR `database_ro_user_id` = '" . $app->functions->intval($old_record['database_user_id']) . "') AND `database_id` != '" . $app->functions->intval($primary_id) . "'");
@@ -171,8 +171,9 @@ class sites_database_plugin {
                 }
             }
         }*/
-        
-    }
+
+	}
+
 }
 
 ?>

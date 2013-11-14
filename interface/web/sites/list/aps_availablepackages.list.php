@@ -41,46 +41,46 @@ $liste['auth'] = 'no'; // Handling it myself (check for admin)
 
 // Search fields
 $liste["item"][] = array('field'    => 'name',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'TEXT',
-                         'op'       => 'like',
-                         'prefix'   => '%',
-                         'suffix'   => '%',
-                         'width'    => '',
-                         'value'    => '');
+	'datatype' => 'VARCHAR',
+	'formtype' => 'TEXT',
+	'op'       => 'like',
+	'prefix'   => '%',
+	'suffix'   => '%',
+	'width'    => '',
+	'value'    => '');
 
 $liste["item"][] = array('field'    => 'version',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'TEXT',
-                         'op'       => 'like',
-                         'prefix'   => '%',
-                         'suffix'   => '%',
-                         'width'    => '',
-                         'value'    => '');
+	'datatype' => 'VARCHAR',
+	'formtype' => 'TEXT',
+	'op'       => 'like',
+	'prefix'   => '%',
+	'suffix'   => '%',
+	'width'    => '',
+	'value'    => '');
 
 $liste["item"][] = array('field'    => 'category',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'SELECT',
-                         'op'       => '=',
-                         'prefix'   => '',
-                         'suffix'   => '',
-                         'datasource' => array('type' => 'SQL',
-                                               'querystring' => 'SELECT category FROM aps_packages ORDER BY category',
-                                               'keyfield' => 'category',
-                                               'valuefield' => 'category'),
-                         'width'    => '',
-                         'value'    => '');
+	'datatype' => 'VARCHAR',
+	'formtype' => 'SELECT',
+	'op'       => '=',
+	'prefix'   => '',
+	'suffix'   => '',
+	'datasource' => array('type' => 'SQL',
+		'querystring' => 'SELECT category FROM aps_packages ORDER BY category',
+		'keyfield' => 'category',
+		'valuefield' => 'category'),
+	'width'    => '',
+	'value'    => '');
 
-if($_SESSION['s']['user']['typ'] == 'admin') 
+if($_SESSION['s']['user']['typ'] == 'admin')
 {
-$liste['item'][] = array('field'    => 'package_status',
-                         'datatype' => 'VARCHAR',
-                         'formtype' => 'SELECT',
-                         'op'       => '=',
-                         'prefix'   => '',
-                         'suffix'   => '',
-                         'width'    => '',
-                         'value'    => array(PACKAGE_ENABLED => '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>',
-                                             PACKAGE_LOCKED => '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>'));
-}      
+	$liste['item'][] = array('field'    => 'package_status',
+		'datatype' => 'VARCHAR',
+		'formtype' => 'SELECT',
+		'op'       => '=',
+		'prefix'   => '',
+		'suffix'   => '',
+		'width'    => '',
+		'value'    => array(PACKAGE_ENABLED => '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>',
+			PACKAGE_LOCKED => '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>'));
+}
 ?>

@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
@@ -39,11 +39,11 @@ $app->auth->check_module_permissions('designer');
 // Lade Template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/module_edit.htm');
+$app->tpl->setInclude('content_tpl', 'templates/module_edit.htm');
 
 // ID importieren
 $id = $_REQUEST["id"];
-if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$id)) die("id contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $id)) die("id contains invalid chars.");
 
 if(count($_POST) > 1) {
 	// Bestimme aktion
@@ -53,24 +53,24 @@ if(count($_POST) > 1) {
 		$action = 'INSERT';
 	}
 
-	
+
 	if($error == '') {
-		
+
 		$id = $_POST["module"]["name"];
-		if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$id)) die("id contains invalid chars.");
-		
+		if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $id)) die("id contains invalid chars.");
+
 		$filename = "../".$id."/lib/module.conf.php";
 		$module_new = $_POST["module"];
-		
+
 		if(@is_file($filename)) {
-			include_once($filename);
+			include_once $filename;
 			$navi = $module["nav"];
 			unset($module);
 			$module_new["nav"] = $navi;
 		}
-		
-		$m = "<?php\r\n".'$module = '.var_export($module_new,true)."\r\n?>";
-		
+
+		$m = "<?php\r\n".'$module = '.var_export($module_new, true)."\r\n?>";
+
 		// creating the module directories
 		if(!@is_dir("../".$id)) mkdir("../".$id) or die("Cannot make directory: ../".$id);
 		if(!@is_dir("../".$id."/lib")) mkdir("../".$id."/lib") or die("Cannot make directory: ../".$id."/lib");
@@ -78,52 +78,52 @@ if(count($_POST) > 1) {
 		if(!@is_dir("../".$id."/form")) mkdir("../".$id."/form") or die("Cannot make directory: ../".$id."/form");
 		if(!@is_dir("../".$id."/list")) mkdir("../".$id."/list") or die("Cannot make directory: ../".$id."/list");
 		if(!@is_dir("../".$id."/templates")) mkdir("../".$id."/templates") or die("Cannot make directory: ../".$id."/templates");
-		
-		// writing module.conf
-		if (!$handle = fopen($filename, 'w')) { 
-			print "Cannot open file ($filename)"; 
-			exit; 
-		} 
 
-		if (!fwrite($handle, $m)) { 
-			print "Cannot write to file ($filename)"; 
-			exit; 
-		} 
-    
+		// writing module.conf
+		if (!$handle = fopen($filename, 'w')) {
+			print "Cannot open file ($filename)";
+			exit;
+		}
+
+		if (!fwrite($handle, $m)) {
+			print "Cannot write to file ($filename)";
+			exit;
+		}
+
 		fclose($handle);
-		
+
 		// writing admin conf
 		$admin_conf_filename = "../".$id."/lib/admin.conf.php";
 		if(!is_file($admin_conf_filename)) {
-			if (!$handle = fopen($admin_conf_filename, 'w')) { 
-				print "Cannot open file ($admin_conf_filename)"; 
-				exit; 
-			} 
+			if (!$handle = fopen($admin_conf_filename, 'w')) {
+				print "Cannot open file ($admin_conf_filename)";
+				exit;
+			}
 
-			if (!fwrite($handle, "<?php\r\n?>")) { 
-				print "Cannot write to file ($admin_conf_filename)"; 
-				exit; 
-			} 
-    
-			fclose($handle); 
+			if (!fwrite($handle, "<?php\r\n?>")) {
+				print "Cannot write to file ($admin_conf_filename)";
+				exit;
+			}
+
+			fclose($handle);
 		}
-		
+
 		// zu Liste springen
-    	header("Location: module_list.php");
-        exit;
-			
+		header("Location: module_list.php");
+		exit;
+
 	} else {
-		$app->tpl->setVar("error","<b>Fehler:</b><br>".$error);
+		$app->tpl->setVar("error", "<b>Fehler:</b><br>".$error);
 		$app->tpl->setVar($_POST);
 	}
 }
 
 if($id != '') {
-// Datensatz besteht bereits
+	// Datensatz besteht bereits
 	// bestehenden Datensatz anzeigen
 	if($error == '') {
 		// es liegt ein Fehler vor
-		include_once("../".$id."/lib/module.conf.php");
+		include_once "../".$id."/lib/module.conf.php";
 		//$navi = $module["nav"];
 		unset($module["nav"]);
 		$record = $module;
@@ -135,7 +135,7 @@ if($id != '') {
 	}
 	$record["readonly"] = 'style="background-color: #EEEEEE;" readonly';
 } else {
-// neuer datensatz
+	// neuer datensatz
 	if($error == '') {
 		// es liegt ein Fehler vor
 		$record["template"] = "module.tpl.htm";
@@ -144,7 +144,7 @@ if($id != '') {
 		$record = $_POST;
 		//$navi = $_POST["nav"];
 		unset($_POST["nav"]);
-		
+
 	}
 	$record["readonly"] = '';
 }
@@ -172,7 +172,7 @@ $record["nav"] = $content;
 
 $app->tpl->setVar($record);
 
-include_once("lib/lang/".$_SESSION["s"]["language"]."_module_edit.lng");
+include_once "lib/lang/".$_SESSION["s"]["language"]."_module_edit.lng";
 $app->tpl->setVar($wb);
 
 // Defaultwerte setzen

@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('designer');
@@ -38,20 +38,20 @@ if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
 $app->uses('tpl');
 
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/module_show.htm');
+$app->tpl->setInclude('content_tpl', 'templates/module_show.htm');
 
 
 $module_name = $_REQUEST["id"];
-if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$module_name)) die("id contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $module_name)) die("id contains invalid chars.");
 
-include_once("../".$module_name."/lib/module.conf.php");
+include_once "../".$module_name."/lib/module.conf.php";
 $navi = $module["nav"];
 unset($module["nav"]);
 $record = $module;
 
-// loading language file 
+// loading language file
 $lng_file = "lib/lang/".$_SESSION["s"]["user"]["language"]."_module_show.lng";
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 // baue Modul navi
@@ -59,8 +59,8 @@ $content = "";
 $n1 = 0;
 $n2 = 0;
 if(is_array($navi)) {
-foreach($navi as $nav_id => $section) {
-	$content .= "<tr>
+	foreach($navi as $nav_id => $section) {
+		$content .= "<tr>
     <td colspan='2' class='frmText11'>
 	  <table width='100%'>
 	  	<tr>
@@ -73,12 +73,12 @@ foreach($navi as $nav_id => $section) {
 		  <input type=\"button\" name=\"bt5$n2\" value=\"$wb[down_txt]\" onclick=\"loadContent('designer/module_nav_flip.php?module_name=$module_name&nav_id=$nav_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
 		  </td>
 		</tr>";
-	//$content .= "<tr><td bgcolor='#EEEEEE' class='frmText11'>Bereich:</td><td class='frmText11' bgcolor='#EEEEEE'><input name=\"module[nav][$n1][title]\" type=\"text\" class=\"text\" value=\"$section[title]\" size=\"30\" maxlength=\"255\"><input name=\"module[nav][$n1][open]\" type=\"hidden\" value=\"$section[open]\"></td></tr>\r\n";
-	foreach($section["items"] as $item_id => $item) {
-		//$content .= "<tr><td class='frmText11'>Titel:</td><td class='frmText11'><input name=\"module[nav][$n1][items][$n2][title]\" type=\"text\" class=\"text\" value=\"$item[title]\" size=\"30\" maxlength=\"255\"></td></tr>\r\n";
-		//$content .= "<tr><td class='frmText11'>Ziel:</td><td class='frmText11'>&nbsp; &nbsp; &nbsp; &nbsp;<input name=\"module[nav][$n1][items][$n2][target]\" type=\"text\" class=\"text\" value=\"$item[target]\" size=\"10\" maxlength=\"255\"></td></tr>\r\n";
-		//$content .= "<tr><td class='frmText11'>Link:</td><td class='frmText11'>&nbsp; &nbsp; &nbsp; &nbsp;<input name=\"module[nav][$n1][items][$n2][link]\" type=\"text\" class=\"text\" value=\"$item[link]\" size=\"30\" maxlength=\"255\"></td></tr>\r\n";
-		$content .= "<tr>
+		//$content .= "<tr><td bgcolor='#EEEEEE' class='frmText11'>Bereich:</td><td class='frmText11' bgcolor='#EEEEEE'><input name=\"module[nav][$n1][title]\" type=\"text\" class=\"text\" value=\"$section[title]\" size=\"30\" maxlength=\"255\"><input name=\"module[nav][$n1][open]\" type=\"hidden\" value=\"$section[open]\"></td></tr>\r\n";
+		foreach($section["items"] as $item_id => $item) {
+			//$content .= "<tr><td class='frmText11'>Titel:</td><td class='frmText11'><input name=\"module[nav][$n1][items][$n2][title]\" type=\"text\" class=\"text\" value=\"$item[title]\" size=\"30\" maxlength=\"255\"></td></tr>\r\n";
+			//$content .= "<tr><td class='frmText11'>Ziel:</td><td class='frmText11'>&nbsp; &nbsp; &nbsp; &nbsp;<input name=\"module[nav][$n1][items][$n2][target]\" type=\"text\" class=\"text\" value=\"$item[target]\" size=\"10\" maxlength=\"255\"></td></tr>\r\n";
+			//$content .= "<tr><td class='frmText11'>Link:</td><td class='frmText11'>&nbsp; &nbsp; &nbsp; &nbsp;<input name=\"module[nav][$n1][items][$n2][link]\" type=\"text\" class=\"text\" value=\"$item[link]\" size=\"30\" maxlength=\"255\"></td></tr>\r\n";
+			$content .= "<tr>
 		  <td class='frmText11'>$item[title]</td>
 		  <td class='frmText11' width='280' align='right'>
 		  <input type=\"button\" name=\"bt6$n2\" value=\"$wb[edit_txt]\" onclick=\"loadContent('designer/module_nav_item_edit.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id');\" class=\"button\" /><div class=\"buttonEnding\"></div>
@@ -87,14 +87,14 @@ foreach($navi as $nav_id => $section) {
 		  <input type=\"button\" name=\"bt9$n2\" value=\"$wb[down_txt]\" onclick=\"loadContent('designer/module_nav_item_flip.php?module_name=$module_name&nav_id=$nav_id&item_id=$item_id&dir=down');\" class=\"button\" /><div class=\"buttonEnding\"></div>
 		  </td>
 		</tr>";
-		$n2++;
-	}
-	$content .= "<tr><td colspan='2' class='tblFooter'>&nbsp;</td></tr>
+			$n2++;
+		}
+		$content .= "<tr><td colspan='2' class='tblFooter'>&nbsp;</td></tr>
 	  </table>
 	</td>
   </tr>";
-	$n1++;
-}
+		$n1++;
+	}
 }
 
 $record["nav"] = $content;
@@ -103,7 +103,7 @@ $record["nav"] = $content;
 $app->tpl->setVar($record);
 
 
-$app->tpl->setLoop('records',$modules_list);
+$app->tpl->setLoop('records', $modules_list);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

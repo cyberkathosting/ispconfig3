@@ -29,7 +29,7 @@
 	Hint:
 	The ID field of the database table is not part of the datafield definition.
 	The ID field must be always auto incement (int or bigint).
-	
+
 	Search:
 	- searchable = 1 or searchable = 2 include the field in the search
 	- searchable = 1: this field will be the title of the search result
@@ -38,16 +38,16 @@
 
 */
 
-$form["title"] 			= "Openvz OS-Template";
-$form["description"] 	= "";
-$form["name"] 			= "openvz_ostemplate";
-$form["action"]			= "openvz_ostemplate_edit.php";
-$form["db_table"]		= "openvz_ostemplate";
-$form["db_table_idx"]	= "ostemplate_id";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "main";
-$form["list_default"]	= "openvz_ostemplate_list.php";
-$form["auth"]			= 'yes'; // yes / no
+$form["title"]    = "Openvz OS-Template";
+$form["description"]  = "";
+$form["name"]    = "openvz_ostemplate";
+$form["action"]   = "openvz_ostemplate_edit.php";
+$form["db_table"]  = "openvz_ostemplate";
+$form["db_table_idx"] = "ostemplate_id";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "main";
+$form["list_default"] = "openvz_ostemplate_list.php";
+$form["auth"]   = 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -56,75 +56,75 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['main'] = array (
-	'title' 	=> "Template",
-	'width' 	=> 100,
-	'template' 	=> "templates/openvz_ostemplate_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "Template",
+	'width'  => 100,
+	'template'  => "templates/openvz_ostemplate_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'template_name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'template_name_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'template_name_error_empty'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255',
 			'searchable' => 1
 		),
 		'template_file' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'template_file_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'template_file_error_empty'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255',
 			'searchable' => 2
 		),
 		'server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
-										'keyfield'=> 'server_id',
-										'valuefield'=> 'server_name'
-									 ),
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'value'  => ''
 		),
 		'allservers' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'active' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'description' => array (
-			'datatype'	=> 'TEXT',
-			'formtype'	=> 'TEXTAREA',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '',
-			'maxlength'	=> '',
-			'rows'		=> '10',
-			'cols'		=> '30',
+			'datatype' => 'TEXT',
+			'formtype' => 'TEXTAREA',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '',
+			'maxlength' => '',
+			'rows'  => '10',
+			'cols'  => '30',
 			'searchable' => 2
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 

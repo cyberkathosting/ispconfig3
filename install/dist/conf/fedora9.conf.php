@@ -63,14 +63,14 @@ $conf['mysql']['admin_user'] = 'root';
 $conf['mysql']['admin_password'] = '';
 $conf['mysql']['charset'] = 'utf8';
 $conf['mysql']['ispconfig_user'] = 'ispconfig';
-$conf['mysql']['ispconfig_password'] = md5 (uniqid (rand()));
+$conf['mysql']['ispconfig_password'] = md5(uniqid(rand()));
 $conf['mysql']['master_slave_setup'] = 'n';
 $conf['mysql']['master_host'] = '';
 $conf['mysql']['master_database'] = 'dbispconfig';
 $conf['mysql']['master_admin_user'] = 'root';
 $conf['mysql']['master_admin_password'] = '';
 $conf['mysql']['master_ispconfig_user'] = '';
-$conf['mysql']['master_ispconfig_password'] = md5 (uniqid (rand()));
+$conf['mysql']['master_ispconfig_password'] = md5(uniqid(rand()));
 
 //* Apache
 $conf['apache']['installed'] = false; // will be detected automatically during installation

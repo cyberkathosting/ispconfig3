@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -42,13 +42,13 @@ $error = '';
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_aps_update_packagelist.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 
 
-$app->tpl->setVar('msg',$msg);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('msg', $msg);
+$app->tpl->setVar('error', $error);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

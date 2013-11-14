@@ -1,14 +1,15 @@
 <?php
-    /**
-     * vlibIni is a class used to store configuration parameters
-     * for the vLIB library.
-     *
-     * @since 21/07/2002
-     * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
-     * @copyright 2002 Active Fish Group 
-     * @package vLIB
-     * @access private
-     */
+/**
+ * vlibIni is a class used to store configuration parameters
+ * for the vLIB library.
+ *
+ * @since 21/07/2002
+ * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
+ * @copyright 2002 Active Fish Group
+ * @package vLIB
+ * @access private
+ */
+
 
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
@@ -39,80 +40,80 @@
 */
 
 if (!defined('vlibIniClassLoaded')) {
-    define('vlibIniClassLoaded', 1);
+	define('vlibIniClassLoaded', 1);
 
 
 
-    class vlibIni{
+	class vlibIni{
 
-        /** Returns $array of config vars for vlibTemplate */
-        public static function vlibTemplate()
-        {
+		/** Returns $array of config vars for vlibTemplate */
+		public static function vlibTemplate()
+		{
 
 			$tpl_dir = ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates';
 			$def_tpl_dir = ISPC_THEMES_PATH.'/default/templates';
-            return array(
+			return array(
 
-                        'INCLUDE_PATHS' => array($tpl_dir),   // The path, searched BEVORE the template_dir is searched for the template-file
+				'INCLUDE_PATHS' => array($tpl_dir),   // The path, searched BEVORE the template_dir is searched for the template-file
 
-                        'TEMPLATE_DIR' => $def_tpl_dir,			   // Default directory for your template files (full path)
-                                                                   // leave the '/' or '\' off the end of the directory.
+				'TEMPLATE_DIR' => $def_tpl_dir,      // Default directory for your template files (full path)
+				// leave the '/' or '\' off the end of the directory.
 
-                        'MAX_INCLUDES' => 10,                      // Drill depth for tmpl_include's
+				'MAX_INCLUDES' => 10,                      // Drill depth for tmpl_include's
 
-                        'GLOBAL_VARS' => 1,                        // if set to 1, any variables not found in a
-                                                                   // loop will search for a global var as well
+				'GLOBAL_VARS' => 1,                        // if set to 1, any variables not found in a
+				// loop will search for a global var as well
 
-                        'GLOBAL_CONTEXT_VARS' => 1,                // if set to 1, vlibTemplate will add global vars
-                                                                   // reflecting the environment.
+				'GLOBAL_CONTEXT_VARS' => 1,                // if set to 1, vlibTemplate will add global vars
+				// reflecting the environment.
 
-                        'LOOP_CONTEXT_VARS' => 1,                  // if set to 1, vlibTemplate will add loop specific vars
-                                                                   // on each row of the loop.
+				'LOOP_CONTEXT_VARS' => 1,                  // if set to 1, vlibTemplate will add loop specific vars
+				// on each row of the loop.
 
-                        'SET_LOOP_VAR' => 1,                       // Sets a global variable for each top level loops
+				'SET_LOOP_VAR' => 1,                       // Sets a global variable for each top level loops
 
-                        'DEFAULT_ESCAPE' => 'none',                // 1 of the following: html, url, sq, dq, none
+				'DEFAULT_ESCAPE' => 'none',                // 1 of the following: html, url, sq, dq, none
 
-                        'STRICT' => 0,                             // Dies when encountering an incorrect tmpl_*
-                                                                   // style tags i.e. tmpl_vae
+				'STRICT' => 0,                             // Dies when encountering an incorrect tmpl_*
+				// style tags i.e. tmpl_vae
 
-                        'CASELESS' => 0,                           // Removes case sensitivity on all variables
+				'CASELESS' => 0,                           // Removes case sensitivity on all variables
 
-                        'UNKNOWNS' => 'ignore',                    // How to handle unknown variables.
-                                                                   // 1 of the following: ignore, remove, leave,print, comment
-                                                                   // 1 of the following: ignore, remove, leave, print, comment
+				'UNKNOWNS' => 'ignore',                    // How to handle unknown variables.
+				// 1 of the following: ignore, remove, leave,print, comment
+				// 1 of the following: ignore, remove, leave, print, comment
 
-                        'TIME_PARSE' => '0',                       // Will enable you to time how long vlibTemplate takes to parse
-                                                                   // your template. You then use the function: getParseTime().
+				'TIME_PARSE' => '0',                       // Will enable you to time how long vlibTemplate takes to parse
+				// your template. You then use the function: getParseTime().
 
-                        'ENABLE_PHPINCLUDE' => '1',                // Will allow template to include a php file using <TMPL_PHPINCLUDE>
-
-
-                        /* the following are only used by the vlibTemplateCache class. */
-                        // pedro notes:: triggers a notice as its not set - was $conf['template']['cache_dir'],
-                        'CACHE_DIRECTORY' => ISPC_CACHE_PATH,
-                                                                   // Directory where the cached filesystem
-                                                                   // will be set up (full path, and must be writable)
-                                                                   // '/' or '\' off the end of the directory.
-
-                        'CACHE_LIFETIME' => 604800,                // Duration until file is re-cached in seconds (604800 = 1 week)
-
-                        'CACHE_EXTENSION' => 'vtc'                  // extention to be used by the cached file i.e. index.php will become
-                                                                   // index.vtc (vlibTemplate Compiled)
-                    );
-
-        } // << end function vlibTemplate
+				'ENABLE_PHPINCLUDE' => '1',                // Will allow template to include a php file using <TMPL_PHPINCLUDE>
 
 
+				/* the following are only used by the vlibTemplateCache class. */
+				// pedro notes:: triggers a notice as its not set - was $conf['template']['cache_dir'],
+				'CACHE_DIRECTORY' => ISPC_CACHE_PATH,
+				// Directory where the cached filesystem
+				// will be set up (full path, and must be writable)
+				// '/' or '\' off the end of the directory.
 
-        /** Returns $array of config vars for vlibDate */
-        public function vlibDate()
-        {
-            return array( 'DEFAULT_LANG' => 'de' ); //* default language for the date displays
-        }
+				'CACHE_LIFETIME' => 604800,                // Duration until file is re-cached in seconds (604800 = 1 week)
+
+				'CACHE_EXTENSION' => 'vtc'                  // extention to be used by the cached file i.e. index.php will become
+				// index.vtc (vlibTemplate Compiled)
+			);
+
+		} // << end function vlibTemplate
 
 
-    }// << end class vlibIni
+
+		/** Returns $array of config vars for vlibDate */
+		public function vlibDate()
+		{
+			return array( 'DEFAULT_LANG' => 'de' ); //* default language for the date displays
+		}
+
+
+	}// << end class vlibIni
 
 } // << if Defined
 ?>

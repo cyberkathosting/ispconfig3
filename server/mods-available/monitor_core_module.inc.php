@@ -36,9 +36,11 @@ class monitor_core_module {
 	/* No actions at this time. maybe later... */
 	var $actions_available = array();
 	/** The Tools */
+
+
 	private $_tools = null;
-    //** time the script was called
-    private $_run_time = null;
+	//** time the script was called
+	private $_run_time = null;
 
 	/**
 	 * This function is called during ispconfig installation to determine
@@ -54,10 +56,10 @@ class monitor_core_module {
 	 */
 	public function onLoad() {
 		global $app;
-        
-        //* store the running time
-        $this->_run_time = time();
-        
+
+		//* store the running time
+		$this->_run_time = time();
+
 		/*
 		 * Do the monitor every n minutes and write the result to the db
 		 */
@@ -89,7 +91,7 @@ class monitor_core_module {
 		$this->_tools = new monitor_tools();
 
 		/*
-		 * Calls the single Monitoring steps 
+		 * Calls the single Monitoring steps
 		 */
 		$this->_monitorEmailQuota();
 		$this->_monitorHDQuota();
@@ -121,41 +123,41 @@ class monitor_core_module {
 		$this->_monitorSysLog();
 	}
 
-    private function _monitorEmailQuota() {
-        global $app, $conf;
+	private function _monitorEmailQuota() {
+		global $app, $conf;
 
-        /*
+		/*
 		 *  This monitoring is expensive, so do it only every 15 minutes
 		 */
 		$min = @date('i', $this->_run_time);
 		if ($min % 15 != 0) return;
-		
+
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		if($mail_config['mailbox_quota_stats'] == 'n') return;
-		
-		
+
+
 		/*
          * First we get the Monitoring-data from the tools
          */
-        $res = $this->_tools->monitorEmailQuota();
+		$res = $this->_tools->monitorEmailQuota();
 
-        /*
+		/*
          * Insert the data into the database
          */
-        $sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-                'VALUES (' .
-                $res['server_id'] . ', ' .
-                "'" . $app->dbmaster->quote($res['type']) . "', " .
-                'UNIX_TIMESTAMP(), ' .
-                "'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-                "'" . $res['state'] . "'" .
-                ')';
-        $app->dbmaster->query($sql);
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
+		$app->dbmaster->query($sql);
 
-        /* The new data is written, now we can delete the old one */
-        $this->_delOldRecords($res['type'], $res['server_id']);
-    }
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($res['type'], $res['server_id']);
+	}
 
 	private function _monitorHDQuota() {
 		global $app;
@@ -169,13 +171,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -194,13 +196,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -219,13 +221,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -244,13 +246,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -269,13 +271,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -293,13 +295,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -317,13 +319,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -342,13 +344,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -367,13 +369,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -392,13 +394,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -422,22 +424,22 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorSystemUpdate();
-		
+
 		//* Ensure that output is encoded so that it does not break the serialize
 		//$res['data']['output'] = htmlentities($res['data']['output']);
-		$res['data']['output'] = htmlentities($res['data']['output'],ENT_QUOTES,'UTF-8');
+		$res['data']['output'] = htmlentities($res['data']['output'], ENT_QUOTES, 'UTF-8');
 
 		/*
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -456,13 +458,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -481,13 +483,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -516,13 +518,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -530,29 +532,29 @@ class monitor_core_module {
 	}
 
 	private function _monitorFail2ban() {
-        global $app;
+		global $app;
 
-        /*
+		/*
          * First we get the Monitoring-data from the tools
          */
-        $res = $this->_tools->monitorFail2ban();
+		$res = $this->_tools->monitorFail2ban();
 
-        /*
+		/*
          * Insert the data into the database
          */
-        $sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-                'VALUES (' .
-                $res['server_id'] . ', ' .
-                "'" . $app->dbmaster->quote($res['type']) . "', " .
-                'UNIX_TIMESTAMP(), ' .
-                "'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-                "'" . $res['state'] . "'" .
-                ')';
-        $app->dbmaster->query($sql);
+		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
+		$app->dbmaster->query($sql);
 
-        /* The new data is written, now we can delete the old one */
-        $this->_delOldRecords($res['type'], $res['server_id']);
-    }
+		/* The new data is written, now we can delete the old one */
+		$this->_delOldRecords($res['type'], $res['server_id']);
+	}
 
 
 	private function _monitorIPTables() {
@@ -567,13 +569,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -592,13 +594,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -617,13 +619,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -642,13 +644,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -667,13 +669,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -692,13 +694,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -712,7 +714,7 @@ class monitor_core_module {
 		 * First we get the Monitoring-data from the tools
 		 */
 		$res = $this->_tools->monitorISPCCronLog();
-		
+
 		//* Ensure that output is encoded so that it does not break the serialize
 		if(is_array($res) && isset($res['data'])) $res['data'] = htmlentities($res['data']);
 
@@ -720,13 +722,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -745,13 +747,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -770,13 +772,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -795,13 +797,13 @@ class monitor_core_module {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
@@ -820,22 +822,22 @@ class monitor_core_module {
 		// $now = time();
 		// $old = $now - (4 * 60); // 4 minutes
 		$old = 'UNIX_TIMESTAMP() - 240';
-		
+
 		/*
 		 * ATTENTION if i do NOT pay attention of the server id, i delete all data (of the type)
-		 * of ALL servers. This means, if i have a multiserver-environment and a server has a 
+		 * of ALL servers. This means, if i have a multiserver-environment and a server has a
 		 * time not synced with the others (for example, all server has 11:00 and ONE server has
 		 * 10:45) then the actual data of this server (with the time-stamp 10:45) get lost
 		 * even though it is the NEWEST data of this server. To avoid this i HAVE to include
 		 * the server-id!
 		 */
 		$sql = 'DELETE FROM monitor_data ' .
-				'WHERE ' .
-				'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
-				'AND ' .
-				'  created < ' . $old . ' ' .
-				'AND ' .
-				'  server_id = ' . $serverId;
+			'WHERE ' .
+			'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
+			'AND ' .
+			'  created < ' . $old . ' ' .
+			'AND ' .
+			'  server_id = ' . $serverId;
 		$app->dbmaster->query($sql);
 	}
 

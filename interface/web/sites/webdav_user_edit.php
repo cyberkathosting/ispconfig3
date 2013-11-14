@@ -38,8 +38,8 @@ $tform_def_file = "form/webdav_user.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -80,9 +80,9 @@ class page_action extends tform_actions {
 			/* REMOVE the restriction */
 			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $webdavuser_prefix));
 		}
-        
-        $app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']));
-		
+
+		$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']));
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -99,7 +99,7 @@ class page_action extends tform_actions {
 
 		/* Get the record of the parent domain */
 		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
-        if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
+		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 
 		/*
 		 * Set a few fixed values
@@ -111,9 +111,9 @@ class page_action extends tform_actions {
 		 */
 		if(isset($this->dataRecord['username']) && trim($this->dataRecord['username']) == '') $app->tform->errorMessage .= $app->tform->lng('username_error_empty').'<br />';
 		if(isset($this->dataRecord['username']) && empty($this->dataRecord['parent_domain_id'])) $app->tform->errorMessage .= $app->tform->lng('parent_domain_id_error_empty').'<br />';
-		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'],'..')) $app->tform->errorMessage .= $app->tform->lng('dir_dot_error').'<br />';
-		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'],'./')) $app->tform->errorMessage .= $app->tform->lng('dir_slashdot_error').'<br />';
-		
+		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'], '..')) $app->tform->errorMessage .= $app->tform->lng('dir_dot_error').'<br />';
+		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'], './')) $app->tform->errorMessage .= $app->tform->lng('dir_slashdot_error').'<br />';
+
 		parent::onSubmit();
 	}
 
@@ -129,8 +129,8 @@ class page_action extends tform_actions {
 			$global_config = $app->getconf->get_global_config('sites');
 			$webdavuser_prefix = $app->tools_sites->replacePrefix($global_config['webdavuser_prefix'], $this->dataRecord);
 
-            $this->dataRecord['username_prefix'] = $webdavuser_prefix;
-            
+			$this->dataRecord['username_prefix'] = $webdavuser_prefix;
+
 			/* restrict the names */
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
 
@@ -185,6 +185,7 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 	}
+
 }
 
 $page = new page_action;

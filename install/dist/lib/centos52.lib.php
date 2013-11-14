@@ -58,26 +58,26 @@ class installer extends installer_dist {
 				}
 			}
 		}
-		
+
 		$config_dir = $conf['mailman']['config_dir'].'/';
 		$full_file_name = $config_dir.'virtual_to_transport.sh';
-		
+
 		//* Backup exiting virtual_to_transport.sh script
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
 		}
-		
-        if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
-            copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
-        } else {
-            copy('tpl/mailman-virtual_to_transport.sh',$full_file_name);
-        }
-		chgrp($full_file_name,'mailman');
-		chmod($full_file_name,0750);
-		
+
+		if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
+			copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
+		} else {
+			copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
+		}
+		chgrp($full_file_name, 'mailman');
+		chmod($full_file_name, 0750);
+
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-		
+
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 
 		$virtual_domains = '';
@@ -87,13 +87,13 @@ class installer extends installer_dist {
 			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
 
 			if(is_array($domainAll)) {
-			foreach($domainAll as $domain)
-			{
-				if ($domainAll[0]['domain'] == $domain['domain'])
-					$virtual_domains .= "'".$domain['domain']."'";
-				else
-					$virtual_domains .= ", '".$domain['domain']."'";
-			}
+				foreach($domainAll as $domain)
+				{
+					if ($domainAll[0]['domain'] == $domain['domain'])
+						$virtual_domains .= "'".$domain['domain']."'";
+					else
+						$virtual_domains .= ", '".$domain['domain']."'";
+				}
 			}
 		}
 		else
@@ -109,52 +109,52 @@ class installer extends installer_dist {
 
 	public function configure_amavis() {
 		global $conf;
-		
+
 		// amavisd user config file
 		$configfile = 'fedora_amavisd_conf';
-		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf',$conf["amavis"]["config_dir"].'/amavisd.conf~');
+		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf', $conf["amavis"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
-		$content = str_replace('{mysql_server_port}',$conf["mysql"]["port"],$content);
-		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
-		$content = str_replace('{hostname}',$conf['hostname'],$content);
-		$content = str_replace('/var/spool/amavisd/clamd.sock','/tmp/clamd.socket',$content);
-		wf($conf["amavis"]["config_dir"].'/amavisd.conf',$content);
-		
-		
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $content);
+		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+		$content = str_replace('{hostname}', $conf['hostname'], $content);
+		$content = str_replace('/var/spool/amavisd/clamd.sock', '/tmp/clamd.socket', $content);
+		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
+
+
 		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'content_filter = amavis:[127.0.0.1]:10024',
 			'receive_override_options = no_address_mappings'
 		);
-		
+
 		// Make a backup copy of the main.cf file
-		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~2');
-		
+		copy($conf["postfix"]["config_dir"].'/main.cf', $conf["postfix"]["config_dir"].'/main.cf~2');
+
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
 			$command = "postconf -e '$cmd'";
 			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
-		
+
 		// Append the configuration for amavisd to the master.cf file
-		if(is_file($conf["postfix"]["config_dir"].'/master.cf')) copy($conf["postfix"]["config_dir"].'/master.cf',$conf["postfix"]["config_dir"].'/master.cf~');
+		if(is_file($conf["postfix"]["config_dir"].'/master.cf')) copy($conf["postfix"]["config_dir"].'/master.cf', $conf["postfix"]["config_dir"].'/master.cf~');
 		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!stristr($content,"127.0.0.1:10025")) {
+		if(!stristr($content, "127.0.0.1:10025")) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', "tpl/master_cf_amavis.master");
-			af($conf["postfix"]["config_dir"].'/master.cf',$content);
+			af($conf["postfix"]["config_dir"].'/master.cf', $content);
 		}
 		unset($content);
-		
-		removeLine('/etc/sysconfig/freshclam','FRESHCLAM_DELAY=disabled-warn   # REMOVE ME',1);
-		replaceLine('/etc/freshclam.conf','Example','# Example',1);
-		
-		
+
+		removeLine('/etc/sysconfig/freshclam', 'FRESHCLAM_DELAY=disabled-warn   # REMOVE ME', 1);
+		replaceLine('/etc/freshclam.conf', 'Example', '# Example', 1);
+
+
 	}
 
 

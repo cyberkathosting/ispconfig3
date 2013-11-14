@@ -31,16 +31,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //** Web-only
 if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 
-	Header("Pragma: no-cache");
-	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-	Header("Content-Type: text/html; charset=utf-8");
+	header("Pragma: no-cache");
+	header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+	header("Content-Type: text/html; charset=utf-8");
 
-	ini_set('register_globals',0);
+	ini_set('register_globals', 0);
 }
 
 //** SVN Revision
 $svn_revision = '$Revision: 1525 $';
-$revision = str_replace(array('Revision:','$',' '), '', $svn_revision);
+$revision = str_replace(array('Revision:', '$', ' '), '', $svn_revision);
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
@@ -58,21 +58,21 @@ $conf['db_charset'] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL:
 $conf['db_new_link'] = false;
 $conf['db_client_flags'] = 0;
 
-define('DB_TYPE',$conf['db_type']);
-define('DB_HOST',$conf['db_host']);
-define('DB_DATABASE',$conf['db_database']);
-define('DB_USER',$conf['db_user']);
-define('DB_PASSWORD',$conf['db_password']);
-define('DB_CHARSET',$conf['db_charset']);
+define('DB_TYPE', $conf['db_type']);
+define('DB_HOST', $conf['db_host']);
+define('DB_DATABASE', $conf['db_database']);
+define('DB_USER', $conf['db_user']);
+define('DB_PASSWORD', $conf['db_password']);
+define('DB_CHARSET', $conf['db_charset']);
 
 
 //** Database settings for the master DB. This setting is only used in multiserver setups
-$conf['dbmaster_type']			= 'mysql';
-$conf['dbmaster_host']			= '{mysql_master_server_host}';
-$conf['dbmaster_database']		= '{mysql_master_server_database}';
-$conf['dbmaster_user']			= '{mysql_master_server_ispconfig_user}';
-$conf['dbmaster_password']		= '{mysql_master_server_ispconfig_password}';
-$conf['dbmaster_new_link'] 		= false;
+$conf['dbmaster_type']   = 'mysql';
+$conf['dbmaster_host']   = '{mysql_master_server_host}';
+$conf['dbmaster_database']  = '{mysql_master_server_database}';
+$conf['dbmaster_user']   = '{mysql_master_server_ispconfig_user}';
+$conf['dbmaster_password']  = '{mysql_master_server_ispconfig_password}';
+$conf['dbmaster_new_link']   = false;
 $conf['dbmaster_client_flags']  = 0;
 
 
@@ -87,15 +87,15 @@ define('ISPC_WEB_TEMP_PATH', ISPC_WEB_PATH.'/temp'); // Path for downloads, acce
 define('ISPC_CACHE_PATH', ISPC_ROOT_PATH.'/cache');
 
 //** Paths (Do not change!)
-$conf['rootpath'] = substr(dirname(__FILE__),0,-4);
+$conf['rootpath'] = substr(dirname(__FILE__), 0, -4);
 $conf['fs_div'] = '/'; // File system separator (divider), "\\" on Windows and "/" on Linux and UNIX
 $conf['classpath'] = $conf['rootpath'].$conf['fs_div'].'lib'.$conf['fs_div'].'classes';
 $conf['temppath'] = $conf['rootpath'].$conf['fs_div'].'temp';
 
-define('FS_DIV',$conf['fs_div']);
-define('SERVER_ROOT',$conf['rootpath']);
-define('INCLUDE_ROOT',SERVER_ROOT.FS_DIV.'lib');
-define('CLASSES_ROOT',INCLUDE_ROOT.FS_DIV.'classes');
+define('FS_DIV', $conf['fs_div']);
+define('SERVER_ROOT', $conf['rootpath']);
+define('INCLUDE_ROOT', SERVER_ROOT.FS_DIV.'lib');
+define('CLASSES_ROOT', INCLUDE_ROOT.FS_DIV.'classes');
 
 
 //** Server
@@ -110,8 +110,8 @@ $conf['server_id'] = '1';
 $conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools';
 
 //** Demo mode
-/* The demo mode is an option to restrict certain actions in the interface like 
-*  changing the password of users with sys_userid < 3 etc. to be 
+/* The demo mode is an option to restrict certain actions in the interface like
+*  changing the password of users with sys_userid < 3 etc. to be
 *  able to run the ISPConfig interface as online demo. It does not
 *  affect the server part. The demo mode should be always set to false
 *  on every normal installation
@@ -154,8 +154,8 @@ $conf['start_session'] = true;
 
 
 //** Constants
-define('LOGLEVEL_DEBUG',0);
-define('LOGLEVEL_WARN',1);
-define('LOGLEVEL_ERROR',2);
+define('LOGLEVEL_DEBUG', 0);
+define('LOGLEVEL_WARN', 1);
+define('LOGLEVEL_ERROR', 2);
 
 ?>

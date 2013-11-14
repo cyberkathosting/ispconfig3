@@ -31,52 +31,52 @@ $items = array();
 
 //* Add a menu item with the label 'Send message'
 $items[] = array( 'title'   => 'Send message',
-                  'target'  => 'content',
-                  'link'    => 'help/support_message_edit.php',
-                  'html_id' => 'help_message_send');
+	'target'  => 'content',
+	'link'    => 'help/support_message_edit.php',
+	'html_id' => 'help_message_send');
 
 //* Add a menu item with the label 'View messages'
 $items[] = array( 'title'   => 'View messages',
-                  'target'  => 'content',
-                  'link'    => 'help/support_message_list.php',
-                  'html_id' => 'help_message_list');
+	'target'  => 'content',
+	'link'    => 'help/support_message_list.php',
+	'html_id' => 'help_message_list');
 
 
 //* Add the menu items defined above to a menu section labeled 'Support'
 $module['nav'][] = array( 'title' => 'Support',
-                          'open'  => 1,
-                          'items'	=> $items);
+	'open'  => 1,
+	'items' => $items);
 
 //* the FAQ menu section
 $itemsfaq = array();
 //* admin's tools
 if($_SESSION['s']['user']['typ'] == 'admin') {
-	$itemsfaq[] = array( 	'title'		=> 'Manage Sections',
-							'target'	=> 'content',
-							'link'		=> 'help/faq_sections_list.php');
-	$itemsfaq[] = array( 	'title'		=> 'Manage Questions',
-							'target'	=> 'content',
-							'link'		=> 'help/faq_manage_questions_list.php');
-							
-	$module['nav'][] = array( 	'title'	=> 'FAQ',
-								'open'	=> 1,
-								'items'	=> $itemsfaq);
+	$itemsfaq[] = array(  'title'  => 'Manage Sections',
+		'target' => 'content',
+		'link'  => 'help/faq_sections_list.php');
+	$itemsfaq[] = array(  'title'  => 'Manage Questions',
+		'target' => 'content',
+		'link'  => 'help/faq_manage_questions_list.php');
+
+	$module['nav'][] = array(  'title' => 'FAQ',
+		'open' => 1,
+		'items' => $itemsfaq);
 }
 else
-{ //* the user
+	{ //* the user
 	$sql = "SELECT * FROM help_faq_sections";
 	$res = $app->db->queryAllRecords($sql);
 	//* all the content sections
 	if(is_array($res) && !empty($res)) {
 		foreach($res as $v) {
-			$itemsfaq[] = array( 	'title'		=> $v['hfs_name'],
-									'target'	=> 'content',
-									'link'		=> 'help/faq_list.php?hfs_id='.$v['hfs_id']);
+			$itemsfaq[] = array(  'title'  => $v['hfs_name'],
+				'target' => 'content',
+				'link'  => 'help/faq_list.php?hfs_id='.$v['hfs_id']);
 		}
 		// Display 'FAQ' menu only if there are sections
-		$module['nav'][] = array( 	'title'	=> 'FAQ',
-									'open'	=> 1,
-									'items'	=> $itemsfaq);
+		$module['nav'][] = array(  'title' => 'FAQ',
+			'open' => 1,
+			'items' => $itemsfaq);
 	}
 }
 //* -- end of the FAQ menu section
@@ -84,20 +84,20 @@ else
 
 
 if($_SESSION['s']['user']['typ'] == 'admin') {
-//* make sure that the items array is empty
-$items = array();
+	//* make sure that the items array is empty
+	$items = array();
 
-//* Add a menu item with the label 'Version'
-$items[] = array( 'title'   => 'Version',
-                  'target'  => 'content',
-                  'link'    => 'help/version.php',
-                  'html_id' => 'help_version' );
+	//* Add a menu item with the label 'Version'
+	$items[] = array( 'title'   => 'Version',
+		'target'  => 'content',
+		'link'    => 'help/version.php',
+		'html_id' => 'help_version' );
 
 
-//* Add the menu items defined above to a menu section labeled 'Support'
-$module['nav'][] = array( 'title' => 'About ISPConfig',
-                          'open'  => 1,
-                          'items'	=> $items);
+	//* Add the menu items defined above to a menu section labeled 'Support'
+	$module['nav'][] = array( 'title' => 'About ISPConfig',
+		'open'  => 1,
+		'items' => $items);
 
 }
 

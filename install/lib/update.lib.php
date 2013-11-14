@@ -29,10 +29,12 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //* Installer patch stub class
 class installer_patch_update {
-   protected function onBeforeSQL() {
-   }
-   protected function onAfterSQL() {
-   }
+	protected function onBeforeSQL() {
+	}
+
+	protected function onAfterSQL() {
+	}
+
 }
 
 //* DB dump function
@@ -70,25 +72,25 @@ function prepareDBDump() {
 	} else {
 		$backup_db_name = '/root/ispconfig_db_backup_'.@date('Y-m-d_H-i').'.sql';
 	}
-	copy('existing_db.sql',$backup_db_name);
+	copy('existing_db.sql', $backup_db_name);
 	chmod($backup_db_name, 0700);
 	chown($backup_db_name, 'root');
 	chgrp($backup_db_name, 'root');
 
 	if ($conf['powerdns']['installed']) {
 		//** export the current PowerDNS database data
-        	if( !empty($conf["mysql"]["admin_password"]) ) {
-            		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
-        	} else {
-            		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
-        	}
+		if( !empty($conf["mysql"]["admin_password"]) ) {
+			system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+		} else {
+			system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -c -t --add-drop-table --create-options --quick --result-file=existing_powerdns_db.sql ".$conf['powerdns']['database']);
+		}
 
 		// create a backup copy of the PowerDNS database in the root folder
 		$backup_db_name = '/root/ispconfig_powerdns_db_backup_'.@date('Y-m-d_h-i').'.sql';
-	        copy('existing_powerdns_db.sql',$backup_db_name);
+		copy('existing_powerdns_db.sql', $backup_db_name);
 		chmod($backup_db_name, 0700);
-	        chown($backup_db_name, 'root');
-	        chgrp($backup_db_name, 'root');
+		chown($backup_db_name, 'root');
+		chgrp($backup_db_name, 'root');
 	}
 }
 
@@ -115,7 +117,7 @@ function checkDbHealth() {
 		sread();
 	}
 	else
-	  echo "OK\n";
+		echo "OK\n";
 }
 
 function updateDbAndIni() {
@@ -136,9 +138,9 @@ function updateDbAndIni() {
 	$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
 	$conf['services']['proxy'] = (isset($tmp['proxy_server']) && $tmp['proxy_server'] == 1)?true:false;
 	$conf['services']['firewall'] = (isset($tmp['firewall_server']) && $tmp['firewall_server'] == 1)?true:false;
-	
+
 	$conf['postfix']['vmail_mailbox_base'] = $ini_array['mail']['homedir_path'];
-	
+
 	if(isset($ini_array['web']['server_type']) && $ini_array['web']['server_type'] != ''){
 		$conf['webserver']['server_type'] = $ini_array['web']['server_type'];
 		if($conf['webserver']['server_type'] == 'nginx'){
@@ -150,38 +152,38 @@ function updateDbAndIni() {
 		$conf['webserver']['server_type'] = 'apache';
 		$conf['nginx']['installed'] = false;
 	}
-	
+
 	//* Do incremental DB updates only on installed ISPConfig versions > 3.0.3
-	if(compare_ispconfig_version('3.0.3',ISPC_APP_VERSION) >= 0) {
-		
+	if(compare_ispconfig_version('3.0.3', ISPC_APP_VERSION) >= 0) {
+
 		swriteln($inst->lng('Starting incremental database update.'));
-		
-		//* get the version of the db schema from the server table 
+
+		//* get the version of the db schema from the server table
 		$found = true;
 		while($found == true) {
 			$next_db_version = intval($current_db_version + 1);
 			$sql_patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
 			$php_patch_filename = realpath(dirname(__FILE__).'/../').'/patches/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.php';
-			
+
 			if(is_file($sql_patch_filename)) {
-				
+
 				//* Load php patch file and instantiate object
 				if(is_file($php_patch_filename)) {
 					$php_patch_class_name = 'upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT);
-					include_once($php_patch_filename);
+					include_once $php_patch_filename;
 					if(class_exists($php_patch_class_name)) {
 						$php_patch = new $php_patch_class_name;
 					} else {
 						swriteln($inst->lng('WARNING: PHP patch file').': '.$php_patch_filename.' '.$inst->lng('contains errors.'));
 					}
 				}
-				
+
 				//* Exec onBeforeSQL function
 				if(isset($php_patch) && is_object($php_patch)) {
 					$php_patch->onBeforeSQL();
 					swriteln($inst->lng('Executing PHP patch file').': '.$php_patch_filename);
 				}
-				
+
 				//* Load patch file into database
 				if( !empty($conf["mysql"]["admin_password"]) ) {
 					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
@@ -189,32 +191,32 @@ function updateDbAndIni() {
 					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
 				}
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
-				
+
 				//* Exec onAfterSQL function
 				if(isset($php_patch) && is_object($php_patch)) {
 					$php_patch->onAfterSQL();
 				}
-				
+
 				$current_db_version = $next_db_version;
 				if(isset($php_patch)) unset($php_patch);
 			} else {
 				$found = false;
 			}
 		}
-		
+
 		//* update the database version in server table
 		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
 		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ".$conf["mysql"]["master_database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
-		
-	
-	//* If ISPConfig Version < 3.0.3, we will do a full db update
+
+
+		//* If ISPConfig Version < 3.0.3, we will do a full db update
 	} else {
-		
+
 		swriteln($inst->lng('Starting full database update.'));
-		
+
 		//** Delete the old database
 		if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
-		$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
+			$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
 		}
 
 		//** Create the mysql database
@@ -233,7 +235,7 @@ function updateDbAndIni() {
 		} else {
 			system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < existing_db.sql");
 		}
-		
+
 		//** Get the database version number based on the patchfile
 		$found = true;
 		while($found == true) {
@@ -245,29 +247,29 @@ function updateDbAndIni() {
 				$found = false;
 			}
 		}
-		
+
 		//* update the database version in server table
 		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
 		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ".$conf["mysql"]["master_database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
 
 		if ($conf['powerdns']['installed']) {
-                                                 
+
 			swriteln($inst->lng('Starting full PowerDNS database update.'));
 
-            //** Delete the old PowerDNS database
-            if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['powerdns']['database']) ) {
+			//** Delete the old PowerDNS database
+			if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['powerdns']['database']) ) {
 				$inst->error('Unable to drop MySQL database: '.$conf['powerdns']['database'].'.');
-            }
+			}
 
-            //** Create the mysql database
-            $inst->configure_powerdns();
+			//** Create the mysql database
+			$inst->configure_powerdns();
 
-            //** load old data back into the PowerDNS database
-            if( !empty($conf["mysql"]["admin_password"]) ) {
-            	system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
-            } else {
-            	system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
-            }
+			//** load old data back into the PowerDNS database
+			if( !empty($conf["mysql"]["admin_password"]) ) {
+				system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
+			} else {
+				system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['powerdns']['database'])." < existing_powerdns_db.sql");
+			}
 		}
 	}
 
@@ -277,7 +279,7 @@ function updateDbAndIni() {
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
-	
+
 	//* Update further distribution specific parameters for server config here
 	//* HINT: Every line added here has to be added in installer_base.lib.php too!!
 	$tpl_ini_array['jailkit']['jailkit_chroot_app_programs'] = $conf['jailkit']['jailkit_chroot_app_programs'];
@@ -302,7 +304,7 @@ function updateDbAndIni() {
 	$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
 	$tpl_ini_array['dns']['named_conf_path'] = $conf['bind']['named_conf_path'];
 	$tpl_ini_array['dns']['named_conf_local_path'] = $conf['bind']['named_conf_local_path'];
-	
+
 	$tpl_ini_array['web']['nginx_vhost_conf_dir'] = $conf['nginx']['vhost_conf_dir'];
 	$tpl_ini_array['web']['nginx_vhost_conf_enabled_dir'] = $conf['nginx']['vhost_conf_enabled_dir'];
 	$tpl_ini_array['web']['nginx_user'] = $conf['nginx']['user'];
@@ -313,7 +315,7 @@ function updateDbAndIni() {
 	$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 	$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 	$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
-		
+
 	if ($conf['nginx']['installed'] == true) {
 		$tpl_ini_array['web']['server_type'] = 'nginx';
 		$tpl_ini_array['global']['webserver'] = 'nginx';
@@ -331,7 +333,7 @@ function updateDbAndIni() {
 	$new_ini = array_to_ini($tpl_ini_array);
 	$sql = "UPDATE ".$conf["mysql"]["database"].".server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
 	$inst->db->query($sql);
-	
+
 	if($inst->db->dbHost != $inst->dbmaster->dbHost) {
 		$sql = "UPDATE ".$conf["mysql"]["master_database"].".server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
 		$inst->dbmaster->query($sql);

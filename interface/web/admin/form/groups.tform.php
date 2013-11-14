@@ -59,54 +59,54 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 			= "Groups";
-$form["description"] 	= "groups_description";
-$form["name"] 			= "groups";
-$form["action"]			= "groups_edit.php";
-$form["db_table"]		= "sys_group";
-$form["db_table_idx"]	= "groupid";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "groups";
-$form["list_default"]	= "groups_list.php";
-$form["auth"]			= 'no';
+$form["title"]    = "Groups";
+$form["description"]  = "groups_description";
+$form["name"]    = "groups";
+$form["action"]   = "groups_edit.php";
+$form["db_table"]  = "sys_group";
+$form["db_table_idx"] = "groupid";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "groups";
+$form["list_default"] = "groups_list.php";
+$form["auth"]   = 'no';
 
 $form["tabs"]['groups'] = array (
-	'title' 	=> "Groups",
-	'width' 	=> 80,
-	'template' 	=> "templates/groups_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => "Groups",
+	'width'  => 80,
+	'template'  => "templates/groups_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '/^.{1,30}$/',
-			'errmsg'	=> 'name_err',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '/^.{1,30}$/',
+			'errmsg' => 'name_err',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'description' => array (
-			'datatype'	=> 'TEXT',
-			'formtype'	=> 'TEXTAREA',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '',
-			'maxlength'	=> '',
-			'rows'		=> '5',
-			'cols'		=> '30'
+			'datatype' => 'TEXT',
+			'formtype' => 'TEXTAREA',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '',
+			'maxlength' => '',
+			'rows'  => '5',
+			'cols'  => '30'
 		)
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 ?>

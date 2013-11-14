@@ -39,8 +39,8 @@ $tform_def_file = "form/web_folder_user.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -50,19 +50,20 @@ $app->uses('tpl,tform,tform_actions,validate_cron');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		// Get the record of the parent domain
 		$folder = $app->db->queryOneRecord("select * FROM web_folder WHERE web_folder_id = ".$app->functions->intval(@$this->dataRecord["web_folder_id"]) . " AND ".$app->tform->getAuthSQL('r'));
-        if(!$folder || $folder['web_folder_id'] != @$this->dataRecord['web_folder_id']) $app->tform->errorMessage .= $app->tform->lng("no_folder_perm");
-		
+		if(!$folder || $folder['web_folder_id'] != @$this->dataRecord['web_folder_id']) $app->tform->errorMessage .= $app->tform->lng("no_folder_perm");
+
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $folder["server_id"];
-		
+
 		parent::onSubmit();
 	}
+
 }
 
 $page = new page_action;

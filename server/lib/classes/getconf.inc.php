@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class getconf {
 
 	var $config;
-	
+
 	function get_server_config($server_id, $section = '') {
 		global $app;
 
@@ -41,17 +41,17 @@ class getconf {
 			$server = $app->db->queryOneRecord('SELECT config FROM server WHERE server_id = '.$server_id);
 			$this->config[$server_id] = $app->ini_parser->parse_ini_string(stripslashes($server['config']));
 		}
-		
+
 		if($section == '') {
 			return $this->config[$server_id];
 		} else {
 			return $this->config[$server_id][$section];
 		}
 	}
-	
+
 	public function get_global_config($section = '') {
 		global $app;
-		
+
 		if(!@is_array($this->config['global'])) {
 			$app->uses('ini_parser');
 			$tmp = $app->db->queryOneRecord('SELECT config FROM sys_ini WHERE sysini_id = 1');
@@ -59,6 +59,7 @@ class getconf {
 		}
 		return ($section == '') ? $this->config['global'] : $this->config['global'][$section];
 	}
+
 }
 
 ?>

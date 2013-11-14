@@ -29,136 +29,136 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class maildeliver_plugin {
-	
+
 	var $plugin_name = 'maildeliver_plugin';
 	var $class_name = 'maildeliver_plugin';
-	
-	
+
+
 	var $mailfilter_config_dir = '';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
 		global $conf;
-		
+
 		if($conf['services']['mail'] == true && isset($conf['dovecot']['installed']) && $conf['dovecot']['installed'] == true) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
+
 	function onLoad() {
 		global $app;
-		
+
 		/*
 		Register for the events
 		*/
-		
-		$app->plugins->registerEvent('mail_user_insert','maildeliver_plugin','update');
-		$app->plugins->registerEvent('mail_user_update','maildeliver_plugin','update');
-		$app->plugins->registerEvent('mail_user_delete','maildeliver_plugin','delete');
-		
+
+		$app->plugins->registerEvent('mail_user_insert', 'maildeliver_plugin', 'update');
+		$app->plugins->registerEvent('mail_user_update', 'maildeliver_plugin', 'update');
+		$app->plugins->registerEvent('mail_user_delete', 'maildeliver_plugin', 'delete');
+
 	}
-	
-	
-	function update($event_name,$data) {
+
+
+	function update($event_name, $data) {
 		global $app, $conf;
-		
+
 		// load the server configuration options
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
-		if(substr($mail_config["homedir_path"],-1) == '/') {
-			$mail_config["homedir_path"] = substr($mail_config["homedir_path"],0,-1);
+		if(substr($mail_config["homedir_path"], -1) == '/') {
+			$mail_config["homedir_path"] = substr($mail_config["homedir_path"], 0, -1);
 		}
-		
+
 		if(isset($data["new"]["email"])) {
-			$email_parts = explode("@",$data["new"]["email"]);
+			$email_parts = explode("@", $data["new"]["email"]);
 		} else {
-			$email_parts = explode("@",$data["old"]["email"]);
+			$email_parts = explode("@", $data["old"]["email"]);
 		}
-			
+
 		// Write the custom mailfilter script, if mailfilter recipe has changed
 		if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]
-			   or $data["old"]["move_junk"] != $data["new"]["move_junk"]
-			   or $data["old"]["autoresponder_subject"] != $data["new"]["autoresponder_subject"] 
-			   or $data["old"]["autoresponder_text"] != $data["new"]["autoresponder_text"] 
-			   or $data["old"]["autoresponder"] != $data["new"]["autoresponder"]
-			   or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])
-			   or $data["old"]["autoresponder_start_date"] != $data["new"]["autoresponder_start_date"]
-			   or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]
-			   or $data["old"]["cc"] != $data["new"]["cc"]
-			   ) {
-				
-			$app->log("Mailfilter config has been changed",LOGLEVEL_DEBUG);
-				
+			or $data["old"]["move_junk"] != $data["new"]["move_junk"]
+			or $data["old"]["autoresponder_subject"] != $data["new"]["autoresponder_subject"]
+			or $data["old"]["autoresponder_text"] != $data["new"]["autoresponder_text"]
+			or $data["old"]["autoresponder"] != $data["new"]["autoresponder"]
+			or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])
+			or $data["old"]["autoresponder_start_date"] != $data["new"]["autoresponder_start_date"]
+			or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]
+			or $data["old"]["cc"] != $data["new"]["cc"]
+		) {
+
+			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
+
 			$sieve_file = $data["new"]["maildir"].'/.sieve';
-			if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file",LOGLEVEL_WARN);
-				
+			if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
+
 			$app->load('tpl');
-			
+
 			//* Select sieve filter file for dovecot version
-			exec('dovecot --version',$tmp);
-			if(substr($tmp[0],0,3) == '1.0') {
+			exec('dovecot --version', $tmp);
+			if(substr($tmp[0], 0, 3) == '1.0') {
 				$filter_file_template = "sieve_filter.master";
-			} elseif(substr($tmp[0],0,3) == '1.2') {
+			} elseif(substr($tmp[0], 0, 3) == '1.2') {
 				$filter_file_template = "sieve_filter_1.2.master";
-			} elseif(substr($tmp[0],0,1) == '2') {
+			} elseif(substr($tmp[0], 0, 1) == '2') {
 				$filter_file_template = "sieve_filter_1.2.master";
 			} else {
 				$filter_file_template = "sieve_filter.master";
 			}
 			unset($tmp);
-			
+
 			//* Create new filter file based on template
 			$tpl = new tpl();
 			$tpl->newTemplate($filter_file_template);
-			
+
 			// cc Field
-			$tpl->setVar('cc',$data["new"]["cc"]);
-				
+			$tpl->setVar('cc', $data["new"]["cc"]);
+
 			// Custom filters
-			$tpl->setVar('custom_mailfilter',$data["new"]["custom_mailfilter"]);
-				
+			$tpl->setVar('custom_mailfilter', $data["new"]["custom_mailfilter"]);
+
 			// Move junk
-			$tpl->setVar('move_junk',$data["new"]["move_junk"]);
-			
+			$tpl->setVar('move_junk', $data["new"]["move_junk"]);
+
 			// Check autoresponder dates
 			if($data["new"]["autoresponder_start_date"] == '0000-00-00 00:00:00' && $data["new"]["autoresponder_end_date"] == '0000-00-00 00:00:00') {
-				$tpl->setVar('autoresponder_date_limit',0);
+				$tpl->setVar('autoresponder_date_limit', 0);
 			} else {
-				$tpl->setVar('autoresponder_date_limit',1);
+				$tpl->setVar('autoresponder_date_limit', 1);
 			}
-			
+
 
 			// Set autoresponder start date
-			$data["new"]["autoresponder_start_date"] = str_replace (" ", "T", $data["new"]["autoresponder_start_date"]);
-			$tpl->setVar('start_date',$data["new"]["autoresponder_start_date"]);
+			$data["new"]["autoresponder_start_date"] = str_replace(" ", "T", $data["new"]["autoresponder_start_date"]);
+			$tpl->setVar('start_date', $data["new"]["autoresponder_start_date"]);
 
 			// Set autoresponder end date
-			$data["new"]["autoresponder_end_date"] = str_replace (" ", "T", $data["new"]["autoresponder_end_date"]);
-			$tpl->setVar('end_date',$data["new"]["autoresponder_end_date"]);
+			$data["new"]["autoresponder_end_date"] = str_replace(" ", "T", $data["new"]["autoresponder_end_date"]);
+			$tpl->setVar('end_date', $data["new"]["autoresponder_end_date"]);
 
 			// Autoresponder
-			$tpl->setVar('autoresponder',$data["new"]["autoresponder"]);
+			$tpl->setVar('autoresponder', $data["new"]["autoresponder"]);
 
-			// Autoresponder Subject			
-			$data["new"]["autoresponder_subject"] = str_replace("\"","'",$data["new"]["autoresponder_subject"]); 
-			$tpl->setVar('autoresponder_subject',$data["new"]["autoresponder_subject"]);
+			// Autoresponder Subject
+			$data["new"]["autoresponder_subject"] = str_replace("\"", "'", $data["new"]["autoresponder_subject"]);
+			$tpl->setVar('autoresponder_subject', $data["new"]["autoresponder_subject"]);
 
 			// Autoresponder Text
-			$data["new"]["autoresponder_text"] = str_replace("\"","'",$data["new"]["autoresponder_text"]); 
-			$tpl->setVar('autoresponder_text',$data["new"]["autoresponder_text"]);
-			
+			$data["new"]["autoresponder_text"] = str_replace("\"", "'", $data["new"]["autoresponder_text"]);
+			$tpl->setVar('autoresponder_text', $data["new"]["autoresponder_text"]);
+
 			//* Set alias addresses for autoresponder
 			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
 			$records = $app->db->queryAllRecords($sql);
-			
+
 			$addresses = array();
 			$addresses[] = $data["new"]["email"];
 			if(is_array($records) && count($records) > 0) {
@@ -166,58 +166,58 @@ class maildeliver_plugin {
 					$addresses[] = $rec['source'];
 				}
 			}
-			
-            $app->log("Found " . count($addresses) . " addresses.",LOGLEVEL_DEBUG);
-            
-            $alias_addresses = array();
-            
-			$email_parts = explode('@',$data["new"]["email"]);
+
+			$app->log("Found " . count($addresses) . " addresses.", LOGLEVEL_DEBUG);
+
+			$alias_addresses = array();
+
+			$email_parts = explode('@', $data["new"]["email"]);
 			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = '@".$app->db->quote($email_parts[1])."'";
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records) && count($records) > 0) {
-                $app->log("Found " . count($records) . " records (aliasdomains).",LOGLEVEL_DEBUG);
+				$app->log("Found " . count($records) . " records (aliasdomains).", LOGLEVEL_DEBUG);
 				foreach($records as $rec) {
-					$aliasdomain = substr($rec['source'],1);
+					$aliasdomain = substr($rec['source'], 1);
 					foreach($addresses as $email) {
-						$email_parts = explode('@',$email);
+						$email_parts = explode('@', $email);
 						$alias_addresses[] = $email_parts[0].'@'.$aliasdomain;
 					}
 				}
 			}
-			
-            $app->log("Found " . count($addresses) . " addresses at all.",LOGLEVEL_DEBUG);
-            
-            $addresses = array_unique(array_merge($addresses, $alias_addresses));
-            
-            $app->log("Found " . count($addresses) . " unique addresses at all.",LOGLEVEL_DEBUG);
-            
+
+			$app->log("Found " . count($addresses) . " addresses at all.", LOGLEVEL_DEBUG);
+
+			$addresses = array_unique(array_merge($addresses, $alias_addresses));
+
+			$app->log("Found " . count($addresses) . " unique addresses at all.", LOGLEVEL_DEBUG);
+
 			$address_str = '';
 			if(is_array($addresses) && count($addresses) > 0) {
 				$address_str .= ':addresses [';
 				foreach($addresses as $rec) {
 					$address_str .= '"'.$rec.'",';
 				}
-				$address_str = substr($address_str,0,-1);
+				$address_str = substr($address_str, 0, -1);
 				$address_str .= ']';
 			}
-			
-			
-			$tpl->setVar('addresses',$address_str);
-			
-			file_put_contents($sieve_file,$tpl->grab());
-			
+
+
+			$tpl->setVar('addresses', $address_str);
+
+			file_put_contents($sieve_file, $tpl->grab());
+
 			unset($tpl);
-				
+
 		}
 	}
-	
-	function delete($event_name,$data) {
+
+	function delete($event_name, $data) {
 		global $app, $conf;
-		
+
 		$sieve_file = $data["old"]["maildir"].'/.sieve';
-		if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file",LOGLEVEL_WARN);
+		if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
 	}
-	
+
 
 } // end class
 

@@ -30,121 +30,121 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class plugin_backuplist extends plugin_base {
 
-        var $module;
-        var $form;
-        var $tab;
-        var $record_id;
-        var $formdef;
-        var $options;
+	var $module;
+	var $form;
+	var $tab;
+	var $record_id;
+	var $formdef;
+	var $options;
 
-        function onShow() {
+	function onShow() {
 
-                global $app;
-				
-				$listTpl = new tpl;
-                $listTpl->newTemplate('templates/web_backup_list.htm');
-				
-				//* Loading language file
-                $lng_file = "lib/lang/".$_SESSION["s"]["language"]."_web_backup_list.lng";
-                include($lng_file);
-                $listTpl->setVar($wb);
-				
-				$message = '';
-				$error = '';
-				
-				if(isset($_GET['backup_action'])) {
-					$backup_id = $app->functions->intval($_GET['backup_id']);
-					
-					//* check if the user is  owner of the parent domain
-					$domain_backup = $app->db->queryOneRecord("SELECT parent_domain_id FROM web_backup WHERE backup_id = ".$backup_id);
-					
-                    $check_perm = 'u';
-                    if($_GET['backup_action'] == 'download') $check_perm = 'r'; // only check read permissions on download, not update permissions
-                    
-					$get_domain = $app->db->queryOneRecord("SELECT domain_id FROM web_domain WHERE domain_id = ".$app->functions->intval($domain_backup["parent_domain_id"])." AND ".$app->tform->getAuthSQL($check_perm));
-					if(empty($get_domain) || !$get_domain) {
-						$app->error($app->tform->lng('no_domain_perm'));
-					}
-					
-					if($_GET['backup_action'] == 'download' && $backup_id > 0) {
-						$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";
-						$tmp = $app->db->queryOneRecord($sql);
-						if($tmp['number'] == 0) {
-							$message .= $wb['download_info_txt'];
-							$sql = 	"INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-								"VALUES (".
-								(int)$this->form->dataRecord['server_id'] . ", " .
-								time() . ", " .
-								"'backup_download', " .
-								"'".$backup_id."', " .
-								"'pending', " .
-								"''" .
-								")";
-							$app->db->query($sql);
-						} else {
-							$error .= $wb['download_pending_txt'];
-						}
-					}
-					if($_GET['backup_action'] == 'restore' && $backup_id > 0) {
-						$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = '$backup_id'";
-						$tmp = $app->db->queryOneRecord($sql);
-						if($tmp['number'] == 0) {
-							$message .= $wb['restore_info_txt'];
-							$sql = 	"INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-								"VALUES (".
-								(int)$this->form->dataRecord['server_id'] . ", " .
-								time() . ", " .
-								"'backup_restore', " .
-								"'".$backup_id."', " .
-								"'pending', " .
-								"''" .
-								")";
-						$app->db->query($sql);
-						} else {
-							$error .= $wb['restore_pending_txt'];
-						}
-					}
-					
+		global $app;
+
+		$listTpl = new tpl;
+		$listTpl->newTemplate('templates/web_backup_list.htm');
+
+		//* Loading language file
+		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_web_backup_list.lng";
+		include $lng_file;
+		$listTpl->setVar($wb);
+
+		$message = '';
+		$error = '';
+
+		if(isset($_GET['backup_action'])) {
+			$backup_id = $app->functions->intval($_GET['backup_id']);
+
+			//* check if the user is  owner of the parent domain
+			$domain_backup = $app->db->queryOneRecord("SELECT parent_domain_id FROM web_backup WHERE backup_id = ".$backup_id);
+
+			$check_perm = 'u';
+			if($_GET['backup_action'] == 'download') $check_perm = 'r'; // only check read permissions on download, not update permissions
+
+			$get_domain = $app->db->queryOneRecord("SELECT domain_id FROM web_domain WHERE domain_id = ".$app->functions->intval($domain_backup["parent_domain_id"])." AND ".$app->tform->getAuthSQL($check_perm));
+			if(empty($get_domain) || !$get_domain) {
+				$app->error($app->tform->lng('no_domain_perm'));
+			}
+
+			if($_GET['backup_action'] == 'download' && $backup_id > 0) {
+				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";
+				$tmp = $app->db->queryOneRecord($sql);
+				if($tmp['number'] == 0) {
+					$message .= $wb['download_info_txt'];
+					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
+						"VALUES (".
+						(int)$this->form->dataRecord['server_id'] . ", " .
+						time() . ", " .
+						"'backup_download', " .
+						"'".$backup_id."', " .
+						"'pending', " .
+						"''" .
+						")";
+					$app->db->query($sql);
+				} else {
+					$error .= $wb['download_pending_txt'];
 				}
-				
-				//* Get the data
-				$web = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$this->form->id);
-				$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$this->form->id." AND server_id = ".$web['server_id']." ORDER BY tstamp DESC, backup_type ASC";
-                $records = $app->db->queryAllRecords($sql);
+			}
+			if($_GET['backup_action'] == 'restore' && $backup_id > 0) {
+				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = '$backup_id'";
+				$tmp = $app->db->queryOneRecord($sql);
+				if($tmp['number'] == 0) {
+					$message .= $wb['restore_info_txt'];
+					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
+						"VALUES (".
+						(int)$this->form->dataRecord['server_id'] . ", " .
+						time() . ", " .
+						"'backup_restore', " .
+						"'".$backup_id."', " .
+						"'pending', " .
+						"''" .
+						")";
+					$app->db->query($sql);
+				} else {
+					$error .= $wb['restore_pending_txt'];
+				}
+			}
 
-                $bgcolor = "#FFFFFF";
-                if(is_array($records)) {
-                        foreach($records as $rec) {
+		}
 
-                                // Change of color
-                                $bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
-                                $rec["bgcolor"] = $bgcolor;
-								
-								$rec['date'] = date($app->lng('conf_format_datetime'),$rec['tstamp']);
-								$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+		//* Get the data
+		$web = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$this->form->id);
+		$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$this->form->id." AND server_id = ".$web['server_id']." ORDER BY tstamp DESC, backup_type ASC";
+		$records = $app->db->queryAllRecords($sql);
 
-                                $records_new[] = $rec;
-                        }
-                }
+		$bgcolor = "#FFFFFF";
+		if(is_array($records)) {
+			foreach($records as $rec) {
 
-                $listTpl->setLoop('records',@$records_new);
-				
-				$listTpl->setVar('parent_id',$this->form->id);
-				$listTpl->setVar('msg',$message);
-				$listTpl->setVar('error',$error);
-				
-				// Setting Returnto information in the session
-                $list_name = 'backup_list';
-                // $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
-				$_SESSION["s"]["list"][$list_name]["parent_id"] = $this->form->id;
-				$_SESSION["s"]["list"][$list_name]["parent_name"] = $app->tform->formDef["name"];
-                $_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
-                $_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
-                $_SESSION["s"]["form"]["return_to"] = $list_name;
-				
-				return $listTpl->grab();
-        }
-		
+				// Change of color
+				$bgcolor = ($bgcolor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
+				$rec["bgcolor"] = $bgcolor;
+
+				$rec['date'] = date($app->lng('conf_format_datetime'), $rec['tstamp']);
+				$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+
+				$records_new[] = $rec;
+			}
+		}
+
+		$listTpl->setLoop('records', @$records_new);
+
+		$listTpl->setVar('parent_id', $this->form->id);
+		$listTpl->setVar('msg', $message);
+		$listTpl->setVar('error', $error);
+
+		// Setting Returnto information in the session
+		$list_name = 'backup_list';
+		// $_SESSION["s"]["list"][$list_name]["parent_id"] = $app->tform_actions->id;
+		$_SESSION["s"]["list"][$list_name]["parent_id"] = $this->form->id;
+		$_SESSION["s"]["list"][$list_name]["parent_name"] = $app->tform->formDef["name"];
+		$_SESSION["s"]["list"][$list_name]["parent_tab"] = $_SESSION["s"]["form"]["tab"];
+		$_SESSION["s"]["list"][$list_name]["parent_script"] = $app->tform->formDef["action"];
+		$_SESSION["s"]["form"]["return_to"] = $list_name;
+
+		return $listTpl->grab();
+	}
+
 }
 
 ?>

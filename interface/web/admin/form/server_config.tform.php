@@ -55,9 +55,9 @@ $form["tabs"]['server'] = array(
 	'width' => 70,
 	'template' => "templates/server_config_server_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'auto_network_configuration' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -119,13 +119,13 @@ $form["tabs"]['server'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => 'server1.domain.tld',
-            'filters'   => array( 0 => array( 'event' => 'SAVE',
-                                              'type' => 'IDNTOASCII'),
-                                  1 => array( 'event' => 'SHOW',
-                                              'type' => 'IDNTOUTF8'),
-                                  2 => array( 'event' => 'SAVE',
-                                              'type' => 'TOLOWER')
-                                ),
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+					'type' => 'IDNTOASCII'),
+				1 => array( 'event' => 'SHOW',
+					'type' => 'IDNTOUTF8'),
+				2 => array( 'event' => 'SAVE',
+					'type' => 'TOLOWER')
+			),
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'hostname_error_empty'),
 			),
@@ -183,10 +183,10 @@ $form["tabs"]['server'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '',
-			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
-                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
-                                                                'errmsg'=> 'monit_url_error_regex'),
-                                                ),
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+					'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+					'errmsg'=> 'monit_url_error_regex'),
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -211,10 +211,10 @@ $form["tabs"]['server'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '',
-			'validators'	=> array ( 0 => array (	'type'	=> 'REGEX',
-                                                                'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
-                                                                'errmsg'=> 'munin_url_error_regex'),
-                                                ),
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+					'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+					'errmsg'=> 'munin_url_error_regex'),
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -235,9 +235,9 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -246,9 +246,9 @@ $form["tabs"]['mail'] = array(
 	'width' => 60,
 	'template' => "templates/server_config_mail_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'module' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
@@ -377,16 +377,16 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
-			'value' => array(0 => 'n',1 => 'y')
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'realtime_blackhole_list' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(,\s*(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))*)?$/',
-														'errmsg'=> 'rbl_error_regex'),
-									),
+			'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '/^((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(,\s*(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))*)?$/',
+					'errmsg'=> 'rbl_error_regex'),
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -408,8 +408,8 @@ $form["tabs"]['mail'] = array(
 			'formtype' => 'TEXT',
 			'default' => '7',
 			'value' => '',
-            'width' => '20',
-            'maxlength' => '255'
+			'width' => '20',
+			'maxlength' => '255'
 		),
 		'overquota_notify_onok' => array(
 			'datatype' => 'VARCHAR',
@@ -417,9 +417,9 @@ $form["tabs"]['mail'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -428,9 +428,9 @@ $form["tabs"]['getmail'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_getmail_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'getmail_config_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -442,9 +442,9 @@ $form["tabs"]['getmail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -453,9 +453,9 @@ $form["tabs"]['web'] = array(
 	'width' => 60,
 	'template' => "templates/server_config_web_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'server_type' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
@@ -499,7 +499,7 @@ $form["tabs"]['web'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
-			'value' => array(0 => 'n',1 => 'y')
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'website_autoalias' => array(
 			'datatype' => 'VARCHAR',
@@ -509,7 +509,7 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-/*
+		/*
 'vhost_rewrite_v6' => array (
 'datatype' => 'VARCHAR',
 'formtype' => 'CHECKBOX',
@@ -648,8 +648,8 @@ $form["tabs"]['web'] = array(
 			'formtype' => 'TEXT',
 			'default' => '7',
 			'value' => '',
-            'width' => '20',
-            'maxlength' => '255'
+			'width' => '20',
+			'maxlength' => '255'
 		),
 		'overquota_notify_onok' => array(
 			'datatype' => 'VARCHAR',
@@ -890,9 +890,9 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -901,9 +901,9 @@ $form["tabs"]['dns'] = array(
 	'width' => 60,
 	'template' => "templates/server_config_dns_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'bind_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -959,9 +959,9 @@ $form["tabs"]['dns'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -970,9 +970,9 @@ $form["tabs"]['fastcgi'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_fastcgi_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'fastcgi_starter_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1032,11 +1032,11 @@ $form["tabs"]['fastcgi'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '',
-			'validators' => array(	0 => array(	'type' => 'ISINT',
-												'errmsg' => 'fastcgi_max_requests_error_empty'),
-									1 => array(	'type' => 'RANGE',
-												'range' => '0:',
-												'errmsg' => 'fastcgi_max_requests_error_empty'),
+			'validators' => array( 0 => array( 'type' => 'ISINT',
+					'errmsg' => 'fastcgi_max_requests_error_empty'),
+				1 => array( 'type' => 'RANGE',
+					'range' => '0:',
+					'errmsg' => 'fastcgi_max_requests_error_empty'),
 			),
 			'value' => '',
 			'width' => '40',
@@ -1061,9 +1061,9 @@ $form["tabs"]['fastcgi'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -1073,9 +1073,9 @@ $form["tabs"]['jailkit'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_jailkit_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'jailkit_chroot_home' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1120,9 +1120,9 @@ $form["tabs"]['jailkit'] = array(
 			'width' => '40',
 			'maxlength' => '1000'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -1195,9 +1195,9 @@ $form["tabs"]['vlogger'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_vlogger_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'config_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1209,9 +1209,9 @@ $form["tabs"]['vlogger'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -1222,9 +1222,9 @@ $form["tabs"]['cron'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_cron_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'init_script' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1258,9 +1258,9 @@ $form["tabs"]['cron'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 
@@ -1269,9 +1269,9 @@ $form["tabs"]['rescue'] = array(
 	'width' => 80,
 	'template' => "templates/server_config_rescue_edit.htm",
 	'fields' => array(
-		##################################
-		# Begin Datatable fields
-		##################################
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'try_rescue' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -1296,9 +1296,9 @@ $form["tabs"]['rescue'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 ?>

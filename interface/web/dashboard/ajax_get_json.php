@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('dashboard');
@@ -40,46 +40,46 @@ $type = $_GET["type"];
 
 //if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
-	
-	if($type == 'globalsearch'){
-		$q = $app->db->quote(trim($_GET["q"]));
-		$authsql = " AND ".$app->tform->getAuthSQL('r');
-		$modules = explode(',', $_SESSION['s']['user']['modules']);
-		
-		$result = array();
-		
-		// clients
-		$result[] = _search('client', 'client', "AND limit_client = 0");
-		
-		// resellers
-		$result[] = _search('client', 'reseller', "AND limit_client != 0");
-		
-		// web sites
-		$result[] = _search('sites', 'web_domain', "AND type = 'vhost'");
-		
-		// subdomains
-		$result[] = _search('sites', 'web_subdomain', "AND type = 'subdomain'");
-		
-		// web site aliases
-		$result[] = _search('sites', 'web_aliasdomain', "AND type = 'alias'");
-		
-		// vhostsubdomains
-		$result[] = _search('sites', 'web_vhost_subdomain', "AND type = 'vhostsubdomain'");
-		
-		// FTP users
-		$result[] = _search('sites', 'ftp_user');
-		
-		// shell users
-		$result[] = _search('sites', 'shell_user');
-		
-		// databases
-		/*
+
+if($type == 'globalsearch'){
+	$q = $app->db->quote(trim($_GET["q"]));
+	$authsql = " AND ".$app->tform->getAuthSQL('r');
+	$modules = explode(',', $_SESSION['s']['user']['modules']);
+
+	$result = array();
+
+	// clients
+	$result[] = _search('client', 'client', "AND limit_client = 0");
+
+	// resellers
+	$result[] = _search('client', 'reseller', "AND limit_client != 0");
+
+	// web sites
+	$result[] = _search('sites', 'web_domain', "AND type = 'vhost'");
+
+	// subdomains
+	$result[] = _search('sites', 'web_subdomain', "AND type = 'subdomain'");
+
+	// web site aliases
+	$result[] = _search('sites', 'web_aliasdomain', "AND type = 'alias'");
+
+	// vhostsubdomains
+	$result[] = _search('sites', 'web_vhost_subdomain', "AND type = 'vhostsubdomain'");
+
+	// FTP users
+	$result[] = _search('sites', 'ftp_user');
+
+	// shell users
+	$result[] = _search('sites', 'shell_user');
+
+	// databases
+	/*
 		$result_databases = array('cheader' => array(), 'cdata' => array());
 		if(in_array('sites', $modules)){
 			$sql = "SELECT * FROM web_database WHERE database_name LIKE '%".$q."%' OR database_user LIKE '%".$q."%' OR remote_ips LIKE '%".$q."%'".$authsql." ORDER BY database_name";
 			$results = $app->db->queryAllRecords($sql);
 
-			if(is_array($results) && !empty($results)){	
+			if(is_array($results) && !empty($results)){
 				$result_databases['cheader'] = array('title' => 'Databases',
 														'total' => count($results),
 														'limit' => count($results)
@@ -91,65 +91,65 @@ $type = $_GET["type"];
 												'onclick' => 'capp(\'sites\',\'sites/database_edit.php?id='.$result['database_id'].'\');',
 												'fill_text' => strtolower($result['database_name'])
 												);
-				}	
+				}
 			}
 		}
 		*/
-		$result[] = _search('sites', 'database');
-		
-		// database users
-		$result[] = _search('sites', 'database_user');
-		
-		// email domains
-		$result[] = _search('mail', 'mail_domain');
-		
-		// email alias domains
-		$result[] = _search('mail', 'mail_aliasdomain', "AND type = 'aliasdomain'");
-		
-		// email mailboxes
-		$result[] = _search('mail', 'mail_user');
-		
-		// email aliases
-		$result[] = _search('mail', 'mail_alias', "AND type = 'alias'");
-		
-		// email forwards
-		$result[] = _search('mail', 'mail_forward', "AND type = 'forward'");
-		
-		// email catchalls
-		$result[] = _search('mail', 'mail_domain_catchall', "AND type = 'catchall'");
-		
-		// email transports
-		$result[] = _search('mail', 'mail_transport');
-		
-		// mailinglists
-		$result[] = _search('mail', 'mail_mailinglist');
-		
-		// getmails
-		$result[] = _search('mail', 'mail_get');
-		
-		// dns zones
-		$result[] = _search('dns', 'dns_soa');
-		
-		// secondary dns zones
-		$result[] = _search('dns', 'dns_slave');
-		
-		// virtual machines
-		$result[] = _search('vm', 'openvz_vm');
-		
-		// virtual machines os templates
-		$result[] = _search('vm', 'openvz_ostemplate');
-		
-		// virtual machines vm templates
-		$result[] = _search('vm', 'openvz_template');
-		
-		// virtual machines ip addresses
-		$result[] = _search('vm', 'openvz_ip');
-		
-		// directive snippets
-		$result[] = _search('admin', 'directive_snippets');
+	$result[] = _search('sites', 'database');
 
-		$json = $app->functions->json_encode($result);
-	}
+	// database users
+	$result[] = _search('sites', 'database_user');
+
+	// email domains
+	$result[] = _search('mail', 'mail_domain');
+
+	// email alias domains
+	$result[] = _search('mail', 'mail_aliasdomain', "AND type = 'aliasdomain'");
+
+	// email mailboxes
+	$result[] = _search('mail', 'mail_user');
+
+	// email aliases
+	$result[] = _search('mail', 'mail_alias', "AND type = 'alias'");
+
+	// email forwards
+	$result[] = _search('mail', 'mail_forward', "AND type = 'forward'");
+
+	// email catchalls
+	$result[] = _search('mail', 'mail_domain_catchall', "AND type = 'catchall'");
+
+	// email transports
+	$result[] = _search('mail', 'mail_transport');
+
+	// mailinglists
+	$result[] = _search('mail', 'mail_mailinglist');
+
+	// getmails
+	$result[] = _search('mail', 'mail_get');
+
+	// dns zones
+	$result[] = _search('dns', 'dns_soa');
+
+	// secondary dns zones
+	$result[] = _search('dns', 'dns_slave');
+
+	// virtual machines
+	$result[] = _search('vm', 'openvz_vm');
+
+	// virtual machines os templates
+	$result[] = _search('vm', 'openvz_ostemplate');
+
+	// virtual machines vm templates
+	$result[] = _search('vm', 'openvz_template');
+
+	// virtual machines ip addresses
+	$result[] = _search('vm', 'openvz_ip');
+
+	// directive snippets
+	$result[] = _search('admin', 'directive_snippets');
+
+	$json = $app->functions->json_encode($result);
+}
 
 //}
 
@@ -161,14 +161,14 @@ function _search($module, $section, $additional_sql = ''){
 		$search_fields = array();
 		$desc_fields = array();
 		if(is_file('../'.$module.'/form/'.$section.'.tform.php')){
-			include_once('../'.$module.'/form/'.$section.'.tform.php');
-			
+			include_once '../'.$module.'/form/'.$section.'.tform.php';
+
 			$category_title = $form["title"];
 			$form_file = $form["action"];
 			$db_table = $form["db_table"];
 			$db_table_idx = $form["db_table_idx"];
 			$order_by = $db_table_idx;
-			
+
 			if(is_array($form["tabs"]) && !empty($form["tabs"])){
 				foreach($form["tabs"] as $tab){
 					if(is_array($tab['fields']) && !empty($tab['fields'])){
@@ -189,7 +189,7 @@ function _search($module, $section, $additional_sql = ''){
 			}
 		}
 		unset($form);
-		
+
 		$where_clause = '';
 		if(!empty($search_fields)){
 			$where_clause = implode(' OR ', $search_fields);
@@ -201,17 +201,17 @@ function _search($module, $section, $additional_sql = ''){
 		if($additional_sql != '') $where_clause .= ' '.$additional_sql.' ';
 		$order_clause = '';
 		if($order_by != '') $order_clause = ' ORDER BY '.$order_by;
-		
+
 		$sql = "SELECT * FROM ".$db_table." WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
 		$results = $app->db->queryAllRecords($sql);
-		
-		if(is_array($results) && !empty($results)){	
+
+		if(is_array($results) && !empty($results)){
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';
-			if(is_file($lng_file)) include($lng_file);
+			if(is_file($lng_file)) include $lng_file;
 			$result_array['cheader'] = array('title' => $category_title,
-											'total' => count($results),
-											'limit' => count($results)
-											);
+				'total' => count($results),
+				'limit' => count($results)
+			);
 			foreach($results as $result){
 				$description = '';
 				if(!empty($desc_fields)){
@@ -221,18 +221,18 @@ function _search($module, $section, $additional_sql = ''){
 					}
 					if(!empty($desc_items)) $description = implode(' - ', $desc_items);
 				}
-				
+
 				$result_array['cdata'][] = array('title' => $wb[$title_key.'_txt'].': '.$result[$title_key],
-												'description' => $description,
-												'onclick' => "capp('".$module."','".$module."/".$form_file."?id=".$result[$db_table_idx]."');",
-												'fill_text' => strtolower($result[$title_key])
-												);
-			}	
+					'description' => $description,
+					'onclick' => "capp('".$module."','".$module."/".$form_file."?id=".$result[$db_table_idx]."');",
+					'fill_text' => strtolower($result[$title_key])
+				);
+			}
 		}
 	}
 	return $result_array;
 }
-		
+
 header('Content-type: application/json');
 echo $json;
 ?>

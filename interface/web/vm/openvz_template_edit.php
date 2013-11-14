@@ -38,8 +38,8 @@ $tform_def_file = "form/openvz_template.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('vm');
@@ -50,25 +50,25 @@ $app->uses('tpl,tform');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onAfterInsert() {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		$guar_ram = $this->dataRecord['ram']*256;
 		$burst_ram = $this->dataRecord['ram_burst']*256;
 		$sql = "UPDATE openvz_template SET shmpages = '$guar_ram:$guar_ram',vmguarpages = '$guar_ram:$guar_ram', oomguarpages = '$guar_ram:$guar_ram',privvmpages = '$burst_ram:$burst_ram' WHERE template_id = $this->id";
 		$app->db->query($sql);
 	}
-	
+
 	function onAfterUpdate() {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		$guar_ram = $this->dataRecord['ram']*256;
 		$burst_ram = $this->dataRecord['ram_burst']*256;
 		$sql = "UPDATE openvz_template SET shmpages = '$guar_ram:$guar_ram',vmguarpages = '$guar_ram:$guar_ram', oomguarpages = '$guar_ram:$guar_ram',privvmpages = '$burst_ram:$burst_ram' WHERE template_id = $this->id";
 		$app->db->query($sql);
 	}
-	
+
 }
 
 $page = new page_action;

@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('designer');
@@ -36,31 +36,31 @@ $app->auth->check_module_permissions('designer');
 $app->uses('tpl');
 
 $app->tpl->newTemplate('form.tpl.htm');
-$app->tpl->setInclude('content_tpl','templates/module_list.htm');
+$app->tpl->setInclude('content_tpl', 'templates/module_list.htm');
 
 //* Pick out modules
 $bgcolor = '#FFFFFF';
 $modules_list = array();
-$handle = @opendir(ISPC_WEB_PATH); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-        if(@is_dir(ISPC_WEB_PATH."/$file")) {
-            if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
-				include_once(ISPC_WEB_PATH."/$file/lib/module.conf.php");
-				$modules_list[] = array( 	'module' =>   $module['name'],
-											'title' =>    $module['title'],
-											'bgcolor' =>  ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF'
-                                        );
+$handle = @opendir(ISPC_WEB_PATH);
+while ($file = @readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		if(@is_dir(ISPC_WEB_PATH."/$file")) {
+			if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login') {
+				include_once ISPC_WEB_PATH."/$file/lib/module.conf.php";
+				$modules_list[] = array(  'module' =>   $module['name'],
+					'title' =>    $module['title'],
+					'bgcolor' =>  ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF'
+				);
 			}
-        }
+		}
 	}
 }
 
 $app->tpl->setLoop('records', $modules_list);
 
-//* loading language file 
+//* loading language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_module_list.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

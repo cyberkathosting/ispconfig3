@@ -29,89 +29,89 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class mailman_plugin {
-	
+
 	var $plugin_name = 'mailman_plugin';
 	var $class_name = 'mailman_plugin';
-	
-	
+
+
 	var $mailman_config_dir = '/etc/mailman/';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
 		global $conf;
-		
+
 		if($conf['services']['mail'] == true) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
+
 	function onLoad() {
 		global $app;
-		
+
 		/*
 		Register for the events
 		*/
-		
-		$app->plugins->registerEvent('mail_mailinglist_insert','mailman_plugin','insert');
-		$app->plugins->registerEvent('mail_mailinglist_update','mailman_plugin','update');
-		$app->plugins->registerEvent('mail_mailinglist_delete','mailman_plugin','delete');
-		
-		
-		
+
+		$app->plugins->registerEvent('mail_mailinglist_insert', 'mailman_plugin', 'insert');
+		$app->plugins->registerEvent('mail_mailinglist_update', 'mailman_plugin', 'update');
+		$app->plugins->registerEvent('mail_mailinglist_delete', 'mailman_plugin', 'delete');
+
+
+
 	}
-	
-	function insert($event_name,$data) {
+
+	function insert($event_name, $data) {
 		global $app, $conf;
-		
+
 		$this->update_config();
-		
+
 		exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
 		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
-		
+
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
-		
+
 	}
-	
+
 	// The purpose of this plugin is to rewrite the main.cf file
-	function update($event_name,$data) {
+	function update($event_name, $data) {
 		global $app, $conf;
-		
+
 		if($data["new"]["password"] != $data["old"]["password"] && $data["new"]["password"] != '') {
 			exec("nohup /usr/lib/mailman/bin/change_pw -l ".escapeshellcmd($data["new"]["listname"])." -p ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
 			exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
 		}
 	}
-	
-	function delete($event_name,$data) {
+
+	function delete($event_name, $data) {
 		global $app, $conf;
-		
+
 		$this->update_config();
-		
+
 		exec("nohup /usr/lib/mailman/bin/rmlist -a ".escapeshellcmd($data["old"]["listname"])." >/dev/null 2>&1 &");
-		
+
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
-		
+
 	}
-	
+
 	function update_config() {
 		global $app, $conf;
-		
-		copy($this->mailman_config_dir.'mm_cfg.py',$this->mailman_config_dir.'mm_cfg.py');
-		
+
+		copy($this->mailman_config_dir.'mm_cfg.py', $this->mailman_config_dir.'mm_cfg.py');
+
 		// load the server configuration options
 		$app->uses('getconf');
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-		
+
 		// load files
 		if(file_exists($conf["rootpath"]."/conf-custom/mm_cfg.py.master")) {
 			$content = file_get_contents($conf["rootpath"]."/conf-custom/mm_cfg.py.master");
@@ -119,9 +119,9 @@ class mailman_plugin {
 			$content = file_get_contents($conf["rootpath"]."/conf/mm_cfg.py.master");
 		}
 		$old_file = file_get_contents($this->mailman_config_dir."/mm_cfg.py");
-		
+
 		$old_options = array();
-		$lines = explode("\n", $old_file); 
+		$lines = explode("\n", $old_file);
 		foreach ($lines as $line)
 		{
 			if (strlen($line) && substr($line, 0, 1) != '#')
@@ -134,7 +134,7 @@ class mailman_plugin {
 				}
 			}
 		}
-		
+
 		// create virtual_domains list
 		$domainAll = $app->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
 		$virtual_domains = '';
@@ -145,11 +145,11 @@ class mailman_plugin {
 			else
 				$virtual_domains .= ", '".$domain['domain']."'";
 		}
-		
+
 		$content = str_replace('{hostname}', $server_config['hostname'], $content);
 		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
 		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-		
+
 		file_put_contents($this->mailman_config_dir."/mm_cfg.py", $content);
 	}
 

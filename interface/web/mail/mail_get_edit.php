@@ -38,8 +38,8 @@ $tform_def_file = "form/mail_get.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -49,10 +49,10 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onShowNew() {
 		global $app, $conf;
-		
+
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			if(!$app->tform->checkClientLimit('limit_fetchmail')) {
@@ -62,19 +62,19 @@ class page_action extends tform_actions {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_fetchmail_txt"]);
 			}
 		}
-		
+
 		parent::onShowNew();
 	}
-	
+
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		//* Check if destination email belongs to user
 		if(isset($_POST["destination"])) {
 			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
 			if($email["email"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->lng("no_destination_perm");
 		}
-		
+
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
@@ -90,29 +90,29 @@ class page_action extends tform_actions {
 				unset($tmp);
 			}
 		} // end if user is not admin
-		
-		
+
+
 		// Set the server ID according to the selected destination
 		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
-		
+
 		//* Check that no illegal combination of options is set
 		if((!isset($this->dataRecord['source_delete']) || @$this->dataRecord['source_delete'] == 'n') && $this->dataRecord['source_read_all'] == 'y') {
 			$app->tform->errorMessage .= $app->tform->lng('error_delete_read_all_combination')."<br>";
 		}
-		
+
 		parent::onSubmit();
 	}
-	
+
 	function onAfterInsert() {
 		global $app;
-		
+
 		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
 		$app->db->query("update mail_get SET sys_groupid = ".$tmp['sys_groupid']." WHERE mailget_id = ".$this->id);
-		
+
 	}
-	
+
 }
 
 $page = new page_action;

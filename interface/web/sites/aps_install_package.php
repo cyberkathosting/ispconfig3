@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 //require_once('classes/class.guicontroller.php');
 $app->load('aps_guicontroller');
 
@@ -43,12 +43,12 @@ $app->tpl->setInclude('content_tpl', 'templates/aps_install_package.htm');
 
 // Load the language file
 $lngfile = 'lib/lang/'.$_SESSION['s']['language'].'_aps.lng';
-require_once($lngfile);
+require_once $lngfile;
 $app->tpl->setVar($wb);
 $app->load_language_file('web/sites/'.$lngfile);
 
 // we will check only users, not admins
-if($_SESSION["s"]["user"]["typ"] == 'user') {		
+if($_SESSION["s"]["user"]["typ"] == 'user') {
 	$app->tform->formDef['db_table_idx'] = 'client_id';
 	$app->tform->formDef['db_table'] = 'client';
 	if(!$app->tform->checkClientLimit('limit_aps')) {
@@ -56,7 +56,7 @@ if($_SESSION["s"]["user"]["typ"] == 'user') {
 	}
 	if(!$app->tform->checkResellerLimit('limit_aps')) {
 		$app->error('Reseller: '.$wb["limit_aps_txt"]);
-	}		
+	}
 }
 
 
@@ -68,13 +68,13 @@ $pkg_id = (isset($_GET['id'])) ? $app->db->quote($_GET['id']) : '';
 // Note: It's intended that here is no strict ID check (see below)
 if(isset($pkg_id))
 {
-    $newest_pkg_id = $gui->getNewestPackageID($pkg_id);
-    if($newest_pkg_id != 0) $pkg_id = $newest_pkg_id;
+	$newest_pkg_id = $gui->getNewestPackageID($pkg_id);
+	if($newest_pkg_id != 0) $pkg_id = $newest_pkg_id;
 }
 
 // Make sure an integer ID is given
 if(!isset($pkg_id) || !$gui->isValidPackageID($pkg_id, $adminflag))
-    $app->error($app->lng('Invalid ID'));
+	$app->error($app->lng('Invalid ID'));
 
 // Get package details
 $details = $gui->getPackageDetails($pkg_id);
@@ -85,40 +85,40 @@ if(isset($settings['error'])) $app->error($settings['error']);
 // Get domain list
 $domains = array();
 $domain_for_user = '';
-if(!$adminflag) $domain_for_user = "AND (sys_userid = '".$app->db->quote($_SESSION['s']['user']['userid'])."' 
+if(!$adminflag) $domain_for_user = "AND (sys_userid = '".$app->db->quote($_SESSION['s']['user']['userid'])."'
     OR sys_groupid = '".$app->db->quote($_SESSION['s']['user']['userid'])."' )";
 $domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' AND (type = 'vhost' OR type = 'vhostsubdomain') AND active = 'y' ".$domain_for_user." ORDER BY domain;");
 if(!empty($domains_assoc)) foreach($domains_assoc as $domain) $domains[] = $domain['domain'];
 
-// If data has been submitted, validate it
-$result['input'] = array();
+	// If data has been submitted, validate it
+	$result['input'] = array();
 if(count($_POST) > 1)
 {
-    $result = $gui->validateInstallerInput($_POST, $details, $domains, $settings);
-    if(empty($result['error']))
-    {
-        $gui->createPackageInstance($result['input'], $pkg_id);
-        @header('Location:aps_installedpackages_list.php');
-    }
-    else
-    {
-        $app->tpl->setVar('error', implode('<br />', $result['error']));
-        
-        // Set memorized values (license, db password, install location)
-        if(!empty($result['input']))
-            foreach($result['input'] as $key => $value) $app->tpl->setVar('inp_'.$key, $value);
-    }
+	$result = $gui->validateInstallerInput($_POST, $details, $domains, $settings);
+	if(empty($result['error']))
+	{
+		$gui->createPackageInstance($result['input'], $pkg_id);
+		@header('Location:aps_installedpackages_list.php');
+	}
+	else
+	{
+		$app->tpl->setVar('error', implode('<br />', $result['error']));
+
+		// Set memorized values (license, db password, install location)
+		if(!empty($result['input']))
+			foreach($result['input'] as $key => $value) $app->tpl->setVar('inp_'.$key, $value);
+	}
 }
 else $app->tpl->setVar('inp_main_database_password', ucfirst(substr(md5(crypt(rand(0, 10))), 0, 16)));
 
 // Pass the package details to the template
 foreach($details as $key => $value)
 {
-    if(!is_array($value)) $app->tpl->setVar('pkg_'.str_replace(' ', '_', strtolower($key)), $value);
-    else if($key == 'Requirements PHP settings') $app->tpl->setLoop('pkg_requirements_php_settings', $details['Requirements PHP settings']);
+	if(!is_array($value)) $app->tpl->setVar('pkg_'.str_replace(' ', '_', strtolower($key)), $value);
+	else if($key == 'Requirements PHP settings') $app->tpl->setLoop('pkg_requirements_php_settings', $details['Requirements PHP settings']);
 }
 
-// Parse the template as far as possible, then do the rest manually 
+// Parse the template as far as possible, then do the rest manually
 $app->tpl_defaults();
 $parsed_tpl = $app->tpl->grab();
 
@@ -129,20 +129,20 @@ $parsed_tpl = $app->tpl->grab();
 $domains_tpl = '';
 if(!empty($domains))
 {
-    $set = array();
-    $set[] = '<select name="main_domain" id="main_domain" class="selectInput">';
-    foreach($domains as $domain)
-    {
-        $selected = '';
-        if((count($_POST) > 1)
-        && (isset($result['input']['main_domain']))
-        && ($result['input']['main_domain'] == $domain))
-            $selected = ' selected ';
-        $set[] = '<option value="'.$domain.'" '.$selected.'>'.$domain.'</option>';
-    }
-    $set[] = '</select>';
-    
-    $domains_tpl = implode("\n", $set);
+	$set = array();
+	$set[] = '<select name="main_domain" id="main_domain" class="selectInput">';
+	foreach($domains as $domain)
+	{
+		$selected = '';
+		if((count($_POST) > 1)
+			&& (isset($result['input']['main_domain']))
+			&& ($result['input']['main_domain'] == $domain))
+			$selected = ' selected ';
+		$set[] = '<option value="'.$domain.'" '.$selected.'>'.$domain.'</option>';
+	}
+	$set[] = '</select>';
+
+	$domains_tpl = implode("\n", $set);
 }
 $parsed_tpl = str_replace('DOMAIN_LIST_SPACE', $domains_tpl, $parsed_tpl);
 
@@ -150,60 +150,60 @@ $parsed_tpl = str_replace('DOMAIN_LIST_SPACE', $domains_tpl, $parsed_tpl);
 $settings_tpl = '';
 if(!empty($settings))
 {
-    $set = array();
-    $set[] = '<legend>'.$app->lng('package_settings_txt').'</legend>';
-    foreach($settings as $setting)
-    {
-        $set[] = '<div class="ctrlHolder">';
-        $set[] = '<label for="'.$setting['SettingID'].'">'.$setting['SettingName'].'</label>';
-        if($setting['SettingInputType'] == 'string' || $setting['SettingInputType'] == 'password')
-        {
-            $input_type = ($setting['SettingInputType'] == 'string') ? 'text' : 'password';
-              
-            $input_value = '';
-            if((count($_POST) > 1) 
-            && (isset($result['input'][$setting['SettingID']]))) 
-                $input_value = $result['input'][$setting['SettingID']];
-            else $input_value = @$setting['SettingDefaultValue'];
-            
-            $set[] = '<input type="'.$input_type.'" class="textInput" name="'.$setting['SettingID'].'" maxlength="'.$setting['SettingMaxLength'].'" id="'.$setting['SettingID'].'" value="'.$input_value.'" />
+	$set = array();
+	$set[] = '<legend>'.$app->lng('package_settings_txt').'</legend>';
+	foreach($settings as $setting)
+	{
+		$set[] = '<div class="ctrlHolder">';
+		$set[] = '<label for="'.$setting['SettingID'].'">'.$setting['SettingName'].'</label>';
+		if($setting['SettingInputType'] == 'string' || $setting['SettingInputType'] == 'password')
+		{
+			$input_type = ($setting['SettingInputType'] == 'string') ? 'text' : 'password';
+
+			$input_value = '';
+			if((count($_POST) > 1)
+				&& (isset($result['input'][$setting['SettingID']])))
+				$input_value = $result['input'][$setting['SettingID']];
+			else $input_value = @$setting['SettingDefaultValue'];
+
+			$set[] = '<input type="'.$input_type.'" class="textInput" name="'.$setting['SettingID'].'" maxlength="'.$setting['SettingMaxLength'].'" id="'.$setting['SettingID'].'" value="'.$input_value.'" />
                 <p class="formHint">'.$setting['SettingDescription'].'</p>';
-        }
-        else if($setting['SettingInputType'] == 'checkbox')
-        {
-            $checked = '';
-            if((count($_POST) > 1) 
-            && (isset($result['input'][$setting['SettingID']]) 
-            && ($result['input'][$setting['SettingID']] == 'true'))) 
-                $checked = 'checked ';
-            else if($setting['SettingDefaultValue'] == '1') $checked = 'checked ';
-            
-            $set[] = '<input type="checkbox" id="'.$setting['SettingID'].'" name="'.$setting['SettingID'].'" '.$checked.'/>
+		}
+		else if($setting['SettingInputType'] == 'checkbox')
+			{
+				$checked = '';
+				if((count($_POST) > 1)
+					&& (isset($result['input'][$setting['SettingID']])
+						&& ($result['input'][$setting['SettingID']] == 'true')))
+					$checked = 'checked ';
+				else if($setting['SettingDefaultValue'] == '1') $checked = 'checked ';
+
+					$set[] = '<input type="checkbox" id="'.$setting['SettingID'].'" name="'.$setting['SettingID'].'" '.$checked.'/>
                 <p class="formHint">'.$setting['SettingDescription'].'</p>';
-        }
-        else if($setting['SettingInputType'] == 'select')
-        {
-            $set[] =  '<select size="1" class="selectInput" name="'.$setting['SettingID'].'">';
-            foreach($setting['SettingChoices'] as $choice)
-            {
-                $selected = '';
-                if((count($_POST) > 1)
-                && (isset($result['input'][$setting['SettingID']])))
-                { 
-                    if($result['input'][$setting['SettingID']] == $choice['EnumID'])
-                        $selected = 'selected ';
-                }
-                else if($setting['SettingDefaultValue'] == $choice['EnumID']) $selected = 'selected ';
-                
-                $set[] = '<option value="'.$choice['EnumID'].'" '.$selected.'>'.$choice['EnumName'].'</option>';
-            }
-            $set[] = '</select>
+			}
+		else if($setting['SettingInputType'] == 'select')
+			{
+				$set[] =  '<select size="1" class="selectInput" name="'.$setting['SettingID'].'">';
+				foreach($setting['SettingChoices'] as $choice)
+				{
+					$selected = '';
+					if((count($_POST) > 1)
+						&& (isset($result['input'][$setting['SettingID']])))
+					{
+						if($result['input'][$setting['SettingID']] == $choice['EnumID'])
+							$selected = 'selected ';
+					}
+					else if($setting['SettingDefaultValue'] == $choice['EnumID']) $selected = 'selected ';
+
+						$set[] = '<option value="'.$choice['EnumID'].'" '.$selected.'>'.$choice['EnumName'].'</option>';
+				}
+				$set[] = '</select>
                 <p class="formHint">'.$setting['SettingDescription'].'</p>';
-        }
-        
-        $set[] = '</div>';
-    }
-    $settings_tpl = implode("\n", $set);
+			}
+
+		$set[] = '</div>';
+	}
+	$settings_tpl = implode("\n", $set);
 }
 $parsed_tpl = str_replace('PKG_SETTINGS_SPACE', $settings_tpl, $parsed_tpl);
 
