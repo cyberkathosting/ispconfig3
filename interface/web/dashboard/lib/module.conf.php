@@ -27,21 +27,21 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$module['name'] 		= 'dashboard'; 
-$module['title'] 		= 'top_menu_dashboard';
-$module['template'] 	= 'dashboard.tpl.htm';
-$module['startpage'] 	= 'dashboard/dashboard.php';
+$module['name']   = 'dashboard';
+$module['title']   = 'top_menu_dashboard';
+$module['template']  = 'dashboard.tpl.htm';
+$module['startpage']  = 'dashboard/dashboard.php';
 $module['tab_width']    = '';
 
 //$items = array();
 //
-//$items[] = array( 'title' 	=> 'Dashboard 1',
-//				  'target' 	=> 'content',
-//				  'link'	=> 'dashboard/dashboard.php');
+//$items[] = array( 'title'  => 'Dashboard 1',
+//      'target'  => 'content',
+//      'link' => 'dashboard/dashboard.php');
 //
-//$module['nav'][] = array(	'title'	=> 'Dashboard 2',
-//							'open' 	=> 1,
-//							'items'	=> $items);
+//$module['nav'][] = array( 'title' => 'Dashboard 2',
+//       'open'  => 1,
+//       'items' => $items);
 
 
 

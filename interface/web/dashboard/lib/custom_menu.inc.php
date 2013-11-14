@@ -38,24 +38,24 @@ $misc_config = $app->getconf->get_global_config('misc');
 
 
 switch($_SESSION['s']['user']['typ']) {
-	case 'admin':
-		$atom_url = $misc_config['dashboard_atom_url_admin'];
-		break;
-	case 'user':
-		if ($app->auth->has_clients($_SESSION['s']['user']['userid']) === true)
-			$atom_url = $misc_config['dashboard_atom_url_reseller'];
-		else
-			$atom_url = $misc_config['dashboard_atom_url_client'];
-		break;
-	default:
-		$atom_url = "";
+case 'admin':
+	$atom_url = $misc_config['dashboard_atom_url_admin'];
+	break;
+case 'user':
+	if ($app->auth->has_clients($_SESSION['s']['user']['userid']) === true)
+		$atom_url = $misc_config['dashboard_atom_url_reseller'];
+	else
+		$atom_url = $misc_config['dashboard_atom_url_client'];
+	break;
+default:
+	$atom_url = "";
 }
 
 $rows = array();
 
 if( $atom_url != '' ) {
 	if(!isset($_SESSION['s']['rss_news'])) {
-		
+
 		$app->simplepie->set_feed_url($atom_url);
 		$app->simplepie->enable_cache(false);
 		$app->simplepie->init();
@@ -69,24 +69,24 @@ if( $atom_url != '' ) {
 			//* We want to show only the first 10 news records
 			if($n <= 10) {
 				$rows[] = array('title' => $item->get_title(),
-								'link' => $item->get_link(),
-								'content' => $item->get_content(),
-								'date' => $item->get_date('Y-m-d')
-								);
+					'link' => $item->get_link(),
+					'content' => $item->get_content(),
+					'date' => $item->get_date('Y-m-d')
+				);
 			}
 			$n++;
 		}
-		
+
 		$_SESSION['s']['rss_news'] = $rows;
-		
+
 	} else {
 		$rows = $_SESSION['s']['rss_news'];
 	}
-	
-	$app->tpl->setVar('latest_news_txt',$app->lng('latest_news_txt'));
+
+	$app->tpl->setVar('latest_news_txt', $app->lng('latest_news_txt'));
 
 }
 
-$app->tpl->setLoop('news',$rows);
+$app->tpl->setLoop('news', $rows);
 
 ?>

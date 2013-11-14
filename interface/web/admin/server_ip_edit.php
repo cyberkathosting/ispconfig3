@@ -38,8 +38,8 @@ $tform_def_file = "form/server_ip.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -65,6 +65,7 @@ class page_action extends tform_actions {
 			unset($rec);
 		}
 	}
+
 }
 
 $page = new page_action;

@@ -38,8 +38,8 @@ $tform_def_file = "form/interface_settings.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('tools');
@@ -50,85 +50,86 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	var $_theme_changed = false;
-    
+
 	function onLoad() {
-                global $app, $conf, $tform_def_file;
+		global $app, $conf, $tform_def_file;
 
-                // Loading template classes and initialize template
-                if(!is_object($app->tpl)) $app->uses('tpl');
-                if(!is_object($app->tform)) $app->uses('tform');
+		// Loading template classes and initialize template
+		if(!is_object($app->tpl)) $app->uses('tpl');
+		if(!is_object($app->tform)) $app->uses('tform');
 
-                $app->tpl->newTemplate("tabbed_form.tpl.htm");
+		$app->tpl->newTemplate("tabbed_form.tpl.htm");
 
-                // Load table definition from file
-                $app->tform->loadFormDef($tform_def_file);
-				
-				// Importing ID
-                $this->id = $_SESSION['s']['user']['userid'];
+		// Load table definition from file
+		$app->tform->loadFormDef($tform_def_file);
+
+		// Importing ID
+		$this->id = $_SESSION['s']['user']['userid'];
 		$_POST['id'] = $_SESSION['s']['user']['userid'];
 
-                if(count($_POST) > 1) {
-                        $this->dataRecord = $_POST;
-                        $this->onSubmit();
-                } else {
-                        $this->onShow();
-                }
-        }
-        
+		if(count($_POST) > 1) {
+			$this->dataRecord = $_POST;
+			$this->onSubmit();
+		} else {
+			$this->onShow();
+		}
+	}
+
 	function onBeforeInsert() {
 		global $app, $conf;
-		
-		if(!in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+
+		if(!in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
-        $this->updateSessionTheme();
+		$this->updateSessionTheme();
 	}
-        
+
 	function onInsert() {
 		die('No inserts allowed.');
 	}
-		
+
 	function onBeforeUpdate() {
 		global $app, $conf;
-		
+
 		if($conf['demo_mode'] == true && $this->id <= 3) $app->tform->errorMessage .= 'This function is disabled in demo mode.';
-		               
-                if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'],$this->dataRecord['modules'])) {
+
+		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
-        $this->updateSessionTheme();
+		$this->updateSessionTheme();
 	}
-    
-    function updateSessionTheme() {
-        global $app, $conf;
-        
-        if($this->dataRecord['app_theme'] != 'default') {
-            $tmp_path = ISPC_THEMES_PATH."/".$this->dataRecord['app_theme'];
-            if(!@is_dir($tmp_path) || (@file_exists($tmp_path."/ispconfig_version") && trim(file_get_contents($tmp_path."/ispconfig_version")) != ISPC_APP_VERSION)) {
-                // fall back to default theme if this one is not compatible with current ispc version
-                $this->dataRecord['app_theme'] = 'default';
-            }
-        }
-        if($this->dataRecord['app_theme'] != $_SESSION['s']['user']['theme']) $this->_theme_changed = true;
-        $_SESSION['s']['theme'] = $this->dataRecord['app_theme'];
-        $_SESSION['s']['user']['theme'] = $_SESSION['s']['theme'];
-        $_SESSION['s']['user']['app_theme'] = $_SESSION['s']['theme'];
-    }
-	
-    function onAfterInsert() {
-        $this->onAfterUpdate();
-    }
-    function onAfterUpdate() {
-        if($this->_theme_changed == true) {
-            // not the best way, but it works
-            header('Content-Type: text/html');
-            print '<script type="text/javascript">document.location.reload();</script>';
-            exit;
-        }
-        else parent::onShow();
-    }
-    
-	
+
+	function updateSessionTheme() {
+		global $app, $conf;
+
+		if($this->dataRecord['app_theme'] != 'default') {
+			$tmp_path = ISPC_THEMES_PATH."/".$this->dataRecord['app_theme'];
+			if(!@is_dir($tmp_path) || (@file_exists($tmp_path."/ispconfig_version") && trim(file_get_contents($tmp_path."/ispconfig_version")) != ISPC_APP_VERSION)) {
+				// fall back to default theme if this one is not compatible with current ispc version
+				$this->dataRecord['app_theme'] = 'default';
+			}
+		}
+		if($this->dataRecord['app_theme'] != $_SESSION['s']['user']['theme']) $this->_theme_changed = true;
+		$_SESSION['s']['theme'] = $this->dataRecord['app_theme'];
+		$_SESSION['s']['user']['theme'] = $_SESSION['s']['theme'];
+		$_SESSION['s']['user']['app_theme'] = $_SESSION['s']['theme'];
+	}
+
+	function onAfterInsert() {
+		$this->onAfterUpdate();
+	}
+
+	function onAfterUpdate() {
+		if($this->_theme_changed == true) {
+			// not the best way, but it works
+			header('Content-Type: text/html');
+			print '<script type="text/javascript">document.location.reload();</script>';
+			exit;
+		}
+		else parent::onShow();
+	}
+
+
 }
 
 $page = new page_action;

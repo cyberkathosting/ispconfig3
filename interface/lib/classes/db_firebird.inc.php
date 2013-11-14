@@ -29,17 +29,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class db {
-	var $dbHost = "";		// hostname of the MySQL server
-	var $dbName = "";		// logical database name on that server
-	var $dbUser = "";		// database authorized user
-	var $dbPass = "";		// user's password
-	var $linkId = 0;		// last result of mysql_connect()
-	var $queryId = 0;		// last result of mysql_query()
-	var $record	= array();	// last record fetched
-    var $autoCommit = 1;    // Autocommit Transactions
-	var $currentRow;		// current row number
-	var $errorNumber = 0;	// last error number
-	var $errorMessage = "";	// last error message
+	var $dbHost = "";  // hostname of the MySQL server
+	var $dbName = "";  // logical database name on that server
+	var $dbUser = "";  // database authorized user
+	var $dbPass = "";  // user's password
+	var $linkId = 0;  // last result of mysql_connect()
+	var $queryId = 0;  // last result of mysql_query()
+	var $record = array(); // last record fetched
+	var $autoCommit = 1;    // Autocommit Transactions
+	var $currentRow;  // current row number
+	var $errorNumber = 0; // last error number
+	var $errorMessage = ""; // last error message
 	var $errorLocation = "";// last error location
 	var $show_error_messages = false;
 	var $transID;
@@ -47,7 +47,7 @@ class db {
 	// constructor
 	function __construct()
 	{
-		
+
 		global $conf;
 		$this->dbHost = $conf["db_host"];
 		$this->dbName = $conf["db_database"];
@@ -55,9 +55,10 @@ class db {
 		$this->dbPass = $conf["db_password"];
 		$this->connect();
 	}
+
 	function __destruct() {
 		$this->closeConn();
-        }
+	}
 
 	// error handler
 	function updateError($location)
@@ -67,7 +68,7 @@ class db {
 		$this->errorLocation = $location;
 		if($this->errorNumber && $this->show_error_messages)
 		{
-			echo('<br /><b>'.$this->errorLocation.'</b><br />'.$this->errorMessage);
+			echo '<br /><b>'.$this->errorLocation.'</b><br />'.$this->errorMessage;
 			flush();
 		}
 	}
@@ -76,7 +77,7 @@ class db {
 	{
 		if($this->linkId == 0)
 		{
-			$this->linkId = ibase_connect( $this->dbHost.":".$this->dbName , $this->dbUser, $this->dbPass,'ISO8859_1',0,3 );
+			$this->linkId = ibase_connect( $this->dbHost.":".$this->dbName , $this->dbUser, $this->dbPass, 'ISO8859_1', 0, 3 );
 			if(!$this->linkId)
 			{
 				$this->updateError('DB::connect()<br />ibase_pconnect');
@@ -91,16 +92,16 @@ class db {
 		if(!$this->connect()) {
 			return false;
 		}
-		
+
 		if($this->autoCommit == 1) {
 			//$transID = ibase_trans();
-			$this->queryId = @ibase_query($this->linkId,$queryString);
+			$this->queryId = @ibase_query($this->linkId, $queryString);
 			//ibase_commit();
 		} else {
-			$this->queryId = @ibase_query($this->linkId,$queryString);
+			$this->queryId = @ibase_query($this->linkId, $queryString);
 		}
-		
-		
+
+
 		$this->updateError('DB::query('.$queryString.')<br />ibase_query');
 		if(!$this->queryId) {
 			return false;
@@ -141,7 +142,7 @@ class db {
 	// returns the next record in an array
 	function nextRecord()
 	{
-        $this->record = ibase_fetch_assoc($this->queryId);
+		$this->record = ibase_fetch_assoc($this->queryId);
 		$this->updateError('DB::nextRecord()<br />ibase_fetch_assoc');
 		if(!$this->record || !is_array($this->record))
 		{
@@ -156,32 +157,32 @@ class db {
 	{
 		return false;
 	}
-	
+
 	// returns mySQL insert id
 	function insertID()
 	{
 		return false;
 	}
-    
-    // Check der variablen
+
+	// Check der variablen
 	// deprecated, now use quote
-    function check($formfield)
-    {
-        return $this->quote($formfield);
-    }
-	
+	function check($formfield)
+	{
+		return $this->quote($formfield);
+	}
+
 	// Check der variablen
-    function quote($formfield)
-    {
-        return str_replace("'","''",$formfield);
-    }
-	
+	function quote($formfield)
+	{
+		return str_replace("'", "''", $formfield);
+	}
+
 	// Check der variablen
-    function unquote($formfield)
-    {
-        return str_replace("''","'",$formfield);
-    }
-	
+	function unquote($formfield)
+	{
+		return str_replace("''", "'", $formfield);
+	}
+
 	function toLower($record) {
 		if(is_array($record)) {
 			foreach($record as $key => $val) {
@@ -189,76 +190,76 @@ class db {
 				$out[$key] = $val;
 			}
 		}
-	return $out;
+		return $out;
 	}
-   
-   
-   function insert($tablename,$form,$debug = 0)
-   {
-     if(is_array($form)){
-       foreach($form as $key => $value) 
-	    {
-	    $sql_key .= "$key, ";
-        $sql_value .= "'".$this->quote($value)."', ";
-  		 }
-   	$sql_key = substr($sql_key,0,strlen($sql_key) - 2);
-    $sql_value = substr($sql_value,0,strlen($sql_value) - 2);
-    
-   	$sql = "INSERT INTO $tablename (" . $sql_key . ") VALUES (" . $sql_value .")";
-   
-  		 if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
-  		 $this->query($sql);
-  		 if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
-      }
-   }
-   
-   function update($tablename,$form,$bedingung,$debug = 0)
-   {
-   
-     if(is_array($form)){
-       foreach($form as $key => $value) 
-	    {
-	    $insql .= "$key = '".$this->quote($value)."', ";
-  		 }
-   	        $insql = substr($insql,0,strlen($insql) - 2);
-   	        $sql = "UPDATE $tablename SET " . $insql . " WHERE $bedingung";
-  		 if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
-  		 $this->query($sql);
-  		 if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
-       }
-   }
-   
-   function closeConn() {
-   	ibase_close($this->linkId);
-   }
-   
-   function freeResult() {
-   	//ibase_free_result();
-   }
-   
-   function delete() {
-   
-   }
-   
-   function trans($action,$transID = null) {
-   //action = begin, commit oder rollback
-   
-   		if($action == 'begin') {
-   			$this->transID = ibase_trans($this->linkId);
+
+
+	function insert($tablename, $form, $debug = 0)
+	{
+		if(is_array($form)){
+			foreach($form as $key => $value)
+			{
+				$sql_key .= "$key, ";
+				$sql_value .= "'".$this->quote($value)."', ";
+			}
+			$sql_key = substr($sql_key, 0, strlen($sql_key) - 2);
+			$sql_value = substr($sql_value, 0, strlen($sql_value) - 2);
+
+			$sql = "INSERT INTO $tablename (" . $sql_key . ") VALUES (" . $sql_value .")";
+
+			if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
+			$this->query($sql);
+			if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
+		}
+	}
+
+	function update($tablename, $form, $bedingung, $debug = 0)
+	{
+
+		if(is_array($form)){
+			foreach($form as $key => $value)
+			{
+				$insql .= "$key = '".$this->quote($value)."', ";
+			}
+			$insql = substr($insql, 0, strlen($insql) - 2);
+			$sql = "UPDATE $tablename SET " . $insql . " WHERE $bedingung";
+			if($debug == 1) echo "SQL-Statement: ".$sql."<br><br>";
+			$this->query($sql);
+			if($debug == 1) echo "mySQL Error Message: ".$this->errorMessage;
+		}
+	}
+
+	function closeConn() {
+		ibase_close($this->linkId);
+	}
+
+	function freeResult() {
+		//ibase_free_result();
+	}
+
+	function delete() {
+
+	}
+
+	function trans($action, $transID = null) {
+		//action = begin, commit oder rollback
+
+		if($action == 'begin') {
+			$this->transID = ibase_trans($this->linkId);
 			return $this->transID;
-   		}
-		
+		}
+
 		if($action == 'commit' and !empty($this->transID)) {
-			ibase_commit($this->linkId,$this->transID);
+			ibase_commit($this->linkId, $this->transID);
 		}
-	
+
 		if($action == 'rollback') {
-			ibase_rollback($this->linkId,$this->transID);
+			ibase_rollback($this->linkId, $this->transID);
 		}
-		
-   }
-   
-   /*
+
+	}
+
+	/*
    $columns = array(action =>   add | alter | drop
                     name =>     Spaltenname
                     name_new => neuer Spaltenname, nur bei 'alter' belegt
@@ -268,38 +269,38 @@ class db {
                     notNull =>   true | false
                     autoInc =>   true | false
                     option =>   unique | primary | index)
-   
-   
+
+
    */
-   
-   function createTable($table_name,$columns) {
-   $index = "";
-   $sql = "CREATE TABLE $table_name (";
-   foreach($columns as $col){
-        $sql .= $col["name"]." ".$this->mapType($col["type"],$col["typeValue"])." ";
-   
-        if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
-        if($col["notNull"] == true) {
-            $sql .= "NOT NULL ";
-        } else {
-            $sql .= "NULL ";
-        }
-        if($col["autoInc"] == true) $sql .= "auto_increment ";
-        $sql.= ",";
-        // key Definitionen
-        if($col["option"] == "primary") $index .= "PRIMARY KEY (".$col["name"]."),";
-        if($col["option"] == "index") $index .= "INDEX (".$col["name"]."),";
-        if($col["option"] == "unique") $index .= "UNIQUE (".$col["name"]."),";
-   }
-   $sql .= $index;
-   $sql = substr($sql,0,-1);
-   $sql .= ")";
-   
-   $this->query($sql);
-   return true;
-   }
-   
-   /*
+
+	function createTable($table_name, $columns) {
+		$index = "";
+		$sql = "CREATE TABLE $table_name (";
+		foreach($columns as $col){
+			$sql .= $col["name"]." ".$this->mapType($col["type"], $col["typeValue"])." ";
+
+			if($col["defaultValue"] != "") $sql .= "DEFAULT '".$col["defaultValue"]."' ";
+			if($col["notNull"] == true) {
+				$sql .= "NOT NULL ";
+			} else {
+				$sql .= "NULL ";
+			}
+			if($col["autoInc"] == true) $sql .= "auto_increment ";
+			$sql.= ",";
+			// key Definitionen
+			if($col["option"] == "primary") $index .= "PRIMARY KEY (".$col["name"]."),";
+			if($col["option"] == "index") $index .= "INDEX (".$col["name"]."),";
+			if($col["option"] == "unique") $index .= "UNIQUE (".$col["name"]."),";
+		}
+		$sql .= $index;
+		$sql = substr($sql, 0, -1);
+		$sql .= ")";
+
+		$this->query($sql);
+		return true;
+	}
+
+	/*
    $columns = array(action =>   add | alter | drop
                     name =>     Spaltenname
                     name_new => neuer Spaltenname, nur bei 'alter' belegt
@@ -309,26 +310,26 @@ class db {
                     notNull =>   true | false
                     autoInc =>   true | false
                     option =>   unique | primary | index)
-   
-   
+
+
    */
-   function alterTable($table_name,$columns) {
-   		return false;
-   }
-   
-   function dropTable($table_name) {
-   		$this->check($table_name);
-   		$sql = "DROP TABLE '". $table_name."'";
-  		return $this->query($sql);
-   }
-   
-   // gibt Array mit Tabellennamen zurück
-   function getTables($database_name) {
-        return false;       
-   }
-   
-   // gibt Feldinformationen zur Tabelle zurück
-   /*
+	function alterTable($table_name, $columns) {
+		return false;
+	}
+
+	function dropTable($table_name) {
+		$this->check($table_name);
+		$sql = "DROP TABLE '". $table_name."'";
+		return $this->query($sql);
+	}
+
+	// gibt Array mit Tabellennamen zurück
+	function getTables($database_name) {
+		return false;
+	}
+
+	// gibt Feldinformationen zur Tabelle zurück
+	/*
    $columns = array(action =>   add | alter | drop
                     name =>     Spaltenname
                     name_new => neuer Spaltenname, nur bei 'alter' belegt
@@ -338,46 +339,46 @@ class db {
                     notNull =>   true | false
                     autoInc =>   true | false
                     option =>   unique | primary | index)
-   
-   
+
+
    */
-   
-   function tableInfo($table_name) {
-        return false;
-   }
-   
-   function mapType($metaType,$typeValue) {
-   global $go_api;
-   $metaType = strtolower($metaType);
-   switch ($metaType) {
-   case 'int16':
-        return 'smallint';
-   break;
-   case 'int32':
-        return 'int';
-   break;
-   case 'int64':
-        return 'bigint';
-   break;
-   case 'double':
-        return 'double';
-   break;
-   case 'char':
-        return 'char';
-   break;
-   case 'varchar':
-        if($typeValue < 1) $go_api->errorMessage("Datenbank Fehler: Für diesen Datentyp ist eine Längenangabe notwendig.");
-        return 'varchar('.$typeValue.')';
-   break;
-   case 'text':
-        return 'text';
-   break;
-   case 'blob':
-        return 'blob';
-   break;
-   }
-   }
-	
+
+	function tableInfo($table_name) {
+		return false;
+	}
+
+	function mapType($metaType, $typeValue) {
+		global $go_api;
+		$metaType = strtolower($metaType);
+		switch ($metaType) {
+		case 'int16':
+			return 'smallint';
+			break;
+		case 'int32':
+			return 'int';
+			break;
+		case 'int64':
+			return 'bigint';
+			break;
+		case 'double':
+			return 'double';
+			break;
+		case 'char':
+			return 'char';
+			break;
+		case 'varchar':
+			if($typeValue < 1) $go_api->errorMessage("Datenbank Fehler: Für diesen Datentyp ist eine Längenangabe notwendig.");
+			return 'varchar('.$typeValue.')';
+			break;
+		case 'text':
+			return 'text';
+			break;
+		case 'blob':
+			return 'blob';
+			break;
+		}
+	}
+
 }
 
 ?>

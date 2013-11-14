@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('dns');
@@ -40,34 +40,34 @@ $type = $_GET["type"];
 
 //if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
-	
-	if($type == 'get_ipv4'){
-		//$q = $app->db->quote(trim($_GET["q"]));
-		//$authsql = " AND ".$app->tform->getAuthSQL('r');
-		//$modules = explode(',', $_SESSION['s']['user']['modules']);
-		
-		$result = array();
-		
-		// ipv4
-		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
-		$result[] = $app->functions->suggest_ips('IPv4');
 
-		$json = $app->functions->json_encode($result);
-	}
-	
-	if($type == 'get_ipv6'){
-		//$q = $app->db->quote(trim($_GET["q"]));
-		//$authsql = " AND ".$app->tform->getAuthSQL('r');
-		//$modules = explode(',', $_SESSION['s']['user']['modules']);
-		
-		$result = array();
-		
-		// ipv6
-		//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
-		$result[] = $app->functions->suggest_ips('IPv6');
-		
-		$json = $app->functions->json_encode($result);
-	}
+if($type == 'get_ipv4'){
+	//$q = $app->db->quote(trim($_GET["q"]));
+	//$authsql = " AND ".$app->tform->getAuthSQL('r');
+	//$modules = explode(',', $_SESSION['s']['user']['modules']);
+
+	$result = array();
+
+	// ipv4
+	//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
+	$result[] = $app->functions->suggest_ips('IPv4');
+
+	$json = $app->functions->json_encode($result);
+}
+
+if($type == 'get_ipv6'){
+	//$q = $app->db->quote(trim($_GET["q"]));
+	//$authsql = " AND ".$app->tform->getAuthSQL('r');
+	//$modules = explode(',', $_SESSION['s']['user']['modules']);
+
+	$result = array();
+
+	// ipv6
+	//$result[] = _search('admin', 'server_ip', "AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
+	$result[] = $app->functions->suggest_ips('IPv6');
+
+	$json = $app->functions->json_encode($result);
+}
 
 //}
 
@@ -81,13 +81,13 @@ function _search($module, $section, $additional_sql = '', $unique = false){
 		$desc_fields = array();
 		if(is_file('../'.$module.'/form/'.$section.'.tform.php')){
 			include_once('../'.$module.'/form/'.$section.'.tform.php');
-			
+
 			$category_title = $form["title"];
 			$form_file = $form["action"];
 			$db_table = $form["db_table"];
 			$db_table_idx = $form["db_table_idx"];
 			$order_by = $db_table_idx;
-			
+
 			if(is_array($form["tabs"]) && !empty($form["tabs"])){
 				foreach($form["tabs"] as $tab){
 					if(is_array($tab['fields']) && !empty($tab['fields'])){
@@ -108,7 +108,7 @@ function _search($module, $section, $additional_sql = '', $unique = false){
 			}
 		}
 		unset($form);
-		
+
 		$where_clause = '';
 		if(!empty($search_fields)){
 			$where_clause = implode(' OR ', $search_fields);
@@ -120,11 +120,11 @@ function _search($module, $section, $additional_sql = '', $unique = false){
 		if($additional_sql != '') $where_clause .= ' '.$additional_sql.' ';
 		$order_clause = '';
 		if($order_by != '') $order_clause = ' ORDER BY '.$order_by;
-		
+
 		$sql = "SELECT * FROM ".$db_table." WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
 		$results = $app->db->queryAllRecords($sql);
-		
-		if(is_array($results) && !empty($results)){	
+
+		if(is_array($results) && !empty($results)){
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';
 			if(is_file($lng_file)) include($lng_file);
 			$result_array['cheader'] = array('title' => $category_title,
@@ -140,7 +140,7 @@ function _search($module, $section, $additional_sql = '', $unique = false){
 					}
 					if(!empty($desc_items)) $description = implode(' - ', $desc_items);
 				}
-				
+
 				$result_array['cdata'][] = array(	'title' => $wb[$title_key.'_txt'].': '.$result[$title_key],
 													'description' => $description,
 													'onclick' => '',
@@ -156,7 +156,7 @@ function _search($module, $section, $additional_sql = '', $unique = false){
 	return $result_array;
 }
 */
-		
+
 header('Content-type: application/json');
 echo $json;
 ?>

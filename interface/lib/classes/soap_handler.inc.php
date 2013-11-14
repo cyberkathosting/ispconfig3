@@ -31,64 +31,65 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 class ISPConfigSoapHandler {
-    private $methods = array();
-    private $classes = array();
+	private $methods = array();
+	private $classes = array();
 
-    public function __construct() {
-        global $app;
-        
-        // load main remoting file
-        $app->load('remoting');
-        
-        // load all remote classes and get their methods
-        $dir = dirname(realpath(__FILE__)) . '/remote.d';
-        $d = opendir($dir);
-        while($f = readdir($d)) {
-            if($f == '.' || $f == '..') continue;
-            if(!is_file($dir . '/' . $f) || substr($f, strrpos($f, '.')) != '.php') continue;
-            
-            $name = substr($f, 0, strpos($f, '.'));
-            
-            include($dir . '/' . $f);
-            $class_name = 'remoting_' . $name;
-            if(class_exists($class_name, false)) {
-                $this->classes[$class_name] = new $class_name();
-                foreach(get_class_methods($this->classes[$class_name]) as $method) {
-                    $this->methods[$method] = $class_name;
-                }
-            }
-        }
-        closedir($d);
-        
-        // add main methods
-        $this->methods['login'] = 'remoting';
-        $this->methods['logout'] = 'remoting';
-        $this->methods['get_function_list'] = 'remoting';
-        
-        // create main class
-        $this->classes['remoting'] = new remoting(array_keys($this->methods));
-    }
+	public function __construct() {
+		global $app;
 
-    public function __call($method, $params) {
-        if(array_key_exists($method, $this->methods) == false) {
-            throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist');
-        }
-        
-        $class_name = $this->methods[$method];
-        if(array_key_exists($class_name, $this->classes) == false) {
-            throw new SoapFault('invalid_class', 'Class ' . $class_name . ' does not exist');
-        }
-        
-        if(method_exists($this->classes[$class_name], $method) == false) {
-            throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
-        }
-        
-        try {
-            return call_user_func_array(array($this->classes[$class_name], $method), $params);
-        } catch(SoapFault $e) {
-            throw $e;
-        }
-    }
+		// load main remoting file
+		$app->load('remoting');
+
+		// load all remote classes and get their methods
+		$dir = dirname(realpath(__FILE__)) . '/remote.d';
+		$d = opendir($dir);
+		while($f = readdir($d)) {
+			if($f == '.' || $f == '..') continue;
+			if(!is_file($dir . '/' . $f) || substr($f, strrpos($f, '.')) != '.php') continue;
+
+			$name = substr($f, 0, strpos($f, '.'));
+
+			include $dir . '/' . $f;
+			$class_name = 'remoting_' . $name;
+			if(class_exists($class_name, false)) {
+				$this->classes[$class_name] = new $class_name();
+				foreach(get_class_methods($this->classes[$class_name]) as $method) {
+					$this->methods[$method] = $class_name;
+				}
+			}
+		}
+		closedir($d);
+
+		// add main methods
+		$this->methods['login'] = 'remoting';
+		$this->methods['logout'] = 'remoting';
+		$this->methods['get_function_list'] = 'remoting';
+
+		// create main class
+		$this->classes['remoting'] = new remoting(array_keys($this->methods));
+	}
+
+	public function __call($method, $params) {
+		if(array_key_exists($method, $this->methods) == false) {
+			throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist');
+		}
+
+		$class_name = $this->methods[$method];
+		if(array_key_exists($class_name, $this->classes) == false) {
+			throw new SoapFault('invalid_class', 'Class ' . $class_name . ' does not exist');
+		}
+
+		if(method_exists($this->classes[$class_name], $method) == false) {
+			throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
+		}
+
+		try {
+			return call_user_func_array(array($this->classes[$class_name], $method), $params);
+		} catch(SoapFault $e) {
+			throw $e;
+		}
+	}
+
 }
 
 ?>

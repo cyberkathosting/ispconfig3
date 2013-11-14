@@ -29,194 +29,196 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class cronjob_logfiles extends cronjob {
-    
-    // job schedule
-    protected $_schedule = '0 0 * * *';
-    
-    /* this function is optional if it contains no custom code */
-    public function onPrepare() {
-        global $app;
-        
-        parent::onPrepare();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onBeforeRun() {
-        global $app;
-        
-        return parent::onBeforeRun();
-    }
-    
-    public function onRunJob() {
-        global $app, $conf;
-        
-        #######################################################################################################
-        // Make the web logfiles directories world readable to enable ftp access
-        #######################################################################################################
 
-        if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*');
+	// job schedule
+	protected $_schedule = '0 0 * * *';
 
-        #######################################################################################################
-        // Manage and compress web logfiles and create traffic statistics
-        #######################################################################################################
+	/* this function is optional if it contains no custom code */
+	public function onPrepare() {
+		global $app;
 
-        $sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
-        $records = $app->db->queryAllRecords($sql);
-        foreach($records as $rec) {
+		parent::onPrepare();
+	}
 
-            //* create traffic statistics based on yesterdays access log file
-            $yesterday = date('Ymd',time() - 86400);
+	/* this function is optional if it contains no custom code */
+	public function onBeforeRun() {
+		global $app;
 
-            $log_folder = 'log';
-            if($rec['type'] == 'vhostsubdomain') {
-                $tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
-                $subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
-                if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
-                $log_folder .= '/' . $subdomain_host;
-                unset($tmp);
-            }
+		return parent::onBeforeRun();
+	}
 
-            $logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
-            $total_bytes = 0;
+	public function onRunJob() {
+		global $app, $conf;
 
-            $handle = @fopen($logfile, "r");
-            if ($handle) {
-                while (($line = fgets($handle, 4096)) !== false) {
-                    if (preg_match('/^\S+ \S+ \S+ \[.*?\] "\S+.*?" \d+ (\d+) ".*?" ".*?"/', $line, $m)) {
-                        $total_bytes += intval($m[1]);
-                    }
-                }
+		//######################################################################################################
+		// Make the web logfiles directories world readable to enable ftp access
+		//######################################################################################################
 
-                //* Insert / update traffic in master database
-                $traffic_date = date('Y-m-d',time() - 86400);
-                $tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname='".$rec['domain']."' and traffic_date='".$traffic_date."'");
-                if(is_array($tmp) && count($tmp) > 0) {
-                    $sql = "update web_traffic set traffic_bytes=traffic_bytes+"
-                          . $total_bytes
-                          . " where hostname='" . $rec['domain']
-                          . "' and traffic_date='" . $traffic_date . "'";
-                } else {
-                    $sql = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('".$rec['domain']."', '".$traffic_date."', '".$total_bytes."')";
-                }
-                $app->dbmaster->query($sql);
+		if(is_dir('/var/log/ispconfig/httpd')) exec('chmod +r /var/log/ispconfig/httpd/*');
 
-                fclose($handle);
-            }
+		//######################################################################################################
+		// Manage and compress web logfiles and create traffic statistics
+		//######################################################################################################
 
-            $yesterday2 = date('Ymd',time() - 86400*2);
-            $logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday2.'-access.log');
+		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
+		$records = $app->db->queryAllRecords($sql);
+		foreach($records as $rec) {
 
-            //* Compress logfile
-            if(@is_file($logfile)) {
-                // Compress yesterdays logfile
-                exec("gzip -c $logfile > $logfile.gz");
-                unlink($logfile);
-            }
+			//* create traffic statistics based on yesterdays access log file
+			$yesterday = date('Ymd', time() - 86400);
 
-            // rotate and compress the error.log when it exceeds a size of 10 MB
-            $logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
-            if(is_file($logfile) && filesize($logfile) > 10000000) {
-                exec("gzip -c $logfile > $logfile.1.gz");
-                exec("cat /dev/null > $logfile");
-            }
+			$log_folder = 'log';
+			if($rec['type'] == 'vhostsubdomain') {
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
+				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
+				$log_folder .= '/' . $subdomain_host;
+				unset($tmp);
+			}
 
-            // delete logfiles after 30 days
-            $month_ago = date('Ymd',time() - 86400 * 30);
-            $logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$month_ago.'-access.log.gz');
-            if(@is_file($logfile)) {
-                unlink($logfile);
-            }
+			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
+			$total_bytes = 0;
 
-            //* Delete older Log files, in case that we missed them before due to serverdowntimes.
-            $datepart = date('Ym',time() - 86400 * 31 * 2);
+			$handle = @fopen($logfile, "r");
+			if ($handle) {
+				while (($line = fgets($handle, 4096)) !== false) {
+					if (preg_match('/^\S+ \S+ \S+ \[.*?\] "\S+.*?" \d+ (\d+) ".*?" ".*?"/', $line, $m)) {
+						$total_bytes += intval($m[1]);
+					}
+				}
 
-            $logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log.gz';
-            exec('rm -f '.$logfile);
+				//* Insert / update traffic in master database
+				$traffic_date = date('Y-m-d', time() - 86400);
+				$tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname='".$rec['domain']."' and traffic_date='".$traffic_date."'");
+				if(is_array($tmp) && count($tmp) > 0) {
+					$sql = "update web_traffic set traffic_bytes=traffic_bytes+"
+						. $total_bytes
+						. " where hostname='" . $rec['domain']
+						. "' and traffic_date='" . $traffic_date . "'";
+				} else {
+					$sql = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('".$rec['domain']."', '".$traffic_date."', '".$total_bytes."')";
+				}
+				$app->dbmaster->query($sql);
 
-            $logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log';
-            exec('rm -f '.$logfile);
-        }
+				fclose($handle);
+			}
 
-        //* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
-        exec('hostname -f', $tmp_hostname);
-        if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
-            exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +30 -name '*.log' | xargs rm > /dev/null 2> /dev/null");
-        }
-        unset($tmp_hostname);
+			$yesterday2 = date('Ymd', time() - 86400*2);
+			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday2.'-access.log');
 
-        #######################################################################################################
-        // Rotate the ispconfig.log file
-        #######################################################################################################
+			//* Compress logfile
+			if(@is_file($logfile)) {
+				// Compress yesterdays logfile
+				exec("gzip -c $logfile > $logfile.gz");
+				unlink($logfile);
+			}
 
-        // rotate the ispconfig.log when it exceeds a size of 10 MB
-        $logfile = $conf['ispconfig_log_dir'].'/ispconfig.log';
-        if(is_file($logfile) && filesize($logfile) > 10000000) {
-            exec("gzip -c $logfile > $logfile.1.gz");
-            exec("cat /dev/null > $logfile");
-        }
+			// rotate and compress the error.log when it exceeds a size of 10 MB
+			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
+			if(is_file($logfile) && filesize($logfile) > 10000000) {
+				exec("gzip -c $logfile > $logfile.1.gz");
+				exec("cat /dev/null > $logfile");
+			}
 
-        // rotate the cron.log when it exceeds a size of 10 MB
-        $logfile = $conf['ispconfig_log_dir'].'/cron.log';
-        if(is_file($logfile) && filesize($logfile) > 10000000) {
-            exec("gzip -c $logfile > $logfile.1.gz");
-            exec("cat /dev/null > $logfile");
-        }
+			// delete logfiles after 30 days
+			$month_ago = date('Ymd', time() - 86400 * 30);
+			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$month_ago.'-access.log.gz');
+			if(@is_file($logfile)) {
+				unlink($logfile);
+			}
 
-        // rotate the auth.log when it exceeds a size of 10 MB
-        $logfile = $conf['ispconfig_log_dir'].'/auth.log';
-        if(is_file($logfile) && filesize($logfile) > 10000000) {
-            exec("gzip -c $logfile > $logfile.1.gz");
-            exec("cat /dev/null > $logfile");
-        }
+			//* Delete older Log files, in case that we missed them before due to serverdowntimes.
+			$datepart = date('Ym', time() - 86400 * 31 * 2);
 
-        #######################################################################################################
-        // Cleanup website tmp directories
-        #######################################################################################################
+			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log.gz';
+			exec('rm -f '.$logfile);
 
-        $sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf['server_id'];
-        $records = $app->db->queryAllRecords($sql);
-        $app->uses('system');
-        if(is_array($records)) {
-            foreach($records as $rec){
-                $tmp_path = realpath(escapeshellcmd($rec['document_root'].'/tmp'));
-                if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
-                    exec('cd '.$tmp_path."; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
-                }
-            }
-        }
+			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log';
+			exec('rm -f '.$logfile);
+		}
 
-        #######################################################################################################
-        // Cleanup logs in master database (only the "master-server")
-        #######################################################################################################
+		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
+		exec('hostname -f', $tmp_hostname);
+		if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
+			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +30 -name '*.log' | xargs rm > /dev/null 2> /dev/null");
+		}
+		unset($tmp_hostname);
 
-        if ($app->dbmaster == $app->db) {
-            /** 7 days */
-            $tstamp = time() - (60*60*24*7);
+		//######################################################################################################
+		// Rotate the ispconfig.log file
+		//######################################################################################################
 
-            /*
+		// rotate the ispconfig.log when it exceeds a size of 10 MB
+		$logfile = $conf['ispconfig_log_dir'].'/ispconfig.log';
+		if(is_file($logfile) && filesize($logfile) > 10000000) {
+			exec("gzip -c $logfile > $logfile.1.gz");
+			exec("cat /dev/null > $logfile");
+		}
+
+		// rotate the cron.log when it exceeds a size of 10 MB
+		$logfile = $conf['ispconfig_log_dir'].'/cron.log';
+		if(is_file($logfile) && filesize($logfile) > 10000000) {
+			exec("gzip -c $logfile > $logfile.1.gz");
+			exec("cat /dev/null > $logfile");
+		}
+
+		// rotate the auth.log when it exceeds a size of 10 MB
+		$logfile = $conf['ispconfig_log_dir'].'/auth.log';
+		if(is_file($logfile) && filesize($logfile) > 10000000) {
+			exec("gzip -c $logfile > $logfile.1.gz");
+			exec("cat /dev/null > $logfile");
+		}
+
+		//######################################################################################################
+		// Cleanup website tmp directories
+		//######################################################################################################
+
+		$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf['server_id'];
+		$records = $app->db->queryAllRecords($sql);
+		$app->uses('system');
+		if(is_array($records)) {
+			foreach($records as $rec){
+				$tmp_path = realpath(escapeshellcmd($rec['document_root'].'/tmp'));
+				if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
+					exec('cd '.$tmp_path."; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
+				}
+			}
+		}
+
+		//######################################################################################################
+		// Cleanup logs in master database (only the "master-server")
+		//######################################################################################################
+
+		if ($app->dbmaster == $app->db) {
+			/** 7 days */
+
+
+			$tstamp = time() - (60*60*24*7);
+
+			/*
              *  Keep 7 days in sys_log
              * (we can delete the old items, because if they are OK, they don't interrest anymore
              * if they are NOT ok, the server will try to process them in 1 minute and so the
              * error appears again after 1 minute. So it is no problem to delete the old one!
              */
-            $sql = "DELETE FROM sys_log WHERE tstamp < " . $tstamp . " AND server_id != 0";
-            $app->dbmaster->query($sql);
+			$sql = "DELETE FROM sys_log WHERE tstamp < " . $tstamp . " AND server_id != 0";
+			$app->dbmaster->query($sql);
 
-            /*
+			/*
              * Delete all remote-actions "done" and older than 7 days
              * ATTENTION: We have the same problem as described in cleaning the datalog. We must not
              * delete the last entry
              */
-            $sql = "SELECT max(action_id) FROM sys_remoteaction";
-            $res = $app->dbmaster->queryOneRecord($sql);
-            $maxId = $res['max(action_id)'];
-            $sql =  "DELETE FROM sys_remoteaction " .
-                    "WHERE tstamp < " . $tstamp . " " .
-                    " AND action_state = 'ok' " .
-                    " AND action_id <" . intval($maxId);
-            $app->dbmaster->query($sql);
+			$sql = "SELECT max(action_id) FROM sys_remoteaction";
+			$res = $app->dbmaster->queryOneRecord($sql);
+			$maxId = $res['max(action_id)'];
+			$sql =  "DELETE FROM sys_remoteaction " .
+				"WHERE tstamp < " . $tstamp . " " .
+				" AND action_state = 'ok' " .
+				" AND action_id <" . intval($maxId);
+			$app->dbmaster->query($sql);
 
-            /*
+			/*
              * The sys_datalog is more difficult.
              * 1) We have to keet ALL entries with
              *    server_id=0, because they depend on ALL servers (even if they are not
@@ -231,40 +233,40 @@ class cronjob_logfiles extends cronjob {
              *    ATTENTION 2) and 3) is in some case NOT the same! so we have to check both!
              */
 
-            /* First we need all servers and the last sys_datalog-id they processed */
-            $sql = "SELECT server_id, updated FROM server ORDER BY server_id";
-            $records = $app->dbmaster->queryAllRecords($sql);
+			/* First we need all servers and the last sys_datalog-id they processed */
+			$sql = "SELECT server_id, updated FROM server ORDER BY server_id";
+			$records = $app->dbmaster->queryAllRecords($sql);
 
-            /* Then we need the highest value ever */
-            $sql = "SELECT max(datalog_id) FROM sys_datalog";
-            $res = $app->dbmaster->queryOneRecord($sql);
-            $maxId = $res['max(datalog_id)'];
+			/* Then we need the highest value ever */
+			$sql = "SELECT max(datalog_id) FROM sys_datalog";
+			$res = $app->dbmaster->queryOneRecord($sql);
+			$maxId = $res['max(datalog_id)'];
 
-            /* Then delete server by server */
-            foreach($records as $server) {
-                $tmp_server_id = intval($server['server_id']);
-                if($tmp_server_id > 0) {
-                    $sql = 	"DELETE FROM sys_datalog " .
-                            "WHERE tstamp < " . $tstamp .
-                            " AND server_id = " . intval($server['server_id']) .
-                            " AND datalog_id < " . intval($server['updated']) .
-                            " AND datalog_id < " . intval($maxId);
-                }
-        //		echo $sql . "\n";
-                $app->dbmaster->query($sql);
-            }
-        }
-        
-        
-        parent::onRunJob();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onAfterRun() {
-        global $app;
-        
-        parent::onAfterRun();
-    }
+			/* Then delete server by server */
+			foreach($records as $server) {
+				$tmp_server_id = intval($server['server_id']);
+				if($tmp_server_id > 0) {
+					$sql =  "DELETE FROM sys_datalog " .
+						"WHERE tstamp < " . $tstamp .
+						" AND server_id = " . intval($server['server_id']) .
+						" AND datalog_id < " . intval($server['updated']) .
+						" AND datalog_id < " . intval($maxId);
+				}
+				//  echo $sql . "\n";
+				$app->dbmaster->query($sql);
+			}
+		}
+
+
+		parent::onRunJob();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onAfterRun() {
+		global $app;
+
+		parent::onAfterRun();
+	}
 
 }
 

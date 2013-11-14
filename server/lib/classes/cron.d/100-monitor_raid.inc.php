@@ -29,39 +29,41 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class cronjob_monitor_raid extends cronjob {
-    
-    // job schedule
-    protected $_schedule = '*/5 * * * *';
-    protected $_run_at_new = true;
-	
-    private $_tools = null;
-    
-    /* this function is optional if it contains no custom code */
-    public function onPrepare() {
-        global $app;
-        
-        parent::onPrepare();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onBeforeRun() {
-        global $app;
-        
-        return parent::onBeforeRun();
-    }
-    
-    public function onRunJob() {
-        global $app, $conf;
-        
-        /* used for all monitor cronjobs */
-        $app->load('monitor_tools');
-        $this->_tools = new monitor_tools();
-        /* end global section for monitor cronjobs */
-        
+
+	// job schedule
+	protected $_schedule = '*/5 * * * *';
+	protected $_run_at_new = true;
+
+	private $_tools = null;
+
+	/* this function is optional if it contains no custom code */
+	public function onPrepare() {
+		global $app;
+
+		parent::onPrepare();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onBeforeRun() {
+		global $app;
+
+		return parent::onBeforeRun();
+	}
+
+	public function onRunJob() {
+		global $app, $conf;
+
+		/* used for all monitor cronjobs */
+		$app->load('monitor_tools');
+		$this->_tools = new monitor_tools();
+		/* end global section for monitor cronjobs */
+
 		/* the id of the server as int */
 		$server_id = intval($conf['server_id']);
 
 		/** The type of the data */
+
+
 		$type = 'raid_state';
 
 		/*
@@ -179,49 +181,49 @@ class cronjob_monitor_raid extends cronjob {
 
 			$state = 'ok';
 			if(is_array($data['output'])) {
-			foreach ($data['output'] as $item) {
-				if (strpos($item, 'RAID') !== false) {
-					if (strpos($item, ' VERIFYING ') !== false) {
-						$this->_tools->_setState($state, 'info');
-					}
-					else if (strpos($item, ' MIGRATE-PAUSED ') !== false) {
-						$this->_tools->_setState($state, 'info');
-					}
-					else if (strpos($item, ' MIGRATING ') !== false) {
-						$this->_tools->_setState($state, 'ok');
-					}
-					else if (strpos($item, ' INITIALIZING ') !== false) {
-						$this->_tools->_setState($state, 'info');
-					}
-					else if (strpos($item, ' INIT-PAUSED ') !== false) {
-						$this->_tools->_setState($state, 'info');
-					}
-					else if (strpos($item, ' REBUILDING ') !== false) {
-						$this->_tools->_setState($state, 'info');
-					}
-					else if (strpos($item, ' REBUILD-PAUSED ') !== false) {
-						$this->_tools->_setState($state, 'warning');
-					}
-					else if (strpos($item, ' RECOVERY ') !== false) {
-						$this->_tools->_setState($state, 'warning');
-					}
-					else if (strpos($item, ' DEGRADED ') !== false) {
-						$this->_tools->_setState($state, 'critical');
-					}
-					else if (strpos($item, ' UNKNOWN ') !== false) {
-						$this->_tools->_setState($state, 'critical');
-					}
-					else if (strpos($item, ' OK ') !== false) {
-						$this->_tools->_setState($state, 'ok');
-					}
-					else if (strpos($item, ' OPTIMAL ') !== false) {
-						$this->_tools->_setState($state, 'ok');
-					}
-					else {
-						$this->_tools->_setState($state, 'critical');
+				foreach ($data['output'] as $item) {
+					if (strpos($item, 'RAID') !== false) {
+						if (strpos($item, ' VERIFYING ') !== false) {
+							$this->_tools->_setState($state, 'info');
+						}
+						else if (strpos($item, ' MIGRATE-PAUSED ') !== false) {
+								$this->_tools->_setState($state, 'info');
+							}
+						else if (strpos($item, ' MIGRATING ') !== false) {
+								$this->_tools->_setState($state, 'ok');
+							}
+						else if (strpos($item, ' INITIALIZING ') !== false) {
+								$this->_tools->_setState($state, 'info');
+							}
+						else if (strpos($item, ' INIT-PAUSED ') !== false) {
+								$this->_tools->_setState($state, 'info');
+							}
+						else if (strpos($item, ' REBUILDING ') !== false) {
+								$this->_tools->_setState($state, 'info');
+							}
+						else if (strpos($item, ' REBUILD-PAUSED ') !== false) {
+								$this->_tools->_setState($state, 'warning');
+							}
+						else if (strpos($item, ' RECOVERY ') !== false) {
+								$this->_tools->_setState($state, 'warning');
+							}
+						else if (strpos($item, ' DEGRADED ') !== false) {
+								$this->_tools->_setState($state, 'critical');
+							}
+						else if (strpos($item, ' UNKNOWN ') !== false) {
+								$this->_tools->_setState($state, 'critical');
+							}
+						else if (strpos($item, ' OK ') !== false) {
+								$this->_tools->_setState($state, 'ok');
+							}
+						else if (strpos($item, ' OPTIMAL ') !== false) {
+								$this->_tools->_setState($state, 'ok');
+							}
+						else {
+							$this->_tools->_setState($state, 'critical');
+						}
 					}
 				}
-			}
 			}
 		}
 
@@ -236,27 +238,27 @@ class cronjob_monitor_raid extends cronjob {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
+			'VALUES (' .
+			$res['server_id'] . ', ' .
+			"'" . $app->dbmaster->quote($res['type']) . "', " .
+			'UNIX_TIMESTAMP(), ' .
+			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+			"'" . $res['state'] . "'" .
+			')';
 		$app->dbmaster->query($sql);
 
 		/* The new data is written, now we can delete the old one */
 		$this->_tools->delOldRecords($res['type'], $res['server_id']);
-        
-        parent::onRunJob();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onAfterRun() {
-        global $app;
-        
-        parent::onAfterRun();
-    }
+
+		parent::onRunJob();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onAfterRun() {
+		global $app;
+
+		parent::onAfterRun();
+	}
 
 }
 

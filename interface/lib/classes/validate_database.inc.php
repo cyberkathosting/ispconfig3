@@ -29,44 +29,44 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class validate_database {
-	
+
 	/*
 		Validator function to check if a given list of ips is ok.
 	*/
 	function valid_ip_list($field_name, $field_value, $validator) {
 		global $app;
-		
-    if($_POST["remote_access"] == "y") {
-        if(trim($field_value) == "") return;
-        
-        $values = explode(",", $field_value);
-        foreach($values as $cur_value) {
-            $cur_value = trim($cur_value);
-            
-            $valid = true;
-            if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $cur_value)) {
-                $groups = explode(".", $cur_value);
-                foreach($groups as $group){
-                  if($group<0 OR $group>255)
-                  $valid=false;
-                }
-            } else {
-                $valid = false;
-            }
-            
-            if($valid == false) {
-                $errmsg = $validator['errmsg'];
-                if(isset($app->tform->wordbook[$errmsg])) {
-                    return $app->tform->wordbook[$errmsg]."<br>\r\n";
-                } else {
-                    return $errmsg."<br>\r\n";
-                }
-            }
-        }
-    }
-  }
-	
-	
-	
-	
+
+		if($_POST["remote_access"] == "y") {
+			if(trim($field_value) == "") return;
+
+			$values = explode(",", $field_value);
+			foreach($values as $cur_value) {
+				$cur_value = trim($cur_value);
+
+				$valid = true;
+				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $cur_value)) {
+					$groups = explode(".", $cur_value);
+					foreach($groups as $group){
+						if($group<0 or $group>255)
+							$valid=false;
+					}
+				} else {
+					$valid = false;
+				}
+
+				if($valid == false) {
+					$errmsg = $validator['errmsg'];
+					if(isset($app->tform->wordbook[$errmsg])) {
+						return $app->tform->wordbook[$errmsg]."<br>\r\n";
+					} else {
+						return $errmsg."<br>\r\n";
+					}
+				}
+			}
+		}
+	}
+
+
+
+
 }

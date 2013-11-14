@@ -29,100 +29,100 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class session {
-	
+
 	private $session_array = array();
 	private $db;
-	
+
 	function __construct() {
 		$this->db = new db;
 	}
-	
+
 	function open ($save_path, $session_name) {
 		return true;
 	}
-	
+
 	function close () {
 
 		if (!empty($this->session_array)) {
-            $result = $this->gc(ini_get('session.gc_maxlifetime'));
-            return $result;
-        }
-        return false;
-    }
-	
+			$result = $this->gc(ini_get('session.gc_maxlifetime'));
+			return $result;
+		}
+		return false;
+	}
+
 	function read ($session_id) {
-		
+
 		$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."'");
 
-        if (is_array($rec)) {
+		if (is_array($rec)) {
 			$this->session_array = $rec;
 			return $this->session_array['session_data'];
 		} else {
 			return '';
 		}
 	}
-	
+
 	function write ($session_id, $session_data) {
-		
+
 		if (!empty($this->session_array) && $this->session_array['session_id'] != $session_id) {
-            $this->session_array = array();
-        }
-		
+			$this->session_array = array();
+		}
+
 		// Dont write session_data to DB if session data has not been changed after reading it.
 		if(isset($this->session_array['session_data']) && $this->session_array['session_data'] != '' && $this->session_array['session_data'] == $session_data) {
 			$session_id   = $this->db->quote($session_id);
 			$last_updated = date('Y-m-d H:i:s');
-            $this->db->query("UPDATE sys_session SET last_updated = '$last_updated' WHERE session_id = '$session_id'");
+			$this->db->query("UPDATE sys_session SET last_updated = '$last_updated' WHERE session_id = '$session_id'");
 			return true;
 		}
-		
 
-        if (@$this->session_array['session_id'] == '') {
+
+		if (@$this->session_array['session_id'] == '') {
 			$session_id   = $this->db->quote($session_id);
-            $date_created = date('Y-m-d H:i:s');
-            $last_updated = date('Y-m-d H:i:s');
-            $session_data = $this->db->quote($session_data);
+			$date_created = date('Y-m-d H:i:s');
+			$last_updated = date('Y-m-d H:i:s');
+			$session_data = $this->db->quote($session_data);
 			$sql = "INSERT INTO sys_session (session_id,date_created,last_updated,session_data) VALUES ('$session_id','$date_created','$last_updated','$session_data')";
 			$this->db->query($sql);
 
-        } else {
-            $session_id   = $this->db->quote($session_id);
+		} else {
+			$session_id   = $this->db->quote($session_id);
 			$last_updated = date('Y-m-d H:i:s');
-            $session_data = $this->db->quote($session_data);
-            $sql = "UPDATE sys_session SET last_updated = '$last_updated', session_data = '$session_data' WHERE session_id = '$session_id'";
+			$session_data = $this->db->quote($session_data);
+			$sql = "UPDATE sys_session SET last_updated = '$last_updated', session_data = '$session_data' WHERE session_id = '$session_id'";
 			$this->db->query($sql);
 
-        }
-		
-        return true;
-    }
-	
+		}
+
+		return true;
+	}
+
 	function destroy ($session_id) {
 
 		$session_id   = $this->db->quote($session_id);
 		$sql = "DELETE FROM sys_session WHERE session_id = '$session_id'";
 		$this->db->query($sql);
-        
-        return true;
-    }
-	
+
+		return true;
+	}
+
 	function gc ($max_lifetime) {
 
 		$real_now = date('Y-m-d H:i:s');
-        $dt1 = strtotime("$real_now -$max_lifetime seconds");
-        $dt2 = date('Y-m-d H:i:s', $dt1);
-		
+		$dt1 = strtotime("$real_now -$max_lifetime seconds");
+		$dt2 = date('Y-m-d H:i:s', $dt1);
+
 		$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2'";
 		$this->db->query($sql);
-        
-        return true;
-        
-    }
+
+		return true;
+
+	}
 
 	function __destruct () {
-        @session_write_close();
+		@session_write_close();
 
-    }
+	}
 
 }
 

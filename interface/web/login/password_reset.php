@@ -28,39 +28,39 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/password_reset.htm');
+$app->tpl->setInclude('content_tpl', 'templates/password_reset.htm');
 
 $app->tpl_defaults();
 
-include(ISPC_ROOT_PATH.'/web/login/lib/lang/'.$_SESSION['s']['language'].'.lng');
+include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$_SESSION['s']['language'].'.lng';
 $app->tpl->setVar($wb);
 
 if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '' && $_POST['username'] != 'admin') {
-	
+
 	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) die($app->lng('user_regex_error'));
 	if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $_POST['email'])) die($app->lng('email_error'));
-	
+
 	$username = $app->db->quote($_POST['username']);
 	$email = $app->db->quote($_POST['email']);
-	
+
 	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' AND email = '$email'");
 
 	if($client['client_id'] > 0) {
 		$new_password = $app->auth->get_random_password();
 		$new_password_encrypted = $app->auth->crypt_password($new_password);
 		$new_password_encrypted = $app->db->quote($new_password_encrypted);
-		
+
 		$username = $app->db->quote($client['username']);
 		$app->db->query("UPDATE sys_user SET passwort = '$new_password_encrypted' WHERE username = '$username'");
 		$app->db->query("UPDATE client SET password = '$new_password_encrypted' WHERE username = '$username'");
-		$app->tpl->setVar("message",$wb['pw_reset']);
-		
+		$app->tpl->setVar("message", $wb['pw_reset']);
+
 		$app->uses('getconf,ispcmail');
 		$mail_config = $app->getconf->get_global_config('mail');
 		if($mail_config['smtp_enabled'] == 'y') {
@@ -72,15 +72,15 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->ispcmail->setMailText($wb['pw_reset_mail_msg'].$new_password);
 		$app->ispcmail->send(array($client['contact_name'] => $client['email']));
 		$app->ispcmail->finish();
-		
-		$app->plugin->raiseEvent('password_reset',true);
-		$app->tpl->setVar("msg",$wb['pw_reset']);
+
+		$app->plugin->raiseEvent('password_reset', true);
+		$app->tpl->setVar("msg", $wb['pw_reset']);
 	} else {
-		$app->tpl->setVar("error",$wb['pw_error']);
+		$app->tpl->setVar("error", $wb['pw_error']);
 	}
-	
+
 } else {
-	$app->tpl->setVar("msg",$wb['pw_error_noinput']);
+	$app->tpl->setVar("msg", $wb['pw_error_noinput']);
 }
 
 

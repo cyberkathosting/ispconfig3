@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('monitor');
@@ -47,9 +47,9 @@ $title = 'Munin ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . 
 $app->tpl->setVar("list_head_txt", $title);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
-	
+
 	$app->uses('getconf');
-	$server_config = $app->getconf->get_server_config($_SESSION['monitor']['server_id'],'server');
+	$server_config = $app->getconf->get_server_config($_SESSION['monitor']['server_id'], 'server');
 
 	$munin_url = trim($server_config['munin_url']);
 	if($munin_url != ''){
@@ -64,11 +64,11 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 			$auth_string .= ':'.rawurlencode($munin_password);
 		}
 		if($auth_string != '') $auth_string .= '@';
-	
+
 		$munin_url_parts = parse_url($munin_url);
-  
+
 		$munin_url = $munin_url_parts['scheme'].'://'.$auth_string.$munin_url_parts['host'].(isset($munin_url_parts['port']) ? ':' . $munin_url_parts['port'] : '').(isset($munin_url_parts['path']) ? $munin_url_parts['path'] : '').(isset($munin_url_parts['query']) ? '?' . $munin_url_parts['query'] : '').(isset($munin_url_parts['fragment']) ? '#' . $munin_url_parts['fragment'] : '');
-		
+
 		$app->tpl->setVar("munin_url", $munin_url);
 	} else {
 		$app->tpl->setVar("no_munin_url_defined_txt", $app->lng("no_munin_url_defined_txt"));

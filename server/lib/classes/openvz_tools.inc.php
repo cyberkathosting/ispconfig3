@@ -31,6 +31,8 @@ class openvz_tools {
 	/**
 	 * Checks, if the server ist a OpenVZ - Host
 	 */
+
+
 	public function isOpenVzHost() {
 		/*
 		 * if there is a "/proc/user_beanconters" we have OpenVz "in use"
@@ -109,7 +111,7 @@ class openvz_tools {
 			$item = trim($item);
 
 			/*
-			 * Now get every token and insert it to the array 
+			 * Now get every token and insert it to the array
 			 */
 			if ($item != '') {
 				$tmp = explode(' ', $item);
@@ -145,5 +147,7 @@ class openvz_tools {
 		/* ready */
 		return $res;
 	}
+
 }
+
 ?>

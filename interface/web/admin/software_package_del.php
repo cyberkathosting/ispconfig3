@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -37,7 +37,7 @@ if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mo
 
 $software_update_inst_id = $app->functions->intval($_GET['software_update_inst_id']);
 
-if($software_update_inst_id > 0) {	
+if($software_update_inst_id > 0) {
 	$app->db->datalogDelete('software_update_inst', 'software_update_inst_id', $software_update_inst_id);
 	//header('Location: admin/software_package_list.php');
 	die('HEADER_REDIRECT: admin/software_package_list.php');

@@ -55,64 +55,64 @@ class monitor_tools {
 				$distname = 'Ubuntu';
 				$distid = 'debian40';
 				$distbaseid = 'debian';
-				$ver = explode(' ',$issue);
+				$ver = explode(' ', $issue);
 				$ver = array_filter($ver);
 				$ver = next($ver);
-				$mainver = explode('.',$ver);
+				$mainver = explode('.', $ver);
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
 				case "12.10":
 					$relname = "(Quantal Quetzal)";
-				break;
+					break;
 				case "12.04":
 					$relname = "(Precise Pangolin)";
-				break;
+					break;
 				case "11.10":
 					$relname = "(Oneiric Ocelot)";
-				break;
+					break;
 				case "11.14":
 					$relname = "(Natty Narwhal)";
-				break;
+					break;
 				case "10.10":
 					$relname = "(Maverick Meerkat)";
-				break;
+					break;
 				case "10.04":
 					$relname = "(Lucid Lynx)";
-				break;
+					break;
 				case "9.10":
 					$relname = "(Karmic Koala)";
-				break;
+					break;
 				case "9.04":
 					$relname = "(Jaunty Jackpole)";
-				break;
+					break;
 				case "8.10":
-				$relname = "(Intrepid Ibex)";
-				break;
+					$relname = "(Intrepid Ibex)";
+					break;
 				case "8.04":
 					$relname = "(Hardy Heron)";
-				break;
+					break;
 				case "7.10":
 					$relname = "(Gutsy Gibbon)";
-				break;
+					break;
 				case "7.04":
 					$relname = "(Feisty Fawn)";
-				break;
+					break;
 				case "6.10":
 					$relname = "(Edgy Eft)";
-				break;
+					break;
 				case "6.06":
 					$relname = "(Dapper Drake)";
-				break;
+					break;
 				case "5.10":
 					$relname = "(Breezy Badger)";
-				break;
+					break;
 				case "5.04":
 					$relname = "(Hoary Hedgehog)";
-				break;
+					break;
 				case "4.10":
 					$relname = "(Warty Warthog)";
-				break;
+					break;
 				default:
 					$relname = "UNKNOWN";
 				}
@@ -226,12 +226,14 @@ class monitor_tools {
 		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
 	}
 
-    // this function remains in the tools class, because it is used by cron AND rescue
+	// this function remains in the tools class, because it is used by cron AND rescue
 	public function monitorServices() {
 		global $app;
 		global $conf;
 
 		/** the id of the server as int */
+
+
 		$server_id = intval($conf['server_id']);
 
 		/**  get the "active" Services of the server from the DB */
@@ -331,14 +333,14 @@ class monitor_tools {
 				$state = 'error'; // because service is down
 			}
 		}
-        $data['mongodbserver'] = -1;
-        if ($this->_checkTcp('localhost', 27017)) {
-            $data['mongodbserver'] = 1;
-        } else {
-            $data['mongodbserver'] = 0;
-            //$state = 'error'; // because service is down 
-            /* TODO!!! check if this is a mongodbserver at all, otherwise it will always throw an error state!!! */
-        }
+		$data['mongodbserver'] = -1;
+		if ($this->_checkTcp('localhost', 27017)) {
+			$data['mongodbserver'] = 1;
+		} else {
+			$data['mongodbserver'] = 0;
+			//$state = 'error'; // because service is down
+			/* TODO!!! check if this is a mongodbserver at all, otherwise it will always throw an error state!!! */
+		}
 
 		/*
 		 * Return the Result
@@ -349,7 +351,7 @@ class monitor_tools {
 		$res['state'] = $state;
 		return $res;
 	}
-    
+
 	public function _getLogData($log) {
 		global $conf;
 
@@ -367,111 +369,111 @@ class monitor_tools {
 		}
 
 		switch ($log) {
-			case 'log_mail':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/mail.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/maillog';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/mail.info';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/maillog';
-				}
-				break;
-			case 'log_mail_warn':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/mail.warn';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/maillog';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/mail.warn';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/maillog';
-				}
-				break;
-			case 'log_mail_err':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/mail.err';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/maillog';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/mail.err';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/maillog';
-				}
-				break;
-			case 'log_messages':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/syslog';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/messages';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/messages';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/messages';
-				}
-				break;
-			case 'log_ispc_cron':
-				if ($dist == 'debian') {
-					$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
-				} elseif ($dist == 'suse') {
-					$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/cron';
-				}
-				break;
-			case 'log_freshclam':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/clamav/freshclam.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/freshclam.log';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/clamav/freshclam.log';
-				}
-				break;
-			case 'log_clamav':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/clamav/clamav.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/clamd.log';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/clamav/clamd.log';
-				}
-				break;
-			case 'log_fail2ban':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/fail2ban.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/fail2ban.log';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/fail2ban.log';
-				} elseif ($dist == 'gentoo') {
-					$logfile = '/var/log/fail2ban.log';
-				}
-				break;
-			case 'log_mongodb':
-					$logfile = '/var/log/mongodb/mongodb.log';
-				break;
-			case 'log_ispconfig':
-				if ($dist == 'debian') {
-					$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
-				} elseif ($dist == 'suse') {
-					$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
-				} elseif ($dist == 'gentoo') {
-					$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
-				}
-				break;
-			default:
-				$logfile = '';
-				break;
+		case 'log_mail':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/mail.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = '/var/log/maillog';
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/mail.info';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/maillog';
+			}
+			break;
+		case 'log_mail_warn':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/mail.warn';
+			} elseif ($dist == 'redhat') {
+				$logfile = '/var/log/maillog';
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/mail.warn';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/maillog';
+			}
+			break;
+		case 'log_mail_err':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/mail.err';
+			} elseif ($dist == 'redhat') {
+				$logfile = '/var/log/maillog';
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/mail.err';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/maillog';
+			}
+			break;
+		case 'log_messages':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/syslog';
+			} elseif ($dist == 'redhat') {
+				$logfile = '/var/log/messages';
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/messages';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/messages';
+			}
+			break;
+		case 'log_ispc_cron':
+			if ($dist == 'debian') {
+				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
+			} elseif ($dist == 'suse') {
+				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/cron';
+			}
+			break;
+		case 'log_freshclam':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/clamav/freshclam.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/freshclam.log';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/clamav/freshclam.log';
+			}
+			break;
+		case 'log_clamav':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/clamav/clamav.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/clamd.log';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/clamav/clamd.log';
+			}
+			break;
+		case 'log_fail2ban':
+			if ($dist == 'debian') {
+				$logfile = '/var/log/fail2ban.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = '/var/log/fail2ban.log';
+			} elseif ($dist == 'suse') {
+				$logfile = '/var/log/fail2ban.log';
+			} elseif ($dist == 'gentoo') {
+				$logfile = '/var/log/fail2ban.log';
+			}
+			break;
+		case 'log_mongodb':
+			$logfile = '/var/log/mongodb/mongodb.log';
+			break;
+		case 'log_ispconfig':
+			if ($dist == 'debian') {
+				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
+			} elseif ($dist == 'redhat') {
+				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
+			} elseif ($dist == 'suse') {
+				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
+			} elseif ($dist == 'gentoo') {
+				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
+			}
+			break;
+		default:
+			$logfile = '';
+			break;
 		}
 
 		// Getting the logfile content
@@ -578,39 +580,39 @@ class monitor_tools {
 		 * Calculate the weight of the old state
 		 */
 		switch ($oldState) {
-			case 'no_state': $oldInt = 0;
-				break;
-			case 'ok': $oldInt = 1;
-				break;
-			case 'unknown': $oldInt = 2;
-				break;
-			case 'info': $oldInt = 3;
-				break;
-			case 'warning': $oldInt = 4;
-				break;
-			case 'critical': $oldInt = 5;
-				break;
-			case 'error': $oldInt = 6;
-				break;
+		case 'no_state': $oldInt = 0;
+			break;
+		case 'ok': $oldInt = 1;
+			break;
+		case 'unknown': $oldInt = 2;
+			break;
+		case 'info': $oldInt = 3;
+			break;
+		case 'warning': $oldInt = 4;
+			break;
+		case 'critical': $oldInt = 5;
+			break;
+		case 'error': $oldInt = 6;
+			break;
 		}
 		/*
 		 * Calculate the weight of the new state
 		 */
 		switch ($newState) {
-			case 'no_state': $newInt = 0;
-				break;
-			case 'ok': $newInt = 1;
-				break;
-			case 'unknown': $newInt = 2;
-				break;
-			case 'info': $newInt = 3;
-				break;
-			case 'warning': $newInt = 4;
-				break;
-			case 'critical': $newInt = 5;
-				break;
-			case 'error': $newInt = 6;
-				break;
+		case 'no_state': $newInt = 0;
+			break;
+		case 'ok': $newInt = 1;
+			break;
+		case 'unknown': $newInt = 2;
+			break;
+		case 'info': $newInt = 3;
+			break;
+		case 'warning': $newInt = 4;
+			break;
+		case 'critical': $newInt = 5;
+			break;
+		case 'error': $newInt = 6;
+			break;
 		}
 
 		/*
@@ -645,12 +647,12 @@ class monitor_tools {
 		 * the server-id!
 		 */
 		$sql = 'DELETE FROM monitor_data ' .
-				'WHERE ' .
-				'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
-				'AND ' .
-				'  created < ' . $old . ' ' .
-				'AND ' .
-				'  server_id = ' . $serverId;
+			'WHERE ' .
+			'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
+			'AND ' .
+			'  created < ' . $old . ' ' .
+			'AND ' .
+			'  server_id = ' . $serverId;
 		$app->dbmaster->query($sql);
 	}
 

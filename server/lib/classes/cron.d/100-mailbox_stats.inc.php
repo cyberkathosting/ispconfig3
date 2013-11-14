@@ -29,240 +29,240 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class cronjob_mailbox_stats extends cronjob {
-    
-    // job schedule
-    protected $_schedule = '0 0 * * *';
-    
-    /* this function is optional if it contains no custom code */
-    public function onPrepare() {
-        global $app;
-        
-        parent::onPrepare();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onBeforeRun() {
-        global $app;
-        
-        return parent::onBeforeRun();
-    }
-    
-    public function onRunJob() {
-        global $app, $conf;
-        
-        // cronjob code here
-        
-        #######################################################################################################
-        // store the mailbox statistics in the database
-        #######################################################################################################
 
-        $parse_mail_log = false;
-        $sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf['server_id'];
-        $records = $app->db->queryAllRecords($sql);
-        if(count($records) > 0) $parse_mail_log = true;
+	// job schedule
+	protected $_schedule = '0 0 * * *';
 
-        foreach($records as $rec) {
-            if(@is_file($rec['maildir'].'/ispconfig_mailsize')) {
-                $parse_mail_log = false;
+	/* this function is optional if it contains no custom code */
+	public function onPrepare() {
+		global $app;
 
-                // rename file
-                rename($rec['maildir'].'/ispconfig_mailsize',$rec['maildir'].'/ispconfig_mailsize_save');
+		parent::onPrepare();
+	}
 
-                // Read the file
-                $lines = file($rec['maildir'].'/ispconfig_mailsize_save');
-                $mail_traffic = 0;
-                foreach($lines as $line) {
-                    $mail_traffic += intval($line);
-                }
-                unset($lines);
+	/* this function is optional if it contains no custom code */
+	public function onBeforeRun() {
+		global $app;
 
-                // Delete backup file
-                if(@is_file($rec['maildir'].'/ispconfig_mailsize_save')) unlink($rec['maildir'].'/ispconfig_mailsize_save');
+		return parent::onBeforeRun();
+	}
 
-                // Save the traffic stats in the sql database
-                $tstamp = date('Y-m');
+	public function onRunJob() {
+		global $app, $conf;
 
-                $sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
-                $tr = $app->dbmaster->queryOneRecord($sql);
+		// cronjob code here
 
-                $mail_traffic += $tr['traffic'];
-                if($tr['traffic_id'] > 0) {
-                    $sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
-                } else {
-                    $sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
-                }
-                $app->dbmaster->query($sql);
-                //echo $sql;
+		//######################################################################################################
+		// store the mailbox statistics in the database
+		//######################################################################################################
 
-            }
+		$parse_mail_log = false;
+		$sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf['server_id'];
+		$records = $app->db->queryAllRecords($sql);
+		if(count($records) > 0) $parse_mail_log = true;
 
-        }
+		foreach($records as $rec) {
+			if(@is_file($rec['maildir'].'/ispconfig_mailsize')) {
+				$parse_mail_log = false;
 
-        if($parse_mail_log == true) {
-            $mailbox_traffic = array();
-            $mail_boxes = array();
-            $mail_rewrites = array(); // we need to read all mail aliases and forwards because the address in amavis is not always the mailbox address
+				// rename file
+				rename($rec['maildir'].'/ispconfig_mailsize', $rec['maildir'].'/ispconfig_mailsize_save');
 
-            function parse_mail_log_line($line) {
-                //Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
+				// Read the file
+				$lines = file($rec['maildir'].'/ispconfig_mailsize_save');
+				$mail_traffic = 0;
+				foreach($lines as $line) {
+					$mail_traffic += intval($line);
+				}
+				unset($lines);
 
-                if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
+				// Delete backup file
+				if(@is_file($rec['maildir'].'/ispconfig_mailsize_save')) unlink($rec['maildir'].'/ispconfig_mailsize_save');
 
-                $timestamp = strtotime($matches[1]);
-                if(!$timestamp) return false;
+				// Save the traffic stats in the sql database
+				$tstamp = date('Y-m');
 
-                $to = array();
-                $recipients = explode(',', $matches[3]);
-                foreach($recipients as $recipient) {
-                    $recipient = substr($recipient, 1, -1);
-                    if(!$recipient || $recipient == $matches[2]) continue;
-                    $to[] = $recipient;
-                }
+				$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
+				$tr = $app->dbmaster->queryOneRecord($sql);
 
-                return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
-            }
+				$mail_traffic += $tr['traffic'];
+				if($tr['traffic_id'] > 0) {
+					$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
+				} else {
+					$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
+				}
+				$app->dbmaster->query($sql);
+				//echo $sql;
 
-            function add_mailbox_traffic(&$traffic_array, $address, $traffic) {
-                global $mail_boxes, $mail_rewrites;
+			}
 
-                $address = strtolower($address);
+		}
 
-                if(in_array($address, $mail_boxes) == true) {
-                    if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
-                    $traffic_array[$address] += $traffic;
-                } elseif(array_key_exists($address, $mail_rewrites)) {
-                    foreach($mail_rewrites[$address] as $address) {
-                        if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
-                        $traffic_array[$address] += $traffic;
-                    }
-                } else {
-                    // this is not a local address - skip it
-                }
-            }
+		if($parse_mail_log == true) {
+			$mailbox_traffic = array();
+			$mail_boxes = array();
+			$mail_rewrites = array(); // we need to read all mail aliases and forwards because the address in amavis is not always the mailbox address
 
-            $sql = "SELECT email FROM mail_user WHERE server_id = ".$conf['server_id'];
-            $records = $app->db->queryAllRecords($sql);
-            foreach($records as $record) {
-                $mail_boxes[] = $record['email'];
-            }
-            $sql = "SELECT source, destination FROM mail_forwarding WHERE server_id = ".$conf['server_id'];
-            $records = $app->db->queryAllRecords($sql);
-            foreach($records as $record) {
-                $targets = preg_split('/[\n,]+/', $record['destination']);
-                foreach($targets as $target) {
-                    if(in_array($target, $mail_boxes)) {
-                        if(isset($mail_rewrites[$record['source']])) $mail_rewrites[$record['source']][] = $target;
-                        else $mail_rewrites[$record['source']] = array($target);
-                    }
-                }
-            }
+			function parse_mail_log_line($line) {
+				//Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
 
-            $state_file = dirname(__FILE__) . '/mail_log_parser.state';
-            $prev_line = false;
-            $last_line = false;
-            $cur_line = false;
+				if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
 
-            if(file_exists($state_file)) {
-                $prev_line = parse_mail_log_line(trim(file_get_contents($state_file)));
-                //if($prev_line) echo "continuing from previous run, log position: " . $prev_line['message-id'] . " at " . strftime('%d.%m.%Y %H:%M:%S', $prev_line['timestamp']) . "\n";
-            }
+				$timestamp = strtotime($matches[1]);
+				if(!$timestamp) return false;
 
-            if(file_exists('/var/log/mail.log')) {
-                $fp = fopen('/var/log/mail.log', 'r');
-                //echo "Parsing mail.log...\n";
-                $l = 0;
-                while($line = fgets($fp, 8192)) {
-                    $l++;
-                    //if($l % 1000 == 0) echo "\rline $l";
-                    $cur_line = parse_mail_log_line($line);
-                    if(!$cur_line) continue;
+				$to = array();
+				$recipients = explode(',', $matches[3]);
+				foreach($recipients as $recipient) {
+					$recipient = substr($recipient, 1, -1);
+					if(!$recipient || $recipient == $matches[2]) continue;
+					$to[] = $recipient;
+				}
 
-                    if($prev_line) {
-                        // check if this line has to be processed
-                        if($cur_line['timestamp'] < $prev_line['timestamp']) {
-                            $parse_mail_log = false; // we do not need to parse the second file!
-                            continue; // already processed
-                        } elseif($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
-                            $parse_mail_log = false; // we do not need to parse the second file!
-                            $prev_line = false; // this line has already been processed but the next one has to be!
-                            continue;
-                        }
-                    }
+				return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
+			}
 
-                    add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
-                    foreach($cur_line['to'] as $to) {
-                        add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
-                    }
-                    $last_line = $line; // store for the state file
-                }
-                fclose($fp);
-                //echo "\n";
-            }
+			function add_mailbox_traffic(&$traffic_array, $address, $traffic) {
+				global $mail_boxes, $mail_rewrites;
 
-            if($parse_mail_log == true && file_exists('/var/log/mail.log.1')) {
-                $fp = fopen('/var/log/mail.log.1', 'r');
-                //echo "Parsing mail.log.1...\n";
-                $l = 0;
-                while($line = fgets($fp, 8192)) {
-                    $l++;
-                    //if($l % 1000 == 0) echo "\rline $l";
-                    $cur_line = parse_mail_log_line($line);
-                    if(!$cur_line) continue;
+				$address = strtolower($address);
 
-                    if($prev_line) {
-                        // check if this line has to be processed
-                        if($cur_line['timestamp'] < $prev_line['timestamp']) continue; // already processed
-                        if($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
-                            $prev_line = false; // this line has already been processed but the next one has to be!
-                            continue;
-                        }
-                    }
+				if(in_array($address, $mail_boxes) == true) {
+					if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
+					$traffic_array[$address] += $traffic;
+				} elseif(array_key_exists($address, $mail_rewrites)) {
+					foreach($mail_rewrites[$address] as $address) {
+						if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
+						$traffic_array[$address] += $traffic;
+					}
+				} else {
+					// this is not a local address - skip it
+				}
+			}
 
-                    add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
-                    foreach($cur_line['to'] as $to) {
-                        add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
-                    }
-                }
-                fclose($fp);
-                //echo "\n";
-            }
-            unset($mail_rewrites);
-            unset($mail_boxes);
+			$sql = "SELECT email FROM mail_user WHERE server_id = ".$conf['server_id'];
+			$records = $app->db->queryAllRecords($sql);
+			foreach($records as $record) {
+				$mail_boxes[] = $record['email'];
+			}
+			$sql = "SELECT source, destination FROM mail_forwarding WHERE server_id = ".$conf['server_id'];
+			$records = $app->db->queryAllRecords($sql);
+			foreach($records as $record) {
+				$targets = preg_split('/[\n,]+/', $record['destination']);
+				foreach($targets as $target) {
+					if(in_array($target, $mail_boxes)) {
+						if(isset($mail_rewrites[$record['source']])) $mail_rewrites[$record['source']][] = $target;
+						else $mail_rewrites[$record['source']] = array($target);
+					}
+				}
+			}
 
-            // Save the traffic stats in the sql database
-            $tstamp = date('Y-m');
-            $sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ".$conf['server_id'];
-            $records = $app->db->queryAllRecords($sql);
-            foreach($records as $rec) {
-                if(array_key_exists($rec['email'], $mailbox_traffic)) {
-                    $sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
-                    $tr = $app->dbmaster->queryOneRecord($sql);
+			$state_file = dirname(__FILE__) . '/mail_log_parser.state';
+			$prev_line = false;
+			$last_line = false;
+			$cur_line = false;
 
-                    $mail_traffic = $tr['traffic'] + $mailbox_traffic[$rec['email']];
-                    if($tr['traffic_id'] > 0) {
-                        $sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
-                    } else {
-                        $sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
-                    }
-                    $app->dbmaster->query($sql);
-                    //echo $sql;
-                }
-            }
+			if(file_exists($state_file)) {
+				$prev_line = parse_mail_log_line(trim(file_get_contents($state_file)));
+				//if($prev_line) echo "continuing from previous run, log position: " . $prev_line['message-id'] . " at " . strftime('%d.%m.%Y %H:%M:%S', $prev_line['timestamp']) . "\n";
+			}
 
-            unset($mailbox_traffic);
-            if($last_line) file_put_contents($state_file, $last_line);
-        }
-        
-        
-        parent::onRunJob();
-    }
-    
-    /* this function is optional if it contains no custom code */
-    public function onAfterRun() {
-        global $app;
-        
-        parent::onAfterRun();
-    }
+			if(file_exists('/var/log/mail.log')) {
+				$fp = fopen('/var/log/mail.log', 'r');
+				//echo "Parsing mail.log...\n";
+				$l = 0;
+				while($line = fgets($fp, 8192)) {
+					$l++;
+					//if($l % 1000 == 0) echo "\rline $l";
+					$cur_line = parse_mail_log_line($line);
+					if(!$cur_line) continue;
+
+					if($prev_line) {
+						// check if this line has to be processed
+						if($cur_line['timestamp'] < $prev_line['timestamp']) {
+							$parse_mail_log = false; // we do not need to parse the second file!
+							continue; // already processed
+						} elseif($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
+							$parse_mail_log = false; // we do not need to parse the second file!
+							$prev_line = false; // this line has already been processed but the next one has to be!
+							continue;
+						}
+					}
+
+					add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+					foreach($cur_line['to'] as $to) {
+						add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+					}
+					$last_line = $line; // store for the state file
+				}
+				fclose($fp);
+				//echo "\n";
+			}
+
+			if($parse_mail_log == true && file_exists('/var/log/mail.log.1')) {
+				$fp = fopen('/var/log/mail.log.1', 'r');
+				//echo "Parsing mail.log.1...\n";
+				$l = 0;
+				while($line = fgets($fp, 8192)) {
+					$l++;
+					//if($l % 1000 == 0) echo "\rline $l";
+					$cur_line = parse_mail_log_line($line);
+					if(!$cur_line) continue;
+
+					if($prev_line) {
+						// check if this line has to be processed
+						if($cur_line['timestamp'] < $prev_line['timestamp']) continue; // already processed
+						if($cur_line['timestamp'] == $prev_line['timestamp'] && $cur_line['message-id'] == $prev_line['message-id']) {
+							$prev_line = false; // this line has already been processed but the next one has to be!
+							continue;
+						}
+					}
+
+					add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+					foreach($cur_line['to'] as $to) {
+						add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+					}
+				}
+				fclose($fp);
+				//echo "\n";
+			}
+			unset($mail_rewrites);
+			unset($mail_boxes);
+
+			// Save the traffic stats in the sql database
+			$tstamp = date('Y-m');
+			$sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ".$conf['server_id'];
+			$records = $app->db->queryAllRecords($sql);
+			foreach($records as $rec) {
+				if(array_key_exists($rec['email'], $mailbox_traffic)) {
+					$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
+					$tr = $app->dbmaster->queryOneRecord($sql);
+
+					$mail_traffic = $tr['traffic'] + $mailbox_traffic[$rec['email']];
+					if($tr['traffic_id'] > 0) {
+						$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
+					} else {
+						$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
+					}
+					$app->dbmaster->query($sql);
+					//echo $sql;
+				}
+			}
+
+			unset($mailbox_traffic);
+			if($last_line) file_put_contents($state_file, $last_line);
+		}
+
+
+		parent::onRunJob();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onAfterRun() {
+		global $app;
+
+		parent::onAfterRun();
+	}
 
 }
 

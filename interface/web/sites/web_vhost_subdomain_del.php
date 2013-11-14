@@ -39,8 +39,8 @@ $tform_def_file = "form/web_vhost_subdomain.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -51,19 +51,20 @@ class page_action extends tform_actions {
 
 	function onBeforeDelete() {
 		global $app; $conf;
-		
+
 		//* Delete all web folders
-        $records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            //* Delete all web folder users
+		$records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
+		foreach($records as $rec) {
+			//* Delete all web folder users
 			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");
 			foreach($records2 as $rec2) {
-				$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec2['web_folder_user_id']);
-        }
-			$app->db->datalogDelete('web_folder','web_folder_id',$rec['web_folder_id']);
-        }
+				$app->db->datalogDelete('web_folder_user', 'web_folder_user_id', $rec2['web_folder_user_id']);
+			}
+			$app->db->datalogDelete('web_folder', 'web_folder_id', $rec['web_folder_id']);
+		}
 
 	}
+
 }
 
 $page = new page_action;

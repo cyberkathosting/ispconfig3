@@ -39,57 +39,59 @@ by Marius Cramer <m.cramer@pixcept.de>
 */
 
 class remoting_server extends remoting {
-    /**
-	    Gets the server configuration
-	    @param int session id
-	    @param int server id
-	    @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
-	    @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
-    */
-	
+	/**
+	 Gets the server configuration
+	 @param int session id
+	 @param int server id
+	 @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	 @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+
+
 	public function server_get_serverid_by_ip($session_id, $ipaddress)
-    {
-        global $app;
+	{
+		global $app;
 		if(!$this->checkPerm($session_id, 'server_get_serverid_by_ip')) {
-        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
 		}
-        $sql = "SELECT server_id FROM server_ip WHERE ip_address  = '$ipaddress' LIMIT 1 ";
-        $all = $app->db->queryAllRecords($sql);
-        return $all;
+		$sql = "SELECT server_id FROM server_ip WHERE ip_address  = '$ipaddress' LIMIT 1 ";
+		$all = $app->db->queryAllRecords($sql);
+		return $all;
 	}
-	
+
 	//* Add a IP address record
 	public function server_ip_add($session_id, $client_id, $params)
-    {
+	{
 		if(!$this->checkPerm($session_id, 'server_ip_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../admin/form/server_ip.tform.php',$client_id,$params);
+		return $this->insertQuery('../admin/form/server_ip.tform.php', $client_id, $params);
 	}
-	
+
 	//* Update IP address record
 	public function server_ip_update($session_id, $client_id, $ip_id, $params)
-    {
+	{
 		if(!$this->checkPerm($session_id, 'server_ip_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../admin/form/server_ip.tform.php',$client_id,$ip_id,$params);
+		$affected_rows = $this->updateQuery('../admin/form/server_ip.tform.php', $client_id, $ip_id, $params);
 		return $affected_rows;
 	}
-	
+
 	//* Delete IP address record
 	public function server_ip_delete($session_id, $ip_id)
-    {
+	{
 		if(!$this->checkPerm($session_id, 'server_ip_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php',$ip_id);
+		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php', $ip_id);
 		return $affected_rows;
 	}
+
 }
 
 ?>

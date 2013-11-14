@@ -1,7 +1,7 @@
 <?php
-require_once('../../lib/config.inc.php');
+require_once '../../lib/config.inc.php';
 $conf['start_session'] = false;
-require_once('../../lib/app.inc.php');
+require_once '../../lib/app.inc.php';
 
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
@@ -29,14 +29,14 @@ if($token == '' or $secret == '' or $token != $secret) {
 	if($type == 'serverlist') {
 		$sql = 'SELECT server_id, server_name FROM server WHERE 1 ORDER BY server_id';
 		$records = $app->db->queryAllRecords($sql);
-        foreach($records as $index => $rec) {
-            $rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE server_id = " . $rec['server_id'] . " AND state NOT IN ('ok', 'no_state', 'info')");
-            if($rec) $records[$index]['state'] = 'warn';
-            else $records[$index]['state'] = 'ok';
-        }
+		foreach($records as $index => $rec) {
+			$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE server_id = " . $rec['server_id'] . " AND state NOT IN ('ok', 'no_state', 'info')");
+			if($rec) $records[$index]['state'] = 'warn';
+			else $records[$index]['state'] = 'ok';
+		}
 		$out['state'] = 'ok';
 		$out['data'] = $records;
-		$out['time'] = date('Y-m-d H:i',$rec['created']);
+		$out['time'] = date('Y-m-d H:i', $rec['created']);
 	} else {
 		$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE type = '$type' AND server_id = $server_id");
 		if(is_array($rec)) {
@@ -47,7 +47,7 @@ if($token == '' or $secret == '' or $token != $secret) {
 					if(!$val) $out['data'][$key] = "&nbsp;";
 				}
 			}
-			$out['time'] = date('Y-m-d H:i',$rec['created']);
+			$out['time'] = date('Y-m-d H:i', $rec['created']);
 		} else {
 			$out['state'] = 'syserror';
 			$out['data'] = 'No monitor record found.';
@@ -60,66 +60,66 @@ if($token == '' or $secret == '' or $token != $secret) {
 }
 $out['type'] = $type;
 
-function __json_encode($data) {           
-    if( is_array($data) || is_object($data) ) {
-        $islist = is_array($data) && ( empty($data) || array_keys($data) === range(0,count($data)-1) );
-       
-        if( $islist ) {
-            $json = '[' . implode(',', array_map('__json_encode', $data) ) . ']';
-        } else {
-            $items = Array();
-            foreach( $data as $key => $value ) {
-                $items[] = __json_encode("$key") . ':' . __json_encode($value);
-            }
-            $json = '{' . implode(',', $items) . '}';
-        }
-    } elseif( is_string($data) ) {
-        # Escape non-printable or Non-ASCII characters.
-        # I also put the \\ character first, as suggested in comments on the 'addcslashes' page.
-        $string = '"' . addcslashes($data, "\\\"\n\r\t/" . chr(8) . chr(12)) . '"';
-        $json    = '';
-        $len    = strlen($string);
-        # Convert UTF-8 to Hexadecimal Codepoints.
-        for( $i = 0; $i < $len; $i++ ) {
-           
-            $char = $string[$i];
-            $c1 = ord($char);
-           
-            # Single byte;
-            if( $c1 <128 ) {
-                $json .= ($c1 > 31) ? $char : sprintf("\\u%04x", $c1);
-                continue;
-            }
-           
-            # Double byte
-            $c2 = ord($string[++$i]);
-            if ( ($c1 & 32) === 0 ) {
-                $json .= sprintf("\\u%04x", ($c1 - 192) * 64 + $c2 - 128);
-                continue;
-            }
-           
-            # Triple
-            $c3 = ord($string[++$i]);
-            if( ($c1 & 16) === 0 ) {
-                $json .= sprintf("\\u%04x", (($c1 - 224) <<12) + (($c2 - 128) << 6) + ($c3 - 128));
-                continue;
-            }
-               
-            # Quadruple
-            $c4 = ord($string[++$i]);
-            if( ($c1 & 8 ) === 0 ) {
-                $u = (($c1 & 15) << 2) + (($c2>>4) & 3) - 1;
-           
-                $w1 = (54<<10) + ($u<<6) + (($c2 & 15) << 2) + (($c3>>4) & 3);
-                $w2 = (55<<10) + (($c3 & 15)<<6) + ($c4-128);
-                $json .= sprintf("\\u%04x\\u%04x", $w1, $w2);
-            }
-        }
-    } else {
-        # int, floats, bools, null
-        $json = strtolower(var_export( $data, true ));
-    }
-    return $json;
+function __json_encode($data) {
+	if( is_array($data) || is_object($data) ) {
+		$islist = is_array($data) && ( empty($data) || array_keys($data) === range(0, count($data)-1) );
+
+		if( $islist ) {
+			$json = '[' . implode(',', array_map('__json_encode', $data) ) . ']';
+		} else {
+			$items = array();
+			foreach( $data as $key => $value ) {
+				$items[] = __json_encode("$key") . ':' . __json_encode($value);
+			}
+			$json = '{' . implode(',', $items) . '}';
+		}
+	} elseif( is_string($data) ) {
+		// Escape non-printable or Non-ASCII characters.
+		// I also put the \\ character first, as suggested in comments on the 'addcslashes' page.
+		$string = '"' . addcslashes($data, "\\\"\n\r\t/" . chr(8) . chr(12)) . '"';
+		$json    = '';
+		$len    = strlen($string);
+		// Convert UTF-8 to Hexadecimal Codepoints.
+		for( $i = 0; $i < $len; $i++ ) {
+
+			$char = $string[$i];
+			$c1 = ord($char);
+
+			// Single byte;
+			if( $c1 <128 ) {
+				$json .= ($c1 > 31) ? $char : sprintf("\\u%04x", $c1);
+				continue;
+			}
+
+			// Double byte
+			$c2 = ord($string[++$i]);
+			if ( ($c1 & 32) === 0 ) {
+				$json .= sprintf("\\u%04x", ($c1 - 192) * 64 + $c2 - 128);
+				continue;
+			}
+
+			// Triple
+			$c3 = ord($string[++$i]);
+			if( ($c1 & 16) === 0 ) {
+				$json .= sprintf("\\u%04x", (($c1 - 224) <<12) + (($c2 - 128) << 6) + ($c3 - 128));
+				continue;
+			}
+
+			// Quadruple
+			$c4 = ord($string[++$i]);
+			if( ($c1 & 8 ) === 0 ) {
+				$u = (($c1 & 15) << 2) + (($c2>>4) & 3) - 1;
+
+				$w1 = (54<<10) + ($u<<6) + (($c2 & 15) << 2) + (($c3>>4) & 3);
+				$w2 = (55<<10) + (($c3 & 15)<<6) + ($c4-128);
+				$json .= sprintf("\\u%04x\\u%04x", $w1, $w2);
+			}
+		}
+	} else {
+		// int, floats, bools, null
+		$json = strtolower(var_export( $data, true ));
+	}
+	return $json;
 }
 
 if(function_exists('json_encode')) { // PHP >= 5.2

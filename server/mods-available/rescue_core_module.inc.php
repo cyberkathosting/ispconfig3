@@ -38,9 +38,13 @@ class rescue_core_module {
 	 * The monitoring-Data of this module.
 	 * [0] are the actual data, [1] are the data 1 minnute ago [2] are teh data 2 minuntes...
 	 */
+
+
 	private $_monitoringData = array();
+
 	/** The rescue-Data of this module. */
 	private $_rescueData = array();
+
 
 	/**
 	 *  This function is called during ispconfig installation to determine
@@ -50,12 +54,14 @@ class rescue_core_module {
 		return true;
 	}
 
+
 	/**
 	 * This function is called when the module is loaded
 	 */
 	function onLoad() {
 		$this->_doRescue();
 	}
+
 
 	/**
 	 * This function is called when a change in one of the registered tables is detected.
@@ -74,7 +80,7 @@ class rescue_core_module {
 		 */
 		global $conf;
 		if ((!isset($conf['serverconfig']['rescue']['try_rescue'])) ||
-				((isset($conf['serverconfig']['rescue']['try_rescue'])) && ($conf['serverconfig']['rescue']['try_rescue'] !='y'))){
+			((isset($conf['serverconfig']['rescue']['try_rescue'])) && ($conf['serverconfig']['rescue']['try_rescue'] !='y'))){
 			return;
 		}
 
@@ -250,7 +256,7 @@ class rescue_core_module {
 		 * This means, we check the data 1 minute ago
 		 */
 		if ((!isset($this->_monitoringData[1][0]['data']['webserver'])) ||
-				((isset($this->_monitoringData[1][0]['data']['webserver'])) && ($this->_monitoringData[1][0]['data']['webserver'] != 0))){
+			((isset($this->_monitoringData[1][0]['data']['webserver'])) && ($this->_monitoringData[1][0]['data']['webserver'] != 0))){
 			/*
 			 * We do NOT have this data or we have this data, but the webserver was not down 1 minute ago.
 			 * This means, it could be, that the admin is restarting the server.
@@ -322,7 +328,7 @@ class rescue_core_module {
 		 * This means, we check the data 1 minute ago
 		 */
 		if ((!isset($this->_monitoringData[1][0]['data']['mongodbserver'])) ||
-				((isset($this->_monitoringData[1][0]['data']['mongodbserver'])) && ($this->_monitoringData[1][0]['data']['mongodbserver'] != 0))){
+			((isset($this->_monitoringData[1][0]['data']['mongodbserver'])) && ($this->_monitoringData[1][0]['data']['mongodbserver'] != 0))){
 			/*
 			 * We do NOT have this data or we have this data, but the webserver was not down 1 minute ago.
 			 * This means, it could be, that the admin is restarting the server.
@@ -388,7 +394,7 @@ class rescue_core_module {
 		 * This means, we check the data 1 minute ago
 		 */
 		if ((!isset($this->_monitoringData[1][0]['data']['mysqlserver'])) ||
-				((isset($this->_monitoringData[1][0]['data']['mysqlserver'])) && ($this->_monitoringData[1][0]['data']['mysqlserver'] != 0))){
+			((isset($this->_monitoringData[1][0]['data']['mysqlserver'])) && ($this->_monitoringData[1][0]['data']['mysqlserver'] != 0))){
 			/*
 			 * We do NOT have this data or we have this data, but the webserver was not down 1 minute ago.
 			 * This means, it could be, that the admin is restarting the server.
@@ -433,7 +439,7 @@ class rescue_core_module {
 	 */
 	private function _rescueDaemon($daemon){
 		global $conf;
-		
+
 		$app->uses('system');
 		// if you need to find all restarts search for "['init_scripts']"
 		/*
@@ -447,7 +453,7 @@ class rescue_core_module {
 		 * of the service
 		 */
 		exec($app->system->getinitcommand($daemon, 'stop').' && (sleep 3; kill $!; sleep 2; kill -9 $!) &> /dev/null');
-		
+
 		/*
 		 * OK, we tryed to stop it normally, maybe this worked maybe not. So we have to look
 		 * if the service is already running or not. If so, we have to kill them hard
@@ -459,5 +465,7 @@ class rescue_core_module {
 		 */
 		exec($app->system->getinitcommand($daemon, 'start'));
 	}
+
 }
+
 ?>

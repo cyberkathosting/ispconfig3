@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 //require_once('classes/class.base.php'); // for constants
 $app->load('aps_base');
 
@@ -38,21 +38,21 @@ $list_def_file = "list/aps_installedpackages.list.php";
 
 // Check the module permissions
 $app->auth->check_module_permissions('sites');
-        
+
 // Load needed classes
 $app->uses('tpl,tform,listform,listform_actions');
 
 // Show further information only to admins or resellers
 if($_SESSION['s']['user']['typ'] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid']))
-    $app->tpl->setVar('is_noclient', 1);
+	$app->tpl->setVar('is_noclient', 1);
 
 // Show each user the own packages (if not admin)
 $client_ext = '';
 $is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
 if(!$is_admin)
 {
-    $cid = $app->db->queryOneRecord('SELECT client_id FROM client WHERE username = "'.$app->db->quote($_SESSION['s']['user']['username']).'";');
-    //$client_ext = ' AND aps_instances.customer_id = '.$cid['client_id'];
+	$cid = $app->db->queryOneRecord('SELECT client_id FROM client WHERE username = "'.$app->db->quote($_SESSION['s']['user']['username']).'";');
+	//$client_ext = ' AND aps_instances.customer_id = '.$cid['client_id'];
 	$client_ext = ' AND '.$app->tform->getAuthSQL('r', 'aps_instances');
 }
 $app->listform_actions->SQLExtWhere = 'aps_instances.package_id = aps_packages.id'.$client_ext;
@@ -62,79 +62,79 @@ $app->listform_actions->SQLOrderBy = 'ORDER BY package_name';
 // queries over multiple tables so we construct them ourselves
 $_SESSION['s']['form']['return_to'] = '';
 
-// Load the list template		
+// Load the list template
 $app->listform->loadListDef($list_def_file);
-if(!is_file('templates/'.$app->listform->listDef["name"].'_list.htm')) 
+if(!is_file('templates/'.$app->listform->listDef["name"].'_list.htm'))
 {
-$app->uses('listform_tpl_generator');
-$app->listform_tpl_generator->buildHTML($app->listform->listDef);
+	$app->uses('listform_tpl_generator');
+	$app->listform_tpl_generator->buildHTML($app->listform->listDef);
 }
 $app->tpl->newTemplate("listpage.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/'.$app->listform->listDef["name"].'_list.htm');
 
 // Build the WHERE query for search
 $sql_where = '';
-if($app->listform_actions->SQLExtWhere != '') 
-  $sql_where .= ' '.$app->listform_actions->SQLExtWhere.' and';
+if($app->listform_actions->SQLExtWhere != '')
+	$sql_where .= ' '.$app->listform_actions->SQLExtWhere.' and';
 $sql_where = $app->listform->getSearchSQL($sql_where);
 $app->tpl->setVar($app->listform->searchValues);
-		
+
 // Paging
 $limit_sql = $app->listform->getPagingSQL($sql_where);
 $app->tpl->setVar('paging', $app->listform->pagingHTML);
 
 if(!$is_admin) {
-// Our query over multiple tables
-$query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id, 
-                 aps_instances.customer_id AS customer_id, client.username AS customer_name, 
-                 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name, 
-                 aps_packages.version AS package_version, aps_packages.release AS package_release, 
-                 aps_packages.package_status AS package_status, 
-              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
-                 '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
-                  AS install_location  
-          FROM aps_instances, aps_packages, client 
+	// Our query over multiple tables
+	$query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,
+                 aps_instances.customer_id AS customer_id, client.username AS customer_name,
+                 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name,
+                 aps_packages.version AS package_version, aps_packages.release AS package_release,
+                 aps_packages.package_status AS package_status,
+              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id),
+                 '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id))
+                  AS install_location
+          FROM aps_instances, aps_packages, client
           WHERE client.client_id = aps_instances.customer_id AND ".$sql_where." ".$app->listform_actions->SQLOrderBy." ".$limit_sql;
 } else {
-$query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,  
+	$query = "SELECT aps_instances.id AS id, aps_instances.package_id AS package_id,
                  aps_instances.customer_id AS customer_id, sys_group.name AS customer_name,
-				 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name, 
-                 aps_packages.version AS package_version, aps_packages.release AS package_release, 
-                 aps_packages.package_status AS package_status, 
-              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id), 
-                 '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id)) 
-                  AS install_location  
-          FROM aps_instances, aps_packages, sys_group 
+				 aps_instances.instance_status AS instance_status, aps_packages.name AS package_name,
+                 aps_packages.version AS package_version, aps_packages.release AS package_release,
+                 aps_packages.package_status AS package_status,
+              CONCAT((SELECT value FROM aps_instances_settings WHERE name='main_domain' AND instance_id = aps_instances.id),
+                 '/', (SELECT value FROM aps_instances_settings WHERE name='main_location' AND instance_id = aps_instances.id))
+                  AS install_location
+          FROM aps_instances, aps_packages, sys_group
           WHERE sys_group.client_id = aps_instances.customer_id AND ".$sql_where." ".$app->listform_actions->SQLOrderBy." ".$limit_sql;
 
-}	  
+}
 
 $records = $app->db->queryAllRecords($query);
 $app->listform_actions->DataRowColor = '#FFFFFF';
 
-// Re-form all result entries and add extra entries 
+// Re-form all result entries and add extra entries
 $records_new = '';
-if(is_array($records)) 
+if(is_array($records))
 {
-    $app->listform_actions->idx_key = $app->listform->listDef["table_idx"]; 
-    foreach($records as $rec)
-    {
-        // Set an abbreviated install location to beware the page layout
-        $ils = '';
-        if(strlen($rec['Install_location']) >= 38) $ils = substr($rec['Install_location'], 0,  35).'...';
-        else $ils = $rec['install_location'];
-        $rec['install_location_short'] = $ils; 
-        
-        // Also set a boolean-like variable for the reinstall button (vlibTemplate doesn't allow variable comparisons)
-        // For a reinstall, the package must be already installed successfully and (still be) enabled
-        if($rec['instance_status'] == INSTANCE_SUCCESS && $rec['package_status'] == PACKAGE_ENABLED) 
-            $rec['reinstall_possible'] = 'true';
-        // Of course an instance can only then be removed when it's not already tagged for removal
-        if($rec['instance_status'] != INSTANCE_REMOVE && $rec['instance_status'] != INSTANCE_INSTALL) 
-            $rec['delete_possible'] = 'true';
-        
-        $records_new[] = $app->listform_actions->prepareDataRow($rec);
-    }
+	$app->listform_actions->idx_key = $app->listform->listDef["table_idx"];
+	foreach($records as $rec)
+	{
+		// Set an abbreviated install location to beware the page layout
+		$ils = '';
+		if(strlen($rec['Install_location']) >= 38) $ils = substr($rec['Install_location'], 0,  35).'...';
+		else $ils = $rec['install_location'];
+		$rec['install_location_short'] = $ils;
+
+		// Also set a boolean-like variable for the reinstall button (vlibTemplate doesn't allow variable comparisons)
+		// For a reinstall, the package must be already installed successfully and (still be) enabled
+		if($rec['instance_status'] == INSTANCE_SUCCESS && $rec['package_status'] == PACKAGE_ENABLED)
+			$rec['reinstall_possible'] = 'true';
+		// Of course an instance can only then be removed when it's not already tagged for removal
+		if($rec['instance_status'] != INSTANCE_REMOVE && $rec['instance_status'] != INSTANCE_INSTALL)
+			$rec['delete_possible'] = 'true';
+
+		$records_new[] = $app->listform_actions->prepareDataRow($rec);
+	}
 }
 $app->tpl->setLoop('records', $records_new);
 

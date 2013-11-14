@@ -27,12 +27,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Security checkpoint
 if($_SESSION['s']['user']['typ'] != 'admin'){
-    die('Admin permissions required.');
+	die('Admin permissions required.');
 }
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
@@ -50,61 +50,61 @@ $nav_id = $_REQUEST['nav_id'];
 
 //** Sanity checks of module
 if(!preg_match('/^[A-Za-z0-9_]{1,50}$/', $module_name)){
-    die('module_name contains invalid chars.');
+	die('module_name contains invalid chars.');
 }
 if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $nav_id)){
-    die('nav_id contains invalid chars.');
+	die('nav_id contains invalid chars.');
 }
 if(empty($module_name)){
-    die('module is empty.');
+	die('module is empty.');
 }
 
 if(count($_POST) > 0) {
 	//* Determine Action
 	$action = ($nav_id != '') ? 'UPDATE' : 'INSERT';
 	$error = '';
-	
+
 	// TODO: Check variables
-	
+
 	if($error == '') {
-	
+
 		$filename = '../'.$module_name.'/lib/module.conf.php';
-		
+
 		if(!@is_file($filename)){
-            die("File not found: $filename");
-        }
-		include_once($filename);
-		
-        $items = ($action == 'UPDATE') ?  $module['nav'][$nav_id]['items'] : array();
-		
+			die("File not found: $filename");
+		}
+		include_once $filename;
+
+		$items = ($action == 'UPDATE') ?  $module['nav'][$nav_id]['items'] : array();
+
 		$tmp = array('title' => $_POST['nav']['title'],
-					 'open' =>  1,
-					 'items' => $items);
-        
+			'open' =>  1,
+			'items' => $items);
+
 		if($action == 'UPDATE') {
 			$module['nav'][$nav_id] = $tmp;
 		} else {
 			$module['nav'][] = $tmp;
 		}
-		
-		$m = "<?php\r\n".'$module = '.var_export($module,true)."\r\n?>";
-				
-		//* writing module.conf
-		if (!$handle = fopen($filename, 'w')) { 
-			die("Cannot open file ($filename)"); 
-		} 
 
-		if (!fwrite($handle, $m)) { 
-			die("Cannot write to file ($filename)"); 
-		} 
-    
+		$m = "<?php\r\n".'$module = '.var_export($module, true)."\r\n?>";
+
+		//* writing module.conf
+		if (!$handle = fopen($filename, 'w')) {
+			die("Cannot open file ($filename)");
+		}
+
+		if (!fwrite($handle, $m)) {
+			die("Cannot write to file ($filename)");
+		}
+
 		fclose($handle);
-		
-		
+
+
 		//* Jump to list
-    	header('Location: module_show.php?id='.urlencode($module_name));
-        exit;
-			
+		header('Location: module_show.php?id='.urlencode($module_name));
+		exit;
+
 	} else {
 		$app->tpl->setVar('error', '<b>Fehler:</b><br>'.$error);
 		$app->tpl->setVar($_POST);
@@ -112,9 +112,9 @@ if(count($_POST) > 0) {
 }
 
 if($nav_id != '') {
-    //* Data record exists
+	//* Data record exists
 	if($error == '') {
-		include_once('../'.$module_name.'/lib/module.conf.php');
+		include_once '../'.$module_name.'/lib/module.conf.php';
 		$record = $module['nav'][$nav_id];
 	} else {
 		//* error
@@ -122,13 +122,13 @@ if($nav_id != '') {
 	}
 	//$record["readonly"] = 'style="background-color: #EEEEEE;" readonly';
 } else {
-    //* New data record
+	//* New data record
 	if($error == '') {
 		//* es liegt kein Fehler vor
 	} else {
 		//* error
 		$record = $_POST;
-		
+
 	}
 	//$record["readonly"] = '';
 }
@@ -138,7 +138,7 @@ $record['module_name'] = $module_name;
 
 $app->tpl->setVar($record);
 
-include_once('lib/lang/'.$_SESSION['s']['language'].'_module_nav_edit.lng');
+include_once 'lib/lang/'.$_SESSION['s']['language'].'_module_nav_edit.lng';
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

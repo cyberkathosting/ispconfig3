@@ -63,14 +63,14 @@ $conf['mysql']['admin_user'] = 'root';
 $conf['mysql']['admin_password'] = '';
 $conf['mysql']['charset'] = 'utf8';
 $conf['mysql']['ispconfig_user'] = 'ispconfig';
-$conf['mysql']['ispconfig_password'] = md5 (uniqid (rand()));
+$conf['mysql']['ispconfig_password'] = md5(uniqid(rand()));
 $conf['mysql']['master_slave_setup'] = 'n';
 $conf['mysql']['master_host'] = '';
 $conf['mysql']['master_database'] = 'dbispconfig';
 $conf['mysql']['master_admin_user'] = 'root';
 $conf['mysql']['master_admin_password'] = '';
 $conf['mysql']['master_ispconfig_user'] = '';
-$conf['mysql']['master_ispconfig_password'] = md5 (uniqid (rand()));
+$conf['mysql']['master_ispconfig_password'] = md5(uniqid(rand()));
 
 //* SuPHP
 $conf['suphp']['config_file'] = '/etc/suphp.conf';
@@ -85,7 +85,7 @@ $conf['apache']['config_dir'] = '/etc/apache2';
 $conf['apache']['config_file'] = $conf['apache']['config_dir'] .'/httpd.conf';
 $conf['apache']['ssl_dir'] = '/etc/ssl/apache2';
 $conf['apache']['vhost_conf_dir'] = $conf['apache']['config_dir'] . '/vhosts.d';
-$conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir']; 
+$conf['apache']['vhost_conf_enabled_dir'] = $conf['apache']['vhost_conf_dir'];
 $conf['apache']['vhost_default'] = '00_default_vhost.conf';
 $conf['apache']['vhost_port'] = '8080';
 $conf['apache']['php_ini_path_apache'] = '/etc/php/apache2-php5/php.ini';
@@ -154,7 +154,7 @@ $conf['dovecot']['init_script'] = 'dovecot';
 //* SASL
 $conf['saslauthd']['installed'] = false; // will be detected automatically during installation
 $conf['saslauthd']['config_file'] = '/etc/conf.d/saslauthd';
-$conf['saslauthd']['config_dir'] = '/etc/sasl2'; 
+$conf['saslauthd']['config_dir'] = '/etc/sasl2';
 $conf['saslauthd']['init_script'] = 'saslauthd';
 
 //* Amavisd

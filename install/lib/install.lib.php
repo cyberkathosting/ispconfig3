@@ -79,66 +79,66 @@ function get_distname() {
 			$distname = 'Ubuntu';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
-			$ver = explode(' ',$issue);
+			$ver = explode(' ', $issue);
 			$ver = array_filter($ver);
 			$ver = next($ver);
-			$mainver = explode('.',$ver);
+			$mainver = explode('.', $ver);
 			$mainver = array_filter($mainver);
 			$mainver = current($mainver).'.'.next($mainver);
 			switch ($mainver){
-				case "12.10":
-					$relname = "(Quantal Quetzal)";
+			case "12.10":
+				$relname = "(Quantal Quetzal)";
 				break;
-				case "12.04":
-					$relname = "(Precise Pangolin)";
+			case "12.04":
+				$relname = "(Precise Pangolin)";
 				break;
-				case "11.10":
-					$relname = "(Oneiric Ocelot)";
+			case "11.10":
+				$relname = "(Oneiric Ocelot)";
 				break;
-				case "11.14":
-					$relname = "(Natty Narwhal)";
+			case "11.14":
+				$relname = "(Natty Narwhal)";
 				break;
-				case "10.10":
-					$relname = "(Maverick Meerkat)";
+			case "10.10":
+				$relname = "(Maverick Meerkat)";
 				break;
-				case "10.04":
-					$relname = "(Lucid Lynx)";
+			case "10.04":
+				$relname = "(Lucid Lynx)";
 				break;
-				case "9.10":
-					$relname = "(Karmic Koala)";
+			case "9.10":
+				$relname = "(Karmic Koala)";
 				break;
-				case "9.04":
-					$relname = "(Jaunty Jackpole)";
+			case "9.04":
+				$relname = "(Jaunty Jackpole)";
 				break;
-				case "8.10":
+			case "8.10":
 				$relname = "(Intrepid Ibex)";
 				break;
-				case "8.04":
-					$relname = "(Hardy Heron)";
+			case "8.04":
+				$relname = "(Hardy Heron)";
 				break;
-				case "7.10":
-					$relname = "(Gutsy Gibbon)";
+			case "7.10":
+				$relname = "(Gutsy Gibbon)";
 				break;
-				case "7.04":
-					$relname = "(Feisty Fawn)";
+			case "7.04":
+				$relname = "(Feisty Fawn)";
 				break;
-				case "6.10":
-					$relname = "(Edgy Eft)";
+			case "6.10":
+				$relname = "(Edgy Eft)";
 				break;
-				case "6.06":
-					$relname = "(Dapper Drake)";
+			case "6.06":
+				$relname = "(Dapper Drake)";
 				break;
-				case "5.10":
-					$relname = "(Breezy Badger)";
+			case "5.10":
+				$relname = "(Breezy Badger)";
 				break;
-				case "5.04":
-					$relname = "(Hoary Hedgehog)";
+			case "5.04":
+				$relname = "(Hoary Hedgehog)";
 				break;
-				case "4.10":
-					$relname = "(Warty Warthog)";
+			case "4.10":
+				$relname = "(Warty Warthog)";
 				break;
-				default:
-					$relname = "UNKNOWN";
+			default:
+				$relname = "UNKNOWN";
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distver."\n");
@@ -148,19 +148,19 @@ function get_distname() {
 			$distid = 'debian40';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 4.0 or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'5.0')) {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '5.0')) {
 			$distname = 'Debian';
 			$distver = 'Lenny';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian Lenny or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
 			$distname = 'Debian';
 			$distver = 'Squeeze/Sid';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')),'7.0') || strstr(trim(file_get_contents('/etc/debian_version')),'7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || strstr(trim(file_get_contents('/etc/debian_version')), '7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 			$distname = 'Debian';
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
@@ -177,19 +177,19 @@ function get_distname() {
 
 	//** OpenSuSE
 	elseif(file_exists('/etc/SuSE-release')) {
-		if(stristr(file_get_contents('/etc/SuSE-release'),'11.0')) {
+		if(stristr(file_get_contents('/etc/SuSE-release'), '11.0')) {
 			$distname = 'openSUSE';
 			$distver = '11.0';
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.0 or compatible\n");
-		} elseif(stristr(file_get_contents('/etc/SuSE-release'),'11.1')) {
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.1')) {
 			$distname = 'openSUSE';
 			$distver = '11.1';
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
 			swriteln("Operating System: openSUSE 11.1 or compatible\n");
-		} elseif(stristr(file_get_contents('/etc/SuSE-release'),'11.2')) {
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.2')) {
 			$distname = 'openSUSE';
 			$distver = '11.2';
 			$distid = 'opensuse112';
@@ -210,37 +210,37 @@ function get_distname() {
 
 		$content = file_get_contents('/etc/redhat-release');
 
-		if(stristr($content,'Fedora release 9 (Sulphur)')) {
+		if(stristr($content, 'Fedora release 9 (Sulphur)')) {
 			$distname = 'Fedora';
 			$distver = '9';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 9 or compatible\n");
-		} elseif(stristr($content,'Fedora release 10 (Cambridge)')) {
+		} elseif(stristr($content, 'Fedora release 10 (Cambridge)')) {
 			$distname = 'Fedora';
 			$distver = '10';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 10 or compatible\n");
-		} elseif(stristr($content,'Fedora release 10')) {
+		} elseif(stristr($content, 'Fedora release 10')) {
 			$distname = 'Fedora';
 			$distver = '11';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 11 or compatible\n");
-		} elseif(stristr($content,'CentOS release 5.2 (Final)')) {
+		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
 			$distid = 'centos52';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 5.2 or compatible\n");
-		} elseif(stristr($content,'CentOS release 5.3 (Final)')) {
+		} elseif(stristr($content, 'CentOS release 5.3 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.3';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 5.3 or compatible\n");
-		} elseif(stristr($content,'CentOS release 5')) {
+		} elseif(stristr($content, 'CentOS release 5')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos53';
@@ -260,7 +260,7 @@ function get_distname() {
 
 		$content = file_get_contents('/etc/gentoo-release');
 
-				preg_match_all('/([0-9]{1,2})/', $content, $version);
+		preg_match_all('/([0-9]{1,2})/', $content, $version);
 		$distname = 'Gentoo';
 		$distver = $version[0][0].$version[0][1];
 		$distid = 'gentoo';
@@ -275,8 +275,8 @@ function get_distname() {
 }
 
 function sread() {
-		$input = fgets(STDIN);
-		return rtrim($input);
+	$input = fgets(STDIN);
+	return rtrim($input);
 }
 
 function swrite($text = '') {
@@ -288,7 +288,7 @@ function swriteln($text = '') {
 }
 
 function ilog($msg){
-		exec("echo `date` \"- [ISPConfig] - \"".$msg.' >> '.ISPC_LOG_FILE);
+	exec("echo `date` \"- [ISPConfig] - \"".$msg.' >> '.ISPC_LOG_FILE);
 }
 
 function error($msg){
@@ -297,7 +297,7 @@ function error($msg){
 }
 
 function caselog($command, $file = '', $line = '', $success = '', $failure = ''){
-	exec($command,$arr,$ret_val);
+	exec($command, $arr, $ret_val);
 	$arr = NULL;
 	if(!empty($file) && !empty($line)){
 		$pre = $file.', Line '.$line.': ';
@@ -346,15 +346,15 @@ function mkdirs($strPath, $mode = '0755'){
 }
 
 function rfsel($file, $file2) {
-    clearstatcache();
-    if(is_file($file)) return rf($file);
-    else return rf($file2);
+	clearstatcache();
+	if(is_file($file)) return rf($file);
+	else return rf($file2);
 }
 
 function rf($file){
 	clearstatcache();
 	if(is_file($file)) {
-		if(!$fp = fopen ($file, 'rb')){
+		if(!$fp = fopen($file, 'rb')){
 			ilog('WARNING: could not open file '.$file);
 		}
 		return filesize($file) > 0 ? fread($fp, filesize($file)) : '';
@@ -365,7 +365,7 @@ function rf($file){
 
 function wf($file, $content){
 	mkdirs(dirname($file));
-	if(!$fp = fopen ($file, 'wb')){
+	if(!$fp = fopen($file, 'wb')){
 		ilog('WARNING: could not open file '.$file);
 	}
 	fwrite($fp, $content);
@@ -374,18 +374,18 @@ function wf($file, $content){
 
 function af($file, $content){
 	mkdirs(dirname($file));
-	if(!$fp = fopen ($file, 'ab')){
+	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
 	}
-	fwrite($fp,$content);
+	fwrite($fp, $content);
 	fclose($fp);
 }
 
 function aftsl($file, $content){
-	if(!$fp = fopen ($file, 'ab')){
+	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
 	}
-	fwrite($fp,$content);
+	fwrite($fp, $content);
 	fclose($fp);
 }
 
@@ -428,7 +428,7 @@ function no_comments($file, $comment = '#'){
 			if(strstr($line, $comment)){
 				$pos = strpos($line, $comment);
 				if($pos != 0){
-					$new_lines[] = substr($line,0,$pos);
+					$new_lines[] = substr($line, 0, $pos);
 				}else{
 					$new_lines[] = '';
 				}
@@ -508,7 +508,7 @@ function grep($content, $string, $params = ''){
 	}
 	if(is_array($find)){
 		$ret_val = implode("\n", $find);
-		if(substr($ret_val,-1) != "\n") $ret_val .= "\n";
+		if(substr($ret_val, -1) != "\n") $ret_val .= "\n";
 		$find = NULL;
 		return $ret_val;
 	} else {
@@ -555,7 +555,7 @@ function ini_to_array($ini) {
 	$ini = str_replace("\r\n", "\n", $ini);
 	$lines = explode("\n", $ini);
 	foreach($lines as $line) {
-				$line = trim($line);
+		$line = trim($line);
 		if($line != '') {
 			if(preg_match("/^\[([\w\d_]+)\]$/", $line, $matches)) {
 				$section = strtolower($matches[1]);
@@ -577,8 +577,8 @@ function array_to_ini($config_array = '') {
 		$content .= "[$section]\n";
 		foreach($data as $item => $value) {
 			if($item != ''){
-								$content .= "$item=$value\n";
-						}
+				$content .= "$item=$value\n";
+			}
 		}
 		$content .= "\n";
 	}
@@ -617,13 +617,13 @@ function is_group($group){
 	return false;
 }
 
-function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1) {
+function replaceLine($filename, $search_pattern, $new_line, $strict = 0, $append = 1) {
 	if($lines = @file($filename)) {
 		$out = '';
 		$found = 0;
 		foreach($lines as $line) {
 			if($strict == 0) {
-				if(stristr($line,$search_pattern)) {
+				if(stristr($line, $search_pattern)) {
 					$out .= $new_line."\n";
 					$found = 1;
 				} else {
@@ -640,20 +640,20 @@ function replaceLine($filename,$search_pattern,$new_line,$strict = 0,$append = 1
 		}
 		if($found == 0) {
 			//* add \n if the last line does not end with \n or \r
-			if(substr($out,-1) != "\n" && substr($out,-1) != "\r") $out .= "\n";
+			if(substr($out, -1) != "\n" && substr($out, -1) != "\r") $out .= "\n";
 			//* add the new line at the end of the file
 			if($append == 1) $out .= $new_line."\n";
 		}
-		file_put_contents($filename,$out);
+		file_put_contents($filename, $out);
 	}
 }
 
-function removeLine($filename,$search_pattern,$strict = 0) {
+function removeLine($filename, $search_pattern, $strict = 0) {
 	if($lines = @file($filename)) {
 		$out = '';
 		foreach($lines as $line) {
 			if($strict == 0) {
-				if(!stristr($line,$search_pattern)) {
+				if(!stristr($line, $search_pattern)) {
 					$out .= $line;
 				}
 			} else {
@@ -662,13 +662,13 @@ function removeLine($filename,$search_pattern,$strict = 0) {
 				}
 			}
 		}
-		file_put_contents($filename,$out);
+		file_put_contents($filename, $out);
 	}
 }
 
 function is_installed($appname) {
-	exec('which '.escapeshellcmd($appname).' 2> /dev/null',$out,$returncode);
-	if(isset($out[0]) && stristr($out[0],$appname) && $returncode == 0) {
+	exec('which '.escapeshellcmd($appname).' 2> /dev/null', $out, $returncode);
+	if(isset($out[0]) && stristr($out[0], $appname) && $returncode == 0) {
 		return true;
 	} else {
 		return false;
@@ -683,12 +683,12 @@ function is_installed($appname) {
  * 1 $current version is older then new version (update)
 
 */
-function compare_ispconfig_version($current,$new) {
+function compare_ispconfig_version($current, $new) {
 	if( $current == $new) {
 		return 0;
 	}
 
-	$p = explode('.',$current);
+	$p = explode('.', $current);
 	$tmp = '';
 	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
 	$tmp .= (isset($p[1]))?str_pad(intval($p[1]), 3, '0', STR_PAD_LEFT):'000';
@@ -696,7 +696,7 @@ function compare_ispconfig_version($current,$new) {
 	$tmp .= (isset($p[3]))?str_pad(intval($p[3]), 3, '0', STR_PAD_LEFT):'000';
 	$current = $tmp;
 
-	$p = explode('.',$new);
+	$p = explode('.', $new);
 	$tmp = '';
 	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
 	$tmp .= (isset($p[1]))?str_pad(intval($p[1]), 3, '0', STR_PAD_LEFT):'000';
@@ -728,7 +728,7 @@ function get_ispconfig_port_number() {
 
 	if(is_file($ispconfig_vhost_file)) {
 		$tmp = file_get_contents($ispconfig_vhost_file);
-		preg_match($regex,$tmp,$matches);
+		preg_match($regex, $tmp, $matches);
 		$port_number = @intval($matches[1]);
 		if($port_number > 0) {
 			return $port_number;
@@ -748,7 +748,7 @@ function is_ispconfig_ssl_enabled() {
 
 	if(is_file($ispconfig_vhost_file)) {
 		$tmp = file_get_contents($ispconfig_vhost_file);
-		if(stristr($tmp,'SSLCertificateFile')) {
+		if(stristr($tmp, 'SSLCertificateFile')) {
 			return true;
 		} else {
 			return false;
@@ -756,60 +756,63 @@ function is_ispconfig_ssl_enabled() {
 	}
 }
 
-/** 
-  Function to find the hash file for timezone detection
-  (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
-*/
+/**
+ Function to find the hash file for timezone detection
+ (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
+ */
+
+
 function find_hash_file($hash, $dir, $basedir = '') {
-    $res = opendir($dir);
-    if(!$res) return false;
-   
-    if(substr($basedir, -1) === '/') $basedir = substr($basedir, 0, strlen($basedir) - 1);
-    if(substr($dir, -1) === '/') $dir = substr($dir, 0, strlen($dir) - 1);
-    if($basedir === '') $basedir = $dir;
-   
-    while($cur = readdir($res)) {
-        if($cur == '.' || $cur == '..') continue;
-        $entry = $dir.'/'.$cur;
-        if(is_dir($entry)) {
-            $result = find_hash_file($hash, $entry, $basedir);
-            if($result !== false) return $result;
-        } elseif(md5_file($entry) === $hash) {
-            $entry = substr($entry, strlen($basedir) + 1);
-            if(substr($entry, 0, 7) === '/posix/') $entry = substr($entry, 7);
-            return $entry;
-        }
-    }
-    closedir($res);
-    return false;
+	$res = opendir($dir);
+	if(!$res) return false;
+
+	if(substr($basedir, -1) === '/') $basedir = substr($basedir, 0, strlen($basedir) - 1);
+	if(substr($dir, -1) === '/') $dir = substr($dir, 0, strlen($dir) - 1);
+	if($basedir === '') $basedir = $dir;
+
+	while($cur = readdir($res)) {
+		if($cur == '.' || $cur == '..') continue;
+		$entry = $dir.'/'.$cur;
+		if(is_dir($entry)) {
+			$result = find_hash_file($hash, $entry, $basedir);
+			if($result !== false) return $result;
+		} elseif(md5_file($entry) === $hash) {
+			$entry = substr($entry, strlen($basedir) + 1);
+			if(substr($entry, 0, 7) === '/posix/') $entry = substr($entry, 7);
+			return $entry;
+		}
+	}
+	closedir($res);
+	return false;
 }
 
-/** 
-  Function to get the timezone of the Linux system
-  (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
-*/
+
+/**
+ Function to get the timezone of the Linux system
+ (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
+ */
 function get_system_timezone() {
-    $timezone = false;
-    if(file_exists('/etc/timezone') && is_readable('/etc/timezone')) {
-        $timezone = trim(file_get_contents('/etc/timezone'));
-        if(file_exists('/usr/share/zoneinfo/' . $timezone) == false) $timezone = false;
-    }
-    
-    if(!$timezone && is_link('/etc/localtime')) {
-        $timezone = readlink('/etc/localtime');
-        $timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
-        if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
-    } elseif(!$timezone) {
-        $hash = md5_file('/etc/localtime');
-        $timezone = find_hash_file($hash, '/usr/share/zoneinfo');
-    }
+	$timezone = false;
+	if(file_exists('/etc/timezone') && is_readable('/etc/timezone')) {
+		$timezone = trim(file_get_contents('/etc/timezone'));
+		if(file_exists('/usr/share/zoneinfo/' . $timezone) == false) $timezone = false;
+	}
 
-    if(!$timezone) {
-        exec('date +%Z', $tzinfo);
-        $timezone = $tzinfo[0];
-    }
+	if(!$timezone && is_link('/etc/localtime')) {
+		$timezone = readlink('/etc/localtime');
+		$timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
+		if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
+	} elseif(!$timezone) {
+		$hash = md5_file('/etc/localtime');
+		$timezone = find_hash_file($hash, '/usr/share/zoneinfo');
+	}
 
-    return $timezone;
+	if(!$timezone) {
+		exec('date +%Z', $tzinfo);
+		$timezone = $tzinfo[0];
+	}
+
+	return $timezone;
 }
 
 

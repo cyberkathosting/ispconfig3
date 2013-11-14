@@ -1,6 +1,6 @@
 <?php
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /******************************************
 * Begin Form configuration
@@ -18,68 +18,68 @@ $app->auth->check_module_permissions('sites');
 $app->load('listform_actions');
 
 class list_action extends listform_actions {
-	
+
 	private $sum_this_month = 0;
 	private $sum_this_year = 0;
 	private $sum_last_month = 0;
 	private $sum_last_year = 0;
-	
+
 	function prepareDataRow($rec)
-    {
+	{
 		global $app;
-		
+
 		$rec = $app->listform->decode($rec);
 
 		//* Alternating datarow colors
 		$this->DataRowColor = ($this->DataRowColor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 		$rec['bgcolor'] = $this->DataRowColor;
-		
+
 		//* Set the statistics colums
 		//** Traffic of the current month
 		$tmp_year = date('Y');
-        $tmp_month = date('m');
+		$tmp_month = date('m');
 		$tmp_rec = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
 		$rec['this_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_this_month += ($tmp_rec['t']/1024/1024);
-		
+
 		//** Traffic of the current year
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year'");
 		$rec['this_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_this_year += ($tmp_rec['t']/1024/1024);
-		
+
 		//** Traffic of the last month
-        $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-        $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+		$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+		$tmp_month = date('m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
 		$rec['last_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_last_month += ($tmp_rec['t']/1024/1024);
-		
+
 		//** Traffic of the last year
-		$tmp_year = date('Y',mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
+		$tmp_year = date('Y', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year'");
 		$rec['last_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_last_year += ($tmp_rec['t']/1024/1024);
-		
+
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
-		
+
 		return $rec;
 	}
-	
+
 	function onShowEnd()
-    {
+	{
 		global $app;
-		
-		$app->tpl->setVar('sum_this_month',number_format($app->functions->intval($this->sum_this_month), 0, '.', ' '));
-		$app->tpl->setVar('sum_this_year',number_format($app->functions->intval($this->sum_this_year), 0, '.', ' '));
-		$app->tpl->setVar('sum_last_month',number_format($app->functions->intval($this->sum_last_month), 0, '.', ' '));
-		$app->tpl->setVar('sum_last_year',number_format($app->functions->intval($this->sum_last_year), 0, '.', ' '));
-		$app->tpl->setVar('sum_txt',$app->listform->lng('sum_txt'));
-		
+
+		$app->tpl->setVar('sum_this_month', number_format($app->functions->intval($this->sum_this_month), 0, '.', ' '));
+		$app->tpl->setVar('sum_this_year', number_format($app->functions->intval($this->sum_this_year), 0, '.', ' '));
+		$app->tpl->setVar('sum_last_month', number_format($app->functions->intval($this->sum_last_month), 0, '.', ' '));
+		$app->tpl->setVar('sum_last_year', number_format($app->functions->intval($this->sum_last_year), 0, '.', ' '));
+		$app->tpl->setVar('sum_txt', $app->listform->lng('sum_txt'));
+
 		$app->tpl_defaults();
 		$app->tpl->pparse();
 	}
-	
+
 	function getQueryString() {
 		global $app;
 		$sql_where = '';
@@ -89,68 +89,68 @@ class list_action extends listform_actions {
 			if($_SESSION['s']['user']['typ'] == "admin") {
 				$sql_where = '';
 			} else {
-				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and'; 
-                //$sql_where = $app->tform->getAuthSQL('r').' and';
+				$sql_where = $app->tform->getAuthSQL('r', $app->listform->listDef['table']).' and';
+				//$sql_where = $app->tform->getAuthSQL('r').' and';
 			}
-		}		
+		}
 		if($this->SQLExtWhere != '') {
 			$sql_where .= ' '.$this->SQLExtWhere.' and';
 		}
-		
+
 		$sql_where = $app->listform->getSearchSQL($sql_where);
 		if($app->listform->listDef['join_sql']) $sql_where .= ' AND '.$app->listform->listDef['join_sql'];
 		$app->tpl->setVar($app->listform->searchValues);
-		
+
 		$order_by_sql = $this->SQLOrderBy;
 
 		//* Generate SQL for paging
 		$limit_sql = $app->listform->getPagingSQL($sql_where);
-		$app->tpl->setVar('paging',$app->listform->pagingHTML);
+		$app->tpl->setVar('paging', $app->listform->pagingHTML);
 
 		$extselect = '';
 		$join = '';
-		
+
 		if(!empty($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order'])){
-		  $order = str_replace(' DESC','',$_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']);
-		  list($tmp_table, $order) = explode('.', $order);
-		  if($order == 'web_traffic_last_month'){
-		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $tmp_month = date('m',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
-		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_month','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_this_month'){
-		    $tmp_year = date('Y');
-		    $tmp_month = date('m');
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
-		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_month','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_last_year'){
-		    $tmp_year = date('Y',mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
-		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  } elseif($order == 'web_traffic_this_year'){
-		    $tmp_year = date('Y');
-		    $extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
-		    $join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
-		    $sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
-		    $order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_year','calctraffic',$order_by_sql);
-		    $order_by_sql = "GROUP BY domain ".$order_by_sql;
-		  }
+			$order = str_replace(' DESC', '', $_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order']);
+			list($tmp_table, $order) = explode('.', $order);
+			if($order == 'web_traffic_last_month'){
+				$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+				$tmp_month = date('m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+				$extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+				$join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+				$sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
+				$order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_month', 'calctraffic', $order_by_sql);
+				$order_by_sql = "GROUP BY domain ".$order_by_sql;
+			} elseif($order == 'web_traffic_this_month'){
+				$tmp_year = date('Y');
+				$tmp_month = date('m');
+				$extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+				$join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+				$sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year' AND MONTH(wt.traffic_date) = '$tmp_month'";
+				$order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_month', 'calctraffic', $order_by_sql);
+				$order_by_sql = "GROUP BY domain ".$order_by_sql;
+			} elseif($order == 'web_traffic_last_year'){
+				$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+				$extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+				$join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+				$sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
+				$order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_last_year', 'calctraffic', $order_by_sql);
+				$order_by_sql = "GROUP BY domain ".$order_by_sql;
+			} elseif($order == 'web_traffic_this_year'){
+				$tmp_year = date('Y');
+				$extselect .= ', SUM(wt.traffic_bytes) as calctraffic';
+				$join .= ' INNER JOIN web_traffic as wt ON '.$app->listform->listDef['table'].'.domain = wt.hostname ';
+				$sql_where .= " AND YEAR(wt.traffic_date) = '$tmp_year'";
+				$order_by_sql = str_replace($app->listform->listDef['table'].'.web_traffic_this_year', 'calctraffic', $order_by_sql);
+				$order_by_sql = "GROUP BY domain ".$order_by_sql;
+			}
 		}
-		
+
 		if($this->SQLExtSelect != '') {
-			if(substr($this->SQLExtSelect,0,1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect; 
+			if(substr($this->SQLExtSelect, 0, 1) != ',') $this->SQLExtSelect = ','.$this->SQLExtSelect;
 			$extselect .= $this->SQLExtSelect;
 		}
-		
+
 		$table_selects = array();
 		$table_selects[] = trim($app->listform->listDef['table']).'.*';
 		$app->listform->listDef['additional_tables'] = trim($app->listform->listDef['additional_tables']);
@@ -165,6 +165,7 @@ class list_action extends listform_actions {
 		$sql = 'SELECT '.$select.$extselect.' FROM '.$app->listform->listDef['table'].($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')."$join WHERE $sql_where $order_by_sql $limit_sql";
 		return $sql;
 	}
+
 }
 
 $list = new list_action;

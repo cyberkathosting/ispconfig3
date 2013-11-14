@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "Email Blacklist";
-$form["description"] 	= "";
-$form["name"] 			= "mail_blacklist";
-$form["action"]			= "mail_blacklist_edit.php";
-$form["db_table"]		= "mail_access";
-$form["db_table_idx"]	= "access_id";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "blacklist";
-$form["list_default"]	= "mail_blacklist_list.php";
-$form["auth"]			= 'yes'; // yes / no
+$form["title"]    = "Email Blacklist";
+$form["description"]  = "";
+$form["name"]    = "mail_blacklist";
+$form["action"]   = "mail_blacklist_edit.php";
+$form["db_table"]  = "mail_access";
+$form["db_table_idx"] = "access_id";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "blacklist";
+$form["list_default"] = "mail_blacklist_list.php";
+$form["auth"]   = 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -51,58 +51,58 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['blacklist'] = array (
-	'title' 	=> "Blacklist",
-	'width' 	=> 100,
-	'template' 	=> "templates/mail_blacklist_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "Blacklist",
+	'width'  => 100,
+	'template'  => "templates/mail_blacklist_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
-										'keyfield'=> 'server_id',
-										'valuefield'=> 'server_name'
-									 ),
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'value'  => ''
 		),
 		'source' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'source_error_notempty'),
-									),
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'source_error_notempty'),
+			),
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'access' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> 'REJECT',
-			'value'		=> 'REJECT',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => 'REJECT',
+			'value'  => 'REJECT',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'type' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'default'	=> 'y',
-			'value'		=> array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'y',
+			'value'  => array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client')
 		),
 		'active' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 

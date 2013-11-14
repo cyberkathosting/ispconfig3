@@ -29,8 +29,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
-require(SCRIPT_PATH."/lib/config.inc.php");
-require(SCRIPT_PATH."/lib/app.inc.php");
+require SCRIPT_PATH."/lib/config.inc.php";
+require SCRIPT_PATH."/lib/app.inc.php";
 
 set_time_limit(0);
 ini_set('error_reporting', E_ALL & ~E_NOTICE);
@@ -50,38 +50,38 @@ if(!is_dir($path)) die('Cron path missing!');
 $files = array();
 $d = opendir($path);
 while($f = readdir($d)) {
-    $file_path = $path . '/' . $f;
-    if($f === '.' || $f === '..' || !is_file($file_path)) continue;
-    if(substr($f, strrpos($f, '.')) !== '.php') continue;
-    $files[] = $f;
+	$file_path = $path . '/' . $f;
+	if($f === '.' || $f === '..' || !is_file($file_path)) continue;
+	if(substr($f, strrpos($f, '.')) !== '.php') continue;
+	$files[] = $f;
 }
 closedir($d);
 
 // sort in alphabetical order, so we can use prefixes like 000-xxx
 sort($files);
-    
+
 foreach($files as $f) {
-    $name = substr($f, 0, strpos($f, '.'));
-    if(preg_match('/^\d+\-(.*)$/', $name, $match)) $name = $match[1]; // strip numerical prefix from file name
-    
-    include($path . '/' . $f);
-    $class_name = 'cronjob_' . $name;
-    
-    if(class_exists($class_name, false)) {
-        $cronjob = new $class_name();
-        if(get_parent_class($cronjob) !== 'cronjob') {
-            print 'Invalid class ' . $class_name . ' not extending class cronjob (' . get_parent_class($cronjob) . ')!' . "\n";
-            unset($cronjob);
-            continue;
-        }
-        print 'Included ' . $class_name . ' from ' . $file_path . ' -> will now run job.' . "\n";
-        
-        $cronjob->run();
-        
-        print 'run job (' . $class_name . ') done.' . "\n";
-        
-        unset($cronjob);
-    }
+	$name = substr($f, 0, strpos($f, '.'));
+	if(preg_match('/^\d+\-(.*)$/', $name, $match)) $name = $match[1]; // strip numerical prefix from file name
+
+	include $path . '/' . $f;
+	$class_name = 'cronjob_' . $name;
+
+	if(class_exists($class_name, false)) {
+		$cronjob = new $class_name();
+		if(get_parent_class($cronjob) !== 'cronjob') {
+			print 'Invalid class ' . $class_name . ' not extending class cronjob (' . get_parent_class($cronjob) . ')!' . "\n";
+			unset($cronjob);
+			continue;
+		}
+		print 'Included ' . $class_name . ' from ' . $file_path . ' -> will now run job.' . "\n";
+
+		$cronjob->run();
+
+		print 'run job (' . $class_name . ') done.' . "\n";
+
+		unset($cronjob);
+	}
 }
 unset($files);
 

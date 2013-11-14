@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /*
  * Check if the logout is forced
@@ -59,7 +59,7 @@ if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin')
 	exit;
 }
 
-$app->plugin->raiseEvent('logout',true);
+$app->plugin->raiseEvent('logout', true);
 
 $_SESSION["s"]["user"] = null;
 $_SESSION["s"]["module"] = null;
@@ -68,12 +68,12 @@ $_SESSION['s_old'] = null;
 //header("Location: ../index.php?phpsessid=".$_SESSION["s"]["id"]);
 
 if($_SESSION["s"]["site"]["logout"] != '') {
-	echo('URL_REDIRECT:'.$_SESSION["s"]["site"]["logout"]);
+	echo 'URL_REDIRECT:'.$_SESSION["s"]["site"]["logout"];
 } else {
 	if($conf["interface_logout_url"] != '') {
-		echo('URL_REDIRECT:'.$conf["interface_logout_url"]);
+		echo 'URL_REDIRECT:'.$conf["interface_logout_url"];
 	} else {
-		echo('URL_REDIRECT:index.php');
+		echo 'URL_REDIRECT:index.php';
 	}
 }
 // Destroy the session completely now

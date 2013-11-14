@@ -38,8 +38,8 @@ $tform_def_file = "form/mail_domain.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -72,7 +72,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			// Getting Clients of the user
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
-			
+
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("client_group_id",$client_select);
+			$app->tpl->setVar("client_group_id", $client_select);
 
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
@@ -93,7 +93,7 @@ class page_action extends tform_actions {
 
 			// Set the mailserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_mailserver]");
-			$app->tpl->setVar("server_id","<option value='$client[default_mailserver]'>$tmp[server_name]</option>");
+			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
 			// Fill the client select field
@@ -108,7 +108,7 @@ class page_action extends tform_actions {
 					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("client_group_id",$client_select);
+			$app->tpl->setVar("client_group_id", $client_select);
 
 		}
 
@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 				*/
 				$domain_select .= "<option value=''></option>\r\n";
 			}
-			$app->tpl->setVar("domain_option",$domain_select);
+			$app->tpl->setVar("domain_option", $domain_select);
 		}
 
 
@@ -157,7 +157,7 @@ class page_action extends tform_actions {
 				$policy_select .= "<option value='$p[id]' $selected>$p[policy_name]</option>\r\n";
 			}
 		}
-		$app->tpl->setVar("policy",$policy_select);
+		$app->tpl->setVar("policy", $policy_select);
 		unset($policys);
 		unset($policy_select);
 		unset($tmp_user);
@@ -175,21 +175,21 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-		
-        /* check if the domain module is used - and check if the selected domain can be used! */
+
+		/* check if the domain module is used - and check if the selected domain can be used! */
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
-            $domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
-            if(!$domain_check) {
-                // invalid domain selected
-                $app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
-            } else {
-                $this->dataRecord['domain'] = $domain_check;
-            }
-        }
-        
-        if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
+			} else {
+				$this->dataRecord['domain'] = $domain_check;
+			}
+		}
+
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
@@ -275,7 +275,7 @@ class page_action extends tform_actions {
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
 			$rec = $app->db->queryOneRecord("SELECT domain from mail_domain WHERE domain_id = ".$this->id);
-			if($rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id,'u')) {
+			if($rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id, 'u')) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
 				$this->dataRecord["domain"] = $rec['domain'];
@@ -328,7 +328,7 @@ class page_action extends tform_actions {
 		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
 		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
 			$app->uses('getconf');
-			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"],'mail');
+			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
 
 			//* Update the mailboxes
 			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
@@ -338,9 +338,9 @@ class page_action extends tform_actions {
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
 					// setting Maildir, Homedir, UID and GID
-					$mail_parts = explode("@",$rec['email']);
-					$maildir = str_replace("[domain]",$this->dataRecord['domain'],$mail_config["maildir_path"]);
-					$maildir = str_replace("[localpart]",$mail_parts[0],$maildir);
+					$mail_parts = explode("@", $rec['email']);
+					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
+					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
 					$maildir = $app->db->quote($maildir);
 					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
 					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
@@ -351,12 +351,12 @@ class page_action extends tform_actions {
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['destination']));
-					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'],$this->dataRecord['domain'],$rec['source']));
+					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
+					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']));
 					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
-			
+
 			//* Update the mailinglist
 			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
 

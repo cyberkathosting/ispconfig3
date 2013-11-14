@@ -29,44 +29,44 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class searchform_actions {
-	
+
 	var $id;
 	var $idx_key;
 	var $DataRowColor;
 	var $SQLExtWhere = '';
 	var $SQLOrderBy = '';
-	
+
 	function onLoad() {
 		global $app, $conf, $list_def_file;
-		
+
 		if(!is_object($app->tpl)) $app->uses('tpl');
 		if(!is_object($app->searchform)) $app->uses('searchform');
 		if(!is_object($app->tform)) $app->uses('tform');
-		
+
 		// Load list definition
 		$app->searchform->loadListDef($list_def_file);
-		
+
 		// Delete the search form contents, if requested
 		if($_REQUEST["empty_searchfields"] == 'yes') {
 			$list_name = $app->searchform->listDef["name"];
 			unset($_SESSION["search"][$list_name]);
 		}
-		
+
 		// Save the search for later usage
 		if($_REQUEST["btn_submit_search_save"] && $_REQUEST["search_save_as"] != '') {
 			$app->searchform->saveSearchSettings($_REQUEST["search_save_as"]);
 		}
-		
+
 		// Set th returnto value for forms
 		$_SESSION["s"]["form"]["return_to_url"] = $app->searchform->listDef["file"];
-		
+
 		if(!is_file('templates/'.$app->searchform->listDef["name"].'_search.htm')) {
 			$app->uses('searchform_tpl_generator');
 			$app->searchform_tpl_generator->buildHTML($app->searchform->listDef);
 		}
-		
+
 		$app->tpl->newTemplate("searchpage.tpl.htm");
-		$app->tpl->setInclude('content_tpl','templates/'.$app->searchform->listDef["name"].'_search.htm');
+		$app->tpl->setInclude('content_tpl', 'templates/'.$app->searchform->listDef["name"].'_search.htm');
 
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString());
@@ -74,30 +74,30 @@ class searchform_actions {
 
 		$this->DataRowColor = "#FFFFFF";
 		if(is_array($records)) {
-			$this->idx_key = $app->searchform->listDef["table_idx"]; 
+			$this->idx_key = $app->searchform->listDef["table_idx"];
 			foreach($records as $rec) {
 				$records_new[] = $this->prepareDataRow($rec);
 			}
 		}
 
-		$app->tpl->setLoop('records',$records_new);
-		
+		$app->tpl->setLoop('records', $records_new);
+
 		//print_r($records_new);
 
 		$this->onShow();
-		
-		
+
+
 	}
-	
+
 	function prepareDataRow($rec) {
 		global $app;
-		
+
 		$rec = $app->searchform->decode($rec);
 
 		// Alternating datarow colors
 		$this->DataRowColor = ($this->DataRowColor == "#FFFFFF")?"#EEEEEE":"#FFFFFF";
 		$rec["bgcolor"] = $this->DataRowColor;
-		
+
 		// substitute value for select fields
 		foreach($app->searchform->listDef["item"] as $field) {
 			$key = $field["field"];
@@ -110,16 +110,16 @@ class searchform_actions {
 				$rec[$key] = $field['value'][$rec[$key]];
 			}
 		}
-		
+
 		// The variable "id" contains always the index variable
 		$rec["id"] = $rec[$this->idx_key];
-		
+
 		return $rec;
 	}
-	
+
 	function getQueryString() {
 		global $app;
-		
+
 		// Generate the search sql
 		if($app->searchform->listDef["auth"] != 'no') {
 			if($_SESSION["s"]["user"]["typ"] == "admin") {
@@ -128,74 +128,75 @@ class searchform_actions {
 				$sql_where = $app->tform->getAuthSQL('r')." and";
 			}
 		}
-		
+
 		if($this->SQLExtWhere != '') {
 			$sql_where .= " ".$this->SQLExtWhere." and";
 		}
 
 		$sql_where = $app->searchform->getSearchSQL($sql_where);
 		$app->tpl->setVar($app->searchform->searchValues);
-		
+
 		$order_by_sql = $this->SQLOrderBy;
 
 		// Generate SQL for paging
 		$limit_sql = $app->searchform->getPagingSQL($sql_where);
-		$app->tpl->setVar("paging",$app->searchform->pagingHTML);
+		$app->tpl->setVar("paging", $app->searchform->pagingHTML);
 
 		return "SELECT * FROM ".$app->searchform->listDef["table"]." WHERE $sql_where $order_by_sql $limit_sql";
-		
+
 	}
-	
-	
+
+
 	function onShow() {
 		global $app;
-		
+
 		// Language File setzen
 		$lng_file = ISPC_WEB_PATH.'/lang/lib/lang/'.$_SESSION['s']['language'].'_list.lng';
 		if(!file_exists($lng_file)) $lng_file = ISPC_WEB_PATH.'/lang/lib/lang/en_'.'_list.lng';
-		include($lng_file);
+		include $lng_file;
 		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->searchform->listDef['name']."_search.lng";
 		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$app->searchform->listDef['name']."_search.lng";
-		include($lng_file);
+		include $lng_file;
 		$app->tpl->setVar($wb);
-		$app->tpl->setVar("form_action",$app->searchform->listDef["file"]);
-		
+		$app->tpl->setVar("form_action", $app->searchform->listDef["file"]);
+
 		// Parse the templates and send output to the browser
 		$this->onShowEnd();
 	}
-	
+
 	function onShowEnd() {
 		global $app;
 
 		if(count($_REQUEST) > 0) {
-			$app->tpl->setVar('searchresult_visible',1);
-			if($_REQUEST['searchresult_visible'] == 'no') $app->tpl->setVar('searchresult_visible',0);
-			
+			$app->tpl->setVar('searchresult_visible', 1);
+			if($_REQUEST['searchresult_visible'] == 'no') $app->tpl->setVar('searchresult_visible', 0);
+
 			if($_REQUEST['searchform_visible'] == 'yes') {
-				$app->tpl->setVar('searchform_visible',1);
+				$app->tpl->setVar('searchform_visible', 1);
 			} else {
-				$app->tpl->setVar('searchform_visible',0);
+				$app->tpl->setVar('searchform_visible', 0);
 			}
 		} else {
-			$app->tpl->setVar('searchform_visible',1);
-			if($_REQUEST['searchform_visible'] == 'no') $app->tpl->setVar('searchform_visible',0);
-			
+			$app->tpl->setVar('searchform_visible', 1);
+			if($_REQUEST['searchform_visible'] == 'no') $app->tpl->setVar('searchform_visible', 0);
+
 			if($_REQUEST['searchresult_visible'] == 'yes') {
-				$app->tpl->setVar('searchresult_visible',1);
+				$app->tpl->setVar('searchresult_visible', 1);
 			} else {
-				$app->tpl->setVar('searchresult_visible',0);
+				$app->tpl->setVar('searchresult_visible', 0);
 			}
 		}
-		
+
 		// make columns visible
-		$visible_columns = explode(",",$app->searchform->listDef['default_columns']);
+		$visible_columns = explode(",", $app->searchform->listDef['default_columns']);
 		foreach($visible_columns as $col) {
-			$app->tpl->setVar($col.'_visible',1);
+			$app->tpl->setVar($col.'_visible', 1);
 		}
-		
+
 		$app->tpl_defaults();
 		$app->tpl->pparse();
 	}
+
 }
 
 ?>

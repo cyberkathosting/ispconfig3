@@ -1,13 +1,13 @@
 <?php
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 // Path to the list definition file
 $list_def_file = 'list/faq_list.php';
 
 // Check the module permissions
-if(!stristr($_SESSION['s']['user']['modules'],'help')) {
+if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
 	header('Location: ../index.php');
 	die();
 }
@@ -18,7 +18,7 @@ $app->uses('listform_actions');
 // Optional limit
 $hf_section = 0;
 if(isset($_GET['hfs_id']))
-	$hf_section = preg_replace("/[^0-9]/","",$_GET['hfs_id']);
+	$hf_section = preg_replace("/[^0-9]/", "", $_GET['hfs_id']);
 
 // if section id is not specified in the url, choose the first existing section
 if(!$hf_section)

@@ -29,55 +29,55 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class backup_plugin {
-	
+
 	var $plugin_name = 'backup_plugin';
 	var $class_name  = 'backup_plugin';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	public function onInstall() {
 		global $conf;
-		
+
 		return true;
-		
+
 	}
-	
-		
+
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
+
 	public function onLoad() {
 		global $app;
-		
+
 		//* Register for actions
-		$app->plugins->registerAction('backup_download',$this->plugin_name,'backup_action');
-		$app->plugins->registerAction('backup_restore',$this->plugin_name,'backup_action');
-		
+		$app->plugins->registerAction('backup_download', $this->plugin_name, 'backup_action');
+		$app->plugins->registerAction('backup_restore', $this->plugin_name, 'backup_action');
+
 	}
-	
+
 	//* Do a backup action
-	public function backup_action($action_name,$data) {
-		global $app,$conf;
-		
+	public function backup_action($action_name, $data) {
+		global $app, $conf;
+
 		$backup_id = intval($data);
 		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
-		
+
 		if(is_array($backup)) {
-		
+
 			$app->uses('ini_parser,file,getconf');
-			
+
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
-			
+
 			//* Make backup available for download
 			if($action_name == 'backup_download') {
 				//* Copy the backup file to the backup folder of the website
-				if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'],'..') && !stristr($backup_dir.'/'.$backup['filename'],'etc')) {
-					copy($backup_dir.'/'.$backup['filename'],$web['document_root'].'/backup/'.$backup['filename']);
-					chgrp($web['document_root'].'/backup/'.$backup['filename'],$web['system_group']);
-					$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'],LOGLEVEL_DEBUG);
+				if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+					copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
+					chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
+					$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'], LOGLEVEL_DEBUG);
 				}
 			}
 
@@ -104,14 +104,14 @@ class backup_plugin {
 				unset($clientdb_host);
 				unset($clientdb_user);
 				unset($clientdb_password);
-				$app->log('Restored MongoDB backup '.$backup_dir.'/'.$backup['filename'],LOGLEVEL_DEBUG);
+				$app->log('Restored MongoDB backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 			}
 
 			//* Restore a mysql backup
 			if($action_name == 'backup_restore' && $backup['backup_type'] == 'mysql') {
 				//* Load sql dump into db
-				include('lib/mysql_clientdb.conf');
-				
+				include 'lib/mysql_clientdb.conf';
+
 				if(file_exists($backup_dir.'/'.$backup['filename'])) {
 					//$parts = explode('_',$backup['filename']);
 					//$db_name = $parts[1];
@@ -123,37 +123,37 @@ class backup_plugin {
 				unset($clientdb_host);
 				unset($clientdb_user);
 				unset($clientdb_password);
-				$app->log('Restored MySQL backup '.$backup_dir.'/'.$backup['filename'],LOGLEVEL_DEBUG);
+				$app->log('Restored MySQL backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 			}
-			
+
 			//* Restore a web backup
 			if($action_name == 'backup_restore' && $backup['backup_type'] == 'web') {
 				if($backup['backup_mode'] == 'userzip') {
-					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'],'..') && !stristr($backup_dir.'/'.$backup['filename'],'etc')) {
-						if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'],$web['document_root'].'/backup/'.$backup['filename'].'.bak');
-						copy($backup_dir.'/'.$backup['filename'],$web['document_root'].'/backup/'.$backup['filename']);
-						chgrp($web['document_root'].'/backup/'.$backup['filename'],$web['system_group']);
+					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+						if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename'].'.bak');
+						copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
+						chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
 						//chown($web['document_root'].'/backup/'.$backup['filename'],$web['system_user']);
 						$command = 'sudo -u '.escapeshellarg($web['system_user']).' unzip -qq -o  '.escapeshellarg($web['document_root'].'/backup/'.$backup['filename']).' -d '.escapeshellarg($web['document_root']).' 2> /dev/null';
 						exec($command);
 						unlink($web['document_root'].'/backup/'.$backup['filename']);
-						if(file_exists($web['document_root'].'/backup/'.$backup['filename'].'.bak')) rename($web['document_root'].'/backup/'.$backup['filename'].'.bak',$web['document_root'].'/backup/'.$backup['filename']);
-						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'],LOGLEVEL_DEBUG);
+						if(file_exists($web['document_root'].'/backup/'.$backup['filename'].'.bak')) rename($web['document_root'].'/backup/'.$backup['filename'].'.bak', $web['document_root'].'/backup/'.$backup['filename']);
+						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}
 				if($backup['backup_mode'] == 'rootgz') {
-					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'],'..') && !stristr($backup_dir.'/'.$backup['filename'],'etc')) {
+					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 						$command = 'tar xzf '.escapeshellarg($backup_dir.'/'.$backup['filename']).' --directory '.escapeshellarg($web['document_root']);
 						exec($command);
-						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'],LOGLEVEL_DEBUG);
+						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}
 			}
-			
+
 		} else {
-			$app->log('No backup with ID '.$backup_id.' found.',LOGLEVEL_DEBUG);
+			$app->log('No backup with ID '.$backup_id.' found.', LOGLEVEL_DEBUG);
 		}
-		
+
 		return 'ok';
 	}
 

@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../lib/config.inc.php');
-require_once('../lib/app.inc.php');
+require_once '../lib/config.inc.php';
+require_once '../lib/app.inc.php';
 
 $app->uses('tpl');
 
@@ -55,28 +55,28 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 			foreach($modules as $mt) {
 				if(is_file($mt.'/lib/module.conf.php')) {
 					if(!preg_match("/^[a-z]{2,20}$/i", $mt)) die('module name contains unallowed chars.');
-					include_once($mt.'/lib/module.conf.php');
+					include_once $mt.'/lib/module.conf.php';
 					$language = (isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language'];
 					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;
-					$topnav[] = array(	'title' 	=> $app->lng($module['title']),
-							'active' 	=> $active,
-							'module'	=> $module['name']);
+					$topnav[] = array( 'title'  => $app->lng($module['title']),
+						'active'  => $active,
+						'module' => $module['name']);
 				}
 			}
 		}
 	} else {
 		//*  Loading Login Module
-		include_once('login/lib/module.conf.php');
+		include_once 'login/lib/module.conf.php';
 		$_SESSION['s']['module'] = $module;
-		$topnav[] = array(	'title' 	=> 'Login',
-				'active' 	=> 1);
+		$topnav[] = array( 'title'  => 'Login',
+			'active'  => 1);
 		$module = null;
 		unset($module);
 	}
 
 	//* Topnavigation
-	$app->tpl->setLoop('nav_top',$topnav);
+	$app->tpl->setLoop('nav_top', $topnav);
 
 }
 
@@ -84,9 +84,9 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 
 	if(isset($_SESSION['s']['module']['name']) && is_file($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php')) {
-		include_once($_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php');
+		include_once $_SESSION['s']['module']['name'].'/lib/custom_menu.inc.php';
 	} else {
-	
+
 		$app->tpl->newTemplate('sidenav.tpl.htm');
 
 		//* translating module navigation
@@ -106,8 +106,8 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'side') {
 		} else {
 			$nav_translated = null;
 		}
-		$app->tpl->setLoop('nav_left',$nav_translated);
-	
+		$app->tpl->setLoop('nav_left', $nav_translated);
+
 	}
 
 }

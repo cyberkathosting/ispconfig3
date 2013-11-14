@@ -63,8 +63,8 @@ class remoteaction_core_module {
 		 */
 		global $app;
 		$sql = "UPDATE sys_remoteaction " .
-				"SET action_state = '" . $app->dbmaster->quote($state) . "' " .
-				"WHERE action_id = " . intval($id);
+			"SET action_state = '" . $app->dbmaster->quote($state) . "' " .
+			"WHERE action_id = " . intval($id);
 		$app->dbmaster->query($sql);
 
 		/*
@@ -80,6 +80,8 @@ class remoteaction_core_module {
 	/**
 	 * This method searches for scheduled actions and exec then
 	 */
+
+
 	private function _execActions() {
 		global $app;
 		global $conf;
@@ -96,16 +98,16 @@ class remoteaction_core_module {
 		 * stop a service, a admin stopped some days before! To avoid this, we ignore
 		 * the status (it is only for the interface to show) and use our own maxid
 		*/
-		include_once (SCRIPT_PATH."/lib/remote_action.inc.php");
+		include_once SCRIPT_PATH."/lib/remote_action.inc.php";
 
 		/*
 		 * Get all actions this server should execute
 		*/
 		$sql = "SELECT action_id, action_type, action_param " .
-				"FROM sys_remoteaction " .
-				"WHERE server_id = " . $server_id . " ".
-				" AND  action_id > " . intval($maxid_remote_action) . " ".
-				"ORDER BY action_id";
+			"FROM sys_remoteaction " .
+			"WHERE server_id = " . $server_id . " ".
+			" AND  action_id > " . intval($maxid_remote_action) . " ".
+			"ORDER BY action_id";
 		$actions = $app->dbmaster->queryAllRecords($sql);
 
 		/*
@@ -120,7 +122,7 @@ class remoteaction_core_module {
 					* we stop executing the actions not to waste more time */
 					return;
 				}
-				
+
 				if ($action['action_type'] == 'ispc_update') {
 					/* do the update */
 					// Update function has been removed
@@ -151,7 +153,7 @@ class remoteaction_core_module {
 					$this->_actionDone($action['action_id'], 'ok');
 				}
 				if ($action['action_type'] == 'openvz_create_ostpl') {
-					$parts = explode(':',$action['action_param']);
+					$parts = explode(':', $action['action_param']);
 					$veid = intval($parts[0]);
 					$template_cache_dir = '/vz/template/cache/';
 					$template_name = escapeshellcmd($parts[1]);
@@ -166,8 +168,8 @@ class remoteaction_core_module {
 					* we stop executing the actions not to waste more time */
 					return;
 				}
-				
-				
+
+
 			}
 		}
 	}
@@ -187,7 +189,7 @@ class remoteaction_core_module {
 			exec("aptitude update");
 			exec("aptitude safe-upgrade -y");
 		}
-		
+
 		/*
 		 * All well done!
 		 */
@@ -195,12 +197,12 @@ class remoteaction_core_module {
 	}
 
 	private function _doIspCUpdate($action) {
-		
+
 		// Ensure that this code is not executed twice as this would cause a loop in case of a failure
 		$this->_actionDone($action['action_id'], 'ok');
-		
+
 		/*
-		 * Get the version-number of the newest version 
+		 * Get the version-number of the newest version
 		 */
 		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
 		$new_version = trim($new_version);
@@ -216,10 +218,10 @@ class remoteaction_core_module {
 		/* delete the old files (if there are any...) */
 		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
 		exec("rm /tmp/ispconfig3_install -R");
-		
+
 		/* get the newest version */
 		exec("wget http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
-		
+
 		/* extract the files */
 		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
 
@@ -229,7 +231,7 @@ class remoteaction_core_module {
 		 */
 		chdir("/tmp/ispconfig3_install/install");
 		exec("touch autoupdate");
-		
+
 		/*
 		 * do some clean-up
 		 */
@@ -245,5 +247,7 @@ class remoteaction_core_module {
 		 */
 		//$this->_actionDone($action['action_id'], 'ok');
 	}
+
 }
+
 ?>

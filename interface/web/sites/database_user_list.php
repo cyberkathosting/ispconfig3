@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /******************************************
 * Begin Form configuration
@@ -48,13 +48,13 @@ $app->load('listform_actions');
 
 
 class list_action extends listform_actions {
-	
+
 	function onShow() {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		parent::onShow();
 	}
-	
+
 }
 
 $list = new list_action;

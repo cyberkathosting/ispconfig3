@@ -39,8 +39,8 @@ $tform_def_file = "form/web_folder.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
@@ -53,17 +53,17 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		// Get the record of the parent domain
 		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
-        if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
-		
+		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
+
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
-		
+
 		parent::onSubmit();
 	}
-	
+
 }
 
 $page = new page_action;

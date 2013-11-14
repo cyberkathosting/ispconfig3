@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "Webdav-User";
-$form["description"] 	= "";
-$form["name"] 			= "webdav_user";
-$form["action"]			= "webdav_user_edit.php";
-$form["db_table"]		= "webdav_user";
-$form["db_table_idx"]	= "webdav_user_id";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "webdav";
-$form["list_default"]	= "webdav_user_list.php";
-$form["auth"]			= 'yes'; // yes / no
+$form["title"]    = "Webdav-User";
+$form["description"]  = "";
+$form["name"]    = "webdav_user";
+$form["action"]   = "webdav_user_edit.php";
+$form["db_table"]  = "webdav_user";
+$form["db_table_idx"] = "webdav_user_id";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "webdav";
+$form["list_default"] = "webdav_user_list.php";
+$form["auth"]   = 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -51,85 +51,85 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['webdav'] = array (
-	'title' 	=> "Webdav User",
-	'width' 	=> 100,
-	'template' 	=> "templates/webdav_user_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "Webdav User",
+	'width'  => 100,
+	'template'  => "templates/webdav_user_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'server_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'SQL',
-										'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
-										'keyfield'=> 'server_id',
-										'valuefield'=> 'server_name'
-									 ),
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'value'  => ''
 		),
 		'parent_domain_id' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'SELECT',
-			'default'	=> '',
-			'datasource'	=> array ( 	'type'	=> 'CUSTOM',
-										'class'=> 'custom_datasource',
-										'function'=> 'webdav_domains'
-									 ),
-			'value'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'webdav_domains'
+			),
+			'value'  => ''
 		),
 		'username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'username_error_unique'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[\w\.\-]{0,64}$/',
-														'errmsg'=> 'username_error_regex'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'UNIQUE',
+					'errmsg'=> 'username_error_unique'),
+				1 => array ( 'type' => 'REGEX',
+					'regex' => '/^[\w\.\-]{0,64}$/',
+					'errmsg'=> 'username_error_regex'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'username_prefix' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '25'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '25'
 		),
 		'password' => array (
-			'datatype'	=> 'VARCHAR',
-			'encryption' => 'CLEARTEXT', 
-			'formtype'	=> 'PASSWORD',
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'encryption' => 'CLEARTEXT',
+			'formtype' => 'PASSWORD',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		'active' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'dir' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'directory_error_empty'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'directory_error_empty'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datatable fields
-	##################################
+		//#################################
+		// ENDE Datatable fields
+		//#################################
 	)
 );
 ?>

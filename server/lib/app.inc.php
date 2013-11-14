@@ -32,155 +32,155 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 if(isset($conf['timezone']) && $conf['timezone'] != '') date_default_timezone_set($conf['timezone']);
 
 class app {
-		
+
 	var $loaded_modules = array();
 	var $loaded_plugins = array();
-        
+
 	function __construct() {
-
-                global $conf;
-
-                if($conf['start_db'] == true) {
-                	$this->load('db_'.$conf['db_type']);
-                	$this->db = new db;
-					
-					/*
-					Initialize the connection to the master DB, 
-					if we are in a multiserver setup
-					*/
-					
-					if($conf['dbmaster_host'] != '' && ($conf['dbmaster_host'] != $conf['db_host'] || ($conf['dbmaster_host'] == $conf['db_host'] && $conf['dbmaster_database'] != $conf['db_database']))) {
-						$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database']);
-					} else {
-						$this->dbmaster = $this->db;
-					}
-					
-					
-                }
-
-        }
-
-        function uses($classes) {
 
 		global $conf;
 
-		$cl = explode(',',$classes);
+		if($conf['start_db'] == true) {
+			$this->load('db_'.$conf['db_type']);
+			$this->db = new db;
+
+			/*
+					Initialize the connection to the master DB,
+					if we are in a multiserver setup
+					*/
+
+			if($conf['dbmaster_host'] != '' && ($conf['dbmaster_host'] != $conf['db_host'] || ($conf['dbmaster_host'] == $conf['db_host'] && $conf['dbmaster_database'] != $conf['db_database']))) {
+				$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database']);
+			} else {
+				$this->dbmaster = $this->db;
+			}
+
+
+		}
+
+	}
+
+	function uses($classes) {
+
+		global $conf;
+
+		$cl = explode(',', $classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname) {
 				if(!@is_object($this->$classname)) {
 					if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && (DEVSYSTEM ||  !is_link($conf['classpath'].'/'.$classname.'.inc.php'))) {
-						include_once($conf['classpath'].'/'.$classname.'.inc.php');
+						include_once $conf['classpath'].'/'.$classname.'.inc.php';
 						$this->$classname = new $classname;
 					}
 				}
 			}
 		}
-        }
+	}
 
-        function load($classes) {
+	function load($classes) {
 
 		global $conf;
 
-		$cl = explode(',',$classes);
+		$cl = explode(',', $classes);
 		if(is_array($cl)) {
 			foreach($cl as $classname) {
 				if(is_file($conf['classpath'].'/'.$classname.'.inc.php') && (DEVSYSTEM || !is_link($conf['classpath'].'/'.$classname.'.inc.php'))) {
-					include_once($conf['classpath'].'/'.$classname.'.inc.php');
+					include_once $conf['classpath'].'/'.$classname.'.inc.php';
 				} else {
 					die('Unable to load: '.$conf['classpath'].'/'.$classname.'.inc.php');
 				}
 			}
 		}
-        }
+	}
 
-        /*
+	/*
          0 = DEBUG
          1 = WARNING
          2 = ERROR
         */
 
-        function log($msg, $priority = 0) {
-				
+	function log($msg, $priority = 0) {
+
 		global $conf;
-		
+
 		switch ($priority) {
-			case 0:
-				$priority_txt = 'DEBUG';
-				break;
-			case 1:
-				$priority_txt = 'WARNING';
-				break;
-			case 2:
-				$priority_txt = 'ERROR';
-				break;
+		case 0:
+			$priority_txt = 'DEBUG';
+			break;
+		case 1:
+			$priority_txt = 'WARNING';
+			break;
+		case 2:
+			$priority_txt = 'ERROR';
+			break;
 		}
 		$log_msg = @date('d.m.Y-H:i').' - '.$priority_txt.' - '. $msg;
 
 		if($priority >= $conf['log_priority']) {
-                        //if (is_writable($conf["log_file"])) {
-                            if (!$fp = fopen ($conf['log_file'], 'a')) {
-                                die('Unable to open logfile.');
-                            }
-							
-                            if (!fwrite($fp, $log_msg."\r\n")) {
-                                die('Unable to write to logfile.');
-                            }
-				
-				echo $log_msg."\n";
-				fclose($fp);
+			//if (is_writable($conf["log_file"])) {
+			if (!$fp = fopen($conf['log_file'], 'a')) {
+				die('Unable to open logfile.');
+			}
 
-					// Log to database
-					if(isset($this->dbmaster)) {
-						$server_id = $conf['server_id'];
-						$loglevel = $priority;
-						$tstamp = time();
-						$message = $this->dbmaster->quote($msg);
-						$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
-						if($datalog_id > 0) {
-							$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = $datalog_id AND loglevel = ".LOGLEVEL_ERROR);
-							//* Do not insert duplicate errors into the web log.
-							if($tmp_rec['number'] == 0) {
-								$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',$datalog_id,'$loglevel','$tstamp','$message')";
-								$this->dbmaster->query($sql);
-							}
-						} else {
-							$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',0,'$loglevel','$tstamp','$message')";
-							$this->dbmaster->query($sql);
-						}
+			if (!fwrite($fp, $log_msg."\r\n")) {
+				die('Unable to write to logfile.');
+			}
+
+			echo $log_msg."\n";
+			fclose($fp);
+
+			// Log to database
+			if(isset($this->dbmaster)) {
+				$server_id = $conf['server_id'];
+				$loglevel = $priority;
+				$tstamp = time();
+				$message = $this->dbmaster->quote($msg);
+				$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
+				if($datalog_id > 0) {
+					$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = $datalog_id AND loglevel = ".LOGLEVEL_ERROR);
+					//* Do not insert duplicate errors into the web log.
+					if($tmp_rec['number'] == 0) {
+						$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',$datalog_id,'$loglevel','$tstamp','$message')";
+						$this->dbmaster->query($sql);
 					}
-
-                        //} else {
-                        //    die("Unable to write to logfile.");
-                        //}
-					
-    
-                } // if
-				
-				if(isset($conf['admin_notify_priority']) && $priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
-					// send notification to admin
-					$mailBody = $log_msg;
-					$mailSubject = substr($log_msg,0,50).'...';
-					$mailHeaders      = "MIME-Version: 1.0" . "\n";
-					$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
-					$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-					$mailHeaders     .= "From: ". $conf['admin_mail'] . "\n";
-					$mailHeaders     .= "Reply-To: ". $conf['admin_mail'] . "\n";
-
-					mail($conf['admin_mail'], $mailSubject, $mailBody, $mailHeaders);
+				} else {
+					$sql = "INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ('$server_id',0,'$loglevel','$tstamp','$message')";
+					$this->dbmaster->query($sql);
 				}
-        } // func
-		
+			}
 
-        /*
+			//} else {
+			//    die("Unable to write to logfile.");
+			//}
+
+
+		} // if
+
+		if(isset($conf['admin_notify_priority']) && $priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
+			// send notification to admin
+			$mailBody = $log_msg;
+			$mailSubject = substr($log_msg, 0, 50).'...';
+			$mailHeaders      = "MIME-Version: 1.0" . "\n";
+			$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+			$mailHeaders     .= "From: ". $conf['admin_mail'] . "\n";
+			$mailHeaders     .= "Reply-To: ". $conf['admin_mail'] . "\n";
+
+			mail($conf['admin_mail'], $mailSubject, $mailBody, $mailHeaders);
+		}
+	} // func
+
+
+	/*
          0 = DEBUG
          1 = WARNING
          2 = ERROR
         */
 
-        function error($msg) {
-        	$this->log($msg,3);
+	function error($msg) {
+		$this->log($msg, 3);
 		die($msg);
-        }
+	}
 
 }
 

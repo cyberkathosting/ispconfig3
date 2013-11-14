@@ -60,21 +60,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form['title'] 			= 'User Settings';
-$form['description'] 	= 'Form to edit the user password and language.';
-$form['name'] 			= 'usersettings';
-$form['action']			= 'user_settings.php';
-$form['db_table']		= 'sys_user';
-$form['db_table_idx']	= 'userid';
-$form["db_history"]		= "no";
-$form['tab_default']	= 'users';
-$form['list_default']	= 'index.php';
-$form['auth']			= 'no';
+$form['title']    = 'User Settings';
+$form['description']  = 'Form to edit the user password and language.';
+$form['name']    = 'usersettings';
+$form['action']   = 'user_settings.php';
+$form['db_table']  = 'sys_user';
+$form['db_table_idx'] = 'userid';
+$form["db_history"]  = "no";
+$form['tab_default'] = 'users';
+$form['list_default'] = 'index.php';
+$form['auth']   = 'no';
 
 //* 0 = id of the user, > 0 id must match with id of current user
-$form['auth_preset']['userid']  = 0; 
+$form['auth_preset']['userid']  = 0;
 //* 0 = default groupid of the user, > 0 id must match with groupid of current user
-$form['auth_preset']['groupid'] = 0; 
+$form['auth_preset']['groupid'] = 0;
 
 //** Permissions are: r = read, i = insert, u = update, d = delete
 $form['auth_preset']['perm_user']  = 'riud';
@@ -83,60 +83,60 @@ $form['auth_preset']['perm_other'] = '';
 
 //* Languages
 $language_list = array();
-$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang'); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-        if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file,-4,4) == '.lng') {
+$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang');
+while ($file = @readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file, -4, 4) == '.lng') {
 			$tmp = substr($file, 0, 2);
 			$language_list[$tmp] = $tmp;
-        }
+		}
 	}
-} 
+}
 
 $form['tabs']['users'] = array (
-	'title' 	=> 'Settings',
-	'width' 	=> 80,
-	'template' 	=> 'templates/user_settings.htm',
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => 'Settings',
+	'width'  => 80,
+	'template'  => 'templates/user_settings.htm',
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'passwort' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'PASSWORD',
 			'encryption'=> 'CRYPT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '15',
-			'maxlength'	=> '100',
-			'rows'		=> '',
-			'cols'		=> ''
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '15',
+			'maxlength' => '100',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'language' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'language_is_empty'),
-										1 => array (	'type'	=> 'REGEX',
-														'regex' => '/^[a-z]{2}$/i',
-														'errmsg'=> 'language_regex_mismatch'),
-									),
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> $language_list,
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '2',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'language_is_empty'),
+				1 => array ( 'type' => 'REGEX',
+					'regex' => '/^[a-z]{2}$/i',
+					'errmsg'=> 'language_regex_mismatch'),
+			),
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => $language_list,
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '2',
+			'rows'  => '',
+			'cols'  => ''
 		)
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 

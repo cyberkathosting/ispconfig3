@@ -28,8 +28,8 @@
  */
 
 define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
-require(SCRIPT_PATH."/lib/config.inc.php");
-require(SCRIPT_PATH."/lib/app.inc.php");
+require SCRIPT_PATH."/lib/config.inc.php";
+require SCRIPT_PATH."/lib/app.inc.php";
 
 set_time_limit(0);
 ini_set('error_reporting', E_ALL & ~E_NOTICE);
@@ -42,16 +42,16 @@ $conf['server_id'] = intval($conf['server_id']);
  */
 if ($app->dbmaster->connect_error == NULL) {
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
-	
+
 	if(!is_array($server_db_record)) die('Unable to load the server configuration from database.');
-	
-	//* Get the number of the last processed datalog_id, if the id of the local server 
+
+	//* Get the number of the last processed datalog_id, if the id of the local server
 	//* is > then the one of the remote system, then use the local ID as we might not have
 	//* reached the remote server during the last run then.
 	$local_server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
-	$conf['last_datalog_id'] = (int) max($server_db_record['updated'],$local_server_db_record['updated']);
+	$conf['last_datalog_id'] = (int) max($server_db_record['updated'], $local_server_db_record['updated']);
 	unset($local_server_db_record);
-	
+
 	$conf['mirror_server_id'] = (int) $server_db_record['mirror_server_id'];
 
 	// Load the ini_parser
@@ -62,21 +62,21 @@ if ($app->dbmaster->connect_error == NULL) {
 
 	// Set the loglevel
 	$conf['log_priority'] = intval($conf['serverconfig']['server']['loglevel']);
-	
+
 	// Set level from which admin should be notified by email
 	if(!isset($conf['serverconfig']['server']['admin_notify_events']) || $conf['serverconfig']['server']['admin_notify_events'] == '') $conf['serverconfig']['server']['admin_notify_events'] = 3;
 	$conf['admin_notify_priority'] = intval($conf['serverconfig']['server']['admin_notify_events']);
 
 	// we do not need this variable anymore
 	unset($server_db_record);
-	
+
 	// retrieve admin email address for notifications
 	//$sys_ini = $app->dbmaster->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
 	$sys_ini = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
 	$conf['sys_ini'] = $app->ini_parser->parse_ini_string(stripslashes($sys_ini['config']));
 	$conf['admin_mail'] = $conf['sys_ini']['mail']['admin_mail'];
 	unset($sys_ini);
-	
+
 	/*
 	 * Save the rescue-config, maybe we need it (because the database is down)
 	 */
@@ -87,14 +87,14 @@ if ($app->dbmaster->connect_error == NULL) {
 
 	// protect the file
 	chmod(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt", 0600);
-	
+
 } else {
 	/*
 	 * The master-db is not available.
 	 * Problem: because we need to start the rescue-module (to rescue the DB if this IS the
 	 * server, the master-db is running at) we have to initialize some config...
 	 */
-	
+
 	/*
 	 * If there is a temp-file with the data we could get from the database, then we use it
 	 */
@@ -102,14 +102,14 @@ if ($app->dbmaster->connect_error == NULL) {
 	if (file_exists(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt")){
 		$tmp = unserialize(file_get_contents(dirname(__FILE__) . "/temp/rescue_module_serverconfig.ser.txt"));
 	}
-	
+
 	// maxint at 32 and 64 bit systems
-	$conf['last_datalog_id'] = intval('9223372036854775807'); 
+	$conf['last_datalog_id'] = intval('9223372036854775807');
 
 	// no mirror
-	$conf['mirror_server_id'] = 0; 
+	$conf['mirror_server_id'] = 0;
 
-	// Set the loglevel 
+	// Set the loglevel
 	$conf['log_priority'] = (isset($tmp['serverconfig']['server']['loglevel']))? $tmp['serverconfig']['server']['loglevel'] : LOGLEVEL_ERROR;
 	/*
 	 * Set the configuration to rescue the database
@@ -147,6 +147,8 @@ if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock')) {
 $app->log('Set Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock', LOGLEVEL_DEBUG);
 
 /** Do we need to start the core-modules */
+
+
 $needStartCore = true;
 
 /*
@@ -163,16 +165,16 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 
 	$tmp_num_records = $tmp_rec['number'];
 	unset($tmp_rec);
-	
+
 	//** Load required base-classes
 	$app->uses('modules,plugins,file,services,system');
 	//** Load the modules that are in the mods-enabled folder
 	$app->modules->loadModules('all');
 	//** Load the plugins that are in the plugins-enabled folder
 	$app->plugins->loadPlugins('all');
-	
+
 	$app->plugins->raiseAction('server_plugins_loaded', '');
-	
+
 	if ($tmp_num_records > 0) {
 		$app->log("Found $tmp_num_records changes, starting update process.", LOGLEVEL_DEBUG);
 		//** Go through the sys_datalog table and call the processing functions
@@ -185,7 +187,7 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 	$app->services->processDelayedActions();
 	//** All modules are already loaded and processed, so there is NO NEED to load the core once again...
 	$needStartCore = false;
-	
+
 } else {
 	if ($app->db->connect->connect_error == NULL) {
 		$app->log('Unable to connect to local server.' . $app->db->errorMessage, LOGLEVEL_WARN);

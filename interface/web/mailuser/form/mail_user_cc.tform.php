@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "mailbox_cc_txt";
+$form["title"]    = "mailbox_cc_txt";
 $form["description"]            = "";
-$form["name"] 			= "mail_user_cc";
-$form["action"]			= "mail_user_cc_edit.php";
-$form["db_table"]		= "mail_user";
+$form["name"]    = "mail_user_cc";
+$form["action"]   = "mail_user_cc_edit.php";
+$form["db_table"]  = "mail_user";
 $form["db_table_idx"]           = "mailuser_id";
-$form["db_history"]		= "yes";
+$form["db_history"]  = "yes";
 $form["tab_default"]            = "mailuser";
 $form["list_default"]           = "index.php";
-$form["auth"]			= 'no'; // yes / no
+$form["auth"]   = 'no'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -51,35 +51,35 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['mailuser'] = array (
-	'title' 	=> "cc_txt",
-	'width' 	=> 100,
-	'template' 	=> "templates/mail_user_cc_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
+	'title'  => "cc_txt",
+	'width'  => 100,
+	'template'  => "templates/mail_user_cc_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'cc' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-            'filters'   => array( 0 => array( 'event' => 'SAVE',
-                                              'type' => 'IDNTOASCII'),
-                                  1 => array( 'event' => 'SHOW',
-                                              'type' => 'IDNTOUTF8'),
-                                  2 => array( 'event' => 'SAVE',
-                                              'type' => 'TOLOWER')
-                                ),
-			'validators'	=> array ( 	0 => array (	'type'	=> 'REGEX',
-														'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-z\-]{2,10}){0,1}$/i',
-														'errmsg'=> 'cc_error_isemail'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255'
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+					'type' => 'IDNTOASCII'),
+				1 => array( 'event' => 'SHOW',
+					'type' => 'IDNTOUTF8'),
+				2 => array( 'event' => 'SAVE',
+					'type' => 'TOLOWER')
+			),
+			'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-z\-]{2,10}){0,1}$/i',
+					'errmsg'=> 'cc_error_isemail'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
-	##################################
-	# END Datatable fields
-	##################################
+		//#################################
+		// END Datatable fields
+		//#################################
 	)
 );
 

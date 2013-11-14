@@ -29,13 +29,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer extends installer_base {
-	
+
 	public function configure_dovecot()
-    {
+	{
 		global $conf;
-		
+
 		$config_dir = $conf['dovecot']['config_dir'];
-		
+
 		//* Configure master.cf and add a line for deliver
 		if(is_file($config_dir.'/master.cf')){
 			copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
@@ -45,14 +45,14 @@ class installer extends installer_base {
 		}
 		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!stristr($content,"dovecot/deliver")) {
+		if(!stristr($content, "dovecot/deliver")) {
 			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
-			af($conf["postfix"]["config_dir"].'/master.cf',$deliver_content);
+			af($conf["postfix"]["config_dir"].'/master.cf', $deliver_content);
 		}
 		unset($content);
 		unset($deliver_content);
-		
-		
+
+
 		//* Reconfigure postfix to use dovecot authentication
 		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
@@ -61,44 +61,44 @@ class installer extends installer_base {
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth'
 		);
-		
+
 		// Make a backup copy of the main.cf file
-		copy($conf["postfix"]["config_dir"].'/main.cf',$conf["postfix"]["config_dir"].'/main.cf~3');
-		
+		copy($conf["postfix"]["config_dir"].'/main.cf', $conf["postfix"]["config_dir"].'/main.cf~3');
+
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
 			$command = "postconf -e '$cmd'";
 			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
-		
+
 		//* copy dovecot.conf
 		$configfile = 'dovecot.conf';
 		if(is_file($config_dir.'/'.$configfile)){
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
 		}
-		
+
 		//* Get the dovecot version
-		exec('dovecot --version',$tmp);
-		$parts = explode('.',trim($tmp[0]));
+		exec('dovecot --version', $tmp);
+		$parts = explode('.', trim($tmp[0]));
 		$dovecot_version = $parts[0];
 		unset($tmp);
 		unset($parts);
-		
+
 		//* Copy dovecot configuration file
 		if($dovecot_version == 2) {
-            if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master')) {
-                copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
-            } else {
-                copy('tpl/debian6_dovecot2.conf.master',$config_dir.'/'.$configfile);
-            }
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master')) {
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
+			} else {
+				copy('tpl/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
+			}
 		} else {
-            if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
-                copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
-            } else {
-                copy('tpl/debian6_dovecot.conf.master',$config_dir.'/'.$configfile);
-            }
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
+			} else {
+				copy('tpl/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
+			}
 		}
-		
+
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';
 		if(is_file($config_dir.'/'.$configfile)){
@@ -106,32 +106,33 @@ class installer extends installer_base {
 			chmod($config_dir.'/'.$configfile.'~', 0400);
 		}
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot-sql.conf.master', 'tpl/debian6_dovecot-sql.conf.master');
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
-		$content = str_replace('{mysql_server_host}',$conf['mysql']['host'],$content);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
 		wf($config_dir.'/'.$configfile, $content);
-		
+
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
 
 	}
-	
+
 	public function configure_apache() {
 		global $conf;
-		
-		if(file_exists('/etc/apache2/mods-available/fcgid.conf')) replaceLine('/etc/apache2/mods-available/fcgid.conf','MaxRequestLen','MaxRequestLen 15728640',0,1);
-		
+
+		if(file_exists('/etc/apache2/mods-available/fcgid.conf')) replaceLine('/etc/apache2/mods-available/fcgid.conf', 'MaxRequestLen', 'MaxRequestLen 15728640', 0, 1);
+
 		parent::configure_apache();
 	}
 
-    public function configure_fail2ban() {
-	/*
+	public function configure_fail2ban() {
+		/*
         copy('tpl/dovecot-pop3imap.conf.master',"/etc/fail2ban/filter.d/dovecot-pop3imap.conf");
         copy('tpl/dovecot_fail2ban_jail.local.master','/etc/fail2ban/jail.local');
 	*/
-    }
+	}
+
 }
 
 ?>

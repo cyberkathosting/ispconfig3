@@ -39,8 +39,8 @@ $tform_def_file = "form/remote_user.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -48,14 +48,15 @@ $app->auth->check_module_permissions('admin');
 $app->uses('tpl,tform');
 $app->load('tform_actions');
 
-// Create a class page_action that extends the tform_actions base class 
+// Create a class page_action that extends the tform_actions base class
 
-class page_action extends tform_actions { 
+class page_action extends tform_actions {
 
 
 	// Customisations for the page actions will be defined here
-   	
+
 }
+
 $page = new page_action;
 $page->onDelete();
 

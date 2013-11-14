@@ -31,91 +31,92 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 class ISPConfigJSONHandler {
-    private $methods = array();
-    private $classes = array();
+	private $methods = array();
+	private $classes = array();
 
-    public function __construct() {
-        global $app;
-        
-        // load main remoting file
-        $app->load('remoting');
-        
-        // load all remote classes and get their methods
-        $dir = dirname(realpath(__FILE__)) . '/remote.d';
-        $d = opendir($dir);
-        while($f = readdir($d)) {
-            if($f == '.' || $f == '..') continue;
-            if(!is_file($dir . '/' . $f) || substr($f, strrpos($f, '.')) != '.php') continue;
-            
-            $name = substr($f, 0, strpos($f, '.'));
-            
-            include($dir . '/' . $f);
-            $class_name = 'remoting_' . $name;
-            if(class_exists($class_name, false)) {
-                $this->classes[$class_name] = new $class_name();
-                foreach(get_class_methods($this->classes[$class_name]) as $method) {
-                    $this->methods[$method] = $class_name;
-                }
-            }
-        }
-        closedir($d);
-        
-        // add main methods
-        $this->methods['login'] = 'remoting';
-        $this->methods['logout'] = 'remoting';
-        $this->methods['get_function_list'] = 'remoting';
-        
-        // create main class
-        $this->classes['remoting'] = new remoting(array_keys($this->methods));
-    }
-    
-    private function _return_json($code, $message, $data = false) {
-        $ret = new stdClass;
-        $ret->code = $code;
-        $ret->message = $message;
-        $ret->response = $data;
-        
-        header('Content-Type: application/json; charset="utf-8"');
-        print json_encode($ret);
-        exit;
-    }
-    
-    public function run() {
-        
-        if(!isset($_GET) || !is_array($_GET) || count($_GET) < 1) {
-            $this->_return_json('invalid_method', 'Method not provided in json call');
-        }
-        $keys = array_keys($_GET);
-        $method = reset($keys);
-        $params = array();
+	public function __construct() {
+		global $app;
 
-        if(is_array($_POST)) {
-            foreach($_POST as $key => $val) {
-                $tmp = json_decode($val);
-                if(!$tmp) $params[] = $val;
-                else $params[] = (array)$tmp;
-            }
-        }
-        
-        if(array_key_exists($method, $this->methods) == false) {
-            $this->_return_json('invalid_method', 'Method ' . $method . ' does not exist');
-        }
-        
-        $class_name = $this->methods[$method];
-        if(array_key_exists($class_name, $this->classes) == false) {
-            $this->_return_json('invalid_class', 'Class ' . $class_name . ' does not exist');
-        }
-        
-        if(method_exists($this->classes[$class_name], $method) == false) {
-            $this->_return_json('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
-        }
-        
-        try {
-            $this->_return_json('ok', '', call_user_func_array(array($this->classes[$class_name], $method), $params));
-        } catch(SoapFault $e) {
-            $this->_return_json('remote_fault', $e->getMessage());
-        }
-    }
+		// load main remoting file
+		$app->load('remoting');
+
+		// load all remote classes and get their methods
+		$dir = dirname(realpath(__FILE__)) . '/remote.d';
+		$d = opendir($dir);
+		while($f = readdir($d)) {
+			if($f == '.' || $f == '..') continue;
+			if(!is_file($dir . '/' . $f) || substr($f, strrpos($f, '.')) != '.php') continue;
+
+			$name = substr($f, 0, strpos($f, '.'));
+
+			include $dir . '/' . $f;
+			$class_name = 'remoting_' . $name;
+			if(class_exists($class_name, false)) {
+				$this->classes[$class_name] = new $class_name();
+				foreach(get_class_methods($this->classes[$class_name]) as $method) {
+					$this->methods[$method] = $class_name;
+				}
+			}
+		}
+		closedir($d);
+
+		// add main methods
+		$this->methods['login'] = 'remoting';
+		$this->methods['logout'] = 'remoting';
+		$this->methods['get_function_list'] = 'remoting';
+
+		// create main class
+		$this->classes['remoting'] = new remoting(array_keys($this->methods));
+	}
+
+	private function _return_json($code, $message, $data = false) {
+		$ret = new stdClass;
+		$ret->code = $code;
+		$ret->message = $message;
+		$ret->response = $data;
+
+		header('Content-Type: application/json; charset="utf-8"');
+		print json_encode($ret);
+		exit;
+	}
+
+	public function run() {
+
+		if(!isset($_GET) || !is_array($_GET) || count($_GET) < 1) {
+			$this->_return_json('invalid_method', 'Method not provided in json call');
+		}
+		$keys = array_keys($_GET);
+		$method = reset($keys);
+		$params = array();
+
+		if(is_array($_POST)) {
+			foreach($_POST as $key => $val) {
+				$tmp = json_decode($val);
+				if(!$tmp) $params[] = $val;
+				else $params[] = (array)$tmp;
+			}
+		}
+
+		if(array_key_exists($method, $this->methods) == false) {
+			$this->_return_json('invalid_method', 'Method ' . $method . ' does not exist');
+		}
+
+		$class_name = $this->methods[$method];
+		if(array_key_exists($class_name, $this->classes) == false) {
+			$this->_return_json('invalid_class', 'Class ' . $class_name . ' does not exist');
+		}
+
+		if(method_exists($this->classes[$class_name], $method) == false) {
+			$this->_return_json('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
+		}
+
+		try {
+			$this->_return_json('ok', '', call_user_func_array(array($this->classes[$class_name], $method), $params));
+		} catch(SoapFault $e) {
+			$this->_return_json('remote_fault', $e->getMessage());
+		}
+	}
+
 }
 
 ?>

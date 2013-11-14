@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 if($_SESSION["s"]["user"]["typ"] != "admin") die("Admin permissions required.");
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
@@ -39,16 +39,16 @@ $app->auth->check_module_permissions('designer');
 // Lade Template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/module_nav_item_edit.htm');
+$app->tpl->setInclude('content_tpl', 'templates/module_nav_item_edit.htm');
 
 // ID importieren
 $module_name = $_REQUEST["module_name"];
 $nav_id = $_REQUEST["nav_id"];
 $item_id = $_REQUEST["item_id"];
 
-if(!preg_match('/^[A-Za-z0-9_]{1,50}$/',$module_name)) die("module_name contains invalid chars.");
-if(!preg_match('/^[A-Za-z0-9_]{1,50}$/',$nav_id)) die("nav_id contains invalid chars.");
-if(!preg_match('/^[A-Za-z0-9_]{0,50}$/',$item_id)) die("item_id contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{1,50}$/', $module_name)) die("module_name contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{1,50}$/', $nav_id)) die("nav_id contains invalid chars.");
+if(!preg_match('/^[A-Za-z0-9_]{0,50}$/', $item_id)) die("item_id contains invalid chars.");
 
 if(empty($module_name)) die("module is empty.");
 
@@ -59,61 +59,61 @@ if(count($_POST) > 0) {
 	} else {
 		$action = 'INSERT';
 	}
-	
+
 	$error = '';
-	
+
 	// TODO: Check variables
 
-	
+
 	if($error == '') {
-	
+
 		$filename = "../".$module_name."/lib/module.conf.php";
-		
+
 		if(!@is_file($filename)) die("File not found: $filename");
-		include_once($filename);
-		
+		include_once $filename;
+
 		$tmp = array('title' =>$_POST["title"],
-					 'target' => $_POST["target"],
-					 'link' => $_POST["link"]);
-		
+			'target' => $_POST["target"],
+			'link' => $_POST["link"]);
+
 		if($action == 'UPDATE') {
 			$module["nav"][$nav_id]["items"][$item_id] = $tmp;
 		} else {
 			$module["nav"][$nav_id]["items"][] = $tmp;
 		}
-		
-		$m = "<?php\r\n".'$module = '.var_export($module,true)."\r\n?>";
-				
-		// writing module.conf
-		if (!$handle = fopen($filename, 'w')) { 
-			print "Cannot open file ($filename)"; 
-			exit; 
-		} 
 
-		if (!fwrite($handle, $m)) { 
-			print "Cannot write to file ($filename)"; 
-			exit; 
-		} 
-    
+		$m = "<?php\r\n".'$module = '.var_export($module, true)."\r\n?>";
+
+		// writing module.conf
+		if (!$handle = fopen($filename, 'w')) {
+			print "Cannot open file ($filename)";
+			exit;
+		}
+
+		if (!fwrite($handle, $m)) {
+			print "Cannot write to file ($filename)";
+			exit;
+		}
+
 		fclose($handle);
-		
-		
+
+
 		// zu Liste springen
-    	header("Location: module_show.php?id=$module_name");
-        exit;
-			
+		header("Location: module_show.php?id=$module_name");
+		exit;
+
 	} else {
-		$app->tpl->setVar("error","<b>Fehler:</b><br>".$error);
+		$app->tpl->setVar("error", "<b>Fehler:</b><br>".$error);
 		$app->tpl->setVar($_POST);
 	}
 }
 
 if($item_id != '') {
-// Datensatz besteht bereits
+	// Datensatz besteht bereits
 	// bestehenden Datensatz anzeigen
 	if($error == '') {
 		// es liegt ein Fehler vor
-		include_once("../".$module_name."/lib/module.conf.php");
+		include_once "../".$module_name."/lib/module.conf.php";
 		$record = $module["nav"][$nav_id]["items"][$item_id];
 	} else {
 		// ein Fehler
@@ -121,14 +121,14 @@ if($item_id != '') {
 	}
 	//$record["readonly"] = 'style="background-color: #EEEEEE;" readonly';
 } else {
-// neuer datensatz
+	// neuer datensatz
 	if($error == '') {
 		// es liegt kein Fehler vor
 		$record["target"] = "content";
 	} else {
 		// ein Fehler
 		$record = $_POST;
-		
+
 	}
 	//$record["readonly"] = '';
 }
@@ -139,7 +139,7 @@ $record["module_name"] = $module_name;
 
 $app->tpl->setVar($record);
 
-include_once("lib/lang/".$_SESSION["s"]["language"]."_module_nav_item_edit.lng");
+include_once "lib/lang/".$_SESSION["s"]["language"]."_module_nav_item_edit.lng";
 $app->tpl->setVar($wb);
 
 // Defaultwerte setzen

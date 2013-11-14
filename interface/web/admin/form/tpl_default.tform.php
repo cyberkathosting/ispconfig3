@@ -59,16 +59,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 		= "tpl_default_head_txt";
-$form["description"] 	= "tpl_default_desc_txt";
-$form["name"] 		= "tpl_default";
-$form["action"]		= "tpl_default.php";
-$form["db_table"]	= "sys_theme";
-$form["db_table_idx"]	= "id";
-$form["db_history"]	= "yes";
-$form["tab_default"]	= "basic";
-$form["list_default"]	= "system_config_edit.php";
-$form["auth"]		= 'yes';
+$form["title"]   = "tpl_default_head_txt";
+$form["description"]  = "tpl_default_desc_txt";
+$form["name"]   = "tpl_default";
+$form["action"]  = "tpl_default.php";
+$form["db_table"] = "sys_theme";
+$form["db_table_idx"] = "id";
+$form["db_history"] = "yes";
+$form["tab_default"] = "basic";
+$form["list_default"] = "system_config_edit.php";
+$form["auth"]  = 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -77,36 +77,36 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['basic'] = array (
-	'title' 	=> "Basic Settings",
-	'width' 	=> 80,
-	'template' 	=> "templates/tpl_default_basic.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => "Basic Settings",
+	'width'  => 80,
+	'template'  => "templates/tpl_default_basic.htm",
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
 			'validators'    => '',
-			'default'	=> 'global',
-			'value'		=> 'global',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '64'
+			'default' => 'global',
+			'value'  => 'global',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '64'
 		),
 		'logo_url' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
 			'validators'    => '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '255'
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '255'
 		),
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 

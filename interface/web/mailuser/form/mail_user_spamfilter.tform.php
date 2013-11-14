@@ -33,16 +33,16 @@
 
 */
 
-$form["title"] 			= "mailbox_spamfilter_txt";
-$form["description"] 	= "";
-$form["name"] 			= "mail_user_spamfilter";
-$form["action"]			= "mail_user_spamfilter_edit.php";
-$form["db_table"]		= "mail_user";
-$form["db_table_idx"]	= "mailuser_id";
-$form["db_history"]		= "yes";
-$form["tab_default"]	= "mailuser";
-$form["list_default"]	= "index.php";
-$form["auth"]			= 'no'; // yes / no
+$form["title"]    = "mailbox_spamfilter_txt";
+$form["description"]  = "";
+$form["name"]    = "mail_user_spamfilter";
+$form["action"]   = "mail_user_spamfilter_edit.php";
+$form["db_table"]  = "mail_user";
+$form["db_table_idx"] = "mailuser_id";
+$form["db_history"]  = "yes";
+$form["tab_default"] = "mailuser";
+$form["list_default"] = "index.php";
+$form["auth"]   = 'no'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -51,17 +51,17 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['mailuser'] = array (
-	'title' 	=> "spamfilter_txt",
-	'width' 	=> 100,
-	'template' 	=> "templates/mail_user_spamfilter_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Begin Datatable fields
-	##################################
-	
-	##################################
-	# END Datatable fields
-	##################################
+	'title'  => "spamfilter_txt",
+	'width'  => 100,
+	'template'  => "templates/mail_user_spamfilter_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
+
+		//#################################
+		// END Datatable fields
+		//#################################
 	)
 );
 

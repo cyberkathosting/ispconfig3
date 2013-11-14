@@ -10,7 +10,7 @@ $liste['table'] = 'help_faq_sections';
 $liste['table_idx'] = 'hfs_id';
 
 // Search Field Prefix
-#$liste['search_prefix'] = 'search_';
+//$liste['search_prefix'] = 'search_';
 
 // Records per page
 $liste['records_per_page'] = 100;

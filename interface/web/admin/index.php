@@ -34,14 +34,14 @@ class admin_index {
 	var $target = '';
 
 	function render() {
-		
+
 		global $app;
-		
+
 		$app->uses('tpl');
 		$app->tpl->newTemplate("form.tpl.htm");
 
-		$app->tpl->setVar('error',$error);
-		$app->tpl->setInclude('content_tpl','admin/templates/index.htm');
+		$app->tpl->setVar('error', $error);
+		$app->tpl->setInclude('content_tpl', 'admin/templates/index.htm');
 		return $app->tpl->grab();
 		/*
 		$filename = 'test.txt';
@@ -69,10 +69,11 @@ $somecontent = $app->tpl->grab();
 
 
 
-		
+
 		return 'dd';
 		*/
 	}
+
 }
 
 ?>

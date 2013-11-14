@@ -66,19 +66,19 @@ CREATE TABLE IF NOT EXISTS `xfr` (
 */
 
 class bind_dlz_plugin {
-	
+
 	var $plugin_name = 'bind_dlz_plugin';
 	var $class_name  = 'bind_dlz_plugin';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall()
 	{
 		global $conf;
-		
+
 		if(isset($conf['bind']['installed']) && $conf['bind']['installed'] == true) {
-			// Temporarily disabled until the installer supports the automatic creation of the necessary 
-			// database or at least to select between filebased nd db based bind, as not all bind versions 
+			// Temporarily disabled until the installer supports the automatic creation of the necessary
+			// database or at least to select between filebased nd db based bind, as not all bind versions
 			// support dlz out of the box. To enable this plugin manually, create a symlink from the plugins-enabled
 			// directory to this file in the plugins-available directory.
 			return false;
@@ -86,64 +86,64 @@ class bind_dlz_plugin {
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
-	function onLoad() 
+
+	function onLoad()
 	{
 		global $app;
-		
+
 		/*
 		Register for the events
 		*/
-		
+
 		//* SOA
-		$app->plugins->registerEvent('dns_soa_insert',$this->plugin_name,'soa_insert');
-		$app->plugins->registerEvent('dns_soa_update',$this->plugin_name,'soa_update');
-		$app->plugins->registerEvent('dns_soa_delete',$this->plugin_name,'soa_delete');
-		
+		$app->plugins->registerEvent('dns_soa_insert', $this->plugin_name, 'soa_insert');
+		$app->plugins->registerEvent('dns_soa_update', $this->plugin_name, 'soa_update');
+		$app->plugins->registerEvent('dns_soa_delete', $this->plugin_name, 'soa_delete');
+
 		//* RR
-		$app->plugins->registerEvent('dns_rr_insert',$this->plugin_name,'rr_insert');
-		$app->plugins->registerEvent('dns_rr_update',$this->plugin_name,'rr_update');
-		$app->plugins->registerEvent('dns_rr_delete',$this->plugin_name,'rr_delete');
+		$app->plugins->registerEvent('dns_rr_insert', $this->plugin_name, 'rr_insert');
+		$app->plugins->registerEvent('dns_rr_update', $this->plugin_name, 'rr_update');
+		$app->plugins->registerEvent('dns_rr_delete', $this->plugin_name, 'rr_delete');
 	}
-	
-	
-	function soa_insert($event_name,$data) 
+
+
+	function soa_insert($event_name, $data)
 	{
 		global $app, $conf;
-		
+
 		if($data["new"]["active"] != 'Y') return;
-		
+
 		$origin = substr($data["new"]["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
 		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
 
 		$ttl = $data["new"]["ttl"];
-		
+
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
-		
+
 		$app->db->query("INSERT INTO named.records (zone, ttl, type, primary_ns, resp_contact, serial, refresh, retry, expire, minimum, ispconfig_id) VALUES ".
-						"('$origin', $ttl, 'SOA', '{$data["new"]["ns"]}', '{$data["new"]["mbox"]}', '{$serial["serial"]}', '{$serial["refresh"]}'," . 
-						"'{$serial["retry"]}', '{$serial["expire"]}', '{$serial["minimum"]}', $ispconfig_id)");
-		//unset($_db);	
+			"('$origin', $ttl, 'SOA', '{$data["new"]["ns"]}', '{$data["new"]["mbox"]}', '{$serial["serial"]}', '{$serial["refresh"]}'," .
+			"'{$serial["retry"]}', '{$serial["expire"]}', '{$serial["minimum"]}', $ispconfig_id)");
+		//unset($_db);
 	}
-	
-	function soa_update($event_name,$data)
+
+	function soa_update($event_name, $data)
 	{
 		global $app, $conf;
-		
+
 		if($data["new"]["active"] != 'Y')
 		{
 			if($data["old"]["active"] != 'Y') return;
-			$this->soa_delete($event_name,$data);
-		} 
-		else 
+			$this->soa_delete($event_name, $data);
+		}
+		else
 		{
 			if($data["old"]["active"] == 'Y')
 			{
@@ -152,23 +152,23 @@ class bind_dlz_plugin {
 				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
 
 				$ttl = $data["new"]["ttl"];
-				
+
 				//$_db = clone $app->db;
 				//$_db->dbName = 'named';
-		
+
 				$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, primary_ns = '{$data["new"]["ns"]}', resp_contact = '{$data["new"]["mbox"]}', ".
-								"serial = '{$serial["serial"]}', refresh = '{$serial["refresh"]}', retry = '{$serial["retry"]}', expire = '{$serial["expire"]}', ".
-								"minimum = '{$serial["minimum"]}' WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
+					"serial = '{$serial["serial"]}', refresh = '{$serial["refresh"]}', retry = '{$serial["retry"]}', expire = '{$serial["expire"]}', ".
+					"minimum = '{$serial["minimum"]}' WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
 				//unset($_db);
-			} 
-			else 
+			}
+			else
 			{
-				$this->soa_insert($event_name,$data);
+				$this->soa_insert($event_name, $data);
 				$ispconfig_id = $data["new"]["id"];
-				
+
 				if ($records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = $ispconfig_id AND active = 'Y'"))
 				{
-					foreach($records as $record) 
+					foreach($records as $record)
 					{
 						foreach ($record as $key => $val) {
 							$data["new"][$key] = $val;
@@ -178,96 +178,96 @@ class bind_dlz_plugin {
 				}
 			}
 		}
-			
+
 	}
-	
-	function soa_delete($event_name,$data)
+
+	function soa_delete($event_name, $data)
 	{
 		global $app, $conf;
-		
+
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
-		
+
 		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]}");
-		//unset($_db);	
+		//unset($_db);
 	}
-	
-	function rr_insert($event_name,$data)
+
+	function rr_insert($event_name, $data)
 	{
 		global $app, $conf;
 		if($data["new"]["active"] != 'Y') return;
-		
+
 		$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
 		$origin = substr($zone["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
-		
+
 		$type = $data["new"]["type"];
-		
+
 		if (substr($data["new"]["name"], -1) == '.') {
 			$name = substr($data["new"]["name"], 0, -1);
 		} else {
 			$name = ($data["new"]["name"] == "") ? $name = '@' : $data["new"]["name"];
 		}
-		
+
 		if ($name == $origin || $name == '') {
 			$name = '@';
 		}
-		
-		switch ($type) 
+
+		switch ($type)
 		{
-			case "CNAME":
-			case "MX":
-			case "NS":
-			case "ALIAS":
-			case "PTR":
-			case "SRV":
-				if(substr($data["new"]["data"], -1) != '.'){
-					$content = $data["new"]["data"] . '.';
-				} else {
-					$content = $data["new"]["data"];
-				}
-				break;
-			case "HINFO":
-			    $content = $data["new"]["data"];
-				$quote1 = strpos($content, '"');
-				
-				if($quote1 !== FALSE) {
-					$quote2 = strpos(substr($content, ($quote1 + 1)), '"');
-				}
-				
-				if ($quote1 !== FALSE && $quote2 !== FALSE) {
-					$text_between_quotes = str_replace(' ', '_', substr($content, ($quote1 + 1), (($quote2 - $quote1))));
-					$content = $text_between_quotes.substr($content, ($quote2 + 2));
-				}
-				break;
-    		default:
+		case "CNAME":
+		case "MX":
+		case "NS":
+		case "ALIAS":
+		case "PTR":
+		case "SRV":
+			if(substr($data["new"]["data"], -1) != '.'){
+				$content = $data["new"]["data"] . '.';
+			} else {
 				$content = $data["new"]["data"];
+			}
+			break;
+		case "HINFO":
+			$content = $data["new"]["data"];
+			$quote1 = strpos($content, '"');
+
+			if($quote1 !== FALSE) {
+				$quote2 = strpos(substr($content, ($quote1 + 1)), '"');
+			}
+
+			if ($quote1 !== FALSE && $quote2 !== FALSE) {
+				$text_between_quotes = str_replace(' ', '_', substr($content, ($quote1 + 1), (($quote2 - $quote1))));
+				$content = $text_between_quotes.substr($content, ($quote2 + 2));
+			}
+			break;
+		default:
+			$content = $data["new"]["data"];
 		}
-		
+
 		$ttl = $data["new"]["ttl"];
-		
+
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
-		
+
 		if ($type == 'MX') {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, mx_priority, data, ispconfig_id)".
-			" VALUES ('$origin', $ttl, '$type', '$name', {$data["new"]["aux"]}, '$content', $ispconfig_id)");
+				" VALUES ('$origin', $ttl, '$type', '$name', {$data["new"]["aux"]}, '$content', $ispconfig_id)");
 		} else {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, data, ispconfig_id)".
-			" VALUES ('$origin', $ttl, '$type', '$name', '$content', $ispconfig_id)");
+				" VALUES ('$origin', $ttl, '$type', '$name', '$content', $ispconfig_id)");
 		}
 
 		//unset($_db);
 	}
-	
-	function rr_update($event_name,$data)
+
+	function rr_update($event_name, $data)
 	{
 		global $app, $conf;
-		
+
 		if ($data["new"]["active"] != 'Y')
 		{
 			if($data["old"]["active"] != 'Y') return;
-			$this->rr_delete($event_name,$data);
+			$this->rr_delete($event_name, $data);
 		}
 		else
 		{
@@ -276,77 +276,78 @@ class bind_dlz_plugin {
 				$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
 				$origin = substr($zone["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
-				
-				$type = $data["new"]["type"];	
-		
+
+				$type = $data["new"]["type"];
+
 				if (substr($data["new"]["name"], -1) == '.') {
 					$name = substr($data["new"]["name"], 0, -1);
 				} else {
 					$name = ($data["new"]["name"] == "") ? $name = '@' : $data["new"]["name"];
 				}
-				
+
 				if ($name == $origin || $name == '') {
 					$name = '@';
 				}
 
-				switch ($type) 
+				switch ($type)
 				{
-					case "CNAME":
-					case "MX":
-					case "NS":
-					case "ALIAS":
-					case "PTR":
-					case "SRV":
-						if(substr($data["new"]["data"], -1) != '.'){
-							$content = $data["new"]["data"] . '.';
-						} else {
-							$content = $data["new"]["data"];
-						}
-						break;
-					case "HINFO":
-			    		$content = $data["new"]["data"];
-						$quote1 = strpos($content, '"');
-						if($quote1 !== FALSE){
-							$quote2 = strpos(substr($content, ($quote1 + 1)), '"');
-						}
-						if($quote1 !== FALSE && $quote2 !== FALSE){
-							$text_between_quotes = str_replace(' ', '_', substr($content, ($quote1 + 1), (($quote2 - $quote1))));
-							$content = $text_between_quotes.substr($content, ($quote2 + 2));
-						}
-						break;
-    				default:
+				case "CNAME":
+				case "MX":
+				case "NS":
+				case "ALIAS":
+				case "PTR":
+				case "SRV":
+					if(substr($data["new"]["data"], -1) != '.'){
+						$content = $data["new"]["data"] . '.';
+					} else {
 						$content = $data["new"]["data"];
+					}
+					break;
+				case "HINFO":
+					$content = $data["new"]["data"];
+					$quote1 = strpos($content, '"');
+					if($quote1 !== FALSE){
+						$quote2 = strpos(substr($content, ($quote1 + 1)), '"');
+					}
+					if($quote1 !== FALSE && $quote2 !== FALSE){
+						$text_between_quotes = str_replace(' ', '_', substr($content, ($quote1 + 1), (($quote2 - $quote1))));
+						$content = $text_between_quotes.substr($content, ($quote2 + 2));
+					}
+					break;
+				default:
+					$content = $data["new"]["data"];
 				}
-		
+
 				$ttl = $data["new"]["ttl"];
 				$prio = (int)$data["new"]["aux"];
-				
+
 				//$_db = clone $app->db;
 				//$_db->dbName = 'named';
-				
+
 				if ($type == 'MX') {
 					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', mx_priority = $prio, ".
-					"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 				} else {
 					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', ".
-					"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 				}
-				
+
 				//unset($_db);
 			} else {
-				$this->rr_insert($event_name,$data);
+				$this->rr_insert($event_name, $data);
 			}
 		}
 	}
-	
-	function rr_delete($event_name,$data) {
+
+	function rr_delete($event_name, $data) {
 		global $app, $conf;
-		
+
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
-				
+
 		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]} AND type != 'SOA'");
 		//unset($_db);
 	}
+
 } // end class
 ?>

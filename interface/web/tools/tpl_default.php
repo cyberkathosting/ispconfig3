@@ -30,8 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 global $app, $conf;
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('tools');
@@ -42,7 +42,7 @@ $app->tpl->newTemplate('listpage.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/tpl_default.htm');
 
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_tpl_default.lng';
-include($lng_file);
+include $lng_file;
 
 $app->tpl->setVar($wb);
 

@@ -29,8 +29,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 function sread() {
-    $input = fgets(STDIN);
-    return rtrim($input);
+	$input = fgets(STDIN);
+	return rtrim($input);
 }
 
 function swrite($text = '') {
@@ -42,53 +42,53 @@ function swriteln($text = '') {
 }
 
 function simple_query($query, $answers, $default)
-{		
-		$finished = false;
-		do {
-			$answers_str = implode(',', $answers);
-			swrite($query.' ('.$answers_str.') ['.$default.']: ');
-			$input = sread();
-			
-			//* Stop the installation
-			if($input == 'quit') {
-				swriteln("Installation terminated by user.\n");
-				die();
-			}
-			
-			//* Select the default
-			if($input == '') {
-				$answer = $default;
-				$finished = true;
-			}
-			
-            //* Set answer id valid
-			if(in_array($input, $answers)) {
-				$answer = $input;
-				$finished = true;
-			}
-			
-		} while ($finished == false);
-		swriteln();
-		return $answer;
+{
+	$finished = false;
+	do {
+		$answers_str = implode(',', $answers);
+		swrite($query.' ('.$answers_str.') ['.$default.']: ');
+		$input = sread();
+
+		//* Stop the installation
+		if($input == 'quit') {
+			swriteln("Installation terminated by user.\n");
+			die();
+		}
+
+		//* Select the default
+		if($input == '') {
+			$answer = $default;
+			$finished = true;
+		}
+
+		//* Set answer id valid
+		if(in_array($input, $answers)) {
+			$answer = $input;
+			$finished = true;
+		}
+
+	} while ($finished == false);
+	swriteln();
+	return $answer;
 }
 
-require_once('/usr/local/ispconfig/server/lib/config.inc.php');
+require_once '/usr/local/ispconfig/server/lib/config.inc.php';
 
 
-echo "\n\n".str_repeat('-',80)."\n";
-echo " _____ ___________   _____              __ _       
-|_   _/  ___| ___ \ /  __ \            / _(_)      
-  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+echo "\n\n".str_repeat('-', 80)."\n";
+echo " _____ ___________   _____              __ _
+|_   _/  ___| ___ \ /  __ \            / _(_)
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _
   | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
  _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
  \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
                                               __/ |
                                              |___/ ";
-echo "\n".str_repeat('-',80)."\n";
+echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Update  \n\n";
 echo "Please choose the update method. For production systems select 'stable'. \nThe update from svn is only for development systems and may break your current setup.\nNote: Update all slave server, before you update master server.\n\n";
 
-$method = simple_query('Select update method', array('stable','svn'), 'stable');
+$method = simple_query('Select update method', array('stable', 'svn'), 'stable');
 
 if($method == 'stable') {
 	$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt') or die('Unable to retrieve version file.');

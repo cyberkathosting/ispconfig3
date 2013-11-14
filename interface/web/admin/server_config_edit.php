@@ -38,8 +38,8 @@ $tform_def_file = "form/server_config.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -49,39 +49,39 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	function onShowEdit() {
 		global $app, $conf;
-		
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
-		
+
 		if($app->tform->errorMessage == '') {
 			$app->uses('ini_parser,getconf');
-		
+
 			$section = $this->active_tab;
 			$server_id = $this->id;
-		
-			$this->dataRecord = $app->getconf->get_server_config($server_id,$section);
+
+			$this->dataRecord = $app->getconf->get_server_config($server_id, $section);
 		}
-		
-		$record = $app->tform->getHTML($this->dataRecord, $this->active_tab,'EDIT');
-		
+
+		$record = $app->tform->getHTML($this->dataRecord, $this->active_tab, 'EDIT');
+
 		$record['id'] = $this->id;
 		$app->tpl->setVar($record);
 	}
-	
+
 	function onUpdateSave($sql) {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
 		$app->uses('ini_parser,getconf');
-		
+
 		if($conf['demo_mode'] != true) {
 			$section = $app->tform->getCurrentTab();
 			$server_id = $this->id;
-		
+
 			$server_config_array = $app->getconf->get_server_config($server_id);
-			
+
 			foreach($app->tform->formDef['tabs'][$section]['fields'] as $key => $field) {
 				if ($field['formtype'] == 'CHECKBOX') {
 					if($this->dataRecord[$key] == '') {
@@ -90,14 +90,14 @@ class page_action extends tform_actions {
 					}
 				}
 			}
-		
-			$server_config_array[$section] = $app->tform->encode($this->dataRecord,$section);
+
+			$server_config_array[$section] = $app->tform->encode($this->dataRecord, $section);
 			$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
-		
+
 			$app->db->datalogUpdate('server', "config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
 		}
 	}
-	
+
 }
 
 $app->tform_actions = new page_action;

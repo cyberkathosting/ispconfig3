@@ -38,8 +38,8 @@ $tform_def_file = "form/domain.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
@@ -50,7 +50,7 @@ $app->load('tform_actions');
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
-include($lng_file);
+include $lng_file;
 
 class page_action extends tform_actions {
 
@@ -80,7 +80,7 @@ class page_action extends tform_actions {
 					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("client_group_id",$client_select);
+			$app->tpl->setVar("client_group_id", $client_select);
 
 		}
 
@@ -146,6 +146,7 @@ class page_action extends tform_actions {
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
 	}
+
 }
 
 $page = new page_action;

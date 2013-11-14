@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('designer');
@@ -40,46 +40,46 @@ $app->tpl->setInclude('content_tpl', 'templates/form_list.htm');
 
 function getinfo($file, $form_file, $bgcolor) {
 	$module_name = $file;
-	include(ISPC_WEB_PATH."/$file/form/$form_file");
-	return array( 	'name' =>        $form['name'],
-					'title' =>       $form['title'],
-					'description' => $form['description'],
-					'module_name' => $module_name,
-					'bgcolor' =>     $bgcolor
-                );
+	include ISPC_WEB_PATH."/$file/form/$form_file";
+	return array(  'name' =>        $form['name'],
+		'title' =>       $form['title'],
+		'description' => $form['description'],
+		'module_name' => $module_name,
+		'bgcolor' =>     $bgcolor
+	);
 }
 
 // lese Module aus
 $bgcolor = '#FFFFFF';
 $modules_list = array();
-$handle = @opendir(ISPC_WEB_PATH); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-        if(@is_dir(ISPC_WEB_PATH."/$file")) {
-            if(is_file(ISPC_WEB_PATH.'/'.$file.'/lib/module.conf.php') and $file != 'login') {
+$handle = @opendir(ISPC_WEB_PATH);
+while ($file = @readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		if(@is_dir(ISPC_WEB_PATH."/$file")) {
+			if(is_file(ISPC_WEB_PATH.'/'.$file.'/lib/module.conf.php') and $file != 'login') {
 				if(@is_dir(ISPC_WEB_PATH."/$file/form")) {
 					$handle2 = opendir(ISPC_WEB_PATH."/$file/form");
-					while ($form_file = @readdir ($handle2)) {
-						if (substr($form_file,0,1) != ".") {
-						    //echo ISPC_ROOT_PATH."/web/".$file."/form/$form_file<br>";
+					while ($form_file = @readdir($handle2)) {
+						if (substr($form_file, 0, 1) != ".") {
+							//echo ISPC_ROOT_PATH."/web/".$file."/form/$form_file<br>";
 							//include_once(ISPC_ROOT_PATH."/web/".$file."/form/$form_file");
 							// Farbwechsel
-							$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';				
+							$bgcolor = ($bgcolor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 							$modules_list[] = getinfo($file, $form_file, $bgcolor);
 
 						}
 					}
 				}
 			}
-        }
+		}
 	}
 }
 
 $app->tpl->setLoop('records', $modules_list);
 
-//* load language file 
+//* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_form_list.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

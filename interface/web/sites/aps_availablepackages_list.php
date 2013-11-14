@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 //require_once('classes/class.base.php'); // for constants
 $app->load('aps_base');
 
@@ -38,7 +38,7 @@ $list_def_file = "list/aps_availablepackages.list.php";
 
 // Check the module permissions
 $app->auth->check_module_permissions('sites');
-        
+
 // Load needed classes
 $app->uses('tpl,listform_actions');
 

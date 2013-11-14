@@ -64,15 +64,15 @@ class app {
 
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
-			
+
 			$this->uses('session');
-			session_set_save_handler(	array($this->session, 'open'),
-										array($this->session, 'close'),
-										array($this->session, 'read'),
-										array($this->session, 'write'),
-										array($this->session, 'destroy'),
-										array($this->session, 'gc'));
-			
+			session_set_save_handler( array($this->session, 'open'),
+				array($this->session, 'close'),
+				array($this->session, 'read'),
+				array($this->session, 'write'),
+				array($this->session, 'destroy'),
+				array($this->session, 'gc'));
+
 			session_start();
 
 			//* Initialize session variables
@@ -81,10 +81,10 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 
-        $this->uses('functions'); // we need this before all others!
+		$this->uses('functions'); // we need this before all others!
 		$this->uses('auth,plugin');
 	}
-	
+
 	public function __destruct() {
 		session_write_close();
 	}
@@ -96,7 +96,7 @@ class app {
 				$classname = trim($classname);
 				//* Class is not loaded so load it
 				if(!array_key_exists($classname, $this->_loaded_classes)) {
-					include_once(ISPC_CLASS_PATH."/$classname.inc.php");
+					include_once ISPC_CLASS_PATH."/$classname.inc.php";
 					$this->$classname = new $classname();
 					$this->_loaded_classes[$classname] = true;
 				}
@@ -109,12 +109,14 @@ class app {
 		if(is_array($fl)) {
 			foreach($fl as $file) {
 				$file = trim($file);
-				include_once(ISPC_CLASS_PATH."/$file.inc.php");
+				include_once ISPC_CLASS_PATH."/$file.inc.php";
 			}
 		}
 	}
 
 	/** Priority values are: 0 = DEBUG, 1 = WARNING,  2 = ERROR */
+
+
 	public function log($msg, $priority = 0) {
 		global $conf;
 		if($priority >= $this->_conf['log_priority']) {
@@ -196,12 +198,12 @@ class app {
 	//** Helper function to load the language files.
 	public function load_language_file($filename) {
 		$filename = ISPC_ROOT_PATH.'/'.$filename;
-		if(substr($filename,-4) != '.lng') $this->error('Language file has wrong extension.');
+		if(substr($filename, -4) != '.lng') $this->error('Language file has wrong extension.');
 		if(file_exists($filename)) {
-			@include($filename);
+			@include $filename;
 			if(is_array($wb)) {
 				if(is_array($this->_wb)) {
-					$this->_wb = array_merge($this->_wb,$wb);
+					$this->_wb = array_merge($this->_wb, $wb);
 				} else {
 					$this->_wb = $wb;
 				}
@@ -213,12 +215,12 @@ class app {
 		$this->tpl->setVar('app_title', $this->_conf['app_title']);
 		if(isset($_SESSION['s']['user'])) {
 			$this->tpl->setVar('app_version', $this->_conf['app_version']);
-            // get pending datalog changes
-            $datalog = $this->db->datalogStatus();
-            $this->tpl->setVar('datalog_changes_txt', $this->lng('datalog_changes_txt'));
-            $this->tpl->setVar('datalog_changes_end_txt', $this->lng('datalog_changes_end_txt'));
-            $this->tpl->setVar('datalog_changes_count', $datalog['count']);
-            $this->tpl->setLoop('datalog_changes', $datalog['entries']);
+			// get pending datalog changes
+			$datalog = $this->db->datalogStatus();
+			$this->tpl->setVar('datalog_changes_txt', $this->lng('datalog_changes_txt'));
+			$this->tpl->setVar('datalog_changes_end_txt', $this->lng('datalog_changes_end_txt'));
+			$this->tpl->setVar('datalog_changes_count', $datalog['count']);
+			$this->tpl->setLoop('datalog_changes', $datalog['entries']);
 		} else {
 			$this->tpl->setVar('app_version', '');
 		}
@@ -253,13 +255,13 @@ class app {
 			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
 			$this->tpl->setVar('logout_txt', $this->lng('logout_txt'));
 			/* Show search field only for normal users, not mail users */
-			if(stristr($_SESSION['s']['user']['username'],'@')){
+			if(stristr($_SESSION['s']['user']['username'], '@')){
 				$this->tpl->setVar('usertype', 'mailuser');
 			} else {
 				$this->tpl->setVar('usertype', 'normaluser');
 			}
 		}
-		
+
 		/* Global Search */
 		$this->tpl->setVar('globalsearch_resultslimit_of_txt', $this->lng('globalsearch_resultslimit_of_txt'));
 		$this->tpl->setVar('globalsearch_resultslimit_results_txt', $this->lng('globalsearch_resultslimit_results_txt'));

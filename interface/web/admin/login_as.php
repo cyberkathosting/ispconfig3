@@ -28,8 +28,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /* Check permissions for module */
 $app->auth->check_module_permissions('admin');
@@ -41,7 +41,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin') {
 
 /* get the id of the user (must be int!) */
 if (!isset($_GET['id']) && !isset($_GET['cid'])){
-    die ("No user selected!");
+	die ("No user selected!");
 }
 
 if(isset($_GET['id'])) {
@@ -61,16 +61,16 @@ if(isset($_GET['id'])) {
  * Get the data to login as user x
  */
 $dbData = $app->db->queryOneRecord(
-    "SELECT username, passwort FROM sys_user WHERE userid = " . $userId);
+	"SELECT username, passwort FROM sys_user WHERE userid = " . $userId);
 
 /*
  * Now generate the login-Form
  * TODO: move the login_as form to a template file -> themeability
  */
- 
- $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_login_as.lng';
-include($lng_file);
- 
+
+$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_login_as.lng';
+include $lng_file;
+
 echo '
 	<br /> <br />	<br /> <br />
 	'.$wb['login_1_txt'].' ' .  $dbData['username'] . '?<br />

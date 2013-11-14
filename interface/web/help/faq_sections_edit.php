@@ -4,11 +4,11 @@
 $tform_def_file = 'form/faq_sections.tform.php';
 
 // include the core configuration and application classes
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 // Check the  module permissions and redirect if not allowed.
-if(!stristr($_SESSION['s']['user']['modules'],'help')) {
+if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
 	header('Location: ../index.php');
 	die;
 }

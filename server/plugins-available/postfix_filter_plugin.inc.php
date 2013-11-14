@@ -29,55 +29,55 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class postfix_filter_plugin {
-	
+
 	var $plugin_name = 'postfix_filter_plugin';
 	var $class_name = 'postfix_filter_plugin';
-	
-	
+
+
 	var $postfix_config_dir = '/etc/postfix';
-	
+
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
 		global $conf;
-		
+
 		if($conf['services']['mail'] == true) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	/*
 	 	This function is called when the plugin is loaded
 	*/
-	
+
 	function onLoad() {
 		global $app;
-		
+
 		/*
 		Register for the events
 		*/
-		
-		$app->plugins->registerEvent('mail_content_filter_insert','postfix_filter_plugin','insert');
-		$app->plugins->registerEvent('mail_content_filter_update','postfix_filter_plugin','update');
-		$app->plugins->registerEvent('mail_content_filter_delete','postfix_filter_plugin','delete');
-		
-		
-		
+
+		$app->plugins->registerEvent('mail_content_filter_insert', 'postfix_filter_plugin', 'insert');
+		$app->plugins->registerEvent('mail_content_filter_update', 'postfix_filter_plugin', 'update');
+		$app->plugins->registerEvent('mail_content_filter_delete', 'postfix_filter_plugin', 'delete');
+
+
+
 	}
-	
-	function insert($event_name,$data) {
+
+	function insert($event_name, $data) {
 		global $app, $conf;
-		
-		$this->update($event_name,$data);
-		
+
+		$this->update($event_name, $data);
+
 	}
-	
-	function update($event_name,$data) {
+
+	function update($event_name, $data) {
 		global $app, $conf;
-		
+
 		$type = $data["new"]["type"];
 		if($type != '') {
 			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ".intval($conf["server_id"])." AND type = '".$app->db->quote($type)."' AND active = 'y'";
@@ -87,28 +87,28 @@ class postfix_filter_plugin {
 				$content .= $rule["pattern"];
 				$content .= "  ".$rule["action"]." ".$rule["data"]."\n";
 			}
-		
+
 			if($type == 'header') {
-				file_put_contents('/etc/postfix/header_checks',$content);
-				$app->log("Writing /etc/postfix/header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/header_checks', $content);
+				$app->log("Writing /etc/postfix/header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'mime_header') {
-				file_put_contents('/etc/postfix/mime_header_checks',$content);
-				$app->log("Writing /etc/postfix/mime_header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/mime_header_checks', $content);
+				$app->log("Writing /etc/postfix/mime_header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'nested_header') {
-				file_put_contents('/etc/postfix/nested_header_checks',$content);
-				$app->log("Writing /etc/postfix/nested_header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/nested_header_checks', $content);
+				$app->log("Writing /etc/postfix/nested_header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'body') {
-				file_put_contents('/etc/postfix/body_checks',$content);
-				$app->log("Writing /etc/postfix/body_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/body_checks', $content);
+				$app->log("Writing /etc/postfix/body_checks", LOGLEVEL_DEBUG);
 			}
 		}
-		
+
 		$type = $data["old"]["type"];
 		if($type != '') {
 			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ".intval($conf["server_id"])." AND type = '".$app->db->quote($type)."' AND active = 'y'";
@@ -118,35 +118,35 @@ class postfix_filter_plugin {
 				$content .= $rule["pattern"];
 				$content .= "  ".$rule["action"]." ".$rule["data"]."\n";
 			}
-		
+
 			if($type == 'header') {
-				file_put_contents('/etc/postfix/header_checks',$content);
-				$app->log("Writing /etc/postfix/header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/header_checks', $content);
+				$app->log("Writing /etc/postfix/header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'mime_header') {
-				file_put_contents('/etc/postfix/mime_header_checks',$content);
-				$app->log("Writing /etc/postfix/mime_header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/mime_header_checks', $content);
+				$app->log("Writing /etc/postfix/mime_header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'nested_header') {
-				file_put_contents('/etc/postfix/nested_header_checks',$content);
-				$app->log("Writing /etc/postfix/nested_header_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/nested_header_checks', $content);
+				$app->log("Writing /etc/postfix/nested_header_checks", LOGLEVEL_DEBUG);
 			}
-		
+
 			if($type == 'body') {
-				file_put_contents('/etc/postfix/body_checks',$content);
-				$app->log("Writing /etc/postfix/body_checks",LOGLEVEL_DEBUG);
+				file_put_contents('/etc/postfix/body_checks', $content);
+				$app->log("Writing /etc/postfix/body_checks", LOGLEVEL_DEBUG);
 			}
 		}
 	}
-	
-	function delete($event_name,$data) {
+
+	function delete($event_name, $data) {
 		global $app, $conf;
-		
-		$this->update($event_name,$data);
+
+		$this->update($event_name, $data);
 	}
-	
+
 
 } // end class
 

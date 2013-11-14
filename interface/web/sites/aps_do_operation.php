@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 $app->load('aps_guicontroller');
 
 // Check the module permissions
@@ -43,70 +43,70 @@ if(!isset($_GET['action'])) die('No action');
 // List of operations which can be performed
 if($_GET['action'] == 'change_status')
 {
-    // Only admins can perform this operation
-    if($_SESSION['s']['user']['typ'] != 'admin') die('For admin use only.');
-    
-    // Make sure a valid package ID is given
-    if(!$gui->isValidPackageID($_GET['id'], true)) die($app->lng('Invalid ID'));
-    
-    // Change the existing status to the opposite
-    $get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".$app->functions->intval($_GET['id'])."';");
-    if($get_status['package_status'] == strval(PACKAGE_LOCKED))
-    {
-        $app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
-        echo '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>';
-    }
-    else
-    {
-        $app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
-        echo '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>';
-    }
+	// Only admins can perform this operation
+	if($_SESSION['s']['user']['typ'] != 'admin') die('For admin use only.');
+
+	// Make sure a valid package ID is given
+	if(!$gui->isValidPackageID($_GET['id'], true)) die($app->lng('Invalid ID'));
+
+	// Change the existing status to the opposite
+	$get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".$app->functions->intval($_GET['id'])."';");
+	if($get_status['package_status'] == strval(PACKAGE_LOCKED))
+	{
+		$app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
+		echo '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>';
+	}
+	else
+	{
+		$app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
+		echo '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>';
+	}
 }
 else if($_GET['action'] == 'delete_instance')
-{
-    // Make sure a valid package ID is given (also corresponding to the calling user)
-    $client_id = 0;
-    $is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
-    if(!$is_admin)
-    {
-        $cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
-        $client_id = $cid['client_id'];
-    }
-	
-    // Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
-    if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
-    
-    // Only delete the instance if the status is "installed" or "flawed"
-    $check = $app->db->queryOneRecord("SELECT id FROM aps_instances 
-        WHERE id = ".$app->db->quote($_GET['id'])." AND 
+	{
+		// Make sure a valid package ID is given (also corresponding to the calling user)
+		$client_id = 0;
+		$is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
+		if(!$is_admin)
+		{
+			$cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
+			$client_id = $cid['client_id'];
+		}
+
+		// Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
+		if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
+
+		// Only delete the instance if the status is "installed" or "flawed"
+		$check = $app->db->queryOneRecord("SELECT id FROM aps_instances
+        WHERE id = ".$app->db->quote($_GET['id'])." AND
         (instance_status = ".INSTANCE_SUCCESS." OR instance_status = ".INSTANCE_ERROR.");");
-    if($check['id'] > 0) $gui->deleteInstance($_GET['id']);
-    //echo $app->lng('Installation_remove');
-	@header('Location:aps_installedpackages_list.php');
-}
+		if($check['id'] > 0) $gui->deleteInstance($_GET['id']);
+		//echo $app->lng('Installation_remove');
+		@header('Location:aps_installedpackages_list.php');
+	}
 else if($_GET['action'] == 'reinstall_instance')
-{
-    // Make sure a valid package ID is given (also corresponding to the calling user)
-    $client_id = 0;
-    $is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
-    if(!$is_admin)
-    {
-        $cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
-        $client_id = $cid['client_id'];
-    }
-    // Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
-    if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
-    
-    // We've an InstanceID, so make sure the package is not enabled and InstanceStatus is still "installed"
-    $check = $app->db->queryOneRecord("SELECT aps_instances.id FROM aps_instances, aps_packages 
-        WHERE aps_instances.package_id = aps_packages.id 
-        AND aps_instances.instance_status = ".INSTANCE_SUCCESS." 
-        AND aps_packages.package_status = ".PACKAGE_ENABLED." 
+	{
+		// Make sure a valid package ID is given (also corresponding to the calling user)
+		$client_id = 0;
+		$is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
+		if(!$is_admin)
+		{
+			$cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
+			$client_id = $cid['client_id'];
+		}
+		// Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
+		if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
+
+		// We've an InstanceID, so make sure the package is not enabled and InstanceStatus is still "installed"
+		$check = $app->db->queryOneRecord("SELECT aps_instances.id FROM aps_instances, aps_packages
+        WHERE aps_instances.package_id = aps_packages.id
+        AND aps_instances.instance_status = ".INSTANCE_SUCCESS."
+        AND aps_packages.package_status = ".PACKAGE_ENABLED."
         AND aps_instances.id = ".$app->db->quote($_GET['id']).";");
-    if(!$check) die('Check failed'); // normally this might not happen at all, so just die
-    
-    $gui->reinstallInstance($_GET['id']);
-    //echo $app->lng('Installation_task');
-	@header('Location:aps_installedpackages_list.php');
-}
+		if(!$check) die('Check failed'); // normally this might not happen at all, so just die
+
+		$gui->reinstallInstance($_GET['id']);
+		//echo $app->lng('Installation_task');
+		@header('Location:aps_installedpackages_list.php');
+	}
 ?>

@@ -37,9 +37,11 @@ class monitor_core_module {
 	}
 
 	function onLoad() {
-    }
-    
-    function process() {
-    }
+	}
+
+	function process() {
+	}
+
 }
+
 ?>

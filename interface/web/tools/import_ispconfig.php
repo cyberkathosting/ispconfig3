@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -45,7 +45,7 @@ $error = '';
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_import_ispconfig.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 if(isset($_POST['connected'])) {
@@ -60,11 +60,11 @@ if(isset($_POST['connected'])) {
 		if($error == '') {
 			try {
 				$client = new SoapClient(null, array('location' => $_POST['remote_server'],
-                                     'uri'      => $_POST['remote_server'].'/index.php',
-									 'trace' => 1,
-									 'exceptions' => 1));
-				
-				if($remote_session_id = $client->login($_POST['remote_user'],$_POST['remote_password'])) {
+						'uri'      => $_POST['remote_server'].'/index.php',
+						'trace' => 1,
+						'exceptions' => 1));
+
+				if($remote_session_id = $client->login($_POST['remote_user'], $_POST['remote_password'])) {
 					$connected = 1;
 					$msg .= 'Successfully connected to remote server.';
 				}
@@ -75,9 +75,9 @@ if(isset($_POST['connected'])) {
 			}
 		}
 	}
-	
+
 	if($connected == 1) {
-		
+
 		//* Fill the client select field
 		$sql = "SELECT groupid, name FROM sys_group WHERE client_id > 0 ORDER BY name";
 		$clients = $app->db->queryAllRecords($sql);
@@ -88,59 +88,59 @@ if(isset($_POST['connected'])) {
 				$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
 			}
 		}
-		$app->tpl->setVar("client_group_id",$client_select);
-		
-		
+		$app->tpl->setVar("client_group_id", $client_select);
+
+
 		try {
 			$client = new SoapClient(null, array('location' => $_POST['remote_server'],
-                                'uri'      => $_POST['remote_server'].'/index.php',
-								'trace' => 1,
-								'exceptions' => 1));
-		
-		if(!isset($remote_session_id)) $remote_session_id = $_POST['remote_session_id'];
-		
-		//* Get all email domains
-		$mail_domains = $client->mail_domain_get($remote_session_id, array('active' => 'y'));
-		$mail_domain_select = '<option value="">-- select domain --</option>';
-		if(is_array($mail_domains)) {
-			foreach( $mail_domains as $mail_domain) {
-				$selected = @($mail_domain['domain'] == $_POST['mail_domain'])?'SELECTED':'';
-				$mail_domain_select .= "<option value='$mail_domain[domain]' $selected>$mail_domain[domain]</option>\r\n";
+					'uri'      => $_POST['remote_server'].'/index.php',
+					'trace' => 1,
+					'exceptions' => 1));
+
+			if(!isset($remote_session_id)) $remote_session_id = $_POST['remote_session_id'];
+
+			//* Get all email domains
+			$mail_domains = $client->mail_domain_get($remote_session_id, array('active' => 'y'));
+			$mail_domain_select = '<option value="">-- select domain --</option>';
+			if(is_array($mail_domains)) {
+				foreach( $mail_domains as $mail_domain) {
+					$selected = @($mail_domain['domain'] == $_POST['mail_domain'])?'SELECTED':'';
+					$mail_domain_select .= "<option value='$mail_domain[domain]' $selected>$mail_domain[domain]</option>\r\n";
+				}
 			}
-		}
-		$app->tpl->setVar("mail_domain",$mail_domain_select);
-		
-		//* Do the import
-		if($_POST['mail_domain'] != '') start_domain_import($_POST['mail_domain']);
-		
-		
-		
+			$app->tpl->setVar("mail_domain", $mail_domain_select);
+
+			//* Do the import
+			if($_POST['mail_domain'] != '') start_domain_import($_POST['mail_domain']);
+
+
+
 		} catch (SoapFault $e) {
 			//echo $client->__getLastResponse();
 			$error .= $e->getMessage();
 			$connected = 0;
 		}
-		
+
 	}
-	
+
 }
 
-$app->tpl->setVar('remote_server',$_POST['remote_server']);
-$app->tpl->setVar('remote_user',$_POST['remote_user']);
-$app->tpl->setVar('remote_password',$_POST['remote_password']);
-$app->tpl->setVar('connected',$connected);
-$app->tpl->setVar('remote_session_id',$remote_session_id);
-$app->tpl->setVar('msg',$msg);
-$app->tpl->setVar('error',$error);
+$app->tpl->setVar('remote_server', $_POST['remote_server']);
+$app->tpl->setVar('remote_user', $_POST['remote_user']);
+$app->tpl->setVar('remote_password', $_POST['remote_password']);
+$app->tpl->setVar('connected', $connected);
+$app->tpl->setVar('remote_session_id', $remote_session_id);
+$app->tpl->setVar('msg', $msg);
+$app->tpl->setVar('error', $error);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
 
-###########################################################
+//##########################################################
 
 function start_domain_import($mail_domain) {
 	global $app, $conf, $client, $msg, $error, $remote_session_id;
-	
+
 	//* Get the user and groupid for the new records
 	$sys_groupid = $app->functions->intval($_POST['client_group_id']);
 	$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $sys_groupid");
@@ -148,13 +148,13 @@ function start_domain_import($mail_domain) {
 	unset($tmp);
 	if($sys_groupid == 0) $error .= 'Inavlid groupid<br />';
 	if($sys_userid == 0) $error .= 'Inavlid Userid<br />';
-	
+
 	//* Get the mail server ID
 	$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE mail_server = 1 LIMIT 0,1");
 	$server_id = intval($tmp['server_id']);
 	unset($tmp);
 	if($server_id == 0) $server_id = 1;
-	
+
 	//* get the mail domain record
 	$mail_domain_rec = $client->mail_domain_get($remote_session_id, array('domain' => $mail_domain));
 	if(is_array($mail_domain_rec)) {
@@ -162,13 +162,13 @@ function start_domain_import($mail_domain) {
 		$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE domain = '".$app->db->quote($mail_domain)."'");
 		if($tmp['number'] > 0) $error .= 'Domain '.$mail_domain.' exists already in local database.<br />';
 		unset($tmp);
-		
+
 		//* Change the record owner and remove the index field
 		$mail_domain_rec['sys_userid'] = $sys_userid;
 		$mail_domain_rec['sys_groupid'] = $sys_groupid;
 		$mail_domain_rec['server_id'] = $server_id;
 		unset($mail_domain_rec['domain_id']);
-		
+
 		//* Insert domain if no error occurred
 		if($error == '') {
 			$app->db->datalogInsert('mail_domain', $mail_domain_rec, 'domain_id');
@@ -176,7 +176,7 @@ function start_domain_import($mail_domain) {
 		} else {
 			return false;
 		}
-		
+
 		//* Import mailboxes
 		if(isset($_POST['import_mailbox']) && $_POST['import_mailbox'] == 1) {
 			$mail_users = $client->mail_user_get($remote_session_id, array('email' => '%@'.$mail_domain));
@@ -184,7 +184,7 @@ function start_domain_import($mail_domain) {
 				foreach($mail_users as $mail_user) {
 					$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = '".$app->db->quote($mail_user['email'])."'");
 					if($tmp['number'] == 0) {
-						
+
 						//* Prepare record
 						$mail_user['sys_userid'] = $sys_userid;
 						$mail_user['sys_groupid'] = $sys_groupid;
@@ -192,16 +192,16 @@ function start_domain_import($mail_domain) {
 						$remote_mailuser_id = $mail_user['mailuser_id'];
 						unset($mail_user['mailuser_id']);
 						if(!isset($_POST['import_user_filter'])) $mail_user['custom_mailfilter'] = '';
-						
+
 						//* Insert record in DB
 						$local_mailuser_id = $app->db->datalogInsert('mail_user', $mail_user, 'mailuser_id');
 						$msg .= "Imported mailbox ".$mail_user['email']."<br />";
-						
+
 						//* Import mail user filters
 						if(isset($_POST['import_user_filter']) && $_POST['import_user_filter'] == 1 && $local_mailuser_id > 0) {
-							
+
 							$mail_user_filters = $client->mail_user_filter_get($remote_session_id, array('mailuser_id' => $remote_mailuser_id));
-							
+
 							if(is_array($mail_user_filters)) {
 								foreach($mail_user_filters as $mail_user_filter) {
 									$mail_user_filter['sys_userid'] = $sys_userid;
@@ -209,7 +209,7 @@ function start_domain_import($mail_domain) {
 									$mail_user_filter['mailuser_id'] = $local_mailuser_id;
 									$mail_user_filter['server_id'] = $server_id;
 									unset($mail_user_filter['filter_id']);
-									
+
 									//* Insert record in DB
 									$app->db->datalogInsert('mail_user_filter', $mail_user_filter, 'filter_id');
 									$msg .= "Imported mailbox filter ".$mail_user['email'].": ".$mail_user_filter['rulename']."<br />";
@@ -219,11 +219,11 @@ function start_domain_import($mail_domain) {
 					} else {
 						$error .= "Mailbox ".$mail_user['email']." exists in local database. Skipped import of mailbox<br />";
 					}
-					
+
 				}
 			}
 		}
-		
+
 		//* Import email aliases
 		if(isset($_POST['import_alias']) && $_POST['import_alias'] == 1) {
 			$mail_aliases = $client->mail_alias_get($remote_session_id, array('type' => 'alias', 'destination' => '%@'.$mail_domain));
@@ -240,11 +240,11 @@ function start_domain_import($mail_domain) {
 					} else {
 						$error .= "Email alias ".$mail_alias['source']." exists in local database. Skipped import.<br />";
 					}
-					
+
 				}
 			}
 		}
-		
+
 		//* Import domain aliases
 		if(isset($_POST['import_aliasdomain']) && $_POST['import_aliasdomain'] == 1) {
 			$mail_aliases = $client->mail_alias_get($remote_session_id, array('type' => 'aliasdomain', 'destination' => '@'.$mail_domain));
@@ -261,11 +261,11 @@ function start_domain_import($mail_domain) {
 					} else {
 						$error .= "Email aliasdomain ".$mail_alias['source']." exists in local database. Skipped import.<br />";
 					}
-					
+
 				}
 			}
 		}
-		
+
 		//* Import email forward
 		if(isset($_POST['import_forward']) && $_POST['import_forward'] == 1) {
 			$mail_forwards = $client->mail_forward_get($remote_session_id, array('type' => 'forward', 'source' => '%@'.$mail_domain));
@@ -282,11 +282,11 @@ function start_domain_import($mail_domain) {
 					} else {
 						$error .= "Email forward ".$mail_forward['source']." exists in local database. Skipped import.<br />";
 					}
-					
+
 				}
 			}
 		}
-		
+
 		//* Import spamfilter
 		if(isset($_POST['import_spamfilter']) && $_POST['import_spamfilter'] == 1) {
 			$mail_spamfilters = $client->mail_spamfilter_user_get($remote_session_id, array('email' => '%@'.$mail_domain));
@@ -303,13 +303,13 @@ function start_domain_import($mail_domain) {
 					} else {
 						$error .= "Spamfilter user ".$mail_spamfilter['email']." exists in local database. Skipped import.<br />";
 					}
-					
+
 				}
 			}
 		}
 
 	}
-	
+
 }
 
 

@@ -27,41 +27,42 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-include_once('validate_datetime.inc.php');
+include_once 'validate_datetime.inc.php';
 
-class validate_autoresponder extends validate_datetime 
+class validate_autoresponder extends validate_datetime
 {
 	function start_date($field_name, $field_value, $validator)
 	{
-		# save field value for later use in end_date()
+		// save field value for later use in end_date()
 		$this->start_date = $field_value;
-		
+
 		if ($this->_datetime_selected($field_value)) {
-			# We just require a start date be set
+			// We just require a start date be set
 			return;
 		}
 		if($_POST['autoresponder'] == 'y') {
 			return "No start date selected";
 		}
 	}
-	
+
 	function end_date($field_name, $field_value, $validator)
 	{
 		global $app;
-		
+
 		$start_date = $this->start_date;
 		//$start_date = $app->tform_actions->dataRecord['autoresponder_start_date'];
-		
+
 		$_msg = $this->not_empty('autoresponder_start_date', $start_date, $validator);
-		if (!$_msg) // Start date set 
-		{
-			if ( !($_msg = $this->not_empty($field_name, $field_value, $validator)) ) // End date set
+		if (!$_msg) // Start date set
 			{
+			if ( !($_msg = $this->not_empty($field_name, $field_value, $validator)) ) // End date set
+				{
 				$validator['compare'] = $this->_get_timestamp_value($start_date);
 				$_msg = $this->is_greater($field_name, $field_value, $validator);
 			}
-			
+
 			return $_msg;
 		}
 	}
+
 }

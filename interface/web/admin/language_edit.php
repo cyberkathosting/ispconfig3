@@ -27,8 +27,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -57,27 +57,27 @@ if(isset($_POST['records']) && is_array($_POST['records'])) {
 	$file_content = "<?php\n";
 	foreach($_POST['records'] as $key => $val) {
 		$val = stripslashes($val);
-		$val = str_replace('"','\"',$val);
-		$val = str_replace('$','',$val);
+		$val = str_replace('"', '\"', $val);
+		$val = str_replace('$', '', $val);
 		$file_content .= '$wb['."'$key'".'] = "'.$val.'";'."\n";
 		$msg = 'File saved.';
 	}
 	$file_content .= "?>\n";
 	if($module == 'global') {
-		file_put_contents(ISPC_LIB_PATH."/lang/$lang_file" ,$file_content);
+		file_put_contents(ISPC_LIB_PATH."/lang/$lang_file" , $file_content);
 	} else {
-		file_put_contents(ISPC_WEB_PATH."/$module/lib/lang/$lang_file" ,$file_content);
+		file_put_contents(ISPC_WEB_PATH."/$module/lib/lang/$lang_file" , $file_content);
 	}
 }
 
 
-$app->tpl->setVar(array('module' => $module,'lang_file' => $lang_file, 'lang' => $lang, 'msg' => $msg));
+$app->tpl->setVar(array('module' => $module, 'lang_file' => $lang_file, 'lang' => $lang, 'msg' => $msg));
 
 if($module == 'global') {
-	include(ISPC_LIB_PATH."/lang/$lang_file");
+	include ISPC_LIB_PATH."/lang/$lang_file";
 	$file_path = ISPC_LIB_PATH."/lang/$lang_file";
 } else {
-	include(ISPC_WEB_PATH."/$module/lib/lang/$lang_file");
+	include ISPC_WEB_PATH."/$module/lib/lang/$lang_file";
 	$file_path = ISPC_WEB_PATH."/$module/lib/lang/$lang_file";
 }
 $app->tpl->setVar("file_path", $file_path);
@@ -85,7 +85,7 @@ $app->tpl->setVar("file_path", $file_path);
 $keyword_list = array();
 if(isset($wb) && is_array($wb)) {
 	foreach($wb as $key => $val) {
-		$keyword_list[] = array('key' => $key, 'val' => htmlentities($val,ENT_COMPAT | ENT_HTML401,'UTF-8'));
+		$keyword_list[] = array('key' => $key, 'val' => htmlentities($val, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
 	}
 
 	$app->tpl->setLoop('records', $keyword_list);
@@ -93,9 +93,9 @@ if(isset($wb) && is_array($wb)) {
 }
 
 
-//* load language file 
+//* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_edit.lng';
-include($lng_file);
+include $lng_file;
 $app->tpl->setVar($wb);
 
 $app->tpl_defaults();

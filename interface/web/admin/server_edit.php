@@ -38,8 +38,8 @@ $tform_def_file = "form/server.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -52,8 +52,8 @@ class page_action extends tform_actions {
 
 	function onShowEnd() {
 		global $app, $conf;
-		
-		// Getting Servers 
+
+		// Getting Servers
 		$sql = "SELECT server_id,server_name FROM server WHERE server_id != $this->id ORDER BY server_name";
 		$mirror_servers = $app->db->queryAllRecords($sql);
 		$mirror_server_select = '<option value="0">'.$app->tform->lng('- None -').'</option>';
@@ -63,19 +63,19 @@ class page_action extends tform_actions {
 				$mirror_server_select .= "<option value='$mirror_server[server_id]' $selected>$mirror_server[server_name]</option>\r\n";
 			}
 		}
-		$app->tpl->setVar("mirror_server_id",$mirror_server_select);
-		
+		$app->tpl->setVar("mirror_server_id", $mirror_server_select);
+
 		parent::onShowEnd();
 	}
-	
+
 	function onSubmit() {
 		global $app;
-		
+
 		//* We do not want to mirror the the server itself
 		if($this->id == $this->dataRecord['mirror_server_id']) $this->dataRecord['mirror_server_id'] = 0;
-		
+
 		parent::onSubmit();
-		
+
 	}
 
 }

@@ -60,145 +60,145 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 			= "Datei Synchronisation";
-$form["description"] 	= "Formular zum Anlegen von Datei-Synchronisierungen.";
-$form["name"] 			= "filesync";
-$form["action"]			= "filesync_edit.php";
-$form["db_table"]		= "sys_filesync";
-$form["db_table_idx"]	= "id";
-$form["tab_default"]	= "filesync";
-$form["list_default"]	= "filesync_list.php";
-$form["auth"]			= 'no';
+$form["title"]    = "Datei Synchronisation";
+$form["description"]  = "Formular zum Anlegen von Datei-Synchronisierungen.";
+$form["name"]    = "filesync";
+$form["action"]   = "filesync_edit.php";
+$form["db_table"]  = "sys_filesync";
+$form["db_table_idx"] = "id";
+$form["tab_default"] = "filesync";
+$form["list_default"] = "filesync_list.php";
+$form["auth"]   = 'no';
 
 
 $form["tabs"]['filesync'] = array (
-	'title' 	=> "Datei sync",
-	'width' 	=> 80,
-	'template' 	=> "templates/filesync_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => "Datei sync",
+	'width'  => 80,
+	'template'  => "templates/filesync_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'jobname' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '/^.{1,30}$/',
-			'errmsg'	=> 'jobname_err',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '15',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '/^.{1,30}$/',
+			'errmsg' => 'jobname_err',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '15',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'sync_interval_minutes' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '15',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '15',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'ftp_host' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'ftp_path' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'ftp_username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'ftp_password' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'local_path' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'wput_options' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> '--timestamping --dont-continue',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => '--timestamping --dont-continue',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'active' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'CHECKBOX',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '1',
-			'value'		=> array(0 => 0,1 => 1),
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '1',
+			'value'  => array(0 => 0, 1 => 1),
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		)
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 

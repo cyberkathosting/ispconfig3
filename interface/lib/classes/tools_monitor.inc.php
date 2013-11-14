@@ -29,21 +29,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class tools_monitor {
 
-    function showServerLoad() {
-        global $app;
+	function showServerLoad() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
 
-            /*
+			/*
             Format the data
             */
-            if (strlen($data['up_minutes']) == "1") $data['up_minutes'] = "0".$data['up_minutes'];
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+			if (strlen($data['up_minutes']) == "1") $data['up_minutes'] = "0".$data['up_minutes'];
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 <table>
                 <tr>
@@ -54,7 +54,7 @@ class tools_monitor {
                 <td>' . $app->lng("Users online").':</td>
                 <td>' . $data['user_online'] . '</td>
                 </tr>' .
-                    '<tr>
+				'<tr>
                 <td>' . $app->lng("System load 1 minute") . ':</td>
                 <td>' . $data['load_1'] . '</td>
                 </tr>
@@ -69,27 +69,27 @@ class tools_monitor {
                 </table>
                 </div>
                 </div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_serverload_txt").'</p>';
-        }
+		} else {
+			$html = '<p>'.$app->lng("no_data_serverload_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showDiskUsage () {
-        global $app;
+	function showDiskUsage () {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
 
-            /*
+			/*
             Format the data
             */
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 <table>
                 <tr>
@@ -101,34 +101,34 @@ class tools_monitor {
                 <td>'.$app->lng("monitor_diskusage_usage_txt").'</td>
                 <td>'.$app->lng("monitor_diskusage_mounted_txt").'</td>
                 </tr>';
-            foreach($data as $line) {
-                $html .= '<tr>';
-                foreach ($line as $item) {
-                    $html .= '<td>' . $item . '</td>';
-                }
-                $html .= '</tr>';
-            }
-            $html .= '</table>';
-            $html .= '</div></div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
-        }
+			foreach($data as $line) {
+				$html .= '<tr>';
+				foreach ($line as $item) {
+					$html .= '<td>' . $item . '</td>';
+				}
+				$html .= '</tr>';
+			}
+			$html .= '</table>';
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
+		}
 
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showDatabaseSize () {
-	global $app;
-	/* fetch the Data from the DB */
-	$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-	if(isset($record['data'])) {
-		$data = unserialize($record['data']);
-		/*
+	function showDatabaseSize () {
+		global $app;
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
+			/*
             	Format the data
             	*/
-            	$html =
-        	       '<div class="systemmonitor-state state-'.$record['state'].'">
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
 	                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 	<table>
 	                <thead>
@@ -137,448 +137,450 @@ class tools_monitor {
 	                <td>'.$app->lng("monitor_database_size_txt").'</td>
         	        <td>'.$app->lng("monitor_database_client_txt").'</td>
                 	</tr>';
-            	foreach($data as $line) {
-                	$html .= '<tr>';
-	                if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
-        	        $t=$app->db->queryOneRecord("SELECT username FROM client WHERE sys_groupid = ".$line['client_id']);
-	                $line['client_id']=$t['username'];
-        	        unset($t);
-                	foreach ($line as $item) {
-				$html .= '<td>' . $item . '</td>';
-	                }
-        	        $html .= '</tr></tmpl loop>';
-            	}
-            	$html .= '</tbody></table>';
-            	$html .= '</div></div>';
-        } else {
-            	$html = '<p>'.$app->lng("no_data_database_size_txt").'</p>';
-        }
-        return $html;
-    }
+			foreach($data as $line) {
+				$html .= '<tr>';
+				if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
+				$t=$app->db->queryOneRecord("SELECT username FROM client WHERE sys_groupid = ".$line['client_id']);
+				$line['client_id']=$t['username'];
+				unset($t);
+				foreach ($line as $item) {
+					$html .= '<td>' . $item . '</td>';
+				}
+				$html .= '</tr></tmpl loop>';
+			}
+			$html .= '</tbody></table>';
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_database_size_txt").'</p>';
+		}
+		return $html;
+	}
 
-    function showMemUsage () {
-        global $app;
+	function showMemUsage () {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
 
-            /*
+			/*
             Format the data
             */
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 <table>';
 
-            foreach($data as $key => $value) {
-                if ($key != '') {
-                    $html .= '<tr>
+			foreach($data as $key => $value) {
+				if ($key != '') {
+					$html .= '<tr>
                         <td>' . $key . ':</td>
                         <td>' . $value . '</td>
                         </tr>';
-                }
-            }
-            $html .= '</table>';
-            $html .= '</div></div>';
+				}
+			}
+			$html .= '</table>';
+			$html .= '</div></div>';
 
-        } else {
-            $html = '<p>'.$app->lng("no_data_memusage_txt").'</p>';
-        }
+		} else {
+			$html = '<p>'.$app->lng("no_data_memusage_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showCpuInfo () {
-        global $app;
+	function showCpuInfo () {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
 
-            /*
+			/*
             Format the data
             */
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 <table>';
-            foreach($data as $key => $value) {
-                if ($key != '') {
-                    $html .= '<tr>
+			foreach($data as $key => $value) {
+				if ($key != '') {
+					$html .= '<tr>
                         <td>' . $key . ':</td>
                         <td>' . $value . '</td>
                         </tr>';
-                }
-            }
-            $html .= '</table>';
-            $html .= '</div></div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
-        }
+				}
+			}
+			$html .= '</table>';
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showServices () {
-        global $app;
+	function showServices () {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
 
-            /*
+			/*
             Format the data
             */
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
                 <table>';
 
-            if($data['webserver'] != -1) {
-                if($data['webserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['webserver'] != -1) {
+				if($data['webserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_web_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
 
-            if($data['ftpserver'] != -1) {
-                if($data['ftpserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['ftpserver'] != -1) {
+				if($data['ftpserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_ftp_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
-            if($data['smtpserver'] != -1) {
-                if($data['smtpserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['smtpserver'] != -1) {
+				if($data['smtpserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_smtp_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
-            if($data['pop3server'] != -1) {
-                if($data['pop3server'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['pop3server'] != -1) {
+				if($data['pop3server'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_pop_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
-            if($data['imapserver'] != -1) {
-                if($data['imapserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['imapserver'] != -1) {
+				if($data['imapserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_imap_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
-            if($data['bindserver'] != -1) {
-                if($data['bindserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['bindserver'] != -1) {
+				if($data['bindserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_mydns_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
-            if($data['mysqlserver'] != -1) {
-                if($data['mysqlserver'] == 1) {
-                    $status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
-                } else {
-                    $status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
-                }
-                $html .= '<tr>
+			if($data['mysqlserver'] != -1) {
+				if($data['mysqlserver'] == 1) {
+					$status = '<span class="online">'.$app->lng("monitor_services_online_txt").'</span>';
+				} else {
+					$status = '<span class="offline">'.$app->lng("monitor_services_offline_txt").'</span>';
+				}
+				$html .= '<tr>
                 <td>'.$app->lng("monitor_services_mysql_txt").'</td>
                 <td>'.$status.'</td>
                 </tr>';
-            }
+			}
 
 
-            $html .= '</table></div></div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_services_txt").'</p>';
-        }
+			$html .= '</table></div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_services_txt").'</p>';
+		}
 
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showSystemUpdate() {
-        global $app;
+	function showSystemUpdate() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because the destribution is not supported) show this.
             */
-            if ($record['state'] == 'no_state') {
-                $html .= '<p>'.$app->lng("monitor_updates_nosupport_txt").'</p>';
-            }
-            else {
-                $data = unserialize($record['data']);
-                $html .= nl2br(html_entity_decode($data['output']));
-            }
-            $html .= '</div></div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_updates_txt").'</p>';
-        }
+			if ($record['state'] == 'no_state') {
+				$html .= '<p>'.$app->lng("monitor_updates_nosupport_txt").'</p>';
+			}
+			else {
+				$data = unserialize($record['data']);
+				$html .= nl2br(html_entity_decode($data['output']));
+			}
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_updates_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
 
-    function showOpenVzBeancounter() {
-        global $app;
+	function showOpenVzBeancounter() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'openvz_beancounter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'openvz_beancounter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because the server is not a VE) show this.
             */
-            $data = unserialize($record['data']);
-            if ((!isset($data)) || ($data == '')) {
-                $html .= '<p>'.$app->lng("monitor_beancounter_nosupport_txt").'</p>';
-            }
-            else {
-                $html .= '<pre>' . nl2br($data) . '</pre>';
-            }
-            $html .= '</div></div>';
-        } else {
-            $html = '<p>'.$app->lng("no_data_updates_txt").'</p>';
-        }
+			$data = unserialize($record['data']);
+			if ((!isset($data)) || ($data == '')) {
+				$html .= '<p>'.$app->lng("monitor_beancounter_nosupport_txt").'</p>';
+			}
+			else {
+				$html .= '<pre>' . nl2br($data) . '</pre>';
+			}
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>'.$app->lng("no_data_updates_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showRaidState() {
-        global $app;
+	function showRaidState() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because the RAID-Controler is not supported yet) show this.
             */
-            if ($record['state'] == 'no_state') {
-                $html .= '<p>'.$app->lng("monitor_nosupportedraid1_txt").'</p>';
-            }
-            else {
-                $data = unserialize($record['data']);
-                $html .= nl2br($data['output']);
-            }
-            $html .= '</div></div>';
+			if ($record['state'] == 'no_state') {
+				$html .= '<p>'.$app->lng("monitor_nosupportedraid1_txt").'</p>';
+			}
+			else {
+				$data = unserialize($record['data']);
+				$html .= nl2br($data['output']);
+			}
+			$html .= '</div></div>';
 
-        } else {
-            $html = '<p>'.$app->lng("no_data_raid_txt").'</p>';
-        }
+		} else {
+			$html = '<p>'.$app->lng("no_data_raid_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showRKHunter() {
-        global $app;
+	function showRKHunter() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because rkhunter is not installed) show this.
             */
-            $data = unserialize($record['data']);
-            if ($data['output'] == '') {
-                $html .= '<p>'.$app->lng("monitor_norkhunter_txt").'</p>';
-            }
-            else {
-                $html .= nl2br($data['output']);
-            }
-            $html .= '</div></div>';
+			$data = unserialize($record['data']);
+			if ($data['output'] == '') {
+				$html .= '<p>'.$app->lng("monitor_norkhunter_txt").'</p>';
+			}
+			else {
+				$html .= nl2br($data['output']);
+			}
+			$html .= '</div></div>';
 
-        } else {
-            $html = '<p>'.$app->lng("no_data_rkhunter_txt").'</p>';
-        }
+		} else {
+			$html = '<p>'.$app->lng("no_data_rkhunter_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showFail2ban() {
-        global $app;
+	function showFail2ban() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_fail2ban' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_fail2ban' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because fail2ban is not installed) show this.
             */
-            $data = unserialize($record['data']);
-            if ($data == '') {
-                $html .= '<p>'.
-                        'fail2ban is not installed at this server.<br />' .
-                        'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
-                        '</p>';
-            }
-            else {
-                $html .= nl2br($data);
-            }
-            $html .= '</div></div>';
+			$data = unserialize($record['data']);
+			if ($data == '') {
+				$html .= '<p>'.
+					'fail2ban is not installed at this server.<br />' .
+					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
+					'</p>';
+			}
+			else {
+				$html .= nl2br($data);
+			}
+			$html .= '</div></div>';
 
-        } else {
-            $html = '<p>There is no data available at the moment.</p>';
-        }
+		} else {
+			$html = '<p>There is no data available at the moment.</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showMongoDB() {
-        global $app;
+	function showMongoDB() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_mongodb' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_mongodb' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
 
-            /*
+			/*
              * First, we have to detect, if there is any monitoring-data.
              * If not (because mongodb is not installed) show this.
             */
-            $data = unserialize($record['data']);
-            if ($data == '') {
-                $html .= '<p>'.
-                        'MongoDB is not installed at this server.<br />' .
-                        'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
-                        '</p>';
-            }
-            else {
-                $html .= nl2br($data);
-            }
-            $html .= '</div></div>';
+			$data = unserialize($record['data']);
+			if ($data == '') {
+				$html .= '<p>'.
+					'MongoDB is not installed at this server.<br />' .
+					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
+					'</p>';
+			}
+			else {
+				$html .= nl2br($data);
+			}
+			$html .= '</div></div>';
 
-        } else {
-            $html = '<p>There is no data available at the moment.</p>';
-        }
+		} else {
+			$html = '<p>There is no data available at the moment.</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function showIPTables() {
-        global $app;
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
-        if(isset($record['data'])) {
-            $html =
-                    '<div class="systemmonitor-state state-'.$record['state'].'">
+	function showIPTables() {
+		global $app;
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		if(isset($record['data'])) {
+			$html =
+				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
-            $data = unserialize($record['data']);
-            if ($data == '') {
-                $html .= '<p>Problem, there are no rules listed for the server</p>';
-            }
-            else {
-                $html .= nl2br($data['output']);
-            }
-            $html .= '</div></div>';
-        } else {
-            $html = '<p>There is no data available at the moment.</p>';
-        }
-        return $html;
-    }
+			$data = unserialize($record['data']);
+			if ($data == '') {
+				$html .= '<p>Problem, there are no rules listed for the server</p>';
+			}
+			else {
+				$html .= nl2br($data['output']);
+			}
+			$html .= '</div></div>';
+		} else {
+			$html = '<p>There is no data available at the moment.</p>';
+		}
+		return $html;
+	}
 
 
-    function showMailq() {
-        global $app;
+	function showMailq() {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        if(isset($record['data'])) {
-            $data = unserialize($record['data']);
-            $html = nl2br($data['output']);
-        } else {
-            $html = '<p>'.$app->lng("no_data_mailq_txt").'</p>';
-        }
+		if(isset($record['data'])) {
+			$data = unserialize($record['data']);
+			$html = nl2br($data['output']);
+		} else {
+			$html = '<p>'.$app->lng("no_data_mailq_txt").'</p>';
+		}
 
-        return $html;
-    }
+		return $html;
+	}
 
-    function getDataTime($type) {
-        global $app;
+	function getDataTime($type) {
+		global $app;
 
-        /* fetch the Data from the DB */
-        $record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		/* fetch the Data from the DB */
+		$record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 
-        /* TODO: datetimeformat should be set somewhat other way */
-        $dateTimeFormat = $app->lng("monitor_settings_datetimeformat_txt");
+		/* TODO: datetimeformat should be set somewhat other way */
+		$dateTimeFormat = $app->lng("monitor_settings_datetimeformat_txt");
 
-        if(isset($record['created'])) {
-    //        $res = date('Y-m-d H:i', $record['created']);
-            $res = date($dateTimeFormat, $record['created']);
-        } else {
-            $res = '????-??-?? ??:??';
-        }
-        return $res;
-    }
+		if(isset($record['created'])) {
+			//        $res = date('Y-m-d H:i', $record['created']);
+			$res = date($dateTimeFormat, $record['created']);
+		} else {
+			$res = '????-??-?? ??:??';
+		}
+		return $res;
+	}
+
 }
+
 ?>

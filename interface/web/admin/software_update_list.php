@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
@@ -42,7 +42,7 @@ $updates_added = 0;
 $repos = $app->db->queryAllRecords("SELECT software_repo_id, repo_url, repo_username, repo_password FROM software_repo WHERE active = 'y'");
 if(is_array($repos)) {
 	foreach($repos as $repo) {
-	
+
 		/*
 		SELECT software_package.package_name, v1, v2, v3, v4
 		FROM software_package
@@ -51,26 +51,26 @@ if(is_array($repos)) {
 		GROUP BY package_name
 		ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC
 		*/
-		
+
 		$client = new SoapClient(null, array('location' => $repo['repo_url'],
-                                     		 'uri'      => $repo['repo_url']));
-		
+				'uri'      => $repo['repo_url']));
+
 		$packages = $app->db->queryAllRecords("SELECT software_package.package_name, v1, v2, v3, v4 FROM software_package LEFT JOIN software_update ON ( software_package.package_name = software_update.package_name ) GROUP BY package_name ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC");
 		if(is_array($packages)) {
 			foreach($packages as $p) {
-			
+
 				$version = $p['v1'].'.'.$p['v2'].'.'.$p['v3'].'.'.$p['v4'];
-				$updates = $client->get_updates($p['package_name'], $version,$repo['repo_username'], $repo['repo_password']);
-				
+				$updates = $client->get_updates($p['package_name'], $version, $repo['repo_username'], $repo['repo_password']);
+
 				if(is_array($updates)) {
 					foreach($updates as $u) {
-						
-						$version_array = explode('.',$u['version']);
+
+						$version_array = explode('.', $u['version']);
 						$v1 = $app->functions->intval($version_array[0]);
 						$v2 = $app->functions->intval($version_array[1]);
 						$v3 = $app->functions->intval($version_array[2]);
 						$v4 = $app->functions->intval($version_array[3]);
-						
+
 						$package_name = $app->db->quote($u['package_name']);
 						$software_repo_id = $app->functions->intval($repo['software_repo_id']);
 						$update_url = $app->db->quote($u['url']);
@@ -78,18 +78,18 @@ if(is_array($repos)) {
 						$update_dependencies = (isset($u['dependencies']))?$app->db->quote($u['dependencies']):'';
 						$update_title = $app->db->quote($u['title']);
 						$type = $app->db->quote($u['type']);
-						
+
 						// Check that we do not have this update in the database yet
 						$sql = "SELECT * FROM software_update WHERE package_name = '$package_name' and v1 = '$v1' and v2 = '$v2' and v3 = '$v3' and v4 = '$v4'";
 						$tmp = $app->db->queryOneRecord($sql);
 						if(!isset($tmp['software_update_id'])) {
 							// Insert the update in the datbase
-							$sql = "INSERT INTO software_update (software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type) 
+							$sql = "INSERT INTO software_update (software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type)
 							VALUES ($software_repo_id, '$package_name', '$update_url', '$update_md5', '$update_dependencies', '$update_title', '$v1', '$v2', '$v3', '$v4', '$type')";
 							//die($sql);
 							$app->db->query($sql);
 						}
-						
+
 					}
 				}
 			}
@@ -103,11 +103,11 @@ if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] !=
 	$package_name = $app->db->quote($_GET['package']);
 	$server_id = $app->functions->intval($_GET['server_id']);
 	$software_update_id = $app->functions->intval($_GET['id']);
-	
+
 	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
 	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
-	
+
 }
 
 
@@ -116,7 +116,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] !=
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
-$app->tpl->setInclude('content_tpl','templates/software_update_list.htm');
+$app->tpl->setInclude('content_tpl', 'templates/software_update_list.htm');
 
 /*
 SELECT software_package.package_name, software_package.package_title, software_update.update_title, v1, v2, v3, v4, software_update_inst.status
@@ -144,7 +144,7 @@ foreach($servers as $key => $server) {
 	}
 }
 
-$app->tpl->setLoop('servers',$servers);
+$app->tpl->setLoop('servers', $servers);
 
 $sql = "SELECT v1, v2, v3, v4, software_update.update_title, software_update.software_update_id, software_update.package_name, v1, v2, v3, v4, software_update_inst.status
 		FROM software_update LEFT JOIN software_update_inst ON ( software_update.software_update_id = software_update_inst.software_update_id )
@@ -159,25 +159,25 @@ $records_out = array();
 
 if(is_array($installed_packages)) {
 	foreach($installed_packages as $ip) {
-		
+
 		// Get version number of the latest installed version
 		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ".$server_id." ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
 		$lu = $app->db->queryOneRecord($sql);
-		
+
 		// Get all installable updates
 		$sql = "SELECT * FROM software_update WHERE v1 >= $lu[v1] AND v2 >= $lu[v2] AND v3 >= $lu[v3] AND v4 >= $lu[v4] AND package_name = '$ip[package_name]' ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC";
 		$updates = $app->db->queryAllRecords($sql);
 		//die($sql);
-		
+
 		if(is_array($updates)) {
 			// Delete the last record as it is already installed
 			unset($updates[count($updates)-1]);
-			
+
 			foreach($updates as $key => $u) {
 				$version = $u['v1'].'.'.$u['v2'].'.'.$u['v3'].'.'.$u['v4'];
 				$installed_txt = "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install Update</a><br />";
 				$records_out[] = array('version' => $version, 'update_title' => $u["update_title"], 'installed' => $installed_txt);
-		
+
 			}
 		}
 	}
@@ -193,7 +193,7 @@ $updates = $app->db->queryAllRecords('SELECT software_update.update_title, softw
 if(is_array($updates)) {
 	foreach($updates as $key => $u) {
 		$installed_txt = '';
-		
+
 		$version = $u['v1'].'.'.$u['v2'].'.'.$u['v3'].'.'.$u['v4'];
 		$updates[$key]['version'] = $version;
 		if($u['status'] == 'installed' || $u['status'] == 'installing' || $u['status'] == 'deleting') {
@@ -202,17 +202,17 @@ if(is_array($updates)) {
 			$installed_txt .= "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install now</a><br />";
 		}
 		$updates[$key]['installed'] = $installed_txt;
-		
+
 	}
 }
 */
 
 
 
-$app->tpl->setLoop('records',$records_out);
+$app->tpl->setLoop('records', $records_out);
 
 $language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
-include_once('lib/lang/'.$language.'_software_update_list.lng');
+include_once 'lib/lang/'.$language.'_software_update_list.lng';
 $app->tpl->setVar($wb);
 
 

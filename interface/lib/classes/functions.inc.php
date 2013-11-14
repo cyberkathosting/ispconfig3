@@ -33,14 +33,14 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class functions {
 	var $idn_converter = null;
-    var $idn_converter_name = '';
+	var $idn_converter_name = '';
 
 	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
-		
-        $app->uses('getconf,ispcmail');
+
+		$app->uses('getconf,ispcmail');
 		$mail_config = $app->getconf->get_global_config('mail');
 		if($mail_config['smtp_enabled'] == 'y') {
 			$mail_config['use_smtp'] = true;
@@ -49,58 +49,58 @@ class functions {
 		$app->ispcmail->setSender($from, $from_name);
 		$app->ispcmail->setSubject($subject);
 		$app->ispcmail->setMailText($text);
-		
+
 		if($filepath != '') {
 			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
 			$app->ispcmail->readAttachFile($filepath);
 		}
-		
+
 		if($cc != '') $app->ispcmail->setHeader('Cc', $cc);
 		if($bcc != '') $app->ispcmail->setHeader('Bcc', $bcc);
-		
+
 		$app->ispcmail->send($to);
 		$app->ispcmail->finish();
-		
+
 		return true;
 	}
-	
-	public function array_merge($array1,$array2) {
+
+	public function array_merge($array1, $array2) {
 		$out = $array1;
 		foreach($array2 as $key => $val) {
 			$out[$key] = $val;
 		}
 		return $out;
 	}
-	
+
 	public function currency_format($number, $view = '') {
 		global $app;
 		if($view != '') $number_format_decimals = (int)$app->lng('number_format_decimals_'.$view);
-        if(!$number_format_decimals) $number_format_decimals = (int)$app->lng('number_format_decimals');
-        
+		if(!$number_format_decimals) $number_format_decimals = (int)$app->lng('number_format_decimals');
+
 		$number_format_dec_point = $app->lng('number_format_dec_point');
 		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
 		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
 		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
 	}
-	
+
 	//* convert currency formatted number back to floating number
 	public function currency_unformat($number) {
 		global $app;
-        
+
 		$number_format_dec_point = $app->lng('number_format_dec_point');
 		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
 		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
-		
+
 		if($number_format_thousands_sep != '') $number = str_replace($number_format_thousands_sep, '', $number);
 		if($number_format_dec_point != '.' && $number_format_dec_point != '') $number = str_replace($number_format_dec_point, '.', $number);
-		
+
 		return (double)$number;
 	}
-	
+
 	public function get_ispconfig_url() {
 		global $app;
-		
-		$url = (stristr($_SERVER['SERVER_PROTOCOL'],'HTTPS') || stristr($_SERVER['HTTPS'],'on'))?'https':'http';
+
+		$url = (stristr($_SERVER['SERVER_PROTOCOL'], 'HTTPS') || stristr($_SERVER['HTTPS'], 'on'))?'https':'http';
 		if($_SERVER['SERVER_NAME'] != '_') {
 			$url .= '://'.$_SERVER['SERVER_NAME'];
 			if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
@@ -108,7 +108,7 @@ class functions {
 			}
 		} else {
 			$app->uses("getconf");
-			$server_config = $app->getconf->get_server_config(1,'server');
+			$server_config = $app->getconf->get_server_config(1, 'server');
 			$url .= '://'.$server_config['hostname'];
 			if($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 				$url .= ':'.$_SERVER['SERVER_PORT'];
@@ -116,53 +116,53 @@ class functions {
 		}
 		return $url;
 	}
-	
-    public function json_encode($data) {
+
+	public function json_encode($data) {
 		if(!function_exists('json_encode')){
 			if(is_array($data) || is_object($data)){
-				$islist = is_array($data) && (empty($data) || array_keys($data) === range(0,count($data)-1));
+				$islist = is_array($data) && (empty($data) || array_keys($data) === range(0, count($data)-1));
 
 				if($islist){
 					$json = '[' . implode(',', array_map(array($this, "json_encode"), $data) ) . ']';
 				} else {
-					$items = Array();
+					$items = array();
 					foreach( $data as $key => $value ) {
 						$items[] = $this->json_encode("$key") . ':' . $this->json_encode($value);
 					}
 					$json = '{' . implode(',', $items) . '}';
 				}
 			} elseif(is_string($data)){
-				# Escape non-printable or Non-ASCII characters.
-				# I also put the \\ character first, as suggested in comments on the 'addclashes' page.
+				// Escape non-printable or Non-ASCII characters.
+				// I also put the \\ character first, as suggested in comments on the 'addclashes' page.
 				$string = '"'.addcslashes($data, "\\\"\n\r\t/".chr(8).chr(12)).'"';
 				$json = '';
 				$len = strlen($string);
-				# Convert UTF-8 to Hexadecimal Codepoints.
+				// Convert UTF-8 to Hexadecimal Codepoints.
 				for($i = 0; $i < $len; $i++){
 					$char = $string[$i];
 					$c1 = ord($char);
 
-					# Single byte;
+					// Single byte;
 					if($c1 <128){
 						$json .= ($c1 > 31) ? $char : sprintf("\\u%04x", $c1);
 						continue;
 					}
 
-					# Double byte
+					// Double byte
 					$c2 = ord($string[++$i]);
 					if(($c1 & 32) === 0){
 						$json .= sprintf("\\u%04x", ($c1 - 192) * 64 + $c2 - 128);
 						continue;
 					}
 
-					# Triple
+					// Triple
 					$c3 = ord($string[++$i]);
 					if(($c1 & 16) === 0){
 						$json .= sprintf("\\u%04x", (($c1 - 224) <<12) + (($c2 - 128) << 6) + ($c3 - 128));
 						continue;
 					}
 
-					# Quadruple
+					// Quadruple
 					$c4 = ord($string[++$i]);
 					if(($c1 & 8) === 0){
 						$u = (($c1 & 15) << 2) + (($c2>>4) & 3) - 1;
@@ -173,25 +173,25 @@ class functions {
 					}
 				}
 			} else {
-				# int, floats, bools, null
+				// int, floats, bools, null
 				$json = strtolower(var_export($data, true));
 			}
 			return $json;
 		} else {
 			return json_encode($data);
 		}
-    }
-	
+	}
+
 	public function suggest_ips($type = 'IPv4'){
 		global $app;
-	
+
 		if($type == 'IPv4'){
 			$regex = "/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/";
 		} else {
 			// IPv6
 			$regex = "/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i";
 		}
-		
+
 		$server_by_id = array();
 		$server_by_ip = array();
 		$servers = $app->db->queryAllRecords("SELECT * FROM server");
@@ -200,7 +200,7 @@ class functions {
 				$server_by_id[$server['server_id']] = $server['server_name'];
 			}
 		}
-	
+
 		$ips = array();
 		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$type."'");
 		if(!empty($results) && is_array($results)){
@@ -229,7 +229,7 @@ class functions {
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-	
+
 		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_slave WHERE xfer != ''");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
@@ -274,117 +274,119 @@ class functions {
 		sort($ips, SORT_NUMERIC);
 
 		$result_array = array('cheader' => array(), 'cdata' => array());
-	
+
 		if(!empty($ips)){
 			$result_array['cheader'] = array('title' => 'IPs',
-											'total' => count($ips),
-											'limit' => count($ips)
-											);
-	
+				'total' => count($ips),
+				'limit' => count($ips)
+			);
+
 			foreach($ips as $ip){
-				$result_array['cdata'][] = array(	'title' => $ip,
-													'description' => $type.($server_by_ip[$ip] != ''? ' &gt; '.$server_by_ip[$ip] : ''),
-													'onclick' => '',
-													'fill_text' => $ip
-												);
+				$result_array['cdata'][] = array( 'title' => $ip,
+					'description' => $type.($server_by_ip[$ip] != ''? ' &gt; '.$server_by_ip[$ip] : ''),
+					'onclick' => '',
+					'fill_text' => $ip
+				);
 			}
 		}
-	
+
 		return $result_array;
 	}
 
-    public function intval($string, $force_numeric = false) {
-        if(intval($string) == 2147483647 || ($string > 0 && intval($string) < 0)) {
-            if($force_numeric == true) return floatval($string);
-            elseif(preg_match('/^([-]?)[0]*([1-9][0-9]*)([^0-9].*)*$/', $string, $match)) return $match[1].$match[2];
-            else return 0;
-        } else {
-            return intval($string);
-        }
-    }
-    
-    /**
-    * Function to change bytes to kB, MB, GB or TB
-    * @param int $size - size in bytes
-    * @param int precicion - after-comma-numbers (default: 2)
-    * @return string - formated bytes
-    */
-    public function formatBytes($size, $precision = 2) {
-        $base=log($size)/log(1024);
-        $suffixes=array('','k','M','G','T');
-        return round(pow(1024,$base-floor($base)),$precision).$suffixes[floor($base)];
-    }
+	public function intval($string, $force_numeric = false) {
+		if(intval($string) == 2147483647 || ($string > 0 && intval($string) < 0)) {
+			if($force_numeric == true) return floatval($string);
+			elseif(preg_match('/^([-]?)[0]*([1-9][0-9]*)([^0-9].*)*$/', $string, $match)) return $match[1].$match[2];
+			else return 0;
+		} else {
+			return intval($string);
+		}
+	}
 
-    /** IDN converter wrapper.
-     * all converter classes should be placed in ISPC_CLASS_PATH.'/idn/'
-     */
-    private function _idn_encode_decode($domain, $encode = true) {
-        if($domain == '') return '';
-        if(preg_match('/^[0-9\.]+$/', $domain)) return $domain; // may be an ip address - anyway does not need to bee encoded
-        
-        // get domain and user part if it is an email
-        $user_part = false;
-        if(strpos($domain, '@') !== false) {
-            $user_part = substr($domain, 0, strrpos($domain, '@'));
-            $domain = substr($domain, strrpos($domain, '@') + 1);
-        }
-        
-        if($encode == true) {
-            if(function_exists('idn_to_ascii')) {
-                $domain = idn_to_ascii($domain);
-            } elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
-                 /* use idna class:
+	/**
+	 * Function to change bytes to kB, MB, GB or TB
+	 * @param int $size - size in bytes
+	 * @param int precicion - after-comma-numbers (default: 2)
+	 * @return string - formated bytes
+	 */
+
+
+	public function formatBytes($size, $precision = 2) {
+		$base=log($size)/log(1024);
+		$suffixes=array('', 'k', 'M', 'G', 'T');
+		return round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
+	}
+
+	/** IDN converter wrapper.
+	 * all converter classes should be placed in ISPC_CLASS_PATH.'/idn/'
+	 */
+	private function _idn_encode_decode($domain, $encode = true) {
+		if($domain == '') return '';
+		if(preg_match('/^[0-9\.]+$/', $domain)) return $domain; // may be an ip address - anyway does not need to bee encoded
+
+		// get domain and user part if it is an email
+		$user_part = false;
+		if(strpos($domain, '@') !== false) {
+			$user_part = substr($domain, 0, strrpos($domain, '@'));
+			$domain = substr($domain, strrpos($domain, '@') + 1);
+		}
+
+		if($encode == true) {
+			if(function_exists('idn_to_ascii')) {
+				$domain = idn_to_ascii($domain);
+			} elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
+				/* use idna class:
                  * @author  Matthias Sommerfeld <mso@phlylabs.de>
                  * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
                  * @version 0.8.0 2011-03-11
                  */
-                
-                if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
-                    include_once(ISPC_CLASS_PATH.'/idn/idna_convert.class.php');
-                    $this->idn_converter = new idna_convert(array('idn_version' => 2008));
-                    $this->idn_converter_name = 'idna_convert.class';
-                }
-                $domain = $this->idn_converter->encode($domain);
-            }
-        } else {
-            if(function_exists('idn_to_utf8')) {
-                $domain = idn_to_utf8($domain);
-            } elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
-                 /* use idna class:
+
+				if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
+					include_once ISPC_CLASS_PATH.'/idn/idna_convert.class.php';
+					$this->idn_converter = new idna_convert(array('idn_version' => 2008));
+					$this->idn_converter_name = 'idna_convert.class';
+				}
+				$domain = $this->idn_converter->encode($domain);
+			}
+		} else {
+			if(function_exists('idn_to_utf8')) {
+				$domain = idn_to_utf8($domain);
+			} elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
+				/* use idna class:
                  * @author  Matthias Sommerfeld <mso@phlylabs.de>
                  * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
                  * @version 0.8.0 2011-03-11
                  */
-                
-                if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
-                    include_once(ISPC_CLASS_PATH.'/idn/idna_convert.class.php');
-                    $this->idn_converter = new idna_convert(array('idn_version' => 2008));
-                    $this->idn_converter_name = 'idna_convert.class';
-                }
-                $domain = $this->idn_converter->decode($domain);
-            }
-        }
-        
-        if($user_part !== false) return $user_part . '@' . $domain;
-        else return $domain;
-    }
-     
-    public function idn_encode($domain) {
-        $domains = explode("\n", $domain);
-        for($d = 0; $d < count($domains); $d++) {
-            $domains[$d] = $this->_idn_encode_decode($domains[$d], true);
-        }
-        return implode("\n", $domains);
-    }
-    
-    public function idn_decode($domain) {
-        $domains = explode("\n", $domain);
-        for($d = 0; $d < count($domains); $d++) {
-            $domains[$d] = $this->_idn_encode_decode($domains[$d], false);
-        }
-        return implode("\n", $domains);
-    }
-		
+
+				if(!is_object($this->idn_converter) || $this->idn_converter_name != 'idna_convert.class') {
+					include_once ISPC_CLASS_PATH.'/idn/idna_convert.class.php';
+					$this->idn_converter = new idna_convert(array('idn_version' => 2008));
+					$this->idn_converter_name = 'idna_convert.class';
+				}
+				$domain = $this->idn_converter->decode($domain);
+			}
+		}
+
+		if($user_part !== false) return $user_part . '@' . $domain;
+		else return $domain;
+	}
+
+	public function idn_encode($domain) {
+		$domains = explode("\n", $domain);
+		for($d = 0; $d < count($domains); $d++) {
+			$domains[$d] = $this->_idn_encode_decode($domains[$d], true);
+		}
+		return implode("\n", $domains);
+	}
+
+	public function idn_decode($domain) {
+		$domains = explode("\n", $domain);
+		for($d = 0; $d < count($domains); $d++) {
+			$domains[$d] = $this->_idn_encode_decode($domains[$d], false);
+		}
+		return implode("\n", $domains);
+	}
+
 }
 
 ?>

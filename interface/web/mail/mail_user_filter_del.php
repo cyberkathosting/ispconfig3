@@ -39,8 +39,8 @@ $tform_def_file = "form/mail_user_filter.tform.php";
 * End Form configuration
 ******************************************/
 
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
@@ -50,17 +50,17 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-	
+
 	/*
 	//* Code moved to mailfilter plugin
 	function onAfterDelete() {
 		global $app, $conf;
-		
+
 		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n",$mailuser['custom_mailfilter']);
 		$out = '';
-		
+
 		foreach($lines as $line) {
 			$line = trim($line);
 			if($line == '### BEGIN FILTER_ID:'.$this->id) {
@@ -71,13 +71,13 @@ class page_action extends tform_actions {
 				$skip = false;
 			}
 		}
-		
+
 		$out = $app->db->quote($out);
 		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
-	
+
 	}
 	*/
-	
+
 }
 
 $page = new page_action;

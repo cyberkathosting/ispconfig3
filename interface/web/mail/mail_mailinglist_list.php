@@ -1,6 +1,6 @@
 <?php
-require_once('../../lib/config.inc.php');
-require_once('../../lib/app.inc.php');
+require_once '../../lib/config.inc.php';
+require_once '../../lib/app.inc.php';
 
 /******************************************
 * Begin Form configuration
@@ -19,22 +19,22 @@ $app->load('listform_actions');
 
 
 class list_action extends listform_actions {
-	
+
 	function onShow() {
-		global $app,$conf;
-		
+		global $app, $conf;
+
 		$app->uses('getconf');
 		$global_config = $app->getconf->get_global_config('mail');
-		
+
 		if($global_config['mailmailinglist_link'] == 'y') {
-			$app->tpl->setVar('mailmailinglist_link',1);
+			$app->tpl->setVar('mailmailinglist_link', 1);
 		} else {
-			$app->tpl->setVar('mailmailinglist_link',0);
+			$app->tpl->setVar('mailmailinglist_link', 0);
 		}
-		
+
 		parent::onShow();
 	}
-	
+
 }
 
 $list = new list_action;

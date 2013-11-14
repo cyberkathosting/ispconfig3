@@ -59,16 +59,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form["title"] 			= "Software Repository";
-$form["description"] 	= "Software Repository which may contain addons or updates";
-$form["name"] 			= "software_repo";
-$form["action"]			= "software_repo_edit.php";
-$form["db_table"]		= "software_repo";
-$form["db_table_idx"]	= "software_repo_id";
-$form["db_history"]		= "no";
-$form["tab_default"]	= "software_repo";
-$form["list_default"]	= "software_repo_list.php";
-$form["auth"]			= 'yes';
+$form["title"]    = "Software Repository";
+$form["description"]  = "Software Repository which may contain addons or updates";
+$form["name"]    = "software_repo";
+$form["action"]   = "software_repo_edit.php";
+$form["db_table"]  = "software_repo";
+$form["db_table_idx"] = "software_repo_id";
+$form["db_history"]  = "no";
+$form["tab_default"] = "software_repo";
+$form["list_default"] = "software_repo_list.php";
+$form["auth"]   = 'yes';
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
 $form["auth_preset"]["groupid"] = 0; // 0 = default groupid of the user, > 0 id must match with groupid of current user
@@ -77,77 +77,77 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['software_repo'] = array (
-	'title' 	=> "Repository",
-	'width' 	=> 80,
-	'template' 	=> "templates/software_repo_edit.htm",
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
+	'title'  => "Repository",
+	'width'  => 80,
+	'template'  => "templates/software_repo_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
 		'repo_name' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'repo_name_empty'),
-										1 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'repo_name_unique'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '40',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'repo_name_empty'),
+				1 => array ( 'type' => 'UNIQUE',
+					'errmsg'=> 'repo_name_unique'),
+			),
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '40',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'repo_url' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'validators'	=> array ( 	0 => array (	'type'	=> 'NOTEMPTY',
-														'errmsg'=> 'repo_name_empty'),
-										1 => array (	'type'	=> 'UNIQUE',
-														'errmsg'=> 'repo_name_unique'),
-									),
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '40',
-			'maxlength'	=> '40',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'repo_name_empty'),
+				1 => array ( 'type' => 'UNIQUE',
+					'errmsg'=> 'repo_name_unique'),
+			),
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '40',
+			'maxlength' => '40',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'repo_username' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'TEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '30',
-			'rows'		=> '',
-			'cols'		=> ''
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '30',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'repo_password' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'PASSWORD',
+			'datatype' => 'VARCHAR',
+			'formtype' => 'PASSWORD',
 			'encryption' => 'CLEARTEXT',
-			'default'	=> '',
-			'value'		=> '',
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '30',
-			'rows'		=> '',
-			'cols'		=> ''
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '30',
+			'rows'  => '',
+			'cols'  => ''
 		),
 		'active' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'CHECKBOX',
-			'default'	=> 'y',
-			'value'		=> array(0 => 'n',1 => 'y')
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 ?>

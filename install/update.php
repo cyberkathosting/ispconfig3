@@ -37,7 +37,7 @@ error_reporting(E_ALL|E_STRICT);
 define('INSTALLER_RUN', true);
 
 //** The banner on the command line
-echo "\n\n".str_repeat('-',80)."\n";
+echo "\n\n".str_repeat('-', 80)."\n";
 echo " _____ ___________   _____              __ _         ____
 |_   _/  ___| ___ \ /  __ \            / _(_)       /__  \
   | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _    _/ /
@@ -46,17 +46,17 @@ echo " _____ ___________   _____              __ _         ____
  \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, | \____/
                                               __/ |
                                              |___/ ";
-echo "\n".str_repeat('-',80)."\n";
+echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Update  \n\n";
 
 //** Include the library with the basic installer functions
-require_once('lib/install.lib.php');
+require_once 'lib/install.lib.php';
 
 //** Include the library with the basic updater functions
-require_once('lib/update.lib.php');
+require_once 'lib/update.lib.php';
 
 //** Include the base class of the installer class
-require_once('lib/installer_base.lib.php');
+require_once 'lib/installer_base.lib.php';
 
 //** Ensure that current working directory is install directory
 $cur_dir = getcwd();
@@ -74,16 +74,16 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 //** Get distribution identifier
 $dist = get_distname();
 
-include_once("/usr/local/ispconfig/server/lib/config.inc.php");
+include_once "/usr/local/ispconfig/server/lib/config.inc.php";
 $conf_old = $conf;
 unset($conf);
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
 //** Include the distribution-specific installer class library and configuration
-if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once('dist/lib/'.$dist['baseid'].'.lib.php');
-include_once('dist/lib/'.$dist['id'].'.lib.php');
-include_once('dist/conf/'.$dist['id'].'.conf.php');
+if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
+include_once 'dist/lib/'.$dist['id'].'.lib.php';
+include_once 'dist/conf/'.$dist['id'].'.conf.php';
 
 //** Get hostname
 exec('hostname -f', $tmp_out);
@@ -128,52 +128,52 @@ $inst->find_installed_apps();
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
 //* Make a backup before we start the update
-$do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in /var/backup/ now?', array('yes','no'),'yes');
+$do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in /var/backup/ now?', array('yes', 'no'), 'yes');
 if($do_backup == 'yes') {
-	
+
 	//* Create the backup directory
 	$backup_path = '/var/backup/ispconfig_'.@date('Y-m-d_H-i');
 	$conf['backup_path'] = $backup_path;
 	exec("mkdir -p $backup_path");
 	exec("chown root:root $backup_path");
 	exec("chmod 700 $backup_path");
-	
+
 	//* Do the backup
 	swriteln('Creating backup of "/usr/local/ispconfig" directory...');
-	exec("tar pcfz $backup_path/ispconfig_software.tar.gz /usr/local/ispconfig 2> /dev/null",$out,$returnvar);
+	exec("tar pcfz $backup_path/ispconfig_software.tar.gz /usr/local/ispconfig 2> /dev/null", $out, $returnvar);
 	if($returnvar != 0) die("Backup failed. We stop here...\n");
-	
+
 	swriteln('Creating backup of "/etc" directory...');
-	exec("tar pcfz $backup_path/etc.tar.gz /etc 2> /dev/null",$out,$returnvar);
+	exec("tar pcfz $backup_path/etc.tar.gz /etc 2> /dev/null", $out, $returnvar);
 	if($returnvar != 0) die("Backup failed. We stop here...\n");
-	
+
 	exec("chown root:root $backup_path/*.tar.gz");
 	exec("chmod 700 $backup_path/*.tar.gz");
 }
 
 
 //** Initialize the MySQL server connection
-include_once('lib/mysql.lib.php');
+include_once 'lib/mysql.lib.php';
 
 //** Database update is a bit brute force and should be rebuild later ;)
 
 /*
  * Try to read the DB-admin settings
  */
-$clientdb_host			= '';
-$clientdb_user			= '';
-$clientdb_password		= '';
-include_once("/usr/local/ispconfig/server/lib/mysql_clientdb.conf");
+$clientdb_host   = '';
+$clientdb_user   = '';
+$clientdb_password  = '';
+include_once "/usr/local/ispconfig/server/lib/mysql_clientdb.conf";
 $conf["mysql"]["admin_user"] = $clientdb_user;
 $conf["mysql"]["admin_password"] = $clientdb_password;
-$clientdb_host			= '';
-$clientdb_user			= '';
-$clientdb_password		= '';
+$clientdb_host   = '';
+$clientdb_user   = '';
+$clientdb_password  = '';
 
 //** Test mysql root connection
 $finished = false;
 do {
-	if(@mysql_connect($conf["mysql"]["host"],$conf["mysql"]["admin_user"],$conf["mysql"]["admin_password"])) {
+	if(@mysql_connect($conf["mysql"]["host"], $conf["mysql"]["admin_user"], $conf["mysql"]["admin_password"])) {
 		$finished = true;
 	} else {
 		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
@@ -183,7 +183,7 @@ do {
 unset($finished);
 
 /*
- *  Prepare the dump of the database 
+ *  Prepare the dump of the database
  */
 prepareDBDump();
 
@@ -192,34 +192,34 @@ $inst->db = new db();
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {
-		//** Get MySQL root credentials
-		$finished = false;
-		do {
-			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
-			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
-			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
-    		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
-	
-			//* Initialize the MySQL server connection
-			if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
-				$conf['mysql']['master_host'] = $tmp_mysql_server_host;
-				$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
-				$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
-				$conf['mysql']['master_database'] = $tmp_mysql_server_database;
-				$finished = true;
-			} else {
-				swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
-			}
-		} while ($finished == false);
-		unset($finished);
-		
-		// initialize the connection to the master database
-		$inst->dbmaster = new db();
-		if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-		$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
-		$inst->dbmaster->dbName = $conf['mysql']["master_database"];
-		$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
-		$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+	//** Get MySQL root credentials
+	$finished = false;
+	do {
+		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
+		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
+		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
+		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
+
+		//* Initialize the MySQL server connection
+		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
+			$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
+			$conf['mysql']['master_database'] = $tmp_mysql_server_database;
+			$finished = true;
+		} else {
+			swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+		}
+	} while ($finished == false);
+	unset($finished);
+
+	// initialize the connection to the master database
+	$inst->dbmaster = new db();
+	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
+	$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
+	$inst->dbmaster->dbName = $conf['mysql']["master_database"];
+	$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
+	$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
 } else {
 	$inst->dbmaster = $inst->db;
 }
@@ -240,28 +240,28 @@ updateDbAndIni();
  * If this is done at server side, all clients are updated.
  */
 //if($conf_old['dbmaster_user'] != '' or $conf_old['dbmaster_host'] != '') {
-	//** Update master database rights
-	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes','no'),'no');
+//** Update master database rights
+$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes', 'no'), 'no');
 
-	if($reconfigure_master_database_rights_answer == 'yes') {
-		$inst->grant_master_database_rights();
-	}
+if($reconfigure_master_database_rights_answer == 'yes') {
+	$inst->grant_master_database_rights();
+}
 //}
 
 //** Shall the services be reconfigured during update
-$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes','no'),'yes');
+$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no'), 'yes');
 
 if($reconfigure_services_answer == 'yes') {
-	
+
 	if($conf['services']['mail']) {
 		//** Configure postfix
 		swriteln('Configuring Postfix');
 		$inst->configure_postfix('dont-create-certs');
-		
+
 		//** Configure mailman
 		swriteln('Configuring Mailman');
 		$inst->configure_mailman('update');
-	
+
 		//* Configure Jailkit
 		swriteln('Configuring Jailkit');
 		$inst->configure_jailkit();
@@ -274,11 +274,11 @@ if($reconfigure_services_answer == 'yes') {
 			//** Configure saslauthd
 			swriteln('Configuring SASL');
 			$inst->configure_saslauthd();
-	
+
 			//** Configure PAM
 			swriteln('Configuring PAM');
 			$inst->configure_pam();
-		
+
 			//* Configure courier
 			swriteln('Configuring Courier');
 			$inst->configure_courier();
@@ -296,13 +296,13 @@ if($reconfigure_services_answer == 'yes') {
 		swriteln('Configuring Getmail');
 		$inst->configure_getmail();
 	}
-	
+
 	if($conf['services']['web'] && $conf['pureftpd']['installed'] == true) {
 		//** Configure Pureftpd
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
 	}
-	
+
 	if($conf['services']['dns']) {
 		//* Configure DNS
 		if($conf['powerdns']['installed'] == true) {
@@ -316,13 +316,13 @@ if($reconfigure_services_answer == 'yes') {
 			$inst->configure_mydns();
 		}
 	}
-	
+
 	if($conf['services']['web']) {
 		if($conf['webserver']['server_type'] == 'apache'){
 			//** Configure Apache
 			swriteln('Configuring Apache');
 			$inst->configure_apache();
-        
+
 			//** Configure vlogger
 			swriteln('Configuring vlogger');
 			$inst->configure_vlogger();
@@ -331,7 +331,7 @@ if($reconfigure_services_answer == 'yes') {
 			swriteln('Configuring nginx');
 			$inst->configure_nginx();
 		}
-		
+
 		//** Configure apps vhost
 		swriteln('Configuring Apps vhost');
 		$inst->configure_apps_vhost();
@@ -342,7 +342,7 @@ if($reconfigure_services_answer == 'yes') {
 	swriteln('Configuring Database');
 	$inst->configure_dbserver();
 
-	
+
 	if($conf['services']['firewall']) {
 		if($conf['ufw']['installed'] == true) {
 			//* Configure Ubuntu Firewall
@@ -355,7 +355,7 @@ if($reconfigure_services_answer == 'yes') {
 			$inst->configure_bastille_firewall();
 		}
 	}
-	
+
 	/*
 	if($conf['squid']['installed'] == true) {
 		swriteln('Configuring Squid');
@@ -384,10 +384,10 @@ if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 	} else {
 		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
 	}
-	
-	
+
+
 	// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
-	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate',array('yes','no'),'no')) == 'yes') {
+	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate', array('yes', 'no'), 'no')) == 'yes') {
 		$inst->make_ispconfig_ssl_cert();
 	}
 }
@@ -395,7 +395,7 @@ if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 $inst->install_ispconfig();
 
 //** Configure Crontab
-$update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes','no'),'yes');
+$update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes', 'no'), 'yes');
 if($update_crontab_answer == 'yes') {
 	swriteln('Updating Crontab');
 	$inst->install_crontab();
@@ -434,14 +434,14 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '') system($inst->getinitcommand($conf['powerdns']['init_script'], 'restart').' &> /dev/null');
 		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
 	}
-	
+
 	if($conf['services']['proxy']) {
-		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))					system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 		if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 	}
-	
+
 	if($conf['services']['firewall']) {
-		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))					system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
+		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))     system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
 

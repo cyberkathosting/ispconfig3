@@ -60,21 +60,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form['title'] 		= 'interface_head_txt';
-$form['description'] 	= 'interface_desc_txt';
-$form['name'] 		= 'interface';
-$form['action']		= 'interface_settings.php';
-$form['db_table']	= 'sys_user';
-$form['db_table_idx']	= 'userid';
-$form["db_history"]	= "no";
-$form['tab_default']	= 'main';
-$form['list_default']	= 'index.php';
-$form['auth']		= 'no'; //??
+$form['title']   = 'interface_head_txt';
+$form['description']  = 'interface_desc_txt';
+$form['name']   = 'interface';
+$form['action']  = 'interface_settings.php';
+$form['db_table'] = 'sys_user';
+$form['db_table_idx'] = 'userid';
+$form["db_history"] = "no";
+$form['tab_default'] = 'main';
+$form['list_default'] = 'index.php';
+$form['auth']  = 'no'; //??
 
 //* 0 = id of the user, > 0 id must match with id of current user
-$form['auth_preset']['userid']  = 0; 
+$form['auth_preset']['userid']  = 0;
 //* 0 = default groupid of the user, > 0 id must match with groupid of current user
-$form['auth_preset']['groupid'] = 0; 
+$form['auth_preset']['groupid'] = 0;
 
 //** Permissions are: r = read, i = insert, u = update, d = delete
 $form['auth_preset']['perm_user']  = 'riud';
@@ -85,8 +85,8 @@ $form['auth_preset']['perm_other'] = '';
 //* TODO: limit to activated modules of the user
 $modules_list = array();
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
-	$handle = @opendir(ISPC_WEB_PATH); 
-	while ($file = @readdir ($handle)) { 
+	$handle = @opendir(ISPC_WEB_PATH);
+	while ($file = @readdir($handle)) {
 		if ($file != '.' && $file != '..') {
 			if(@is_dir(ISPC_WEB_PATH."/$file")) {
 				if(is_file(ISPC_WEB_PATH."/$file/lib/module.conf.php") and $file != 'login' && $file != 'designer' && $file != 'mailuser') {
@@ -102,7 +102,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	if($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		$modules .= ',client';
 	}
-	$tmp = explode(',',$modules);
+	$tmp = explode(',', $modules);
 	foreach($tmp as $m) {
 		$modules_list[$m] = $m;
 	}
@@ -110,66 +110,66 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 //* Languages
 $language_list = array();
-$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang'); 
-while ($file = @readdir ($handle)) { 
-    if ($file != '.' && $file != '..') {
-        if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file,-4,4) == '.lng') {
+$handle = @opendir(ISPC_ROOT_PATH.'/lib/lang');
+while ($file = @readdir($handle)) {
+	if ($file != '.' && $file != '..') {
+		if(@is_file(ISPC_ROOT_PATH.'/lib/lang/'.$file) and substr($file, -4, 4) == '.lng') {
 			$tmp = substr($file, 0, 2);
 			$language_list[$tmp] = $tmp;
-        }
+		}
 	}
-} 
+}
 
 //* Load themes
 $themes_list = array();
-$handle = @opendir(ISPC_THEMES_PATH); 
-while ($file = @readdir ($handle)) { 
-    if (substr($file, 0, 1) != '.') {
-        if(@is_dir(ISPC_THEMES_PATH."/$file")) {
+$handle = @opendir(ISPC_THEMES_PATH);
+while ($file = @readdir($handle)) {
+	if (substr($file, 0, 1) != '.') {
+		if(@is_dir(ISPC_THEMES_PATH."/$file")) {
 			if(!file_exists(ISPC_THEMES_PATH."/$file/ispconfig_version") || (@file_exists(ISPC_THEMES_PATH."/$file/ispconfig_version") && trim(@file_get_contents(ISPC_THEMES_PATH."/$file/ispconfig_version")) == ISPC_APP_VERSION)) {
-                $themes_list[$file] = $file;
-            }
-        }
+				$themes_list[$file] = $file;
+			}
+		}
 	}
 }
 
 $form['tabs']['main'] = array (
-	'title' 	=> 'Settings',
-	'width' 	=> 80,
-	'template' 	=> 'templates/interface_settings.htm',
-	'fields' 	=> array (
-	##################################
-	# Beginn Datenbankfelder
-	##################################
-                'startmodule' => array (
-			'datatype'	=> 'VARCHAR',
-			'formtype'	=> 'SELECT',
-			'regex'		=> '',
-			'errmsg'	=> '',
-			'default'	=> '',
-			'value'		=> $modules_list,
-			'separator'	=> '',
-			'width'		=> '30',
-			'maxlength'	=> '255',
-			'rows'		=> '',
-			'cols'		=> ''
+	'title'  => 'Settings',
+	'width'  => 80,
+	'template'  => 'templates/interface_settings.htm',
+	'fields'  => array (
+		//#################################
+		// Beginn Datenbankfelder
+		//#################################
+		'startmodule' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => '',
+			'value'  => $modules_list,
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		),
-                'app_theme' => array (
-                            'datatype'	=> 'VARCHAR',
-                            'formtype'	=> 'SELECT',
-                            'regex'	=> '',
-                            'errmsg'	=> '',
-                            'default'	=> 'default',
-                            'value'	=> $themes_list,
-                            'separator'	=> '',
-                            'width'	=> '30',
-                            'maxlength'	=> '255',
-                            'rows'	=> '',
-                            'cols'	=> ''
-                    )
-	##################################
-	# ENDE Datenbankfelder
-	##################################
+		'app_theme' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'regex' => '',
+			'errmsg' => '',
+			'default' => 'default',
+			'value' => $themes_list,
+			'separator' => '',
+			'width' => '30',
+			'maxlength' => '255',
+			'rows' => '',
+			'cols' => ''
+		)
+		//#################################
+		// ENDE Datenbankfelder
+		//#################################
 	)
 );
 

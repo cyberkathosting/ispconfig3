@@ -32,6 +32,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * The MongoDB client plugin is used by ISPConfig to control the management of MongoDB.
  * If handles everything from creating DBs/Users, update them or delete them.
  */
+
+
 class mongo_clientdb_plugin {
 
 	/**
@@ -53,6 +55,7 @@ class mongo_clientdb_plugin {
 		return (bool) $conf['services']['db'];
 	}
 
+
 	/**
 	 * This function is called when the plugin is loaded.
 	 * Each plugin/module needs to register itself to ISPConfig events from which
@@ -65,14 +68,14 @@ class mongo_clientdb_plugin {
 		global $app;
 
 		//* Databases
-		$app->plugins->registerEvent('database_insert',$this->plugin_name,'db_insert');
-		$app->plugins->registerEvent('database_update',$this->plugin_name,'db_update');
-		$app->plugins->registerEvent('database_delete',$this->plugin_name,'db_delete');
+		$app->plugins->registerEvent('database_insert', $this->plugin_name, 'db_insert');
+		$app->plugins->registerEvent('database_update', $this->plugin_name, 'db_update');
+		$app->plugins->registerEvent('database_delete', $this->plugin_name, 'db_delete');
 
 		//* Database users
-		$app->plugins->registerEvent('database_user_insert',$this->plugin_name,'db_user_insert');
-		$app->plugins->registerEvent('database_user_update',$this->plugin_name,'db_user_update');
-		$app->plugins->registerEvent('database_user_delete',$this->plugin_name,'db_user_delete');
+		$app->plugins->registerEvent('database_user_insert', $this->plugin_name, 'db_user_insert');
+		$app->plugins->registerEvent('database_user_update', $this->plugin_name, 'db_user_update');
+		$app->plugins->registerEvent('database_user_delete', $this->plugin_name, 'db_user_delete');
 	}
 
 
@@ -166,10 +169,10 @@ class mongo_clientdb_plugin {
 
 			if ($this->dropUser($user, $db)) {
 				return $this->addUser($db, array(
-					'username' => $user,
-					'password' => $password,
-					'roles' => $old_user['roles']
-				));
+						'username' => $user,
+						'password' => $password,
+						'roles' => $old_user['roles']
+					));
 			}
 
 			return false;
@@ -505,41 +508,42 @@ class mongo_clientdb_plugin {
 			$db = $data['new']['database_name'];
 
 			if ((bool) $db_user) {
-			    if ($user == 'root') {
-				$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
-			    } else {
-				if (!$this->addUser($db, array(
-					'username' => $user,
-					'password' => $password,
-					'roles' => array(
-						"readWrite",
-						"dbAdmin"
-					)
-				))) {
-					$app->log("Error while adding user: ".$user." to DB: ".$db, LOGLEVEL_WARNING);
+				if ($user == 'root') {
+					$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
+				} else {
+					if (!$this->addUser($db, array(
+								'username' => $user,
+								'password' => $password,
+								'roles' => array(
+									"readWrite",
+									"dbAdmin"
+								)
+							))) {
+						$app->log("Error while adding user: ".$user." to DB: ".$db, LOGLEVEL_WARNING);
+					}
 				}
-			    }
 			}
 
 			if ($db_ro_user && $data['new']['database_user_id'] != $data['new']['database_ro_user_id']) {
-			    if ($user == 'root') {
-				$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
-			    } else {
-				if (!$this->addUser($db, array(
-					'username' => $ro_user,
-					'password' => $ro_password,
-					'roles' => array(
-						"read"
-					)
-				))) {
-					$app->log("Error while adding read-only user: ".$user." to DB: ".$db, LOGLEVEL_WARNING);
+				if ($user == 'root') {
+					$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
+				} else {
+					if (!$this->addUser($db, array(
+								'username' => $ro_user,
+								'password' => $ro_password,
+								'roles' => array(
+									"read"
+								)
+							))) {
+						$app->log("Error while adding read-only user: ".$user." to DB: ".$db, LOGLEVEL_WARNING);
+					}
 				}
-			    }
 			}
 
 			$this->disconnect();
 		}
 	}
+
 
 	/**
 	 * This function is called when a DB is updated from within the ISPConfig interface.
@@ -551,7 +555,7 @@ class mongo_clientdb_plugin {
 	 * @param array $data the event data (old and new)
 	 * @return only if something is wrong
 	 */
-	function db_update($event_name,$data) {
+	function db_update($event_name, $data) {
 		global $app, $conf;
 
 		if ($data['old']['active'] == 'n' && $data['new']['active'] == 'n') {
@@ -582,14 +586,14 @@ class mongo_clientdb_plugin {
 				// users to a given DB
 				$this->db_insert($event_name, $data);
 			} else if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y') {
-				$users = $this->getUsers($db);
+					$users = $this->getUsers($db);
 
-				if ((bool) $users) {
-					foreach ($users as $user) {
-						$this->dropUser($user, $db);
+					if ((bool) $users) {
+						foreach ($users as $user) {
+							$this->dropUser($user, $db);
+						}
 					}
-				}
-			} else {
+				} else {
 				// selected user has changed -> drop old one
 				if ($data['new']['database_user_id'] != $data['old']['database_user_id']) {
 					$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['old']['database_user_id']) . "'");
@@ -609,7 +613,7 @@ class mongo_clientdb_plugin {
 
 					if ((bool) $old_db_user) {
 						if ($old_db_user['database_user'] == 'root') {
-							$app->log("User root not allowed for client databases",LOGLEVEL_WARNING);
+							$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
 						} else {
 							$this->dropUser($old_db_user['database_user'], $db);
 						}
@@ -623,13 +627,13 @@ class mongo_clientdb_plugin {
 							$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
 						} else {
 							$this->addUser($db, array(
-								'username' => $user,
-								'password' => $password,
-								'roles' => array(
-									"readWrite",
-									"dbAdmin"
-								)
-							));
+									'username' => $user,
+									'password' => $password,
+									'roles' => array(
+										"readWrite",
+										"dbAdmin"
+									)
+								));
 						}
 					}
 				}
@@ -641,12 +645,12 @@ class mongo_clientdb_plugin {
 							$app->log("User root not allowed for client databases", LOGLEVEL_WARNING);
 						} else {
 							$this->addUser($db, array(
-								'username' => $ro_user,
-								'password' => $ro_password,
-								'roles' => array(
-									"read"
-								)
-							));
+									'username' => $ro_user,
+									'password' => $ro_password,
+									'roles' => array(
+										"read"
+									)
+								));
 						}
 					}
 				}
@@ -676,6 +680,7 @@ class mongo_clientdb_plugin {
 		$this->disconnect();
 	}
 
+
 	/**
 	 * This function is called when a DB is deleted from within the ISPConfig interface.
 	 * All we need to do is to delete the database.
@@ -684,7 +689,7 @@ class mongo_clientdb_plugin {
 	 * @param array $data the event data (old and new)
 	 * @return only if something is wrong
 	 */
-	function db_delete($event_name,$data) {
+	function db_delete($event_name, $data) {
 		global $app, $conf;
 
 		if ($data['old']['type'] == 'mongo') {
@@ -714,7 +719,8 @@ class mongo_clientdb_plugin {
 	 * @param string $event_name the name of the event (insert, update, delete)
 	 * @param array $data the event data (old and new)
 	 */
-	function db_user_insert($event_name,$data) {}
+	function db_user_insert($event_name, $data) {}
+
 
 	/**
 	 * This function is called when a user is updated from within the ISPConfig interface.
@@ -725,13 +731,13 @@ class mongo_clientdb_plugin {
 	 * @param array $data the event data (old and new)
 	 * @return only if something is wrong
 	 */
-	function db_user_update($event_name,$data) {
+	function db_user_update($event_name, $data) {
 		global $app, $conf;
 
 		if ($data['old']['database_user'] == $data['new']['database_user']
-		    && ($data['old']['database_password'] == $data['new']['database_password']
-		    || $data['new']['database_password'] == '')) {
-		    return;
+			&& ($data['old']['database_password'] == $data['new']['database_password']
+				|| $data['new']['database_password'] == '')) {
+			return;
 		}
 
 		if ($this->connect() === false) {
@@ -751,10 +757,10 @@ class mongo_clientdb_plugin {
 
 							if ($this->dropUser($data['old']['database_user'], $db)) {
 								if ($this->addUser($db, array(
-									'username' => $data['new']['database_user'],
-									'password' => md5($data['new']['database_password_mongo']),
-									'roles' => $user['roles']
-								))) {
+											'username' => $data['new']['database_user'],
+											'password' => md5($data['new']['database_password_mongo']),
+											'roles' => $user['roles']
+										))) {
 									$app->log("Created user: ".$data['new']['database_user']." in DB: ".$db, LOGLEVEL_DEBUG);
 								} else {
 									$app->log("Couldn't create user: ".$data['new']['database_user']." in DB: ".$db, LOGLEVEL_WARNING);
@@ -790,6 +796,7 @@ class mongo_clientdb_plugin {
 
 		$this->disconnect();
 	}
+
 
 	/**
 	 * This function is called when a user is deleted from within the ISPConfig interface.
