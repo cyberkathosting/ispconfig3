@@ -126,7 +126,7 @@ class listform_actions {
 		}
 		
 		// Getting Datasets from DB
-		$records = $app->db->queryAllRecords($this->getQueryString());
+		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
 
 		$this->DataRowColor = "#FFFFFF";
 		$records_new = '';
@@ -147,6 +147,9 @@ class listform_actions {
             $this->sortKeys = array($order_by => $order_dir);
             uasort($records_new, array($this, '_sort'));
         }
+        if($php_sort) {
+			$records_new = array_slice($records_new, $app->listform->getPagingValue('offset'), $app->listform->getPagingValue('records_per_page'));
+		}
         
 		$app->tpl->setLoop('records',$records_new);
 
@@ -185,7 +188,7 @@ class listform_actions {
 		return $rec;
 	}
 	
-	public function getQueryString() {
+	public function getQueryString($no_limit = false) {
 		global $app;
 		$sql_where = '';
 
@@ -231,7 +234,8 @@ class listform_actions {
 		}
 		$select = implode(', ', $table_selects);
 
-		$sql = 'SELECT '.$select.$extselect.' FROM '.$app->listform->listDef['table'].($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')."$join WHERE $sql_where $order_by_sql $limit_sql";
+		$sql = 'SELECT '.$select.$extselect.' FROM '.$app->listform->listDef['table'].($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')."$join WHERE $sql_where $order_by_sql";
+		if($no_limit == false) $sql .= " $limit_sql";
 		//echo $sql;
 		return $sql;
 	}

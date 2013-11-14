@@ -236,7 +236,13 @@ class listform {
         }
         return ( $sql_where != '' ) ? $sql_where = substr($sql_where,0,-3) : '1';
     }
-
+	
+	public function getPagingValue($key) {
+		if(!is_array($this->pagingValues)) return null;
+		if(!array_key_exists($key, $this->pagingValues)) return null;
+		return $this->pagingValues[$key];
+	}
+	
     public function getPagingSQL($sql_where = '1') 
     {
         global $app, $conf;
@@ -281,6 +287,8 @@ class listform {
         $vars['max_pages']      = $pages + 1;
         $vars['records_gesamt'] = $record_count['anzahl'];
         $vars['page_params']    = (isset($this->listDef['page_params'])) ? $this->listDef['page_params'] : '';
+        $vars['offset'] 		= $sql_von;
+        $vars['records_per_page'] = $records_per_page;
         //$vars['module'] = $_SESSION['s']['module']['name'];
 
         if($_SESSION['search'][$list_name]['page'] > 0) $vars['show_page_back'] = 1;
