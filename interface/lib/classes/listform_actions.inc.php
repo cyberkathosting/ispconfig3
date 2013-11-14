@@ -125,6 +125,8 @@ class listform_actions {
 		  }
 		}
 		
+		if($_SESSION['search'][$_SESSION['s']['module']['name'].$app->listform->listDef["name"].$app->listform->listDef['table']]['order_in_php']) $php_sort = true;
+		
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
 
