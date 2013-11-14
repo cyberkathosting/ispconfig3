@@ -58,10 +58,10 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 		$monit_password = trim($server_config['monit_password']);
 		$auth_string = '';
 		if($monit_user != ''){
-			$auth_string = $monit_user;
+			$auth_string = rawurlencode($monit_user);
 		}
 		if($monit_user != '' && $monit_password != ''){
-			$auth_string .= ':'.$monit_password;
+			$auth_string .= ':'.rawurlencode($monit_password);
 		}
 		if($auth_string != '') $auth_string .= '@';
 	

@@ -1131,7 +1131,8 @@ class installer_base {
 
 		if(is_file('/etc/inetd.conf')) {
 			replaceLine('/etc/inetd.conf','/usr/sbin/pure-ftpd-wrapper','#ftp     stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/pure-ftpd-wrapper',0,0);
-			if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
+			exec($this->getinitcommand('openbsd-inetd', 'restart'));
+			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
 		if(!is_file('/etc/pure-ftpd/conf/DontResolve')) exec('echo "yes" > /etc/pure-ftpd/conf/DontResolve');
@@ -2163,6 +2164,23 @@ class installer_base {
 		touch($conf['ispconfig_log_dir'].'/cron.log');
 		chmod($conf['ispconfig_log_dir'].'/cron.log', 0660);
 
+	}
+	
+	public function getinitcommand($servicename, $action, $init_script_directory = ''){
+		global $conf;
+		// systemd
+		if(is_executable('/bin/systemd')){
+			return 'systemctl '.$action.' '.$servicename.'.service';
+		}
+		// upstart
+		if(is_executable('/sbin/initctl')){
+			exec('/sbin/initctl version 2>/dev/null | /bin/grep -q upstart', $retval['output'], $retval['retval']);
+			if(intval($retval['retval']) == 0) return 'service '.$servicename.' '.$action;
+		}
+		// sysvinit
+		if($init_script_directory == '') $init_script_directory = $conf['init_scripts'];
+		if(substr($init_script_directory, -1) === '/') $init_script_directory = substr($init_script_directory, 0, -1);
+		return $init_script_directory.'/'.$servicename.' '.$action;
 	}
 
 	/**

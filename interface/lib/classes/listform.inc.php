@@ -181,15 +181,68 @@ class listform {
             foreach($this->listDef['item'] as $i) {
                 $field = $i['field'];
 				$table = $i['table'];
+				
+				$searchval = $_SESSION['search'][$list_name][$search_prefix.$field];
+				// format user date format to MySQL date format 0000-00-00
+				if($i['datatype'] == 'DATE' && $this->lng('conf_format_dateshort') != 'Y-m-d'){
+					$dateformat = preg_replace("@[^Ymd]@", "", $this->lng('conf_format_dateshort'));
+					$yearpos = strpos($dateformat, 'Y') + 1;
+					$monthpos = strpos($dateformat, 'm') + 1;
+					$daypos = strpos($dateformat, 'd') + 1;
+						
+					$full_date_trans = array	('Y' => '((?:19|20)\d\d)',
+									 'm' => '(0[1-9]|1[012])',
+									 'd' => '(0[1-9]|[12][0-9]|3[01])'
+									);
+					// d.m.Y  Y/m/d				
+					$full_date_regex = strtr(preg_replace("@[^Ymd]@", "[^0-9]", $this->lng('conf_format_dateshort')), $full_date_trans);
+					//echo $full_date_regex;
+					
+					if (preg_match("@^\d+$@", $_SESSION['search'][$list_name][$search_prefix.$field])) { // we just have digits
+						$searchval = $_SESSION['search'][$list_name][$search_prefix.$field];
+					} elseif(preg_match("@^[^0-9]?\d+[^0-9]?$@", $_SESSION['search'][$list_name][$search_prefix.$field])){ // 10. or .10.
+						$searchval = preg_replace("@[^0-9]@", "", $_SESSION['search'][$list_name][$search_prefix.$field]);
+					} elseif(preg_match("@^[^0-9]?(\d{1,2})[^0-9]((?:19|20)\d\d)$@", $_SESSION['search'][$list_name][$search_prefix.$field], $matches)){ // 10.2013
+						$month = $matches[1];
+						$year = $matches[2];
+						$searchval = $year.'-'.$month;
+					} elseif(preg_match("@^((?:19|20)\d\d)[^0-9](\d{1,2})[^0-9]?$@", $_SESSION['search'][$list_name][$search_prefix.$field], $matches)){ // 2013-10
+						$month = $matches[2];
+						$year = $matches[1];
+						$searchval = $year.'-'.$month;
+					} elseif(preg_match("@^[^0-9]?(\d{1,2})[^0-9](\d{1,2})[^0-9]?$@", $_SESSION['search'][$list_name][$search_prefix.$field], $matches)){ // 04.10.
+						if($monthpos < $daypos){
+						$month = $matches[1];
+						$day = $matches[2];
+						} else {
+							$month = $matches[2];
+							$day = $matches[1];
+						}
+						$searchval = $month.'-'.$day;
+					} elseif (preg_match("@^".$full_date_regex."$@", $_SESSION['search'][$list_name][$search_prefix.$field], $matches)) {
+						//print_r($matches);
+						$day = $matches[$daypos];
+						$month = $matches[$monthpos];
+						$year = $matches[$yearpos];
+						$searchval = $year.'-'.$month.'-'.$day;
+					}
+				}
+				
                 // if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
-		        if(isset($_SESSION['search'][$list_name][$search_prefix.$field]) && $_SESSION['search'][$list_name][$search_prefix.$field] != ''){
-                    $sql_where .= " ".($table != ''? $table.'.' : $this->listDef['table'].'.')."$field ".$i['op']." '".$app->db->quote($i['prefix'].$_SESSION['search'][$list_name][$search_prefix.$field].$i['suffix'])."' and";
+		        if(isset($searchval) && $searchval != ''){
+                    $sql_where .= " ".($table != ''? $table.'.' : $this->listDef['table'].'.')."$field ".$i['op']." '".$app->db->quote($i['prefix'].$searchval.$i['suffix'])."' and";
                 }
             }
         }
         return ( $sql_where != '' ) ? $sql_where = substr($sql_where,0,-3) : '1';
     }
-
+	
+	public function getPagingValue($key) {
+		if(!is_array($this->pagingValues)) return null;
+		if(!array_key_exists($key, $this->pagingValues)) return null;
+		return $this->pagingValues[$key];
+	}
+	
     public function getPagingSQL($sql_where = '1') 
     {
         global $app, $conf;
@@ -234,6 +287,8 @@ class listform {
         $vars['max_pages']      = $pages + 1;
         $vars['records_gesamt'] = $record_count['anzahl'];
         $vars['page_params']    = (isset($this->listDef['page_params'])) ? $this->listDef['page_params'] : '';
+        $vars['offset'] 		= $sql_von;
+        $vars['records_per_page'] = $records_per_page;
         //$vars['module'] = $_SESSION['s']['module']['name'];
 
         if($_SESSION['search'][$list_name]['page'] > 0) $vars['show_page_back'] = 1;

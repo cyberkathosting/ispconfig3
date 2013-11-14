@@ -30,7 +30,7 @@ class dashlet_quota {
 		
 		$has_quota = false;
 		// select websites belonging to client
-		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y'".$sql_where);
+		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".$sql_where);
 		//print_r($sites);
 		if(is_array($sites) && !empty($sites)){
 			for($i=0;$i<sizeof($sites);$i++){

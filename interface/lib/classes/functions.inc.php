@@ -83,6 +83,20 @@ class functions {
 		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
 	}
 	
+	//* convert currency formatted number back to floating number
+	public function currency_unformat($number) {
+		global $app;
+        
+		$number_format_dec_point = $app->lng('number_format_dec_point');
+		$number_format_thousands_sep = $app->lng('number_format_thousands_sep');
+		if($number_format_thousands_sep == 'number_format_thousands_sep') $number_format_thousands_sep = '';
+		
+		if($number_format_thousands_sep != '') $number = str_replace($number_format_thousands_sep, '', $number);
+		if($number_format_dec_point != '.' && $number_format_dec_point != '') $number = str_replace($number_format_dec_point, '.', $number);
+		
+		return (double)$number;
+	}
+	
 	public function get_ispconfig_url() {
 		global $app;
 		
@@ -177,12 +191,24 @@ class functions {
 			// IPv6
 			$regex = "/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i";
 		}
+		
+		$server_by_id = array();
+		$server_by_ip = array();
+		$servers = $app->db->queryAllRecords("SELECT * FROM server");
+		if(is_array($servers) && !empty($servers)){
+			foreach($servers as $server){
+				$server_by_id[$server['server_id']] = $server['server_name'];
+			}
+		}
 	
 		$ips = array();
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM server_ip WHERE ip_type = '".$type."'");
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$type."'");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+				if(preg_match($regex, $result['ip'])){
+					$ips[] = $result['ip'];
+					$server_by_ip[$result['ip']] = $server_by_id[$result['server_id']];
+				}
 			}
 		}
 		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
@@ -257,7 +283,7 @@ class functions {
 	
 			foreach($ips as $ip){
 				$result_array['cdata'][] = array(	'title' => $ip,
-													'description' => $type,
+													'description' => $type.($server_by_ip[$ip] != ''? ' &gt; '.$server_by_ip[$ip] : ''),
 													'onclick' => '',
 													'fill_text' => $ip
 												);

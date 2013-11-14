@@ -1,7 +1,7 @@
 <?php
 $wb['Client'] = 'Kunden';
 $wb['Address'] = 'Adresse';
-$wb['Limits'] = 'Beschränkungen';
+$wb['Limits'] = 'Limits';
 $wb['Add Client'] = 'Kunde hinzufügen';
 $wb['Edit Client'] = 'Kunde bearbeiten';
 $wb['Clients'] = 'Kunden';

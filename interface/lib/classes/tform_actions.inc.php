@@ -313,7 +313,8 @@ class tform_actions {
 						$this->dataRecord = $app->tform->getDataRecord($this->id);
 						
 						$this->onBeforeDelete();
-
+						$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_before_delete',$this);
+						
                         // Saving record to datalog when db_history enabled
                         if($app->tform->formDef["db_history"] == 'yes') {
 							//$old_data_record = $app->tform->getDataRecord($this->id);

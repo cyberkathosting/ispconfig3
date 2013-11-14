@@ -1597,6 +1597,23 @@ class system{
 		exec($cmd, $output, $return_var);
 		return $return_var == 0 ? true : false; 
 	}
+	
+	function getinitcommand($servicename, $action, $init_script_directory = ''){
+		global $conf;
+		// systemd
+		if(is_executable('/bin/systemd')){
+			return 'systemctl '.$action.' '.$servicename.'.service';
+		}
+		// upstart
+		if(is_executable('/sbin/initctl')){
+			exec('/sbin/initctl version 2>/dev/null | /bin/grep -q upstart', $retval['output'], $retval['retval']);
+			if(intval($retval['retval']) == 0) return 'service '.$servicename.' '.$action;
+		}
+		// sysvinit
+		if($init_script_directory == '') $init_script_directory = $conf['init_scripts'];
+		if(substr($init_script_directory, -1) === '/') $init_script_directory = substr($init_script_directory, 0, -1);
+		return $init_script_directory.'/'.$servicename.' '.$action;
+	}
 
 }
 ?>

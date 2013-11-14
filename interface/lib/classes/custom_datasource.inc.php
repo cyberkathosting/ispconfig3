@@ -63,6 +63,28 @@ class custom_datasource {
 		return $records_new;
 	}
 	
+	function slave_dns_servers($field, $record) {
+		global $app, $conf;
+		
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT default_slave_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['default_slave_dnsserver'];
+		} else {
+			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+		}
+		$records = $app->db->queryAllRecords($sql);
+		$records_new = array();
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$key = $rec['server_id'];
+				$records_new[$key] = $rec['server_name'];
+			}
+		}
+		return $records_new;
+	}
+	
 	function webdav_domains($field, $record) {
 		global $app, $conf;
 		
@@ -77,13 +99,13 @@ class custom_datasource {
 		}
 		if(count($server_ids) == 0) return array();
 		$server_ids = implode(',', $server_ids);
-		$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE type = 'vhost' AND server_id IN (".$server_ids.") AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
+		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (".$server_ids.") AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain");
 		
 		$records_new = array();
 		if(is_array($records)) {
 			foreach($records as $rec) {
 				$key = $rec['domain_id'];
-				$records_new[$key] = $rec['domain'];
+				$records_new[$key] = $rec['parent_domain'];
 			}
 		}
 		return $records_new;

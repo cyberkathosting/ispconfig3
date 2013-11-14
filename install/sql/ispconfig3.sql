@@ -144,7 +144,7 @@ CREATE TABLE `client` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `company_name` varchar(64) DEFAULT NULL,
-  `company_id` varchar(30) DEFAULT NULL,
+  `company_id` varchar(255) DEFAULT NULL,
   `gender` enum('','m','f') NOT NULL DEFAULT '',
   `contact_name` varchar(64) DEFAULT NULL,
   `customer_no` varchar(64) DEFAULT NULL,
