@@ -17,4 +17,5 @@ $wb['client_txt'] = 'Client';
 $wb['limit_maildomain_txt'] = 'Le nombre maximal de domaines d\'email pour votre compte a été atteint.';
 $wb['policy_txt'] = 'Filtre antispam';
 $wb['no_policy'] = '- inactif -';
+$wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autorisé pour ce compte.';
 ?>

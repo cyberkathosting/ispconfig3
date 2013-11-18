@@ -35,4 +35,5 @@ $wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
 $wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 $wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
+$wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autorisé pour ce compte.';
 ?>

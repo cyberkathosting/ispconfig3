@@ -77,8 +77,10 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$app->tpl->setVar("server_id_value", $client['default_webserver']);
+			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$web_servers = explode(',', $client['web_servers']);
+			$app->tpl->setVar("server_id_value", $web_servers[0]);
+			unset($web_servers);
 		}
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
@@ -97,18 +99,43 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.web_servers, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client['web_servers_ids'] = explode(',', $client['web_servers']);
+
+			$only_one_server = count($client['web_servers_ids']) === 1;
+			$app->tpl->setVar('only_one_server', $only_one_server);
 
 			//* Get global web config
-			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			foreach ($client['web_servers_ids'] as $web_server_id) {
+				$web_config[$web_server_id] = $app->getconf->get_server_config($web_server_id, 'web');
+			}
 
-			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".intval($client['default_webserver']));
-			$app->tpl->setVar("server_id", "<option value='$client[default_webserver]'>$tmp[server_name]</option>");
-			unset($tmp);
+			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client['web_servers'] . ");";
+			$web_servers = $app->db->queryAllRecords($sql);
+
+			$options_web_servers = "";
+
+			foreach ($web_servers as $web_server) {
+				$options_web_servers .= "<option value='$web_server[server_id]'>$web_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("server_id", $options_web_servers);
+			unset($options_web_servers);
+
+			if($this->id > 0) {
+				if(!isset($this->dataRecord["server_id"])){
+					$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+					$this->dataRecord["server_id"] = $tmp["server_id"];
+					unset($tmp);
+				}
+				$server_id = intval(@$this->dataRecord["server_id"]);
+			} else {
+				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]) : 0;
+			}
 
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -123,7 +150,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -174,12 +201,21 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Get global web config
-			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
+			foreach ($client['web_servers_ids'] as $web_server_id) {
+				$web_config[$web_server_id] = $app->getconf->get_server_config($web_server_id, 'web');
+			}
 
-			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".intval($client['default_webserver']));
-			$app->tpl->setVar("server_id", "<option value='$client[default_webserver]'>$tmp[server_name]</option>");
-			unset($tmp);
+			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client['web_servers'] . ");";
+			$web_servers = $app->db->queryAllRecords($sql);
+
+			$options_web_servers = "";
+
+			foreach ($web_servers as $web_server) {
+				$options_web_servers .= "<option value='$web_server[server_id]'>$web_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("server_id", $options_web_servers);
+			unset($options_web_servers);
 
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
@@ -199,7 +235,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id", $client_select);
 
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -214,7 +250,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -561,7 +597,9 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, web_servers, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client['web_servers_ids'] = explode(',', $client['web_servers']);
 
 			if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
 			if($client['limit_ssi'] != 'y') $this->dataRecord['ssi'] = '-';
@@ -572,13 +610,6 @@ class page_action extends tform_actions {
 			if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
 			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
 			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
-
-			// only generate quota and traffic warnings if value has changed
-			if($this->id > 0) {
-				$old_web_values = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
-			} else {
-				$old_web_values = $_POST;
-			}
 
 			//* Check the website quota of the client
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
@@ -614,7 +645,7 @@ class page_action extends tform_actions {
 
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
-				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, web_servers, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
 
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
@@ -669,8 +700,10 @@ class page_action extends tform_actions {
 				unset($tmp);
 				// When the record is inserted
 			} else {
-				//* set the server ID to the default webserver of the client
-				$this->dataRecord["server_id"] = $client["default_webserver"];
+				//* display an error if chosen server is not allowed for this client
+				if (!is_array($client['web_servers_ids']) || !in_array($this->dataRecord['server_id'], $client['web_servers_ids'])) {
+					$app->error($app->tform->wordbook['server_chosen_not_ok']);
+				}
 
 				// Check if the user may add another web_domain
 				if($client["limit_web_domain"] >= 0) {

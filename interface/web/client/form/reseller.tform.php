@@ -508,6 +508,24 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => ''
 		),
+		'mail_servers' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'MULTIPLE',
+			'default' => '1',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+					'errmsg'=> 'no_mail_server_error'),
+				1 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_used_servers',
+					'errmsg'=> 'mail_servers_used'),
+			),
+			'value'  => ''
+		),
 		'limit_maildomain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -715,6 +733,25 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => ''
 		),
+		'web_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+					'errmsg'=> 'no_web_server_error'),
+				1 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_used_servers',
+					'errmsg'=> 'web_servers_used'),
+			),
+			'value'  => ''
+		),
 		'limit_web_domain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -898,6 +935,24 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => ''
 		),
+		'dns_servers' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'MULTIPLE',
+			'default' => '1',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+					'errmsg'=> 'no_dns_server_error'),
+				1 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_used_servers',
+					'errmsg'=> 'dns_servers_used'),
+			),
+			'value'  => ''
+		),
 		'limit_dns_zone' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -976,6 +1031,24 @@ $form["tabs"]['limits'] = array (
 				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
+			),
+			'value'  => ''
+		),
+		'db_servers' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'MULTIPLE',
+			'default' => '1',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'keyfield'=> 'server_id',
+				'valuefield'=> 'server_name'
+			),
+			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
+					'errmsg'=> 'no_db_server_error'),
+				1 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_used_servers',
+					'errmsg'=> 'db_servers_used'),
 			),
 			'value'  => ''
 		),

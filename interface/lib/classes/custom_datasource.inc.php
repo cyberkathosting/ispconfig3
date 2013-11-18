@@ -139,6 +139,18 @@ class custom_datasource {
 		case 'default_vserverserver':
 			$field = 'vserver_server';
 			break;
+		case 'mail_servers':
+			$field = 'mail_server';
+			break;
+		case 'web_servers':
+			$field = 'web_server';
+			break;
+		case 'dns_servers':
+			$field = 'dns_server';
+			break;
+		case 'db_servers':
+			$field = 'db_server';
+			break;
 		default:
 			$field = 'web_server';
 			break;

@@ -35,4 +35,5 @@ $wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
 $wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
 $wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

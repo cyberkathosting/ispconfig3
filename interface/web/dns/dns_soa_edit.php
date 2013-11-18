@@ -115,147 +115,182 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("client_group_id", $client_select);
 
 			}
+		$app->tpl->setVar("client_group_id", $client_select);
 
-		if($this->id > 0) {
-			//* we are editing a existing record
-			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
-		} else {
-			$app->tpl->setVar("edit_disabled", 0);
-		}
-
-		parent::onShowEnd();
 	}
 
-	function onSubmit() {
-		global $app, $conf;
+	if($_SESSION["s"]["user"]["typ"] != 'admin')
+	{
+		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') {
-			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 
-			// When the record is updated
-			if($this->id > 0) {
-				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
-				$this->dataRecord["server_id"] = $tmp["server_id"];
-				unset($tmp);
-				// When the record is inserted
-			} else {
-				// set the server ID to the default dnsserver of the client
-				$this->dataRecord["server_id"] = $client["default_dnsserver"];
+		$only_one_server = count($client_dns['dns_servers_ids']) === 1;
+		$app->tpl->setVar('only_one_server', $only_one_server);
 
-				// Check if the user may add another maildomain.
-				if($client["limit_dns_zone"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
-					if($tmp["number"] >= $client["limit_dns_zone"]) {
-						$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
-					}
+		if ($only_one_server) {
+			$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
+		}
+
+		$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
+		$dns_servers = $app->db->queryAllRecords($sql);
+
+		$options_dns_servers = "";
+
+		foreach ($dns_servers as $dns_server) {
+			$options_dns_servers .= "<option value='$dns_server[server_id]'>$dns_server[server_name]</option>";
+		}
+
+		$app->tpl->setVar("client_server_id", $options_dns_servers);
+		unset($options_dns_servers);
+
+	}
+
+	if($this->id > 0) {
+		//* we are editing a existing record
+		$app->tpl->setVar("edit_disabled", 1);
+		$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+	} else {
+		$app->tpl->setVar("edit_disabled", 0);
+	}
+
+	parent::onShowEnd();
+}
+
+function onSubmit() {
+	global $app, $conf;
+
+	if($_SESSION["s"]["user"]["typ"] != 'admin') {
+		// Get the limits of the client
+		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+		$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
+
+		// Check if chosen server is in authorized servers for this client
+		if (!(is_array($client['dns_servers_ids']) && in_array($this->dataRecord["server_id"], $client['dns_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
+			$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+		}
+
+		// When the record is updated
+		if($this->id > 0) {
+			// restore the server ID if the user is not admin and record is edited
+			$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
+			$this->dataRecord["server_id"] = $tmp["server_id"];
+			unset($tmp);
+			// When the record is inserted
+		} else {
+			// Check if the user may add another maildomain.
+			if($client["limit_dns_zone"] >= 0) {
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+				if($tmp["number"] >= $client["limit_dns_zone"]) {
+					$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
 				}
 			}
 		}
+	}
 
-		/*
+	/*
 		// Update the serial number of the SOA record
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
 		*/
 
 
-		//* Check if soa, ns and mbox have a dot at the end
-		if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
-		if(strlen($this->dataRecord["ns"]) > 0 && substr($this->dataRecord["ns"], -1, 1) != '.') $this->dataRecord["ns"] .= '.';
-		if(strlen($this->dataRecord["mbox"]) > 0 && substr($this->dataRecord["mbox"], -1, 1) != '.') $this->dataRecord["mbox"] .= '.';
+	//* Check if soa, ns and mbox have a dot at the end
+	if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
+	if(strlen($this->dataRecord["ns"]) > 0 && substr($this->dataRecord["ns"], -1, 1) != '.') $this->dataRecord["ns"] .= '.';
+	if(strlen($this->dataRecord["mbox"]) > 0 && substr($this->dataRecord["mbox"], -1, 1) != '.') $this->dataRecord["mbox"] .= '.';
 
-		//* Replace @ in mbox
-		if(stristr($this->dataRecord["mbox"], '@')) {
-			$this->dataRecord["mbox"] = str_replace('@', '.', $this->dataRecord["mbox"]);
-		}
-
-		$this->dataRecord["xfer"] = preg_replace('/\s+/', '', $this->dataRecord["xfer"]);
-		$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
-
-		//* Check if a secondary zone with the same name already exists
-		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = \"".$this->dataRecord["origin"]."\" AND server_id = \"".$this->dataRecord["server_id"]."\"");
-		if($tmp["number"] > 0) {
-			$app->error($app->tform->wordbook["origin_error_unique"]);
-		}
-
-		parent::onSubmit();
+	//* Replace @ in mbox
+	if(stristr($this->dataRecord["mbox"], '@')) {
+		$this->dataRecord["mbox"] = str_replace('@', '.', $this->dataRecord["mbox"]);
 	}
 
-	function onAfterInsert() {
-		global $app, $conf;
+	$this->dataRecord["xfer"] = preg_replace('/\s+/', '', $this->dataRecord["xfer"]);
+	$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
 
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
-			// And we want to update all rr records too, that belong to this record
-			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
-			// And we want to update all rr records too, that belong to this record
-			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
-		}
-
+	//* Check if a secondary zone with the same name already exists
+	$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = \"".$this->dataRecord["origin"]."\" AND server_id = \"".$this->dataRecord["server_id"]."\"");
+	if($tmp["number"] > 0) {
+		$app->error($app->tform->wordbook["origin_error_unique"]);
 	}
 
-	function onBeforeUpdate () {
-		global $app, $conf;
+	parent::onSubmit();
+}
 
-		//* Check if the server has been changed
-		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
-		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			//* We do not allow users to change a domain which has been created by the admin
-			$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ".$this->id);
-			if(isset($this->dataRecord["origin"]) && $rec['origin'] != $this->dataRecord["origin"] && $app->tform->checkPerm($this->id, 'u')) {
-				//* Add a error message and switch back to old server
-				$app->tform->errorMessage .= $app->lng('The Zone (soa) can not be changed. Please ask your Administrator if you want to change the Zone name.');
-				$this->dataRecord["origin"] = $rec['origin'];
-			}
-			unset($rec);
+function onAfterInsert() {
+	global $app, $conf;
+
+	// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
+	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+		$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+		$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
+		// And we want to update all rr records too, that belong to this record
+		$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+	}
+	if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+		$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+		$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
+		// And we want to update all rr records too, that belong to this record
+		$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+	}
+
+}
+
+function onBeforeUpdate () {
+	global $app, $conf;
+
+	//* Check if the server has been changed
+	// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
+	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		//* We do not allow users to change a domain which has been created by the admin
+		$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ".$this->id);
+		if(isset($this->dataRecord["origin"]) && $rec['origin'] != $this->dataRecord["origin"] && $app->tform->checkPerm($this->id, 'u')) {
+			//* Add a error message and switch back to old server
+			$app->tform->errorMessage .= $app->lng('The Zone (soa) can not be changed. Please ask your Administrator if you want to change the Zone name.');
+			$this->dataRecord["origin"] = $rec['origin'];
+		}
+		unset($rec);
+	}
+}
+
+function onAfterUpdate() {
+	global $app, $conf;
+
+	$tmp = $app->db->diffrec($this->oldDataRecord, $app->tform->getDataRecord($this->id));
+	if($tmp['diff_num'] > 0) {
+		// Update the serial number of the SOA record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
+		$app->db->query("UPDATE dns_soa SET serial = '".$app->validate_dns->increase_serial($soa["serial"])."' WHERE id = ".$this->id);
+	}
+
+	// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
+	if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+		$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+		$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
+		// And we want to update all rr records too, that belong to this record
+		$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+	}
+	if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
+		$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+		$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
+		// And we want to update all rr records too, that belong to this record
+		$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
+	}
+
+	//** When the client group has changed, change also the owner of the record if the owner is not the admin user
+	if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
+		$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+		$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
+		if($tmp["userid"] > 0) {
+			$app->db->query("UPDATE dns_soa SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
+			$app->db->query("UPDATE dns_rr SET sys_userid = ".$tmp["userid"]." WHERE zone = ".$this->id);
 		}
 	}
 
-	function onAfterUpdate() {
-		global $app, $conf;
-
-		$tmp = $app->db->diffrec($this->oldDataRecord, $app->tform->getDataRecord($this->id));
-		if($tmp['diff_num'] > 0) {
-			// Update the serial number of the SOA record
-			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
-			$app->db->query("UPDATE dns_soa SET serial = '".$app->validate_dns->increase_serial($soa["serial"])."' WHERE id = ".$this->id);
-		}
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE id = ".$this->id);
-			// And we want to update all rr records too, that belong to this record
-			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_soa SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE id = ".$this->id);
-			// And we want to update all rr records too, that belong to this record
-			$app->db->query("UPDATE dns_rr SET sys_groupid = $client_group_id WHERE zone = ".$this->id);
-		}
-
-		//** When the client group has changed, change also the owner of the record if the owner is not the admin user
-		if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
-			if($tmp["userid"] > 0) {
-				$app->db->query("UPDATE dns_soa SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
-				$app->db->query("UPDATE dns_rr SET sys_userid = ".$tmp["userid"]." WHERE zone = ".$this->id);
-			}
-		}
-
-	}
+}
 
 }
 

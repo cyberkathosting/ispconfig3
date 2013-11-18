@@ -112,6 +112,34 @@ class page_action extends tform_actions {
 
 		}
 
+		if($_SESSION["s"]["user"]["typ"] != 'admin')
+		{
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_mail = $app->db->queryOneRecord("SELECT mail_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client_mail['mail_servers_ids'] = explode(',', $client_mail['mail_servers']);
+
+			$only_one_server = count($client_mail['mail_servers_ids']) === 1;
+			$app->tpl->setVar('only_one_server', $only_one_server);
+
+			if ($only_one_server) {
+				$app->tpl->setVar('server_id_value', $client_mail['mail_servers_ids'][0]);
+			}
+
+			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_mail['mail_servers'] . ");";
+			$mail_servers = $app->db->queryAllRecords($sql);
+
+			$options_mail_servers = "";
+
+			foreach ($mail_servers as $mail_server) {
+				$options_mail_servers .= "<option value='$mail_server[server_id]'>$mail_server[server_name]</option>";
+			}
+
+			$app->tpl->setVar("client_server_id", $options_mail_servers);
+			unset($options_mail_servers);
+
+		}
+
 		/*
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
@@ -190,11 +218,9 @@ class page_action extends tform_actions {
 		}
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
-
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
+			$client = $app->db->queryOneRecord("SELECT limit_maildomain, mail_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
@@ -203,10 +229,13 @@ class page_action extends tform_actions {
 				unset($tmp);
 				// When the record is inserted
 			} else {
-				// set the server ID to the default mailserver of the client
-				$this->dataRecord["server_id"] = $client["default_mailserver"];
+				$client['mail_servers_ids'] = explode(',', $client['mail_servers']);
 
-				// Check if the user may add another mail_domain
+				// Check if chosen server is in authorized servers for this client
+				if (!(is_array($client['mail_servers_ids']) && in_array($this->dataRecord["server_id"], $client['mail_servers_ids']))) {
+					$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+				}
+
 				if($client["limit_maildomain"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
 					if($tmp["number"] >= $client["limit_maildomain"]) {

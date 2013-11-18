@@ -36,4 +36,6 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Search';
 $wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 $wb['list_head_txt'] = 'DNS Zone Wizard';
 $wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
+$wb['error_no_server_id'] = 'Aucun serveur fourni.';
+$wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autorisé pour ce compte.';
 ?>
