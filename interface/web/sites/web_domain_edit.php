@@ -680,16 +680,11 @@ class page_action extends tform_actions {
 				}
 			}
 
-			// Check if chosen server is in authorized servers for this client
-			$serverChosenOk = is_array($client['web_servers_ids']) && in_array($this->dataRecord['server_id'], $client['web_servers_ids']) || $_SESSION["s"]["user"]["typ"] == 'admin';
-
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
-				if (!$serverChosenOk) {
-					$app->error($app->tform->wordbook['server_chosen_not_ok']);
-				}
+				$tmp = $app->db->queryOneRecord("SELECT server_id, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
                 
                 // set the settings to current if not provided (or cleared due to limits)
                 if($this->dataRecord['cgi'] == '-') $this->dataRecord['cgi'] = $tmp['cgi'];
@@ -705,9 +700,8 @@ class page_action extends tform_actions {
 				unset($tmp);
 				// When the record is inserted
 			} else {
-				//* set the server ID to the default webserver of the client
-				if (!$serverChosenOk) {
-					// $this->dataRecord["server_id"] = $client["default_webserver"];
+				//* display an error if chosen server is not allowed for this client
+				if (!is_array($client['web_servers_ids']) || !in_array($this->dataRecord['server_id'], $client['web_servers_ids'])) {
 					$app->error($app->tform->wordbook['server_chosen_not_ok']);
 				}
 

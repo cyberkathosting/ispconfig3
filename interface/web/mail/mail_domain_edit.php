@@ -221,16 +221,21 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT limit_maildomain, mail_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
-			$client['mail_servers_ids'] = explode(',', $client['mail_servers']);
-
-			// Check if chosen server is in authorized servers for this client
-			if (!(is_array($client['mail_servers_ids']) && in_array($this->dataRecord["server_id"], $client['mail_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
-				$app->error($app->tform->wordbook['error_not_allowed_server_id']);
-			}
-
 			// When the record is updated
-			if(!($this->id > 0)) {
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ".$app->functions->intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+				// When the record is inserted
+			} else {
+				$client['mail_servers_ids'] = explode(',', $client['mail_servers']);
+
+				// Check if chosen server is in authorized servers for this client
+				if (!(is_array($client['mail_servers_ids']) && in_array($this->dataRecord["server_id"], $client['mail_servers_ids']))) {
+					$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+				}
+
 				if($client["limit_maildomain"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
 					if($tmp["number"] >= $client["limit_maildomain"]) {

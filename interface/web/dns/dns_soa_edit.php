@@ -171,7 +171,13 @@ class page_action extends tform_actions {
 			}
 		
 			// When the record is updated
-			if(!($this->id > 0)) {
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+				// When the record is inserted
+			} else {
 				// Check if the user may add another maildomain.
 				if($client["limit_dns_zone"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");

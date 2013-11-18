@@ -168,15 +168,22 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-			$client['db_servers_ids'] = explode(',', $client['db_servers']);
-
-			// Check if chosen server is in authorized servers for this client
-			if (!(is_array($client['db_servers_ids']) && in_array($this->dataRecord["server_id"], $client['db_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
-				$app->error($app->tform->wordbook['error_not_allowed_server_id']);
-			}
-
 			// When the record is updated
-			if(!($this->id > 0)) {// Check if the user may add another database
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ".$app->functions->intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+				// When the record is inserted
+			} else {
+				$client['db_servers_ids'] = explode(',', $client['db_servers']);
+
+				// Check if chosen server is in authorized servers for this client
+				if (!(is_array($client['db_servers_ids']) && in_array($this->dataRecord["server_id"], $client['db_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
+					$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+				}
+
+				// Check if the user may add another database
 				if($client["limit_database"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE sys_groupid = $client_group_id");
 					if($tmp["number"] >= $client["limit_database"]) {
