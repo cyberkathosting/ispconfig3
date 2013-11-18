@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.

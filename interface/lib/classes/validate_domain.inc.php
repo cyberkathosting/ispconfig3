@@ -118,7 +118,7 @@ class validate_domain {
 
 		if($domain['ip_address'] == '' || $domain['ipv6_address'] == ''){
 			if($domain['parent_domain_id'] > 0){
-				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$domain['parent_domain_id']);
+				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($domain['parent_domain_id']));
 			}
 		}
 
@@ -217,7 +217,7 @@ class validate_domain {
 					// if alias/subdomain: check IP addresses of parent domain
 					if($check['ip_address'] == '' || $check['ipv6_address'] == ''){
 						if($check['parent_domain_id'] > 0){
-							$check_parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ".$check['parent_domain_id']);
+							$check_parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ".$app->functions->intval($check['parent_domain_id']));
 						}
 					}
 
@@ -282,7 +282,7 @@ class validate_domain {
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_wildcard FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			if($client["limit_wildcard"] == 'y') return true;

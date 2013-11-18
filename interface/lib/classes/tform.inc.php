@@ -1048,6 +1048,8 @@ class tform {
 	function getSQL($record, $tab, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '') {
 
 		global $app;
+		
+		$primary_id = $app->functions->intval($primary_id);
 
 		// If there are no data records on the tab, return empty sql string
 		if(count($this->formDef['tabs'][$tab]['fields']) == 0) return '';
@@ -1272,6 +1274,7 @@ class tform {
 	function getDataRecord($primary_id) {
 		global $app;
 		$escape = '`';
+		$primary_id = $app->functions->intval($primary_id);
 		$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id." AND ".$this->getAuthSQL('r', $this->formDef['db_table']);
 		return $app->db->queryOneRecord($sql);
 	}
@@ -1285,6 +1288,11 @@ class tform {
 	}
 
 	function getAuthSQL($perm, $table = '') {
+		global $app;
+		
+		$perm = $app->db->quote($perm);
+		$table = $app->db->quote($table);
+		
 		if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			return '1';
 		} else {
@@ -1309,6 +1317,7 @@ class tform {
 	function checkPerm($record_id, $perm) {
 		global $app;
 
+		$record_id = $app->functions->intval($record_id);
 		if($record_id > 0) {
 			// Add backticks for incomplete table names.
 			if(stristr($this->formDef['db_table'], '.')) {
@@ -1403,7 +1412,7 @@ class tform {
 		if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
 
 		// Get the limits of the client that is currently logged in
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 		// Check if the user may add another item
@@ -1425,7 +1434,7 @@ class tform {
 		if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
 
 		// Get the limits of the client that is currently logged in
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 		//* If the client belongs to a reseller, we will check against the reseller Limit too

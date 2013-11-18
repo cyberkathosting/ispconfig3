@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if record is existing already
-		$duplicate_mx = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($this->dataRecord["zone"])." AND name = '".$this->dataRecord["name"]."' AND type = '".$this->dataRecord["type"]."' AND data = '".$this->dataRecord["data"]."' AND ".$app->tform->getAuthSQL('r'));
+		$duplicate_mx = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($this->dataRecord["zone"])." AND name = '".$app->db->quote($this->dataRecord["name"])."' AND type = '".$app->db->quote($this->dataRecord["type"])."' AND data = '".$app->db->quote($this->dataRecord["data"])."' AND ".$app->tform->getAuthSQL('r'));
 
 		if(is_array($duplicate_mx) && !empty($duplicate_mx)) $app->error($app->tform->wordbook["duplicate_mx_record_txt"]);
 
@@ -123,7 +123,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if record is existing already
-		$duplicate_mx = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($this->dataRecord["zone"])." AND name = '".$this->dataRecord["name"]."' AND type = '".$this->dataRecord["type"]."' AND data = '".$this->dataRecord["data"]."' AND id != ".$app->functions->intval($this->dataRecord["id"])." AND ".$app->tform->getAuthSQL('r'));
+		$duplicate_mx = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($this->dataRecord["zone"])." AND name = '".$app->db->quote($this->dataRecord["name"])."' AND type = '".$app->db->quote($this->dataRecord["type"])."' AND data = '".$app->db->quote($this->dataRecord["data"])."' AND id != ".$app->functions->intval($this->dataRecord["id"])." AND ".$app->tform->getAuthSQL('r'));
 
 		if(is_array($duplicate_mx) && !empty($duplicate_mx)) $app->error($app->tform->wordbook["duplicate_mx_record_txt"]);
 

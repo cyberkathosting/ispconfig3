@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 
 		//* Check for duplicates where IP and hostname are the same
-		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE (type = 'A' AND name = '".$this->dataRecord["name"]."' AND zone = '".$this->dataRecord["zone"]."' and id != ".$this->id.") OR (type = 'CNAME' AND name = '".$this->dataRecord["name"]."' AND zone = '".$this->dataRecord["zone"]."' and id != ".$this->id.")");
+		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE (type = 'A' AND name = '".$app->db->quote($this->dataRecord["name"])."' AND zone = '".$app->db->quote($this->dataRecord["zone"])."' and id != ".$this->id.") OR (type = 'CNAME' AND name = '".$app->db->quote($this->dataRecord["name"])."' AND zone = '".$app->db->quote($this->dataRecord["zone"])."' and id != ".$this->id.")");
 		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("data_error_duplicate")."<br>";
 		unset($tmp);
 

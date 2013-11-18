@@ -52,7 +52,7 @@ $domain = (isset($_POST['domain'])&&!empty($_POST['domain']))?$_POST['domain']:N
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	$server_id = (isset($_POST['server_id']))?$app->functions->intval($_POST['server_id']):1;
 } else {
-	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 	$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 	$server_id = $client["default_dnsserver"];
 }
@@ -101,14 +101,14 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 	// Get the limits of the client
-	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 
 	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".intval($client['client_id']);
 	$clients = $app->db->queryAllRecords($sql);
-	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client['client_id']));
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 	if(is_array($clients)) {
 		foreach( $clients as $client) {
@@ -648,7 +648,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			foreach($dns_rr as $rr)
 			{
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$rr[name]', '$rr[type]', '$rr[data]', '$rr[aux]', '$rr[ttl]', 'Y')";
+				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '".$app->db->quote($rr['name'])."', '".$app->db->quote($rr['type'])."', '".$app->db->quote($rr['data'])."', '".$app->db->quote($rr['aux'])."', '".$app->db->quote($rr['ttl'])."', 'Y')";
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
 		}

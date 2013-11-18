@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 				// Get the limits of the client
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
+				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 				$client = $app->db->queryOneRecord("SELECT client.client_id, sys_group.name, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 				// Fill the client select field
@@ -122,7 +122,7 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_slave_zone, default_slave_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// When the record is updated
@@ -150,7 +150,7 @@ class page_action extends tform_actions {
 		if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
 
 		//* Check if a primary zone with the same name already exists
-		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE origin = \"".$this->dataRecord["origin"]."\" AND server_id= \"".$this->dataRecord["server_id"]."\"");
+		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE origin = \"".$app->db->quote($this->dataRecord["origin"])."\" AND server_id= \"".$app->db->quote($this->dataRecord["server_id"])."\"");
 		if($tmp["number"] > 0) {
 			$app->error($app->tform->wordbook["origin_error_unique"]);
 		}
@@ -162,7 +162,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if record is existing already
-		$duplicate_slave = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin = '".$this->dataRecord["origin"]."' AND server_id = ".$app->functions->intval($this->dataRecord["server_id"])." AND ".$app->tform->getAuthSQL('r'));
+		$duplicate_slave = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin = '".$app->db->quote($this->dataRecord["origin"])."' AND server_id = ".$app->functions->intval($this->dataRecord["server_id"])." AND ".$app->tform->getAuthSQL('r'));
 
 		if(is_array($duplicate_slave) && !empty($duplicate_slave)) $app->error($app->tform->wordbook["origin_error_unique"]);
 
