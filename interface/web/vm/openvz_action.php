@@ -18,8 +18,8 @@ $notify_msg = '';
 if($vm_id == 0) die('Invalid VM ID');
 
 $vm = $app->db->queryOneRecord("SELECT server_id, veid FROM openvz_vm WHERE vm_id = $vm_id");
-$veid = $vm['veid'];
-$server_id = $vm['server_id'];
+$veid = $app->functions->intval($vm['veid']);
+$server_id = $app->functions->intval($vm['server_id']);
 
 //* Loading classes
 $app->uses('tpl');
