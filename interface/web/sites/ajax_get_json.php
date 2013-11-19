@@ -74,7 +74,7 @@ if($type == 'getphpfastcgi'){
 
 	//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-		$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"] . ")";
+		$sql_where = " AND (client_id = 0 OR client_id = ".$app->functions->intval($_SESSION["s"]["user"]["client_id"]) . ")";
 		//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 	} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $client_group_id");
@@ -158,7 +158,7 @@ if($type == 'getdatabaseusers') {
 	$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
 	$group = $app->db->queryOneRecord($sql);
 	if($group) {
-		$sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $group['sys_groupid'] . "'";
+		$sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $app->functions->intval($group['sys_groupid']) . "'";
 		$records = $app->db->queryAllRecords($sql);
 
 		$tmp_array = array();

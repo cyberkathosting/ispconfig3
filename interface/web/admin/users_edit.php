@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ".$this->id);
-		$client_id = $client['client_id'];
+		$client_id = $app->functions->intval($client['client_id']);
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$old_username = $app->db->quote($this->oldDataRecord['username']);
 

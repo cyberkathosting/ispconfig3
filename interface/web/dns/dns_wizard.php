@@ -98,14 +98,14 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 	// Get the limits of the client
-	$client_group_id = $_SESSION["s"]["user"]["default_group"];
+	$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 
 	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id'];
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id']);
 	$clients = $app->db->queryAllRecords($sql);
-	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client['client_id']));
+	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 	if(is_array($clients)) {
 		foreach( $clients as $client) {
@@ -118,7 +118,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 }
 
 
-$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '$template_id'");
+$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '".$app->functions->intval($template_id)."'");
 $fields = explode(',', $template_record['fields']);
 if(is_array($fields)) {
 	foreach($fields as $field) {

@@ -76,7 +76,7 @@ class page_action extends tform_actions {
 		}
 
 		// Changing maildir to mailbox_id
-		$sql = "SELECT mailbox_id FROM mail_box WHERE maildir = '".$this->dataRecord["spam_redirect_maildir"]."' AND ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT mailbox_id FROM mail_box WHERE maildir = '".$app->db->quote($this->dataRecord["spam_redirect_maildir"])."' AND ".$app->tform->getAuthSQL('r');
 		$mailbox = $app->db->queryOneRecord($sql);
 		$this->dataRecord["spam_redirect_maildir"] = $mailbox["mailbox_id"];
 

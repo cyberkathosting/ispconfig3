@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_mailalias FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -124,7 +124,7 @@ class page_action extends tform_actions {
 		// compose the email field
 		$this->dataRecord["source"] = $_POST["email_local_part"]."@".$app->functions->idn_encode($_POST["email_domain"]);
 		// Set the server id of the mailbox = server ID of mail domain.
-		$this->dataRecord["server_id"] = $domain["server_id"];
+		$this->dataRecord["server_id"] = $app->functions->intval($domain["server_id"]);
 
 		unset($this->dataRecord["email_local_part"]);
 		unset($this->dataRecord["email_domain"]);
@@ -150,7 +150,7 @@ class page_action extends tform_actions {
 		global $app;
 
 		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("update mail_forwarding SET sys_groupid = ".$domain['sys_groupid']." WHERE forwarding_id = ".$this->id);
+		$app->db->query("update mail_forwarding SET sys_groupid = ".$app->functions->intval($domain['sys_groupid'])." WHERE forwarding_id = ".$this->id);
 
 	}
 

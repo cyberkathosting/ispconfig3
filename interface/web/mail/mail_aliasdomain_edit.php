@@ -120,7 +120,7 @@ class page_action extends tform_actions {
 		$this->dataRecord["source"] = "@".$app->db->quote($this->dataRecord["source"]);
 		$this->dataRecord["destination"] = "@".$app->db->quote($this->dataRecord["destination"]);
 		// Set the server id of the mailbox = server ID of mail domain.
-		$this->dataRecord["server_id"] = $domain["server_id"];
+		$this->dataRecord["server_id"] = $app->functions->intval($domain["server_id"]);
 
 		parent::onSubmit();
 	}
@@ -129,7 +129,7 @@ class page_action extends tform_actions {
 		global $app;
 
 		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("update mail_forwarding SET sys_groupid = ".$domain['sys_groupid']." WHERE forwarding_id = ".$this->id);
+		$app->db->query("update mail_forwarding SET sys_groupid = ".$app->functions->intval($domain['sys_groupid'])." WHERE forwarding_id = ".$this->id);
 
 	}
 

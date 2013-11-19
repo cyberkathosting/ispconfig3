@@ -17,7 +17,7 @@ $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_index.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
-$sql = "SELECT * FROM mail_user WHERE mailuser_id = ".$_SESSION['s']['user']['mailuser_id'];
+$sql = "SELECT * FROM mail_user WHERE mailuser_id = ".$app->functions->intval($_SESSION['s']['user']['mailuser_id']);
 $rec = $app->db->queryOneRecord($sql);
 
 if($rec['quota'] == 0) {
@@ -30,7 +30,7 @@ if($rec['cc'] == '') $rec['cc'] = $wb['none_txt'];
 
 $app->tpl->setVar($rec);
 
-$sql2 = "SELECT * FROM server WHERE server_id = ".$rec['server_id'];
+$sql2 = "SELECT * FROM server WHERE server_id = ".$app->functions->intval($rec['server_id']);
 $rec2 = $app->db->queryOneRecord($sql2);
 
 $app->tpl->setVar($rec2);

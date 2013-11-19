@@ -91,7 +91,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.limit_web_subdomain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Get global web config
@@ -102,10 +102,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$parent_domain['server_id']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$app->functions->intval($parent_domain['server_id'])." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			if($this->dataRecord['php'] == 'fast-cgi'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$parent_domain['server_id']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$app->functions->intval($parent_domain['server_id'])." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -130,7 +130,7 @@ class page_action extends tform_actions {
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_subdomain, client.default_webserver, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Get global web config
@@ -141,10 +141,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$parent_domain['server_id']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$app->functions->intval($parent_domain['server_id'])." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			if($this->dataRecord['php'] == 'fast-cgi') {
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$parent_domain['server_id']." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$app->functions->intval($parent_domain['server_id'])." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -176,10 +176,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = " . $parent_domain['server_id']);
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = " . $app->functions->intval($parent_domain['server_id']));
 			}
 			if($this->dataRecord['php'] == 'fast-cgi') {
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = " . $parent_domain['server_id']);
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = " . $app->functions->intval($parent_domain['server_id']));
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -381,7 +381,7 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
@@ -419,7 +419,7 @@ class page_action extends tform_actions {
 
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
-				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$app->functions->intval($client['parent_client_id']));
 
 				//* Check the traffic quota of the client
 				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0 && $_POST["traffic_quota"] != $old_web_values["traffic_quota"]) {

@@ -76,7 +76,7 @@ class page_action extends tform_actions {
 			}
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.default_webserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$app->tpl->setVar("server_id_value", $client['default_webserver']);
 		}
@@ -96,7 +96,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.limit_web_domain, client.default_webserver, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Get global web config
@@ -108,7 +108,7 @@ class page_action extends tform_actions {
 			unset($tmp);
 
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$client['default_webserver']." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$app->functions->intval($client['default_webserver'])." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -123,7 +123,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$app->functions->intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -142,10 +142,10 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $app->functions->intval($this->dataRecord['server_id']) : $app->functions->intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			if($this->dataRecord['php'] == 'fast-cgi'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")");
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $app->functions->intval($this->dataRecord['server_id']) : $app->functions->intval($client['default_webserver']))." AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")");
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -170,21 +170,21 @@ class page_action extends tform_actions {
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_domain, client.default_webserver, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Get global web config
 			$web_config = $app->getconf->get_server_config($client['default_webserver'], 'web');
 
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".intval($client['default_webserver']));
+			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$app->functions->intval($client['default_webserver']));
 			$app->tpl->setVar("server_id", "<option value='$client[default_webserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
 			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
@@ -199,7 +199,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("client_group_id", $client_select);
 
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$app->functions->intval($client['default_webserver'])." AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ".$app->functions->intval($client['default_webserver'])." AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=".$app->functions->intval($_SESSION['s']['user']['client_id']).")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -232,14 +232,14 @@ class page_action extends tform_actions {
 			$server_type = 'apache';
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
-			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $selected_client_group_id");
+			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ".$app->functions->intval($selected_client_group_id));
 			//$sql_where = " AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id']." OR client_id = ".intval($selected_client['client_id']).")";
 			$sql_where = " AND (client_id = 0 OR client_id = ".intval($selected_client['client_id']).")";
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver'])).$sql_where);
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".($this->id > 0 ? $app->functions->intval($this->dataRecord['server_id']) : $app->functions->intval($client['default_webserver'])).$sql_where);
 			}
 			if($this->dataRecord['php'] == 'fast-cgi') {
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $this->dataRecord['server_id'] : intval($client['default_webserver'])).$sql_where);
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".($this->id > 0 ? $app->functions->intval($this->dataRecord['server_id']) : $app->functions->intval($client['default_webserver'])).$sql_where);
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -281,7 +281,7 @@ class page_action extends tform_actions {
 			$web_config = $app->getconf->get_server_config($server_id, 'web');
 
 			//* Fill the IPv4 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND server_id = $server_id";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND server_id = ".$app->functions->intval($server_id);
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -296,7 +296,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND server_id = $server_id";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND server_id = ".$app->functions->intval($server_id);
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -331,14 +331,14 @@ class page_action extends tform_actions {
 			$server_type = 'apache';
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
-			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $selected_client_group_id");
+			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ".$app->functions->intval($selected_client_group_id));
 			//$sql_where = " AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id']." OR client_id = ".intval($selected_client['client_id']).")";
-			$sql_where = " AND (client_id = 0 OR client_id = ".intval($selected_client['client_id']).")";
+			$sql_where = " AND (client_id = 0 OR client_id = ".$app->functions->intval($selected_client['client_id']).")";
 			if($this->dataRecord['php'] == 'php-fpm'){
 				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = $server_id".$sql_where);
 			}
 			if($this->dataRecord['php'] == 'fast-cgi') {
-				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id".$sql_where);
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ".$app->functions->intval($server_id).$sql_where);
 			}
 			$php_select = "<option value=''>Default</option>";
 			if(is_array($php_records) && !empty($php_records)) {
@@ -462,7 +462,7 @@ class page_action extends tform_actions {
 
 		// check for configuration errors in sys_datalog
 		if($this->id > 0) {
-			$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'web_domain' AND sys_datalog.dbidx = 'domain_id:".$this->id."' AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC");
+			$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'web_domain' AND sys_datalog.dbidx = 'domain_id:".$app->functions->intval($this->id)."' AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC");
 			if(is_array($datalog) && !empty($datalog)){
 				if(trim($datalog['error']) != ''){
 					$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
@@ -513,7 +513,7 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
@@ -567,7 +567,7 @@ class page_action extends tform_actions {
 
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
-				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+				$reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_domain, default_webserver, limit_web_quota FROM client WHERE client_id = ".$app->functions->intval($client['parent_client_id']));
 
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
@@ -754,7 +754,7 @@ class page_action extends tform_actions {
 
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = $client_group_id");
 			$client_id = $app->functions->intval($client["client_id"]);
 		} else {
@@ -855,7 +855,7 @@ class page_action extends tform_actions {
 
 		// get the ID of the client
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = $client_group_id");
 			$client_id = $app->functions->intval($client["client_id"]);
 		} elseif (isset($this->dataRecord["client_group_id"])) {
@@ -886,7 +886,7 @@ class page_action extends tform_actions {
 			// Update the FTP user(s) too
 			$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('ftp_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $rec['ftp_user_id']);
+				$app->db->datalogUpdate('ftp_user', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."', uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $app->functions->intval($rec['ftp_user_id']));
 			}
 			unset($records);
 			unset($rec);
@@ -894,7 +894,7 @@ class page_action extends tform_actions {
 			// Update the Shell user(s) too
 			$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('shell_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $rec['shell_user_id']);
+				$app->db->datalogUpdate('shell_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $app->functions->intval($rec['shell_user_id']));
 			}
 			unset($records);
 			unset($rec);
@@ -919,7 +919,7 @@ class page_action extends tform_actions {
 			//* Update all databases
 			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('web_database', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'", 'database_id', $rec['database_id']);
+				$app->db->datalogUpdate('web_database', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'database_id', $app->functions->intval($rec['database_id']));
 			}
 			unset($records);
 			unset($rec);
@@ -938,10 +938,10 @@ class page_action extends tform_actions {
 			unset($subdomain);
 
 			// Update APS instances
-			$records = $app->db->queryAllRecords("SELECT id, instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$this->oldDataRecord["domain"]."'");
+			$records = $app->db->queryAllRecords("SELECT id, instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$app->db->quote($this->oldDataRecord["domain"])."'");
 			if(is_array($records) && !empty($records)){
 				foreach($records as $rec){
-					$app->db->datalogUpdate('aps_instances_settings', "value = '".$this->dataRecord["domain"]."'", 'id', $rec['id']);
+					$app->db->datalogUpdate('aps_instances_settings', "value = '".$app->db->quote($this->dataRecord["domain"])."'", 'id', $rec['id']);
 					// Reinstall of package needed?
 					//$app->db->datalogUpdate('aps_instances', "instance_status = '1'", 'id', $rec['instance_id']);
 				}
@@ -960,7 +960,7 @@ class page_action extends tform_actions {
 		if(empty($web_rec['php_open_basedir']) ||
 			(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"])) {
 			$php_open_basedir = $web_rec['php_open_basedir'];
-			$php_open_basedir = str_replace($this->oldDataRecord['domain'], $web_rec['domain'], $php_open_basedir);
+			$php_open_basedir = $app->db->quote(str_replace($this->oldDataRecord['domain'], $web_rec['domain'], $php_open_basedir));
 			$sql = "UPDATE web_domain SET php_open_basedir = '$php_open_basedir' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 		}
@@ -976,8 +976,8 @@ class page_action extends tform_actions {
 		//* Change database backup options when web backup options have been changed
 		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
 			//* Update all databases
-			$backup_interval = $this->dataRecord['backup_interval'];
-			$backup_copies = $this->dataRecord['backup_copies'];
+			$backup_interval = $app->functions->intval($this->dataRecord['backup_interval']);
+			$backup_copies = $app->functions->intval($this->dataRecord['backup_copies']);
 			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
 				$app->db->datalogUpdate('web_database', "backup_interval = '$backup_interval', backup_copies = '$backup_copies'", 'database_id', $rec['database_id']);
@@ -992,7 +992,7 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord['ip_address']) && ($this->dataRecord['ip_address'] != $this->oldDataRecord['ip_address'] || $this->dataRecord['ipv6_address'] != $this->oldDataRecord['ipv6_address'])) {
 			$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('web_domain', "ip_address = '".$web_rec['ip_address']."', ipv6_address = '".$web_rec['ipv6_address']."'", 'domain_id', $rec['domain_id']);
+				$app->db->datalogUpdate('web_domain', "ip_address = '".$app->db->quote($web_rec['ip_address'])."', ipv6_address = '".$app->db->quote($web_rec['ipv6_address'])."'", 'domain_id', $rec['domain_id']);
 			}
 			unset($records);
 			unset($rec);
@@ -1010,7 +1010,7 @@ class page_action extends tform_actions {
 				$app->tform->datalogSave('DELETE', $d["domain_id"], $d, array());
 			}
 
-			$app->db->query("DELETE FROM web_domain WHERE domain_id = ".$d["domain_id"]." LIMIT 0,1");
+			$app->db->query("DELETE FROM web_domain WHERE domain_id = ".$app->functions->intval($d["domain_id"])." LIMIT 0,1");
 		}
 		unset($child_domains);
 		unset($d);

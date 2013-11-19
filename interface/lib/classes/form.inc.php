@@ -1,5 +1,7 @@
 <?php
 
+die('Deprecated file: form.inc.php');
+
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.

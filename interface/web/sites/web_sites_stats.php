@@ -38,25 +38,25 @@ class list_action extends listform_actions {
 		//** Traffic of the current month
 		$tmp_year = date('Y');
 		$tmp_month = date('m');
-		$tmp_rec = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
 		$rec['this_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_this_month += ($tmp_rec['t']/1024/1024);
 
 		//** Traffic of the current year
-		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year'");
 		$rec['this_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_this_year += ($tmp_rec['t']/1024/1024);
 
 		//** Traffic of the last month
 		$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		$tmp_month = date('m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
 		$rec['last_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_last_month += ($tmp_rec['t']/1024/1024);
 
 		//** Traffic of the last year
 		$tmp_year = date('Y', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
-		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$rec['domain']."' AND YEAR(traffic_date) = '$tmp_year'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year'");
 		$rec['last_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
 		$this->sum_last_year += ($tmp_rec['t']/1024/1024);
 

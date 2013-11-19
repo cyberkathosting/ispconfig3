@@ -60,7 +60,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another website.
@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'user' && $this->id == 0) {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another website.
@@ -156,7 +156,7 @@ class page_action extends tform_actions {
 
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$password = $app->db->quote($this->dataRecord["password"]);
-		$modules = $conf['interface_modules_enabled'] . ',client';
+		$modules = $app->db->quote($conf['interface_modules_enabled'] . ',client');
 		$startmodule = (stristr($modules, 'dashboard'))?'dashboard':'client';
 		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
 		$type = 'user';
@@ -247,7 +247,7 @@ class page_action extends tform_actions {
 
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
-			$modules = $conf['interface_modules_enabled'] . ',client';
+			$modules = $app->db->quote($conf['interface_modules_enabled'] . ',client');
 			$modules = $app->db->quote($modules);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";

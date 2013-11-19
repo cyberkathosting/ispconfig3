@@ -65,7 +65,7 @@ if(isset($_POST) && count($_POST) > 1) {
 				$tmp_client_ids = explode(',', $circle['client_ids']);
 				$where = array();
 				foreach($tmp_client_ids as $tmp_client_id){
-					$where[] = 'client_id = '.$tmp_client_id;
+					$where[] = 'client_id = '.$app->functions->intval($tmp_client_id);
 				}
 				if(!empty($where)) $where_clause = ' AND ('.implode(' OR ', $where).')';
 				$sql = "SELECT * FROM client WHERE email != ''".$where_clause;

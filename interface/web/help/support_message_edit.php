@@ -33,7 +33,7 @@ class page_action extends tform_actions {
 
 		//* Get recipient email address
 		if($this->dataRecord['recipient_id'] > 1){
-			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$this->dataRecord['recipient_id']." AND sys_user.client_id = client.client_id";
+			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$app->functions->intval($this->dataRecord['recipient_id'])." AND sys_user.client_id = client.client_id";
 			$client = $app->db->queryOneRecord($sql);
 			$recipient_email = $client['email'];
 		} else {
@@ -44,7 +44,7 @@ class page_action extends tform_actions {
 
 		//* Get sender email address
 		if($this->dataRecord['sender_id'] > 1){
-			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$this->dataRecord['sender_id']." AND sys_user.client_id = client.client_id";
+			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$app->functions->intval($this->dataRecord['sender_id'])." AND sys_user.client_id = client.client_id";
 			$client = $app->db->queryOneRecord($sql);
 			$sender_email = $client['email'];
 		} else {
@@ -113,7 +113,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if($_SESSION['s']['user']['typ'] == 'admin') {
-			$app->db->query("UPDATE support_message SET sys_userid = ".$this->dataRecord['recipient_id']." WHERE support_message_id = ".$this->id);
+			$app->db->query("UPDATE support_message SET sys_userid = ".$app->functions->intval($this->dataRecord['recipient_id'])." WHERE support_message_id = ".$this->id);
 		}
 
 	}

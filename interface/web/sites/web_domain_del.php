@@ -94,7 +94,7 @@ class page_action extends tform_actions {
 		//* Delete all records that belog to this web.
 		$web_domain = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
 		if($web_domain['domain'] != ''){
-			$aps_instances = $app->db->queryAllRecords("SELECT instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$web_domain['domain']."'");
+			$aps_instances = $app->db->queryAllRecords("SELECT instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$app->db->quote($web_domain['domain'])."'");
 			if(is_array($aps_instances) && !empty($aps_instances)){
 				foreach($aps_instances as $aps_instance){
 					if($aps_instance['instance_id'] > 0){
@@ -109,7 +109,7 @@ class page_action extends tform_actions {
 		$records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = '".$app->functions->intval($this->id)."'");
 		foreach($records as $rec) {
 			//* Delete all web folder users
-			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$rec['web_folder_id']."'");
+			$records2 = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$app->functions->intval($rec['web_folder_id'])."'");
 			foreach($records2 as $rec2) {
 				$app->db->datalogDelete('web_folder_user', 'web_folder_user_id', $rec2['web_folder_user_id']);
 			}

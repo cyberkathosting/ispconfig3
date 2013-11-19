@@ -78,7 +78,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_fetchmail FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another transport.
@@ -109,7 +109,7 @@ class page_action extends tform_actions {
 		global $app;
 
 		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
-		$app->db->query("update mail_get SET sys_groupid = ".$tmp['sys_groupid']." WHERE mailget_id = ".$this->id);
+		$app->db->query("update mail_get SET sys_groupid = ".$app->functions->intval($tmp['sys_groupid'])." WHERE mailget_id = ".$this->id);
 
 	}
 

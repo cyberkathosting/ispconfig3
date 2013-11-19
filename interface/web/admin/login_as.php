@@ -51,7 +51,7 @@ if(isset($_GET['id'])) {
 	$client_id = $app->functions->intval($_GET['cid']);
 	$tmp_client = $app->db->queryOneRecord("SELECT username FROM client WHERE client_id = $client_id");
 	$tmp_sys_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE username = '".$app->db->quote($tmp_client['username'])."'");
-	$userId = $tmp_sys_user['userid'];
+	$userId = $app->functions->intval($tmp_sys_user['userid']);
 	unset($tmp_client);
 	unset($tmp_sys_user);
 	$backlink = 'client/client_list.php';
