@@ -7,6 +7,7 @@ $wb['resync_shell_txt'] = 'Shell Benutzer';
 $wb['resync_cron_txt'] = 'Cronjobs';
 $wb['resync_db_txt'] = 'Datenbanken';
 $wb['resync_mailbox_txt'] = 'E-Mail Konten';
+$wb['resync_dkim_txt'] = 'DKIM-Keys';
 $wb['resync_dns_txt'] = 'DNS Einträge';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Zurück';
