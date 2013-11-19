@@ -134,7 +134,7 @@ class plugins {
 	function registerAction($action_name, $plugin_name, $function_name) {
 		global $app;
 		$this->subscribed_actions[$action_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
-		if($this->debug)  $app->log("Registered function '$function_name' from plugin '$plugin_name' for action '$event_name'.", LOGLEVEL_DEBUG);
+		if($this->debug)  $app->log("Registered function '$function_name' from plugin '$plugin_name' for action '$action_name'.", LOGLEVEL_DEBUG);
 	}
 
 
