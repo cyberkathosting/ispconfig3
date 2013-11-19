@@ -33,6 +33,7 @@ class auth {
 
 	public function get_user_id()
 	{
+		global $app;
 		return $app->functions->intval($_SESSION['s']['user']['userid']);
 	}
 
