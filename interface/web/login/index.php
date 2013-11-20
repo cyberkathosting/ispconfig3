@@ -122,7 +122,7 @@ class login_index {
 						else {
 							die("You don't have the right to 'login as'!");
 						}
-					} elseif($_SESSION['s']['user']['typ'] != 'admin') {
+					} elseif($_SESSION['s']['user']['typ'] != 'admin' && (!isset($_SESSION['s_old']['user']) || $_SESSION['s_old']['user']['typ'] != 'admin')) {
 						/* a reseller wants to 'login as', we need to check if he is allowed to */
 						$res_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $res_client_group_id");
@@ -230,7 +230,6 @@ class login_index {
 								$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 								$_SESSION['s']['language'] = $user['language'];
 								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
-								$_SESSION['s']['session_timeout'] = $server_config_array['session_timeout'];
 								
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
@@ -318,12 +317,15 @@ class login_index {
 		if($error != ''){
 			$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
-
+		
 		$app->tpl->setVar('error', $error);
 		$app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));
+		$app->tpl->setVar('stay_logged_in_txt', $app->lng('stay_logged_in_txt'));
 		$app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
+		$app->tpl->setVar('session_timeout', $server_config_array['session_timeout']);
+		$app->tpl->setVar('session_allow_endless', $server_config_array['session_allow_endless']);
 		$app->tpl->setInclude('content_tpl', 'login/templates/index.htm');
 		$app->tpl_defaults();
 

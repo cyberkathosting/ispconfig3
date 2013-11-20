@@ -481,6 +481,12 @@ $form["tabs"]['misc'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'session_allow_endless' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
