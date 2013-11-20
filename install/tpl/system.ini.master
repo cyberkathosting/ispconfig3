@@ -46,3 +46,6 @@ reseller_dashlets_left=
 reseller_dashlets_right=
 client_dashlets_left=
 client_dashlets_right=
+customer_no_template=C[CUSTOMER_NO]
+customer_no_start=1
+customer_no_counter=0

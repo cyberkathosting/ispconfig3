@@ -59,4 +59,8 @@ $wb['reseller_dashlets_left_txt'] = 'Left Reseller Dashlets';
 $wb['reseller_dashlets_right_txt'] = 'Right Reseller Dashlets';
 $wb['client_dashlets_left_txt'] = 'Left Client Dashlets';
 $wb['client_dashlets_right_txt'] = 'Right Client Dashlets';
+$wb['customer_no_template_txt'] = 'Customer No. template';
+$wb['customer_no_template_error_regex_txt'] = 'The customer No. template contains invalid characters';
+$wb['customer_no_start_txt'] = 'Customer No. start value';
+$wb['customer_no_counter_txt'] = 'Customer No. counter';
 ?>

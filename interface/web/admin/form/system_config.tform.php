@@ -445,6 +445,34 @@ $form["tabs"]['misc'] = array (
 			'default' => '',
 			'value'  => ''
 		),
+		'customer_no_template' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+					'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+					'errmsg'=> 'customer_no_template_error_regex'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'customer_no_start' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'customer_no_counter' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
