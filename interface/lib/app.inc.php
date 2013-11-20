@@ -65,10 +65,13 @@ class app {
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
 
-			$this->uses('session,ini_parser');
-			$tmp = $this->db->queryOneRecord("SELECT value FROM sys_config WHERE config_id = 2 AND group = 'interface' AND name = 'session_timeout'");
+			$this->uses('session');
+			$tmp = $this->db->queryOneRecord("SELECT `value` FROM sys_config WHERE `config_id` = 2 AND `group` = 'interface' AND `name` = 'session_timeout'");
 			if($tmp && $tmp['value'] > 0) {
 				$this->session->set_timeout($tmp['value']);
+				session_set_cookie_params(($tmp['value'] * 60) + 300); // make the cookie live 5 minutes longer
+			} else {
+				session_set_cookie_params(0); // until browser is closed
 			}
 			
 			session_set_save_handler( array($this->session, 'open'),
@@ -79,7 +82,7 @@ class app {
 				array($this->session, 'gc'));
 
 			session_start();
-
+			
 			//* Initialize session variables
 			if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
 			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
