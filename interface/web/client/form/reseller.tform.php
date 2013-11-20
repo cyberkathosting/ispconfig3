@@ -469,6 +469,28 @@ $form["tabs"]['address'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'added_date' => array (
+			'datatype'	=> 'DATE',
+			'formtype'	=> 'TEXT',
+			'default'	=> date($app->lng('conf_format_dateshort')),
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '15',
+			'maxlength'	=> '15',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'added_by' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => $_SESSION['s']['user']['username'],
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
+		),
 		//#################################
 		// END Datatable fields
 		//#################################
@@ -1079,6 +1101,34 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
+		),
+		'customer_no_template' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+					'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+					'errmsg'=> 'customer_no_template_error_regex'),
+			),
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'customer_no_start' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'customer_no_counter' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
 		),
 		//#################################
 		// END Datatable fields

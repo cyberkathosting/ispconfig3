@@ -472,6 +472,28 @@ $form["tabs"]['address'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'added_date' => array (
+			'datatype'	=> 'DATE',
+			'formtype'	=> 'TEXT',
+			'default'	=> date($app->lng('conf_format_dateshort')),
+			'value'		=> '',
+			'separator'	=> '',
+			'width'		=> '15',
+			'maxlength'	=> '15',
+			'rows'		=> '',
+			'cols'		=> ''
+		),
+		'added_by' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => $_SESSION['s']['user']['username'],
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
+		),
 		//#################################
 		// END Datatable fields
 		//#################################

@@ -16,6 +16,14 @@
         <fieldset class="inlineLabels">
             <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
             <div class="ctrlHolder">
+                <label for="added_date">{tmpl_var name='added_date_txt'}</label>
+                <input name="added_date" id="added_date" value="{tmpl_var name='added_date'}" size="10" maxlength="255" type="text" class="textInput" />
+            </div>
+			<div class="ctrlHolder">
+                <label for="added_by">{tmpl_var name='added_by_txt'}</label>
+                <input name="added_by" id="added_by" value="{tmpl_var name='added_by'}" size="10" maxlength="255" type="text" class="textInput" />
+            </div>
+			<div class="ctrlHolder">
                 <label for="system_user">{tmpl_var name='system_user_txt'}</label>
                 <label for="system_user">{tmpl_var name='system_user'}</label>
                 <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />

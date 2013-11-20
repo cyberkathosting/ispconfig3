@@ -232,6 +232,11 @@ CREATE TABLE `client` (
   `tmp_data` mediumblob,
   `id_rsa` varchar(2000) NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
+  `customer_no_template` varchar(255) DEFAULT 'C[CUSTOMER_NO]',
+  `customer_no_start` int(11) NOT NULL DEFAULT '1',
+  `customer_no_counter` int(11) NOT NULL DEFAULT '0',
+  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`client_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1797,6 +1802,8 @@ CREATE TABLE `web_domain` (
   `proxy_directives` mediumtext,
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
+  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

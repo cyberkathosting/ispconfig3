@@ -775,8 +775,10 @@ class page_action extends tform_actions {
 		$php_open_basedir = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
 		$php_open_basedir = $app->db->quote(str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
+		$added_date = date($app->lng('conf_format_dateshort'));
+		$added_by = $app->db->quote($_SESSION['s']['user']['username']);
 
-		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
+		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir', added_date = '$added_date', added_by = '$added_by'  WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
 	}
 

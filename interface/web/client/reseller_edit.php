@@ -139,6 +139,25 @@ class page_action extends tform_actions {
 		}
 
 		$app->tpl->setVar('template_additional_list', $text);
+		
+		//* Set the 'customer no' default value
+		if($this->id == 0) {
+			//* get the system config
+			$app->uses('getconf');
+			$system_config = $app->getconf->get_global_config();
+			if($system_config['misc']['customer_no_template'] != '') {
+				
+				//* Set customer no default
+				$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
+				$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
+				$app->tpl->setVar('customer_no',$customer_no_string);
+				
+				//* save new counter value
+				$system_config['misc']['customer_no_counter']++;
+				$system_config_str = $app->ini_parser->get_ini_string($system_config);
+				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+			}
+		}
 
 		parent::onShowEnd();
 
