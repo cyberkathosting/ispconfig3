@@ -230,7 +230,8 @@ class login_index {
 								$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 								$_SESSION['s']['language'] = $user['language'];
 								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
-
+								$_SESSION['s']['session_timeout'] = $server_config_array['session_timeout'];
+								
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
 									$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';

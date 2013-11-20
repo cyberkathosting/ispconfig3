@@ -81,7 +81,11 @@
                 <label for="customer_no_counter">{tmpl_var name='customer_no_counter_txt'}</label>
                 <input name="customer_no_counter" id="customer_no_counter" value="{tmpl_var name='customer_no_counter'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>
-            <div class="ctrlHolder">
+			<div class="ctrlHolder">
+                <label for="session_timeout">{tmpl_var name='session_timeout_txt'}</label>
+                <input name="session_timeout" id="session_timeout" value="{tmpl_var name='session_timeout'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
+            </div>
+			<div class="ctrlHolder">
                 <p class="label">{tmpl_var name='maintenance_mode_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='maintenance_mode'}

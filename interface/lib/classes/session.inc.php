@@ -32,9 +32,17 @@ class session {
 
 	private $session_array = array();
 	private $db;
+	private $timeout = 0;
 
-	function __construct() {
+	function __construct($session_timeout = 0) {
 		$this->db = new db;
+		$this->timeout = $session_timeout;
+	}
+	
+	function set_timeout($session_timeout = 0) {
+		$old_timeout = $this->timeout;
+		$this->timeout = $session_timeout;
+		return $old_timeout;
 	}
 
 	function open ($save_path, $session_name) {
@@ -51,8 +59,12 @@ class session {
 	}
 
 	function read ($session_id) {
-
-		$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."'");
+		
+		if($this->timeout > 0) {
+			$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."' AND last_updated >= DATE_SUB(NOW(), INTERVAL " . intval($this->timeout) . " MINUTE)");
+		} else {
+			$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."'");
+		}
 
 		if (is_array($rec)) {
 			$this->session_array = $rec;
@@ -108,12 +120,16 @@ class session {
 
 	function gc ($max_lifetime) {
 
-		$real_now = date('Y-m-d H:i:s');
-		$dt1 = strtotime("$real_now -$max_lifetime seconds");
-		$dt2 = date('Y-m-d H:i:s', $dt1);
+		/*if($this->timeout > 0) {
+			$this->db->query("DELETE FROM sys_session WHERE last_updated < DATE_SUB(NOW(), INTERVAL " . intval($this->timeout) . " MINUTE)");
+		} else {*/
+			$real_now = date('Y-m-d H:i:s');
+			$dt1 = strtotime("$real_now -$max_lifetime seconds");
+			$dt2 = date('Y-m-d H:i:s', $dt1);
 
-		$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2'";
-		$this->db->query($sql);
+			$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2'";
+			$this->db->query($sql);
+		//}
 
 		return true;
 
