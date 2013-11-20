@@ -1583,6 +1583,7 @@ CREATE TABLE `sys_session` (
   `session_id` varchar(64) NOT NULL DEFAULT '',
   `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `permanent` enum('n','y') NOT NULL DEFAULT 'n',
   `session_data` longtext,
   PRIMARY KEY (`session_id`),
   KEY `last_updated` (`last_updated`)

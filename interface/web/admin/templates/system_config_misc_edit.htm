@@ -86,6 +86,12 @@
                 <input name="session_timeout" id="session_timeout" value="{tmpl_var name='session_timeout'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>
 			<div class="ctrlHolder">
+                <p class="label">{tmpl_var name='session_allow_endless_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='session_allow_endless'}
+                </div>
+            </div>
+			<div class="ctrlHolder">
                 <p class="label">{tmpl_var name='maintenance_mode_txt'}</p>
                 <div class="multiField">
                     {tmpl_var name='maintenance_mode'}
