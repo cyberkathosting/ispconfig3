@@ -143,7 +143,7 @@ class page_action extends tform_actions {
 		}
 
 		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 
 		// Set a few fixed values
@@ -162,7 +162,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+		$app->db->query('UPDATE web_domain SET sys_groupid = ? WHERE domain_id = ?', $this->parent_domain_record['sys_groupid'], $this->id);
 
 	}
 
@@ -173,11 +173,11 @@ class page_action extends tform_actions {
 		if($this->dataRecord['parent_domain_id'] != $this->oldDataRecord['parent_domain_id']) {
 
 			//* Update the domain owner
-			$app->db->query('UPDATE web_domain SET sys_groupid = '.$app->functions->intval($this->parent_domain_record['sys_groupid']).' WHERE domain_id = '.$this->id);
+			$app->db->query('UPDATE web_domain SET sys_groupid = ? WHERE domain_id = ?', $this->parent_domain_record['sys_groupid'], $this->id);
 
 			//* Update the old website, so that the vhost alias gets removed
 			//* We force the update by inserting a transaction record without changes manually.
-			$old_website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$app->functions->intval($this->oldDataRecord['domain_id']));
+			$old_website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $this->oldDataRecord['domain_id']);
 			$app->db->datalogSave('web_domain', 'UPDATE', 'domain_id', $this->oldDataRecord['parent_domain_id'], $old_website, $old_website, true);
 		}
 

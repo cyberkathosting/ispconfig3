@@ -346,7 +346,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 		foreach($domains as $entry) {
 			$res = $exdb->query("SELECT d.dom_id, d.param, d.val FROM dom_param as d WHERE d.dom_id = '" . $entry['id'] . "'");
 			$options = array();
-			while($opt = $exdb->nextRecord()) {
+			while($opt = $res->get()) {
 				$options[$opt['param']] = $opt['val'];
 			}
 
@@ -728,7 +728,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 		foreach($subdomains as $entry) {
 			$res = $exdb->query("SELECT d.dom_id, d.param, d.val FROM dom_param as d WHERE d.dom_id = '" . $entry['dom_id'] . "'");
 			$options = array();
-			while($opt = $exdb->nextRecord()) {
+			while($opt = $res->get()) {
 				$options[$opt['param']] = $opt['val'];
 			}
 
