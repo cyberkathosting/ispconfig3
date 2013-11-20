@@ -3249,7 +3249,7 @@ class remoting {
 			$params = $app->remoting_lib->getDataRecord($primary_id);
 			$params['active'] = $status;
 			
-			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', $client_id, $primary_id, $params);
+			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', 0, $primary_id, $params);
 			return $affected_rows;
 		} else {
 			$this->server->fault('status_undefined', 'The status is not available');
