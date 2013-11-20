@@ -2210,5 +2210,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 --
 
 INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.3');
+INSERT INTO sys_config VALUES ('2','interface','session_timeout','0');
 
 SET FOREIGN_KEY_CHECKS = 1;

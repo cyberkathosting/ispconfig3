@@ -65,7 +65,12 @@ class app {
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
 
-			$this->uses('session');
+			$this->uses('session,ini_parser');
+			$tmp = $this->db->queryOneRecord("SELECT value FROM sys_config WHERE config_id = 2 AND group = 'interface' AND name = 'session_timeout'");
+			if($tmp && $tmp['value'] > 0) {
+				$this->session->set_timeout($tmp['value']);
+			}
+			
 			session_set_save_handler( array($this->session, 'open'),
 				array($this->session, 'close'),
 				array($this->session, 'read'),

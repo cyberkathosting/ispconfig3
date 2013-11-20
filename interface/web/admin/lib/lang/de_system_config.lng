@@ -59,4 +59,9 @@ $wb['reseller_dashlets_left_txt'] = 'Reseller-Dashlets links';
 $wb['reseller_dashlets_right_txt'] = 'Reseller-Dashlets rechts';
 $wb['client_dashlets_left_txt'] = 'Kunden-Dashlets links';
 $wb['client_dashlets_right_txt'] = 'Kunden-Dashlets rechts';
+$wb['customer_no_template_txt'] = 'Kundennummer-Vorlage';
+$wb['customer_no_template_error_regex_txt'] = 'Die Kundennummer-Vorlage enthält ungültige Zeichen';
+$wb['customer_no_start_txt'] = 'Kundennummer Startwert';
+$wb['customer_no_counter_txt'] = 'Kundennummer Zähler';
+$wb['session_timeout_txt'] = 'Session-Timeout (Minuten)';
 ?>

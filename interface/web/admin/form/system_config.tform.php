@@ -473,6 +473,14 @@ $form["tabs"]['misc'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'session_timeout' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

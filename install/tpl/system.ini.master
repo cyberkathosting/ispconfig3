@@ -49,3 +49,4 @@ client_dashlets_right=
 customer_no_template=C[CUSTOMER_NO]
 customer_no_start=1
 customer_no_counter=0
+session_timeout=0
