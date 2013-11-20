@@ -46,9 +46,9 @@ class custom_datasource {
 
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['default_dnsserver'];
+			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$app->functions->intval($client['default_dnsserver']);
 		} else {
 			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
 		}
@@ -68,9 +68,9 @@ class custom_datasource {
 
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT default_slave_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['default_slave_dnsserver'];
+			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$app->functions->intval($client['default_slave_dnsserver']);
 		} else {
 			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
 		}
@@ -99,7 +99,7 @@ class custom_datasource {
 		}
 		if(count($server_ids) == 0) return array();
 		$server_ids = implode(',', $server_ids);
-		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (".$server_ids.") AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain");
+		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (".$app->db->quote($server_ids).") AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain");
 
 		$records_new = array();
 		if(is_array($records)) {
@@ -158,12 +158,12 @@ class custom_datasource {
 
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$sql = "SELECT $server_type as server_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
 			$client = $app->db->queryOneRecord($sql);
 			if($client['server_id'] > 0) {
 				//* Select the default server for the client
-				$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$client['server_id'];
+				$sql = "SELECT server_id,server_name FROM server WHERE server_id = ".$app->functions->intval($client['server_id']);
 			} else {
 				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
 				$app->log('Unable to find default server for client in custom_datasource.inc.php', 1);

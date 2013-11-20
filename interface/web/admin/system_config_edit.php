@@ -178,7 +178,7 @@ class page_action extends tform_actions {
 		if($server_config_array['misc']['maintenance_mode'] == 'y'){
 			//print_r($_SESSION);
 			//echo $_SESSION['s']['id'];
-			$app->db->query("DELETE FROM sys_session WHERE session_id != '".$_SESSION['s']['id']."'");
+			$app->db->query("DELETE FROM sys_session WHERE session_id != '".$app->db->quote($_SESSION['s']['id'])."'");
 		}
 	}
 

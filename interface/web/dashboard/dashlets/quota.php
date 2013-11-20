@@ -25,7 +25,7 @@ class dashlet_quota {
 		}
 		//print_r($monitor_data);
 		if($_SESSION["s"]["user"]["typ"] != 'admin'){
-			$sql_where = " AND sys_groupid = ".$_SESSION['s']['user']['default_group'];
+			$sql_where = " AND sys_groupid = ".$app->functions->intval($_SESSION['s']['user']['default_group']);
 		}
 
 		$has_quota = false;

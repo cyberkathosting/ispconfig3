@@ -6,4 +6,5 @@ $wb["snippet_txt"] = 'Snippet';
 $wb["active_txt"] = 'Active';
 $wb["directive_snippets_name_empty"] = 'Please specify a name for the snippet.';
 $wb["directive_snippets_name_error_unique"] = 'There is already a directive snippet with this name.';
+$wb['variables_txt'] = 'Variables';
 ?>

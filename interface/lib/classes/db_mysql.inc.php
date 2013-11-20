@@ -284,7 +284,7 @@ class db extends mysqli
 		// Insert the server_id, if the record has a server_id
 		$server_id = (isset($record_old['server_id']) && $record_old['server_id'] > 0)?$record_old['server_id']:0;
 		if(isset($record_new['server_id'])) $server_id = $record_new['server_id'];
-
+		$server_id = intval($server_id);
 
 		if($diff_num > 0) {
 			//print_r($diff_num);
@@ -306,6 +306,9 @@ class db extends mysqli
 	//** Inserts a record and saves the changes into the datalog
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
+		
+		$tablename = $this->quote($tablename);
+		$index_field = $this->quote($index_field);
 
 		if(is_array($insert_data)) {
 			$key_str = '';
@@ -333,6 +336,10 @@ class db extends mysqli
 	//** Updates a record and saves the changes into the datalog
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
+		
+		$tablename = $this->quote($tablename);
+		$index_field = $this->quote($index_field);
+		$index_value = $this->quote($index_value);
 
 		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
 
@@ -356,6 +363,10 @@ class db extends mysqli
 	//** Deletes a record and saves the changes into the datalog
 	public function datalogDelete($tablename, $index_field, $index_value) {
 		global $app;
+		
+		$tablename = $this->quote($tablename);
+		$index_field = $this->quote($index_field);
+		$index_value = $this->quote($index_value);
 
 		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
 		$this->query("DELETE FROM $tablename WHERE $index_field = '$index_value'");

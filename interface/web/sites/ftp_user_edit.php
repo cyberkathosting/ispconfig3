@@ -134,13 +134,13 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-		$server_id = $web["server_id"];
-		$dir = $web["document_root"];
-		$uid = $web["system_user"];
-		$gid = $web["system_group"];
+		$server_id = $app->functions->intval($web["server_id"]);
+		$dir = $app->db->quote($web["document_root"]);
+		$uid = $app->db->quote($web["system_user"]);
+		$gid = $app->db->quote($web["system_group"]);
 
 		// The FTP user shall be owned by the same group then the website
-		$sys_groupid = $web['sys_groupid'];
+		$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
 		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid', sys_groupid = '$sys_groupid' WHERE ftp_user_id = ".$this->id;
 		$app->db->query($sql);
@@ -173,13 +173,13 @@ class page_action extends tform_actions {
 		//* When the site of the FTP user has been changed
 		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-			$server_id = $web["server_id"];
-			$dir = $web["document_root"];
-			$uid = $web["system_user"];
-			$gid = $web["system_group"];
+			$server_id = $app->functions->intval($web["server_id"]);
+			$dir = $app->db->quote($web["document_root"]);
+			$uid = $app->db->quote($web["system_user"]);
+			$gid = $app->db->quote($web["system_group"]);
 
 			// The FTP user shall be owned by the same group then the website
-			$sys_groupid = $web['sys_groupid'];
+			$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
 			$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid', sys_groupid = '$sys_groupid' WHERE ftp_user_id = ".$this->id;
 			$app->db->query($sql);
@@ -194,7 +194,7 @@ class page_action extends tform_actions {
 			if($error_message != '') {
 				$ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = '".$app->db->quote($app->tform->primary_id)."'");
 				$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($ftp_data["parent_domain_id"]));
-				$dir = $web["document_root"];
+				$dir = $app->db->quote($web["document_root"]);
 				$sql = "UPDATE ftp_user SET dir = '$dir' WHERE ftp_user_id = ".$this->id;
 				$app->db->query($sql);
 				$app->log("Error in FTP path settings of FTP user ".$this->dataRecord['username'], 1);

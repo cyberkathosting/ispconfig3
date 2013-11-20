@@ -49,7 +49,7 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 		if(is_array($packages)) {
 			foreach($packages as $p) {
 				$package_name = $app->db->quote($p['name']);
-				$tmp = $app->db->queryOneRecord("SELECT package_id FROM software_package WHERE package_name = '$package_name'");
+				$tmp = $app->db->queryOneRecord("SELECT package_id FROM software_package WHERE package_name = '".$app->db->quote($package_name)."'");
 
 				$package_title = $app->db->quote($p['title']);
 				$package_description = $app->db->quote($p['description']);
@@ -150,7 +150,7 @@ if(is_array($packages) && count($packages) > 0) {
 	foreach($packages as $key => $p) {
 		$installed_txt = '';
 		foreach($servers as $s) {
-			$inst = $app->db->queryOneRecord("SELECT * FROM software_update, software_update_inst WHERE software_update_inst.software_update_id = software_update.software_update_id AND software_update_inst.package_name = '".addslashes($p["package_name"])."' AND server_id = '".$s["server_id"]."'");
+			$inst = $app->db->queryOneRecord("SELECT * FROM software_update, software_update_inst WHERE software_update_inst.software_update_id = software_update.software_update_id AND software_update_inst.package_name = '".$app->db->quote($p["package_name"])."' AND server_id = '".$app->functions->intval($s["server_id"])."'");
 			$version = $inst['v1'].'.'.$inst['v2'].'.'.$inst['v3'].'.'.$inst['v4'];
 
 			if($inst['status'] == 'installed') {

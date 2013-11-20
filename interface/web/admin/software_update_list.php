@@ -161,11 +161,11 @@ if(is_array($installed_packages)) {
 	foreach($installed_packages as $ip) {
 
 		// Get version number of the latest installed version
-		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ".$server_id." ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
+		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ".$app->functions->intval($server_id)." ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
 		$lu = $app->db->queryOneRecord($sql);
 
 		// Get all installable updates
-		$sql = "SELECT * FROM software_update WHERE v1 >= $lu[v1] AND v2 >= $lu[v2] AND v3 >= $lu[v3] AND v4 >= $lu[v4] AND package_name = '$ip[package_name]' ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC";
+		$sql = "SELECT * FROM software_update WHERE v1 >= ".$app->functions->intval($lu['v1'])." AND v2 >= ".$app->functions->intval($lu['v2'])." AND v3 >= ".$app->functions->intval($lu['v3'])." AND v4 >= ".$app->functions->intval($lu['v4'])." AND package_name = '".$app->db->quote($ip['package_name'])."' ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC";
 		$updates = $app->db->queryAllRecords($sql);
 		//die($sql);
 

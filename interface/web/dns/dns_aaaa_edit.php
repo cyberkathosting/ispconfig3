@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			// Check if the user may add another mailbox.
@@ -113,7 +113,7 @@ class page_action extends tform_actions {
 
 		//* Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
 		$soa = $app->db->queryOneRecord("SELECT sys_groupid,serial FROM dns_soa WHERE id = '".$app->functions->intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->datalogUpdate('dns_rr', "sys_groupid = ".$soa['sys_groupid'], 'id', $this->id);
+		$app->db->datalogUpdate('dns_rr', "sys_groupid = ".intval($soa['sys_groupid']), 'id', $this->id);
 
 		//* Update the serial number of the SOA record
 		$soa_id = $app->functions->intval($_POST["zone"]);

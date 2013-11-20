@@ -52,7 +52,7 @@ class page_action extends tform_actions {
 
 	function onShow() {
 
-		$this->id = $_SESSION['s']['user']['mailuser_id'];
+		$this->id = $app->functions->intval($_SESSION['s']['user']['mailuser_id']);
 
 		parent::onShow();
 
@@ -61,7 +61,7 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app;
 
-		$this->id = $_SESSION['s']['user']['mailuser_id'];
+		$this->id = $app->functions->intval($_SESSION['s']['user']['mailuser_id']);
 
 		parent::onSubmit();
 
@@ -85,7 +85,7 @@ class page_action extends tform_actions {
 			} else {
 				// We create a new record
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$domain["sys_userid"].", ".$domain["sys_groupid"].", 'riud', 'riud', '', ".$domain["server_id"].", 10, ".$policy_id.", '".$app->db->quote($rec["email"])."', '".$app->db->quote($rec["email"])."', 'Y')";
+				        VALUES (".$app->functions->intval($domain["sys_userid"]).", ".$app->functions->intval($domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($domain["server_id"]).", 10, ".$app->functions->intval($policy_id).", '".$app->db->quote($rec["email"])."', '".$app->db->quote($rec["email"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 			}
 		}else {
@@ -103,7 +103,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email", $rec['email']);
 
 		// Get the spamfilter policys for the user
-		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$rec['email']."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$app->db->quote($rec['email'])."'");
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";

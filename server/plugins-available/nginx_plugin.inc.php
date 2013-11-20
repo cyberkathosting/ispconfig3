@@ -1041,8 +1041,9 @@ class nginx_plugin {
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
 		$nginx_directive_lines = explode("\n", $nginx_directives);
 		if(is_array($nginx_directive_lines) && !empty($nginx_directive_lines)){
+			$trans = array('{DOCROOT}' => $vhost_data['web_document_root_www'], '{FASTCGIPASS}' => 'fastcgi_pass '.($data['new']['php_fpm_use_socket'] == 'y'? 'unix:'.$fpm_socket : '127.0.0.1:'.$vhost_data['fpm_port']).';');
 			foreach($nginx_directive_lines as $nginx_directive_line){
-				$final_nginx_directives[] = array('nginx_directive' => $nginx_directive_line);
+				$final_nginx_directives[] = array('nginx_directive' => strtr($nginx_directive_line, $trans));
 			}
 		}
 		$tpl->setLoop('nginx_directives', $final_nginx_directives);

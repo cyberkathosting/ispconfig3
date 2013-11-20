@@ -595,7 +595,7 @@ class ApsCrawler extends ApsBase
 				foreach($incomplete_pkgs as $incomplete_pkg){
 					$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$incomplete_pkg['path'].'/PKG_URL');
 					if($pkg_url != ''){
-						$app->db->datalogUpdate('aps_packages', "package_url = '".$pkg_url."'", 'id', $incomplete_pkg['id']);
+						$app->db->datalogUpdate('aps_packages', "package_url = '".$app->db->quote($pkg_url)."'", 'id', $incomplete_pkg['id']);
 					}
 				}
 			}

@@ -74,8 +74,12 @@ class shelluser_base_plugin {
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
-		if(substr(realpath($data['new']['dir']), 0, strlen($web['document_root'])) != $web['document_root']) {
-			$app->log('Directory of the shell user is outside of website docroot.', LOGLEVEL_WARN);
+		if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
+			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
+			return false;
+		}
+		if(strpos($data['new']['dir'], '/../') !== false || substr($data['new']['dir'],-3) == '/..') {
+			$app->log('Directory of the shell user is not valid.',LOGLEVEL_WARN);
 			return false;
 		}
 
@@ -137,8 +141,13 @@ class shelluser_base_plugin {
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
-		if(substr(realpath($data['new']['dir']), 0, strlen($web['document_root'])) != $web['document_root']) {
-			$app->log('Directory of the shell user is outside of website docroot.', LOGLEVEL_WARN);
+		if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
+			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
+			return false;
+		}
+		
+		if(strpos($data['new']['dir'], '/../') !== false || substr($data['new']['dir'],-3) == '/..') {
+			$app->log('Directory of the shell user is not valid.',LOGLEVEL_WARN);
 			return false;
 		}
 
@@ -163,6 +172,11 @@ class shelluser_base_plugin {
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					*/
 					//$groupinfo = $app->system->posix_getgrnam($data['new']['pgroup']);
+					if($data['new']['dir'] != $data['old']['dir'] && !is_dir($data['new']['dir'])){
+						$app->file->mkdirs(escapeshellcmd($data['new']['dir']), '0700');
+						$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
+						$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+					}
 					$app->system->usermod($data['old']['username'], 0, $app->system->getgid($data['new']['pgroup']), $data['new']['dir'], $data['new']['shell'], $data['new']['password'], $data['new']['username']);
 					$app->log("Updated shelluser: ".$data['old']['username'], LOGLEVEL_DEBUG);
 

@@ -92,9 +92,9 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.default_mailserver, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by contact_name");
 
 			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY sys_group.name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".intval($client['client_id'])." ORDER BY sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client['client_id']));
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
@@ -137,29 +137,29 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 
 			// Get the limits of the client
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_mailmailinglist, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			//* Check if Domain belongs to user
 			if(isset($_POST["domain"])) {
-				$domain = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."' AND ".$app->tform->getAuthSQL('r'));
+				$domain = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($this->dataRecord["domain"])."' AND ".$app->tform->getAuthSQL('r'));
 				if($domain["domain"] != $this->dataRecord["domain"]) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 			}
 
 			// When the record is updated
 			if($this->id == 0) {
 				//Check if email is in use
-				$check = $app->db->queryOneRecord("SELECT count(source) as number FROM mail_forwarding WHERE source = '".$this->dataRecord["listname"]."@".$this->dataRecord["domain"]."'");
+				$check = $app->db->queryOneRecord("SELECT count(source) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["listname"])."@".$app->db->quote($this->dataRecord["domain"])."'");
 				if($check['number'] != 0) {
 					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
 
-				$check = $app->db->queryOneRecord("SELECT count(email) as number FROM mail_user WHERE email = '".$this->dataRecord["listname"]."@".$this->dataRecord["domain"]."'");
+				$check = $app->db->queryOneRecord("SELECT count(email) as number FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["listname"])."@".$app->db->quote($this->dataRecord["domain"])."'");
 				if($check['number'] != 0) {
 					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
 
-				$check = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE listname = '".$this->dataRecord["listname"]."' AND domain = '".$this->dataRecord["domain"]."'");
+				$check = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE listname = '".$app->db->quote($this->dataRecord["listname"])."' AND domain = '".$app->db->quote($this->dataRecord["domain"])."'");
 				if($check['number'] != 0) {
 					$app->error($app->tform->wordbook["email_in_use_txt"]);
 				}
@@ -187,7 +187,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Set the server id of the mailinglist = server ID of mail domain.
-		$domain = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."'");
+		$domain = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain = '".$app->db->quote($this->dataRecord["domain"])."'");
 		$this->dataRecord["server_id"] = $domain['server_id'];
 	}
 

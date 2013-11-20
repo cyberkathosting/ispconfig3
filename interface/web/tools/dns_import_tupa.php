@@ -89,15 +89,15 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 				$soa = $exdb->queryOneRecord("SELECT * FROM records WHERE type = 'SOA' AND domain_id = ".$domain['id']);
 				if(is_array($soa)) {
 					$parts = explode(' ', $soa['content']);
-					$origin = addot($soa['name']);
-					$ns = addot($parts[0]);
-					$mbox = addot($parts[1]);
-					$serial = $parts[2];
+					$origin = $app->db->quote(addot($soa['name']));
+					$ns = $app->db->quote(addot($parts[0]));
+					$mbox = $app->db->quote(addot($parts[1]));
+					$serial = $app->db->quote($parts[2]);
 					$refresh = 7200;
 					$retry =  540;
 					$expire = 604800;
 					$minimum = 86400;
-					$ttl = $soa['ttl'];
+					$ttl = $app->db->quote($soa['ttl']);
 
 					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`) VALUES
 					('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '')";
@@ -111,15 +111,15 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 						foreach($records as $rec) {
 							$rr = array();
 
-							$rr['name'] = addot($rec['name']);
-							$rr['type'] = $rec['type'];
-							$rr['aux'] = $rec['prio'];
-							$rr['ttl'] = $rec['ttl'];
+							$rr['name'] = $app->db->quote(addot($rec['name']));
+							$rr['type'] = $app->db->quote($rec['type']);
+							$rr['aux'] = $app->db->quote($rec['prio']);
+							$rr['ttl'] = $app->db->quote($rec['ttl']);
 
 							if($rec['type'] == 'NS' || $rec['type'] == 'MX' || $rec['type'] == 'CNAME') {
-								$rr['data'] = addot($rec['content']);
+								$rr['data'] = $app->db->quote(addot($rec['content']));
 							} else {
-								$rr['data'] = $rec['content'];
+								$rr['data'] = $app->db->quote($rec['content']);
 							}
 
 							$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES

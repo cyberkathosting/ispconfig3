@@ -33,7 +33,8 @@ class auth {
 
 	public function get_user_id()
 	{
-		return $_SESSION['s']['user']['userid'];
+		global $app;
+		return $app->functions->intval($_SESSION['s']['user']['userid']);
 	}
 
 	public function is_admin() {
@@ -80,7 +81,9 @@ class auth {
 	public function get_client_limit($userid, $limitname)
 	{
 		global $app;
-
+		
+		$userid = $app->functions->intval($userid);
+		
 		// simple query cache
 		if($this->client_limits===null)
 			$this->client_limits = $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");

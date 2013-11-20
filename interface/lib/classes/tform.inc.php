@@ -69,6 +69,7 @@ class tform extends tform_base {
 	function checkPerm($record_id, $perm) {
 		global $app;
 
+		$record_id = $app->functions->intval($record_id);
 		if($record_id > 0) {
 			// Add backticks for incomplete table names.
 			if(stristr($this->formDef['db_table'], '.')) {
@@ -163,7 +164,7 @@ class tform extends tform_base {
 		if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
 
 		// Get the limits of the client that is currently logged in
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 		// Check if the user may add another item
@@ -185,7 +186,7 @@ class tform extends tform_base {
 		if($limit_name == '') $app->error('Limit name missing in function checkClientLimit.');
 
 		// Get the limits of the client that is currently logged in
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 		//* If the client belongs to a reseller, we will check against the reseller Limit too

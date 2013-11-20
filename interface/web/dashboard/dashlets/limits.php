@@ -127,7 +127,7 @@ class dashlet_limits {
 		$tpl->setVar('is_admin', $user_is_admin);
 
 		if($user_is_admin == false) {
-			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT * FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 		}
 
@@ -157,7 +157,7 @@ class dashlet_limits {
 	function _get_limit_usage($limit) {
 		global $app;
 
-		$sql = "SELECT count(sys_userid) as number FROM ".$limit['db_table']." WHERE ";
+		$sql = "SELECT count(sys_userid) as number FROM ".$app->db->quote($limit['db_table'])." WHERE ";
 		if($limit['db_where'] != '') $sql .= $limit['db_where']." AND ";
 		$sql .= $app->tform->getAuthSQL('r');
 		$rec = $app->db->queryOneRecord($sql);

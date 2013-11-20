@@ -18,7 +18,7 @@ $app->uses('listform_actions');
 // Optional limit
 $hf_section = 0;
 if(isset($_GET['hfs_id']))
-	$hf_section = preg_replace("/[^0-9]/", "", $_GET['hfs_id']);
+	$hf_section = $app->functions->intval(preg_replace("/[^0-9]/", "", $_GET['hfs_id']));
 
 // if section id is not specified in the url, choose the first existing section
 if(!$hf_section)

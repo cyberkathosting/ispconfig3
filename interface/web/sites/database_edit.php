@@ -269,11 +269,11 @@ class page_action extends tform_actions {
 		}
 
 		//* Check for duplicates
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."' AND database_id != '".$this->id."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($this->dataRecord['database_name'])."' AND server_id = '".$app->functions->intval($this->dataRecord["server_id"])."' AND database_id != '".$this->id."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->lng('database_name_error_unique').'<br />';
 
 		// get the web server ip (parent domain)
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
@@ -337,11 +337,11 @@ class page_action extends tform_actions {
 		}
 
 		//* Check for duplicates
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$this->dataRecord['database_name']."' AND server_id = '".$this->dataRecord["server_id"]."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($this->dataRecord['database_name'])."' AND server_id = '".$app->functions->intval($this->dataRecord["server_id"])."'");
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->tform->lng('database_name_error_unique').'<br />';
 
 		// get the web server ip (parent domain)
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$this->dataRecord['parent_domain_id']."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
@@ -407,9 +407,9 @@ class page_action extends tform_actions {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 
 			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $web['sys_groupid'];
-			$backup_interval = $web['backup_interval'];
-			$backup_copies = $web['backup_copies'];
+			$sys_groupid = $app->functions->intval($web['sys_groupid']);
+			$backup_interval = $app->functions->intval($web['backup_interval']);
+			$backup_copies = $app->functions->intval($web['backup_copies']);
 
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
 			$app->db->query($sql);
@@ -423,9 +423,9 @@ class page_action extends tform_actions {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
 
 			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $web['sys_groupid'];
-			$backup_interval = $web['backup_interval'];
-			$backup_copies = $web['backup_copies'];
+			$sys_groupid = $app->functions->intval($web['sys_groupid']);
+			$backup_interval = $app->functions->intval($web['backup_interval']);
+			$backup_copies = $app->functions->intval($web['backup_copies']);
 
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
 			$app->db->query($sql);

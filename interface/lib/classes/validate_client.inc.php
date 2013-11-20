@@ -53,7 +53,7 @@ class validate_client {
 				}
 			}
 		} else {
-			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."' AND client_id != ".$client_id);
+			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."' AND client_id != ".$app->functions->intval($client_id));
 			if($num_rec["number"] > 0) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {

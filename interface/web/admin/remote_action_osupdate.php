@@ -76,7 +76,7 @@ if (isset($_POST['server_select'])) {
 	foreach ($servers as $serverId) {
 		$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
 			"VALUES (".
-			(int)$serverId . ", " .
+			$app->functions->intval($serverId) . ", " .
 			time() . ", " .
 			"'os_update', " .
 			"'', " .

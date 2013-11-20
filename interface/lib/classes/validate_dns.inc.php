@@ -104,7 +104,7 @@ class validate_dns {
 		}
 
 		if(substr($field, -1) == '.' && $area == 'Name'){
-			$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".$zoneid);
+			$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".intval($zoneid));
 			if(substr($field, (strlen($field) - strlen($soa['origin']))) != $soa['origin']) $error .= $desc." ".$app->tform->wordbook['error_out_of_zone']."<br>\r\n";
 		}
 
@@ -267,7 +267,7 @@ class validate_dns {
 		global $app, $conf;
 
 		// increase serial
-		$serial_date = substr($serial, 0, 8);
+		$serial_date = $app->functions->intval(substr($serial, 0, 8));
 		$count = $app->functions->intval(substr($serial, 8, 2));
 		$current_date = date("Ymd");
 		if($serial_date >= $current_date){

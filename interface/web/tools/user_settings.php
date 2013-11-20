@@ -63,7 +63,7 @@ class page_action extends tform_actions {
 		$app->tform->loadFormDef($tform_def_file);
 
 		// Importing ID
-		$this->id = $_SESSION['s']['user']['userid'];
+		$this->id = $app->functions->intval($_SESSION['s']['user']['userid']);
 		$_POST['id'] = $_SESSION['s']['user']['userid'];
 
 		if(count($_POST) > 1) {
@@ -86,8 +86,12 @@ class page_action extends tform_actions {
 		if($_POST['passwort'] != $_POST['repeat_password']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
-		$_SESSION['s']['user']['language'] = $_POST['language'];
-		$_SESSION['s']['language'] = $_POST['language'];
+		if(preg_match('/[a-z]{2}/',$_POST['language'])) {
+			$_SESSION['s']['user']['language'] = $_POST['language'];
+			$_SESSION['s']['language'] = $_POST['language'];
+		} else {
+			$app->error('Invalid language.');
+		}
 	}
 
 

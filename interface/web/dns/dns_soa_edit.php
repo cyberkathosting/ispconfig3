@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 				// Get the limits of the client
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
+				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 				$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 				// Fill the client select field
@@ -212,7 +212,7 @@ function onSubmit() {
 	$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
 
 	//* Check if a secondary zone with the same name already exists
-	$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = \"".$this->dataRecord["origin"]."\" AND server_id = \"".$this->dataRecord["server_id"]."\"");
+	$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = ? AND server_id = ?", $this->dataRecord["origin"], $this->dataRecord["server_id"]);
 	if($tmp["number"] > 0) {
 		$app->error($app->tform->wordbook["origin_error_unique"]);
 	}

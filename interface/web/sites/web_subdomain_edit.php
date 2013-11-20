@@ -184,8 +184,8 @@ class page_action extends tform_actions {
 
 			//* Update the old website, so that the vhost alias gets removed
 			//* We force the update by inserting a transaction record without changes manually.
-			$old_website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$this->oldDataRecord['domain_id']);
-			$app->db->datalogSave('web_domain', 'UPDATE', 'domain_id', $this->oldDataRecord['parent_domain_id'], $old_website, $old_website, true);
+			$old_website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$app->functions->intval($this->oldDataRecord['domain_id']));
+			$app->db->datalogSave('web_domain', 'UPDATE', 'domain_id', $app->functions->intval($this->oldDataRecord['parent_domain_id']), $old_website, $old_website, true);
 		}
 
 	}
