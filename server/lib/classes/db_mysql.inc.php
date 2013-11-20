@@ -388,7 +388,7 @@ class db extends mysqli
 		global $app;
 		if(!is_string($sString) && !is_numeric($sString)) {
 			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_INFO);
-			$sAddMsg = getDebugBacktrace();
+			//$sAddMsg = getDebugBacktrace();
 			$app->log($sAddMsg, LOGLEVEL_DEBUG);
 			$sString = '';
 		}
@@ -419,7 +419,7 @@ class db extends mysqli
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
 		$mysql_errno = (is_object($this->_iConnId) ? mysqli_errno($this->_iConnId) : mysqli_connect_errno());
 
-		$sAddMsg .= getDebugBacktrace();
+		//$sAddMsg .= getDebugBacktrace();
 
 		if($this->show_error_messages && $conf['demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
