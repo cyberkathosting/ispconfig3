@@ -207,7 +207,6 @@ class page_action extends tform_actions {
 					//* save new counter value
 					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
 					$app->db->query("UPDATE client SET customer_no_counter = $customer_no_counter WHERE client_id = ".$app->functions->intval($reseller['client_id']));
-					echo "UPDATE client SET customer_no_counter = $customer_no_counter WHERE client_id = ".$app->functions->intval($reseller['client_id']);
 				}
 			}
 		}
