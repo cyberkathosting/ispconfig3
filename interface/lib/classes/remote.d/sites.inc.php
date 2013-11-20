@@ -774,10 +774,12 @@ class remoting_sites extends remoting {
 			} else {
 				$status = 'n';
 			}
-			$sql = "UPDATE web_domain SET active = '$status' WHERE domain_id = ".$app->functions->intval($primary_id);
-			$app->db->query($sql);
-			$result = $app->db->affectedRows();
-			return $result;
+			$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+			$params = $app->remoting_lib->getDataRecord($primary_id);
+			$params['active'] = $status;
+			
+			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', 0, $primary_id, $params);
+			return $affected_rows;
 		} else {
 			throw new SoapFault('status_undefined', 'The status is not available');
 			return false;
