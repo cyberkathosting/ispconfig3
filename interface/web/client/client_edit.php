@@ -172,6 +172,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module', 'client');
 		
+
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
 			
@@ -210,6 +211,9 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+		
+		$app->tpl->setVar('btn_save_txt',$app->lng('btn_save_txt'));
+		$app->tpl->setVar('btn_cancel_txt',$app->lng('btn_cancel_txt'));
 
 		parent::onShowEnd();
 

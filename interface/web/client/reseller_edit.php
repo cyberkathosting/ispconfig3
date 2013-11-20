@@ -158,6 +158,9 @@ class page_action extends tform_actions {
 				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
 			}
 		}
+		
+		$app->tpl->setVar('btn_save_txt',$app->lng('btn_save_txt'));
+		$app->tpl->setVar('btn_cancel_txt',$app->lng('btn_cancel_txt'));
 
 		parent::onShowEnd();
 
