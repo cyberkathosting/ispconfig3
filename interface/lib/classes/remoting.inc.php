@@ -3237,16 +3237,20 @@ class remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		$app->uses('remoting_lib');
+		
 		if(in_array($status, array('active', 'inactive'))) {
 			if ($status == 'active') {
 				$status = 'y';
 			} else {
 				$status = 'n';
 			}
-			$sql = "UPDATE web_domain SET active = '$status' WHERE domain_id = ".$app->functions->intval($primary_id);
-			$app->db->query($sql);
-			$result = $app->db->affectedRows();
-			return $result;
+			$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+			$params = $app->remoting_lib->getDataRecord($primary_id);
+			$params['active'] = $status;
+			
+			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', $client_id, $primary_id, $params);
+			return $affected_rows;
 		} else {
 			$this->server->fault('status_undefined', 'The status is not available');
 			return false;
