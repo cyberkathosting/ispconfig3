@@ -40,11 +40,12 @@ if (isset($_GET['l']) && ($_GET['l']== 1)) $forceLogout = true;
  * if the admin is logged in as client, then ask, if the admin want't to
  * "re-login" as admin again
  */
-if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin')) &&
+if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin' || $app->auth->has_clients($_SESSION['s_old']['user']['userid']))) &&
 	(!$forceLogout)){
+	$utype = ($_SESSION['s_old']['user']['typ'] == 'admin' ? 'admin' : 'reseller');
 	echo '
 		<br /> <br />	<br /> <br />
-		Do you want to re-login as admin or log out?<br />
+		Do you want to re-login as ' . $utype . ' or log out?<br />
 		<div style="visibility:hidden">
 			<input type="text" name="username" value="' . $_SESSION['s_old']['user']['username'] . '" />
 			<input type="password" name="passwort" value="' . $_SESSION['s_old']['user']['passwort'] .'" />
@@ -52,7 +53,7 @@ if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin')
 		<input type="hidden" name="s_mod" value="login" />
 		<input type="hidden" name="s_pg" value="index" />
 	    <div class="wf_actions buttons">
-	      <button class="positive iconstxt icoPositive" type="button" value="Yes, re-login as Admin" onclick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, re-login as Admin</span></button>
+	      <button class="positive iconstxt icoPositive" type="button" value="Yes, re-login as ' . $utype . '" onclick="submitLoginForm(' . "'pageForm'" . ');"><span>Yes, re-login as ' . $utype . '</span></button>
 	      <button class="negative iconstxt icoNegative" type="button" value="No, logout" onclick="loadContent('. "'login/logout.php?l=1'" . ');"><span>No, logout</span></button>
 	    </div>
 	';
