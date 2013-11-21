@@ -14,6 +14,11 @@ Installer
 
 - Add a function to let a server join a existing installation.
 
+Uninstaller
+--------------------------------------
+
+- Add a function to confirm uninstall.
+- Add a function to remove ispconfig user
 
 Server
 --------------------------------------
