@@ -120,8 +120,8 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 }
 
 if($_SESSION["s"]["user"]["typ"] != 'admin')
-
-	$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);{
+{
+	$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 	$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
