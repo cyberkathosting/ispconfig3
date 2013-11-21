@@ -119,4 +119,8 @@ $wb['rewrite_rules_txt'] = 'Rewrite Rules';
 $wb['invalid_rewrite_rules_txt'] = 'Unzulässige Rewrite Rules';
 $wb['allowed_rewrite_rule_directives_txt'] = 'Erlaubte Direktiven:';
 $wb['configuration_error_txt'] = 'KONFIGURATIONSFEHLER';
+$wb['variables_txt'] = 'Variablen';
+$wb['backup_excludes_txt'] = 'Auszuschließende Verzeichnisse';
+$wb['backup_excludes_note_txt'] = '(Mehrere Verzeichnisse mit Kommas trennen)';
+$wb['backup_excludes_error_regex'] = 'Die auszuschließenden Verzeichnisse enthalten ungültige Zeichen.';
 ?>

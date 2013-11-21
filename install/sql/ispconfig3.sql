@@ -1796,6 +1796,7 @@ CREATE TABLE `web_domain` (
   `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
+  `backup_excludes` mediumtext,
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,

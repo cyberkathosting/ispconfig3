@@ -26,6 +26,10 @@
                     {tmpl_var name='backup_copies'}
                 </select>
             </div>
+			<div class="ctrlHolder">
+                <label for="backup_excludes">{tmpl_var name='backup_excludes_txt'}</label>
+                <input name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" size="30" type="text" class="textInput" />&nbsp;{tmpl_var name='backup_excludes_note_txt'}
+            </div>
         </fieldset>
 
         {tmpl_var name='backup_records'}

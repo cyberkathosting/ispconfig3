@@ -1,0 +1,1 @@
+ALTER TABLE `web_domain` ADD `backup_excludes` MEDIUMTEXT NULL AFTER `backup_copies` ;

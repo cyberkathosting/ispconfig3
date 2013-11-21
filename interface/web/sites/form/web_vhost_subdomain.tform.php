@@ -510,6 +510,18 @@ $form["tabs"]['backup'] = array (
 			'default' => '',
 			'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
 		),
+		'backup_excludes' => array (
+			'datatype' => 'VARCHAR',
+			'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,]*$@',
+					'errmsg'=> 'backup_excludes_error_regex'),
+			),
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
