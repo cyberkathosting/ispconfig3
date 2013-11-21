@@ -41,7 +41,6 @@ class mail_plugin_dkim {
 	// private variables
 	var $action = '';
 
-
 	/**
 	 * This function is called during ispconfig installation to determine
 	 * if a symlink shall be created for this plugin.
@@ -57,7 +56,6 @@ class mail_plugin_dkim {
 
 	}
 
-
 	/**
 	 * This function is called when the plugin is loaded
 	 */
@@ -70,7 +68,6 @@ class mail_plugin_dkim {
 		$app->plugins->registerEvent('mail_domain_insert', $this->plugin_name, 'domain_dkim_insert');
 		$app->plugins->registerEvent('mail_domain_update', $this->plugin_name, 'domain_dkim_update');
 	}
-
 
 	/**
 	 * This function gets the amavisd-config file
@@ -91,7 +88,6 @@ class mail_plugin_dkim {
 		}
 		return $amavis_configfile;
 	}
-
 
 	/**
 	 * This function checks the relevant configs and disables dkim for the domain
@@ -121,10 +117,6 @@ class mail_plugin_dkim {
 		}
 		return $check;
 	}
-
-
-
-
 
 	/**
 	 * This function restarts amavis
@@ -163,7 +155,6 @@ class mail_plugin_dkim {
 		return $success;
 	}
 
-
 	/**
 	 * This function removes the keyfiles
 	 * @param string $key_file full path to the key-file
@@ -181,7 +172,6 @@ class mail_plugin_dkim {
 		} else $app->log('Unable to delete the DKIM Public-key for '.$key_domain.' (not found).', LOGLEVEL_DEBUG);
 	}
 
-
 	/**
 	 * This function adds the entry to the amavisd-config
 	 * @param string $key_domain mail-domain
@@ -190,13 +180,16 @@ class mail_plugin_dkim {
 		global $app, $mail_config;
 		$amavis_config = file_get_contents($this->get_amavis_config());
 		$key_value="dkim_key('".$key_domain."', 'default', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
-		if(strpos($amavis_config, $key_value) !== false) $amavis_config = str_replace($key_value, '', $amavis_config);
-		if (!file_put_contents($this->get_amavis_config(), $key_value, FILE_APPEND) === false) {
-			$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
-			$this->restart_amavis();
+		if(strpos($amavis_config, $key_value) === false) {
+			$amavis_config = str_replace($key_value, '', $amavis_config);
+			if (!file_put_contents($this->get_amavis_config(), $key_value, FILE_APPEND) === false) {
+				$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
+				$this->restart_amavis();
+			}
+		} else {
+			$app->log('DKIM Private-key already in amavis-config.',LOGLEVEL_DEBUG);
 		}
 	}
-
 
 	/**
 	 * This function removes the entry from the amavisd-config
@@ -220,7 +213,6 @@ class mail_plugin_dkim {
 		} else $app->log('Unable to delete the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_ERROR);
 	}
 
-
 	/**
 	 * This function controlls new key-files and amavisd-entries
 	 * @param array $data mail-settings
@@ -242,7 +234,6 @@ class mail_plugin_dkim {
 		}
 	}
 
-
 	/**
 	 * This function controlls the removement of keyfiles (public and private)
 	 * and the entry in the amavisd-config
@@ -257,15 +248,13 @@ class mail_plugin_dkim {
 		$this->remove_from_amavis($_data['domain']);
 	}
 
-
 	/**
 	 * Function called by onLoad
 	 * deletes dkim-keys
 	 */
 	function domain_dkim_delete($event_name, $data) {
-		if (isset($data['old']['dkim']) && $data['old']['dkim'] == 'y') $this->remove_dkim($data['old']);
+		if (isset($data['old']['dkim']) && $data['old']['dkim'] == 'y' && $data['old']['active'] == 'y') $this->remove_dkim($data['old']);	
 	}
-
 
 	/**
 	 * Function called by onLoad
@@ -277,38 +266,53 @@ class mail_plugin_dkim {
 		}
 	}
 
-
 	/**
 	 * Function called by onLoad
 	 * chang dkim-settings
 	 */
 	function domain_dkim_update($event_name, $data) {
 		global $app;
-		/* get the config */
-		if (isset($data['new']['dkim']) && $data['new']['dkim']=='y') { /* DKIM enabled */
-			if ($this->check_system($data)) {
-				/* new domain-name */
-				if ($data['old']['domain'] != $data['new']['domain']) {
+		if ($this->check_system($data)) {
+			/* maildomain disabled */
+			if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y') {
+				$app->log('Maildomain '.$data['new']['domain'].' disabled - remove DKIM-settings', LOGLEVEL_DEBUG);
+				if ($data['new']['dkim']=='y') {
+					$this->remove_dkim($data['new']);
+				}
+				if ($data['old']['dkim']=='y') {
+					$this->remove_dkim($data['old']);
+				}
+			}
+
+			/* maildomain re-enabled */
+			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'n') {
+				if ($data['new']['dkim']=='y') {
+					$this->add_dkim($data);
+				}
+			}
+
+			/* maildomain active - only dkim changes */
+			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'y') {
+				/* dkim disabled */
+				if ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'n') {
+					$this->remove_dkim($data['new']);
+				}
+				/* dkim enabled */
+				elseif ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'y') {
+					$this->add_dkim($data);
+				}
+				/* new private-key or new domain-name */
+				if ($data['new']['dkim_private'] != $data['old']['dkim_private'] || $data['new']['domain'] != $data['old']['domain']) {
 					$this->remove_dkim($data['old']);
 					$this->add_dkim($data);
 				}
-				/* new key */
-				if (($data['old']['dkim_private'] != $data['new']['dkim_private']) || ($data['old']['dkim'] != $data['new']['dkim'])) {
-					if ($data['new']['dkim_private'] != $data['old']['dkim_private']) $this->remove_dkim($data['new']);
-					$this->add_dkim($data);
-				}
-				/* change active (on / off) */
-				if ($data['old']['active'] != $data['new']['active']) {
-					if ($data['new']['active'] == 'y') {
-						$this->add_dkim($data);
-					} else {
-						$this->remove_dkim($data['new']);
-					}
-				}
+			}
+
+			/* resync */
+			if ($data['new']['active'] == 'y' && $data['new'] == $data['old']) {
+				$this->add_dkim($data);
 			}
 		}
-		if (isset($data['new']['dkim']) && $data['old']['dkim'] != $data['new']['dkim'])
-			if ($this->check_system($data) && $data['new']['dkim'] == 'n') $this->remove_dkim($data['new']);
 	}
 
 }

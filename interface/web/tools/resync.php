@@ -146,6 +146,20 @@ if(isset($_POST['resync_mailbox']) && $_POST['resync_mailbox'] == 1) {
 	}
 }
 
+//* Resyncing DKIM-Keys
+if(isset($_POST['resync_dkim']) && $_POST['resync_dkim'] == 1) {
+	$db_table = 'mail_domain';
+	$index_field = 'domain_id';
+	$sql = "SELECT * FROM ".$db_table." WHERE active = 'y' AND dkim = 'y'";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
+			$msg .= "Resynced DKIM-Key: ".$rec['domain'].'<br />';
+		}
+	}
+}
+
 //* Resyncing dns zones
 if(isset($_POST['resync_dns']) && $_POST['resync_dns'] == 1) {
 	$zones = $app->db->queryAllRecords("SELECT id,origin,serial FROM dns_soa WHERE active = 'Y'");

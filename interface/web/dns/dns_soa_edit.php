@@ -117,7 +117,7 @@ class page_action extends tform_actions {
 			}
 		$app->tpl->setVar("client_group_id", $client_select);
 
-	}
+//	}
 
 	if($_SESSION["s"]["user"]["typ"] != 'admin')
 	{

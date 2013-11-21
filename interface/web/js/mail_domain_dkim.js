@@ -60,6 +60,7 @@ This Javascript is invoked by
                                 else {
                                         document.getElementsByName('dkim_private')[0].value = request.responseXML.getElementsByTagName('privatekey')[0].firstChild.nodeValue;
                                         document.getElementsByName('dkim_public')[0].value = request.responseXML.getElementsByTagName('publickey')[0].firstChild.nodeValue;
+					document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
                                 }
                                 break;
                         default:
