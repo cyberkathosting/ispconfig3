@@ -107,7 +107,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 
 
 	// load the list of clients
-	sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id']);
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id']);
 	$clients = $app->db->queryAllRecords($sql);
 	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
