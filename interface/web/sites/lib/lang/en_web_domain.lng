@@ -124,6 +124,6 @@ $wb['variables_txt'] = 'Variables';
 $wb['added_by_txt'] = 'Added by';
 $wb['added_date_txt'] = 'Added date';
 $wb['backup_excludes_txt'] = 'Excluded Directories';
-$wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas)';
+$wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. Example: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
 ?>

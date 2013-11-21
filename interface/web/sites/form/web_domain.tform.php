@@ -523,7 +523,7 @@ $form["tabs"]['backup'] = array (
 		'backup_excludes' => array (
 			'datatype' => 'VARCHAR',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,]*$@',
+					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,*]*$@',
 					'errmsg'=> 'backup_excludes_error_regex'),
 			),
 			'formtype' => 'TEXT',
