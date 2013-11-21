@@ -55,10 +55,10 @@ echo "Are you sure you want to uninsatll ISPConfig? [no]";
 $input = fgets(STDIN);
 $do_uninstall = rtrim($input);
 
-echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
 if($do_uninstall == 'yes') {
 
+	echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
 	// Delete the ISPConfig database
 	// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
@@ -86,9 +86,10 @@ if($do_uninstall == 'yes') {
 	exec('rm -rf /usr/local/ispconfig');
 	
 	echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
-	
-	echo "Finished.\n";
+	echo "Finished uninstalling.\n";
 
+} else {
+	echo "\n\n>> Canceled uninstall. \n\n";
 }
 
 ?>
