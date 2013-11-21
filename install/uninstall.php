@@ -34,8 +34,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
-require_once  "/usr/local/ispconfig/server/lib/config.inc.php";
-require_once "/usr/local/ispconfig/server/lib/app.inc.php";
+// This isnt needed until we decide to remove the ispconfig user from the database
+//require_once "/usr/local/ispconfig/server/lib/config.inc.php";
+//require_once "/usr/local/ispconfig/server/lib/app.inc.php";
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
@@ -50,7 +51,12 @@ echo " _____ ___________   _____              __ _         ____
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Uninstall  \n\n";
 
-$do_uninstall = $inst->simple_query('Are you sure you want to uninsatll ISPConfig?', array('yes', 'no'), 'no');
+echo "Are you sure you want to uninsatll ISPConfig? [no]";
+$input = fgets(STDIN);
+$do_uninstall = rtrim($input);
+
+echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
+
 if($do_uninstall == 'yes') {
 
 
