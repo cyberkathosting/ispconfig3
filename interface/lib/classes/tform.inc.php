@@ -131,7 +131,7 @@ class tform {
 		$this->module = $module;
 		$wb = array();
 
-		include_once ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+		include ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
 
 		if(is_array($wb)) $wb_global = $wb;
 
@@ -146,7 +146,7 @@ class tform {
 		}
 
 		if(is_array($wb_global)) {
-			$wb = $app->functions->array_merge($wb_global, $wb);
+			$wb = array_merge($wb_global, $wb);
 		}
 		if(isset($wb_global)) unset($wb_global);
 
