@@ -131,7 +131,7 @@ class tform {
 		$this->module = $module;
 		$wb = array();
 
-		include_once ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+		include ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
 
 		if(is_array($wb)) $wb_global = $wb;
 

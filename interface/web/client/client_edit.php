@@ -212,9 +212,6 @@ class page_action extends tform_actions {
 			}
 		}
 		
-		$app->tpl->setVar('btn_save_txt',$app->lng('btn_save_txt'));
-		$app->tpl->setVar('btn_cancel_txt',$app->lng('btn_cancel_txt'));
-
 		parent::onShowEnd();
 
 	}
