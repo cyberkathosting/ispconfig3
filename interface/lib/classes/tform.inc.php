@@ -146,7 +146,7 @@ class tform {
 		}
 
 		if(is_array($wb_global)) {
-			$wb = array_merge($wb_global, $wb);
+			$wb = $app->functions->array_merge($wb_global, $wb);
 		}
 		if(isset($wb_global)) unset($wb_global);
 
