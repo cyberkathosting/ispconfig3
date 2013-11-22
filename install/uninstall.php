@@ -34,9 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
-// This isnt needed until we decide to remove the ispconfig user from the database
-//require_once "/usr/local/ispconfig/server/lib/config.inc.php";
-//require_once "/usr/local/ispconfig/server/lib/app.inc.php";
+require_once "/usr/local/ispconfig/server/lib/config.inc.php";
+require_once "/usr/local/ispconfig/server/lib/app.inc.php";
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";

@@ -17,7 +17,6 @@ Installer
 Uninstaller
 --------------------------------------
 
-- Add a function to confirm uninstall.
 - Add a function to remove ispconfig user
 
 Server
