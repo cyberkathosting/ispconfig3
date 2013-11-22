@@ -34,6 +34,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
+require_once "/usr/local/ispconfig/server/lib/config.inc.php";
+require_once "/usr/local/ispconfig/server/lib/app.inc.php";
+
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
 echo " _____ ___________   _____              __ _         ____
@@ -47,36 +50,45 @@ echo " _____ ___________   _____              __ _         ____
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Uninstall  \n\n";
 
-require "/usr/local/ispconfig/server/lib/config.inc.php";
-require "/usr/local/ispconfig/server/lib/app.inc.php";
-
-// Delete the ISPConfig database
-// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
-// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
+echo "Are you sure you want to uninsatll ISPConfig? [no]";
+$input = fgets(STDIN);
+$do_uninstall = rtrim($input);
 
 
-exec("/etc/init.d/mysql stop");
-exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
-exec("/etc/init.d/mysql start");
+if($do_uninstall == 'yes') {
 
-// Deleting the symlink in /var/www
-// Apache
-@unlink("/etc/apache2/sites-enabled/000-ispconfig.vhost");
-@unlink("/etc/apache2/sites-available/ispconfig.vhost");
-@unlink("/etc/apache2/sites-enabled/000-apps.vhost");
-@unlink("/etc/apache2/sites-available/apps.vhost");
+	echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
-// nginx
-@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
-@unlink("/etc/nginx/sites-available/ispconfig.vhost");
-@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
-@unlink("/etc/nginx/sites-available/apps.vhost");
+	// Delete the ISPConfig database
+	// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
+	// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
+	
+	
+	exec("/etc/init.d/mysql stop");
+	exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
+	exec("/etc/init.d/mysql start");
+	
+	// Deleting the symlink in /var/www
+	// Apache
+	@unlink("/etc/apache2/sites-enabled/000-ispconfig.vhost");
+	@unlink("/etc/apache2/sites-available/ispconfig.vhost");
+	@unlink("/etc/apache2/sites-enabled/000-apps.vhost");
+	@unlink("/etc/apache2/sites-available/apps.vhost");
+	
+	// nginx
+	@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
+	@unlink("/etc/nginx/sites-available/ispconfig.vhost");
+	@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
+	@unlink("/etc/nginx/sites-available/apps.vhost");
+	
+	// Delete the ispconfig files
+	exec('rm -rf /usr/local/ispconfig');
+	
+	echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
+	echo "Finished uninstalling.\n";
 
-// Delete the ispconfig files
-exec('rm -rf /usr/local/ispconfig');
-
-echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
-
-echo "Finished.\n";
+} else {
+	echo "\n\n>> Canceled uninstall. \n\n";
+}
 
 ?>
