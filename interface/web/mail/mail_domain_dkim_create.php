@@ -95,7 +95,7 @@ switch ($_POST['action']) {
 		exec('openssl rand -out /usr/local/ispconfig/server/temp/random-data.bin 4096', $output, $result);
 		exec('openssl genrsa -rand /usr/local/ispconfig/server/temp/random-data.bin 1024', $privkey, $result);
 		unlink("/usr/local/ispconfig/server/temp/random-data.bin");
-		$private_key='';
+		foreach($privkey as $values) $private_key=$private_key.$values."\n";
 	break;
 
 	case 'show': /* show the DNS-Record onLoad */
