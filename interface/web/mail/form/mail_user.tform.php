@@ -38,6 +38,8 @@
 
 */
 global $app;
+$app->uses('getconf');
+$global_config = $app->getconf->get_global_config();
 
 $form["title"]    = "Mailbox";
 $form["description"]  = "";
@@ -56,7 +58,7 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['mailuser'] = array (
+$form["tabs"]['mailuser'] = array(
 	'title'  => "Mailbox",
 	'width'  => 100,
 	'template'  => "templates/mail_user_mailbox_edit.htm",
@@ -229,6 +231,12 @@ $form["tabs"]['mailuser'] = array (
 		//#################################
 	)
 );
+
+if($global_config['mail']['mail_password_onlyascii'] == 'y') {
+	$form['tabs']['mailuser']['fields']['password']['validators'] = array( 0 => array( 'type' => 'ISASCII',
+		'errmsg' => 'email_error_isascii')
+	);
+}
 
 $form["tabs"]['autoresponder'] = array (
 	'title'  => "Autoresponder",
