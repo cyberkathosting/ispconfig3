@@ -511,6 +511,15 @@ class remoting_lib {
 					}
 				}
 				break;
+			case 'ISASCII':
+				if(preg_match("/[^\x20-\x7F]/", $field_value)) {
+					$errmsg = $validator['errmsg'];
+					if(isset($this->wordbook[$errmsg])) {
+						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+					} else {
+						$this->errorMessage .= $errmsg."<br />\r\n";
+					}
+				}
 			case 'ISEMAIL':
 				if(function_exists('filter_var')) {
 					if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
