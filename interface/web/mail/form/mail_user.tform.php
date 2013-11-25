@@ -107,7 +107,7 @@ $form["tabs"]['mailuser'] = array (
 				0 => array (  'type'  => 'UNIQUE',
 					'errmsg'=> 'login_error_unique'),
 				1 => array (  'type'  => 'REGEX',
-					'regex' => '/^[a-z0-9][\w\.\-_\+@]{1,63}$/',
+					'regex' => '/^[_a-z0-9][\w\.\-_\+@]{1,63}$/',
 					'errmsg'=> 'login_error_regex'),
 			),
 			'default' => '',
