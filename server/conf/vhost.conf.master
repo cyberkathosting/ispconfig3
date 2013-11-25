@@ -205,8 +205,8 @@
 				FcgidMinProcessesPerClass 0
 				FcgidMaxProcessesPerClass 100
 				FcgidConnectTimeout 3
-				FcgidIOTimeout 360
-				FcgidBusyTimeout 300
+				FcgidIOTimeout 600
+				FcgidBusyTimeout 3600
 				FcgidMaxRequestLen 1073741824
 <tmpl_else>
 				IdleTimeout 300
@@ -215,8 +215,8 @@
 				DefaultMinClassProcessCount 0
 				DefaultMaxClassProcessCount 100
 				IPCConnectTimeout 3
-				IPCCommTimeout 360
-				BusyTimeout 300
+				IPCCommTimeout 600
+				BusyTimeout 3600
 </tmpl_if>
 		</IfModule>
 		<Directory {tmpl_var name='web_document_root_www'}>
