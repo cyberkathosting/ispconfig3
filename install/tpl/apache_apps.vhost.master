@@ -35,6 +35,7 @@
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
       FCGIWrapper {website_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
+	  FcgidBusyTimeout 3600
       Order allow,deny
       Allow from all
     </Directory>
