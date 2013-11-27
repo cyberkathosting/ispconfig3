@@ -11,6 +11,10 @@
   ServerAdmin webmaster@localhost
   {apps_vhost_servername}
   
+  <FilesMatch "\.ph(p3?|tml)$">
+    SetHandler None
+  </FilesMatch>
+  
   <IfModule mod_fcgid.c>
     DocumentRoot {apps_vhost_dir}
     SuexecUserGroup ispapps ispapps
