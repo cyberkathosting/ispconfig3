@@ -40,8 +40,6 @@
       Allow from all
     </Directory>
   </IfModule>
-  
-  ServerSignature Off
 
 </VirtualHost>
 
