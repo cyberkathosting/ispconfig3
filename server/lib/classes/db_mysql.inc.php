@@ -269,11 +269,11 @@ class db extends mysqli
 	}
 
 	public function queryOne($sQuery = '') {
-		return $this->query_one($sQuery);
+		return call_user_func_array(array(&$this, 'queryOneRecord'), func_get_args());
 	}
 
 	public function query_one($sQuery = '') {
-		return $this->queryOneRecord($sQuery);
+		return call_user_func_array(array(&$this, 'queryOneRecord'), func_get_args());
 	}
 
 	/**
@@ -302,11 +302,11 @@ class db extends mysqli
 	}
 
 	public function queryAll($sQuery = '') {
-		return $this->queryAllRecords($sQuery);
+		return call_user_func_array(array(&$this, 'queryAllRecords'), func_get_args());
 	}
 
 	public function query_all($sQuery = '') {
-		return $this->queryAllRecords($sQuery);
+		return call_user_func_array(array(&$this, 'queryAllRecords'), func_get_args());
 	}
 
 	/**
@@ -335,7 +335,7 @@ class db extends mysqli
 	}
 
 	public function query_all_array($sQuery = '') {
-		return $this->queryAllArray($sQuery);
+		return call_user_func_array(array(&$this, 'queryAllArray'), func_get_args());
 	}
 
 
