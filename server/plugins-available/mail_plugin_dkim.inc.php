@@ -77,7 +77,8 @@ class mail_plugin_dkim {
 		$pos_config=array(
 			'/etc/amavisd.conf',
 			'/etc/amavisd.conf/50-user',
-			'/etc/amavis/conf.d/50-user'
+			'/etc/amavis/conf.d/50-user',
+			'/etc/amavisd/amavisd.conf'
 		);
 		$amavis_configfile='';
 		foreach($pos_config as $conf) {
@@ -123,12 +124,21 @@ class mail_plugin_dkim {
 	 */
 	function restart_amavis() {
 		global $app, $conf;
-		$initfile=$conf['init_scripts'].'/amavis';
-		$app->log('Restarting amavis.', LOGLEVEL_DEBUG);
-		exec(escapeshellarg($conf['init_scripts']).escapeshellarg('/amavis').' restart', $output);
+		$pos_init=array(
+			$conf['init_scripts'].'/amavis',
+			$conf['init_scripts'].'/amavisd'
+		);
+		$initfile='';
+		foreach($pos_init as $init) {
+			if (is_executable($init)) {
+				$initfile=$init;
+				break;
+				}
+		}
+		$app->log('Restarting amavis: '.$initfile.'.', LOGLEVEL_DEBUG);
+		exec(escapeshellarg($initfile).' restart', $output);
 		foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
 	}
-
 
 	/**
 	 * This function writes the keyfiles (public and private)

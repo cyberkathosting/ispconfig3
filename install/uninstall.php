@@ -36,6 +36,7 @@ error_reporting(E_ALL|E_STRICT);
 
 require_once "/usr/local/ispconfig/server/lib/config.inc.php";
 require_once "/usr/local/ispconfig/server/lib/app.inc.php";
+require "/usr/local/ispconfig/server/mysql_clientdb.conf";
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
@@ -63,10 +64,20 @@ if($do_uninstall == 'yes') {
 	// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
 	// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
 	
-	
-	exec("/etc/init.d/mysql stop");
-	exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
-	exec("/etc/init.d/mysql start");
+//	exec("/etc/init.d/mysql stop");
+//	exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
+//	exec("/etc/init.d/mysql start");
+
+	$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+	if (!$link) {
+		echo "Unable to connect to the database'.mysql_error($link)";
+	} else {
+		$result=mysql_query("DROP DATABASE ".$conf['db_database']."';", $link);
+		if (!$result) echo "Unable to remove the ispconfig-database ".$conf['db_database']." ".mysql_error($link)."\n";
+		$result=mysql_query("DROP USER '".$conf['db_user'] ."';");
+	        if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysql_error($link)."\n";
+	}
+	mysql_close($link);
 	
 	// Deleting the symlink in /var/www
 	// Apache
@@ -84,7 +95,7 @@ if($do_uninstall == 'yes') {
 	// Delete the ispconfig files
 	exec('rm -rf /usr/local/ispconfig');
 	
-	echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
+//	echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
 	echo "Finished uninstalling.\n";
 
 } else {

@@ -34,6 +34,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 error_reporting(E_ALL|E_STRICT);
 
+require "/usr/local/ispconfig/server/lib/config.inc.php";
+require "/usr/local/ispconfig/server/lib/app.inc.php";
+require "/usr/local/ispconfig/server/mysql_clientdb.conf";
+
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
 echo " _____ ___________   _____              __ _         ____
@@ -47,36 +51,52 @@ echo " _____ ___________   _____              __ _         ____
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Uninstall  \n\n";
 
-require "/usr/local/ispconfig/server/lib/config.inc.php";
-require "/usr/local/ispconfig/server/lib/app.inc.php";
-
-// Delete the ISPConfig database
-// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
-// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
+echo "Are you sure you want to uninsatll ISPConfig? [no]";
+$input = fgets(STDIN);
+$do_uninstall = rtrim($input);
 
 
-exec("/etc/init.d/mysqld stop");
-exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
-exec("/etc/init.d/mysqld start");
+if($do_uninstall == 'yes') {
 
-// Deleting the symlink in /var/www
-// Apache
-@unlink("/etc/httpd/conf/sites-enabled/000-ispconfig.vhost");
-@unlink("/etc/httpd/conf/sites-available/ispconfig.vhost");
-@unlink("/etc/httpd/conf/sites-enabled/000-apps.vhost");
-@unlink("/etc/httpd/conf/sites-available/apps.vhost");
+	echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
-// nginx
-@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
-@unlink("/etc/nginx/sites-available/ispconfig.vhost");
-@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
-@unlink("/etc/nginx/sites-available/apps.vhost");
+	
+	// Delete the ISPConfig database
+	//exec("/etc/init.d/mysqld stop");
+	//exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
+	//exec("/etc/init.d/mysqld start");
+	$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+	if (!$link) {
+		echo "Unable to connect to the database'.mysql_error($link)";
+	} else {
+		$result=mysql_query("DROP DATABASE ".$conf['db_database']."';", $link);
+		if (!$result) echo "Unable to remove the ispconfig-database ".$conf['db_database']." ".mysql_error($link)."\n";
+		$result=mysql_query("DROP USER '".$conf['db_user'] ."';");
+		if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysql_error($link)."\n";
+	}
+	mysql_close($link);
 
-// Delete the ispconfig files
-exec('rm -rf /usr/local/ispconfig');
+	// Deleting the symlink in /var/www
+	// Apache
+	@unlink("/etc/httpd/conf/sites-enabled/000-ispconfig.vhost");
+	@unlink("/etc/httpd/conf/sites-available/ispconfig.vhost");
+	@unlink("/etc/httpd/conf/sites-enabled/000-apps.vhost");
+	@unlink("/etc/httpd/conf/sites-available/apps.vhost");
 
-echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
+	// nginx
+	@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
+	@unlink("/etc/nginx/sites-available/ispconfig.vhost");
+	@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
+	@unlink("/etc/nginx/sites-available/apps.vhost");
 
-echo "Finished.\n";
+	// Delete the ispconfig files
+	exec('rm -rf /usr/local/ispconfig');
+
+//	echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
+
+	echo "Finished uninstalling.\n";
+} else {
+	echo "\n\n>> Canceled uninstall. \n\n";
+}
 
 ?>
