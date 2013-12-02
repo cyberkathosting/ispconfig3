@@ -74,7 +74,7 @@ $form["tabs"]['template'] = array (
 			'formtype' => 'CHECKBOXARRAY',
 			'default' => '',
 			'separator' => ',',
-			'value'  => array('DOMAIN' => 'Domain', 'IP' => 'IP Address', 'NS1' => 'NS 1', 'NS2' => 'NS 2', 'EMAIL' => 'Email', 'DKIM' => 'DKIM (use {DKIM}|0|3600 in your Template)'),
+			'value'  => array('DOMAIN' => 'Domain', 'IP' => 'IP Address', 'NS1' => 'NS 1', 'NS2' => 'NS 2', 'EMAIL' => 'Email', 'DKIM' => 'DKIM (use TXT|{DOMAIN}.|{DKIM} in your Template)'),
 			'validators'    => array (  0 => array ('type'  => 'CUSTOM',
 					'class' => 'validate_dkim',
 					'function' => 'check_template',

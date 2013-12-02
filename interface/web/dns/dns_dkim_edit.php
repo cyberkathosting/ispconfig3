@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 		$this->dataRecord["server_id"] = $soa["server_id"];
 
 		// add dkim-settings to the public-key in the txt-record
-		$this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
+		if (!empty($this->dataRecord['data'])) $this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
 		$this->dataRecord['name']='default._domainkey.'.$this->dataRecord['name'];
 
 		// Update the serial number  and timestamp of the RR record
@@ -108,7 +108,7 @@ class page_action extends tform_actions {
 		// check for duplicate entry
 		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ".$this->dataRecord["zone"]." AND type = '".$this->dataRecord["type"]."' AND data ='".$this->dataRecord["data"]."' AND name = '".$this->dataRecord['name']."'");
 		if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
-
+		if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
 		parent::onSubmit();
 	}
 
