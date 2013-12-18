@@ -78,7 +78,8 @@ $log_level = 0;                # (defaults to 0)
 # DKIM
 
 $enable_dkim_verification = 1;
-$enable_dkim_signing = 1; # load DKIM signing code,
+$enable_dkim_signing = 1; # load DKIM signing code
+$signed_header_fields{'received'} = 0;  # turn off signing of Received
 @dkim_signature_options_bysender_maps = (
 { '.' => { ttl => 21*24*3600, c => 'relaxed/simple' } } );
 
