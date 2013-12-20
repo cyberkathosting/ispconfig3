@@ -529,8 +529,8 @@ class page_action extends tform_actions {
 			// only generate quota and traffic warnings if value has changed
 			if($this->id > 0) {
 				$old_web_values = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
-			} else {
-				$old_web_values = $_POST;
+			}  else {
+				$old_web_values = array();
 			}
 
 			//* Check the website quota of the client
