@@ -144,14 +144,17 @@ class powerdns_plugin {
 		if($ns == '') $ns = $origin;
 
 		$hostmaster = substr($data["new"]["mbox"], 0, -1);
-		$content = $ns.' '.$hostmaster.' 0';
+		$content = $ns.' '.$hostmaster.' '.$data["new"]["serial"].' '.$data["new"]["refresh"].' '.$data["new"]["retry"].' '.$data["new"]["expire"].' '.$data["new"]["minimum"];
 		$ttl = $data["new"]["ttl"];
 
 		$app->db->query("INSERT INTO powerdns.records (domain_id, name, type, content, ttl, prio, change_date, ispconfig_id) VALUES ($zone_id, '$origin', 'SOA', '$content', $ttl, 0, ".time().", $ispconfig_id)");
 
-		//* Reload powerdns nameserver
-		$app->services->restartServiceDelayed('powerdns', 'reload');
-
+		//* tell pdns to rediscover zones in DB
+		$this->zoneRediscover();
+		//* tell pdns to use 'pdnssec rectify' on the new zone
+		$this->rectifyZone($data);
+		//* tell pdns to send notify to slave
+		$this->notifySlave($data);
 	}
 
 	function soa_update($event_name, $data) {
@@ -161,13 +164,10 @@ class powerdns_plugin {
 			if($data["old"]["active"] != 'Y') return;
 			$this->soa_delete($event_name, $data);
 		} else {
-			if($data["old"]["active"] == 'Y'){
+			$exists = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$data["new"]["id"]);
+			if($data["old"]["active"] == 'Y' && $exists){
 				$origin = substr($data["new"]["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
-				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
-				$serial_id = $serial["serial"];
-				//$app->db->query("UPDATE powerdns.domains SET name = '$origin', notified_serial = $serial_id WHERE ispconfig_id = $ispconfig_idi AND type = 'MASTER'");
-				//$app->db->query("UPDATE powerdns.domains SET name = '$origin' WHERE ispconfig_id = $ispconfig_id AND type = 'MASTER'");
 
 				if(substr($data["new"]["ns"], -1) == '.'){
 					$ns = substr($data["new"]["ns"], 0, -1);
@@ -177,15 +177,14 @@ class powerdns_plugin {
 				if($ns == '') $ns = $origin;
 
 				$hostmaster = substr($data["new"]["mbox"], 0, -1);
-				//$content = $ns.' '.$hostmaster.' 0';
-				$content = $ns.' '.$hostmaster.' '.$serial_id.'';
+				$content = $ns.' '.$hostmaster.' '.$data["new"]["serial"].' '.$data["new"]["refresh"].' '.$data["new"]["retry"].' '.$data["new"]["expire"].' '.$data["new"]["minimum"];
 				$ttl = $data["new"]["ttl"];
 				$app->db->query("UPDATE powerdns.records SET name = '$origin', content = '$content', ttl = $ttl, change_date = ".time()." WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
 
-				//* Reload powerdns nameserver
-				$app->services->restartServiceDelayed('powerdns', 'reload');
-
-
+				//* tell pdns to use 'pdnssec rectify' on the new zone
+				$this->rectifyZone($data);
+				//* tell pdns to send notify to slave
+				$this->notifySlave($data);
 			} else {
 				$this->soa_insert($event_name, $data);
 				$ispconfig_id = $data["new"]["id"];
@@ -197,10 +196,12 @@ class powerdns_plugin {
 						$this->rr_insert("dns_rr_insert", $data);
 					}
 				}
-
+				//* tell pdns to use 'pdnssec rectify' on the new zone
+				$this->rectifyZone($data);
+				//* tell pdns to send notify to slave
+				$this->notifySlave($data);
 			}
 		}
-
 	}
 
 	function soa_delete($event_name, $data) {
@@ -210,10 +211,6 @@ class powerdns_plugin {
 		$zone_id = $zone["id"];
 		$app->db->query("DELETE FROM powerdns.records WHERE domain_id = $zone_id");
 		$app->db->query("DELETE FROM powerdns.domains WHERE id = $zone_id");
-
-		//* Reload powerdns nameserver
-		$app->services->restartServiceDelayed('powerdns', 'reload');
-
 	}
 
 	function slave_insert($event_name, $data) {
@@ -227,12 +224,10 @@ class powerdns_plugin {
 
 		$app->db->query("INSERT INTO powerdns.domains (name, type, master, ispconfig_id) VALUES ('$origin', 'SLAVE', '$master_ns', $ispconfig_id)");
 
-		//$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
 		$zone_id = $app->db->insertID();
 
-		//* Reload powerdns nameserver
-		$app->services->restartServiceDelayed('powerdns', 'reload');
-
+		//* tell pdns to fetch zone from master server
+		$this->fetchFromMaster($data);
 	}
 
 	function slave_update($event_name, $data) {
@@ -249,15 +244,14 @@ class powerdns_plugin {
 				$master_ns = $data["new"]["ns"];
 
 				$app->db->query("UPDATE powerdns.domains SET name = '$origin', type = 'SLAVE', master = '$master_ns' WHERE ispconfig_id=$ispconfig_id AND type = 'SLAVE'");
-				//$app->db->query("INSERT INTO powerdns.domains (name, type, ispconfig_id) VALUES ('$origin', 'NATIVE', $ispconfig_id)");
 				$zone_id = $app->db->insertID();
 
 				$zone = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$ispconfig_id." AND type = 'SLAVE'");
 				$zone_id = $zone["id"];
 				$app->db->query("DELETE FROM powerdns.records WHERE domain_id = $zone_id AND ispconfig_id = 0");
 
-				//* Reload powerdns nameserver
-				$app->services->restartServiceDelayed('powerdns', 'reload');
+				//* tell pdns to fetch zone from master server
+				$this->fetchFromMaster($data);
 
 			} else {
 				$this->slave_insert($event_name, $data);
@@ -274,10 +268,6 @@ class powerdns_plugin {
 		$zone_id = $zone["id"];
 		$app->db->query("DELETE FROM powerdns.records WHERE domain_id = $zone_id");
 		$app->db->query("DELETE FROM powerdns.domains WHERE id = $zone_id");
-
-		//* Reload powerdns nameserver
-		$app->services->restartServiceDelayed('powerdns', 'reload');
-
 	}
 
 	function rr_insert($event_name, $data) {
@@ -337,6 +327,8 @@ class powerdns_plugin {
 
 		$app->db->query("INSERT INTO powerdns.records (domain_id, name, type, content, ttl, prio, change_date, ispconfig_id) VALUES ($zone_id, '$name', '$type', '$content', $ttl, $prio, $change_date, $ispconfig_id)");
 
+		//* tell pdns to use 'pdnssec rectify' on the new zone
+		$this->rectifyZone($data);
 	}
 
 	function rr_update($event_name, $data) {
@@ -346,7 +338,8 @@ class powerdns_plugin {
 			if($data["old"]["active"] != 'Y') return;
 			$this->rr_delete($event_name, $data);
 		} else {
-			if($data["old"]["active"] == 'Y'){
+			$exists = $app->db->queryOneRecord("SELECT * FROM powerdns.records WHERE ispconfig_id = ".$data["new"]["id"]);
+			if($data["old"]["active"] == 'Y' && $exists){
 				$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
 				$origin = substr($zone["origin"], 0, -1);
 				$powerdns_zone = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$data["new"]["zone"]." AND type = 'MASTER'");
@@ -397,14 +390,14 @@ class powerdns_plugin {
 				$prio = $data["new"]["aux"];
 				$change_date = time();
 				$ispconfig_id = $data["new"]["id"];
-				//echo "UPDATE powerdns.records SET name = '$name', type = '$type', content = '$content', ttl = $ttl, prio = $prio, change_date = ".time()." WHERE id = $record_id";
 				$app->db->query("UPDATE powerdns.records SET name = '$name', type = '$type', content = '$content', ttl = $ttl, prio = $prio, change_date = ".time()." WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 
+				//* tell pdns to use 'pdnssec rectify' on the new zone
+				$this->rectifyZone($data);
 			} else {
 				$this->rr_insert($event_name, $data);
 			}
 		}
-
 	}
 
 	function rr_delete($event_name, $data) {
@@ -412,9 +405,80 @@ class powerdns_plugin {
 
 		$ispconfig_id = $data["old"]["id"];
 		$app->db->query("DELETE FROM powerdns.records WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
-
 	}
 
+	function find_pdns_control() {
+		$output = array();
+		$retval = '';
+		exec("type -p pdns_control", $output, $retval);
+		if ($retval == 0 && is_file($output[0])){
+			return $output[0];
+		} else {
+			return false;
+		}
+	}
+
+	function find_pdns_pdnssec() {
+		$output = array();
+		$retval = '';
+		exec("type -p pdnssec", $output, $retval);
+		if ($retval == 0 && is_file($output[0])){
+			return $output[0];
+		} else {
+			return false;
+		}
+	}
+
+	function zoneRediscover() {
+		$pdns_control = $this->find_pdns_control();
+		if ( $pdns_control != false ) {
+			exec($pdns_control . ' rediscover');
+		}
+	}
+
+	function notifySlave($data) {
+		$pdns_control = $this->find_pdns_control();
+		if ( $pdns_control != false ) {
+			exec($pdns_control . ' notify ' . rtrim($data["new"]["origin"],"."));
+		}
+	}
+
+	function fetchFromMaster($data) {
+		$pdns_control = $this->find_pdns_control();
+		if ( $pdns_control != false ) {
+			exec($pdns_control . ' retrieve ' . rtrim($data["new"]["origin"],"."));
+		}
+	}
+
+	function get_pdns_version() {
+		$pdns_control = $this->find_pdns_control();
+		if ( $pdns_control != false ) {
+			$output=array();
+			$retval='';
+			exec($pdns_control . ' version',$output,$retval);
+			return $output[0];
+		} else {
+			//* fallback to version 2
+			return 2;
+		}
+	}
+
+	function rectifyZone($data) {
+		global $app, $conf;
+		if ( preg_match('/^3/',$this->get_pdns_version()) ) {
+			$pdns_pdnssec = $this->find_pdns_pdnssec();
+			if ( $pdns_pdnssec != false ) {
+				if (isset($data["new"]["origin"])) {
+					//* data has origin field only for SOA recordtypes
+					exec($pdns_pdnssec . ' rectify-zone ' . rtrim($data["new"]["origin"],"."));
+				} else {
+					// get origin from DB for all other recordtypes
+					$zn = $app->db->queryOneRecord("SELECT d.name AS name FROM powerdns.domains d, powerdns.records r WHERE r.ispconfig_id=".$data["new"]["id"]." AND r.domain_id = d.id");
+					exec($pdns_pdnssec . ' rectify-zone ' . trim($zn["name"]));
+				}
+			}
+		}
+	}
 
 } // end class
 
