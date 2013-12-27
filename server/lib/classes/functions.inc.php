@@ -129,6 +129,18 @@ class functions {
 		return number_format((double)$number, $number_format_decimals, $number_format_dec_point, $number_format_thousands_sep);
 	}
 
+	/**
+	* Function to change bytes to kB, MB, GB or TB
+	* @param int $size - size in bytes
+	* @param int precicion - after-comma-numbers (default: 2)
+	* @return string - formated bytes
+	*/
+	public function formatBytes($size, $precision = 2) {
+		$base=log($size)/log(1024);
+		$suffixes=array('', ' kB', ' MB', ' GB', ' TB');
+		return round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
+	}
+
 	public function get_ispconfig_url() {
 		global $app;
 
