@@ -89,8 +89,12 @@ $form["tabs"]['server'] = array(
 		'v6_prefix' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array(0 => array('type' => 'ISV6PREFIX',
-					'errmsg' => 'v6_prefix_wrong'),
+			'validators' => array(  0 => array('type' => 'ISV6PREFIX',
+						'errmsg' => 'v6_prefix_wrong'),
+						1 => array('type' => 'V6PREFIXEND',
+						'errmsg' => 'v6_prefix_end'),
+						2 => array('type' => 'V6PREFIXLENGTH',
+						'errmsg' => 'v6_prefix_length')
 			),
 			'default' => ''
 		),

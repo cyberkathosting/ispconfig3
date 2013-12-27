@@ -941,37 +941,54 @@ class tform_base {
 					}
 				}
 				break;
+			case 'V6PREFIXEND':
+				$explode_field_value = explode(':',$field_value);
+//				if ($explode_field_value[count($explode_field_value)-1]=='' && $explode_field_value[count($explode_field_value)-2]=='' ){ }
+				if (!$explode_field_value[count($explode_field_value)-1]=='' && $explode_field_value[count($explode_field_value)-2]!='' ) {
+					$errmsg = $validator['errmsg'];
+					if(isset($this->wordbook[$errmsg])) {
+						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+					} else {
+						$this->errorMessage .= $errmsg."<br />\r\n";
+					}
+				}
+				break;
+			case 'V6PREFIXLENGTH':
+				// find shortes ipv6 subnet can`t be longer
+				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' ORDER BY CHAR_LENGTH(ip_address) ASC LIMIT 0,1;");
+				$sql_v6_explode=explode(':',$sql_v6['ip_address']);
+				$explode_field_value = explode(':',$field_value);
+				if (count($sql_v6_explode) < count($explode_field_value) && isset($sql_v6['ip_address'])) {
+					$errmsg = $validator['errmsg'];
+					if(isset($this->wordbook[$errmsg])) {
+						$this->errorMessage .= $this->wordbook[$errmsg].$sql_v6[ip_address]."<br />\r\n";
+					} else {
+						$this->errorMessage .= $errmsg."<br />\r\n";
+					}
+				}
+				break;
 			case 'ISV6PREFIX':
-				$v6_prefix_ok = 0;
-				$explode_field_value = explode(':', $field_value);
+				$v6_prefix_ok=0;
+				$explode_field_value = explode(':',$field_value);
 				if ($explode_field_value[count($explode_field_value)-1]=='' && $explode_field_value[count($explode_field_value)-2]=='' ){
 					if ( count($explode_field_value) <= 9 ) {
-						if(filter_var(substr($field_value, 0, strlen($field_value)-2), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) or filter_var(substr($field_value, 0, strlen($field_value)-2).'::0', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) or filter_var(substr($field_value, 0, strlen($field_value)-2).':0', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ) {
+						if (filter_var(substr($field_value,0,strlen($field_value)-2),FILTER_VALIDATE_IP,FILTER_FLAG_IPV6) or filter_var(substr($field_value,0,strlen($field_value)-2).'::0',FILTER_VALIDATE_IP,FILTER_FLAG_IPV6) or filter_var(substr($field_value,0,strlen($field_value)-2).':0',FILTER_VALIDATE_IP,FILTER_FLAG_IPV6) ) {
 							$v6_prefix_ok = 1;
 						}
 					}
-				} else {
-					$v6_prefix_ok = 2;
 				}
-				// check subnet against defined server-ipv6
-				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' LIMIT 0,1");
-				$sql_v6_explode=explode(':', $sql_v6['ip_address']);
-				if ( count($sql_v6_explode) < count($explode_field_value) && isset($sql_v6['ip_address']) )  {
-					$v6_prefix_ok = 3;
-				}
-				if($v6_prefix_ok == 0) {
+				if($v6_prefix_ok <> 1) {
 					$errmsg = $validator['errmsg'];
-				}
-				if($v6_prefix_ok == 2) {
-					$errmsg = 'IPv6 Prefix must end with ::';
-				}
-				if($v6_prefix_ok == 3) {
-					$errmsg = 'IPv6 Prefix too long (according to Server IP Addresses)';
-				}
-				if($v6_prefix_ok <> 1){
-					$this->errorMessage .= $errmsg."<br />\r\n";
+					if(isset($this->wordbook[$errmsg])) {
+						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+					} else {
+						$this->errorMessage .= $errmsg."<br />\r\n";
+					}
 				}
 				break;
+
+
+
 			case 'ISIPV4':
 				$vip=1;
 				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
