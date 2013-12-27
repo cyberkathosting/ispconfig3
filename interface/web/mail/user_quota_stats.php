@@ -15,6 +15,8 @@ $list_def_file = "list/user_quota_stats.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
 
+$app->uses('functions');
+
 $app->load('listform_actions');
 
 // $tmp_rec = $app->db->queryOneRecord("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
@@ -63,11 +65,15 @@ class list_action extends listform_actions {
 
 
 		$rec['used_sort'] = $rec['used'];
+/*
 		if($rec['used'] < 1544000) {
 			$rec['used'] = round($rec['used'] / 1024, 4).' KB';
 		} else {
 			$rec['used'] = round($rec['used'] / 1048576, 4).' MB';
 		}
+*/
+		$rec['used']=$app->functions->formatBytes($rec['used']);
+		if ($rec['used'] == 'NAN') $rec['used']='0 KB';
 
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
