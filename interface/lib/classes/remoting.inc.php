@@ -154,6 +154,25 @@ class remoting {
 			return false;
 		}
 	}
+	
+	/**
+	Gets the ISPconfig version of the server
+	@param int session_id
+	@author Sascha Bay <info@space2place.de> TheCry 2013
+	*/
+	public function server_get_app_version($session_id) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if (!empty($session_id)) { 
+			$ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
+			return $ispc_app_version;
+		} else {
+			return false;
+		}
+	}
 
 	public function server_get_serverid_by_ip($session_id, $ipaddress)
 	{
