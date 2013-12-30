@@ -165,7 +165,7 @@ class powerdns_plugin {
 			$this->soa_delete($event_name, $data);
 		} else {
 			$exists = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$data["new"]["id"]);
-			if($data["old"]["active"] == 'Y' && $exists){
+			if($data["old"]["active"] == 'Y' && is_array($exists)){
 				$origin = substr($data["new"]["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
 
@@ -273,6 +273,8 @@ class powerdns_plugin {
 	function rr_insert($event_name, $data) {
 		global $app, $conf;
 		if($data["new"]["active"] != 'Y') return;
+		$exists = $app->db->queryOneRecord("SELECT * FROM powerdns.records WHERE ispconfig_id = ".$data["new"]["id"]);
+		if ( is_array($exists) ) return;
 
 		$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
 		$origin = substr($zone["origin"], 0, -1);
@@ -339,7 +341,7 @@ class powerdns_plugin {
 			$this->rr_delete($event_name, $data);
 		} else {
 			$exists = $app->db->queryOneRecord("SELECT * FROM powerdns.records WHERE ispconfig_id = ".$data["new"]["id"]);
-			if($data["old"]["active"] == 'Y' && $exists){
+			if($data["old"]["active"] == 'Y' && is_array($exists)){
 				$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
 				$origin = substr($zone["origin"], 0, -1);
 				$powerdns_zone = $app->db->queryOneRecord("SELECT * FROM powerdns.domains WHERE ispconfig_id = ".$data["new"]["zone"]." AND type = 'MASTER'");
