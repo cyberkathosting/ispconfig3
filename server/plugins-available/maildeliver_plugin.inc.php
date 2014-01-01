@@ -210,9 +210,15 @@ class maildeliver_plugin {
 			}
 
 			file_put_contents($sieve_file_isp, $tpl->grab());
+			chown($sieve_file_isp,$mail_config['mailuser_name']);
+			chgrp($sieve_file_isp,$mail_config['mailuser_group']);
 			chdir($data["new"]["maildir"]);
 			//* create symlink to activate sieve script
-			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);	
+			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);
+			if (is_link(".sieve")) {
+				lchown($sieve_file_isp,$mail_config['mailuser_name']);
+				lchgrp($sieve_file_isp,$mail_config['mailuser_group']);
+			}
 			unset($tpl);
 
 		}
