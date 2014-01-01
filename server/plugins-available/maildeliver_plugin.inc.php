@@ -205,7 +205,12 @@ class maildeliver_plugin {
 
 			$tpl->setVar('addresses', $address_str);
 
+			if ( ! is_dir($data["new"]["maildir"].'/sieve/') ) {
+				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
+			}
+
 			file_put_contents($sieve_file_isp, $tpl->grab());
+			chdir($data["new"]["maildir"]);
 			//* create symlink to activate sieve script
 			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);	
 			unset($tpl);
