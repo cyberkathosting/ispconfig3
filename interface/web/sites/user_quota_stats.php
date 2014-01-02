@@ -15,6 +15,8 @@ $list_def_file = "list/user_quota_stats.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
+$app->uses('functions');
+
 $app->load('listform_actions');
 
 // $tmp_rec = $app->db->queryOneRecord("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
@@ -57,7 +59,12 @@ class list_action extends listform_actions {
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 		if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];
-
+		$rec['used']=$app->functions->formatBytes($rec['used']*1024);
+		$rec['soft']=$app->functions->formatBytes($rec['soft']*1024);
+		$rec['hard']=$app->functions->formatBytes($rec['hard']*1024);
+		if($rec['soft'] == "NAN") $rec['soft'] = $app->lng('unlimited');
+		if($rec['hard'] == "NAN") $rec['hard'] = $app->lng('unlimited');
+/*
 		if($rec['used'] > 1024) {
 			$rec['used'] = round($rec['used'] / 1024, 2).' MB';
 		} else {
@@ -78,17 +85,17 @@ class list_action extends listform_actions {
 
 		if($rec['soft'] == " KB") $rec['soft'] = $app->lng('unlimited');
 		if($rec['hard'] == " KB") $rec['hard'] = $app->lng('unlimited');
-
+*/
 
 		/*
 		if(!strstr($rec['used'],'M') && !strstr($rec['used'],'K')) $rec['used'].= ' B';
 		if(!strstr($rec['soft'],'M') && !strstr($rec['soft'],'K')) $rec['soft'].= ' B';
 		if(!strstr($rec['hard'],'M') && !strstr($rec['hard'],'K')) $rec['hard'].= ' B';
 		*/
-
+/*
 		if($rec['soft'] == '0 B' || $rec['soft'] == '0 KB' || $rec['soft'] == '0') $rec['soft'] = $app->lng('unlimited');
 		if($rec['hard'] == '0 B' || $rec['hard'] == '0 KB' || $rec['hard'] == '0') $rec['hard'] = $app->lng('unlimited');
-
+*/
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
 		return $rec;

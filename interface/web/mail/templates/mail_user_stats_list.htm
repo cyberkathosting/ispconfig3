@@ -30,10 +30,10 @@
                     <tmpl_loop name="records">
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
                             <td class="tbl_col_email"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="email"}</a></td>
-                            <td class="tbl_col_this_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"} MB</a></td>
-                            <td class="tbl_col_last_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"} MB</a></td>
-                            <td class="tbl_col_this_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"} MB</a></td>
-                            <td class="tbl_col_last_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"} MB</a></td>
+                            <td class="tbl_col_this_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"}</a></td>
+                            <td class="tbl_col_last_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"}</a></td>
+                            <td class="tbl_col_this_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"}</a></td>
+                            <td class="tbl_col_last_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"}</a></td>
                             <td class="tbl_col_buttons"></td>
                         </tr>
                     </tmpl_loop>

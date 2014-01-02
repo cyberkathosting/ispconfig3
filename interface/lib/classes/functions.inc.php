@@ -309,11 +309,9 @@ class functions {
 	 * @param int precicion - after-comma-numbers (default: 2)
 	 * @return string - formated bytes
 	 */
-
-
 	public function formatBytes($size, $precision = 2) {
 		$base=log($size)/log(1024);
-		$suffixes=array('', 'k', 'M', 'G', 'T');
+		$suffixes=array('', ' kB', ' MB', ' GB', ' TB');
 		return round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
 	}
 

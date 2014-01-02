@@ -50,15 +50,6 @@ class cronjob_backup extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		//######################################################################################################
-		// Create website backups
-		//######################################################################################################
-		function formatBytes($size, $precision = 2) {
-			$base=log($size)/log(1024);
-			$suffixes=array('', 'k', 'M', 'G', 'T');
-			return round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
-		}
-
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		$backup_dir = $server_config['backup_dir'];
 		$backup_mode = $server_config['backup_mode'];
@@ -121,7 +112,7 @@ class cronjob_backup extends cronjob {
 							//* Insert web backup record in database
 							//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 							//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-							$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."','".formatBytes(filesize($web_backup_dir.'/'.$web_backup_file))."')";
+							$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."','".$app->functions->formatBytes(filesize($web_backup_dir.'/'.$web_backup_file))."')";
 							$app->db->query($sql);
 							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 						} else {
@@ -227,7 +218,7 @@ class cronjob_backup extends cronjob {
 								//* Insert web backup record in database
 								//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 								//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-								$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz','".formatBytes(filesize($db_backup_dir.'/'.$db_backup_file))."')";
+								$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz','".$app->functions->formatBytes(filesize($db_backup_dir.'/'.$db_backup_file))."')";
 								$app->db->query($sql);
 								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 

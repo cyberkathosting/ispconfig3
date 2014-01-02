@@ -15,6 +15,8 @@ $list_def_file = "list/web_sites_stats.list.php";
 //* Check permissions for module
 $app->auth->check_module_permissions('sites');
 
+$app->uses('functions');
+
 $app->load('listform_actions');
 
 class list_action extends listform_actions {
@@ -39,26 +41,35 @@ class list_action extends listform_actions {
 		$tmp_year = date('Y');
 		$tmp_month = date('m');
 		$tmp_rec = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
-		$rec['this_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
-		$this->sum_this_month += ($tmp_rec['t']/1024/1024);
+//		$rec['this_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
+//		$this->sum_this_month += ($tmp_rec['t']/1024/1024);
+		$rec['this_month'] = $app->functions->formatBytes($tmp_rec['t']);
+		$this->sum_this_month += $app->functions->formatBytes($tmp_rec['t']);
+
 
 		//** Traffic of the current year
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year'");
-		$rec['this_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
-		$this->sum_this_year += ($tmp_rec['t']/1024/1024);
+//		$rec['this_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
+//		$this->sum_this_year += ($tmp_rec['t']/1024/1024);
+		$rec['this_year'] = $app->functions->formatBytes($tmp_rec['t']);
+		$this->sum_this_year += $app->functions->formatBytes($tmp_rec['t']);
 
 		//** Traffic of the last month
 		$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		$tmp_month = date('m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year' AND MONTH(traffic_date) = '$tmp_month'");
-		$rec['last_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
-		$this->sum_last_month += ($tmp_rec['t']/1024/1024);
+//		$rec['last_month'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
+//		$this->sum_last_month += ($tmp_rec['t']/1024/1024);
+		$rec['last_month'] = $app->functions->formatBytes($tmp_rec['t']);
+		$this->sum_last_month += $app->functions->formatBytes($tmp_rec['t']);
 
 		//** Traffic of the last year
 		$tmp_year = date('Y', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
 		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic_bytes) as t FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."' AND YEAR(traffic_date) = '$tmp_year'");
-		$rec['last_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
-		$this->sum_last_year += ($tmp_rec['t']/1024/1024);
+//		$rec['last_year'] = number_format($tmp_rec['t']/1024/1024, 0, '.', ' ');
+//		$this->sum_last_year += ($tmp_rec['t']/1024/1024);
+		$rec['last_year'] = $app->functions->formatBytes($tmp_rec['t']);
+		$this->sum_last_year += $app->functions->formatBytes($tmp_rec['t']);
 
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
