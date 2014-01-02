@@ -1,4 +1,4 @@
-[{fpm_pool}]
+[{fpm_pool}-{fpm_domain}]
 
 listen = {fpm_socket}
 listen.owner = {fpm_user}
