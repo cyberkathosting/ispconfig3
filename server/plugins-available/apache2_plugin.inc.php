@@ -2719,6 +2719,7 @@ class apache2_plugin {
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
 		$tpl->setVar('pm_start_servers', $data['new']['pm_start_servers']);
