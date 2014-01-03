@@ -156,15 +156,60 @@ class remoting {
 	}
 	
 	/**
-	Gets the ISPconfig version of the server
-	@param int session_id
-	@author Sascha Bay <info@space2place.de> TheCry 2013
-	*/
-	public function server_get_app_version($session_id) {
-		global $app;
+	    Gets the server_id by server_name
+	    @param int session_id
+	    @param int server_name
+	    @author Sascha Bay <info@space2place.de> TheCry 2013
+    */
+	public function server_get_serverid_by_name($session_id, $server_name)
+    {
+        global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+		if (!empty($session_id) && !empty($server_name)) {
+			$sql = "SELECT server_id FROM server WHERE server_name  = '$server_name' LIMIT 1 ";
+			$all = $app->db->queryAllRecords($sql);
+			return $all;
+		} else {
 			return false;
+		}
+	}
+	
+	/**
+	    Gets the functions of a server by server_id
+	    @param int session_id
+	    @param int server_id
+	    @author Sascha Bay <info@space2place.de> TheCry 2013
+    */
+	public function server_get_functions($session_id, $server_id)
+    {
+        global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+		if (!empty($session_id) && !empty($server_id)) { 
+			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server FROM server WHERE server_id  = '$server_id' LIMIT 1 ";
+			$all = $app->db->queryAllRecords($sql);
+			return $all;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	    Gets the ISPconfig version of the server
+	    @param int session_id
+	    @author Sascha Bay <info@space2place.de> TheCry 2013
+    */
+	public function server_get_app_version($session_id)
+    {
+        global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
 		}
 		if (!empty($session_id)) { 
 			$ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);

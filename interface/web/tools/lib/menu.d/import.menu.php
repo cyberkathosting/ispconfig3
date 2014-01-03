@@ -1,6 +1,5 @@
 <?php
 
-
 // Menu
 
 if($app->auth->is_admin()) {
@@ -27,5 +26,7 @@ $items[] = array( 'title' 	=> 'Plesk',
 
 	unset($items);
 }
+
+
 
 ?>
