@@ -91,6 +91,74 @@ class remoting_server extends remoting {
 		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php', $ip_id);
 		return $affected_rows;
 	}
+	
+	/**
+	 Gets the server configuration
+	 @param int session id
+	 @param int server id
+	 @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	 @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
+	 */
+
+
+	public function server_get($session_id, $server_id, $section ='') {
+		global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if (!empty($session_id) && !empty($server_id)) {
+			$app->uses('remoting_lib , getconf');
+			$section_config =  $app->getconf->get_server_config($server_id, $section);
+			return $section_config;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	    Gets the server_id by server_name
+	    @param int session_id
+	    @param int server_name
+	    @author Sascha Bay <info@space2place.de> TheCry 2013
+    */
+	public function server_get_serverid_by_name($session_id, $server_name)
+    {
+        global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+		if (!empty($session_id) && !empty($server_name)) {
+			$sql = "SELECT server_id FROM server WHERE server_name  = '$server_name' LIMIT 1 ";
+			$all = $app->db->queryAllRecords($sql);
+			return $all;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	    Gets the functions of a server by server_id
+	    @param int session_id
+	    @param int server_id
+	    @author Sascha Bay <info@space2place.de> TheCry 2013
+    */
+	public function server_get_functions($session_id, $server_id)
+    {
+        global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+            return false;
+		}
+		if (!empty($session_id) && !empty($server_id)) { 
+			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server FROM server WHERE server_id  = '$server_id' LIMIT 1 ";
+			$all = $app->db->queryAllRecords($sql);
+			return $all;
+		} else {
+			return false;
+		}
+	}
 
 }
 
