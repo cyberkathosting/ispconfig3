@@ -49,6 +49,12 @@
                     <input name="ip" id="ip" value="{tmpl_var name='ip'}" size="30" maxlength="255" type="text" class="textInput" />
                 </div>
             </tmpl_if>
+            <tmpl_if name="IPV6_VISIBLE">
+                <div class="ctrlHolder">
+                    <label for="ipv6">{tmpl_var name='ipv6_txt'}</label>
+                    <input name="ipv6" id="ipv6" value="{tmpl_var name='ipv6'}" size="30" maxlength="255" type="text" class="textInput" />
+                </div>
+            </tmpl_if>
             <tmpl_if name="NS1_VISIBLE">
                 <div class="ctrlHolder">
                     <label for="ns1">{tmpl_var name='ns1_txt'}</label>

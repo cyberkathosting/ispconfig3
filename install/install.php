@@ -216,8 +216,10 @@ if($install_mode == 'standard') {
 	$inst->configure_spamassassin();
 
 	//* Configure Amavis
-	swriteln('Configuring Amavisd');
-	$inst->configure_amavis();
+	if($conf['amavis']['installed'] == true) {
+		swriteln('Configuring Amavisd');
+		$inst->configure_amavis();
+	}
 
 	//* Configure Getmail
 	swriteln('Configuring Getmail');

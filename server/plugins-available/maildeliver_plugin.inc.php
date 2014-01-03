@@ -98,8 +98,9 @@ class maildeliver_plugin {
 			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
 
 			$sieve_file = $data["new"]["maildir"].'/.sieve';
+			$sieve_file_isp = $data["new"]["maildir"].'/sieve/ispconfig.sieve';
 			if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
-
+			if(is_file($sieve_file_isp)) unlink($sieve_file_isp)  or $app->log("Unable to delete file: $sieve_file_isp", LOGLEVEL_WARN);
 			$app->load('tpl');
 
 			//* Select sieve filter file for dovecot version
@@ -204,8 +205,20 @@ class maildeliver_plugin {
 
 			$tpl->setVar('addresses', $address_str);
 
-			file_put_contents($sieve_file, $tpl->grab());
+			if ( ! is_dir($data["new"]["maildir"].'/sieve/') ) {
+				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
+			}
 
+			file_put_contents($sieve_file_isp, $tpl->grab());
+			chown($sieve_file_isp,$mail_config['mailuser_name']);
+			chgrp($sieve_file_isp,$mail_config['mailuser_group']);
+			chdir($data["new"]["maildir"]);
+			//* create symlink to activate sieve script
+			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);
+			if (is_link(".sieve")) {
+				lchown(".sieve",$mail_config['mailuser_name']);
+				lchgrp(".sieve",$mail_config['mailuser_group']);
+			}
 			unset($tpl);
 
 		}
@@ -215,7 +228,9 @@ class maildeliver_plugin {
 		global $app, $conf;
 
 		$sieve_file = $data["old"]["maildir"].'/.sieve';
+		$sieve_file_isp = $data["old"]["maildir"].'/sieve/ispconfig.sieve';
 		if(is_file($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
+		if(is_file($sieve_file_isp)) unlink($sieve_file_isp)  or $app->log("Unable to delete file: $sieve_file_isp", LOGLEVEL_WARN);
 	}
 
 

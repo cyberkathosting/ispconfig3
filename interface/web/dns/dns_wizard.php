@@ -202,6 +202,8 @@ if($_POST['create'] == 1) {
 
 	if(isset($_POST['ip']) && $_POST['ip'] == '') $error .= $app->lng('error_ip_empty').'<br />';
 
+	if(isset($_POST['ipv6']) && $_POST['ipv6'] == '') $error .= $app->lng('error_ipv6_empty').'<br />';
+
 	if(isset($_POST['ns1']) && $_POST['ns1'] == '') $error .= $app->lng('error_ns1_empty').'<br />';
 	elseif(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,30}$/', $_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
 
@@ -238,6 +240,7 @@ if($_POST['create'] == 1) {
 	$tpl_content = $template_record['template'];
 	if($_POST['domain'] != '') $tpl_content = str_replace('{DOMAIN}', $_POST['domain'], $tpl_content);
 	if($_POST['ip'] != '') $tpl_content = str_replace('{IP}', $_POST['ip'], $tpl_content);
+	if($_POST['ipv6'] != '') $tpl_content = str_replace('{IPV6}',$_POST['ipv6'],$tpl_content);
 	if($_POST['ns1'] != '') $tpl_content = str_replace('{NS1}', $_POST['ns1'], $tpl_content);
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);

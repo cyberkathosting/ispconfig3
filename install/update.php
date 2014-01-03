@@ -289,8 +289,10 @@ if($reconfigure_services_answer == 'yes') {
 		$inst->configure_spamassassin();
 
 		//** Configure Amavis
-		swriteln('Configuring Amavisd');
-		$inst->configure_amavis();
+		if($conf['amavis']['installed'] == true) {
+			swriteln('Configuring Amavisd');
+			$inst->configure_amavis();
+		}
 
 		//** Configure Getmail
 		swriteln('Configuring Getmail');
