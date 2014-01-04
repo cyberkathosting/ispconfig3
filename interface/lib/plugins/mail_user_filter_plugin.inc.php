@@ -149,7 +149,7 @@ class mail_user_filter_plugin {
 			} elseif ($page_form->dataRecord["op"] == 'is') {
 				$content .= $searchterm."$";
 			} elseif ($page_form->dataRecord["op"] == 'begins') {
-				$content .= " ".$searchterm."";
+				$content .= "^".$searchterm.".*";
 			} elseif ($page_form->dataRecord["op"] == 'ends') {
 				$content .= ".*".$searchterm."$";
 			}
