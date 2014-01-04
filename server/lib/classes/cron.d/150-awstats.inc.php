@@ -109,7 +109,11 @@ class cronjob_awstats extends cronjob {
         LogFile="/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log"
         SiteDomain="'.$domain.'"
         HostAliases="www.'.$domain.' localhost 127.0.0.1'.$aliasdomain.'"';
-				file_put_contents($awstats_website_conf_file, $awstats_conf_file_content);
+				if (isset($include_file)) {
+					file_put_contents($awstats_website_conf_file, $awstats_conf_file_content);
+				} else {
+					$app->log("No awstats base config found. Either awstats.conf or awstats.model.conf must exist in ".$awstats_conf_dir.".", LOGLEVEL_WARN);
+				}
 			}
 
 			if(!@is_dir($statsdir)) mkdir($statsdir);
