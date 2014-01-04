@@ -319,6 +319,15 @@ class page_action extends tform_actions {
 
 		} // end if email addess changed
 
+		//* Change backup options when user mail backup options have been changed
+		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
+			$backup_interval = $this->dataRecord['backup_interval'];
+			$backup_copies = $this->dataRecord['backup_copies'];
+			$app->db->datalogUpdate('mail_user', "backup_interval = '$backup_interval', backup_copies = '$backup_copies'", 'mailuser_id', $rec['mailuser_id']);
+			unset($backup_copies);
+			unset($backup_interval);
+		} // end if backup options changed
+
 	}
 
 }
