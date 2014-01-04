@@ -2241,7 +2241,7 @@ class nginx_plugin {
 			} elseif (is_file($awstats_conf_dir."/awstats.model.conf")) {
 				$include_file = $awstats_conf_dir."/awstats.model.conf";
 			}
-			$content .= "Include \"".$include_file\"\n";
+			$content .= "Include \"".$include_file."\"\n";
 			$content .= "LogFile=\"/var/log/ispconfig/httpd/".$data['new']['domain']."/access.log\"\n";
 			$content .= "SiteDomain=\"".$data['new']['domain']."\"\n";
 			$content .= "HostAliases=\"www.".$data['new']['domain']."  localhost 127.0.0.1\"\n";
