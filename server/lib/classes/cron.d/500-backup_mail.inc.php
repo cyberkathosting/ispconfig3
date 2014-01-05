@@ -79,6 +79,9 @@ class cronjob_backup extends cronjob {
 
 			$sql = "SELECT * FROM mail_user WHERE server_id = '".$conf['server_id']."' AND maildir <> ''";
 			$records = $app->db->queryAllRecords($sql);
+/*
+			if(is_array($records) && $run_backups) {
+*/
 			if(is_array($records)) {
 				foreach($records as $rec) {
 					//* Do the mailbox backup
@@ -100,7 +103,6 @@ class cronjob_backup extends cronjob {
 						if($backup_mode == 'userzip') {
 							$mail_backup_file.='.zip';
 							exec('cd '.$rec['homedir'].' && zip -b /tmp -r '.$mail_backup_dir.'/'.$mail_backup_file.' '.$source_dir.' > /dev/nul');
-							//exec('cd '.$rec['homedir'].' && zip -b /tmp -r '.$mail_backup_dir.'/'.$mail_backup_file.' '.$source_dir.' > /dev/nul');
 						} else {
 							/* Create a tar.gz backup */
 							$mail_backup_file.='.tar.gz';
@@ -117,7 +119,7 @@ class cronjob_backup extends cronjob {
 						} else {
 							/* Backup failed - remove archive */
 							if(is_file($mail_backup_dir.'/'.$mail_backup_file)) unlink($mail_backup_dir.'/'.$mail_backup_file);
-							$app->log($mail_backup_file.' NOK:'.$tmp_output, LOGLEVEL_DEBUG);
+							$app->log($mail_backup_file.' NOK:'.implode('',$tmp_output), LOGLEVEL_DEBUG);
 						}
 						/* Remove old backups */
 						$backup_copies = intval($rec['backup_copies']);
@@ -143,12 +145,14 @@ class cronjob_backup extends cronjob {
 					}
 					/* Remove inactive backups */
 					if($rec['backup_interval'] == 'none') {
+						$sql="SELECT * FROM mail_domain WHERE domain = '".$app->db->quote(explode("@",$rec['email'])[1])."'";
+						$domain_rec=$app->db->queryOneRecord($sql);
 						/* remove backups from db */
 						$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND mailuser_id = ".$rec['mailuser_id'];
 						$app->db->query($sql);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 						/* remove archives */
-						$mail_backup_dir = $backup_dir.'/mail'.$rec['sys_userid'];
+						$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];	
 						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
 						if(is_dir($mail_backup_dir)) {
 							foreach (glob($mail_backup_dir.'/'.$mail_backup_file) as $filename) {
