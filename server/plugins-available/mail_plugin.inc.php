@@ -403,7 +403,7 @@ class mail_plugin {
 				$mail_backup_dir = $backup_dir.'/mail'.$data['old']['domain_id'];
 				exec(escapeshellcmd('rm -rf '.$mail_backup_dir));
 				//* cleanup database
-				$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$data_old['domain_id'];
+				$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$data['old']['domain_id'];
 				$app->db->query($sql);
 				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 
