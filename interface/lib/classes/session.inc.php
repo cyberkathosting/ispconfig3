@@ -32,9 +32,22 @@ class session {
 
 	private $session_array = array();
 	private $db;
+	private $timeout = 0;
+	private $permanent = false;
 
-	function __construct() {
+	function __construct($session_timeout = 0) {
 		$this->db = new db;
+		$this->timeout = $session_timeout;
+	}
+	
+	function set_timeout($session_timeout = 0) {
+		$old_timeout = $this->timeout;
+		$this->timeout = $session_timeout;
+		return $old_timeout;
+	}
+	
+	function set_permanent($value = false) {
+		$this->permanent = $value;
 	}
 
 	function open ($save_path, $session_name) {
@@ -51,8 +64,12 @@ class session {
 	}
 
 	function read ($session_id) {
-
-		$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."'");
+		
+		if($this->timeout > 0) {
+			$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."' AND (`permanent` = 'y' OR last_updated >= DATE_SUB(NOW(), INTERVAL " . intval($this->timeout) . " MINUTE))");
+		} else {
+			$rec = $this->db->queryOneRecord("SELECT * FROM sys_session WHERE session_id = '".$this->db->quote($session_id)."'");
+		}
 
 		if (is_array($rec)) {
 			$this->session_array = $rec;
@@ -82,14 +99,14 @@ class session {
 			$date_created = date('Y-m-d H:i:s');
 			$last_updated = date('Y-m-d H:i:s');
 			$session_data = $this->db->quote($session_data);
-			$sql = "INSERT INTO sys_session (session_id,date_created,last_updated,session_data) VALUES ('$session_id','$date_created','$last_updated','$session_data')";
+			$sql = "INSERT INTO sys_session (session_id,date_created,last_updated,session_data,permanent) VALUES ('$session_id','$date_created','$last_updated','$session_data','" . ($this->permanent ? 'y' : 'n') . "')";
 			$this->db->query($sql);
 
 		} else {
 			$session_id   = $this->db->quote($session_id);
 			$last_updated = date('Y-m-d H:i:s');
 			$session_data = $this->db->quote($session_data);
-			$sql = "UPDATE sys_session SET last_updated = '$last_updated', session_data = '$session_data' WHERE session_id = '$session_id'";
+			$sql = "UPDATE sys_session SET last_updated = '$last_updated', session_data = '$session_data'" . ($this->permanent ? ", `permanent` = 'y'" : "") . " WHERE session_id = '$session_id'";
 			$this->db->query($sql);
 
 		}
@@ -108,12 +125,23 @@ class session {
 
 	function gc ($max_lifetime) {
 
-		$real_now = date('Y-m-d H:i:s');
-		$dt1 = strtotime("$real_now -$max_lifetime seconds");
-		$dt2 = date('Y-m-d H:i:s', $dt1);
+		/*if($this->timeout > 0) {
+			$this->db->query("DELETE FROM sys_session WHERE last_updated < DATE_SUB(NOW(), INTERVAL " . intval($this->timeout) . " MINUTE)");
+		} else {*/
+			$real_now = date('Y-m-d H:i:s');
+			$dt1 = strtotime("$real_now -$max_lifetime seconds");
+			$dt2 = date('Y-m-d H:i:s', $dt1);
 
-		$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2'";
-		$this->db->query($sql);
+			$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2' AND `permanent` != 'y'";
+			$this->db->query($sql);
+			
+			/* delete very old even if they are permanent */
+			$dt1 = strtotime("$real_now -365 days");
+			$dt2 = date('Y-m-d H:i:s', $dt1);
+
+			$sql = "DELETE FROM sys_session WHERE last_updated < '$dt2'";
+			$this->db->query($sql);
+		//}
 
 		return true;
 

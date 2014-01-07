@@ -171,7 +171,47 @@ class page_action extends tform_actions {
 
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module', 'client');
+		
 
+		//* Set the 'customer no' default value
+		if($this->id == 0) {
+			
+			if($app->auth->is_admin()) {
+				//* Logged in User is admin
+				//* get the system config
+				$app->uses('getconf');
+				$system_config = $app->getconf->get_global_config();
+				if($system_config['misc']['customer_no_template'] != '') {
+				
+					//* Set customer no default
+					$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
+					$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
+					$app->tpl->setVar('customer_no',$customer_no_string);
+				
+					//* save new counter value
+					$system_config['misc']['customer_no_counter']++;
+					$system_config_str = $app->ini_parser->get_ini_string($system_config);
+					$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				}
+			} else {
+				//* Logged in user must be a reseller
+				//* get the record of the reseller
+				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				
+				if($reseller['customer_no_template'] != '') {
+					//* Set customer no default
+					$customer_no = $app->functions->intval($reseller['customer_no_start']+$reseller['customer_no_counter']);
+					$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$reseller['customer_no_template']);
+					$app->tpl->setVar('customer_no',$customer_no_string);
+					
+					//* save new counter value
+					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
+					$app->db->query("UPDATE client SET customer_no_counter = $customer_no_counter WHERE client_id = ".$app->functions->intval($reseller['client_id']));
+				}
+			}
+		}
+		
 		parent::onShowEnd();
 
 	}

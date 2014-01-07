@@ -155,6 +155,7 @@ class ApsGUIController extends ApsBase
             CONCAT(version, '-', CAST(`release` AS CHAR)) AS current_version
             FROM aps_packages
             WHERE name = (SELECT name FROM aps_packages WHERE id = ".$app->db->quote($id).")
+            AND package_status = 2
             ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC");
 
 		if(!empty($result) && ($id != $result['id'])) return $result['id'];

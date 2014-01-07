@@ -58,7 +58,7 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$form["tabs"]['mailuser'] = array (
+$form["tabs"]['mailuser'] = array(
 	'title'  => "Mailbox",
 	'width'  => 100,
 	'template'  => "templates/mail_user_mailbox_edit.htm",
@@ -109,7 +109,7 @@ $form["tabs"]['mailuser'] = array (
 				0 => array (  'type'  => 'UNIQUE',
 					'errmsg'=> 'login_error_unique'),
 				1 => array (  'type'  => 'REGEX',
-					'regex' => '/^[a-z0-9][\w\.\-_\+@]{1,63}$/',
+					'regex' => '/^[_a-z0-9][\w\.\-_\+@]{1,63}$/',
 					'errmsg'=> 'login_error_regex'),
 			),
 			'default' => '',
@@ -231,6 +231,12 @@ $form["tabs"]['mailuser'] = array (
 		//#################################
 	)
 );
+
+if($global_config['mail']['mail_password_onlyascii'] == 'y') {
+	$form['tabs']['mailuser']['fields']['password']['validators'] = array( 0 => array( 'type' => 'ISASCII',
+		'errmsg' => 'email_error_isascii')
+	);
+}
 
 if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 	$form["tabs"]['autoresponder'] = array (

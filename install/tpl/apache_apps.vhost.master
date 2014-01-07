@@ -11,6 +11,10 @@
   ServerAdmin webmaster@localhost
   {apps_vhost_servername}
   
+  <FilesMatch "\.ph(p3?|tml)$">
+    SetHandler None
+  </FilesMatch>
+  
   <IfModule mod_php5.c>
     DocumentRoot {apps_vhost_dir}
     AddType application/x-httpd-php .php
@@ -31,12 +35,11 @@
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
       FCGIWrapper {website_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
+	  # FcgidBusyTimeout 3600
       Order allow,deny
       Allow from all
     </Directory>
   </IfModule>
-  
-  ServerSignature Off
 
 </VirtualHost>
 

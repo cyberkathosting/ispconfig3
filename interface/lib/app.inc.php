@@ -66,6 +66,31 @@ class app {
 		if($this->_conf['start_session'] == true) {
 
 			$this->uses('session');
+			$tmp = $this->db->queryOneRecord("SELECT `value` FROM sys_config WHERE `config_id` = 2 AND `group` = 'interface' AND `name` = 'session_timeout'");
+			if($tmp && $tmp['value'] > 0) {
+				/* check if user wants to stay logged in */
+				if(isset($_POST['s_mod']) && isset($_POST['s_pg']) && $_POST['s_mod'] == 'login' && $_POST['s_pg'] == 'index' && isset($_POST['stay']) && $_POST['stay'] == '1') {
+					/* check if staying logged in is allowed */
+					$this->uses('ini_parser');
+					$tmp = $this->db->queryOneRecord('SELECT config FROM sys_ini WHERE sysini_id = 1');
+					$tmp = $this->ini_parser->parse_ini_string(stripslashes($tmp['config']));
+					if(!isset($tmp['misc']['session_allow_endless']) || $tmp['misc']['session_allow_endless'] != 'y') {
+						$this->session->set_timeout($tmp['value']);
+						session_set_cookie_params(($tmp['value'] * 60) + 300); // make the cookie live 5 minutes longer
+					} else {
+						// we are doing login here, so we need to set the session data
+						$this->session->set_permanent(true);
+						$this->session->set_timeout(365 * 24 * 3600); // one year
+						session_set_cookie_params(365 * 24 * 3600); // make the cookie live 5 minutes longer
+					}
+				} else {
+					$this->session->set_timeout($tmp['value']);
+					session_set_cookie_params(($tmp['value'] * 60) + 300); // make the cookie live 5 minutes longer
+				}
+			} else {
+				session_set_cookie_params(0); // until browser is closed
+			}
+			
 			session_set_save_handler( array($this->session, 'open'),
 				array($this->session, 'close'),
 				array($this->session, 'read'),
@@ -74,7 +99,7 @@ class app {
 				array($this->session, 'gc'));
 
 			session_start();
-
+			
 			//* Initialize session variables
 			if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
 			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];

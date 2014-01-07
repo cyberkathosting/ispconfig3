@@ -166,4 +166,10 @@ $wb["mail_servers_txt"] = 'Mailservers';
 $wb["mail_servers_placeholder"] = 'Select Mailservers';
 $wb['no_mail_server_error'] = 'At least one Mailserver must be selected.';
 $wb['mail_servers_used'] = 'The server you are trying to remove from this client is used as a Mailserver. Be sure that this server is not used by this client before to remove it.';
+$wb['customer_no_template_txt'] = 'Customer No. template';
+$wb['customer_no_template_error_regex_txt'] = 'The customer No. template contains invalid characters';
+$wb['customer_no_start_txt'] = 'Customer No. start value';
+$wb['customer_no_counter_txt'] = 'Customer No. counter';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
 ?>

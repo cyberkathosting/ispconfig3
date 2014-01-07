@@ -523,6 +523,18 @@ $form["tabs"]['backup'] = array (
 			'default' => '',
 			'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
 		),
+		'backup_excludes' => array (
+			'datatype' => 'VARCHAR',
+			'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,*]*$@',
+					'errmsg'=> 'backup_excludes_error_regex'),
+			),
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
@@ -720,6 +732,28 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'value'  => '',
 				'width'  => '30',
 				'maxlength' => '255'
+			),
+			'added_date' => array (
+				'datatype'	=> 'DATE',
+				'formtype'	=> 'TEXT',
+				'default'	=> date($app->lng('conf_format_dateshort')),
+				'value'		=> '',
+				'separator'	=> '',
+				'width'		=> '15',
+				'maxlength'	=> '15',
+				'rows'		=> '',
+				'cols'		=> ''
+			),
+			'added_by' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => $_SESSION['s']['user']['username'],
+				'value'  => '',
+				'separator' => '',
+				'width'  => '30',
+				'maxlength' => '255',
+				'rows'  => '',
+				'cols'  => ''
 			),
 			//#################################
 			// ENDE Datatable fields

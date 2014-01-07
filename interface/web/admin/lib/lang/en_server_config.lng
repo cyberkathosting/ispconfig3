@@ -194,4 +194,6 @@ $wb['munin_url_note_txt'] = 'Placeholder:';
 $wb["v6_prefix_txt"] = 'IPv6 Prefix';
 $wb["vhost_rewrite_v6_txt"] = 'Rewrite IPv6 on Mirror';
 $wb["v6_prefix_length"] = 'Prefix too long according to defined IPv6 ';
+$wb['backup_dir_is_mount_txt'] = 'Backup directory is a mount?';
+$wb['backup_dir_mount_cmd_txt'] = 'Mount command, if backup directory not mounted';
 ?>

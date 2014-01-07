@@ -44,14 +44,14 @@ $revision = str_replace(array('Revision:', '$', ' '), '', $svn_revision);
 
 //** Application
 define('ISPC_APP_TITLE', 'ISPConfig');
-define('ISPC_APP_VERSION', '3.0.2');
+define('ISPC_APP_VERSION', '3.0.5.3');
 define('DEVSYSTEM', 0);
 
 
 //** Database
 $conf['db_type'] = 'mysql';
 $conf['db_host'] = 'localhost';
-$conf['db_database'] = 'ispconfig3';
+$conf['db_database'] = 'ispconfig3_305';
 $conf['db_user'] = 'root';
 $conf['db_password'] = '';
 $conf['db_charset'] = 'utf8'; // same charset as html-charset - (HTML --> MYSQL: "utf-8" --> "utf8", "iso-8859-1" --> "latin1")

@@ -611,6 +611,13 @@ class page_action extends tform_actions {
 			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
 			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
 
+			// only generate quota and traffic warnings if value has changed
+			if($this->id > 0) {
+				$old_web_values = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+			}  else {
+				$old_web_values = array();
+			}
+
 			//* Check the website quota of the client
 			if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
@@ -855,8 +862,10 @@ class page_action extends tform_actions {
 		$php_open_basedir = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
 		$php_open_basedir = $app->db->quote(str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir));
 		$htaccess_allow_override = $app->db->quote($web_config["htaccess_allow_override"]);
+		$added_date = date($app->lng('conf_format_dateshort'));
+		$added_by = $app->db->quote($_SESSION['s']['user']['username']);
 
-		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
+		$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir', added_date = '$added_date', added_by = '$added_by'  WHERE domain_id = ".$this->id;
 		$app->db->query($sql);
 	}
 

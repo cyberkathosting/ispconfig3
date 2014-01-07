@@ -19,7 +19,15 @@
             <div class="ctrlHolder">
                 <label for="passwort">{tmpl_var name='password_txt'}</label>
                 <input name="passwort" id="passwort" value="" size="30" maxlength="255" type="password" class="formLengthEmailUser"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
-            </div>			
+            </div>
+            <tmpl_if name="session_timeout" op=">" value="0">
+				<tmpl_if name="session_allow_endless" value="y">
+            <div class="ctrlHolder">
+                <label for="passwort">{tmpl_var name='stay_logged_in_txt'}</label>
+                <input name="stay" id="stay" value="1" type="checkbox" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
+            </div>
+				</tmpl_if>
+            </tmpl_if>
         </fieldset>
 
         <input type="hidden" name="s_mod" value="login" />

@@ -236,6 +236,11 @@ CREATE TABLE `client` (
   `tmp_data` mediumblob,
   `id_rsa` varchar(2000) NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
+  `customer_no_template` varchar(255) DEFAULT 'C[CUSTOMER_NO]',
+  `customer_no_start` int(11) NOT NULL DEFAULT '1',
+  `customer_no_counter` int(11) NOT NULL DEFAULT '0',
+  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`client_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -977,7 +982,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ostemplate` (
 -- Dumping data for table `openvz_ostemplate`
 --
 
-INSERT INTO `openvz_ostemplate` (`ostemplate_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `template_name`, `template_file`, `server_id`, `allservers`, `active`, `description`) VALUES(1, 1, 1, 'riud', 'riud', '', 'Debian minimal', 'debian-minimal-x86', 1, 'y', 'y', 'Debain minmal image.');
+INSERT INTO `openvz_ostemplate` (`ostemplate_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `template_name`, `template_file`, `server_id`, `allservers`, `active`, `description`) VALUES(1, 1, 1, 'riud', 'riud', '', 'Debian minimal', 'debian-minimal-x86', 1, 'y', 'y', 'Debian minimal image.');
 
 -- --------------------------------------------------------
 
@@ -1606,6 +1611,7 @@ CREATE TABLE `sys_session` (
   `session_id` varchar(64) NOT NULL DEFAULT '',
   `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `permanent` enum('n','y') NOT NULL DEFAULT 'n',
   `session_data` longtext,
   PRIMARY KEY (`session_id`),
   KEY `last_updated` (`last_updated`)
@@ -1820,12 +1826,15 @@ CREATE TABLE `web_domain` (
   `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
+  `backup_excludes` mediumtext,
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
+  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2240,5 +2249,6 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 --
 
 INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.3');
+INSERT INTO sys_config VALUES ('2','interface','session_timeout','0');
 
 SET FOREIGN_KEY_CHECKS = 1;

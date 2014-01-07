@@ -85,21 +85,59 @@ class login_index {
 				 */
 				if (isset($_SESSION['s']['user']) && $_SESSION['s']['user']['active'] == 1){
 					/*
-					 * only the admin can "login as" so if the user is NOT a admin, we
+					 * only the admin or reseller can "login as" so if the user is NOT an admin or reseller, we
 					 * open the startpage (after killing the old session), so the user
 					 * is logout and has to start again!
 					 */
-					if ($_SESSION['s']['user']['typ'] != 'admin') {
+					if ($_SESSION['s']['user']['typ'] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 						/*
-						 * The actual user is NOT a admin, but maybe the admin
-						 * has logged in as "normal" user bevore...
+						 * The actual user is NOT a admin or reseller, but maybe he
+						 * has logged in as "normal" user before...
 						 */
-						if (isset($_SESSION['s_old'])&& ($_SESSION['s_old']['user']['typ'] == 'admin')){
-							/* The "old" user is admin, so everything is ok */
+						
+						if (isset($_SESSION['s_old'])&& ($_SESSION['s_old']['user']['typ'] == 'admin' || $app->auth->has_clients($_SESSION['s_old']['user']['userid']))){
+							/* The "old" user is admin or reseller, so everything is ok
+							 * if he is reseller, we need to check if he logs in to one of his clients
+							 */
+							if($_SESSION['s_old']['user']['typ'] != 'admin') {
+								
+								/* this is the one currently logged in (normal user) */
+								$old_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+								$old_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $old_client_group_id");
+								
+								/* this is the reseller, that shall be re-logged in */
+								$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
+								$tmp = $app->db->queryOneRecord($sql);
+								$client_group_id = $app->functions->intval($tmp['default_group']);
+								$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								
+								if(!$tmp_client || $old_client["parent_client_id"] != $tmp_client["client_id"] || $tmp["default_group"] != $_SESSION["s_old"]["user"]["default_group"] ) {
+									die("You don't have the right to 'login as' this user!");
+								}
+								unset($old_client);
+								unset($tmp_client);
+								unset($tmp);
+							}
 						}
 						else {
 							die("You don't have the right to 'login as'!");
 						}
+					} elseif($_SESSION['s']['user']['typ'] != 'admin' && (!isset($_SESSION['s_old']['user']) || $_SESSION['s_old']['user']['typ'] != 'admin')) {
+						/* a reseller wants to 'login as', we need to check if he is allowed to */
+						$res_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $res_client_group_id");
+						
+						/* this is the user the reseller wants to 'login as' */
+						$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
+						$tmp = $app->db->queryOneRecord($sql);
+						$tmp_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = " . $app->functions->intval($tmp["default_group"]));
+						
+						if(!$tmp || $tmp_client["parent_client_id"] != $res_client["client_id"]) {
+							die("You don't have the right to login as this user!");
+						}
+						unset($res_client);
+						unset($tmp);
+						unset($tmp_client);
 					}
 					$loginAs = true;
 				}
@@ -192,7 +230,7 @@ class login_index {
 								$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 								$_SESSION['s']['language'] = $user['language'];
 								$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
-
+								
 								if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 									include_once $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
 									$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
@@ -279,12 +317,15 @@ class login_index {
 		if($error != ''){
 			$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
-
+		
 		$app->tpl->setVar('error', $error);
 		$app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));
+		$app->tpl->setVar('stay_logged_in_txt', $app->lng('stay_logged_in_txt'));
 		$app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
+		$app->tpl->setVar('session_timeout', $server_config_array['session_timeout']);
+		$app->tpl->setVar('session_allow_endless', $server_config_array['session_allow_endless']);
 		$app->tpl->setInclude('content_tpl', 'login/templates/index.htm');
 		$app->tpl_defaults();
 

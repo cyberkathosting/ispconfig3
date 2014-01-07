@@ -11,18 +11,9 @@
   ServerAdmin webmaster@localhost
   {apps_vhost_servername}
   
-  <IfModule mod_fcgid.c>
-    DocumentRoot {apps_vhost_dir}
-    SuexecUserGroup ispapps ispapps
-    <Directory {apps_vhost_dir}>
-      Options Indexes FollowSymLinks MultiViews +ExecCGI
-      AllowOverride AuthConfig Indexes Limit Options FileInfo
-      AddHandler fcgid-script .php
-      FCGIWrapper {apps_vhost_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
-      Order allow,deny
-      Allow from all
-    </Directory>
-  </IfModule>
+  <FilesMatch "\.ph(p3?|tml)$">
+    SetHandler None
+  </FilesMatch>
   
   <IfModule mod_php5.c>
     DocumentRoot {apps_vhost_dir}
@@ -35,7 +26,18 @@
     </Directory>
   </IfModule>
   
-  ServerSignature Off
+  <IfModule mod_fcgid.c>
+    DocumentRoot {apps_vhost_dir}
+    SuexecUserGroup ispapps ispapps
+    <Directory {apps_vhost_dir}>
+      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      AllowOverride AuthConfig Indexes Limit Options FileInfo
+      AddHandler fcgid-script .php
+      FCGIWrapper {apps_vhost_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </IfModule>
 
 </VirtualHost>
 

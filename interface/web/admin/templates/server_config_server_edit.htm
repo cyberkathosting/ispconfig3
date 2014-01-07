@@ -58,6 +58,16 @@
                 <label for="backup_dir">{tmpl_var name='backup_dir_txt'}</label>
                 <input name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
+			<div class="ctrlHolder">
+                <p class="label">{tmpl_var name='backup_dir_is_mount_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='backup_dir_is_mount'}
+                </div>
+            </div>
+			<div class="ctrlHolder">
+                <label for="backup_dir_mount_cmd">{tmpl_var name='backup_dir_mount_cmd_txt'}</label>
+                <input name="backup_dir_mount_cmd" id="backup_dir_mount_cmd" value="{tmpl_var name='backup_dir_mount_cmd'}" size="40" maxlength="255" type="text" class="textInput" />
+            </div>
             <div class="ctrlHolder">
                 <label for="backup_mode">{tmpl_var name='backup_mode_txt'}</label>
                 <select name="backup_mode" id="backup_mode" class="selectInput">

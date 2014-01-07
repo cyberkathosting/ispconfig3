@@ -150,7 +150,7 @@ function start_domain_import($mail_domain) {
 	if($sys_userid == 0) $error .= 'Inavlid Userid<br />';
 
 	//* Get the mail server ID
-	$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE mail_server = 1 LIMIT 0,1");
+	$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE mail_server = 1 and mirror_server_id = 0 LIMIT 0,1");
 	$server_id = intval($tmp['server_id']);
 	unset($tmp);
 	if($server_id == 0) $server_id = 1;

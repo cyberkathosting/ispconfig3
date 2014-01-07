@@ -168,4 +168,6 @@ $wb["mail_servers_txt"] = 'Mailservers';
 $wb["mail_servers_placeholder"] = 'Select Mailservers';
 $wb['no_mail_server_error'] = 'At least one Mailserver must be selected.';
 $wb['mail_servers_used'] = 'The server you are trying to remove from this client is used as a Mailserver. Be sure that this server is not used by this client before to remove it.';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
 ?>

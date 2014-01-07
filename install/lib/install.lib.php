@@ -811,6 +811,8 @@ function get_system_timezone() {
 		exec('date +%Z', $tzinfo);
 		$timezone = $tzinfo[0];
 	}
+	
+	if(substr($timezone, 0, 1) === '/') $timezone = substr($timezone, 1);
 
 	return $timezone;
 }

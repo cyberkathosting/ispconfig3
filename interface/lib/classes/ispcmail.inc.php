@@ -697,11 +697,11 @@ class ispcmail {
 				$recipname = $this->_encodeHeader($recipname, $this->mail_charset);
 
 				//Email From
-				fputs($this->_smtp_conn, 'MAIL FROM: ' . $this->_mail_sender . $this->_crlf);
+				fputs($this->_smtp_conn, 'MAIL FROM: <' . $this->_mail_sender . '>' . $this->_crlf);
 				$response = fgets($this->_smtp_conn, 515);
 
 				//Email To
-				fputs($this->_smtp_conn, 'RCPT TO: ' . $recip . $this->_crlf);
+				fputs($this->_smtp_conn, 'RCPT TO: <' . $recip . '>' . $this->_crlf);
 				$response = fgets($this->_smtp_conn, 515);
 
 				//The Email

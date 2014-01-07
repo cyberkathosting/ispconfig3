@@ -66,89 +66,104 @@ class backup_plugin {
 
 		if(is_array($backup)) {
 
-			$app->uses('ini_parser,file,getconf');
+			$app->uses('ini_parser,file,getconf,system');
 
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
-
-			//* Make backup available for download
-			if($action_name == 'backup_download') {
-				//* Copy the backup file to the backup folder of the website
-				if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
-					copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
-					chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
-					$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'], LOGLEVEL_DEBUG);
+			
+			//* mount backup directory, if necessary
+			$backup_dir_is_ready = true;
+			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
+			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+				if(!$app->system->is_mounted($backup_dir)){
+					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+					sleep(1);
+					if(!$app->system->is_mounted($backup_dir)) $backup_dir_is_ready = false;
 				}
 			}
 
-			//* Restore a MongoDB backup
-			if($action_name == 'backup_restore' && $backup['backup_type'] == 'mongodb') {
-				if(file_exists($backup_dir.'/'.$backup['filename'])) {
-					//$parts = explode('_',$backup['filename']);
-					//$db_name = $parts[1];
-					preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.tar\.gz$@', $backup['filename'], $matches);
-					$db_name = $matches[1];
-
-					// extract tar.gz archive
-					$dump_directory = str_replace(".tar.gz", "", $backup['filename']);
-					$extracted = "/usr/local/ispconfig/server/temp";
-					exec("tar -xzvf ".escapeshellarg($backup_dir.'/'.$backup['filename'])." --directory=".escapeshellarg($extracted));
-					$restore_directory = $extracted."/".$dump_directory."/".$db_name;
-
-					// mongorestore -h 127.0.0.1 -u root -p 123456 --authenticationDatabase admin -d c1debug --drop ./toRestore
-					$command = "mongorestore -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ".$db_name." --drop ".escapeshellarg($restore_directory);
-					exec($command);
-					exec("rm -rf ".escapeshellarg($extracted."/".$dump_directory));
-				}
-
-				unset($clientdb_host);
-				unset($clientdb_user);
-				unset($clientdb_password);
-				$app->log('Restored MongoDB backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
-			}
-
-			//* Restore a mysql backup
-			if($action_name == 'backup_restore' && $backup['backup_type'] == 'mysql') {
-				//* Load sql dump into db
-				include 'lib/mysql_clientdb.conf';
-
-				if(file_exists($backup_dir.'/'.$backup['filename'])) {
-					//$parts = explode('_',$backup['filename']);
-					//$db_name = $parts[1];
-					preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql\.gz$@', $backup['filename'], $matches);
-					$db_name = $matches[1];
-					$command = "gunzip --stdout ".escapeshellarg($backup_dir.'/'.$backup['filename'])." | mysql -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' '".$db_name."'";
-					exec($command);
-				}
-				unset($clientdb_host);
-				unset($clientdb_user);
-				unset($clientdb_password);
-				$app->log('Restored MySQL backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
-			}
-
-			//* Restore a web backup
-			if($action_name == 'backup_restore' && $backup['backup_type'] == 'web') {
-				if($backup['backup_mode'] == 'userzip') {
-					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
-						if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename'].'.bak');
+			if($backup_dir_is_ready){
+				//* Make backup available for download
+				if($action_name == 'backup_download') {
+					//* Copy the backup file to the backup folder of the website
+					if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 						copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
 						chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
-						//chown($web['document_root'].'/backup/'.$backup['filename'],$web['system_user']);
-						$command = 'sudo -u '.escapeshellarg($web['system_user']).' unzip -qq -o  '.escapeshellarg($web['document_root'].'/backup/'.$backup['filename']).' -d '.escapeshellarg($web['document_root']).' 2> /dev/null';
-						exec($command);
-						unlink($web['document_root'].'/backup/'.$backup['filename']);
-						if(file_exists($web['document_root'].'/backup/'.$backup['filename'].'.bak')) rename($web['document_root'].'/backup/'.$backup['filename'].'.bak', $web['document_root'].'/backup/'.$backup['filename']);
-						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+						$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}
-				if($backup['backup_mode'] == 'rootgz') {
-					if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
-						$command = 'tar xzf '.escapeshellarg($backup_dir.'/'.$backup['filename']).' --directory '.escapeshellarg($web['document_root']);
+
+				//* Restore a MongoDB backup
+				if($action_name == 'backup_restore' && $backup['backup_type'] == 'mongodb') {
+					if(file_exists($backup_dir.'/'.$backup['filename'])) {
+						//$parts = explode('_',$backup['filename']);
+						//$db_name = $parts[1];
+						preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.tar\.gz$@', $backup['filename'], $matches);
+						$db_name = $matches[1];
+
+						// extract tar.gz archive
+						$dump_directory = str_replace(".tar.gz", "", $backup['filename']);
+						$extracted = "/usr/local/ispconfig/server/temp";
+						exec("tar -xzvf ".escapeshellarg($backup_dir.'/'.$backup['filename'])." --directory=".escapeshellarg($extracted));
+						$restore_directory = $extracted."/".$dump_directory."/".$db_name;
+
+						// mongorestore -h 127.0.0.1 -u root -p 123456 --authenticationDatabase admin -d c1debug --drop ./toRestore
+						$command = "mongorestore -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ".$db_name." --drop ".escapeshellarg($restore_directory);
 						exec($command);
-						$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+						exec("rm -rf ".escapeshellarg($extracted."/".$dump_directory));
+					}
+
+					unset($clientdb_host);
+					unset($clientdb_user);
+					unset($clientdb_password);
+					$app->log('Restored MongoDB backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+				}
+
+				//* Restore a mysql backup
+				if($action_name == 'backup_restore' && $backup['backup_type'] == 'mysql') {
+					//* Load sql dump into db
+					include 'lib/mysql_clientdb.conf';
+
+					if(file_exists($backup_dir.'/'.$backup['filename'])) {
+						//$parts = explode('_',$backup['filename']);
+						//$db_name = $parts[1];
+						preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql\.gz$@', $backup['filename'], $matches);
+						$db_name = $matches[1];
+						$command = "gunzip --stdout ".escapeshellarg($backup_dir.'/'.$backup['filename'])." | mysql -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' '".$db_name."'";
+						exec($command);
+					}
+					unset($clientdb_host);
+					unset($clientdb_user);
+					unset($clientdb_password);
+					$app->log('Restored MySQL backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+				}
+
+				//* Restore a web backup
+				if($action_name == 'backup_restore' && $backup['backup_type'] == 'web') {
+					if($backup['backup_mode'] == 'userzip') {
+						if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+							if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename'].'.bak');
+							copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
+							chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
+							//chown($web['document_root'].'/backup/'.$backup['filename'],$web['system_user']);
+							$command = 'sudo -u '.escapeshellarg($web['system_user']).' unzip -qq -o  '.escapeshellarg($web['document_root'].'/backup/'.$backup['filename']).' -d '.escapeshellarg($web['document_root']).' 2> /dev/null';
+							exec($command);
+							unlink($web['document_root'].'/backup/'.$backup['filename']);
+							if(file_exists($web['document_root'].'/backup/'.$backup['filename'].'.bak')) rename($web['document_root'].'/backup/'.$backup['filename'].'.bak', $web['document_root'].'/backup/'.$backup['filename']);
+							$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+						}
+					}
+					if($backup['backup_mode'] == 'rootgz') {
+						if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+							$command = 'tar xzf '.escapeshellarg($backup_dir.'/'.$backup['filename']).' --directory '.escapeshellarg($web['document_root']);
+							exec($command);
+							$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+						}
 					}
 				}
+			} else {
+				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
 		//* Restore a mail backup - florian@schaal-24.de
 		} elseif (is_array($mail_backup) && $action_name == 'backup_restore') {

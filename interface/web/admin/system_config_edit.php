@@ -141,14 +141,17 @@ class page_action extends tform_actions {
 		*/
 
 		$new_config = $app->tform->encode($this->dataRecord, $section);
-		if($section == 'sites' && $new_config['vhost_subdomains'] != 'y' && $server_config_array['vhost_subdomains'] == 'y') {
+		if($section == 'sites' && $new_config['vhost_subdomains'] != 'y' && $server_config_array['sites']['vhost_subdomains'] == 'y') {
 			// check for existing vhost subdomains, if found the mode cannot be disabled
 			$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain'");
 			if($check['cnt'] > 0) {
 				$new_config['vhost_subdomains'] = 'y';
 			}
 		} elseif($section == 'mail') {
-			if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['smtp_pass'];
+			if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['mail']['smtp_pass'];
+		} elseif($section == 'misc' && $new_config['session_timeout'] != $server_config_array['misc']['session_timeout']) {
+			$app->db->query("DELETE FROM sys_config WHERE `config_id` = 2 AND `group` = 'interface' AND `name` = 'session_timeout'");
+			$app->db->query("INSERT INTO sys_config (`config_id`, `group`, `name`, `value`) VALUES (2, 'interface', 'session_timeout', '" . intval($new_config['session_timeout']) . "')");
 		}
 		$server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
