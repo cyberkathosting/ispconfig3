@@ -1984,7 +1984,7 @@ class apache2_plugin {
 				$app->services->restartServiceDelayed('httpd', 'reload');
 			}
 
-			//* Remove the web-backups
+			//* Delete the web-backups
 			if($data['old']['type'] == 'vhost') {
 				$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 				$backup_dir = $server_config['backup_dir'];
@@ -2000,7 +2000,6 @@ class apache2_plugin {
 						}
 					}
 					if($mount_backup){
-						//* remove web-archives
 						$web_backup_dir = $backup_dir.'/web'.$data_old['domain_id'];
 						//** do not use rm -rf $web_backup_dir because database(s) may exits
 						exec(escapeshellcmd('rm -f '.$web_backup_dir.'/web'.$data_old['domain_id'].'_').'*');
@@ -2008,9 +2007,10 @@ class apache2_plugin {
 						$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$data_old['domain_id']." AND filename LIKE 'web".$data_old['domain_id']."_%'";
 						$app->db->query($sql);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+
+						$app->log('Deleted the web backup files', LOGLEVEL_DEBUG);
 					}
 				}
-				unset($server_config);
 			}
 		}
 		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'], true);
