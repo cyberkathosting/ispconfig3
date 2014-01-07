@@ -1984,6 +1984,34 @@ class apache2_plugin {
 				$app->services->restartServiceDelayed('httpd', 'reload');
 			}
 
+			//* Remove the web-backups
+			if($data['old']['type'] == 'vhost') {
+				$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+				$backup_dir = $server_config['backup_dir'];
+				//* mount backup directory, if necessary
+				$mount_backup = true;
+				$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
+				if($server_config['backup_dir'] != '') {
+					if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+						if(!$app->system->is_mounted($backup_dir)){
+							exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+							sleep(1);
+							if(!$app->system->is_mounted($backup_dir)) $mount_backup = false;
+						}
+					}
+					if($mount_backup){
+						//* remove web-archives
+						$web_backup_dir = $backup_dir.'/web'.$data_old['domain_id'];
+						//** do not use rm -rf $web_backup_dir because database(s) may exits
+						exec(escapeshellcmd('rm -f '.$web_backup_dir.'/web'.$data_old['domain_id'].'_').'*');
+						//* cleanup database
+						$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$data_old['domain_id']." AND filename LIKE 'web".$data_old['domain_id']."_%'";
+						$app->db->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+					}
+				}
+				unset($server_config);
+			}
 		}
 		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'], true);
 	}
