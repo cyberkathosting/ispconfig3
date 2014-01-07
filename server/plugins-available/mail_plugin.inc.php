@@ -317,12 +317,44 @@ class mail_plugin {
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
+		$maildir_path_deleted = false;
 		$old_maildir_path = escapeshellcmd($data['old']['maildir']);
 		if($old_maildir_path != $mail_config['homedir_path'] && strlen($old_maildir_path) > strlen($mail_config['homedir_path']) && !stristr($old_maildir_path, '//') && !stristr($old_maildir_path, '..') && !stristr($old_maildir_path, '*') && strlen($old_maildir_path) >= 10) {
 			exec('rm -rf '.escapeshellcmd($old_maildir_path));
 			$app->log('Deleted the Maildir: '.$data['old']['maildir'], LOGLEVEL_DEBUG);
+			$maildir_path_deleted = true;
 		} else {
 			$app->log('Possible security violation when deleting the maildir: '.$data['old']['maildir'], LOGLEVEL_ERROR);
+		}
+		//* Delete the mail-backups
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		$backup_dir = $server_config['backup_dir'];
+		//* mount backup directory, if necessary
+		$mount_backup = true;
+		$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
+		if($server_config['backup_dir'] != '' && $maildir_path_deleted) {
+			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+				if(!$app->system->is_mounted($backup_dir)){
+					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+					sleep(1);
+					if(!$app->system->is_mounted($backup_dir)) $mount_backup = false;
+				}
+			}
+			if($mount_backup){
+				$sql = "SELECT * FROM mail_domain WHERE domain = '".explode("@",$data['old']['email'])[1]."'";
+				$domain_rec = $app->db->queryOneRecord($sql);
+				$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
+				$mail_backup_files = 'mail'.$data['old']['mailuser_id'];
+				exec(escapeshellcmd('rm -f '.$mail_backup_dir.'/'.$mail_backup_files).'*');
+				//* cleanup database
+				$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND mailuser_id = ".$data['old']['mailuser_id'];
+				$app->db->query($sql);
+				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+
+				$app->log('Deleted the mail backups for: '.$data['old']['email'], LOGLEVEL_DEBUG);
+				
+				
+			}
 		}
 	}
 
@@ -333,11 +365,13 @@ class mail_plugin {
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
+		$maildomain_path_deleted = false;
 		//* Delete maildomain path
 		$old_maildomain_path = escapeshellcmd($mail_config['homedir_path'].'/'.$data['old']['domain']);
 		if($old_maildomain_path != $mail_config['homedir_path'] && !stristr($old_maildomain_path, '//') && !stristr($old_maildomain_path, '..') && !stristr($old_maildomain_path, '*') && !stristr($old_maildomain_path, '&') && strlen($old_maildomain_path) >= 10  && !empty($data['old']['domain'])) {
 			exec('rm -rf '.escapeshellcmd($old_maildomain_path));
 			$app->log('Deleted the mail domain directory: '.$old_maildomain_path, LOGLEVEL_DEBUG);
+			$maildomain_path_deleted = true;
 		} else {
 			$app->log('Possible security violation when deleting the mail domain directory: '.$old_maildomain_path, LOGLEVEL_ERROR);
 		}
@@ -350,6 +384,33 @@ class mail_plugin {
 		} else {
 			$app->log('Possible security violation when deleting the mail domain mailfilter directory: '.$old_maildomain_path, LOGLEVEL_ERROR);
 		}
+		
+		//* Delete the mail-backups
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		$backup_dir = $server_config['backup_dir'];
+		//* mount backup directory, if necessary
+		$mount_backup = true;
+		$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
+		if($server_config['backup_dir'] != '' && $maildomain_path_deleted) {
+			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+				if(!$app->system->is_mounted($backup_dir)){
+					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+					sleep(1);
+					if(!$app->system->is_mounted($backup_dir)) $mount_backup = false;
+				}
+			}
+			if($mount_backup){
+				$mail_backup_dir = $backup_dir.'/mail'.$data['old']['domain_id'];
+				exec(escapeshellcmd('rm -rf '.$mail_backup_dir));
+				//* cleanup database
+				$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$data['old']['domain_id'];
+				$app->db->query($sql);
+				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+
+				$app->log('Deleted the mail backup directory: '.$mail_backup_dir, LOGLEVEL_DEBUG);
+			}
+		}
+
 	}
 
 	function transport_update($event_name, $data) {
