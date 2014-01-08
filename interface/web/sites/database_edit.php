@@ -275,7 +275,26 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-
+		
+		if ($app->tform->errorMessage == '') {
+			// force update of the used database user
+			if($this->dataRecord['database_user_id']) {
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_user_id']));
+				if($user_old_rec) {
+					$user_new_rec = $user_old_rec;
+					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
+					$app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->dataRecord['database_user_id'], $user_old_rec, $user_new_rec);
+				}
+			}
+			if($this->dataRecord['database_ro_user_id']) {
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_ro_user_id']));
+				if($user_old_rec) {
+					$user_new_rec = $user_old_rec;
+					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
+					$app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->dataRecord['database_ro_user_id'], $user_old_rec, $user_new_rec);
+				}
+			}
+		}
 
 		parent::onBeforeUpdate();
 	}
@@ -343,6 +362,27 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+
+		if ($app->tform->errorMessage == '') {
+			// force update of the used database user
+			if($this->dataRecord['database_user_id']) {
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_user_id']));
+				if($user_old_rec) {
+					$user_new_rec = $user_old_rec;
+					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
+					$app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->dataRecord['database_user_id'], $user_old_rec, $user_new_rec);
+				}
+			}
+			if($this->dataRecord['database_ro_user_id']) {
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_ro_user_id']));
+				if($user_old_rec) {
+					$user_new_rec = $user_old_rec;
+					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
+					$app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->dataRecord['database_ro_user_id'], $user_old_rec, $user_new_rec);
+				}
+			}
+		}
+
 
 		parent::onBeforeInsert();
 	}
