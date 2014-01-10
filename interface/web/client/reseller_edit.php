@@ -153,9 +153,11 @@ class page_action extends tform_actions {
 				$app->tpl->setVar('customer_no',$customer_no_string);
 				
 				//* save new counter value
+				/*
 				$system_config['misc']['customer_no_counter']++;
 				$system_config_str = $app->ini_parser->get_ini_string($system_config);
 				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				*/
 			}
 		}
 		
@@ -210,6 +212,20 @@ class page_action extends tform_actions {
 
 		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);
+		
+		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
+			//* get the system config
+			$app->uses('getconf');
+			$system_config = $app->getconf->get_global_config();
+			if($system_config['misc']['customer_no_template'] != '') {
+				
+				//* save new counter value
+				$system_config['misc']['customer_no_counter']++;
+				$system_config_str = $app->ini_parser->get_ini_string($system_config);
+				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				
+			}
+		}
 
 		parent::onAfterInsert();
 	}
