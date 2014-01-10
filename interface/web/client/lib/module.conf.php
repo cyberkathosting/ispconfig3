@@ -66,6 +66,21 @@ $module["nav"][] = array(   'title' => 'Messaging',
 
 unset($items);
 
+//if($_SESSION["s"]["user"]["typ"] == 'admin'){
+	$items[] = array(   'title'  => "Limit-Templates",
+		'target'  => 'content',
+		'link' => 'client/client_template_list.php',
+		'html_id'   => 'client_template_list');
+
+
+$module["nav"][] = array(   'title' => 'Templates',
+	'open'  => 1,
+	'items' => $items);
+
+unset($items);
+//}
+
+
 $app->uses('ini_parser,getconf');
 $settings = $app->getconf->get_global_config('domains');
 

@@ -92,6 +92,11 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+		
+		//* Resellers shall not be able to create another reseller
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			$this->dataRecord['limit_client'] = 0;
+		}
 
 		if($this->id != 0) {
 			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $this->id);
