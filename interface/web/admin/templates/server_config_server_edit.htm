@@ -74,6 +74,12 @@
                     {tmpl_var name='backup_mode'}
                 </select>
             </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='backup_delete_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='backup_delete'}
+                </div>
+            </div>
 			<div class="ctrlHolder">
                 <label for="monit_url">{tmpl_var name='monit_url_txt'}</label>
                 <input name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='monit_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>

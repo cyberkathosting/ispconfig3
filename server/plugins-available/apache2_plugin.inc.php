@@ -1991,7 +1991,7 @@ class apache2_plugin {
 				//* mount backup directory, if necessary
 				$mount_backup = true;
 				$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-				if($server_config['backup_dir'] != '') {
+				if($server_config['backup_dir'] != '' && $server_config['backup_delete'] == 'y') {
 					if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
 						if(!$app->system->is_mounted($backup_dir)){
 							exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));

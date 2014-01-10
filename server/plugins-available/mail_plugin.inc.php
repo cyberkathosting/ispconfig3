@@ -326,13 +326,14 @@ class mail_plugin {
 		} else {
 			$app->log('Possible security violation when deleting the maildir: '.$data['old']['maildir'], LOGLEVEL_ERROR);
 		}
+
 		//* Delete the mail-backups
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		$backup_dir = $server_config['backup_dir'];
 		//* mount backup directory, if necessary
 		$mount_backup = true;
 		$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-		if($server_config['backup_dir'] != '' && $maildir_path_deleted) {
+		if($server_config['backup_dir'] != '' && $maildir_path_deleted && $server_config['backup_delete'] == 'y') {
 			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
 				if(!$app->system->is_mounted($backup_dir)){
 					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
@@ -391,7 +392,7 @@ class mail_plugin {
 		//* mount backup directory, if necessary
 		$mount_backup = true;
 		$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-		if($server_config['backup_dir'] != '' && $maildomain_path_deleted) {
+		if($server_config['backup_dir'] != '' && $maildomain_path_deleted && $server_config['backup_delete'] == 'y'){
 			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
 				if(!$app->system->is_mounted($backup_dir)){
 					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
