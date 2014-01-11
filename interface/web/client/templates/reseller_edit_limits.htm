@@ -41,10 +41,6 @@
                     &nbsp;
                 </div>
             </tmpl_if>
-            <div class="ctrlHolder">
-                <label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
-                <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-            </div>
 			<div class="ctrlHolder">
                 <label for="customer_no_template">{tmpl_var name='customer_no_template_txt'}</label>
                 <input name="customer_no_template" id="customer_no_template" value="{tmpl_var name='customer_no_template'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
@@ -306,6 +302,17 @@
                     <input name="limit_aps" id="limit_aps" value="{tmpl_var name='limit_aps'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
             </div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='client_limits_txt'}<em></em></div>
+			<div style="display:none;">
+				<div class="ctrlHolder">
+					<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
+					<input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+				<div class="ctrlHolder">
+					<label for="limit_domainmodule">{tmpl_var name='limit_domainmodule_txt'}</label>
+					<input name="limit_domainmodule" id="limit_domainmodule" value="{tmpl_var name='limit_domainmodule'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+			</div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -333,7 +340,7 @@ jQuery('div.panel_client')
         .find('div.pnl_formsarea')
         .find('fieldset')
         .find('input,select,button')
-        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver')
+        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter')
         .click(function(e) {
             if(custom_template_selected()) return true;
             e.preventDefault();

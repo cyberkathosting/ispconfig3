@@ -313,7 +313,7 @@ jQuery('div.panel_client')
         .find('div.pnl_formsarea')
         .find('fieldset')
         .find('input,select,button')
-        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver')
+        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter')
         .click(function(e) {
             if(custom_template_selected()) return true;
             e.preventDefault();

@@ -5,12 +5,6 @@
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels"><legend>Limits</legend>
-            <tmpl_if name="is_admin">
-			<div class="ctrlHolder">
-                <label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
-                <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-            </div>
-			</tmpl_if>
 			<div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
             <div>
                 <div class="ctrlHolder">
@@ -230,6 +224,19 @@
                     <input name="limit_aps" id="limit_aps" value="{tmpl_var name='limit_aps'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
             </div>
+			<tmpl_if name="is_admin">
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='client_limits_txt'}<em></em></div>
+			<div style="display:none;">
+				<div class="ctrlHolder">
+					<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
+					<input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+				<div class="ctrlHolder">
+					<label for="limit_domainmodule">{tmpl_var name='limit_domainmodule_txt'}</label>
+					<input name="limit_domainmodule" id="limit_domainmodule" value="{tmpl_var name='limit_domainmodule'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+			</div>
+			</tmpl_if>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

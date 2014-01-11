@@ -52,6 +52,15 @@ $app->load('tform_actions');
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
 include $lng_file;
 
+if(!$app->tform->checkClientLimit('limit_domainmodule')) {
+	$app->uses('ini_parser,getconf');
+	$settings = $app->getconf->get_global_config('domains');
+	if ($settings['use_domain_module'] == 'y') {
+		$app->error($settings['new_domain_html']);
+	}
+}
+
+
 class page_action extends tform_actions {
 
 	function onShowNew() {

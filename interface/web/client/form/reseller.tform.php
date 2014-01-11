@@ -1130,6 +1130,20 @@ $form["tabs"]['limits'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'limit_domainmodule' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+					'errmsg'=> 'limit_domainmodule_error_notint'),
+			),
+			'default' => '0',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
 		//#################################
 		// END Datatable fields
 		//#################################
