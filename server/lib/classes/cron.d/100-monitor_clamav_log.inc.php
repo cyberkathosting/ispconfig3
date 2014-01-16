@@ -132,15 +132,20 @@ class cronjob_monitor_clamav_log extends cronjob {
 		 * Now we have the last log in the array.
 		 * Check if the outdated-string is found...
 		 */
+		$clamav_outdated_warning = false;
+		$clamav_bytecode_updated = false;
 		foreach ($lastLog as $line) {
-			if (strpos(strtolower($line), 'outdated') !== false) {
-				/*
-				 * Outdatet is only info, because if we set this to warning, the server is
-				 * as long in state warning, as there is a new version of ClamAv which takes
-				 * sometimes weeks!
-				 */
-				$state = $this->_tools->_setState($state, 'info');
+			if (stristr($line,'outdated')) {
+				$clamav_outdated_warning = true;
 			}
+			if(stristr($line,'main.cld is up to date')) {
+				$clamav_bytecode_updated = true;
+			}
+		}
+		
+		//* Warn when clamav is outdated and main.cld update failed.
+		if($clamav_outdated_warning == true && $clamav_bytecode_updated == false) {
+			$state = $this->_setState($state, 'info');
 		}
 
 		$res = array();
