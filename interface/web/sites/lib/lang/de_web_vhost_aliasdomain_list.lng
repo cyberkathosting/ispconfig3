@@ -4,5 +4,5 @@ $wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Domain';
 $wb['domain_txt'] = 'Aliasdomain';
-$wb['add_new_record_txt'] = 'Neue Subdomain hinzufügen';
+$wb['add_new_record_txt'] = 'Neue Aliasdomain hinzufügen';
 ?>
