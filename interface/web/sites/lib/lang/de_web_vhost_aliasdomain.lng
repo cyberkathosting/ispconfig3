@@ -1,5 +1,5 @@
 <?php
-$wb['parent_domain_id_txt'] = 'Zugehörige Webseite';
+$wb['domain_txt'] = 'Aliasdomain';
 $wb['web_folder_txt'] = 'Basisordner';
 $wb['web_folder_invalid_txt'] = 'Dieser Ordner darf nicht als Basisordner verwendet werden.';
 $wb['web_folder_unique_txt'] = 'Dieser Ordner wird bereits verwendet, bitte geben Sie einen anderen Basisordner an.';
@@ -14,9 +14,8 @@ $wb['ssl_cert_txt'] = 'SSL-Zertifikat';
 $wb['ssl_bundle_txt'] = 'SSL-Bundle';
 $wb['ssl_action_txt'] = 'SSL-Aktion';
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['host_txt'] = 'Host';
 $wb['type_txt'] = 'Typ';
+$wb['parent_domain_id_txt'] = 'Hauptwebseite';
 $wb['web_folder_error_regex'] = 'Ungültige Ordnerangabe, bitte keinen / eingeben.';
 $wb['redirect_type_txt'] = 'Redirect-Typ';
 $wb['redirect_path_txt'] = 'Redirect-Pfad';
