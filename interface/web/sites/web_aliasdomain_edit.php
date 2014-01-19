@@ -57,10 +57,10 @@ class page_action extends tform_actions {
 
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			if(!$app->tform->checkClientLimit('limit_web_aliasdomain', "type = 'alias'")) {
+			if(!$app->tform->checkClientLimit('limit_web_aliasdomain',"(type = 'alias' OR type = 'vhostalias')")) {
 				$app->error($app->tform->wordbook["limit_web_aliasdomain_txt"]);
 			}
-			if(!$app->tform->checkResellerLimit('limit_web_aliasdomain', "type = 'alias'")) {
+			if(!$app->tform->checkResellerLimit('limit_web_aliasdomain',"(type = 'alias' OR type = 'vhostalias')")) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_web_aliasdomain_txt"]);
 			}
 		}

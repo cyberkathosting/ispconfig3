@@ -66,6 +66,9 @@ if($type == 'globalsearch'){
 	// vhostsubdomains
 	$result[] = _search('sites', 'web_vhost_subdomain', "AND type = 'vhostsubdomain'");
 
+	// vhostaliasdomains
+	$result[] = _search('sites', 'web_vhost_aliasdomain', "AND type = 'vhostalias'");
+
 	// FTP users
 	$result[] = _search('sites', 'ftp_user');
 

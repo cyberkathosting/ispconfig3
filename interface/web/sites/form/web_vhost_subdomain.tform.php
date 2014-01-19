@@ -136,7 +136,7 @@ $form["tabs"]['domain'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'y',
-			'value'  => array('vhost' => 'Site', 'alias' => 'Alias', 'subdomain' => 'Subdomain', 'vhostsubdomain' => 'Subdomain')
+			'value'  => array('vhost' => 'Site', 'alias' => 'Alias', 'vhostalias' => 'Alias', 'subdomain' => 'Subdomain', 'vhostsubdomain' => 'Subdomain')
 		),
 		'parent_domain_id' => array (
 			'datatype' => 'INTEGER',

@@ -54,7 +54,7 @@ class cronjob_awstats extends cronjob {
 		// Create awstats statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
+		$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
 		$records = $app->db->queryAllRecords($sql);
 
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -64,7 +64,7 @@ class cronjob_awstats extends cronjob {
 			$yesterday = date('Ymd', strtotime("-1 day", time()));
 
 			$log_folder = 'log';
-			if($rec['type'] == 'vhostsubdomain') {
+			if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
@@ -78,7 +78,7 @@ class cronjob_awstats extends cronjob {
 					continue;
 				}
 			}
-			$web_folder = ($rec['type'] == 'vhostsubdomain' ? $rec['web_folder'] : 'web');
+			$web_folder = (($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') ? $rec['web_folder'] : 'web');
 			$domain = escapeshellcmd($rec['domain']);
 			$statsdir = escapeshellcmd($rec['document_root'].'/'.$web_folder.'/stats');
 			$awstats_pl = $web_config['awstats_pl'];

@@ -119,7 +119,7 @@ class cronjob_quota_notify extends cronjob {
 			$current_month = date('Y-m');
 
 			//* Check website traffic quota
-			$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE (traffic_quota > 0 or traffic_quota_lock = 'y') and (type = 'vhost' OR type = 'vhostsubdomain')";
+			$sql = "SELECT sys_groupid,domain_id,domain,traffic_quota,traffic_quota_lock FROM web_domain WHERE (traffic_quota > 0 or traffic_quota_lock = 'y') and (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records)) {
 				foreach($records as $rec) {
@@ -196,7 +196,7 @@ class cronjob_quota_notify extends cronjob {
 			$global_config = $app->getconf->get_global_config('mail');
 
 			//* Check website disk quota
-			$sql = "SELECT domain_id,sys_groupid,domain,system_user,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain')";
+			$sql = "SELECT domain_id,sys_groupid,domain,system_user,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records) && !empty($records)) {
 

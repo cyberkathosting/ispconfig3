@@ -277,7 +277,8 @@ class ApsInstaller extends ApsBase
 		if(substr($this->document_root, -1) != '/') $this->document_root .= '/';
 
 		// Attention: ISPConfig Special: web files are in subfolder 'web' -> append it:
-		if($domain_res['type'] == 'vhostsubdomain') $this->document_root .= $domain_res['web_folder'] . '/';
+        if(($domain_res['type'] == 'vhostsubdomain') || ($domain_res['type'] == 'vhostalias'))
+        	$this->document_root .= $domain_res['web_folder'] . '/';
 		else $this->document_root .= 'web/';
 
 		// If a subfolder is given, make sure it's path doesn't begin with / i.e. /phpbb

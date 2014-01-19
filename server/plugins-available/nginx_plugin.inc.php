@@ -102,7 +102,7 @@ class nginx_plugin {
 			$app->log("CA path error, file does not exist:".$web_config['CA_path'].'/openssl.cnf', LOGLEVEL_ERROR);
 
 		//* Only vhosts can have a ssl cert
-		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain") return;
+		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
 		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
@@ -314,7 +314,7 @@ class nginx_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
-		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['parent_domain_id'] > 0) {
+		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['type'] != 'vhostalias' && $data['new']['parent_domain_id'] > 0) {
 
 			$old_parent_domain_id = intval($data['old']['parent_domain_id']);
 			$new_parent_domain_id = intval($data['new']['parent_domain_id']);
@@ -348,7 +348,7 @@ class nginx_plugin {
 		}
 
 		if($data['new']['document_root'] == '') {
-			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set', LOGLEVEL_WARN);
+			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
 		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
@@ -362,7 +362,7 @@ class nginx_plugin {
 
 		$web_folder = 'web';
 		$log_folder = 'log';
-		if($data['new']['type'] == 'vhostsubdomain') {
+		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
 			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
 			$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
 			if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
@@ -436,7 +436,7 @@ class nginx_plugin {
 				}
 			}
 
-			if($data["new"]["type"] != "vhostsubdomain") {
+			if($data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") {
 				//* Move the site data
 				$tmp_docroot = explode('/', $data['new']['document_root']);
 				unset($tmp_docroot[count($tmp_docroot)-1]);
@@ -592,7 +592,7 @@ class nginx_plugin {
 		// setting a local var here
 
 		// normally $conf['templates'] = "/usr/local/ispconfig/server/conf";
-		if($this->action == 'insert' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain')) {
+		if($this->action == 'insert' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 
 			// Copy the error pages
 			if($data['new']['errordocs']) {
@@ -638,7 +638,7 @@ class nginx_plugin {
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 
 			//** Copy the error documents on update when the error document checkbox has been activated and was deactivated before
-		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
+		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
 
 			$error_page_path = escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/error/';
 			if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2))) {
@@ -656,7 +656,7 @@ class nginx_plugin {
 			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
 		}  // end copy error docs
 
-		// Set the quota for the user, but only for vhosts, not vhostsubdomains
+		// Set the quota for the user, but only for vhosts, not vhostsubdomains or vhostalias
 		if($username != '' && $app->system->is_user($username) && $data['new']['type'] == 'vhost') {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
@@ -788,7 +788,9 @@ class nginx_plugin {
 				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 			}
-		} elseif(($this->action == 'insert' && $data['new']['type'] == 'vhostsubdomain') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhostsubdomain')) {
+		} elseif((($data['new']['type'] == 'vhostsubdomain') || ($data['new']['type'] == 'vhostalias')) &&
+				 (($this->action == 'insert') || ($web_config['set_folder_permissions_on_update'] == 'y'))) {
+
 			if($web_config['security_level'] == 20) {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0710);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
@@ -1293,7 +1295,7 @@ class nginx_plugin {
 		}
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND type != 'vhostsubdomain'");
+		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND (type != 'vhostsubdomain' OR type != 'vhostalias')");
 		$alias_seo_redirects = array();
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
@@ -1610,7 +1612,7 @@ class nginx_plugin {
 		}
 
 		//* Create awstats configuration
-		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain')) {
+		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$this->awstats_update($data, $web_config);
 		}
 
@@ -1728,7 +1730,7 @@ class nginx_plugin {
 		$app->uses('system');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
-		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') $app->system->web_folder_protection($data['old']['document_root'], false);
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') $app->system->web_folder_protection($data['old']['document_root'], false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1740,7 +1742,7 @@ class nginx_plugin {
 		//* Remove the mounts
 		$log_folder = 'log';
 		$web_folder = '';
-		if($data['old']['type'] == 'vhostsubdomain') {
+		if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
 			$tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
 			if($tmp['domain'] != ''){
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
@@ -1786,7 +1788,7 @@ class nginx_plugin {
 			unset($subdomain_hosts);
 		}
 
-		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain'){
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias'){
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
 					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
@@ -1810,7 +1812,7 @@ class nginx_plugin {
 		}
 		unset($log_folders);
 
-		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
+		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['type'] != 'vhostalias' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
 			$parent_domain_id = intval($data['old']['parent_domain_id']);
 			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$parent_domain_id." AND active = 'y'");
@@ -1844,7 +1846,7 @@ class nginx_plugin {
 			$app->system->unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file, LOGLEVEL_DEBUG);
 
-			if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
+			if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
 				$docroot = escapeshellcmd($data['old']['document_root']);
 				if($docroot != '' && !stristr($docroot, '..')) {
 					if($data['old']['type'] == 'vhost') {
@@ -1867,7 +1869,7 @@ class nginx_plugin {
 						} else {
 							// read all vhost subdomains with same parent domain
 							$used_paths = array();
-							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
+							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
 							foreach($tmp as $tmprec) {
 								// we normalize the folder entries because we need to compare them
 								$tmp_folder = preg_replace('/[\/]{2,}/', '/', $tmprec['web_folder']); // replace / occuring multiple times
@@ -2023,7 +2025,7 @@ class nginx_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
@@ -2102,7 +2104,7 @@ class nginx_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
@@ -2139,7 +2141,7 @@ class nginx_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($data['old']['path'], 0, 1) == '/') $data['old']['path'] = substr($data['old']['path'], 1);
@@ -2210,7 +2212,7 @@ class nginx_plugin {
 					$website_auth_location['path'] .= '/';
 				}
 				$basic_auth_locations[] = array('htpasswd_location' => '/'.$website_auth_location['path'],
-					'htpasswd_path' => $website['document_root'].'/' . ($website['type'] == 'vhostsubdomain' ? $website['web_folder'] : 'web') . '/'.$website_auth_location['path']);
+					'htpasswd_path' => $website['document_root'].'/' . (($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') ? $website['web_folder'] : 'web') . '/'.$website_auth_location['path']);
 			}
 		}
 		return $basic_auth_locations;
@@ -2722,7 +2724,7 @@ class nginx_plugin {
 				// web domain doesn't match hostname
 				if(substr($hostname, -strlen($web['domain'])) != $web['domain']) continue;
 				// own vhost and therefore server {} container of its own
-				//if($web['type'] == 'vhostsubdomain') continue;
+				//if($web['type'] == 'vhostsubdomain' || $web['type'] == 'vhostalias') continue;
 				// alias domains/subdomains using rewrites and therefore a server {} container of their own
 				//if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') continue;
 
@@ -2733,7 +2735,7 @@ class nginx_plugin {
 					if($web['domain'] == $hostname){
 						if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
 							// own vhost and therefore server {} container of its own
-							if($web['type'] == 'vhostsubdomain') return false;
+							if($web['type'] == 'vhostsubdomain' || $web['type'] == 'vhostalias') return false;
 							// alias domains/subdomains using rewrites and therefore a server {} container of their own
 							if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
 							return true;
@@ -2747,7 +2749,7 @@ class nginx_plugin {
 					if($web['domain'] == $hostname || $web['subdomain'].'.'.$web['domain'] == $hostname){
 						if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
 							// own vhost and therefore server {} container of its own
-							if($web['type'] == 'vhostsubdomain') return false;
+							if($web['type'] == 'vhostsubdomain' || $web['type'] == 'vhostalias') return false;
 							// alias domains/subdomains using rewrites and therefore a server {} container of their own
 							if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
 							return true;
@@ -2760,7 +2762,7 @@ class nginx_plugin {
 				if(preg_match($pattern, $hostname)){
 					if($web['domain_id'] == $domain_id || $web['parent_domain_id'] == $domain_id){
 						// own vhost and therefore server {} container of its own
-						if($web['type'] == 'vhostsubdomain') return false;
+						if($web['type'] == 'vhostsubdomain' || $web['type'] == 'vhostalias') return false;
 						// alias domains/subdomains using rewrites and therefore a server {} container of their own
 						if(($web['type'] == 'alias' || $web['type'] == 'subdomain') && $web['redirect_type'] != '' && $web['redirect_path'] != '') return false;
 						return true;

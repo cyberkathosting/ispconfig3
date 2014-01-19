@@ -147,6 +147,12 @@ class page_action extends tform_actions {
 			if($check['cnt'] > 0) {
 				$new_config['vhost_subdomains'] = 'y';
 			}
+		} elseif($section == 'sites' && $new_config['vhost_aliasdomains'] != 'y' && $server_config_array['vhost_aliasdomains'] == 'y') {
+			// check for existing vhost aliasdomains, if found the mode cannot be disabled
+			$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostalias'");
+			if($check['cnt'] > 0) {
+				$new_config['vhost_aliasdomains'] = 'y';
+			}
 		} elseif($section == 'mail') {
 			if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['mail']['smtp_pass'];
 		} elseif($section == 'misc' && $new_config['session_timeout'] != $server_config_array['misc']['session_timeout']) {

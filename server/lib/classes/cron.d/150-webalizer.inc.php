@@ -79,7 +79,7 @@ class cronjob_webalizer extends cronjob {
 		}
 
 
-		$sql = "SELECT domain_id, domain, document_root, web_folder, type, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') and stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
+		$sql = "SELECT domain_id, domain, document_root, web_folder, type, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'webalizer' AND server_id = ".$conf['server_id'];
 		$records = $app->db->queryAllRecords($sql);
 
 		foreach($records as $rec) {
@@ -87,7 +87,7 @@ class cronjob_webalizer extends cronjob {
 			$yesterday = date('Ymd', strtotime("-1 day", time()));
 
 			$log_folder = 'log';
-			if($rec['type'] == 'vhostsubdomain') {
+			if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
@@ -103,7 +103,7 @@ class cronjob_webalizer extends cronjob {
 			}
 
 			$domain = escapeshellcmd($rec['domain']);
-			$statsdir = escapeshellcmd($rec['document_root'].'/'.($rec['type'] == 'vhostsubdomain' ? $rec['web_folder'] : 'web').'/stats');
+			$statsdir = escapeshellcmd($rec['document_root'].'/'.(($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') ? $rec['web_folder'] : 'web').'/stats');
 			$webalizer = '/usr/bin/webalizer';
 			$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
 			$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');

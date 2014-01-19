@@ -992,7 +992,7 @@ class page_action extends tform_actions {
 			$records = $app->db->queryAllRecords("SELECT domain_id, `domain`, `type`, `web_folder` FROM web_domain WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
 				$update_columns = "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'";
-				if($rec['type'] == 'vhostsubdomain') {
+				if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
 					$php_open_basedir = str_replace("[website_path]/web", $document_root.'/'.$rec['web_folder'], $web_config["php_open_basedir"]);
 					$php_open_basedir = str_replace("[website_domain]/web", $rec['domain'].'/'.$rec['web_folder'], $php_open_basedir);
 					$php_open_basedir = str_replace("[website_path]", $document_root, $php_open_basedir);
@@ -1017,7 +1017,7 @@ class page_action extends tform_actions {
 
 		//* If the domain name has been changed, we will have to change all subdomains + APS instances
 		if(!empty($this->dataRecord["domain"]) && !empty($this->oldDataRecord["domain"]) && $this->dataRecord["domain"] != $this->oldDataRecord["domain"]) {
-			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain') AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
+			$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND domain LIKE '%.".$app->db->quote($this->oldDataRecord["domain"])."'");
 			foreach($records as $rec) {
 				$subdomain = $app->db->quote(str_replace($this->oldDataRecord["domain"], $this->dataRecord["domain"], $rec['domain']));
 				$app->db->datalogUpdate('web_domain', "domain = '".$subdomain."'", 'domain_id', $rec['domain_id']);
@@ -1077,9 +1077,9 @@ class page_action extends tform_actions {
 			unset($backup_interval);
 		}
 
-		//* Change vhost subdomain ip/ipv6 if domain ip/ipv6 has changed
+		//* Change vhost subdomain and alias ip/ipv6 if domain ip/ipv6 has changed
 		if(isset($this->dataRecord['ip_address']) && ($this->dataRecord['ip_address'] != $this->oldDataRecord['ip_address'] || $this->dataRecord['ipv6_address'] != $this->oldDataRecord['ipv6_address'])) {
-			$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".$this->id);
+			$records = $app->db->queryAllRecords("SELECT domain_id FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
 				$app->db->datalogUpdate('web_domain', "ip_address = '".$app->db->quote($web_rec['ip_address'])."', ipv6_address = '".$app->db->quote($web_rec['ipv6_address'])."'", 'domain_id', $rec['domain_id']);
 			}
