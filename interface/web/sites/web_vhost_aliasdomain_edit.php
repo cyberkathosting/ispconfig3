@@ -389,17 +389,14 @@ class page_action extends tform_actions {
 			$app->uses('ini_parser,getconf');
 			$settings = $app->getconf->get_global_config('domains');
 			if ($settings['use_domain_module'] == 'y') {
-				$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['sel_domain']);
+				$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
 				if(!$domain_check) {
 					// invalid domain selected
 					$app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
 				} else {
-					$this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain_check;
+					$this->dataRecord['domain'] = $domain_check;
 				}
-			} else {
-				$this->dataRecord["domain"] = $this->dataRecord["domain"].'.'.$parent_domain["domain"];
 			}
-
 
 			$this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
 			if(substr($this->dataRecord['web_folder'], 0, 1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 1);
