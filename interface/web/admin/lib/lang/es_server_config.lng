@@ -22,6 +22,7 @@ $wb['mailuser_uid_txt'] = 'UID usuario de correo';
 $wb['mailuser_gid_txt'] = 'GID usuario de correo';
 $wb['mailuser_name_txt'] = 'Nombre del usuario de correo';
 $wb['mailuser_group_txt'] = 'Grupo del usuario de correo';
+$wb['mailbox_virtual_uidgid_maps_txt'] = 'Use Websites Linux uid for mailbox (only if both on the same server)';
 $wb['relayhost_txt'] = 'Servidor de retransmisión';
 $wb['relayhost_user_txt'] = 'Usuario de retransmisión';
 $wb['relayhost_password_txt'] = 'Contraseña de retramisión';

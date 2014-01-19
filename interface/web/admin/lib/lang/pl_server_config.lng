@@ -24,6 +24,7 @@ $wb['mailuser_uid_txt'] = 'UID użytkownika e-mail';
 $wb['mailuser_gid_txt'] = 'GID użytkownika e-mail';
 $wb['mailuser_name_txt'] = 'Nazwa użytkownika e-mail';
 $wb['mailuser_group_txt'] = 'Grupa użytkownika e-mail';
+$wb['mailbox_virtual_uidgid_maps_txt'] = 'Use Websites Linux uid for mailbox (only if both on the same server)';
 $wb['relayhost_txt'] = 'Adres Relayhost';
 $wb['relayhost_user_txt'] = 'Użytkownik Relayhost';
 $wb['relayhost_password_txt'] = 'Hasło Relayhost';
