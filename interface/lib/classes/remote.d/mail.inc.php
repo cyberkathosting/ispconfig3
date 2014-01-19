@@ -214,6 +214,10 @@ class remoting_mail extends remoting {
 			return false;
 		}
 
+		//* Set a few params to non empty values that will be overwritten by mail_plugin
+		if (!isset($params['uid'])) $params['uid'] = 999989999;
+		if (!isset($params['gid'])) $params['gid'] = 999989999;
+
 		$affected_rows = $this->insertQuery('../mail/form/mail_user.tform.php', $client_id, $params);
 		return $affected_rows;
 	}
