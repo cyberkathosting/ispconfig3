@@ -1,5 +1,5 @@
 listen = *,[::]
-protocols = imap pop3
+protocols = imap pop3 lmtp
 auth_mechanisms = plain login
 disable_plaintext_auth = no
 log_timestamp = "%Y-%m-%d %H:%M:%S "
@@ -31,6 +31,13 @@ service auth {
   }
   user = root
 }
+service lmtp {
+  unix_listener /var/spool/postfix/private/dovecot-lmtp {
+   group = postfix
+   mode = 0600
+   user = postfix
+  }
+}
 service imap-login {
   client_limit = 1000
   process_limit = 500
@@ -44,4 +51,8 @@ protocol pop3 {
 }
 protocol lda {
   mail_plugins = sieve quota
+}
+protocol lmtp {
+  postmaster_address = webmaster@localhost
+  mail_plugins = quota sieve
 }

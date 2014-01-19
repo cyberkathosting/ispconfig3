@@ -38,6 +38,7 @@ mailuser_uid=5000
 mailuser_gid=5000
 mailuser_name=vmail
 mailuser_group=vmail
+mailbox_virtual_uidgid_maps=n
 relayhost=
 relayhost_user=
 relayhost_password=

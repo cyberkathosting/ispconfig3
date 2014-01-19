@@ -184,7 +184,31 @@ class remoting {
 		return $app->db->affectedRows() == 1;
 	}
 
-
+	//* Add mail domain
+	public function mail_user_add($session_id, $client_id, $params){
+		global $app;
+	
+		if (!$this->checkPerm($session_id, 'mail_user_add')){
+			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		//* Check if mail domain exists
+		$email_parts = explode('@',$params['email']);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+		if($tmp['domain'] != $email_parts[1]) {
+			$this->server->fault('mail_domain_does_not_exist','Mail domain - '.$email_parts[1].' - does not exist.');
+			return false;
+		}
+	
+		//* Set a few params to non empty values that will be overwritten by mail_plugin
+		if (!isset($params['uid'])) $params['uid'] = 999989999;
+		if (!isset($params['gid'])) $params['gid'] = 999989999;
+	
+		$affected_rows = $this->insertQuery('../mail/form/mail_user.tform.php', $client_id, $params);
+		return $affected_rows;
+	}
+	
 	//** protected functions -----------------------------------------------------------------------------------
 
 
