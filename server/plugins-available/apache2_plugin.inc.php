@@ -131,7 +131,7 @@ class apache2_plugin {
 		foreach($web_domains as $web_data) {
 			$custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$web_data['system_user'];
 			$web_folder = 'web';
-			if($web_data['type'] == 'vhostsubdomain') {
+			if($web_data['type'] == 'vhostsubdomain' || $web_data['type'] == 'vhostalias') {
 				$web_folder = $web_data['web_folder'];
 				$custom_php_ini_dir .= '_' . $web_folder;
 			}
@@ -192,7 +192,7 @@ class apache2_plugin {
 			$app->log("CA path error, file does not exist:".$web_config['CA_path'].'/openssl.cnf', LOGLEVEL_ERROR);
 
 		//* Only vhosts can have a ssl cert
-		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain") return;
+		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
 		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
@@ -396,7 +396,7 @@ class apache2_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
-		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['parent_domain_id'] > 0) {
+		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['type'] != 'vhostalias' && $data['new']['parent_domain_id'] > 0) {
 
 			$old_parent_domain_id = intval($data['old']['parent_domain_id']);
 			$new_parent_domain_id = intval($data['new']['parent_domain_id']);
@@ -430,7 +430,7 @@ class apache2_plugin {
 		}
 
 		if($data['new']['document_root'] == '') {
-			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set', LOGLEVEL_WARN);
+			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
 		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
@@ -444,7 +444,7 @@ class apache2_plugin {
 
 		$web_folder = 'web';
 		$log_folder = 'log';
-		if($data['new']['type'] == 'vhostsubdomain') {
+		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
 			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
 			$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
 			if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
@@ -521,7 +521,7 @@ class apache2_plugin {
 			//* Remove protection of old folders
 			$app->system->web_folder_protection($data['old']['document_root'], false);
 
-			if($data["new"]["type"] != "vhostsubdomain") {
+			if($data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") {
 				//* Move the site data
 				$tmp_docroot = explode('/', $data['new']['document_root']);
 				unset($tmp_docroot[count($tmp_docroot)-1]);
@@ -677,7 +677,7 @@ class apache2_plugin {
 		// setting a local var here
 
 		// normally $conf['templates'] = "/usr/local/ispconfig/server/conf";
-		if($this->action == 'insert' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain')) {
+		if($this->action == 'insert' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 
 			// Copy the error pages
 			if($data['new']['errordocs']) {
@@ -723,7 +723,7 @@ class apache2_plugin {
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 
 			//** Copy the error documents on update when the error document checkbox has been activated and was deactivated before
-		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
+		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
 
 			$error_page_path = escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/error/';
 			if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2))) {
@@ -741,7 +741,7 @@ class apache2_plugin {
 			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
 		}  // end copy error docs
 
-		// Set the quota for the user, but only for vhosts, not vhostsubdomains
+		// Set the quota for the user, but only for vhosts, not vhostsubdomains or vhostalias
 		if($username != '' && $app->system->is_user($username) && $data['new']['type'] == 'vhost') {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
@@ -873,7 +873,9 @@ class apache2_plugin {
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 			}
-		} elseif(($this->action == 'insert' && $data['new']['type'] == 'vhostsubdomain') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhostsubdomain')) {
+		} elseif((($data['new']['type'] == 'vhostsubdomain') || ($data['new']['type'] == 'vhostalias')) &&
+				 (($this->action == 'insert') || ($web_config['set_folder_permissions_on_update'] == 'y'))) {
+
 			if($web_config['security_level'] == 20) {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0710);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
@@ -905,7 +907,7 @@ class apache2_plugin {
 
 		//* Write the custom php.ini file, if custom_php_ini fieled is not empty
 		$custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$data['new']['system_user'];
-		if($data['new']['type'] == 'vhostsubdomain') $custom_php_ini_dir .= '_' . $web_folder;
+		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $custom_php_ini_dir .= '_' . $web_folder;
 		if(!is_dir($web_config['website_basedir'].'/conf')) $app->system->mkdir($web_config['website_basedir'].'/conf');
 
 		//* add open_basedir restriction to custom php.ini content, required for suphp only
@@ -1087,7 +1089,7 @@ class apache2_plugin {
 		}
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND type != 'vhostsubdomain'");
+		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND (type != 'vhostsubdomain' OR type != 'vhostalias')");
 		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
@@ -1256,7 +1258,7 @@ class apache2_plugin {
 			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
 			$fcgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir));
 
-			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : ''));
+			$fcgi_starter_script = escapeshellcmd($fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
 			$app->system->file_put_contents($fcgi_starter_script, $fcgi_tpl->grab());
 			unset($fcgi_tpl);
 
@@ -1268,7 +1270,7 @@ class apache2_plugin {
 
 			$tpl->setVar('fastcgi_alias', $fastcgi_config['fastcgi_alias']);
 			$tpl->setVar('fastcgi_starter_path', $fastcgi_starter_path);
-			$tpl->setVar('fastcgi_starter_script', $fastcgi_config['fastcgi_starter_script'].($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : ''));
+			$tpl->setVar('fastcgi_starter_script', $fastcgi_config['fastcgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
 			$tpl->setVar('fastcgi_config_syntax', $fastcgi_config['fastcgi_config_syntax']);
 			$tpl->setVar('fastcgi_max_requests', $fastcgi_config['fastcgi_max_requests']);
 
@@ -1347,7 +1349,7 @@ class apache2_plugin {
 			//$cgi_config = $app->getconf->get_server_config($conf['server_id'], 'cgi');
 
 			$cgi_config['cgi_starter_path'] = $web_config['website_basedir'].'/php-cgi-scripts/[system_user]/';
-			$cgi_config['cgi_starter_script'] = 'php-cgi-starter'.($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : '');
+			$cgi_config['cgi_starter_script'] = 'php-cgi-starter'.(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : '');
 			$cgi_config['cgi_bin'] = '/usr/bin/php-cgi';
 
 			$cgi_starter_path = str_replace('[system_user]', $data['new']['system_user'], $cgi_config['cgi_starter_path']);
@@ -1382,7 +1384,7 @@ class apache2_plugin {
 				$cgi_tpl->setVar('php_ini_path', escapeshellcmd($fastcgi_config['fastcgi_phpini_path']));
 			}
 
-			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config['cgi_starter_script'].($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : ''));
+			$cgi_starter_script = escapeshellcmd($cgi_starter_path.$cgi_config['cgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
 			$app->system->file_put_contents($cgi_starter_script, $cgi_tpl->grab());
 			unset($cgi_tpl);
 
@@ -1394,7 +1396,7 @@ class apache2_plugin {
 			$app->system->chgrp($cgi_starter_script, $data['new']['system_group']);
 
 			$tpl->setVar('cgi_starter_path', $cgi_starter_path);
-			$tpl->setVar('cgi_starter_script', $cgi_config['cgi_starter_script'].($data['new']['type'] == 'vhostsubdomain' ? '_web' . $data['new']['domain_id'] : ''));
+			$tpl->setVar('cgi_starter_script', $cgi_config['cgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
 
 		}
 
@@ -1558,7 +1560,7 @@ class apache2_plugin {
 		}
 
 		//* Create awstats configuration
-		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain')) {
+		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$this->awstats_update($data, $web_config);
 		}
 
@@ -1715,7 +1717,7 @@ class apache2_plugin {
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
 
-		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') $app->system->web_folder_protection($data['old']['document_root'], false);
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') $app->system->web_folder_protection($data['old']['document_root'], false);
 
 		//* Check if this is a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
@@ -1727,7 +1729,7 @@ class apache2_plugin {
 		//* Remove the mounts
 		$log_folder = 'log';
 		$web_folder = '';
-		if($data['old']['type'] == 'vhostsubdomain') {
+		if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
 			$tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
 			if($tmp['domain'] != ''){
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
@@ -1773,7 +1775,7 @@ class apache2_plugin {
 			unset($subdomain_hosts);
 		}
 
-		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain'){
+		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias'){
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
 					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
@@ -1797,7 +1799,7 @@ class apache2_plugin {
 		}
 		unset($log_folders);
 
-		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['parent_domain_id'] > 0) {
+		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['type'] != 'vhostalias' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
 			$parent_domain_id = intval($data['old']['parent_domain_id']);
 			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$parent_domain_id." AND active = 'y'");
@@ -1831,7 +1833,7 @@ class apache2_plugin {
 			$app->system->unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file, LOGLEVEL_DEBUG);
 
-			if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain') {
+			if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
 				$docroot = escapeshellcmd($data['old']['document_root']);
 				if($docroot != '' && !stristr($docroot, '..')) {
 					if($data['old']['type'] == 'vhost') {
@@ -1852,9 +1854,9 @@ class apache2_plugin {
 							// we use strict check as otherwise directories named '0' may not be deleted
 							$do_delete = false;
 						} else {
-							// read all vhost subdomains with same parent domain
+							// read all vhost subdomains and alias with same parent domain
 							$used_paths = array();
-							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE type = 'vhostsubdomain' AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
+							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
 							foreach($tmp as $tmprec) {
 								// we normalize the folder entries because we need to compare them
 								$tmp_folder = preg_replace('/[\/]{2,}/', '/', $tmprec['web_folder']); // replace / occuring multiple times
@@ -1973,7 +1975,7 @@ class apache2_plugin {
 				$this->awstats_delete($data, $web_config);
 			}
 
-			if($data['old']['type'] == 'vhostsubdomain') {
+			if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
 				$app->system->web_folder_protection($parent_web_document_root, true);
 			}
 
@@ -2083,7 +2085,7 @@ class apache2_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
@@ -2184,7 +2186,7 @@ class apache2_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
@@ -2239,7 +2241,7 @@ class apache2_plugin {
 		}
 
 		$web_folder = 'web';
-		if($website['type'] == 'vhostsubdomain') $web_folder = $website['web_folder'];
+		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
 		//* Get the folder path.
 		if(substr($data['old']['path'], 0, 1) == '/') $data['old']['path'] = substr($data['old']['path'], 1);

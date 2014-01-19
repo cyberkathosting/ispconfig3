@@ -82,7 +82,7 @@ $liste["item"][] = array( 'field'  => "parent_domain_id",
 	'prefix' => "",
 	'suffix' => "",
 	'datasource' => array (  'type' => 'SQL',
-		'querystring' => "SELECT domain_id,domain FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain') AND {AUTHSQL} ORDER BY domain",
+		'querystring' => "SELECT domain_id,domain FROM web_domain WHERE (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND {AUTHSQL} ORDER BY domain",
 		'keyfield'=> 'domain_id',
 		'valuefield'=> 'domain'
 	),

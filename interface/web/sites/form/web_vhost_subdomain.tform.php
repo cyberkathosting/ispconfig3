@@ -136,14 +136,16 @@ $form["tabs"]['domain'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'y',
-			'value'  => array('vhost' => 'Site', 'alias' => 'Alias', 'subdomain' => 'Subdomain', 'vhostsubdomain' => 'Subdomain')
+			'value'  => array('vhost' => 'Site', 'alias' => 'Alias', 'vhostalias' => 'Alias', 'subdomain' => 'Subdomain', 'vhostsubdomain' => 'Subdomain')
 		),
 		'parent_domain_id' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => "SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id = server.server_id AND {AUTHSQL::web_domain} ORDER BY web_domain.domain",
+				'querystring' => "SELECT domain_id,domain AS parent_domain FROM web_domain WHERE type = 'vhost' AND {AUTHSQL} ORDER BY domain",
+				// Commented out until {AUTHSQL::web_domain} is working
+				//'querystring' => "SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id = server.server_id AND {AUTHSQL::web_domain} ORDER BY web_domain.domain",
 				'keyfield'=> 'domain_id',
 				'valuefield'=> 'parent_domain'
 			),

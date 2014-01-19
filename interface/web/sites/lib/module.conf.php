@@ -43,6 +43,16 @@ if($app->auth->get_client_limit($userid, 'web_aliasdomain') != 0)
 		'target'  => 'content',
 		'link'    => 'sites/web_aliasdomain_list.php',
 		'html_id' => 'aliasdomain_list');
+
+	// read web config
+	$app->uses('getconf');
+	$sys_config = $app->getconf->get_global_config('sites');
+	if($sys_config['vhost_aliasdomains'] == 'y') {
+		$items[] = array(   'title'  => "Aliasdomain (Vhost)",
+				'target'  => 'content',
+				'link'      => 'sites/web_vhost_aliasdomain_list.php',
+				'html_id'   => 'subdomain_list');
+	}
 }
 
 if(count($items))

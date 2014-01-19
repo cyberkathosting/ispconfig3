@@ -154,6 +154,12 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'vhost_aliasdomains' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'client_username_web_check_disabled' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

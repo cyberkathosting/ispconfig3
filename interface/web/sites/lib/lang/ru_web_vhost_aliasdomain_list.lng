@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Доменные алиасы';
+$wb['active_txt'] = 'Активен?';
+$wb['server_id_txt'] = 'Сервер';
+$wb['parent_domain_id_txt'] = 'Web-сайт';
+$wb['domain_txt'] = 'Доменный алиас';
+$wb['add_new_record_txt'] = 'Добавить новый алиас';
+?>

@@ -60,7 +60,7 @@ class cronjob_logfiles extends cronjob {
 		// Manage and compress web logfiles and create traffic statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain') AND server_id = ".$conf['server_id'];
+		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ".$conf['server_id'];
 		$records = $app->db->queryAllRecords($sql);
 		foreach($records as $rec) {
 
@@ -68,7 +68,7 @@ class cronjob_logfiles extends cronjob {
 			$yesterday = date('Ymd', time() - 86400);
 
 			$log_folder = 'log';
-			if($rec['type'] == 'vhostsubdomain') {
+			if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];

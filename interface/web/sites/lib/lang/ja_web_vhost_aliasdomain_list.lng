@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'エイリアスドメイン';
+$wb['active_txt'] = '有効';
+$wb['server_id_txt'] = 'サーバー';
+$wb['parent_domain_id_txt'] = 'ウェブサイト';
+$wb['domain_txt'] = 'エイリアスドメイン';
+$wb['add_new_record_txt'] = 'エイリアスドメインを追加する';
+?>

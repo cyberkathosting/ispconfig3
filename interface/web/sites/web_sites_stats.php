@@ -180,7 +180,7 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "(web_domain.type = 'vhost' or web_domain.type = 'vhostsubdomain')";
+$list->SQLExtWhere = "(web_domain.type = 'vhost' or web_domain.type = 'vhostsubdomain' or web_domain.type = 'vhostalias')";
 $list->SQLOrderBy = 'ORDER BY web_domain.domain';
 $list->onLoad();
 

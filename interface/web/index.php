@@ -74,7 +74,7 @@ if(@is_dir($js_d)) {
 	closedir($dir);
 }
 
-$app->tpl->setLoop('js_d_includes', $js_d_files);
+if (!empty($js_d_files)) $app->tpl->setLoop('js_d_includes', $js_d_files);
 unset($js_d_files);
 
 $app->tpl_defaults();
