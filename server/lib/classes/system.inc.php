@@ -1524,7 +1524,7 @@ class system{
 		}
 	}
 
-	function maildirmake($maildir_path, $user = '', $group = '', $subfolder = '') {
+	function maildirmake($maildir_path, $user = '', $subfolder = '', $group = '') {
 
 		global $app;
 
