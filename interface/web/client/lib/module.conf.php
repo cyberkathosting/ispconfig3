@@ -65,6 +65,10 @@ $items[] = array(   'title'  => "Limit-Templates",
 	'link' => 'client/client_template_list.php',
 	'html_id'   => 'client_template_list');
 
+$items[] = array(   'title'  => "Email-Templates",
+	'target'  => 'content',
+	'link' => 'client/message_template_list.php',
+	'html_id'   => 'message_template_list');
 
 $module["nav"][] = array(   'title' => 'Templates',
 	'open'  => 1,

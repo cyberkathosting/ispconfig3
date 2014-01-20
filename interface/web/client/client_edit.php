@@ -334,6 +334,48 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+		
+		//* Send welcome email
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ".$client_group_id;
+		$email_template = $app->db->queryOneRecord($sql);
+		$client = $app->tform->getDataRecord($this->id);
+
+		if(is_array($email_template) && $client['email'] != '') {
+			//* Parse client details into message
+			$message = $email_template['message'];
+			$subject = $email_template['subject'];
+			foreach($client as $key => $val) {
+				switch ($key) {
+				case 'password':
+					$message = str_replace('{password}', $this->dataRecord['password'], $message);
+					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
+					break;
+				case 'gender':
+					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
+					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					break;
+				default:
+					$message = str_replace('{'.$key.'}', $val, $message);
+					$subject = str_replace('{'.$key.'}', $val, $subject);
+				}
+			}
+			
+			//* Get sender address
+			if($app->auth->is_admin()) {
+				$app->uses('getconf');
+				$system_config = $app->getconf->get_global_config();
+				$from = $system_config['admin_mail'];
+			} else {
+				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+				$reseller = $app->db->queryOneRecord("SELECT client.email FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				$from = $reseller["email"];
+			}
+
+			//* Send the email
+			$app->functions->mail($client['email'], $subject, $message, $from);
+		}
+		
 
 		parent::onAfterInsert();
 	}
