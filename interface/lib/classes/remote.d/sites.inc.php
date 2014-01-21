@@ -455,7 +455,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 
-		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_get')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -468,7 +468,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_aliasdomain_add($session_id, $client_id, $params)
 	{
 		global $app;
-		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_add')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -491,7 +491,7 @@ class remoting_sites extends remoting {
 	//* Update a record
 	public function sites_web_vhost_aliasdomain_update($session_id, $client_id, $primary_id, $params)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_update')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -509,7 +509,7 @@ class remoting_sites extends remoting {
 	//* Delete a record
 	public function sites_web_vhost_aliasdomain_delete($session_id, $primary_id)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_delete')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -524,7 +524,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_get')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -537,7 +537,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_subdomain_add($session_id, $client_id, $params)
 	{
 		global $app;
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_add')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -560,7 +560,7 @@ class remoting_sites extends remoting {
 	//* Update a record
 	public function sites_web_vhost_subdomain_update($session_id, $client_id, $primary_id, $params)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_update')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -578,7 +578,7 @@ class remoting_sites extends remoting {
 	//* Delete a record
 	public function sites_web_vhost_subdomain_delete($session_id, $primary_id)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_delete')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
