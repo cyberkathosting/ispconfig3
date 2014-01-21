@@ -347,11 +347,6 @@ class page_action extends tform_actions {
 				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option", $domain_select);
-			$this->dataRecord['domain'] = substr($this->dataRecord["domain"], 0, strlen($this->dataRecord['domain']) - strlen($selected_domain) - 1);
-		} else {
-
-			// remove the parent domain part of the domain name before we show it in the text field.
-			$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
 		$app->tpl->setVar("domain", $this->dataRecord["domain"]);
 
