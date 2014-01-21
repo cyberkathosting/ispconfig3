@@ -71,7 +71,7 @@ class dashlet_limits {
 
 		$limits[] = array('field' => 'limit_web_aliasdomain',
 			'db_table' => 'web_domain',
-						  'db_where' => "(type = 'alias' OR type = 'vhostalias'");
+						  'db_where' => "(type = 'alias' OR type = 'vhostalias')");
 
 		$limits[] = array('field' => 'limit_ftp_user',
 			'db_table' => 'ftp_user',
