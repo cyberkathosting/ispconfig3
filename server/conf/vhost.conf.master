@@ -1,8 +1,12 @@
 
 <Directory {tmpl_var name='web_basedir'}/{tmpl_var name='domain'}>
 		AllowOverride None
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all deny
+		{tmpl_else}
 		Order Deny,Allow
 		Deny from all
+		{/tmpl_if}
 </Directory>
 
 <tmpl_loop name="vhosts">
@@ -55,8 +59,12 @@
 		<Directory {tmpl_var name='web_document_root_www'}>
 				Options FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
+				{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+				Require all granted
+				{tmpl_else}
 				Order allow,deny
 				Allow from all
+				{/tmpl_if}
 <tmpl_if name='ssi' op='==' value='y'>
 
 				# ssi enabled
@@ -66,17 +74,25 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
 				<Files ~ '.php[s3-6]{0,1}$'>
+						{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+						Require all denied
+						{tmpl_else}
 						Order allow,deny
 						Deny from all
 						Allow from none
+						{/tmpl_if}
 				</Files>
 </tmpl_if>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
 				Options FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
+				{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+				Require all granted
+				{tmpl_else}
 				Order allow,deny
 				Allow from all
+				{/tmpl_if}
 <tmpl_if name='ssi' op='==' value='y'>
 
 				# ssi enabled
@@ -86,9 +102,13 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
 				<Files ~ '.php[s3-6]{0,1}$'>
-						Order allow,deny
-						Deny from all
-						Allow from none
+					{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+					Require all denied
+					{tmpl_else}
+					Order allow,deny
+					Deny from all
+					Allow from none
+					{/tmpl_if}
 				</Files>
 </tmpl_if>
 		</Directory>
@@ -141,8 +161,12 @@
 <tmpl_if name='cgi' op='==' value='y'>
 		# cgi enabled
 	<Directory {tmpl_var name='document_root'}/cgi-bin>
+			{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+			Require all granted
+			{tmpl_else}
 			Order allow,deny
 			Allow from all
+			{/tmpl_if}
 		</Directory>
 		ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
 		AddHandler cgi-script .cgi
@@ -189,8 +213,12 @@
 		Action php5-cgi /php5-cgi
 		AddHandler php5-cgi .php .php3 .php4 .php5
 		<Directory {tmpl_var name='cgi_starter_path'}>
-				Order allow,deny
-				Allow from all
+			{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+			Require all granted
+			{tmpl_else}
+			Order allow,deny
+			Allow from all
+			{/tmpl_if}
 		</Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
@@ -224,23 +252,35 @@
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
+				{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+				Require all granted
+				{tmpl_else}
 				Order allow,deny
 				Allow from all
+				{/tmpl_if}
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
 				AddHandler fcgid-script .php .php3 .php4 .php5
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
+				{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+				Require all granted
+				{tmpl_else}
 				Order allow,deny
 				Allow from all
+				{/tmpl_if}
 		</Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='php-fpm'>
 		<IfModule mod_fastcgi.c>
 				<Directory {tmpl_var name='document_root'}/cgi-bin>
-						Order allow,deny
-						Allow from all
+					{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+					Require all granted
+					{tmpl_else}
+					Order allow,deny
+					Allow from all
+					{/tmpl_if}
 			    </Directory>
                 AddHandler php5-fcgi .php
                 Action php5-fcgi /php5-fcgi

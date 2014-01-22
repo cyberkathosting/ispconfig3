@@ -1724,6 +1724,31 @@ class system{
 		if(substr($init_script_directory, -1) === '/') $init_script_directory = substr($init_script_directory, 0, -1);
 		return $init_script_directory.'/'.$servicename.' '.$action;
 	}
+	
+	function getapacheversion($get_minor = false) {
+		global $app;
+		
+		$cmd = '';
+		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
+		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -v';
+		else {
+			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
+			return '2.2';
+		}
+		
+		exec($cmd, $output, $return_var);
+		if($return_var != 0 || !$output[0]) {
+			$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
+			return '2.2';
+		}
+		
+		if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+		} else {
+			$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
+			return '2.2';
+		}
+	}
 
 }
 
