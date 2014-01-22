@@ -80,13 +80,12 @@ class apps_vhost_plugin {
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
 		if($web_config['server_type'] == 'apache'){
-			// Dont just copy over the virtualhost template but add some custom settings
-			if(file_exists($conf["rootpath"]."/conf-custom/apache_apps.vhost.master")) {
-				$content = file_get_contents($conf["rootpath"]."/conf-custom/apache_apps.vhost.master");
-			} else {
-				$content = file_get_contents($conf["rootpath"]."/conf/apache_apps.vhost.master");
-			}
+			$app->load('tpl');
 
+			$tpl = new tpl();
+			$tpl->newTemplate('apache_apps.vhost.master');
+
+			$tpl->setVar('apache_version', $app->system->getapacheversion());
 
 			$vhost_conf_dir = $web_config['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $web_config['vhost_conf_enabled_dir'];
@@ -95,21 +94,31 @@ class apps_vhost_plugin {
 			$web_config['apps_vhost_port'] = (empty($web_config['apps_vhost_port']))?8081:$web_config['apps_vhost_port'];
 			$web_config['apps_vhost_ip'] = (empty($web_config['apps_vhost_ip']))?'_default_':$web_config['apps_vhost_ip'];
 
+			$tpl->setVar('apps_vhost_ip', $web_config['apps_vhost_ip']);
+			$tpl->setVar('apps_vhost_port', $web_config['apps_vhost_port']);
+			$tpl->setVar('apps_vhost_dir', $web_config['website_basedir'].'/apps');
+			$tpl->setVar('apps_vhost_servername', $apps_vhost_servername);
+			$tpl->setVar('apps_vhost_basedir', $web_config['website_basedir']);
+
+			$vhost_port_listen = '';
+			// comment out the listen directive if port is 80 or 443
+			if($web_config['apps_vhost_port'] == 80 or $web_config['apps_vhost_port'] == 443) {
+				$vhost_port_listen = '#';
+			}
+			$tpl->setVar('vhost_port_listen', $vhost_port_listen);
+
+			$content = $tpl->grab();
+
+			/* for backwards compatibility we replace the old syntax by hand now */
 			$content = str_replace('{apps_vhost_ip}', $web_config['apps_vhost_ip'], $content);
 			$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
 			$content = str_replace('{apps_vhost_dir}', $web_config['website_basedir'].'/apps', $content);
 			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
 			$content = str_replace('{apps_vhost_basedir}', $web_config['website_basedir'], $content);
+			$content = str_replace('{vhost_port_listen}', $vhost_port_listen, $content);
+			/* end of backwards compatibility section */
 
-
-			// comment out the listen directive if port is 80 or 443
-			if($web_config['apps_vhost_port'] == 80 or $web_config['apps_vhost_port'] == 443) {
-				$content = str_replace('{vhost_port_listen}', '#', $content);
-			} else {
-				$content = str_replace('{vhost_port_listen}', '', $content);
-			}
-
-			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+			$app->system->file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 			$app->services->restartServiceDelayed('httpd', 'restart');
 		}
 

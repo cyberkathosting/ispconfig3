@@ -1109,7 +1109,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		function _parseIf ($varname, $value=null, $op=null, $namespace=null) {
+		function _parseIf ($varname, $value=null, $op=null, $namespace=null, $format=null) {
 			if (isset($namespace)) $namespace = substr($namespace, 0, -1);
 			$comp_str = ''; // used for extended if statements
 
@@ -1151,10 +1151,19 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			}
 			if ($this->OPTIONS['GLOBAL_VARS'] && empty($namespace)) {
-				return '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])'.$comp_str;
+				$retstr = '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])';
+				if(isset($format) && isset($value) && $format == 'version') {
+					return 'version_compare(' . $retstr . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+				} else {
+					return $retstr.$comp_str;
+				}
 			}
 			else {
-				return $retstr."['".$varname."']".$comp_str;
+				if(isset($format) && isset($value) && $format == 'version') {
+					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+				} else {
+					return $retstr."['".$varname."']".$comp_str;
+				}
 			}
 		}
 
@@ -1330,15 +1339,15 @@ if (!defined('vlibTemplateClassLoaded')) {
 				break;
 
 			case 'if':
-				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>'.$newline;
 				break;
 
 			case 'unless':
-				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>'.$newline;
 				break;
 
 			case 'elseif':
-				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>'.$newline;
 				break;
 
 			case 'loop':

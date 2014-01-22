@@ -8,61 +8,100 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 
 <Directory /var/www/clients>
     AllowOverride None
-    Order Deny,Allow
-    Deny from all
+	{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+	Require all deny
+	{tmpl_else}
+	Order Deny,Allow
+	Deny from all
+	{/tmpl_if}
 </Directory>
 
 # Do not allow access to the root file system of the server for security reasons
 <Directory />
     AllowOverride None
-    Order Deny,Allow
-    Deny from all
+	{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+	Require all deny
+	{tmpl_else}
+	Order Deny,Allow
+	Deny from all
+	{/tmpl_if}
 </Directory>
 
 <Directory /var/www/conf>
     AllowOverride None
-    Order Deny,Allow
-    Deny from all
+	{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+	Require all deny
+	{tmpl_else}
+	Order Deny,Allow
+	Deny from all
+	{/tmpl_if}
 </Directory>
 
 # Except of the following directories that contain website scripts
 <Directory /usr/share/phpmyadmin>
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
         Order allow,deny
         Allow from all
+		{/tmpl_if}
 </Directory>
 
 <Directory /usr/share/phpMyAdmin>
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
         Order allow,deny
         Allow from all
+		{/tmpl_if}
 </Directory>
 
 <Directory /usr/share/squirrelmail>
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
         Order allow,deny
         Allow from all
+		{/tmpl_if}
 </Directory>
 
 # Allow access to mailman on OpenSuSE
 <Directory /usr/lib/mailman/cgi-bin>
-        AllowOverride All
-		order allow,deny
-        allow from all
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
+        Order allow,deny
+        Allow from all
+		{/tmpl_if}
 </Directory>
 
 <Directory /usr/lib/mailman/icons>
-        order allow,deny
-        allow from all
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
+        Order allow,deny
+        Allow from all
+		{/tmpl_if}
 </Directory>
 
 <Directory /var/lib/mailman/archives/>
         Options +FollowSymLinks
-        order allow,deny
-        allow from all
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
+        Order allow,deny
+        Allow from all
+		{/tmpl_if}
 </Directory>
 
 # allow path to awstats and alias for awstats icons
 <Directory /usr/share/awstats>
+		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		Require all granted
+		{tmpl_else}
         Order allow,deny
         Allow from all
+		{/tmpl_if}
 </Directory>
 
 Alias /awstats-icon "/usr/share/awstats/icon"
