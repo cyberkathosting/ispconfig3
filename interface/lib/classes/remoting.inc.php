@@ -200,6 +200,69 @@ class remoting {
 	}
 	
 	/**
+	 * set record permissions in any table
+	 * @param string session_id
+	 * @param string index_field
+	 * @param string index_value
+	 * @param array permissions
+	 * @author "ispcomm", improved by M. Cramer <m.cramer@pixcept.de>
+	 */
+	public function update_record_permissions($tablename, $index_field, $index_value, $permissions) {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'admin_record_permissions')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		foreach($permissions as $key => $value) {  // make sure only sys_ fields are updated
+			switch($key) {
+				case 'sys_userid':
+					// check if userid is valid
+					$check = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE userid = ' . $app->functions->intval($value));
+					if(!$check || !$check['userid']) {
+						$this->server->fault('invalid parameters', $value . ' is no valid sys_userid.');
+						return false;
+					}
+					$value = $app->functions->intval($value);
+					break;
+				case 'sys_groupid':
+					// check if groupid is valid
+					$check = $app->db->queryOneRecord('SELECT groupid FROM sys_group WHERE groupid = ' . $app->functions->intval($value));
+					if(!$check || !$check['groupid']) {
+						$this->server->fault('invalid parameters', $value . ' is no valid sys_groupid.');
+						return false;
+					}
+					$value = $app->functions->intval($value);
+					break;
+				case 'sys_perm_user':
+				case 'sys_perm_group':
+					// check if permissions are valid
+					$value = strtolower($value);
+					if(!preg_match('/^[riud]+$/', $value)) {
+						$this->server->fault('invalid parameters', $value . ' is no valid permission string.');
+						return false;
+					}
+					
+					$newvalue = '';
+					if(strpos($value, 'r') !== false) $newvalue .= 'r';
+					if(strpos($value, 'i') !== false) $newvalue .= 'i';
+					if(strpos($value, 'u') !== false) $newvalue .= 'u';
+					if(strpos($value, 'd') !== false) $newvalue .= 'd';
+					$value = $newvalue;
+					unset($newvalue);
+					
+					break;
+				default:
+					$this->server->fault('invalid parameters', 'Only sys_userid, sys_groupid, sys_perm_user and sys_perm_group parameters can be changed with this function.');
+					break;
+			}
+		}
+		
+		return $app->db->datalogUpdate( $tablename, $permissions, $index_field, $index_value ) ;
+	}
+	
+	/**
 	    Gets the ISPconfig version of the server
 	    @param int session_id
 	    @author Sascha Bay <info@space2place.de> TheCry 2013
