@@ -205,6 +205,7 @@ class maildeliver_plugin {
 			$tpl->setVar('addresses', $address_str);
 
 			file_put_contents($sieve_file, $tpl->grab());
+			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($sieve_file));
 
 			unset($tpl);
 
