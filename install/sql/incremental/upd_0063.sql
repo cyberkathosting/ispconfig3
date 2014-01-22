@@ -13,3 +13,8 @@ CREATE TABLE `client_message_template` (
   `message` text,
   PRIMARY KEY (`client_message_template_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+ALTER TABLE  `spamfilter_policy` ADD  `policyd_quota_in` int(11) NOT NULL DEFAULT  '-1',
+ADD  `policyd_quota_in_period` int(11) NOT NULL DEFAULT  '24',
+ADD  `policyd_quota_out` int(11) NOT NULL DEFAULT  '-1',
+ADD  `policyd_quota_out_period` int(11) NOT NULL DEFAULT  '24',
+ADD  `policyd_greylist` ENUM(  'Y',  'N' ) NOT NULL DEFAULT  'N';

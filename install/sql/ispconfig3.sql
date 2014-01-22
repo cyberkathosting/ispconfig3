@@ -1377,6 +1377,11 @@ CREATE TABLE `spamfilter_policy` (
   `spam_subject_tag2` varchar(64) default NULL,
   `message_size_limit` int(11) unsigned default NULL,
   `banned_rulenames` varchar(64) default NULL,
+  `policyd_quota_in` int(11) NOT NULL DEFAULT  '-1',
+  `policyd_quota_in_period` int(11) NOT NULL DEFAULT  '24',
+  `policyd_quota_out` int(11) NOT NULL DEFAULT  '-1',
+  `policyd_quota_out_period` int(11) NOT NULL DEFAULT  '24',
+  `policyd_greylist` ENUM(  'Y',  'N' ) NOT NULL DEFAULT  'N',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
