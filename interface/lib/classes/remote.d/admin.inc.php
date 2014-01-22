@@ -65,7 +65,7 @@ class remoting_admin extends remoting {
 						$this->server->fault('invalid parameters', $value . ' is no valid sys_userid.');
 						return false;
 					}
-					$value = $app->functions->intval($value);
+					$permissions[$key] = $app->functions->intval($value);
 					break;
 				case 'sys_groupid':
 					// check if groupid is valid
@@ -74,7 +74,7 @@ class remoting_admin extends remoting {
 						$this->server->fault('invalid parameters', $value . ' is no valid sys_groupid.');
 						return false;
 					}
-					$value = $app->functions->intval($value);
+					$permissions[$key] = $app->functions->intval($value);
 					break;
 				case 'sys_perm_user':
 				case 'sys_perm_group':
@@ -90,7 +90,7 @@ class remoting_admin extends remoting {
 					if(strpos($value, 'i') !== false) $newvalue .= 'i';
 					if(strpos($value, 'u') !== false) $newvalue .= 'u';
 					if(strpos($value, 'd') !== false) $newvalue .= 'd';
-					$value = $newvalue;
+					$permissions[$key] = $newvalue;
 					unset($newvalue);
 					
 					break;
