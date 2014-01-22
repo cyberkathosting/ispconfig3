@@ -193,3 +193,4 @@ $wb['munin_url_error_regex'] = 'Ungültige Munin-URL';
 $wb['munin_url_note_txt'] = 'Platzhalter:';
 $wb['backup_dir_is_mount_txt'] = 'Backupverzeichnis ist ein eigener Mount?';
 $wb['backup_dir_mount_cmd_txt'] = 'Mount-Befehl, falls Backupverzeichnis nicht gemountet';
+?>

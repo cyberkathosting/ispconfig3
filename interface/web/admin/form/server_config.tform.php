@@ -195,6 +195,12 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'backup_delete' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'monit_url' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
