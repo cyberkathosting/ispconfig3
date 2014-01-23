@@ -92,6 +92,11 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+		
+		//* Resellers shall not be able to create another reseller
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			$this->dataRecord['limit_client'] = 0;
+		}
 
 		if($this->id != 0) {
 			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $this->id);
@@ -189,9 +194,11 @@ class page_action extends tform_actions {
 					$app->tpl->setVar('customer_no',$customer_no_string);
 				
 					//* save new counter value
+					/*
 					$system_config['misc']['customer_no_counter']++;
 					$system_config_str = $app->ini_parser->get_ini_string($system_config);
 					$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+					*/
 				}
 			} else {
 				//* Logged in user must be a reseller
@@ -206,10 +213,30 @@ class page_action extends tform_actions {
 					$app->tpl->setVar('customer_no',$customer_no_string);
 					
 					//* save new counter value
+					/*
 					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
 					$app->db->query("UPDATE client SET customer_no_counter = $customer_no_counter WHERE client_id = ".$app->functions->intval($reseller['client_id']));
+					*/
 				}
 			}
+		}
+		
+		if($app->auth->is_admin()) {
+			// Fill the client select field
+			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client > 0 ORDER BY sys_group.name";
+			$clients = $app->db->queryAllRecords($sql);
+			$client_select = "<option value='0'>- ".$app->tform->lng('none_txt')." -</option>";
+			//$tmp_data_record = $app->tform->getDataRecord($this->id);
+			if(is_array($clients)) {
+				$selected_client_id = 0; // needed to get list of PHP versions
+				foreach($clients as $client) {
+					if(is_array($this->dataRecord) && ($client["client_id"] == $this->dataRecord['parent_client_id']) && !$selected_client_id) $selected_client_id = $client["client_id"];
+					$selected = @(is_array($this->dataRecord) && ($client["client_id"] == $this->dataRecord['parent_client_id']))?'SELECTED':'';
+					if($selected == 'SELECTED') $selected_client_id = $client["client_id"];
+					$client_select .= "<option value='$client[client_id]' $selected>$client[contactname]</option>\r\n";
+				}
+			}
+			$app->tpl->setVar("parent_client_id", $client_select);
 		}
 		
 		parent::onShowEnd();
@@ -253,6 +280,14 @@ class page_action extends tform_actions {
 		if($_SESSION['s']['user']['typ'] == 'user') {
 			$app->auth->add_group_to_user($_SESSION['s']['user']['userid'], $groupid);
 			$app->db->query("UPDATE client SET parent_client_id = ".$app->functions->intval($_SESSION['s']['user']['client_id'])." WHERE client_id = ".$this->id);
+		} else {
+			if($this->dataRecord['parent_client_id'] > 0) {
+				//* get userid of the reseller and add it to the group of the client
+				$tmp = $app->db->queryOneRecord("SELECT sys_user.userid FROM sys_user,sys_group WHERE sys_user.default_group = sys_group.groupid AND sys_group.client_id = ".$app->functions->intval($this->dataRecord['parent_client_id']));
+				$app->auth->add_group_to_user($tmp['userid'], $groupid);
+				$app->db->query("UPDATE client SET parent_client_id = ".$app->functions->intval($this->dataRecord['parent_client_id'])." WHERE client_id = ".$this->id);
+				unset($tmp);
+			}
 		}
 
 		//* Set the default servers
@@ -272,6 +307,75 @@ class page_action extends tform_actions {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
+		
+		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
+			if($app->auth->is_admin()) {
+				//* Logged in User is admin
+				//* get the system config
+				$app->uses('getconf');
+				$system_config = $app->getconf->get_global_config();
+				if($system_config['misc']['customer_no_template'] != '') {
+				
+					//* save new counter value
+					$system_config['misc']['customer_no_counter']++;
+					$system_config_str = $app->ini_parser->get_ini_string($system_config);
+					$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				}
+			} else {
+				//* Logged in user must be a reseller
+				//* get the record of the reseller
+				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				
+				if($reseller['customer_no_template'] != '') {
+					//* save new counter value
+					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
+					$app->db->query("UPDATE client SET customer_no_counter = $customer_no_counter WHERE client_id = ".$app->functions->intval($reseller['client_id']));
+				}
+			}
+		}
+		
+		//* Send welcome email
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ".$client_group_id;
+		$email_template = $app->db->queryOneRecord($sql);
+		$client = $app->tform->getDataRecord($this->id);
+
+		if(is_array($email_template) && $client['email'] != '') {
+			//* Parse client details into message
+			$message = $email_template['message'];
+			$subject = $email_template['subject'];
+			foreach($client as $key => $val) {
+				switch ($key) {
+				case 'password':
+					$message = str_replace('{password}', $this->dataRecord['password'], $message);
+					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
+					break;
+				case 'gender':
+					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
+					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					break;
+				default:
+					$message = str_replace('{'.$key.'}', $val, $message);
+					$subject = str_replace('{'.$key.'}', $val, $subject);
+				}
+			}
+			
+			//* Get sender address
+			if($app->auth->is_admin()) {
+				$app->uses('getconf');
+				$system_config = $app->getconf->get_global_config();
+				$from = $system_config['admin_mail'];
+			} else {
+				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+				$reseller = $app->db->queryOneRecord("SELECT client.email FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				$from = $reseller["email"];
+			}
+
+			//* Send the email
+			$app->functions->mail($client['email'], $subject, $message, $from);
+		}
+		
 
 		parent::onAfterInsert();
 	}
@@ -412,7 +516,7 @@ class page_action extends tform_actions {
 			$app->db->query($sql);
 		}
 
-		// reseller status changed
+		//* reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
 			$modules = $conf['interface_modules_enabled'];
 			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
@@ -420,6 +524,34 @@ class page_action extends tform_actions {
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
 			$app->db->query($sql);
+		}
+		
+		//* Client has been moved to another reseller
+		if($_SESSION['s']['user']['typ'] == 'admin' && isset($this->dataRecord['parent_client_id']) && $this->dataRecord['parent_client_id'] != $this->oldDataRecord['parent_client_id']) {
+			//* Get groupid of the client
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($this->id));
+			$groupid = $tmp['groupid'];
+			unset($tmp);
+			
+			//* Remove sys_user of old reseller from client group
+			if($this->oldDataRecord['parent_client_id'] > 0) {
+				//* get userid of the old reseller remove it from the group of the client
+				$tmp = $app->db->queryOneRecord("SELECT sys_user.userid FROM sys_user,sys_group WHERE sys_user.default_group = sys_group.groupid AND sys_group.client_id = ".$app->functions->intval($this->oldDataRecord['parent_client_id']));
+				$app->auth->remove_group_from_user($tmp['userid'], $groupid);
+				unset($tmp);
+			}
+			
+			//* Add sys_user of new reseller to client group
+			if($this->dataRecord['parent_client_id'] > 0) {
+				//* get userid of the reseller and add it to the group of the client
+				$tmp = $app->db->queryOneRecord("SELECT sys_user.userid, sys_user.default_group FROM sys_user,sys_group WHERE sys_user.default_group = sys_group.groupid AND sys_group.client_id = ".$app->functions->intval($this->dataRecord['parent_client_id']));
+				$app->auth->add_group_to_user($tmp['userid'], $groupid);
+				$app->db->query("UPDATE client SET sys_userid = ".$app->functions->intval($tmp['userid']).", sys_groupid = ".$app->functions->intval($tmp['default_group']).", parent_client_id = ".$app->functions->intval($this->dataRecord['parent_client_id'])." WHERE client_id = ".$this->id);
+				unset($tmp);
+			} else {
+				//* Client is not assigned to a reseller anymore, so we assign it to the admin
+				$app->db->query("UPDATE client SET sys_userid = 1, sys_groupid = 1, parent_client_id = 0 WHERE client_id = ".$this->id);
+			}
 		}
 
 		if(isset($this->dataRecord['template_master'])) {

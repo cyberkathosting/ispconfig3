@@ -208,8 +208,9 @@ class maildeliver_plugin {
 			if ( ! is_dir($data["new"]["maildir"].'/sieve/') ) {
 				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			}
+			file_put_contents($sieve_file, $tpl->grab());
+			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($sieve_file));
 
-			file_put_contents($sieve_file_isp, $tpl->grab());
 			chown($sieve_file_isp,$mail_config['mailuser_name']);
 			chgrp($sieve_file_isp,$mail_config['mailuser_group']);
 			chdir($data["new"]["maildir"]);

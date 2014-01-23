@@ -205,8 +205,8 @@ class page_action extends tform_actions {
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 			
 			// Will be overwritten by mail_plugin
-			$this->dataRecord['uid'] = 999989999;
-			$this->dataRecord['gid'] = 999989999;
+			$this->dataRecord['uid'] = -1;
+			$this->dataRecord['gid'] = -1;
 				
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = '".$app->db->quote($this->dataRecord["email"])."'");

@@ -93,7 +93,7 @@ class mail_plugin {
 		$base_path = implode('/', $tmp_basepath_parts);
 
 		//* Set the email-uid and gid if not given
-		if (($data['new']['uid'] == 999989999) || ($data['new']['gid'] == 999989999)) {
+		if (($data['new']['uid'] == -1) || ($data['new']['gid'] == -1)) {
 			$app->log('Setting uid and gid automatically',LOGLEVEL_DEBUG);
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$app->log('Map uid to linux-user',LOGLEVEL_DEBUG);
@@ -113,8 +113,8 @@ class mail_plugin {
 			}
 		}
 		// if nothing set before -> use standard mailuser uid and gid vmail
-		if ($data['new']['uid'] == 999989999) $data['new']['uid'] = $mail_config["mailuser_uid"];
-		if ($data['new']['gid'] == 999989999) $data['new']['gid'] = $mail_config["mailuser_gid"];
+		if ($data['new']['uid'] == -1) $data['new']['uid'] = $mail_config["mailuser_uid"];
+		if ($data['new']['gid'] == -1) $data['new']['gid'] = $mail_config["mailuser_gid"];
 		$app->log('Mailuser uid: '.$data['new']['uid'].', gid: '.$data['new']['gid'],LOGLEVEL_DEBUG);
 
 		// update DB if values changed
@@ -148,7 +148,7 @@ class mail_plugin {
 		if(!empty($maildomain_path) && !is_dir($maildomain_path)) {
 
 			//exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
-			$app->system->maildirmake($maildomain_path, $user, $group);
+			$app->system->maildirmake($maildomain_path, $user, '', $group);
 
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
@@ -160,22 +160,22 @@ class mail_plugin {
 		if(!is_dir($data['new']['maildir'].'/.Sent')) {
 			//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Sent');
+			$app->system->maildirmake($maildomain_path, $user, 'Sent', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Drafts')) {
 			//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Drafts');
+			$app->system->maildirmake($maildomain_path, $user, 'Drafts', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Trash')) {
 			//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Trash');
+			$app->system->maildirmake($maildomain_path, $user, 'Trash', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Junk')) {
 			//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Junk');
+			$app->system->maildirmake($maildomain_path, $user, 'Junk', $group);
 		}
 
 		// Set permissions now recursive
@@ -284,7 +284,7 @@ class mail_plugin {
 		if(!empty($maildomain_path) && !is_dir($maildomain_path.'/new')) {
 			//exec("su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log("Created Maildir "."su -c 'maildirmake ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group);
+			$app->system->maildirmake($maildomain_path, $user, '', $group);
 
 			//* This is to fix the maildrop quota not being rebuilt after the quota is changed.
 			if($mail_config['pop3_imap_daemon'] != 'dovecot') {
@@ -301,22 +301,22 @@ class mail_plugin {
 		if(!is_dir($data['new']['maildir'].'/.Sent')) {
 			//exec("su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Sent: '."su -c 'maildirmake -f Sent ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Sent');
+			$app->system->maildirmake($maildomain_path, $user, 'Sent', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Drafts')) {
 			//exec("su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Drafts: '."su -c 'maildirmake -f Drafts ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Drafts');
+			$app->system->maildirmake($maildomain_path, $user, 'Drafts', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Trash')) {
 			//exec("su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Trash: '."su -c 'maildirmake -f Trash ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Trash');
+			$app->system->maildirmake($maildomain_path, $user, 'Trash', $group);
 		}
 		if(!is_dir($data['new']['maildir'].'/.Junk')) {
 			//exec("su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name']);
 			//$app->log('Created submaildir Junk: '."su -c 'maildirmake -f Junk ".escapeshellcmd($maildomain_path)."' ".$mail_config['mailuser_name'],LOGLEVEL_DEBUG);
-			$app->system->maildirmake($maildomain_path, $user, $group, 'Junk');
+			$app->system->maildirmake($maildomain_path, $user, 'Junk', $group);
 		}
 
 		// Set permissions now recursive
