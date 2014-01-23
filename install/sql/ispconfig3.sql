@@ -169,6 +169,7 @@ CREATE TABLE `client` (
   `bank_account_swift` varchar(255) DEFAULT NULL,
   `paypal_email` varchar(255) DEFAULT NULL,
   `default_mailserver` int(11) unsigned NOT NULL DEFAULT '1',
+  `mail_servers` blob NOT NULL DEFAULT '',
   `limit_maildomain` int(11) NOT NULL DEFAULT '-1',
   `limit_mailbox` int(11) NOT NULL DEFAULT '-1',
   `limit_mailalias` int(11) NOT NULL DEFAULT '-1',
@@ -183,6 +184,7 @@ CREATE TABLE `client` (
   `limit_spamfilter_user` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_policy` int(11) NOT NULL DEFAULT '0',
   `default_webserver` int(11) unsigned NOT NULL DEFAULT '1',
+  `web_servers` blob NOT NULL DEFAULT '',
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL DEFAULT '-1',
   `limit_web_quota` int(11) NOT NULL DEFAULT '-1',
@@ -204,11 +206,13 @@ CREATE TABLE `client` (
   `limit_webdav_user` int(11) NOT NULL DEFAULT '0',
   `limit_aps` int(11) NOT NULL DEFAULT '-1',
   `default_dnsserver` int(11) unsigned NOT NULL DEFAULT '1',
+  `db_servers` blob NOT NULL DEFAULT '',
   `limit_dns_zone` int(11) NOT NULL DEFAULT '-1',
   `default_slave_dnsserver` int(11) unsigned NOT NULL DEFAULT '1',
   `limit_dns_slave_zone` int(11) NOT NULL DEFAULT '-1',
   `limit_dns_record` int(11) NOT NULL DEFAULT '-1',
   `default_dbserver` int(11) NOT NULL DEFAULT '1',
+  `dns_servers` blob NOT NULL DEFAULT '',
   `limit_database` int(11) NOT NULL DEFAULT '-1',
   `limit_cron` int(11) NOT NULL DEFAULT '0',
   `limit_cron_type` enum('url','chrooted','full') NOT NULL DEFAULT 'url',
@@ -273,7 +277,7 @@ CREATE TABLE `client_template` (
   `sys_groupid` int(11) unsigned NOT NULL default '0',
   `sys_perm_user` varchar(5) default NULL,
   `sys_perm_group` varchar(5) default NULL,
-  `sys_perm_other` varchar(5) default NULL,  
+  `sys_perm_other` varchar(5) default NULL,
   `template_name` varchar(64) NOT NULL,
   `template_type` varchar(1) NOT NULL default 'm',
   `limit_maildomain` int(11) NOT NULL default '-1',
@@ -678,6 +682,24 @@ CREATE TABLE `mail_access` (
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table  `mail_backup`
+--
+
+CREATE TABLE `mail_backup` (
+  `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `parent_domain_id` int(10) unsigned NOT NULL,
+  `mailuser_id` int(10) unsigned NOT NULL,
+  `backup_mode` varchar(64) NOT NULL DEFAULT  '',
+  `tstamp` int(10) unsigned NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `filesize` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`backup_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 -- 
 -- Table structure for table  `mail_content_filter`
 -- 
@@ -713,6 +735,9 @@ CREATE TABLE `mail_domain` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `domain` varchar(255) NOT NULL default '',
+  `dkim` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `dkim_private` mediumtext NOT NULL default '',
+  `dkim_public` mediumtext NOT NULL default '',
   `active` enum('n','y') NOT NULL,
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
@@ -885,8 +910,11 @@ CREATE TABLE `mail_user` (
   `disablesmtp` enum('n','y') NOT NULL default 'n',
   `disablesieve` enum('n','y') NOT NULL default 'n',
   `disablelda` enum('n','y') NOT NULL default 'n',
+  `disablelmtp` enum('n','y') NOT NULL default 'n',
   `disabledoveadm` enum('n','y') NOT NULL default 'n',
   `last_quota_notification` date NULL default NULL,
+  `backup_interval` VARCHAR( 255 ) NOT NULL,
+  `backup_copies` INT NOT NULL DEFAULT '1',
   PRIMARY KEY  (`mailuser_id`),
   KEY `server_id` (`server_id`,`email`),
   KEY `email_access` (`email`,`access`)
@@ -1464,6 +1492,7 @@ CREATE TABLE `sys_config` (
   `value` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
 -- --------------------------------------------------------
 
 --
@@ -1481,9 +1510,9 @@ CREATE TABLE IF NOT EXISTS `sys_cron` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table  `sys_datalog`
--- 
+--
 
 CREATE TABLE `sys_datalog` (
   `datalog_id` int(11) unsigned NOT NULL auto_increment,
@@ -1664,7 +1693,7 @@ CREATE TABLE `sys_user` (
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
-  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '', 
+  `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1701,10 +1730,11 @@ CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `parent_domain_id` int(10) unsigned NOT NULL,
-  `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web',
+  `backup_type` enum('web','mysql','mongodb') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
+  `filesize` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1756,6 +1786,7 @@ CREATE TABLE IF NOT EXISTS `web_database_user` (
   `database_user` varchar(64) DEFAULT NULL,
   `database_user_prefix` varchar(50) NOT NULL default '',
   `database_password` varchar(64) DEFAULT NULL,
+  `database_password_mongo` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`database_user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
