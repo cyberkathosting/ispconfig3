@@ -187,7 +187,6 @@ class remoting {
 
 	//** protected functions -----------------------------------------------------------------------------------
 
-
 	protected function klientadd($formdef_file, $reseller_id, $params)
 	{
 		global $app;

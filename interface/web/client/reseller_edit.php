@@ -94,6 +94,26 @@ class page_action extends tform_actions {
 				}
 			}
 		}
+		
+		if($this->id != 0) {
+			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $this->id);
+			if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
+				// check previous type of storing templates
+				$tpls = explode('/', $this->oldDataRecord['template_additional']);
+				$this->oldTemplatesAssigned = array();
+				foreach($tpls as $item) {
+					$item = trim($item);
+					if(!$item) continue;
+					$this->oldTemplatesAssigned[] = array('assigned_template_id' => 0, 'client_template_id' => $item, 'client_id' => $this->id);
+				}
+				unset($tpls);
+			}
+		} else {
+			$this->oldTemplatesAssigned = array();
+		}
+
+		$this->_template_additional = explode('/', $this->dataRecord['template_additional']);
+		$this->dataRecord['template_additional'] = '';
 
 		parent::onSubmit();
 	}
@@ -117,13 +137,27 @@ class page_action extends tform_actions {
 		$result = $app->db->queryAllRecords('SELECT assigned_template_id, client_template_id FROM client_template_assigned WHERE client_id = ' . $this->id);
 		if($result && count($result) > 0) {
 			// new style
+			$items = array();
 			$text = '';
 			foreach($result as $item){
 				if (trim($item['client_template_id']) != ''){
 					if ($text != '') $text .= '';
-					$text .= '<li rel="' . $item['assigned_template_id'] . '">' . $tpl[$item['client_template_id']]. '<a href="#" class="button icons16 icoDelete"></a></li>';
+					$text .= '<li rel="' . $item['assigned_template_id'] . '">' . $tpl[$item['client_template_id']];
+					$text .= '<a href="#" class="button icons16 icoDelete"></a>';
+					$tmp = new stdClass();
+					$tmp->id = $item['assigned_template_id'];
+					$tmp->data = '';
+					$app->plugin->raiseEvent('get_client_template_details', $tmp);
+					if($tmp->data != '') $text .= '<br /><em>' . $tmp->data . '</em>';
+
+					$text .= '</li>';
+					$items[] = $item['assigned_template_id'] . ':' . $item['client_template_id'];
 				}
 			}
+
+			$tmprec = $app->tform->getHTML(array('template_additional' => implode('/', $items)), $this->active_tab, 'EDIT');
+			$app->tpl->setVar('template_additional', $tmprec['template_additional']);
+			unset($tmprec);
 		} else {
 			// old style
 			$sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
@@ -139,6 +173,7 @@ class page_action extends tform_actions {
 		}
 
 		$app->tpl->setVar('template_additional_list', $text);
+		$app->tpl->setVar('app_module', 'client');
 		
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
@@ -153,9 +188,11 @@ class page_action extends tform_actions {
 				$app->tpl->setVar('customer_no',$customer_no_string);
 				
 				//* save new counter value
+				/*
 				$system_config['misc']['customer_no_counter']++;
 				$system_config_str = $app->ini_parser->get_ini_string($system_config);
 				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				*/
 			}
 		}
 		
@@ -210,6 +247,66 @@ class page_action extends tform_actions {
 
 		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);
+		
+		if(isset($this->dataRecord['template_master'])) {
+			$app->uses('client_templates');
+			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
+		}
+		
+		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
+			//* get the system config
+			$app->uses('getconf');
+			$system_config = $app->getconf->get_global_config();
+			if($system_config['misc']['customer_no_template'] != '') {
+				
+				//* save new counter value
+				$system_config['misc']['customer_no_counter']++;
+				$system_config_str = $app->ini_parser->get_ini_string($system_config);
+				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				
+			}
+		}
+		
+		//* Send welcome email
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ".$client_group_id;
+		$email_template = $app->db->queryOneRecord($sql);
+		$client = $app->tform->getDataRecord($this->id);
+
+		if(is_array($email_template) && $client['email'] != '') {
+			//* Parse client details into message
+			$message = $email_template['message'];
+			$subject = $email_template['subject'];
+			foreach($client as $key => $val) {
+				switch ($key) {
+				case 'password':
+					$message = str_replace('{password}', $this->dataRecord['password'], $message);
+					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
+					break;
+				case 'gender':
+					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
+					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					break;
+				default:
+					$message = str_replace('{'.$key.'}', $val, $message);
+					$subject = str_replace('{'.$key.'}', $val, $subject);
+				}
+			}
+			
+			//* Get sender address
+			if($app->auth->is_admin()) {
+				$app->uses('getconf');
+				$system_config = $app->getconf->get_global_config();
+				$from = $system_config['admin_mail'];
+			} else {
+				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+				$reseller = $app->db->queryOneRecord("SELECT client.email FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				$from = $reseller["email"];
+			}
+
+			//* Send the email
+			$app->functions->mail($client['email'], $subject, $message, $from);
+		}
 
 		parent::onAfterInsert();
 	}
@@ -271,6 +368,11 @@ class page_action extends tform_actions {
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
 			$app->db->query($sql);
+		}
+		
+		if(isset($this->dataRecord['template_master'])) {
+			$app->uses('client_templates');
+			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
 
 		parent::onAfterUpdate();

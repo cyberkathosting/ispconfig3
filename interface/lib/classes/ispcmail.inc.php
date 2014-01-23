@@ -223,6 +223,7 @@ class ispcmail {
 		elseif(isset($_SERVER['SERVER_NAME'])) $this->smtp_helo = $_SERVER['SERVER_NAME'];
 		else $this->smtp_helo = php_uname('n');
 		if($this->smtp_helo == '') $this->smtp_helo = 'localhost';
+		return $this->smtp_helo;
 	}
 
 

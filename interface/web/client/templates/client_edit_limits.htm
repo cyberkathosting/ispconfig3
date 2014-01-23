@@ -3,7 +3,6 @@
 
 <div class="panel panel_client">
 
-    <tmpl_if name="is_admin">
         <div class="pnl_toolsarea">
             <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
                 <div class="buttons topbuttons">
@@ -11,11 +10,9 @@
                 </div>
             </fieldset>
         </div>
-    </tmpl_if>
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels"><legend>Limits</legend>
-            <tmpl_if name="is_admin">
                 <div class="ctrlHolder">
                     <label for="template_master">{tmpl_var name='template_master_txt'}</label>
                     <select name="template_master" id="template_master" class="selectInput">
@@ -40,7 +37,14 @@
                 <div class="ctrlHolder">
                     &nbsp;
                 </div>
-            </tmpl_if>
+				<tmpl_if name="is_admin">
+                <div class="ctrlHolder">
+                    <label for="parent_client_id_id">{tmpl_var name='parent_client_id_txt'}</label>
+                    <select name="parent_client_id" id="parent_client_id" class="selectInput">
+                        {tmpl_var name='parent_client_id'}
+                    </select>
+                </div>
+                </tmpl_if>
             <div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
             <div>
                 <div class="ctrlHolder">
@@ -301,7 +305,7 @@
     </div>
 
 </div>
-<tmpl_if name="is_admin">
+
 <script type="text/javascript">
 <!--
 function custom_template_selected() {
@@ -317,7 +321,7 @@ jQuery('div.panel_client')
         .find('div.pnl_formsarea')
         .find('fieldset')
         .find('input,select,button')
-        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver')
+        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter,#parent_client_id')
         .click(function(e) {
             if(custom_template_selected()) return true;
             e.preventDefault();
@@ -330,4 +334,3 @@ jQuery('div.panel_client')
 
 //-->
 </script>
-</tmpl_if>

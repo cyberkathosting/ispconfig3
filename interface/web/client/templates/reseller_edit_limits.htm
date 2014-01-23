@@ -3,33 +3,44 @@
 
 <div class="panel panel_client">
 
+	<tmpl_if name="is_admin">
+		<div class="pnl_toolsarea">
+			<fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
+			<div class="buttons topbuttons">
+				<button class="positive iconstxt icoAdd" type="button" value="{tmpl_var name='add_additional_template_txt'}" onclick="addAdditionalTemplate();"><span>{tmpl_var name='add_additional_template_txt'}</span></button>
+			</div>
+			</fieldset>
+		</div>
+	</tmpl_if>
+
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels"><legend>Limits</legend>
-            <!--
-            <tmpl_if name="is_admin">
-                  <div class="ctrlHolder">
+			<tmpl_if name="is_admin">
+                <div class="ctrlHolder">
                     <label for="template_master">{tmpl_var name='template_master_txt'}</label>
                     <select name="template_master" id="template_master" class="selectInput">
-                                                    {tmpl_var name='template_master'}
-                                            </select>
-                  </div>
-                  <div class="ctrlHolder">
+                        {tmpl_var name='template_master'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
                     <label for="template_additional">{tmpl_var name='template_additional_txt'}</label>
                     <select name="tpl_add_select" id="tpl_add_select" class="selectInput">
-                                                    {tmpl_var name='tpl_add_select'}
-                                            </select>
-                          <span id="template_additional_list">{tmpl_var name='template_additional_list'}</span>
-                              <input type="hidden" id="template_additional" name="template_additional" value="{tmpl_var name='template_additional'}">
-                  </div>
-                      <div class="ctrlHolder">
-                        &nbsp;
-                      </div>
+                        {tmpl_var name='tpl_add_select'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
+                    <p class="label">{tmpl_var name='active_template_additional_txt'}</p>
+                    <div id="template_additional_list" class="multiField">
+                        <ul>
+                        {tmpl_var name='template_additional_list'}
+                        </ul>
+                    </div>
+                    <input type="hidden" id="template_additional" name="template_additional" value="{tmpl_var name='template_additional'}">
+                </div>
+                <div class="ctrlHolder">
+                    &nbsp;
+                </div>
             </tmpl_if>
-            -->
-            <div class="ctrlHolder">
-                <label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
-                <input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
-            </div>
 			<div class="ctrlHolder">
                 <label for="customer_no_template">{tmpl_var name='customer_no_template_txt'}</label>
                 <input name="customer_no_template" id="customer_no_template" value="{tmpl_var name='customer_no_template'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
@@ -291,6 +302,17 @@
                     <input name="limit_aps" id="limit_aps" value="{tmpl_var name='limit_aps'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
             </div>
+			<div class="subsectiontoggle"><span></span>{tmpl_var name='client_limits_txt'}<em></em></div>
+			<div style="display:none;">
+				<div class="ctrlHolder">
+					<label for="limit_client">{tmpl_var name='limit_client_txt'}</label>
+					<input name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+				<div class="ctrlHolder">
+					<label for="limit_domainmodule">{tmpl_var name='limit_domainmodule_txt'}</label>
+					<input name="limit_domainmodule" id="limit_domainmodule" value="{tmpl_var name='limit_domainmodule'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+				</div>
+			</div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -302,3 +324,33 @@
     </div>
 
 </div>
+<tmpl_if name="is_admin">
+<script type="text/javascript">
+<!--
+function custom_template_selected() {
+    return ($('#template_master').val() == '0' ? true : false);
+}
+
+jQuery('#template_additional_list').find('li > a').click(function(e) {
+    e.preventDefault();
+    delAdditionalTemplate($(this).parent().attr('rel'));
+});
+
+jQuery('div.panel_client')
+        .find('div.pnl_formsarea')
+        .find('fieldset')
+        .find('input,select,button')
+        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter')
+        .click(function(e) {
+            if(custom_template_selected()) return true;
+            e.preventDefault();
+            alert('{tmpl_var name="err_msg_master_tpl_set"}');
+        })
+        .focus(function() {
+            if(custom_template_selected()) return true;
+            $(this).blur();
+        });
+
+//-->
+</script>
+</tmpl_if>

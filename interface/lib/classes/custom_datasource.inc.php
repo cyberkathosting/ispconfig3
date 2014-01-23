@@ -32,7 +32,7 @@ class custom_datasource {
 
 	function master_templates($field, $record) {
 		global $app, $conf;
-		$records = $app->db->queryAllRecords("SELECT template_id,template_name FROM client_template WHERE template_type ='m'");
+		$records = $app->db->queryAllRecords("SELECT template_id,template_name FROM client_template WHERE template_type ='m' and ".$app->tform->getAuthSQL('r'));
 		$records_new[0] = $app->lng('Custom');
 		foreach($records as $rec) {
 			$key = $rec['template_id'];

@@ -133,11 +133,21 @@ class page_action extends tform_actions {
 			} else {
 				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]) : 0;
 			}
-
+			
+			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
+				// check if server is in client's servers or add it.
+				$chk_sid = explode(',', $client['web_servers']);
+				if(in_array($this->dataRecord["server_id"], $client['web_servers']) == false) {
+					if($client['web_servers'] != '') $client['web_servers'] .= ',';
+					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
+				}
+			}
+			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
+			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
@@ -234,10 +244,20 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
 
+			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
+				// check if server is in client's servers or add it.
+				$chk_sid = explode(',', $client['web_servers']);
+				if(in_array($this->dataRecord["server_id"], $client['web_servers']) == false) {
+					if($client['web_servers'] != '') $client['web_servers'] .= ',';
+					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
+				}
+			}
+			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
+			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
