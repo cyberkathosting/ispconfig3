@@ -6,15 +6,9 @@
     <div class="pnl_toolsarea">
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
-                <tmpl_if name="is_admin">
                 <button class="button iconstxt icoAdd" type="button" onclick="loadContent('client/domain_edit.php');">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
-                <tmpl_else>
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('client/domain_new_client.php');">
-                    <span>{tmpl_var name="add_new_record_txt"}</span>
-                </button>
-                </tmpl_if>
             </div>
         </fieldset>
     </div>

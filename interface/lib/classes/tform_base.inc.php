@@ -270,6 +270,7 @@ class tform_base {
 			unset($tmp_recordid);
 
 			$querystring = str_replace("{AUTHSQL}", $this->getAuthSQL('r'), $querystring);
+			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', "self::table_auth_sql", $querystring);
 
 			// Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);

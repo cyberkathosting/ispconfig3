@@ -146,7 +146,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 
 //message variables
 $message_variables = '';
-$sql = "SHOW COLUMNS FROM client WHERE Field NOT IN ('client_id', 'sys_userid', 'sys_groupid', 'sys_perm_user', 'sys_perm_group', 'sys_perm_other', 'password', 'parent_client_id', 'id_rsa', 'ssh_rsa', 'created_at', 'default_mailserver', 'default_webserver', 'web_php_options', 'ssh_chroot', 'default_dnsserver', 'default_dbserver', 'template_master', 'template_additional') AND Field NOT LIKE 'limit_%'";
+$sql = "SHOW COLUMNS FROM client WHERE Field NOT IN ('client_id', 'sys_userid', 'sys_groupid', 'sys_perm_user', 'sys_perm_group', 'sys_perm_other', 'password', 'parent_client_id', 'id_rsa', 'ssh_rsa', 'created_at', 'default_mailserver', 'default_webserver', 'web_php_options', 'ssh_chroot', 'default_dnsserver', 'default_dbserver', 'template_master', 'template_additional', 'force_suexec', 'default_slave_dnsserver', 'usertheme', 'locked', 'canceled', 'can_use_api', 'tmp_data', 'customer_no_template', 'customer_no_start', 'customer_no_counter', 'added_date', 'added_by') AND Field NOT LIKE 'limit_%'";
 $field_names = $app->db->queryAllRecords($sql);
 if(!empty($field_names) && is_array($field_names)){
 	foreach($field_names as $field_name){

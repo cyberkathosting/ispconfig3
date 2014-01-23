@@ -1,5 +1,5 @@
 <?php
-$wb["list_head_txt"] = 'Client-Templates';
+$wb["list_head_txt"] = 'Client and Reseller Templates';
 $wb["template_type_txt"] = 'Type';
 $wb["template_name_txt"] = 'Template name';
 $wb['template_id_txt'] = 'Template ID';

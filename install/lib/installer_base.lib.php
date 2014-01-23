@@ -1247,6 +1247,15 @@ class installer_base {
 			replaceLine('/etc/apache2/ports.conf', 'Listen 443', 'Listen 443', 1);
 		}
 
+		if(is_file('/etc/apache2/apache.conf')) {
+			if(hasLine('/etc/apache2/apache.conf', 'Include sites-enabled/', 1) == false) {
+				if(hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.conf', 1) == false) {
+					replaceLine('/etc/apache2/apache.conf', 'Include sites-enabled/', 'Include sites-enabled/', 1, 1);
+				} elseif(hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.vhost', 1) == false) {
+					replaceLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.vhost', 'IncludeOptional sites-enabled/*.vhost', 1, 1);
+				}
+			}
+		}
 
 		//* Copy the ISPConfig configuration include
 		$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];

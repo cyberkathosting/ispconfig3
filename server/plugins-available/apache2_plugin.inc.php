@@ -1021,6 +1021,7 @@ class apache2_plugin {
 		}
 
 		$tpl->setVar($vhost_data);
+		$tpl->setVar('apache_version', $app->system->getapacheversion());
 
 		// Rewrite rules
 		$rewrite_rules = array();
@@ -1227,6 +1228,7 @@ class apache2_plugin {
 
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate('php-fcgi-starter.master');
+			$fcgi_tpl->setVar('apache_version', $app->system->getapacheversion());
 
 			// Support for multiple PHP versions (FastCGI)
 			if(trim($data['new']['fastcgi_php_version']) != ''){
@@ -1366,6 +1368,7 @@ class apache2_plugin {
 
 			$cgi_tpl = new tpl();
 			$cgi_tpl->newTemplate('php-cgi-starter.master');
+			$cgi_tpl->setVar('apache_version', $app->system->getapacheversion());
 
 			// This works because PHP "rewrites" a symlink to the physical path
 			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
@@ -2030,6 +2033,7 @@ class apache2_plugin {
 
 		$tpl = new tpl();
 		$tpl->newTemplate('apache_ispconfig.conf.master');
+		$tpl->setVar('apache_version', $app->system->getapacheversion());
 		$records = $app->db->queryAllRecords('SELECT * FROM server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
 
 		$records_out= array();
@@ -2739,7 +2743,8 @@ class apache2_plugin {
 		$app->load('tpl');
 		$tpl = new tpl();
 		$tpl->newTemplate('php_fpm_pool.conf.master');
-
+		$tpl->setVar('apache_version', $app->system->getapacheversion());
+		
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
 			$use_socket = 1;

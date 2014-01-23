@@ -219,6 +219,7 @@ CREATE TABLE `client` (
   `limit_cron_frequency` int(11) NOT NULL DEFAULT '5',
   `limit_traffic_quota` int(11) NOT NULL DEFAULT '-1',
   `limit_client` int(11) NOT NULL DEFAULT '0',
+  `limit_domainmodule` int(11) NOT NULL DEFAULT '0',
   `limit_mailmailinglist` int(11) NOT NULL DEFAULT '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
   `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
@@ -321,6 +322,7 @@ CREATE TABLE `client_template` (
   `limit_cron_frequency` int(11) NOT NULL default '5',
   `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
+  `limit_domainmodule` int(11) NOT NULL DEFAULT '0',
   `limit_mailmailinglist` int(11) NOT NULL default '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
   `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
@@ -340,6 +342,30 @@ CREATE TABLE `client_template_assigned` (
   PRIMARY KEY (`assigned_template_id`),
   KEY `client_id` (`client_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_message_template`
+--
+
+CREATE TABLE `client_message_template` (
+  `client_message_template_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `template_type` varchar(255) DEFAULT NULL,
+  `template_name` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `message` text,
+  PRIMARY KEY (`client_message_template_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `invoice_message_template`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -1379,6 +1405,11 @@ CREATE TABLE `spamfilter_policy` (
   `spam_subject_tag2` varchar(64) default NULL,
   `message_size_limit` int(11) unsigned default NULL,
   `banned_rulenames` varchar(64) default NULL,
+  `policyd_quota_in` int(11) NOT NULL DEFAULT  '-1',
+  `policyd_quota_in_period` int(11) NOT NULL DEFAULT  '24',
+  `policyd_quota_out` int(11) NOT NULL DEFAULT  '-1',
+  `policyd_quota_out_period` int(11) NOT NULL DEFAULT  '24',
+  `policyd_greylist` ENUM(  'Y',  'N' ) NOT NULL DEFAULT  'N',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1699,7 +1730,7 @@ CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `parent_domain_id` int(10) unsigned NOT NULL,
-  `backup_type` enum('web','mongodb','mysql') NOT NULL DEFAULT 'web',
+  `backup_type` enum('web','mysql','mongodb') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
