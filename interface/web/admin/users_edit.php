@@ -66,7 +66,14 @@ class page_action extends tform_actions {
 		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
+		
 		$this->oldDataRecord = $app->tform->getDataRecord($this->id);
+		
+		//* A user that belongs to a client record (client or reseller) may not have typ admin
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'admin'  && $this->oldDataRecord['client_id'] > 0) {
+			$app->tform->errorMessage .= $app->tform->wordbook['client_not_admin_err'];
+		}
+		
 	}
 
 	/*
