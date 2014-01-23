@@ -24,6 +24,7 @@ $wb['mailuser_uid_txt'] = 'UID de l\'utilisateur mail';
 $wb['mailuser_gid_txt'] = 'GID de l\'utilisateur mail';
 $wb['mailuser_name_txt'] = 'Nom d\'utilisateur mail';
 $wb['mailuser_group_txt'] = 'Groupe de l\'utilisateur mail';
+$wb['mailbox_virtual_uidgid_maps_txt'] = 'Use Websites Linux uid for mailbox (only if both on the same server)';
 $wb['relayhost_txt'] = 'Hôte de relais';
 $wb['relayhost_user_txt'] = 'Utilisateur du relais';
 $wb['relayhost_password_txt'] = 'Mot de passe du relais';

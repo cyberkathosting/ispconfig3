@@ -33,6 +33,12 @@
                 <label for="mailuser_group" class="wf_preField">{tmpl_var name='mailuser_group_txt'}</label>
                 <input type="text" id="mailuser_group" name="mailuser_group" value="{tmpl_var name='mailuser_group'}" size="10" maxlength="255">
             </span>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='mailbox_virtual_uidgid_maps_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='mailbox_virtual_uidgid_maps'}
+                </div>
+            </div>
             <span class="wf_oneField">
                 <label for="relayhost" class="wf_preField">{tmpl_var name='relayhost_txt'}</label>
                 <input type="text" id="relayhost" name="relayhost" value="{tmpl_var name='relayhost'}" size="40" maxlength="255">

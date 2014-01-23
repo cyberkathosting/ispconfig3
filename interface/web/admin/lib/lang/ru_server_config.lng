@@ -21,6 +21,7 @@ $wb['mailuser_uid_txt'] = 'Mailuser UID';
 $wb['mailuser_gid_txt'] = 'Mailuser GID';
 $wb['mailuser_name_txt'] = 'Имя Mailuser';
 $wb['mailuser_group_txt'] = 'Группа Mailuser';
+$wb['mailbox_virtual_uidgid_maps_txt'] = 'Use Websites Linux uid for mailbox (only if both on the same server)';
 $wb['relayhost_txt'] = 'Relay-хост';
 $wb['relayhost_user_txt'] = 'Логин Relay-хоста';
 $wb['relayhost_password_txt'] = 'Пароль Relay-хоста';

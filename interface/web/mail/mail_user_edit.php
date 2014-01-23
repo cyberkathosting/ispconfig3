@@ -203,9 +203,11 @@ class page_action extends tform_actions {
 			$maildir = str_replace("[localpart]", strtolower($_POST["email_local_part"]), $maildir);
 			$this->dataRecord["maildir"] = $maildir;
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
-			$this->dataRecord["uid"] = $mail_config["mailuser_uid"];
-			$this->dataRecord["gid"] = $mail_config["mailuser_gid"];
-
+			
+			// Will be overwritten by mail_plugin
+			$this->dataRecord['uid'] = -1;
+			$this->dataRecord['gid'] = -1;
+				
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = '".$app->db->quote($this->dataRecord["email"])."'");
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";

@@ -368,6 +368,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '10',
 			'maxlength' => '255'
 		),
+		'mailbox_virtual_uidgid_maps' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'relayhost' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

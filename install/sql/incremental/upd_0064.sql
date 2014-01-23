@@ -1,0 +1,2 @@
+ALTER TABLE `mail_user` ADD `disablelmtp` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `disablelda` ;
+ALTER TABLE `mail_user` CHANGE `uid` `uid` INT( 11 ) NOT NULL DEFAULT '5000', CHANGE `gid` `gid` INT( 11 ) NOT NULL DEFAULT '5000' ;

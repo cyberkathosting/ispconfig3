@@ -245,7 +245,7 @@ class installer extends installer_base
 		//* Reconfigure postfix to use dovecot authentication
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
-			'virtual_transport = dovecot',
+			'virtual_transport = lmtp:unix:private/dovecot-lmtp',
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth'
 		);

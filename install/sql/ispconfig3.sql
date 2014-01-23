@@ -910,6 +910,7 @@ CREATE TABLE `mail_user` (
   `disablesmtp` enum('n','y') NOT NULL default 'n',
   `disablesieve` enum('n','y') NOT NULL default 'n',
   `disablelda` enum('n','y') NOT NULL default 'n',
+  `disablelmtp` enum('n','y') NOT NULL default 'n',
   `disabledoveadm` enum('n','y') NOT NULL default 'n',
   `last_quota_notification` date NULL default NULL,
   `backup_interval` VARCHAR( 255 ) NOT NULL,

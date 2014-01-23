@@ -52,6 +52,12 @@
                 <input name="mailuser_group" id="mailuser_group" value="{tmpl_var name='mailuser_group'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>
             <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='mailbox_virtual_uidgid_maps_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='mailbox_virtual_uidgid_maps'}
+                </div>
+            </div>
+            <div class="ctrlHolder">
                 <label for="relayhost">{tmpl_var name='relayhost_txt'}</label>
                 <input name="relayhost" id="relayhost" value="{tmpl_var name='relayhost'}" size="40" maxlength="255" type="text" class="textInput formLengthHalf" />
             </div>

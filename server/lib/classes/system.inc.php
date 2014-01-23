@@ -606,6 +606,30 @@ class system{
 
 
 	/**
+	 * Get the user from an user id
+	 *
+	 */
+	function getuser($uid){
+		global $app;
+		$user_datei = $this->server_conf['passwd_datei'];
+		$users = $app->file->no_comments($user_datei);
+		$lines = explode("\n", $users);
+		if(is_array($lines)){
+			foreach($lines as $line){
+				if(trim($line) != ''){
+					list($f1, $f2, $f3,) = explode(':', $line);
+					if($f3 == $uid) return $f1;
+				}
+			}
+		}
+		return false;
+	}
+
+
+
+
+
+	/**
 	 * Get the user id from an user
 	 *
 	 */
@@ -626,6 +650,30 @@ class system{
 		} else {
 			return false;
 		}
+	}
+
+
+
+
+
+	/**
+	 * Get the group from a group id
+	 *
+	 */
+	function getgroup($gid){
+		global $app;
+		$group_datei = $this->server_conf['group_datei'];
+		$groups = $app->file->no_comments($group_datei);
+		$lines = explode("\n", $groups);
+		if(is_array($lines)){
+			foreach($lines as $line){
+				if(trim($line) != ""){
+					list($f1, $f2, $f3, $f4) = explode(':', $line);
+					if($f3 == $gid) return $f1;
+				}
+			}
+		}
+		return false;
 	}
 
 
@@ -1476,7 +1524,7 @@ class system{
 		}
 	}
 
-	function maildirmake($maildir_path, $user = '', $subfolder = '') {
+	function maildirmake($maildir_path, $user = '', $subfolder = '', $group = '') {
 
 		global $app;
 
@@ -1490,22 +1538,24 @@ class system{
 
 		if($user != '' && $user != 'root' && $this->is_user($user)) {
 			$user = escapeshellcmd($user);
-			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
-			$group = $user;
 			if(is_dir($dir)) $this->chown($dir, $user);
-			if(is_dir($dir)) $this->chgrp($dir, $group);
 
 			$chown_mdsub = true;
+		}
+
+		if($group != '' && $group != 'root' && $this->is_group($group)) {
+			$group = escapeshellcmd($group);
+			if(is_dir($dir)) $this->chgrp($dir, $group);
+		
+			$chgrp_mdsub = true;
 		}
 
 		$maildirsubs = array('cur', 'new', 'tmp');
 
 		foreach ($maildirsubs as $mdsub) {
 			if(!is_dir($dir.'/'.$mdsub)) mkdir($dir.'/'.$mdsub, 0700, true);
-			if ($chown_mdsub) {
-				chown($dir.'/'.$mdsub, $user);
-				chgrp($dir.'/'.$mdsub, $group);
-			}
+			if ($chown_mdsub) chown($dir.'/'.$mdsub, $user);
+			if ($chgrp_mdsub) chgrp($dir.'/'.$mdsub, $group);
 		}
 
 		chmod($dir, 0700);

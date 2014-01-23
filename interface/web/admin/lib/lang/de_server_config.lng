@@ -25,6 +25,7 @@ $wb['mailuser_uid_txt'] = 'Mailbenutzer UID';
 $wb['mailuser_gid_txt'] = 'Mailbenutzer GID';
 $wb['mailuser_name_txt'] = 'Mailbenutzer Name';
 $wb['mailuser_group_txt'] = 'Mailbenutzer Gruppe';
+$wb['mailbox_virtual_uidgid_maps_txt'] = 'Website Linux Uid für Mailboxen (nur wenn beides auf gleichem Server)';
 $wb['relayhost_txt'] = 'Relayhost';
 $wb['relayhost_user_txt'] = 'Relayhost Benutzer';
 $wb['relayhost_password_txt'] = 'Relayhost Passwort';

@@ -184,7 +184,6 @@ class remoting {
 		return $app->db->affectedRows() == 1;
 	}
 
-
 	//** protected functions -----------------------------------------------------------------------------------
 
 	protected function klientadd($formdef_file, $reseller_id, $params)
