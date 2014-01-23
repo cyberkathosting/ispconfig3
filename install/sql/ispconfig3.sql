@@ -1730,7 +1730,7 @@ CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `server_id` int(10) unsigned NOT NULL,
   `parent_domain_id` int(10) unsigned NOT NULL,
-  `backup_type` enum('web','mongodb','mysql') NOT NULL DEFAULT 'web',
+  `backup_type` enum('web','mysql','mongodb') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
