@@ -962,6 +962,16 @@ if (!defined('vlibTemplateClassLoaded')) {
 				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
 				$regex.=    '[\"\']?';
 				$regex.= ')?\s*';
+				$regex.= '(?:';
+				$regex.=    '(?:';
+				$regex.=        '(name|format|escape|op|value)';
+				$regex.=        '\s*=\s*';
+				$regex.=    ')';
+				$regex.=    '(?:[\"\'])?';
+				$regex.=    '((?<=[\"\'])';
+				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
+				$regex.=    '[\"\']?';
+				$regex.= ')?\s*';
 				$regex.= '(?:>|\/>|}|-->){1}';
 				$regex.= '/i';
 				//$regex.= '([\r\n|\n|\r])?/ie';
@@ -1290,7 +1300,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			$wholetag = $args[0];
 			$openclose = $args[1];
 			$tag = strtolower($args[2]);
-			$newline = $args[9];
+			$newline = $args[11];
 			//echo "1#$newline#2";
 
 			if ($tag == 'else') return '<?php } else { ?>'.$newline;
@@ -1307,7 +1317,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			}
 
 			// arrange attributes
-			for ($i=3; $i < 8; $i=($i+2)) {
+			for ($i=3; $i < 10; $i=($i+2)) {
 				if (empty($args[$i]) && empty($args[($i+1)])) break;
 				$key = (empty($args[$i])) ? 'name' : strtolower($args[$i]);
 				if ($key == 'name' && preg_match('/^(php)?include$/', $tag)) $key = 'file';
