@@ -17,13 +17,6 @@ $items[] = array(   'title'  => "Add Client",
 	'link' => 'client/client_edit.php',
 	'html_id'   => 'client_add');
 
-if($_SESSION["s"]["user"]["typ"] == 'admin'){
-	$items[] = array(   'title'  => "Edit Client-Templates",
-		'target'  => 'content',
-		'link' => 'client/client_template_list.php',
-		'html_id'   => 'client_template_list');
-}
-
 $module["nav"][] = array(   'title' => 'Clients',
 	'open'  => 1,
 	'items' => $items);
@@ -65,6 +58,24 @@ $module["nav"][] = array(   'title' => 'Messaging',
 	'items' => $items);
 
 unset($items);
+
+
+$items[] = array(   'title'  => "Limit-Templates",
+	'target'  => 'content',
+	'link' => 'client/client_template_list.php',
+	'html_id'   => 'client_template_list');
+
+$items[] = array(   'title'  => "Email-Templates",
+	'target'  => 'content',
+	'link' => 'client/message_template_list.php',
+	'html_id'   => 'message_template_list');
+
+$module["nav"][] = array(   'title' => 'Templates',
+	'open'  => 1,
+	'items' => $items);
+
+unset($items);
+
 
 $app->uses('ini_parser,getconf');
 $settings = $app->getconf->get_global_config('domains');

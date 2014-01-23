@@ -51,6 +51,19 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	
+	function onSubmit() {
+		global $app;
+		
+		//* Resellers shall not be able to create another reseller or set reseller specific settings
+		if($_SESSION["s"]["user"]["typ"] == 'user') {
+			$this->dataRecord['limit_client'] = 0;
+			$this->dataRecord['limit_domainmodule'] = 0;
+		}
+		
+		parent::onSubmit();
+	}
+	
 	function onBeforeUpdate() {
 		global $app;
 

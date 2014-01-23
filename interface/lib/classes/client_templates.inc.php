@@ -106,9 +106,10 @@ class client_templates {
 		/*
          * Get the master-template for the client
          */
-		$sql = "SELECT template_master, template_additional FROM client WHERE client_id = " . $app->functions->intval($clientId);
+		$sql = "SELECT template_master, template_additional,limit_client FROM client WHERE client_id = " . $app->functions->intval($clientId);
 		$record = $app->db->queryOneRecord($sql);
 		$masterTemplateId = $record['template_master'];
+		$is_reseller = ($record['limit_client'] > 0)?true:false;
 
 		if($record['template_additional'] != '') {
 			// we have to call the update_client_templates function
@@ -222,6 +223,7 @@ class client_templates {
          * Write all back to the database
          */
 		$update = '';
+		if(!$is_reseller) unset($limits['limit_client']); // Only Resellers may have limit_client set in template to ensure that we do not convert a client to reseller accidently.
 		foreach($limits as $k => $v){
 			if ((strpos($k, 'limit') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec') && !is_array($v)){
 				if ($update != '') $update .= ', ';
