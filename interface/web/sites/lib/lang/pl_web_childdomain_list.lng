@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'Subdomeny';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['parent_domain_id_txt'] = 'Strona www';
+$wb['domain_txt'] = 'Subdomena';
+$wb['add_new_record_txt'] = 'Dodaj nową subdomene';
+$wb['domain_error_empty'] = 'Domena jest pusta.';
+$wb['domain_error_unique'] = 'Domena musi być unikatowa.';
+$wb['domain_error_regex'] = 'Nazwa domeny ma niepoprawny format.';
+$wb['no_redirect_txt'] = 'Bez przekierowania';
+$wb['no_flag_txt'] = 'Bez flagi';
+$wb['none_txt'] = 'Brak';
+
+?>

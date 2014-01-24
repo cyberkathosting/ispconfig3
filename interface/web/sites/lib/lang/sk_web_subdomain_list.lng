@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Subdomény';
-$wb['active_txt'] = 'Aktívne';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webstránka';
-$wb['domain_txt'] = 'Subdoména';
-$wb['add_new_record_txt'] = 'Pridať novú subdoménu';
-?>
