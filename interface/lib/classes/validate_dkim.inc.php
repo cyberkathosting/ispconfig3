@@ -87,10 +87,10 @@ class validate_dkim {
 	function validate_post($key, $value) {
 		switch ($key) {
 		case 'public':
-			if (preg_match("/(^-----BEGIN PUBLIC KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,221}(-----END PUBLIC KEY-----(\n|\r)$)/", $value) === 1) { return true; } else { return false; }
+			if (preg_match("/(^-----BEGIN PUBLIC KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,221}(-----END PUBLIC KEY-----(\n|\r)?$)/", $value) === 1) { return true; } else { return false; }
 			break;
 		case 'private':
-			if (preg_match("/(^-----BEGIN RSA PRIVATE KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,850}(-----END RSA PRIVATE KEY-----(\n|\r)$)/", $value) === 1) { return true; } else { return false; }
+			if (preg_match("/(^-----BEGIN RSA PRIVATE KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,850}(-----END RSA PRIVATE KEY-----(\n|\r)?$)/", $value) === 1) { return true; } else { return false; }
 			break;
 		}
 	}
