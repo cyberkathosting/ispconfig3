@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Situs Web';
-$wb['domain_id_txt'] = 'ID';
-$wb['active_txt'] = 'Aktif';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Tambah Situs Web Baru';
-?>

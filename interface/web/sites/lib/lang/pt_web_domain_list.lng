@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Websites';
-$wb['domain_id_txt'] = 'ID';
-$wb['active_txt'] = 'Activo';
-$wb['server_id_txt'] = 'Servidor';
-$wb['domain_txt'] = 'Domínio';
-$wb['add_new_record_txt'] = 'Adicionar um novo site';
-?>

@@ -1,9 +1,0 @@
-<?php
-<?php
-$wb['list_head_txt'] = 'Domínio Alias';
-$wb['active_txt'] = 'Ativo';
-$wb['server_id_txt'] = 'Servidor';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['domain_txt'] = 'Domínio Alias';
-$wb['add_new_record_txt'] = 'Adcionar novo domínio alias';
-?>

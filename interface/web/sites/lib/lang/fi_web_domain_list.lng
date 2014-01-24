@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Verkkotunnukset';
-$wb['active_txt'] = 'Käytössä';
-$wb['server_id_txt'] = 'Palvelin';
-$wb['domain_txt'] = 'Verkkotunnus';
-$wb['add_new_record_txt'] = 'Lisää uusi verkkotunnus';
-$wb['domain_id_txt'] = 'Verkkotunnus';
-?>
