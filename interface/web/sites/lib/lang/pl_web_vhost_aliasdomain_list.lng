@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Alias domeny';
+$wb['active_txt'] = 'Aktywny';
+$wb['server_id_txt'] = 'Serwer';
+$wb['parent_domain_id_txt'] = 'Strona www';
+$wb['domain_txt'] = 'Alias domeny';
+$wb['add_new_record_txt'] = 'Dodaj nowy alias domeny';
+?>

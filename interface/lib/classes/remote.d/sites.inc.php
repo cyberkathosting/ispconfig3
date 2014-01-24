@@ -451,11 +451,80 @@ class remoting_sites extends remoting {
 	// ----------------------------------------------------------------------------------------------------------
 
 	//* Get record details
+	public function sites_web_vhost_aliasdomain_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_aliasdomain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	//* Add a record
+	public function sites_web_vhost_aliasdomain_add($session_id, $client_id, $params)
+	{
+		global $app;
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_add')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		//* Set a few params to "not empty" values which get overwritten by the sites_web_domain_plugin
+		if($params['document_root'] == '') $params['document_root'] = '-';
+		if($params['system_user'] == '') $params['system_user'] = '-';
+		if($params['system_group'] == '') $params['system_group'] = '-';
+
+		//* Set a few defaults for nginx servers
+		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
+		if($params['pm_start_servers'] == '') $params['pm_start_servers'] = 1;
+		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
+		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
+
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_aliasdomain.tform.php', $client_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
+		return $domain_id;
+	}
+
+	//* Update a record
+	public function sites_web_vhost_aliasdomain_update($session_id, $client_id, $primary_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_update')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		//* Set a few defaults for nginx servers
+		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
+		if($params['pm_start_servers'] == '') $params['pm_start_servers'] = 1;
+		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
+		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
+
+		$affected_rows = $this->updateQuery('../sites/form/web_vhost_aliasdomain.tform.php', $client_id, $primary_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
+		return $affected_rows;
+	}
+
+	//* Delete a record
+	public function sites_web_vhost_aliasdomain_delete($session_id, $primary_id)
+	{
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_aliasdomain_delete')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_aliasdomain.tform.php', $primary_id);
+		return $affected_rows;
+	}
+
+	// ----------------------------------------------------------------------------------------------------------
+
+	//* Get record details
 	public function sites_web_vhost_subdomain_get($session_id, $primary_id)
 	{
 		global $app;
 
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_get')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -468,7 +537,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_subdomain_add($session_id, $client_id, $params)
 	{
 		global $app;
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_add')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -491,7 +560,7 @@ class remoting_sites extends remoting {
 	//* Update a record
 	public function sites_web_vhost_subdomain_update($session_id, $client_id, $primary_id, $params)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_update')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
@@ -509,7 +578,7 @@ class remoting_sites extends remoting {
 	//* Delete a record
 	public function sites_web_vhost_subdomain_delete($session_id, $primary_id)
 	{
-		if(!$this->checkPerm($session_id, 'sites_web_subdomain_delete')) {
+		if(!$this->checkPerm($session_id, 'sites_web_vhost_subdomain_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}

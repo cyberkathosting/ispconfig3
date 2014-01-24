@@ -438,7 +438,7 @@ class rescue_core_module {
 	 * @param type $daemon the name of the daemon
 	 */
 	private function _rescueDaemon($daemon){
-		global $conf;
+		global $app, $conf;
 
 		$app->uses('system');
 		// if you need to find all restarts search for "['init_scripts']"
