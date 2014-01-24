@@ -50,10 +50,13 @@ class cronjob_backup extends cronjob {
 		global $app, $conf;
 
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+
 		$backup_dir = $server_config['backup_dir'];
+		$backup_dir_permissions =0750;
+
 		$backup_mode = $server_config['backup_mode'];
 		if($backup_mode == '') $backup_mode = 'userzip';
-		$backup_dir_permissions =0750;
 
 		if($backup_dir != '') {
 			//* mount backup directory, if necessary
@@ -67,32 +70,35 @@ class cronjob_backup extends cronjob {
 				}
 			}
 
-			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-			
-			if(!is_dir($backup_dir)) {
-				mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
-			} else {
-				chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
-			}
-
-			$sql="SELECT * FROM mail_user JOIN mail_domain ON (mail_domain.active='y' AND mail_user.email like concat('%',mail_domain.domain)) WHERE mail_user.server_id=".$conf['server_id']." AND maildir <> '' ORDER BY mail_domain.domain_id";
+			$sql = "SELECT * FROM mail_user WHERE server_id = '".intval($conf['server_id'])."' AND maildir <> ''";
 			$records = $app->db->queryAllRecords($sql);
+
 			if(is_array($records) && $run_backups) {
+				if(!is_dir($backup_dir)) {
+					mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
+				} else {
+					chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
+				}
+
 				foreach($records as $rec) {
 					//* Do the mailbox backup
 					if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-						$mail_backup_dir = $backup_dir.'/mail'.$rec['domain_id'];
+						$sql = "SELECT * FROM mail_domain WHERE domain = '".$app->db->quote(explode("@",$rec['email'])[1])."'";
+						$domain_rec=$app->db->queryOneRecord($sql);
 
+						$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
 						if(!is_dir($mail_backup_dir)) mkdir($mail_backup_dir, 0750);
 						chmod($mail_backup_dir, $backup_dir_permissions);
+
+						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_'.date('Y-m-d_H-i');
 
 						$domain_dir=explode('/',$rec['maildir']); 
 						$_temp=array_pop($domain_dir);unset($_temp);
 						$domain_dir=implode('/',$domain_dir);
+
 						$source_dir=array_pop(explode('/',$rec['maildir']));
 
-						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_'.date('Y-m-d_H-i');
-
+						//* create archives
 						if($backup_mode == 'userzip') {
 							$mail_backup_file.='.zip';
 							exec('cd '.$rec['homedir'].' && zip -b /tmp -r '.$mail_backup_dir.'/'.$mail_backup_file.' '.$source_dir.' > /dev/nul');
@@ -106,7 +112,7 @@ class cronjob_backup extends cronjob {
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, 'root');
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);
 							/* Insert mail backup record in database */
-							$sql = "INSERT INTO mail_backup (server_id,parent_domain_id,mailuser_id,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$rec['domain_id'].",".$rec['mailuser_id'].",'".$backup_mode."',".time().",'".$app->db->quote($mail_backup_file)."','".$app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file))."')";
+							$sql = "INSERT INTO mail_backup (server_id,parent_domain_id,mailuser_id,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$domain_rec['domain_id'].",".$rec['mailuser_id'].",'".$backup_mode."',".time().",'".$app->db->quote($mail_backup_file)."','".$app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file))."')";
 							$app->db->query($sql);	
 							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 						} else {
@@ -128,7 +134,7 @@ class cronjob_backup extends cronjob {
 						for ($n = $backup_copies; $n <= 10; $n++) {
 							if(isset($files[$n]) && is_file($mail_backup_dir.'/'.$files[$n])) {
 								unlink($mail_backup_dir.'/'.$files[$n]);
-								$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$rec['domain_id']." AND filename = '".$app->db->quote($files[$n])."'";
+								$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND filename = '".$app->db->quote($files[$n])."'";
 								$app->db->query($sql);
 								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 							}
@@ -139,7 +145,7 @@ class cronjob_backup extends cronjob {
 					/* Remove inactive backups */
 					if($rec['backup_interval'] == 'none') {
 						/* remove backups from db */
-						$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$rec['domain_id']." AND mailuser_id = ".$rec['mailuser_id'];
+						$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND mailuser_id = ".$rec['mailuser_id'];
 						$app->db->query($sql);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 						/* remove archives */
