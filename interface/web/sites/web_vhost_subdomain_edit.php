@@ -203,7 +203,7 @@ class page_action extends tform_actions {
 			$php_directive_snippets_txt = '';
 			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 				foreach($php_directive_snippets as $php_directive_snippet){
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$php_directive_snippet['snippet'].'</pre></a> ';
+					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a> ';
 				}
 			}
 			if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 				$apache_directive_snippets_txt = '';
 				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 					foreach($apache_directive_snippets as $apache_directive_snippet){
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$apache_directive_snippet['snippet'].'</pre></a> ';
+						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a> ';
 					}
 				}
 				if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -226,7 +226,7 @@ class page_action extends tform_actions {
 				$nginx_directive_snippets_txt = '';
 				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$nginx_directive_snippet['snippet'].'</pre></a> ';
+						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a> ';
 					}
 				}
 				if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -237,7 +237,7 @@ class page_action extends tform_actions {
 			$proxy_directive_snippets_txt = '';
 			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$proxy_directive_snippet['snippet'].'</pre></a> ';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a> ';
 				}
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -246,13 +246,17 @@ class page_action extends tform_actions {
 
 		$ssl_domain_select = '';
 		$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$this->id);
-		$ssl_domains = array($tmp["domain"], 'www.'.$tmp["domain"]);
+		$ssl_domains = array($tmp["domain"], 'www.'.$tmp["domain"], '*.'.$tmp["domain"]);
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
 				$ssl_domain_select .= "<option value='$ssl_domain' $selected>$ssl_domain</option>\r\n";
 			}
 		}
+		$app->tpl->setVar("ssl_domain", $ssl_domain_select);
+		unset($ssl_domain_select);
+		unset($ssl_domains);
+		unset($ssl_domain);
 
 		if($this->id > 0) {
 			$app->tpl->setVar('fixed_folder', 'y');
@@ -261,11 +265,6 @@ class page_action extends tform_actions {
 			$app->tpl->setVar('fixed_folder', 'n');
 			$app->tpl->setVar('server_id_value', $parent_domain['server_id']);
 		}
-
-		$app->tpl->setVar("ssl_domain", $ssl_domain_select);
-		unset($ssl_domain_select);
-		unset($ssl_domains);
-		unset($ssl_domain);
 
 		$tmp_txt = ($this->dataRecord['traffic_quota_lock'] == 'y')?'<b>('.$app->tform->lng('traffic_quota_exceeded_txt').')</b>':'';
 		$app->tpl->setVar("traffic_quota_exceeded_txt", $tmp_txt);
@@ -307,6 +306,17 @@ class page_action extends tform_actions {
 			$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
 		$app->tpl->setVar("domain", $this->dataRecord["domain"]);
+
+		// check for configuration errors in sys_datalog
+		if($this->id > 0) {
+			$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'web_domain' AND sys_datalog.dbidx = 'domain_id:".$app->functions->intval($this->id)."' AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC");
+			if(is_array($datalog) && !empty($datalog)){
+				if(trim($datalog['error']) != ''){
+					$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
+					$app->tpl->setVar("config_error_tstamp", date($app->lng('conf_format_datetime'), $datalog['tstamp']));
+				}
+			}
+		}
 
 		parent::onShowEnd();
 	}
@@ -389,7 +399,7 @@ class page_action extends tform_actions {
 			if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = '-';
 			if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = '-';
 			if($client['limit_python'] != 'y') $this->dataRecord['python'] = '-';
-			if($client['force_suexec'] != 'n') $this->dataRecord['suexec'] = 'y';
+			if($client['force_suexec'] == 'y') $this->dataRecord['suexec'] = 'y';
 			if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
 			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
 			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
@@ -398,7 +408,7 @@ class page_action extends tform_actions {
 			if($this->id > 0) {
 				$old_web_values = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
 			} else {
-				$old_web_values = $_POST;
+				$old_web_values = array();
 			}
 
 			//* Check the traffic quota of the client
