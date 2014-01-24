@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Alias doména';
-$wb['active_txt'] = 'Aktivní';
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webová stránka';
-$wb['domain_txt'] = 'Alias doména';
-$wb['add_new_record_txt'] = 'Přidat alias doménu';
-?>
-
