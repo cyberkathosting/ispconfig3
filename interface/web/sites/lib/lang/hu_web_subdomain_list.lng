@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Aldomainek';
-$wb['active_txt'] = 'Aktív';
-$wb['server_id_txt'] = 'Szerver';
-$wb['parent_domain_id_txt'] = 'Weboldal';
-$wb['domain_txt'] = 'aldomain';
-$wb['add_new_record_txt'] = 'Új Aldomain';
-?>

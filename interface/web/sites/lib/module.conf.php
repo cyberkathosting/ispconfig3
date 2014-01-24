@@ -23,7 +23,7 @@ if($app->auth->get_client_limit($userid, 'web_subdomain') != 0)
 {
 	$items[] = array(   'title'  => "Subdomain",
 		'target'  => 'content',
-		'link'      => 'sites/web_subdomain_list.php',
+		'link'      => 'sites/web_childdomain_list.php?type=subdomain',
 		'html_id'   => 'subdomain_list');
 
 	// read web config
@@ -41,7 +41,7 @@ if($app->auth->get_client_limit($userid, 'web_aliasdomain') != 0)
 {
 	$items[] = array(   'title'   => "Aliasdomain",
 		'target'  => 'content',
-		'link'    => 'sites/web_aliasdomain_list.php',
+		'link'    => 'sites/web_childdomain_list.php?type=aliasdomain',
 		'html_id' => 'aliasdomain_list');
 }
 
