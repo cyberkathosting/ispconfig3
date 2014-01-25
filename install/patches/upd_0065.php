@@ -8,7 +8,7 @@ if(!defined('INSTALLER_RUN')) die('Patch update file access violation.');
 	only executed when a corresponding sql patch exists.
 */
 
-class upd_0066 extends installer_patch_update {
+class upd_0065 extends installer_patch_update {
 
 	public function onAfterSQL() {
 		global $inst;
