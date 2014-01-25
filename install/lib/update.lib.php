@@ -179,7 +179,7 @@ function updateDbAndIni() {
 				}
 
 				//* Exec onBeforeSQL function
-				if(isset($php_patch) && is_object($php_patch)) {
+				if(isset($php_patch) && is_object($php_patch) && method_exists($php_patch, 'onBeforeSQL')) {
 					$php_patch->onBeforeSQL();
 					swriteln($inst->lng('Executing PHP patch file').': '.$php_patch_filename);
 				}
@@ -193,7 +193,7 @@ function updateDbAndIni() {
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
 
 				//* Exec onAfterSQL function
-				if(isset($php_patch) && is_object($php_patch)) {
+				if(isset($php_patch) && is_object($php_patch) && method_exists($php_patch, 'onAfterSQL')) {
 					$php_patch->onAfterSQL();
 				}
 
