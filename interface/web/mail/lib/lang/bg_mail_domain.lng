@@ -8,6 +8,12 @@ $wb['domain_error_unique'] = 'Дублиращ се домейн.';
 $wb['domain_error_regex'] = 'Неправилно домейн име.';
 $wb['client_txt'] = 'Клиент';
 $wb['limit_maildomain_txt'] = 'The max. number of email domains for your account is reached.';
+$wb["dkim_txt"] = 'enable DKIM';
+$wb["dkim_private_txt"] = 'DKIM Private-key';
+$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
+$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
+$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['policy_txt'] = 'Спамфилтър';
 $wb['no_policy'] = '- не е разрешен -';
 ?>

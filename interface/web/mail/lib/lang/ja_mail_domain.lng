@@ -9,5 +9,11 @@ $wb['domain_error_regex'] = '不正なドメイン名です。';
 $wb['client_txt'] = 'クライアント';
 $wb['limit_maildomain_txt'] = 'メールドメインが最大数に達したため、これ以上追加できません。';
 $wb['policy_txt'] = 'スパムフィルター';
+$wb["dkim_txt"] = 'enable DKIM';
+$wb["dkim_private_txt"] = 'DKIM Private-key';
+$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
+$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
+$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['no_policy'] = '使わない';
 ?>

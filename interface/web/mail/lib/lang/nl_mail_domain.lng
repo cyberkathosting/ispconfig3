@@ -10,4 +10,10 @@ $wb['client_txt'] = 'Klant';
 $wb['limit_maildomain_txt'] = 'Het max. aantal e-mail domainen voor uw account is bereikt.';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- niet ingeschakeld -';
+$wb["dkim_txt"] = 'enable DKIM';
+$wb["dkim_private_txt"] = 'DKIM Private-key';
+$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
+$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
+$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 ?>

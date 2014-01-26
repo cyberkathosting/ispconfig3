@@ -10,4 +10,10 @@ $wb['client_txt'] = 'Cliente';
 $wb['limit_maildomain_txt'] = 'Se ha alcanzado el número máximo de dominios de correo para esta cuenta';
 $wb['policy_txt'] = 'Filtro de spam';
 $wb['no_policy'] = '- no activado -';
+$wb["dkim_txt"] = 'enable DKIM';
+$wb["dkim_private_txt"] = 'DKIM Private-key';
+$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
+$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
+$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 ?>
