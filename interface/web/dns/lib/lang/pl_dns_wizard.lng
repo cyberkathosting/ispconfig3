@@ -37,4 +37,5 @@ $wb['globalsearch_noresults_text_txt'] = 'Brak wyników';
 $wb['globalsearch_noresults_limit_txt'] = '0 wyników';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Szukaj';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugestie';
+$wb['dkim_txt'] = 'DKIM enabled';
 ?>

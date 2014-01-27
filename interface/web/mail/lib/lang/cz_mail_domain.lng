@@ -8,6 +8,12 @@ $wb['domain_error_unique'] = 'Dupolikování domény.';
 $wb['domain_error_regex'] = 'Chybný název domény.';
 $wb['client_txt'] = 'Klient';
 $wb['limit_maildomain_txt'] = 'Dosažen maximální počet email domén pro Váš účet.';
+$wb["dkim_txt"] = 'enable DKIM';
+$wb["dkim_private_txt"] = 'DKIM Private-key';
+$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
+$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
+$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 ?>
