@@ -18,4 +18,3 @@ ADD  `policyd_quota_in_period` int(11) NOT NULL DEFAULT  '24',
 ADD  `policyd_quota_out` int(11) NOT NULL DEFAULT  '-1',
 ADD  `policyd_quota_out_period` int(11) NOT NULL DEFAULT  '24',
 ADD  `policyd_greylist` ENUM(  'Y',  'N' ) NOT NULL DEFAULT  'N';
-
