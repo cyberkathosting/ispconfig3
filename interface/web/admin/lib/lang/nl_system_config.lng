@@ -18,7 +18,7 @@ $wb['dblist_phpmyadmin_link_txt'] = 'Link naar phpmyadmin in DB lijst';
 $wb['mailboxlist_webmail_link_txt'] = 'Link naar webmail in Mailbox lijst';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Toon Autoresponder tabblad in Mailbox detail';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Toon Mail Filter tabblad in Mailbox detail';
-$wb['mailbox_show_custom_rules_tab_txt'] 'Toon Custom Rules tabblad in Mailbox detail';
+$wb['mailbox_show_custom_rules_tab_txt'] = 'Toon Custom Rules tabblad in Mailbox detail';
 $wb['webmail_url_txt'] = 'Webmail URL';
 $wb['phpmyadmin_url_txt'] = 'PHPMyAdmin URL';
 $wb['use_domain_module_txt'] = 'Gebruik de domein-module om nieuwe domeinen toe te voegen';

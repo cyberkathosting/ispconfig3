@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Aliasdomain';
-$wb['active_txt'] = 'Aktív';
-$wb['server_id_txt'] = 'Szerver';
-$wb['parent_domain_id_txt'] = 'Webhely';
-$wb['domain_txt'] = 'Aliasdomain';
-$wb['add_new_record_txt'] = 'Új Aliasdomain';
-?>

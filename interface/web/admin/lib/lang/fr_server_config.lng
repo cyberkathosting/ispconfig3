@@ -191,4 +191,8 @@ $wb['munin_user_txt'] = 'Munin User';
 $wb['munin_password_txt'] = 'Munin Password';
 $wb['munin_url_error_regex'] = 'Invalid Munin URL';
 $wb['munin_url_note_txt'] = 'Placeholder:';
+$wb['backup_delete_txt'] = 'Delete backups on domain/website delete';
+$wb["v6_prefix_txt"] = 'IPv6 Prefix';
+$wb["vhost_rewrite_v6_txt"] = 'Rewrite IPv6 on Mirror';
+$wb["v6_prefix_length"] = 'Prefix too long according to defined IPv6 ';
 ?>

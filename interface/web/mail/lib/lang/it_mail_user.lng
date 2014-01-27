@@ -47,4 +47,10 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
+$wb["backup_interval_txt"] = 'Backup interval';
+$wb["backup_copies_txt"] = 'Number of backup copies';
+$wb['no_backup_txt'] = 'No backup';
+$wb['daily_backup_txt'] = 'Daily';
+$wb['weekly_backup_txt'] = 'Weekly';
+$wb['monthly_backup_txt'] = 'Monthly';
 ?>

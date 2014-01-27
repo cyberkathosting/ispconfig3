@@ -1,0 +1,15 @@
+<?php
+$wb['list_head_txt'] = 'Subdomainler';
+$wb['active_txt'] = 'Aktif';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['parent_domain_id_txt'] = 'Websitesi';
+$wb['domain_txt'] = 'Subdomain';
+$wb['add_new_record_txt'] = 'Yeni Subdomain';
+$wb['domain_error_empty'] = 'Domain boş.';
+$wb['domain_error_unique'] = 'Bu Domain zaten var.';
+$wb['domain_error_regex'] = 'Geçersiz Domain.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
+
+?>

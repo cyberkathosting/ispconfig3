@@ -37,5 +37,6 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
 $wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
+$wb['dkim_txt'] = 'DKIM enabled';
 ?>
 

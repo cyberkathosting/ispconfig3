@@ -15,7 +15,7 @@ if($app->auth->get_client_limit($userid, 'web_domain') != 0)
 {
 	$items[] = array(   'title'  => "Website",
 		'target'  => 'content',
-		'link' => 'sites/web_domain_list.php',
+		'link' => 'sites/web_vhost_domain_list.php?type=domain',
 		'html_id'   => 'domain_list');
 }
 
@@ -23,8 +23,8 @@ if($app->auth->get_client_limit($userid, 'web_subdomain') != 0)
 {
 	$items[] = array(   'title'  => "Subdomain",
 		'target'  => 'content',
-		'link'      => 'sites/web_subdomain_list.php',
-		'html_id'   => 'subdomain_list');
+		'link'      => 'sites/web_childdomain_list.php?type=subdomain',
+		'html_id'   => 'childdomain_list');
 
 	// read web config
 	$app->uses('getconf');
@@ -32,8 +32,8 @@ if($app->auth->get_client_limit($userid, 'web_subdomain') != 0)
 	if($sys_config['vhost_subdomains'] == 'y') {
 		$items[] = array(   'title'  => "Subdomain (Vhost)",
 			'target'  => 'content',
-			'link'      => 'sites/web_vhost_subdomain_list.php',
-			'html_id'   => 'subdomain_list');
+			'link'      => 'sites/web_vhost_domain_list.php?type=subdomain',
+			'html_id'   => 'childdomain_list');
 	}
 }
 
@@ -41,8 +41,8 @@ if($app->auth->get_client_limit($userid, 'web_aliasdomain') != 0)
 {
 	$items[] = array(   'title'   => "Aliasdomain",
 		'target'  => 'content',
-		'link'    => 'sites/web_aliasdomain_list.php',
-		'html_id' => 'aliasdomain_list');
+		'link'    => 'sites/web_childdomain_list.php?type=aliasdomain',
+		'html_id' => 'childdomain_list');
 
 	// read web config
 	$app->uses('getconf');
@@ -50,8 +50,8 @@ if($app->auth->get_client_limit($userid, 'web_aliasdomain') != 0)
 	if($sys_config['vhost_aliasdomains'] == 'y') {
 		$items[] = array(   'title'  => "Aliasdomain (Vhost)",
 				'target'  => 'content',
-				'link'      => 'sites/web_vhost_aliasdomain_list.php',
-				'html_id'   => 'subdomain_list');
+				'link'      => 'sites/web_vhost_domain_list.php?type=aliasdomain',
+				'html_id'   => 'childdomain_list');
 	}
 }
 

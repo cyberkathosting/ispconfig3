@@ -194,4 +194,8 @@ $wb['munin_url_error_regex'] = 'Ungültige Munin-URL';
 $wb['munin_url_note_txt'] = 'Platzhalter:';
 $wb['backup_dir_is_mount_txt'] = 'Backupverzeichnis ist ein eigener Mount?';
 $wb['backup_dir_mount_cmd_txt'] = 'Mount-Befehl, falls Backupverzeichnis nicht gemountet';
+$wb['backup_delete_txt'] = 'Backups loeschen wenn eine Domain / Webseite geloescht wird';
+$wb["v6_prefix_txt"] = 'IPv6 Prefix';
+$wb["vhost_rewrite_v6_txt"] = 'Rewrite IPv6 on Mirror';
+$wb["v6_prefix_length"] = 'Prefix zu lang fuer angegebene IPv6-Adresse ';
 ?>
