@@ -257,6 +257,34 @@ class mail_plugin {
 		unset($tmp_basepath_parts[count($tmp_basepath_parts)-1]);
 		$base_path = implode('/', $tmp_basepath_parts);
 
+		//* Set the email-uid and gid if not given -> in case of changed settings again setting here
+		if (($data['new']['uid'] == -1) || ($data['new']['gid'] == -1)) {
+			$app->log('Setting uid and gid automatically',LOGLEVEL_DEBUG);
+			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
+				$app->log('Map uid to linux-user',LOGLEVEL_DEBUG);
+				$email_parts = explode('@',$data['new']['email']);
+				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+				if ($webdomain) {
+					while ($webdomain['parent_domain_id'] != 0) {
+						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = '".$webdomain['parent_domain_id']."'");
+					}
+					$app->log($data['new']['server_id'].' == '.$webdomain['server_id'],LOGLEVEL_DEBUG);
+
+					// only if web and mailserver are identical
+					if ($data['new']['server_id'] == $webdomain['server_id']) {
+						$data['new']['uid'] = $app->system->getuid($webdomain['system_user']);
+					}
+				}
+			}
+		}
+		// if nothing set before -> use standard mailuser uid and gid vmail
+		if ($data['new']['uid'] == -1) $data['new']['uid'] = $mail_config["mailuser_uid"];
+		if ($data['new']['gid'] == -1) $data['new']['gid'] = $mail_config["mailuser_gid"];
+		$app->log('Mailuser uid: '.$data['new']['uid'].', gid: '.$data['new']['gid'],LOGLEVEL_DEBUG);
+
+		// update DB if values changed
+		$app->db->query("UPDATE mail_user SET uid = ".$data['new']['uid'].", gid = ".$data['new']['gid']." WHERE mailuser_id = ".$data['new']['mailuser_id']);
+
 		$user = $app->system->getuser($data['new']['uid']);
 		$group = $app->system->getgroup($data['new']['gid']);
 
