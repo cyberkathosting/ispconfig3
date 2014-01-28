@@ -1154,13 +1154,13 @@ if($backup_dir != '') {
 						//* Create a .zip backup as web user and include also files owned by apache / nginx user
 						$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
 						exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b /tmp --exclude=backup\*'.$backup_excludes.' --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
-						if($retval == 0) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=backup\*'.$backup_excludes.' --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
+						if($retval == 0 || $retval == 12) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=backup\*'.$backup_excludes.' --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
 					} else {
 						//* Create a tar.gz backup as root user
 						$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
 						exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=backup\*'.$backup_excludes.' --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
 					}
-					if($retval == 0 || $backup_mode != 'userzip'){ // tar can return 1 (due to harmless warings) and still create valid backups
+					if($retval == 0 || ($backup_mode != 'userzip' && $retval == 1) || ($backup_mode == 'userzip' && $retval == 12)) { // tar can return 1, zip can return 12(due to harmless warings) and still create valid backups  
 						if(is_file($web_backup_dir.'/'.$web_backup_file)){
 							chown($web_backup_dir.'/'.$web_backup_file, 'root');
 							chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
