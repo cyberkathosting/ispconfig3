@@ -669,11 +669,11 @@ class installer_base {
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
-		if(is_file($full_file_name)) copy($full_file_name, $config_dir.$configfile.'~');
+		if(is_file($full_file_name)) copy($full_file_name, $$full_file_name.'~');
 		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10026');
 
 		$full_file_name=$config_dir.'/tag_as_foreign.re';
-		if(is_file($full_file_name)) copy($full_file_name, $config_dir.$configfile.'~');
+		if(is_file($full_file_name)) copy($full_file_name, $$full_file_name.'~');
 		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
 
 		//* Changing mode and group of the new created config files.
@@ -1040,9 +1040,21 @@ class installer_base {
 		if(is_file($conf['postfix']['config_dir'].'/master.cf')) copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~');
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!stristr($content, '127.0.0.1:10025')) {
+		if(!stristr($content, 'amavis')) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!stristr($content, '127.0.0.1:10025')) {
+			unset($content);
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis10025.master');
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+		$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!stristr($content, '127.0.0.1:10027')) {
+			unset($content);
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis10027.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 		unset($content);
@@ -1051,18 +1063,18 @@ class installer_base {
 		exec('adduser clamav amavis');
 
 		// Create the director for DKIM-Keys
-		mkdir("/var/lib/amavis/dkim", 0750);
+		if(!is_dir('/var/lib/amavis/dkim')) mkdir('-p /var/lib/amavis/dkim', 0750);
 		// get shell-user for amavis
 		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
 		if(!empty($amavis_user)) {
 			$amavis_user=rtrim($amavis_user, ":");
-			exec('chown '.$amavis_user.'/var/lib/amavis/dkim');
+			exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
 		}
 		// get shell-group for amavis
 		$amavis_group=exec('grep -o "^amavis:\|^vscan:" /etc/group');
 		if(!empty($amavis_group)) {
 			$amavis_group=rtrim($amavis_group, ":");
-			exec('chgrp '.$amavis_group.'/var/lib/amavis/dkim');
+			exec('chgrp '.$amavis_group.' /var/lib/amavis/dkim');
 		}
 	}
 
