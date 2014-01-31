@@ -344,6 +344,8 @@ if($install_mode == 'standard') {
 	if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 	if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
 
+} else {
+
 	//* In expert mode, we select the services in the following steps, only db is always available
 	$conf['services']['mail'] = false;
 	$conf['services']['web'] = false;
