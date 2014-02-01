@@ -669,11 +669,11 @@ class installer_base {
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
-		if(is_file($full_file_name)) copy($full_file_name, $$full_file_name.'~');
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
 		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10026');
 
 		$full_file_name=$config_dir.'/tag_as_foreign.re';
-		if(is_file($full_file_name)) copy($full_file_name, $$full_file_name.'~');
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
 		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
 
 		//* Changing mode and group of the new created config files.
@@ -1048,13 +1048,13 @@ class installer_base {
 		}
 		if(!stristr($content, '127.0.0.1:10025')) {
 			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis10025.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
-		$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		}
 		if(!stristr($content, '127.0.0.1:10027')) {
 			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis10027.master');
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 		unset($content);
