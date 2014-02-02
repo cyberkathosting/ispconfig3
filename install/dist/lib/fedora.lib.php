@@ -213,8 +213,8 @@ class installer_dist extends installer_base {
 		if(is_file('/var/lib/mailman/data/aliases')) unlink('/var/lib/mailman/data/aliases');
 		if(!is_link('/var/lib/mailman/data/aliases')) symlink('/etc/mailman/aliases', '/var/lib/mailman/data/aliases');
 		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(!is_file('/etc/mailman/virtual-mailman')) touch('/etc/mailman/virtual-mailman');
+		exec('postmap /etc/mailman/virtual-mailman');
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 

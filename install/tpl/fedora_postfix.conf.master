@@ -1,5 +1,5 @@
 virtual_alias_domains =
-virtual_alias_maps = proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf
+virtual_alias_maps = proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf, hash:/etc/mailman/virtual-mailman
 virtual_mailbox_domains = proxy:mysql:{config_dir}/mysql-virtual_domains.cf
 virtual_mailbox_maps = proxy:mysql:{config_dir}/mysql-virtual_mailboxes.cf
 virtual_mailbox_base = {vmail_mailbox_base}
