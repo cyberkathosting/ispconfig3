@@ -1486,10 +1486,10 @@ CREATE TABLE `support_message` (
 --
 
 CREATE TABLE `sys_config` (
-  `config_id` int(11) unsigned NOT NULL,
   `group` varchar(64) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `value` varchar(255) NOT NULL
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`group`, `name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -2280,7 +2280,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('1','db','db_version','3.0.5.3');
-INSERT INTO sys_config VALUES ('2','interface','session_timeout','0');
+INSERT INTO sys_config VALUES ('db','db_version','3.0.5.3');
+INSERT INTO sys_config VALUES ('interface','session_timeout','0');
 
 SET FOREIGN_KEY_CHECKS = 1;

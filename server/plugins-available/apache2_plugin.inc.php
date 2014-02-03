@@ -778,7 +778,7 @@ class apache2_plugin {
 			if($web_config['security_level'] == 20) {
 
 				$app->system->chmod($data['new']['document_root'], 0755);
-				$app->system->chmod($data['new']['document_root'].'/web', 0710);
+				$app->system->chmod($data['new']['document_root'].'/web', 0711);
 				$app->system->chmod($data['new']['document_root'].'/webdav', 0710);
 				$app->system->chmod($data['new']['document_root'].'/private', 0710);
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
