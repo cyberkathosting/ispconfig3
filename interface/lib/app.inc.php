@@ -48,6 +48,8 @@ class app {
 	private $_wb;
 	private $_loaded_classes = array();
 	private $_conf;
+	
+	public $loaded_plugins = array();
 
 	public function __construct() {
 		global $conf;
@@ -55,7 +57,7 @@ class app {
 		if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
 			die('Internal Error: var override attempt detected');
 		}
-
+		
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
 			$this->load('db_'.$this->_conf['db_type']);
@@ -110,6 +112,14 @@ class app {
 		$this->uses('auth,plugin');
 	}
 
+	public function __get($prop) {
+		if(property_exists($this, $prop)) return $this->{$prop};
+		
+		$this->uses($prop);
+		if(property_exists($this, $prop)) return $this->{$prop};
+		else return null;
+	}
+	
 	public function __destruct() {
 		session_write_close();
 	}
@@ -120,7 +130,7 @@ class app {
 			foreach($cl as $classname) {
 				$classname = trim($classname);
 				//* Class is not loaded so load it
-				if(!array_key_exists($classname, $this->_loaded_classes)) {
+				if(!array_key_exists($classname, $this->_loaded_classes) && is_file(ISPC_CLASS_PATH."/$classname.inc.php")) {
 					include_once ISPC_CLASS_PATH."/$classname.inc.php";
 					$this->$classname = new $classname();
 					$this->_loaded_classes[$classname] = true;
