@@ -4,3 +4,4 @@ ALTER TABLE `client`
 	ADD `db_servers` blob NOT NULL DEFAULT '' AFTER `default_dbserver`,
 	ADD `dns_servers` blob NOT NULL DEFAULT '' AFTER `default_dnsserver`;
 
+UPDATE `client` SET `web_servers` = `default_webserver`, `mail_servers` = `default_mailserver`, `db_servers` = `default_dbserver`, `dns_servers` = `default_dnsserver` WHERE 1;
