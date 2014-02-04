@@ -55,7 +55,7 @@ class list_action extends listform_actions {
 		return $rec;
 	}
 
-	function getQueryString() {
+	function getQueryString($no_limit = false) {
 		global $app;
 		$sql_where = '';
 
