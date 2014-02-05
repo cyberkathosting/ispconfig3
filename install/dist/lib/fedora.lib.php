@@ -497,13 +497,25 @@ class installer_dist extends installer_base {
 		}
 
 		// Append the configuration for amavisd to the master.cf file
-		if(is_file($conf["postfix"]["config_dir"].'/master.cf')) copy($conf["postfix"]["config_dir"].'/master.cf', $conf["postfix"]["config_dir"].'/master.cf~');
-		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+		if(is_file($conf['postfix']['config_dir'].'/master.cf')) copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~');
+		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!stristr($content, "127.0.0.1:10025")) {
+		if(!preg_match('/^amavis\s+/m', $content)) {
 			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', "tpl/master_cf_amavis.master");
-			af($conf["postfix"]["config_dir"].'/master.cf', $content);
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!preg_match('/^127.0.0.1:10025\s+/m', $content)) {
+			unset($content);
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!preg_match('/^127.0.0.1:10027\s+/m', $content)) {
+			unset($content);
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 		unset($content);
 

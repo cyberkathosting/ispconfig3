@@ -332,13 +332,24 @@ class installer extends installer_base
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
-		//* Append the configuration for amavisd to the master.cf file
+        // Append the configuration for amavisd to the master.cf file
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
-
-		if(!stristr($content, '127.0.0.1:10025')) //* Only add the content if we had not addded it before
-			{
+		// Only add the content if we had not addded it before
+		if(!preg_match('/^amavis\s+/m', $content)) {
 			unset($content);
 			$content = $this->get_template_file('master_cf_amavis', true);
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!preg_match('/^127.0.0.1:10025\s+/m', $content)) {
+ 			unset($content);
+            $content = $this->get_template_file('master_cf_amavis10025', true);
+			af($conf['postfix']['config_dir'].'/master.cf', $content);
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+		}
+		if(!preg_match('/^127.0.0.1:10027\s+/m', $content)) {
+			unset($content);
+			$content = $this->get_template_file('master_cf_amavis10027', true);
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 		unset($content);
