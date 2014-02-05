@@ -156,8 +156,7 @@ class page_action extends tform_actions {
 		} elseif($section == 'mail') {
 			if($new_config['smtp_pass'] == '') $new_config['smtp_pass'] = $server_config_array['mail']['smtp_pass'];
 		} elseif($section == 'misc' && $new_config['session_timeout'] != $server_config_array['misc']['session_timeout']) {
-			$app->db->query("DELETE FROM sys_config WHERE `config_id` = 2 AND `group` = 'interface' AND `name` = 'session_timeout'");
-			$app->db->query("INSERT INTO sys_config (`config_id`, `group`, `name`, `value`) VALUES (2, 'interface', 'session_timeout', '" . intval($new_config['session_timeout']) . "')");
+			$app->conf('interface', 'session_timeout', intval($new_config['session_timeout']));
 		}
 		$server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);

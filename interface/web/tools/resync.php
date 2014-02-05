@@ -106,6 +106,16 @@ if(isset($_POST['resync_cron']) && $_POST['resync_cron'] == 1) {
 
 //* Resyncing Databases
 if(isset($_POST['resync_db']) && $_POST['resync_db'] == 1) {
+	$db_table = 'web_database_user';
+	$index_field = 'database_user_id';
+	$sql = "SELECT * FROM ".$db_table." WHERE 1";
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
+			$msg .= "Resynced Database user: ".$rec['database_user'].'<br />';
+		}
+	}
 	$db_table = 'web_database';
 	$index_field = 'database_id';
 	$sql = "SELECT * FROM ".$db_table." WHERE active = 'y'";
@@ -142,6 +152,16 @@ if(isset($_POST['resync_mailbox']) && $_POST['resync_mailbox'] == 1) {
 		foreach($records as $rec) {
 			$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
 			$msg .= "Resynced Mailbox: ".$rec['email'].'<br />';
+		}
+	}
+	$db_table = 'mail_forwarding';
+	$index_field = 'forwarding_id';
+	$sql = "SELECT * FROM ".$db_table;
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
+			$msg .= "Resynced Alias: ".$rec['source'].'<br />';
 		}
 	}
 }
@@ -182,6 +202,31 @@ if(isset($_POST['resync_dns']) && $_POST['resync_dns'] == 1) {
 	}
 
 }
+
+//* Resyncing Clients
+if(isset($_POST['resync_client']) && $_POST['resync_client'] == 1) {
+	$tform_def_file = "form/client.tform.php";
+	$app->uses('tpl,tform,tform_actions');
+	$app->load('tform_actions');
+	
+	$db_table = 'client';
+	$index_field = 'client_id';
+	$sql = "SELECT * FROM ".$db_table;
+	$records = $app->db->queryAllRecords($sql);
+	if(is_array($records)) {
+		foreach($records as $rec) {
+			$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
+			$tmp = new tform_actions;
+			$tmp->id = $rec[$index_field];
+			$tmp->dataRecord = $rec;
+			$tmp->oldDataRecord = $rec;
+			$app->plugin->raiseEvent('client:client:on_after_update', $tmp);
+			$msg .= "Resynced Client: ".$rec['contact_name'].'<br />';
+			unset($tmp);
+		}
+	}
+}
+
 
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);

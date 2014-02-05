@@ -48,6 +48,8 @@ class app {
 	private $_wb;
 	private $_loaded_classes = array();
 	private $_conf;
+	
+	public $loaded_plugins = array();
 
 	public function __construct() {
 		global $conf;
@@ -55,7 +57,7 @@ class app {
 		if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
 			die('Internal Error: var override attempt detected');
 		}
-
+		
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
 			$this->load('db_'.$this->_conf['db_type']);
@@ -66,8 +68,8 @@ class app {
 		if($this->_conf['start_session'] == true) {
 
 			$this->uses('session');
-			$tmp = $this->db->queryOneRecord("SELECT `value` FROM sys_config WHERE `config_id` = 2 AND `group` = 'interface' AND `name` = 'session_timeout'");
-			if($tmp && $tmp['value'] > 0) {
+			$sess_timeout = $this->conf('interface', 'session_timeout');
+			if($sess_timeout) {
 				/* check if user wants to stay logged in */
 				if(isset($_POST['s_mod']) && isset($_POST['s_pg']) && $_POST['s_mod'] == 'login' && $_POST['s_pg'] == 'index' && isset($_POST['stay']) && $_POST['stay'] == '1') {
 					/* check if staying logged in is allowed */
@@ -75,8 +77,8 @@ class app {
 					$tmp = $this->db->queryOneRecord('SELECT config FROM sys_ini WHERE sysini_id = 1');
 					$tmp = $this->ini_parser->parse_ini_string(stripslashes($tmp['config']));
 					if(!isset($tmp['misc']['session_allow_endless']) || $tmp['misc']['session_allow_endless'] != 'y') {
-						$this->session->set_timeout($tmp['value']);
-						session_set_cookie_params(($tmp['value'] * 60) + 300); // make the cookie live 5 minutes longer
+						$this->session->set_timeout($sess_timeout);
+						session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
 					} else {
 						// we are doing login here, so we need to set the session data
 						$this->session->set_permanent(true);
@@ -84,8 +86,8 @@ class app {
 						session_set_cookie_params(365 * 24 * 3600); // make the cookie live 5 minutes longer
 					}
 				} else {
-					$this->session->set_timeout($tmp['value']);
-					session_set_cookie_params(($tmp['value'] * 60) + 300); // make the cookie live 5 minutes longer
+					$this->session->set_timeout($sess_timeout);
+					session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
 				}
 			} else {
 				session_set_cookie_params(0); // until browser is closed
@@ -110,6 +112,14 @@ class app {
 		$this->uses('auth,plugin');
 	}
 
+	public function __get($prop) {
+		if(property_exists($this, $prop)) return $this->{$prop};
+		
+		$this->uses($prop);
+		if(property_exists($this, $prop)) return $this->{$prop};
+		else return null;
+	}
+	
 	public function __destruct() {
 		session_write_close();
 	}
@@ -120,7 +130,7 @@ class app {
 			foreach($cl as $classname) {
 				$classname = trim($classname);
 				//* Class is not loaded so load it
-				if(!array_key_exists($classname, $this->_loaded_classes)) {
+				if(!array_key_exists($classname, $this->_loaded_classes) && is_file(ISPC_CLASS_PATH."/$classname.inc.php")) {
 					include_once ISPC_CLASS_PATH."/$classname.inc.php";
 					$this->$classname = new $classname();
 					$this->_loaded_classes[$classname] = true;
@@ -135,6 +145,22 @@ class app {
 			foreach($fl as $file) {
 				$file = trim($file);
 				include_once ISPC_CLASS_PATH."/$file.inc.php";
+			}
+		}
+	}
+	
+	public function conf($plugin, $key, $value = null) {
+		if(is_null($value)) {
+			$tmpconf = $this->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = '" . $this->db->quote($plugin) . "' AND `name` = '" . $this->db->quote($key) . "'");
+			if($tmpconf) return $tmpconf['value'];
+			else return null;
+		} else {
+			if($value === false) {
+				$this->db->query("DELETE FROM `sys_config` WHERE `group` = '" . $this->db->quote($plugin) . "' AND `name` = '" . $this->db->quote($key) . "'");
+				return null;
+			} else {
+				$this->db->query("REPLACE INTO `sys_config` (`group`, `name`, `value`) VALUES ('" . $this->db->quote($plugin) . "', '" . $this->db->quote($key) . "', '" . $this->db->quote($value) . "')");
+				return $value;
 			}
 		}
 	}

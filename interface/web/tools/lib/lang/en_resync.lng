@@ -9,6 +9,7 @@ $wb['resync_db_txt'] = 'Resync clientdb config';
 $wb['resync_mailbox_txt'] = 'Resync Mailboxes';
 $wb['resync_dkim_txt'] = 'Resync DKIM-Keys';
 $wb['resync_dns_txt'] = 'Resync DNS records';
+$wb['resync_client_txt'] = 'Resync Client records';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Cancel';
 ?>
