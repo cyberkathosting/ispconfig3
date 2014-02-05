@@ -335,7 +335,7 @@ class installer extends installer_base
         // Append the configuration for amavisd to the master.cf file
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!preg_match('/^amavis\s+/m', $content)) {
+		if(!preg_match('/^amavis\s+unix\s+/m', $content)) {
 			unset($content);
 			$content = $this->get_template_file('master_cf_amavis', true);
 			af($conf['postfix']['config_dir'].'/master.cf', $content);

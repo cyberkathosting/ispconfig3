@@ -144,7 +144,7 @@ class installer extends installer_dist {
 		if(is_file($conf['postfix']['config_dir'].'/master.cf')) copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~');
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!preg_match('/^amavis\s+/m', $content)) {
+		if(!preg_match('/^amavis\s+unix\s+/m', $content)) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
