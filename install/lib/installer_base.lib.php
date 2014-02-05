@@ -1040,19 +1040,19 @@ class installer_base {
 		if(is_file($conf['postfix']['config_dir'].'/master.cf')) copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~');
 		$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		// Only add the content if we had not addded it before
-		if(!stristr($content, 'amavis')) {
+		if(!preg_match('/^amavis\s+unix\s+/m', $content)) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		}
-		if(!stristr($content, '127.0.0.1:10025')) {
+		if(!preg_match('/^127.0.0.1:10025\s+/m', $content)) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
 		}
-		if(!stristr($content, '127.0.0.1:10027')) {
+		if(!preg_match('/^127.0.0.1:10027\s+/m', $content)) {
 			unset($content);
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
 			af($conf['postfix']['config_dir'].'/master.cf', $content);
@@ -1063,7 +1063,7 @@ class installer_base {
 		exec('adduser clamav amavis');
 
 		// Create the director for DKIM-Keys
-		if(!is_dir('/var/lib/amavis/dkim')) mkdir('-p /var/lib/amavis/dkim', 0750);
+		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750, true);
 		// get shell-user for amavis
 		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
 		if(!empty($amavis_user)) {
