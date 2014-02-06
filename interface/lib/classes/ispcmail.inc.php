@@ -794,7 +794,6 @@ class ispcmail {
 
 				$mail_content = 'Subject: ' . $enc_subject . $this->_crlf;
 				$mail_content .= 'To: ' . $this->getHeader('To') . $this->_crlf;
-				if($this->getHeader('Bcc') != '') $mail_content .= 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset) . $this->_crlf;
 				if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
 				$mail_content .= implode($this->_crlf, $headers) . $this->_crlf . ($this->_is_signed == false ? $this->_crlf : '') . $this->body;
 
