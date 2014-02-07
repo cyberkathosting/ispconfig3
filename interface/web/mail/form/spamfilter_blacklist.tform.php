@@ -101,7 +101,7 @@ $form["tabs"]['blacklist'] = array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
 			'default' => 5,
-			'value'  => array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10)
+			'value'  => array(1 => '1 - lowest', 2 => 2, 3 => 3, 4 => 4, 5 => '5 - medium', 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => '10 - highest')
 		),
 		'active' => array (
 			'datatype' => 'VARCHAR',

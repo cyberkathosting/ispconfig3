@@ -638,7 +638,72 @@ class ispcmail {
 		return true;
 	}
 
+	private function _extract_names($data) {
+		$senders = array();
 
+		$data = stripslashes(preg_replace("'(\t|\r|\n)'", '', $data));
+
+		if(trim($data) == '') return $senders;
+
+		$armail = array();
+		$counter = 0;  $inthechar = 0;
+		$chartosplit = ',;'; $protectchar = '"'; $temp = '';
+		$closed = 1;
+
+		for($i = 0; $i < strlen($data); $i++) {
+			$thischar = $data[$i];
+			if($thischar == '<' && $closed) $closed = 0;
+			if($thischar == '>' && !$closed) $closed = 1;
+			if($thischar == $protectchar) $inthechar = ($inthechar) ? 0 : 1;
+			if((strpos($chartosplit, $thischar) !== false) && !$inthechar && $closed) {
+				$armail[] = $temp;
+				$temp = '';
+			} else {
+				$temp .= $thischar;
+			}
+		}
+
+		if(trim($temp) != '') {
+			$armail[] = trim($temp);
+			unset($temp);
+		}
+
+		foreach($armail as $thisPart) {
+			$thisPart = trim(preg_replace('/^"(.*)"$/i', '$1', trim($thisPart)));
+			if($thisPart != '') {
+				$email = '';
+				$name = '';
+				if(preg_match('/(.*)<(.*)>/i', $thisPart, $matches)) {
+					$email = trim($matches[2]);
+					$name = trim($matches[1]);
+				} else {
+					if(preg_match('/([-a-z0-9_$+.]+@[-a-z0-9_.]+[-a-z0-9_]+)((.*))/i', $thisPart, $matches)) {
+						$email = $matches[1];
+						$name = $matches[2];
+					} else {
+						$email = $thisPart;
+					}
+				}
+
+				$email = preg_replace('/<(.*)\\>/', '$1', $email);
+				$name = preg_replace('/"(.*)"/', '$1', trim($name));
+				$name = preg_replace('/\((.*)\)/', '$1', $name);
+
+				if($name == '') $name = $email;
+				if($email == '') $email = $name;
+				$senders[] = array(
+					'name' => $name,
+					'mail' => $email
+				);
+				unset($name);
+				unset($email);
+			}
+		}
+		unset($armail);
+		unset($thisPart);
+
+		return $senders;
+	}
 
 	/**
 	 * Send the mail to one or more recipients
@@ -683,6 +748,7 @@ class ispcmail {
 				$result = $this->_smtp_login();
 				if(!$result) return false;
 			}
+			$bcc_cc_sent = false;
 			foreach($recipients as $recipname => $recip) {
 				if($this->_sent_mails >= $this->smtp_max_mails) {
 					// close connection to smtp and reconnect
@@ -705,6 +771,19 @@ class ispcmail {
 				fputs($this->_smtp_conn, 'RCPT TO: <' . $recip . '>' . $this->_crlf);
 				$response = fgets($this->_smtp_conn, 515);
 
+				if($bcc_cc_sent == false) {
+					$add_recips = array();
+					if($this->getHeader('Cc') != '') $add_recips = array_merge($add_recips, $this->_extract_names($this->getHeader('Cc')));
+					if($this->getHeader('Bcc') != '') $add_recips = array_merge($add_recips, $this->_extract_names($this->getHeader('Bcc')));
+					foreach($add_recips as $add_recip) {
+						if(!$add_recip['mail']) continue;
+						fputs($this->_smtp_conn, 'RCPT TO: <' . $this->_encodeHeader($add_recip['mail'], $this->mail_charset) . '>' . $this->_crlf);
+						$response = fgets($this->_smtp_conn, 515);
+					}
+					unset($add_recips);
+					$bcc_cc_sent = true;
+				}
+
 				//The Email
 				fputs($this->_smtp_conn, 'DATA' . $this->_crlf);
 				$response = fgets($this->_smtp_conn, 515);
@@ -715,7 +794,6 @@ class ispcmail {
 
 				$mail_content = 'Subject: ' . $enc_subject . $this->_crlf;
 				$mail_content .= 'To: ' . $this->getHeader('To') . $this->_crlf;
-				if($this->getHeader('Bcc') != '') $mail_content .= 'Bcc: ' . $this->_encodeHeader($this->getHeader('Bcc'), $this->mail_charset) . $this->_crlf;
 				if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
 				$mail_content .= implode($this->_crlf, $headers) . $this->_crlf . ($this->_is_signed == false ? $this->_crlf : '') . $this->body;
 

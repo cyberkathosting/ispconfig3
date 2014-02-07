@@ -234,12 +234,12 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if (is_array($k)) {
 				foreach($k as $key => $value){
 					$key = ($this->OPTIONS['CASELESS']) ? strtolower(trim($key)) : trim($key);
-					if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
+					if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
 						$this->_vars[$key] = $value;
 					}
 				}
 			} else {
-				if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
+				if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
 					if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
 					$this->_vars[trim($k)] = $v;
 				} else {
@@ -287,7 +287,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			for ($i = 0; $i < $num_args; $i++) {
 				$var = func_get_arg($i);
 				if ($this->OPTIONS['CASELESS']) $var = strtolower($var);
-				if (!preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $var)) continue;
+				if (!preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $var)) continue;
 				unset($this->_vars[$var]);
 			}
 			return true;
@@ -344,7 +344,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 */
 		public function setLoop($k, $v)
 		{
-			if (is_array($v) && preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k)) {
+			if (is_array($v) && preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k)) {
 				$k = ($this->OPTIONS['CASELESS']) ? strtolower(trim($k)) : trim($k);
 				$this->_arrvars[$k] = array();
 				if ($this->OPTIONS['SET_LOOP_VAR'] && !empty($v)) $this->setvar($k, 1);
@@ -1006,7 +1006,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		function _parseIf ($varname, $value=null, $op=null, $namespace=null, $format=null) {
+		private function _parseIf($varname, $value = null, $op = null, $namespace = null, $format = null)
+		{
 			if (isset($namespace)) $namespace = substr($namespace, 0, -1);
 			$comp_str = ''; // used for extended if statements
 
@@ -1046,14 +1047,14 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if ($this->OPTIONS['GLOBAL_VARS'] && empty($namespace)) {
 				$retstr = '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])';
 				if(isset($format) && isset($value) && $format == 'version') {
-					return 'version_compare(' . $retstr . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+					return 'version_compare(' . $retstr . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
 				} else {
 					return $retstr.$comp_str;
 				}
 			}
 			else {
 				if(isset($format) && isset($value) && $format == 'version') {
-					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
 				} else {
 					return $retstr."['".$varname."']".$comp_str;
 				}
@@ -1183,8 +1184,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if ($tag == 'loop' || $tag == 'endloop') array_pop($this->_namespace);
 				if ($tag == 'comment' || $tag == 'endcomment') {
 					return '<?php */ ?>';
-				}
-				else {
+				} else {
 					return '<?php } ?>';
 				}
 			}
@@ -1207,6 +1207,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 					$$key = $match[2];
 				}
 			}
+
 			$var = ($this->OPTIONS['CASELESS']) ? strtolower($name) : $name;
 
 			if ($this->_debug && !empty($var)) {
@@ -1228,47 +1229,37 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if (empty($escape) && (!empty($this->OPTIONS['DEFAULT_ESCAPE']) && strtolower($this->OPTIONS['DEFAULT_ESCAPE']) != 'none')) {
 					$escape = strtolower($this->OPTIONS['DEFAULT_ESCAPE']);
 				}
-				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace).' ?>'."\n";
-				break;
+				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace)." ?>\n";
 
 			case 'if':
 				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'unless':
 				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'elseif':
 				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'loop':
 				return '<?php '. $this->_parseLoop($var) .'?>';
-				break;
 
 			case 'comment':
 				if (empty($var)) { // full open/close style comment
 					return '<?php /* ?>';
-				}
-				else { // just ignore tag if it was a one line comment
+				} else { // just ignore tag if it was a one line comment
 					return;
 				}
-				break;
 
 			case 'phpinclude':
 				if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
 					return '<?php include(\''.$file.'\'); ?>';
 				}
-				break;
 
 			case 'include':
 				return '<?php $this->_getData($this->_fileSearch(\''.$file.'\'), 1); ?>';
-				break;
 
 			case 'dyninclude':
 				return '<?php $this->_getData($this->_fileSearch($this->_dyninclude[\''.$name.'\']), 1); ?>';
-				break;
 
 			default:
 				if ($this->OPTIONS['STRICT']) vlibTemplateError::raiseError('VT_ERROR_INVALID_TAG', KILL, htmlspecialchars($wholetag, ENT_QUOTES));

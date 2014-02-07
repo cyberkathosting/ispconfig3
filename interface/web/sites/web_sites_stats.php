@@ -91,7 +91,7 @@ class list_action extends listform_actions {
 		$app->tpl->pparse();
 	}
 
-	function getQueryString() {
+	function getQueryString($no_limit = false) {
 		global $app;
 		$sql_where = '';
 
