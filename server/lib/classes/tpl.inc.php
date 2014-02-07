@@ -299,9 +299,9 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @return array
 		 * @access public
 		 */
-		function getVars () {
-			if (empty($this->_vars)) return false;
-			return $this->_vars;
+		public function getVars()
+		{
+			return empty($this->_vars) ? false : $this->_vars;
 		}
 
 
@@ -361,6 +361,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if ($this->OPTIONS['SET_LOOP_VAR'] && !empty($v)) $this->setvar($k, 1);
 				if (($this->_arrvars[$k] = $this->_arrayBuild($v)) == false) {
 					vlibTemplateError::raiseError('VT_WARNING_INVALID_ARR', WARNING, $k);
+				} else {
+					$this->vars['_'.$k.'_num'] = count($v);
 				}
 			}
 			return true;

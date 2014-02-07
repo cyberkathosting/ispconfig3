@@ -234,12 +234,12 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if (is_array($k)) {
 				foreach($k as $key => $value){
 					$key = ($this->OPTIONS['CASELESS']) ? strtolower(trim($key)) : trim($key);
-					if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
+					if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
 						$this->_vars[$key] = $value;
 					}
 				}
 			} else {
-				if (preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
+				if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
 					if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
 					$this->_vars[trim($k)] = $v;
 				} else {
@@ -287,7 +287,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			for ($i = 0; $i < $num_args; $i++) {
 				$var = func_get_arg($i);
 				if ($this->OPTIONS['CASELESS']) $var = strtolower($var);
-				if (!preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $var)) continue;
+				if (!preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $var)) continue;
 				unset($this->_vars[$var]);
 			}
 			return true;
@@ -344,7 +344,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 */
 		public function setLoop($k, $v)
 		{
-			if (is_array($v) && preg_match('/^[A-Za-z]+[A-Za-z0-9_]*$/', $k)) {
+			if (is_array($v) && preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k)) {
 				$k = ($this->OPTIONS['CASELESS']) ? strtolower(trim($k)) : trim($k);
 				$this->_arrvars[$k] = array();
 				if ($this->OPTIONS['SET_LOOP_VAR'] && !empty($v)) $this->setvar($k, 1);
@@ -864,7 +864,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 				$regex = '/(<|<\/|{|{\/|<!--|<!--\/){1}\s*';
 				$regex.= 'tmpl_([\w]+)\s*';
-				$regex.= '(?:';
+				$regex.= '((?:(?:';
 				$regex.=    '(?:';
 				$regex.=        '(name|format|escape|op|value|file)';
 				$regex.=        '\s*=\s*';
@@ -873,30 +873,10 @@ if (!defined('vlibTemplateClassLoaded')) {
 				$regex.=    '((?<=[\"\'])';
 				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
 				$regex.=    '[\"\']?';
-				$regex.= ')?\s*';
-				$regex.= '(?:';
-				$regex.=    '(?:';
-				$regex.=        '(name|format|escape|op|value)';
-				$regex.=        '\s*=\s*';
-				$regex.=    ')';
-				$regex.=    '(?:[\"\'])?';
-				$regex.=    '((?<=[\"\'])';
-				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
-				$regex.=    '[\"\']?';
-				$regex.= ')?\s*';
-				$regex.= '(?:';
-				$regex.=    '(?:';
-				$regex.=        '(name|format|escape|op|value)';
-				$regex.=        '\s*=\s*';
-				$regex.=    ')';
-				$regex.=    '(?:[\"\'])?';
-				$regex.=    '((?<=[\"\'])';
-				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
-				$regex.=    '[\"\']?';
-				$regex.= ')?\s*';
+				$regex.= ')?\s*)*?)';
 				$regex.= '(?:>|\/>|}|-->){1}';
-				$regex.= '([\r\n|\n|\r])?/i';
-				$data = preg_replace_callback($regex, array($this, _parseTag), $data);
+				$regex.= '/i';
+				$data = preg_replace_callback($regex, array($this, '_parseTag'), $data);
 
 				if ($this->_cache) { // add cache if need be
 					$this->_createCache($data);
@@ -1026,7 +1006,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		private function _parseIf($varname, $value = null, $op = null, $namespace = null)
+		private function _parseIf($varname, $value = null, $op = null, $namespace = null, $format = null)
 		{
 			if (isset($namespace)) $namespace = substr($namespace, 0, -1);
 			$comp_str = ''; // used for extended if statements
@@ -1065,9 +1045,19 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			}
 			if ($this->OPTIONS['GLOBAL_VARS'] && empty($namespace)) {
-				return '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])'.$comp_str;
-			} else {
-				return $retstr."['".$varname."']".$comp_str;
+				$retstr = '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])';
+				if(isset($format) && isset($value) && $format == 'version') {
+					return 'version_compare(' . $retstr . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
+				} else {
+					return $retstr.$comp_str;
+				}
+			}
+			else {
+				if(isset($format) && isset($value) && $format == 'version') {
+					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
+				} else {
+					return $retstr."['".$varname."']".$comp_str;
+				}
 			}
 		}
 
@@ -1186,26 +1176,36 @@ if (!defined('vlibTemplateClassLoaded')) {
 			$wholetag = $args[0];
 			$openclose = $args[1];
 			$tag = strtolower($args[2]);
-			$newline = $args[9];
-
-			if ($tag == 'else') return '<?php } else { ?>'.$newline;
+			
+			if ($tag == 'else') return '<?php } else { ?>';
 			if ($tag == 'tmpl_include') return $wholetag; // ignore tmpl_include tags
 
 			if (preg_match("/^<\/|{\/|<!--\/$/s", $openclose) || preg_match("/^end[if|loop|unless|comment]$/", $tag)) {
 				if ($tag == 'loop' || $tag == 'endloop') array_pop($this->_namespace);
 				if ($tag == 'comment' || $tag == 'endcomment') {
-					return '<?php */ ?>'.$newline;
+					return '<?php */ ?>';
 				} else {
-					return '<?php } ?>'.$newline;
+					return '<?php } ?>';
 				}
 			}
 
-			//* arrange attributes
-			for ($i=3; $i < 8; $i=($i+2)) {
-				if (empty($args[$i]) && empty($args[($i+1)])) break;
-				$key = (empty($args[$i])) ? 'name' : strtolower($args[$i]);
-				if ($key == 'name' && preg_match('/^(php)?include$/', $tag)) $key = 'file';
-				$$key = $args[($i+1)];
+			// arrange attributes
+			$tmp_atts = $args[3];
+			$atts = preg_split('/\s+/', $tmp_atts);
+			foreach($atts as $att) {
+				$regex =    '/(?:';
+				$regex.=        '(name|format|escape|op|value|file)';
+				$regex.=        '\s*=\s*';
+				$regex.=    ')?';
+				$regex.=    '(?:[\"\'])?';
+				$regex.=    '((?<=[\"\'])';
+				$regex.=    '[^\"\']*|[a-z0-9_\.]*)';
+				$regex.=    '[\"\']?/';
+				if(preg_match($regex, $att, $match)) {
+					$key = (empty($match[1])) ? 'name' : strtolower($match[1]);
+					if ($key == 'name' && preg_match('/^(php)?include$/', $tag)) $key = 'file';
+					$$key = $match[2];
+				}
 			}
 
 			$var = ($this->OPTIONS['CASELESS']) ? strtolower($name) : $name;
@@ -1229,30 +1229,30 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if (empty($escape) && (!empty($this->OPTIONS['DEFAULT_ESCAPE']) && strtolower($this->OPTIONS['DEFAULT_ESCAPE']) != 'none')) {
 					$escape = strtolower($this->OPTIONS['DEFAULT_ESCAPE']);
 				}
-				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace)." ?>$newline";
+				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace)." ?>\n";
 
 			case 'if':
-				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
 
 			case 'unless':
-				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
 
 			case 'elseif':
-				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace) .') { ?>'.$newline;
+				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
 
 			case 'loop':
-				return '<?php '. $this->_parseLoop($var) .'?>'.$newline;
+				return '<?php '. $this->_parseLoop($var) .'?>';
 
 			case 'comment':
 				if (empty($var)) { // full open/close style comment
-					return '<?php /* ?>'.$newline;
+					return '<?php /* ?>';
 				} else { // just ignore tag if it was a one line comment
 					return;
 				}
 
 			case 'phpinclude':
 				if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
-					return '<?php include(\''.$file.'\'); ?>'.$newline;
+					return '<?php include(\''.$file.'\'); ?>';
 				}
 
 			case 'include':
