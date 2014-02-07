@@ -1,4 +1,17 @@
 <?php
+/**
+ * vlibTemplate is a class used to seperate PHP and HTML.
+ * For instructions on how to use vlibTemplate, see the
+ * vlibTemplate.html file, located in the 'docs' directory.
+ *
+ * @since 07/03/2002
+ * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
+ * @package vLIB
+ * @access public
+ * @see vlibTemplate.html
+ */
+
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
@@ -10,34 +23,20 @@
 //
 // $Id: class.tpl.inc.php,v 1.1 2003/07/08 12:31:10 platinum Exp $
 
-// check to avoid multiple including of class
+//** check and avoid multiple loading of class
 if (!defined('vlibTemplateClassLoaded')) {
+
 	define('vlibTemplateClassLoaded', 1);
+	include_once ISPC_CLASS_PATH.'/tpl_error.inc.php';
+	include_once ISPC_CLASS_PATH.'/tpl_ini.inc.php';
 
-	include_once $conf['classpath'].'/tpl_error.inc.php';
-	include_once $conf['classpath'].'/tpl_ini.inc.php';
-
-	/**
-	 * vlibTemplate is a class used to seperate PHP and HTML.
-	 * For instructions on how to use vlibTemplate, see the
-	 * vlibTemplate.html file, located in the 'docs' directory.
-	 *
-	 * @since 07/03/2002
-	 * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
-	 * @package vLIB
-	 * @access public
-	 * @see vlibTemplate.html
-	 */
-
-
-	class tpl {
+	class tpl{
 
 		/*-----------------------------------------------------------------------------\
-    |                                 ATTENTION                                    |
-    |  Do not touch the following variables. vlibTemplate will not work otherwise. |
-    \-----------------------------------------------------------------------------*/
-
-		var $OPTIONS = array(
+        |                                 ATTENTION                                    |
+        |  Do not touch the following variables. vlibTemplate will not work otherwise. |
+        \-----------------------------------------------------------------------------*/
+		private $OPTIONS = array(
 			'MAX_INCLUDES'          =>   10,
 			'TEMPLATE_DIR'          => null,
 			'GLOBAL_VARS'           => null,
@@ -57,138 +56,154 @@ if (!defined('vlibTemplateClassLoaded')) {
 		);
 
 		/** open and close tags used for escaping */
-		var $ESCAPE_TAGS = array(
-			'html' => array('open' => 'htmlspecialchars('
-				, 'close'=> ', ENT_QUOTES)'),
-			'url' => array('open' => 'urlencode('
-				, 'close'=> ')'),
-			'rawurl'=>array('open' => 'rawurlencode('
-				, 'close'=> ')'),
-			'sq' => array('open' => 'addcslashes('
-				, 'close'=> ", \"'\")"),
-			'dq' => array('open' => 'addcslashes('
-				, 'close'=> ", '\"')"),
-			'1' => array('open' => 'htmlspecialchars('
-				, 'close'=> ', ENT_QUOTES)'),
-			'0' => array('open' => ''
-				, 'close'=> ''),
-			'none' => array('open' => ''
-				, 'close'=> ''),
-			'hex'        => array('open' => '$this->_escape_hex(',
-				'close'=> ', false)'),
-			'hexentity'  => array('open' => '$this->_escape_hex(',
-				'close'=> ', true)')
+		private $ESCAPE_TAGS = array(
+			'html'      => array('open' => 'htmlspecialchars('    , 'close'=> ', ENT_QUOTES)'),
+			'url'       => array('open' => 'urlencode('           , 'close'=> ')'),
+			'rawurl'    => array('open' => 'rawurlencode('        , 'close'=> ')'),
+			'sq'        => array('open' => 'addcslashes('         , 'close'=> ", \"'\")"),
+			'dq'        => array('open' => 'addcslashes('         , 'close'=> ", '\"')"),
+			'1'         => array('open' => 'htmlspecialchars('    , 'close'=> ', ENT_QUOTES)'),
+			'0'         => array('open' => ''                     , 'close'=> ''),
+			'none'      => array('open' => ''                     , 'close'=> ''),
+			'hex'       => array('open' => '$this->_escape_hex('  , 'close'=> ', false)'),
+			'hexentity' => array('open' => '$this->_escape_hex('  , 'close'=> ', true)')
 		);
 
+
+
 		/** open and close tags used for formatting */
-		var $FORMAT_TAGS = array(
-			'strtoupper' => array('open' => 'strtoupper(',
-				'close'=> ')'),
-			'uc'         => array('open' => 'strtoupper(',
-				'close'=> ')'),
-			'strtolower' => array('open' => 'strtolower(',
-				'close'=> ')'),
-			'lc'         => array('open' => 'strtolower(',
-				'close'=> ')'),
-			'ucfirst'    => array('open' => 'ucfirst(',
-				'close'=> ')'),
-			'lcucfirst'  => array('open' => 'ucfirst(strtolower(',
-				'close'=> '))'),
-			'ucwords'    => array('open' => 'ucwords(',
-				'close'=> ')'),
-			'lcucwords'  => array('open' => 'ucwords(strtolower(',
-				'close'=> '))')
+		private $FORMAT_TAGS = array(
+			'strtoupper' => array('open' => 'strtoupper(',          'close'=> ')'),
+			'uc'         => array('open' => 'strtoupper(',          'close'=> ')'),
+			'strtolower' => array('open' => 'strtolower(',          'close'=> ')'),
+			'lc'         => array('open' => 'strtolower(',          'close'=> ')'),
+			'ucfirst'    => array('open' => 'ucfirst(',             'close'=> ')'),
+			'lcucfirst'  => array('open' => 'ucfirst(strtolower(',  'close'=> '))'),
+			'ucwords'    => array('open' => 'ucwords(',             'close'=> ')'),
+			'lcucwords'  => array('open' => 'ucwords(strtolower(',  'close'=> '))')
 		);
 
 		/** operators allowed when using extended TMPL_IF syntax */
-		var $allowed_if_ops = array('==', '!=', '<>', '<', '>', '<=', '>=');
+		private $allowed_if_ops = array('==', '!=', '<>', '<', '>', '<=', '>=');
+
+
 
 		/** dbs allowed by vlibTemplate::setDbLoop(). */
-		var $allowed_loop_dbs = array('MYSQL', 'POSTGRESQL', 'INFORMIX', 'INTERBASE', 'INGRES',
+		private $allowed_loop_dbs = array('MYSQL', 'POSTGRESQL', 'INFORMIX', 'INTERBASE', 'INGRES',
 			'MSSQL', 'MSQL', 'OCI8', 'ORACLE', 'OVRIMOS', 'SYBASE');
 
+
+
 		/** root directory of vlibTemplate automagically filled in */
-		var $VLIBTEMPLATE_ROOT = null;
+		private $VLIBTEMPLATE_ROOT = null;
+
+
 
 		/** contains current directory used when doing recursive include */
-		var $_currentincludedir = array();
+		private $_currentincludedir = array();
+
+
 
 		/** current depth of includes */
-		var $_includedepth = 0;
+		private $_includedepth = 0;
+
+
 
 		/** full path to tmpl file */
-		var $_tmplfilename = null;
+		private $_tmplfilename = null;
+
+
 
 		/** file data before it's parsed */
-		var $_tmplfile = null;
+		private $_tmplfile = null;
+
+
 
 		/** parsed version of file, ready for eval()ing */
-		var $_tmplfilep = null;
+		private $_tmplfilep = null;
+
+
 
 		/** eval()ed version ready for printing or whatever */
-		var $_tmploutput = null;
+		private $_tmploutput = null;
+
+
 
 		/** array for variables to be kept */
-		var $_vars = array();
+		private $_vars = array();
+
+
 
 		/** array where loop variables are kept */
-		var $_arrvars = array();
+		private $_arrvars = array();
 
 		/** array which holds the current namespace during parse */
-		var $_namespace = array();
+		private $_namespace = array();
+
+
 
 		/** variable is set to true once the template is parsed, to save re-parsing everything */
-		var $_parsed = false;
+		private $_parsed = false;
+
+
 
 		/** array holds all unknowns vars */
-		var $_unknowns = array();
+		private $_unknowns = array();
+
+
 
 		/** microtime when template parsing began */
-		var $_firstparsetime = null;
+		private $_firstparsetime = null;
+
+
 
 		/** total time taken to parse template */
-		var $_totalparsetime = null;
+		private $_totalparsetime = null;
+
+
 
 		/** name of current loop being passed in */
-		var $_currloopname = null;
+		private $_currloopname = null;
+
+
 
 		/** rows with the above loop */
-		var $_currloop = array();
+		private $_currloop = array();
+
+
 
 		/** define vars to avoid warnings */
-		var $_debug = null;
-		var $_cache = null;
+		private $_debug = null;
+		private $_cache = null;
 
 
 
 		/** array which holds the dynamic Includes */
-		var $_dyninclude = array();
+		private $_dyninclude = array();
+
 		/*-----------------------------------------------------------------------------\
-    |                           public functions                                   |
-    \-----------------------------------------------------------------------------*/
-
-
-
+        |                           public functions                                   |
+        \-----------------------------------------------------------------------------*/
 
 
 
 
 
 		/**
-		 * FUNCTION: newTemplate
-		 *
 		 * Usually called by the class constructor.
 		 * Stores the filename in $this->_tmplfilename.
 		 * Raises an error if the template file is not found.
-		 *
 		 * @param string $tmplfile full path to template file
 		 * @return boolean true
 		 * @access public
 		 */
-		function newTemplate ($tmplfile) {
-			if (!$tfile = $this->_fileSearch($tmplfile)) vlibTemplateError::raiseError('VT_ERROR_NOFILE', KILL, $tmplfile);
+		public function newTemplate($tmplfile)
+		{
+			if (!$tfile = $this->_fileSearch($tmplfile)){
+				vlibTemplateError::raiseError('VT_ERROR_NOFILE', KILL, $tmplfile);
+			}
 
-			// make sure that any parsing vars are cleared for the new template
+			//* make sure that any parsing vars are cleared for the new template
 			$this->_tmplfile = null;
 			$this->_tmplfilep = null;
 			$this->_tmploutput = null;
@@ -197,27 +212,25 @@ if (!defined('vlibTemplateClassLoaded')) {
 			$this->_firstparsetime = null;
 			$this->_totalparsetime = null;
 
-			// reset debug module
-			if ($this->_debug) $this->_debugReset();
-
+			//* reset debug module
+			if ($this->_debug){
+				$this->_debugReset();
+			}
 			$this->_tmplfilename = $tfile;
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: setVar
-		 *
 		 * Sets variables to be used by the template
 		 * If $k is an array, then it will treat it as an associative array
 		 * using the keys as variable names and the values as variable values.
-		 *
 		 * @param mixed $k key to define variable name
 		 * @param mixed $v variable to assign to $k
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function setVar ($k, $v=null) {
+		public function setVar($k, $v = null)
+		{
 			if (is_array($k)) {
 				foreach($k as $key => $value){
 					$key = ($this->OPTIONS['CASELESS']) ? strtolower(trim($key)) : trim($key);
@@ -225,13 +238,11 @@ if (!defined('vlibTemplateClassLoaded')) {
 						$this->_vars[$key] = $value;
 					}
 				}
-			}
-			else {
+			} else {
 				if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
 					if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
 					$this->_vars[trim($k)] = $v;
-				}
-				else {
+				} else {
 					return false;
 				}
 			}
@@ -240,21 +251,17 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
 
-
-
 		/**
-		 * FUNCTION: setInclude
-		 *
 		 * Sets dynamic includes to be used by the template
 		 * If $k is an array, then it will treat it as an associative array
 		 * using the keys as variable names and the values as variable values.
-		 *
 		 * @param mixed $k key to define variable name
 		 * @param mixed $v variable to assign to $k
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function setInclude($k, $v = null) {
+		public function setInclude($k, $v = null)
+		{
 			if(is_array($k)) {
 				foreach($k as $key => $val) {
 					$this->_dyninclude[$key] = $val;
@@ -262,22 +269,18 @@ if (!defined('vlibTemplateClassLoaded')) {
 			} else {
 				$this->_dyninclude[$k] = $v;
 			}
-
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: unsetVar
-		 *
 		 * Unsets a variable which has already been set
 		 * Parse in all vars wanted for deletion in seperate parametres
-		 *
 		 * @param string var name to remove use: vlibTemplate::unsetVar(var[, var..])
 		 * @return boolean true/false returns true unless called with 0 params
 		 * @access public
 		 */
-		function unsetVar () {
+		public function unsetVar()
+		{
 			$num_args = func_num_args();
 			if ($num_args < 1)  return false;
 
@@ -290,12 +293,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: getVars
-		 *
 		 * Gets all vars currently set in global namespace.
-		 *
 		 * @return array
 		 * @access public
 		 */
@@ -304,37 +303,30 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return empty($this->_vars) ? false : $this->_vars;
 		}
 
-
 		/**
-		 * FUNCTION: getVar
-		 *
 		 * Gets a single var from the global namespace
-		 *
 		 * @return var
 		 * @access public
 		 */
-		function getVar ($var) {
+		public function getVar($var)
+		{
 			if ($this->OPTIONS['CASELESS']) $var = strtolower($var);
-			if (empty($var) || !isset($this->_vars[$var])) return false;
-			return $this->_vars[$var];
+			return (empty($var) || !isset($this->_vars[$var])) ? false : $this->_vars[$var];
 		}
 
-
 		/**
-		 * FUNCTION: setContextVars
-		 *
 		 * sets the GLOBAL_CONTEXT_VARS
-		 *
 		 * @return true
 		 * @access public
 		 */
-		function setContextVars () {
+		public function setContextVars()
+		{
 			$_phpself = @$GLOBALS['HTTP_SERVER_VARS']['PHP_SELF'];
 			$_pathinfo = @$GLOBALS['HTTP_SERVER_VARS']['PATH_INFO'];
 			$_request_uri = @$GLOBALS['HTTP_SERVER_VARS']['REQUEST_URI'];
 			$_qs   = @$GLOBALS['HTTP_SERVER_VARS']['QUERY_STRING'];
 
-			// the following fixes bug of $PHP_SELF on Win32 CGI and IIS.
+			//* the following fixes bug of $PHP_SELF on Win32 CGI and IIS.
 			$_self = (!empty($_pathinfo)) ? $_pathinfo : $_phpself;
 			$_uri  = (!empty($_request_uri)) ? $_request_uri : $_self.'?'.$_qs;
 
@@ -343,18 +335,15 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: setLoop
-		 *
 		 * Builds the loop construct for use with <TMPL_LOOP>.
-		 *
 		 * @param string $k string to define loop name
 		 * @param array $v array to assign to $k
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function setLoop ($k, $v) {
+		public function setLoop($k, $v)
+		{
 			if (is_array($v) && preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k)) {
 				$k = ($this->OPTIONS['CASELESS']) ? strtolower(trim($k)) : trim($k);
 				$this->_arrvars[$k] = array();
@@ -368,43 +357,41 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: setDbLoop [** EXPERIMENTAL **]
-		 *
+		 * [** EXPERIMENTAL **]
 		 * Function to create a loop from a Db result resource link.
-		 *
 		 * @param string $loopname to commit loop. If not set, will use last loopname set using newLoop()
 		 * @param string $result link to a Db result resource
 		 * @param string $db_type, type of db that the result resource belongs to.
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function setDbLoop ($loopname, $result, $db_type='MYSQL') {
-
+		public function setDbLoop($loopname, $result, $db_type = 'MYSQL')
+		{
 			/*
-            $db_type = strtoupper($db_type);
+			$db_type = strtoupper($db_type);
             if (!in_array($db_type, $this->allowed_loop_dbs)) {
-                vlibTemplateError::raiseError('VT_WARNING_INVALID_LOOP_DB',WARNING, $db_type);
+                vlibTemplateError::raiseError('VT_WARNING_INVALID_LOOP_DB', WARNING, $db_type);
                 return false;
             }
 
             $loop_arr = array();
+            // TODO: Are all these necessary as were onyl using mysql and possible postgres ? - pedro
             switch ($db_type) {
 
                 case 'MYSQL':
                     if (get_resource_type($result) != 'mysql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = mysql_fetch_assoc($result)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'POSTGRESQL':
                     if (get_resource_type($result) != 'pgsql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
 
@@ -413,137 +400,130 @@ if (!defined('vlibTemplateClassLoaded')) {
                     for ($i=0; $i < $nr; $i++) {
                         $loop_arr[] = pg_fetch_array($result, $i, PGSQL_ASSOC);
                     }
-                break;
+                    break;
 
                 case 'INFORMIX':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ifx_fetch_row($result, 'NEXT')) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'INTERBASE':
                     if (get_resource_type($result) != 'interbase result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ibase_fetch_row($result)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'INGRES':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = ingres_fetch_array(INGRES_ASSOC, $result)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'MSSQL':
                     if (get_resource_type($result) != 'mssql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = mssql_fetch_array($result)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'MSQL':
                     if (get_resource_type($result) != 'msql result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while($r = msql_fetch_array($result, MSQL_ASSOC)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'OCI8':
                     if (get_resource_type($result) != 'oci8 statement') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(OCIFetchInto($result, &$r, OCI_ASSOC+OCI_RETURN_LOBS)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'ORACLE':
                     if (get_resource_type($result) != 'oracle Cursor') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(ora_fetch_into($result, &$r, ORA_FETCHINTO_ASSOC)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'OVRIMOS':
                     if (!$result) {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
                     while(ovrimos_fetch_into($result, &$r, 'NEXT')) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
 
                 case 'SYBASE':
                     if (get_resource_type($result) != 'sybase-db result') {
-                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE',WARNING, $db_type);
+                        vlibTemplateError::raiseError('VT_WARNING_INVALID_RESOURCE', WARNING, $db_type);
                         return false;
                     }
 
                     while($r = sybase_fetch_array($result)) {
                         $loop_arr[] = $r;
                     }
-                break;
+                    break;
             }
             $this->setLoop($loopname, $loop_arr);
             return true;
 			*/
 		}
 
-
 		/**
-		 * FUNCTION: newLoop
-		 *
 		 * Sets the name for the curent loop in the 3 step loop process.
-		 *
 		 * @param string $name string to define loop name
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function newLoop ($loopname) {
+		public function newLoop($loopname)
+		{
 			if (preg_match('/^[a-z_]+[a-z0-9_]*$/i', $loopname)) {
 				$this->_currloopname[$loopname] = $loopname;
 				$this->_currloop[$loopname] = array();
 				return true;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
 
-
 		/**
-		 * FUNCTION: addRow
-		 *
 		 * Adds a row to the current loop in the 3 step loop process.
-		 *
 		 * @param array $row loop row to add to current loop
 		 * @param string $loopname loop to which you want to add row, if not set will use last loop set using newLoop().
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function addRow ($row, $loopname=null) {
+		public function addRow($row, $loopname = null)
+		{
 			if (!$loopname) $loopname = $this->_currloopname[(count($this->_currloopname)-1)];
 
 			if (!isset($this->_currloop[$loopname]) || empty($this->_currloopname)) {
@@ -553,24 +533,20 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if (is_array($row)) {
 				$this->_currloop[$loopname][] = $row;
 				return true;
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
 
-
 		/**
-		 * FUNCTION: addLoop
-		 *
 		 * Completes the 3 step loop process. This assigns the rows and resets
 		 * the variables used.
-		 *
 		 * @param string $loopname to commit loop. If not set, will use last loopname set using newLoop()
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function addLoop ($loopname=null) {
+		public function addLoop($loopname = null)
+		{
 			if ($loopname == null) { // add last loop used
 				if (!empty($this->_currloop)) {
 					foreach ($this->_currloop as $k => $v) {
@@ -579,34 +555,28 @@ if (!defined('vlibTemplateClassLoaded')) {
 					}
 					$this->_currloopname = array();
 					return true;
-				}
-				else {
+				} else {
 					return false;
 				}
-			}
-			elseif (!isset($this->_currloop[$loopname]) || empty($this->_currloopname)) { // newLoop not yet envoked
+			} elseif (!isset($this->_currloop[$loopname]) || empty($this->_currloopname)) { // newLoop not yet envoked
 				vlibTemplateError::raiseError('VT_WARNING_LOOP_NOT_SET', WARNING);
 				return false;
-			}
-			else { // add a specific loop
+			} else { // add a specific loop
 				$this->setLoop($loopname, $this->_currloop[$loopname]);
 				unset($this->_currloopname[$loopname], $this->_currloop[$loopname]);
 			}
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: unsetLoop
-		 *
 		 * Unsets a loop which has already been set.
 		 * Can only unset top level loops.
-		 *
 		 * @param string loop to remove use: vlibTemplate::unsetLoop(loop[, loop..])
 		 * @return boolean true/false returns true unless called with 0 params
 		 * @access public
 		 */
-		function unsetLoop () {
+		public function unsetLoop()
+		{
 			$num_args = func_num_args();
 			if ($num_args < 1) return false;
 
@@ -619,17 +589,14 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: reset
-		 *
 		 * Resets the vlibTemplate object. After using vlibTemplate::reset() you must
 		 * use vlibTemplate::newTemplate(tmpl) to reuse, not passing in the options array.
-		 *
 		 * @return boolean true
 		 * @access public
 		 */
-		function reset() {
+		public function reset()
+		{
 			$this->clearVars();
 			$this->clearLoops();
 			$this->_tmplfilename = null;
@@ -645,103 +612,82 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: clearVars
-		 *
 		 * Unsets all variables in the template
-		 *
 		 * @return boolean true
 		 * @access public
 		 */
-		function clearVars () {
+		public function clearVars()
+		{
 			$this->_vars = array();
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: clearLoops
-		 *
 		 * Unsets all loops in the template
-		 *
 		 * @return boolean true
 		 * @access public
 		 */
-		function clearLoops () {
+		public function clearLoops()
+		{
 			$this->_arrvars = array();
 			$this->_currloopname = null;
 			$this->_currloop = array();
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: clearAll
-		 *
 		 * Unsets all variables and loops set using setVar/Loop()
-		 *
 		 * @return boolean true
 		 * @access public
 		 */
-		function clearAll () {
+		public function clearAll()
+		{
 			$this->clearVars();
 			$this->clearLoops();
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: unknownsExist
-		 *
 		 * Returns true if unknowns were found after parsing.
 		 * Function MUST be called AFTER one of the parsing functions to have any relevance.
-		 *
 		 * @return boolean true/false
 		 * @access public
 		 */
-		function unknownsExist () {
+		public function unknownsExist()
+		{
 			return !empty($this->_unknowns);
 		}
 
-
 		/**
-		 * FUNCTION: unknowns
-		 *
 		 * Alias for unknownsExist.
-		 *
 		 * @access public
 		 */
-		function unknowns () {
+		public function unknowns()
+		{
 			return $this->unknownsExist();
 		}
 
-
 		/**
-		 * FUNCTION: getUnknowns
-		 *
 		 * Returns an array of all unknown vars found when parsing.
 		 * This function is only relevant after parsing a document.
-		 *
 		 * @return array
 		 * @access public
 		 */
-		function getUnknowns () {
+		public function getUnknowns()
+		{
 			return $this->_unknowns;
 		}
 
-
 		/**
-		 * FUNCTION: setUnknowns
-		 *
 		 * Sets how you want to handle variables that were found in the
 		 * template but not set in vlibTemplate using vlibTemplate::setVar().
-		 *
 		 * @param  string $arg ignore, remove, print, leave or comment
 		 * @return boolean
 		 * @access public
 		 */
-		function setUnknowns ($arg) {
+		public function setUnknowns($arg)
+		{
 			$arg = strtolower(trim($arg));
 			if (preg_match('/^ignore|remove|print|leave|comment$/', $arg)) {
 				$this->OPTIONS['UNKNOWNS'] = $arg;
@@ -750,10 +696,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return false;
 		}
 
-
 		/**
-		 * FUNCTION: setPath
-		 *
 		 * function sets the paths to use when including files.
 		 * Use of this function: vlibTemplate::setPath(string path [, string path, ..]);
 		 * i.e. if $tmpl is your template object do: $tmpl->setPath('/web/htdocs/templates','/web/htdocs/www');
@@ -764,7 +707,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @return bool success
 		 * @access public
 		 */
-		function setPath () {
+		public function setPath()
+		{
 			$num_args = func_num_args();
 			if ($num_args < 1) {
 				$this->OPTIONS['INCLUDE_PATHS'] = array();
@@ -777,10 +721,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: getParseTime
-		 *
 		 * After using one of the parse functions, this will allow you
 		 * access the time taken to parse the template.
 		 * see OPTION 'TIME_PARSE'.
@@ -788,7 +729,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @return float time taken to parse template
 		 * @access public
 		 */
-		function getParseTime () {
+		public function getParseTime()
+		{
 			if ($this->OPTIONS['TIME_PARSE'] && $this->_parsed) {
 				return $this->_totalparsetime;
 			}
@@ -797,8 +739,6 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
 		/**
-		 * FUNCTION: fastPrint
-		 *
 		 * Identical to pparse() except that it uses output buffering w/ gz compression thus
 		 * printing the output directly and compressed if poss.
 		 * Will possibly if parsing a huge template.
@@ -806,7 +746,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access public
 		 * @return boolean true/false
 		 */
-		function fastPrint () {
+		public function fastPrint()
+		{
 			$ret = $this->_parse('ob_gzhandler');
 			print($this->_tmploutput);
 			return $ret;
@@ -814,63 +755,54 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
 		/**
-		 * FUNCTION: pparse
-		 *
 		 * Calls parse, and then prints out $this->_tmploutput
-		 *
 		 * @access public
 		 * @return boolean true/false
 		 */
-		function pparse () {
+		public function pparse()
+		{
 			if (!$this->_parsed) $this->_parse();
 			print($this->_tmploutput);
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: pprint
-		 *
 		 * Alias for pparse()
-		 *
 		 * @access public
 		 */
-		function pprint () {
+		public function pprint()
+		{
 			return $this->pparse();
 		}
 
 
 		/**
-		 * FUNCTION: grab
-		 *
 		 * Returns the parsed output, ready for printing, passing to mail() ...etc.
 		 * Invokes $this->_parse() if template has not yet been parsed.
 		 *
 		 * @access public
 		 * @return boolean true/false
 		 */
-		function grab () {
+		public function grab()
+		{
 			if (!$this->_parsed) $this->_parse();
 			return $this->_tmploutput;
 		}
 
 		/*-----------------------------------------------------------------------------\
-    |                           private functions                                  |
-    \-----------------------------------------------------------------------------*/
-
+        |                           private functions                                  |
+        \-----------------------------------------------------------------------------*/
 
 		/**
-		 * FUNCTION: vlibTemplate
-		 *
 		 * vlibTemplate constructor.
 		 * if $tmplfile has been passed to it, it will send to $this->newTemplate()
-		 *
 		 * @param string $tmplfile full path to template file
 		 * @param array $options see above
 		 * @return boolean true/false
 		 * @access private
 		 */
-		function tpl ($tmplfile=null, $options=null) {
+		public function __construct($tmplfile = null, $options = null)
+		{
 			if (is_array($tmplfile) && $options == null) {
 				$options = $tmplfile;
 				unset($tmplfile);
@@ -889,8 +821,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 					$key = strtoupper($key);
 					if ($key == 'PATH') {
 						$this->setPath($val);
-					}
-					else {
+					} else {
 						$this->_setOption($key, strtolower($val));
 					}
 				}
@@ -900,9 +831,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
-		/** FUNCTION: _getData
-		 *
+		/**
 		 * function returns the text from the file, or if we're using cache, the text
 		 * from the cache file. MUST RETURN DATA.
 		 * @param string tmplfile contains path to template file
@@ -910,13 +839,15 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return mixed data/string or boolean
 		 */
-		function _getData ($tmplfile, $do_eval=false) {
-			//check the current file depth
+		private function _getData ($tmplfile, $do_eval=false)
+		{
+			//* check the current file depth
 			if ($this->_includedepth > $this->OPTIONS['MAX_INCLUDES'] || $tmplfile == false) {
 				return;
-			}
-			else {
-				if ($this->_debug) array_push($this->_debugIncludedfiles, $tmplfile);
+			} else {
+				if ($this->_debug){
+					array_push($this->_debugIncludedfiles, $tmplfile);
+				}
 				if ($do_eval) {
 					array_push($this->_currentincludedir, dirname($tmplfile));
 					$this->_includedepth++;
@@ -924,11 +855,10 @@ if (!defined('vlibTemplateClassLoaded')) {
 			}
 
 
-			if($this->_cache && $this->_checkCache($tmplfile)) { // cache exists so lets use it
+			if($this->_cache && $this->_checkCache($tmplfile)) { //* cache exists so lets use it
 				$data = fread($fp = fopen($this->_cachefile, 'r'), filesize($this->_cachefile));
 				fclose($fp);
-			}
-			else { // no cache lets parse the file
+			} else { //* no cache lets parse the file
 				$data = fread($fp = fopen($tmplfile, 'r'), filesize($tmplfile));
 				fclose($fp);
 
@@ -953,7 +883,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			}
 
-			// now we must parse the $data and check for any <tmpl_include>'s
+			//* now we must parse the $data and check for any <tmpl_include>'s
 			if ($this->_debug) $this->doDebugWarnings(file($tmplfile), $tmplfile);
 
 			if ($do_eval) {
@@ -961,34 +891,34 @@ if (!defined('vlibTemplateClassLoaded')) {
 				$this->_includedepth--;
 				array_pop($this->_currentincludedir);
 				return $success;
-			}
-			else {
+			} else {
 				return $data;
 			}
-
 		}
 
-
 		/**
-		 * FUNCTION: _fileSearch
-		 *
 		 * Searches for all possible instances of file { $file }
-		 *
 		 * @param string $file path of file we're looking for
 		 * @access private
 		 * @return mixed fullpath to file or boolean false
 		 */
-		function _fileSearch ($file) {
+		private function _fileSearch($file)
+		{
+
 			$filename = basename($file);
 			$filepath = dirname($file);
 
-			// check fullpath first..
-			$fullpath = $filepath.'/'.$filename;
-			if (is_file($fullpath)) {
-				return $fullpath;
+			if(isset($_SESSION['s']['module']['name']) && isset($_SESSION['s']['theme'])) {
+				if(is_file(ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates/'.$_SESSION['s']['module']['name'].'/'.$filename)) {
+					return ISPC_THEMES_PATH.'/'.$_SESSION['s']['theme'].'/templates/'.$_SESSION['s']['module']['name'].'/'.$filename;
+				}
 			}
 
-			// ..then check for relative path for current directory..
+			//* check fullpath first..
+			$fullpath = $filepath.'/'.$filename;
+			if (is_file($fullpath)) return $fullpath;
+
+			//* ..then check for relative path for current directory..
 			if (!empty($this->_currentincludedir)) {
 				$currdir = $this->_currentincludedir[(count($this->_currentincludedir) -1)];
 				$relativepath = realpath($currdir.'/'.$filepath.'/'.$filename);
@@ -998,7 +928,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			}
 
-			// ..then check for relative path for all additional given paths..
+			//* ..then check for relative path for all additional given paths..
 			if (!empty($this->OPTIONS['INCLUDE_PATHS'])) {
 				foreach ($this->OPTIONS['INCLUDE_PATHS'] as $currdir) {
 					$relativepath = realpath($currdir.'/'.$filepath.'/'.$filename);
@@ -1008,44 +938,35 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			}
 
-			// ..then check path from TEMPLATE_DIR..
+			//* ..then check path from TEMPLATE_DIR..
 			if (!empty($this->OPTIONS['TEMPLATE_DIR'])) {
 				$fullpath = realpath($this->OPTIONS['TEMPLATE_DIR'].'/'.$filepath.'/'.$filename);
-				if (is_file($fullpath)) {
-					return $fullpath;
-				}
+				if (is_file($fullpath)) return $fullpath;
 			}
 
-			// ..then check relative path from executing php script..
+			//* ..then check relative path from executing php script..
 			$fullpath = realpath($filepath.'/'.$filename);
-			if (is_file($fullpath)) {
-				return $fullpath;
-			}
+			if (is_file($fullpath)) return $fullpath;
 
-			// ..then check path from template file.
+			//* ..then check path from template file.
 			if (!empty($this->VLIBTEMPLATE_ROOT)) {
 				$fullpath = realpath($this->VLIBTEMPLATE_ROOT.'/'.$filepath.'/'.$filename);
-				if (is_file($fullpath)) {
-					return $fullpath;
-				}
+				if (is_file($fullpath)) return $fullpath;
 			}
 
 			return false; // uh oh, file not found
 		}
 
-
 		/**
-		 * FUNCTION: _arrayBuild
-		 *
 		 * Modifies the array $arr to add Template variables, __FIRST__, __LAST__ ..etc
 		 * if $this->OPTIONS['LOOP_CONTEXT_VARS'] is true.
 		 * Used by $this->setloop().
-		 *
 		 * @param array $arr
 		 * @return array new look array
 		 * @access private
 		 */
-		function _arrayBuild ($arr) {
+		private function _arrayBuild($arr)
+		{
 			if (is_array($arr) && !empty($arr)) {
 				$arr = array_values($arr); // to prevent problems w/ non sequential arrays
 				for ($i = 0; $i < count($arr); $i++) {
@@ -1057,8 +978,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 						if (is_array($v)) {
 							if (($arr[$i][$k] = $this->_arrayBuild($v)) == false) return false;
-						}
-						else { // reinsert the var
+						} else { // reinsert the var
 							$arr[$i][$k] = $v;
 						}
 					}
@@ -1072,17 +992,13 @@ if (!defined('vlibTemplateClassLoaded')) {
 					}
 				}
 				return $arr;
-			}
-			elseif (empty($arr)) {
+			} elseif (empty($arr)) {
 				return true;
 			}
 		}
 
-
 		/**
-		 * FUNCTION: _parseIf
 		 * returns a string used for parsing in tmpl_if statements.
-		 *
 		 * @param string $varname
 		 * @param string $value
 		 * @param string $op
@@ -1090,7 +1006,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		function _parseIf ($varname, $value=null, $op=null, $namespace=null, $format=null) {
+		private function _parseIf($varname, $value = null, $op = null, $namespace = null, $format = null)
+		{
 			if (isset($namespace)) $namespace = substr($namespace, 0, -1);
 			$comp_str = ''; // used for extended if statements
 
@@ -1101,20 +1018,17 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if (!empty($op)) {
 					if (in_array($op, $this->allowed_if_ops)) {
 						$comp_str .= $op;
-					}
-					else {
+					} else {
 						vlibTemplateError::raiseError('VT_WARNING_INVALID_IF_OP', WARNING, $op);
 					}
-				}
-				else {
+				} else {
 					$comp_str .= '==';
 				}
 
 				// now we add the value, if it's numeric, then we leave the quotes off
 				if (is_numeric($value)) {
 					$comp_str .= $value;
-				}
-				else {
+				} else {
 					$comp_str .= '\''.$value.'\'';
 				}
 			}
@@ -1126,8 +1040,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if ($this->_namespace[$i] == $namespace || (($i + 1) == $numnamespaces && !empty($namespace))) {
 					$retstr .= "['".$namespace."'][\$_".$i."]";
 					break 1;
-				}
-				else {
+				} else {
 					$retstr .= "['".$this->_namespace[$i]."'][\$_".$i."]";
 				}
 			}
@@ -1150,14 +1063,13 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
 		/**
-		 * FUNCTION: _parseLoop
 		 * returns a string used for parsing in tmpl_loop statements.
-		 *
 		 * @param string $varname
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		function _parseLoop ($varname) {
+		private function _parseLoop ($varname)
+		{
 			array_push($this->_namespace, $varname);
 			$tempvar = count($this->_namespace) - 1;
 			$retstr = "for (\$_".$tempvar."=0 ; \$_".$tempvar." < count(\$this->_arrvars";
@@ -1168,12 +1080,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return $retstr."); \$_".$tempvar."++) {";
 		}
 
-
 		/**
-		 * FUNCTION: _parseVar
-		 *
 		 * returns a string used for parsing in tmpl_var statements.
-		 *
 		 * @param string $wholetag
 		 * @param string $tag
 		 * @param string $varname
@@ -1183,22 +1091,21 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string used for eval'ing
 		 */
-		function _parseVar ($wholetag, $tag, $varname, $escape, $format, $namespace) {
+		private function _parseVar ($wholetag, $tag, $varname, $escape, $format, $namespace)
+		{
 			if (!empty($namespace)) $namespace = substr($namespace, 0, -1);
 			$wholetag = stripslashes($wholetag);
 
 			if (count($this->_namespace) == 0 || $namespace == 'global') {
 				$var1 = '$this->_vars[\''.$varname.'\']';
-			}
-			else {
+			} else {
 				$var1build = "\$this->_arrvars";
 				$numnamespaces = count($this->_namespace);
 				for ($i=0; $i < $numnamespaces; $i++) {
 					if ($this->_namespace[$i] == $namespace || (($i + 1) == $numnamespaces && !empty($namespace))) {
 						$var1build .= "['".$namespace."'][\$_".$i."]";
 						break 1;
-					}
-					else {
+					} else {
 						$var1build .= "['".$this->_namespace[$i]."'][\$_".$i."]";
 					}
 				}
@@ -1220,7 +1127,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				$aftervar   = $this->FORMAT_TAGS[$format]['close'] . $aftervar;
 			}
 
-			// build return values
+			//* build return values
 			$retstr  = 'if ('.$var1.' !== null) { ';
 			$retstr .= 'print('.$beforevar.$var1.$aftervar.'); ';
 			$retstr .= '}';
@@ -1236,30 +1143,27 @@ if (!defined('vlibTemplateClassLoaded')) {
 				$comment = addcslashes('<!-- unknown variable '.preg_replace('/<!--|-->/', '', $wholetag).'//-->', '"');
 				$retstr .= ' else { print("'.$comment.'"); $this->_setUnknown("'.$varname.'"); }';
 				return $retstr;
-				break;
+
 			case 'leave':
 				$retstr .= ' else { print("'.addcslashes($wholetag, '"').'"); $this->_setUnknown("'.$varname.'"); }';
 				return $retstr;
-				break;
+
 			case 'print':
 				$retstr .= ' else { print("'.htmlspecialchars($wholetag, ENT_QUOTES).'"); $this->_setUnknown("'.$varname.'"); }';
 				return $retstr;
-				break;
 
 			case 'ignore':
 				return $retstr;
-				break;
+
 			case 'remove':
 			default:
 				$retstr .= ' else { $this->_setUnknown("'.$varname.'"); }';
 				return $retstr;
-				break;
+
 			}
 		}
 
-
 		/**
-		 * FUNCTION: _parseTag
 		 * takes values from preg_replace in $this->_intparse() and determines
 		 * the replace string.
 		 *
@@ -1267,7 +1171,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return string replace values
 		 */
-		function _parseTag ($args) {
+		private function _parseTag ($args)
+		{
 			$wholetag = $args[0];
 			$openclose = $args[1];
 			$tag = strtolower($args[2]);
@@ -1279,8 +1184,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if ($tag == 'loop' || $tag == 'endloop') array_pop($this->_namespace);
 				if ($tag == 'comment' || $tag == 'endcomment') {
 					return '<?php */ ?>';
-				}
-				else {
+				} else {
 					return '<?php } ?>';
 				}
 			}
@@ -1319,53 +1223,43 @@ if (!defined('vlibTemplateClassLoaded')) {
 			}
 
 
-			// return correct string (tag dependent)
+			//* return correct string (tag dependent)
 			switch ($tag) {
 			case 'var':
 				if (empty($escape) && (!empty($this->OPTIONS['DEFAULT_ESCAPE']) && strtolower($this->OPTIONS['DEFAULT_ESCAPE']) != 'none')) {
 					$escape = strtolower($this->OPTIONS['DEFAULT_ESCAPE']);
 				}
-				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace).' ?>'."\n";
-				break;
+				return '<?php '.$this->_parseVar ($wholetag, $tag, $var, @$escape, @$format, @$namespace)." ?>\n";
 
 			case 'if':
 				return '<?php if ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'unless':
 				return '<?php if (!'. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'elseif':
 				return '<?php } elseif ('. $this->_parseIf($var, @$value, @$op, @$namespace, @$format) .') { ?>';
-				break;
 
 			case 'loop':
 				return '<?php '. $this->_parseLoop($var) .'?>';
-				break;
 
 			case 'comment':
 				if (empty($var)) { // full open/close style comment
 					return '<?php /* ?>';
-				}
-				else { // just ignore tag if it was a one line comment
+				} else { // just ignore tag if it was a one line comment
 					return;
 				}
-				break;
 
 			case 'phpinclude':
 				if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
 					return '<?php include(\''.$file.'\'); ?>';
 				}
-				break;
 
 			case 'include':
 				return '<?php $this->_getData($this->_fileSearch(\''.$file.'\'), 1); ?>';
-				break;
 
 			case 'dyninclude':
 				return '<?php $this->_getData($this->_fileSearch($this->_dyninclude[\''.$name.'\']), 1); ?>';
-				break;
 
 			default:
 				if ($this->OPTIONS['STRICT']) vlibTemplateError::raiseError('VT_ERROR_INVALID_TAG', KILL, htmlspecialchars($wholetag, ENT_QUOTES));
@@ -1374,10 +1268,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 		}
 
-
 		/**
-		 * FUNCTION: _intParse
-		 *
 		 * Parses $this->_tmplfile into correct format for eval() to work
 		 * Called by $this->_parse(), or $this->fastPrint, this replaces all <tmpl_*> references
 		 * with their correct php representation, i.e. <tmpl_var title> becomes $this->vars['title']
@@ -1386,7 +1277,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return boolean true/false
 		 */
-		function _intParse () {
+		private function _intParse ()
+		{
 			//$mqrt = get_magic_quotes_runtime();
 			//set_magic_quotes_runtime(0);
 			$this->_tmplfilep = '?>'.$this->_getData($this->_tmplfilename).'<?php return true;';
@@ -1394,10 +1286,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: _parse
-		 *
 		 * Calls _intParse, and eval()s $this->tmplfilep
 		 * and outputs the results to $this->tmploutput
 		 *
@@ -1405,7 +1294,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return boolean true/false
 		 */
-		function _parse ($compress='') {
+		private function _parse ($compress = '')
+		{
 			if (!$this->_parsed) {
 				if ($this->OPTIONS['TIME_PARSE']) $this->_firstparsetime = $this->_getMicroTime();
 
@@ -1429,16 +1319,10 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if (!$success) vlibTemplateError::raiseError('VT_ERROR_PARSE', FATAL);
 			$this->_tmploutput .= ob_get_contents();
 			ob_end_clean();
-
-
-
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: _setOption
-		 *
 		 * Sets one or more of the boolean options 1/0, that control certain actions in the template.
 		 * Use of this function:
 		 * either: vlibTemplate::_setOptions(string option_name, bool option_val [, string option_name, bool option_val ..]);
@@ -1450,7 +1334,8 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @return bool true/false
 		 * @access private
 		 */
-		function _setOption () {
+		private function _setOption()
+		{
 			$numargs = func_num_args();
 			if ($numargs < 1) {
 				vlibTemplateError::raiseError('VT_ERROR_WRONG_NO_PARAMS', null, '_setOption()');
@@ -1463,18 +1348,15 @@ if (!defined('vlibTemplateClassLoaded')) {
 					foreach ($options as $k => $v) {
 						if ($v != null) {
 							if(in_array($k, array_keys($this->OPTIONS))) $this->OPTIONS[$k] = $v;
-						}
-						else {
+						} else {
 							continue;
 						}
 					}
-				}
-				else {
+				} else {
 					vlibTemplateError::raiseError('VT_ERROR_WRONG_NO_PARAMS', null, '_setOption()');
 					return false;
 				}
-			}
-			elseif (is_int($numargs / 2)) {
+			}elseif (is_int($numargs / 2)) {
 				for ($i = 0; $i < $numargs; $i=($i+2)) {
 					$k  = func_get_arg($i);
 					$v = func_get_arg(($i+1));
@@ -1482,52 +1364,43 @@ if (!defined('vlibTemplateClassLoaded')) {
 						if(in_array($k, array_keys($this->OPTIONS))) $this->OPTIONS[$k] = $v;
 					}
 				}
-			}
-			else {
+			} else {
 				vlibTemplateError::raiseError('VT_ERROR_WRONG_NO_PARAMS', null, '_setOption()');
 				return false;
 			}
 			return true;
 		}
 
-
 		/**
-		 * FUNCTION: _setUnknown
-		 *
 		 * Used during parsing, this function sets an unknown var checking to see if it
 		 * has been previously set.
-		 *
 		 * @param string var
 		 * @access private
 		 */
-		function _setUnknown ($var) {
+		private function _setUnknown($var)
+		{
 			if (!in_array($var, $this->_unknowns)) array_push($this->_unknowns, $var);
 		}
 
-
 		/**
-		 * FUNCTION: _getMicrotime
 		 * Returns microtime as a float number
-		 *
 		 * @return float microtime
 		 * @access private
 		 */
-		function _getMicrotime () {
-			list($msec, $sec) = explode(" ", microtime());
+		private function _getMicrotime()
+		{
+			list($msec, $sec) = explode(' ', microtime());
 			return (float)$msec + (float)$sec;
 		}
 
-
 		/**
-		 * FUNCTION: _escape_hex
 		 * Returns str encoded to hex code.
-		 *
 		 * @param string str to be encoded
 		 * @param bool true/false specify whether to use hex_entity
 		 * @return string encoded in hex
 		 * @access private
 		 */
-		function _escape_hex($str="", $entity=false) {
+		private  function _escape_hex($str = '', $entity = false) {
 			$prestr = $entity ? '&#x' : '%';
 			$poststr= $entity ? ';' : '';
 			for ($i=0; $i < strlen($str); $i++) {
@@ -1549,10 +1422,10 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 		function setCacheExtension() {vlibTemplateError::raiseError('VT_WARNING_NOT_CACHE_OBJ', WARNING, 'setCacheExtension()');}
 
-	}
+	} // << end class Def
 
-	//include_once ($conf['classpath'].'/vlibTemplate/debug.php');
-	include_once $conf['classpath'].'/tpl_cache.inc.php';
+	//include_once (ISPC_CLASS_PATH.'/vlibTemplate/debug.php');
+	include_once ISPC_CLASS_PATH.'/tpl_cache.inc.php';
 
 } // << end if(!defined())..
 ?>
