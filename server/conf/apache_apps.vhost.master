@@ -21,12 +21,12 @@
     <Directory {tmpl_var name='apps_vhost_dir'}>
 		Options FollowSymLinks
 		AllowOverride None
-		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted
-		{tmpl_else}
+		<tmpl_else>
 		Order allow,deny
 		Allow from all
-		{/tmpl_if}
+		</tmpl_if>
     </Directory>
   </IfModule>
   
@@ -38,12 +38,12 @@
 		AllowOverride AuthConfig Indexes Limit Options FileInfo
 		AddHandler fcgid-script .php
 		FCGIWrapper {tmpl_var name='apps_vhost_basedir'}/php-fcgi-scripts/apps/.php-fcgi-starter .php
-		{tmpl_if name='apache_version' op='>' value='2.2' format='version'}
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted
-		{tmpl_else}
+		<tmpl_else>
 		Order allow,deny
 		Allow from all
-		{/tmpl_if}
+		</tmpl_if>
     </Directory>
   </IfModule>
 
