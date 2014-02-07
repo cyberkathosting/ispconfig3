@@ -1132,14 +1132,14 @@ if (!defined('vlibTemplateClassLoaded')) {
 			if ($this->OPTIONS['GLOBAL_VARS'] && empty($namespace)) {
 				$retstr = '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])';
 				if(isset($format) && isset($value) && $format == 'version') {
-					return 'version_compare(' . $retstr . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+					return 'version_compare(' . $retstr . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
 				} else {
 					return $retstr.$comp_str;
 				}
 			}
 			else {
 				if(isset($format) && isset($value) && $format == 'version') {
-					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', ' . (!empty($op) ? $op : '==') . ')';
+					return 'version_compare(' . $retstr."['".$varname."']" . ', \'' . $value . '\', \'' . (!empty($op) ? $op : '==') . '\')';
 				} else {
 					return $retstr."['".$varname."']".$comp_str;
 				}
