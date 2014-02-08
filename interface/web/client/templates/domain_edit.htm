@@ -12,7 +12,6 @@
                 <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
                 </tmpl_if>
             </div>
-            <tmpl_if name="is_admin">
             <div class="ctrlHolder">
                 <label for="client_group_id">{tmpl_var name='client_txt'}</label>
                 <tmpl_if name="edit_disabled">
@@ -25,7 +24,6 @@
                 </select>
                 </tmpl_if>
             </div>
-            </tmpl_if>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
