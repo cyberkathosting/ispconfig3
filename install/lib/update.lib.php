@@ -153,8 +153,8 @@ function updateDbAndIni() {
 		$conf['nginx']['installed'] = false;
 	}
 
-	//* Do incremental DB updates only on installed ISPConfig versions > 3.0.3
-	if(compare_ispconfig_version('3.0.3', ISPC_APP_VERSION) >= 0) {
+	//* Do incremental DB updates only on installed ISPConfig versions >= 3.0.3
+	if(version_compare('3.0.3', ISPC_APP_VERSION, '<=')) {
 
 		swriteln($inst->lng('Starting incremental database update.'));
 

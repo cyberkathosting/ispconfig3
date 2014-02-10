@@ -317,9 +317,9 @@ $form["tabs"]['mail'] = array (
 		),
 		'smtp_crypt' => array (
 			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'n',
-			'value'  => array(0 => 'n', 1 => 'y')
+			'formtype' => 'SELECT',
+			'default' => '',
+			'value'  => array('' => 'No', 'ssl' => 'SSL', 'tls' => 'STARTTLS')
 		),
 		//#################################
 		// ENDE Datatable fields

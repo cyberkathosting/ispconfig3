@@ -693,43 +693,6 @@ function is_installed($appname) {
 }
 
 /*
- * Compare ISPConfig version number.
- * return values:
- * -1 $current version is newer then $new version (downgrade)
- * 0 $current version = $new version
- * 1 $current version is older then new version (update)
-
-*/
-function compare_ispconfig_version($current, $new) {
-	if( $current == $new) {
-		return 0;
-	}
-
-	$p = explode('.', $current);
-	$tmp = '';
-	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
-	$tmp .= (isset($p[1]))?str_pad(intval($p[1]), 3, '0', STR_PAD_LEFT):'000';
-	$tmp .= (isset($p[2]))?str_pad(intval($p[2]), 3, '0', STR_PAD_LEFT):'000';
-	$tmp .= (isset($p[3]))?str_pad(intval($p[3]), 3, '0', STR_PAD_LEFT):'000';
-	$current = $tmp;
-
-	$p = explode('.', $new);
-	$tmp = '';
-	$tmp .= str_pad(intval($p[0]), 3, '0', STR_PAD_LEFT);
-	$tmp .= (isset($p[1]))?str_pad(intval($p[1]), 3, '0', STR_PAD_LEFT):'000';
-	$tmp .= (isset($p[2]))?str_pad(intval($p[2]), 3, '0', STR_PAD_LEFT):'000';
-	$tmp .= (isset($p[3]))?str_pad(intval($p[3]), 3, '0', STR_PAD_LEFT):'000';
-	$new = $tmp;
-
-	if($new > $current) {
-		return 1;
-	} else {
-		return -1;
-	}
-
-}
-
-/*
 * Get the port number of the ISPConfig controlpanel vhost
 */
 

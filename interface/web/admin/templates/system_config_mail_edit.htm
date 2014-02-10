@@ -80,10 +80,10 @@
                 <input name="smtp_pass" id="smtp_pass" value="" size="30" maxlength="255" type="password" class="textInput" />
             </div>
             <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='smtp_crypt_txt'}</p>
-                <div class="multiField">
+                <label for="smtp_crypt">{tmpl_var name='smtp_crypt_txt'}</label>
+                <select name="smtp_crypt" id="smtp_crypt" class="selectInput formLengthHalf">
                     {tmpl_var name='smtp_crypt'}
-                </div>
+                </select>
             </div>
         </fieldset>
             

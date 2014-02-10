@@ -158,6 +158,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+
 		$server_id = $app->functions->intval($web["server_id"]);
 		$dir = $app->db->quote($web["document_root"]);
 		$uid = $app->db->quote($web["system_user"]);
@@ -166,8 +167,9 @@ class page_action extends tform_actions {
 		// The FTP user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$puser', pgroup = '$pgroup', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
+		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$uid', pgroup = '$gid', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
+		die($sql);
 
 	}
 
