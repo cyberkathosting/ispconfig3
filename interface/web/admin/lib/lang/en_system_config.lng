@@ -65,4 +65,5 @@ $wb['customer_no_start_txt'] = 'Customer No. start value';
 $wb['customer_no_counter_txt'] = 'Customer No. counter';
 $wb['session_timeout_txt'] = 'Session timeout (minutes)';
 $wb['session_allow_endless_txt'] = 'Enable "stay logged in"';
+$wb['No'] = 'No';
 ?>

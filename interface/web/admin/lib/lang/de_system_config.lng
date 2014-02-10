@@ -65,4 +65,5 @@ $wb['customer_no_start_txt'] = 'Kundennummer Startwert';
 $wb['customer_no_counter_txt'] = 'Kundennummer Zähler';
 $wb['session_timeout_txt'] = 'Session-Timeout (Minuten)';
 $wb['session_allow_endless_txt'] = '"Eingeloggt bleiben" aktivieren';
+$wb['No'] = 'Nein';
 ?>
