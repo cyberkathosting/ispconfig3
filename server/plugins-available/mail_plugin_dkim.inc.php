@@ -107,11 +107,18 @@ class mail_plugin_dkim {
 		}
 		/* dir for dkim-keys writeable? */
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		if (isset($mail_config['dkim_path']) && isset($data['new']['dkim_private']) && !empty($data['new']['dkim_private'])) {
+		if (isset($mail_config['dkim_path']) && (!empty($mail_config['dkim_path'])) && isset($data['new']['dkim_private']) && !empty($data['new']['dkim_private'])) {
+
+            if (!is_dir($mail_config['dkim_path'])) {
+                $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
+                mkdir($mail_config['dkim_path'], 0750, true);
+            }
+
 			if (!is_writeable($mail_config['dkim_path'])) {
-				$app->log('DKIM Path '.$mail_config['dkim_path'].' not found or not writeable.', LOGLEVEL_ERROR);
+				$app->log('DKIM Path '.$mail_config['dkim_path'].' not writeable.', LOGLEVEL_ERROR);
 				$check=false;
 			}
+
 		} else {
 			$app->log('Unable to write DKIM settings; Check your config!', LOGLEVEL_ERROR);
 			$check=false;
@@ -160,7 +167,7 @@ class mail_plugin_dkim {
 			/* save the DKIM Public-key in dkim-dir */
 			if (!file_put_contents($key_file.'.public', $public_key) === false)
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
-			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_WARNING);
+			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 		}
 		return $success;
 	}
@@ -220,7 +227,7 @@ class mail_plugin_dkim {
 			file_put_contents($this->get_amavis_config(), $amavis_config);
 			$app->log('Deleted the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
 			$this->restart_amavis();
-		} else $app->log('Unable to delete the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_ERROR);
+		} else $app->log('Unable to delete the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
 	}
 
 	/**

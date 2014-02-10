@@ -184,7 +184,6 @@ $wb['monit_user_txt'] = 'Monit User';
 $wb['monit_password_txt'] = 'Monit Password';
 $wb['monit_url_error_regex'] = 'Invalid Monit URL';
 $wb["dkim_path_txt"] = 'DKIM Path';
-$wb["dkim_path_error"] = 'DKIM Path not found or not writeable.';
 $wb['backup_delete_txt'] = 'Delete backups on domain/website delete';
 $wb['monit_url_note_txt'] = 'Placeholder:';
 $wb['munin_url_txt'] = 'Munin URL';

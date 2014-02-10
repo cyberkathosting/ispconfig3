@@ -57,18 +57,6 @@ class validate_dkim {
 		}
 	}
 
-
-	/**
-	 * Validator function for DKIM Path
-	 * @return boolean - true when the dkim-path exists and is writeable
-	 */
-	function check_dkim_path($field_name, $field_value, $validator) {
-		if(empty($field_value)) return $this->get_error($validator['errmsg']);
-		if (substr(sprintf('%o', fileperms($field_value)), -3) <= 600)
-			return $this->get_error($validator['errmsg']);
-	}
-
-
 	/**
 	 * Check function for DNS-Template
 	 */

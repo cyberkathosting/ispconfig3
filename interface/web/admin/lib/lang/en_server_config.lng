@@ -31,7 +31,6 @@ $wb["module_txt"] = 'Module';
 $wb["maildir_path_txt"] = 'Maildir Path';
 $wb["homedir_path_txt"] = 'Homedir Path';
 $wb["dkim_path_txt"] = 'DKIM Path';
-$wb["dkim_path_error"] = 'DKIM Path not found or not writeable.';
 $wb["mailuser_uid_txt"] = 'Mailuser UID';
 $wb["mailuser_gid_txt"] = 'Mailuser GID';
 $wb["mailuser_name_txt"] = 'Mailuser Name';

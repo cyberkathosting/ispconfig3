@@ -19,7 +19,6 @@ $wb['module_txt'] = 'Module';
 $wb['maildir_path_txt'] = 'Chemin Maildir';
 $wb['homedir_path_txt'] = 'Chemin Homedir';
 $wb['dkim_path_txt'] = 'Chemin DKIM';
-$wb['dkim_path_error'] = 'Le chemin DKIM n\'est pas trouvé ou ne peut être écrit.';
 $wb['mailuser_uid_txt'] = 'UID de l\'utilisateur mail';
 $wb['mailuser_gid_txt'] = 'GID de l\'utilisateur mail';
 $wb['mailuser_name_txt'] = 'Nom d\'utilisateur mail';
