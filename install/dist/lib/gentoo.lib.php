@@ -990,19 +990,19 @@ class installer extends installer_base
 		}
 
 		//* Install the update script
-		if (is_file('/usr/local/bin/ispconfig_update_from_svn.sh')) {
-			unlink('/usr/local/bin/ispconfig_update_from_svn.sh');
+		if (is_file('/usr/local/bin/ispconfig_update_from_dev.sh')) {
+			unlink('/usr/local/bin/ispconfig_update_from_dev.sh');
 		}
 
-		chown($install_dir.'/server/scripts/update_from_svn.sh', 'root');
-		chmod($install_dir.'/server/scripts/update_from_svn.sh', 0700);
+		chown($install_dir.'/server/scripts/update_from_dev.sh', 'root');
+		chmod($install_dir.'/server/scripts/update_from_dev.sh', 0700);
 		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
 		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
 		chown($install_dir.'/server/scripts/ispconfig_update.sh', 'root');
 		chmod($install_dir.'/server/scripts/ispconfig_update.sh', 0700);
 
-		if (!is_link('/usr/local/bin/ispconfig_update_from_svn.sh')) {
-			symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_svn.sh');
+		if (!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) {
+			symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_dev.sh');
 		}
 
 		if (!is_link('/usr/local/bin/ispconfig_update.sh')) {

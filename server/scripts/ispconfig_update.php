@@ -100,7 +100,7 @@ if($method == 'stable') {
 		echo "There are no updates available for ISPConfig ".ISPC_APP_VERSION."\n";
 	}
 } else {
-	passthru('/usr/local/ispconfig/server/scripts/update_from_svn.sh');
+	passthru('/usr/local/ispconfig/server/scripts/update_from_dev.sh');
 	exit;
 }
 
