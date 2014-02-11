@@ -95,13 +95,15 @@ class cronjob_backup extends cronjob {
 						$domain_dir=explode('/',$rec['maildir']); 
 						$_temp=array_pop($domain_dir);unset($_temp);
 						$domain_dir=implode('/',$domain_dir);
-
-						$source_dir=array_pop(explode('/',$rec['maildir']));
+						
+						$parts=explode('/',$rec['maildir']);
+						$source_dir=array_pop($parts);
+						unset($parts);
 
 						//* create archives
 						if($backup_mode == 'userzip') {
 							$mail_backup_file.='.zip';
-							exec('cd '.$rec['homedir'].' && zip -b /tmp -r '.$mail_backup_dir.'/'.$mail_backup_file.' '.$source_dir.' > /dev/nul');
+							exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/nul', $tmp_output, $retval);
 						} else {
 							/* Create a tar.gz backup */
 							$mail_backup_file.='.tar.gz';
