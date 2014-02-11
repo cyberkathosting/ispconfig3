@@ -303,15 +303,19 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '/var/lib/amavis/dkim',
-			'validators'    => array (  0 => array ('type'  => 'CUSTOM',
-					'class' => 'validate_dkim',
-					'function' => 'check_dkim_path',
-					'errmsg'=> 'dkim_path_error'),
-			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
 		),
+        'relayhost_password' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '',
+            'value' => '',
+            'width' => '40',
+            'maxlength' => '255'
+        ),
+
 		'pop3_imap_daemon' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',

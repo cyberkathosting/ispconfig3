@@ -75,6 +75,18 @@ $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 # Set the log_level to 5 for debugging
 $log_level = 0;                # (defaults to 0)
 
+$inet_socket_port = [10024,10026];
+$forward_method = 'smtp:[127.0.0.1]:10025';
+$notify_method = 'smtp:[127.0.0.1]:10027';
+$interface_policy{'10026'} = 'ORIGINATING';
+$policy_bank{'ORIGINATING'} = {
+  originating => 1,
+  smtpd_discard_ehlo_keywords => ['8BITMIME'],
+  forward_method => 'smtp:[127.0.0.1]:10027',
+};
+@mynetworks = qw(0.0.0.0/8 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12
+192.168.0.0/16);
+
 # DKIM
 
 $enable_dkim_verification = 1;
