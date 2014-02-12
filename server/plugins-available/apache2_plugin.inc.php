@@ -892,6 +892,8 @@ class apache2_plugin {
 		// Make sure we only have Unix linebreaks
 		$vhost_data['apache_directives'] = str_replace("\r\n", "\n", $vhost_data['apache_directives']);
 		$vhost_data['apache_directives'] = str_replace("\r", "\n", $vhost_data['apache_directives']);
+		$trans = array('{DOCROOT}' => $vhost_data['web_document_root_www']);
+		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
