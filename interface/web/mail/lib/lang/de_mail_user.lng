@@ -48,4 +48,5 @@ $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['email_error_isascii'] = 'Bitte verwenden Sie keine Umlaute im Passwort. Dies kann zu Problemen mit Ihrem E-Mail-Programm führen.';
+$wb['cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
 ?>

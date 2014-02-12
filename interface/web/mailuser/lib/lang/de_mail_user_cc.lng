@@ -4,4 +4,6 @@ $wb['cc_txt'] = 'Kopie senden an';
 $wb['email_txt'] = 'E-Mail';
 $wb['cc_error_isemail'] = 'E-Mail Adresse ungültig im -Kopie senden an- Feld';
 $wb['email_is_cc_error'] = 'E-Mail Adresse und ';
+$wb['name_optional_txt'] = '(optional)';
+$wb['cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
 ?>

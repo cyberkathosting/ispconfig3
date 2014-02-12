@@ -160,7 +160,7 @@ $form["tabs"]['mailuser'] = array(
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}$/i',
+					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,}$/i',
 					'errmsg'=> 'cc_error_isemail'),
 			),
 			'default' => '',

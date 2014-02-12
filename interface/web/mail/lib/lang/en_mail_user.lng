@@ -48,4 +48,5 @@ $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
+$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>
