@@ -170,44 +170,68 @@ class backup_plugin {
 			$app->uses('ini_parser,file,getconf');
 
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			$backup_dir = $server_config['backup_dir'];
 
-			$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));
-
-			$backup_dir = $server_config['backup_dir'].'/mail'.$domain_rec['domain_id'];
-			$mail_backup_file = $backup_dir.'/'.$mail_backup['filename'];
-
-			$sql = "SELECT * FROM mail_user WHERE server_id = '".$conf['server_id']."' AND mailuser_id = ".intval($mail_backup['mailuser_id']);
-			$record = $app->db->queryOneRecord($sql);
-
-			//* strip mailbox from maildir
-			$domain_dir=explode('/',$record['maildir']);
-			$_temp=array_pop($domain_dir);unset($_temp);
-			$domain_dir=implode('/',$domain_dir);
-			if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir)) {
-				if($mail_backup['backup_mode'] == 'userzip') {
-					$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($mail_backup_file).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
-					exec($command,$tmp_output, $retval);
-					if($retval == 0){
-						$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
-					} else {
-						$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
-					}
+			//* mount backup directory, if necessary
+			$backup_dir_is_ready = true;
+			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
+			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+				if(!$app->system->is_mounted($backup_dir)){
+					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+					sleep(1);
+					if(!$app->system->is_mounted($backup_dir)) $backup_dir_is_ready = false;
 				}
-				if($mail_backup['backup_mode'] == 'rootgz') {
-					$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
-					exec($command,$tmp_output, $retval);
-					if($retval == 0){
-						$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
-					} else {
-						$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+			}
+			
+			if($backup_dir_is_ready){
+				$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));
+
+				$backup_dir = $server_config['backup_dir'].'/mail'.$domain_rec['domain_id'];
+				$mail_backup_file = $backup_dir.'/'.$mail_backup['filename'];
+
+				$sql = "SELECT * FROM mail_user WHERE server_id = '".$conf['server_id']."' AND mailuser_id = ".intval($mail_backup['mailuser_id']);
+				$record = $app->db->queryOneRecord($sql);
+
+				//* strip mailbox from maildir
+				$domain_dir=explode('/',$record['maildir']);
+				$_temp=array_pop($domain_dir);unset($_temp);
+				$domain_dir=implode('/',$domain_dir);
+
+				if(!is_dir($domain_dir)) {
+					mkdir($domain_dir, 0700); //* never create the full path
+					chown($domain_dir, $mail_config['mailuser_name']);
+					chgrp($domain_dir, $mail_config['mailuser_group']);
+				}
+
+				if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir)) {
+					if($mail_backup['backup_mode'] == 'userzip') {
+						copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
+						chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
+						$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
+						exec($command,$tmp_output, $retval);
+						unlink($domain_dir.'/'.$mail_backup['filename']);
+						if($retval == 0){
+							$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+						} else {
+							$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+						}
+					}
+					if($mail_backup['backup_mode'] == 'rootgz') {
+						$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
+						exec($command,$tmp_output, $retval);
+						if($retval == 0){
+							$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+						} else {
+							$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+						}
 					}
 				}
 			} else {
-				$app->log('Unable to restore Mail backup '.$mail_backup_file.' due to misconfiguration',LOGLEVEL_ERROR);
+				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
 		} else {
-			$app->log('No backup with ID '.$backup_id.' found.',LOGLEVEL_DEBUG);
+			$app->log('No backup with ID '.$backup_id.' found.', LOGLEVEL_DEBUG);
 		}
 
 		return 'ok';
