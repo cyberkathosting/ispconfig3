@@ -272,6 +272,17 @@ class rescue_core_module {
 
 		/* Set the new try counter */
 		$this->_rescueData['webserver']['try_counter'] = $tryCount;
+		
+		if ($tryCount > 2 && $conf['serverconfig']['web']['server_type'] != 'nginx') {
+			if($app->system->is_user('apache')) {
+				$app->log("Clearing semaphores table for user apache.",LOGLEVEL_WARN);
+				exec("ipcs -s | grep apache | awk '{ print $2 }' | xargs ipcrm sem");
+			}
+			if($app->system->is_user('www-data')) {
+				$app->log("Clearing semaphores table for user apache.",LOGLEVEL_WARN);
+				exec("ipcs -s | grep www-data | awk '{ print $2 }' | xargs ipcrm sem");
+			}
+		}
 
 		/* if 5 times will not work, we have to give up... */
 		if ($tryCount > 5){
