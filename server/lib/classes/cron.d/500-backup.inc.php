@@ -84,7 +84,8 @@ class cronjob_backup extends cronjob {
 			}
 
 			if($run_backups){
-				$sql = "SELECT * FROM web_domain WHERE server_id = ".$conf['server_id']." AND (type = 'vhost' OR type = 'vhostsubdomain')";
+				//* backup only active domains
+				$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND (type = 'vhost' OR type = 'vhostsubdomain') AND active = 'y'";
 				$records = $app->db->queryAllRecords($sql);
 				if(is_array($records)) {
 					foreach($records as $rec) {
