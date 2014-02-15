@@ -542,7 +542,7 @@ class remoting_lib {
 				}
 				break;
 			case 'ISINT':
-				if(function_exists('filter_var')) {
+				if(function_exists('filter_var') && $field_value < 2147483647) {
 					if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 						$errmsg = $validator['errmsg'];
 						if(isset($this->wordbook[$errmsg])) {
