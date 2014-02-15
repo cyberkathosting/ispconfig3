@@ -44,6 +44,7 @@ try {
 		'ssl_country' => '',
 		'ssl_domain' => '',
 		'ssl_request' => '',
+		'ssl_key' => '',
 		'ssl_cert' => '',
 		'ssl_bundle' => '',
 		'ssl_action' => '',
