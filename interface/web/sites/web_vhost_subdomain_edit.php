@@ -394,15 +394,15 @@ class page_action extends tform_actions {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_traffic_quota, limit_web_subdomain, default_webserver, parent_client_id, limit_web_quota, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
-			if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = '-';
-			if($client['limit_ssi'] != 'y') $this->dataRecord['ssi'] = '-';
-			if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = '-';
-			if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = '-';
-			if($client['limit_python'] != 'y') $this->dataRecord['python'] = '-';
+			if($client['limit_cgi'] != 'y') $this->dataRecord['cgi'] = 'n';
+			if($client['limit_ssi'] != 'y') $this->dataRecord['ssi'] = 'n';
+			if($client['limit_perl'] != 'y') $this->dataRecord['perl'] = 'n';
+			if($client['limit_ruby'] != 'y') $this->dataRecord['ruby'] = 'n';
+			if($client['limit_python'] != 'y') $this->dataRecord['python'] = 'n';
 			if($client['force_suexec'] == 'y') $this->dataRecord['suexec'] = 'y';
-			if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = '-';
-			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = '-';
-			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = '-';
+			if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = 'n';
+			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = 'n';
+			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = 'n';
 
 			// only generate quota and traffic warnings if value has changed
 			if($this->id > 0) {
@@ -455,15 +455,15 @@ class page_action extends tform_actions {
 				$this->dataRecord['web_folder'] = $tmp['web_folder']; // cannot be changed!
 
 				// set the settings to current if not provided (or cleared due to limits)
-				if($this->dataRecord['cgi'] == '-') $this->dataRecord['cgi'] = $tmp['cgi'];
-				if($this->dataRecord['ssi'] == '-') $this->dataRecord['ssi'] = $tmp['ssi'];
-				if($this->dataRecord['perl'] == '-') $this->dataRecord['perl'] = $tmp['perl'];
-				if($this->dataRecord['ruby'] == '-') $this->dataRecord['ruby'] = $tmp['ruby'];
-				if($this->dataRecord['python'] == '-') $this->dataRecord['python'] = $tmp['python'];
-				if($this->dataRecord['suexec'] == '-') $this->dataRecord['suexec'] = $tmp['suexec'];
-				if($this->dataRecord['errordocs'] == '-') $this->dataRecord['errordocs'] = $tmp['errordocs'];
-				if($this->dataRecord['subdomain'] == '-') $this->dataRecord['subdomain'] = $tmp['subdomain'];
-				if($this->dataRecord['ssl'] == '-') $this->dataRecord['ssl'] = $tmp['ssl'];
+				if($this->dataRecord['cgi'] == 'n') $this->dataRecord['cgi'] = $tmp['cgi'];
+				if($this->dataRecord['ssi'] == 'n') $this->dataRecord['ssi'] = $tmp['ssi'];
+				if($this->dataRecord['perl'] == 'n') $this->dataRecord['perl'] = $tmp['perl'];
+				if($this->dataRecord['ruby'] == 'n') $this->dataRecord['ruby'] = $tmp['ruby'];
+				if($this->dataRecord['python'] == 'n') $this->dataRecord['python'] = $tmp['python'];
+				if($this->dataRecord['suexec'] == 'n') $this->dataRecord['suexec'] = $tmp['suexec'];
+				if($this->dataRecord['errordocs'] == 'n') $this->dataRecord['errordocs'] = $tmp['errordocs'];
+				if($this->dataRecord['subdomain'] == 'n') $this->dataRecord['subdomain'] = $tmp['subdomain'];
+				if($this->dataRecord['ssl'] == 'n') $this->dataRecord['ssl'] = $tmp['ssl'];
 
 				unset($tmp);
 				// When the record is inserted
