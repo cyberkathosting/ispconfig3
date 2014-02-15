@@ -179,7 +179,7 @@
 		</IfModule>
 </tmpl_if>
 		# Clear PHP settings of this website
-		<FilesMatch "\.ph(p3?|tml)$">
+		<FilesMatch ".+\.ph(p[345]?|t|tml)$">
 				SetHandler None
 		</FilesMatch>
 <tmpl_if name='php' op='==' value='mod'>
@@ -250,6 +250,9 @@
 		<Directory {tmpl_var name='web_document_root_www'}>
 				AddHandler fcgid-script .php .php3 .php4 .php5
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php3
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php4
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php5
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -262,6 +265,9 @@
 		<Directory {tmpl_var name='web_document_root'}>
 				AddHandler fcgid-script .php .php3 .php4 .php5
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php3
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php4
+				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php5
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -282,7 +288,7 @@
 					Allow from all
 					</tmpl_if>
 			    </Directory>
-                AddHandler php5-fcgi .php
+                AddHandler php5-fcgi .php .php3 .php4 .php5
                 Action php5-fcgi /php5-fcgi
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
