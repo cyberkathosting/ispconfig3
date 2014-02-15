@@ -739,6 +739,10 @@ class ApsInstaller extends ApsBase
 		{
 			$app->db->query('DELETE FROM aps_instances WHERE id = "'.$app->db->quote($task['instance_id']).'";');
 			$app->db->query('DELETE FROM aps_instances_settings WHERE instance_id = "'.$app->db->quote($task['instance_id']).'";');
+			if ($app->dbmaster != $app->db) {
+				$app->dbmaster->query('DELETE FROM aps_instances WHERE id = "'.$app->db->quote($task['instance_id']).'";');
+				$app->dbmaster->query('DELETE FROM aps_instances_settings WHERE instance_id = "'.$app->db->quote($task['instance_id']).'";');
+			}
 		}
 
 		unset($sxe);

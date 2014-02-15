@@ -474,7 +474,15 @@ class installer_base {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE, DELETE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
+				
+				$query = "GRANT SELECT, DELETE ON ".$value['db'].".`aps_instances_settings` TO '".$value['user']."'@'".$host."' ";
 				if ($verbose){
 					echo $query ."\n";
 				}
