@@ -1511,6 +1511,11 @@ class installer_base {
 			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['web']['apps_vhost_servername'];
+			
+			//* Get the apps vhost port
+			if($this->is_update == true) {
+				$conf['web']['apps_vhost_port'] = get_apps_vhost_port_number();
+			}
 
 			// Dont just copy over the virtualhost template but add some custom settings
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_apps.vhost.master', 'tpl/apache_apps.vhost.master');

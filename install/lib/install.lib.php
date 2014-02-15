@@ -719,6 +719,32 @@ function get_ispconfig_port_number() {
 }
 
 /*
+* Get the port number of the ISPConfig apps vhost
+*/
+
+function get_apps_vhost_port_number() {
+	global $conf;
+	if($conf['nginx']['installed'] == true){
+		$ispconfig_vhost_file = $conf['nginx']['vhost_conf_dir'].'/apps.vhost';
+		$regex = '/listen (\d+)/';
+	} else {
+		$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/apps.vhost';
+		$regex = '/\<VirtualHost.*\:(\d{1,})\>/';
+	}
+
+	if(is_file($ispconfig_vhost_file)) {
+		$tmp = file_get_contents($ispconfig_vhost_file);
+		preg_match($regex, $tmp, $matches);
+		$port_number = @intval($matches[1]);
+		if($port_number > 0) {
+			return $port_number;
+		} else {
+			return '8081';
+		}
+	}
+}
+
+/*
 * Get the port number of the ISPConfig controlpanel vhost
 */
 
