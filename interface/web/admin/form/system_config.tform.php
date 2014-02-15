@@ -128,7 +128,7 @@ $form["tabs"]['sites'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array ( 0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[0-9a-zA-Z\:\/\-\.\[\]]{0,255}$/',
+					'regex' => '/^[0-9a-zA-Z\:\/\-\.\_\[\]\?\=]{0,255}$/',
 					'errmsg'=> 'phpmyadmin_url_error_regex'),
 			),
 			'default' => '',
