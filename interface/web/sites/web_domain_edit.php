@@ -871,6 +871,9 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".$app->functions->intval($client_group_id));
 			$client_id = $app->functions->intval($client["client_id"]);
 		}
+		
+		$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+		$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) &&  isset($this->dataRecord["client_group_id"]) && $this->dataRecord["client_group_id"] != $this->oldDataRecord["sys_groupid"]) {
 			// Set the values for document_root, system_user and system_group
@@ -883,14 +886,14 @@ class page_action extends tform_actions {
 			$document_root = str_replace("[client_idhash_4]", $this->id_hash($client_id, 4), $document_root);
 			$document_root = $app->db->quote($document_root);
 
-			$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
+			$sql = "UPDATE web_domain SET sys_userid = '$client_user_id' ,system_user = '$system_user', system_group = '$system_group', document_root = '$document_root' WHERE domain_id = ".$this->id;
 			//$sql = "UPDATE web_domain SET system_user = '$system_user', system_group = '$system_group' WHERE domain_id = ".$this->id;
 			$app->db->query($sql);
 
 			// Update the FTP user(s) too
 			$records = $app->db->queryAllRecords("SELECT ftp_user_id FROM ftp_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('ftp_user', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."', uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $app->functions->intval($rec['ftp_user_id']));
+				$app->db->datalogUpdate('ftp_user', "sys_userid = '".$app->functions->intval($client_user_id)."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."', uid = '$system_user', gid = '$system_group', dir = '$document_root'", 'ftp_user_id', $app->functions->intval($rec['ftp_user_id']));
 			}
 			unset($records);
 			unset($rec);
@@ -898,7 +901,7 @@ class page_action extends tform_actions {
 			// Update the Shell user(s) too
 			$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('shell_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $app->functions->intval($rec['shell_user_id']));
+				$app->db->datalogUpdate('shell_user', "sys_userid = '".$client_user_id."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $app->functions->intval($rec['shell_user_id']));
 			}
 			unset($records);
 			unset($rec);
@@ -906,7 +909,7 @@ class page_action extends tform_actions {
 			//* Update all subdomains and alias domains
 			$records = $app->db->queryAllRecords("SELECT domain_id, `domain`, `type`, `web_folder` FROM web_domain WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$update_columns = "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."'";
+				$update_columns = "sys_userid = '".$client_user_id."', sys_groupid = '".$web_rec['sys_groupid']."'";
 				if($rec['type'] == 'vhostsubdomain') {
 					$php_open_basedir = str_replace("[website_path]/web", $document_root.'/'.$rec['web_folder'], $web_config["php_open_basedir"]);
 					$php_open_basedir = str_replace("[website_domain]/web", $rec['domain'].'/'.$rec['web_folder'], $php_open_basedir);
@@ -923,7 +926,7 @@ class page_action extends tform_actions {
 			//* Update all databases
 			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
-				$app->db->datalogUpdate('web_database', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'database_id', $app->functions->intval($rec['database_id']));
+				$app->db->datalogUpdate('web_database', "sys_userid = '".$app->functions->intval($client_user_id)."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'database_id', $app->functions->intval($rec['database_id']));
 			}
 			unset($records);
 			unset($rec);
