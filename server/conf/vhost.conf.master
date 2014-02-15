@@ -142,6 +142,11 @@
 				PerlOptions +ParseHeaders
 				Options +ExecCGI
 			</Directory>
+			<Directory {tmpl_var name='web_document_root'}>
+				PerlResponseHandler ModPerl::Registry
+				PerlOptions +ParseHeaders
+				Options +ExecCGI
+			</Directory>
             <Files *.pl>
 				SetHandler perl-script
             </Files>
