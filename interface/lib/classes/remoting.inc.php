@@ -126,8 +126,11 @@ class remoting {
 		$session_id = $app->db->quote($session_id);
 
 		$sql = "DELETE FROM remote_session WHERE remote_session = '$session_id'";
-		$app->db->query($sql);
-		return $app->db->affectedRows() == 1;
+		if($app->db->query($sql) != false) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
