@@ -236,7 +236,7 @@
 				# FcgidMaxProcesses 1000
 				FcgidMaxRequestsPerProcess <tmpl_var name='fastcgi_max_requests'>
 				FcgidMinProcessesPerClass 0
-				FcgidMaxProcessesPerClass 100
+				FcgidMaxProcessesPerClass 10
 				FcgidConnectTimeout 3
 				FcgidIOTimeout 600
 				FcgidBusyTimeout 3600
