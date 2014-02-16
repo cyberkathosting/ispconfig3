@@ -4,6 +4,7 @@ auth_mechanisms = plain login
 disable_plaintext_auth = no
 log_timestamp = "%Y-%m-%d %H:%M:%S "
 mail_privileged_group = vmail
+postmaster_address = postmaster@example.com
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 passdb {

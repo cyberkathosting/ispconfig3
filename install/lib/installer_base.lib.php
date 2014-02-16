@@ -971,6 +971,7 @@ class installer_base {
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
+			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
