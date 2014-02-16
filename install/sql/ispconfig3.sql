@@ -450,7 +450,7 @@ CREATE TABLE `dns_rr` (
   `stamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `serial` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `rr` (`zone`,`name`,`type`,`data`)
+  KEY `rr` (`zone`,`type`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1867,7 +1867,8 @@ CREATE TABLE `web_domain` (
   `rewrite_rules` mediumtext,
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
-  PRIMARY KEY  (`domain_id`)
+  PRIMARY KEY  (`domain_id`),
+  UNIQUE KEY `serverdomain` (  `server_id` ,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
