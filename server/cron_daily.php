@@ -808,10 +808,10 @@ if ($app->dbmaster == $app->db) {
 			$domain = $rec['domain'];
 
 			$username = $rec['system_user'];
-			$rec['used'] = $monitor_data['user'][$username]['used'];
-			$rec['soft'] = $monitor_data['user'][$username]['soft'];
-			$rec['hard'] = $monitor_data['user'][$username]['hard'];
-			$rec['files'] = $monitor_data['user'][$username]['files'];
+			$rec['used'] = @$monitor_data['user'][$username]['used'];
+			$rec['soft'] = @$monitor_data['user'][$username]['soft'];
+			$rec['hard'] = @$monitor_data['user'][$username]['hard'];
+			$rec['files'] = @$monitor_data['user'][$username]['files'];
 
 			if (!is_numeric($rec['used'])){
 				if ($rec['used'][0] > $rec['used'][1]){

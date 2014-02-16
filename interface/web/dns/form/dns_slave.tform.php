@@ -121,6 +121,11 @@ $form["tabs"]['dns_slave'] = array (
 		'xfer' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISIP',
+					'allowempty' => 'y',
+					'separator' => ',',
+					'errmsg'=> 'xfer_error_regex'),
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '30',
