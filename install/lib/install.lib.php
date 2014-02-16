@@ -637,6 +637,11 @@ function replaceLine($filename, $search_pattern, $new_line, $strict = 0, $append
 					$out .= $line;
 				}
 			}
+			if (!$found) {
+				if (trim($line) == $new_line) {
+					$found = 1;
+				}
+			}
 		}
 		if($found == 0) {
 			//* add \n if the last line does not end with \n or \r
