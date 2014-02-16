@@ -51,8 +51,12 @@ class mongo_clientdb_plugin {
 	 */
 	function onInstall() {
 		global $conf;
-
-		return (bool) $conf['services']['db'];
+		
+		if($conf['services']['db'] == true && class_exists('MongoClient')) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
