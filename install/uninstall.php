@@ -75,6 +75,15 @@ exec("/etc/init.d/mysql start");
 // Delete the ispconfig files
 exec('rm -rf /usr/local/ispconfig');
 
+// Delete various other files
+@unlink("/usr/local/bin/ispconfig_update.sh");
+@unlink("/usr/local/bin/ispconfig_update_from_svn.sh");
+@unlink("/var/spool/mail/ispconfig");
+@unlink("/var/www/ispconfig");
+@unlink("/var/www/php-fcgi-scripts/ispconfig");
+@unlink("/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter");
+
+echo "Backups in /var/backup/ and log files in /var/log/ispconfig are not deleted.";
 echo "Please do not forget to delete the ispconfig user in the mysql.user table.\n\n";
 
 echo "Finished.\n";
