@@ -1478,7 +1478,11 @@ class system{
 
 	function maildirmake($maildir_path, $user = '', $subfolder = '') {
 
-		global $app;
+		global $app, $conf;
+		
+		// load the server configuration options
+		$app->uses("getconf");
+		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 
 		if($subfolder != '') {
 			$dir = escapeshellcmd($maildir_path.'/.'.$subfolder);
@@ -1521,25 +1525,30 @@ class system{
 
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
+			
 			// Courier
-			if(!is_file($maildir_path.'/courierimapsubscribed')) {
-				$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
-				touch($tmp_file);
-				chmod($tmp_file, 0744);
-				chown($tmp_file, 'vmail');
-				chgrp($tmp_file, 'vmail');
+			if($mail_config['pop3_imap_daemon'] == 'courier') {
+				if(!is_file($maildir_path.'/courierimapsubscribed')) {
+					$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
+					touch($tmp_file);
+					chmod($tmp_file, 0744);
+					chown($tmp_file, 'vmail');
+					chgrp($tmp_file, 'vmail');
+				}
+				$this->replaceLine($maildir_path.'/courierimapsubscribed', 'INBOX.'.$subfolder, 'INBOX.'.$subfolder, 1, 1);
 			}
-			$this->replaceLine($maildir_path.'/courierimapsubscribed', 'INBOX.'.$subfolder, 'INBOX.'.$subfolder, 1, 1);
 
 			// Dovecot
-			if(!is_file($maildir_path.'/subscriptions')) {
-				$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
-				touch($tmp_file);
-				chmod($tmp_file, 0744);
-				chown($tmp_file, 'vmail');
-				chgrp($tmp_file, 'vmail');
+			if($mail_config['pop3_imap_daemon'] == 'dovecot') {
+				if(!is_file($maildir_path.'/subscriptions')) {
+					$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
+					touch($tmp_file);
+					chmod($tmp_file, 0744);
+					chown($tmp_file, 'vmail');
+					chgrp($tmp_file, 'vmail');
+				}
+				$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
 			}
-			$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
 		}
 
 		$app->log('Created Maildir '.$maildir_path.' with subfolder: '.$subfolder, LOGLEVEL_DEBUG);
