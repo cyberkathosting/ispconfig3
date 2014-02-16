@@ -86,7 +86,7 @@ if(isset($settings['error'])) $app->error($settings['error']);
 $domains = array();
 $domain_for_user = '';
 if(!$adminflag) $domain_for_user = "AND (sys_userid = '".$app->db->quote($_SESSION['s']['user']['userid'])."'
-    OR sys_groupid = '".$app->db->quote($_SESSION['s']['user']['userid'])."' )";
+    OR sys_groupid = '".$app->db->quote($_SESSION['s']['user']['default_group'])."' )";
 $domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' AND (type = 'vhost' OR type = 'vhostsubdomain') AND active = 'y' ".$domain_for_user." ORDER BY domain;");
 if(!empty($domains_assoc)) foreach($domains_assoc as $domain) $domains[] = $domain['domain'];
 
