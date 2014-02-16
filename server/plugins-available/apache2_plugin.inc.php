@@ -1167,6 +1167,7 @@ class apache2_plugin {
 				$fcgi_tpl->setVar('php_fcgi_bin', escapeshellcmd($custom_fastcgi_php_executable));
 			}
 			$fcgi_tpl->setVar('security_level', intval($web_config['security_level']));
+			$fcgi_tpl->setVar('domain', escapeshellcmd($data['new']['domain']));
 
 			$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
 			$fcgi_tpl->setVar('open_basedir', escapeshellcmd($php_open_basedir));
@@ -2644,6 +2645,7 @@ class apache2_plugin {
 		$tpl->setVar('pm_max_requests', $data['new']['pm_max_requests']);
 		$tpl->setVar('document_root', $data['new']['document_root']);
 		$tpl->setVar('security_level', $web_config['security_level']);
+		$tpl->setVar('domain', $data['new']['domain']);
 		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
 		$tpl->setVar('php_open_basedir', $php_open_basedir);
 		if($php_open_basedir != ''){
