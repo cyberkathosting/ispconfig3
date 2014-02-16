@@ -483,6 +483,9 @@ class installer_dist extends installer_base {
 
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
+		
+		// Dovecot shall ignore mounts in website directory
+		exec("doveadm mount add '/srv/www/*' ignore");
 
 	}
 

@@ -996,6 +996,9 @@ class installer_base {
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
+		
+		// Dovecot shall ignore mounts in website directory
+		exec("doveadm mount add '/var/www/*' ignore");
 
 	}
 
