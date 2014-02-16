@@ -53,6 +53,8 @@ try {
 		'allow_override' => 'All',
 		'apache_directives' => '',
 		'php_open_basedir' => '/',
+		'pm_max_requests' => 0,
+		'pm_process_idle_timeout' => 10,
 		'custom_php_ini' => '',
 		'backup_interval' => '',
 		'backup_copies' => 1,
