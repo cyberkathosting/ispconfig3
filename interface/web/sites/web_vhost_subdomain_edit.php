@@ -349,7 +349,7 @@ class page_action extends tform_actions {
 		if($app->tform->getCurrentTab() == 'domain') {
 
 			// Check that domain (the subdomain part) is not empty
-			if(!preg_match('/^[a-zA-Z0-9].+/',$this->dataRecord['domain'])) {
+			if(!preg_match('/^[a-zA-Z0-9].*/',$this->dataRecord['domain'])) {
 				$app->tform->errorMessage .= $app->tform->lng("subdomain_error_empty")."<br />";
 			}
 			
