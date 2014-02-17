@@ -192,7 +192,11 @@ class maildrop_plugin {
 				$mailfilter_content = '';
 
 				if($data["new"]["cc"] != '') {
-					$mailfilter_content .= "cc \"!".$data["new"]["cc"]."\"\n";
+					$tmp_mails_arr = explode(',',$data["new"]["cc"]);
+					foreach($tmp_mails_arr as $address) {
+						if(trim($address) != '') $mailfilter_content .= "cc \"!".trim($address)."\"\n";
+					}
+					//$mailfilter_content .= "cc \"!".$data["new"]["cc"]."\"\n";
 					$app->log("Added CC address ".$data["new"]["cc"].' to mailfilter file.', LOGLEVEL_DEBUG);
 				}
 

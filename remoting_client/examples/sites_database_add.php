@@ -19,6 +19,7 @@ try {
 	$params = array(
 		'server_id' => 1,
 		'type' => 'mysql',
+		'website_id' => 1,
 		'database_name' => 'db_name2',
 		'database_user_id' => '1',
 		'database_ro_user_id' => '0',

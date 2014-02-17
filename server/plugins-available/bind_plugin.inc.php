@@ -156,8 +156,12 @@ class bind_plugin {
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 		}
 
-		//* Reload bind nameserver
-		$app->services->restartServiceDelayed('bind', 'reload');
+		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
+		if($data['new']['update_acl'] != '') {
+			$app->services->restartServiceDelayed('bind', 'restart');
+		} else {
+			$app->services->restartServiceDelayed('bind', 'reload');
+		}
 
 	}
 

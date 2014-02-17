@@ -79,7 +79,7 @@ $form["tabs"]['dns'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[\w\.\-\*]{0,64}$/',
+					'regex' => '/^[a-zA-Z0-9\.\-\*]{0,64}$/',
 					'errmsg'=> 'name_error_regex'),
 			),
 			'default' => '',

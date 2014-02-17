@@ -861,6 +861,9 @@ class db extends mysqli
 		case 'blob':
 			return 'blob';
 			break;
+		case 'date':
+			return 'date';
+			break;
 		}
 	}
 

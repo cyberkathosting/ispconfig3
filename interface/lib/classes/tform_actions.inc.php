@@ -314,6 +314,7 @@ class tform_actions {
 			//$this->dataRecord = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
 			$this->dataRecord = $app->tform->getDataRecord($this->id);
 
+			$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_check_delete', $this);
 			$this->onBeforeDelete();
 			$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_before_delete', $this);
 

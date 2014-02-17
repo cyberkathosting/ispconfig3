@@ -496,6 +496,9 @@ class installer_dist extends installer_base {
 
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
+		
+		// Dovecot shall ignore mounts in website directory
+		exec("doveadm mount add '/srv/www/*' ignore");
 
 	}
 
@@ -554,7 +557,9 @@ class installer_dist extends installer_base {
 		unset($content);
 
 		// Add the clamav user to the vscan group
-		exec('groupmod --add-user clamav vscan');
+		//exec('groupmod --add-user clamav vscan');
+		$command = 'usermod -a -G clamav vscan';
+		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 
 	}
@@ -1076,18 +1081,22 @@ class installer_dist extends installer_base {
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
 		if($conf['apache']['installed'] == true){
-			$command = 'groupmod --add-user '.$conf['apache']['user'].' ispconfig';
+			//$command = 'groupmod --add-user '.$conf['apache']['user'].' ispconfig';
+			$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			if(is_group('ispapps')){
-				$command = 'groupmod --add-user '.$conf['apache']['user'].' ispapps';
+				//$command = 'groupmod --add-user '.$conf['apache']['user'].' ispapps';
+				$command = 'usermod -a -G ispapps '.$conf['apache']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			}
 		}
 		if($conf['nginx']['installed'] == true){
-			$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispconfig';
+			//$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispconfig';
+			 $command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			if(is_group('ispapps')){
-				$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispapps';
+				//$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispapps';
+				$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			}
 		}

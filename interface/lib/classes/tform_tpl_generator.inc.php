@@ -271,9 +271,9 @@ class tform_tpl_generator {
 						$defaultValue = 'NULL';
 						break;
 					case 'DATE':
-						$type = 'int64';
+						$type = 'date';
 						$typevalue = '';
-						$defaultValue = ($field["default"] != '')?$field["default"]:'0';
+						$defaultValue = ($field["default"] != '')?$field["default"]:'0000-00-00';
 						break;
 					}
 

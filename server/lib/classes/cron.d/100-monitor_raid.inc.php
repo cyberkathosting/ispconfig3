@@ -177,7 +177,9 @@ class cronjob_monitor_raid extends cronjob {
 		system('which tw_cli', $retval);
 		if($retval === 0) {
 
-			$data['output'] = shell_exec('tw_cli info c0');
+			// TYPOWORX FIX | Determine Controler-ID
+			$availableControlers = shell_exec('tw_cli info | grep -Eo "c[0-9]+');
+			$data['output'] = shell_exec('tw_cli info ' . $availableControlers);
 
 			$state = 'ok';
 			if(is_array($data['output'])) {
