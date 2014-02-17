@@ -652,7 +652,7 @@ class installer_dist extends installer_base {
 
 		$content = rf('/etc/apache2/httpd.conf');
 		if(!stristr($content, 'Include /etc/apache2/sites-enabled/')) {
-			af('/etc/apache2/httpd.conf', "\n<Directory /srv/www>\n    Options FollowSymlinks\n</Directory>\n\nInclude /etc/apache2/sites-enabled/\n\n");
+			af('/etc/apache2/httpd.conf', "\n<Directory /srv/www>\n    Options +FollowSymlinks\n</Directory>\n\nInclude /etc/apache2/sites-enabled/\n\n");
 		}
 		unset($content);
 

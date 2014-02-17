@@ -34,7 +34,7 @@
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     SuexecUserGroup ispapps ispapps
     <Directory {tmpl_var name='apps_vhost_dir'}>
-		Options Indexes FollowSymLinks MultiViews +ExecCGI
+		Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
 		AllowOverride AuthConfig Indexes Limit Options FileInfo
 		AddHandler fcgid-script .php
 		FCGIWrapper {tmpl_var name='apps_vhost_basedir'}/php-fcgi-scripts/apps/.php-fcgi-starter .php
