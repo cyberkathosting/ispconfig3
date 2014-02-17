@@ -115,21 +115,55 @@ class remoting_server extends remoting {
 	 */
 
 
-	public function server_get($session_id, $server_id, $section ='') {
+	public function server_get($session_id, $server_id = null, $section ='') {
+			global $app;
+			if(!$this->checkPerm($session_id, 'server_get')) {
+					$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+					return false;
+			}
+			if (!empty($session_id)) {
+					$app->uses('remoting_lib , getconf');
+					if(!empty($server_id)) {
+							$section_config =  $app->getconf->get_server_config($server_id, $section);
+							return $section_config;
+					} else {
+							$servers = array();
+							$sql = "SELECT server_id FROM server WHERE 1";
+							$all = $app->db->queryAllRecords($sql);
+							foreach($all as $s) {
+									$servers[$s['server_id']] = $app->getconf->get_server_config($s['server_id'], $section);
+							}
+							unset($all);
+							unset($s);
+							return $servers;
+					}
+			} else {
+					return false;
+			}
+	}
+	
+	/**
+		Gets a list of all servers
+		@param int session_id
+		@param int server_name
+		@author Marius Cramer <m.cramer@pixcept.de> 2014
+	*/
+	public function server_get_all($session_id)
+	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		if (!empty($session_id) && !empty($server_id)) {
-			$app->uses('remoting_lib , getconf');
-			$section_config =  $app->getconf->get_server_config($server_id, $section);
-			return $section_config;
+		if (!empty($session_id)) {
+			$sql = "SELECT server_id, server_name FROM server WHERE 1";
+			$servers = $app->db->queryAllRecords($sql);
+			return $servers;
 		} else {
 			return false;
 		}
 	}
-	
+        
 	/**
 	    Gets the server_id by server_name
 	    @param int session_id
