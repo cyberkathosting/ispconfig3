@@ -84,7 +84,7 @@ class cronjob_monitor_database_size extends cronjob {
 			for ($i = 0; $i < sizeof($records); $i++) {
 				$data[$i]['name'] = $records[$i]['database_name'];
 				$data[$i]['size'] = $app->db->getDatabaseSize($data[$i]['name']);
-				$data[$i]['client_id'] = $records[$i]['sys_groupid'];
+				$data[$i]['sys_groupid'] = $records[$i]['sys_groupid'];
 			}
 		}
 
