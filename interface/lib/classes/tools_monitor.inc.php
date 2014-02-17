@@ -415,7 +415,9 @@ class tools_monitor {
 			}
 			else {
 				$data = unserialize($record['data']);
-				$html .= nl2br($data['output']);
+				// improve view @Author <info@typoworx.de>
+				//-- $html .= nl2br($data['output']);
+				$html .= '<xmp>' . $data['output'] . '</xmp>';
 			}
 			$html .= '</div></div>';
 

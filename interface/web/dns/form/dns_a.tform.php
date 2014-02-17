@@ -86,7 +86,7 @@ $form["tabs"]['dns'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[\a-zA-Z0-9\.\-\*]{0,64}$/',
+					'regex' => '/^[a-zA-Z0-9\.\-\*]{0,64}$/',
 					'errmsg'=> 'name_error_regex'),
 			),
 			'default' => '',

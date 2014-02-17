@@ -23,7 +23,7 @@
                 </div></tmpl_if>
             <div class="ctrlHolder">
                 <label for="password">{tmpl_var name='password_txt'}</label>
-                <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />&nbsp;<a href="javascript:void(0);" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</a>
+                <input name="password" id="password" value="{tmpl_var name='password'}" size="30" maxlength="255" type="password" class="textInput" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />&nbsp;<a href="javascript:void(0);" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</a>
             </div>
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='password_strength_txt'}</p>
@@ -32,7 +32,7 @@
             </div>
             <div class="ctrlHolder">
                 <label for="repeat_password">{tmpl_var name='repeat_password_txt'}</label>
-                <input name="repeat_password" id="repeat_password" value="" size="15" maxlength="100" type="password" class="textInput" style="width:100px;"  onkeyup="checkPassMatch('password','repeat_password');" />
+                <input name="repeat_password" id="repeat_password" value="" size="15" maxlength="100" type="password" class="textInput" style="width:100px;" autocomplete="off" onkeyup="checkPassMatch('password','repeat_password');" />
             </div>
             <div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
             <div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
@@ -42,7 +42,7 @@
             </div>
             <div class="ctrlHolder">
                 <label for="name">{tmpl_var name='cc_txt'}</label>
-                <input name="cc" id="cc" value="{tmpl_var name='cc'}" size="30" maxlength="255" type="text" class="textInput" /> &nbsp; {tmpl_var name='name_optional_txt'}
+                <input name="cc" id="cc" value="{tmpl_var name='cc'}" size="30" maxlength="255" type="text" class="textInput" /> &nbsp; {tmpl_var name='name_optional_txt'} {tmpl_var name='cc_note_txt'}
             </div>
             <div class="ctrlHolder">
                 <label for="policy">{tmpl_var name='policy_txt'}</label>

@@ -7,13 +7,11 @@ $wb['pass_reset_txt']       = 'A new password will be generated and send to your
 $wb['pw_reset']             = 'The password has been reset and send to your email address.';
 $wb['pw_error']             = 'Username or email address does not match.';
 $wb['pw_error_noinput']     = 'Please enter email address and username.';
-
 $wb['pw_reset_mail_msg']    = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
 $wb['pw_reset_mail_title']  = 'ISPConfig 3 Control panel password has been reset.';
-
 $wb['user_regex_error'] = 'Username contains unallowed characters or is longer than 64 characters.';
 $wb['pw_error_length']  = 'The password length is > 64 characters.';
-
+$wb['email_error'] = 'Email contains unallowed characters or has a invalid format.';
 $wb['login_txt']	= "Login";
 $wb['username_txt']	= "Username";
 $wb['password_txt']	= "Password";
@@ -23,9 +21,7 @@ $wb['pw_reset_txt']	= "Password reset";
 $wb['pw_button_txt']	= "Resend password";
 $wb['email_txt']	= "Email";
 $wb['back_txt'] = 'Back';
-
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
-
 $wb['theme_not_compatible'] = 'The chosen theme is not compatible with the current ISPConfig version. Please check for a new version of the theme.<br />The default theme as been activated automatically.';
 $wb['stay_logged_in_txt'] = 'Keep me logged in';
 ?>

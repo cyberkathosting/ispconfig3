@@ -80,9 +80,13 @@ class sites_web_vhost_domain_plugin {
 				$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".$app->functions->intval(@$page_form->dataRecord["client_group_id"]));
 				$client_id = $app->functions->intval($client["client_id"]);
 			} else {
+				$client_group_id = $page_form->dataRecord["client_group_id"];
 				$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".$app->functions->intval($page_form->dataRecord["client_group_id"]));
 				$client_id = $app->functions->intval($client["client_id"]);
 			}
+
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 
 			// Set the values for document_root, system_user and system_group
 			$system_user     = $app->db->quote('web'.$page_form->id);

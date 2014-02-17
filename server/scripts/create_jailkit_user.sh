@@ -21,11 +21,11 @@ CHROOT_SHELL=$4
 CHROOT_P_USER=$5
 CHROOT_P_USER_HOMEDIR=$6
 
-### Add the chroot user ###
-jk_jailuser -n -s $CHROOT_SHELL -j $CHROOT_HOMEDIR $CHROOT_USERNAME
-
 ### Reconfigure the chroot home directory for the user ###
 usermod --home=$CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR $CHROOT_USERNAME 2>/dev/null
+
+### Add the chroot user ###
+jk_jailuser -n -s $CHROOT_SHELL -j $CHROOT_HOMEDIR $CHROOT_USERNAME
 
 ### We have to reconfigure the chroot home directory for the parent user ###
 if [ "$CHROOT_P_USER" != "" ]; then

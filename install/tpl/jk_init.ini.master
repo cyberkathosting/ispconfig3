@@ -2,12 +2,12 @@
 # this section probably needs adjustment on 64bit systems
 # or non-Linux systems
 comment = common files for all jails that need user/group information
-libraries = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2
+libraries = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/x86_64-linux-gnu/libnss*.so.2
 regularfiles = /etc/nsswitch.conf, /etc/ld.so.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
-libraries = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2
+libraries = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2
 regularfiles = /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols
 
 [logbasics]

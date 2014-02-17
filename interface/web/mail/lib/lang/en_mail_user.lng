@@ -21,7 +21,7 @@ $wb["quota_txt"] = 'Quota (0 for unlimited)';
 $wb["server_id_txt"] = 'Aerver_id';
 $wb["password_txt"] = 'Password';
 $wb["maildir_txt"] = 'Maildir';
-$wb["postfix_txt"] = 'Enable Receiving';
+$wb["postfix_txt"] = 'Enable SMTP (in/out)';
 $wb["access_txt"] = 'Enable Access';
 $wb["policy_txt"] = 'Spamfilter';
 $wb["no_policy"] = '- not enabled -';
@@ -54,4 +54,5 @@ $wb['daily_backup_txt'] = 'Daily';
 $wb['weekly_backup_txt'] = 'Weekly';
 $wb['monthly_backup_txt'] = 'Monthly';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
+$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>

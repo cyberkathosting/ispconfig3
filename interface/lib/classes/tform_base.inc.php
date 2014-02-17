@@ -1367,7 +1367,7 @@ class tform_base {
 	}
 
 	function getAuthSQL($perm, $table = '') {
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+		if($_SESSION["s"]["user"]["typ"] == 'admin' || $_SESSION['s']['user']['mailuser_id'] > 0) {
 			return '1';
 		} else {
 			if ($table != ''){

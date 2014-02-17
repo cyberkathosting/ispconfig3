@@ -123,7 +123,7 @@ function loadContentRefresh(pagename) {
 												reportError('Ajax Request was not successful.'+pagename);
 											}
 										});
-  	setTimeout( "loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000 );
+  	setTimeout( "loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000*60 );
   }
 }
 

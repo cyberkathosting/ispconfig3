@@ -2,7 +2,9 @@ require ["fileinto", "regex", "vacation"];
 
 <tmpl_if name="cc">
 # Send a copy of email to
-redirect "<tmpl_var name='cc'>";
+<tmpl_loop name="ccloop">
+redirect "<tmpl_var name='address'>";
+</tmpl_loop>
 </tmpl_if>
 
 <tmpl_if name="move_junk" op="==" value="y">

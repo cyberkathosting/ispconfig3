@@ -96,7 +96,7 @@ $form["tabs"]['dns_slave'] = array (
 														'errmsg'=> 'origin_error_unique'),
 										*/
 				1 => array ( 'type' => 'REGEX',
-					'regex' => '/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,10}[\.]{0,1}$/',
+					'regex' => '/^[a-zA-Z0-9\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,10}[\.]{0,1}$/',
 					'errmsg'=> 'origin_error_regex'),
 			),
 			'default' => '',
@@ -121,6 +121,11 @@ $form["tabs"]['dns_slave'] = array (
 		'xfer' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISIP',
+					'allowempty' => 'y',
+					'separator' => ',',
+					'errmsg'=> 'xfer_error_regex'),
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '30',

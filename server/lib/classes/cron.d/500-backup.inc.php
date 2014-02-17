@@ -199,6 +199,9 @@ class cronjob_backup extends cronjob {
 							$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
 							if(is_dir($web_backup_dir)) {
 								exec('sudo -u '.escapeshellarg($web_user).' rm -f '.escapeshellarg($web_backup_dir.'/*'));
+								$sql = "DELETE FROM web_backup WHERE server_id = ".intval($conf['server_id'])." AND parent_domain_id = ".intval($web_id);
+								$app->db->query($sql);
+								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 							}
 						}
 					}

@@ -43,7 +43,8 @@ MaxClientsNumber            10
 
 # Fork in background
 
-Daemonize                   yes
+#Daemonize                   yes
+Daemonize                   no
 
 
 

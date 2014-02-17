@@ -83,7 +83,9 @@ class cronjob_monitor_email_quota extends cronjob {
 				$filename = $mb['maildir'].'/.quotausage';
 				if(file_exists($filename) && !is_link($filename)) {
 					$quotafile = file($filename);
-					$data[$email]['used'] = trim($quotafile['1']);
+					preg_match('/storage.*?([0-9]+)/s', implode('',$quotafile), $storage_value);
+					$data[$email]['used'] = $storage_value[1];
+					$app->log("Mail storage $email: " . $storage_value[1], LOGLEVEL_DEBUG);
 					unset($quotafile);
 				} else {
 					exec('du -s '.escapeshellcmd($mb['maildir']), $out);

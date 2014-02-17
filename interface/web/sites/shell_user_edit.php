@@ -169,7 +169,6 @@ class page_action extends tform_actions {
 
 		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$uid', pgroup = '$gid', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
 		$app->db->query($sql);
-		die($sql);
 
 	}
 

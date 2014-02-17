@@ -132,5 +132,5 @@ $wb['web_folder_invalid_txt'] = 'The web folder is invalid, please choose a diff
 $wb['web_folder_unique_txt'] = 'The web folder is already used, please choose a different one.';
 $wb['host_txt'] = 'Hostname';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
-
+$wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>

@@ -474,7 +474,15 @@ class installer_base {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE, DELETE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
+				
+				$query = "GRANT SELECT, DELETE ON ".$value['db'].".`aps_instances_settings` TO '".$value['user']."'@'".$host."' ";
 				if ($verbose){
 					echo $query ."\n";
 				}
@@ -972,6 +980,7 @@ class installer_base {
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
+			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
@@ -996,6 +1005,9 @@ class installer_base {
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
+		
+		// Dovecot shall ignore mounts in website directory
+		exec("doveadm mount add '/var/www/*' ignore");
 
 	}
 
@@ -1527,7 +1539,8 @@ class installer_base {
 			if(!is_user($apps_vhost_user)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 
-			$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
+			//$command = 'adduser '.$conf['apache']['user'].' '.$apps_vhost_group;
+			$command = 'usermod -a -G '.$apps_vhost_group.' '.$conf['apache']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 			if(!@is_dir($install_dir)){
@@ -1542,6 +1555,11 @@ class installer_base {
 			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['web']['apps_vhost_servername'];
+			
+			//* Get the apps vhost port
+			if($this->is_update == true) {
+				$conf['web']['apps_vhost_port'] = get_apps_vhost_port_number();
+			}
 
 			// Dont just copy over the virtualhost template but add some custom settings
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_apps.vhost.master', 'tpl/apache_apps.vhost.master');

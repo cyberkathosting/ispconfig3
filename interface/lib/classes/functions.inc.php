@@ -229,7 +229,8 @@ class functions {
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-
+		
+		/*
 		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_slave WHERE xfer != ''");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
@@ -260,6 +261,8 @@ class functions {
 				}
 			}
 		}
+		*/
+		
 		$results = $app->db->queryAllRecords("SELECT remote_ips FROM web_database WHERE remote_ips != ''");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){

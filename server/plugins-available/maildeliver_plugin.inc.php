@@ -121,7 +121,14 @@ class maildeliver_plugin {
 			$tpl->newTemplate($filter_file_template);
 
 			// cc Field
+			$tmp_mails_arr = explode(',',$data["new"]["cc"]);
+			$tmp_addresses_arr = array();
+			foreach($tmp_mails_arr as $address) {
+				if(trim($address) != '') $tmp_addresses_arr[] = array('address' => trim($address));
+			}
+			
 			$tpl->setVar('cc', $data["new"]["cc"]);
+			$tpl->setLoop('ccloop', $tmp_addresses_arr);
 
 			// Custom filters
 			$tpl->setVar('custom_mailfilter', $data["new"]["custom_mailfilter"]);
