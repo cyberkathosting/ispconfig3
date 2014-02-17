@@ -288,11 +288,26 @@ class ApsCrawler extends ApsBase
 						$sxe = new SimpleXMLElement($xml);
 						$namespaces = $sxe->getDocNamespaces(true);
 						foreach($namespaces as $ns => $url) $sxe->registerXPathNamespace($ns, $url);
+						
+						//Find highest version
+						$app_version = "0.0.0";
+						$entry_pos = 1;
+						for ($p = 1; ; $p++) {
+							$app_version_tmp = parent::getXPathValue($sxe, 'entry[position()=' . $p . ']/a:version');
+							if (strlen($app_version_tmp) < 1) break;
+							if (version_compare($app_version_tmp, $app_version) >= 0) {
+								$app_version = $app_version_tmp;
+								$entry_pos = $p;
+							}
+						}
 
 						// Fetching values of interest
-						$app_name = parent::getXPathValue($sxe, 'entry[position()=1]/a:name');
-						$app_version = parent::getXPathValue($sxe, 'entry[position()=1]/a:version');
-						$app_release = parent::getXPathValue($sxe, 'entry[position()=1]/a:release');
+						//$app_name = parent::getXPathValue($sxe, 'entry[position()=1]/a:name');
+						//$app_version = parent::getXPathValue($sxe, 'entry[position()=1]/a:version');
+						//$app_release = parent::getXPathValue($sxe, 'entry[position()=1]/a:release');
+						$app_name = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/a:name");
+						$app_version = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/a:version");
+						$app_release = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/a:release");
 
 						// Find out a (possibly) existing package version
 						$ex_ver = '';
@@ -315,9 +330,12 @@ class ApsCrawler extends ApsBase
 							// Check if we already have an old version of this app
 							if(!empty($ex_ver) && version_compare($new_ver, $ex_ver) == 1) $apps_updated++;
 
-							$app_dl = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@href");
-							$app_filesize = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@length");
-							$app_metafile = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='meta']/@href");
+							//$app_dl = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@href");
+							//$app_filesize = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='aps']/@length");
+							//$app_metafile = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='meta']/@href");
+							$app_dl = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='aps']/@href");
+							$app_filesize = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='aps']/@length");
+							$app_metafile = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='meta']/@href");
 
 							//$this->app_download_url_list[$app_name.'-'.$new_ver.'.app.zip'] = $app_dl;
 							// Skip ASP.net packages because they can't be used at all
@@ -365,7 +383,8 @@ class ApsCrawler extends ApsBase
 								}
 
 								// Download package license
-								$license = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='eula']/@href");
+								//$license = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='eula']/@href");
+								$license = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='eula']/@href");
 								if($license != '')
 								{
 									$local_license = $local_intf_folder.'LICENSE';
@@ -379,7 +398,8 @@ class ApsCrawler extends ApsBase
 								}
 
 								// Download package icon
-								$icon = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='icon']/@href");
+								//$icon = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='icon']/@href");
+								$icon = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='icon']/@href");
 								if($icon != '')
 								{
 									$local_icon = $local_intf_folder.basename($icon);
@@ -393,7 +413,8 @@ class ApsCrawler extends ApsBase
 								}
 
 								// Download available screenshots
-								$screenshots = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='screenshot']", true);
+								//$screenshots = parent::getXPathValue($sxe, "entry[position()=1]/link[@a:type='screenshot']", true);
+								$screenshots = parent::getXPathValue($sxe, "entry[position()=" . $entry_pos . "]/link[@a:type='screenshot']", true);
 								if(!empty($screenshots))
 								{
 									foreach($screenshots as $screen)
