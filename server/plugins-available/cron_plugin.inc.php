@@ -232,11 +232,7 @@ class cron_plugin {
 
 					$command .= "\t";
 					if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-<<<<<<< HEAD
 					$command .= $job['command'] . " " . $log_target;
-=======
-					$command .= $job['command'];
->>>>>>> origin/stable-3.0.5
 				}
 
 				if($job['type'] == 'chrooted') {
