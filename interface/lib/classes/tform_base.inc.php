@@ -270,7 +270,7 @@ class tform_base {
 			unset($tmp_recordid);
 
 			$querystring = str_replace("{AUTHSQL}", $this->getAuthSQL('r'), $querystring);
-			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', "self::table_auth_sql", $querystring);
+			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', array($this, 'table_auth_sql'), $querystring);
 
 			// Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
@@ -312,6 +312,9 @@ class tform_base {
 
 	}
 
+	function table_auth_sql($matches){
+		return $this->getAuthSQL('r', $matches[1]);
+	}
 
 	/**
 	 * Get the key => value array of a form filled from a datasource definitiom
