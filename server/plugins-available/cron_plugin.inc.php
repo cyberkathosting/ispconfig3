@@ -224,8 +224,6 @@ class cron_plugin {
 						$web_root = $this->parent_domain['document_root'];
 					}
 					
-					$log_root = $web_root . '/';
-					
 					$web_root .= '/web';
 					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 
