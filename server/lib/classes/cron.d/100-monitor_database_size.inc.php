@@ -85,7 +85,6 @@ class cronjob_monitor_database_size extends cronjob {
 				$data[$i]['name'] = $records[$i]['database_name'];
 				$data[$i]['size'] = $app->db->getDatabaseSize($data[$i]['name']);
 				$data[$i]['sys_groupid'] = $records[$i]['sys_groupid'];
-				$data[$i]['username'] = $app->db->queryOneRecord("SELECT client.username FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id and web_database.database_name='".$data[$i]['name']."'")['username'];
 			}
 		}
 
