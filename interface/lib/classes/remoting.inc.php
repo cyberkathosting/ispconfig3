@@ -150,8 +150,8 @@ class remoting {
 			return false;
 		}
 		if (!empty($session_id)) {
+			$app->uses('remoting_lib , getconf');
 			if(!empty($server_id)) {
-				$app->uses('remoting_lib , getconf');
 				$section_config =  $app->getconf->get_server_config($server_id, $section);
 				return $section_config;
 			} else {

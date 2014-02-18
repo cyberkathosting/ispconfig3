@@ -15,7 +15,7 @@
     DocumentRoot {apps_vhost_dir}
     SuexecUserGroup ispapps ispapps
     <Directory {apps_vhost_dir}>
-      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       <FilesMatch "\.ph(p[3-5]?|tml)$">
            SetHandler fcgid-script
@@ -31,7 +31,7 @@
     DocumentRoot {apps_vhost_dir}
     AddType application/x-httpd-php .php
     <Directory {apps_vhost_dir}>
-      Options FollowSymLinks
+      Options +FollowSymLinks
       AllowOverride None
       Order allow,deny
       Allow from all

@@ -402,6 +402,7 @@ CREATE TABLE `cron` (
   `run_mday` varchar(100) NULL,
   `run_month` varchar(100) NULL,
   `run_wday` varchar(100) NULL,
+  `log` enum('n','y') NOT NULL default 'n',
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

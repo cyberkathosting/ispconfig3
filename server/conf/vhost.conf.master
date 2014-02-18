@@ -57,7 +57,7 @@
 		</IfModule>
 
 		<Directory {tmpl_var name='web_document_root_www'}>
-				Options FollowSymLinks
+				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
@@ -85,7 +85,7 @@
 </tmpl_if>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
-				Options FollowSymLinks
+				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
