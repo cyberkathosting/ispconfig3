@@ -124,7 +124,9 @@ class tools_monitor {
 		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
-			//* format the data
+			/*
+            	Format the data
+            	*/
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
 	                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
@@ -134,15 +136,13 @@ class tools_monitor {
                 	<td>'.$app->lng("monitor_database_name_txt").'</td>
 	                <td>'.$app->lng("monitor_database_size_txt").'</td>
         	        <td>'.$app->lng("monitor_database_client_txt").'</td>
-					<td>'.$app->lng("monitor_database_domain_txt").'</td>
                 	</tr>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
-				//* get the username
-				$line['sys_groupid']=$app->db->queryOneRecord("SELECT client.username FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name='".$line['name']."'")['username'];
-				//* get the domain
-				$line['domain']=$app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name='".$line['name']."')")['domain'];
+				$t=$app->db->queryOneRecord("SELECT username FROM client WHERE sys_groupid = ".$line['client_id']);
+				$line['client_id']=$t['username'];
+				unset($t);
 				foreach ($line as $item) {
 					$html .= '<td>' . $item . '</td>';
 				}
