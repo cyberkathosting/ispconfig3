@@ -205,15 +205,20 @@ class cron_plugin {
 				if($job['type'] == 'url') {
 					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O /dev/null " . escapeshellarg($job['command']) . " >/dev/null 2>&1";
 				} else {
+					$web_root = '';
 					if($job['type'] == 'chrooted') {
 						if(substr($job['command'], 0, strlen($this->parent_domain['document_root'])) == $this->parent_domain['document_root']) {
 							//* delete the unneeded path part
 							$job['command'] = substr($job['command'], strlen($this->parent_domain['document_root']));
 						}
+					} else {
+						$web_root = $this->parent_domain['document_root'];
 					}
+					$web_root .= '/web';
+					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 
 					$command .= "\t";
-					if($job['type'] == 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
+					if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
 					$command .= $job['command'];
 				}
 
