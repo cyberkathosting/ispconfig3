@@ -112,6 +112,30 @@ class cronjob_logfiles extends cronjob {
 				exec("gzip -c $logfile > $logfile.gz");
 				unlink($logfile);
 			}
+			
+			$cron_logfiles = array('cron.log', 'cron_error.log', 'cron_wget.log');
+			foreach($cron_logfiles as $cron_logfile) {
+				$cron_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/' . $cron_logfile);
+				
+				// rename older files (move up by one)
+				$num = 7;
+				while($num >= 1 && is_file($cron_logfile . '.' . $num . '.gz')) {
+					rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
+					$num--;
+				}
+				
+				// compress current logfile
+				if(is_file($cron_logfile) && filesize($cron_logfile) > 10000000) {
+					exec("gzip -c $cron_logfile > $cron_logfile.1.gz");
+					exec("cat /dev/null > $cron_logfile");
+				}
+				// remove older logs
+				$num = 7;
+				while(is_file($cron_logfile . '.' . $num . '.gz')) {
+					@unlink($cron_logfile . '.' . $num . '.gz');
+					$num++;
+				}
+			}
 
 			// rotate and compress the error.log when it exceeds a size of 10 MB
 			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
