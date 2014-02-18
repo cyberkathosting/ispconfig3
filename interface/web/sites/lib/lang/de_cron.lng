@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Das Format für Wochentage ist nicht korrekt.';
 $wb['command_error_format'] = 'Das Format für den Befehl ist nicht korrekt. Beachten Sie, dass bei einem URL Aufruf nur http und https erlaubt ist.';
 $wb['unknown_fieldtype_error'] = 'Es wurde ein unbekanntes Feld verwendet.';
 $wb['server_id_error_empty'] = 'Die Server-ID ist leer.';
+$wb['command_hint_txt'] = 'z. B. /var/www/clients/clientX/webY/myscript.sh oder http://www.mydomain.com/path/script.php. Der Platzhalter [web_root] wird durch /var/www/clients/clientX/webY/web ersetzt.';
+$wb['log_output_txt'] = 'Ausgabe loggen';
 ?>

@@ -172,6 +172,12 @@ $form["tabs"]['cron'] = array (
 			'valuelimit' => 'list:url,full,chrooted',
 			'value'     => array('url' => 'Url', 'full' => 'Full', 'chrooted' => 'Chrooted')
 		),
+		'log' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

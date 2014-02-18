@@ -47,7 +47,13 @@
             <div class="ctrlHolder">
                 <label for="command">{tmpl_var name='command_txt'}</label>
                 <input name="command" id="command" value="{tmpl_var name='command'}" size="30" maxlength="255" type="text" class="textInput" />
-                <p class="formHint">e.g. /var/www/clients/client1/myscript.sh or http://www.mydomain.com/path/script.php</p>
+                <p class="formHint">{tmpl_var name='command_hint_txt'}</p>
+            </div>
+            <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='log_output_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='log'}
+                </div>
             </div>
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='active_txt'}</p>

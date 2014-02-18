@@ -73,8 +73,9 @@ class cronjob_monitor_disk_usage extends cronjob {
 		//$dfData = shell_exec('df -hT 2>/dev/null');
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
-		$dfData = shell_exec('df -hT|grep -v "'.$web_config['website_basedir'].'/" 2>/dev/null');
-
+		
+		$dfData = shell_exec('df -hT -x simfs | awk \'!x[$1]++\' 2>/dev/null');
+		
 		// split into array
 		$df = explode("\n", $dfData);
 

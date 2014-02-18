@@ -14,7 +14,7 @@ NameVirtualHost *:{vhost_port}
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
     <Directory /var/www/ispconfig/>
-      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       <FilesMatch "\.ph(p[3-5]?|tml)$">
            SetHandler fcgid-script
@@ -30,7 +30,7 @@ NameVirtualHost *:{vhost_port}
     DocumentRoot /usr/local/ispconfig/interface/web/
     AddType application/x-httpd-php .php
     <Directory /usr/local/ispconfig/interface/web>
-      Options FollowSymLinks
+      Options +FollowSymLinks
       AllowOverride None
       Order allow,deny
       Allow from all

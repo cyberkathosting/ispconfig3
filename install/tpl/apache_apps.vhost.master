@@ -20,7 +20,7 @@
     AddType application/x-httpd-php .php
     <Directory {apps_vhost_dir}>
       # php_admin_value open_basedir "{apps_vhost_dir}:/usr/share:/tmp"
-      Options FollowSymLinks
+      Options +FollowSymLinks
       AllowOverride None
       Order allow,deny
       Allow from all
@@ -31,7 +31,7 @@
     DocumentRoot {apps_vhost_dir}
     SuexecUserGroup ispapps ispapps
     <Directory {apps_vhost_dir}>
-      Options Indexes FollowSymLinks MultiViews +ExecCGI
+      Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
       FCGIWrapper {website_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
