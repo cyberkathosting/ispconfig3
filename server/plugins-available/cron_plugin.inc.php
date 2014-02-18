@@ -213,7 +213,7 @@ class cron_plugin {
 					}
 
 					$command .= "\t";
-					if($job['type'] == 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
+					if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
 					$command .= $job['command'];
 				}
 
