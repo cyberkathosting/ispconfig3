@@ -203,16 +203,19 @@ class cron_plugin {
 				}
 				
 				$log_target = ">/dev/null 2>&1";
+				$log_wget_target = '/dev/null';
+				$log_root = '';
 				if($job['log'] == 'y') {
-					$log_root = '';
-					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'] . '/log';
+					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'];
+					$log_root .= '/log';
 					
-					$log_target = '>' . $log_root . '/cron.log 2>' . $log_root . '/cron_error.log';
+					$log_target = '>>' . $log_root . '/cron.log 2>>' . $log_root . '/cron_error.log';
+					$log_wget_target = $log_root . '/cron_wget.log';
 				}
 				
 				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O /dev/null " . escapeshellarg($job['command']) . " " . $log_target;
+					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					$web_root = '';
 					if($job['type'] == 'chrooted') {
