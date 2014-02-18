@@ -18,7 +18,7 @@ NameVirtualHost *:{vhost_port}
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
     <Directory /var/www/ispconfig/>
-      Options -Indexes FollowSymLinks MultiViews +ExecCGI
+      Options -Indexes +FollowSymLinks +MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
       AddHandler fcgid-script .php
       FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
@@ -35,7 +35,7 @@ NameVirtualHost *:{vhost_port}
     AddType application/x-httpd-php .php
     <Directory /usr/local/ispconfig/interface/web>
       # php_admin_value open_basedir "/usr/local/ispconfig/interface:/usr/share:/tmp"
-      Options FollowSymLinks
+      Options +FollowSymLinks
       AllowOverride None
       Order allow,deny
       Allow from all
