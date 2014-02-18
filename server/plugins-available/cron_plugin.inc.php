@@ -193,7 +193,7 @@ class cron_plugin {
 		$chr_cmd_count = 0;
 
 		//* read all active cron jobs from database and write them to file
-		$cron_jobs = $app->db->queryAllRecords("SELECT c.`run_min`, c.`run_hour`, c.`run_mday`, c.`run_month`, c.`run_wday`, c.`command`, c.`type`, `web_domain`.`domain` as `domain` FROM `cron` as c INNER JOIN `web_domain` ON `web_domain`.`domain_id` = c.`parent_domain_id` WHERE c.`parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND c.`active` = 'y'");
+		$cron_jobs = $app->db->queryAllRecords("SELECT c.`run_min`, c.`run_hour`, c.`run_mday`, c.`run_month`, c.`run_wday`, c.`command`, c.`type`, c.`log`, `web_domain`.`domain` as `domain` FROM `cron` as c INNER JOIN `web_domain` ON `web_domain`.`domain_id` = c.`parent_domain_id` WHERE c.`parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND c.`active` = 'y'");
 		if($cron_jobs && count($cron_jobs) > 0) {
 			foreach($cron_jobs as $job) {
 				if($job['run_month'] == '@reboot') {
@@ -201,9 +201,18 @@ class cron_plugin {
 				} else {
 					$command = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
+				
+				$log_target = ">/dev/null 2>&1";
+				if($job['log'] == 'y') {
+					$log_root = '';
+					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'] . '/log';
+					
+					$log_target = '>' . $log_root . '/cron.log 2>' . $log_root . '/cron_error.log';
+				}
+				
 				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O /dev/null " . escapeshellarg($job['command']) . " >/dev/null 2>&1";
+					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O /dev/null " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					$web_root = '';
 					if($job['type'] == 'chrooted') {
@@ -214,12 +223,15 @@ class cron_plugin {
 					} else {
 						$web_root = $this->parent_domain['document_root'];
 					}
+					
+					$log_root = $web_root . '/';
+					
 					$web_root .= '/web';
 					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 
 					$command .= "\t";
 					if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-					$command .= $job['command'];
+					$command .= $job['command'] . " " . $log_target;
 				}
 
 				if($job['type'] == 'chrooted') {
