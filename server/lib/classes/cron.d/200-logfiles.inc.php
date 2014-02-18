@@ -125,7 +125,7 @@ class cronjob_logfiles extends cronjob {
 				}
 				
 				// compress current logfile
-				if(is_file($cron_logfile) && filesize($cron_logfile) > 10000000) {
+				if(is_file($cron_logfile)) {
 					exec("gzip -c $cron_logfile > $cron_logfile.1.gz");
 					exec("cat /dev/null > $cron_logfile");
 				}
