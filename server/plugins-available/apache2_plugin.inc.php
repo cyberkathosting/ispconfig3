@@ -2668,7 +2668,7 @@ class apache2_plugin {
 					if(substr($ini_setting, 0, 1) == ';') continue;
 					if(substr($ini_setting, 0, 1) == '#') continue;
 					if(substr($ini_setting, 0, 2) == '//') continue;
-					list($key, $value) = explode('=', $ini_setting);
+					list($key, $value) = explode('=', $ini_setting, 2);
 					if($value){
 						$value = trim($value);
 						$key = trim($key);
