@@ -2161,7 +2161,7 @@ class installer_base {
 
 		$root_cron_jobs = array(
 			"* * * * * ".$install_dir."/server/server.sh 2>&1 > /dev/null | while read line; do echo `/bin/date` \"\$line\" >> ".$conf['ispconfig_log_dir']."/cron.log; done",
-			"30 00 * * * ".$install_dir."/server/cron.sh 2>&1 > /dev/null | while read line; do echo `/bin/date` \"\$line\" >> ".$conf['ispconfig_log_dir']."/cron.log; done"
+			"* * * * * ".$install_dir."/server/cron.sh 2>&1 > /dev/null | while read line; do echo `/bin/date` \"\$line\" >> ".$conf['ispconfig_log_dir']."/cron.log; done"
 		);
 
 		if ($conf['nginx']['installed'] == true) {
