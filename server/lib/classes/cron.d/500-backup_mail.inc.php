@@ -27,7 +27,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class cronjob_backup extends cronjob {
+class cronjob_backup_mail extends cronjob {
 
 	// job schedule
 	protected $_schedule = '0 0 * * *';
