@@ -125,6 +125,18 @@
                     {tmpl_var name='overquota_notify_client'}
                 </div>
             </div>
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='overquota_db_notify_admin_txt'}</p>
+				<div class="multiField">
+					{tmpl_var name='overquota_db_notify_admin'}
+				 </div>
+			</div>
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='overquota_db_notify_client_txt'}</p>
+				<div class="multiField">
+					{tmpl_var name='overquota_db_notify_client'}	
+				 </div>
+			</div>
             <div class="ctrlHolder">
                 <label for="overquota_notify_freq">{tmpl_var name='overquota_notify_freq_txt'}</label>
                 <input name="overquota_notify_freq" id="overquota_notify_freq" value="{tmpl_var name='overquota_notify_freq'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='overquota_notify_freq_note_txt'}

@@ -1,0 +1,13 @@
+ME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Database quota notification
+
+The database {database_name} is near or over quota.
+
+Database:		{databbase_name}
+Used space:		{used}
+Quota:			{quota}
+Usage ratio:	{ratio}
