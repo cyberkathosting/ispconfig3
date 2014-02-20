@@ -145,7 +145,7 @@ class cronjob_monitor_clamav_log extends cronjob {
 		
 		//* Warn when clamav is outdated and main.cld update failed.
 		if($clamav_outdated_warning == true && $clamav_bytecode_updated == false) {
-			$state = $this->_setState($state, 'info');
+			$state = $this->_tools->_setState($state, 'info');
 		}
 
 		$res = array();
