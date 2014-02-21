@@ -475,7 +475,9 @@ class apache2_plugin {
 			//* Change the log mount
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind,nobootwait';
+			$app->system->removeLine('/etc/fstab', $fstab_line);
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
 
 		}
@@ -525,7 +527,7 @@ class apache2_plugin {
 			$app->system->chmod($data['new']['document_root'].'/'.$log_folder, 0755);
 			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
 			//* add mountpoint to fstab
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
 		}
 
