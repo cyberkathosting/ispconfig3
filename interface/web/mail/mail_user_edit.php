@@ -300,7 +300,7 @@ class page_action extends tform_actions {
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 
-			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', disablesieve-filter = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
+			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', `disablesieve-filter` = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
 			$app->db->query($sql);
 		}
 
