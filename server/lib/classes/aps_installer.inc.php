@@ -373,14 +373,16 @@ class ApsInstaller extends ApsBase
 		
 		/* Test if the new mysql connection is laready working to ensure that db servers in multiserver
 		   setups get enough time to create the database */
-		for($n = 1; $n < 15; $n++) {
-			$mysqli = new mysqli($newdb_host, $newdb_login, $newdb_pw, $newdb_name);
-			if ($mysqli->connect_error) {
-				unset($mysqli);
-				sleep(5);
-			} else {
-				unset($mysqli);
-				break;
+		if($this->handle_type == 'install') {
+			for($n = 1; $n < 15; $n++) {
+				$link = mysql_connect($newdb_host, $newdb_login, $newdb_pw);
+				if (!$link) {
+					unset($link);
+					sleep(5);
+				} else {
+					unset($link);
+					break;
+				}
 			}
 		}
 
