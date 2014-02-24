@@ -119,7 +119,7 @@ $form["tabs"]['dns'] = array (
 			'validators' => array ( 0 => array ( 'type' => 'RANGE',
 							'range' => '60:',
 							'errmsg'=> 'ttl_range_error'),
-			);
+			),
 			'default' => '86400',
 			'value'  => '',
 			'width'  => '10',
