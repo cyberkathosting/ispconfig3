@@ -101,8 +101,8 @@ class db extends mysqli
     }
 	*/
 		if(mysqli_connect_error()) {
-			$this->errorNumber = mysqli_connect_errno();
-			$this->errorMessage = mysqli_connect_error();
+			$this->errorNumber = $this->connect_errno;
+			$this->errorMessage = $this->connect_error;
 		} else {
 			$this->errorNumber = mysqli_errno($this);
 			$this->errorMessage = mysqli_error($this);
@@ -137,8 +137,8 @@ class db extends mysqli
 			$ok = $this->ping();
 			if(!$ok) {
 				if(!$this->real_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+					$this->updateError('DB::query -> reconnect');
 					if($try > 9) {
-						$this->updateError('DB::query -> reconnect');
 						return false;
 					} else {
 						sleep(($try > 7 ? 5 : 1));
@@ -150,7 +150,7 @@ class db extends mysqli
 			}
 		} while($ok == false);
 		$this->queryId = parent::query($queryString);
-		$this->updateError('DB::query('.$queryString.') -> mysqli_query');
+		 if(!$this->queryId) $this->updateError('DB::query('.$queryString.') -> mysqli_query');
 		if(!$this->queryId) {
 			return false;
 		}
@@ -184,9 +184,9 @@ class db extends mysqli
 	// returns the next record in an array
 	public function nextRecord() {
 		$this->record = $this->queryId->fetch_assoc();
-		$this->updateError('DB::nextRecord()-> mysql_fetch_array');
 		if(!$this->record || !is_array($this->record))
 		{
+			$this->updateError('DB::nextRecord()-> mysql_fetch_array');
 			return false;
 		}
 		$this->currentRow++;
