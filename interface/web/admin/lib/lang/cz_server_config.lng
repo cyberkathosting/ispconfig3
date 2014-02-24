@@ -173,7 +173,7 @@ $wb['overtraffic_notify_client_txt'] = 'Při překročení limitu přenesených 
 $wb['rbl_error_regex'] = 'Please specify valid RBL hostnames.';
 $wb['overquota_notify_admin_txt'] = 'Poslat varování o překročení nebo vyčerpání kvót adminovi';
 $wb['overquota_notify_client_txt'] = 'Poslat varování o překročení nebo vyčerpání kvót uživateli';
-$wb['overquota_notify_onok_txt'] = 'Send quota ok message to client';
+$wb['overquota_notify_onok_txt'] = 'Poslat zprávu klientovi, že kvóta je již v pořádku';
 $wb['overquota_notify_freq_txt'] = 'Poslat varování o kvótách každý X dní';
 $wb['overquota_notify_freq_note_txt'] = '0 = poslat zprávu pouze jednou, žádné opakované zprávy';
 $wb['admin_notify_events_txt'] = 'Send email to admin starting with the following level';
@@ -188,5 +188,7 @@ $wb['munin_user_txt'] = 'Munin User';
 $wb['munin_password_txt'] = 'Munin Password';
 $wb['munin_url_error_regex'] = 'Invalid Munin URL';
 $wb['munin_url_note_txt'] = 'Placeholder:';
+$wb['backup_dir_is_mount_txt'] = 'Backup directory is a mount?';
+$wb['backup_dir_mount_cmd_txt'] = 'Mount command, if backup directory not mounted';
 ?>
 

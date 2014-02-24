@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Doménový alias';
+$wb['list_head_txt'] = 'Aliasy e-mailových domén';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cíl';

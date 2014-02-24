@@ -1,6 +1,6 @@
 <?php
 $wb['header_txt'] = 'Menu editor';
-$wb['title_txt'] = 'Title';
+$wb['title_txt'] = 'Oslovení';
 $wb['name_txt'] = 'Module';
 $wb['delete_txt'] = 'Smazat';
 $wb['properties_txt'] = 'Properties';

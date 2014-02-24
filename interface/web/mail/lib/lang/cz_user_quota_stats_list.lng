@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Kvóta e-mailové schránky';
+$wb['list_head_txt'] = 'Kvóty pro e-mailové schránky';
 $wb['quota_txt'] = 'Kvóta';
 $wb['name_txt'] = 'Jméno';
 $wb['email_txt'] = 'E-mailová adresa';

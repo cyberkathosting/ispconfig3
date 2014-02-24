@@ -1,0 +1,12 @@
+<?php
+$wb['template_type_txt'] = 'Typ e-mailu';
+$wb['template_name_txt'] = 'Název šablony';
+$wb['subject_txt'] = 'Předmět';
+$wb['message_txt'] = 'Zpráva';
+$wb['Email template'] = 'Šablona e-mailu';
+$wb['Settings'] = 'Nastavení';
+$wb['variables_txt'] = 'Proměnné';
+$wb['variables_description_txt'] = 'Proměnné uživatelské jméno a heslo jsou k dispozici (funkční) jako volba pouze v uvítacím e-mailu.';
+$wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
+?>
+

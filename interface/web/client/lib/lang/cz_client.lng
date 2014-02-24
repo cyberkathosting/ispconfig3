@@ -144,5 +144,14 @@ $wb['aps_limits_txt'] = 'APS limity instalátoru';
 $wb['limit_aps_txt'] = 'Max. počet APS instalací';
 $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
 $wb['default_slave_dnsserver_txt'] = 'Výchozí sekundární DNS server';
+$wb['locked_txt'] = 'Zamčeno (zakáže všechny weby atd.)';
+$wb['canceled_txt'] = 'Zrušeno (zakáže přihlášení klienta)';
+$wb['gender_txt'] = 'Oslovení';
+$wb['gender_m_txt'] = 'Pan';
+$wb['gender_f_txt'] = 'Paní';
+$wb['added_by_txt'] = 'Kdo vytvořil účet';
+$wb['added_date_txt'] = 'Datum vytvoření účtu';
+$wb['parent_client_id_txt'] = 'Přiřazení klienta k distributorovi (prodejci)';
+$wb['none_txt'] = 'none';
 ?>
 

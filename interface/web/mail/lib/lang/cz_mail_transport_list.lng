@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Pokročilé e-mail směrování';
+$wb['list_head_txt'] = 'Pokročilé e-mailové směrování';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';

@@ -1,5 +1,5 @@
 <?php
-$wb['title_txt'] = 'Title';
+$wb['title_txt'] = 'Oslovení';
 $wb['target_txt'] = 'Cíl';
 $wb['link_txt'] = 'Link';
 $wb['header_txt'] = 'Navi properties';

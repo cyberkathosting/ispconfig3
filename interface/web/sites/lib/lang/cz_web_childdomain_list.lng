@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Alias domény pro webové stránky';
+$wb['list_head_txt'] = 'Subdomény';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Webové stránky';
-$wb['domain_txt'] = 'Alias doména';
-$wb['add_new_record_txt'] = 'Přidat alias doménu';
+$wb['domain_txt'] = 'Subdoména';
+$wb['add_new_record_txt'] = 'Přidat subdoménu';
 $wb['domain_error_empty'] = 'Doména je prázdná.';
 $wb['domain_error_unique'] = 'Doména musí být unkátní.';
 $wb['domain_error_regex'] = 'Doménové jméno je chybné.';
