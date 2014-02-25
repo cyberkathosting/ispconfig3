@@ -131,5 +131,5 @@ $wb['web_folder_invalid_txt'] = 'Dieser Ordner darf nicht als Basisordner verwen
 $wb['web_folder_unique_txt'] = 'Dieser Ordner wird bereits verwendet, bitte geben Sie einen anderen Basisordner an.';
 $wb['host_txt'] = 'Host';
 $wb['domain_error_wildcard'] = 'Wildcard-Subdomains sind nicht erlaubt.';
-
+$wb['invalid_custom_php_ini_settings_txt'] = 'Unzulässige php.ini-Einstellungen';
 ?>

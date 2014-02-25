@@ -371,6 +371,21 @@ class ApsInstaller extends ApsBase
 
 		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_login' AND instance_id = '".$app->db->quote($task['instance_id'])."';");
 		$newdb_login = $tmp['value'];
+		
+		/* Test if the new mysql connection is laready working to ensure that db servers in multiserver
+		   setups get enough time to create the database */
+		if($this->handle_type == 'install') {
+			for($n = 1; $n < 15; $n++) {
+				$link = mysql_connect($newdb_host, $newdb_login, $newdb_pw);
+				if (!$link) {
+					unset($link);
+					sleep(5);
+				} else {
+					unset($link);
+					break;
+				}
+			}
+		}
 
 		$this->putenv[] = 'DB_'.$db_id.'_TYPE=mysql';
 		$this->putenv[] = 'DB_'.$db_id.'_NAME='.$newdb_name;

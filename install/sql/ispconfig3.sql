@@ -910,6 +910,7 @@ CREATE TABLE `mail_user` (
   `disabledeliver` enum('n','y') NOT NULL default 'n',
   `disablesmtp` enum('n','y') NOT NULL default 'n',
   `disablesieve` enum('n','y') NOT NULL default 'n',
+  `disablesieve-filter` enum('n','y') NOT NULL default 'n',
   `disablelda` enum('n','y') NOT NULL default 'n',
   `disablelmtp` enum('n','y') NOT NULL default 'n',
   `disabledoveadm` enum('n','y') NOT NULL default 'n',

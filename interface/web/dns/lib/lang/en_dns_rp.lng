@@ -12,4 +12,5 @@ $wb["name_error_empty"] = 'The hostname is empty.';
 $wb["name_error_regex"] = 'The hostname has the wrong format.';
 $wb["data_error_empty"] = 'Responsible person field empty';
 $wb["data_error_regex"] = 'Responsible person field format invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

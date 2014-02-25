@@ -1003,6 +1003,35 @@ class page_action extends tform_actions {
 				$app->tform->errorMessage .= $app->tform->lng("invalid_rewrite_rules_txt").'<br>';
 			}
 		}
+		
+		// check custom php.ini settings
+		if(isset($this->dataRecord['custom_php_ini']) && trim($this->dataRecord['custom_php_ini']) != '') {
+			$custom_php_ini_settings = trim($this->dataRecord['custom_php_ini']);
+			$custom_php_ini_settings_are_valid = true;
+			// Make sure we only have Unix linebreaks
+			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+			$custom_php_ini_settings_lines = explode("\n", $custom_php_ini_settings);
+			if(is_array($custom_php_ini_settings_lines) && !empty($custom_php_ini_settings_lines)){
+				foreach($custom_php_ini_settings_lines as $custom_php_ini_settings_line){
+					if(trim($custom_php_ini_settings_line) == '') continue;
+					if(substr(trim($custom_php_ini_settings_line),0,1) == ';') continue;
+					// empty value
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					// value inside ""
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*".*"\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					// value inside ''
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*\'.*\'\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					// everything else
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					$custom_php_ini_settings_are_valid = false;
+					break;
+				}
+			}
+			if(!$custom_php_ini_settings_are_valid){
+				$app->tform->errorMessage .= $app->tform->lng("invalid_custom_php_ini_settings_txt").'<br>';
+			}
+		}
 
 		parent::onSubmit();
 	}
