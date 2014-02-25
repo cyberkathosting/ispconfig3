@@ -223,7 +223,8 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a VE inside a OpenVz-Host
 	*/
-	$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve os-' . $osData['name'] . '">';
+	//$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve os-' . $osData['name'] . '">';
+	$html_ve  = '<div class="systemmonitor state-' . $serverState . ' os-' . $osData['name'] . '">';
 	if ($osData != null) {
 		$html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
 	}

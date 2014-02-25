@@ -424,7 +424,7 @@ class db extends mysqli
 		if($this->show_error_messages && $conf['demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
 		} else if(is_object($app) && method_exists($app, 'log')) {
-				$app->log($sErrormsg . $sAddMsg, LOGLEVEL_WARN);
+				$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
 			}
 	}
 

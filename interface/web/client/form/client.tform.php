@@ -250,7 +250,7 @@ $form["tabs"]['address'] = array (
 			'formtype' => 'SELECT',
 			'default' => (isset($conf['language']) ? strtoupper($conf['language']) : ''),
 			'datasource' => array (  'type'          => 'SQL',
-				'querystring'   => 'SELECT iso,printable_name FROM country ORDER BY iso ASC',
+				'querystring'   => 'SELECT iso,printable_name FROM country ORDER BY printable_name ASC',
 				'keyfield'      => 'iso',
 				'valuefield'    => 'printable_name'
 			),
