@@ -187,6 +187,39 @@ class remoting {
 		}
 	}
 
+	//** quota functions -----------------------------------------------------------------------------------
+	public function quota_get_by_user($session_id, $group_id)
+	{
+		global $app;
+		$app->uses('quota_lib');
+		
+		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$group_id = $app->functions->intval($group_id);
+		
+		$sites = $app->quota_lib->get_quota_data($group_id, false);
+		
+		return $sites;
+	}
+	
+	public function mailquota_get_by_user($session_id, $group_id)
+	{
+		global $app;
+		$app->uses('quota_lib');
+		
+		if(!$this->checkPerm($session_id, 'mailquota_get_by_user')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$group_id = $app->functions->intval($group_id);
+		
+		$sites = $app->quota_lib->get_quota_data($group_id, false);
+		
+		return $sites;
+	}
+
 	//** protected functions -----------------------------------------------------------------------------------
 
 	protected function klientadd($formdef_file, $reseller_id, $params)
