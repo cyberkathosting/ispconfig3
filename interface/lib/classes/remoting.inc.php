@@ -199,9 +199,7 @@ class remoting {
 		}
 		$group_id = $app->functions->intval($group_id);
 		
-		$sites = $app->quota_lib->get_quota_data($group_id, false);
-		
-		return $sites;
+		return $app->quota_lib->get_quota_data($group_id, false);
 	}
 	
 	public function mailquota_get_by_user($session_id, $group_id)
@@ -215,9 +213,7 @@ class remoting {
 		}
 		$group_id = $app->functions->intval($group_id);
 		
-		$sites = $app->quota_lib->get_quota_data($group_id, false);
-		
-		return $sites;
+		return $app->quota_lib->get_quota_data($group_id, false);
 	}
 
 	//** protected functions -----------------------------------------------------------------------------------

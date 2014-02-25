@@ -1,7 +1,7 @@
 <?php
 
 class quota_lib {
-	public function get_quota_data(groupid = null, $readable = true) {
+	public function get_quota_data($groupid = null, $readable = true) {
 		global $app; 
 		
 		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
@@ -14,7 +14,7 @@ class quota_lib {
 		//print_r($monitor_data);
 		
 		if($groupid != null){
-			$sql_where = " AND sys_groupid = ".$groupid);
+			$sql_where = " AND sys_groupid = ".$groupid;
 		}
 		
 		// select websites belonging to client
@@ -115,7 +115,7 @@ class quota_lib {
 		}
 		
 		if($groupid != null){
-			$sql_where = " AND sys_groupid = ".$groupid);
+			$sql_where = " AND sys_groupid = ".$groupid;
 		}
 		
 		
