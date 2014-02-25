@@ -124,32 +124,35 @@ class tools_monitor {
 		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
-			/*
-            	Format the data
-            	*/
+			//* format the data
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
 	                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                	<table>
-	                <thead>
-        	        <tr>
+                	<table><thead><tr>
                 	<td>'.$app->lng("monitor_database_name_txt").'</td>
 	                <td>'.$app->lng("monitor_database_size_txt").'</td>
         	        <td>'.$app->lng("monitor_database_client_txt").'</td>
+					<td>'.$app->lng("monitor_database_domain_txt").'</td>
                 	</tr>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
-				$t=$app->db->queryOneRecord("SELECT username FROM client WHERE sys_groupid = ".$line['client_id']);
-				$line['client_id']=$t['username'];
-				unset($t);
+
+				//* get the client
+				$line['client']=$app->db->queryOneRecord("SELECT client.username FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name='".$line['database_name']."'")['username'];
+
+				//* get the domain
+				$line['domain']=$app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name='".$line['database_name']."')")['domain'];
+
+				//* remove the sys_groupid from output
+				unset($line['sys_groupid']);
+
 				foreach ($line as $item) {
 					$html .= '<td>' . $item . '</td>';
 				}
 				$html .= '</tr></tmpl loop>';
 			}
-			$html .= '</tbody></table>';
-			$html .= '</div></div>';
+			$html .= '</tbody></table></div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_database_size_txt").'</p>';
 		}

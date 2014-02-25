@@ -77,38 +77,39 @@ class cronjob_monitor_database_size extends cronjob {
 		/** The state of the database-usage */
 		$state = 'ok';
 
-		/** Fetch the data of all active databases into an array */
-		$records = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = $server_id AND active='y' GROUP BY sys_groupid, database_name ASC");
-		if(is_array($records) && !empty($records)) {
+		/** Fetch the data of all databases into an array */
+		$databases = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = $server_id GROUP BY sys_groupid, database_name ASC");
+
+		if(is_array($databases) && !empty($databases)) {
+
 			$data = array();
-			for ($i = 0; $i < sizeof($records); $i++) {
-				$data[$i]['name'] = $records[$i]['database_name'];
-				$data[$i]['size'] = $app->db->getDatabaseSize($data[$i]['name']);
-				$data[$i]['client_id'] = $records[$i]['sys_groupid'];
+
+			for ($i = 0; $i < sizeof($databases); $i++) {
+				$data[$i]['database_name']= $databases[$i]['database_name'];
+				$data[$i]['size'] = $app->db->getDatabaseSize($databases[$i]['database_name']);
+				$data[$i]['sys_groupid'] = $databases[$i]['sys_groupid'];
 			}
+
+			$res = array();
+			$res['server_id'] = $server_id;
+			$res['type'] = $type;
+			$res['data'] = $data;
+			$res['state'] = $state;
+
+			//* Insert the data into the database
+			$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
+				'VALUES (' .
+				$res['server_id'] . ', ' .
+				"'" . $app->dbmaster->quote($res['type']) . "', " .
+				'UNIX_TIMESTAMP(), ' .
+				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
+				"'" . $res['state'] . "'" .
+				')';
+			$app->dbmaster->query($sql);
+
+			//* The new data is written, now we can delete the old one
+			$this->_tools->delOldRecords($res['type'], $res['server_id']);
 		}
-
-		$res = array();
-		$res['server_id'] = $server_id;
-		$res['type'] = $type;
-		$res['data'] = $data;
-		$res['state'] = $state;
-
-		/*
-		 * Insert the data into the database
-		 */
-		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-			'VALUES (' .
-			$res['server_id'] . ', ' .
-			"'" . $app->dbmaster->quote($res['type']) . "', " .
-			'UNIX_TIMESTAMP(), ' .
-			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-			"'" . $res['state'] . "'" .
-			')';
-		$app->dbmaster->query($sql);
-
-		/* The new data is written, now we can delete the old one */
-		$this->_tools->delOldRecords($res['type'], $res['server_id']);
 
 		parent::onRunJob();
 	}

@@ -6,4 +6,5 @@ $wb["record_exists_txt"] = 'DNS-Eintrag bereits vorhanden';
 $wb["dkim_disabled_txt"] = 'DKIM st fuer diese Domain nicht aktiv.';
 $wb["limit_dns_record_txt"] = 'Die max. Anzahl von DNS Eintraegen fuer den Account ist erreicht.';
 $wb["no_zone_perm"] = 'Fehlende Berechtigung zum Hinzufuegen eines Eintrags zur DNS-Zone.';
+$wb['ttl_range_error'] = 'Min. TTL time ist 60 Sekunden.';
 ?>

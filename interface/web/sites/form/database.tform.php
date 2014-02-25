@@ -117,6 +117,20 @@ $form["tabs"]['database'] = array (
 			'width'  => '30',
 			'maxlength' => '25'
 		),
+		'database_quota' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+				'errmsg'=> 'limit_database_quota_error_notint'),
+			),
+			'default' => '-1',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
 		'database_user_id' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',

@@ -101,6 +101,8 @@ php_ini_check_minutes=1
 overquota_notify_admin=y
 overquota_notify_client=y
 overquota_notify_freq=7
+overquota_db_notify_admin=y
+overquota_db_notify_client=y
 overquota_notify_onok=n
 
 [dns]

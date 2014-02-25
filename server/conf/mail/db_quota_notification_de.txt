@@ -1,0 +1,13 @@
+ME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Datenbank-Speicherhinweis
+
+Ihre Datenbank {database_name} hat den verfuegbaren Speicherplatz (nahezu) ausgeschoepft.
+
+Datenbank:						{databbase_name}
+Belegter Speicherplatz:			{used}
+Verfuegbarer Speicherplatz:		{quota}
+Belegter Speicherplatz in %:	{ratio}

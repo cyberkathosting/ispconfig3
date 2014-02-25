@@ -166,7 +166,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = $client_group_id");
 
 			// When the record is updated
 			if($this->id > 0) {
@@ -189,6 +189,20 @@ class page_action extends tform_actions {
 					if($tmp["number"] >= $client["limit_database"]) {
 						$app->error($app->tform->wordbook["limit_database_txt"]);
 					}
+				}
+
+				// Check client quota
+				 if ($client['limit_database_quota'] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT sum(database_quota) as db_quota FROM web_database WHERE sys_groupid = $client_group_id");
+					$db_quota = $tmp['db_quota'];
+					$new_db_quota = $app->functions->intval($this->dataRecord["database_quota"]);
+					if(($db_quota + $new_db_quota > $client['limit_database_quota']) || ($new_db_quota < 0 && $client['limit_database_quota'] >= 0)) {
+						$max_free_quota = floor($client['limit_database_quota'] - $db_quota);
+						if($max_free_quota < 0) $max_free_quota = 0;
+						$app->tform->errorMessage .= $app->tform->lng("limit_database_quota_free_txt").": ".$max_free_quota." MB<br>";
+						$this->dataRecord['database_quota'] = $max_free_quota;
+					}
+					unset($tmp);
 				}
 
 			}

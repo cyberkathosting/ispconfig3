@@ -62,6 +62,10 @@
                         <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
                 </tmpl_if>
             </div>
+			<div class="ctrlHolder">
+				<label for="database_quota">{tmpl_var name='limit_database_quota_txt'}</label>
+				<input name="database_quota" id="database_quota" value="{tmpl_var name='limit_database_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
+			</div>
             <div class="ctrlHolder">
                 <label for="database_user_id">{tmpl_var name='database_user_txt'}</label>
                 <select name="database_user_id" id="database_user_id" class="selectInput">
