@@ -213,7 +213,7 @@ class remoting {
 		}
 		$group_id = $app->functions->intval($group_id);
 		
-		return $app->quota_lib->get_quota_data($group_id, false);
+		return $app->quota_lib->get_mailquota_data($group_id, false);
 	}
 
 	//** protected functions -----------------------------------------------------------------------------------
