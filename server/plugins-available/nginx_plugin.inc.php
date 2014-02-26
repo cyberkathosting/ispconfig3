@@ -2043,9 +2043,7 @@ class nginx_plugin {
 
 		//* Create the folder path, if it does not exist
 		if(!is_dir($folder_path)) {
-			$app->system->mkdirpath($folder_path);
-			$app->system->chown($folder_path, $website['system_user']);
-			$app->system->chgrp($folder_path, $website['system_group']);
+			$app->system->mkdirpath($folder_path, 0755, $website['system_user'], $website['system_group']);
 		}
 
 		//* Create empty .htpasswd file, if it does not exist
