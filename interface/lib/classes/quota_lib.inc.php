@@ -126,28 +126,30 @@ class quota_lib {
 				$emails[$i]['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
 		
 				if (!is_numeric($emails[$i]['used'])) $emails[$i]['used']=$emails[$i]['used'][1];
-		
-				// colours
-				$emails[$i]['display_colour'] = '#000000';
-				if($emails[$i]['quota'] > 0){
-					$used_ratio = $emails[$i]['used']/$emails[$i]['quota'];
-				} else {
-					$used_ratio = 0;
-				}
-				if($used_ratio >= 0.8) $emails[$i]['display_colour'] = '#fd934f';
-				if($used_ratio >= 1) $emails[$i]['display_colour'] = '#cc0000';
-		
-				if($emails[$i]['quota'] == 0){
-					$emails[$i]['quota'] = $app->lng('unlimited');
-				} else {
-					$emails[$i]['quota'] = round($emails[$i]['quota'] / 1048576, 4).' MB';
-				}
-		
-		
-				if($emails[$i]['used'] < 1544000) {
-					$emails[$i]['used'] = round($emails[$i]['used'] / 1024, 4).' KB';
-				} else {
-					$emails[$i]['used'] = round($emails[$i]['used'] / 1048576, 4).' MB';
+				
+				if ($readable) {
+					// colours
+					$emails[$i]['display_colour'] = '#000000';
+					if($emails[$i]['quota'] > 0){
+						$used_ratio = $emails[$i]['used']/$emails[$i]['quota'];
+					} else {
+						$used_ratio = 0;
+					}
+					if($used_ratio >= 0.8) $emails[$i]['display_colour'] = '#fd934f';
+					if($used_ratio >= 1) $emails[$i]['display_colour'] = '#cc0000';
+			
+					if($emails[$i]['quota'] == 0){
+						$emails[$i]['quota'] = $app->lng('unlimited');
+					} else {
+						$emails[$i]['quota'] = round($emails[$i]['quota'] / 1048576, 4).' MB';
+					}
+			
+			
+					if($emails[$i]['used'] < 1544000) {
+						$emails[$i]['used'] = round($emails[$i]['used'] / 1024, 4).' KB';
+					} else {
+						$emails[$i]['used'] = round($emails[$i]['used'] / 1048576, 4).' MB';
+					}
 				}
 			}
 		}
