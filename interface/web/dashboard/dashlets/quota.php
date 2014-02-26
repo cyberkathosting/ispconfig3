@@ -6,7 +6,7 @@ class dashlet_quota {
 		global $app;
 
 		//* Loading Template
-		$app->uses('tpl','quota_lib');
+		$app->uses('tpl,quota_lib');
 
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/quota.htm");

@@ -3,10 +3,10 @@
 class dashlet_mailquota {
 
 	function show() {
-		global $app, $conf;
+		global $app;
 
 		//* Loading Template
-		$app->uses('tpl');
+		$app->uses('tpl,quota_lib');
 
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/mailquota.htm");
