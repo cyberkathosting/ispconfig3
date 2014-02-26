@@ -110,9 +110,6 @@ class quota_lib {
 			}
 		}
 		//print_r($monitor_data);
-		if($_SESSION["s"]["user"]["typ"] != 'admin'){
-			$sql_where = " AND sys_groupid = ".intval($_SESSION['s']['user']['default_group']);
-		}
 		
 		if($groupid != null){
 			$sql_where = " AND sys_groupid = ".$groupid;
