@@ -1763,7 +1763,18 @@ class remoting {
 			$this->dataRecord = $params;
 			$app->sites_database_plugin->processDatabaseInsert($this);
 
-			return $this->insertQueryExecute($sql, $params);
+			$retval = $this->insertQueryExecute($sql, $params);
+			
+			// set correct values for backup_interval and backup_copies
+			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+				$sql_set = array();
+				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
+				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				//$app->db->query("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval);
+				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval, $retval, $params);
+			}
+			
+			return $retval;
 		}
 
 		return false;
@@ -1786,7 +1797,18 @@ class remoting {
 			$this->id = $primary_id;
 			$this->dataRecord = $params;
 			$app->sites_database_plugin->processDatabaseUpdate($this);
-			return $this->updateQueryExecute($sql, $primary_id, $params);
+			$retval = $this->updateQueryExecute($sql, $primary_id, $params);
+			
+			// set correct values for backup_interval and backup_copies
+			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+				$sql_set = array();
+				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
+				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				//$app->db->query("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id);
+				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id, $primary_id, $params);
+			}
+			
+			return $retval;
 		}
 
 		return false;
