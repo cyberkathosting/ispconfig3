@@ -421,7 +421,7 @@ class page_action extends tform_actions {
 
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $web['backup_interval'];
+			$backup_interval = $app->db->quote($web['backup_interval']);
 			$backup_copies = $app->functions->intval($web['backup_copies']);
 
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
@@ -437,7 +437,7 @@ class page_action extends tform_actions {
 
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $web['backup_interval'];
+			$backup_interval = $app->db->quote($web['backup_interval']);
 			$backup_copies = $app->functions->intval($web['backup_copies']);
 
 			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;

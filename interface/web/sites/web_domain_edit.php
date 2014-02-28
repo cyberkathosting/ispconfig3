@@ -1012,7 +1012,7 @@ class page_action extends tform_actions {
 		//* Change database backup options when web backup options have been changed
 		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
 			//* Update all databases
-			$backup_interval = $app->functions->intval($this->dataRecord['backup_interval']);
+			$backup_interval = $app->db->quote($this->dataRecord['backup_interval']);
 			$backup_copies = $app->functions->intval($this->dataRecord['backup_copies']);
 			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$this->id);
 			foreach($records as $rec) {
