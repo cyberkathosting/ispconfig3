@@ -188,7 +188,7 @@ class page_action extends tform_actions {
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
+			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
 			//$ip_select = "";
 			if(is_array($ips)) {
@@ -218,7 +218,7 @@ class page_action extends tform_actions {
 
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+			if(!empty($web_config[$server_id]['server_type'])) $server_type = $web_config[$server_id]['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 
 			if($this->_vhostdomain_type == 'domain') {
@@ -319,7 +319,7 @@ class page_action extends tform_actions {
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN (" . $client['web_servers'] . ") AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql);
-			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
+			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
 			//$ip_select = "";
 			if(is_array($ips)) {
@@ -349,7 +349,7 @@ class page_action extends tform_actions {
 
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
+			if(!empty($web_config[$server_id]['server_type'])) $server_type = $web_config[$server_id]['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ".$app->functions->intval($selected_client_group_id));
 			//$sql_where = " AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id']." OR client_id = ".intval($selected_client['client_id']).")";
