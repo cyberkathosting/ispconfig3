@@ -331,7 +331,7 @@ class remoting {
 		return $all;
 	}
 
-	//* Get server ips
+	//* Get server ip
 	public function server_ip_get($session_id, $primary_id)
 	{
 		global $app;
@@ -343,6 +343,20 @@ class remoting {
 		$app->uses('remoting_lib');
 		$app->remoting_lib->loadFormDef('../admin/form/server_ip.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+	
+	//* Get all server ips
+	public function server_ip_get_by_server_id($session_id, $server_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'server_ip_get_by_server_id')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$sql = "SELECT * FROM server_ip WHERE server_id  = $server_id";
+		$all = $app->db->queryAllRecords($sql);
+		return $all;
 	}
 	
 	//* Add a IP address record
