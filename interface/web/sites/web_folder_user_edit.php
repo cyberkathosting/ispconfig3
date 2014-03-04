@@ -60,8 +60,44 @@ class page_action extends tform_actions {
 
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $folder["server_id"];
+		
+		// make sure this folder/user combination does not exist already
+		if($this->id > 0){
+			$user = $app->db->queryOneRecord("SELECT * FROM web_folder_user WHERE web_folder_id = ".$this->dataRecord['web_folder_id']." AND username = '".$this->dataRecord['username']."' AND web_folder_user_id != ".$this->id);
+		} else {
+			$user = $app->db->queryOneRecord("SELECT * FROM web_folder_user WHERE web_folder_id = ".$this->dataRecord['web_folder_id']." AND username = '".$this->dataRecord['username']."'");
+		}
+		if(is_array($user) && !empty($user)) $app->tform->errorMessage .= $app->tform->lng('error_user_exists_already_txt');
 
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+
+		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".$app->functions->intval($this->dataRecord["web_folder_id"]));
+
+		// The web folder user entry shall be owned by the same group as the web folder
+		$sys_groupid = $app->functions->intval($folder['sys_groupid']);
+
+		$sql = "UPDATE web_folder_user SET sys_groupid = '$sys_groupid' WHERE web_folder_user_id = ".$this->id;
+		$app->db->query($sql);
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+
+		//* When the web folder has been changed
+		if(isset($this->dataRecord['web_folder_id']) && $this->oldDataRecord['web_folder_id'] != $this->dataRecord['web_folder_id']) {
+			$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".$app->functions->intval($this->dataRecord["web_folder_id"]));
+
+			// The web folder user entry shall be owned by the same group as the web folder
+			$sys_groupid = $app->functions->intval($folder['sys_groupid']);
+
+			$sql = "UPDATE web_folder_user SET sys_groupid = '$sys_groupid' WHERE web_folder_user_id = ".$this->id;
+			$app->db->query($sql);
+		}
+
 	}
 
 }

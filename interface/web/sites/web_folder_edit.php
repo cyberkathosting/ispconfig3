@@ -60,8 +60,44 @@ class page_action extends tform_actions {
 
 		// Set a few fixed values
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
+		
+		// make sure this folder isn't protected already
+		if($this->id > 0){
+			$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE parent_domain_id = ".$this->dataRecord['parent_domain_id']." AND path = '".$this->dataRecord['path']."' AND web_folder_id != ".$this->id);
+		} else {
+			$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE parent_domain_id = ".$this->dataRecord['parent_domain_id']." AND path = '".$this->dataRecord['path']."'");
+		}
+		if(is_array($folder) && !empty($folder)) $app->tform->errorMessage .= $app->tform->lng('error_folder_already_protected_txt');
 
 		parent::onSubmit();
+	}
+	
+	function onAfterInsert() {
+		global $app, $conf;
+
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+
+		// The web folder entry shall be owned by the same group as the website
+		$sys_groupid = $app->functions->intval($web['sys_groupid']);
+
+		$sql = "UPDATE web_folder SET sys_groupid = '$sys_groupid' WHERE web_folder_id = ".$this->id;
+		$app->db->query($sql);
+	}
+	
+	function onAfterUpdate() {
+		global $app, $conf;
+
+		//* When the site of the web folder has been changed
+		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+
+			// The web folder entry shall be owned by the same group as the website
+			$sys_groupid = $app->functions->intval($web['sys_groupid']);
+
+			$sql = "UPDATE web_folder SET sys_groupid = '$sys_groupid' WHERE web_folder_id = ".$this->id;
+			$app->db->query($sql);
+		}
+
 	}
 
 }
