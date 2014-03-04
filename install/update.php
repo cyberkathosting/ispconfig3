@@ -66,6 +66,9 @@ if(realpath(dirname(__FILE__)) != $cur_dir) die("Please run installation/update 
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
 define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
+//** Include the templating lib
+require_once 'lib/classes/tpl.inc.php';
+
 //** Check for ISPConfig 2.x versions
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');

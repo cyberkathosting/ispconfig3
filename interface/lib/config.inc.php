@@ -139,6 +139,7 @@ $conf['templates'] = '/usr/local/ispconfig/server/conf';
 //** Default Language
 $conf['language'] = 'en';
 $conf['debug_language'] = false;
+$conf['language_file_import_enabled'] = true; // Bool value: true / false
 
 //** Default Country
 $conf['country'] = 'DE';
