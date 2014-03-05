@@ -684,7 +684,9 @@ class installer_dist extends installer_base {
 				}
 			}
 		}
-
+		
+		$tpl->setLoop('ip_adresses',$ip_addresses);
+		
 		wf($vhost_conf_dir.'/ispconfig.conf', $tpl->grab());
 		unset($tpl);
 

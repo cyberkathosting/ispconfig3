@@ -534,6 +534,8 @@ class installer extends installer_base
 				}
 			}
 		}
+		
+		$tpl->setLoop('ip_adresses',$ip_addresses);
 
 		wf($conf['apache']['vhost_conf_dir'].'/000-ispconfig.conf', $tpl->grab());
 		unset($tpl);
