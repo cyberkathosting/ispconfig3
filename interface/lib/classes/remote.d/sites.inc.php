@@ -872,6 +872,21 @@ class remoting_sites extends remoting {
 		return $all;
 	}
 
+	//** quota functions -----------------------------------------------------------------------------------
+	public function quota_get_by_user($session_id, $client_id)
+	{
+		global $app;
+		$app->uses('quota_lib');
+	
+		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		return $app->quota_lib->get_quota_data($client_id, false);
+	}
+	
+	
 }
 
 ?>
