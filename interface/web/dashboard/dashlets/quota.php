@@ -16,7 +16,7 @@ class dashlet_quota {
 		if(is_file($lng_file)) include $lng_file;
 		$tpl->setVar($wb);
 
-		$sites = $app->quota_lib->get_quota_data( ($_SESSION["s"]["user"]["typ"] != 'admin') ? $_SESSION['s']['user']['default_group'] : null);
+		$sites = $app->quota_lib->get_quota_data( ($_SESSION["s"]["user"]["typ"] != 'admin') ? $_SESSION['s']['user']['client_id'] : null);
 		//print_r($sites);
 
 		$has_quota = false;

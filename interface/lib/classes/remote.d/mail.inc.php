@@ -1025,7 +1025,7 @@ class remoting_mail extends remoting {
 	}
 
 	//** quota functions -----------------------------------------------------------------------------------
-	public function mailquota_get_by_user($session_id, $group_id)
+	public function mailquota_get_by_user($session_id, $client_id)
 	{
 		global $app;
 		$app->uses('quota_lib');
@@ -1034,9 +1034,9 @@ class remoting_mail extends remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$group_id = $app->functions->intval($group_id);
+		$client_id = $app->functions->intval($client_id);
 		
-		return $app->quota_lib->get_mailquota_data($group_id, false);
+		return $app->quota_lib->get_mailquota_data($client_id, false);
 	}
 
 }

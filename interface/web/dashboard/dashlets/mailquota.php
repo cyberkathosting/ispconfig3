@@ -16,7 +16,7 @@ class dashlet_mailquota {
 		if(is_file($lng_file)) include $lng_file;
 		$tpl->setVar($wb);
 
-		$emails = $app->quota_lib->get_mailquota_data( ($_SESSION["s"]["user"]["typ"] != 'admin') ? $_SESSION['s']['user']['default_group'] : null);
+		$emails = $app->quota_lib->get_mailquota_data( ($_SESSION["s"]["user"]["typ"] != 'admin') ? $_SESSION['s']['user']['client_id'] : null);
 		//print_r($emails);
 
 		$has_mailquota = false;

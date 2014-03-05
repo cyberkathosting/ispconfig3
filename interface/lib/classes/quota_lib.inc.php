@@ -1,7 +1,7 @@
 <?php
 
 class quota_lib {
-	public function get_quota_data($groupid = null, $readable = true) {
+	public function get_quota_data($clientid = null, $readable = true) {
 		global $app; 
 		
 		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
@@ -13,8 +13,8 @@ class quota_lib {
 		}
 		//print_r($monitor_data);
 		
-		if($groupid != null){
-			$sql_where = " AND sys_groupid = ".$groupid;
+		if($clientid != null){
+			$sql_where = " AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=".$clientid.")";
 		}
 		
 		// select websites belonging to client
@@ -93,7 +93,7 @@ class quota_lib {
 		return $sites;
 	}
 
-	public function get_mailquota_data($groupid = null, $readable = true) {
+	public function get_mailquota_data($clientid = null, $readable = true) {
 		global $app;
 		
 		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'email_quota' ORDER BY created DESC");
@@ -111,8 +111,8 @@ class quota_lib {
 		}
 		//print_r($monitor_data);
 		
-		if($groupid != null){
-			$sql_where = " AND sys_groupid = ".$groupid;
+		if($clientid != null){
+			$sql_where = " AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=".$clientid.")";
 		}
 		
 		
