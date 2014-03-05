@@ -7,7 +7,7 @@ Subject: Database quota notification
 
 The database {database_name} is near or over quota.
 
-Database:		{databbase_name}
+Database:		{database_name}
 Used space:		{used}
 Quota:			{quota}
 Usage ratio:	{ratio}

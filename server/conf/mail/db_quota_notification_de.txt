@@ -7,7 +7,7 @@ Subject: Datenbank-Speicherhinweis
 
 Ihre Datenbank {database_name} hat den verfuegbaren Speicherplatz (nahezu) ausgeschoepft.
 
-Datenbank:						{databbase_name}
+Datenbank:						{database_name}
 Belegter Speicherplatz:			{used}
 Verfuegbarer Speicherplatz:		{quota}
 Belegter Speicherplatz in %:	{ratio}
