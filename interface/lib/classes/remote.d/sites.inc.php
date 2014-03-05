@@ -882,7 +882,6 @@ class remoting_sites extends remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$client_id = $app->functions->intval($client_id);
 	
 		return $app->quota_lib->get_quota_data($client_id, false);
 	}

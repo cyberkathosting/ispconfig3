@@ -1034,7 +1034,6 @@ class remoting_mail extends remoting {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$client_id = $app->functions->intval($client_id);
 		
 		return $app->quota_lib->get_mailquota_data($client_id, false);
 	}

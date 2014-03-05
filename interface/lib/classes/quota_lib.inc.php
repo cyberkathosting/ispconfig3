@@ -13,12 +13,14 @@ class quota_lib {
 		}
 		//print_r($monitor_data);
 		
+		// select all websites or websites belonging to client
 		if($clientid != null){
-			$sql_where = " AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=".$clientid.")";
+			$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost' AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)", $app->functions->intval($client_id));
+		}
+		else {
+			$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'");
 		}
 		
-		// select websites belonging to client
-		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".$sql_where);
 		//print_r($sites);
 		if(is_array($sites) && !empty($sites)){
 			for($i=0;$i<sizeof($sites);$i++){
@@ -111,13 +113,14 @@ class quota_lib {
 		}
 		//print_r($monitor_data);
 		
+		// select all email accounts or email accounts belonging to client
 		if($clientid != null){
-			$sql_where = " AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=".$clientid.")";
+			$emails = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)", $app->functions->intval($client_id));
+		}
+		else {
+			$emails = $app->db->queryAllRecords("SELECT * FROM mail_user");
 		}
 		
-		
-		// select email accounts belonging to client
-		$emails = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE 1".$sql_where);
 		//print_r($emails);
 		if(is_array($emails) && !empty($emails)){
 			for($i=0;$i<sizeof($emails);$i++){
