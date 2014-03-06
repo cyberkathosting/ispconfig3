@@ -1,0 +1,12 @@
+<?php
+$wb['login_1_txt'] = 'Chcete se přihlásit jako klient';
+$wb['login_2_txt'] = 'Pokud se přihlásíte jako klient, zpět do sekce Administrátora se vratíte kliknutím na odhlášení klienta.';
+$wb['btn_yes_txt'] = 'Ano, přihlásit se jako klient';
+$wb['btn_back_txt'] = 'Ne, zpět na seznam klientů';
+$wb['udp_port_help_txt'] = 'Odděleny čárkou';
+$wb['active_txt'] = 'Aktivní';
+$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
+$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+?>
+

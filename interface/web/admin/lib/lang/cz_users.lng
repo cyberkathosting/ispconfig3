@@ -30,5 +30,6 @@ $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['username_error_collision'] = 'Uživatelské jméno nesmí být web nebo web a číslo.\\"';
+$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 ?>
 

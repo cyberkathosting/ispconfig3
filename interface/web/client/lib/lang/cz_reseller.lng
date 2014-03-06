@@ -143,5 +143,20 @@ $wb['aps_limits_txt'] = 'APS limity instalátoru';
 $wb['limit_aps_txt'] = 'Max. počet APS instalací';
 $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
 $wb['default_slave_dnsserver_txt'] = 'Výchozí sekundární DNS server';
+$wb['locked_txt'] = 'Zamčený účet';
+$wb['canceled_txt'] = 'Zrušený účet';
+$wb['gender_m_txt'] = 'Pan';
+$wb['gender_f_txt'] = 'Paní';
+$wb['gender_txt'] = 'Oslovení';
+$wb['customer_no_template_txt'] = 'Zákaznické číslo - šablona';
+$wb['customer_no_template_error_regex_txt'] = 'Zákaznické číslo šablony obsahuje neplatné znaky';
+$wb['customer_no_start_txt'] = 'Zákaznické číslo - počáteční hodnota';
+$wb['customer_no_counter_txt'] = 'Zákaznické číslo -  čítač';
+$wb['added_by_txt'] = 'Kdo vytvořil účet';
+$wb['added_date_txt'] = 'Datum vytvoření účtu';
+$wb['limit_domainmodule_error_notint'] = 'Domainmodule limit must be a number.';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Klientské limity';
+$wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \\"custom\\" is selected.';
 ?>
 

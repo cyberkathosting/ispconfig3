@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'E-mail černá listina';
+$wb['list_head_txt'] = 'E-mailová černá listina';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['source_txt'] = 'Adresy na černé listině';

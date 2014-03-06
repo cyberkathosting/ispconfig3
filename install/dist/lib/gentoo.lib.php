@@ -519,6 +519,7 @@ class installer extends installer_base
 
 
 		//* Copy the ISPConfig configuration include
+		/*
 		$content = $this->get_template_file('apache_ispconfig.conf', true);
 
 		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
@@ -531,6 +532,37 @@ class installer extends installer_base
 		}
 
 		$this->write_config_file($conf['apache']['vhost_conf_dir'].'/000-ispconfig.conf', $content);
+		*/
+		
+		$tpl = new tpl('apache_ispconfig.conf.master');
+		$tpl->setVar('apache_version',getapacheversion());
+		
+		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+		$ip_addresses = array();
+		
+		if(is_array($records) && count($records) > 0) {
+			foreach($records as $rec) {
+				if($rec['ip_type'] == 'IPv6') {
+					$ip_address = '['.$rec['ip_address'].']';
+				} else {
+					$ip_address = $rec['ip_address'];
+				}
+				$ports = explode(',', $rec['virtualhost_port']);
+				if(is_array($ports)) {
+					foreach($ports as $port) {
+						$port = intval($port);
+						if($port > 0 && $port < 65536 && $ip_address != '') {
+							$ip_addresses[] = array('ip_address' => $ip_address, 'port' => $port);
+						}
+					}
+				}
+			}
+		}
+		
+		if(count($ip_addresses) > 0) $tpl->setLoop('ip_adresses',$ip_addresses);
+
+		wf($conf['apache']['vhost_conf_dir'].'/000-ispconfig.conf', $tpl->grab());
+		unset($tpl);
 
 		//* Gentoo by default does not include .vhost files. Add include line to config file.
 		$content = rf($conf['apache']['config_file']);

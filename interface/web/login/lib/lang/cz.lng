@@ -21,6 +21,8 @@ $wb['pw_reset_txt'] = 'Resetování (obnova) hesla';
 $wb['pw_button_txt'] = 'Znovu odeslat heslo';
 $wb['email_txt'] = 'E-mail';
 $wb['theme_not_compatible'] = 'Zvolené téma není kompatibilní s aktuální verzí ISPConfig. Zkontrolujte prosím, zda není nová verze tématu.<br />Výchozí motiv byl aktivován automaticky.';
-$wb['back_txt'] = 'Back';
+$wb['back_txt'] = 'Zpět';
+$wb['email_error'] = 'E-mail obsahuje nepovolené znaky nebo má neplatný formát.';
+$wb['stay_logged_in_txt'] = 'Zapamatovat si přihlášení';
 ?>
 

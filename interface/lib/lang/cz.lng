@@ -133,5 +133,11 @@ $wb['datalog_status_d_web_folder_user'] = 'Odstranění uživatele pro adresář
 $wb['login_as_txt'] = 'Přihlašte se jako';
 $wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu. ';
 $wb['no_destination_perm'] = 'Nemáte oprávnění pro tuto destinaci.';
+$wb['client_you_are_locked'] = 'Nemáte oprávnění měnit žádná nastavení.';
+$wb['gender_m_txt'] = 'Pan';
+$wb['gender_f_txt'] = 'Paní';
+$wb['client_cannot_be_deleted_because_of_billing_module_txt'] = 'This client has records in the billing module, therefore he cannot be deleted.';
+$wb['yes_txt'] = 'Ano';
+$wb['no_txt'] = 'Ne';
 ?>
 

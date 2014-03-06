@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'E-mailový koš';
+$wb['list_head_txt'] = 'E-mailové koše';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cílová e-mailová adresa';

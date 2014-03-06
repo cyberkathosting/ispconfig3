@@ -1,16 +1,16 @@
 <?php
-$wb['Email Alias'] = 'E-mailový alias';
+$wb['Email Alias'] = 'E-mailové aliasy';
 $wb['Email Blacklist'] = 'Email černá listina';
 $wb['Blacklist'] = 'Černá listina';
 $wb['Mail Content Filter'] = 'Obsahový filtr';
 $wb['Filter'] = 'Filtr';
 $wb['Mail Domain'] = 'Doména e-mailů';
-$wb['Domain'] = 'Domény';
-$wb['Email Catchall'] = 'E-mailový koš';
+$wb['Domain'] = 'E-mailové domény';
+$wb['Email Catchall'] = 'E-mailové koše';
 $wb['Email Forward'] = 'Přesměrování e-mailů';
 $wb['Get Email'] = 'Získat externí e-maily';
 $wb['Spamfilter'] = 'Spamový filtr';
-$wb['Email Routing'] = 'Směrování';
+$wb['Email Routing'] = 'Pokročilé e-mailové směrování';
 $wb['Email transport'] = 'Transport';
 $wb['Mailbox'] = 'Mailbox';
 $wb['Autoresponder'] = 'Automatická odpověď';
@@ -32,7 +32,7 @@ $wb['Users'] = 'Uživatelé';
 $wb['Spamfilter Whitelist'] = 'Spamový filtr bílá listina';
 $wb['Email'] = 'E-mail';
 $wb['Email Mailbox'] = 'E-mailové schránky';
-$wb['Email Accounts'] = 'E-mail účty';
+$wb['Email Accounts'] = 'E-mailové účty';
 $wb['User / Domain'] = 'Uživatel / Doména';
 $wb['Server Settings'] = 'Nastavení serveru';
 $wb['Fetchmail'] = 'Externí získávání e-mailů';
@@ -41,9 +41,9 @@ $wb['Postfix Whitelist'] = 'Postfix bílá listina';
 $wb['Postfix Blacklist'] = 'Postfix černá listina';
 $wb['Content Filter'] = 'Obsahový filtr';
 $wb['Global Filters'] = 'Globální filtry';
-$wb['Domain Alias'] = 'Alias domény';
+$wb['Domain Alias'] = 'Aliasy e-mailových domén';
 $wb['Relay Recipients'] = 'Relay adresáti';
 $wb['Statistics'] = 'Statistiky';
-$wb['Mailbox quota'] = 'Kvóta e-mailové schránky';
+$wb['Mailbox quota'] = 'Kvóty pro e-mailové schránky';
 ?>
 

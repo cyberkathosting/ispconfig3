@@ -198,7 +198,7 @@ class sites_web_vhost_domain_plugin {
 				//* Change database backup options when web backup options have been changed
 				if(isset($page_form->dataRecord['backup_interval']) && ($page_form->dataRecord['backup_interval'] != $page_form->oldDataRecord['backup_interval'] || $page_form->dataRecord['backup_copies'] != $page_form->oldDataRecord['backup_copies'])) {
 					//* Update all databases
-					$backup_interval = $app->functions->intval($page_form->dataRecord['backup_interval']);
+					$backup_interval = $app->db->quote($page_form->dataRecord['backup_interval']);
 					$backup_copies = $app->functions->intval($page_form->dataRecord['backup_copies']);
 					$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {

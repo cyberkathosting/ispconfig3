@@ -4,40 +4,46 @@
 # for the ISPConfig apps vhost
 ######################################################
 
-{vhost_port_listen} Listen {apps_vhost_port}
-# NameVirtualHost *:{apps_vhost_port}
+{tmpl_var name='vhost_port_listen'} Listen {tmpl_var name='apps_vhost_port'}
+# NameVirtualHost *:{tmpl_var name='apps_vhost_port'}
 
-<VirtualHost {apps_vhost_ip}:{apps_vhost_port}>
+<VirtualHost {tmpl_var name='apps_vhost_ip'}:{tmpl_var name='apps_vhost_port'}>
   ServerAdmin webmaster@localhost
-  {apps_vhost_servername}
+  {tmpl_var name='apps_vhost_servername'}
   
   <FilesMatch "\.ph(p3?|tml)$">
     SetHandler None
   </FilesMatch>
   
   <IfModule mod_php5.c>
-    DocumentRoot {apps_vhost_dir}
+    DocumentRoot {tmpl_var name='apps_vhost_dir'}
     AddType application/x-httpd-php .php
-    <Directory {apps_vhost_dir}>
-      # php_admin_value open_basedir "{apps_vhost_dir}:/usr/share:/tmp"
-      Options +FollowSymLinks
-      AllowOverride None
-      Order allow,deny
-      Allow from all
+    <Directory {tmpl_var name='apps_vhost_dir'}>
+		Options FollowSymLinks
+		AllowOverride None
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+		Order allow,deny
+		Allow from all
+		</tmpl_if>
     </Directory>
   </IfModule>
   
   <IfModule mod_fcgid.c>
-    DocumentRoot {apps_vhost_dir}
+    DocumentRoot {tmpl_var name='apps_vhost_dir'}
     SuexecUserGroup ispapps ispapps
-    <Directory {apps_vhost_dir}>
-      Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
-      AllowOverride AuthConfig Indexes Limit Options FileInfo
-      AddHandler fcgid-script .php
-      FCGIWrapper {website_basedir}/php-fcgi-scripts/apps/.php-fcgi-starter .php
-	  # FcgidBusyTimeout 3600
-      Order allow,deny
-      Allow from all
+    <Directory {tmpl_var name='apps_vhost_dir'}>
+		Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
+		AllowOverride AuthConfig Indexes Limit Options FileInfo
+		AddHandler fcgid-script .php
+		FCGIWrapper {tmpl_var name='apps_vhost_basedir'}/php-fcgi-scripts/apps/.php-fcgi-starter .php
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+		Order allow,deny
+		Allow from all
+		</tmpl_if>
     </Directory>
   </IfModule>
 
