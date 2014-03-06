@@ -99,7 +99,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, db_servers, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN (?)", $client[db_servers]);
+			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
 
 			$only_one_server = count($tmp) === 1;
 			$app->tpl->setVar('only_one_server', $only_one_server);
