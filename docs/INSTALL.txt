@@ -1,0 +1,6 @@
+
+The installation instructions for ISPConfig can be found here:
+
+http://www.ispconfig.org/page/en/documentation.html
+
+
