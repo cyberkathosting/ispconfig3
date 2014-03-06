@@ -65,6 +65,9 @@ if(realpath(dirname(__FILE__)) != $cur_dir) {
 define('ISPC_LOG_FILE', '/var/log/ispconfig_install.log');
 define('ISPC_INSTALL_ROOT', realpath(dirname(__FILE__).'/../'));
 
+//** Include the templating lib
+require_once 'lib/classes/tpl.inc.php';
+
 //** Check for existing installation
 /*if(is_dir("/usr/local/ispconfig")) {
     die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');

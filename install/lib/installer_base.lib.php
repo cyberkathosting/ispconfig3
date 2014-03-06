@@ -1251,11 +1251,12 @@ class installer_base {
 		$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
 		$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
-		// copy('tpl/apache_ispconfig.conf.master',$vhost_conf_dir.'/ispconfig.conf');
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_ispconfig.conf.master', 'tpl/apache_ispconfig.conf.master');
+		$tpl = new tpl('apache_ispconfig.conf.master');
+		$tpl->setVar('apache_version',getapacheversion());
+		
 		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
-
+		$ip_addresses = array();
+		
 		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
 				if($rec['ip_type'] == 'IPv6') {
@@ -1268,15 +1269,17 @@ class installer_base {
 					foreach($ports as $port) {
 						$port = intval($port);
 						if($port > 0 && $port < 65536 && $ip_address != '') {
-							$content .= 'NameVirtualHost '.$ip_address.":".$port."\n";
+							$ip_addresses[] = array('ip_address' => $ip_address, 'port' => $port);
 						}
 					}
 				}
 			}
 		}
-
-		$content .= "\n";
-		wf($vhost_conf_dir.'/ispconfig.conf', $content);
+		
+		if(count($ip_addresses) > 0) $tpl->setLoop('ip_adresses',$ip_addresses);
+		
+		wf($vhost_conf_dir.'/ispconfig.conf', $tpl->grab());
+		unset($tpl);
 
 		if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
 			symlink($vhost_conf_dir.'/ispconfig.conf', $vhost_conf_enabled_dir.'/000-ispconfig.conf');
@@ -1530,23 +1533,24 @@ class installer_base {
 			}
 
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_apps.vhost.master', 'tpl/apache_apps.vhost.master');
-
-			$content = str_replace('{apps_vhost_ip}', $conf['web']['apps_vhost_ip'], $content);
-			$content = str_replace('{apps_vhost_port}', $conf['web']['apps_vhost_port'], $content);
-			$content = str_replace('{apps_vhost_dir}', $conf['web']['website_basedir'].'/apps', $content);
-			$content = str_replace('{website_basedir}', $conf['web']['website_basedir'], $content);
-			$content = str_replace('{apps_vhost_servername}', $apps_vhost_servername, $content);
+			$tpl = new tpl('apache_apps.vhost.master');
+			$tpl->setVar('apps_vhost_ip',$conf['web']['apps_vhost_ip']);
+			$tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
+			$tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
+			$tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
+			$tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
+			$tpl->setVar('apache_version',getapacheversion());
 
 
 			// comment out the listen directive if port is 80 or 443
 			if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
-				$content = str_replace('{vhost_port_listen}', '#', $content);
+				$tpl->setVar('vhost_port_listen','#');
 			} else {
-				$content = str_replace('{vhost_port_listen}', '', $content);
+				$tpl->setVar('vhost_port_listen','');
 			}
 
-			wf($vhost_conf_dir.'/apps.vhost', $content);
+			wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
+			unset($tpl);
 
 			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
@@ -1926,30 +1930,31 @@ class installer_base {
 			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
 			// Dont just copy over the virtualhost template but add some custom settings
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_ispconfig.vhost.master', 'tpl/apache_ispconfig.vhost.master');
-			$content = str_replace('{vhost_port}', $conf['apache']['vhost_port'], $content);
+			$tpl = new tpl('apache_ispconfig.vhost.master');
+			$tpl->setVar('vhost_port',$conf['apache']['vhost_port']);
 
 			// comment out the listen directive if port is 80 or 443
 			if($conf['apache']['vhost_port'] == 80 or $conf['apache']['vhost_port'] == 443) {
-				$content = str_replace('{vhost_port_listen}', '#', $content);
+				$tpl->setVar('vhost_port_listen','#');
 			} else {
-				$content = str_replace('{vhost_port_listen}', '', $content);
+				$tpl->setVar('vhost_port_listen','');
 			}
 
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
-				$content = str_replace('{ssl_comment}', '', $content);
+				$tpl->setVar('ssl_comment','');
 			} else {
-				$content = str_replace('{ssl_comment}', '#', $content);
+				$tpl->setVar('ssl_comment','#');
 			}
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key') && is_file($install_dir.'/interface/ssl/ispserver.bundle')) {
-				$content = str_replace('{ssl_bundle_comment}', '', $content);
+				$tpl->setVar('ssl_bundle_comment','');
 			} else {
-				$content = str_replace('{ssl_bundle_comment}', '#', $content);
+				$tpl->setVar('ssl_bundle_comment','#');
 			}
+			
+			$tpl->setVar('apache_version',getapacheversion());
 
-			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
+			wf($vhost_conf_dir.'/ispconfig.vhost', $tpl->grab());
 
-			//copy('tpl/apache_ispconfig.vhost.master', $vhost_conf_dir.'/ispconfig.vhost');
 			//* and create the symlink
 			if($this->is_update == false) {
 				if(@is_link($vhost_conf_enabled_dir.'/ispconfig.vhost')) unlink($vhost_conf_enabled_dir.'/ispconfig.vhost');

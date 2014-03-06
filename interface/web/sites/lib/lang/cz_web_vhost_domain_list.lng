@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Webové stránky';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Doména';
+$wb['add_new_record_txt'] = 'Přidat webovou stránku';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+?>
+

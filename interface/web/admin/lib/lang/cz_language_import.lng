@@ -5,5 +5,6 @@ $wb['btn_save_txt'] = 'Nahrát vybraný jazykový soubor';
 $wb['language_overwrite_txt'] = 'Přepsat soubor, pokud existuje.';
 $wb['btn_cancel_txt'] = 'Zpět';
 $wb['ignore_version_txt'] = 'Přeskočit kontrolu verze ISPConfigu.';
+$wb['list_desc_txt'] = 'VAROVÁNÍ: Nepoužívejte import souborů jazyku z nedůvěryhodných zdrojů.';
 ?>
 

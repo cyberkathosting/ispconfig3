@@ -29,7 +29,7 @@ $wb['disableimap_txt'] = 'Zakázat IMAP';
 $wb['disablepop3_txt'] = 'Zakázat POP3';
 $wb['duplicate_alias_or_forward_txt'] = 'Alias nebo přesměrování s touto adresou již existuje.';
 $wb['quota_error_value'] = 'Chybná hodnota kvóty. Povolené hodnoty jsou: 0 pro neomezeno nebo čísla > 1';
-$wb['move_junk_txt'] = 'Přesunout spamové emaily do adresáře Junk';
+$wb['move_junk_txt'] = 'Přesunout e-maily detekované jako spam do adresáře Junk';
 $wb['name_txt'] = 'Skutečné jméno';
 $wb['name_optional_txt'] = '(volitelné)';
 $wb['autoresponder_active'] = 'Povolit automatický odpovídač';
@@ -47,5 +47,7 @@ $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
+$wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
+$wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
 ?>
 

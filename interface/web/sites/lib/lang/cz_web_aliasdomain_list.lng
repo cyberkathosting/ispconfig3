@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Alias doména';
+$wb['list_head_txt'] = 'Alias domény pro webové stránky';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webová stránka';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
 $wb['domain_txt'] = 'Alias doména';
 $wb['add_new_record_txt'] = 'Přidat alias doménu';
 $wb['domain_error_empty'] = 'Doména je prázdná.';
