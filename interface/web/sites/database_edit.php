@@ -73,7 +73,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT db_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
@@ -96,7 +96,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, db_servers, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, db_servers, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Set the webserver to the default server of the client
 			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
@@ -150,6 +150,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 1);
 			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
 			$app->tpl->setVar("database_charset_value", $this->dataRecord["database_charset"]);
+			$app->tpl->setVar("limit_database_quota", $this->dataRecord["database_quota"]);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
@@ -171,9 +172,31 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ".$app->functions->intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE database_id = ?", $app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
+				//* Check client quota
+				if ($client['limit_database_quota'] >= 0) {
+					//* get the database prefix
+					$app->uses('getconf,tools_sites');
+					$global_config = $app->getconf->get_global_config('sites');
+					$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+					//* get quota from other databases
+					$tmp = $app->db->queryOneRecord("SELECT sum(database_quota) as db_quota FROM web_database WHERE sys_groupid = ? AND database_name <> ?", $client_group_id, $dbname_prefix.$this->dataRecord['database_name']);
+					$used_quota = $app->functions->intval($tmp['db_quota']);
+					$new_db_quota = $app->functions->intval($this->dataRecord["database_quota"]);
+					if(($used_quota + $new_db_quota > $client['limit_database_quota']) || ($new_db_quota < 0 && $client['limit_database_quota'] >= 0)) {
+						$max_free_quota = floor($client['limit_database_quota'] - $used_quota);
+						if($max_free_quota < 0) {
+							$max_free_quota = 0;
+						}
+						$app->tform->errorMessage .= $app->tform->lng("limit_database_quota_free_txt").": ".$max_free_quota." MB<br>";
+						$this->dataRecord['database_quota'] = $max_free_quota;
+					}
+					unset($tmp);
+					unset($global_config);
+					unset($dbname_prefix);
+				}
 				// When the record is inserted
 			} else {
 				$client['db_servers_ids'] = explode(',', $client['db_servers']);
@@ -185,15 +208,15 @@ class page_action extends tform_actions {
 
 				// Check if the user may add another database
 				if($client["limit_database"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_database"]) {
 						$app->error($app->tform->wordbook["limit_database_txt"]);
 					}
 				}
 
-				// Check client quota
-				 if ($client['limit_database_quota'] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(database_quota) as db_quota FROM web_database WHERE sys_groupid = $client_group_id");
+				//* Check client quota
+				if ($client['limit_database_quota'] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT sum(database_quota) as db_quota FROM web_database WHERE sys_groupid = ?", $client_group_id);
 					$db_quota = $tmp['db_quota'];
 					$new_db_quota = $app->functions->intval($this->dataRecord["database_quota"]);
 					if(($db_quota + $new_db_quota > $client['limit_database_quota']) || ($new_db_quota < 0 && $client['limit_database_quota'] >= 0)) {
@@ -300,7 +323,7 @@ class page_action extends tform_actions {
                 }
 				*/
 
-				if($this->dataRecord['remote_access'] != 'y'){
+				if(isset($this->dataRecord['remote_access']) && $this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
 				} else {
@@ -387,7 +410,7 @@ class page_action extends tform_actions {
                 }
 				*/
 
-				if($this->dataRecord['remote_access'] != 'y'){
+				if(isset($this->dataRecord['remote_access']) && $this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
 				} else {

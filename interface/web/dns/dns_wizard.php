@@ -248,7 +248,7 @@ if($_POST['create'] == 1) {
 		$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = '".$app->db->quote($_POST['domain'])."' AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'));
 		if ($public_key!='') {
 			$dns_record=str_replace(array("\r\n", "\n", "\r", "-----BEGIN PUBLIC KEY-----", "-----END PUBLIC KEY-----"), '', $public_key['dkim_public']);
-			$tpl_content = str_replace('TXT|'.$_POST['domain'].'.|{DKIM}', 'TXT|default._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record, $tpl_content);
+			$tpl_content = str_replace('TXT|'.$_POST['domain'].'|{DKIM}', 'TXT|default._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record, $tpl_content);
 		}
 	}
 

@@ -184,6 +184,11 @@ $items[] = array(   'title'   => 'Website quota (Harddisk)',
 	'link'    => 'sites/user_quota_stats.php',
 	'html_id' => 'user_quota_stats');
 
+$items[] = array(   'title'   => 'Database quota',
+	'target'  => 'content',
+	'link'    => 'sites/database_quota_stats.php',
+	'html_id' => 'databse_quota_stats');
+
 $module['nav'][] = array(   'title' => 'Statistics',
 	'open'  => 1,
 	'items' => $items);

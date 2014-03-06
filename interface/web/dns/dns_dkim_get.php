@@ -82,9 +82,9 @@ $_POST=getRealPost();
 
 if (ctype_digit($_POST['zone'])) {
 	// Get the parent soa record of the domain
-	$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = '".$app->db->quote($_POST['zone'])."' AND ".$app->tform->getAuthSQL('r'));
+	$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND ".$app->tform->getAuthSQL('r'), $_POST['zone']);
 
-	$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = '".substr_replace($soa['origin'],'',-1)."' AND dkim = 'Y' AND ".$app->tform->getAuthSQL('r'));		
+	$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = ? AND dkim = 'Y' AND ".$app->tform->getAuthSQL('r'), substr_replace($soa['origin'],'',-1));
 
 	$public_key=pub_key($public_key);
 

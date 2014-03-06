@@ -7,7 +7,7 @@ Subject: Datenbank-Speicherhinweis
 
 Der belegte Speicherplatz Ihrer Datenbank {database_name} ist wieder ok.
 
-Datenbank:						{databbase_name}
+Datenbank:						{database_name}
 Belegter Speicherplatz:			{used}
 Verfuegbarer Speicherplatz:		{quota}
 Belegter Speicherplatz in %:	{ratio}
