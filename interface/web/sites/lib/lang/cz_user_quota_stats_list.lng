@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Disková kvóta';
+$wb['list_head_txt'] = 'Webové kvóty (místo na disku)';
 $wb['domain_txt'] = 'Doména / Webová stránka';
 $wb['system_user_txt'] = 'Linuxový uživatel';
 $wb['used_txt'] = 'Využité místo';

@@ -87,5 +87,7 @@ $wb['virtualization_limits_txt'] = 'Virtualizace limity';
 $wb['aps_limits_txt'] = 'APS limity instalátoru';
 $wb['limit_aps_txt'] = 'Max. počet APS instalací';
 $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Klientské limity';
 ?>
 

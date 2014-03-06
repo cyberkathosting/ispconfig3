@@ -2,7 +2,7 @@
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Adresář';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Webová stránka';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
 $wb['username_txt'] = 'Uživatelské jméno';
 $wb['password_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';

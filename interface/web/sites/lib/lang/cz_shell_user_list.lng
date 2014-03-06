@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Shell uživatel';
+$wb['list_head_txt'] = 'Shell uživatelé';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Stránka';

@@ -51,8 +51,22 @@ $wb['client_username_web_check_disabled_txt'] = 'Disable client username check f
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Show Autoresponder tab in Mailbox detail';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show Mail Filter tab in Mailbox detail';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show Custom Rules tab in Mailbox detail';
-$wb['webmail_url_error_regex'] = 'Invalid webmail URL';
+$wb['webmail_url_error_regex'] = 'Neplatný webmail URL';
 $wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
 $wb['webmail_url_note_txt'] = 'Placeholder:';
+$wb['available_dashlets_note_txt'] = 'Available Dashlets:';
+$wb['admin_dashlets_left_txt'] = 'Left Admin Dashlets';
+$wb['admin_dashlets_right_txt'] = 'Right Admin Dashlets';
+$wb['reseller_dashlets_left_txt'] = 'Left Reseller Dashlets';
+$wb['reseller_dashlets_right_txt'] = 'Right Reseller Dashlets';
+$wb['client_dashlets_left_txt'] = 'Left Client Dashlets';
+$wb['client_dashlets_right_txt'] = 'Right Client Dashlets';
+$wb['customer_no_template_txt'] = 'Zákaznické číslo - šablona';
+$wb['customer_no_template_error_regex_txt'] = 'Zákaznické číslo šablony obsahuje neplatné znaky';
+$wb['customer_no_start_txt'] = 'Zákaznické číslo - počáteční hodnota';
+$wb['customer_no_counter_txt'] = 'Zákaznické číslo -  čítač';
+$wb['session_timeout_txt'] = 'Časový limit relace (minuty)';
+$wb['session_allow_endless_txt'] = 'Enable \\"stay logged in\\"';
+$wb['No'] = 'Ne';
 ?>
 

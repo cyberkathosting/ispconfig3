@@ -15,5 +15,7 @@ $wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['all_clients_resellers_txt'] = 'Všichni klienti a distributoři (prodejci)';
 $wb['all_clients_txt'] = 'Všichni klienti';
 $wb['variables_txt'] = 'Výběr (možnosti):';
+$wb['gender_m_txt'] = 'Pan';
+$wb['gender_f_txt'] = 'Paní';
 ?>
 
