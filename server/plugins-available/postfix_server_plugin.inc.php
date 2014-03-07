@@ -109,6 +109,7 @@ class postfix_server_plugin {
 		}
 
 		if($mail_config['realtime_blackhole_list'] != $old_ini_data['mail']['realtime_blackhole_list']) {
+			$rbl_updated = false;
 			$rbl_hosts = trim(preg_replace('/\s+/', '', $mail_config['realtime_blackhole_list']));
 			if($rbl_hosts != ''){
 				$rbl_hosts = explode(",", $rbl_hosts);
@@ -117,9 +118,18 @@ class postfix_server_plugin {
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_rbl_client/', $value)) {
 					$new_options[] = $value;
+				} else {
+					if(is_array($rbl_hosts) && !empty($rbl_hosts) && !$rbl_updated){
+						$rbl_updated = true;
+						foreach ($rbl_hosts as $key => $value) {
+							$value = trim($value);
+							if($value != '') $new_options[] = "reject_rbl_client ".$value;
+						}
+					}
 				}
 			}
-			if(is_array($rbl_hosts) && !empty($rbl_hosts)){
+			//* first time add rbl-list
+			if (!$rbl_updated && is_array($rbl_hosts) && !empty($rbl_hosts)) {
 				foreach ($rbl_hosts as $key => $value) {
 					$value = trim($value);
 					if($value != '') $new_options[] = "reject_rbl_client ".$value;
