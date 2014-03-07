@@ -1,0 +1,7 @@
+<?php
+$wb["database_txt"] = 'Datenbank';
+$wb["client_txt"] = 'Kunde';
+$wb["used_txt"] = 'Verwendeter Speicherplatz';
+$wb["quota_txt"] = 'Quota';
+$wb["percentage_txt"] = 'Verbraucht in %';
+?>
