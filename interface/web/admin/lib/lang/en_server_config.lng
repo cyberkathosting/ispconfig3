@@ -190,4 +190,5 @@ $wb['munin_url_error_regex'] = 'Invalid Munin URL';
 $wb['munin_url_note_txt'] = 'Placeholder:';
 $wb['backup_dir_is_mount_txt'] = 'Backup directory is a mount?';
 $wb['backup_dir_mount_cmd_txt'] = 'Mount command, if backup directory not mounted';
+$wb['monitor_system_updates_txt'] = 'Check for Linux updates';
 ?>

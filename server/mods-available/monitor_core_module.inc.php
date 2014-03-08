@@ -419,6 +419,10 @@ class monitor_core_module {
 		 * OK - here we go...
 		 */
 		global $app;
+		
+		$app->uses('getconf');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		if($server_config['monitor_system_updates'] == 'n') return;
 
 		/*
 		 * First we get the Monitoring-data from the tools

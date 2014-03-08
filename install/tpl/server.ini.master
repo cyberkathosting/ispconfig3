@@ -24,6 +24,7 @@ monit_password=
 munin_url=
 munin_user=
 munin_password=
+monitor_system_updates=y
 
 [mail]
 module=postfix_mysql

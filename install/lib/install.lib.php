@@ -160,7 +160,7 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || strstr(trim(file_get_contents('/etc/debian_version')), '7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 			$distname = 'Debian';
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
