@@ -148,7 +148,7 @@ class page_action extends tform_actions {
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
-		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
+		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r')." ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->wordbook["no_policy"]."</option>";
 		if(is_array($policys)) {
