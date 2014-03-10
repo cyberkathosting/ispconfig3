@@ -96,6 +96,8 @@ class validate_password {
 	function password_check($field_name, $field_value, $validator) {
 		global $app;
 		
+		if($field_value == '') return false;
+		
 		$app->uses('ini_parser,getconf');
 		$server_config_array = $app->getconf->get_global_config();
 		
