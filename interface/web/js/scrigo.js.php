@@ -522,8 +522,13 @@ function keepalive() {
 }
 
 
-
-var pass_minimum_length = 5;
+<?php
+$min_password_length = 5;
+if(isset($server_config_array['misc']['min_password_length'])) {
+	$min_password_length = $app->functions->intval($server_config_array['misc']['min_password_length']);
+}
+?>
+var pass_minimum_length = <?php echo $min_password_length; ?>;
 var pass_messages = new Array();
 
 var pass_message = new Array();

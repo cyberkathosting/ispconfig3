@@ -166,6 +166,14 @@ $form["tabs"]['address'] = array (
 		'password' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'PASSWORD',
+			'validators' => array(
+				0 => array(
+					'type' => 'CUSTOM',
+					'class' => 'validate_password',
+					'function' => 'password_check',
+					'errmsg' => 'weak_password_txt'
+				)
+			),
 			'encryption'=> 'CRYPT',
 			'default' => '',
 			'value'  => '',

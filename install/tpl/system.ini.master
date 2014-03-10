@@ -51,3 +51,5 @@ customer_no_start=1
 customer_no_counter=0
 session_timeout=0
 session_allow_endless=0
+min_password_length=5
+min_password_strength=0

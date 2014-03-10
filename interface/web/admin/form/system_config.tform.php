@@ -487,6 +487,20 @@ $form["tabs"]['misc'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'min_password_length' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '5',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'min_password_strength' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'value'  => array('' => 'None', '1' => 'strength_1', '2' => 'strength_2', '3' => 'strength_3', '4' => 'strength_4', '5' => 'strength_5')
+		)
 		//#################################
 		// ENDE Datatable fields
 		//#################################

@@ -66,4 +66,6 @@ $wb['customer_no_counter_txt'] = 'Kundennummer Zähler';
 $wb['session_timeout_txt'] = 'Session-Timeout (Minuten)';
 $wb['session_allow_endless_txt'] = '"Eingeloggt bleiben" aktivieren';
 $wb['No'] = 'Nein';
+$wb['min_password_length_txt'] = 'Minimale Passwortlänge';
+$wb['min_password_strength_txt'] = 'Minimale Passwortstärke';
 ?>
