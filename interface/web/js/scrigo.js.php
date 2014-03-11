@@ -748,12 +748,19 @@ function password(minLength, special){
 	return password;
 }
 
+<?php
+$min_password_length = 10;
+if(isset($server_config_array['misc']['min_password_length'])) {
+	$min_password_length = $app->functions->intval($server_config_array['misc']['min_password_length']);
+}
+?>
+
 function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	var oldPWField = jQuery('#'+passwordFieldID);
 	var newPWField = oldPWField.clone();
 	newPWField.attr('type', 'text').attr('id', 'tmp'+passwordFieldID).insertBefore(oldPWField);
 	oldPWField.remove();
-	var pword = password(10, false);
+	var pword = password(<?php echo $min_password_length ?>, false);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
 	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
 }
