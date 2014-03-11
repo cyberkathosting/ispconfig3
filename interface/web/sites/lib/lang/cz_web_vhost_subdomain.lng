@@ -72,8 +72,8 @@ $wb['traffic_quota_exceeded_txt'] = 'Traffik kvóta překročena';
 $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Webstatistics username';
 $wb['stats_type_txt'] = 'Webstatistics program';
-$wb['custom_php_ini_txt'] = 'Custom php.ini settings';
-$wb['none_txt'] = 'None';
+$wb['custom_php_ini_txt'] = 'Vlastní nastavení php.ini';
+$wb['none_txt'] = 'Žádný';
 $wb['disabled_txt'] = 'Vypnuto';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
@@ -120,9 +120,9 @@ $wb['invalid_rewrite_rules_txt'] = 'Invalid Rewrite Rules';
 $wb['allowed_rewrite_rule_directives_txt'] = 'Allowed Directives:';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
 $wb['variables_txt'] = 'Proměnné';
-$wb['backup_excludes_txt'] = 'Excluded Directories';
-$wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. Example: web/cache/*,web/backup)';
-$wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
+$wb['backup_excludes_txt'] = 'Vyloučené adresáře';
+$wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: web/cache/*,web/backup)';
+$wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>
 

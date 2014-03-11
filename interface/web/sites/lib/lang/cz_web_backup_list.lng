@@ -5,12 +5,12 @@ $wb['backup_type_txt'] = 'Verze';
 $wb['filename_txt'] = 'Záloha souborů';
 $wb['restore_backup_txt'] = 'Obnovit zálohu';
 $wb['download_backup_txt'] = 'Stažení zálohy';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['download_info_txt'] = 'Soubor se zálohou bude k dispozici ke stažení v kořenové složce /backup webové stránky přes FTP během několika minut.';
+$wb['restore_info_txt'] = 'Obnovení ze zálohy bylo zahájeno. Tato akce trvá několik minut než bude dokončena.';
+$wb['restore_confirm_txt'] = 'Obnovení přepíše existující soubory na Vaší webové stránce. Opravdu chcete obnovit tuto zálohu ?';
+$wb['download_pending_txt'] = 'Shodný požadavek na vytvoření zálohy pro stažení již čeká ve frontě na serveru ke zpracování.';
+$wb['restore_pending_txt'] = 'Shodný požadavek na obnovu dat ze zálohy již čeká ve frontě na serveru ke zpracování.';
+$wb['backup_type_mysql'] = 'MySQL Databáze';
+$wb['backup_type_web'] = 'Soubory webových stránek';
 ?>
 
