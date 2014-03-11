@@ -2,7 +2,7 @@
 <Directory {tmpl_var name='web_basedir'}/{tmpl_var name='domain'}>
 		AllowOverride None
 		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-		Require all deny
+		Require all denied
 		<tmpl_else>
 		Order Deny,Allow
 		Deny from all

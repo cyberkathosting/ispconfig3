@@ -1141,7 +1141,9 @@ class installer_dist extends installer_base {
 			
 			$tpl->setVar('apache_version',getapacheversion());
 
-			wf($vhost_conf_dir.'/ispconfig.vhost', $tpl->grab());
+			$content = $tpl->grab();
+			$content = str_replace('/var/www/', '/srv/www/', $content);
+			wf($vhost_conf_dir.'/ispconfig.vhost', $content);
 
 			//if(!is_file('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter')) {
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/apache_ispconfig_fcgi_starter.master', 'tpl/apache_ispconfig_fcgi_starter.master');
