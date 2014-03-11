@@ -913,6 +913,43 @@ class system{
 	}
 
 
+	/**
+	 * This function checks the free space for a given directory
+	 * @param path check path
+	 * @param limit min. free space in bytes
+	 * @return bool - true when the the free space is above limit ohterwise false
+	*/
+
+	function check_free_space($path, $limit = 0) {
+		$path = rtrim($path, '/');
+		$parts = explode('/', $path);
+        $out = '';
+
+		/**
+		* Make sure that we have only existing directories in the path.
+
+		* Given a file name instead of a directory, the behaviour of the disk_free_space
+		function is unspecified and may differ between operating systems and PHP versions.
+        */
+		for ($i = 1; $i < count($parts); $i++) {
+			if ( !is_file($out.'/'.$parts[$i]) && is_dir($out.'/'.$parts[$i]) ) {
+				$out .= '/'.$parts[$i];
+			}
+		}
+
+		unset($parts);
+
+		$res = disk_free_space($out);
+
+		if (!$res) return false;
+
+		if ($res >= $limit) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 
 
