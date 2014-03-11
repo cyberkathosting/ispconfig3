@@ -812,6 +812,7 @@ function get_system_timezone() {
 	if(!$timezone && is_link('/etc/localtime')) {
 		$timezone = readlink('/etc/localtime');
 		$timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
+		$timezone = str_replace('..', '', $timezone);
 		if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
 	} elseif(!$timezone) {
 		$hash = md5_file('/etc/localtime');
@@ -829,29 +830,55 @@ function get_system_timezone() {
 }
 
 function getapacheversion($get_minor = false) {
-		global $app;
-		
-		$cmd = '';
-		if(is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
-		elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
-		else {
-			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
-			return '2.2';
-		}
-		
-		exec($cmd, $output, $return_var);
-		if($return_var != 0 || !$output[0]) {
-			$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
-			return '2.2';
-		}
-		
-		if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
-			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
-		} else {
-			$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
-			return '2.2';
+	global $app;
+	
+	$cmd = '';
+	if(is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
+	elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
+	else {
+		$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+	
+	exec($cmd, $output, $return_var);
+	if($return_var != 0 || !$output[0]) {
+		$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+	
+	if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+		return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+	} else {
+		$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+}
+
+function getapachemodules() {
+	global $app;
+	
+	$cmd = '';
+	if(is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
+	elseif(is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
+	else {
+		$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
+		return array();
+	}
+	
+	exec($cmd, $output, $return_var);
+	if($return_var != 0 || !$output[0]) {
+		$app->log("Could not check apache modules, apachectl did not return any data.", LOGLEVEL_WARN);
+		return array();
+	}
+	
+	$modules = array();
+	for($i = 0; $i < count($output); $i++) {
+		if(preg_match('/^\s*(\w+)\s+\((shared|static)\)\s*$/', $output[$i], $matches)) {
+			$modules[] = $matches[1];
 		}
 	}
-
+	
+	return $modules;
+}
 
 ?>

@@ -87,6 +87,7 @@ include_once 'dist/conf/'.$dist['id'].'.conf.php';
 //** Installer Interface
 //****************************************************************************************************
 $inst = new installer();
+
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));

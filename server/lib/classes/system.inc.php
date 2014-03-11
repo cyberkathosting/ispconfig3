@@ -1759,6 +1759,32 @@ class system{
 		}
 	}
 
+	function getapachemodules() {
+		global $app;
+		
+		$cmd = '';
+		if(is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
+		elseif(is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
+		else {
+			$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
+			return array();
+		}
+		
+		exec($cmd, $output, $return_var);
+		if($return_var != 0 || !$output[0]) {
+			$app->log("Could not check apache modules, apachectl did not return any data.", LOGLEVEL_WARN);
+			return array();
+		}
+		
+		$modules = array();
+		for($i = 0; $i < count($output); $i++) {
+			if(preg_match('/^\s*(\w+)\s+\((shared|static)\)\s*$/', $output[$i], $matches)) {
+				$modules[] = $matches[1];
+			}
+		}
+		
+		return $modules;
+	}
 }
 
 ?>

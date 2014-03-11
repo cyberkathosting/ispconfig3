@@ -29,7 +29,23 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
-
+	
+	public function __construct() {
+		//** check apache modules */
+		$mods = getapachemodules();
+		if(in_array('authz_compat', $mods, true)) {
+			swriteln($inst->lng('    WARNING! You are using mod_authz_compat.'));
+			swriteln($inst->lng('    Please make sure that your apache config uses the new auth syntax:'));
+			swriteln($inst->lng('    <Directory />'));
+			swriteln($inst->lng('    Options None'));
+			swriteln($inst->lng('    AllowOverride None'));
+			swriteln($inst->lng('    Require all denied'));
+			swriteln($inst->lng('    </Directory>'."\n"));
+			
+			swriteln($inst->lng('    If it uses the old syntax (deny from all) ISPConfig would fail to work.'));
+		}
+	}
+	
 	public function configure_mailman($status = 'insert') {
 		global $conf;
 
