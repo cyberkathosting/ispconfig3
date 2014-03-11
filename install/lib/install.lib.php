@@ -812,6 +812,7 @@ function get_system_timezone() {
 	if(!$timezone && is_link('/etc/localtime')) {
 		$timezone = readlink('/etc/localtime');
 		$timezone = str_replace('/usr/share/zoneinfo/', '', $timezone);
+		$timezone = str_replace('..', '', $timezone);
 		if(substr($timezone, 0, 6) === 'posix/') $timezone = substr($timezone, 6);
 	} elseif(!$timezone) {
 		$hash = md5_file('/etc/localtime');
