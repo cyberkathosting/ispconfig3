@@ -217,11 +217,20 @@ $form["tabs"]['dns_soa'] = array (
 		'xfer' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_dns',
+					'function' => 'validate_xfer',
+					'allowempty' => 'y',
+					'separator' => ',',
+					'errmsg'=> 'xfer_error_regex'),
+			),
+			/*
 			'validators' => array (  0 => array ( 'type' => 'ISIP',
 					'allowempty' => 'y',
 					'separator' => ',',
 					'errmsg'=> 'xfer_error_regex'),
 			),
+			*/
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
