@@ -16,4 +16,5 @@ $wb['aux_txt'] = 'Priorytet';
 $wb['target_txt'] = 'Cel';
 $wb['weight_txt'] = 'Waga';
 $wb['port_txt'] = 'Port';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

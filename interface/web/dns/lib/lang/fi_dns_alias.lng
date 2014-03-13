@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Aliasverkkotunnus on tyhjä.';
 $wb['name_error_regex'] = 'Aliasverkkotunnus on vääränlainen.';
 $wb['data_error_empty'] = 'Pääverkkotunnus on tyhjä';
 $wb['data_error_regex'] = 'Pääverkkotunnus on vääränlainen';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

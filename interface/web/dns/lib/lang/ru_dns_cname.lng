@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Имя узла имеет неправильный �
 $wb['data_error_empty'] = 'Целевое имя узла пустое';
 $wb['data_error_regex'] = 'Целевое имя узла имеет неправильный формат';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

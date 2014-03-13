@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Numele nu e completat';
 $wb['name_error_regex'] = 'Numele are format gresit';
 $wb['data_error_empty'] = 'Canonical hostname necompletat';
 $wb['data_error_regex'] = 'Canonical hostname format invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

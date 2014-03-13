@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'İsim boş.';
 $wb['name_error_regex'] = 'İsim yanlış formatta.';
 $wb['data_error_empty'] = 'Canonical hostname boş';
 $wb['data_error_regex'] = 'Canonical hostname geçersiz formatta';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

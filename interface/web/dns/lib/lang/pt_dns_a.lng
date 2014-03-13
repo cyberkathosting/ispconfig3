@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Hostname tem um formato inválido.';
 $wb['data_error_empty'] = 'Endereço-IP em branco';
 $wb['data_error_regex'] = 'Endereço-IP formato inválido';
 $wb['data_error_duplicate'] = 'Registo-A duplicado';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

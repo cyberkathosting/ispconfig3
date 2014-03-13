@@ -6,4 +6,7 @@ $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Priorita';
 $wb['active_txt'] = 'Aktívne';
 $wb['limit_spamfilter_wblist_txt'] = 'Max. počet Biela - čierna listina alebo záznamy pre váš účet je dosiahnutý.';
+$wb['10 - highest'] = '10 - highest';
+$wb['5 - medium'] = '5 - medium';
+$wb['1 - lowest'] = '1 - lowest';
 ?>

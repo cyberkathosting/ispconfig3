@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'De hostnaam is niet ingvuld.';
 $wb['name_error_regex'] = 'De hostnaam heeft een onjuist formaat.';
 $wb['data_error_empty'] = 'Verantwoordelijke persoon veld is niet ingvuld';
 $wb['data_error_regex'] = 'Verantwoordelijke persoon veld formaat ongeldig';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'De hostname is niet ingvuld.';
 $wb['name_error_regex'] = 'De hostnaam heeft een onjuist formaat.';
 $wb['data_error_empty'] = 'Doel hostnaam is niet ingvuld';
 $wb['data_error_regex'] = 'Doel hostnaam formaat ongeldig';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

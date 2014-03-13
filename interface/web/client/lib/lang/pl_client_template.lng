@@ -87,4 +87,6 @@ $wb['virtualization_limits_txt'] = 'Limit Wirtualizacji';
 $wb['aps_limits_txt'] = 'Limit Instalatora APS';
 $wb['limit_aps_txt'] = 'Maks. liczba instancji APS';
 $wb['limit_aps_error_notint'] = 'Limit instancji APS musi być liczbą';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Client Limits';
 ?>

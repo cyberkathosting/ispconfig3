@@ -15,4 +15,6 @@ $wb['recipient_txt'] = 'Παραλήπτης';
 $wb['all_clients_resellers_txt'] = 'Όλοι οι πελάτες και οι μεταπωλητές';
 $wb['all_clients_txt'] = 'Όλοι οι πελάτες';
 $wb['variables_txt'] = 'Μεταβλητές:';
+$wb['gender_m_txt'] = 'Mr.';
+$wb['gender_f_txt'] = 'Ms.';
 ?>

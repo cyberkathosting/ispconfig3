@@ -123,4 +123,5 @@ $wb['variables_txt'] = 'Variablen';
 $wb['backup_excludes_txt'] = 'Auszuschließende Verzeichnisse';
 $wb['backup_excludes_note_txt'] = '(Mehrere Verzeichnisse mit Kommas trennen. Beispiel: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Die auszuschließenden Verzeichnisse enthalten ungültige Zeichen.';
+$wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>

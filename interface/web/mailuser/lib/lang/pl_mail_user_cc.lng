@@ -4,4 +4,6 @@ $wb['cc_txt'] = 'Wyślij kopię do';
 $wb['email_txt'] = 'E-mail';
 $wb['cc_error_isemail'] = 'Adres e-mail jest niepoprawny w polu -Wyślij kopię do-';
 $wb['email_is_cc_error'] = 'Adres e-mail i adres do wysyłki kopii nie mogą być takie same.';
+$wb['name_optional_txt'] = '(Optional)';
+$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>

@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Hostname este necompletat';
 $wb['name_error_regex'] = 'Hostname in format gresit';
 $wb['data_error_empty'] = 'Text necompletat';
 $wb['data_error_regex'] = 'Format text invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

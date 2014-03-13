@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Hostname necompletat';
 $wb['name_error_regex'] = 'Hostname cu format gresit';
 $wb['data_error_empty'] = 'Rubrica Persoana responsabila  necompletata';
 $wb['data_error_regex'] = 'rubrica persoana responsabila cu format invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

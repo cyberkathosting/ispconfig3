@@ -30,4 +30,5 @@ $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['username_error_collision'] = 'Der Benutzername darf nicht <b>web<b> oder <b>web<b> gefolgt von einer Zahl sein.';
+$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 ?>

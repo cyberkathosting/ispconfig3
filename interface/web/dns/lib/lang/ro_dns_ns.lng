@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Zona e necompletata';
 $wb['name_error_regex'] = 'Zona are format gresit';
 $wb['data_error_empty'] = 'Nameserver necompletat';
 $wb['data_error_regex'] = 'Nameserver format invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

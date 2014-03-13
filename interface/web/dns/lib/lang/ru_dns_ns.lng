@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Зона пустая.';
 $wb['name_error_regex'] = 'Зона имеет неправильный формат.';
 $wb['data_error_empty'] = 'Nameserver пустой';
 $wb['data_error_regex'] = 'Nameserver имеет неправильный формат';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

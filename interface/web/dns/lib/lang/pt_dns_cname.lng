@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'O hostname está em um formato inválido.';
 $wb['data_error_empty'] = 'Hostname de destino está em branco';
 $wb['data_error_regex'] = 'O hostname de destino está em um formato inválido.';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

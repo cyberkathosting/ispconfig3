@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Naziv hosta nije upisan.';
 $wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Polje IPv6 adresa je prazno';
 $wb['data_error_regex'] = 'Neispravan format IPv6 adrese';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

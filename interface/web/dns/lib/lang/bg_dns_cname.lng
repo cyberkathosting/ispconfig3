@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'The hostname has the wrong format.';
 $wb['data_error_empty'] = 'Target hostname empty';
 $wb['data_error_regex'] = 'Target hostname format invalid';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

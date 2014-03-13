@@ -149,4 +149,8 @@ $wb['canceled_txt'] = 'Gek&uuml;ndigt (verhindert Kundenlogin)';
 $wb['gender_txt'] = 'Anrede';
 $wb['gender_m_txt'] = 'Herr';
 $wb['gender_f_txt'] = 'Frau';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
+$wb['parent_client_id_txt'] = 'Client of reseller';
+$wb['none_txt'] = 'none';
 ?>

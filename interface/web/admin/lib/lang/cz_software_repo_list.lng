@@ -4,4 +4,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['repo_name_txt'] = 'Repozitář';
 $wb['repo_url_txt'] = 'URL';
 ?>
-

@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'La zone est vide.';
 $wb['name_error_regex'] = 'Le format de la zone est invalide.';
 $wb['data_error_empty'] = 'Le serveur de nom est vide.';
 $wb['data_error_regex'] = 'Le format du serveur de nom est invalide.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

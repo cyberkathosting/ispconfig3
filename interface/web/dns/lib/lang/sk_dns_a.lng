@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Hostname má zlý formát.';
 $wb['data_error_empty'] = 'IP Adresa je prázdna';
 $wb['data_error_regex'] = 'IP Adresa má zlý formát.';
 $wb['data_error_duplicate'] = 'Duplikátny A-záznam';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

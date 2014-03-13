@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'The name is empty.';
 $wb['name_error_regex'] = 'The name has the wrong format.';
 $wb['data_error_empty'] = 'Canonical hostname empty';
 $wb['data_error_regex'] = 'Canonical hostname format invalid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

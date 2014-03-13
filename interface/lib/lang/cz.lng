@@ -145,7 +145,6 @@ $wb['strength_2'] = 'Podprůměrné';
 $wb['strength_3'] = 'Dobré';
 $wb['strength_4'] = 'Silné';
 $wb['strength_5'] = 'Velmi silné';
-$wb['weak_password_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé a mající sílu "{strength}".';
+$wb['weak_password_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé a mající sílu \"{strength}\".';
 $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé.';
 ?>
-

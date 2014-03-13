@@ -14,5 +14,5 @@ $wb['source_password_error_isempty'] = 'Passwort ist leer.';
 $wb['destination_error_isemail'] = 'Kein Ziel gewählt.';
 $wb['source_server_error_regex'] = 'POP3/IMAP Server ist kein gültiger Domainname.';
 $wb['source_read_all_txt'] = 'Alle E-Mails abrufen (inkl. bereits gelesene E-Mails)';
-$wb['error_delete_read_all_combination'] = 'Unzulässige Kombination von Optionen. Sie können \"E-Mails nach Empfang löschen\" = nein nicht zusammen mit \"Alle E-Mails abrufen (inkl. bereits gelesene E-Mails)\" = ja benutzen.';
+$wb['error_delete_read_all_combination'] = 'Unzulässige Kombination von Optionen. Sie können \\"E-Mails nach Empfang löschen\\" = nein nicht zusammen mit \\"Alle E-Mails abrufen (inkl. bereits gelesene E-Mails)\\" = ja benutzen.';
 ?>

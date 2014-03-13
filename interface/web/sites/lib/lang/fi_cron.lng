@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Kuukausi-asetus on vääranlainen';
 $wb['run_wday_error_format'] = 'Viikonpäivä-asetus on vääranlainen';
 $wb['command_error_format'] = 'Komento-asetus on vääranlainen. Huomaa että url-komennoissa vain http/https-osoitteet ovat sallittuja.';
 $wb['unknown_fieldtype_error'] = 'Käytetty tuntematonta kenttätyyppiä.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

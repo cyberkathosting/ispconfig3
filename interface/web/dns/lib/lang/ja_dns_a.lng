@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'ホスト名の形式が不正です。';
 $wb['data_error_empty'] = 'IPアドレスを入力してください。';
 $wb['data_error_regex'] = 'IPアドレスの形式が不正です。';
 $wb['data_error_duplicate'] = 'Aレコードが重複しています。';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

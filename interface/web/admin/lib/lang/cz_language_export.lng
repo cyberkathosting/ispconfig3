@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Vybrat jazykovou sadu';
 $wb['btn_save_txt'] = 'Uložit vybranou jazykovou sadu do souboru';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>
-

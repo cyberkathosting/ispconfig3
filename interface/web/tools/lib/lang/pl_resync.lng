@@ -10,4 +10,5 @@ $wb['resync_mailbox_txt'] = 'Resynchronizacja skrzynek e-mail';
 $wb['resync_dns_txt'] = 'Resynchronizacja rekordów DNS';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Anuluj';
+$wb['resync_client_txt'] = 'Resync Client records';
 ?>
