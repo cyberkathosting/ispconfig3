@@ -2217,6 +2217,15 @@ class apache2_plugin {
 			$app->system->chown($new_folder_path.'.htaccess', $website['system_user']);
 			$app->system->chgrp($new_folder_path.'.htaccess', $website['system_group']);
 			$app->log('Created/modified file '.$new_folder_path.'.htaccess', LOGLEVEL_DEBUG);
+			
+			//* Create empty .htpasswd file, if it does not exist
+			if(!is_file($folder_path.'.htpasswd')) {
+				$app->system->touch($new_folder_path.'.htpasswd');
+				$app->system->chmod($new_folder_path.'.htpasswd', 0750);
+				$app->system->chown($new_folder_path.'.htpasswd', $website['system_user']);
+				$app->system->chgrp($new_folder_path.'.htpasswd', $website['system_group']);
+				$app->log('Created file '.$new_folder_path.'.htpasswd', LOGLEVEL_DEBUG);
+			}
 		}
 
 		//* Remove .htaccess file
