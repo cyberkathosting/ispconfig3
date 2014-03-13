@@ -6,4 +6,3 @@ $wb['hard_txt'] = 'Kvóta max. obsazení';
 $wb['soft_txt'] = 'Kvóta pro upozornění';
 $wb['no_sites_txt'] = 'Nenalezeny žádné webové stránky.';
 ?>
-

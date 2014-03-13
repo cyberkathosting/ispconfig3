@@ -160,7 +160,7 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || strstr(trim(file_get_contents('/etc/debian_version')), '7.1') || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 			$distname = 'Debian';
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
@@ -830,29 +830,55 @@ function get_system_timezone() {
 }
 
 function getapacheversion($get_minor = false) {
-		global $app;
-		
-		$cmd = '';
-		if(is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
-		elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
-		else {
-			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
-			return '2.2';
-		}
-		
-		exec($cmd, $output, $return_var);
-		if($return_var != 0 || !$output[0]) {
-			$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
-			return '2.2';
-		}
-		
-		if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
-			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
-		} else {
-			$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
-			return '2.2';
+	global $app;
+	
+	$cmd = '';
+	if(is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
+	elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
+	else {
+		$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+	
+	exec($cmd, $output, $return_var);
+	if($return_var != 0 || !$output[0]) {
+		$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+	
+	if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+		return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+	} else {
+		$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
+		return '2.2';
+	}
+}
+
+function getapachemodules() {
+	global $app;
+	
+	$cmd = '';
+	if(is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
+	elseif(is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
+	else {
+		$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
+		return array();
+	}
+	
+	exec($cmd, $output, $return_var);
+	if($return_var != 0 || !$output[0]) {
+		$app->log("Could not check apache modules, apachectl did not return any data.", LOGLEVEL_WARN);
+		return array();
+	}
+	
+	$modules = array();
+	for($i = 0; $i < count($output); $i++) {
+		if(preg_match('/^\s*(\w+)\s+\((shared|static)\)\s*$/', $output[$i], $matches)) {
+			$modules[] = $matches[1];
 		}
 	}
-
+	
+	return $modules;
+}
 
 ?>

@@ -53,6 +53,10 @@ class cronjob_monitor_system_update extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
+		$app->uses('getconf');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		if($server_config['monitor_system_updates'] == 'n') return;
+		
 		/* used for all monitor cronjobs */
 		$app->load('monitor_tools');
 		$this->_tools = new monitor_tools();

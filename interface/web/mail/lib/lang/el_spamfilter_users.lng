@@ -7,4 +7,7 @@ $wb['fullname_txt'] = 'Όνομα';
 $wb['local_txt'] = 'Τοπικός';
 $wb['email_error_notempty'] = 'Η διεύθυνση email δεν πρέπει να είναι κενή.';
 $wb['fullname_error_notempty'] = 'Το όνομα δεν πρέπει να είναι κενό.';
+$wb['10 - highest'] = '10 - highest';
+$wb['5 - medium'] = '5 - medium';
+$wb['1 - lowest'] = '1 - lowest';
 ?>

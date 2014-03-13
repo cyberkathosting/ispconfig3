@@ -110,6 +110,14 @@ $form["tabs"]['ftp'] = array (
 		),
 		'password' => array (
 			'datatype' => 'VARCHAR',
+			'validators' => array(
+				0 => array(
+					'type' => 'CUSTOM',
+					'class' => 'validate_password',
+					'function' => 'password_check',
+					'errmsg' => 'weak_password_txt'
+				)
+			),
 			'formtype' => 'PASSWORD',
 			'encryption' => 'CRYPT',
 			'default' => '',

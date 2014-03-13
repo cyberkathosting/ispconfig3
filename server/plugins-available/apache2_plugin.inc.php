@@ -2336,6 +2336,15 @@ class apache2_plugin {
 			$app->system->chown($new_folder_path.'.htaccess', $website['system_user']);
 			$app->system->chgrp($new_folder_path.'.htaccess', $website['system_group']);
 			$app->log('Created/modified file '.$new_folder_path.'.htaccess', LOGLEVEL_DEBUG);
+			
+			//* Create empty .htpasswd file, if it does not exist
+			if(!is_file($folder_path.'.htpasswd')) {
+				$app->system->touch($new_folder_path.'.htpasswd');
+				$app->system->chmod($new_folder_path.'.htpasswd', 0750);
+				$app->system->chown($new_folder_path.'.htpasswd', $website['system_user']);
+				$app->system->chgrp($new_folder_path.'.htpasswd', $website['system_group']);
+				$app->log('Created file '.$new_folder_path.'.htpasswd', LOGLEVEL_DEBUG);
+			}
 		}
 
 		//* Remove .htaccess file
@@ -2800,8 +2809,8 @@ class apache2_plugin {
 					if(substr($ini_setting, 0, 1) == '#') continue;
 					if(substr($ini_setting, 0, 2) == '//') continue;
 					list($key, $value) = explode('=', $ini_setting, 2);
-					if($value){
-						$value = trim($value);
+					$value = trim($value);
+					if($value != ''){
 						$key = trim($key);
 						switch (strtolower($value)) {
 						case '0':

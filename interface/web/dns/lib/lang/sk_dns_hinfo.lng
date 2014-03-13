@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Hostname je prázdny.';
 $wb['name_error_regex'] = 'Hostname má zlý formát.';
 $wb['data_error_empty'] = 'Host informácie sú prázdne';
 $wb['data_error_regex'] = 'Host informácie majú zlý formát';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

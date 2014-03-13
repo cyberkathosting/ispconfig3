@@ -5,7 +5,6 @@ $wb['Limits'] = 'Limiti';
 $wb['Add Client'] = 'Aggiungi cliente';
 $wb['Edit Client'] = 'Modifica cliente';
 $wb['Clients'] = 'Clienti';
-$wb['Edit Client-Templates'] = 'Modifica modelli cliente';
 $wb['Add Reseller'] = 'Aggiungi rivenditore';
 $wb['Edit Reseller'] = 'Modifica rivenditore';
 $wb['Resellers'] = 'Rivenditori';
@@ -22,4 +21,6 @@ $wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is i
 $wb['error_domain_in webuse'] = 'This domain cannot be deleted, because it is in use as web-domain';
 $wb['error_client_can_not_add_domain'] = 'You cannot add a new domain';
 $wb['error_client_group_id_empty'] = 'You have to select a customer<br>';
+$wb['Templates'] = 'Templates';
+$wb['Limit-Templates'] = 'Limit-Templates';
 ?>

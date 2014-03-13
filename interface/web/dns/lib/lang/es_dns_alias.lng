@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
 $wb['name_error_regex'] = 'El formato del nombre de la máquina es incorrecto.';
 $wb['data_error_empty'] = 'El nombre de la maquina de destino está vacío';
 $wb['data_error_regex'] = 'El formato del nombre de la maquina de destino no es válido';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

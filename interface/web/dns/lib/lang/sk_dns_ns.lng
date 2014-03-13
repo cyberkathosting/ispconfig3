@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Zóna je prázdna.';
 $wb['name_error_regex'] = 'Zóna má nesprávny formát.';
 $wb['data_error_empty'] = 'Nameserver je prázdny';
 $wb['data_error_regex'] = 'Nameserver má zlý formát';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

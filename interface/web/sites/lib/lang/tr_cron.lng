@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Ay için geçersiz format.';
 $wb['run_wday_error_format'] = 'Haftanın günü için geçersiz format.';
 $wb['command_error_format'] = 'Komut formatı geçersiz. Url sadece http/https çağırabilir.';
 $wb['unknown_fieldtype_error'] = 'Bilinmeyen bir alan tipi kullanıldı.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

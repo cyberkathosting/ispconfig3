@@ -71,4 +71,6 @@ $wb['customer_no_counter_txt'] = 'Customer No. counter';
 $wb['session_timeout_txt'] = 'Session timeout (minutes)';
 $wb['session_allow_endless_txt'] = 'Enable "stay logged in"';
 $wb['No'] = 'No';
+$wb['min_password_length_txt'] = 'Minimum password length';
+$wb['min_password_strength_txt'] = 'Minimum password strength';
 ?>

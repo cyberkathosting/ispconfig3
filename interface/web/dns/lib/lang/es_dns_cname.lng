@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'El nombre de la máquina tiene un registro incorrecto
 $wb['data_error_empty'] = 'El nombre de la máquina de destino está vacío.';
 $wb['data_error_regex'] = 'El nombre de la máquina de destino tiene un formato no válido.';
 $wb['data_error_duplicate'] = 'Duplicar el registro A o el registro CNAME';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

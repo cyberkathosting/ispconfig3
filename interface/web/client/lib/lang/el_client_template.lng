@@ -87,4 +87,6 @@ $wb['virtualization_limits_txt'] = 'Όρια Virtualization';
 $wb['aps_limits_txt'] = 'Όρια APS Installer';
 $wb['limit_aps_txt'] = 'Μέγιστο πλήθος ενεργών APS';
 $wb['limit_aps_error_notint'] = 'Το μέγιστο πλήθος ενεργών APS πρέπει να είναι αριθμός.';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Client Limits';
 ?>

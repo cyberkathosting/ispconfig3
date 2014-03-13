@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'ホスト名を入力してください。';
 $wb['name_error_regex'] = 'ホスト名の形式が不正です。';
 $wb['data_error_empty'] = 'TXT を入力してください。';
 $wb['data_error_regex'] = 'TXT の形式が不正です。';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

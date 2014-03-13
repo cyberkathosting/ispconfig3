@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Verkkotunnus on vääränlainen.';
 $wb['data_error_empty'] = 'IP-osoite tyhjä';
 $wb['data_error_regex'] = 'IP-osoite on vääränlainen';
 $wb['data_error_duplicate'] = 'A-tietue on jo olemassa';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

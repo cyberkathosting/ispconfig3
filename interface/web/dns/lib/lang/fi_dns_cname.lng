@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Verkkotunnus on vääränlainen.';
 $wb['data_error_empty'] = 'Kohteen verkkotunnus on tyhjä';
 $wb['data_error_regex'] = 'Kohteen verkkotunnus on vääränlainen';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

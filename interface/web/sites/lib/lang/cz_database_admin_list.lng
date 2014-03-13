@@ -9,4 +9,3 @@ $wb['add_new_record_txt'] = 'Přidat nové databáze';
 $wb['sys_groupid_txt'] = 'Klient';
 $wb['parent_domain_id_txt'] = 'Webové stránky';
 ?>
-

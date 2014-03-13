@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Пустое имя хоста.';
 $wb['name_error_regex'] = 'Неправильный формат имени хоста.';
 $wb['data_error_empty'] = 'Пустой IP-адрес';
 $wb['data_error_regex'] = 'Неверный формат IP-адреса';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

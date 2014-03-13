@@ -112,13 +112,24 @@ class ftpuser_base_plugin {
 			exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
 			exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
 			$app->system->web_folder_protection($web['document_root'], true);
+			
+			
 
 			$app->log("Added ftpuser_dir: ".$data['new']['dir'], LOGLEVEL_DEBUG);
 		}
+		
+		// When the directory has changed, delete the old .ftpquota file
+		if($data['old']['dir'] != '' && $data['old']['dir'] != $data['new']['dir']) {
+			if(is_file($data['old']['dir'].'/.ftpquota')) unlink($data['old']['dir'].'/.ftpquota');
+		}
+		
 	}
 
 	function delete($event_name, $data) {
 		global $app, $conf;
+		
+		// Delete the .ftpquota file
+		if(is_file($data['old']['dir'].'/.ftpquota')) unlink($data['old']['dir'].'/.ftpquota');
 
 		$app->log("Ftpuser:".$data['new']['username']." deleted.", LOGLEVEL_DEBUG);
 

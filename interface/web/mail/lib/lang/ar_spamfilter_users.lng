@@ -7,4 +7,7 @@ $wb['fullname_txt'] = 'Name';
 $wb['local_txt'] = 'Local';
 $wb['email_error_notempty'] = 'The email address must not be empty.';
 $wb['fullname_error_notempty'] = 'The name must not be empty.';
+$wb['10 - highest'] = '10 - highest';
+$wb['5 - medium'] = '5 - medium';
+$wb['1 - lowest'] = '1 - lowest';
 ?>

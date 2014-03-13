@@ -141,4 +141,13 @@ $wb['gender_f_txt'] = 'Ms.';
 $wb['client_cannot_be_deleted_because_of_billing_module_txt'] = 'This client has records in the billing module, therefore he cannot be deleted.';
 $wb['yes_txt'] = 'Yes';
 $wb['no_txt'] = 'No';
+$wb['None'] = 'None';
+$wb['strength_1'] = 'Weak';
+$wb['strength_2'] = 'Fair';
+$wb['strength_3'] = 'Good';
+$wb['strength_4'] = 'Strong';
+$wb['strength_5'] = 'Very Strong';
+$wb['weak_password_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length and have a strength of "{strength}".';
+$wb['weak_password_length_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length.';
+
 ?>

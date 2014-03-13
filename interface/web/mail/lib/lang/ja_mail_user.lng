@@ -53,4 +53,6 @@ $wb['no_backup_txt'] = 'No backup';
 $wb['daily_backup_txt'] = 'Daily';
 $wb['weekly_backup_txt'] = 'Weekly';
 $wb['monthly_backup_txt'] = 'Monthly';
+$wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
+$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>

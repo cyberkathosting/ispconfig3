@@ -6,4 +6,7 @@ $wb['email_txt'] = 'Email';
 $wb['priority_txt'] = 'Приоритет';
 $wb['active_txt'] = 'Активен?';
 $wb['limit_spamfilter_wblist_txt'] = 'Макс. чило белых/черных списков для вашего аккаунта достигнуто.';
+$wb['10 - highest'] = '10 - highest';
+$wb['5 - medium'] = '5 - medium';
+$wb['1 - lowest'] = '1 - lowest';
 ?>

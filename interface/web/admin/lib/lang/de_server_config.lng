@@ -197,4 +197,5 @@ $wb['backup_delete_txt'] = 'Backups loeschen wenn eine Domain / Webseite geloesc
 $wb["v6_prefix_txt"] = 'IPv6 Prefix';
 $wb["vhost_rewrite_v6_txt"] = 'Rewrite IPv6 on Mirror';
 $wb["v6_prefix_length"] = 'Prefix zu lang fuer angegebene IPv6-Adresse ';
+$wb['monitor_system_updates_txt'] = 'Suche nach Linux updates';
 ?>

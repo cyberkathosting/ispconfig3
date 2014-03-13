@@ -104,6 +104,12 @@
                 <label for="munin_password">{tmpl_var name='munin_password_txt'}</label>
                 <input name="munin_password" id="munin_password" value="{tmpl_var name='munin_password'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
+			<div class="ctrlHolder">
+                <p class="label">{tmpl_var name='monitor_system_updates_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='monitor_system_updates'}
+                </div>
+            </div>
         </fieldset>
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Nama host kosong.';
 $wb['name_error_regex'] = 'Format nama host salah.';
 $wb['data_error_empty'] = 'Teks kosong';
 $wb['data_error_regex'] = 'Format teks tidak valid';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

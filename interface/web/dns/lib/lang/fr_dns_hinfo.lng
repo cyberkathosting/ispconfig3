@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Le nom de l\'hôte est vide.';
 $wb['name_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 $wb['data_error_empty'] = 'L\'information de l\'hôte est vide';
 $wb['data_error_regex'] = 'Le format de l\'information de l\'hôte est invalide';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

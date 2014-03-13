@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Неверный формат для месяц
 $wb['run_wday_error_format'] = 'Неверный формат для дня недели';
 $wb['command_error_format'] = 'Неверный формат команды. Учтите, что тип вызов url может быть только http/https.';
 $wb['unknown_fieldtype_error'] = 'Неверный тип поля был использован.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

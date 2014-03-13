@@ -988,6 +988,18 @@ class nginx_plugin {
 						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
 						continue;
 					}
+					if(preg_match('@^\s*rewrite\s+(^/)?(\'[^\']+\'|"[^"]+")+(\$)?\s+(\'[^\']+\'|"[^"]+")+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					if(preg_match('@^\s*rewrite\s+(^/)?(\'[^\']+\'|"[^"]+")+(\$)?\s+\S+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
+					if(preg_match('@^\s*rewrite\s+(^/)?\S+(\$)?\s+(\'[^\']+\'|"[^"]+")+(\s+(last|break|redirect|permanent|))?\s*;\s*$@', $custom_rewrite_rule_line)){
+						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
+						continue;
+					}
 					// if
 					if(preg_match('@^\s*if\s+\(\s*\$\S+(\s+(\!?(=|~|~\*))\s+(\S+|\".+\"))?\s*\)\s*\{\s*$@', $custom_rewrite_rule_line)){
 						$final_rewrite_rules[] = array('rewrite_rule' => $custom_rewrite_rule_line);
@@ -2379,8 +2391,8 @@ class nginx_plugin {
 					if(substr($ini_setting, 0, 1) == '#') continue;
 					if(substr($ini_setting, 0, 2) == '//') continue;
 					list($key, $value) = explode('=', $ini_setting, 2);
-					if($value){
-						$value = trim($value);
+					$value = trim($value);
+					if($value != ''){
 						$key = trim($key);
 						switch (strtolower($value)) {
 						case '0':

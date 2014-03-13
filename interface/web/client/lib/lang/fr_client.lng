@@ -165,4 +165,8 @@ $wb["mail_servers_txt"] = 'Serveurs mail';
 $wb["mail_servers_placeholder"] = 'Choisissez des serveurs mail';
 $wb['no_mail_server_error'] = 'Au moins un serveur mail doit être sélectionné.';
 $wb['mail_servers_used'] = 'Le serveur que vous tentez de retirer à ce client est utilisé comme serveur mail. Veillez à ce que le serveur ne soit plus utilisé par ce client avant de le retirer.';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
+$wb['parent_client_id_txt'] = 'Client of reseller';
+$wb['none_txt'] = 'none';
 ?>

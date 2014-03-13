@@ -199,4 +199,5 @@ $wb['backup_dir_mount_cmd_txt'] = 'Mount command, if backup directory not mounte
 $wb['backup_delete_txt'] = 'Delete backups on domain/website delete';
 $wb["overquota_db_notify_admin_txt"] = 'Send DB quota warnings to admin';
 $wb["overquota_db_notify_client_txt"] = 'Send DB quota warnings to client';
+$wb['monitor_system_updates_txt'] = 'Check for Linux updates';
 ?>

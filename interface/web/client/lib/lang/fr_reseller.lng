@@ -164,4 +164,14 @@ $wb["mail_servers_txt"] = 'Serveurs mail';
 $wb["mail_servers_placeholder"] = 'Choisissez des serveurs mail';
 $wb['no_mail_server_error'] = 'Au moins un serveur mail doit être sélectionné.';
 $wb['mail_servers_used'] = 'Le serveur que vous tentez de retirer à ce client est utilisé comme serveur mail. Veillez à ce que le serveur ne soit plus utilisé par ce client avant de le retirer.';
+$wb['customer_no_template_txt'] = 'Customer No. template';
+$wb['customer_no_template_error_regex_txt'] = 'The customer No. template contains invalid characters';
+$wb['customer_no_start_txt'] = 'Customer No. start value';
+$wb['customer_no_counter_txt'] = 'Customer No. counter';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
+$wb['limit_domainmodule_error_notint'] = 'Domainmodule limit must be a number.';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Client Limits';
+$wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \"custom\" is selected.';
 ?>

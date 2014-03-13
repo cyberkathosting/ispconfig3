@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Invalid format for months.';
 $wb['run_wday_error_format'] = 'Invalid format for days of the week.';
 $wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
 $wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

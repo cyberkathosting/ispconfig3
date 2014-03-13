@@ -14,4 +14,5 @@ $wb['name_error_regex'] = 'De hostnaam heeft een onjuist formaat.';
 $wb['data_error_empty'] = 'Mailserver hostnaam is niet ingvuld';
 $wb['data_error_regex'] = 'Mailserver hostnaam formaat ongeldig';
 $wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

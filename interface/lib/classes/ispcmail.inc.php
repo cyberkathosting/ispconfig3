@@ -219,7 +219,7 @@ class ispcmail {
 	 *
 	 */
 	private function detectHelo() {
-		if(isset($_SERVER['HTTP_HOST'])) $this->smtp_helo = $_SERVER['HTTP_HOST'];
+		if(isset($_SERVER['HTTP_HOST'])) $this->smtp_helo = (strpos($_SERVER['HTTP_HOST'], ':') !== false ? substr($_SERVER['HTTP_HOST'], 0, strpos($_SERVER['HTTP_HOST'], ':')) : $_SERVER['HTTP_HOST']);
 		elseif(isset($_SERVER['SERVER_NAME'])) $this->smtp_helo = $_SERVER['SERVER_NAME'];
 		else $this->smtp_helo = php_uname('n');
 		if($this->smtp_helo == '') $this->smtp_helo = 'localhost';

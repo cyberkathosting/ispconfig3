@@ -30,4 +30,5 @@ $wb['repeat_password_txt'] = 'Επανάληψη Συνθηματικού';
 $wb['password_mismatch_txt'] = 'Τα Συνθηματικά δεν ταιριάζουν.';
 $wb['password_match_txt'] = 'Τα Συνθηματικά ταιριάζουν.';
 $wb['username_error_collision'] = 'Το όνομα χρήστη δεν μπορεί να αρχίζει από την λέξη -web- ή την λέξη -web- ακολουθούμενη από αριθμό.';
+$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 ?>

@@ -10,4 +10,5 @@ $wb['repeat_password_txt'] = 'Powtórz hasło';
 $wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
 $wb['password_match_txt'] = 'Hasła pasują';
 $wb['no_folder_perm'] = 'You have no permission for this folder.';
+$wb['error_user_exists_already_txt'] = 'There is already a record for this user.';
 ?>

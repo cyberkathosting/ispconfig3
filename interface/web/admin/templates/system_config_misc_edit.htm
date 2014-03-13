@@ -91,6 +91,16 @@
                     {tmpl_var name='session_allow_endless'}
                 </div>
             </div>
+            <div class="ctrlHolder">
+                <label for="min_password_length">{tmpl_var name='min_password_length_txt'}</label>
+                <input name="min_password_length" id="min_password_length" value="{tmpl_var name='min_password_length'}" size="30" maxlength="255" type="text" class="textInput" />
+            </div>
+            <div class="ctrlHolder">
+                <label for="min_password_strength">{tmpl_var name='min_password_strength_txt'}</label>
+                <select name="min_password_strength" id="min_password_strength" class="selectInput formLengthHalf">
+                    {tmpl_var name='min_password_strength'}
+                </select>
+            </div>
 			<div class="ctrlHolder">
                 <p class="label">{tmpl_var name='maintenance_mode_txt'}</p>
                 <div class="multiField">

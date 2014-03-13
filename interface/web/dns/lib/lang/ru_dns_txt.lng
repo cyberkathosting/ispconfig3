@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Имя узла пустое.';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'Текст пустой';
 $wb['data_error_regex'] = 'Формат неправилен';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

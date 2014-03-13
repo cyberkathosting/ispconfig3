@@ -148,4 +148,14 @@ $wb['canceled_txt'] = 'Canceled';
 $wb['gender_m_txt'] = 'Mr.';
 $wb['gender_f_txt'] = 'Ms.';
 $wb['gender_txt'] = 'Title';
+$wb['customer_no_template_txt'] = 'Customer No. template';
+$wb['customer_no_template_error_regex_txt'] = 'The customer No. template contains invalid characters';
+$wb['customer_no_start_txt'] = 'Customer No. start value';
+$wb['customer_no_counter_txt'] = 'Customer No. counter';
+$wb['added_by_txt'] = 'Added by';
+$wb['added_date_txt'] = 'Added date';
+$wb['limit_domainmodule_error_notint'] = 'Domainmodule limit must be a number.';
+$wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
+$wb['client_limits_txt'] = 'Client Limits';
+$wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \"custom\" is selected.';
 ?>

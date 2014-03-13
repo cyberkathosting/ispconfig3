@@ -1269,6 +1269,10 @@ class installer_base {
 		if(is_file('/etc/apache2/ports.conf')) {
 			// add a line "Listen 443" to ports conf if line does not exist
 			replaceLine('/etc/apache2/ports.conf', 'Listen 443', 'Listen 443', 1);
+			
+			// Comment out the namevirtualhost lines, as they were added by ispconfig in ispconfig.conf file again
+			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:80', '# NameVirtualHost *:80', 1);
+			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:443', '# NameVirtualHost *:443', 1);
 		}
 
 		if(is_file('/etc/apache2/apache.conf')) {

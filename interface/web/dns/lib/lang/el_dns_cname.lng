@@ -13,4 +13,5 @@ $wb['name_error_regex'] = 'Το hostname δεν έχει σωστή μορφοπ
 $wb['data_error_empty'] = 'Το hostname Προορισμός δεν έχει οριστεί';
 $wb['data_error_regex'] = 'Hostname Προορισμός με μη έγκυρη μορφοποίηση';
 $wb['data_error_duplicate'] = 'Διπλοεγγραφή A-Record ή CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

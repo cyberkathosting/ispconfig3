@@ -257,10 +257,12 @@ class firewall_plugin {
 			}
 			exec($conf['init_scripts'] . '/' . 'bastille-firewall restart 2>/dev/null');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d bastille-firewall defaults');
+			if(@is_file('/sbin/insserv')) exec('insserv -d bastille-firewall');
 			$app->log('Restarting the firewall', LOGLEVEL_DEBUG);
 		} else {
 			exec($conf['init_scripts'] . '/' . 'bastille-firewall stop 2>/dev/null');
 			if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
+			if(@is_file('/sbin/insserv')) exec('insserv -r -f bastille-firewall');
 			$app->log('Stopping the firewall', LOGLEVEL_DEBUG);
 		}
 
@@ -272,6 +274,7 @@ class firewall_plugin {
 
 		exec($conf['init_scripts'] . '/' . 'bastille-firewall stop 2>/dev/null');
 		if(@is_file('/etc/debian_version')) exec('update-rc.d -f bastille-firewall remove');
+		if(@is_file('/sbin/insserv')) exec('insserv -r -f bastille-firewall');
 		$app->log('Stopping the firewall', LOGLEVEL_DEBUG);
 
 	}

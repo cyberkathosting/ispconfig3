@@ -5,4 +5,3 @@ $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cíl';
 $wb['add_new_record_txt'] = 'Přidat doménový alias';
 ?>
-

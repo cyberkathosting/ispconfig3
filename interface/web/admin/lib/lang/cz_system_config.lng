@@ -52,8 +52,8 @@ $wb['mailbox_show_autoresponder_tab_txt'] = 'Show Autoresponder tab in Mailbox d
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show Mail Filter tab in Mailbox detail';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show Custom Rules tab in Mailbox detail';
 $wb['webmail_url_error_regex'] = 'Neplatný webmail URL';
-$wb['phpmyadmin_url_note_txt'] = 'Placeholder:';
-$wb['webmail_url_note_txt'] = 'Placeholder:';
+$wb['phpmyadmin_url_note_txt'] = 'Zástupný symbol';
+$wb['webmail_url_note_txt'] = 'Zástupný symbol';
 $wb['available_dashlets_note_txt'] = 'Available Dashlets:';
 $wb['admin_dashlets_left_txt'] = 'Left Admin Dashlets';
 $wb['admin_dashlets_right_txt'] = 'Right Admin Dashlets';
@@ -68,5 +68,6 @@ $wb['customer_no_counter_txt'] = 'Zákaznické číslo -  čítač';
 $wb['session_timeout_txt'] = 'Časový limit relace (minuty)';
 $wb['session_allow_endless_txt'] = 'Enable \\"stay logged in\\"';
 $wb['No'] = 'Ne';
+$wb['min_password_length_txt'] = 'Minimální délka hesla';
+$wb['min_password_strength_txt'] = 'Minimální síla hesla';
 ?>
-

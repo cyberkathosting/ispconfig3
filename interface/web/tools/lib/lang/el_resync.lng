@@ -10,4 +10,5 @@ $wb['resync_mailbox_txt'] = 'Επανασυγχρονισμός θυρίδων M
 $wb['resync_dns_txt'] = 'Επανασυγχρονισμός εγγραφών DNS';
 $wb['btn_start_txt'] = 'Εκκίνηση';
 $wb['btn_cancel_txt'] = 'Άκυρο';
+$wb['resync_client_txt'] = 'Resync Client records';
 ?>

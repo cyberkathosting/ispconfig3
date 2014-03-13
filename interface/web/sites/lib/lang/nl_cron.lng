@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Ongeldig formaat voor maanden.';
 $wb['run_wday_error_format'] = 'Ongeldig format voor dagen van de week.';
 $wb['command_error_format'] = 'Ongeldig commando formaat. Opmerking: in het geval van een url call, alleen http/https is toegestaan.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld type is gebruikt.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

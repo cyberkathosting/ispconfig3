@@ -18,4 +18,5 @@ $wb['run_month_error_format'] = 'Neplatný formát mesiaca.';
 $wb['run_wday_error_format'] = 'Neplatný formát pre dni v týždni.';
 $wb['command_error_format'] = 'Neplatný formát príkazu. Upozor?ujeme, že v prípade url volania iba http / https, sú povolené.';
 $wb['unknown_fieldtype_error'] = 'Neznámy druh pola bol použitý.';
+$wb['server_id_error_empty'] = 'The server ID is empty.';
 ?>

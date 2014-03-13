@@ -104,6 +104,14 @@ $form["tabs"]['webdav'] = array (
 		'password' => array (
 			'datatype' => 'VARCHAR',
 			'encryption' => 'CLEARTEXT',
+			'validators' => array(
+				0 => array(
+					'type' => 'CUSTOM',
+					'class' => 'validate_password',
+					'function' => 'password_check',
+					'errmsg' => 'weak_password_txt'
+				)
+			),
 			'formtype' => 'PASSWORD',
 			'default' => '',
 			'value'  => '',

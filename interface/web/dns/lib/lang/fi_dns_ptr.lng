@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Alueen nimi-kenttä on tyhjä.';
 $wb['name_error_regex'] = 'Alueen nimi-kenttä on väärän muotoinen.';
 $wb['data_error_empty'] = 'Kohteen isäntänimi tyhjä';
 $wb['data_error_regex'] = 'Kohteen isäntänimi muoto vääränlainen';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

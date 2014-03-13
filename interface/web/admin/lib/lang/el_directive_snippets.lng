@@ -6,4 +6,5 @@ $wb['snippet_txt'] = 'Snippet';
 $wb['active_txt'] = 'Ενεργό';
 $wb['directive_snippets_name_empty'] = 'Παρακαλούμε ορίστε όνομα snippet.';
 $wb['directive_snippets_name_error_unique'] = 'Υπάρχει ήδη ένα directive snippet με αυτό το όνομα.';
+$wb['variables_txt'] = 'Variables';
 ?>

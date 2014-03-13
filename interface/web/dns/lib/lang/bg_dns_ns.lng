@@ -12,4 +12,5 @@ $wb['name_error_empty'] = 'Полето с зона е празно.';
 $wb['name_error_regex'] = 'Полето с зона е в грешен формат.';
 $wb['data_error_empty'] = 'Полето с nameserver е празно';
 $wb['data_error_regex'] = 'Полето с Nameserver е в грешен формат';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

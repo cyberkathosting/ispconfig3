@@ -22,4 +22,6 @@ $wb['pw_button_txt'] = 'Επαναποστολή Συνθηματικού';
 $wb['email_txt'] = 'Email';
 $wb['theme_not_compatible'] = 'Η επιλεγμένη θεματική παραλλαγή δεν είναι συμβατη με την τρέχουσα έκδοση ISPConfig. Παρακαλούμε ελέξτε για πιο πρόσφατη έκδοση.<br />Η προεπιλεγμένη θεματική παραλλαγή ενεργοποιήθηκε αυτόματα.';
 $wb['back_txt'] = 'Επιστροφή';
+$wb['email_error'] = 'Email contains unallowed characters or has a invalid format.';
+$wb['stay_logged_in_txt'] = 'Keep me logged in';
 ?>

@@ -14,4 +14,5 @@ $wb['name_error_regex'] = 'Verkkotunnus on väärän muotoinen.';
 $wb['data_error_empty'] = 'Tekstikenttä on tyhjä';
 $wb['data_error_regex'] = 'Tekstikenttä on vääränlainen';
 $wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
