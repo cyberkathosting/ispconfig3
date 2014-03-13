@@ -1243,10 +1243,20 @@ class installer_base {
 
 		if(is_file('/etc/apache2/apache.conf')) {
 			if(hasLine('/etc/apache2/apache.conf', 'Include sites-enabled/', 1) == false) {
-				if(hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.conf', 1) == false) {
+				if(hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.conf', 1) == false && hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/', 1) == false) {
 					replaceLine('/etc/apache2/apache.conf', 'Include sites-enabled/', 'Include sites-enabled/', 1, 1);
 				} elseif(hasLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.vhost', 1) == false) {
-					replaceLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.vhost', 'IncludeOptional sites-enabled/*.vhost', 1, 1);
+					replaceLine('/etc/apache2/apache.conf', 'IncludeOptional sites-enabled/*.vhost', 'IncludeOptional sites-enabled/', 1, 1);
+				}
+			}
+		}
+		
+		if(is_file('/etc/apache2/apache2.conf')) {
+			if(hasLine('/etc/apache2/apache2.conf', 'Include sites-enabled/', 1) == false && hasLine('/etc/apache2/apache2.conf', 'IncludeOptional sites-enabled/', 1) == false) {
+				if(hasLine('/etc/apache2/apache2.conf', 'IncludeOptional sites-enabled/*.conf', 1) == true) {
+					replaceLine('/etc/apache2/apache2.conf', 'Include sites-enabled/', 'Include sites-enabled/', 1, 1);
+				} elseif(hasLine('/etc/apache2/apache2.conf', 'IncludeOptional sites-enabled/*.conf', 1) == true) {
+					replaceLine('/etc/apache2/apache2.conf', 'IncludeOptional sites-enabled/*.conf', 'IncludeOptional sites-enabled/', 1, 1);
 				}
 			}
 		}
