@@ -136,15 +136,16 @@ $wb['no_destination_perm'] = 'Nemáte oprávnění pro tuto destinaci.';
 $wb['client_you_are_locked'] = 'Nemáte oprávnění měnit žádná nastavení.';
 $wb['gender_m_txt'] = 'Pan';
 $wb['gender_f_txt'] = 'Paní';
-$wb['client_cannot_be_deleted_because_of_billing_module_txt'] = 'This client has records in the billing module, therefore he cannot be deleted.';
+$wb['client_cannot_be_deleted_because_of_billing_module_txt'] = 'Tento klient má záznamy v modulu fakturace, proto nemůže být odstraněn.';
 $wb['yes_txt'] = 'Ano';
 $wb['no_txt'] = 'Ne';
-$wb['None'] = 'None';
-$wb['strength_1'] = 'Slabé';
-$wb['strength_2'] = 'Podprůměrné';
-$wb['strength_3'] = 'Dobré';
-$wb['strength_4'] = 'Silné';
-$wb['strength_5'] = 'Velmi silné';
+$wb['None'] = 'Žádná';
+$wb['strength_1'] = 'Slabá';
+$wb['strength_2'] = 'Podprůměrná';
+$wb['strength_3'] = 'Dobrá';
+$wb['strength_4'] = 'Silná';
+$wb['strength_5'] = 'Velmi silná';
 $wb['weak_password_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé a mající sílu \"{strength}\".';
 $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé.';
 ?>
+
