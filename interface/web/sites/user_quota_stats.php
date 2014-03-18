@@ -41,6 +41,9 @@ class list_action extends listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 		$username = $rec['system_user'];
 
+		$server = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$rec['server_id']);
+		$rec['domain'] = $rec['domain'].($server['server_name'] != '' ? ' ('.$server['server_name'].')' : '');
+		
 		$rec['used'] = $monitor_data['user'][$username]['used'];
 		$rec['used_sort'] = $rec['used'];
 		$rec['soft'] = $monitor_data['user'][$username]['soft'];
