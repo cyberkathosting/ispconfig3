@@ -31,3 +31,4 @@ mime_header_checks = regexp:{config_dir}/mime_header_checks
 nested_header_checks = regexp:{config_dir}/nested_header_checks
 body_checks = regexp:{config_dir}/body_checks
 owner_request_special = no
+smtp_tls_security_level = may
