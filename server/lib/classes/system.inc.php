@@ -1770,7 +1770,7 @@ class system{
 			return array();
 		}
 		
-		exec($cmd, $output, $return_var);
+		exec($cmd . ' 2>/dev/null', $output, $return_var);
 		if($return_var != 0 || !$output[0]) {
 			$app->log("Could not check apache modules, apachectl did not return any data.", LOGLEVEL_WARN);
 			return array();
