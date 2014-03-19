@@ -80,11 +80,11 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 
 
 $liste["item"][] = array( 'field'  => "server_id",
-	'datatype' => "VARCHAR",
+	'datatype' => "INTEGER",
 	'formtype' => "SELECT",
 	'op'  => "like",
-	'prefix' => "%",
-	'suffix' => "%",
+	'prefix' => "",
+	'suffix' => "",
 	'datasource' => array (  'type' => 'SQL',
 		'querystring' => 'SELECT a.server_id, a.server_name FROM server a, mail_domain b WHERE (a.server_id = b.server_id) AND ({AUTHSQL-B}) ORDER BY a.server_name',
 		'keyfield'=> 'server_id',
