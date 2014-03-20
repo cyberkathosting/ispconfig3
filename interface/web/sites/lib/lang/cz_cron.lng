@@ -20,3 +20,4 @@ $wb['command_error_format'] = 'Chybná formát příkazu. V případě URL je po
 $wb['unknown_fieldtype_error'] = 'Bylo použito pole neznámého typu.';
 $wb['server_id_error_empty'] = 'ID serveru je prázdné.';
 ?>
+

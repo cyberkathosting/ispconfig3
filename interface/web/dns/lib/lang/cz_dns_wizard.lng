@@ -39,3 +39,4 @@ $wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
 $wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
 $wb['dkim_txt'] = 'DKIM enabled';
 ?>
+

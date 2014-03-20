@@ -133,3 +133,4 @@ $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. E
 $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Invalid php.ini settings';
 ?>
+

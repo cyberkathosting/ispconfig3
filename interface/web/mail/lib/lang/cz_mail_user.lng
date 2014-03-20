@@ -56,3 +56,4 @@ $wb['monthly_backup_txt'] = 'Monthly';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
 $wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
 ?>
+

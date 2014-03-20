@@ -104,7 +104,9 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 		</tmpl_if>
 </Directory>
 
+<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
 Alias /awstats-icon "/usr/share/awstats/icon"
+</tmpl_if>
 
 NameVirtualHost *:80
 NameVirtualHost *:443

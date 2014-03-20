@@ -17,3 +17,4 @@ $wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 ?>
+

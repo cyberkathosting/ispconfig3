@@ -12,3 +12,4 @@ $wb['domain_txt'] = 'Doména';
 $wb['duplicate_email_alias_txt'] = 'Tento e-mail alias již existuje.';
 $wb['source_txt'] = 'Alias';
 ?>
+

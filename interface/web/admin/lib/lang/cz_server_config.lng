@@ -194,5 +194,6 @@ $wb['munin_url_error_regex'] = 'Invalid Munin URL';
 $wb['munin_url_note_txt'] = 'Zástupný symbol';
 $wb['backup_dir_is_mount_txt'] = 'Připojit adresář pro zálohy ?';
 $wb['backup_dir_mount_cmd_txt'] = 'Příkaz připojení, pokud adresář pro zálohy není připojen .  (např. mount ...)';
-$wb['monitor_system_updates_txt'] = 'Check for Linux updates';
+$wb['monitor_system_updates_txt'] = 'Kontrolovat aktualizace Linuxu';
 ?>
+

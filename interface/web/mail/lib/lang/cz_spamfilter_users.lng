@@ -7,7 +7,8 @@ $wb['fullname_txt'] = 'Název';
 $wb['local_txt'] = 'Lokální';
 $wb['email_error_notempty'] = 'E-mailová adresa nesmí být prázdná.';
 $wb['fullname_error_notempty'] = 'Jméno nesmí být prázdné.';
-$wb['10 - highest'] = '10 - highest';
-$wb['5 - medium'] = '5 - medium';
-$wb['1 - lowest'] = '1 - lowest';
+$wb['10 - highest'] = '10 - nejvyšší';
+$wb['5 - medium'] = '5 - střední';
+$wb['1 - lowest'] = '1 - nejnižší';
 ?>
+
