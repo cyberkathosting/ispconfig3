@@ -1094,7 +1094,7 @@ class apache2_plugin {
 		}
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND (type != 'vhostsubdomain' OR type != 'vhostalias')");
+		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND (type != 'vhostsubdomain' AND type != 'vhostalias')");
 		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
