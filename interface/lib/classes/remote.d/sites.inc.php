@@ -893,7 +893,65 @@ class remoting_sites extends remoting {
 		$all = $app->db->queryAllRecords($sql);
 		return $all;
 	}
-
+	
+	//** backup functions -----------------------------------------------------------------------------------
+	public function sites_web_domain_backup_list($session_id, $site_id = null)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$result = $app->db->queryAllRecords("SELECT * FROM web_backup".(($site_id != null)?' WHERE parent_domain_id = ?':''), $app->functions->intval($site_id));
+		return $result;
+	}
+	
+	//* Backup download and restoration by Abdi Joseph
+	public function sites_web_domain_backup($session_id, $primary_id, $action_type)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		//*Set variables
+		$backup_record = $app->db->queryOneRecord("SELECT * FROM `web_backup` WHERE `backup_id`= ?", $primary_id);
+		$server_id = $backup_record['server_id'];
+	
+		//*Set default action state
+		$action_state = "pending";
+		$tstamp = time();
+	
+		//* Basic validation of variables
+		if ($server_id <= 0) {
+			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			return false;
+		}
+	
+		if ($action_type != 'backup_download' and $action_type != 'backup_restore') {
+			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			return false;
+		}
+	
+		//* Validate instance
+		$instance_record = $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`= ? and `action_type`= ? and `action_state`= ?", $primary_id, $action_type, 'pending');
+		if ($instance_record['action_id'] >= 1) {
+			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			return false;
+		}
+	
+		//* Save the record
+		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = ?, `tstamp` = ?, `action_type` = ?, `action_param` = ?, `action_state` = ?", $server_id, $tstamp, $action_type, $primary_id, $action_state)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//** quota functions -----------------------------------------------------------------------------------
 	public function quota_get_by_user($session_id, $client_id)
 	{
