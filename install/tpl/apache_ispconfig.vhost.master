@@ -20,7 +20,9 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
     <Directory /var/www/ispconfig/>
       Options -Indexes +FollowSymLinks +MultiViews +ExecCGI
       AllowOverride AuthConfig Indexes Limit Options FileInfo
-      AddHandler fcgid-script .php
+	  <FilesMatch "\.php$">
+		  SetHandler fcgid-script
+	  </FilesMatch>
       FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
       <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 	  Require all granted
