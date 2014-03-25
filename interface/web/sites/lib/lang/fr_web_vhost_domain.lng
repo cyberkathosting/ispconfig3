@@ -1,5 +1,5 @@
 <?php
-$wb['ssl_state_txt'] = 'Pays';
+$wb['ssl_state_txt'] = 'État/département';
 $wb['ssl_locality_txt'] = 'Localité';
 $wb['ssl_organisation_txt'] = 'Organisation';
 $wb['ssl_organisation_unit_txt'] = 'Unité dorganisation';
