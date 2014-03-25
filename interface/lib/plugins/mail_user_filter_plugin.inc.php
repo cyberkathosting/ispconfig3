@@ -141,13 +141,22 @@ class mail_user_filter_plugin {
 			$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 
 			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
-			$searchterm = str_replace('\\[', '\\\\[', $searchterm);
-			$searchterm = str_replace('\\]', '\\\\]', $searchterm);
+			$searchterm = str_replace(
+				array(
+					'"',
+					'\\[',
+					'\\]'
+				),
+				array(
+					'\\"',
+					'\\\\[',
+					'\\\\]'
+				), $searchterm);
 
 			if($page_form->dataRecord["op"] == 'contains') {
 				$content .= ".*".$searchterm;
 			} elseif ($page_form->dataRecord["op"] == 'is') {
-				$content .= $searchterm."$";
+				$content .= "^".$searchterm."$";
 			} elseif ($page_form->dataRecord["op"] == 'begins') {
 				$content .= " ".$searchterm."";
 			} elseif ($page_form->dataRecord["op"] == 'ends') {
