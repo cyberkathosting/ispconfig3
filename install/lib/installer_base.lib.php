@@ -1597,7 +1597,8 @@ class installer_base {
 			if(!is_user($apps_vhost_user)) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 
-			$command = 'adduser '.$conf['nginx']['user'].' '.$apps_vhost_group;
+			//$command = 'adduser '.$conf['nginx']['user'].' '.$apps_vhost_group;
+			$command = 'usermod -a -G '.$apps_vhost_group.' '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 			if(!@is_dir($install_dir)){
