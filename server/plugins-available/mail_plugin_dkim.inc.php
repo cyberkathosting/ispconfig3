@@ -195,17 +195,21 @@ class mail_plugin_dkim {
 	 */
 	function add_to_amavis($key_domain) {
 		global $app, $mail_config;
+
+		$restart = false;
+		$selector = 'default';
 		$amavis_config = file_get_contents($this->get_amavis_config());
-		$key_value="dkim_key('".$key_domain."', 'default', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
-		if(strpos($amavis_config, $key_value) === false) {
-			$amavis_config = str_replace($key_value, '', $amavis_config);
-			if (!file_put_contents($this->get_amavis_config(), $key_value, FILE_APPEND) === false) {
-				$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
-				$this->restart_amavis();
-			}
+		$key_value="dkim_key('".$key_domain."', '".$selector."', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
+		$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*/", '', $amavis_config).$key_value;
+
+		if (file_put_contents($this->get_amavis_config(), $amavis_config)) {
+			$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
+			$restart = true;
 		} else {
-			$app->log('DKIM Private-key already in amavis-config.',LOGLEVEL_DEBUG);
+			$app->log('Unable to add DKIM Private-key for '.$key_domain.' to amavis-config.', LOGLEVEL_ERROR);
 		}
+
+		return $restart;
 	}
 
 	/**
@@ -214,20 +218,18 @@ class mail_plugin_dkim {
 	 */
 	function remove_from_amavis($key_domain) {
 		global $app;
-		$amavis_config = file($this->get_amavis_config());
-		$i=0;$found=false;
-		foreach($amavis_config as $line) {
-			if (preg_match("/^\bdkim_key\b.*\b".$key_domain."\b/", $line)) {
-				unset($amavis_config[$i]);
-				$found=true;
-			}
-			$i++;
-		}
-		if ($found) {
+
+		$restart = false;
+		$amavis_config = file_get_contents($this->get_amavis_config());
+
+		if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $amavis_config)) {
+			$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/", '', $amavis_config);
 			file_put_contents($this->get_amavis_config(), $amavis_config);
 			$app->log('Deleted the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
-			$this->restart_amavis();
-		} else $app->log('Unable to delete the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
+			$restart = true;
+		}
+
+		return $restart;
 	}
 
 	/**
@@ -241,7 +243,11 @@ class mail_plugin_dkim {
 			if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' )
 				$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 			if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['dkim_private'], $data['new']['domain'])) {
-				$this->add_to_amavis($data['new']['domain']);
+				if ($this->add_to_amavis($data['new']['domain'])) {
+					$this->restart_amavis();
+				} else {
+					$this->remove_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['domain']);
+				}
 			} else {
 				$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.', LOGLEVEL_ERROR);
 			}
@@ -262,7 +268,8 @@ class mail_plugin_dkim {
 		if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' )
 			$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 		$this->remove_dkim_key($mail_config['dkim_path']."/".$_data['domain'], $_data['domain']);
-		$this->remove_from_amavis($_data['domain']);
+		if ($this->remove_from_amavis($_data['domain']))
+			$this->restart_amavis();
 	}
 
 	/**
@@ -270,7 +277,8 @@ class mail_plugin_dkim {
 	 * deletes dkim-keys
 	 */
 	function domain_dkim_delete($event_name, $data) {
-		if (isset($data['old']['dkim']) && $data['old']['dkim'] == 'y' && $data['old']['active'] == 'y') $this->remove_dkim($data['old']);	
+		if (isset($data['old']['dkim']) && $data['old']['dkim'] == 'y' && $data['old']['active'] == 'y')
+			$this->remove_dkim($data['old']);
 	}
 
 	/**
@@ -278,9 +286,8 @@ class mail_plugin_dkim {
 	 * insert dkim-keys
 	 */
 	function domain_dkim_insert($event_name, $data) {
-		if (isset($data['new']['dkim']) && $data['new']['dkim']=='y' && $this->check_system($data)) {
+		if (isset($data['new']['dkim']) && $data['new']['dkim']=='y' && $this->check_system($data))
 			$this->add_dkim($data);
-		}
 	}
 
 	/**
@@ -291,22 +298,13 @@ class mail_plugin_dkim {
 		global $app;
 		if ($this->check_system($data)) {
 			/* maildomain disabled */
-			if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y') {
+			if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y' && $data['new']['dkim']=='y') {
 				$app->log('Maildomain '.$data['new']['domain'].' disabled - remove DKIM-settings', LOGLEVEL_DEBUG);
-				if ($data['new']['dkim']=='y') {
-					$this->remove_dkim($data['new']);
-				}
-				if ($data['old']['dkim']=='y') {
-					$this->remove_dkim($data['old']);
-				}
+				$this->remove_dkim($data['new']);
 			}
-
 			/* maildomain re-enabled */
-			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'n') {
-				if ($data['new']['dkim']=='y') {
-					$this->add_dkim($data);
-				}
-			}
+			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'n' && $data['new']['dkim']=='y') 
+				$this->add_dkim($data);
 
 			/* maildomain active - only dkim changes */
 			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'y') {
@@ -318,8 +316,12 @@ class mail_plugin_dkim {
 				elseif ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'y') {
 					$this->add_dkim($data);
 				}
-				/* new private-key or new domain-name */
-				if ($data['new']['dkim_private'] != $data['old']['dkim_private'] || $data['new']['domain'] != $data['old']['domain']) {
+				/* new private-key */
+				if ($data['new']['dkim_private'] != $data['old']['dkim_private'] && $data['new']['dkim'] == 'y') {
+					$this->add_dkim($data);
+				}
+				/* new domain-name */
+				if ($data['new']['domain'] != $data['old']['domain']) {
 					$this->remove_dkim($data['old']);
 					$this->add_dkim($data);
 				}
