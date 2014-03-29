@@ -87,6 +87,10 @@ class mail_plugin_dkim {
 				break;
 			}
 		}
+		//* If we can use seperate config-files with amavis use 60-dkim
+		if (substr_compare($amavis_configfile, '50-user', -7) === 0)
+			$amavis_configfile = str_replace('50-user', '60-dkim', $amavis_configfile);
+
 		return $amavis_configfile;
 	}
 
@@ -98,10 +102,18 @@ class mail_plugin_dkim {
 	 */
 	function check_system($data) {
 		global $app, $mail_config;
+
 		$app->uses('getconf');
 		$check=true;
+
 		/* check for amavis-config */
-		if ( $this->get_amavis_config() == '' || !is_writeable($this->get_amavis_config()) ) {
+		$amavis_configfile = $this->get_amavis_config();
+
+		//* When we can use 60-dkim for the dkim-keys create the file if it does not exists.
+		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0 && !file_exists($amavis_configfile))
+			file_put_contents($amavis_configfile, '');
+
+		if ( $amavis_configfile == '' || !is_writeable($amavis_configfile) ) {
 			$app->log('Amavis-config not found or not writeable.', LOGLEVEL_ERROR);
 			$check=false;
 		}
@@ -198,11 +210,25 @@ class mail_plugin_dkim {
 
 		$restart = false;
 		$selector = 'default';
-		$amavis_config = file_get_contents($this->get_amavis_config());
+		$amavis_configfile = $this->get_amavis_config();
+
+		//* If we are using seperate config-files with amavis remove existing keys from 50-user to avoid duplicate keys
+		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
+			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
+			$temp_config = file_get_contents($temp_configfile);
+			if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $temp_config)) {
+				$temp_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/", '', $temp_config)."\n";
+				file_put_contents($temp_configfile, $temp_config);
+			}
+			unset($temp_configfile);
+			unset($temp_config);
+		}
+
 		$key_value="dkim_key('".$key_domain."', '".$selector."', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
+		$amavis_config = file_get_contents($amavis_configfile);
 		$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*/", '', $amavis_config).$key_value;
 
-		if (file_put_contents($this->get_amavis_config(), $amavis_config)) {
+		if (file_put_contents($amavis_configfile, $amavis_config)) {
 			$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
 			$restart = true;
 		} else {
@@ -220,13 +246,27 @@ class mail_plugin_dkim {
 		global $app;
 
 		$restart = false;
-		$amavis_config = file_get_contents($this->get_amavis_config());
+		$amavis_configfile = $this->get_amavis_config();
+		$amavis_config = file_get_contents($amavis_configfile);
 
 		if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $amavis_config)) {
 			$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/", '', $amavis_config);
-			file_put_contents($this->get_amavis_config(), $amavis_config);
+			file_put_contents($amavis_configfile, $amavis_config);
 			$app->log('Deleted the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
 			$restart = true;
+		}
+
+		//* If we are using seperate config-files with amavis remove existing keys from 50-user, too
+		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
+			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
+			$temp_config = file_get_contents($temp_configfile);
+			if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $temp_config)) {
+				$temp_config = preg_replace("/dkim_key.*".$key_domain.".*/", '', $temp_config);
+				file_put_contents($temp_configfile, $temp_config);
+				$restart = true;
+			}
+			unset($temp_configfile);
+			unset($temp_config);
 		}
 
 		return $restart;
