@@ -18,4 +18,6 @@ $wb['limit_maildomain_txt'] = 'Le nombre maximal de domaines d\'email pour votre
 $wb['policy_txt'] = 'Filtre antispam';
 $wb['no_policy'] = '- inactif -';
 $wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autorisé pour ce compte.';
+$wb['dkim_selector_txt'] = 'DKIM-Selector';
+$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9)';
 ?>
