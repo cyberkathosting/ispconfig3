@@ -246,7 +246,15 @@ class shelluser_base_plugin {
 		unset($client_data);
 
 		// ssh-rsa authentication variables
-		$sshrsa = $this->data['new']['ssh_rsa'];
+		//$sshrsa = $this->data['new']['ssh_rsa'];
+		$sshrsa = '';
+		$ssh_users = $app->db->queryAllRecords("SELECT ssh_rsa FROM shell_user WHERE parent_domain_id = ".intval($this->data['new']['parent_domain_id']));
+		if(is_array($ssh_users)) {
+			foreach($ssh_users as $sshu) {
+				if($sshu['ssh_rsa'] != '') $sshrsa .= "\n".$sshu['ssh_rsa'];
+			}
+		}
+		$sshrsa = trim($sshrsa);
 		$usrdir = escapeshellcmd($this->data['new']['dir']);
 		$sshdir = $usrdir.'/.ssh';
 		$sshkeys= $usrdir.'/.ssh/authorized_keys';

@@ -1094,6 +1094,9 @@ class installer_dist extends installer_base {
 				$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			}
+			// add nobody user to www group, as the default php-fpm pool from opensuse runs as nobody
+			$command = 'usermod -a -G www nobody';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
 		//* Make the shell scripts executable
