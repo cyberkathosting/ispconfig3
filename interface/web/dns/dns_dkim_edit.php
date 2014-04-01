@@ -97,9 +97,10 @@ class page_action extends tform_actions {
 		$this->dataRecord["server_id"] = $soa["server_id"];
 
 		// add dkim-settings to the public-key in the txt-record
-		if (!empty($this->dataRecord['data'])) $this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
-		$this->dataRecord['name']='default._domainkey.'.$this->dataRecord['name'];
-
+		if (!empty($this->dataRecord['data'])) {
+			$this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
+			$this->dataRecord['name']=$this->dataRecord['selector'].'._domainkey.'.$this->dataRecord['name'];
+		}
 		// Update the serial number  and timestamp of the RR record
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
@@ -109,6 +110,7 @@ class page_action extends tform_actions {
 		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord['zone'], $this->dataRecord['type'], $this->dataRecord['data'], $this->dataRecord['name']);
 		if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
 		if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
+
 		parent::onSubmit();
 	}
 

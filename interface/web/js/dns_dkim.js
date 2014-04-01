@@ -60,6 +60,7 @@ This Javascript is invoked by
                                 else {
                                         document.getElementsByName('data')[0].value = request.responseXML.getElementsByTagName('data')[0].firstChild.nodeValue;
                                         document.getElementsByName('name')[0].value = request.responseXML.getElementsByTagName('name')[0].firstChild.nodeValue;
+										document.getElementsByName('selector')[0].value = request.responseXML.getElementsByTagName('selector')[0].firstChild.nodeValue;
                                 }
                                 break;
                         default:

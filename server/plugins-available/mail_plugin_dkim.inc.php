@@ -205,7 +205,7 @@ class mail_plugin_dkim {
 	 * This function adds the entry to the amavisd-config
 	 * @param string $key_domain mail-domain
 	 */
-	function add_to_amavis($key_domain) {
+	function add_to_amavis($key_domain, $selector, $old_selector) {
 		global $app, $mail_config;
 
 		if (empty($selector)) $selector = 'default';
@@ -287,7 +287,7 @@ class mail_plugin_dkim {
 			if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' )
 				$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 			if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['dkim_private'], $data['new']['domain'])) {
-				if ($this->add_to_amavis($data['new']['domain'])) {
+				if ($this->add_to_amavis($data['new']['domain'], $data['new']['dkim_selector'], $data['old']['dkim_selector'] )) {
 					$this->restart_amavis();
 				} else {
 					$this->remove_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['domain']);
