@@ -431,6 +431,8 @@ class page_action extends tform_actions {
 			$to_disable = array('cron' => 'id',
 				'ftp_user' => 'ftp_user_id',
 				'mail_domain' => 'domain_id',
+				'mail_user' => 'mailuser_id',
+				'mail_user_smtp' => 'mailuser_id',
 				'mail_forwarding' => 'forwarding_id',
 				'mail_get' => 'mailget_id',
 				'openvz_vm' => 'vm_id',
@@ -452,17 +454,28 @@ class page_action extends tform_actions {
 				$prev_active = array();
 				$prev_sysuser = array();
 				foreach($to_disable as $current => $keycolumn) {
-					$prev_active[$current] = array();
-					$prev_sysuser[$current] = array();
+					$active_col = 'active';
+					$reverse = false;
+					if($current == 'mail_user') {
+						$active_col = 'postfix';
+					} elseif($current == 'mail_user_smtp') {
+						$current = 'mail_user';
+						$active_col = 'disablesmtp';
+						$reverse = true;
+					}
+					
+					if(!isset($prev_active[$current])) $prev_active[$current] = array();
+					if(!isset($prev_sysuser[$current])) $prev_sysuser[$current] = array();
 
-					$entries = $app->db->queryAllRecords('SELECT `' . $keycolumn . '` as `id`, `sys_userid`, `active` FROM `' . $current . '` WHERE `sys_groupid` = ' . $sys_groupid);
+					$entries = $app->db->queryAllRecords('SELECT `' . $keycolumn . '` as `id`, `sys_userid`, `' . $active_col . '` FROM `' . $current . '` WHERE `sys_groupid` = ' . $sys_groupid);
 					foreach($entries as $item) {
 
-						if($item['active'] != 'y') $prev_active[$current][$item['id']]['active'] = 'n';
-						if($item['sys_userid'] != $sys_userid) $prev_sysuser[$current][$item['id']]['active'] = $item['sys_userid'];
+						if($item[$active_col] != 'y' && $reverse == false) $prev_active[$current][$item['id']][$active_col] = 'n';
+						elseif($item[$active_col] == 'y' && $reverse == true) $prev_active[$current][$item['id']][$active_col] = 'y';
+						if($item['sys_userid'] != $sys_userid) $prev_sysuser[$current][$item['id']] = $item['sys_userid'];
 						// we don't have to store these if y, as everything without previous state gets enabled later
 
-						$app->db->datalogUpdate($current, array('active' => 'n', 'sys_userid' => $_SESSION["s"]["user"]["userid"]), $keycolumn, $item['id']);
+						$app->db->datalogUpdate($current, array($active_col => ($reverse == true ? 'y' : 'n'), 'sys_userid' => $_SESSION["s"]["user"]["userid"]), $keycolumn, $item['id']);
 					}
 				}
 
@@ -473,20 +486,31 @@ class page_action extends tform_actions {
 				unset($prev_sysuser);
 			} elseif($this->dataRecord['locked'] == 'n') {
 				foreach($to_disable as $current => $keycolumn) {
+					$active_col = 'active';
+					$reverse = false;
+					if($current == 'mail_user') {
+						$active_col = 'postfix';
+					} elseif($current == 'mail_user_smtp') {
+						$current = 'mail_user';
+						$active_col = 'disablesmtp';
+						$reverse = true;
+					}
+					
 					$entries = $app->db->queryAllRecords('SELECT `' . $keycolumn . '` as `id` FROM `' . $current . '` WHERE `sys_groupid` = ' . $sys_groupid);
 					foreach($entries as $item) {
-						$set_active = 'y';
+						$set_active = ($reverse == true ? 'n' : 'y');
+						$set_inactive = ($reverse == true ? 'y' : 'n');
 						$set_sysuser = $sys_userid;
 						if(array_key_exists('prev_active', $tmp_data) == true
 							&& array_key_exists($current, $tmp_data['prev_active']) == true
 							&& array_key_exists($item['id'], $tmp_data['prev_active'][$current]) == true
-							&& $tmp_data['prev_active'][$current][$item['id']] == 'n') $set_active = 'n';
+							&& $tmp_data['prev_active'][$current][$item['id']][$active_col] == $set_inactive) $set_active = $set_inactive;
 						if(array_key_exists('prev_sysuser', $tmp_data) == true
 							&& array_key_exists($current, $tmp_data['prev_sysuser']) == true
 							&& array_key_exists($item['id'], $tmp_data['prev_sysuser'][$current]) == true
 							&& $tmp_data['prev_sysuser'][$current][$item['id']] != $sys_userid) $set_sysuser = $tmp_data['prev_sysuser'][$current][$item['id']];
 
-						$app->db->datalogUpdate($current, array('active' => $set_active, 'sys_userid' => $set_sysuser), $keycolumn, $item['id']);
+						$app->db->datalogUpdate($current, array($active_col => $set_active, 'sys_userid' => $set_sysuser), $keycolumn, $item['id']);
 					}
 				}
 				if(array_key_exists('prev_active', $tmp_data)) unset($tmp_data['prev_active']);

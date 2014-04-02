@@ -257,7 +257,7 @@ class page_action extends tform_actions {
 			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
 			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
-			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+			$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
 
 			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
 			$app->db->query($sql);
@@ -298,7 +298,7 @@ class page_action extends tform_actions {
 			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
 			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
-			$disablesmtp = ($this->dataRecord["postfix"] == 'y')?'n':'y';
+			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
 
 			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', `disablesieve-filter` = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
 			$app->db->query($sql);
