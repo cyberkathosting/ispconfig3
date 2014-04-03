@@ -125,4 +125,3 @@ $wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: 
 $wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>
-

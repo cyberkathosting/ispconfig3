@@ -6,4 +6,3 @@ $wb['faq_sections_txt'] = 'Sekce';
 $wb['faq_faq_sections_txt'] = 'Sekce FAQ - Často kladené dotazy';
 $wb['faq_new_section_txt'] = 'Přidat novou sekci';
 ?>
-

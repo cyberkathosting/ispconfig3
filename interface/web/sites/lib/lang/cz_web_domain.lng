@@ -128,4 +128,3 @@ $wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: 
 $wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Neplatné nastavení php.ini';
 ?>
-

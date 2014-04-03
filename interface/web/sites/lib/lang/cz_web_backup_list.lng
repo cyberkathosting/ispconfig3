@@ -13,4 +13,3 @@ $wb['restore_pending_txt'] = 'Shodný požadavek na obnovu dat ze zálohy již �
 $wb['backup_type_mysql'] = 'MySQL Databáze';
 $wb['backup_type_web'] = 'Soubory webových stránek';
 ?>
-

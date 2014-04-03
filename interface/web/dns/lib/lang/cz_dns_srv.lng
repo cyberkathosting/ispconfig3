@@ -18,4 +18,3 @@ $wb['srv_error_regex'] = 'Neplatný formát záznamu serveru. Záznam serveru mu
 $wb['aux_txt'] = 'Priorita';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
-
