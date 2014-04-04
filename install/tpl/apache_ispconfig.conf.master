@@ -56,6 +56,15 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 		</tmpl_if>
 </Directory>
 
+<Directory /srv/www/htdocs>
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+        Order allow,deny
+        Allow from all
+		</tmpl_if>
+</Directory>
+
 <Directory /usr/share/squirrelmail>
 		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted

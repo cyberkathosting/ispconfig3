@@ -10,5 +10,5 @@ CREATE TABLE `mail_backup` (
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `mail_user` ADD `backup_interval` VARCHAR( 255 ) NOT NULL ;
+ALTER TABLE `mail_user` ADD `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none';
 ALTER TABLE `mail_user` ADD `backup_copies` INT NOT NULL DEFAULT '1';

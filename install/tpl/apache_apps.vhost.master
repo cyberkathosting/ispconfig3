@@ -36,7 +36,9 @@
     <Directory {tmpl_var name='apps_vhost_dir'}>
 		Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
 		AllowOverride AuthConfig Indexes Limit Options FileInfo
-		AddHandler fcgid-script .php
+	    <FilesMatch "\.php$">
+		  SetHandler fcgid-script
+	    </FilesMatch>
 		FCGIWrapper {tmpl_var name='apps_vhost_basedir'}/php-fcgi-scripts/apps/.php-fcgi-starter .php
 		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted

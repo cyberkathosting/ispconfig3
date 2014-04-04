@@ -157,6 +157,5 @@ $wb['added_date_txt'] = 'Datum vytvoření účtu';
 $wb['limit_domainmodule_error_notint'] = 'Domainmodule limit must be a number.';
 $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Klientské limity';
-$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \"hlavní šablona\" nastavena na volbu \"Custom\".';
+$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \\"hlavní šablona\\" nastavena na volbu \\"Custom\\".';
 ?>
-

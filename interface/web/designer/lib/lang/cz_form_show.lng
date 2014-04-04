@@ -16,4 +16,3 @@ $wb['module_del_txt'] = 'Delete the module and all subdirectories?';
 $wb['menu_del_txt'] = 'Delete menu with all menuitems?';
 $wb['item_del_txt'] = 'Delete menuitem?';
 ?>
-
