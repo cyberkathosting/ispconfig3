@@ -98,6 +98,7 @@ $wb['vat_id_txt'] = 'DIČ';
 $wb['required_fields_txt'] = '* Povinná pole';
 $wb['limit_webdav_user_txt'] = 'Max. počet Webdav uživatelů';
 $wb['limit_webdav_user_error_notint'] = 'Limit WebDAV uživatelů musí být číslo.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_mailmailinglist_txt'] = 'Max. počet e-mailových konferencí';
 $wb['limit_mailaliasdomain_txt'] = 'Max. počet doménových aliasů';
 $wb['limit_mailmailinglist_error_notint'] = 'Limit pro e-mailové konference musí být číslo.';

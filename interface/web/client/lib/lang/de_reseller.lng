@@ -109,6 +109,7 @@ $wb['vat_id_txt'] = 'USt-ID';
 $wb['required_fields_txt'] = '* Benötigte Felder';
 $wb['limit_webdav_user_txt'] = 'Max. Anzahl an WebDAV Benutzern';
 $wb['limit_webdav_user_error_notint'] = 'Das WebDAV Benutzer Limit muss eine Zahl sein.';
+$wb['limit_backup_txt'] = 'Backupfunktion verfügbar';
 $wb['limit_mailmailinglist_txt'] = 'Max. Anzahl an Mailinglisten';
 $wb['limit_mailaliasdomain_txt'] = 'Max. Anzahl an E-Mail Domain Aliasse';
 $wb['limit_mailmailinglist_error_notint'] = 'Das Mailinglisten Limit muss eine Zahl sein.';

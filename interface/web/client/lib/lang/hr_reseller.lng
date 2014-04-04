@@ -58,6 +58,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Maksimalan broj sekundarnih DNS zona';
 $wb['limit_dns_record_txt'] = 'Maksimalan broj DNS zapisa';
 $wb['limit_shell_user_txt'] = 'Maksimalan broj Shell računa';
 $wb['limit_webdav_user_txt'] = 'Maksimalan broj Webdav računa';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_client_txt'] = 'Maksimalan broj klijenata';
 $wb['username_error_empty'] = 'Korisničko ime nije upisano.';
 $wb['username_error_unique'] = 'Korisničko ime se već koristi.';

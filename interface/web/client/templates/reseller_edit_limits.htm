@@ -159,6 +159,12 @@
                     <label for="limit_webdav_user">{tmpl_var name='limit_webdav_user_txt'}</label>
                     <input name="limit_webdav_user" id="limit_webdav_user" value="{tmpl_var name='limit_webdav_user'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
+                <div class="ctrlHolder">
+                    <p class="label">{tmpl_var name='limit_backup_txt'}</p>
+                    <div class="multiField">
+                        {tmpl_var name='limit_backup'}
+                    </div>
+                </div>
             </div>
             <div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
             <div style="display:none;">

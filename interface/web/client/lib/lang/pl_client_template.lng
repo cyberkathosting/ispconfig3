@@ -60,6 +60,7 @@ $wb['limit_trafficquota_error_notint'] = 'Limit przestrzeni musi być liczbą.';
 $wb['template_del_aborted_txt'] = 'Usuwanie przerwane. Istnieje klient używający ciągle tego szablonu.';
 $wb['limit_webdav_user_txt'] = 'Maksymalna ilość kont webdav';
 $wb['limit_webdav_user_error_notint'] = 'Limit kont webdav musi być liczbą.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_mailmailinglist_txt'] = 'Maks. liczba list mailingowych';
 $wb['limit_mailmailinglist_error_notint'] = 'Limit list mailingowych musi być liczbą';
 $wb['limit_openvz_vm_txt'] = 'Maks. liczba wirtualnych serwerów';

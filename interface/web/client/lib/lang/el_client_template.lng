@@ -29,6 +29,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Όριο δευτερεύουσων ζωνώ�
 $wb['limit_dns_record_txt'] = 'Όριο εγγραφών DNS';
 $wb['limit_shell_user_txt'] = 'Όριο χρηστών Shell';
 $wb['limit_webdav_user_txt'] = 'Όριο χρηστών Webdav';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_client_txt'] = 'Όριο Πελατών';
 $wb['limit_maildomain_error_notint'] = 'Το όριο email domain πρέπει να είναι αριθμός.';
 $wb['limit_mailbox_error_notint'] = 'Το όριο θυρίδων πρέπει να είναι αριθμός.';
