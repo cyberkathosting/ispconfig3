@@ -613,7 +613,8 @@ if ($backup_available) {
 	);
 }
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
+if($_SESSION["s"]["user"]["typ"] == 'admin'
+	|| ($web_config['reseller_can_use_options'] == 'y' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 
 	$form["tabs"]['advanced'] = array (
 		'title'  => "Options",
