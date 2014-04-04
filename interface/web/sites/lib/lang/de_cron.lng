@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Das Format für Wochentage ist nicht korrekt.';
 $wb['command_error_format'] = 'Das Format für den Befehl ist nicht korrekt. Beachten Sie, dass bei einem URL Aufruf nur http und https erlaubt ist.';
 $wb['unknown_fieldtype_error'] = 'Es wurde ein unbekanntes Feld verwendet.';
 $wb['server_id_error_empty'] = 'Die Server-ID ist leer.';
+$wb['limit_cron_url_txt'] = 'Es sind nur URL cronjobs möglich. Der Cron-Befehl muss mit http:// beginnen.';
+$wb['command_error_empty'] = 'Befehl ist leer.';
 ?>
