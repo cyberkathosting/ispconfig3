@@ -886,42 +886,41 @@ if ($app->dbmaster == $app->db) {
 					}
 					send_notification_email('web_quota_ok_notification', $placeholders, $recipients);
 				}
+			} else {
 
-				continue;
-			}
+				// could a notification be sent?
+				$send_notification = false;
+				if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
+				elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
 
-			// could a notification be sent?
-			$send_notification = false;
-			if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
-			elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
+				//* Send quota notifications
+				if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
+					$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
 
-			//* Send quota notifications
-			if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-				$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
+					$placeholders = array('{domain}' => $rec['domain'],
+						'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
+						'{used}' => $rec['used'],
+						'{soft}' => $rec['soft'],
+						'{hard}' => $rec['hard'],
+						'{ratio}' => $rec['ratio']);
 
-				$placeholders = array('{domain}' => $rec['domain'],
-					'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
-					'{used}' => $rec['used'],
-					'{soft}' => $rec['soft'],
-					'{hard}' => $rec['hard'],
-					'{ratio}' => $rec['ratio']);
+					$recipients = array();
 
-				$recipients = array();
-
-				//* send email to admin
-				if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
-					$recipients[] = $global_config['admin_mail'];
-				}
-
-				//* Send email to client
-				if($web_config['overquota_notify_client'] == 'y') {
-					$client_group_id = $rec["sys_groupid"];
-					$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-					if($client['email'] != '') {
-						$recipients[] = $client['email'];
+					//* send email to admin
+					if($global_config['admin_mail'] != '' && $web_config['overquota_notify_admin'] == 'y') {
+						$recipients[] = $global_config['admin_mail'];
 					}
+
+					//* Send email to client
+					if($web_config['overquota_notify_client'] == 'y') {
+						$client_group_id = $rec["sys_groupid"];
+						$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+						if($client['email'] != '') {
+							$recipients[] = $client['email'];
+						}
+					}
+					send_notification_email('web_quota_notification', $placeholders, $recipients);
 				}
-				send_notification_email('web_quota_notification', $placeholders, $recipients);
 			}
 		}
 	}
@@ -1016,42 +1015,41 @@ if ($app->dbmaster == $app->db) {
 
 					send_notification_email('mail_quota_ok_notification', $placeholders, $recipients);
 				}
+			} else {
 
-				continue;
-			}
+				//* Send quota notifications
+				// could a notification be sent?
+				$send_notification = false;
+				if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
+				elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
 
-			//* Send quota notifications
-			// could a notification be sent?
-			$send_notification = false;
-			if(!$rec['last_quota_notification']) $send_notification = true; // not yet notified
-			elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
+				if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
+					$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
 
-			if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-				$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
+					$placeholders = array('{email}' => $rec['email'],
+						'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
+						'{used}' => $rec['used'],
+						'{name}' => $rec['name'],
+						'{quota}' => $rec['quota'],
+						'{ratio}' => $rec['ratio']);
 
-				$placeholders = array('{email}' => $rec['email'],
-					'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
-					'{used}' => $rec['used'],
-					'{name}' => $rec['name'],
-					'{quota}' => $rec['quota'],
-					'{ratio}' => $rec['ratio']);
-
-				$recipients = array();
-				//* send email to admin
-				if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
-					$recipients[] = $global_config['admin_mail'];
-				}
-
-				//* Send email to client
-				if($mail_config['overquota_notify_client'] == 'y') {
-					$client_group_id = $rec["sys_groupid"];
-					$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-					if($client['email'] != '') {
-						$recipients[] = $client['email'];
+					$recipients = array();
+					//* send email to admin
+					if($global_config['admin_mail'] != '' && $mail_config['overquota_notify_admin'] == 'y') {
+						$recipients[] = $global_config['admin_mail'];
 					}
-				}
 
-				send_notification_email('mail_quota_notification', $placeholders, $recipients);
+					//* Send email to client
+					if($mail_config['overquota_notify_client'] == 'y') {
+						$client_group_id = $rec["sys_groupid"];
+						$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+						if($client['email'] != '') {
+							$recipients[] = $client['email'];
+						}
+					}
+
+					send_notification_email('mail_quota_notification', $placeholders, $recipients);
+				}
 			}
 		}
 	}
