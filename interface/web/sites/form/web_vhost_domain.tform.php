@@ -561,57 +561,6 @@ $form["tabs"]['stats'] = array (
 	)
 );
 
-// if($_SESSION["s"]["user"]["typ"] == 'admin') {
-
-//* Backup
-$form["tabs"]['backup'] = array (
-	'title'  => "Backup",
-	'width'  => 100,
-	'template'  => "templates/web_vhost_domain_backup.htm",
-	'readonly' => false,
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
-		'backup_interval' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'value'  => array('none' => 'no_backup_txt', 'daily' => 'daily_backup_txt', 'weekly' => 'weekly_backup_txt', 'monthly' => 'monthly_backup_txt')
-		),
-		'backup_copies' => array (
-			'datatype' => 'INTEGER',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
-		),
-		'backup_excludes' => array (
-			'datatype' => 'VARCHAR',
-			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,*]*$@',
-					'errmsg'=> 'backup_excludes_error_regex'),
-			),
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value'  => '',
-			'width'  => '30',
-			'maxlength' => '255'
-		),
-		//#################################
-		// ENDE Datatable fields
-		//#################################
-	),
-	'plugins' => array (
-		'backup_records' => array (
-			'class'   => 'plugin_backuplist',
-			'options' => array(
-			)
-		)
-	)
-);
-
-// }
-
 if($_SESSION["s"]["user"]["typ"] == 'admin'
 	|| ($web_config['reseller_can_use_options'] == 'y' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 
