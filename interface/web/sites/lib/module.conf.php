@@ -5,7 +5,7 @@ $userid=$app->auth->get_user_id();
 $module["name"]  = "sites";
 $module["title"]  = "top_menu_sites";
 $module["template"]  = "module.tpl.htm";
-$module["startpage"]  = "sites/web_domain_list.php";
+$module["startpage"]  = "sites/web_vhost_domain_list.php";
 $module["tab_width"]    = '';
 
 // Websites menu
