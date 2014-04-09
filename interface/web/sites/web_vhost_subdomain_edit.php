@@ -606,24 +606,27 @@ class page_action extends tform_actions {
 
 	function onAfterUpdate() {
 		global $app, $conf;
+		
+		//* Update settings when parent domain gets changed
+		if(isset($this->dataRecord["parent_domain_id"]) && $this->dataRecord["parent_domain_id"] != $this->oldDataRecord["parent_domain_id"]) {
+			// Get configuration for the web system
+			$app->uses("getconf");
+			$web_rec = $app->tform->getDataRecord($this->id);
+			$web_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'web');
 
-		// Get configuration for the web system
-		$app->uses("getconf");
-		$web_rec = $app->tform->getDataRecord($this->id);
-		$web_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'web');
+			// Set the values for document_root, system_user and system_group
+			$system_user = $app->db->quote($this->parent_domain_record['system_user']);
+			$system_group = $app->db->quote($this->parent_domain_record['system_group']);
+			$document_root = $app->db->quote($this->parent_domain_record['document_root']);
+			$php_open_basedir = str_replace("[website_path]/web", $document_root.'/'.$web_rec['web_folder'], $web_config["php_open_basedir"]);
+			$php_open_basedir = str_replace("[website_domain]/web", $web_rec['domain'].'/'.$web_rec['web_folder'], $php_open_basedir);
+			$php_open_basedir = str_replace("[website_path]", $document_root, $php_open_basedir);
+			$php_open_basedir = $app->db->quote(str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir));
+			$htaccess_allow_override = $app->db->quote($this->parent_domain_record['allow_override']);
 
-		// Set the values for document_root, system_user and system_group
-		$system_user = $app->db->quote($this->parent_domain_record['system_user']);
-		$system_group = $app->db->quote($this->parent_domain_record['system_group']);
-		$document_root = $app->db->quote($this->parent_domain_record['document_root']);
-		$php_open_basedir = str_replace("[website_path]/web", $document_root.'/'.$web_rec['web_folder'], $web_config["php_open_basedir"]);
-		$php_open_basedir = str_replace("[website_domain]/web", $web_rec['domain'].'/'.$web_rec['web_folder'], $php_open_basedir);
-		$php_open_basedir = str_replace("[website_path]", $document_root, $php_open_basedir);
-		$php_open_basedir = $app->db->quote(str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir));
-		$htaccess_allow_override = $app->db->quote($this->parent_domain_record['allow_override']);
-
-		$sql = "UPDATE web_domain SET sys_groupid = ".$app->functions->intval($this->parent_domain_record['sys_groupid']).",system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
-		$app->db->query($sql);
+			$sql = "UPDATE web_domain SET sys_groupid = ".$app->functions->intval($this->parent_domain_record['sys_groupid']).",system_user = '$system_user', system_group = '$system_group', document_root = '$document_root', allow_override = '$htaccess_allow_override', php_open_basedir = '$php_open_basedir'  WHERE domain_id = ".$this->id;
+			$app->db->query($sql);
+		}
 	}
 
 }
