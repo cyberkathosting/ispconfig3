@@ -742,6 +742,7 @@ CREATE TABLE `mail_domain` (
   `server_id` int(11) unsigned NOT NULL default '0',
   `domain` varchar(255) NOT NULL default '',
   `dkim` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `dkim_selector` varchar(63) NOT NULL DEFAULT 'default',
   `dkim_private` mediumtext NULL,
   `dkim_public` mediumtext NULL,
   `active` enum('n','y') NOT NULL,
