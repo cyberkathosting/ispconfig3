@@ -29,10 +29,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //* Installer patch stub class
 class installer_patch_update {
-	protected function onBeforeSQL() {
+	public function onBeforeSQL() {
 	}
 
-	protected function onAfterSQL() {
+	public function onAfterSQL() {
 	}
 
 }
