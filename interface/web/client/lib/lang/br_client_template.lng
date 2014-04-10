@@ -60,6 +60,7 @@ $wb['limit_trafficquota_error_notint'] = 'A cota de tráfego precisa ser um núm
 $wb['template_del_aborted_txt'] = 'Remoção abortada. Ainda existem clientes com o gabarito selecionado.';
 $wb['limit_webdav_user_txt'] = 'Número máximo de usuários Webdav';
 $wb['limit_webdav_user_error_notint'] = 'O número de usuários webdav deve ser um número.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_mailmailinglist_txt'] = 'Número máximo de mailing lists';
 $wb['limit_mailmailinglist_error_notint'] = 'O limite de mailing list deve ser um número.';
 $wb['limit_openvz_vm_txt'] = 'Max. number of virtual servers';

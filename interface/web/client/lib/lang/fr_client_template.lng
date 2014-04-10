@@ -54,6 +54,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Nombre max. de zones DNS secondaires';
 $wb['limit_webdav_user_txt'] = 'Nombre max. d\'utilisateurs Webdav';
 $wb['limit_mailaliasdomain_error_notint'] = 'La limite d\'alias de domaine doit être un nombre.';
 $wb['limit_webdav_user_error_notint'] = 'La limite d\'utilisateurs webdav doit être un nombre.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_dns_slave_zone_error_notint'] = 'La limite de zones DNS secondaires doit être un nombre.';
 $wb['limit_dns_record_error_notint'] = 'Le nombre d\'enregistrements DNS limite doit être un nombre.';
 $wb['limit_web_quota_txt'] = 'Quota web';

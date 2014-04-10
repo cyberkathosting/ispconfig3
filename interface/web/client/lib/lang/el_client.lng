@@ -58,6 +58,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Όριο δευτευρεύουσων ζων�
 $wb['limit_dns_record_txt'] = 'Όριο εγγραφών DNS';
 $wb['limit_shell_user_txt'] = 'Όριο χρηστών Shell';
 $wb['limit_webdav_user_txt'] = 'Όριο χρηστών Webdav';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_client_txt'] = 'Όριο Πελατών';
 $wb['username_error_empty'] = 'ΤΟ Όνομα Χρήστη δεν έχει οριστεί';
 $wb['username_error_unique'] = 'Το Όνομα Χρήστη πρέπει να είναι μοναδικό';

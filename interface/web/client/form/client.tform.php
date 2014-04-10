@@ -960,6 +960,12 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'limit_backup' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'default_dnsserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',

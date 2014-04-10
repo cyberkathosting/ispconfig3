@@ -82,12 +82,14 @@ if($app->auth->has_clients($_SESSION['s']['user']['userid']) || $app->auth->is_a
 $wildcard_available = true;
 if($vhostdomain_type != 'domain') $wildcard_available = false;
 $ssl_available = true;
+$backup_available = ($vhostdomain_type == 'domain');
 if(!$app->auth->is_admin()) {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
-	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl, limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 	if($client['limit_wildcard'] != 'y') $wildcard_available = false;
 	if($client['limit_ssl'] != 'y') $ssl_available = false;
+	if($client['limit_backup'] != 'y') $backup_available = false;
 }
 
 $app->uses('getconf');
@@ -561,56 +563,55 @@ $form["tabs"]['stats'] = array (
 	)
 );
 
-// if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
 //* Backup
-$form["tabs"]['backup'] = array (
-	'title'  => "Backup",
-	'width'  => 100,
-	'template'  => "templates/web_vhost_domain_backup.htm",
-	'readonly' => false,
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
-		'backup_interval' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'value'  => array('none' => 'no_backup_txt', 'daily' => 'daily_backup_txt', 'weekly' => 'weekly_backup_txt', 'monthly' => 'monthly_backup_txt')
-		),
-		'backup_copies' => array (
-			'datatype' => 'INTEGER',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
-		),
-		'backup_excludes' => array (
-			'datatype' => 'VARCHAR',
-			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,*]*$@',
-					'errmsg'=> 'backup_excludes_error_regex'),
+if ($backup_available) {
+	$form["tabs"]['backup'] = array (
+		'title'  => "Backup",
+		'width'  => 100,
+		'template'  => "templates/web_domain_backup.htm",
+		'readonly' => false,
+		'fields'  => array (
+			//#################################
+			// Begin Datatable fields
+			//#################################
+			'backup_interval' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'SELECT',
+				'default' => '',
+				'value'  => array('none' => 'no_backup_txt', 'daily' => 'daily_backup_txt', 'weekly' => 'weekly_backup_txt', 'monthly' => 'monthly_backup_txt')
 			),
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value'  => '',
-			'width'  => '30',
-			'maxlength' => '255'
+			'backup_copies' => array (
+				'datatype' => 'INTEGER',
+				'formtype' => 'SELECT',
+				'default' => '',
+				'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
+			),
+			'backup_excludes' => array (
+				'datatype' => 'VARCHAR',
+				'validators' => array (  0 => array ( 'type' => 'REGEX',
+						'regex' => '@^(?!.*\.\.)[-a-zA-Z0-9_/.~,*]*$@',
+						'errmsg'=> 'backup_excludes_error_regex'),
+				),
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value'  => '',
+				'width'  => '30',
+				'maxlength' => '255'
+			),
+			//#################################
+			// ENDE Datatable fields
+			//#################################
 		),
-		//#################################
-		// ENDE Datatable fields
-		//#################################
-	),
-	'plugins' => array (
-		'backup_records' => array (
-			'class'   => 'plugin_backuplist',
-			'options' => array(
+		'plugins' => array (
+			'backup_records' => array (
+				'class'   => 'plugin_backuplist',
+				'options' => array(
+				)
 			)
 		)
-	)
-);
-
-// }
+	);
+}
 
 if($_SESSION["s"]["user"]["typ"] == 'admin'
 	|| ($web_config['reseller_can_use_options'] == 'y' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {

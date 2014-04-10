@@ -60,6 +60,7 @@ $wb['limit_trafficquota_error_notint'] = 'Quota traffico devessere un numero.';
 $wb['template_del_aborted_txt'] = 'Eliminazione annullata. Esiste almeno un cliente che ha questo template attivo.';
 $wb['limit_webdav_user_txt'] = 'Num. massimo utenti webdav';
 $wb['limit_webdav_user_error_notint'] = 'Il limite utenti webdav devessere un numero.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['template_type_txt'] = 'Template type';
 $wb['template_name_txt'] = 'Template name';
 $wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';

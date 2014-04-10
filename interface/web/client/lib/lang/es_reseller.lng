@@ -99,6 +99,7 @@ $wb['vat_id_txt'] = 'VAT ID';
 $wb['required_fields_txt'] = '* Campos Requeridos';
 $wb['limit_webdav_user_txt'] = 'Numero máximo de usuarios Webdav';
 $wb['limit_webdav_user_error_notint'] = 'El límite de usuarios Webdav debe ser un número.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['company_txt'] = 'Compañia';
 $wb['limit_mailmailinglist_error_notint'] = 'La lista de correo límite de registro debe ser un número.';
 $wb['limit_openvz_vm_txt'] = 'Max. número de servidores virtuales';

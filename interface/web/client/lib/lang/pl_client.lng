@@ -95,6 +95,7 @@ $wb['limit_traffic_quota_txt'] = 'Limit transferu';
 $wb['limit_trafficquota_error_notint'] = 'Limit transferu musi być liczbą.';
 $wb['limit_webdav_user_txt'] = 'Maksymalna ilość użytkowników webdav';
 $wb['limit_webdav_user_error_notint'] = 'Limit użytkowników webdav musi być liczbą.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['customer_no_txt'] = 'Klient nr';
 $wb['vat_id_txt'] = 'NIP';
 $wb['required_fields_txt'] = '* Wymagane pola';

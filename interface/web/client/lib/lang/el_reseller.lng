@@ -98,6 +98,7 @@ $wb['vat_id_txt'] = 'Α.Φ.Μ.';
 $wb['required_fields_txt'] = '* Υποχρεωτικά Πεδία';
 $wb['limit_webdav_user_txt'] = 'Μέγιστο πλήθος χρηστών Webdav';
 $wb['limit_webdav_user_error_notint'] = 'Το όριο χρηστών webdav user πρέπει να είναι αριθμός.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_mailmailinglist_txt'] = 'Μέγιστο πλήθος mailing lists';
 $wb['limit_mailaliasdomain_txt'] = 'Μέγιστο πλήθος ψευδονύμων domain';
 $wb['limit_mailmailinglist_error_notint'] = 'Το πλήθος εγγραφών της mailing list πρέπει να είναι αριθμός.';
