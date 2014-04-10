@@ -2136,6 +2136,13 @@ class installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
+		//* Disable rkhunter run and update in debian cronjob as ispconfig is running and updating rkhunter
+		if(is_file('/etc/default/rkhunter')) {
+			replaceLine('/etc/default/rkhunter', 'CRON_DAILY_RUN="yes"', 'CRON_DAILY_RUN="no"', 1, 0);
+			replaceLine('/etc/default/rkhunter', 'CRON_DB_UPDATE="yes"', 'CRON_DB_UPDATE="no"', 1, 0);
+		}
+		
 
 
 	}

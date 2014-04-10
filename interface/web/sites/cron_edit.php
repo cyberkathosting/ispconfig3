@@ -140,13 +140,18 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			if($client["limit_cron_frequency"] > 1) {
 				if($app->tform->cron_min_freq < $client["limit_cron_frequency"]) {
 					$app->error($app->tform->wordbook["limit_cron_frequency_txt"]);
 					$has_error = true;
 				}
+			}
+			
+			if($client["limit_cron_type"] == 'url' && $this->dataRecord["type"] != 'url') {
+				$app->error($app->tform->wordbook["limit_cron_url_txt"]);
+				$has_error = true;
 			}
 		}
 
@@ -165,13 +170,18 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 			if($client["limit_cron_frequency"] > 1) {
 				if($app->tform->cron_min_freq < $client["limit_cron_frequency"]) {
 					$app->error($app->tform->wordbook["limit_cron_frequency_txt"]);
 					$has_error = true;
 				}
+			}
+			
+			if($client["limit_cron_type"] == 'url' && $this->dataRecord["type"] != 'url') {
+				$app->error($app->tform->wordbook["limit_cron_url_txt"]);
+				$has_error = true;
 			}
 		}
 
