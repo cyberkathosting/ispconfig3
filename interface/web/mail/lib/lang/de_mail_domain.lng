@@ -16,4 +16,6 @@ $wb['client_txt'] = 'Kunde';
 $wb['limit_maildomain_txt'] = 'Die maximale Anzahl an E-Mail Domains für Ihr Konto wurde erreicht.';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nicht aktiviert -';
+$wb['dkim_selector_txt'] = 'DKIM-Selector';
+$wb['dkim_selector_error'] = 'Ungültiger DKIM-Selector.  Verwenden Sie nur alphanumerische Zeichen (a-z oder 0-9)';
 ?>

@@ -87,6 +87,10 @@
                 </div>
               </div>
               <div class="ctrlHolder">
+                <label for="dkim_selector">{tmpl_var name='dkim_selector_txt'}</label>
+                <input name="dkim_selector" id="dkim_selector" value="{tmpl_var name='dkim_selector'}" size="20" maxlength="63" type="text" class="textInput" />
+              </div>
+              <div class="ctrlHolder">
                 <label for="dkim_private">{tmpl_var name='dkim_private_txt'}</label>
                 <textarea name="dkim_private" id="dkim_private" rows='10' cols='30'>{tmpl_var name='dkim_private'}</textarea>
 <a href="javascript:setRequest('create','{tmpl_var name='domain'}')">{tmpl_var name='dkim_generate_txt'}</a>
