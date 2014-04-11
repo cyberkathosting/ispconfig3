@@ -128,22 +128,18 @@ if ($app->dbmaster->connect_error == NULL) {
 // Check whether another instance of this script is already running
 if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock')) {
 	clearstatcache();
-	for ($i = 0; $i < 120; $i++) { // Wait max. 1200 sec, then retry
-		if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock')) {
-			exec("ps aux | grep '/usr/local/ispconfig/server/[s]erver.php' | wc -l", $check);
-			if (intval($check[0]) > 1) { // 1 because this is 2nd instance!
-				$app->log('There is already an instance of server.php running. Exiting.', LOGLEVEL_DEBUG);
-				exit;
-			}
-			$app->log('There is already a lockfile set. Waiting another 10 seconds...', LOGLEVEL_DEBUG);
-			sleep(10);
-			clearstatcache();
+	$pid = trim(file_get_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock'));
+	if(preg_match('/^[0-9]+$/', $pid)) {
+		if(file_exists('/proc/' . $pid)) {
+			$app->log('There is already an instance of server.php running with pid ' . $pid . '.', LOGLEVEL_DEBUG);
+			exit;
 		}
 	}
+	$app->log('There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.', LOGLEVEL_WARN);
 }
 
 // Set Lockfile
-@touch($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock');
+@file_put_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock', getmypid());
 $app->log('Set Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock', LOGLEVEL_DEBUG);
 
 /** Do we need to start the core-modules */
