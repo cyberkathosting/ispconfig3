@@ -18,3 +18,4 @@ $wb['ends_with_txt'] = 'Τελειώνει σε';
 $wb['move_to_txt'] = 'Μετακίνηση σε';
 $wb['delete_txt'] = 'Διαγραφή';
 ?>
+

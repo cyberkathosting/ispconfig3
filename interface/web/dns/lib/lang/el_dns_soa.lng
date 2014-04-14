@@ -28,11 +28,12 @@ $wb['seconds_txt'] = 'Δευτερόλεπτα';
 $wb['eg_domain_tld'] = 'π.χ. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'π.χ. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'π.χ. webmaster@domain.tld';
-$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Το Domain Δεν μπορεί να αλλαχθεί. Παρακαλούμε επικοινωνήστε με τον Διαχειριστή σας αν θέλετε να γίνει η αλλαγή του ονόματος.';
-$wb['refresh_range_error'] = 'Ελάχιστος χρόνος Ανανέωσης είναι τα 60 δευτερόλεπτα.';
-$wb['retry_range_error'] = 'Ελάχιστος χρόνος Επανάληψης είναι τα 60 δευτερόλεπτα.';
-$wb['expire_range_error'] = 'Ελάχιστος χρόνος Λήξης είναι τα 60 δευτερόλεπτα.';
-$wb['minimum_range_error'] = 'Ελάχιστος χρόνος Ελαχίστου είναι τα 60 δευτερόλεπτα.';
-$wb['ttl_range_error'] = 'Ελάχιστος χρόνος TTL είναι τα 60 δευτερόλεπτα.';
-$wb['xfer_error_regex'] = 'Επιπλέον Ειδοποίηση: Παρακαλούμε χρησιμοποιείστε μια διεύθυσνη IP.';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'The Domain can not be changed. Please ask your Administrator if you want to change the domain name.';
+$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
+$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
+$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
+$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
 ?>
+

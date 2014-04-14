@@ -1,13 +1,14 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Αυτόματη Απάντηση';
-$wb['autoresponder_subject'] = 'Απάντηση όταν είστε εκτός γραφείου';
-$wb['autoresponder_text_txt'] = 'Κείμενο';
-$wb['autoresponder_txt'] = 'Ενεργή';
-$wb['autoresponder_start_date_txt'] = 'Έναρξη στις';
-$wb['autoresponder_start_date_isfuture'] = 'Η ημερομηνία έναρξης δεν μπορεί να είναι στο παρελθόν.';
-$wb['autoresponder_end_date_txt'] = 'Τέλος στις';
-$wb['autoresponder_end_date_isgreater'] = 'Η ημερομηνία τέλους πρέπει να οριστεί και να είναι μετά την ημερομηνία έναρξης.';
-$wb['autoresponder_active'] = 'Ενεργοποίηση αυτόματης απάντησης';
-$wb['now_txt'] = 'Τώρα';
-$wb['autoresponder_subject_txt'] = 'Αυτόματη Απάντηση';
+$wb['mailbox_autoresponder_txt'] = 'Autoresponder';
+$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['autoresponder_text_txt'] = 'Text';
+$wb['autoresponder_txt'] = 'Active';
+$wb['autoresponder_start_date_txt'] = 'Start on';
+$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
+$wb['autoresponder_end_date_txt'] = 'End by';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
+$wb['autoresponder_active'] = 'Enable the autoresponder';
+$wb['now_txt'] = 'Now';
+$wb['autoresponder_subject_txt'] = 'Betreff';
 ?>
+

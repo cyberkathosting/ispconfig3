@@ -4,7 +4,7 @@ $wb['username_err'] = 'Το όνομα χρήστη είναι πολύ μεγά
 $wb['username_empty'] = 'Το όνομα χρήστη δεν έχει οριστεί.';
 $wb['username_unique'] = 'Υπάρχει ήδη ένας χρήστης με αυτό το όνομα χρήστη.';
 $wb['passwort_txt'] = 'Συνθηματικό';
-$wb['password_strength_txt'] = 'Ισχύς Συνθηματικού';
+$wb['password_strength_txt'] = 'Δύναμη Συνθηματικού';
 $wb['modules_txt'] = 'Άρθρωμα';
 $wb['startmodule_txt'] = 'Άρθρωμα Εκκίνησης';
 $wb['app_theme_txt'] = 'Θεματική Παραλλαγή';
@@ -25,10 +25,10 @@ $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Ομάδες';
 $wb['default_group_txt'] = 'Προκαθορισμένη Ομάδα';
 $wb['startmodule_err'] = 'Το άρθρωμα εκκίνησης δεν υπάρχει στα διαθέσιμα αρθρώματα.';
-$wb['generate_password_txt'] = 'Δημιουργία Συνθηματικού';
-$wb['repeat_password_txt'] = 'Επανάληψη Συνθηματικού';
-$wb['password_mismatch_txt'] = 'Τα Συνθηματικά δεν ταιριάζουν.';
-$wb['password_match_txt'] = 'Τα Συνθηματικά ταιριάζουν.';
-$wb['username_error_collision'] = 'Το όνομα χρήστη δεν μπορεί να αρχίζει από την λέξη -web- ή την λέξη -web- ακολουθούμενη από αριθμό.';
-$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
+$wb['username_error_collision'] = 'The username may not be web or web plus a number.\\"';
 ?>
+

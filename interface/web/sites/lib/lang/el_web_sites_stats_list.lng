@@ -5,5 +5,6 @@ $wb['this_month_txt'] = 'Αυτό το μήνα';
 $wb['last_month_txt'] = 'Το τελευταίο μήνα';
 $wb['this_year_txt'] = 'Αυτό το χρόνο';
 $wb['last_year_txt'] = 'Τον τελευταίο χρόνο';
-$wb['sum_txt'] = 'Σύνολο';
+$wb['sum_txt'] = 'Sum';
 ?>
+

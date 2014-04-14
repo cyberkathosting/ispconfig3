@@ -1,12 +1,13 @@
 <?php
-$wb['page_head_txt'] = 'Ρυθμίσεις θυρίδας Email';
-$wb['page_desc_txt'] = 'Εδώ μπορείτε να ρυθμίσετε τον λογαριασμό email.';
-$wb['email_txt'] = 'Διεύθυνση Email';
-$wb['login_txt'] = 'Είσοδος';
-$wb['server_address_txt'] = 'Διεύθυνση Mailserver';
-$wb['cc_txt'] = 'Αποστολή αντιγράφου σε (CC)';
-$wb['quota_txt'] = 'Μέγεθος θυρίδας Email';
-$wb['unlimited_txt'] = 'Απεριόριστο';
+$wb['page_head_txt'] = 'Mailbox settings';
+$wb['page_desc_txt'] = 'Here you can edit the settings for the email account.';
+$wb['email_txt'] = 'Email address';
+$wb['login_txt'] = 'Login';
+$wb['server_address_txt'] = 'Mailserver address';
+$wb['cc_txt'] = 'Send copy to (CC)';
+$wb['quota_txt'] = 'Mailbox size';
+$wb['unlimited_txt'] = 'Unlimited';
 $wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'Κανένα';
+$wb['none_txt'] = 'None';
 ?>
+

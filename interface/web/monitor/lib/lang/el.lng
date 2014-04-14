@@ -145,11 +145,12 @@ $wb['monitor_title_iptables_txt'] = 'Κανόνες IPTables';
 $wb['Show fail2ban-Log'] = 'Εμφάνιση fail2ban-Log';
 $wb['Show IPTables'] = 'Εμφάνιση IPTables';
 $wb['Show OpenVz VE BeanCounter'] = 'Show OpenVz VE BeanCounter';
-$wb['monitor_serverstate_raidresync_txt'] = 'Το RAID βρίσκεται σε κατάσταση επανασυγχρονισμού';
-$wb['Show Monit'] = 'Εμφάνιση Monit';
-$wb['no_monit_url_defined_txt'] = 'Δεν καθορίστηκε URL για το Monit.';
-$wb['no_permissions_to_view_monit_txt'] = 'Δεν επιτρέπεται η πρόσβαση στο Monit.';
-$wb['Show Munin'] = 'Εμφάνιση Munin';
-$wb['no_munin_url_defined_txt'] = 'Δεν καθορίστηκε URL για το Munin.';
-$wb['no_permissions_to_view_munin_txt'] = 'Δεν επιτρέπεται η πρόσβαση στο Munin.';
+$wb['monitor_serverstate_raidresync_txt'] = 'Your RAID is in RESYNC mode';
+$wb['Show Monit'] = 'Show Monit';
+$wb['no_monit_url_defined_txt'] = 'No Monit URL defined.';
+$wb['no_permissions_to_view_monit_txt'] = 'You are not allowed to access Monit.';
+$wb['Show Munin'] = 'Show Munin';
+$wb['no_munin_url_defined_txt'] = 'No Munin URL defined.';
+$wb['no_permissions_to_view_munin_txt'] = 'You are not allowed to access Munin.';
 ?>
+

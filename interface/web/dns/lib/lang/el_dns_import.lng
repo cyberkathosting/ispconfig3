@@ -1,14 +1,15 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Πελάτης';
-$wb['btn_save_txt'] = 'Εισαγωγή Αρχείου Ζώνης';
-$wb['btn_cancel_txt'] = 'Άκυρο';
+$wb['client_txt'] = 'Client';
+$wb['btn_save_txt'] = 'Import Zonefile';
+$wb['btn_cancel_txt'] = 'Cancel';
 $wb['domain_txt'] = 'Domain';
-$wb['zone_file_successfully_imported_txt'] = 'Το αρχείο ζώνης έχει εισαχθεί με επιτυχία!';
-$wb['error_no_valid_zone_file_txt'] = 'Φαίνεται ότι το αρχείο ζώνης δεν είναι έγκυρο!';
-$wb['zonefile_to_import_txt'] = 'Αρχείο Ζώνης';
-$wb['domain_field_desc_txt'] = 'Μπορεί να μείνει κενό αν το όνομα domain είναι στο όνομα αρχείου λη στα περιεχόμενά του.';
-$wb['title'] = 'Εισαγωγή Αρχείων Ζώνης';
-$wb['no_file_uploaded_error'] = 'Δεν μεταφορτώθηκε αρχείο ζώνης';
-$wb['zone_file_import_txt'] = 'Εισαγωγή Αρχείου Ζώνης';
+$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
+$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
+$wb['zonefile_to_import_txt'] = 'Zone File';
+$wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filename or the zone-file content.';
+$wb['title'] = 'Import Zone Files';
+$wb['no_file_uploaded_error'] = 'No zonefile uploaded';
+$wb['zone_file_import_txt'] = 'Zone File Import';
 ?>
+

@@ -1,7 +1,8 @@
 <?php
-$wb['interface_head_txt'] = 'Ρυθμίσεις διεπαφής';
-$wb['interface_desc_txt'] = 'Τροποποιήστε την διεπαφή σας';
-$wb['language_txt'] = 'Γλώσσα';
-$wb['startmodule_txt'] = 'Άρθρωμα Εκκίνησης';
-$wb['app_theme_txt'] = 'Σχεδίαση';
+$wb['interface_head_txt'] = 'Interface Settings';
+$wb['interface_desc_txt'] = 'Modify your interface';
+$wb['language_txt'] = 'Language';
+$wb['startmodule_txt'] = 'Startmodule';
+$wb['app_theme_txt'] = 'Design';
 ?>
+

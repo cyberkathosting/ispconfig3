@@ -1,3 +1,4 @@
 <?php
-$wb['edit_txt'] = 'Επεξεργασία';
+$wb['edit_txt'] = 'Edit';
 ?>
+

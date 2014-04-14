@@ -1,14 +1,14 @@
 <?php
-$wb['head_txt'] = 'Εργαλείο επανασυγχρονισμού';
-$wb['legend_txt'] = 'Επανασυγχρονισμός';
-$wb['resync_sites_txt'] = 'Επανασυγχρονισμός Websites';
-$wb['resync_ftp_txt'] = 'Επανασυγχρονισμός χρηστών FTP';
-$wb['resync_shell_txt'] = 'Επανασυγχρονισμός χρηστών shell';
-$wb['resync_cron_txt'] = 'Επανασυγχρονισμός εργασιών cron';
-$wb['resync_db_txt'] = 'Επανασυγχρονισμός ρυθμίσεων ΒΔ πελατών';
-$wb['resync_mailbox_txt'] = 'Επανασυγχρονισμός θυρίδων Mail';
-$wb['resync_dns_txt'] = 'Επανασυγχρονισμός εγγραφών DNS';
-$wb['btn_start_txt'] = 'Εκκίνηση';
-$wb['btn_cancel_txt'] = 'Άκυρο';
-$wb['resync_client_txt'] = 'Resync Client records';
+$wb['head_txt'] = 'Resync Tool';
+$wb['legend_txt'] = 'Resync';
+$wb['resync_sites_txt'] = 'Resync Websites';
+$wb['resync_ftp_txt'] = 'Resync FTP users';
+$wb['resync_shell_txt'] = 'Resync shell users';
+$wb['resync_cron_txt'] = 'Resync cronjobs';
+$wb['resync_db_txt'] = 'Resync clientdb config';
+$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
+$wb['resync_dns_txt'] = 'Resync DNS records';
+$wb['btn_start_txt'] = 'Start';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>
+

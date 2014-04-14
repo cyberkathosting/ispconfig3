@@ -4,3 +4,4 @@ $wb['active_txt'] = 'Ενεργός';
 $wb['web_folder_id_txt'] = 'Φάκελος';
 $wb['username_txt'] = 'Όνομα Χρήστη';
 ?>
+

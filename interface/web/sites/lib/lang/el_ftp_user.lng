@@ -12,7 +12,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['username_txt'] = 'Όνομα Χρήστη';
 $wb['password_txt'] = 'Συνθηματικό';
-$wb['password_strength_txt'] = 'Ισχύς Συνθηματικου';
+$wb['password_strength_txt'] = 'Δύναμη Συνθηματικου';
 $wb['quota_size_txt'] = 'Όριο χρήσης αποθηκευτικού χώρου';
 $wb['active_txt'] = 'Ενεργός';
 $wb['limit_ftp_user_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των χρηστών FTP για τον λογαριασμό σας.';
@@ -25,10 +25,11 @@ $wb['directory_error_empty'] = 'Ο Φάκελος δεν έχει οριστεί
 $wb['directory_error_notinweb'] = 'Ο φάκελος δεν βρίσκεται μέσα στον ριζικό φάκελο web.';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website.';
 $wb['quota_size_error_regex'] = 'Όριο: εισάγετε -1 για απεριόριστα ή έναν αριθμό > 0';
-$wb['dir_dot_error'] = 'Δεν επιτρέπονται .. στη διαδρομη.';
-$wb['dir_slashdot_error'] = 'Δεν επιτρέπεται ./ στη διαδρομη.';
-$wb['generate_password_txt'] = 'Δημιουργία Συνθηματικού';
-$wb['repeat_password_txt'] = 'Επανάληψη Συνθηματικού';
-$wb['password_mismatch_txt'] = 'Τα Συνθηματικά δεν ταιριάζουν.';
-$wb['password_match_txt'] = 'Τα Συνθηματικά ταιριάζουν.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 ?>
+

@@ -4,7 +4,7 @@ $wb['type_txt'] = 'Τύπος';
 $wb['source_server_txt'] = 'Pop3/Imap Server';
 $wb['source_username_txt'] = 'Όνομα Χρήστη';
 $wb['source_password_txt'] = 'Συνθηματικό';
-$wb['source_delete_txt'] = 'Διαγραφή email μετά την ανάκτηση';
+$wb['source_delete_txt'] = 'Διαγραφή email μετά την απόκτηση';
 $wb['destination_txt'] = 'Προορισμός';
 $wb['active_txt'] = 'Ενεργός';
 $wb['limit_fetchmail_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των εγγραφών Fetchmail για τον λογαριασμό σας.';
@@ -14,5 +14,6 @@ $wb['source_password_error_isempty'] = 'Το Συνθηματικό δεν έχ�
 $wb['destination_error_isemail'] = 'Δεν επιλέχθηκε προορισμός.';
 $wb['source_server_error_regex'] = 'Το όνομα του Pop3/Imap Server δεν είναι έγκυρο.';
 $wb['source_read_all_txt'] = 'Ανάκτηση όλων των emails (συμπερ. αναγνωσμένων mails)';
-$wb['error_delete_read_all_combination'] = 'Μη έγκυρος συνδυασμός επιλογών. Δεν μπορείτε να χρησιμοποιήσετε την επιλογή  \\"Διαγραφή email μετά την ανάκτηση\\" = ΟΧΙ μαζί με \\"Ανάκτηση όλων των emails\\" = ΝΑΙ';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 ?>
+

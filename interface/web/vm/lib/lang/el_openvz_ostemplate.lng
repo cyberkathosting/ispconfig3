@@ -9,3 +9,4 @@ $wb['template_name_error_empty'] = 'Το όνομα του προτύπου εί
 $wb['template_file_error_empty'] = 'Το αρχείο του προτύπου δεν έχει καθοριστεί.';
 $wb['Template'] = 'Πρότυπο';
 ?>
+
