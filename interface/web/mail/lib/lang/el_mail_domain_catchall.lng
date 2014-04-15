@@ -9,4 +9,3 @@ $wb['limit_mailcatchall_txt'] = 'Το μέγιστο πλήθος των email c
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>
-

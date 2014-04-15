@@ -7,4 +7,3 @@ $wb['this_year_txt'] = 'Αυτό το χρόνο';
 $wb['last_year_txt'] = 'Τον τελευταίο χρόνο';
 $wb['sum_txt'] = 'Sum';
 ?>
-

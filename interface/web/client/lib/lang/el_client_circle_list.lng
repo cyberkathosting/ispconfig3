@@ -8,4 +8,3 @@ $wb['filter_txt'] = 'Filter';
 $wb['delete_txt'] = 'Delete';
 $wb['active_txt'] = 'Active';
 ?>
-

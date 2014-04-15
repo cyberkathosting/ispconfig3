@@ -11,4 +11,3 @@ $wb['no_packages_txt'] = 'No packages available';
 $wb['edit_txt'] = 'Edit';
 $wb['delete_txt'] = 'Delete';
 ?>
-

@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Θέμα';
 $wb['add_new_record_txt'] = 'Νέο μήνυμα υποστήριξης';
 $wb['date_txt'] = 'Date';
 ?>
-

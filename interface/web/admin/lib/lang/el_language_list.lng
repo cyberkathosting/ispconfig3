@@ -5,4 +5,3 @@ $wb['module_txt'] = 'Άρθρωμα';
 $wb['lang_file_txt'] = 'Αρχείο Γλώσσας';
 $wb['lang_file_date_txt'] = 'Τελευταία τροποποίηση';
 ?>
-

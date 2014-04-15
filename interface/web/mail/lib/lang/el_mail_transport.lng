@@ -9,4 +9,3 @@ $wb['active_txt'] = 'Ενεργό';
 $wb['limit_mailrouting_txt'] = 'Το μέγιστο πλήθος των δρομολογήσεων email για τον λογαριασμό σας, εξαντλήθηκε.';
 $wb['transport_txt'] = 'Transport';
 ?>
-

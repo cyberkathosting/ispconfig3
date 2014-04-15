@@ -6,4 +6,3 @@ $wb['repo_password_txt'] = 'Συνθηματικό (Προαιρετικό)';
 $wb['active_txt'] = 'Ενεργό';
 $wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
 ?>
-

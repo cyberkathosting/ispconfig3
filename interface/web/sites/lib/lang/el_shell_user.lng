@@ -29,4 +29,3 @@ $wb['password_match_txt'] = 'The passwords do match.';
 $wb['username_must_not_exceed_32_chars_txt'] = 'The username must not exceed 32 characters.';
 $wb['username_not_allowed_txt'] = 'The username is not allowed.';
 ?>
-

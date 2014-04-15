@@ -5,4 +5,3 @@ $wb['ip_address_txt'] = 'Διεύθυνση IP';
 $wb['reserved_txt'] = 'Reserved';
 $wb['vm_id_txt'] = 'VM';
 ?>
-

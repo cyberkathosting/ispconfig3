@@ -36,4 +36,3 @@ $wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 $wb['list_head_txt'] = 'DNS Zone Wizard';
 $wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
 ?>
-

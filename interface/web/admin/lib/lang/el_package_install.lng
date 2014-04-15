@@ -5,4 +5,3 @@ $wb['repo_username_txt'] = 'Όνομα Χρήστη (προαιρετικό)';
 $wb['repo_password_txt'] = 'Συνθηματικό (προαιρετικό)';
 $wb['active_txt'] = 'Ενεργό';
 ?>
-

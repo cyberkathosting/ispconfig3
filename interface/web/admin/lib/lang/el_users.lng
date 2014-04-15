@@ -30,5 +30,5 @@ $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['username_error_collision'] = 'The username may not be web or web plus a number.\\"';
+$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 ?>
-

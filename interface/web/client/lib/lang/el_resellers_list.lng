@@ -9,4 +9,3 @@ $wb['add_new_record_txt'] = 'Νεός Μεταπωλητής';
 $wb['customer_no_txt'] = 'Customer No.';
 $wb['username_txt'] = 'Username';
 ?>
-

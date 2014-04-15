@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Format hari tidak valid.';
 $wb['command_error_format'] = 'Format perintah tidak valid. Harap dicatat untuk kasus pemanggilan url hanya http/https yang diizinkan.';
 $wb['unknown_fieldtype_error'] = 'Telah digunakan tipe kolom yang tidak dikenal.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>

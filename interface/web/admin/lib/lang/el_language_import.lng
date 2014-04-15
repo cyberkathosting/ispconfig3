@@ -5,5 +5,5 @@ $wb['btn_save_txt'] = 'Εισαγωγή του επιλεγμένου αρχεί
 $wb['language_overwrite_txt'] = 'Αντικατάσταση αρχείου, αν υπάρχει.';
 $wb['btn_cancel_txt'] = 'Επιστροφή';
 $wb['ignore_version_txt'] = 'Παράλειψη ελέγχου έκδοσης ISPConfig';
+$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
 ?>
-

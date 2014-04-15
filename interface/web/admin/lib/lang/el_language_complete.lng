@@ -5,4 +5,3 @@ $wb['language_select_txt'] = 'Επιλογή Γλώσσας';
 $wb['btn_save_txt'] = 'Συγχώνευση Γλώσσας τώρα';
 $wb['btn_cancel_txt'] = 'Επιστροφή';
 ?>
-

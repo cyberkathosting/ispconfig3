@@ -28,4 +28,3 @@ $wb['limit_client_txt'] = 'Αριθμός Πελατών';
 $wb['limit_database_txt'] = 'Αριθμός Databases';
 $wb['limit_mailmailinglist_txt'] = 'Αριθμός λιστών ηλ. αλληλογραφίας';
 ?>
-

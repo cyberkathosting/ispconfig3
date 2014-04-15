@@ -11,4 +11,3 @@ $wb['filter_txt'] = 'Search';
 $wb['delete_txt'] = 'Delete';
 $wb['reinstall_txt'] = 'Reinstall';
 ?>
-

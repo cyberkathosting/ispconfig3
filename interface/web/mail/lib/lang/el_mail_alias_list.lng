@@ -6,4 +6,3 @@ $wb['destination_txt'] = 'Προορισμός';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Νέο Ψευδώνυμο Email';
 ?>
-

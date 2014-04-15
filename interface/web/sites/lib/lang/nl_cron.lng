@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Ongeldig format voor dagen van de week.';
 $wb['command_error_format'] = 'Ongeldig commando formaat. Opmerking: in het geval van een url call, alleen http/https is toegestaan.';
 $wb['unknown_fieldtype_error'] = 'Een onbekend veld type is gebruikt.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>

@@ -11,4 +11,3 @@ $wb['autoresponder_active'] = 'Enable the autoresponder';
 $wb['now_txt'] = 'Now';
 $wb['autoresponder_subject_txt'] = 'Betreff';
 ?>
-

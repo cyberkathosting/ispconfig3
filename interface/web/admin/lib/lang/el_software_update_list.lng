@@ -7,4 +7,3 @@ $wb['version_txt'] = 'Έκδοση';
 $wb['action_txt'] = 'Ενέργεια';
 $wb['no_updates_txt'] = 'No updates available';
 ?>
-

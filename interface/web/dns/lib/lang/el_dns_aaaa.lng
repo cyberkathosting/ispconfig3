@@ -12,5 +12,5 @@ $wb['name_error_empty'] = 'Το hostname δεν έχει οριστεί.';
 $wb['name_error_regex'] = 'Το hostname δεν έχει σωστή μορφοποίηση.';
 $wb['data_error_empty'] = 'Διεύθυνση IP κενή';
 $wb['data_error_regex'] = 'Διεύθυνση IP με μη έγκυρη μορφοποίηση';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
-

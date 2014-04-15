@@ -6,4 +6,3 @@ $wb['language_new_hint_txt'] = 'Κωδικός γλώσσας 2 χαρακτήρ
 $wb['btn_save_txt'] = 'Νέα ομάδα αρχείων γλώσσας';
 $wb['btn_cancel_txt'] = 'Επιστροφή';
 ?>
-
