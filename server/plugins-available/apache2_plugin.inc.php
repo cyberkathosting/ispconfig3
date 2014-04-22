@@ -355,13 +355,26 @@ class apache2_plugin {
 
 		$web_folder = 'web';
 		$log_folder = 'log';
+		$old_web_folder = 'web';
+		$old_log_folder = 'log';
 		if($data['new']['type'] == 'vhostsubdomain') {
+			// new one
 			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
 			$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
 			if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
 			$web_folder = $data['new']['web_folder'];
 			$log_folder .= '/' . $subdomain_host;
 			unset($tmp);
+			
+			if(isset($data['old']['parent_domain_id'])) {
+				// old one
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+				if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+				$old_web_folder = $data['old']['web_folder'];
+				$old_log_folder .= '/' . $subdomain_host;
+				unset($tmp);
+			}
 		}
 
 		// Create group and user, if not exist
@@ -473,9 +486,9 @@ class apache2_plugin {
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind,nobootwait';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
@@ -507,14 +520,14 @@ class apache2_plugin {
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
-			if(is_link($data['old']['document_root'].'/'.$log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$log_folder);
+			if(is_link($data['old']['document_root'].'/'.$old_log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$old_log_folder);
 
 			//* remove old log mount
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 
 			//* Unmount log directory
-			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
 		}
 
 		//* Create the log dir if nescessary and mount it
@@ -1620,7 +1633,6 @@ class apache2_plugin {
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';
-
 	}
 
 	function delete($event_name, $data) {
