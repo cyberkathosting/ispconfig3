@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Serveur';
 $wb['origin_txt'] = 'Zone DNS';
 $wb['ns_txt'] = 'NS';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Actif';
 $wb['limit_dns_slave_zone_txt'] = 'Le nombre maximal de zones DNS secondaire pour votre compte est atteint.';
 $wb['client_txt'] = 'Client';
 $wb['xfer_txt'] = 'Autoriser les transferts de zone de <br />ces IPs (liste séparée par des virgules)';
@@ -13,5 +13,5 @@ $wb['origin_error_regex'] = 'Le format de la zone est invalide.';
 $wb['ns_error_regex'] = 'Le format de l\'enregistrement NS est invalide.';
 $wb['eg_domain_tld'] = 'ex. domain.tld.';
 $wb['ipv4_form_txt'] = 'Format IPv4 - ex. 1.2.3.4';
-$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
+$wb['secondary_zone_txt'] = 'Zone DNS secondaire';
 ?>

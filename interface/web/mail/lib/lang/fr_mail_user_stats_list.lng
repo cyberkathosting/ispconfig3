@@ -4,5 +4,5 @@ $wb['email_txt'] = 'Email';
 $wb['this_month_txt'] = 'Le mois en cours';
 $wb['last_month_txt'] = 'Le mois dernier';
 $wb['this_year_txt'] = 'L\'année en cours';
-$wb['last_year_txt'] = 'Lannée dernière';
+$wb['last_year_txt'] = 'L\'année dernière';
 ?>

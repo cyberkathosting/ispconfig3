@@ -44,4 +44,5 @@ protocol pop3 {
 }
 protocol lda {
   mail_plugins = sieve quota
+  postmaster_address = root@localhost
 }

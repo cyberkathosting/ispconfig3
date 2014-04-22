@@ -12,10 +12,10 @@ $wb['username_error_unique'] = 'Le nom d\'utilisateur doit être unique';
 $wb['username_error_regex'] = 'Le nom d\'utilisateur contient des caractères non autorisés.';
 $wb['directory_error_empty'] = 'Dossier vide.';
 $wb['parent_domain_id_error_empty'] = 'Aucun site web sélectionné.';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['dir_dot_error'] = 'Les .. ne sont pas autorisés.';
+$wb['dir_slashdot_error'] = 'Les ./ ne sont pas autorisés.';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
+$wb['repeat_password_txt'] = 'Vérification du mot de passe';
+$wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
+$wb['password_match_txt'] = 'Les mots de passe correspondent.';
 ?>

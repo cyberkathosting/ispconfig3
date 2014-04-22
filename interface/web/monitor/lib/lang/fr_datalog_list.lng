@@ -4,5 +4,5 @@ $wb['tstamp_txt'] = 'Date';
 $wb['server_id_txt'] = 'Serveur';
 $wb['dbtable_txt'] = 'Table DB';
 $wb['action_txt'] = 'Action';
-$wb['status_txt'] = 'Status';
+$wb['status_txt'] = 'Statut';
 ?>
