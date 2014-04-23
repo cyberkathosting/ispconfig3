@@ -633,6 +633,7 @@ class installer_base {
 
 		//* Create aliasaes
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 
 	}
 
