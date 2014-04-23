@@ -118,7 +118,7 @@ class installer extends installer_base {
 		chgrp($config_dir.'/'.$configfile, 'root');
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/var/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 
