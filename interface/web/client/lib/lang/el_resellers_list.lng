@@ -6,6 +6,6 @@ $wb['contact_name_txt'] = 'Πρόσωπο Επικοινωνίας';
 $wb['city_txt'] = 'Πόλη';
 $wb['country_txt'] = 'Χώρα';
 $wb['add_new_record_txt'] = 'Νεός Μεταπωλητής';
-$wb['customer_no_txt'] = 'Αρ. Πελάτη';
-$wb['username_txt'] = 'Όνομα χρήστη';
+$wb['customer_no_txt'] = 'Customer No.';
+$wb['username_txt'] = 'Username';
 ?>

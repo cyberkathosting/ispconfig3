@@ -1,7 +1,7 @@
 <?php
 $wb['error_user_password_empty'] = 'Le nom d\'utilisateur ou le mot de passe sont vides.';
 $wb['error_user_password_incorrect'] = 'Le nom d\'utilisateur ou le mot de passe sont incorrects.';
-$wb['error_user_blocked'] = 'Lutilisateur a été bloqué.';
+$wb['error_user_blocked'] = 'L\'utilisateur a été bloqué.';
 $wb['error_user_too_many_logins'] = 'Trop de tentatives effectuées, essayez dans 15 minutes.';
 $wb['pass_reset_txt'] = 'Un nouveau mot de passe vous sera envoyé à votre adresse e-mail si celle-ci correspond à celle dans votre espace client.';
 $wb['pw_reset'] = 'Le mot de passe a été réinitialisé, et vous a été envoyé à votre adresse e-mail.';
@@ -14,14 +14,14 @@ $wb['pw_error_length'] = 'Le nom d\'utilisateur contient plus de que 64 caractè
 $wb['username_txt'] = 'Nom d\'utilisateur';
 $wb['password_txt'] = 'Mot de passe';
 $wb['login_button_txt'] = 'Connexion';
-$wb['pw_lost_txt'] = 'Password lost';
-$wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
+$wb['pw_lost_txt'] = 'Mot de passe perdu';
+$wb['error_maintenance_mode'] = 'Cette installation de ISPConfig est actuellement en maintenance. Nous serons de retour bientôt. Merci pour votre patience.';
 $wb['login_txt'] = 'Login';
-$wb['pw_reset_txt'] = 'Password reset';
-$wb['pw_button_txt'] = 'Resend password';
+$wb['pw_reset_txt'] = 'Réinitialiser le mot de passe';
+$wb['pw_button_txt'] = 'Renvoyer le mot de passe';
 $wb['email_txt'] = 'Email';
-$wb['theme_not_compatible'] = 'The chosen theme is not compatible with the current ISPConfig version. Please check for a new version of the theme.<br />The default theme as been activated automatically.';
-$wb['back_txt'] = 'Back';
+$wb['theme_not_compatible'] = 'Le thème choisi n\'est pas compatible avecla version courante de ISPConfig. Veuillez chercher une nouvelle version du thème.<br />Le thème par defaut a été automatiquement activé.';
+$wb['back_txt'] = 'Retour';
 $wb['email_error'] = 'Email contains unallowed characters or has a invalid format.';
 $wb['stay_logged_in_txt'] = 'Keep me logged in';
 ?>

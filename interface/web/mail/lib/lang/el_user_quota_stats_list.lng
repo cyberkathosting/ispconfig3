@@ -4,5 +4,5 @@ $wb['quota_txt'] = 'Όριο';
 $wb['name_txt'] = 'Όνομα';
 $wb['email_txt'] = 'Διεύθυνση Email';
 $wb['used_txt'] = 'Χώρος σε χρήση';
-$wb['percentage_txt'] = 'Χρήση %';
+$wb['percentage_txt'] = 'Used %';
 ?>

@@ -5,5 +5,5 @@ $wb['active_txt'] = 'Ενεργό';
 $wb['limit_mailforward_txt'] = 'Το μέγιστο πλήθος των email forwarders για τον λογαρισμό σας, έχει εξαντληθεί';
 $wb['duplicate_mailbox_txt'] = 'Υπάρχει ήδη μια θυρίδα με αυτή τη διεύθυνση email';
 $wb['domain_txt'] = 'Domain';
-$wb['source_txt'] = 'Πηγή Email';
+$wb['source_txt'] = 'Source Email';
 ?>

@@ -1,14 +1,14 @@
 <?php
 $wb['puser_txt'] = 'Όνομα χρήστη Web';
 $wb['pgroup_txt'] = 'Ομάδα Web';
-$wb['shell_txt'] = 'Κέλυφος';
+$wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Φάκελος';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['username_txt'] = 'Όνομα χρήστη';
 $wb['password_txt'] = 'Συνθηματικό';
-$wb['password_strength_txt'] = 'Ισχύς Συνθηματικού';
-$wb['chroot_txt'] = 'Κέλυφος Chroot';
+$wb['password_strength_txt'] = 'Δύναμη συνθηματικού';
+$wb['chroot_txt'] = 'Chroot Shell';
 $wb['quota_size_txt'] = 'Όρια';
 $wb['active_txt'] = 'Ενεργός';
 $wb['username_error_empty'] = 'Το όνομα χρήστη δεν έχει οριστεί';
@@ -20,12 +20,12 @@ $wb['directory_error_empty'] = 'Ο φάκελος δεν έχει οριστεί
 $wb['limit_shell_user_txt'] = 'Φτάσατε το μέγιστο πλήθος τον λογαριασμών Shell';
 $wb['parent_domain_id_error_empty'] = 'Δεν επιλέχθηκε website';
 $wb['ssh_rsa_txt'] = 'Δημόσιο Κλειδί SSH-RSA (για key-based logins)';
-$wb['dir_dot_error'] = 'Δεν επιτρέπονται .. στη διαδρομη.';
-$wb['dir_slashdot_error'] = 'Δεν επιτρέπεται ./ στη διαδρομη.';
-$wb['generate_password_txt'] = 'Δημιουργία Συνθηματικού';
-$wb['repeat_password_txt'] = 'Επανάληψη Συνθηματικού';
-$wb['password_mismatch_txt'] = 'Τα Συνθηματικά δεν ταιριάζουν.';
-$wb['password_match_txt'] = 'Τα Συνθηματικά ταιριάζουν.';
+$wb['dir_dot_error'] = 'No .. in path allowed.';
+$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
 $wb['username_must_not_exceed_32_chars_txt'] = 'The username must not exceed 32 characters.';
 $wb['username_not_allowed_txt'] = 'The username is not allowed.';
 ?>

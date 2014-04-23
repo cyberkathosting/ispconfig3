@@ -633,6 +633,7 @@ class installer_base {
 
 		//* Create aliasaes
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 
 	}
 
@@ -1007,7 +1008,7 @@ class installer_base {
 		chgrp($config_dir.'/'.$configfile, 'root');
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/var/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 

@@ -1,20 +1,20 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
+$wb['btn_send_txt'] = 'Envoyer';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['sender_txt'] = 'Adresse email de l\'expéditeur';
+$wb['subject_txt'] = 'Objet';
 $wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
+$wb['form_legend_client_txt'] = 'Envoyer l\'email à tous les clients';
+$wb['form_legend_admin_txt'] = 'Envoyer l\'email à tous les clients et revendeurs';
+$wb['sender_invalid_error'] = 'Adresse d\'expédition invalide.';
+$wb['subject_invalid_error'] = 'L\'objet est vide.';
+$wb['message_invalid_error'] = 'Le message est vide.';
+$wb['email_sent_to_txt'] = 'Email envoyé à :';
+$wb['page_head_txt'] = 'Envoyer les informations client';
+$wb['recipient_txt'] = 'Destinataire';
+$wb['all_clients_resellers_txt'] = 'Tous les clients et revendeurs';
+$wb['all_clients_txt'] = 'Tous les clients';
+$wb['variables_txt'] = 'Variables :';
 $wb['gender_m_txt'] = 'Mr.';
 $wb['gender_f_txt'] = 'Ms.';
 ?>

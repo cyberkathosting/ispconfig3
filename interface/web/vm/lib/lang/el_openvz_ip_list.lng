@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Διευθύνσεις IP OpenVZ';
 $wb['server_id_txt'] = 'Server';
 $wb['ip_address_txt'] = 'Διεύθυνση IP';
-$wb['reserved_txt'] = 'Σε χρήση';
+$wb['reserved_txt'] = 'Reserved';
 $wb['vm_id_txt'] = 'VM';
 ?>

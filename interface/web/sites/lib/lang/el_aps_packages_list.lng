@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Διαθέσιμα Πακέτα';
-$wb['name_txt'] = 'Όνομα';
-$wb['version_txt'] = 'Έκδοση';
-$wb['category_txt'] = 'Κατηγορία';
-$wb['status_txt'] = 'Ξεκλείδωτο';
-$wb['filter_txt'] = 'Αναζήτηση';
+$wb['list_head_txt'] = 'Available packages';
+$wb['name_txt'] = 'Name';
+$wb['version_txt'] = 'Version';
+$wb['category_txt'] = 'Category';
+$wb['status_txt'] = 'Unlocked';
+$wb['filter_txt'] = 'Search';
 ?>

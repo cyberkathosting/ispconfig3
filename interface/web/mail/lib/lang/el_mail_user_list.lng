@@ -4,5 +4,5 @@ $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Αυτόματη απάντηση';
 $wb['add_new_record_txt'] = 'Νέα Θυρίδα';
 $wb['name_txt'] = 'Πραγματικό Όνομα';
-$wb['login_txt'] = 'Είσοδος';
+$wb['login_txt'] = 'Login';
 ?>

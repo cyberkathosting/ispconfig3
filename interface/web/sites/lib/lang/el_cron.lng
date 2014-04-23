@@ -17,6 +17,8 @@ $wb['run_mday_error_format'] = 'Η μορφοποίηση για τις μέρε
 $wb['run_month_error_format'] = 'Η μορφοποίηση για τους μήνες δεν είναι έγκυρη';
 $wb['run_wday_error_format'] = 'Η μορφοποίηση για τις ημέρες της εβδομάδας δεν είναι έγκυρη';
 $wb['command_error_format'] = 'Η μορφοποίηση για την εντολή δεν είναι έγκυρη. Παρακαλούμε σημειώστε ότι στην περίπτωση του url μόνο τα http/https επιτρέπονται.';
-$wb['unknown_fieldtype_error'] = 'Χρησιμοποιήθηκε άγνωστος τύπος πεδίου.';
+$wb['unknown_fieldtype_error'] = 'Χρησιμοποιήθηκε άγνωστός τύπος πεδίου.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>
