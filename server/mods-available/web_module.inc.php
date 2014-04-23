@@ -235,6 +235,17 @@ class web_module {
 		} else {
 			$path_parts = pathinfo($init_script);
 			$initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
+			
+			if($action == 'reload') {
+				if(file_exists('/etc/os-release')) {
+					$tmp = file_get_contents('/etc/os-release');
+					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
+						$initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
+					}
+					unset($tmp);
+				}
+			}
+		
 		}
 
 		$retval = array('output' => '', 'retval' => 0);
