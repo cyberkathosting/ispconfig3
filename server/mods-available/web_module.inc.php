@@ -236,7 +236,9 @@ class web_module {
 			$path_parts = pathinfo($init_script);
 			$initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
 			
-			if($action == 'reload') {
+			if($action == 'reload' && $init_script == $conf['init_scripts'].'/'.$web_config['php_fpm_init_script']) {
+				// we have to do a workaround because of buggy ubuntu fpm reload handling
+				// @see: https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
 				if(file_exists('/etc/os-release')) {
 					$tmp = file_get_contents('/etc/os-release');
 					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
@@ -245,7 +247,6 @@ class web_module {
 					unset($tmp);
 				}
 			}
-		
 		}
 
 		$retval = array('output' => '', 'retval' => 0);
