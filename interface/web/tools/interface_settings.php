@@ -126,7 +126,7 @@ class page_action extends tform_actions {
 			print '<script type="text/javascript">document.location.reload();</script>';
 			exit;
 		}
-		else parent::onShow();
+		//else parent::onShow();
 	}
 
 
