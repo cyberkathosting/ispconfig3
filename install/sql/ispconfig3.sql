@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS `aps_instances` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT '0',
-  `customer_id` int(4) NOT NULL,
-  `package_id` int(4) NOT NULL,
-  `instance_status` int(4) NOT NULL,
+  `customer_id` int(4) NOT NULL DEFAULT '0',
+  `package_id` int(4) NOT NULL DEFAULT '0',
+  `instance_status` int(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
@@ -80,9 +80,9 @@ CREATE TABLE IF NOT EXISTS `aps_instances` (
 CREATE TABLE IF NOT EXISTS `aps_instances_settings` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `server_id` int(11) NOT NULL DEFAULT '0',
-  `instance_id` int(4) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `value` text NOT NULL,
+  `instance_id` int(4) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `value` text,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
@@ -94,12 +94,12 @@ CREATE TABLE IF NOT EXISTS `aps_instances_settings` (
 
 CREATE TABLE IF NOT EXISTS `aps_packages` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
-  `path` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `category` varchar(255) NOT NULL,
-  `version` varchar(20) NOT NULL,
-  `release` int(4) NOT NULL,
-  `package_url` TEXT NOT NULL,
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `category` varchar(255) NOT NULL DEFAULT '',
+  `version` varchar(20) NOT NULL DEFAULT '',
+  `release` int(4) NOT NULL DEFAULT '0',
+  `package_url` TEXT,
   `package_status` int(1) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
@@ -112,8 +112,8 @@ CREATE TABLE IF NOT EXISTS `aps_packages` (
 
 CREATE TABLE IF NOT EXISTS `aps_settings` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `value` text NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `value` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `aps_settings` (
 --
 
 CREATE TABLE `attempts_login` (
-  `ip` varchar(39) NOT NULL,
+  `ip` varchar(39) NOT NULL DEFAULT '',
   `times` int(11) DEFAULT NULL,
   `login_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
@@ -158,7 +158,7 @@ CREATE TABLE `client` (
   `mobile` varchar(32) DEFAULT NULL,
   `fax` varchar(32) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `internet` varchar(255) NOT NULL,
+  `internet` varchar(255) NOT NULL DEFAULT '',
   `icq` varchar(16) DEFAULT NULL,
   `notes` text,
   `bank_account_owner` varchar(255) DEFAULT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE `client` (
   `bank_account_swift` varchar(255) DEFAULT NULL,
   `paypal_email` varchar(255) DEFAULT NULL,
   `default_mailserver` int(11) unsigned NOT NULL DEFAULT '1',
-  `mail_servers` blob NOT NULL,
+  `mail_servers` blob,
   `limit_maildomain` int(11) NOT NULL DEFAULT '-1',
   `limit_mailbox` int(11) NOT NULL DEFAULT '-1',
   `limit_mailalias` int(11) NOT NULL DEFAULT '-1',
@@ -184,7 +184,7 @@ CREATE TABLE `client` (
   `limit_spamfilter_user` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_policy` int(11) NOT NULL DEFAULT '0',
   `default_webserver` int(11) unsigned NOT NULL DEFAULT '1',
-  `web_servers` blob NOT NULL,
+  `web_servers` blob,
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL DEFAULT '-1',
   `limit_web_quota` int(11) NOT NULL DEFAULT '-1',
@@ -207,13 +207,13 @@ CREATE TABLE `client` (
   `limit_backup` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'y',
   `limit_aps` int(11) NOT NULL DEFAULT '-1',
   `default_dnsserver` int(11) unsigned NOT NULL DEFAULT '1',
-  `db_servers` blob NOT NULL,
+  `db_servers` blob,
   `limit_dns_zone` int(11) NOT NULL DEFAULT '-1',
   `default_slave_dnsserver` int(11) unsigned NOT NULL DEFAULT '1',
   `limit_dns_slave_zone` int(11) NOT NULL DEFAULT '-1',
   `limit_dns_record` int(11) NOT NULL DEFAULT '-1',
   `default_dbserver` int(11) NOT NULL DEFAULT '1',
-  `dns_servers` blob NOT NULL,
+  `dns_servers` blob,
   `limit_database` int(11) NOT NULL DEFAULT '-1',
   `limit_database_quota` int(11) NOT NULL default '-1',
   `limit_cron` int(11) NOT NULL DEFAULT '0',
@@ -231,7 +231,7 @@ CREATE TABLE `client` (
   `language` char(2) NOT NULL DEFAULT 'en',
   `usertheme` varchar(32) NOT NULL DEFAULT 'default',
   `template_master` int(11) unsigned NOT NULL DEFAULT '0',
-  `template_additional` text NOT NULL,
+  `template_additional` text,
   `created_at` bigint(20) DEFAULT NULL,
   `locked` enum('n','y') NOT NULL DEFAULT 'n',
   `canceled` enum('n','y') NOT NULL DEFAULT 'n',
@@ -280,7 +280,7 @@ CREATE TABLE `client_template` (
   `sys_perm_user` varchar(5) default NULL,
   `sys_perm_group` varchar(5) default NULL,
   `sys_perm_other` varchar(5) default NULL,
-  `template_name` varchar(64) NOT NULL,
+  `template_name` varchar(64) NOT NULL DEFAULT '',
   `template_type` varchar(1) NOT NULL default 'm',
   `limit_maildomain` int(11) NOT NULL default '-1',
   `limit_mailbox` int(11) NOT NULL default '-1',
@@ -377,9 +377,9 @@ CREATE TABLE `client_message_template` (
 --
 
 CREATE TABLE `country` (
-  `iso` char(2) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `printable_name` varchar(64) NOT NULL,
+  `iso` char(2) NOT NULL DEFAULT '',
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `printable_name` varchar(64) NOT NULL DEFAULT '',
   `iso3` char(3) DEFAULT NULL,
   `numcode` smallint(6) DEFAULT NULL,
   `eu` enum('n','y') NOT NULL DEFAULT 'n',
@@ -401,7 +401,7 @@ CREATE TABLE `cron` (
   `server_id` int(11) unsigned NOT NULL default '0',
   `parent_domain_id` int(11) unsigned NOT NULL default '0',
   `type` enum('url','chrooted','full') NOT NULL default 'url',
-  `command` TEXT NOT NULL,
+  `command` TEXT,
   `run_min` varchar(100) NULL,
   `run_hour` varchar(100) NULL,
   `run_mday` varchar(100) NULL,
@@ -440,16 +440,16 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
 
 CREATE TABLE `dns_rr` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) NOT NULL default '1',
-  `zone` int(11) unsigned NOT NULL,
-  `name` varchar(64) NOT NULL,
+  `zone` int(11) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(64) NOT NULL DEFAULT '',
   `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
-  `data` varchar(255) NOT NULL,
+  `data` varchar(255) NOT NULL DEFAULT '',
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '86400',
   `active` enum('N','Y') NOT NULL default 'Y',
@@ -467,16 +467,16 @@ CREATE TABLE `dns_rr` (
 
 CREATE TABLE `dns_slave` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) NOT NULL default '1',
-  `origin` varchar(255) NOT NULL,
-  `ns` varchar(255) NOT NULL,
-  `active` enum('N','Y') NOT NULL,
-  `xfer` varchar(255) NOT NULL,
+  `origin` varchar(255) NOT NULL DEFAULT '',
+  `ns` varchar(255) NOT NULL DEFAULT '',
+  `active` enum('N','Y') NOT NULL DEFAULT 'N',
+  `xfer` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slave` (`origin`,`server_id`),
   KEY `active` (`active`)
@@ -490,23 +490,23 @@ CREATE TABLE `dns_slave` (
 
 CREATE TABLE `dns_soa` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) NOT NULL default '1',
-  `origin` varchar(255) NOT NULL,
-  `ns` varchar(255) NOT NULL,
-  `mbox` varchar(255) NOT NULL,
+  `origin` varchar(255) NOT NULL DEFAULT '',
+  `ns` varchar(255) NOT NULL DEFAULT '',
+  `mbox` varchar(255) NOT NULL DEFAULT '',
   `serial` int(11) unsigned NOT NULL default '1',
   `refresh` int(11) unsigned NOT NULL default '28800',
   `retry` int(11) unsigned NOT NULL default '7200',
   `expire` int(11) unsigned NOT NULL default '604800',
   `minimum` int(11) unsigned NOT NULL default '86400',
   `ttl` int(11) unsigned NOT NULL default '86400',
-  `active` enum('N','Y') NOT NULL,
-  `xfer` varchar(255) NOT NULL,
+  `active` enum('N','Y') NOT NULL DEFAULT 'N',
+  `xfer` varchar(255) NOT NULL DEFAULT '',
   `also_notify` varchar(255) default NULL,
   `update_acl` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
@@ -678,9 +678,9 @@ CREATE TABLE `mail_access` (
   `sys_perm_group` varchar(5) NOT NULL default '',
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) NOT NULL default '0',
-  `source` varchar(255) NOT NULL,
-  `access` varchar(255) NOT NULL,
-  `type` set('recipient','sender','client') NOT NULL,
+  `source` varchar(255) NOT NULL DEFAULT '',
+  `access` varchar(255) NOT NULL DEFAULT '',
+  `type` set('recipient','sender','client') NOT NULL DEFAULT 'recipient',
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
   KEY `server_id` (`server_id`,`source`)
@@ -694,13 +694,13 @@ CREATE TABLE `mail_access` (
 
 CREATE TABLE `mail_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `server_id` int(10) unsigned NOT NULL,
-  `parent_domain_id` int(10) unsigned NOT NULL,
-  `mailuser_id` int(10) unsigned NOT NULL,
+  `server_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent_domain_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `mailuser_id` int(10) unsigned NOT NULL DEFAULT '0',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
-  `tstamp` int(10) unsigned NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `filesize` VARCHAR(10) NOT NULL,
+  `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -745,7 +745,7 @@ CREATE TABLE `mail_domain` (
   `dkim_selector` varchar(63) NOT NULL DEFAULT 'default',
   `dkim_private` mediumtext NULL,
   `dkim_public` mediumtext NULL,
-  `active` enum('n','y') NOT NULL,
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
   KEY `domain_active` (`domain`,`active`)
@@ -765,10 +765,10 @@ CREATE TABLE `mail_forwarding` (
   `sys_perm_group` varchar(5) NOT NULL default '',
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
-  `source` varchar(255) NOT NULL,
+  `source` varchar(255) NOT NULL DEFAULT '',
   `destination` text,
   `type` enum('alias','aliasdomain','forward','catchall') NOT NULL default 'alias',
-  `active` enum('n','y') NOT NULL,
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`),
   KEY `type` (`type`)
@@ -809,14 +809,14 @@ CREATE TABLE `mail_mailinglist` (
   `mailinglist_id` int(11) unsigned NOT NULL auto_increment,
   `sys_userid` int(11) unsigned NOT NULL default '0',
   `sys_groupid` int(11) unsigned NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) unsigned NOT NULL default '0',
-  `domain` varchar(255) NOT NULL,
-  `listname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `domain` varchar(255) NOT NULL DEFAULT '',
+  `listname` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY  (`mailinglist_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -848,9 +848,9 @@ CREATE TABLE IF NOT EXISTS `mail_relay_recipient` (
 
 CREATE TABLE `mail_traffic` (
   `traffic_id` int(11) unsigned NOT NULL auto_increment,
-  `mailuser_id` int(11) unsigned NOT NULL,
-  `month` char(7) NOT NULL,
-  `traffic` bigint(20) unsigned NOT NULL,
+  `mailuser_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `month` char(7) NOT NULL DEFAULT '',
+  `traffic` bigint(20) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY  (`traffic_id`),
   KEY `mailuser_id` (`mailuser_id`,`month`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -870,9 +870,9 @@ CREATE TABLE `mail_transport` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `domain` varchar(255) NOT NULL default '',
-  `transport` varchar(255) NOT NULL,
+  `transport` varchar(255) NOT NULL DEFAULT '',
   `sort_order` int(11) unsigned NOT NULL default '5',
-  `active` enum('n','y') NOT NULL,
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`transport_id`),
   KEY `server_id` (`server_id`,`transport`),
   KEY `server_id_2` (`server_id`,`domain`)
@@ -893,15 +893,15 @@ CREATE TABLE `mail_user` (
   `sys_perm_other` varchar(5) NOT NULL default '',
   `server_id` int(11) unsigned NOT NULL default '0',
   `email` varchar(255) NOT NULL default '',
-  `login` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `login` varchar(255) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
   `uid` int(11) unsigned NOT NULL default '5000',
   `gid` int(11) unsigned NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` varchar(255) NOT NULL default '',
-  `homedir` varchar(255) NOT NULL,
+  `homedir` varchar(255) NOT NULL default '',
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `autoresponder_end_date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -909,8 +909,8 @@ CREATE TABLE `mail_user` (
   `autoresponder_text` mediumtext NULL,
   `move_junk` enum('n','y') NOT NULL default 'n',
   `custom_mailfilter` mediumtext,
-  `postfix` enum('n','y') NOT NULL,
-  `access` enum('n','y') NOT NULL,
+  `postfix` enum('n','y') NOT NULL default 'y',
+  `access` enum('n','y') NOT NULL default 'y',
   `disableimap` enum('n','y') NOT NULL default 'n',
   `disablepop3` enum('n','y') NOT NULL default 'n',
   `disabledeliver` enum('n','y') NOT NULL default 'n',
@@ -959,10 +959,10 @@ CREATE TABLE `mail_user_filter` (
 --
 
 CREATE TABLE `monitor_data` (
-  `server_id` int(11) unsigned NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `created` int(11) unsigned NOT NULL,
-  `data` mediumtext NOT NULL,
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `type` varchar(255) NOT NULL default '',
+  `created` int(11) unsigned NOT NULL default '0',
+  `data` mediumtext,
   `state` enum('no_state','unknown','ok','info','warning','critical','error') NOT NULL DEFAULT 'unknown',
   PRIMARY KEY (`server_id`,`type`,`created`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
@@ -1005,7 +1005,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ostemplate` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `template_name` varchar(255) DEFAULT NULL,
-  `template_file` varchar(255) NOT NULL,
+  `template_file` varchar(255) NOT NULL DEFAULT '',
   `server_id` int(11) NOT NULL DEFAULT '0',
   `allservers` varchar(255) NOT NULL DEFAULT 'y',
   `active` varchar(255) NOT NULL DEFAULT 'y',
@@ -1086,8 +1086,8 @@ INSERT INTO `openvz_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_
 --
 
 CREATE TABLE IF NOT EXISTS `openvz_traffic` (
-  `veid` int(11) NOT NULL,
-  `traffic_date` date NOT NULL,
+  `veid` int(11) NOT NULL DEFAULT '0',
+  `traffic_date` date NOT NULL DEFAULT '0000-00-00',
   `traffic_bytes` bigint(32) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`veid`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1111,15 +1111,15 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT '0',
-  `veid` int(10) unsigned NOT NULL,
+  `veid` int(10) unsigned NOT NULL DEFAULT '0',
   `ostemplate_id` int(11) NOT NULL DEFAULT '0',
   `template_id` int(11) NOT NULL DEFAULT '0',
-  `ip_address` varchar(255) NOT NULL,
+  `ip_address` varchar(255) NOT NULL DEFAULT '',
   `hostname` varchar(255) DEFAULT NULL,
   `vm_password` varchar(255) DEFAULT NULL,
   `start_boot` varchar(255) NOT NULL DEFAULT 'y',
   `active` varchar(255) NOT NULL DEFAULT 'y',
-  `active_until_date` date NOT NULL,
+  `active_until_date` date NOT NULL DEFAULT '0000-00-00',
   `description` text,
   `diskspace` int(11) NOT NULL DEFAULT '0',
   `traffic` int(11) NOT NULL DEFAULT '-1',
@@ -1132,8 +1132,8 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `io_priority` int(11) NOT NULL DEFAULT '4',
   `nameserver` varchar(255) NOT NULL DEFAULT '8.8.8.8 8.8.4.4',
   `create_dns` varchar(1) NOT NULL DEFAULT 'n',
-  `capability` text NOT NULL,
-  `config` mediumtext NOT NULL,
+  `capability` text,
+  `config` mediumtext,
   PRIMARY KEY (`vm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -1148,11 +1148,11 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
 -- 
 
 CREATE TABLE `remote_session` (
-  `remote_session` varchar(64) NOT NULL,
-  `remote_userid` int(11) unsigned NOT NULL,
-  `remote_functions` text NOT NULL,
+  `remote_session` varchar(64) NOT NULL DEFAULT '',
+  `remote_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `remote_functions` text,
   `client_login` tinyint(1) unsigned NOT NULL default '0',
-  `tstamp` int(10) unsigned NOT NULL,
+  `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY  (`remote_session`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
@@ -1169,9 +1169,9 @@ CREATE TABLE `remote_user` (
   `sys_perm_user` varchar(5) default NULL,
   `sys_perm_group` varchar(5) default NULL,
   `sys_perm_other` varchar(5) default NULL,
-  `remote_username` varchar(64) NOT NULL,
-  `remote_password` varchar(64) NOT NULL,
-  `remote_functions` text NOT NULL,
+  `remote_username` varchar(64) NOT NULL DEFAULT '',
+  `remote_password` varchar(64) NOT NULL DEFAULT '',
+  `remote_functions` text,
   PRIMARY KEY  (`remote_userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1197,7 +1197,7 @@ CREATE TABLE `server` (
   `vserver_server` tinyint(1) NOT NULL default '0',
   `proxy_server` tinyint(1) NOT NULL default '0',
   `firewall_server` tinyint(1) NOT NULL default '0',
-  `config` text NOT NULL,
+  `config` text,
   `updated` bigint(20) unsigned NOT NULL default '0',
   `mirror_server_id` int(11) unsigned NOT NULL default '0',
   `dbversion` int(11) unsigned NOT NULL default '1',
@@ -1276,8 +1276,8 @@ CREATE TABLE `shell_user` (
   `pgroup` varchar(255) default NULL,
   `shell` varchar(255) NOT NULL default '/bin/bash',
   `dir` varchar(255) default NULL,
-  `chroot` varchar(255) NOT NULL,
-  `ssh_rsa` text NOT NULL,
+  `chroot` varchar(255) NOT NULL DEFAULT '',
+  `ssh_rsa` text,
   PRIMARY KEY  (`shell_user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1289,16 +1289,16 @@ CREATE TABLE `shell_user` (
 
 CREATE TABLE `software_package` (
   `package_id` int(11) unsigned NOT NULL auto_increment,
-  `software_repo_id` int(11) unsigned NOT NULL,
-  `package_name` varchar(64) NOT NULL,
-  `package_title` varchar(64) NOT NULL,
+  `software_repo_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `package_name` varchar(64) NOT NULL DEFAULT '',
+  `package_title` varchar(64) NOT NULL DEFAULT '',
   `package_description` text,
   `package_version` varchar(8) default NULL,
   `package_type` enum('ispconfig','app','web') NOT NULL default 'app',
   `package_installable` enum('yes','no','key') NOT NULL default 'yes',
   `package_requires_db` enum('no','mysql') NOT NULL default 'no',
   `package_remote_functions` text,
-  `package_key` varchar(255) NOT NULL,
+  `package_key` varchar(255) NOT NULL DEFAULT '',
   `package_config` text,
   PRIMARY KEY  (`package_id`),
   UNIQUE KEY `package_name` (`package_name`)
@@ -1333,12 +1333,12 @@ CREATE TABLE `software_repo` (
 
 CREATE TABLE `software_update` (
   `software_update_id` int(11) unsigned NOT NULL auto_increment,
-  `software_repo_id` int(11) unsigned NOT NULL,
-  `package_name` varchar(64) NOT NULL,
-  `update_url` varchar(255) NOT NULL,
-  `update_md5` varchar(255) NOT NULL,
-  `update_dependencies` varchar(255) NOT NULL,
-  `update_title` varchar(64) NOT NULL,
+  `software_repo_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `package_name` varchar(64) NOT NULL DEFAULT '',
+  `update_url` varchar(255) NOT NULL DEFAULT '',
+  `update_md5` varchar(255) NOT NULL DEFAULT '',
+  `update_dependencies` varchar(255) NOT NULL DEFAULT '',
+  `update_title` varchar(64) NOT NULL DEFAULT '',
   `v1` tinyint(1) NOT NULL default '0',
   `v2` tinyint(1) NOT NULL default '0',
   `v3` tinyint(1) NOT NULL default '0',
@@ -1356,8 +1356,8 @@ CREATE TABLE `software_update` (
 CREATE TABLE `software_update_inst` (
   `software_update_inst_id` int(11) unsigned NOT NULL auto_increment,
   `software_update_id` int(11) unsigned NOT NULL default '0',
-  `package_name` varchar(64) NOT NULL,
-  `server_id` int(11) unsigned NOT NULL,
+  `package_name` varchar(64) NOT NULL DEFAULT '',
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
   `status` enum('none','installing','installed','deleting','deleted','failed') NOT NULL default 'none',
   PRIMARY KEY  (`software_update_inst_id`),
   UNIQUE KEY `software_update_id` (`software_update_id`,`package_name`,`server_id`)
@@ -1371,11 +1371,11 @@ CREATE TABLE `software_update_inst` (
 
 CREATE TABLE `spamfilter_policy` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `policy_name` varchar(64) default NULL,
   `virus_lover` enum('N','Y') default NULL,
   `spam_lover` enum('N','Y') default NULL,
@@ -1429,15 +1429,15 @@ CREATE TABLE `spamfilter_policy` (
 
 CREATE TABLE `spamfilter_users` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
-  `server_id` int(11) unsigned NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
   `priority` tinyint(3) unsigned NOT NULL default '7',
   `policy_id` int(11) unsigned NOT NULL default '1',
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL DEFAULT '',
   `fullname` varchar(64) default NULL,
   `local` varchar(1) default NULL,
   PRIMARY KEY  (`id`),
@@ -1452,16 +1452,16 @@ CREATE TABLE `spamfilter_users` (
 
 CREATE TABLE `spamfilter_wblist` (
   `wblist_id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL,
-  `sys_groupid` int(11) unsigned NOT NULL,
-  `sys_perm_user` varchar(5) NOT NULL,
-  `sys_perm_group` varchar(5) NOT NULL,
-  `sys_perm_other` varchar(5) NOT NULL,
-  `server_id` int(11) unsigned NOT NULL,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
   `wb` enum('W','B') NOT NULL default 'W',
-  `rid` int(11) unsigned NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `priority` tinyint(3) unsigned NOT NULL,
+  `rid` int(11) unsigned NOT NULL DEFAULT '0',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `priority` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `active` enum('y','n') NOT NULL default 'y',
   PRIMARY KEY  (`wblist_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1494,9 +1494,9 @@ CREATE TABLE `support_message` (
 --
 
 CREATE TABLE `sys_config` (
-  `group` varchar(64) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `value` varchar(255) NOT NULL,
+  `group` varchar(64) NOT NULL DEFAULT '',
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `value` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`group`, `name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -1508,7 +1508,7 @@ CREATE TABLE `sys_config` (
 --
 
 CREATE TABLE IF NOT EXISTS `sys_cron` (
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `last_run` datetime NULL DEFAULT NULL,
   `next_run` datetime NULL DEFAULT NULL,
   `running` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -1524,13 +1524,13 @@ CREATE TABLE IF NOT EXISTS `sys_cron` (
 
 CREATE TABLE `sys_datalog` (
   `datalog_id` int(11) unsigned NOT NULL auto_increment,
-  `server_id` int(11) unsigned NOT NULL,
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
   `dbtable` varchar(255) NOT NULL default '',
   `dbidx` varchar(255) NOT NULL default '',
   `action` char(1) NOT NULL default '',
   `tstamp` int(11) NOT NULL default '0',
   `user` varchar(255) NOT NULL default '',
-  `data` longtext NOT NULL,
+  `data` longtext,
   `status` set('pending','ok','warning','error') NOT NULL default 'ok',
   `error` mediumtext,
   PRIMARY KEY  (`datalog_id`),
@@ -1590,7 +1590,7 @@ CREATE TABLE `sys_filesync` (
 CREATE TABLE `sys_group` (
   `groupid` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(64) NOT NULL default '',
-  `description` text NOT NULL,
+  `description` text,
   `client_id` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`groupid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1603,7 +1603,7 @@ CREATE TABLE `sys_group` (
 
 CREATE TABLE `sys_ini` (
   `sysini_id` int(11) unsigned NOT NULL auto_increment,
-  `config` longtext NOT NULL,
+  `config` longtext,
   PRIMARY KEY  (`sysini_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1618,7 +1618,7 @@ CREATE TABLE `sys_log` (
   `server_id` int(11) unsigned NOT NULL default '0',
   `datalog_id` int(11) unsigned NOT NULL default '0',
   `loglevel` tinyint(4) NOT NULL default '0',
-  `tstamp` int(11) unsigned NOT NULL,
+  `tstamp` int(11) unsigned NOT NULL DEFAULT '0',
   `message` text,
   PRIMARY KEY  (`syslog_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1631,12 +1631,12 @@ CREATE TABLE `sys_log` (
 
 CREATE TABLE `sys_remoteaction` (
   `action_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `server_id` int(11) unsigned NOT NULL,
-  `tstamp` int(11) NOT NULL,
-  `action_type` varchar(20) NOT NULL,
-  `action_param` mediumtext NOT NULL,
-  `action_state` enum('pending','ok','warning','error') NOT NULL,
-  `response` mediumtext NOT NULL,
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `tstamp` int(11) NOT NULL DEFAULT '0',
+  `action_type` varchar(20) NOT NULL DEFAULT '',
+  `action_param` mediumtext,
+  `action_state` enum('pending','ok','warning','error') NOT NULL DEFAULT 'pending',
+  `response` mediumtext,
   PRIMARY KEY (`action_id`),
   KEY `server_id` (`server_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1670,9 +1670,9 @@ CREATE TABLE IF NOT EXISTS `sys_theme` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `var_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `tpl_name` varchar(32) NOT NULL,
-  `username` varchar(64) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
+  `tpl_name` varchar(32) NOT NULL DEFAULT '',
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `logo_url` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`var_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
@@ -1697,7 +1697,7 @@ CREATE TABLE `sys_user` (
   `typ` varchar(16) NOT NULL default 'user',
   `active` tinyint(1) NOT NULL default '1',
   `language` varchar(2) NOT NULL default 'en',
-  `groups` TEXT NOT NULL,
+  `groups` TEXT,
   `default_group` int(11) unsigned NOT NULL default '0',
   `client_id` int(11) unsigned NOT NULL default '0',
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
@@ -1736,13 +1736,13 @@ CREATE TABLE `webdav_user` (
 
 CREATE TABLE `web_backup` (
   `backup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `server_id` int(10) unsigned NOT NULL,
-  `parent_domain_id` int(10) unsigned NOT NULL,
+  `server_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent_domain_id` int(10) unsigned NOT NULL DEFAULT '0',
   `backup_type` enum('web','mysql','mongodb') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
-  `tstamp` int(10) unsigned NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `filesize` VARCHAR(10) NOT NULL,
+  `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1769,7 +1769,7 @@ CREATE TABLE `web_database` (
   `database_ro_user_id` int(11) unsigned DEFAULT NULL,
   `database_charset` varchar(64) DEFAULT NULL,
   `remote_access` enum('n','y') NOT NULL DEFAULT 'y',
-  `remote_ips` text NOT NULL,
+  `remote_ips` text,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
@@ -1937,8 +1937,8 @@ CREATE TABLE IF NOT EXISTS `web_folder_user` (
 --
 
 CREATE TABLE `web_traffic` (
-  `hostname` varchar(255) NOT NULL,
-  `traffic_date` date NOT NULL,
+  `hostname` varchar(255) NOT NULL DEFAULT '',
+  `traffic_date` date NOT NULL DEFAULT '0000-00-00',
   `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
   PRIMARY KEY  (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
