@@ -364,7 +364,7 @@ class page_action extends tform_actions {
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
-				$system_config = $app->getconf->get_global_config();
+				$system_config = $app->getconf->get_global_config('mail');
 				$from = $system_config['admin_mail'];
 			} else {
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
