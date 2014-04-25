@@ -352,8 +352,8 @@ class page_action extends tform_actions {
 					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
 					break;
 				case 'gender':
-					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
-					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					$message = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $message);
+					$subject = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $subject);
 					break;
 				default:
 					$message = str_replace('{'.$key.'}', $val, $message);
