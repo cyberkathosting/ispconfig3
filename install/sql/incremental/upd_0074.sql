@@ -158,11 +158,6 @@ ALTER TABLE `shell_user`
 	CHANGE `chroot` `chroot` varchar(255) NOT NULL DEFAULT '',
 	CHANGE `ssh_rsa` `ssh_rsa` text;
 
-ALTER TABLE `software_package`
-	CHANGE `package_name` `package_name` varchar(64) NOT NULL DEFAULT '',
-	CHANGE `package_title` `package_title` varchar(64) NOT NULL DEFAULT '',
-	CHANGE `package_key` `package_key` varchar(255) NOT NULL DEFAULT '';
-
 ALTER TABLE `software_update`
 	CHANGE `software_repo_id` `software_repo_id` int(11) unsigned NOT NULL DEFAULT '0',
 	CHANGE `package_name` `package_name` varchar(64) NOT NULL DEFAULT '',
