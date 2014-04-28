@@ -352,8 +352,8 @@ class page_action extends tform_actions {
 					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
 					break;
 				case 'gender':
-					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
-					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					$message = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $message);
+					$subject = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $subject);
 					break;
 				default:
 					$message = str_replace('{'.$key.'}', $val, $message);
@@ -364,7 +364,7 @@ class page_action extends tform_actions {
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
-				$system_config = $app->getconf->get_global_config();
+				$system_config = $app->getconf->get_global_config('mail');
 				$from = $system_config['admin_mail'];
 			} else {
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
