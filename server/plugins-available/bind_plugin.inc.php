@@ -106,6 +106,7 @@ class bind_plugin {
 			if(is_array($records) && !empty($records)){
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
+					if($records[$i]['name'] == '') $records[$i]['name'] = '@';
 					//* Split TXT records, if nescessary
 					if($records[$i]['type'] == 'TXT' && strlen($records[$i]['data']) > 255) {
 						$records[$i]['data'] = implode('" "',str_split( $records[$i]['data'], 255));
