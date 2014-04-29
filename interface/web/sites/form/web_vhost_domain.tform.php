@@ -241,7 +241,7 @@ $form["tabs"]['domain'] = array (
 			'formtype' => 'SELECT',
 			'default' => 'fast-cgi',
 			'valuelimit' => 'client:web_php_options',
-			'value'  => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM'),
+			'value'  => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
 		'fastcgi_php_version' => array (

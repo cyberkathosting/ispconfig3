@@ -20,7 +20,11 @@
 		<tmpl_if name='php' op='==' value='php-fpm'>
 		DocumentRoot <tmpl_var name='web_document_root'>
 		</tmpl_else>
-		DocumentRoot <tmpl_var name='web_document_root_www'>
+			<tmpl_if name='php' op='==' value='hhvm'>
+			DocumentRoot <tmpl_var name='web_document_root'>
+			</tmpl_else>
+			DocumentRoot <tmpl_var name='web_document_root_www'>
+			</tmpl_if>
 		</tmpl_if>
 	</tmpl_if>
 </tmpl_if>
@@ -315,6 +319,25 @@
 <tmpl_if name='use_socket'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
+		</IfModule>
+</tmpl_if>
+
+<tmpl_if name='php' op='==' value='hhvm'>
+		<IfModule mod_fastcgi.c>
+				<Directory {tmpl_var name='document_root'}/cgi-bin>
+					<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+					Require all granted
+					<tmpl_else>
+					Order allow,deny
+					Allow from all
+					</tmpl_if>
+			    </Directory>
+				<FilesMatch "\.php[345]?$">
+					SetHandler php5-fcgi
+				</FilesMatch>
+                Action php5-fcgi /php5-fcgi
+				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /tmp/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
 		</IfModule>
 </tmpl_if>
 

@@ -289,7 +289,7 @@
             if(data.servertype == "nginx"){
                 var selected = jQuery('#php').val();
                 jQuery('.apache').hide();
-                if(selected != "no" && selected != "php-fpm") {
+                if(selected != "no" && selected != "php-fpm" && selected != "hhvm") {
                     jQuery('#php option[value="php-fpm"]').attr('selected', 'selected').val('php-fpm');
                 }
                 jQuery('#php option[value="fast-cgi"]').hide();

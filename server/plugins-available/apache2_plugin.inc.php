@@ -104,7 +104,7 @@ class apache2_plugin {
 
 		/* $data contains an array with these keys:
          * file -> full path of changed php_ini
-         * mode -> web_domain php modes to change (mod, fast-cgi, php-fpm or '' for all except 'mod')
+         * mode -> web_domain php modes to change (mod, fast-cgi, php-fpm, hhvm or '' for all except 'mod')
          * php_version -> php ini path that changed (additional php versions)
          */
 
@@ -118,6 +118,11 @@ class apache2_plugin {
 			}
 		} elseif($data['mode'] == 'php-fpm') {
 			$qrystr .= " AND php = 'php-fpm'";
+			if($data['php_version']) {
+				$qrystr .= " AND fastcgi_php_version LIKE '%:" . $app->db->quote($data['php_version']) . ":%'";
+			}
+		} elseif($data['mode'] == 'hhvm') {
+			$qrystr .= " AND php = 'hhvm'";
 			if($data['php_version']) {
 				$qrystr .= " AND fastcgi_php_version LIKE '%:" . $app->db->quote($data['php_version']) . ":%'";
 			}
@@ -1318,7 +1323,7 @@ class apache2_plugin {
 		 * PHP-FPM
 		 */
 		// Support for multiple PHP versions
-		if($data['new']['php'] == 'php-fpm'){
+		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -1327,7 +1332,7 @@ class apache2_plugin {
 				$default_php_fpm = true;
 			}
 		} else {
-			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
+			if(trim($data['old']['fastcgi_php_version']) != '' && ($data['old']['php'] == 'php-fpm' || $data['old']['php'] == 'hhvm')){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
 				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
@@ -1586,6 +1591,7 @@ class apache2_plugin {
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
+		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if apache starts with the new configuration file
@@ -1933,6 +1939,8 @@ class apache2_plugin {
 				// remove PHP-FPM pool
 				if ($data['old']['php'] == 'php-fpm') {
 					$this->php_fpm_pool_delete($data, $web_config);
+				} elseif($data['old']['php'] == 'hhvm') {
+					$this->hhvm_update($data, $web_config);
 				}
 
 				//remove the php cgi starter script if available
@@ -2719,6 +2727,42 @@ class apache2_plugin {
 		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 			$app->system->unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
+		}
+	}
+
+	private function hhvm_update($data, $web_config) {
+		global $app, $conf;
+		
+		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
+			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
+		} else {
+			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
+		}
+		$start_content = '';
+		$stop_content = '';
+		
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
+			$start_content .= 'if [ ! -d /var/run/hhvm ]; then
+        mkdir -p -m0777 /var/run/hhvm
+        else
+        chmod 777 /var/run/hhvm
+    fi
+	umask 017
+    sudo -u ' . $data['new']['system_user'] . ' touch /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid
+    /usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user ' . $data['new']['system_user'] . ' -vServer.FileSocket=/tmp/hhvm.' . $data['new']['system_user'] . '.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/tmp/hhvm.' . $data['new']['system_user'] . '.hhbc -vPidFile=/var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid & echo $! > /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid';
+			
+			$stop_content .= 'if [[ -e "/var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid" ]] ; then kill -SIGTERM `cat /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid` >/dev/null 2>&1 ; fi
+	rm -f /tmp/hhvm.' . $data['new']['system_user'] . '.sock /tmp/hhvm.' . $data['new']['system_user'] . '.hhbc /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid';
+		
+			$content = str_replace(array('{START}', '{STOP}', '{SYSTEM_USER}'), array($start_content, $stop_content, $data['new']['system_user']), $content);
+			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
+			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
+			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' start >/dev/null 2>&1');
+ 		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
+			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
+			unlink('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' >/dev/null 2>&1');
 		}
 	}
 
