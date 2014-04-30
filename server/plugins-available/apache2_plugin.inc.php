@@ -2738,23 +2738,9 @@ class apache2_plugin {
 		} else {
 			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
 		}
-		$start_content = '';
-		$stop_content = '';
 		
 		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
-			$start_content .= 'if [ ! -d /var/run/hhvm ]; then
-        mkdir -p -m0777 /var/run/hhvm
-        else
-        chmod 777 /var/run/hhvm
-    fi
-	umask 017
-    sudo -u ' . $data['new']['system_user'] . ' touch /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid
-    /usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user ' . $data['new']['system_user'] . ' -vServer.FileSocket=/tmp/hhvm.' . $data['new']['system_user'] . '.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/tmp/hhvm.' . $data['new']['system_user'] . '.hhbc -vPidFile=/var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid & echo $! > /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid';
-			
-			$stop_content .= 'if [[ -e "/var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid" ]] ; then kill -SIGTERM `cat /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid` >/dev/null 2>&1 ; fi
-	rm -f /tmp/hhvm.' . $data['new']['system_user'] . '.sock /tmp/hhvm.' . $data['new']['system_user'] . '.hhbc /var/run/hhvm/hhvm_' . $data['new']['system_user'] . '.pid';
-		
-			$content = str_replace(array('{START}', '{STOP}', '{SYSTEM_USER}'), array($start_content, $stop_content, $data['new']['system_user']), $content);
+			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');

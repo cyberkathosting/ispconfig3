@@ -337,7 +337,7 @@
 				</FilesMatch>
                 Action php5-fcgi /php5-fcgi
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /tmp/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
 		</IfModule>
 </tmpl_if>
 

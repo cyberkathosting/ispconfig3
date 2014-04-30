@@ -1644,6 +1644,7 @@ class nginx_plugin {
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
+		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
@@ -1954,6 +1955,8 @@ class nginx_plugin {
 				// remove PHP-FPM pool
 				if ($data['old']['php'] == 'php-fpm') {
 					$this->php_fpm_pool_delete($data, $web_config);
+				} elseif($data['old']['php'] == 'hhvm') {
+					$this->hhvm_update($data, $web_config);
 				}
 
 				//remove the php cgi starter script if available
@@ -2298,6 +2301,28 @@ class nginx_plugin {
 		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 			$app->system->unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
+		}
+	}
+
+	private function hhvm_update($data, $web_config) {
+		global $app, $conf;
+		
+		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
+			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
+		} else {
+			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
+		}
+		
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
+			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
+			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
+			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
+			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' start >/dev/null 2>&1');
+ 		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
+			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
+			unlink('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' >/dev/null 2>&1');
 		}
 	}
 

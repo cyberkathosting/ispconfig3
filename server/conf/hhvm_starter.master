@@ -16,12 +16,22 @@ NAME=hhvm
 
 do_start()
 {
-	{START}
+	if [ ! -d /var/run/hhvm ]; then
+        mkdir -p -m0777 /var/run/hhvm
+        else
+        chmod 777 /var/run/hhvm
+    fi
+	umask 017
+    sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+    /usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 }
 
 do_stop()
 {
-	{STOP}
+	if [[ -e "/var/run/hhvm/hhvm_{SYSTEM_USER}.pid" ]] ; then
+		kill -SIGTERM `cat /var/run/hhvm/hhvm_{SYSTEM_USER}.pid` >/dev/null 2>&1 ;
+	fi
+	rm -f /var/run/hhvm/hhvm.{SYSTEM_USER}.sock /var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 }
 
 case "$1" in
