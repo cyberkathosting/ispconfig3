@@ -311,7 +311,7 @@
 				<FilesMatch "\.php[345]?$">
 					SetHandler php5-fcgi
 				</FilesMatch>
-                Action php5-fcgi /php5-fcgi
+                Action php5-fcgi /php5-fcgi virtual
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
@@ -338,7 +338,7 @@
 				<FilesMatch "\.hh$">
 					SetHandler hhvm-fcgi
 				</FilesMatch>
-                Action hhvm-fcgi /hhvm-fcgi
+                Action hhvm-fcgi /hhvm-fcgi virtual
 				Alias /hhvm-fcgi {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
 		</IfModule>
