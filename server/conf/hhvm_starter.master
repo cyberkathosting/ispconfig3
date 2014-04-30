@@ -17,13 +17,23 @@ NAME=hhvm
 do_start()
 {
 	if [ ! -d /var/run/hhvm ]; then
-        mkdir -p -m0777 /var/run/hhvm
-        else
-        chmod 777 /var/run/hhvm
-    fi
+		mkdir -p -m0777 /var/run/hhvm
+	else
+		chmod 777 /var/run/hhvm
+	fi
+	
+	if [[ -e "/var/run/hhvm/hhvm_{SYSTEM_USER}.pid" ]] ; then
+		kill -0 `cat /var/run/hhvm/hhvm_{SYSTEM_USER}.pid` >/dev/null 2>&1 ;
+		case "$?" in
+			0)
+				return 1
+				;;
+		esac
+	fi
+	
 	umask 017
-    sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
-    /usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+	sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+	/usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 }
 
 do_stop()
@@ -35,25 +45,25 @@ do_stop()
 }
 
 case "$1" in
-  start)
-        do_start
-        ;;
-  stop)
-        do_stop
-        ;;
-  restart|force-reload)
-        do_stop
-        case "$?" in
-          0|1)
-                do_start
-                ;;
-          *)
-                ;;
-        esac
-        ;;
-  *)
-        exit 3
-        ;;
+	start)
+		do_start
+		;;
+	stop)
+		do_stop
+		;;
+	restart|force-reload)
+		do_stop
+		case "$?" in
+			0|1)
+				do_start
+				;;
+			*)
+				;;
+		esac
+		;;
+	*)
+		exit 3
+		;;
 esac
 
 :
