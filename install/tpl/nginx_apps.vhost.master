@@ -5,7 +5,7 @@ server {
 
         root   {apps_vhost_dir};
 
-        client_max_body_size 20M;
+        client_max_body_size 100M;
 
         location / {
                index index.php index.html;
