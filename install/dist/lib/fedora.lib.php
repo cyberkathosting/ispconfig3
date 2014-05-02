@@ -438,6 +438,8 @@ class installer_dist extends installer_base {
 			copy("$config_dir/$configfile", "$config_dir/$configfile~");
 			exec("chmod 400 $config_dir/$configfile~");
 		}
+		
+		if(!@file_exists('/etc/dovecot-sql.conf')) exec('ln -s /etc/dovecot/dovecot-sql.conf /etc/dovecot-sql.conf');
 
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_dovecot-sql.conf.master', "tpl/fedora_dovecot-sql.conf.master");
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
@@ -450,7 +452,7 @@ class installer_dist extends installer_base {
 		exec("chown root:root $config_dir/$configfile");
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/var/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 
