@@ -198,8 +198,10 @@ if($conf['services']['mail'] == true) {
 	$inst->configure_postfix('dont-create-certs');
 
 	//** Configure mailman
-	swriteln('Configuring Mailman');
-	$inst->configure_mailman('update');
+	if($conf['mailman']['installed'] == true) {
+		swriteln('Configuring Mailman');
+		$inst->configure_mailman('update');
+	}
 
 	//* Configure Jailkit
 	swriteln('Configuring Jailkit');
