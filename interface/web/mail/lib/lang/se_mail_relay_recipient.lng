@@ -1,9 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['source_txt'] = 'Relay recipient';
-$wb['recipient_txt'] = 'Recipient';
-$wb['active_txt'] = 'Active';
-$wb['source_error_notempty'] = 'Address is empty.';
-$wb['type_txt'] = 'Type';
-$wb['limit_mailfilter_txt'] = 'The max. number of email filters for your account is reached.';
+$wb['source_txt'] = 'Relämottagare';
+$wb['recipient_txt'] = 'Mottagare';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_error_notempty'] = 'Adressfältet är tomt.';
+$wb['type_txt'] = 'Typ';
+$wb['limit_mailfilter_txt'] = 'Det maximala antalet epostfilter för ditt konto är uppnått.';
 ?>
+

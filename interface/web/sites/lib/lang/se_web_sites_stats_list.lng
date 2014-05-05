@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Web traffic';
-$wb['domain_txt'] = 'Domain';
-$wb['this_month_txt'] = 'This month';
-$wb['last_month_txt'] = 'Last month';
-$wb['this_year_txt'] = 'This year';
-$wb['last_year_txt'] = 'Last year';
-$wb['sum_txt'] = 'Sum';
+$wb['list_head_txt'] = 'Webbtrafik';
+$wb['domain_txt'] = 'Domän';
+$wb['this_month_txt'] = 'Denna månad';
+$wb['last_month_txt'] = 'Föregående månad';
+$wb['this_year_txt'] = 'I år';
+$wb['last_year_txt'] = 'Förra året';
+$wb['sum_txt'] = 'Total';
 ?>
+

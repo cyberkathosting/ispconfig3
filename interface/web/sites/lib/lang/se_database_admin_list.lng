@@ -1,11 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Database';
-$wb['active_txt'] = 'Active';
-$wb['remote_access_txt'] = 'Remote Access';
+$wb['list_head_txt'] = 'Databas';
+$wb['active_txt'] = 'Aktiv';
+$wb['remote_access_txt'] = 'Fjärråtkomst';
 $wb['server_id_txt'] = 'Server';
-$wb['database_user_txt'] = 'Database user';
-$wb['database_name_txt'] = 'Database name';
-$wb['add_new_record_txt'] = 'Add new Database';
-$wb['sys_groupid_txt'] = 'Client';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['database_user_txt'] = 'Databasanvändare';
+$wb['database_name_txt'] = 'Databasnamn';
+$wb['add_new_record_txt'] = 'Lägg till ny databas';
+$wb['sys_groupid_txt'] = 'Kund';
+$wb['parent_domain_id_txt'] = 'Webbsida';
 ?>
+

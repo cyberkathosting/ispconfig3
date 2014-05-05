@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Subdomains';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Underdomäner';
+$wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['domain_txt'] = 'Subdomain';
-$wb['add_new_record_txt'] = 'Add new subdomain';
+$wb['parent_domain_id_txt'] = 'Webbsida';
+$wb['domain_txt'] = 'Underdomän';
+$wb['add_new_record_txt'] = 'Lägg till ny underdomän';
 ?>
+

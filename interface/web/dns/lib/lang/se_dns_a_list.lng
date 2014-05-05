@@ -13,3 +13,4 @@ $wb['page_txt'] = 'Page';
 $wb['page_of_txt'] = 'of';
 $wb['delete_confirmation'] = 'Do you really want to delete this record?';
 ?>
+

@@ -1,17 +1,18 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['spam_rewrite_score_int_txt'] = 'Rewrite score';
-$wb['spam_redirect_score_int_txt'] = 'Redirect score';
-$wb['spam_delete_score_int_txt'] = 'Delete score';
-$wb['spam_rewrite_subject_txt'] = 'Rewrite subject';
-$wb['spam_redirect_maildir_txt'] = 'Redirect mailbox';
-$wb['active_txt'] = 'Active';
-$wb['spam_rewrite_txt'] = 'Rewrite email subject above this score.';
-$wb['spam_redirect_txt'] = 'Redirect email above this score to the selected mailbox.';
-$wb['spam_delete_txt'] = 'Delete email above this score.';
-$wb['disable_txt'] = 'Hint: To disable a filtering option, set the score to 0.00.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['email_error_unique'] = 'There is already an spamfilter record for this email address.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Purge Maildir after';
-$wb['days_txt'] = 'Days.';
+$wb['email_txt'] = 'Epost';
+$wb['spam_rewrite_score_int_txt'] = 'Poäng för omskrivning';
+$wb['spam_redirect_score_int_txt'] = 'Poäng för omdirigering';
+$wb['spam_delete_score_int_txt'] = 'Poäng för radering';
+$wb['spam_rewrite_subject_txt'] = 'Omskrivningsämne';
+$wb['spam_redirect_maildir_txt'] = 'Omdirigeringskatalog';
+$wb['active_txt'] = 'Aktiv';
+$wb['spam_rewrite_txt'] = 'Skriv om ämnesraden om högre än denna poäng';
+$wb['spam_redirect_txt'] = 'Leverera till katalog om högre än denna poäng';
+$wb['spam_delete_txt'] = 'Radera epost om högre än denna poäng';
+$wb['disable_txt'] = 'Tips: För att avaktivera ett filteralternativ, sätt poängen till 0.00';
+$wb['email_error_isemail'] = 'Epostadressen är ogiltig';
+$wb['email_error_unique'] = 'Det finns redan ett spamfilterinlägg för den här domänen';
+$wb['spam_redirect_maildir_purge_txt'] = 'Töm mappen efter';
+$wb['days_txt'] = 'Dagar';
 ?>
+
