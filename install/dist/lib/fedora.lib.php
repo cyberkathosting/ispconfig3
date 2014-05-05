@@ -392,7 +392,6 @@ class installer_dist extends installer_base {
 			'virtual_transport = dovecot',
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth',
-			'receive_override_options = no_address_mappings'
 		);
 
 		// Make a backup copy of the main.cf file
