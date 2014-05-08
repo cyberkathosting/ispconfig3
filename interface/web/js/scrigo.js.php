@@ -96,6 +96,7 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 <?php
 }
 ?>
+	callHook('onAfterContentLoad');
 }
 
 function loadContentRefresh(pagename) {
