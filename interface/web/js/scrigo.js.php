@@ -18,6 +18,7 @@ var requestsRunning = 0;
 var indicatorPaddingH = -1;
 var indicatorPaddingW = -1;
 var indicatorCompleted = false;
+var registeredHooks = new Array();
 redirect = '';
 
 function reportError(request) {
@@ -26,6 +27,20 @@ function reportError(request) {
 	   ajax request worked. */
 
 	/*alert(request);*/
+}
+
+function registerHook(name, callback) {
+    if(!registeredHooks[name]) registeredHooks[name] = new Array();
+    var newindex = registeredHooks[name].length;
+    registeredHooks[name][newindex] = callback;
+}
+
+function callHook(name, params) {
+    if(!registeredHooks[name]) return;
+    for(var i = 0; i < registeredHooks[name].length; i++) {
+        var callback = registeredHooks[name][i];
+        callback(name, params);
+    }
 }
 
 function resetFormChanged() {
