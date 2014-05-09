@@ -447,7 +447,7 @@ CREATE TABLE `dns_rr` (
   `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) NOT NULL default '1',
   `zone` int(11) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(64) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
   `data` varchar(255) NOT NULL DEFAULT '',
   `aux` int(11) unsigned NOT NULL default '0',
