@@ -18,6 +18,7 @@ var requestsRunning = 0;
 var indicatorPaddingH = -1;
 var indicatorPaddingW = -1;
 var indicatorCompleted = false;
+var registeredHooks = new Array();
 redirect = '';
 
 function reportError(request) {
@@ -26,6 +27,20 @@ function reportError(request) {
 	   ajax request worked. */
 
 	/*alert(request);*/
+}
+
+function registerHook(name, callback) {
+    if(!registeredHooks[name]) registeredHooks[name] = new Array();
+    var newindex = registeredHooks[name].length;
+    registeredHooks[name][newindex] = callback;
+}
+
+function callHook(name, params) {
+    if(!registeredHooks[name]) return;
+    for(var i = 0; i < registeredHooks[name].length; i++) {
+        var callback = registeredHooks[name][i];
+        callback(name, params);
+    }
 }
 
 function resetFormChanged() {
@@ -73,7 +88,9 @@ function hideLoadIndicator() {
     }
 }
 
-function onAfterContentLoad() {
+function onAfterContentLoad(url, data) {
+    if(!data) data = '';
+    else data = '&' + data;
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
@@ -81,6 +98,7 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 <?php
 }
 ?>
+    callHook('onAfterContentLoad', {'url': url, 'data': data });
 }
 
 function loadContentRefresh(pagename) {
@@ -96,7 +114,7 @@ function loadContentRefresh(pagename) {
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
 												jQuery('#pageContent').html(jqXHR.responseText);
-                                                onAfterContentLoad();
+                                                onAfterContentLoad(pagename, "refresh="+document.getElementById('refreshinterval').value);
                                                 pageFormChanged = false;
 											},
 											error: function() {
@@ -175,7 +193,7 @@ function submitLoginForm(formname) {
 													document.location.href = 'index.php';
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad('content.php', jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
 												loadMenus();
@@ -213,7 +231,7 @@ function submitForm(formname,target) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -252,7 +270,7 @@ function submitFormConfirm(formname,target,confirmation) {
 													//window.setTimeout('loadContent(redirect)', 1000);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -330,7 +348,7 @@ function loadContent(pagename) {
 													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
 
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad(pagename, (params ? params : null));
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -357,7 +375,7 @@ function loadInitContent() {
 													loadContent(parts[1]);
 												} else {
 													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad();
+                                                    onAfterContentLoad('content.php', "s_mod=login&s_pg=index");
                                                     pageFormChanged = false;
 												}
                                                 hideLoadIndicator();
@@ -561,6 +579,8 @@ pass_message['text'] = "<?php echo $wb['password_strength_5_txt']?>";
 pass_message['color'] = "green";
 pass_messages[5] = pass_message;
 
+var special_chars = "`~!@#$%^&*()_+|\=-[]}{';:/?.>,<\" ";
+
 function pass_check(password) {
 	var length = password.length;
 	var points = 0;
@@ -573,20 +593,29 @@ function pass_check(password) {
 		pass_result(1);
 		return;
 	}
-
+	
+	var different = 0;
+	
+	if (pass_contains(password, "abcdefghijklnmopqrstuvwxyz")) {
+		different += 1;
+	}
+	
 	if (pass_contains(password, "ABCDEFGHIJKLNMOPQRSTUVWXYZ")) {
 		points += 1;
+		different += 1;
 	}
 
 	if (pass_contains(password, "0123456789")) {
 		points += 1;
+		different += 1;
 	}
 
-	if (pass_contains(password, "`~!@#$%^&*()_+|\=-[]}{';:/?.>,<\" ")) {
+	if (pass_contains(password, special_chars)) {
 		points += 1;
+		different += 1;
 	}
 
-	if (points == 0) {
+	if (points == 0 || different < 3) {
 		if (length >= 5 && length <=6) {
 			pass_result(1);
 		} else if (length >= 7 && length <=8) {
@@ -724,27 +753,45 @@ function getInternetExplorerVersion() {
     return rv;
 }
 
-function password(minLength, special){
-	var iteration = 0;
-	var password = "";
-	var randomNumber;
+function password(minLength, special, num_special){
 	minLength = minLength || 10;
+	if(minLength < 8) minLength = 8;
 	var maxLength = minLength + 5;
 	var length = getRandomInt(minLength, maxLength);
-	if(special == undefined){
-		var special = false;
+	
+	var alphachars = "abcdefghijklmnopqrstuvwxyz";
+	var upperchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var numchars = "1234567890";
+    var specialchars = "!@#_";
+	
+	if(num_special == undefined) num_special = 0;
+	if(special != undefined && special == true) {
+		num_special = Math.floor(Math.random() * (length / 4)) + 1;
 	}
-	while(iteration < length){
-		randomNumber = (Math.floor((Math.random() * 100)) % 94) + 33;
-		if(!special){
-			if ((randomNumber >=33) && (randomNumber <=47)) { continue; }
-			if ((randomNumber >=58) && (randomNumber <=64)) { continue; }
-			if ((randomNumber >=91) && (randomNumber <=96)) { continue; }
-			if ((randomNumber >=123) && (randomNumber <=126)) { continue; }
-		}
-		iteration++;
-		password += String.fromCharCode(randomNumber);
+	var numericlen = getRandomInt(1, 2);
+	var alphalen = length - num_special - numericlen;
+	var upperlen = Math.floor(alphalen / 2);
+	alphalen = alphalen - upperlen;
+	var password = "";
+	
+	for(i = 0; i < alphalen; i++) {
+		password += alphachars.charAt(Math.floor(Math.random() * alphachars.length));
 	}
+	
+	for(i = 0; i < upperlen; i++) {
+		password += upperchars.charAt(Math.floor(Math.random() * upperchars.length));
+	}
+	
+	for(i = 0; i < num_special; i++) {
+		password += specialchars.charAt(Math.floor(Math.random() * specialchars.length));
+	}
+	
+	for(i = 0; i < numericlen; i++) {
+		password += numchars.charAt(Math.floor(Math.random() * numchars.length));
+	}
+	
+	password = password.split('').sort(function() { return 0.5 - Math.random(); }).join('');
+	
 	return password;
 }
 
@@ -760,7 +807,7 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	var newPWField = oldPWField.clone();
 	newPWField.attr('type', 'text').attr('id', 'tmp'+passwordFieldID).insertBefore(oldPWField);
 	oldPWField.remove();
-	var pword = password(<?php echo $min_password_length ?>, false);
+	var pword = password(<?php echo $min_password_length; ?>, false, 1);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
 	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
 }

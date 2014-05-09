@@ -60,6 +60,22 @@ if(isset($_SESSION['show_error_msg'])) {
 	unset($_SESSION['show_error_msg']);
 }
 
+// read js.d files
+$js_d = ISPC_WEB_PATH . '/js/js.d';
+$js_d_files = array();
+if(@is_dir($js_d)) {
+	$dir = opendir($js_d);
+	while($file = readdir($dir)) {
+		$filename = $js_d . '/' . $file;
+		if($file === '.' || $file === '..' || !is_file($filename)) continue;
+		if(substr($file, -3) !== '.js') continue;
+		$js_d_files[] = array('file' => $file);
+	}
+	closedir($dir);
+}
+
+if (!empty($js_d_files)) $app->tpl->setLoop('js_d_includes', $js_d_files);
+unset($js_d_files);
 
 $app->tpl_defaults();
 $app->tpl->pparse();
