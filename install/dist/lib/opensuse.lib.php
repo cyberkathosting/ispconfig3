@@ -1273,6 +1273,9 @@ class installer_dist extends installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
+		// Add symlink for patch tool
+		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 
 	}

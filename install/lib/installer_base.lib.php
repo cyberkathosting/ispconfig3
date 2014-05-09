@@ -2112,7 +2112,8 @@ class installer_base {
 			replaceLine('/etc/default/rkhunter', 'CRON_DB_UPDATE="yes"', 'CRON_DB_UPDATE="no"', 1, 0);
 		}
 		
-
+		// Add symlink for patch tool
+		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 	}
 
