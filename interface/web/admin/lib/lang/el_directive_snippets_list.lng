@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Directive Snippets';
-$wb['active_txt'] = 'Ενεργό';
-$wb['name_txt'] = 'Όνομα Snippet';
-$wb['type_txt'] = 'Τύπος';
-$wb['add_new_record_txt'] = 'Προσθήκη Directive Snippet';
+$wb['active_txt'] = 'Active';
+$wb['name_txt'] = 'Name of Snippet';
+$wb['type_txt'] = 'Type';
+$wb['add_new_record_txt'] = 'Add Directive Snippet';
 ?>

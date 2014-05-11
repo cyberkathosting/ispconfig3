@@ -106,6 +106,7 @@ $wb['limit_trafficquota_error_notint'] = 'Trafficbeschränkung muss eine Zahl se
 $wb['limit_dns_slave_zone_txt'] = 'Max. Anzahl an Secondary DNS Zonen';
 $wb['limit_webdav_user_txt'] = 'Max. Anzahl an WebDAV Benutzern';
 $wb['limit_webdav_user_error_notint'] = 'Das WebDAV Benutzer Limit muss eine Zahl sein.';
+$wb['limit_backup_txt'] = 'Backupfunktion verfügbar';
 $wb['limit_dns_slave_zone_error_notint'] = 'Das Secondary DNS Zonen Limit muss eine Zahl sein.';
 $wb['customer_no_txt'] = 'Kundennummer';
 $wb['vat_id_txt'] = 'USt-ID';

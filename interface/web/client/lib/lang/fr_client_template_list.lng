@@ -2,5 +2,5 @@
 $wb['list_head_txt'] = 'Modèles de clients';
 $wb['template_type_txt'] = 'Type';
 $wb['template_name_txt'] = 'Nom du modèle';
-$wb['template_id_txt'] = 'Template ID';
+$wb['template_id_txt'] = 'ID du modèle';
 ?>

@@ -10,7 +10,7 @@ $wb['new_txt'] = 'Nouveau';
 $wb['up_txt'] = 'Monter';
 $wb['down_txt'] = 'Descendre';
 $wb['module_txt'] = 'Module';
-$wb['module_del_txt'] = 'Voulez-vous supprimer le module et tous les fichiers et sous-dossier du module ';
-$wb['menu_del_txt'] = 'Voulez-vous supprimer le menu avec tous ses sous-menus ';
-$wb['item_del_txt'] = 'Voulez-vous supprimer lentrée de menu ';
+$wb['module_del_txt'] = 'Voulez-vous supprimer le module et tous les fichiers et sous-dossier du module ?';
+$wb['menu_del_txt'] = 'Voulez-vous supprimer le menu avec tous ses sous-menus ?';
+$wb['item_del_txt'] = 'Voulez-vous supprimer l\'entrée de menu ?';
 ?>

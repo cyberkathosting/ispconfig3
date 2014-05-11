@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Formulaire dadministration';
+$wb['list_head_txt'] = 'Formulaire d\'administration';
 $wb['form_txt'] = 'Formulaire';
 $wb['module_txt'] = 'Module';
 $wb['title_txt'] = 'Titre';

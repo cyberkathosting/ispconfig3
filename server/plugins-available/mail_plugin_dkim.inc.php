@@ -205,19 +205,21 @@ class mail_plugin_dkim {
 	 * This function adds the entry to the amavisd-config
 	 * @param string $key_domain mail-domain
 	 */
-	function add_to_amavis($key_domain) {
+	function add_to_amavis($key_domain, $selector, $old_selector) {
 		global $app, $mail_config;
 
+		if (empty($selector)) $selector = 'default';
 		$restart = false;
-		$selector = 'default';
 		$amavis_configfile = $this->get_amavis_config();
+
+		$search_regex = "/(\n|\r)?dkim_key\(\'".$key_domain."\',\ \'(".$selector."|".$old_selector."){1}?\'.*/";
 
 		//* If we are using seperate config-files with amavis remove existing keys from 50-user to avoid duplicate keys
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
 			$temp_config = file_get_contents($temp_configfile);
-			if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $temp_config)) {
-				$temp_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/", '', $temp_config)."\n";
+			if (preg_match($search_regex, $temp_config)) {
+				$temp_config = preg_replace($search_regex, '', $temp_config)."\n";
 				file_put_contents($temp_configfile, $temp_config);
 			}
 			unset($temp_configfile);
@@ -226,7 +228,7 @@ class mail_plugin_dkim {
 
 		$key_value="dkim_key('".$key_domain."', '".$selector."', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
 		$amavis_config = file_get_contents($amavis_configfile);
-		$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*/", '', $amavis_config).$key_value;
+		$amavis_config = preg_replace($search_regex, '', $amavis_config).$key_value;
 
 		if (file_put_contents($amavis_configfile, $amavis_config)) {
 			$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
@@ -249,8 +251,10 @@ class mail_plugin_dkim {
 		$amavis_configfile = $this->get_amavis_config();
 		$amavis_config = file_get_contents($amavis_configfile);
 
-		if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $amavis_config)) {
-			$amavis_config = preg_replace("/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/", '', $amavis_config);
+		$search_regex = "/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/";
+
+		if (preg_match($search_regex, $amavis_config)) {
+			$amavis_config = preg_replace($search_regex, '', $amavis_config);
 			file_put_contents($amavis_configfile, $amavis_config);
 			$app->log('Deleted the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
 			$restart = true;
@@ -260,8 +264,8 @@ class mail_plugin_dkim {
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
 			$temp_config = file_get_contents($temp_configfile);
-			if (preg_match("/(\n|\r)?dkim_key.*".$key_domain.".*/", $temp_config)) {
-				$temp_config = preg_replace("/dkim_key.*".$key_domain.".*/", '', $temp_config);
+			if (preg_match($search_regex, $temp_config)) {
+				$temp_config = preg_replace($search_regex, '', $temp_config);
 				file_put_contents($temp_configfile, $temp_config);
 				$restart = true;
 			}
@@ -283,7 +287,7 @@ class mail_plugin_dkim {
 			if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' )
 				$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 			if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['dkim_private'], $data['new']['domain'])) {
-				if ($this->add_to_amavis($data['new']['domain'])) {
+				if ($this->add_to_amavis($data['new']['domain'], $data['new']['dkim_selector'], $data['old']['dkim_selector'] )) {
 					$this->restart_amavis();
 				} else {
 					$this->remove_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['domain']);
@@ -291,9 +295,6 @@ class mail_plugin_dkim {
 			} else {
 				$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.', LOGLEVEL_ERROR);
 			}
-		}
-		else {
-			$app->log('DKIM for '.$data['new']['domain'].' not written to disk - domain is inactive', LOGLEVEL_DEBUG);
 		}
 	}
 
@@ -358,6 +359,10 @@ class mail_plugin_dkim {
 				}
 				/* new private-key */
 				if ($data['new']['dkim_private'] != $data['old']['dkim_private'] && $data['new']['dkim'] == 'y') {
+					$this->add_dkim($data);
+				}
+				/* new selector */
+				if ($data['new']['dkim_selector'] != $data['old']['dkim_selector'] && $data['new']['dkim'] == 'y') {
 					$this->add_dkim($data);
 				}
 				/* new domain-name */

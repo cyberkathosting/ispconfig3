@@ -29,6 +29,7 @@ $wb['limit_dns_slave_zone_txt'] = 'Max. aantal secondary DNS zones';
 $wb['limit_dns_record_txt'] = 'Max. aantal DNS records';
 $wb['limit_shell_user_txt'] = 'Max. aantal Shell users';
 $wb['limit_webdav_user_txt'] = 'Max. aantal Webdav users';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_client_txt'] = 'Max. aantal Clients';
 $wb['limit_maildomain_error_notint'] = 'Het e-mail domein limiet moet een numerieke waarde zijn.';
 $wb['limit_mailbox_error_notint'] = 'De mailbox limiet moet een numerieke waarde zijm.';

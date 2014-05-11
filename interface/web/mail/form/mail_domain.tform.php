@@ -125,6 +125,18 @@ $form["tabs"]['domain'] = array (
 			'cols'          => '30',
 			'rows'          => '10'
 		),
+		'dkim_selector' => array (
+			'datatype'      => 'VARCHAR',
+			'formtype'      => 'TEXT',
+			'default'       => 'default',
+			'value'         => 'default',
+			'width'  => '20',
+			'maxlength' => '63',
+			'validators' => array (  0 => array (   'type' => 'REGEX',
+					'regex' => '/^[a-z0-9]{0,63}$/',
+					'errmsg'=> 'dkim_selector_error'),
+			),
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Invalid format for days of the week.';
 $wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
 $wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>

@@ -83,7 +83,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$app->tpl->setVar("server_id", $server_id_option);
 
 	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY sys_group.name";
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 	$clients = $app->db->queryAllRecords($sql);
 	$client_select = '';
 	if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
@@ -105,7 +105,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 
 
 	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id']);
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
 	$clients = $app->db->queryAllRecords($sql);
 	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
@@ -245,10 +245,12 @@ if($_POST['create'] == 1) {
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);
 	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/', $_POST['domain'])) {
-		$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
+		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selecotr FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
+		$public_key = $sql['dkim_public'];
 		if ($public_key!='') {
-			$dns_record=str_replace(array("\r\n", "\n", "\r", "-----BEGIN PUBLIC KEY-----", "-----END PUBLIC KEY-----"), '', $public_key['dkim_public']);
-			$tpl_content .= "\n".'TXT|default._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record;
+			if (empty($sql['dkim_selector'])) $sql['dkim_selector'] = 'default';
+			$dns_record=str_replace(array("\r\n", "\n", "\r", "-----BEGIN PUBLIC KEY-----", "-----END PUBLIC KEY-----"), '', $public_key);
+			$tpl_content .= "\n".'TXT|'.$sql['dkim_selector'].'._domainkey.'.$_POST['domain'].'.|v=DKIM1; t=s; p='.$dns_record;
 		}
 	}
 

@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Haftanın günü için geçersiz format.';
 $wb['command_error_format'] = 'Komut formatı geçersiz. Url sadece http/https çağırabilir.';
 $wb['unknown_fieldtype_error'] = 'Bilinmeyen bir alan tipi kullanıldı.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>

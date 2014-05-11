@@ -5,6 +5,7 @@ $wb["source_server_txt"] = 'Pop3/Imap Server';
 $wb["source_username_txt"] = 'Username';
 $wb["source_password_txt"] = 'Password';
 $wb["source_delete_txt"] = 'Delete emails after retrieval';
+$wb["source_delete_note_txt"] = 'Please check first if email retrieval works, before you activate this option.';
 $wb["source_read_all_txt"] = 'Retrieve all emails (incl. read mails)';
 $wb["destination_txt"] = 'Destination';
 $wb["active_txt"] = 'Active';

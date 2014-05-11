@@ -362,13 +362,26 @@ class nginx_plugin {
 
 		$web_folder = 'web';
 		$log_folder = 'log';
+		$old_web_folder = 'web';
+		$old_log_folder = 'log';
 		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
+			// new one
 			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
 			$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
 			if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
 			$web_folder = $data['new']['web_folder'];
 			$log_folder .= '/' . $subdomain_host;
 			unset($tmp);
+			
+			if(isset($data['old']['parent_domain_id'])) {
+				// old one
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
+				if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
+				$old_web_folder = $data['old']['web_folder'];
+				$old_log_folder .= '/' . $subdomain_host;
+				unset($tmp);
+			}
 		}
 
 		// Create group and user, if not exist
@@ -477,9 +490,9 @@ class nginx_plugin {
 			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind,nobootwait';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
@@ -511,14 +524,14 @@ class nginx_plugin {
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
 			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
-			if(is_link($data['old']['document_root'].'/'.$log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$log_folder);
+			if(is_link($data['old']['document_root'].'/'.$old_log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$old_log_folder);
 
 			//* remove old log mount
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$log_folder.'    none    bind';
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 
 			//* Unmount log directory
-			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
+			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
 		}
 
 		//* Create the log dir if nescessary and mount it
@@ -1631,6 +1644,7 @@ class nginx_plugin {
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
+		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
@@ -1941,6 +1955,8 @@ class nginx_plugin {
 				// remove PHP-FPM pool
 				if ($data['old']['php'] == 'php-fpm') {
 					$this->php_fpm_pool_delete($data, $web_config);
+				} elseif($data['old']['php'] == 'hhvm') {
+					$this->hhvm_update($data, $web_config);
 				}
 
 				//remove the php cgi starter script if available
@@ -2288,6 +2304,28 @@ class nginx_plugin {
 		}
 	}
 
+	private function hhvm_update($data, $web_config) {
+		global $app, $conf;
+		
+		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
+			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
+		} else {
+			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
+		}
+		
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
+			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
+			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
+			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
+			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' start >/dev/null 2>&1');
+ 		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
+			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
+			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
+			unlink('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' >/dev/null 2>&1');
+		}
+	}
+
 	//* Update the PHP-FPM pool configuration file
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
@@ -2353,6 +2391,7 @@ class nginx_plugin {
 
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
+		$tpl->setVar('fpm_listen_mode', '0660');
 
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);

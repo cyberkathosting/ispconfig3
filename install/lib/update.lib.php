@@ -29,10 +29,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //* Installer patch stub class
 class installer_patch_update {
-	protected function onBeforeSQL() {
+	public function onBeforeSQL() {
 	}
 
-	protected function onAfterSQL() {
+	public function onAfterSQL() {
 	}
 
 }
@@ -164,6 +164,9 @@ function updateDbAndIni() {
 			$next_db_version = intval($current_db_version + 1);
 			$sql_patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
 			$php_patch_filename = realpath(dirname(__FILE__).'/../').'/patches/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.php';
+			
+			// comma separated list of version numbers were a update has to be done silently
+			$silent_update_versions = '75';
 
 			if(is_file($sql_patch_filename)) {
 
@@ -186,10 +189,14 @@ function updateDbAndIni() {
 
 				//* Load patch file into database
 				if( !empty($conf["mysql"]["admin_password"]) ) {
-					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
+					$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename;
 				} else {
-					system("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename);
+					$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename;
 				}
+				
+				if(in_array($next_db_version,explode(',',$silent_update_versions))) $cmd .= ' > /dev/null 2> /dev/null';
+				system($cmd);
+				
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
 
 				//* Exec onAfterSQL function

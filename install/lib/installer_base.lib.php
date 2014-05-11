@@ -633,6 +633,7 @@ class installer_base {
 
 		//* Create aliasaes
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 
 	}
 
@@ -1007,7 +1008,7 @@ class installer_base {
 		chgrp($config_dir.'/'.$configfile, 'root');
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/var/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 
@@ -2136,6 +2137,13 @@ class installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
+		//* Disable rkhunter run and update in debian cronjob as ispconfig is running and updating rkhunter
+		if(is_file('/etc/default/rkhunter')) {
+			replaceLine('/etc/default/rkhunter', 'CRON_DAILY_RUN="yes"', 'CRON_DAILY_RUN="no"', 1, 0);
+			replaceLine('/etc/default/rkhunter', 'CRON_DB_UPDATE="yes"', 'CRON_DB_UPDATE="no"', 1, 0);
+		}
+		
 
 
 	}

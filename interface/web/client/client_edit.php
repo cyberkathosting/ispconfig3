@@ -223,7 +223,7 @@ class page_action extends tform_actions {
 		
 		if($app->auth->is_admin()) {
 			// Fill the client select field
-			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client > 0 ORDER BY sys_group.name";
+			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'>- ".$app->tform->lng('none_txt')." -</option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -352,8 +352,8 @@ class page_action extends tform_actions {
 					$subject = str_replace('{password}', $this->dataRecord['password'], $subject);
 					break;
 				case 'gender':
-					$message = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $message);
-					$subject = str_replace('{salutation}', $wb['gender_'.$val.'_txt'], $subject);
+					$message = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $message);
+					$subject = str_replace('{salutation}', $app->tform->lng('gender_'.$val.'_txt'), $subject);
 					break;
 				default:
 					$message = str_replace('{'.$key.'}', $val, $message);
@@ -364,7 +364,7 @@ class page_action extends tform_actions {
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
-				$system_config = $app->getconf->get_global_config();
+				$system_config = $app->getconf->get_global_config('mail');
 				$from = $system_config['admin_mail'];
 			} else {
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);

@@ -94,6 +94,7 @@ $wb['limit_trafficquota_error_notint'] = 'Kuota Trafik harus berupa angka.';
 $wb['limit_dns_slave_zone_txt'] = 'Jumlah maks zona DNS Sekunder';
 $wb['limit_webdav_user_txt'] = 'Jumlah maks pengguna Webdav';
 $wb['limit_webdav_user_error_notint'] = 'Batasan pengguna webdav harus berupa angka.';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_dns_slave_zone_error_notint'] = 'Batasan zona slave dns harus berupa angka.';
 $wb['customer_no_txt'] = 'No. Pelanggan';
 $wb['vat_id_txt'] = 'VAT ID';

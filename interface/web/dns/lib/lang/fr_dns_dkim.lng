@@ -6,4 +6,5 @@ $wb["record_exists_txt"] = 'L\'enregistrement DNS exist déjà';
 $wb["limit_dns_record_txt"] = 'Le nombre max. d\'enregistrement DNS pour votre compte à été atteint.';
 $wb["no_zone_perm"] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement à cette Zone DNS.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['selector_txt'] = 'DKIM-Selector';
 ?>

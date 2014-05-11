@@ -818,7 +818,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'default' => '',
 			'separator' => ',',
-			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM')
+			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
 		),
 		'limit_cgi' => array (
 			'datatype' => 'VARCHAR',
@@ -953,6 +953,12 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
+		),
+		'limit_backup' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'default_dnsserver' => array (
 			'datatype' => 'INTEGER',

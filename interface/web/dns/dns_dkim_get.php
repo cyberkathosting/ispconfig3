@@ -67,33 +67,20 @@ function getRealPOST() {
     return $vars;
 }
 
-/**
-* This function formats the public-key
-* @param array $pubkey
-* @return string public-key
-*/
-function pub_key($pubkey) {
-        $public_key='';
-        foreach($pubkey as $values) $public_key=$public_key.$values;
-        return $public_key;
-}
-
 $_POST=getRealPost();
 
 if (ctype_digit($_POST['zone'])) {
 	// Get the parent soa record of the domain
-	$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND ".$app->tform->getAuthSQL('r'), $_POST['zone']);
+	$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? and ?'", $app->db->quote($_POST['zone']), $app->tform->getAuthSQL('r'));
 
-	$public_key=$app->db->queryOneRecord("SELECT dkim_public FROM mail_domain WHERE domain = ? AND dkim = 'Y' AND ".$app->tform->getAuthSQL('r'), substr_replace($soa['origin'],'',-1));
-
-	$public_key=pub_key($public_key);
-
-	$public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$public_key);
+	$sql=$app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'Y' AND ?", substr_replace($soa['origin'],'',-1), $app->tform->getAuthSQL('r'));
+	$public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
 
 	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 	echo "<formatname>\n";
 	echo "<data>".$public_key."</data>\n";
 	echo "<name>".$soa['origin']."</name>\n";
+	echo "<selector>".$sql['dkim_selector']."</selector>\n";
 	echo "</formatname>\n";
 }
 ?>

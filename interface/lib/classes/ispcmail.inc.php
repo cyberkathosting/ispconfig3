@@ -593,17 +593,17 @@ class ispcmail {
 		$response = fgets($this->_smtp_conn, 515);
 		if(empty($this->_smtp_conn)) return false;
 
+		//Say Hello to SMTP
+		if($this->smtp_helo == '') $this->detectHelo();
+		fputs($this->_smtp_conn, 'HELO ' . $this->smtp_helo . $this->_crlf);
+		$response = fgets($this->_smtp_conn, 515);
+
 		// ENCRYPTED?
 		if($this->smtp_crypt == 'tls') {
 			fputs($this->_smtp_conn, 'STARTTLS' . $this->_crlf);
 			fgets($this->_smtp_conn, 515);
 			stream_socket_enable_crypto($this->_smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 		}
-
-		//Say Hello to SMTP
-		if($this->smtp_helo == '') $this->detectHelo();
-		fputs($this->_smtp_conn, 'HELO ' . $this->smtp_helo . $this->_crlf);
-		$response = fgets($this->_smtp_conn, 515);
 
 		//AUTH LOGIN
 		fputs($this->_smtp_conn, 'AUTH LOGIN' . $this->_crlf);

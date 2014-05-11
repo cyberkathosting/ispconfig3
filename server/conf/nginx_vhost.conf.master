@@ -152,9 +152,22 @@ server {
             fastcgi_intercept_errors on;
         }
 </tmpl_else>
+	<tmpl_if name='php' op='==' value='hhvm'>
+			location @php {
+				try_files $uri =404;
+				include /etc/nginx/fastcgi_params;
+				fastcgi_pass unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock;
+				fastcgi_index index.php;
+				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+				#fastcgi_param PATH_INFO $fastcgi_script_name;
+				fastcgi_intercept_errors on;
+			}
+	</tmpl_else>
+
         location @php {
             deny all;
         }
+	</tmpl_if>
 </tmpl_if>
 		
 <tmpl_if name='cgi' op='==' value='y'>

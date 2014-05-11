@@ -60,6 +60,7 @@ $wb['limit_trafficquota_error_notint'] = 'Трафик квота трябва �
 $wb['template_del_aborted_txt'] = 'Изтриването е прекратено. There is still a client which has this template selected.';
 $wb['limit_webdav_user_txt'] = 'Макс. брой на Webdav потребители';
 $wb['limit_webdav_user_error_notint'] = 'The webdav user трябва да е число';
+$wb['limit_backup_txt'] = 'Backupfunction available';
 $wb['limit_mailmailinglist_txt'] = 'Max. number of mailing lists';
 $wb['limit_mailmailinglist_error_notint'] = 'The mailing list record трябва да е число';
 $wb['limit_openvz_vm_txt'] = 'Макс. брой на Виртуалните сървъри';

@@ -11,5 +11,4 @@ $wb['domain_error_regex'] = 'Το όνομα Domain δεν είναι έγκυρ
 $wb['no_redirect_txt'] = 'Χωρίς Ανακατεύθυνση';
 $wb['no_flag_txt'] = 'Χωρίς σημαία';
 $wb['none_txt'] = 'Κανένα';
-
 ?>

@@ -11,7 +11,7 @@ $wb['Email Forward'] = 'Email Προώθησης';
 $wb['Get Email'] = 'Λήψη Email';
 $wb['Spamfilter'] = 'Φίλτρο Spam';
 $wb['Email Routing'] = 'Δρομολόγηση Email';
-$wb['Email transport'] = 'Δρομολογήση Email';
+$wb['Email transport'] = 'Μεταφορά Email';
 $wb['Mailbox'] = 'Θυρίδα';
 $wb['Autoresponder'] = 'Αυτόματη απάντηση';
 $wb['Mail Filter'] = 'Φίλτρο Mail';
@@ -44,5 +44,5 @@ $wb['Content Filter'] = 'Φίλτρο Περιεχομένου';
 $wb['Global Filters'] = 'Καθολικά Φίλτρα';
 $wb['Domain Alias'] = 'Ψευδώνυμο Domain';
 $wb['Relay Recipients'] = 'Παραλήπτες Relay';
-$wb['Mailbox quota'] = 'Όριο θυρίδας Mail';
+$wb['Mailbox quota'] = 'Mailbox quota';
 ?>

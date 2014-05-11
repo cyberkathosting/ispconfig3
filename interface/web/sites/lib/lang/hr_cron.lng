@@ -19,4 +19,6 @@ $wb['run_wday_error_format'] = 'Pogrešan format za dane u tjednu.';
 $wb['command_error_format'] = 'Pogrešan format komande. U slučaju pozivanja URL-a koristite samo http/https.';
 $wb['unknown_fieldtype_error'] = 'Koristi se nepoznata vrsta polja.';
 $wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
 ?>
