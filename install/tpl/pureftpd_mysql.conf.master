@@ -59,12 +59,12 @@ MYSQLCrypt      crypt
 
 # Query to execute in order to fetch the password
 
-MYSQLGetPW      SELECT password FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L"
+MYSQLGetPW      SELECT password FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Query to execute in order to fetch the system user name or uid
 
-MYSQLGetUID     SELECT uid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L"
+MYSQLGetUID     SELECT uid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : default UID - if set this overrides MYSQLGetUID
@@ -74,7 +74,7 @@ MYSQLGetUID     SELECT uid FROM ftp_user WHERE active = 'y' AND server_id = '{se
 
 # Query to execute in order to fetch the system user group or gid
 
-MYSQLGetGID     SELECT gid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L"
+MYSQLGetGID     SELECT gid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : default GID - if set this overrides MYSQLGetGID
@@ -84,34 +84,34 @@ MYSQLGetGID     SELECT gid FROM ftp_user WHERE active = 'y' AND server_id = '{se
 
 # Query to execute in order to fetch the home directory
 
-MYSQLGetDir     SELECT dir FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L"
+MYSQLGetDir     SELECT dir FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : query to get the maximal number of files 
 # Pure-FTPd must have been compiled with virtual quotas support.
 
-MySQLGetQTAFS  SELECT quota_files FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L"
+MySQLGetQTAFS  SELECT quota_files FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : query to get the maximal disk usage (virtual quotas)
 # The number should be in Megabytes.
 # Pure-FTPd must have been compiled with virtual quotas support.
 
-MySQLGetQTASZ  SELECT quota_size FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_size != '-1' AND username="\L"
+MySQLGetQTASZ  SELECT quota_size FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_size != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : ratios. The server has to be compiled with ratio support.
 
-MySQLGetRatioUL SELECT ul_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_ratio != '-1' AND username="\L"
-MySQLGetRatioDL SELECT dl_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_ratio != '-1' AND username="\L"
+MySQLGetRatioUL SELECT ul_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_ratio != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
+MySQLGetRatioDL SELECT dl_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_ratio != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 
 # Optional : bandwidth throttling.
 # The server has to be compiled with throttling support.
 # Values are in KB/s .
 
-MySQLGetBandwidthUL SELECT ul_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_bandwidth != '-1' AND username="\L"
-MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_bandwidth != '-1' AND username="\L"
+MySQLGetBandwidthUL SELECT ul_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_bandwidth != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
+MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_bandwidth != '-1' AND username="\L" AND (expires = "0000-00-00 00:00:00" OR expires > NOW())
 
 # Enable ~ expansion. NEVER ENABLE THIS BLINDLY UNLESS :
 # 1) You know what you are doing.
