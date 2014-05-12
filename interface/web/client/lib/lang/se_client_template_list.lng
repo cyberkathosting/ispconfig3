@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Client-Templates';
-$wb['template_type_txt'] = 'Type';
-$wb['template_name_txt'] = 'Template name';
-$wb['template_id_txt'] = 'Template ID';
+$wb['list_head_txt'] = 'Kundmallar';
+$wb['template_type_txt'] = 'Typ';
+$wb['template_name_txt'] = 'Mallnamn';
+$wb['template_id_txt'] = 'Mall-ID';
 ?>
+

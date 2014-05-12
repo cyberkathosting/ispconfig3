@@ -1,24 +1,24 @@
 <?php
-$wb['Email Alias'] = 'Email Alias';
-$wb['Email Blacklist'] = 'Email Blacklist';
-$wb['Blacklist'] = 'Blacklist';
-$wb['Mail Content Filter'] = 'Mail Content Filter';
+$wb['Email Alias'] = 'Epostalias';
+$wb['Email Blacklist'] = 'Svartlistning epost';
+$wb['Blacklist'] = 'Svartlista';
+$wb['Mail Content Filter'] = 'Innehållsfilter epost';
 $wb['Filter'] = 'Filter';
-$wb['Mail Domain'] = 'Mail Domain';
-$wb['Domain'] = 'Domain';
-$wb['Email Catchall'] = 'Email Catchall';
-$wb['Email Forward'] = 'Email Forward';
-$wb['Get Email'] = 'Get Email';
+$wb['Mail Domain'] = 'Epostdomän';
+$wb['Domain'] = 'Domän';
+$wb['Email Catchall'] = 'Standardadress';
+$wb['Email Forward'] = 'Vidarebefordran';
+$wb['Get Email'] = 'Hämta epost';
 $wb['Spamfilter'] = 'Spamfilter';
-$wb['Email Routing'] = 'Email Routing';
-$wb['Email transport'] = 'Email transport';
-$wb['Mailbox'] = 'Mailbox';
-$wb['Autoresponder'] = 'Autoresponder';
-$wb['Mail Filter'] = 'Mail Filter';
+$wb['Email Routing'] = 'Epostrouting';
+$wb['Email transport'] = 'Eposttransport';
+$wb['Mailbox'] = 'Epostadress';
+$wb['Autoresponder'] = 'Autosvar';
+$wb['Mail Filter'] = 'Epostfilter';
 $wb['Custom Rules'] = 'Custom Rules';
-$wb['Email filter'] = 'Email filter';
-$wb['Email Whitelist'] = 'Email Whitelist';
-$wb['Whitelist'] = 'Whitelist';
+$wb['Email filter'] = 'Epostfilter';
+$wb['Email Whitelist'] = 'Vistlistning epost';
+$wb['Whitelist'] = 'Vitlista';
 $wb['Spamfilter blacklist'] = 'Spamfilter blacklist';
 $wb['Spamfilter Config'] = 'Spamfilter Config';
 $wb['Server'] = 'Server';
@@ -46,3 +46,4 @@ $wb['Domain Alias'] = 'Domain Alias';
 $wb['Relay Recipients'] = 'Relay Recipients';
 $wb['Mailbox quota'] = 'Mailbox quota';
 ?>
+

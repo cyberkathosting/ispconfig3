@@ -1,15 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
+$wb['list_head_txt'] = 'Existerande backuper';
+$wb['date_txt'] = 'Datum';
+$wb['backup_type_txt'] = 'Typ';
+$wb['filename_txt'] = 'Backupfil';
+$wb['restore_backup_txt'] = 'Återställ backup';
+$wb['download_backup_txt'] = 'Ladda ner backup';
 $wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
 $wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
 $wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
 $wb['download_pending_txt'] = 'There is already a pending backup download job.';
 $wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['backup_type_mysql'] = 'MySQL-databaser';
+$wb['backup_type_web'] = 'Webbsidefiler';
 ?>
+

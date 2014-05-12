@@ -137,7 +137,11 @@ class maildrop_plugin {
 				}
 
 				// Load the master template
-				$tpl = file_get_contents($conf["rootpath"].'/conf/autoresponder.master');
+				if(file_exists($conf["rootpath"].'/conf-custom/autoresponder.master')) {
+					$tpl = file_get_contents($conf["rootpath"].'/conf-custom/autoresponder.master');
+				} else {
+					$tpl = file_get_contents($conf["rootpath"].'/conf/autoresponder.master');
+				}
 				$tpl = str_replace('{vmail_mailbox_base}', $mail_config["homedir_path"], $tpl);
 
 				if ($data["new"]["autoresponder_start_date"] != '0000-00-00 00:00:00') { // Dates have been set
@@ -201,7 +205,11 @@ class maildrop_plugin {
 				}
 
 				if($data["new"]["move_junk"] == 'y') {
-					$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf/mailfilter_move_junk.master')."\n";
+					if(file_exists($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')) {
+						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')."\n";
+					} else {
+						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf/mailfilter_move_junk.master')."\n";
+					}
 				}
 				$mailfilter_content .= $data["new"]["custom_mailfilter"];
 

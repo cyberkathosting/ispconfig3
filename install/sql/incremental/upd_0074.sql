@@ -49,7 +49,7 @@ ALTER TABLE `dns_rr`
 	CHANGE `sys_perm_group` `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
 	CHANGE `sys_perm_other` `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
 	CHANGE `zone` `zone` int(11) unsigned NOT NULL DEFAULT '0',
-	CHANGE `name` `name` varchar(64) NOT NULL DEFAULT '',
+	CHANGE `name` `name` varchar(255) NOT NULL DEFAULT '',
 	CHANGE `data` `data` varchar(255) NOT NULL DEFAULT '';
 
 ALTER TABLE `dns_slave`

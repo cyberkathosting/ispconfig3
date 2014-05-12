@@ -1,11 +1,11 @@
 <?php
 $wb['getmail_config_dir_txt'] = 'Getmail Config Path';
-$wb['ip_address_txt'] = 'IP Address';
-$wb['netmask_txt'] = 'Netmask';
+$wb['ip_address_txt'] = 'IP A-a';
+$wb['netmask_txt'] = 'Nätmask';
 $wb['gateway_txt'] = 'Gateway';
 $wb['hostname_txt'] = 'Hostname';
-$wb['nameservers_txt'] = 'Nameservers';
-$wb['module_txt'] = 'Server Module';
+$wb['nameservers_txt'] = 'Namnservrar';
+$wb['module_txt'] = 'Servermodul';
 $wb['maildir_path_txt'] = 'Maildir Path';
 $wb['homedir_path_txt'] = 'Homedir Path';
 $wb['mailuser_uid_txt'] = 'Mailuser UID';
@@ -18,3 +18,4 @@ $wb['relayhost_password_txt'] = 'Relayhost Password';
 $wb['mailbox_size_limit_txt'] = 'Mailbox Size Limit';
 $wb['message_size_limit_txt'] = 'Message Size Limit';
 ?>
+

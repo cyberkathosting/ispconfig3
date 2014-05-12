@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Epost Catchall';
+$wb['list_head_txt'] = 'Epost catchall';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domän';
-$wb['destination_txt'] = 'Mottagande epost adress';
-$wb['add_new_record_txt'] = 'Lägg till ny Catchall';
-$wb['active_txt'] = 'Active';
-$wb['source_txt'] = 'source';
+$wb['destination_txt'] = 'Mottagande epostadress';
+$wb['add_new_record_txt'] = 'Lägg till ny catchall';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_txt'] = 'källa';
 ?>
+

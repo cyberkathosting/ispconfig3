@@ -1,20 +1,21 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
-$wb['gender_m_txt'] = 'Mr.';
-$wb['gender_f_txt'] = 'Ms.';
+$wb['btn_send_txt'] = 'Skicka epost';
+$wb['btn_cancel_txt'] = 'Avbryt';
+$wb['sender_txt'] = 'Avsändares epostadress';
+$wb['subject_txt'] = 'Ämne';
+$wb['message_txt'] = 'Meddelande';
+$wb['form_legend_client_txt'] = 'Skicke epostmeddelande till alla kunder';
+$wb['form_legend_admin_txt'] = 'Skicka meddelande till alla kunder och återförsäljare';
+$wb['sender_invalid_error'] = 'Avsändarepost är ogiltig';
+$wb['subject_invalid_error'] = 'Ämnesraden är tom.';
+$wb['message_invalid_error'] = 'Meddelandet är tomt.';
+$wb['email_sent_to_txt'] = 'Epost skickat till:';
+$wb['page_head_txt'] = 'Skicka kundinformation';
+$wb['recipient_txt'] = 'Mottagare';
+$wb['all_clients_resellers_txt'] = 'Alla kunder och återförsäljare';
+$wb['all_clients_txt'] = 'Alla kunder';
+$wb['variables_txt'] = 'Variabler:';
+$wb['gender_m_txt'] = 'Herr';
+$wb['gender_f_txt'] = 'Fru';
 ?>
+

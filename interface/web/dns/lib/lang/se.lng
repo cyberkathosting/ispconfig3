@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Zoner';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -14,9 +14,10 @@ $wb['Records'] = 'Records';
 $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT Record';
 $wb['DNS TXT'] = 'DNS TXT';
-$wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['DNS Wizard'] = 'DNS-hjälp';
+$wb['Add DNS Zone'] = 'Lägg till DNS-zon';
+$wb['Templates'] = 'Mallar';
+$wb['Secondary Zones'] = 'Sekundära zoner';
+$wb['Import Zone File'] = 'Importera  zonfiler';
 ?>
+

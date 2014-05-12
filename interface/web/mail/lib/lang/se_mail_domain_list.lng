@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Epost Domäner';
+$wb['list_head_txt'] = 'Epostdomäner';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domän';
-$wb['add_new_record_txt'] = 'Add new Domain';
-$wb['active_txt'] = 'Active';
+$wb['add_new_record_txt'] = 'Lägg till ny domän';
+$wb['active_txt'] = 'Aktiv';
 ?>
+

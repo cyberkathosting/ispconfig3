@@ -1,6 +1,7 @@
 <?php
-$wb['name_txt'] = 'Name';
-$wb['fields_txt'] = 'Fields';
-$wb['template_txt'] = 'Template';
-$wb['visible_txt'] = 'Visible';
+$wb['name_txt'] = 'Namn';
+$wb['fields_txt'] = 'Fält';
+$wb['template_txt'] = 'Mall';
+$wb['visible_txt'] = 'Synlig';
 ?>
+

@@ -18,3 +18,4 @@ $wb['srv_error_regex'] = 'Invalid server record format. The server record must c
 $wb['aux_txt'] = 'Priority';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+
