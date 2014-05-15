@@ -1509,7 +1509,7 @@ class tform {
 	 */
 	function _getDateTimeHTML($form_element, $default_value, $display_seconds=false)
 	{
-		$_datetime = strtotime($default_value);
+		$_datetime = ($default_value && $default_value != '0000-00-00 00:00:00' ? strtotime($default_value) : false);
 		$_showdate = ($_datetime === false) ? false : true;
 
 		$dselect = array('day', 'month', 'year', 'hour', 'minute');
