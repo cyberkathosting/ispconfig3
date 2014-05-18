@@ -1,13 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
+$wb['list_head_txt'] = 'Installerade paket';
+$wb['name_txt'] = 'Namn';
 $wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
+$wb['customer_txt'] = 'Kund';
 $wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
-$wb['reinstall_txt'] = 'Reinstall';
+$wb['install_location_txt'] = 'Installationsplats';
+$wb['pkg_delete_confirmation'] = 'Vill du verkligen radera denna installation?';
+$wb['pkg_reinstall_confirmation'] = 'Vill du verkligen installera om det här paketet med samma inställningar?';
+$wb['filter_txt'] = 'Sök';
+$wb['delete_txt'] = 'Radera';
+$wb['reinstall_txt'] = 'Ominstallera';
 ?>
+

@@ -191,7 +191,9 @@ if($install_mode == 'standard') {
 	$inst->configure_postfix();
 
 	//* Configure Mailman
-	$inst->configure_mailman('install');
+	if($conf['mailman']['installed'] == true) {
+		$inst->configure_mailman('install');
+	}
 
 	//* Configure jailkit
 	swriteln('Configuring Jailkit');

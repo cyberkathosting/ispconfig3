@@ -1,21 +1,22 @@
 <?php
-$wb['dir_txt'] = 'Directory';
+$wb['dir_txt'] = 'Katalog';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['active_txt'] = 'Active';
+$wb['parent_domain_id_txt'] = 'Webbsida';
+$wb['username_txt'] = 'Användarnamn';
+$wb['password_txt'] = 'Lösenord';
+$wb['password_strength_txt'] = 'Lösenordsstyrka';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_webdav_user_txt'] = 'The max. number of webdav users for your account is reached.';
-$wb['username_error_empty'] = 'Username is empty.';
+$wb['username_error_empty'] = 'Användarnamn är tomt';
 $wb['username_error_unique'] = 'The username must be unique.';
 $wb['username_error_regex'] = 'The username contains characters that are not allowed.';
 $wb['directory_error_empty'] = 'Directory empty.';
-$wb['parent_domain_id_error_empty'] = 'No website selected.';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['parent_domain_id_error_empty'] = 'Ingen webbsida vald';
+$wb['dir_dot_error'] = 'Tecknen .. i sökvägen är inte tillåtet';
+$wb['dir_slashdot_error'] = 'Tecknen ./ i sökvägen är inte tiillåtet';
+$wb['generate_password_txt'] = 'Generera lösenord';
+$wb['repeat_password_txt'] = 'Repetera lösenord';
+$wb['password_mismatch_txt'] = 'Lösenorden matchar inte';
+$wb['password_match_txt'] = 'Lösenorden matchar';
 ?>
+

@@ -233,8 +233,19 @@ class remoting_lib extends tform_base {
 	function getDataRecord($primary_id) {
 		global $app;
 		$escape = '`';
+		$this->loadUserProfile();
 		if(@is_numeric($primary_id)) {
-			return parent::getDataRecord($primary_id);
+			if($primary_id > 0) {
+				// Return a single record
+				return parent::getDataRecord($primary_id);
+			} elseif($primary_id == -1) {
+				// Return a array with all records
+				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape;
+				return $app->db->queryAllRecords($sql);
+			} else {
+				throw new SoapFault('invalid_id', 'The ID has to be > 0 or -1.');
+				return array();
+			}
 		} elseif (@is_array($primary_id) || @is_object($primary_id)) {
 			if(@is_object($primary_id)) $primary_id = get_object_vars($primary_id); // do not use cast (array)xxx because it returns private and protected properties!
 			$sql_offset = 0;

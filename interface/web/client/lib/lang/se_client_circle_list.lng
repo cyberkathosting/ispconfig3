@@ -1,10 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Client Circles';
-$wb['circle_id_txt'] = 'Circle ID';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['description_txt'] = 'Description';
-$wb['add_new_record_txt'] = 'Add new circle';
+$wb['list_head_txt'] = 'Kundring';
+$wb['circle_id_txt'] = 'Ring-ID';
+$wb['circle_name_txt'] = 'Ringnamn';
+$wb['description_txt'] = 'Beskrivning';
+$wb['add_new_record_txt'] = 'Lägg till ny ring';
 $wb['filter_txt'] = 'Filter';
-$wb['delete_txt'] = 'Delete';
-$wb['active_txt'] = 'Active';
+$wb['delete_txt'] = 'Radera';
+$wb['active_txt'] = 'Aktiv';
 ?>
+

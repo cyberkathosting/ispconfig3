@@ -1,9 +1,10 @@
 <?php
 $wb['email_txt'] = 'Epost';
-$wb['destination_txt'] = 'Mottagande Epost';
+$wb['destination_txt'] = 'Mottagande epost';
 $wb['active_txt'] = 'Aktiv';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
-$wb['domain_txt'] = 'Domain';
-$wb['source_txt'] = 'Source Email';
+$wb['limit_mailforward_txt'] = 'Det maximala antalet vidarebefordringar för ditt konto är uppnått.';
+$wb['duplicate_mailbox_txt'] = 'Det finns redan ett epostkonto med denna adress';
+$wb['domain_txt'] = 'Domän';
+$wb['source_txt'] = 'Källadress';
 ?>
+

@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Support Messages';
-$wb['sender_id_txt'] = 'Sender';
-$wb['subject_txt'] = 'Subject';
-$wb['add_new_record_txt'] = 'Create new support message';
-$wb['date_txt'] = 'Date';
+$wb['list_head_txt'] = 'Supportmeddelanden';
+$wb['sender_id_txt'] = 'Avsändare';
+$wb['subject_txt'] = 'Ämne';
+$wb['add_new_record_txt'] = 'Skapa nyttt supportmeddelande';
+$wb['date_txt'] = 'Datum';
 ?>
+

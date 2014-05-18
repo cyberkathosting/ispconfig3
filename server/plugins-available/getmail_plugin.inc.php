@@ -100,7 +100,11 @@ class getmail_plugin {
 
 			if($data["new"]["active"] == 'y') {
 				// Open master template
-				$tpl = file_get_contents($conf["rootpath"].'/conf/getmail.conf.master');
+				if(file_exists($conf["rootpath"].'/conf-custom/getmail.conf.master')) {
+					$tpl = file_get_contents($conf["rootpath"].'/conf-custom/getmail.conf.master');
+				} else {
+					$tpl = file_get_contents($conf["rootpath"].'/conf/getmail.conf.master');
+				}
 
 				// Shall emails be deleted after retrieval
 				if($data["new"]["source_delete"] == 'y') {

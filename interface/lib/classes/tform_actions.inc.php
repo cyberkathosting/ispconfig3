@@ -106,6 +106,7 @@ class tform_actions {
 		global $app, $conf;
 
 		$this->onBeforeUpdate();
+		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_before_update', $this);
 
 		$ext_where = '';
 		$sql = $app->tform->getSQL($this->dataRecord, $app->tform->getCurrentTab(), 'UPDATE', $this->id, $ext_where);
@@ -192,6 +193,7 @@ class tform_actions {
 		global $app, $conf;
 
 		$this->onBeforeInsert();
+		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_before_insert', $this);
 
 		$ext_where = '';
 		$sql = $app->tform->getSQL($this->dataRecord, $app->tform->getCurrentTab(), 'INSERT', $this->id, $ext_where);

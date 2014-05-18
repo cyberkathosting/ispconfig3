@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Software updates';
-$wb['installed_txt'] = 'Action';
-$wb['update_title_txt'] = 'Update';
+$wb['list_head_txt'] = 'Programvaruuppdateringar';
+$wb['installed_txt'] = 'Händelse';
+$wb['update_title_txt'] = 'Uppdatera';
 $wb['version_txt'] = 'Version';
-$wb['action_txt'] = 'Action';
-$wb['server_select_txt'] = 'Select server';
-$wb['no_updates_txt'] = 'No updates available';
+$wb['action_txt'] = 'Händelse';
+$wb['server_select_txt'] = 'Välj server';
+$wb['no_updates_txt'] = 'Inga tillgängliga uppdateringar';
 ?>
+

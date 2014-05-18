@@ -3,13 +3,12 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domän';
 $wb['type_txt'] = 'Typ';
 $wb['active_txt'] = 'Aktiv';
-$wb['domain_error_empty'] = 'Domain is empty.';
-$wb['domain_error_unique'] = 'Duplicate Domain.';
-$wb['domain_error_regex'] = 'Invalid domain name.';
-$wb['client_txt'] = 'Client';
-$wb['limit_maildomain_txt'] = 'The max. number of email domains for your account is reached.';
+$wb['domain_error_empty'] = 'Domänfältet är tomt.';
+$wb['domain_error_unique'] = 'Domänen finns redan.';
+$wb['domain_error_regex'] = 'Ogiltigt domännamn.';
+$wb['client_txt'] = 'Kund';
+$wb['limit_maildomain_txt'] = 'Det maximala antalet epostdomäner för ditt konto är uppnått.';
 $wb['policy_txt'] = 'Spamfilter';
-$wb['no_policy'] = '- not enabled -';
 $wb["dkim_txt"] = 'enable DKIM';
 $wb["dkim_private_txt"] = 'DKIM Private-key';
 $wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
@@ -18,4 +17,6 @@ $wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS'
 $wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['dkim_selector_txt'] = 'DKIM-Selector';
 $wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9)';
+$wb['no_policy'] = '- ej aktiverat -';
 ?>
+

@@ -15,3 +15,4 @@ $wb['data_error_regex'] = 'IP-Address format invalid';
 $wb['data_error_duplicate'] = 'Duplicate A-Record';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+

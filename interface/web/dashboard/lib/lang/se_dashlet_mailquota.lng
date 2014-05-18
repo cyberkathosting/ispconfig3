@@ -1,8 +1,9 @@
 <?php
-$wb['mailquota_txt'] = 'Mailbox Quota';
-$wb['email_txt'] = 'Email Address';
-$wb['name_txt'] = 'Name';
-$wb['used_txt'] = 'Used Space';
-$wb['quota_txt'] = 'Quota';
-$wb['no_email_accounts_txt'] = 'No email accounts found.';
+$wb['mailquota_txt'] = 'Epostkontonas kvota';
+$wb['email_txt'] = 'Epostadress';
+$wb['name_txt'] = 'Namn';
+$wb['used_txt'] = 'Använt utrymme';
+$wb['quota_txt'] = 'Kvot';
+$wb['no_email_accounts_txt'] = 'Inga epostkonton hittades';
 ?>
+

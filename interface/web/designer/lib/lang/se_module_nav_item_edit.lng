@@ -2,7 +2,8 @@
 $wb['title_txt'] = 'Titel';
 $wb['target_txt'] = 'Mål';
 $wb['link_txt'] = 'Länk';
-$wb['header_txt'] = 'Nav egenskaper';
+$wb['header_txt'] = 'Nav. egenskaper';
 $wb['save_txt'] = 'Spara';
 $wb['cancel_txt'] = 'Avbryt';
 ?>
+

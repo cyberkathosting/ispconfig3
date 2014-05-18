@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Fetch emails from external POP3 / IMAP servers';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Hämta epost från externa POP3- / IMAP-servrar';
+$wb['active_txt'] = 'Aktiv';
 $wb['server_id_txt'] = 'Server';
-$wb['source_server_txt'] = 'External Server';
-$wb['source_username_txt'] = 'Username';
+$wb['source_server_txt'] = 'Extern server';
+$wb['source_username_txt'] = 'Användarnamn';
 $wb['destination_txt'] = 'Destination';
-$wb['add_new_record_txt'] = 'Add new Account';
+$wb['add_new_record_txt'] = 'Lägg till nytt konto';
 ?>
+

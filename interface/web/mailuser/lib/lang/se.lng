@@ -1,9 +1,10 @@
 <?php
-$wb['Email Account'] = 'Email Account';
-$wb['Overview'] = 'Overview';
-$wb['Password'] = 'Password';
-$wb['Autoresponder'] = 'Autoresponder';
-$wb['Send copy'] = 'Send copy';
+$wb['Email Account'] = 'Epostkonto';
+$wb['Overview'] = 'Översikt';
+$wb['Password'] = 'Lösenord';
+$wb['Autoresponder'] = 'Autosvar';
+$wb['Send copy'] = 'Skicka kopia';
 $wb['Spamfilter'] = 'Spamfilter';
-$wb['Email Filters'] = 'Email Filters';
+$wb['Email Filters'] = 'Epostfilter';
 ?>
+

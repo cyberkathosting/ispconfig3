@@ -113,6 +113,27 @@ class remoting_client extends remoting {
 		}
 
 	}
+	
+	//* Get the contact details to send a email like email address, name, etc.
+	public function client_get_emailcontact($session_id, $client_id) {
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'client_get_emailcontact')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$client_id = $app->functions->intval($client_id);
+
+		$rec = $app->db->queryOneRecord("SELECT company_name,contact_name,gender,email,language FROM client WHERE client_id = ".$client_id);
+		
+		if(is_array($rec)) {
+			return $rec;
+		} else {
+			throw new SoapFault('no_client_found', 'There is no client with this client ID.');
+			return false;
+		}
+	}
 
 	public function client_get_groupid($session_id, $client_id)
 	{
@@ -488,6 +509,123 @@ class remoting_client extends remoting {
 		$sql    = "SELECT * FROM client_template";
 		$result = $app->db->queryAllRecords($sql);
 		return $result;
+	}
+	
+	public function client_login_get($session_id,$username,$password,$remote_ip = '') {
+		global $app;
+		
+		//* Check permissions
+		if(!$this->checkPerm($session_id, 'client_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		//* Check username and password
+		if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $username)) {
+			throw new SoapFault('user_regex_error', 'Username contains invalid characters.');
+			return false;
+		}
+		if(!preg_match("/^.{1,64}$/i", $password)) {
+			throw new SoapFault('password_length_error', 'Invalid password length or no password provided.');
+			return false;
+		}
+		
+		//* Check failed logins
+		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '".$app->db->quote($remote_ip)."' AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
+		$alreadyfailed = $app->db->queryOneRecord($sql);
+		
+		//* too many failedlogins
+		if($alreadyfailed['times'] > 5) {
+			throw new SoapFault('error_user_too_many_logins', 'Too many failed logins.');
+			return false;
+		}
+		
+		
+		//*Set variables
+		$returnval == false;
+		
+		if(strstr($username,'@')) {
+			// Check against client table
+			$sql = "SELECT * FROM client WHERE email = '".$app->db->quote($username)."'";
+			$user = $app->db->queryOneRecord($sql);
+
+			if($user) {
+				$saved_password = stripslashes($user['password']);
+
+				if(substr($saved_password, 0, 3) == '$1$') {
+					//* The password is crypt-md5 encrypted
+					$salt = '$1$'.substr($saved_password, 3, 8).'$';
+
+					if(crypt(stripslashes($password), $salt) != $saved_password) {
+						$user = false;
+					}
+				} else {
+
+					//* The password is md5 encrypted
+					if(md5($password) != $saved_password) {
+						$user = false;
+					}
+				}
+			}
+			
+			if(is_array($user)) {
+				$returnval = array(	'username' 	=> 	$user['username'],
+									'type'		=>	'user',
+									'client_id'	=>	$user['client_id'],
+									'language'	=>	$user['language'],
+									'country'	=>	$user['country']);
+			}
+			
+		} else {
+			// Check against sys_user table
+			$sql = "SELECT * FROM sys_user WHERE username = '".$app->db->quote($username)."'";
+			$user = $app->db->queryOneRecord($sql);
+
+			if($user) {
+				$saved_password = stripslashes($user['passwort']);
+
+				if(substr($saved_password, 0, 3) == '$1$') {
+					//* The password is crypt-md5 encrypted
+					$salt = '$1$'.substr($saved_password, 3, 8).'$';
+
+					if(crypt(stripslashes($password), $salt) != $saved_password) {
+						$user = false;
+					}
+				} else {
+
+					//* The password is md5 encrypted
+					if(md5($password) != $saved_password) {
+						$user = false;
+					}
+				}
+			}
+			
+			if(is_array($user)) {
+				$returnval = array(	'username' 	=> 	$user['username'],
+									'type'		=>	$user['typ'],
+									'client_id'	=>	$user['client_id'],
+									'language'	=>	$user['language'],
+									'country'	=>	'de');
+			} else {
+				throw new SoapFault('login_failed', 'Login failed.');
+			}
+		}
+		
+		//* Log failed login attempts
+		if($user === false) {
+			$time = time();
+			if(!$alreadyfailed['times'] ) {
+				//* user login the first time wrong
+				$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES ('".$app->db->quote($remote_ip)."', 1, NOW())";
+				$app->db->query($sql);
+			} elseif($alreadyfailed['times'] >= 1) {
+				//* update times wrong
+				$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `login_time` >= '".$time."' LIMIT 1";
+				$app->db->query($sql);
+			}
+		}
+		
+		return $returnval;
 	}
 
 }

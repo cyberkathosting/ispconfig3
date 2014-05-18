@@ -1,4 +1,4 @@
 <?php
-$wb['welcome_user_txt'] = 'Herzlich Willkommen %s';
+$wb['welcome_user_txt'] = 'Herzlich willkommen %s';
 $wb['available_modules_txt'] = 'Verfügbare Module';
 ?>

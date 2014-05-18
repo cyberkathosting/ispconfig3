@@ -7,7 +7,8 @@ $wb['dns_server_txt'] = 'DNS';
 $wb['file_server_txt'] = 'Fil';
 $wb['db_server_txt'] = 'DB';
 $wb['vserver_server_txt'] = 'VServer';
-$wb['add_new_record_txt'] = 'Add new Server';
+$wb['add_new_record_txt'] = 'Lägg till ny server';
 $wb['proxy_server_txt'] = 'Proxy';
-$wb['firewall_server_txt'] = 'Firewall';
+$wb['firewall_server_txt'] = 'Brandvägg';
 ?>
+
