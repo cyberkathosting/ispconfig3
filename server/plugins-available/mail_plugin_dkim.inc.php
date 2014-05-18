@@ -132,7 +132,7 @@ class mail_plugin_dkim {
 			}
 
 		} else {
-			$app->log('Unable to write DKIM settings; Check your config!', LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings - no DKIM-Path defined', LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
