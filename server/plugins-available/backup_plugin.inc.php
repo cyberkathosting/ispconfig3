@@ -75,10 +75,10 @@ class backup_plugin {
 			$backup_dir_is_ready = true;
 			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
 			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
-				if(!$app->system->is_mounted($backup_dir)){
+				if(!$app->system->is_mounted($server_config['backup_dir'])){
 					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
 					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $backup_dir_is_ready = false;
+					if(!$app->system->is_mounted($server_config['backup_dir'])) $backup_dir_is_ready = false;
 				}
 			}
 
