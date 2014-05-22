@@ -13,7 +13,11 @@
 
 
 // Name of the list
-$liste["name"]    = "dns_slave";
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["name"]     = "dns_slave_admin";
+} else {
+	$liste["name"]     = "dns_slave";
+}
 
 // Database table
 $liste["table"]   = "dns_slave";
@@ -70,6 +74,22 @@ $liste["item"][] = array(   'field' => "server_id",
 	),
 	'width' => "",
 	'value' => "");
+	
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["item"][] = array( 'field'  => "sys_groupid",
+		'datatype' => "INTEGER",
+		'formtype' => "SELECT",
+		'op'  => "=",
+		'prefix' => "",
+		'suffix' => "",
+		'datasource' => array (  'type' => 'SQL',
+			'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+			'keyfield'=> 'groupid',
+			'valuefield'=> 'name'
+		),
+		'width'  => "",
+		'value'  => "");
+}
 
 $liste["item"][] = array(   'field' => "origin",
 	'datatype' => "VARCHAR",

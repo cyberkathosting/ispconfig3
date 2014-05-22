@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'DNS Zonen';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zone';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'E-Mail';
+$wb['add_new_record_txt'] = 'Neue DNS Zone (SOA) hinzufügen';
+$wb['add_new_record_wizard_txt'] = 'Neue DNS Zone per Assistent hinzufügen';
+$wb['sys_groupid_txt'] = 'Kunde';
+?>
