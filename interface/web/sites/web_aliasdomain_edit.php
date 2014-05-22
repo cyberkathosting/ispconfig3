@@ -123,9 +123,17 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
+		
+		// Get the record of the parent domain
+		if(!@$this->dataRecord["parent_domain_id"] && $this->id) {
+			$tmp = $app->db->queryOneRecord("SELECT parent_domain_id FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+			if($tmp) $this->dataRecord["parent_domain_id"] = $tmp['parent_domain_id'];
+			unset($tmp);
+		}
 
 		// Get the record of the parent domain
 		$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		
 		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		/* check if the domain module is used - and check if the selected domain can be used! */
 		$app->uses('ini_parser,getconf');
@@ -153,7 +161,7 @@ class page_action extends tform_actions {
 
 		//* make sure that the domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
-
+		
 		parent::onSubmit();
 	}
 
