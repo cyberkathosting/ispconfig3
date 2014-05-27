@@ -83,6 +83,10 @@ unset($conf);
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
+//** Include the autoinstaller configuration (for non-interactive setups)
+error_reporting(E_ALL ^ E_NOTICE);
+if(is_file('autoinstall.conf.php')) include_once 'autoinstall.conf.php';
+
 //** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
@@ -131,7 +135,13 @@ $inst->find_installed_apps();
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
 //* Make a backup before we start the update
-$do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in /var/backup/ now?', array('yes', 'no'), 'yes');
+if($autoupdate['do_backup'] == 'default') $autoupdate['do_backup'] = 'yes';
+if($autoupdate['do_backup'] == 'yes' || $autoupdate['do_backup'] == 'no'){
+	$do_backup = $autoupdate['do_backup'];
+} else {
+	$do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in /var/backup/ now?', array('yes', 'no'), 'yes');
+}
+
 if($do_backup == 'yes') {
 
 	//* Create the backup directory
@@ -180,7 +190,7 @@ do {
 		$finished = true;
 	} else {
 		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
-		$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
+		$conf["mysql"]["admin_password"] = (isset($autoupdate['mysql_root_password'])? $autoupdate['mysql_root_password'] : $inst->free_query('MySQL root password', $conf['mysql']['admin_password']));
 	}
 } while ($finished == false);
 unset($finished);
@@ -198,10 +208,12 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	//** Get MySQL root credentials
 	$finished = false;
 	do {
-		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
-		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
-		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
-		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
+		if($autoupdate['mysql_master_database'] == 'default') $autoupdate['mysql_master_database'] = $conf['mysql']['master_database'];
+		
+		$tmp_mysql_server_host = ($autoupdate['mysql_master_hostname'] != ''? $autoupdate['mysql_master_hostname'] : $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']));
+		$tmp_mysql_server_admin_user = ($autoupdate['mysql_master_root_user'] != ''? $autoupdate['mysql_master_root_user'] : $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']));
+		$tmp_mysql_server_admin_password = (isset($autoupdate['mysql_master_root_password'])? $autoupdate['mysql_master_root_password'] : $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']));
+		$tmp_mysql_server_database = ($autoupdate['mysql_master_database'] != ''? $autoupdate['mysql_master_database'] : $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']));
 
 		//* Initialize the MySQL server connection
 		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
@@ -244,7 +256,12 @@ updateDbAndIni();
  */
 //if($conf_old['dbmaster_user'] != '' or $conf_old['dbmaster_host'] != '') {
 //** Update master database rights
-$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes', 'no'), 'no');
+if($autoupdate['reconfigure_permissions_in_master_database'] == 'default') $autoupdate['reconfigure_permissions_in_master_database'] = 'no';
+if($autoupdate['reconfigure_permissions_in_master_database'] == 'no' || $autoupdate['reconfigure_permissions_in_master_database'] == 'yes'){
+	$reconfigure_master_database_rights_answer = $autoupdate['reconfigure_permissions_in_master_database'];
+} else {
+	$reconfigure_master_database_rights_answer = $inst->simple_query('Reconfigure Permissions in master database?', array('yes', 'no'), 'no');
+}
 
 if($reconfigure_master_database_rights_answer == 'yes') {
 	$inst->grant_master_database_rights();
@@ -252,7 +269,12 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 //}
 
 //** Shall the services be reconfigured during update
-$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no'), 'yes');
+if($autoupdate['reconfigure_services'] == 'default') $autoupdate['reconfigure_services'] = 'yes';
+if($autoupdate['reconfigure_services'] == 'yes' || $autoupdate['reconfigure_services'] == 'no'){
+	$reconfigure_services_answer = $autoupdate['reconfigure_services'];
+} else {
+	$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no'), 'yes');
+}
 
 if($reconfigure_services_answer == 'yes') {
 
@@ -379,15 +401,23 @@ if($conf['nginx']['installed'] == true){
 if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
+	if($autoupdate['ispconfig_port'] == 'default') $autoupdate['ispconfig_port'] = $ispconfig_port_number;
 	if($conf['webserver']['server_type'] == 'nginx'){
-		$conf['nginx']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+		$conf['nginx']['vhost_port'] = (intval($autoupdate['ispconfig_port']) > 0 ? intval($autoupdate['ispconfig_port']) : $inst->free_query('ISPConfig Port', $ispconfig_port_number));
 	} else {
-		$conf['apache']['vhost_port'] = $inst->free_query('ISPConfig Port', $ispconfig_port_number);
+		$conf['apache']['vhost_port'] = (intval($autoupdate['ispconfig_port']) > 0 ? intval($autoupdate['ispconfig_port']) : $inst->free_query('ISPConfig Port', $ispconfig_port_number));
 	}
 
 
 	// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
-	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate', array('yes', 'no'), 'no')) == 'yes') {
+	$tmp_create_new_ispconfig_ssl_cert = 'no';
+	if($autoupdate['create_new_ispconfig_ssl_cert'] == 'default') $autoupdate['create_new_ispconfig_ssl_cert'] = 'no';
+	if($autoupdate['create_new_ispconfig_ssl_cert'] == 'no' || $autoupdate['create_new_ispconfig_ssl_cert'] == 'yes'){
+		$tmp_create_new_ispconfig_ssl_cert = $autoupdate['create_new_ispconfig_ssl_cert'];
+	} else {
+		$tmp_create_new_ispconfig_ssl_cert = strtolower($inst->simple_query('Create new ISPConfig SSL certificate', array('yes', 'no'), 'no'));
+	}
+	if($tmp_create_new_ispconfig_ssl_cert == 'yes') {
 		$inst->make_ispconfig_ssl_cert();
 	}
 }
@@ -395,7 +425,13 @@ if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 $inst->install_ispconfig();
 
 //** Configure Crontab
-$update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes', 'no'), 'yes');
+if($autoupdate['reconfigure_crontab'] == 'default') $autoupdate['reconfigure_crontab'] = 'yes';
+if($autoupdate['reconfigure_crontab'] == 'no' || $autoupdate['reconfigure_crontab'] == 'yes'){
+	$update_crontab_answer = $autoupdate['reconfigure_crontab'];
+} else {
+	$update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes', 'no'), 'yes');
+}
+
 if($update_crontab_answer == 'yes') {
 	swriteln('Updating Crontab');
 	$inst->install_crontab();
