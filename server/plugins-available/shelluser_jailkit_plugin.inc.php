@@ -33,6 +33,7 @@ class shelluser_jailkit_plugin {
 	//* $plugin_name and $class_name have to be the same then the name of this class
 	var $plugin_name = 'shelluser_jailkit_plugin';
 	var $class_name = 'shelluser_jailkit_plugin';
+	var $min_uid = 499;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -73,50 +74,60 @@ class shelluser_jailkit_plugin {
 		$app->uses('system');
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 
-		if($app->system->is_user($data['new']['username'])) {
+		if($app->system->is_user($data['new']['puser'])) {
+			// Get the UID of the parent user
+			$uid = intval($app->system->getuid($data['new']['puser']));
+			if($uid > $this->min_uid) {
+			
+				if($app->system->is_user($data['new']['username'])) {
 
-			/**
-			 * Setup Jailkit Chroot System If Enabled
-			 */
+					/**
+					* Setup Jailkit Chroot System If Enabled
+					*/
+
+					if ($data['new']['chroot'] == "jailkit")
+					{
 
 
-			if ($data['new']['chroot'] == "jailkit")
-			{
+						// load the server configuration options
+						$app->uses("getconf");
+						$this->data = $data;
+						$this->app = $app;
+						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 
+						$this->_update_website_security_level();
 
-				// load the server configuration options
-				$app->uses("getconf");
-				$this->data = $data;
-				$this->app = $app;
-				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+						$app->system->web_folder_protection($web['document_root'], false);
 
-				$this->_update_website_security_level();
+						$this->_setup_jailkit_chroot();
 
-				$app->system->web_folder_protection($web['document_root'], false);
+						$this->_add_jailkit_user();
 
-				$this->_setup_jailkit_chroot();
+						//* call the ssh-rsa update function
+						$this->_setup_ssh_rsa();
 
-				$this->_add_jailkit_user();
+						//$command .= 'usermod -s /usr/sbin/jk_chrootsh -U '.escapeshellcmd($data['new']['username']);
+						//exec($command);
+						$app->system->usermod($data['new']['username'], 0, 0, '', '/usr/sbin/jk_chrootsh', '', '');
 
-				//* call the ssh-rsa update function
-				$this->_setup_ssh_rsa();
+						//* Unlock user
+						$command = 'usermod -U '.escapeshellcmd($data['new']['username']).' 2>/dev/null';
+						exec($command);
 
-				//$command .= 'usermod -s /usr/sbin/jk_chrootsh -U '.escapeshellcmd($data['new']['username']);
-				//exec($command);
-				$app->system->usermod($data['new']['username'], 0, 0, '', '/usr/sbin/jk_chrootsh', '', '');
+						$this->_update_website_security_level();
+						$app->system->web_folder_protection($web['document_root'], true);
+					}
 
-				//* Unlock user
-				$command = 'usermod -U '.escapeshellcmd($data['new']['username']).' 2>/dev/null';
-				exec($command);
+					$app->log("Jailkit Plugin -> insert username:".$data['new']['username'], LOGLEVEL_DEBUG);
 
-				$this->_update_website_security_level();
-				$app->system->web_folder_protection($web['document_root'], true);
+				} else {
+					$app->log("Jailkit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.", LOGLEVEL_WARN);
+				}
+			} else {
+				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.", LOGLEVEL_ERROR);
 			}
-
-			$app->log("Jailkit Plugin -> insert username:".$data['new']['username'], LOGLEVEL_DEBUG);
-
 		} else {
-			$app->log("Jailkit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.", LOGLEVEL_WARN);
+			$app->log("Skipping insertion of user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.", LOGLEVEL_WARN);
 		}
 
 	}
@@ -128,41 +139,51 @@ class shelluser_jailkit_plugin {
 		$app->uses('system');
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 
-		if($app->system->is_user($data['new']['username'])) {
+		if($app->system->is_user($data['new']['puser'])) {
+			// Get the UID of the parent user
+			$uid = intval($app->system->getuid($data['new']['puser']));
+			if($uid > $this->min_uid) {
+			
+			
+				if($app->system->is_user($data['new']['username'])) {
 
+					/**
+					* Setup Jailkit Chroot System If Enabled
+					*/
+					if ($data['new']['chroot'] == "jailkit")
+					{
 
+						// load the server configuration options
+						$app->uses("getconf");
+						$this->data = $data;
+						$this->app = $app;
+						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 
-			/**
-			 * Setup Jailkit Chroot System If Enabled
-			 */
-			if ($data['new']['chroot'] == "jailkit")
-			{
+						$this->_update_website_security_level();
 
-				// load the server configuration options
-				$app->uses("getconf");
-				$this->data = $data;
-				$this->app = $app;
-				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+						$app->system->web_folder_protection($web['document_root'], false);
 
-				$this->_update_website_security_level();
+						$this->_setup_jailkit_chroot();
+						$this->_add_jailkit_user();
 
-				$app->system->web_folder_protection($web['document_root'], false);
+						//* call the ssh-rsa update function
+						$this->_setup_ssh_rsa();
 
-				$this->_setup_jailkit_chroot();
-				$this->_add_jailkit_user();
+						$this->_update_website_security_level();
 
-				//* call the ssh-rsa update function
-				$this->_setup_ssh_rsa();
+						$app->system->web_folder_protection($web['document_root'], true);
+					}
 
-				$this->_update_website_security_level();
+					$app->log("Jailkit Plugin -> update username:".$data['new']['username'], LOGLEVEL_DEBUG);
 
-				$app->system->web_folder_protection($web['document_root'], true);
+				} else {
+					$app->log("Jailkit Plugin -> update username:".$data['new']['username']." skipped, the user does not exist.", LOGLEVEL_WARN);
+				}
+			} else {
+				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.", LOGLEVEL_ERROR);
 			}
-
-			$app->log("Jailkit Plugin -> update username:".$data['new']['username'], LOGLEVEL_DEBUG);
-
 		} else {
-			$app->log("Jailkit Plugin -> update username:".$data['new']['username']." skipped, the user does not exist.", LOGLEVEL_WARN);
+			$app->log("Skipping update for user:".$data['new']['username'].", parent user ".$data['new']['puser']." does not exist.", LOGLEVEL_WARN);
 		}
 
 	}

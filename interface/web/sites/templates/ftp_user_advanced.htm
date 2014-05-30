@@ -37,6 +37,10 @@
                 <label for="dl_bandwidth">{tmpl_var name='dl_bandwidth_txt'}</label>
                 <input name="dl_bandwidth" id="dl_bandwidth" value="{tmpl_var name='dl_bandwidth'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label">kb/s</p>
             </div>
+            <div class="ctrlHolder">
+                <label for="expires">{tmpl_var name='expires_txt'}</label>
+                {tmpl_var name='expires'}
+            </div>
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

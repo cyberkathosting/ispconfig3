@@ -1,11 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
+$wb['zone_txt'] = 'Zon';
 $wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
+$wb['type_txt'] = 'typ';
 $wb['data_txt'] = 'Target Hostname';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
 $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
 $wb['name_error_empty'] = 'The hostname is empty.';
@@ -15,3 +15,4 @@ $wb['data_error_regex'] = 'Target hostname format invalid';
 $wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+

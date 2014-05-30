@@ -1,5 +1,6 @@
 <?php
 $wb['description_txt'] = 'Beskrivning';
 $wb['name_txt'] = 'Grupp';
-$wb['name_err'] = 'Gruppnamn måste ha min 1, max 30 Tecken.';
+$wb['name_err'] = 'Gruppnamnet måste ha minst 1 och max 30 tecken.';
 ?>
+

@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Add new language';
-$wb['language_select_txt'] = 'Select language basis';
-$wb['language_new_txt'] = 'New language';
-$wb['btn_save_txt'] = 'Create new language file set';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Lägg till nytt språk';
+$wb['language_select_txt'] = 'Välj språkbas';
+$wb['language_new_txt'] = 'Nytt språk';
+$wb['btn_save_txt'] = 'Skapa nya språkfiler';
+$wb['btn_cancel_txt'] = 'Tillbaka';
 $wb['language_new_hint_txt'] = '2 characters ISO 639-1 language-code (See http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
+

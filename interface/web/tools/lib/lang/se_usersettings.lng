@@ -1,12 +1,13 @@
 <?php
-$wb['passwort_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['language_txt'] = 'Language';
+$wb['passwort_txt'] = 'Lösenord';
+$wb['password_strength_txt'] = 'Lösenordsstyrka';
+$wb['language_txt'] = 'Språk';
 $wb['password_mismatch'] = 'The password in the second password field does not match the first password.';
-$wb['Form to edit the user password and language.'] = 'Form to edit the user password and language.';
-$wb['Settings'] = 'Settings';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['Form to edit the user password and language.'] = 'Formulär för att redigera lösenord och språk.';
+$wb['Settings'] = 'Inställningar';
+$wb['generate_password_txt'] = 'Generera lösenord';
+$wb['repeat_password_txt'] = 'Upprepa lösenord';
+$wb['password_mismatch_txt'] = 'Lösenorden matchar inte';
+$wb['password_match_txt'] = 'Lösenorden matchar';
 ?>
+

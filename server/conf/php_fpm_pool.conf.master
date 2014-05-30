@@ -8,7 +8,7 @@ listen.allowed_clients = 127.0.0.1
 listen = <tmpl_var name='fpm_socket'>
 listen.owner = <tmpl_var name='fpm_user'>
 listen.group = <tmpl_var name='fpm_group'>
-listen.mode = <tmpl_vare name='fpm_listen_mode'>
+listen.mode = <tmpl_var name='fpm_listen_mode'>
 </tmpl_if>
 
 user = <tmpl_var name='fpm_user'>

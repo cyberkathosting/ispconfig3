@@ -1,6 +1,7 @@
 <?php
-$wb['package_title_txt'] = 'Package Title';
-$wb['package_key_txt'] = 'Package Key';
-$wb['Software Package'] = 'Software Package';
-$wb['Modify software package details'] = 'Modify software package details';
+$wb['package_title_txt'] = 'Pakettitel';
+$wb['package_key_txt'] = 'Packetnyckel';
+$wb['Software Package'] = 'Mjukvarupaket';
+$wb['Modify software package details'] = 'Redigera mjukvarupaketets uppgifter';
 ?>
+

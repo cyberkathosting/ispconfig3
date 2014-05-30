@@ -1,14 +1,15 @@
 <?php
-$wb['Support Message'] = 'Support Message';
-$wb['Message'] = 'Message';
-$wb['Send message'] = 'Send message';
-$wb['View messages'] = 'View messages';
+$wb['Support Message'] = 'Supportmeddelande';
+$wb['Message'] = 'Meddelande';
+$wb['Send message'] = 'Skicka meddelande';
+$wb['View messages'] = 'Visa meddelande';
 $wb['Support'] = 'Support';
-$wb['About ISPConfig'] = 'About ISPConfig';
+$wb['About ISPConfig'] = 'OmISPConfig';
 $wb['Version'] = 'Version';
-$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
-$wb['FAQ Sections'] = 'FAQ Sections';
-$wb['Manage Sections'] = 'Manage Sections';
-$wb['Add a Question & Answer Pair'] = 'Add a Question & Answer Pair';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['Frequently Asked Questions'] = 'Vanliga frågor och svar';
+$wb['FAQ Sections'] = 'FAQ-kategorier';
+$wb['Manage Sections'] = 'Hantera kategorier';
+$wb['Add a Question & Answer Pair'] = 'Lägg till fråga och svar';
+$wb['Manage Questions'] = 'Hantera frågor';
 ?>
+

@@ -1,19 +1,20 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['type_txt'] = 'Type';
-$wb['source_server_txt'] = 'Pop3/Imap Server';
-$wb['source_username_txt'] = 'Username';
-$wb['source_password_txt'] = 'Password';
-$wb['source_delete_txt'] = 'Delete emails after retrieval';
+$wb['type_txt'] = 'Typ';
+$wb['source_server_txt'] = 'POP3-/Imapserver';
+$wb['source_username_txt'] = 'Användarnamn';
+$wb['source_password_txt'] = 'Lösenord';
+$wb['source_delete_txt'] = 'Radera epost efter hämtning';
 $wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_fetchmail_txt'] = 'The max. number of Fetchmail records for your account is reached.';
-$wb['source_server_error_isempty'] = 'Server is empty.';
-$wb['source_username_error_isempty'] = 'Username is empty.';
-$wb['source_password_error_isempty'] = 'Password is empty.';
-$wb['destination_error_isemail'] = 'No destination selected.';
-$wb['source_server_error_regex'] = 'Pop3/Imap Server is not a valid domain name.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
-$wb['source_delete_note_txt'] = 'Please check first if email retrieval works, before you activate this option.';
+$wb['source_server_error_isempty'] = 'Serverfältet är tomt.';
+$wb['source_username_error_isempty'] = 'Användarnamn är tomt.';
+$wb['source_password_error_isempty'] = 'Lösenord är tomt.';
+$wb['destination_error_isemail'] = 'Ingen destination vald.';
+$wb['source_server_error_regex'] = 'POP3-/Imapserver är inte ett giltigt domännamn.';
+$wb['source_read_all_txt'] = 'Hämta all epost (även läst epost)';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use "Delete emails after retrieval" = no together with "Retrieve all emails" = yes';
+$wb['source_delete_note_txt'] = 'Vänligen kontrollera först om eposthämtning fungerar innan du aktiverar detta val..';
 ?>
+

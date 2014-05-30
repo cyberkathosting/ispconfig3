@@ -25,7 +25,7 @@
             jQuery(document).ready(function() {
                 loadInitContent();
 				
-				$('form').attr('autocomplete','off');
+				$('form').not('#dummy_login_form').attr('autocomplete','off');
                 
                 $("#pageForm").submit(function(e){
                     //Prevent form submit: e.preventDefault() in lists

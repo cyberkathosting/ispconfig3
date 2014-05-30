@@ -405,7 +405,6 @@ class installer_dist extends installer_base {
 			'virtual_transport = lmtp:unix:private/dovecot-lmtp',
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth',
-			'receive_override_options = no_address_mappings'
 		);
 
 		// Make a backup copy of the main.cf file
@@ -451,6 +450,8 @@ class installer_dist extends installer_base {
 			copy("$config_dir/$configfile", "$config_dir/$configfile~");
 			exec("chmod 400 $config_dir/$configfile~");
 		}
+		
+		if(!@file_exists('/etc/dovecot-sql.conf')) exec('ln -s /etc/dovecot/dovecot-sql.conf /etc/dovecot-sql.conf');
 
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_dovecot-sql.conf.master', "tpl/fedora_dovecot-sql.conf.master");
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
@@ -463,7 +464,7 @@ class installer_dist extends installer_base {
 		exec("chown root:root $config_dir/$configfile");
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/var/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 
@@ -1227,6 +1228,9 @@ class installer_dist extends installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
+		// Add symlink for patch tool
+		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 	}
 
