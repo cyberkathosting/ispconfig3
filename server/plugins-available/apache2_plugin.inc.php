@@ -2654,7 +2654,7 @@ class apache2_plugin {
 
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
-		$tpl->setVar('fpm_listen_mode', '0600');
+		$tpl->setVar('fpm_listen_mode', '0660');
 
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
