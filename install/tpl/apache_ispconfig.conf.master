@@ -18,6 +18,7 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 
 # Do not allow access to the root file system of the server for security reasons
 <Directory />
+	Options -Indexes
     AllowOverride None
 	<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 	Require all denied
