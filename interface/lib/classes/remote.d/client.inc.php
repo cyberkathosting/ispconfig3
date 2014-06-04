@@ -182,6 +182,9 @@ class remoting_client extends remoting {
 		$app->uses('remoting_lib');
 		$app->remoting_lib->loadFormDef('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php');
 		$old_rec = $app->remoting_lib->getDataRecord($client_id);
+		
+		//* merge old record with params, so only new values have to be set in $params
+		$params = $app->functions->array_merge($old_rec,$params);
 
 		// we need the previuos templates assigned here
 		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
