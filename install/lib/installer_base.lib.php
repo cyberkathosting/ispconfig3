@@ -498,6 +498,13 @@ class installer_base {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
+				$query = "GRANT SELECT, INSERT, DELETE ON ".$value['db'].".`mail_backup` TO '".$value['user']."'@'".$host."' ";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
 			}
 
 			/*
