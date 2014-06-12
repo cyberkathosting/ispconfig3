@@ -81,7 +81,8 @@ class cronjob_monitor_email_quota extends cronjob {
 			//* with dovecot we can use doveadm instead of 'du -s'
 			$dovecot = false;
 			if (isset($mail_config['pop3_imap_daemon']) && $mail_config ['pop3_imap_daemon'] = 'dovecot' && is_executable('doveadm')) {
-				$dovecot = true;
+				exec('doveadm quota 2>&1', $tmp_output, $tmp_retval); // with dovecot 2.2.x 'doveadm quota' is unuseable
+				if ($retval = 64) $dovecot = true;
 			}
 
 			foreach($mailboxes as $mb) {
