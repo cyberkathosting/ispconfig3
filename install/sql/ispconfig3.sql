@@ -1879,7 +1879,7 @@ CREATE TABLE `web_domain` (
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
-  UNIQUE KEY `serverdomain` (  `server_id` ,  `domain` )
+  UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

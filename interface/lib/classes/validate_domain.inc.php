@@ -137,7 +137,8 @@ class validate_domain {
 		//if($check['cnt'] > 0) return false;
 
 		// we can have the same domain on different servers or different IPs, so we have to check for identical domains on the same IP (or wildcard IPs)
-		$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (`domain` = '" . $app->db->quote($domain_name) . "'".$additional_sql1.") AND `server_id` = ".intval($domain['server_id'])." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql1 != '' ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
+		$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (`domain` = '" . $app->db->quote($domain_name) . "'".$additional_sql1.") AND `server_id` = ".intval($domain['server_id'])." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql1 != '' && $domain['parent_domain_id'] > 0 ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
+		
 
 		if(is_array($checks) && !empty($checks)){
 			foreach($checks as $check){
@@ -207,7 +208,7 @@ class validate_domain {
 			//$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "' AND `domain_id` != " . $app->functions->intval($primary_id));
 			//if($check['cnt'] > 0) return false;
 			// we can have the same domain on different servers or different IPs, so we have to check for identical domains on the same IP (or wildcard IPs)
-			$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "'".$additional_sql2.") AND `server_id` = ".intval($domain['server_id'])." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql2 != '' ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
+			$checks = $app->db->queryAllRecords("SELECT * FROM `web_domain` WHERE (CONCAT(`subdomain`, '.', `domain`) = '" . $app->db->quote($domain_name) . "'".$additional_sql2.") AND `server_id` = ".intval($domain['server_id'])." AND `domain_id` != " . $app->functions->intval($primary_id).($additional_sql2 != '' && $domain['parent_domain_id'] > 0 ? " AND `parent_domain_id` != ".$app->functions->intval($primary_id) : ""));
 			if(is_array($checks) && !empty($checks)){
 				foreach($checks as $check){
 					if($domain['ip_address'] == '*') return false;
