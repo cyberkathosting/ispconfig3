@@ -91,7 +91,7 @@ $form["tabs"]['ftp'] = array (
 			'validators' => array (  0 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'username_error_unique'),
 				1 => array ( 'type' => 'REGEX',
-					'regex' => '/^[\w\.\-]{0,64}$/',
+					'regex' => '/^[\w\.\-@\+]{0,64}$/',
 					'errmsg'=> 'username_error_regex'),
 			),
 			'default' => '',
