@@ -809,7 +809,7 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	oldPWField.remove();
 	var pword = password(<?php echo $min_password_length; ?>, false, 1);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
-	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
+	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup').select();
 }
 
 var funcDisableClick = function(e) { e.preventDefault(); return false; };
