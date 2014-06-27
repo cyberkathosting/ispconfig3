@@ -25,10 +25,10 @@ $wb['quota_files_unity_txt'] = 'Ficheros';
 $wb['directory_error_notinweb'] = 'El directorio no está dentro del directorio web raíz.';
 $wb['parent_domain_id_error_empty'] = 'No se ha seleccionado un sitio web.';
 $wb['quota_size_error_regex'] = 'Cuota: introduzca un -1 para ilimitados ó un número > 0';
-$wb['dir_dot_error'] = 'No .. ruta permitida.';
-$wb['dir_slashdot_error'] = 'No ./ en ruta permitida.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['dir_dot_error'] = 'No se permite .. en la ruta.';
+$wb['dir_slashdot_error'] = 'No se permite ./ en la ruta.';
+$wb['generate_password_txt'] = 'Generar contraseña';
+$wb['repeat_password_txt'] = 'Repetir contraseña';
+$wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
+$wb['password_match_txt'] = 'Las contraseñas coinciden.';
 ?>

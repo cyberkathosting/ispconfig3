@@ -3,7 +3,7 @@ $wb['list_head_txt'] = 'Usuarios';
 $wb['username_txt'] = 'Usuario';
 $wb['add_new_record_txt'] = 'Añadir nuevo usuario';
 $wb['warning_txt'] = '<b>AVISO: </b> ¡No modifique ninguna configuración de usuario aquí. Utilice las opciones del cliente y distribuidor en el módulo de clientes en su lugar. Cualquier modificación de los usuarios o grupos aquí, puede causar pérdida de datos!';
-$wb['client_id_txt'] = 'User ID';
-$wb['active_txt'] = 'Active';
-$wb['groups_txt'] = 'Groups';
+$wb['client_id_txt'] = 'ID';
+$wb['active_txt'] = 'Activo';
+$wb['groups_txt'] = 'Grupos';
 ?>

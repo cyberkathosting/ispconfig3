@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Postfix comprueba las cabeceras y el cuerpo del mensaje';
+$wb['list_head_txt'] = 'Comprobaciones de cabeceras y cuerpo de Postfix';
 $wb['active_txt'] = 'Activar';
 $wb['server_id_txt'] = 'Servidor';
 $wb['pattern_txt'] = 'Patrón';

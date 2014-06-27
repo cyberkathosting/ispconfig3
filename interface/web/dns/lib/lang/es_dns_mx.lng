@@ -13,6 +13,6 @@ $wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
 $wb['name_error_regex'] = 'El formato del nombre de la máquina es incorrecto.';
 $wb['data_error_empty'] = 'El nombre del servidor de correo está vacío.';
 $wb['data_error_regex'] = 'El nombre del servidor de correo no es válido.';
-$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['duplicate_mx_record_txt'] = 'Registro MX duplicado.';
+$wb['ttl_range_error'] = 'TTL mínimo es 60 segundos';
 ?>

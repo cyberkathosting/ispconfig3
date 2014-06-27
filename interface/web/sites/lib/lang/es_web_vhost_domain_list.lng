@@ -5,6 +5,6 @@ $wb['active_txt'] = 'Activar';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
 $wb['add_new_record_txt'] = 'Añadir nuevo sitio web';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['parent_domain_id_txt'] = 'Sitio web padre';
 
 ?>

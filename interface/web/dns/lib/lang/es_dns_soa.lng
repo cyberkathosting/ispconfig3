@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona (SOA)';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'correo';
+$wb['mbox_txt'] = 'Correo';
 $wb['serial_txt'] = 'Nº de serie';
 $wb['refresh_txt'] = 'Refrescar';
 $wb['retry_txt'] = 'Reintentar';
@@ -28,11 +28,11 @@ $wb['seconds_txt'] = 'Segundos';
 $wb['eg_domain_tld'] = 'ej. domain.tld';
 $wb['eg_ns1_domain_tld'] = 'ej. ns1.domain.tld';
 $wb['eg_webmaster_domain_tld'] = 'ej. webmaster@domain.tld';
-$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'El dominio no puede ser cambiado. Por favor, pregunte a su administrador si desea cambiar el nombre de dominio.';
-$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
-$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
-$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
-$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
+$wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'El dominio no se puede cambiar. Por favor, pregunte a su administrador si desea cambiar el nombre del dominio.';
+$wb['refresh_range_error'] = 'Refrescar debe ser como mínimo 60 segundos.';
+$wb['retry_range_error'] = 'Reintentar debe ser como mínimo 60 segundos.';
+$wb['expire_range_error'] = 'Expirar debe ser como mínimo 60 segundos.';
+$wb['minimum_range_error'] = 'Mínimo debe ser como mínimo 60 segundos.';
+$wb['ttl_range_error'] = 'TTL debe ser como mínimo 60 segundos';
+$wb['xfer_error_regex'] = 'Notificar también a: Por favor, usa una dirección IP.';
 ?>

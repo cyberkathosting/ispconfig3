@@ -1,14 +1,14 @@
 <?php
-$wb['head_txt'] = 'Herramientas Resync';
-$wb['legend_txt'] = 'Resync';
-$wb['resync_sites_txt'] = 'Sitios webs Resync';
-$wb['resync_ftp_txt'] = 'Usuarios FTP de Resync';
-$wb['resync_shell_txt'] = 'Usuarios shell de Resync';
-$wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync Buzones de correo';
-$wb['resync_dns_txt'] = 'Resync DNS registros';
+$wb['head_txt'] = 'Herramienta de Resincronización';
+$wb['legend_txt'] = 'Resincronizar';
+$wb['resync_sites_txt'] = 'Resincronizar Sitios webs';
+$wb['resync_ftp_txt'] = 'Resincronizar Usuarios FTP';
+$wb['resync_shell_txt'] = 'Resincronizar Usuarios shell';
+$wb['resync_cron_txt'] = 'Resincronizar Tareas de cron';
+$wb['resync_db_txt'] = 'Resincronizar Configuración de bases de datos';
+$wb['resync_mailbox_txt'] = 'Resincronizar Buzones de correo';
+$wb['resync_dns_txt'] = 'Resincronizar Registros DNS ';
 $wb['btn_start_txt'] = 'Inicio';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['resync_client_txt'] = 'Resync Client records';
+$wb['resync_client_txt'] = 'Resincronizar Clientes';
 ?>

@@ -18,5 +18,5 @@ $wb['DNS Wizard'] = 'Asistente DNS';
 $wb['Add DNS Zone'] = 'Agregar Zona DNS';
 $wb['Templates'] = 'Plantillas';
 $wb['Secondary Zones'] = 'Zonas secundarias';
-$wb['Import Zone File'] = 'Zona de importación de archivo';
+$wb['Import Zone File'] = 'Importar archivo de zona';
 ?>
