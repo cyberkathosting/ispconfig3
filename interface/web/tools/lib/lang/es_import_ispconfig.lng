@@ -1,14 +1,14 @@
 <?php
-$wb['head_txt'] = 'Configuración del correo Importar de ISPConfig 3';
-$wb['legend_txt'] = 'Detalles de conexión remota del servidor';
-$wb['legend2_txt'] = 'Importar dominio de correo';
-$wb['resync_sites_txt'] = 'Resync: Sitios webs';
-$wb['resync_ftp_txt'] = 'Resync: Usuarios FTP';
-$wb['resync_shell_txt'] = 'Resync: Usuarios de shell';
-$wb['resync_cron_txt'] = 'Resync: cronjobs';
-$wb['resync_db_txt'] = 'Resync: clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync: buzones de correo';
-$wb['resync_dns_txt'] = 'Resync: registros DNS ';
+$wb['head_txt'] = 'Importar configuración de correo de ISPConfig 3';
+$wb['legend_txt'] = 'Detalles de conexión del servidor remoto';
+$wb['legend2_txt'] = 'Importar dominios de correo';
+$wb['resync_sites_txt'] = 'Resincronizar Sitios webs';
+$wb['resync_ftp_txt'] = 'Resincronizar Usuarios FTP';
+$wb['resync_shell_txt'] = 'Resincronizar Usuarios de shell';
+$wb['resync_cron_txt'] = 'Resincronizar Tareas de cron';
+$wb['resync_db_txt'] = 'Resincronizar Configuración de bases de datos';
+$wb['resync_mailbox_txt'] = 'Resincronizar Buzones de correo';
+$wb['resync_dns_txt'] = 'Resincronizar Registros DNS ';
 $wb['btn_start_txt'] = 'Comenzar importación';
 $wb['btn_connect_txt'] = 'Conectar al servidor remoto';
 $wb['btn_cancel_txt'] = 'Cancelar';
@@ -17,7 +17,7 @@ $wb['mail_domain_txt'] = 'Dominio de correo remoto';
 $wb['import_mailbox_txt'] = 'Importar buzón de correo';
 $wb['import_aliasdomain_txt'] = 'Importar alias de dominio';
 $wb['import_alias_txt'] = 'Importe alias de correo';
-$wb['import_forward_txt'] = 'Importar reenvio';
-$wb['import_user_filter_txt'] = 'Importar filtro de usuarios';
+$wb['import_forward_txt'] = 'Importar reenvio de correo';
+$wb['import_user_filter_txt'] = 'Importar filtros de usuarios';
 $wb['import_spamfilter_txt'] = 'Importar filtro de spam';
 ?>

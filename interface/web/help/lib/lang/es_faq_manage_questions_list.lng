@@ -5,5 +5,5 @@ $wb['faq_delete_txt'] = 'Eliminar';
 $wb['faq_edit_txt'] = 'Editar';
 $wb['faq_sections_txt'] = 'Secciones';
 $wb['faq_faq_questions_txt'] = 'Preguntas frecuentes';
-$wb['faq_new_question_txt'] = 'Agregar un nueva par pregunta y respuesta';
+$wb['faq_new_question_txt'] = 'Agregar una nueva pregunta';
 ?>

@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Reenvío de correo';
-$wb['active_txt'] = 'Activar';
+$wb['active_txt'] = 'Activo';
 $wb['source_txt'] = 'Origen';
 $wb['destination_txt'] = 'Destino';
 $wb['email_txt'] = 'Correo';

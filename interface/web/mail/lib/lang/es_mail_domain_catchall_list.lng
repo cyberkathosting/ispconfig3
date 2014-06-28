@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Correo recoge-todo';
-$wb['active_txt'] = 'Activar';
+$wb['active_txt'] = 'Activo';
 $wb['source_txt'] = 'Origen';
 $wb['destination_txt'] = 'Correo de destino';
 $wb['server_id_txt'] = 'Servidor';

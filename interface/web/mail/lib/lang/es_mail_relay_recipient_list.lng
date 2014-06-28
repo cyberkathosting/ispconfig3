@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Enrutar destinatarios';
-$wb['active_txt'] = 'Activa';
+$wb['active_txt'] = 'Activo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['source_txt'] = 'Dirección destinatario';
 $wb['recipient_txt'] = 'Destinatario';

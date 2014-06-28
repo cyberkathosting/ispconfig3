@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Usuario FTP';
-$wb['active_txt'] = 'Activar';
+$wb['active_txt'] = 'Activo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Sitio web';
 $wb['username_txt'] = 'Usuario';

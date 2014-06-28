@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Cuota de disco Sitio web';
+$wb['list_head_txt'] = 'Cuota de disco de sitios web';
 $wb['domain_txt'] = 'Dominio';
 $wb['system_user_txt'] = 'Usuario Linux';
 $wb['used_txt'] = 'Espacio usado';
 $wb['hard_txt'] = 'Limite máximo';
 $wb['soft_txt'] = 'Limite advertencia';
-$wb['files_txt'] = 'Single files';
+$wb['files_txt'] = 'Archivos';
 ?>
