@@ -4,6 +4,18 @@
 <div class="panel panel_list_domain">
 
     <div class="pnl_toolsarea">
+        <div>
+        <tmpl_if name='info'>
+            <div class="systemmonitor-state state-info">
+                <div class="status"></div>
+                <div class="statusMsg">
+                    <tmpl_loop name="info">
+                        {tmpl_var name='info_msg'}
+                    </tmpl_loop>
+                </div>
+            </div>
+        </tmpl_if>
+        </div>
         <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
             <div class="buttons">
                 <button class="button iconstxt icoAdd" type="button" onclick="loadContent('client/domain_edit.php');">

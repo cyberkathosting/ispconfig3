@@ -208,6 +208,8 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+			$lng_text = $app->lng("domain_owner_changed");
+			$_SESSION['show_info_msg'] = str_replace("{domain}", $this->dataRecord["domain"], $lng_text);
 		}
 	}
 

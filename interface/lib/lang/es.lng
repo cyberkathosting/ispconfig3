@@ -147,4 +147,5 @@ $wb['strength_4'] = 'Strong';
 $wb['strength_5'] = 'Very Strong';
 $wb['weak_password_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length and have a strength of \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length.';
+$wb['domain_owner_changed'] = 'Has cambiado el propietario del dominio {domain}, por favor cambia también el propietario del sitio web y dominio de correo de este dominio.';
 ?>
