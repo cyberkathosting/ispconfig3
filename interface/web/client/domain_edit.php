@@ -209,7 +209,7 @@ class page_action extends tform_actions {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 			$lng_text = $app->lng("domain_owner_changed");
-			$_SESSION['show_info_msg'] = str_replace("{domain}", $this->dataRecord["domain"], $lng_text);
+			$_SESSION['show_warning_msg'] = str_replace("{domain}", $this->dataRecord["domain"], $lng_text);
 		}
 	}
 

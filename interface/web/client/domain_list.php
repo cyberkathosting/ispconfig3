@@ -46,9 +46,9 @@ $app->auth->check_module_permissions('client');
 
 $app->uses('listform_actions');
 
-if(isset($_SESSION['show_info_msg'])) {
-	$app->tpl->setloop('info', array(array('info_msg' => '<p>'.$_SESSION['show_info_msg'].'</p>')));
-	unset($_SESSION['show_info_msg']);
+if(isset($_SESSION['show_warning_msg'])) {
+	$app->tpl->setloop('warning', array(array('warning_msg' => '<p>'.$_SESSION['show_warning_msg'].'</p>')));
+	unset($_SESSION['show_warning_msg']);
 }
 
 $app->listform_actions->SQLOrderBy = 'ORDER BY domain.domain';
