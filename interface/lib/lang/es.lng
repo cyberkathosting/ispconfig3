@@ -148,4 +148,5 @@ $wb['strength_5'] = 'Muy fuerte';
 $wb['weak_password_txt'] = 'La contraseña elegida no cumple las directrices de seguridad. Debe tener al menos {chars} caracteres y una fortaleza \"{strength}\".';
 $wb['weak_password_length_txt'] = 'La contraseña elegida no cumple las directrices de seguridad. Debe tener al menos {chars} caracteres.';
 $wb['Firewall'] = 'Cortafuegos';
+$wb['domain_owner_changed'] = 'Has cambiado el propietario del dominio {domain}, por favor cambia también el propietario del sitio web y dominio de correo de este dominio.';
 ?>

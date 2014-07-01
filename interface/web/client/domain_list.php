@@ -46,6 +46,11 @@ $app->auth->check_module_permissions('client');
 
 $app->uses('listform_actions');
 
+if(isset($_SESSION['show_warning_msg'])) {
+	$app->tpl->setVar('warning_msg', $_SESSION['show_warning_msg']);
+	unset($_SESSION['show_warning_msg']);
+}
+
 $app->listform_actions->SQLOrderBy = 'ORDER BY domain.domain';
 $app->listform_actions->onLoad();
 
