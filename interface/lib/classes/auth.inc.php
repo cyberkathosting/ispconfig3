@@ -50,7 +50,7 @@ class auth {
 
 		$userid = $app->functions->intval($userid);
 		$client = $app->db->queryOneRecord("SELECT client.limit_client FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");
-		if($client['limit_client'] > 0) {
+		if($client['limit_client'] != 0) {
 			return true;
 		} else {
 			return false;
