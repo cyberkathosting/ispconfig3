@@ -5,13 +5,11 @@
 
     <div class="pnl_toolsarea">
         <div>
-        <tmpl_if name='warning'>
+        <tmpl_if name='warning_msg'>
             <div class="systemmonitor-state state-warning">
                 <div class="status"></div>
                 <div class="statusMsg">
-                    <tmpl_loop name="warning">
-                        {tmpl_var name='warning_msg'}
-                    </tmpl_loop>
+                    {tmpl_var name='warning_msg'}
                 </div>
             </div>
         </tmpl_if>
