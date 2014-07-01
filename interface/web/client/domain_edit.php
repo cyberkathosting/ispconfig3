@@ -166,9 +166,10 @@ class page_action extends tform_actions {
 			}
 			else {
 				/*
-				 * We edit a existing one, but there is nothing to edit
+				 * We edit a existing one, but domain name can't be changed
 				*/
-				$this->dataRecord = $app->tform->getDataRecord($this->id);
+				$oldData = $app->tform->getDataRecord($this->id);
+				$this->dataRecord["domain"] = $oldData["domain"];
 			}
 		} else {
 			if($this->id > 0) {
@@ -203,9 +204,16 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && isset($this->dataRecord["client_group_id"])) {
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$this->dataRecord["client_group_id"] = $group["groupid"];
+                }
+
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+		if(isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 			$lng_text = $app->lng("domain_owner_changed");
