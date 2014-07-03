@@ -36,8 +36,8 @@ class validate_reseller {
 	function limit_client($field_name, $field_value, $validator) {
 		global $app;
 
-		if($field_value <= 0) {
-			return $app->tform->lng('limit_client_error_positive');
+		if($field_value <= 0 && $field_value != -1) {
+			return $app->tform->lng('limit_client_error_positive_or_unlimited');
 		} else {
 			return '';
 		}
