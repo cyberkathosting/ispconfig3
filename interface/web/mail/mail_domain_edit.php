@@ -389,6 +389,9 @@ class page_action extends tform_actions {
 			//* Update the mailinglist
 			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
 
+			//* Update the mailget records
+			$app->db->query("UPDATE mail_get SET destination=REPLACE(destination, '".$app->db->quote($this->oldDataRecord['domain'])."', '".$app->db->quote($this->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE destination LIKE '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
+
 			//* Delete the old spamfilter record
 			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
 			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
