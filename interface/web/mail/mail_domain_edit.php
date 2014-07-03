@@ -392,10 +392,13 @@ class page_action extends tform_actions {
 			//* Update the mailget records
 			$app->db->query("UPDATE mail_get SET destination=REPLACE(destination, '".$app->db->quote($this->oldDataRecord['domain'])."', '".$app->db->quote($this->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE destination LIKE '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
 
-			//* Delete the old spamfilter record
-			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
-			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
-			unset($tmp);
+			if ($this->oldDataRecord["domain"] != $this->dataRecord['domain']) {
+				//* Delete the old spamfilter record
+				$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
+				$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
+				unset($tmp);
+			}
+			$app->db->query("UPDATE spamfilter_users SET email=REPLACE(email, '".$app->db->quote($this->oldDataRecord['domain'])."', '".$app->db->quote($this->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE email LIKE '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
 
 		} // end if domain name changed
 
