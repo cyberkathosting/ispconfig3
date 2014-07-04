@@ -92,7 +92,7 @@ class mail_mail_domain_plugin {
 			}
 
 			//* Update the mailget records
-			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id FROM mail_get WHERE destination LIKE '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id, destination FROM mail_get WHERE destination LIKE '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
 			if(is_array($mail_gets)) {
 				foreach($mail_gets as $rec) {
 					$destination = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']));
