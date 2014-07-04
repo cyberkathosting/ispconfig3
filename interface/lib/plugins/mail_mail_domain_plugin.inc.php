@@ -50,28 +50,6 @@ class mail_mail_domain_plugin {
 			$app->db->query("UPDATE mail_domain SET $updates WHERE domain_id = ".$page_form->id);
 		}
 
-		// Spamfilter policy
-		$policy_id = $app->functions->intval($page_form->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($page_form->dataRecord["domain"])."'");
-		if($policy_id > 0) {
-			if($tmp_user["id"] > 0) {
-				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
-			} else {
-				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$page_form->id);
-				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$app->functions->intval($tmp_domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($page_form->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($page_form->dataRecord["domain"])."', '@".$app->db->quote($page_form->dataRecord["domain"])."', 'Y')";
-				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
-				unset($tmp_domain);
-			}
-		} else {
-			if($tmp_user["id"] > 0) {
-				// There is already a record but the user shall have no policy, so we delete it
-				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
-			}
-		} // endif spamfilter policy
-
 		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
 		if($page_form->oldDataRecord && ($page_form->oldDataRecord['domain'] != $page_form->dataRecord['domain'] ||
 				(isset($page_form->dataRecord['client_group_id']) && $page_form->oldDataRecord['sys_groupid'] != $page_form->dataRecord['client_group_id']))) {

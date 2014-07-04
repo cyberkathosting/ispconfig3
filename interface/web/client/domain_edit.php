@@ -216,8 +216,44 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
-			$lng_text = $app->lng("domain_owner_changed");
-			$_SESSION['show_warning_msg'] = str_replace("{domain}", $this->dataRecord["domain"], $lng_text);
+
+			$data = new tform_actions();
+			$tform = $app->tform;
+			$app->tform = new tform();
+
+			$app->tform->loadFormDef("../dns/form/dns_soa.tform.php");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin LIKE '".$this->dataRecord['domain'].".'");
+			if ($data->oldDataRecord) {
+				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
+				$data->id = $data->dataRecord['id'];
+				$app->plugin->raiseEvent("dns:dns_soa:on_after_update", $data);
+			}
+
+			$app->tform->loadFormDef("../dns/form/dns_slave.tform.php");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin LIKE '".$this->dataRecord['domain'].".'");
+			if ($data->oldDataRecord) {
+				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
+				$data->id = $data->dataRecord['id'];
+				$app->plugin->raiseEvent("dns:dns_slave:on_after_update", $data);
+			}
+
+			$app->tform->loadFormDef("../mail/form/mail_domain.tform.php");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = '".$this->dataRecord['domain']."'");
+			if ($data->oldDataRecord) {
+				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
+				$data->id = $data->dataRecord['domain_id'];
+				$app->plugin->raiseEvent("mail:mail_domain:on_after_update", $data);
+			}
+
+			$app->tform->loadFormDef("../sites/form/web_vhost_domain.tform.php");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$this->dataRecord['domain']."'");
+			if ($data->oldDataRecord) {
+				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
+				$data->id = $data->dataRecord['domain_id'];
+				$app->plugin->raiseEvent("sites:web_vhost_domain:on_after_update", $data);
+			}
+
+			$app->tform = $tform;
 		}
 	}
 
