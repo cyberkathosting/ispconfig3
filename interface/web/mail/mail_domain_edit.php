@@ -255,38 +255,6 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 
-	function onAfterInsert() {
-		global $app, $conf;
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
-		}
-
-		// Spamfilter policy
-		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
-			if($tmp_user["id"] > 0) {
-				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $ploicy_id", 'id', $tmp_user["id"]);
-			} else {
-				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
-				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$app->functions->intval($tmp_domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
-				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
-				unset($tmp_domain);
-			}
-		}  // endif spamfilter policy
-	}
-
 	function onBeforeUpdate() {
 		global $app, $conf;
 
@@ -311,97 +279,6 @@ class page_action extends tform_actions {
 			}
 			unset($rec);
 		}
-	}
-
-
-
-	function onAfterUpdate() {
-		global $app, $conf;
-
-		// make sure that the record belongs to the client group and not the admin group when admin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
-		}
-
-		// Spamfilter policy
-		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
-		if($policy_id > 0) {
-			if($tmp_user["id"] > 0) {
-				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
-			} else {
-				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
-				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
-				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
-				unset($tmp_domain);
-			}
-		} else {
-			if($tmp_user["id"] > 0) {
-				// There is already a record but the user shall have no policy, so we delete it
-				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
-			}
-		} // endif spamfilter policy
-		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
-		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
-			$app->uses('getconf');
-			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
-
-			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-			$sys_groupid = $app->functions->intval((isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid']);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
-			if(is_array($mailusers)) {
-				foreach($mailusers as $rec) {
-					// setting Maildir, Homedir, UID and GID
-					$mail_parts = explode("@", $rec['email']);
-					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
-					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
-					$maildir = $app->db->quote($maildir);
-					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
-				}
-			}
-
-			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-			if(is_array($forwardings)) {
-				foreach($forwardings as $rec) {
-					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
-					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']));
-					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
-				}
-			}
-
-			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
-
-			//* Update the mailget records
-			$app->db->query("UPDATE mail_get SET destination=REPLACE(destination, '".$app->db->quote($this->oldDataRecord['domain'])."', '".$app->db->quote($this->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE destination LIKE '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-
-			if ($this->oldDataRecord["domain"] != $this->dataRecord['domain']) {
-				//* Delete the old spamfilter record
-				$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
-				$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
-				unset($tmp);
-			}
-			$app->db->query("UPDATE spamfilter_users SET email=REPLACE(email, '".$app->db->quote($this->oldDataRecord['domain'])."', '".$app->db->quote($this->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE email LIKE '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-
-		} // end if domain name changed
-
 	}
 
 }
