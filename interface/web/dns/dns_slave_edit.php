@@ -169,47 +169,6 @@ class page_action extends tform_actions {
 		parent::onInsert();
 	}
 
-	function onAfterInsert() {
-		global $app, $conf;
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-
-	}
-
-	function onAfterUpdate() {
-		global $app, $conf;
-
-		$tmp = $app->db->diffrec($this->oldDataRecord, $app->tform->getDataRecord($this->id));
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-
-		//** When the client group has changed, change also the owner of the record if the owner is not the admin user
-		if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
-			if($tmp["userid"] > 0) {
-				$app->db->query("UPDATE dns_slave SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
-			}
-		}
-
-	}
-
 }
 
 $page = new page_action;
