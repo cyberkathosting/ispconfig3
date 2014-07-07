@@ -73,4 +73,9 @@ $wb['session_allow_endless_txt'] = 'Enable "stay logged in"';
 $wb['No'] = 'No';
 $wb['min_password_length_txt'] = 'Minimum password length';
 $wb['min_password_strength_txt'] = 'Minimum password strength';
+$wb["default_mailserver_txt"] = 'Default Mailserver';
+$wb["default_webserver_txt"] = 'Default Webserver';
+$wb["default_dnsserver_txt"] = 'Default DNS Server';
+$wb["default_slave_dnsserver_txt"] = 'Default Secondary DNS Server';
+$wb["default_dbserver_txt"] = 'Default Database Server';
 ?>

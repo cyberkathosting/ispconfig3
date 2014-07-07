@@ -115,6 +115,9 @@ class page_action extends tform_actions {
 			$web_servers = explode(',', $client['web_servers']);
 			$app->tpl->setVar("server_id_value", $web_servers[0]);
 			unset($web_servers);
+		} else {
+			$settings = $app->getconf->get_global_config('sites');
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_webserver']);
 		}
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 

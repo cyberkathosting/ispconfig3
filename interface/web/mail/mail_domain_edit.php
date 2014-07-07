@@ -61,6 +61,9 @@ class page_action extends tform_actions {
 			if(!$app->tform->checkResellerLimit('limit_maildomain')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_maildomain_txt"]);
 			}
+		} else {
+			$settings = $app->getconf->get_global_config('mail');
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_mailserver']);
 		}
 
 		parent::onShowNew();
