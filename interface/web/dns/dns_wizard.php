@@ -245,7 +245,7 @@ if($_POST['create'] == 1) {
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);
 	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/', $_POST['domain'])) {
-		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selecotr FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
+		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
 		$public_key = $sql['dkim_public'];
 		if ($public_key!='') {
 			if (empty($sql['dkim_selector'])) $sql['dkim_selector'] = 'default';
