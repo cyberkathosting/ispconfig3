@@ -146,7 +146,7 @@ class client_templates {
 			if (is_array($addLimits)){
 				foreach($addLimits as $k => $v){
 					/* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
-					if (strpos($k, 'limit') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
+					if (strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
 						$app->log('Template processing key ' . $k . ' for client ' . $clientId, LOGLEVEL_DEBUG);
 
 						/* process the numerical limits */
@@ -158,6 +158,15 @@ class client_templates {
 								/* silent adjustment of the minimum cron frequency to 1 minute */
 								/* maybe this control test should be done via validator definition in tform.php file, but I don't know how */
 								if ($limits[$k] < 1) $limits[$k] = 1;
+								break;
+
+							case 'default_mailserver':
+							case 'default_webserver':
+							case 'default_dnsserver':
+							case 'default_slave_dnsserver':
+							case 'default_dbserver':
+								/* additional templates don't override default server from main template */
+								if ($limits[$k] == 0) $limits[$k] = $v;
 								break;
 
 							default:
@@ -225,7 +234,10 @@ class client_templates {
 		$update = '';
 		if(!$is_reseller) unset($limits['limit_client']); // Only Resellers may have limit_client set in template to ensure that we do not convert a client to reseller accidently.
 		foreach($limits as $k => $v){
-			if ((strpos($k, 'limit') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec') && !is_array($v)){
+			if (strpos($k, 'default') !== false and $v == 0) {
+				continue; // template doesn't define default server, client's default musn't be changed
+			}
+			if ((strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec') && !is_array($v)){
 				if ($update != '') $update .= ', ';
 				$update .= '`' . $k . "`='" . $v . "'";
 			}
