@@ -106,6 +106,39 @@ class page_action extends tform_actions {
 
 			}
 
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			/*
+			 * The domain-module is in use.
+			*/
+			$domains = $app->tools_sites->getDomainModuleDomains();
+			$domain_select = '';
+			if(is_array($domains) && sizeof($domains) > 0) {
+				/* We have domains in the list, so create the drop-down-list */
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain_id'] ;
+					if ($domain['domain'].'.' == $this->dataRecord["origin"]) {
+						$domain_select .= " selected";
+					}
+					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+				}
+			}
+			else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+				*/
+				$domain_select .= "<option value=''></option>\r\n";
+			}
+			$app->tpl->setVar("domain_option", $domain_select);
+		}
+
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
@@ -119,6 +152,19 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
+
+		/* check if the domain module is used - and check if the selected domain can be used! */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['origin']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$app->tform->errorMessage .= $app->tform->lng("origin_error_empty")."<br />";
+			} else {
+				$this->dataRecord['origin'] = $domain_check.'.';
+			}
+		}
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client

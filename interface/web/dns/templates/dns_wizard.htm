@@ -51,7 +51,13 @@
             <tmpl_if name="DOMAIN_VISIBLE">
                 <div class="ctrlHolder">
                     <label for="domain">{tmpl_var name='domain_txt'}</label>
-                    <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+                    <tmpl_if name="domain_option">
+                        <select name="domain" id="domain" class="selectInput">
+                            {tmpl_var name='domain_option'}
+                        </select>
+                        <tmpl_else>
+                            <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+                    </tmpl_if>
                 </div>
             </tmpl_if>
             <tmpl_if name="IP_VISIBLE">

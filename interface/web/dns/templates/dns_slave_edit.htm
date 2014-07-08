@@ -37,7 +37,13 @@
             </tmpl_if>
             <div class="ctrlHolder">
                 <label for="origin">{tmpl_var name='origin_txt'}</label>
-                <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
+                <tmpl_if name="domain_option">
+                    <select name="origin" id="origin" class="selectInput">
+                        {tmpl_var name='domain_option'}
+                    </select>
+                    <tmpl_else>
+                        <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
+                </tmpl_if>
                 <p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
             </div>
             <div class="ctrlHolder">
