@@ -100,7 +100,7 @@ class mail_plugin {
 				$email_parts = explode('@',$data['new']['email']);
 				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
 				if ($webdomain) {
-					while ($webdomain['parent_domain_id'] != 0) {
+					while (($webdomain['system_user'] == null) && ($webdomain['parent_domain_id'] != 0)) {
 						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = '".$webdomain['parent_domain_id']."'");
 					}
 					$app->log($data['new']['server_id'].' == '.$webdomain['server_id'],LOGLEVEL_DEBUG);
