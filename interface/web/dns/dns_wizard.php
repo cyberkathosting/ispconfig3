@@ -157,6 +157,39 @@ if(is_array($fields)) {
 	}
 }
 
+/*
+ * Now we have to check, if we should use the domain-module to select the domain
+ * or not
+ */
+$app->uses('ini_parser,getconf');
+$settings = $app->getconf->get_global_config('domains');
+if ($settings['use_domain_module'] == 'y') {
+	/*
+	 * The domain-module is in use.
+	*/
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
+	$domain_select = '';
+	if(is_array($domains) && sizeof($domains) > 0) {
+		/* We have domains in the list, so create the drop-down-list */
+		foreach( $domains as $domain) {
+			$domain_select .= "<option value=" . $domain['domain_id'] ;
+			if ($domain['domain'] == $_POST['domain']) {
+				$domain_select .= " selected";
+			}
+			$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+		}
+	}
+	else {
+		/*
+		 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+		 * To avoid, that the variable "domain_option" is empty and so the user can
+		 * free enter a domain, we have to create a empty option!
+		*/
+		$domain_select .= "<option value=''></option>\r\n";
+	}
+	$app->tpl->setVar("domain_option", $domain_select);
+}
+
 if($_POST['create'] == 1) {
 
 	$error = '';
@@ -180,8 +213,19 @@ if($_POST['create'] == 1) {
 
 	// apply filters
 	if(isset($_POST['domain']) && $_POST['domain'] != ''){
-		$_POST['domain'] = $app->functions->idn_encode($_POST['domain']);
-		$_POST['domain'] = strtolower($_POST['domain']);
+		/* check if the domain module is used - and check if the selected domain can be used! */
+		if ($settings['use_domain_module'] == 'y') {
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($_POST['domain']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$_POST['domain'] = '';
+			} else {
+				$_POST['domain'] = $domain_check;
+			}
+		} else {
+			$_POST['domain'] = $app->functions->idn_encode($_POST['domain']);
+			$_POST['domain'] = strtolower($_POST['domain']);
+		}
 	}
 	if(isset($_POST['ns1']) && $_POST['ns1'] != ''){
 		$_POST['ns1'] = $app->functions->idn_encode($_POST['ns1']);
