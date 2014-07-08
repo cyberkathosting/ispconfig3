@@ -156,7 +156,7 @@ class tools_sites {
 				$field = "domain";
 				$select = $field;
 			}
-			$sql .= " domain NOT IN (SELECT $select FROM $not_used_in_table WHERE $field != '$selected_domain') AND";
+			$sql .= " domain NOT IN (SELECT $select FROM ?? WHERE $field != ?) AND";
 		}
 		if ($_SESSION["s"]["user"]["typ"] == 'admin') {
 			$sql .= " 1";
@@ -165,7 +165,7 @@ class tools_sites {
 			$sql .= " sys_groupid IN (".$groups.")";
 		}
 		$sql .= " ORDER BY domain";
-		return $app->db->queryAllRecords($sql);
+		return $app->db->queryAllRecords($sql, $not_used_in_table, $selected_domain);
 	}
 
 	function checkDomainModuleDomain($domain_id) {
