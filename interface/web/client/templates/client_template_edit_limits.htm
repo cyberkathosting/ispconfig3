@@ -8,6 +8,12 @@
 			<div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
             <div>
                 <div class="ctrlHolder">
+                    <label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
+                    <select name="default_webserver" id="default_webserver" class="selectInput">
+                        {tmpl_var name='default_webserver'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
                     <label for="limit_web_domain">{tmpl_var name='limit_web_domain_txt'}</label>
                     <input name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
@@ -115,6 +121,12 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
+                    <label for="default_mailserver">{tmpl_var name='default_mailserver_txt'}</label>
+                    <select name="default_mailserver" id="default_mailserver" class="selectInput">
+                        {tmpl_var name='default_mailserver'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
                     <label for="limit_maildomain">{tmpl_var name='limit_maildomain_txt'}</label>
                     <input name="limit_maildomain" id="limit_maildomain" value="{tmpl_var name='limit_maildomain'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
@@ -174,6 +186,12 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='database_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
+                    <label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
+                    <select name="default_dbserver" id="default_dbserver" class="selectInput">
+                        {tmpl_var name='default_dbserver'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
                     <label for="limit_database">{tmpl_var name='limit_database_txt'}</label>
                     <input name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
                 </div>
@@ -202,8 +220,20 @@
             <div class="subsectiontoggle"><span></span>{tmpl_var name='dns_limits_txt'}<em></em></div>
             <div style="display:none;">
                 <div class="ctrlHolder">
+                    <label for="default_dnsserver">{tmpl_var name='default_dnsserver_txt'}</label>
+                    <select name="default_dnsserver" id="default_dnsserver" class="selectInput">
+                        {tmpl_var name='default_dnsserver'}
+                    </select>
+                </div>
+                <div class="ctrlHolder">
                     <label for="limit_dns_zone">{tmpl_var name='limit_dns_zone_txt'}</label>
                     <input name="limit_dns_zone" id="limit_dns_zone" value="{tmpl_var name='limit_dns_zone'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />
+                </div>
+				<div class="ctrlHolder">
+                    <label for="default_slave_dnsserver">{tmpl_var name='default_slave_dnsserver_txt'}</label>
+                    <select name="default_slave_dnsserver" id="default_slave_dnsserver" class="selectInput">
+                        {tmpl_var name='default_slave_dnsserver'}
+                    </select>
                 </div>
                 <div class="ctrlHolder">
                     <label for="limit_dns_slave_zone">{tmpl_var name='limit_dns_slave_zone_txt'}</label>

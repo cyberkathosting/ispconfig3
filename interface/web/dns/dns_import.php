@@ -56,7 +56,8 @@ if (isset($_POST['server_id'])) {
 	$server_id = $app->functions->intval($_POST['server_id_value']);
 	$post_server_id = true;
 } else {
-	$server_id = 1;
+	$settings = $app->getconf->get_global_config('dns');
+	$server_id = $app->functions->intval($settings['default_dnsserver']);
 	$post_server_id = false;
 }
 

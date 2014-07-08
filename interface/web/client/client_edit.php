@@ -291,14 +291,29 @@ class page_action extends tform_actions {
 		}
 
 		//* Set the default servers
-		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_mailserver = $app->functions->intval($tmp['server_id']);
-		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE web_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_webserver = $app->functions->intval($tmp['server_id']);
-		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE dns_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_dnsserver = $app->functions->intval($tmp['server_id']);
-		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
-		$default_dbserver = $app->functions->intval($tmp['server_id']);
+		$tmp = $app->getconf->get_global_config('mail');
+		$default_mailserver = $app->functions->intval($tmp['default_mailserver']);
+		if (!$default_mailserver) {
+			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
+			$default_mailserver = $app->functions->intval($tmp['server_id']);
+		}
+		$tmp = $app->getconf->get_global_config('sites');
+		$default_webserver = $app->functions->intval($tmp['default_webserver']);
+		$default_dbserver = $app->functions->intval($tmp['default_dbserver']);
+		if (!$default_webserver) {
+			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE web_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
+			$default_webserver = $app->functions->intval($tmp['server_id']);
+		}
+		if (!$default_dbserver) {
+			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
+			$default_dbserver = $app->functions->intval($tmp['server_id']);
+		}
+		$tmp = $app->getconf->get_global_config('dns');
+		$default_dnsserver = $app->functions->intval($tmp['default_dnsserver']);
+		if (!$default_dnsserver) {
+			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE dns_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
+			$default_dnsserver = $app->functions->intval($tmp['server_id']);
+		}
 
 		$sql = "UPDATE client SET mail_servers = $default_mailserver, web_servers = $default_webserver, dns_servers = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, db_servers = $default_dbserver WHERE client_id = ".$this->id;
 		$app->db->query($sql);

@@ -63,6 +63,18 @@
                     {tmpl_var name='reseller_can_use_options'}
                 </div>
             </div>
+            <div class="ctrlHolder">
+                <label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
+                <select name="default_webserver" id="default_webserver" class="selectInput">
+                    {tmpl_var name='default_webserver'}
+                </select>
+            </div>
+            <div class="ctrlHolder">
+                <label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
+                <select name="default_dbserver" id="default_dbserver" class="selectInput">
+                    {tmpl_var name='default_dbserver'}
+                </select>
+            </div>
         </fieldset>
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

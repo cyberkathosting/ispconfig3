@@ -85,6 +85,12 @@
                     {tmpl_var name='smtp_crypt'}
                 </select>
             </div>
+            <div class="ctrlHolder">
+                <label for="default_mailserver">{tmpl_var name='default_mailserver_txt'}</label>
+                <select name="default_mailserver" id="default_mailserver" class="selectInput">
+                    {tmpl_var name='default_mailserver'}
+                </select>
+            </div>
         </fieldset>
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
