@@ -109,7 +109,7 @@ class client_templates {
 		$sql = "SELECT template_master, template_additional,limit_client FROM client WHERE client_id = " . $app->functions->intval($clientId);
 		$record = $app->db->queryOneRecord($sql);
 		$masterTemplateId = $record['template_master'];
-		$is_reseller = ($record['limit_client'] > 0)?true:false;
+		$is_reseller = ($record['limit_client'] != 0)?true:false;
 
 		if($record['template_additional'] != '') {
 			// we have to call the update_client_templates function
