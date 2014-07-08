@@ -153,7 +153,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailbox, limit_mailquota FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_mailbox, limit_mailquota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 
 			// Check if the user may add another mailbox.
@@ -178,6 +178,28 @@ class page_action extends tform_actions {
 				}
 				unset($tmp);
 				unset($tmp_quota);
+			}
+
+			if($client['parent_client_id'] > 0) {
+				// Get the limits of the reseller
+				$reseller = $app->db->queryOneRecord("SELECT limit_mailquota, limit_maildomain FROM client WHERE client_id = ".$client['parent_client_id']);
+
+				//* Check the website quota of the client
+				if(isset($_POST["quota"]) && $reseller["limit_mailquota"] >= 0 && $app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) {
+					$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user, sys_group, client WHERE mail_user.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND mailuser_id != ".$app->functions->intval($this->id));
+
+					$mailquota = $tmp["mailquota"] / 1024 / 1024;
+					$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);
+					if(($mailquota + $new_mailbox_quota > $reseller["limit_mailquota"]) || ($new_mailbox_quota == 0 && $reseller["limit_mailquota"] != -1)) {
+						$max_free_quota = $reseller["limit_mailquota"] - $mailquota;
+						if($max_free_quota < 0) $max_free_quota = 0;
+						$app->tform->errorMessage .= $app->tform->lng("limit_mailquota_txt").": ".$max_free_quota."<br>";
+						// Set the quota field to the max free space
+						$this->dataRecord["quota"] = $max_free_quota;
+					}
+					unset($tmp);
+					unset($tmp_quota);
+				}
 			}
 		} // end if user is not admin
 
