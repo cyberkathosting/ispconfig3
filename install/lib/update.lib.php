@@ -160,13 +160,15 @@ function updateDbAndIni() {
 
 		//* get the version of the db schema from the server table
 		$found = true;
+		$dev_patch = false;
 		while($found == true) {
-			$next_db_version = intval($current_db_version + 1);
+			if($dev_patch == true) $next_db_version = 'dev_collection';
+			else $next_db_version = intval($current_db_version + 1);
 			$sql_patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
 			$php_patch_filename = realpath(dirname(__FILE__).'/../').'/patches/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.php';
 			
 			// comma separated list of version numbers were a update has to be done silently
-			$silent_update_versions = '75';
+			$silent_update_versions = 'dev_collection,75';
 
 			if(is_file($sql_patch_filename)) {
 
@@ -204,8 +206,12 @@ function updateDbAndIni() {
 					$php_patch->onAfterSQL();
 				}
 
-				$current_db_version = $next_db_version;
+				if($dev_patch == false) $current_db_version = $next_db_version;
+				else $found = false;
+				
 				if(isset($php_patch)) unset($php_patch);
+			} elseif($dev_patch == false) {
+				$dev_patch = true;
 			} else {
 				$found = false;
 			}
