@@ -161,7 +161,7 @@ if ($settings['use_domain_module'] == 'y') {
 	/*
 	 * The domain-module is in use.
 	*/
-	$domains = $app->tools_sites->getDomainModuleDomains();
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
 	/*
 	 * We can leave domain empty if domain is filename
 	*/

@@ -144,10 +144,20 @@ class tools_sites {
 		return $res;
 	}
 
-	function getDomainModuleDomains() {
+	function getDomainModuleDomains($not_used_in_table = null, $selected_domain = null) {
 		global $app;
 
 		$sql = "SELECT domain_id, domain FROM domain WHERE";
+		if ($not_used_in_table) {
+			if (strpos($not_used_in_table, 'dns') !== false) {
+				$field = "origin";
+				$select = "SUBSTRING($field, 1, CHAR_LENGTH($field) - 1)";
+			} else {
+				$field = "domain";
+				$select = $field;
+			}
+			$sql .= " domain NOT IN (SELECT $select FROM $not_used_in_table WHERE $field != '$selected_domain') AND";
+		}
 		if ($_SESSION["s"]["user"]["typ"] == 'admin') {
 			$sql .= " 1";
 		} else {
