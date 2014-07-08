@@ -61,6 +61,9 @@ class page_action extends tform_actions {
 			if(!$app->tform->checkResellerLimit('limit_dns_slave_zone')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_dns_slave_zone_txt"]);
 			}
+		} else {
+			$settings = $app->getconf->get_global_config('dns');
+			$app->tform->formDef['tabs']['dns_slave']['fields']['server_id']['default'] = intval($settings['default_slave_dnsserver']);
 		}
 
 		parent::onShowNew();

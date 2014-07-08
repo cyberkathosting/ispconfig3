@@ -61,6 +61,9 @@ class page_action extends tform_actions {
 			if(!$app->tform->checkResellerLimit('limit_database')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_database_txt"]);
 			}
+		} else {
+			$settings = $app->getconf->get_global_config('sites');
+			$app->tform->formDef['tabs']['database']['fields']['server_id']['default'] = intval($settings['default_dbserver']);
 		}
 
 		parent::onShowNew();

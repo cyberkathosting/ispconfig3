@@ -5,7 +5,7 @@
 	- DOUBLE
 	- CURRENCY
 	- VARCHAR
-	- TEXT
+	- SELECT
 	- DATE
 */
 
@@ -58,7 +58,7 @@ $liste['item'][] = array( 'field'  => 'server_name',
 
 $liste['item'][] = array( 'field'  => 'mail_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',
@@ -67,7 +67,7 @@ $liste['item'][] = array( 'field'  => 'mail_server',
 
 $liste['item'][] = array( 'field'  => 'web_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',
@@ -76,7 +76,7 @@ $liste['item'][] = array( 'field'  => 'web_server',
 
 $liste['item'][] = array( 'field'  => 'dns_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',
@@ -85,7 +85,7 @@ $liste['item'][] = array( 'field'  => 'dns_server',
 
 $liste['item'][] = array( 'field'  => 'file_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',
@@ -94,7 +94,7 @@ $liste['item'][] = array( 'field'  => 'file_server',
 
 $liste['item'][] = array( 'field'  => 'db_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',
@@ -103,7 +103,7 @@ $liste['item'][] = array( 'field'  => 'db_server',
 
 $liste['item'][] = array( 'field'  => 'vserver_server',
 	'datatype' => 'VARCHAR',
-	'formtype' => 'TEXT',
+	'formtype' => 'SELECT',
 	'op'  => 'like',
 	'prefix' => '%',
 	'suffix' => '%',

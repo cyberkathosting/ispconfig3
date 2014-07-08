@@ -115,6 +115,17 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'default_mailserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '0',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => array(''),
+			'name'  => 'default_mailserver'
+		),
 		'limit_maildomain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -311,6 +322,17 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'default_webserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '0',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => array(''),
+			'name'  => 'default_webserver'
+		),
 		'limit_web_domain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -491,6 +513,17 @@ $form["tabs"]['limits'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'default_dnsserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '0',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => array(''),
+			'name'  => 'default_dnsserver'
+		),
 		'limit_dns_zone' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -504,6 +537,17 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
+		),
+		'default_slave_dnsserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '0',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => array(''),
+			'name'  => 'default_slave_dnsserver'
 		),
 		'limit_dns_slave_zone' => array (
 			'datatype'      => 'INTEGER',
@@ -549,6 +593,17 @@ $form["tabs"]['limits'] = array (
 			'cols'		=> ''
 		),
 		*/
+		'default_dbserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '0',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => array(''),
+			'name'  => 'default_dbserver'
+		),
 		'limit_database' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',

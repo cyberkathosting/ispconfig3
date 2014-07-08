@@ -88,10 +88,17 @@ class page_action extends tform_actions {
 		global $app;
 
 		$app->uses('client_templates');
+		if (isset($this->dataRecord["template_type"])) {
+			$template_type = $this->dataRecord["template_type"];
+		} else {
+			$tmp = $app->tform->getDataRecord($this->id);
+			$template_type = $tmp['template_type'];
+		}
+
 		/*
 		 * the template has changed. apply the new data to all clients
 		 */
-		if ($this->dataRecord["template_type"] == 'm'){
+		if ($template_type == 'm'){
 			$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
 		} else {
 			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . "/%' OR template_additional LIKE '" . $this->id . "/%' OR template_additional LIKE '%/" . $this->id . "' UNION SELECT client_id FROM client_template_assigned WHERE client_template_id = " . $this->id;
