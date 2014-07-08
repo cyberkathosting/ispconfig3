@@ -835,7 +835,8 @@ class page_action extends tform_actions {
 				if($this->_vhostdomain_type == 'domain') {
 					//* Check the website quota of the client
 					if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
-						$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
+						$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain, sys_group, client WHERE web_domain.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost'");
+
 						$webquota = $tmp["webquota"];
 						$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
 						if(($webquota + $new_web_quota > $reseller["limit_web_quota"]) || ($new_web_quota < 0 && $reseller["limit_web_quota"] >= 0)) {
@@ -852,7 +853,7 @@ class page_action extends tform_actions {
 
 				//* Check the traffic quota of the client
 				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0 && $_POST["traffic_quota"] != $old_web_values["traffic_quota"]) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain, sys_group, client WHERE web_domain.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost'");
 					$trafficquota = $tmp["trafficquota"];
 					$new_traffic_quota = $app->functions->intval($this->dataRecord["traffic_quota"]);
 					if(($trafficquota + $new_traffic_quota > $reseller["limit_traffic_quota"]) || ($new_traffic_quota < 0 && $reseller["limit_traffic_quota"] >= 0)) {
