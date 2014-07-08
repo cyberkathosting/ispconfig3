@@ -167,7 +167,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = $client_group_id");
 
 			// When the record is updated
 			if($this->id > 0) {
@@ -196,6 +196,33 @@ class page_action extends tform_actions {
 					unset($tmp);
 					unset($global_config);
 					unset($dbname_prefix);
+				}
+
+				if($client['parent_client_id'] > 0) {
+					// Get the limits of the reseller
+					$reseller = $app->db->queryOneRecord("SELECT limit_database, limit_database_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+
+					//* Check the website quota of the client
+					if ($reseller['limit_database_quota'] >= 0) {
+						//* get the database prefix
+						$app->uses('getconf,tools_sites');
+						$global_config = $app->getconf->get_global_config('sites');
+						$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $this->dataRecord);
+						//* get quota from other databases
+						$tmp = $app->db->queryOneRecord("SELECT sum(database_quota) as db_quota FROM web_database, sys_group, client WHERE web_database.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ? IN (client.parent_client_id, client.client_id) AND database_name <> ?", $client['parent_client_id'], $dbname_prefix.$this->dataRecord['database_name']);
+
+						$used_quota = $app->functions->intval($tmp['db_quota']);
+						$new_db_quota = $app->functions->intval($this->dataRecord["database_quota"]);
+						if(($used_quota + $new_db_quota > $reseller["limit_database_quota"]) || ($new_db_quota < 0 && $reseller["limit_database_quota"] >= 0)) {
+							$max_free_quota = floor($reseller["limit_database_quota"] - $used_quota);
+							if($max_free_quota < 0) $max_free_quota = 0;
+							$app->tform->errorMessage .= $app->tform->lng("limit_database_quota_free_txt").": ".$max_free_quota." MB<br>";
+							$this->dataRecord["database_quota"] = $max_free_quota;
+						}
+						unset($tmp);
+						unset($global_config);
+						unset($dbname_prefix);
+					}
 				}
 				// When the record is inserted
 			} else {
