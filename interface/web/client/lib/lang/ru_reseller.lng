@@ -13,6 +13,7 @@ $wb['limit_spamfilter_user_txt'] = 'Макс. количество пользо�
 $wb['limit_spamfilter_policy_txt'] = 'Макс. количество правил спам-фильтра';
 $wb['default_mailserver_txt'] = 'Mail-сервер по-умолчанию';
 $wb['company_name_txt'] = 'Компания';
+$wb['contact_firstname_txt'] = 'Contact firstname';
 $wb['contact_name_txt'] = 'Контактное лицо';
 $wb['username_txt'] = 'Логин';
 $wb['password_txt'] = 'Пароль';

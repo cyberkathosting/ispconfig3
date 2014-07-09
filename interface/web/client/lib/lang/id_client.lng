@@ -14,6 +14,7 @@ $wb['limit_spamfilter_user_txt'] = 'Jumlah maks pengguna spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Jumlah maks kebijakan spamfilter';
 $wb['default_mailserver_txt'] = 'Server Mail Default';
 $wb['company_name_txt'] = 'Nama Perusahaan';
+$wb['contact_firstname_txt'] = 'Contact firstname';
 $wb['contact_name_txt'] = 'Nama Kontak';
 $wb['username_txt'] = 'Nama Pengguna';
 $wb['password_txt'] = 'Kata Sandi';

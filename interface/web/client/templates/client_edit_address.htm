@@ -15,6 +15,10 @@
                     {tmpl_var name='gender'}
                 </select>
             </div>
+			<div class="ctrlHolder">
+                <label for="contact_firstname">{tmpl_var name='contact_firstname_txt'}</label>
+                <input name="contact_firstname" id="contact_firstname" value="{tmpl_var name='contact_firstname'}" size="30" maxlength="255" type="text" class="textInput" />
+            </div>
             <div class="ctrlHolder">
                 <label for="contact_name">{tmpl_var name='contact_name_txt'}*</label>
                 <input name="contact_name" id="contact_name" value="{tmpl_var name='contact_name'}" size="30" maxlength="255" type="text" class="textInput" />

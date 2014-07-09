@@ -146,6 +146,7 @@ CREATE TABLE `client` (
   `company_name` varchar(64) DEFAULT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `gender` enum('','m','f') NOT NULL DEFAULT '',
+  `contact_firstname` varchar( 64 ) NOT NULL DEFAULT '',
   `contact_name` varchar(64) DEFAULT NULL,
   `customer_no` varchar(64) DEFAULT NULL,
   `vat_id` varchar(64) DEFAULT NULL,

@@ -106,6 +106,18 @@ $form["tabs"]['address'] = array (
 			'default' => '',
 			'value'  => array('' => '', 'm' => 'gender_m_txt', 'f' => 'gender_f_txt')
 		),
+		'contact_firstname' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => '',
+			'searchable' => 1
+		),
 		'contact_name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
