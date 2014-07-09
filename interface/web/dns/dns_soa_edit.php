@@ -82,22 +82,30 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
-		// If user is admin, we will allow him to select to whom this record belongs
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
-			// Getting Domains of the user
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = '';
-			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		if ($settings['use_domain_module'] != 'y') {
+			// If user is admin, we will allow him to select to whom this record belongs
+			if($_SESSION["s"]["user"]["typ"] == 'admin') {
+				// Getting Domains of the user
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$client_select = '';
+				if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					foreach( $clients as $client) {
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
-			}
-			$app->tpl->setVar("client_group_id", $client_select);
-		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$app->tpl->setVar("client_group_id", $client_select);
+			} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 				// Get the limits of the client
 				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
@@ -118,7 +126,7 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("client_group_id", $client_select);
 
 			}
-		$app->tpl->setVar("client_group_id", $client_select);
+		}
 
 //	}
 
@@ -150,12 +158,6 @@ class page_action extends tform_actions {
 
 	}
 
-	/*
-	 * Now we have to check, if we should use the domain-module to select the domain
-	 * or not
-	 */
-	$app->uses('ini_parser,getconf');
-	$settings = $app->getconf->get_global_config('domains');
 	if ($settings['use_domain_module'] == 'y') {
 		/*
 		 * The domain-module is in use.
@@ -197,75 +199,79 @@ class page_action extends tform_actions {
 function onSubmit() {
 	global $app, $conf;
 
-	/* check if the domain module is used - and check if the selected domain can be used! */
-	$app->uses('ini_parser,getconf');
-	$settings = $app->getconf->get_global_config('domains');
-	if ($settings['use_domain_module'] == 'y') {
-		$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['origin']);
-		if(!$domain_check) {
-			// invalid domain selected
-			$app->tform->errorMessage .= $app->tform->lng("origin_error_empty")."<br />";
-		} else {
-			$this->dataRecord['origin'] = $domain_check.'.';
-		}
-	}
-
-	if($_SESSION["s"]["user"]["typ"] != 'admin') {
-		// Get the limits of the client
-		$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-
-		$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
-
-		// Check if chosen server is in authorized servers for this client
-		if (!(is_array($client['dns_servers_ids']) && in_array($this->dataRecord["server_id"], $client['dns_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
-			$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+	if ($app->tform->getCurrentTab() == 'dns_soa') {
+		/* check if the domain module is used - and check if the selected domain can be used! */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['origin']);
+			}
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['origin']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$app->tform->errorMessage .= $app->tform->lng("origin_error_empty")."<br />";
+			} else {
+				$this->dataRecord['origin'] = $domain_check.'.';
+			}
 		}
 
-		// When the record is updated
-		if($this->id > 0) {
-			// restore the server ID if the user is not admin and record is edited
-			$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
-			$this->dataRecord["server_id"] = $tmp["server_id"];
-			unset($tmp);
-			// When the record is inserted
-		} else {
-			// Check if the user may add another maildomain.
-			if($client["limit_dns_zone"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
-				if($tmp["number"] >= $client["limit_dns_zone"]) {
-					$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the limits of the client
+			$client_group_id = $_SESSION["s"]["user"]["default_group"];
+			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+			$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
+
+			// Check if chosen server is in authorized servers for this client
+			if (!(is_array($client['dns_servers_ids']) && in_array($this->dataRecord["server_id"], $client['dns_servers_ids'])) && $_SESSION["s"]["user"]["typ"] != 'admin') {
+				$app->error($app->tform->wordbook['error_not_allowed_server_id']);
+			}
+
+			// When the record is updated
+			if($this->id > 0) {
+				// restore the server ID if the user is not admin and record is edited
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
+				$this->dataRecord["server_id"] = $tmp["server_id"];
+				unset($tmp);
+				// When the record is inserted
+			} else {
+				// Check if the user may add another maildomain.
+				if($client["limit_dns_zone"] >= 0) {
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+					if($tmp["number"] >= $client["limit_dns_zone"]) {
+						$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
+					}
 				}
 			}
 		}
+
+		/*
+			// Update the serial number of the SOA record
+			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
+			$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+			*/
+
+
+		//* Check if soa, ns and mbox have a dot at the end
+		if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
+		if(strlen($this->dataRecord["ns"]) > 0 && substr($this->dataRecord["ns"], -1, 1) != '.') $this->dataRecord["ns"] .= '.';
+		if(strlen($this->dataRecord["mbox"]) > 0 && substr($this->dataRecord["mbox"], -1, 1) != '.') $this->dataRecord["mbox"] .= '.';
+
+		//* Replace @ in mbox
+		if(stristr($this->dataRecord["mbox"], '@')) {
+			$this->dataRecord["mbox"] = str_replace('@', '.', $this->dataRecord["mbox"]);
+		}
+
+		$this->dataRecord["xfer"] = preg_replace('/\s+/', '', $this->dataRecord["xfer"]);
+		$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
+
+		//* Check if a secondary zone with the same name already exists
+		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = ? AND server_id = ?", $this->dataRecord["origin"], $this->dataRecord["server_id"]);
+		if($tmp["number"] > 0) {
+			$app->error($app->tform->wordbook["origin_error_unique"]);
+		}
 	}
-
-	/*
-		// Update the serial number of the SOA record
-		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
-		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
-		*/
-
-
-	//* Check if soa, ns and mbox have a dot at the end
-	if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
-	if(strlen($this->dataRecord["ns"]) > 0 && substr($this->dataRecord["ns"], -1, 1) != '.') $this->dataRecord["ns"] .= '.';
-	if(strlen($this->dataRecord["mbox"]) > 0 && substr($this->dataRecord["mbox"], -1, 1) != '.') $this->dataRecord["mbox"] .= '.';
-
-	//* Replace @ in mbox
-	if(stristr($this->dataRecord["mbox"], '@')) {
-		$this->dataRecord["mbox"] = str_replace('@', '.', $this->dataRecord["mbox"]);
-	}
-
-	$this->dataRecord["xfer"] = preg_replace('/\s+/', '', $this->dataRecord["xfer"]);
-	$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
-
-	//* Check if a secondary zone with the same name already exists
-	$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = ? AND server_id = ?", $this->dataRecord["origin"], $this->dataRecord["server_id"]);
-	if($tmp["number"] > 0) {
-		$app->error($app->tform->wordbook["origin_error_unique"]);
-	}
-
 	parent::onSubmit();
 }
 

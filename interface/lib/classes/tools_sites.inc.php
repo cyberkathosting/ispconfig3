@@ -181,6 +181,19 @@ class tools_sites {
 		return $domain['domain'];
 	}
 
+	function getClientIdForDomain($domain_id) {
+		global $app;
+
+		$sql = "SELECT sys_groupid FROM domain WHERE domain_id = " . $app->functions->intval($domain_id);
+		if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+			$groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
+			$sql .= " AND sys_groupid IN (".$groups.")";
+		}
+		$domain = $app->db->queryOneRecord($sql);
+		if(!$domain || !$domain['sys_groupid']) return false;
+		return $domain['sys_groupid'];
+	}
+
 }
 
 ?>
