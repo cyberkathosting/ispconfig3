@@ -129,6 +129,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
 
 		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
 
@@ -293,22 +294,24 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("server_id", $options_web_servers);
 			unset($options_web_servers);
 
-			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($records)) {
-				$selected_client_group_id = 0; // needed to get list of PHP versions
-				foreach( $records as $rec) {
-					if(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $rec["groupid"];
-					$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					if($selected == 'SELECTED') $selected_client_group_id = $rec["groupid"];
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+			if ($settings['use_domain_module'] != 'y') {
+				// Fill the client select field
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$records = $app->db->queryAllRecords($sql);
+				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($records)) {
+					$selected_client_group_id = 0; // needed to get list of PHP versions
+					foreach( $records as $rec) {
+						if(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $rec["groupid"];
+						$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						if($selected == 'SELECTED') $selected_client_group_id = $rec["groupid"];
+						$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+					}
 				}
+				$app->tpl->setVar("client_group_id", $client_select);
 			}
-			$app->tpl->setVar("client_group_id", $client_select);
 
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
 				// check if server is in client's servers or add it.
@@ -493,22 +496,24 @@ class page_action extends tform_actions {
 			unset($tmp);
 			unset($ips);
 
-			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				$selected_client_group_id = 0; // needed to get list of PHP versions
-				foreach($clients as $client) {
-					if(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $client["groupid"];
-					//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					if($selected == 'SELECTED') $selected_client_group_id = $client["groupid"];
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+			if ($settings['use_domain_module'] != 'y') {
+				// Fill the client select field
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$client_select = "<option value='0'></option>";
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					$selected_client_group_id = 0; // needed to get list of PHP versions
+					foreach($clients as $client) {
+						if(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $client["groupid"];
+						//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						if($selected == 'SELECTED') $selected_client_group_id = $client["groupid"];
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
+				$app->tpl->setVar("client_group_id", $client_select);
 			}
-			$app->tpl->setVar("client_group_id", $client_select);
 
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
@@ -628,8 +633,6 @@ class page_action extends tform_actions {
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
-		$app->uses('ini_parser,getconf');
-		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
 			/*
 			 * The domain-module is in use.
@@ -739,6 +742,10 @@ class page_action extends tform_actions {
 					// invalid domain selected
 					$app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
 				} else {
+					if ($this->_vhostdomain_type == 'domain' &&
+							($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
+						$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['domain']);
+					}
 					if($this->_vhostdomain_type == 'subdomain') $this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain_check;
 					else $this->dataRecord['domain'] = $domain_check;
 				}

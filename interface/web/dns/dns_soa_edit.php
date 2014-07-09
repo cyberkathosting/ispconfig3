@@ -82,22 +82,30 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
-		// If user is admin, we will allow him to select to whom this record belongs
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
-			// Getting Domains of the user
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = '';
-			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		if ($settings['use_domain_module'] != 'y') {
+			// If user is admin, we will allow him to select to whom this record belongs
+			if($_SESSION["s"]["user"]["typ"] == 'admin') {
+				// Getting Domains of the user
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$client_select = '';
+				if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					foreach( $clients as $client) {
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
-			}
-			$app->tpl->setVar("client_group_id", $client_select);
-		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$app->tpl->setVar("client_group_id", $client_select);
+			} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 				// Get the limits of the client
 				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
@@ -118,7 +126,7 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("client_group_id", $client_select);
 
 			}
-		$app->tpl->setVar("client_group_id", $client_select);
+		}
 
 //	}
 
@@ -150,12 +158,6 @@ class page_action extends tform_actions {
 
 	}
 
-	/*
-	 * Now we have to check, if we should use the domain-module to select the domain
-	 * or not
-	 */
-	$app->uses('ini_parser,getconf');
-	$settings = $app->getconf->get_global_config('domains');
 	if ($settings['use_domain_module'] == 'y') {
 		/*
 		 * The domain-module is in use.
@@ -201,6 +203,9 @@ function onSubmit() {
 	$app->uses('ini_parser,getconf');
 	$settings = $app->getconf->get_global_config('domains');
 	if ($settings['use_domain_module'] == 'y') {
+		if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['origin']);
+		}
 		$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['origin']);
 		if(!$domain_check) {
 			// invalid domain selected
