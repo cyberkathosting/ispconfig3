@@ -12,6 +12,14 @@ $autoinstall['http_server'] = 'nginx'; // apache (default), nginx
 $autoinstall['ispconfig_port'] = '8080'; // default: 8080
 $autoinstall['ispconfig_use_ssl'] = 'y'; // y (default), n
 
+/* SSL Settings */
+$autoinstall['ssl_cert_country'] = 'AU';
+$autoinstall['ssl_cert_state'] = 'Some-State';
+$autoinstall['ssl_cert_locality'] = 'Chicago';
+$autoinstall['ssl_cert_organisation'] = 'Internet Widgits Pty Ltd';
+$autoinstall['ssl_cert_organisation_unit'] = 'IT department';
+$autoinstall['ssl_cert_common_name'] = $autoinstall['hostname'];
+
 /* optional expert mode settings, needed only for expert mode */
 $autoinstall['mysql_ispconfig_user'] = 'ispconfig'; // default: ispconfig
 $autoinstall['mysql_ispconfig_password'] = md5(uniqid(rand()));

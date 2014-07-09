@@ -56,12 +56,21 @@ class installer_base {
 		echo 'WARNING: '.$msg."\n";
 	}
 
-	public function simple_query($query, $answers, $default) {
+	public function simple_query($query, $answers, $default, $name = '') {
+		global $autoinstall;
 		$finished = false;
 		do {
-			$answers_str = implode(',', $answers);
-			swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
-			$input = sread();
+			if($name != '' && $autoinstall[$name] != '') {
+				if($autoinstall[$name] == 'default') {
+					$input = $default;
+				} else {
+					$input = $autoinstall[$name];
+				}
+			} else {
+				$answers_str = implode(',', $answers);
+				swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
+				$input = sread();
+			}
 
 			//* Stop the installation
 			if($input == 'quit') {
@@ -86,9 +95,18 @@ class installer_base {
 		return $answer;
 	}
 
-	public function free_query($query, $default) {
-		swrite($this->lng($query).' ['.$default.']: ');
-		$input = sread();
+	public function free_query($query, $default, $name = '') {
+		global $autoinstall;
+		if($name != '' && $autoinstall[$name] != '') {
+			if($autoinstall[$name] == 'default') {
+				$input = $default;
+			} else {
+				$input = $autoinstall[$name];
+			}
+		} else {
+			swrite($this->lng($query).' ['.$default.']: ');
+			$input = sread();
+		}
 
 		//* Stop the installation
 		if($input == 'quit') {
@@ -638,7 +656,7 @@ class installer_base {
 	}
 
 	public function configure_postfix($options = '') {
-		global $conf;
+		global $conf,$autoinstall;
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
 
@@ -750,9 +768,9 @@ class installer_base {
 
 		if(!stristr($options, 'dont-create-certs')) {
 			//* Create the SSL certificate
-			if(is_file('autoinstall.conf.php')){
+			if(AUTOINSTALL){
 				$command = 'cd '.$config_dir.'; '
-					.'openssl req -new -subj \'/C=AU/ST=Some-State/O=Internet Widgits Pty Ltd\' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
+					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
 			} else {
 				$command = 'cd '.$config_dir.'; '
 					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
@@ -1676,7 +1694,7 @@ class installer_base {
 	}
 
 	public function make_ispconfig_ssl_cert() {
-		global $conf;
+		global $conf,$autoinstall;
 
 		$install_dir = $conf['ispconfig_install_dir'];
 
@@ -1688,8 +1706,8 @@ class installer_base {
 
 		$ssl_pw = substr(md5(mt_rand()), 0, 6);
 		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
-		if(is_file('autoinstall.conf.php')){
-			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=AU/ST=Some-State/O=Internet Widgits Pty Ltd' -key $ssl_key_file -out $ssl_csr_file");
+		if(AUTOINSTALL){
+			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
 		} else {
 			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
 		}
