@@ -49,7 +49,7 @@ class ISPConfigSoapHandler {
 
 			$name = substr($f, 0, strpos($f, '.'));
 
-			include $dir . '/' . $f;
+			include_once $dir . '/' . $f;
 			$class_name = 'remoting_' . $name;
 			if(class_exists($class_name, false)) {
 				$this->classes[$class_name] = new $class_name();
