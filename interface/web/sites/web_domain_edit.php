@@ -749,7 +749,7 @@ class page_action extends tform_actions {
 					// value inside ''
 					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*\'.*\'\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					// everything else
-					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s|()]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					$custom_php_ini_settings_are_valid = false;
 					break;
 				}
