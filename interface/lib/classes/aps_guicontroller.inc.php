@@ -333,7 +333,7 @@ class ApsGUIController extends ApsBase
 		}
 
 		//* Insert new package instance
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->functions->intval($websrv['sys_perm_group'])."', '', ".$app->db->quote($webserver_id).",".$app->db->quote($customerid).", ".$app->db->quote($packageid).", ".INSTANCE_PENDING.")";
+		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->db->quote($websrv['sys_perm_group'])."', '', ".$app->db->quote($webserver_id).",".$app->db->quote($customerid).", ".$app->db->quote($packageid).", ".INSTANCE_PENDING.")";
 		$InstanceID = $app->db->datalogInsert('aps_instances', $insert_data, 'id');
 
 		//* Insert all package settings
