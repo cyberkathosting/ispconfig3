@@ -1205,18 +1205,15 @@ class apache2_plugin {
 
 		} else {
 			//remove the php fastgi starter script if available
+			$fastcgi_starter_script = $fastcgi_config['fastcgi_starter_script'].($data['old']['type'] == 'vhostsubdomain' ? '_web' . $data['old']['domain_id'] : '');
 			if ($data['old']['php'] == 'fast-cgi') {
 				$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $fastcgi_config['fastcgi_starter_path']);
 				$fastcgi_starter_path = str_replace('[client_id]', $client_id, $fastcgi_starter_path);
 				if($data['old']['type'] == 'vhost') {
-					if (is_dir($fastcgi_starter_path)) {
-						exec('rm -rf '.$fastcgi_starter_path);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
+					if (is_dir($fastcgi_starter_path)) @rmdir($fastcgi_starter_path);
 				} else {
-					$fcgi_starter_script = $fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].'_web' . $data['old']['domain_id'];
-					if (file_exists($fcgi_starter_script)) {
-						exec('rm -f '.$fcgi_starter_script);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
 				}
 			}
 		}
