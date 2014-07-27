@@ -710,7 +710,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
 
 				// make tmp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -770,7 +770,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/cgi-bin', 0755);
 
 				// make temp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
