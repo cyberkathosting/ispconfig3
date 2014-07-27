@@ -107,10 +107,11 @@ class mail_plugin {
 			$maildomain_path .= '/Maildir';
 		}
 
-		//* When the mail user dir exists but it is not a valid maildir, remove it
+		//* When the mail user dir exists but it is not a valid maildir, move it to corrupted maildir folder
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
-			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
-			$app->log('Removed invalid maildir and rebuild it: '.escapeshellcmd($data['new']['maildir']), LOGLEVEL_WARN);
+			if(!is_dir($mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id'])) $app->system->mkdirpath($mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id'], 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
+			exec("su -c 'mv -f ".escapeshellcmd($data['new']['maildir'])." ".$mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id']."' vmail");
+			$app->log('Moved invalid maildir to corrupted Maildirs folder: '.escapeshellcmd($data['new']['maildir']), LOGLEVEL_WARN);
 		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
@@ -238,10 +239,11 @@ class mail_plugin {
 			$maildomain_path .= '/Maildir';
 		}
 
-		//* When the mail user dir exists but it is not a valid maildir, remove it
+		//* When the mail user dir exists but it is not a valid maildir, move it to corrupted maildir folder
 		if(!empty($maildomain_path) && is_dir($maildomain_path) && !is_dir($maildomain_path.'/new') && !is_dir($maildomain_path.'/cur')) {
-			exec("su -c 'rm -rf ".escapeshellcmd($data['new']['maildir'])."' vmail");
-			$app->log('Removed invalid maildir and rebuild it: '.escapeshellcmd($data['new']['maildir']), LOGLEVEL_WARN);
+			if(!is_dir($mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id'])) $app->system->mkdirpath($mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id'], 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
+			exec("su -c 'mv -f ".escapeshellcmd($data['new']['maildir'])." ".$mail_config['homedir_path'].'/corrupted/'.$data['new']['mailuser_id']."' vmail");
+			$app->log('Moved invalid maildir to corrupted Maildirs folder: '.escapeshellcmd($data['new']['maildir']), LOGLEVEL_WARN);
 		}
 
 		//* Create the maildir, if it doesn not exist, set permissions, set quota.
