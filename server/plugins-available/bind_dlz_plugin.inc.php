@@ -188,7 +188,7 @@ class bind_dlz_plugin {
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
 
-		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]}");
+		$app->db->query( "DELETE FROM named.dns_records WHERE zone = '".substr($data['old']['origin'], 0, -1)."'");
 		//unset($_db);
 	}
 
@@ -345,7 +345,7 @@ class bind_dlz_plugin {
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
 
-		$app->db->query("DELETE FROM named.records WHERE ispconfig_id = {$data["old"]["id"]} AND type != 'SOA'");
+		$app->db->query( "DELETE FROM named.dns_records WHERE type != 'SOA' AND zone = '".substr($data['old']['origin'], 0, -1)."'");
 		//unset($_db);
 	}
 
