@@ -465,6 +465,9 @@ class nginx_plugin {
 					$app->system->rename($data['new']['document_root'], $data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
 					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'), LOGLEVEL_DEBUG);
 				}
+				
+				//* Unmount the old log directory bfore we move the log dir
+				exec('umount '.escapeshellcmd($old_dir.'/log'));
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -496,6 +499,8 @@ class nginx_plugin {
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
+			
+			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
 
 		}
 
