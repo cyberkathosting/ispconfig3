@@ -1785,6 +1785,37 @@ class system{
 		
 		return $modules;
 	}
+	
+	//* ISPConfig mail function
+	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
+		global $app, $conf;
+
+		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
+
+		$app->uses('getconf,ispcmail');
+		$mail_config = $app->getconf->get_global_config('mail');
+		if($mail_config['smtp_enabled'] == 'y') {
+			$mail_config['use_smtp'] = true;
+			$app->ispcmail->setOptions($mail_config);
+		}
+		$app->ispcmail->setSender($from, $from_name);
+		$app->ispcmail->setSubject($subject);
+		$app->ispcmail->setMailText($text);
+
+		if($filepath != '') {
+			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
+			$app->ispcmail->readAttachFile($filepath);
+		}
+
+		if($cc != '') $app->ispcmail->setHeader('Cc', $cc);
+		if($bcc != '') $app->ispcmail->setHeader('Bcc', $bcc);
+
+		$app->ispcmail->send($to);
+		$app->ispcmail->finish();
+		
+		return true;
+	}
+	
 }
 
 ?>

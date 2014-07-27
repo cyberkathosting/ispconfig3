@@ -647,7 +647,7 @@ if ($app->dbmaster == $app->db) {
 // function for sending notification emails
 //########
 function send_notification_email($template, $placeholders, $recipients) {
-	global $conf;
+	global $conf, $app;
 
 	if(!is_array($recipients) || count($recipients) < 1) return false;
 	if(!is_array($placeholders)) $placeholders = array();
