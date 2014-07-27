@@ -359,7 +359,16 @@ class page_action extends tform_actions {
 
 			//* Update the mailinglist
 			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
-
+			
+			//* Update fetchmail accounts
+			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
+			if(is_array($fetchmail)) {
+				foreach($fetchmail as $rec) {
+					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
+					$app->db->datalogUpdate('mail_get', "destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailget_id', $rec['mailget_id']);
+				}
+			}
+			
 			//* Delete the old spamfilter record
 			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
 			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
