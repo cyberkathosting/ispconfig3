@@ -252,6 +252,9 @@ class bind_dlz_plugin {
 		if ($type == 'MX') {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, mx_priority, data, ispconfig_id)".
 				" VALUES ('$origin', $ttl, '$type', '$name', {$data["new"]["aux"]}, '$content', $ispconfig_id)");
+		} elseif ($type == 'SRV') {
+			$app->db->query("INSERT INTO named.records (zone, ttl, type, data, ispconfig_id)".
+				" VALUES ('$origin', $ttl, '$type', '{$data["new"]["aux"]} $content', $ispconfig_id)");
 		} else {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, data, ispconfig_id)".
 				" VALUES ('$origin', $ttl, '$type', '$name', '$content', $ispconfig_id)");
@@ -327,6 +330,9 @@ class bind_dlz_plugin {
 				if ($type == 'MX') {
 					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', mx_priority = $prio, ".
 						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+				} elseif ($type == 'SRV') {
+					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', ".
+						"data = '$prio $content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
 				} else {
 					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', ".
 						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
