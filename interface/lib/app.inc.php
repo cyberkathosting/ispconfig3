@@ -78,16 +78,16 @@ class app {
 					$tmp = $this->ini_parser->parse_ini_string(stripslashes($tmp['config']));
 					if(!isset($tmp['misc']['session_allow_endless']) || $tmp['misc']['session_allow_endless'] != 'y') {
 						$this->session->set_timeout($sess_timeout);
-						session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
+						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 					} else {
 						// we are doing login here, so we need to set the session data
 						$this->session->set_permanent(true);
 						$this->session->set_timeout(365 * 24 * 3600); // one year
-						session_set_cookie_params(365 * 24 * 3600); // make the cookie live 5 minutes longer
+						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 					}
 				} else {
 					$this->session->set_timeout($sess_timeout);
-					session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
+					session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 				}
 			} else {
 				session_set_cookie_params(0); // until browser is closed
