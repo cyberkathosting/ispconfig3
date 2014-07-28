@@ -134,7 +134,7 @@ class validate_domain {
 		}
 		
 		
-		$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (d.domain = '" . $app->db->quote($domain_name) . "'" . $additional_sql1 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . " AND d.parent_domain_id != " . $app->functions->intval($primary_id);
+		$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (d.domain = '" . $app->db->quote($domain_name) . "'" . $additional_sql1 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . ($primary_id ? " AND d.parent_domain_id != " . $app->functions->intval($primary_id) : "");
 		$checks = $app->db->queryAllRecords($qrystr);
 		if(is_array($checks) && !empty($checks)){
 			foreach($checks as $check){
@@ -146,7 +146,7 @@ class validate_domain {
 		}
 		
 		if($only_domain == false) {
-			$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (CONCAT(d.subdomain, '.', d.domain)= '" . $app->db->quote($domain_name) . "'" . $additional_sql2 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . " AND d.parent_domain_id != " . $app->functions->intval($primary_id);
+			$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (CONCAT(d.subdomain, '.', d.domain)= '" . $app->db->quote($domain_name) . "'" . $additional_sql2 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . ($primary_id ? " AND d.parent_domain_id != " . $app->functions->intval($primary_id) : "");
 			$checks = $app->db->queryAllRecords($qrystr);
 			if(is_array($checks) && !empty($checks)){
 				foreach($checks as $check){
