@@ -339,12 +339,10 @@
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
 <tmpl_if name='seo_redirect_enabled'>
-		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_base_domain'>$ [NC]
 		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='seo_redirect_target_domain'>$1 [R=301,L]
 </tmpl_if>
 <tmpl_loop name="alias_seo_redirects">
-		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_base_domain'>$ [NC]
 		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_redirect_operator'>^<tmpl_var name='alias_seo_redirect_origin_domain'>$ [NC]
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='alias_seo_redirect_target_domain'>$1 [R=301,L]
 </tmpl_loop>
