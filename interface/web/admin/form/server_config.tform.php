@@ -177,14 +177,6 @@ $form["tabs"]['server'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
-		'backup_dir_mount_cmd' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value' => '',
-			'width' => '40',
-			'maxlength' => '255'
-		),
 		'backup_mode' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
