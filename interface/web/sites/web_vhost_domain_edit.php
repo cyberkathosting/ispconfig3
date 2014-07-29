@@ -113,12 +113,16 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$web_servers = explode(',', $client['web_servers']);
-			$app->tpl->setVar("server_id_value", $web_servers[0]);
+			$server_id = $web_servers[0];
+			$app->tpl->setVar("server_id_value", $server_id);
 			unset($web_servers);
 		} else {
 			$settings = $app->getconf->get_global_config('sites');
-			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_webserver']);
+			$server_id = intval($settings['default_webserver']);
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = $server_id;
 		}
+		$web_config = $app->getconf->get_server_config($server_id, 'web');
+		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
