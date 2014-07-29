@@ -80,10 +80,14 @@ class cron_jailkit_plugin {
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
-		} elseif($parent_domain["system_user"] == 'root' or $parent_domain["system_group"] == 'root') {
-			$app->log("Websites (and Crons) cannot be owned by the root user or group.", LOGLEVEL_WARN);
-			return 0;
 		}
+
+		if(!$app->system->is_allowed_user($parent_domain['system_user'], true, true)
+			|| !$app->system->is_allowed_group($parent_domain['system_group'], true, true)) {
+			$app->log("Websites (and Crons) cannot be owned by the root user or group.", LOGLEVEL_WARN);
+			return false;
+		}
+
 
 		$this->parent_domain = $parent_domain;
 
@@ -155,9 +159,11 @@ class cron_jailkit_plugin {
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
-		} elseif($parent_domain["system_user"] == 'root' or $parent_domain["system_group"] == 'root') {
+		}
+		if(!$app->system->is_allowed_user($parent_domain['system_user'], true, true)
+			|| !$app->system->is_allowed_group($parent_domain['system_group'], true, true)) {
 			$app->log("Websites (and Crons) cannot be owned by the root user or group.", LOGLEVEL_WARN);
-			return 0;
+			return false;
 		}
 
 		$app->uses('system');

@@ -344,7 +344,8 @@ class apache2_plugin {
 			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
-		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
+		if(!$app->system->is_allowed_user($data['new']['system_user'], false, true)
+			|| !$app->system->is_allowed_group($data['new']['system_group'], false, true)) {
 			$app->log('Websites cannot be owned by the root user or group.', LOGLEVEL_WARN);
 			return 0;
 		}
