@@ -34,7 +34,9 @@ class system{
 	var $server_id;
 	var $server_conf;
 	var $data;
-
+	var $min_uid = 500;
+	var $min_gid = 500;
+	
 	/**
 	 * Construct for this class
 	 *
@@ -1812,6 +1814,28 @@ class system{
 
 		$app->ispcmail->send($to);
 		$app->ispcmail->finish();
+		
+		return true;
+	}
+	
+	public function is_allowed_user($username, $check_id = true, $restrict_names = false) {
+		global $app;
+		
+		if($username == 'root') return false;
+		if($check_id && intval($this->getuid($username)) < $this->min_uid) return false;
+		
+		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
+		
+		return true;
+	}
+	
+	public function is_allowed_group($groupname, $restrict_names = false) {
+		global $app;
+		
+		if($groupname == 'root') return false;
+		if(intval($this->getgid($groupname)) < $this->min_gid) return false;
+		
+		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
 		
 		return true;
 	}

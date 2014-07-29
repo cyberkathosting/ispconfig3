@@ -424,6 +424,24 @@ class functions {
 		return implode("\n", $domains);
 	}
 
+	public function is_allowed_user($username, $restrict_names = false) {
+		global $app;
+		
+		if($username == 'root') return false;
+		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
+		
+		return true;
+	}
+	
+	public function is_allowed_group($groupname, $restrict_names = false) {
+		global $app;
+		
+		if($groupname == 'root') return false;
+		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
+		
+		return true;
+	}
+
 }
 
 ?>
