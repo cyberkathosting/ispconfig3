@@ -82,7 +82,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $ftpuser_prefix));
 		}
 
-		if($this->dataRecord['username'] == "" && $_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		if($this->dataRecord['username'] == "") {
 			$app->tpl->setVar("username_prefix", $ftpuser_prefix);
 		} else {
 			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $ftpuser_prefix, $global_config['ftpuser_prefix']));

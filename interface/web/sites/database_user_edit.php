@@ -103,7 +103,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("database_user", $app->tools_sites->removePrefix($this->dataRecord['database_user'], $this->dataRecord['database_user_prefix'], $dbuser_prefix));
 		}
 
-		if($this->dataRecord['database_user'] == "" && $_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+		if($this->dataRecord['database_user'] == "") {
 			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
 		} else {
 			$app->tpl->setVar("database_user_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_user_prefix'], $dbuser_prefix, $global_config['dbuser_prefix']));
