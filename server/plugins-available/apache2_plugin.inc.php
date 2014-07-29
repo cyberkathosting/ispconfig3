@@ -2951,6 +2951,8 @@ class apache2_plugin {
 			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
 			$seo_redirects[$prefix.'seo_redirect_operator'] = '!';
 		}
+		
+		$seo_redirects[$prefix.'seo_base_domain'] = str_replace('.', '\.', $web['domain']);
 		return $seo_redirects;
 	}
 
