@@ -192,4 +192,6 @@ $wb['munin_url_note_txt'] = 'Marcadores:';
 $wb['backup_dir_is_mount_txt'] = '¿El directorio de copias de seguridad es un punto de montaje?';
 $wb['backup_dir_mount_cmd_txt'] = 'Comando para montar, si el directorio de copias de seguridad no está montado';
 $wb['monitor_system_updates_txt'] = 'Comprobar actualizaciones de linux';
+$wb['php_handler_txt'] = "Manejador de PHP";
+$wb['disabled_txt'] = "Desactivado";
 ?>
