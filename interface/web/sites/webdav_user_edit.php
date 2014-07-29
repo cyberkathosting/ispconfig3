@@ -81,7 +81,11 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $webdavuser_prefix));
 		}
 
-		$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']));
+		if($this->dataRecord['username'] == "" && $_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$app->tpl->setVar("username_prefix", $webdavuser_prefix);
+		} else {
+			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']));
+		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record

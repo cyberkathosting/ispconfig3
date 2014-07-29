@@ -146,7 +146,11 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix));
 		}
 
-		$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+		if($this->dataRecord['database_name'] == "" && $_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
+		} else {
+			$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
