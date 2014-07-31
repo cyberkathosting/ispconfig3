@@ -1821,7 +1821,11 @@ class system{
 	public function is_allowed_user($username, $check_id = true, $restrict_names = false) {
 		global $app;
 		
-		if($username == 'root') return false;
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($username,$name_blacklist)) return false;
+		
+		if(preg_match('/^[\w\.\-]{0,32}$/', $username) == false) return false;
+		
 		if($check_id && intval($this->getuid($username)) < $this->min_uid) return false;
 		
 		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
@@ -1832,7 +1836,11 @@ class system{
 	public function is_allowed_group($groupname, $restrict_names = false) {
 		global $app;
 		
-		if($groupname == 'root') return false;
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($groupname,$name_blacklist)) return false;
+		
+		if(preg_match('/^[\w\.\-]{0,32}$/', $groupname) == false) return false;
+		
 		if(intval($this->getgid($groupname)) < $this->min_gid) return false;
 		
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;

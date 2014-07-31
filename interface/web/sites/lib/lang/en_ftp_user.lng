@@ -32,4 +32,6 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb['directory_error_regex'] = 'Invalid directory';
 ?>
