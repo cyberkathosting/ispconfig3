@@ -159,4 +159,3 @@ $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Client Limits';
 $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than \\"custom\\" is selected.';
 ?>
-

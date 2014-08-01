@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Händelse';
 $wb['server_select_txt'] = 'Välj server';
 $wb['no_updates_txt'] = 'Inga tillgängliga uppdateringar';
 ?>
-

@@ -21,4 +21,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 resultat';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Sök';
 $wb['globalsearch_suggestions_text_txt'] = 'Förslag';
 ?>
-

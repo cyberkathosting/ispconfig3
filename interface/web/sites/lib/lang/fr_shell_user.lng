@@ -28,4 +28,7 @@ $wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
 $wb['password_match_txt'] = 'Les mots de passe correspondent.';
 $wb['username_must_not_exceed_32_chars_txt'] = 'Le nom d\'utilisateur ne doit pas dépasser 32 caractères.';
 $wb['username_not_allowed_txt'] = 'Le nom d\'utilisateur est interdit.';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb['directory_error_regex'] = 'Invalid directory';
+$wb['shell_error_regex'] = 'Invalid shell';
 ?>

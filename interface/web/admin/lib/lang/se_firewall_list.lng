@@ -6,4 +6,3 @@ $wb['tcp_port_txt'] = 'Öppna TCP-portar';
 $wb['udp_port_txt'] = 'Öppna UDP-portar';
 $wb['add_new_record_txt'] = 'Lägg till brandväggsinlägg';
 ?>
-

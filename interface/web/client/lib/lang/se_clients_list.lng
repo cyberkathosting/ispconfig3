@@ -9,4 +9,3 @@ $wb['add_new_record_txt'] = 'Lägg till ny kund';
 $wb['username_txt'] = 'Användarnamn';
 $wb['customer_no_txt'] = 'Kundnummer';
 ?>
-

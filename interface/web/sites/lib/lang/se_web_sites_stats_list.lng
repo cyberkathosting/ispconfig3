@@ -7,4 +7,3 @@ $wb['this_year_txt'] = 'I år';
 $wb['last_year_txt'] = 'Förra året';
 $wb['sum_txt'] = 'Total';
 ?>
-

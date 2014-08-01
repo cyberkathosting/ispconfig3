@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Adressen är tom.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Maximala antalet epostfilter för ditt konto är uppnått.';
 ?>
-

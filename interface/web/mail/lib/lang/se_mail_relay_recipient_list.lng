@@ -7,4 +7,3 @@ $wb['recipient_txt'] = 'Mottagare';
 $wb['add_new_record_txt'] = 'Lägg till ny relämottagare';
 $wb['access_txt'] = 'åtkomst';
 ?>
-

@@ -18,4 +18,3 @@ $wb['ends_with_txt'] = 'Slutar med';
 $wb['move_to_txt'] = 'Flytta till';
 $wb['delete_txt'] = 'Radera';
 ?>
-

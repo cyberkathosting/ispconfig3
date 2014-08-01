@@ -42,5 +42,5 @@ $wb['no_flag_txt'] = 'Aucun flag';
 $wb['domain_error_wildcard'] = 'Les sous-domaines joker ne sont pas autorisés.';
 $wb['proxy_directives_txt'] = 'Directives pour les Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Directives pour les Proxy Snippets disponibles :';
-$wb['error_proxy_requires_url'] = 'Les redirections de type \"proxy\" nécessitent une URL comme chemin de redirection.';
+$wb['error_proxy_requires_url'] = 'Les redirections de type \\"proxy\\" nécessitent une URL comme chemin de redirection.';
 ?>

@@ -9,4 +9,3 @@ $wb['variables_txt'] = 'Variabler';
 $wb['variables_description_txt'] = '(Användarnamn- och lösenordsvariablerna är endast tillgängliga i välkomstmail.)';
 $wb['duplicate_welcome_error'] = 'Det kan bara finnas en standardmall för välkomstmail. Vänligen redigera den existerande mallen istället för att lägga till en ny.';
 ?>
-
