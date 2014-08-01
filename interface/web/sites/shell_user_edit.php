@@ -190,13 +190,6 @@ class page_action extends tform_actions {
 			}
 		}
 		unset($blacklist);
-		
-		// Check system user and group
-		if(isset($this->dataRecord['puser'])) {
-			if($app->functions->is_allowed_user(strtolower($this->dataRecord['puser']),true) == false || $app->functions->is_allowed_group(strtolower($this->dataRecord['pgroup']),true) == false) {
-				$app->tform->errorMessage .= $app->tform->lng('invalid_system_user_or_group_txt');
-			}
-		}
 
 		/*
 		 * If the names should be restricted -> do it!

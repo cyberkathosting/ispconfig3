@@ -341,6 +341,8 @@ class page_action extends tform_actions {
 		$this->dataRecord["ipv6_address"] = $parent_domain["ipv6_address"];
 		$this->dataRecord["client_group_id"] = $parent_domain["client_group_id"];
 		$this->dataRecord["vhost_type"] = 'name';
+		$this->dataRecord["system_user"] = $parent_domain["system_user"];
+		$this->dataRecord["system_group"] = $parent_domain["system_group"];
 
 		$this->parent_domain_record = $parent_domain;
 

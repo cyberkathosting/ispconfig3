@@ -166,6 +166,13 @@ if($app->auth->is_admin()) {
 				'formtype'  => 'TEXT',
 				'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
 						'errmsg'=> 'uid_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysuser',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default'   => '0',
 				'value'     => '',
@@ -177,6 +184,13 @@ if($app->auth->is_admin()) {
 				'formtype'  => 'TEXT',
 				'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
 						'errmsg'=> 'gid_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysgroup',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default'   => '0',
 				'value'     => '',
