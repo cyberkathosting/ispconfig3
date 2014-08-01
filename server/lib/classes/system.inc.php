@@ -1835,16 +1835,16 @@ class system{
 	
 	public function is_allowed_group($groupname, $check_id = true, $restrict_names = false) {
 		global $app;
-		echo 1;
+		
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($groupname,$name_blacklist)) return false;
-		echo 2;
+		
 		if(preg_match('/^[a-zA-Z0-9\.\-]{1,32}$/', $groupname) == false) return false;
-		echo 3;
+		
 		if($check_id && intval($this->getgid($groupname)) < $this->min_gid) return false;
-		echo 4;
+		
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
-		echo 5;
+		
 		return true;
 	}
 	
