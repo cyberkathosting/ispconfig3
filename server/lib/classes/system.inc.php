@@ -1824,7 +1824,7 @@ class system{
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($username,$name_blacklist)) return false;
 		
-		if(preg_match('/^[\w\.\-]{0,32}$/', $username) == false) return false;
+		if(preg_match('/^[a-zA-Z0-9\.\-]{1,32}$/', $username) == false) return false;
 		
 		if($check_id && intval($this->getuid($username)) < $this->min_uid) return false;
 		
@@ -1833,18 +1833,18 @@ class system{
 		return true;
 	}
 	
-	public function is_allowed_group($groupname, $restrict_names = false) {
+	public function is_allowed_group($groupname, $check_id = true, $restrict_names = false) {
 		global $app;
-		
+		echo 1;
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($groupname,$name_blacklist)) return false;
-		
-		if(preg_match('/^[\w\.\-]{0,32}$/', $groupname) == false) return false;
-		
-		if(intval($this->getgid($groupname)) < $this->min_gid) return false;
-		
+		echo 2;
+		if(preg_match('/^[a-zA-Z0-9\.\-]{1,32}$/', $groupname) == false) return false;
+		echo 3;
+		if($check_id && intval($this->getgid($groupname)) < $this->min_gid) return false;
+		echo 4;
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
-		
+		echo 5;
 		return true;
 	}
 	
