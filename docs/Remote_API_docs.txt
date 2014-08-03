@@ -1,3 +1,3 @@
 
 
-The remote API documentation is in the remote_client/API-docs subfolder.
+The remote API documentation is in the remoting_client/API-docs subfolder.
