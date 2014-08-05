@@ -128,7 +128,7 @@ class mail_plugin_dkim {
 					$amavis_user=rtrim($amavis_user, ":");
 					mkdir($mail_config['dkim_path'], 0750, true);
 					exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
-					unset $amavis_user;
+					unset($amavis_user);
 				} else {
 					mkdir($mail_config['dkim_path'], 0755, true);
 				}
