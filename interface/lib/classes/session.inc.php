@@ -99,7 +99,7 @@ class session {
 			$date_created = date('Y-m-d H:i:s');
 			$last_updated = date('Y-m-d H:i:s');
 			$session_data = $this->db->quote($session_data);
-			$sql = "INSERT INTO sys_session (session_id,date_created,last_updated,session_data,permanent) VALUES ('$session_id','$date_created','$last_updated','$session_data','" . ($this->permanent ? 'y' : 'n') . "')";
+			$sql = "REPLACE INTO sys_session (session_id,date_created,last_updated,session_data,permanent) VALUES ('$session_id','$date_created','$last_updated','$session_data','" . ($this->permanent ? 'y' : 'n') . "')";
 			$this->db->query($sql);
 
 		} else {
