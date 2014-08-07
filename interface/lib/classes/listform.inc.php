@@ -97,6 +97,7 @@ class listform {
 			$querystring = str_replace("{AUTHSQL}", $app->tform->getAuthSQL('r'), $querystring);
 			$querystring = str_replace("{AUTHSQL-A}", $app->tform->getAuthSQL('r', 'a'), $querystring);
 			$querystring = str_replace("{AUTHSQL-B}", $app->tform->getAuthSQL('r', 'b'), $querystring);
+			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', create_function('$matches','global $app; $tmp = $app->tform->getAuthSQL("r", $matches[1]); return $tmp;'), $querystring);
 
 			//* Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
