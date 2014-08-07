@@ -352,9 +352,9 @@ class nginx_plugin {
 			return 0;
 		}
 
-		if(!$app->system->is_allowed_user($data['new']['system_user'], false, true)
-			|| !$app->system->is_allowed_group($data['new']['system_group'], false, true)) {
-			$app->log('Websites cannot be owned by the root user or group.', LOGLEVEL_WARN);
+		if($app->system->is_allowed_user($data['new']['system_user'], $app->system->is_user($data['new']['system_user']), true) == false
+			|| $app->system->is_allowed_group($data['new']['system_group'], $app->system->is_group($data['new']['system_group']), true) == false) {
+			$app->log('Websites cannot be owned by the root user or group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
 			return 0;
 		}
 
