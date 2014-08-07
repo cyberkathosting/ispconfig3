@@ -80,7 +80,7 @@ function get_public_key($private_key) {
 	require_once('../../lib/classes/validate_dkim.inc.php');
 	$validate_dkim=new validate_dkim ();
 	if($validate_dkim->validate_post('private',$private_key)) { /* validate the $_POST-value */
-		exec('echo '.escapeshellarg($private_key).'|openssl rsa -pubout -outform PEM',$pubkey,$result);
+		exec('echo '.escapeshellarg($private_key).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
 		$public_key=pub_key($pubkey);
 	} else {
 		$public_key='invalid key';
@@ -92,8 +92,8 @@ $_POST=getRealPOST();
 
 switch ($_POST['action']) {
 	case 'create': /* create DKIM Private-key */
-		exec('openssl rand -out /usr/local/ispconfig/server/temp/random-data.bin 4096', $output, $result);
-		exec('openssl genrsa -rand /usr/local/ispconfig/server/temp/random-data.bin 1024', $privkey, $result);
+		exec('openssl rand -out /usr/local/ispconfig/server/temp/random-data.bin 4096 2> /dev/null', $output, $result);
+		exec('openssl genrsa -rand /usr/local/ispconfig/server/temp/random-data.bin 1024 2> /dev/null', $privkey, $result);
 		unlink("/usr/local/ispconfig/server/temp/random-data.bin");
 		foreach($privkey as $values) $private_key=$private_key.$values."\n";
 	break;

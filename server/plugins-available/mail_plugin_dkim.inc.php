@@ -181,7 +181,7 @@ class mail_plugin_dkim {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private', LOGLEVEL_DEBUG);
 			$success=true;
 			/* now we get the DKIM Public-key */
-			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout', $pubkey, $result);
+			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout 2> /dev/null', $pubkey, $result);
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */
