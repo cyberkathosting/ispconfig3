@@ -38,6 +38,10 @@
                 <tmpl_if name="enable_custom_login"><th class="tbl_col_login" scope="col"><tmpl_var name="login_txt"></th></tmpl_if>
                 <th class="tbl_col_name" scope="col"><tmpl_var name="name_txt"></th>
                         <th class="tbl_col_autoresponder" scope="col"><tmpl_var name="autoresponder_txt"></th>
+                        <th class="tbl_col_postfix" scope="col"><tmpl_var name="postfix_txt"></th>
+                        <th class="tbl_col_disablesmtp" scope="col"><tmpl_var name="disablesmtp_txt"></th>
+                        <th class="tbl_col_disableimap" scope="col"><tmpl_var name="disableimap_txt"></th>
+                        <th class="tbl_col_disablepop3" scope="col"><tmpl_var name="disablepop3_txt"></th>
                         <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr class="filter">
@@ -45,6 +49,10 @@
             <tmpl_if name="enable_custom_login"><td class="tbl_col_login"><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
                         <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td class="tbl_col_autoresponder"><select name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
+                        <td class="tbl_col_postfix"><select name="search_postfix">{tmpl_var name='search_postfix'}</select></th>
+                        <td class="tbl_col_disablesmtp"><select name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></th>
+                        <td class="tbl_col_disableimap"><select name="search_disableimap">{tmpl_var name='search_disableimap'}</select></th>
+                        <td class="tbl_col_disablepop3"><select name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></th>
                         <td class="tbl_col_buttons">
                             <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
                         </td>
@@ -61,6 +69,10 @@
                         </tmpl_if>
                         <td class="tbl_col_name"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="name"}</a></td>
                         <td class="tbl_col_autoresponder"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="autoresponder"}</a></td>
+                        <td class="tbl_col_postfix"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="postfix"}</a></td>
+                        <td class="tbl_col_disablesmtp"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="disablesmtp"}</a></td>
+                        <td class="tbl_col_disableimap"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="disableimap"}</a></td>
+                        <td class="tbl_col_disablepop3"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="disablepop3"}</a></td>
                         <td class="tbl_col_buttons">
                             <tmpl_if name="mailboxlist_webmail_link">
                                 <a class="button icons16 icoWebmailer" href="mail/webmailer.php?id={tmpl_var name='id'}" target="webmail"><span>{tmpl_var name="webmail_txt"}</span></a>
@@ -71,13 +83,13 @@
                 </tmpl_loop>
                 <tmpl_unless name="records">
                     <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td colspan="<tmpl_if name="enable_custom_login">5<tmpl_else>4</tmpl_if>">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                        <td colspan="<tmpl_if name="enable_custom_login">9<tmpl_else>8</tmpl_if>">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                     </tr>
                 </tmpl_unless>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="<tmpl_if name="enable_custom_login">5<tmpl_else>4</tmpl_if>"><tmpl_var name="paging"></td>
+                        <td class="tbl_footer tbl_paging" colspan="<tmpl_if name="enable_custom_login">9<tmpl_else>8</tmpl_if>"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
