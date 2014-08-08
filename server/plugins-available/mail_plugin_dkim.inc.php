@@ -123,9 +123,10 @@ class mail_plugin_dkim {
 
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
-				$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
+				if($app->system->is_user('amavis')) { $amavis_user='amavis'; }
+				elseif ($app->system->is_user('vscan')) { $amavis_user='vscan'; }
+				else { $amavis_user=''; }
 				if(!empty($amavis_user)) {
-					$amavis_user=rtrim($amavis_user, ":");
 					mkdir($mail_config['dkim_path'], 0750, true);
 					exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
 					unset($amavis_user);
