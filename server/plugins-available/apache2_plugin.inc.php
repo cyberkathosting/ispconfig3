@@ -1475,7 +1475,7 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdir($data['new']['document_root'].'/' . $web_folder . '/stats');
 		$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data['new']['document_root']."/web/stats/.htpasswd_stats\nrequire valid-user";
 		$app->system->file_put_contents($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', $ht_file);
-		$app->system->chmod($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', 0751);
+		$app->system->chmod($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', 0755);
 		unset($ht_file);
 		//}
 
@@ -1485,7 +1485,7 @@ class apache2_plugin {
 				$app->system->web_folder_protection($data['new']['document_root'], false);
 				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats', $htp_file);
 				$app->system->web_folder_protection($data['new']['document_root'], true);
-				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats', 0751);
+				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats', 0755);
 				unset($htp_file);
 			}
 		}
