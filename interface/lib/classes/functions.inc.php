@@ -430,7 +430,7 @@ class functions {
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($username,$name_blacklist)) return false;
 		
-		if(preg_match('/^[a-zA-Z0-9\.\-]{1,32}$/', $username) == false) return false;
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $username) == false) return false;
 		
 		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
 		
@@ -443,7 +443,7 @@ class functions {
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($groupname,$name_blacklist)) return false;
 		
-		if(preg_match('/^[a-zA-Z0-9\.\-]{1,32}$/', $groupname) == false) return false;
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $groupname) == false) return false;
 		
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
 		
