@@ -33,7 +33,15 @@ do_start()
 	
 	umask 017
 	sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
-	/usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vServer.FixPathInfo=true -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+	INIFILE=""
+	if [[ -e "/var/www/conf/{SYSTEM_USER}/php.ini" ]] ; then
+		INIFILE="-vServer.IniFile=/var/www/conf/{SYSTEM_USER}/php.ini" ;
+	elif [[ -e "/etc/php5/hhvm/php.ini" ]] ; then
+		INIFILE="-vServer.IniFile=/etc/php5/hhvm/php.ini" ;
+	elif [[ -e "/etc/php5/cgi/php.ini" ]] ; then
+		INIFILE="-vServer.IniFile=/etc/php5/cgi/php.ini" ;
+	fi
+	/usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vServer.FixPathInfo=true $INIFILE -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 }
 
 do_stop()
