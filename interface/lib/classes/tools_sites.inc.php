@@ -47,7 +47,7 @@ class tools_sites {
 					$name=str_replace('['.$keyword.']', $this->getClientID($dataRecord), $name);
 					break;
 				case 'DOMAINID':
-					$name=str_replace('['.$keyword.']', $dataRecord['parent_domain_id'], $name);
+					$name=str_replace('['.$keyword.']', $dataRecord['parent_domain_id'] ? $dataRecord['parent_domain_id'] : '[DOMAINID]', $name);
 					break;
 				}
 			}
@@ -92,7 +92,7 @@ class tools_sites {
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
 			} else {
-				$client_group_id = 0;
+				return '[CLIENTNAME]';
 			}
 		}
 
@@ -119,7 +119,7 @@ class tools_sites {
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
 			} else {
-				$client_group_id = 0;
+				return '[CLIENTID]';
 			}
 		}
 		$tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
