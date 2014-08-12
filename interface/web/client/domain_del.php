@@ -80,7 +80,7 @@ class page_action extends tform_actions {
 			$app->error($wb['error_domain_in mailuse']);
 		}
 
-		$sql = "SELECT domain_id FROM web_domain WHERE (domain = '" . $app->db->quote($domain) . "' AND type IN ('alias', 'vhost')) OR (domain = '%." . $app->db->quote($domain) . "' AND type IN ('subdomain', 'vhostsubdomain'))";
+		$sql = "SELECT domain_id FROM web_domain WHERE (domain = '" . $app->db->quote($domain) . "' AND type IN ('alias', 'vhost')) OR (domain LIKE '%." . $app->db->quote($domain) . "' AND type IN ('subdomain', 'vhostsubdomain'))";
 		$res = $app->db->queryOneRecord($sql);
 		if (is_array($res)){
 			$app->error($wb['error_domain_in webuse']);
