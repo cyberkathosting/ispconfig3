@@ -2248,6 +2248,7 @@ class installer_base {
 		
 		// Remove directories recursively
 		if(is_dir('/usr/local/ispconfig/interface/web/designer')) exec('rm -rf /usr/local/ispconfig/interface/web/designer');
+		if(is_dir('/usr/local/ispconfig/interface/web/themes/default-304')) exec('rm -rf /usr/local/ispconfig/interface/web/themes/default-304');
 		
 		// Remove files
 		if(is_file('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php');
