@@ -216,7 +216,7 @@ class vm_openvz_plugin {
 		$hostname_parts = explode('.', $full_hostname);
 		$hostname = $app->db->quote($hostname_parts[0]);
 		unset($hostname_parts[0]);
-		$zone = $app->db->quote((implode('.', $hostname_parts));
+		$zone = $app->db->quote((implode('.', $hostname_parts)));
 		unset($hostname_parts);
 
 		// Find the dns zone
