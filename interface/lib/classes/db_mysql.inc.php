@@ -126,7 +126,8 @@ class db extends mysqli
 
 				if($iPos2 !== false && ($iPos === false || $iPos2 <= $iPos)) {
 					$sTxt = $this->escape($sValue);
-
+					
+					$sTxt = str_replace('`', '', $sTxt);
 					if(strpos($sTxt, '.') !== false) $sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
 					else $sTxt = '`' . $sTxt . '`';
 
