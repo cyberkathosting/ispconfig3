@@ -44,6 +44,14 @@ class auth {
 			return false;
 		}
 	}
+	
+	public function is_superadmin() {
+		if($_SESSION['s']['user']['typ'] == 'admin' && $_SESSION['s']['user']['userid'] === 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public function has_clients($userid) {
 		global $app, $conf;
@@ -83,6 +91,7 @@ class auth {
 		global $app;
 		
 		$userid = $app->functions->intval($userid);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$limitname)) $app->error('Invalid limit name '.$limitname);
 		
 		// simple query cache
 		if($this->client_limits===null)
@@ -120,7 +129,8 @@ class auth {
 
 	public function check_module_permissions($module) {
 		// Check if the current user has the permissions to access this module
-		if(!stristr($_SESSION["s"]["user"]["modules"], $module)) {
+		$user_modules = explode(',',$_SESSION["s"]["user"]["modules"]);
+		if(!in_array($module,$user_modules)) {
 			// echo "LOGIN_REDIRECT:/index.php";
 			header("Location: /index.php");
 			exit;
