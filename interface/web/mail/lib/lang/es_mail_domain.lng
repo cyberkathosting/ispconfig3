@@ -18,4 +18,5 @@ $wb["dkim_dns_txt"] = 'Registro DNS (TYPE TXT)<br><br>añade este registro a tus
 $wb["dkim_private_key_error"] = 'Clave privada DKIM no válida';
 $wb['dkim_selector_txt'] = 'Selector DKIM';
 $wb['dkim_selector_error'] = 'Selector DKIM no válido. Usar sólo caracteres alfanuméricos en minúsculas (a-z o 0-9)';
+$wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
 ?>

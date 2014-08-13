@@ -18,4 +18,5 @@ $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nicht aktiviert -';
 $wb['dkim_selector_txt'] = 'DKIM-Selector';
 $wb['dkim_selector_error'] = 'Ungültiger DKIM-Selector.  Verwenden Sie nur alphanumerische Zeichen (a-z oder 0-9)';
+$wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
 ?>
