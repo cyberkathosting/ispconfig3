@@ -74,6 +74,13 @@ class shelluser_jailkit_plugin {
 		$app->uses('system');
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 
+		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
+			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
+			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
+			$app->log('Shell user must not be root or in group root.',LOGLEVEL_WARN);
+			return false;
+		}
+
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
@@ -138,6 +145,13 @@ class shelluser_jailkit_plugin {
 
 		$app->uses('system');
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
+
+		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
+			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
+			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
+			$app->log('Shell user must not be root or in group root.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user

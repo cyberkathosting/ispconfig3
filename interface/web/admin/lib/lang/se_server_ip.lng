@@ -9,4 +9,3 @@ $wb['ip_type_txt'] = 'Typ';
 $wb['virtualhost_port_txt'] = 'HTTP-portar';
 $wb['error_port_syntax'] = 'Invalid chars in port field, please enter only comma separated numbers. Example: 80,443';
 ?>
-

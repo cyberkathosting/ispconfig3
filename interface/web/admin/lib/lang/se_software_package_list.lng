@@ -11,4 +11,3 @@ $wb['no_packages_txt'] = 'Inga paket tillgängliga';
 $wb['edit_txt'] = 'Redigera';
 $wb['delete_txt'] = 'Radera';
 ?>
-

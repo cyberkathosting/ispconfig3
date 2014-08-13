@@ -1,0 +1,1 @@
+ALTER TABLE  `web_domain` DROP INDEX `serverdomain`, ADD UNIQUE  `serverdomain` (  `server_id` , `ip_address`, `domain` );

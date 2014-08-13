@@ -229,8 +229,13 @@ class installer_dist extends installer_base {
 
 		if(!stristr($options, 'dont-create-certs')) {
 			//* Create the SSL certificate
-			$command = 'cd '.$config_dir.'; '
-				.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509';
+			if(AUTOINSTALL){
+				$command = 'cd '.$config_dir.'; '
+					."openssl req -new -subj '/C=".$autoinstall['ssl_cert_country']."/ST=".$autoinstall['ssl_cert_state']."/L=".$autoinstall['ssl_cert_locality']."/O=".$autoinstall['ssl_cert_organisation']."/OU=".$autoinstall['ssl_cert_organisation_unit']."/CN=".$autoinstall['ssl_cert_common_name']."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
+			} else {
+				$command = 'cd '.$config_dir.'; '
+					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
+			}
 			exec($command);
 
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
@@ -445,6 +450,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf("$config_dir/$configfile", $content);
 
 		exec("chmod 600 $config_dir/$configfile");

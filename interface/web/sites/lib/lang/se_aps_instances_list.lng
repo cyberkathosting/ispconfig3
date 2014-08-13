@@ -11,4 +11,3 @@ $wb['filter_txt'] = 'Sök';
 $wb['delete_txt'] = 'Radera';
 $wb['reinstall_txt'] = 'Ominstallera';
 ?>
-

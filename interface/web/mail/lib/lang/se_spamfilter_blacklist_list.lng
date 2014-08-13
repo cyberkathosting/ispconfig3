@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Användare';
 $wb['email_txt'] = 'Vitlistad epostadress';
 $wb['add_new_record_txt'] = 'Lägg till svartlistning';
 ?>
-

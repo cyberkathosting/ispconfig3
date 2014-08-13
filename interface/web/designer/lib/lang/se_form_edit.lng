@@ -22,4 +22,3 @@ $wb['auth_preset_perm_user_txt'] = 'Beh. Användare';
 $wb['auth_preset_perm_group_txt'] = 'Beh. Grupp';
 $wb['auth_preset_perm_other_txt'] = 'Beh. Andra';
 ?>
-

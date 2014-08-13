@@ -344,8 +344,9 @@ class apache2_plugin {
 			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
-		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
-			$app->log('Websites cannot be owned by the root user or group.', LOGLEVEL_WARN);
+		if($app->system->is_allowed_user($data['new']['system_user'], $app->system->is_user($data['new']['system_user']), true) == false
+			|| $app->system->is_allowed_group($data['new']['system_group'], $app->system->is_group($data['new']['system_group']), true) == false) {
+			$app->log('Websites cannot be owned by the root user or group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
 			return 0;
 		}
 		if(trim($data['new']['domain']) == '') {
@@ -461,6 +462,9 @@ class apache2_plugin {
 					$app->system->rename($data['new']['document_root'], $data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
 					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'), LOGLEVEL_DEBUG);
 				}
+				
+				//* Unmount the old log directory bfore we move the log dir
+				exec('umount '.escapeshellcmd($old_dir.'/log'));
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -492,6 +496,8 @@ class apache2_plugin {
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
 			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
+			
+			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
 
 		}
 
@@ -710,7 +716,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
 
 				// make tmp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -770,7 +776,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/cgi-bin', 0755);
 
 				// make temp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -1205,18 +1211,15 @@ class apache2_plugin {
 
 		} else {
 			//remove the php fastgi starter script if available
+			$fastcgi_starter_script = $fastcgi_config['fastcgi_starter_script'].($data['old']['type'] == 'vhostsubdomain' ? '_web' . $data['old']['domain_id'] : '');
 			if ($data['old']['php'] == 'fast-cgi') {
 				$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $fastcgi_config['fastcgi_starter_path']);
 				$fastcgi_starter_path = str_replace('[client_id]', $client_id, $fastcgi_starter_path);
 				if($data['old']['type'] == 'vhost') {
-					if (is_dir($fastcgi_starter_path)) {
-						exec('rm -rf '.$fastcgi_starter_path);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
+					if (is_dir($fastcgi_starter_path)) @rmdir($fastcgi_starter_path);
 				} else {
-					$fcgi_starter_script = $fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].'_web' . $data['old']['domain_id'];
-					if (file_exists($fcgi_starter_script)) {
-						exec('rm -f '.$fcgi_starter_script);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
 				}
 			}
 		}
@@ -2009,7 +2012,7 @@ class apache2_plugin {
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
 			$app->system->touch($folder_path.'.htpasswd');
-			$app->system->chmod($folder_path.'.htpasswd', 0750);
+			$app->system->chmod($folder_path.'.htpasswd', 0751);
 			$app->system->chown($folder_path.'.htpasswd', $website['system_user']);
 			$app->system->chgrp($folder_path.'.htpasswd', $website['system_group']);
 			$app->log('Created file '.$folder_path.'.htpasswd', LOGLEVEL_DEBUG);
@@ -2063,7 +2066,7 @@ class apache2_plugin {
 		unset($old_content);
 
 		$app->system->file_put_contents($folder_path.'.htaccess', $ht_file);
-		$app->system->chmod($folder_path.'.htaccess', 0750);
+		$app->system->chmod($folder_path.'.htaccess', 0751);
 		$app->system->chown($folder_path.'.htaccess', $website['system_user']);
 		$app->system->chgrp($folder_path.'.htaccess', $website['system_group']);
 		$app->log('Created/modified file '.$folder_path.'.htaccess', LOGLEVEL_DEBUG);
@@ -2225,7 +2228,7 @@ class apache2_plugin {
 			}
 
 			$app->system->file_put_contents($new_folder_path.'.htaccess', $ht_file);
-			$app->system->chmod($new_folder_path.'.htaccess', 0750);
+			$app->system->chmod($new_folder_path.'.htaccess', 0751);
 			$app->system->chown($new_folder_path.'.htaccess', $website['system_user']);
 			$app->system->chgrp($new_folder_path.'.htaccess', $website['system_group']);
 			$app->log('Created/modified file '.$new_folder_path.'.htaccess', LOGLEVEL_DEBUG);
@@ -2233,7 +2236,7 @@ class apache2_plugin {
 			//* Create empty .htpasswd file, if it does not exist
 			if(!is_file($folder_path.'.htpasswd')) {
 				$app->system->touch($new_folder_path.'.htpasswd');
-				$app->system->chmod($new_folder_path.'.htpasswd', 0750);
+				$app->system->chmod($new_folder_path.'.htpasswd', 0751);
 				$app->system->chown($new_folder_path.'.htpasswd', $website['system_user']);
 				$app->system->chgrp($new_folder_path.'.htpasswd', $website['system_group']);
 				$app->log('Created file '.$new_folder_path.'.htpasswd', LOGLEVEL_DEBUG);
@@ -2654,7 +2657,7 @@ class apache2_plugin {
 
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
-		$tpl->setVar('fpm_listen_mode', '0600');
+		$tpl->setVar('fpm_listen_mode', '0660');
 
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);

@@ -11,4 +11,3 @@ $wb['ISPConfig 3 mail'] = 'ISPConfig 3 epost';
 $wb['PDNS Tupa'] = 'PowerDNS Tupa';
 $wb['Interface'] = 'Interface';
 ?>
-

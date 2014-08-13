@@ -57,6 +57,10 @@
 		</IfModule>
 
 		<Directory {tmpl_var name='web_document_root_www'}>
+				# Clear PHP settings of this website
+				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+						SetHandler None
+				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -85,6 +89,10 @@
 </tmpl_if>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
+				# Clear PHP settings of this website
+				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+						SetHandler None
+				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -186,10 +194,6 @@
 			SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 		</IfModule>
 </tmpl_if>
-		# Clear PHP settings of this website
-		<FilesMatch ".+\.ph(p[345]?|t|tml)$">
-				SetHandler None
-		</FilesMatch>
 <tmpl_if name='php' op='==' value='mod'>
 		# mod_php enabled
 		AddType application/x-httpd-php .php .php3 .php4 .php5
@@ -221,9 +225,16 @@
 		# php as cgi enabled
 		ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
 		Action php5-cgi /php5-cgi
-		<FilesMatch "\.php[345]?$">
-			SetHandler php5-cgi
-		</FilesMatch>
+		<Directory {tmpl_var name='web_document_root_www'}>
+			<FilesMatch "\.php[345]?$">
+				SetHandler php5-cgi
+			</FilesMatch>
+		</Directory>
+		<Directory {tmpl_var name='web_document_root'}>
+			<FilesMatch "\.php[345]?$">
+				SetHandler php5-cgi
+			</FilesMatch>
+		</Directory>
 		<Directory {tmpl_var name='cgi_starter_path'}>
 			<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 			Require all granted
@@ -304,9 +315,16 @@
 					Allow from all
 					</tmpl_if>
 			    </Directory>
-				<FilesMatch "\.php[345]?$">
-					SetHandler php5-fcgi
-				</FilesMatch>
+				<Directory {tmpl_var name='web_document_root_www'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler php5-fcgi
+					</FilesMatch>
+				</Directory>
+				<Directory {tmpl_var name='web_document_root'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler php5-fcgi
+					</FilesMatch>
+				</Directory>
                 Action php5-fcgi /php5-fcgi
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
@@ -336,7 +354,7 @@
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
 		
-		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_if name='rewrite_type' value=''><tmpl_if name="rewrite_is_url" op="==" value="n">[PT]</tmpl_if></tmpl_else><tmpl_var name='rewrite_type'></tmpl_if>
+		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_var name='rewrite_type'>
 	
 </tmpl_loop>
 </tmpl_if>

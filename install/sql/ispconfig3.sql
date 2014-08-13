@@ -897,8 +897,8 @@ CREATE TABLE `mail_user` (
   `login` varchar(255) NOT NULL default '',
   `password` varchar(255) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
-  `uid` int(11) unsigned NOT NULL default '5000',
-  `gid` int(11) unsigned NOT NULL default '5000',
+  `uid` int(11) NOT NULL default '5000',
+  `gid` int(11) NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` varchar(255) NOT NULL default '',
@@ -1879,7 +1879,7 @@ CREATE TABLE `web_domain` (
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
-  UNIQUE KEY `serverdomain` (  `server_id` ,  `domain` )
+  UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2292,7 +2292,7 @@ INSERT INTO `sys_user` (`userid`, `sys_userid`, `sys_groupid`, `sys_perm_user`, 
 -- Dumping data for table `sys_config`
 --
 
-INSERT INTO sys_config VALUES ('db','db_version','3.0.5.4p1');
+INSERT INTO sys_config VALUES ('db','db_version','3.0.5.4p2');
 INSERT INTO sys_config VALUES ('interface','session_timeout','0');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -252,7 +252,9 @@ class tform {
 			unset($tmp_recordid);
 
 			$querystring = str_replace("{AUTHSQL}", $this->getAuthSQL('r'), $querystring);
-			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', "self::table_auth_sql", $querystring);
+			//$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', "self::table_auth_sql", $querystring);
+			//*Used the ld form to be compatible with php < 5.3
+			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', create_function('$matches','global $app; $tmp = $app->tform->getAuthSQL("r", $matches[1]); return $tmp;'), $querystring);
 
 			// Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
@@ -293,10 +295,12 @@ class tform {
 		return $values;
 
 	}
-
+	
+	/*
 	function table_auth_sql($matches){
 		return $this->getAuthSQL('r', $matches[1]);
 	}
+	*/
 
 	//* If the parameter 'valuelimit' is set
 	function applyValueLimit($limit, $values) {
@@ -1509,7 +1513,7 @@ class tform {
 	 */
 	function _getDateTimeHTML($form_element, $default_value, $display_seconds=false)
 	{
-		$_datetime = strtotime($default_value);
+		$_datetime = ($default_value && $default_value != '0000-00-00 00:00:00' ? strtotime($default_value) : false);
 		$_showdate = ($_datetime === false) ? false : true;
 
 		$dselect = array('day', 'month', 'year', 'hour', 'minute');

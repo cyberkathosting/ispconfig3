@@ -4,4 +4,3 @@ $wb['domain_error_unique'] = 'Domänen finns redan';
 $wb['domain_error_regex'] = 'Denna domän är ogiltig';
 $wb['Domain'] = 'Domän';
 ?>
-

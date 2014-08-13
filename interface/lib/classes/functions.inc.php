@@ -248,7 +248,7 @@ class functions {
 		}
 
 		$ips = array();
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$type."'");
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$app->db->quote($type)."'");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
 				if(preg_match($regex, $result['ip'])){
@@ -422,6 +422,32 @@ class functions {
 			$domains[$d] = $this->_idn_encode_decode($domains[$d], false);
 		}
 		return implode("\n", $domains);
+	}
+
+	public function is_allowed_user($username, $restrict_names = false) {
+		global $app;
+		
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($username,$name_blacklist)) return false;
+		
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $username) == false) return false;
+		
+		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
+		
+		return true;
+	}
+	
+	public function is_allowed_group($groupname, $restrict_names = false) {
+		global $app;
+		
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($groupname,$name_blacklist)) return false;
+		
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $groupname) == false) return false;
+		
+		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
+		
+		return true;
 	}
 
 }

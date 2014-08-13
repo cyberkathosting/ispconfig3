@@ -9,7 +9,7 @@ user = {fpm_user}
 group = {fpm_group}
 
 pm = dynamic
-pm.max_children = 10
+pm.max_children = 500
 pm.start_servers = 2
 pm.min_spare_servers = 1
 pm.max_spare_servers = 5

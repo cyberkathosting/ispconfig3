@@ -34,7 +34,9 @@ class system{
 	var $server_id;
 	var $server_conf;
 	var $data;
-
+	var $min_uid = 500;
+	var $min_gid = 500;
+	
 	/**
 	 * Construct for this class
 	 *
@@ -1785,6 +1787,67 @@ class system{
 		
 		return $modules;
 	}
+	
+	//* ISPConfig mail function
+	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
+		global $app, $conf;
+
+		if($conf['demo_mode'] == true) $app->error("Mail sending disabled in demo mode.");
+
+		$app->uses('getconf,ispcmail');
+		$mail_config = $app->getconf->get_global_config('mail');
+		if($mail_config['smtp_enabled'] == 'y') {
+			$mail_config['use_smtp'] = true;
+			$app->ispcmail->setOptions($mail_config);
+		}
+		$app->ispcmail->setSender($from, $from_name);
+		$app->ispcmail->setSubject($subject);
+		$app->ispcmail->setMailText($text);
+
+		if($filepath != '') {
+			if(!file_exists($filepath)) $app->error("Mail attachement does not exist ".$filepath);
+			$app->ispcmail->readAttachFile($filepath);
+		}
+
+		if($cc != '') $app->ispcmail->setHeader('Cc', $cc);
+		if($bcc != '') $app->ispcmail->setHeader('Bcc', $bcc);
+
+		$app->ispcmail->send($to);
+		$app->ispcmail->finish();
+		
+		return true;
+	}
+	
+	public function is_allowed_user($username, $check_id = true, $restrict_names = false) {
+		global $app;
+		
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($username,$name_blacklist)) return false;
+		
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $username) == false) return false;
+		
+		if($check_id && intval($this->getuid($username)) < $this->min_uid) return false;
+		
+		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
+		
+		return true;
+	}
+	
+	public function is_allowed_group($groupname, $check_id = true, $restrict_names = false) {
+		global $app;
+		
+		$name_blacklist = array('root','ispconfig','vmail','getmail');
+		if(in_array($groupname,$name_blacklist)) return false;
+		
+		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $groupname) == false) return false;
+		
+		if($check_id && intval($this->getgid($groupname)) < $this->min_gid) return false;
+		
+		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
+		
+		return true;
+	}
+	
 }
 
 ?>

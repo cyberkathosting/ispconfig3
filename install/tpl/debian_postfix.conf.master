@@ -1,7 +1,7 @@
 alias_maps = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases
 alias_database = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases
 virtual_alias_domains =
-virtual_alias_maps = proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf, hash:/var/lib/mailman/data/virtual-mailman
+virtual_alias_maps = hash:/var/lib/mailman/data/virtual-mailman, proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf
 virtual_mailbox_domains = proxy:mysql:{config_dir}/mysql-virtual_domains.cf
 virtual_mailbox_maps = proxy:mysql:{config_dir}/mysql-virtual_mailboxes.cf
 virtual_mailbox_base = {vmail_mailbox_base}
@@ -11,7 +11,7 @@ inet_protocols=all
 smtpd_sasl_auth_enable = yes
 broken_sasl_auth_clients = yes
 smtpd_sasl_authenticated_header = yes
-smtpd_recipient_restrictions = check_recipient_access mysql:{config_dir}/mysql-virtual_recipient.cf, permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination{rbl_list}
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination, check_recipient_access mysql:{config_dir}/mysql-virtual_recipient.cf{rbl_list}
 smtpd_use_tls = yes
 smtpd_tls_security_level = may
 smtpd_tls_cert_file = {config_dir}/smtpd.cert

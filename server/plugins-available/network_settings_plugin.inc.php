@@ -243,12 +243,61 @@ class network_settings_plugin {
 
 		} else {
 			if($data['mirrored'] == true) {
-				$app->log('Skipping network config request. IP addresses from amster are not configured on the mirror.', LOGLEVEL_DEBUG);
+				$app->log('Skipping network config request. IP addresses from master are not configured on the mirror.', LOGLEVEL_DEBUG);
 			}
 			if($server_config['auto_network_configuration'] == 'n') {
 				$app->log('Network configuration disabled in server settings.', LOGLEVEL_DEBUG);
 			}
 		}
+		
+		//* Configure hostname
+		if($event_name == 'server_update' && $data['mirrored'] == false) {
+			
+			//* get old server config
+			$tmp = $app->ini_parser->parse_ini_string(stripslashes($data['old']['config']));
+			$old_server_config = $tmp['server'];
+			unset($tmp);
+			
+			$new_hostname = trim($server_config['hostname']);
+			$old_hostname = trim($old_server_config['hostname']);
+			
+			if($new_hostname != '' && $old_hostname != $new_hostname) {
+				
+				if(is_file('/etc/hostname')) {
+					$app->system->file_put_contents('/etc/hostname',$new_hostname);
+					$app->log('Changed /etc/hostname to '.$new_hostname, LOGLEVEL_DEBUG);
+				}
+				
+				if(is_file('/etc/mailname')) {
+					$app->system->file_put_contents('/etc/mailname',$new_hostname);
+					$app->log('Changed /etc/mailname to '.$new_hostname, LOGLEVEL_DEBUG);
+				}
+				
+				$postconf_commands = array(
+					'myhostname = '.$new_hostname,
+					'mydestination = '.$new_hostname.', localhost, localhost.localdomain'
+				);
+				
+				//* Executing the postconf commands
+				foreach($postconf_commands as $cmd) {
+					$command = "postconf -e '$cmd'";
+					exec($command);
+				}
+				
+				$app->log('Changed changed myhostname and mydestination in postfix main.cf to '.$new_hostname, LOGLEVEL_DEBUG);
+				
+				//* change /etc/hosts
+				$hosts = file_get_contents('/etc/hosts');
+				$hosts = str_replace($old_hostname,$new_hostname,$hosts);
+				$app->system->file_put_contents('/etc/hosts',$hosts);
+				
+				exec($app->system->getinitcommand('postfix', 'restart').' 2>&1');
+				exec($app->system->getinitcommand('networking', 'restart').' 2>&1');
+				
+			}
+			
+		}
+		
 
 	}
 

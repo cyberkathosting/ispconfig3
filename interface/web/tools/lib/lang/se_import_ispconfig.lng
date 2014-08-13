@@ -21,4 +21,3 @@ $wb['import_forward_txt'] = 'Importera vidarebefordring';
 $wb['import_user_filter_txt'] = 'Importera användarfilter';
 $wb['import_spamfilter_txt'] = 'Importera spamfilter';
 ?>
-

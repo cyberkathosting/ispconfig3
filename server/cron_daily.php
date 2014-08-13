@@ -647,7 +647,7 @@ if ($app->dbmaster == $app->db) {
 // function for sending notification emails
 //########
 function send_notification_email($template, $placeholders, $recipients) {
-	global $conf;
+	global $conf, $app;
 
 	if(!is_array($recipients) || count($recipients) < 1) return false;
 	if(!is_array($placeholders)) $placeholders = array();
@@ -1104,10 +1104,14 @@ if($backup_dir != '') {
 	
 	//* mount backup directory, if necessary
 	$run_backups = true;
-	$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-	if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
+	$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
+	if(	$server_config['backup_dir_is_mount'] == 'y' && 
+		is_file($backup_dir_mount_cmd) && 
+		is_executable($backup_dir_mount_cmd) &&
+		fileowner($backup_dir_mount_cmd) === 0
+		){
 		if(!$app->system->is_mounted($backup_dir)){
-			exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+			exec($backup_dir_mount_cmd);
 			sleep(1);
 			if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
 		}

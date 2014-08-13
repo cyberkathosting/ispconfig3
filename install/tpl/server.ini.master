@@ -16,7 +16,6 @@ loglevel=2
 admin_notify_events=1
 backup_dir=/var/backup
 backup_dir_is_mount=n
-backup_dir_mount_cmd=
 backup_mode=rootgz
 monit_url=
 monit_user=

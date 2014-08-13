@@ -4,4 +4,3 @@ $wb['fields_txt'] = 'Fält';
 $wb['template_txt'] = 'Mall';
 $wb['visible_txt'] = 'Synlig';
 ?>
-

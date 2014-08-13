@@ -6,4 +6,3 @@ $wb['parent_domain_id_txt'] = 'Webbsida';
 $wb['domain_txt'] = 'Underdomän';
 $wb['add_new_record_txt'] = 'Lägg till ny underdomän';
 ?>
-

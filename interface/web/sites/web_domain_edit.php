@@ -607,9 +607,11 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id, `system_user`, `system_group`, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 
+				$this->dataRecord['system_user'] = $tmp['system_user'];
+				$this->dataRecord['system_group'] = $tmp['system_group'];
 				// set the settings to current if not provided (or cleared due to limits)
 				if($this->dataRecord['cgi'] == 'n') $this->dataRecord['cgi'] = $tmp['cgi'];
 				if($this->dataRecord['ssi'] == 'n') $this->dataRecord['ssi'] = $tmp['ssi'];
@@ -749,7 +751,7 @@ class page_action extends tform_actions {
 					// value inside ''
 					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*\'.*\'\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					// everything else
-					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s|()]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					$custom_php_ini_settings_are_valid = false;
 					break;
 				}

@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Carpeta del usuario';
 $wb['active_txt'] = 'Activar';
 $wb['web_folder_id_txt'] = 'Carpeta';
 $wb['username_txt'] = 'Nombre de usuario';
+$wb['add_new_record_txt'] = 'Add new Folder User';
 ?>

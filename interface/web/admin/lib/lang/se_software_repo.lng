@@ -6,4 +6,3 @@ $wb['repo_password_txt'] = 'Lösenord (Frivilligt)';
 $wb['active_txt'] = 'Aktiv';
 $wb['Software Repository which may contain addons or updates'] = 'Pragarmvarubibliotek som kan innehålla uppdateringar eller tillägg';
 ?>
-
