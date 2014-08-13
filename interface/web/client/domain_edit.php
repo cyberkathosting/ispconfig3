@@ -89,7 +89,7 @@ class page_action extends tform_actions {
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = ($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
