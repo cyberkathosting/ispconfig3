@@ -263,8 +263,8 @@ class db extends mysqli
 		global $app, $conf;
 
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
-		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
 		
 		if(strpos($db_table, '.') !== false) {
 			$db_table = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $db_table);
@@ -314,8 +314,8 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
-		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
 			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
@@ -353,8 +353,8 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
-		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
 			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
@@ -389,8 +389,8 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
-		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
 			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
