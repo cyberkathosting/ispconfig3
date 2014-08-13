@@ -2152,7 +2152,7 @@ class installer_base {
 		
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-
+		
 	}
 
 	public function configure_dbserver() {
@@ -2240,6 +2240,21 @@ class installer_base {
 		touch($conf['ispconfig_log_dir'].'/cron.log');
 		chmod($conf['ispconfig_log_dir'].'/cron.log', 0660);
 
+	}
+	
+	// This function is called at the end of the update process and contains code to clean up parts of old ISPCONfig releases
+	public function cleanup_ispconfig() {
+		global $app,$conf;
+		
+		// Remove directories recursively
+		if(is_dir('/usr/local/ispconfig/interface/web/designer')) exec('rm -rf /usr/local/ispconfig/interface/web/designer');
+		
+		// Remove files
+		if(is_file('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php');
+		if(is_file('/usr/local/ispconfig/interface/lib/classes/form.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/form.inc.php');
+		
+		
+		
 	}
 
 	public function getinitcommand($servicename, $action, $init_script_directory = ''){

@@ -443,6 +443,9 @@ if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 
 $inst->install_ispconfig();
 
+// Cleanup
+$inst->cleanup_ispconfig();
+
 //** Configure Crontab
 $update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes', 'no'), 'yes','reconfigure_crontab');
 if($update_crontab_answer == 'yes') {
