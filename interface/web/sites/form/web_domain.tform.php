@@ -603,7 +603,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 						1 => array(
 							'type' => 'CUSTOM',
 							'class' => 'validate_systemuser',
-							'function' => 'check_sysuser',
+							'function' => 'check_sysgroup',
 							'check_names' => true,
 							'errmsg' => 'invalid_system_user_or_group_txt'
 						),

@@ -97,7 +97,7 @@ $form["tabs"]['shell'] = array (
 							'type' => 'CUSTOM',
 							'class' => 'validate_systemuser',
 							'function' => 'check_sysuser',
-							'check_names' => true,
+							'check_names' => false,
 							'errmsg' => 'invalid_username_txt'
 						),
 			),
