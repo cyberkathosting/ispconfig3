@@ -262,12 +262,18 @@ class db extends mysqli
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
 		global $app, $conf;
 
-		// Insert backticks only for incomplete table names.
-		if(stristr($db_table, '.')) {
-			$escape = '';
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
+		
+		if(strpos($db_table, '.') !== false) {
+			$db_table = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $db_table);
 		} else {
-			$escape = '`';
+			$db_table = '`' . $db_table . '`';
 		}
+		
+		$primary_field = $this->quote($primary_field);
+		$primary_id = intval($primary_id);
 
 		if($force_update == true) {
 			//* We force a update even if no record has changed
@@ -307,7 +313,16 @@ class db extends mysqli
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 
 		if(is_array($insert_data)) {
@@ -337,7 +352,16 @@ class db extends mysqli
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
@@ -364,7 +388,16 @@ class db extends mysqli
 	public function datalogDelete($tablename, $index_field, $index_value) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\.\-]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
