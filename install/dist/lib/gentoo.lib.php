@@ -850,12 +850,22 @@ class installer extends installer_base
 			$this->db->query($sql);
 		}
 
-		//* Chmod the files
-		$command = "chmod -R 750 $install_dir";
+		// chown install dir to root and chmod 755
+		$command = 'chown root:root '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chmod 755 '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		//* chown the files to the ispconfig user and group
-		$command = "chown -R ispconfig:ispconfig $install_dir";
+		//* Chmod the files and directoreies in the install dir
+		$command = 'chmod -R 750 '.$install_dir.'/*';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* chown the interface files to the ispconfig user and group
+		$command = 'chown -R ispconfig:ispconfig '.$install_dir.'/interface';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the server files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/server';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
