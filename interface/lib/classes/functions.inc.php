@@ -248,7 +248,7 @@ class functions {
 		}
 
 		$ips = array();
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$type."'");
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$app->db->quote($type)."'");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
 				if(preg_match($regex, $result['ip'])){
