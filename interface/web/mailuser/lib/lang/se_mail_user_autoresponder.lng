@@ -1,13 +1,14 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Autoresponder';
-$wb['autoresponder_subject'] = 'Out of office reply';
+$wb['mailbox_autoresponder_txt'] = 'Autosvar';
+$wb['autoresponder_subject'] = 'Out of office-svar';
 $wb['autoresponder_text_txt'] = 'Text';
-$wb['autoresponder_txt'] = 'Active';
-$wb['autoresponder_start_date_txt'] = 'Start on';
-$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
-$wb['autoresponder_end_date_txt'] = 'End by';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
-$wb['now_txt'] = 'Now';
-$wb['autoresponder_subject_txt'] = 'Betreff';
+$wb['autoresponder_txt'] = 'Aktiv';
+$wb['autoresponder_start_date_txt'] = 'Starta den';
+$wb['autoresponder_start_date_isfuture'] = 'Startdatum kan inte vara i det förflutna.';
+$wb['autoresponder_end_date_txt'] = 'Sluta den';
+$wb['autoresponder_end_date_isgreater'] = 'Slutdatum måste vara efter startdatum';
+$wb['autoresponder_active'] = 'Aktivera autosvaret';
+$wb['now_txt'] = 'Nu';
+$wb['autoresponder_subject_txt'] = 'Ämnesrad';
 ?>
+

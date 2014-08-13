@@ -1,12 +1,12 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
+$wb['zone_txt'] = 'Zon';
 $wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
+$wb['type_txt'] = 'typ';
 $wb['data_txt'] = 'Mailserver hostname';
 $wb['aux_txt'] = 'Priority';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Aktiv';
 $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
 $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
 $wb['name_error_empty'] = 'The hostname is empty.';
@@ -16,3 +16,4 @@ $wb['data_error_regex'] = 'Mailserver hostname format invalid';
 $wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+

@@ -1,11 +1,12 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Domän';
 $wb['destination_txt'] = 'Destination';
-$wb['type_txt'] = 'Type';
-$wb['mx_txt'] = 'No MX lookup';
-$wb['sort_order_txt'] = 'Sort by';
-$wb['active_txt'] = 'Active';
-$wb['limit_mailrouting_txt'] = 'The max. number of routes for your account is reached.';
+$wb['type_txt'] = 'Typ';
+$wb['mx_txt'] = 'Inget MX-uppslag';
+$wb['sort_order_txt'] = 'Sortera på';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_mailrouting_txt'] = 'Det maximala antalet epostrutter för ditt konto är uppnått.';
 $wb['transport_txt'] = 'Transport';
 ?>
+

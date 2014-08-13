@@ -3,12 +3,13 @@ $wb['email_txt'] = 'Epost';
 $wb['destination_txt'] = 'Mål';
 $wb['active_txt'] = 'Aktiv';
 $wb['email_error_isemail'] = 'Epostadressen är tom.';
-$wb['email_error_unique'] = 'Dubbla Epostadresser.';
-$wb['no_domain_perm'] = 'Du har ingen behörighet för denna domänen.';
-$wb['destination_error_isemail'] = 'Destination Emailaddress is invalid.';
-$wb['limit_mailalias_txt'] = 'The max. number of email aliases for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
-$wb['domain_txt'] = 'Domain';
-$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['email_error_unique'] = 'Epostadressen finns redan.';
+$wb['no_domain_perm'] = 'Du har ingen behörighet för denna domän.';
+$wb['destination_error_isemail'] = 'Epostadressen för destination är ogiltig.';
+$wb['limit_mailalias_txt'] = 'det maximala antalet alias för ditt konto är uppnått.';
+$wb['duplicate_mailbox_txt'] = 'Det finns redan ett epostkonto med denna adress';
+$wb['domain_txt'] = 'Domän';
+$wb['duplicate_email_alias_txt'] = 'Detta epostalias finns redan';
 $wb['source_txt'] = 'Alias';
 ?>
+

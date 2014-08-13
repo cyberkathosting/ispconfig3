@@ -38,19 +38,27 @@ class validate_password {
 			return 1;
 		}
 
+		$different = 0;
+		if (preg_match('/[abcdefghijklnmopqrstuvwxyz]/', $password)) {
+			$different += 1;
+		}
+
 		if (preg_match('/[ABCDEFGHIJKLNMOPQRSTUVWXYZ]/', $password)) {
 			$points += 1;
+			$different += 1;
 		}
 
 		if (preg_match('/[0123456789]/', $password)) {
 			$points += 1;
+			$different += 1;
 		}
 
 		if (preg_match('/[`~!@#$%^&*()_+|\\=-[]}{\';:\/?.>,<" ]/', $password)) {
 			$points += 1;
+			$different += 1;
 		}
 
-		if ($points == 0) {
+		if ($points == 0 || $different < 3) {
 			if ($length >= 5 && $length <= 6) {
 				return 1;
 			} else if ($length >= 7 && $length <= 8) {

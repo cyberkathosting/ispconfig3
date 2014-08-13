@@ -443,7 +443,6 @@ class installer_dist extends installer_base {
 			'virtual_transport = dovecot',
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth',
-			'receive_override_options = no_address_mappings'
 		);
 
 		// Make a backup copy of the main.cf file
@@ -501,7 +500,7 @@ class installer_dist extends installer_base {
 		exec("chown root:root $config_dir/$configfile");
 		
 		// Dovecot shall ignore mounts in website directory
-		exec("doveadm mount add '/srv/www/*' ignore");
+		if(is_installed('doveadm')) exec("doveadm mount add '/srv/www/*' ignore > /dev/null 2> /dev/null");
 
 	}
 
@@ -1274,6 +1273,9 @@ class installer_dist extends installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
+		
+		// Add symlink for patch tool
+		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 
 	}

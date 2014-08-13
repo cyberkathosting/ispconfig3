@@ -1,9 +1,10 @@
 <?php
 $wb['list_head_txt'] = 'Användare';
 $wb['username_txt'] = 'Användarnamn';
-$wb['client_id_txt'] = 'Client ID';
-$wb['active_txt'] = 'Active';
-$wb['add_new_record_txt'] = 'Add new user';
-$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
-$wb['groups_txt'] = 'Groups';
+$wb['client_id_txt'] = 'Kund-ID';
+$wb['active_txt'] = 'Aktiv';
+$wb['add_new_record_txt'] = 'Lägg till ny användare';
+$wb['warning_txt'] = '<b>VARNING:</b> Ändra inte några användarinställningar här. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
+$wb['groups_txt'] = 'Grupper';
 ?>
+

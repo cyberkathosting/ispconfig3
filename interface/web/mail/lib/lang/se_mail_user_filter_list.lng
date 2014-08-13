@@ -1,7 +1,8 @@
 <?php
-$wb['rulename_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new Filter';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to Delete the mailfilter?';
+$wb['rulename_txt'] = 'Namn';
+$wb['add_new_record_txt'] = 'Lägg till nytt filter';
+$wb['page_txt'] = 'Sida';
+$wb['page_of_txt'] = 'av';
+$wb['delete_confirmation'] = 'Vill du verkligen radera epostfiltret?';
 ?>
+

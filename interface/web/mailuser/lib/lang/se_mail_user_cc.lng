@@ -1,9 +1,10 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Send copy to email address';
-$wb['cc_txt'] = 'Send copy to';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['mailbox_cc_txt'] = 'Skicka kopia till epostadress';
+$wb['cc_txt'] = 'Skicka kopia till';
+$wb['email_txt'] = 'Epost';
+$wb['cc_error_isemail'] = 'Epostadressen i  -Skicka kopia till-fältet är ogiltig';
+$wb['email_is_cc_error'] = 'Epostadress och -Skicka kopia till- kan inte vara samma adress.';
+$wb['name_optional_txt'] = '(Frivilligt)';
+$wb['cc_note_txt'] = '(Separera flera epostadresser med kommatecken)';
 ?>
+

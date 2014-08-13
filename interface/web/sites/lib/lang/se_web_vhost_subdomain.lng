@@ -125,3 +125,4 @@ $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. E
 $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>
+

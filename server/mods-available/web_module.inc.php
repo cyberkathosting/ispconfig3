@@ -217,6 +217,11 @@ class web_module {
 		} else {
 			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
 		}
+		
+		// nginx: do a syntax check because on some distributions, the init script always returns 0 - even if the syntax is not ok (how stupid is that?)
+		if($web_config['server_type'] == 'nginx' && $retval['retval'] == 0){
+			exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
+		}
 		return $retval;
 	}
 

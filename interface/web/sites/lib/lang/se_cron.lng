@@ -1,14 +1,14 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Parent website';
-$wb['active_txt'] = 'Active';
-$wb['client_txt'] = 'Client';
-$wb['run_min_txt'] = 'Minutes';
-$wb['run_hour_txt'] = 'Hours';
-$wb['run_mday_txt'] = 'Days of month';
-$wb['run_month_txt'] = 'Months';
-$wb['run_wday_txt'] = 'Days of week';
-$wb['command_txt'] = 'Command to run (commands are executed via sh, urls via wget)';
+$wb['parent_domain_id_txt'] = 'Föräldrawebbsida';
+$wb['active_txt'] = 'Aktiv';
+$wb['client_txt'] = 'Kund';
+$wb['run_min_txt'] = 'Minuter';
+$wb['run_hour_txt'] = 'Timmar';
+$wb['run_mday_txt'] = 'Dagar i månaden';
+$wb['run_month_txt'] = 'Månader';
+$wb['run_wday_txt'] = 'Dagar i veckan';
+$wb['command_txt'] = 'Kommando att köra (kommandon körs via sh, URL:er via wget)';
 $wb['limit_cron_txt'] = 'The maximum number of allowed cron jobs was reached.';
 $wb['limit_cron_frequency_txt'] = 'The cron job frequency exceeds the allowed limit.';
 $wb['run_min_error_format'] = 'Invalid format for minutes.';
@@ -18,7 +18,8 @@ $wb['run_month_error_format'] = 'Invalid format for months.';
 $wb['run_wday_error_format'] = 'Invalid format for days of the week.';
 $wb['command_error_format'] = 'Invalid command format. Please note that in case of an url call only http/https is allowed.';
 $wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
-$wb['server_id_error_empty'] = 'The server ID is empty.';
+$wb['server_id_error_empty'] = 'Fältet för  server-ID är tomt.';
 $wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
-$wb['command_error_empty'] = 'Command is empty.';
+$wb['command_error_empty'] = 'Kommandofältet är tomt.';
 ?>
+

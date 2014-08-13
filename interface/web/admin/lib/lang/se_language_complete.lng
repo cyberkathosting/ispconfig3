@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
-$wb['language_select_txt'] = 'Select language';
-$wb['btn_save_txt'] = 'Merge files now';
-$wb['btn_cancel_txt'] = 'Back';
-$wb['list_desc_txt'] = 'Merge the selected language file with the english master language file. <br />This adds missing strings from the english master language files to the selected language.';
+$wb['list_head_txt'] = 'Slå ihop språkfilen med den engelska huvudfilen. <br />Detta lägger till saknade fraser från den engelska språkfilen till den valda språkfilen';
+$wb['language_select_txt'] = 'Välj språk';
+$wb['btn_save_txt'] = 'Slå ihop filer nu';
+$wb['btn_cancel_txt'] = 'Tillbaka';
+$wb['list_desc_txt'] = 'Slå ihop språkfilen med den engelska huvudfilen. <br />Detta lägger till saknade fraser från den engelska språkfilen till den valda språkfilen';
 ?>
+

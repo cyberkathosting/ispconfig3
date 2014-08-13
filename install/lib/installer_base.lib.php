@@ -690,7 +690,7 @@ class installer_base {
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM `" . $this->db->quote($conf["mysql"]["database"]) . "`.`server` WHERE server_id = ".$conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
@@ -2112,7 +2112,8 @@ class installer_base {
 			replaceLine('/etc/default/rkhunter', 'CRON_DB_UPDATE="yes"', 'CRON_DB_UPDATE="no"', 1, 0);
 		}
 		
-
+		// Add symlink for patch tool
+		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 	}
 

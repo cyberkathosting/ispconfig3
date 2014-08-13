@@ -14,3 +14,4 @@ $wb['data_error_empty'] = 'Host information empty';
 $wb['data_error_regex'] = 'Host Information format invalid';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+

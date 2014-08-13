@@ -5,11 +5,12 @@ $wb['web_server_txt'] = 'Webbserver';
 $wb['dns_server_txt'] = 'DNS-Server';
 $wb['file_server_txt'] = 'Filserver';
 $wb['active_txt'] = 'Aktiv';
-$wb['config_txt'] = 'config';
+$wb['config_txt'] = 'konfiguration';
 $wb['db_server_txt'] = 'DB-Server';
 $wb['vserver_server_txt'] = 'VServer-Server';
-$wb['mirror_server_id_txt'] = 'Is mirror of Server';
-$wb['- None -'] = '- None -';
-$wb['proxy_server_txt'] = 'Proxy-Server';
-$wb['firewall_server_txt'] = 'Firewall-Server';
+$wb['mirror_server_id_txt'] = 'Är spegling av server';
+$wb['- None -'] = '- Ingen';
+$wb['proxy_server_txt'] = 'Proxy-server';
+$wb['firewall_server_txt'] = 'Brandväggsserver';
 ?>
+
