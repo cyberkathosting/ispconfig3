@@ -7,4 +7,5 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Correo';
 $wb['add_new_record_txt'] = 'Añadir una nueva zona DNS (SOA)';
 $wb['add_new_record_wizard_txt'] = 'Añadir una nueva zona DNS con Asistente';
+$wb['import_zone_file_txt'] = 'Importar archivo de zona';
 ?>

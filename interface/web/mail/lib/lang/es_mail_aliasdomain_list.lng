@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Alias de dominio';
-$wb['active_txt'] = 'Activa';
+$wb['active_txt'] = 'Activo';
 $wb['source_txt'] = 'Origen';
 $wb['destination_txt'] = 'Destino';
 $wb['add_new_record_txt'] = 'Añadir nuevo alias de dominio';

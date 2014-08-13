@@ -61,6 +61,9 @@ class page_action extends tform_actions {
 			if(!$app->tform->checkResellerLimit('limit_dns_slave_zone')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_dns_slave_zone_txt"]);
 			}
+		} else {
+			$settings = $app->getconf->get_global_config('dns');
+			$app->tform->formDef['tabs']['dns_slave']['fields']['server_id']['default'] = intval($settings['default_slave_dnsserver']);
 		}
 
 		parent::onShowNew();
@@ -69,22 +72,30 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
-		// If user is admin, we will allow him to select to whom this record belongs
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
-			// Getting Domains of the user
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = '';
-			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+
+		/*
+		 * Now we have to check, if we should use the domain-module to select the domain
+		 * or not
+		 */
+		if ($settings['use_domain_module'] != 'y') {
+			// If user is admin, we will allow him to select to whom this record belongs
+			if($_SESSION["s"]["user"]["typ"] == 'admin') {
+				// Getting Domains of the user
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$client_select = '';
+				if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					foreach( $clients as $client) {
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
-			}
-			$app->tpl->setVar("client_group_id", $client_select);
-		} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$app->tpl->setVar("client_group_id", $client_select);
+			} else if($app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
 				// Get the limits of the client
 				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
@@ -105,6 +116,32 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("client_group_id", $client_select);
 
 			}
+		} else {
+			/*
+			 * The domain-module is in use.
+			*/
+			$domains = $app->tools_sites->getDomainModuleDomains("dns_slave", $this->dataRecord["origin"]);
+			$domain_select = '';
+			if(is_array($domains) && sizeof($domains) > 0) {
+				/* We have domains in the list, so create the drop-down-list */
+				foreach( $domains as $domain) {
+					$domain_select .= "<option value=" . $domain['domain_id'] ;
+					if ($domain['domain'].'.' == $this->dataRecord["origin"]) {
+						$domain_select .= " selected";
+					}
+					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+				}
+			}
+			else {
+				/*
+				 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+				 * To avoid, that the variable "domain_option" is empty and so the user can
+				 * free enter a domain, we have to create a empty option!
+				*/
+				$domain_select .= "<option value=''></option>\r\n";
+			}
+			$app->tpl->setVar("domain_option", $domain_select);
+		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -119,6 +156,22 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
+
+		/* check if the domain module is used - and check if the selected domain can be used! */
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+		if ($settings['use_domain_module'] == 'y') {
+			if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['origin']);
+			}
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['origin']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$app->tform->errorMessage .= $app->tform->lng("origin_error_empty")."<br />";
+			} else {
+				$this->dataRecord['origin'] = $domain_check.'.';
+			}
+		}
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
@@ -167,47 +220,6 @@ class page_action extends tform_actions {
 		if(is_array($duplicate_slave) && !empty($duplicate_slave)) $app->error($app->tform->wordbook["origin_error_unique"]);
 
 		parent::onInsert();
-	}
-
-	function onAfterInsert() {
-		global $app, $conf;
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-
-	}
-
-	function onAfterUpdate() {
-		global $app, $conf;
-
-		$tmp = $app->db->diffrec($this->oldDataRecord, $app->tform->getDataRecord($this->id));
-
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE dns_slave SET sys_groupid = $client_group_id WHERE id = ".$this->id);
-		}
-
-		//** When the client group has changed, change also the owner of the record if the owner is not the admin user
-		if($this->oldDataRecord["client_group_id"] != $this->dataRecord["client_group_id"] && $this->dataRecord["sys_userid"] != 1) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ".$client_group_id);
-			if($tmp["userid"] > 0) {
-				$app->db->query("UPDATE dns_slave SET sys_userid = ".$tmp["userid"]." WHERE id = ".$this->id);
-			}
-		}
-
 	}
 
 }

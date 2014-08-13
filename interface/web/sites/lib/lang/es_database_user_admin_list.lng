@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Database User';
-$wb['database_user_txt'] = 'Database user';
-$wb['add_new_record_txt'] = 'Add new User';
-$wb['sys_groupid_txt'] = 'Client';
+$wb['list_head_txt'] = 'Usuarios de Base de Datos';
+$wb['database_user_txt'] = 'Usuarios de Base de Datos';
+$wb['add_new_record_txt'] = 'Añadir nuevo usuario';
+$wb['sys_groupid_txt'] = 'Cliente';
 ?>

@@ -22,12 +22,14 @@
                         {tmpl_var name='server_id'}
                     </select>
                 </div>
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
-                        {tmpl_var name='client_group_id'}
-                    </select>
-                </div>
+                <tmpl_unless name="domain_option">
+                    <div class="ctrlHolder">
+                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
+                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                            {tmpl_var name='client_group_id'}
+                        </select>
+                    </div>
+                </tmpl_unless>
             <tmpl_else>
                 <tmpl_if name="only_one_server">
                     <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
@@ -41,17 +43,25 @@
                 </tmpl_if>
             </tmpl_if>
             <tmpl_if name="is_reseller">
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
-                        {tmpl_var name='client_group_id'}
-                    </select>
-                </div>
+                <tmpl_unless name="domain_option">
+                    <div class="ctrlHolder">
+                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
+                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                            {tmpl_var name='client_group_id'}
+                        </select>
+                    </div>
+                </tmpl_unless>
             </tmpl_if>
             <tmpl_if name="DOMAIN_VISIBLE">
                 <div class="ctrlHolder">
                     <label for="domain">{tmpl_var name='domain_txt'}</label>
-                    <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+                    <tmpl_if name="domain_option">
+                        <select name="domain" id="domain" class="selectInput">
+                            {tmpl_var name='domain_option'}
+                        </select>
+                        <tmpl_else>
+                            <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
+                    </tmpl_if>
                 </div>
             </tmpl_if>
             <tmpl_if name="IP_VISIBLE">

@@ -56,7 +56,8 @@ if (isset($_POST['server_id'])) {
 	$server_id = $app->functions->intval($_POST['server_id_value']);
 	$post_server_id = true;
 } else {
-	$server_id = 1;
+	$settings = $app->getconf->get_global_config('dns');
+	$server_id = $app->functions->intval($settings['default_dnsserver']);
 	$post_server_id = false;
 }
 
@@ -149,6 +150,44 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 	$app->tpl->setVar("server_id", $options_dns_servers);
 	unset($options_dns_servers);
 
+}
+
+/*
+ * Now we have to check, if we should use the domain-module to select the domain
+ * or not
+ */
+$app->uses('ini_parser,getconf');
+$settings = $app->getconf->get_global_config('domains');
+if ($settings['use_domain_module'] == 'y') {
+	/*
+	 * The domain-module is in use.
+	*/
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
+	/*
+	 * We can leave domain empty if domain is filename
+	*/
+	$domain_select = "<option value=''></option>\r\n";
+	if(is_array($domains) && sizeof($domains) > 0) {
+		/* We have domains in the list, so create the drop-down-list */
+		foreach( $domains as $domain) {
+			$domain_select .= "<option value=" . $domain['domain_id'] ;
+			if ($domain['domain'] == $_POST['domain']) {
+				$domain_select .= " selected";
+			}
+			$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+		}
+	}
+	$app->tpl->setVar("domain_option", $domain_select);
+	/* check if the selected domain can be used! */
+	if ($domain) {
+		$domain_check = $app->tools_sites->checkDomainModuleDomain($domain);
+		if(!$domain_check) {
+			// invalid domain selected
+			$domain = NULL;
+		} else {
+			$domain = $domain_check;
+		}
+	}
 }
 
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_import.lng';

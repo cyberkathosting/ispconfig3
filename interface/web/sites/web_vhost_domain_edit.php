@@ -113,9 +113,16 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$web_servers = explode(',', $client['web_servers']);
-			$app->tpl->setVar("server_id_value", $web_servers[0]);
+			$server_id = $web_servers[0];
+			$app->tpl->setVar("server_id_value", $server_id);
 			unset($web_servers);
+		} else {
+			$settings = $app->getconf->get_global_config('sites');
+			$server_id = intval($settings['default_webserver']);
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = $server_id;
 		}
+		$web_config = $app->getconf->get_server_config($server_id, 'web');
+		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
@@ -126,6 +133,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
 
 		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
 
@@ -290,22 +298,24 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("server_id", $options_web_servers);
 			unset($options_web_servers);
 
-			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($records)) {
-				$selected_client_group_id = 0; // needed to get list of PHP versions
-				foreach( $records as $rec) {
-					if(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $rec["groupid"];
-					$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					if($selected == 'SELECTED') $selected_client_group_id = $rec["groupid"];
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+			if ($settings['use_domain_module'] != 'y') {
+				// Fill the client select field
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$records = $app->db->queryAllRecords($sql);
+				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($records)) {
+					$selected_client_group_id = 0; // needed to get list of PHP versions
+					foreach( $records as $rec) {
+						if(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $rec["groupid"];
+						$selected = @(is_array($this->dataRecord) && ($rec["groupid"] == $this->dataRecord['client_group_id'] || $rec["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						if($selected == 'SELECTED') $selected_client_group_id = $rec["groupid"];
+						$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+					}
 				}
+				$app->tpl->setVar("client_group_id", $client_select);
 			}
-			$app->tpl->setVar("client_group_id", $client_select);
 
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
 				// check if server is in client's servers or add it.
@@ -490,22 +500,24 @@ class page_action extends tform_actions {
 			unset($tmp);
 			unset($ips);
 
-			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$client_select = "<option value='0'></option>";
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				$selected_client_group_id = 0; // needed to get list of PHP versions
-				foreach($clients as $client) {
-					if(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $client["groupid"];
-					//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					if($selected == 'SELECTED') $selected_client_group_id = $client["groupid"];
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+			if ($settings['use_domain_module'] != 'y') {
+				// Fill the client select field
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$client_select = "<option value='0'></option>";
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					$selected_client_group_id = 0; // needed to get list of PHP versions
+					foreach($clients as $client) {
+						if(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']) && !$selected_client_group_id) $selected_client_group_id = $client["groupid"];
+						//$selected = @($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						if($selected == 'SELECTED') $selected_client_group_id = $client["groupid"];
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
+				$app->tpl->setVar("client_group_id", $client_select);
 			}
-			$app->tpl->setVar("client_group_id", $client_select);
 
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
@@ -625,13 +637,11 @@ class page_action extends tform_actions {
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
-		$app->uses('ini_parser,getconf');
-		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
 			/*
 			 * The domain-module is in use.
 			*/
-			$domains = $app->tools_sites->getDomainModuleDomains();
+			$domains = $app->tools_sites->getDomainModuleDomains($this->_vhostdomain_type == 'subdomain' ? null : "web_domain", $this->dataRecord["domain"]);
 			$domain_select = '';
 			$selected_domain = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
@@ -736,6 +746,10 @@ class page_action extends tform_actions {
 					// invalid domain selected
 					$app->tform->errorMessage .= $app->tform->lng("domain_error_empty")."<br />";
 				} else {
+					if ($this->_vhostdomain_type == 'domain' &&
+							($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
+						$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['domain']);
+					}
 					if($this->_vhostdomain_type == 'subdomain') $this->dataRecord['domain'] = $this->dataRecord['domain'] . '.' . $domain_check;
 					else $this->dataRecord['domain'] = $domain_check;
 				}
@@ -835,7 +849,8 @@ class page_action extends tform_actions {
 				if($this->_vhostdomain_type == 'domain') {
 					//* Check the website quota of the client
 					if(isset($_POST["hd_quota"]) && $reseller["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
-						$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'));
+						$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain, sys_group, client WHERE web_domain.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost'");
+
 						$webquota = $tmp["webquota"];
 						$new_web_quota = $app->functions->intval($this->dataRecord["hd_quota"]);
 						if(($webquota + $new_web_quota > $reseller["limit_web_quota"]) || ($new_web_quota < 0 && $reseller["limit_web_quota"] >= 0)) {
@@ -852,7 +867,7 @@ class page_action extends tform_actions {
 
 				//* Check the traffic quota of the client
 				if(isset($_POST["traffic_quota"]) && $reseller["limit_traffic_quota"] > 0 && $_POST["traffic_quota"] != $old_web_values["traffic_quota"]) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain WHERE domain_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+					$tmp = $app->db->queryOneRecord("SELECT sum(traffic_quota) as trafficquota FROM web_domain, sys_group, client WHERE web_domain.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND domain_id != ".$app->functions->intval($this->id)." AND type = 'vhost'");
 					$trafficquota = $tmp["trafficquota"];
 					$new_traffic_quota = $app->functions->intval($this->dataRecord["traffic_quota"]);
 					if(($trafficquota + $new_traffic_quota > $reseller["limit_traffic_quota"]) || ($new_traffic_quota < 0 && $reseller["limit_traffic_quota"] >= 0)) {

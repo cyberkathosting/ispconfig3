@@ -172,6 +172,28 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'default_webserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'default_webserver'
+		),
+		'default_dbserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'default_dbserver'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
@@ -320,6 +342,53 @@ $form["tabs"]['mail'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'value'  => array('' => 'No', 'ssl' => 'SSL', 'tls' => 'STARTTLS')
+		),
+		'default_mailserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'default_mailserver'
+		),
+		//#################################
+		// ENDE Datatable fields
+		//#################################
+	)
+);
+
+$form["tabs"]['dns'] = array (
+	'title'  => "DNS",
+	'width'  => 70,
+	'template'  => "templates/system_config_dns_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
+		'default_dnsserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'default_dnsserver'
+		),
+		'default_slave_dnsserver' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'default_slave_dnsserver'
 		),
 		//#################################
 		// ENDE Datatable fields

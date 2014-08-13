@@ -47,7 +47,7 @@ class tools_sites {
 					$name=str_replace('['.$keyword.']', $this->getClientID($dataRecord), $name);
 					break;
 				case 'DOMAINID':
-					$name=str_replace('['.$keyword.']', $dataRecord['parent_domain_id'], $name);
+					$name=str_replace('['.$keyword.']', $dataRecord['parent_domain_id'] ? $dataRecord['parent_domain_id'] : '[DOMAINID]', $name);
 					break;
 				}
 			}
@@ -92,7 +92,7 @@ class tools_sites {
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
 			} else {
-				$client_group_id = 0;
+				return '[CLIENTNAME]';
 			}
 		}
 
@@ -119,7 +119,7 @@ class tools_sites {
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
 			} else {
-				$client_group_id = 0;
+				return '[CLIENTID]';
 			}
 		}
 		$tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
@@ -144,10 +144,20 @@ class tools_sites {
 		return $res;
 	}
 
-	function getDomainModuleDomains() {
+	function getDomainModuleDomains($not_used_in_table = null, $selected_domain = null) {
 		global $app;
 
 		$sql = "SELECT domain_id, domain FROM domain WHERE";
+		if ($not_used_in_table) {
+			if (strpos($not_used_in_table, 'dns') !== false) {
+				$field = "origin";
+				$select = "SUBSTRING($field, 1, CHAR_LENGTH($field) - 1)";
+			} else {
+				$field = "domain";
+				$select = $field;
+			}
+			$sql .= " domain NOT IN (SELECT $select FROM ?? WHERE $field != ?) AND";
+		}
 		if ($_SESSION["s"]["user"]["typ"] == 'admin') {
 			$sql .= " 1";
 		} else {
@@ -155,7 +165,7 @@ class tools_sites {
 			$sql .= " sys_groupid IN (".$groups.")";
 		}
 		$sql .= " ORDER BY domain";
-		return $app->db->queryAllRecords($sql);
+		return $app->db->queryAllRecords($sql, $not_used_in_table, $selected_domain);
 	}
 
 	function checkDomainModuleDomain($domain_id) {
@@ -169,6 +179,19 @@ class tools_sites {
 		$domain = $app->db->queryOneRecord($sql);
 		if(!$domain || !$domain['domain_id']) return false;
 		return $domain['domain'];
+	}
+
+	function getClientIdForDomain($domain_id) {
+		global $app;
+
+		$sql = "SELECT sys_groupid FROM domain WHERE domain_id = " . $app->functions->intval($domain_id);
+		if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+			$groups = ( $_SESSION["s"]["user"]["groups"] ) ? $_SESSION["s"]["user"]["groups"] : 0;
+			$sql .= " AND sys_groupid IN (".$groups.")";
+		}
+		$domain = $app->db->queryOneRecord($sql);
+		if(!$domain || !$domain['sys_groupid']) return false;
+		return $domain['sys_groupid'];
 	}
 
 }

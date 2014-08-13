@@ -53,7 +53,8 @@ if (isset($_POST['server_id'])) {
 	$server_id = $app->functions->intval($_POST['server_id_value']);
 	$post_server_id = true;
 } else {
-	$server_id = 1;
+	$settings = $app->getconf->get_global_config('dns');
+	$server_id = $app->functions->intval($settings['default_dnsserver']);
 	$post_server_id = false;
 }
 
@@ -70,6 +71,9 @@ foreach($records as $rec){
 unset($n);
 $app->tpl->setVar("template_id_option", $template_id_option);
 
+$app->uses('ini_parser,getconf');
+$domains_settings = $app->getconf->get_global_config('domains');
+
 // If the user is administrator
 if($_SESSION['s']['user']['typ'] == 'admin') {
 
@@ -82,19 +86,21 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	}
 	$app->tpl->setVar("server_id", $server_id_option);
 
-	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
-	$clients = $app->db->queryAllRecords($sql);
-	$client_select = '';
-	if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-	if(is_array($clients)) {
-		foreach( $clients as $client) {
-			$selected = ($client["groupid"] == $sys_groupid)?'SELECTED':'';
-			$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+	if ($domains_settings['use_domain_module'] != 'y') {
+		// load the list of clients
+		$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+		$clients = $app->db->queryAllRecords($sql);
+		$client_select = '';
+		if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
+		if(is_array($clients)) {
+			foreach( $clients as $client) {
+				$selected = ($client["groupid"] == $sys_groupid)?'SELECTED':'';
+				$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+			}
 		}
-	}
 
-	$app->tpl->setVar("client_group_id", $client_select);
+		$app->tpl->setVar("client_group_id", $client_select);
+	}
 }
 
 if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -104,19 +110,21 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 
 
-	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-	$clients = $app->db->queryAllRecords($sql);
-	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
-	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
-	if(is_array($clients)) {
-		foreach( $clients as $client) {
-			$selected = ($client["groupid"] == $sys_groupid)?'SELECTED':'';
-			$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+	if ($domains_settings['use_domain_module'] != 'y') {
+		// load the list of clients
+		$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
+		$clients = $app->db->queryAllRecords($sql);
+		$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+		$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
+		if(is_array($clients)) {
+			foreach( $clients as $client) {
+				$selected = ($client["groupid"] == $sys_groupid)?'SELECTED':'';
+				$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+			}
 		}
-	}
 
-	$app->tpl->setVar("client_group_id", $client_select);
+		$app->tpl->setVar("client_group_id", $client_select);
+	}
 }
 
 if($_SESSION["s"]["user"]["typ"] != 'admin')
@@ -157,6 +165,37 @@ if(is_array($fields)) {
 	}
 }
 
+/*
+ * Now we have to check, if we should use the domain-module to select the domain
+ * or not
+ */
+if ($domains_settings['use_domain_module'] == 'y') {
+	/*
+	 * The domain-module is in use.
+	*/
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
+	$domain_select = '';
+	if(is_array($domains) && sizeof($domains) > 0) {
+		/* We have domains in the list, so create the drop-down-list */
+		foreach( $domains as $domain) {
+			$domain_select .= "<option value=" . $domain['domain_id'] ;
+			if ($domain['domain'] == $_POST['domain']) {
+				$domain_select .= " selected";
+			}
+			$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+		}
+	}
+	else {
+		/*
+		 * We have no domains in the domain-list. This means, we can not add ANY new domain.
+		 * To avoid, that the variable "domain_option" is empty and so the user can
+		 * free enter a domain, we have to create a empty option!
+		*/
+		$domain_select .= "<option value=''></option>\r\n";
+	}
+	$app->tpl->setVar("domain_option", $domain_select);
+}
+
 if($_POST['create'] == 1) {
 
 	$error = '';
@@ -180,8 +219,22 @@ if($_POST['create'] == 1) {
 
 	// apply filters
 	if(isset($_POST['domain']) && $_POST['domain'] != ''){
-		$_POST['domain'] = $app->functions->idn_encode($_POST['domain']);
-		$_POST['domain'] = strtolower($_POST['domain']);
+		/* check if the domain module is used - and check if the selected domain can be used! */
+		if ($domains_settings['use_domain_module'] == 'y') {
+			if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$_POST['client_group_id'] = $app->tools_sites->getClientIdForDomain($_POST['domain']);
+			}
+			$domain_check = $app->tools_sites->checkDomainModuleDomain($_POST['domain']);
+			if(!$domain_check) {
+				// invalid domain selected
+				$_POST['domain'] = '';
+			} else {
+				$_POST['domain'] = $domain_check;
+			}
+		} else {
+			$_POST['domain'] = $app->functions->idn_encode($_POST['domain']);
+			$_POST['domain'] = strtolower($_POST['domain']);
+		}
 	}
 	if(isset($_POST['ns1']) && $_POST['ns1'] != ''){
 		$_POST['ns1'] = $app->functions->idn_encode($_POST['ns1']);
@@ -245,7 +298,7 @@ if($_POST['create'] == 1) {
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);
 	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/', $_POST['domain'])) {
-		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selecotr FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
+		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
 		$public_key = $sql['dkim_public'];
 		if ($public_key!='') {
 			if (empty($sql['dkim_selector'])) $sql['dkim_selector'] = 'default';

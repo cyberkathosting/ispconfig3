@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Tareas cron';
+$wb['list_head_txt'] = 'Tareas periódicas';
 $wb['active_txt'] = 'Activar';
 $wb['server_id_txt'] = 'Servidor';
 $wb['run_min_txt'] = 'Minuto';
@@ -8,6 +8,6 @@ $wb['run_mday_txt'] = 'Día del mes';
 $wb['run_month_txt'] = 'Mes';
 $wb['run_wday_txt'] = 'Día de la semana';
 $wb['command_txt'] = 'Comando';
-$wb['add_new_cron_txt'] = 'Añadir nueva tarea cron';
+$wb['add_new_cron_txt'] = 'Añadir nueva tarea periódica';
 $wb['parent_domain_id_txt'] = 'Sitio web';
 ?>

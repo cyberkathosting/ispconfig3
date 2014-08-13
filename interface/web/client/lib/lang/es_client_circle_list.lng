@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Client Circles';
-$wb['circle_id_txt'] = 'Circle ID';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['description_txt'] = 'Description';
-$wb['add_new_record_txt'] = 'Add new circle';
-$wb['filter_txt'] = 'Filter';
-$wb['delete_txt'] = 'Delete';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Círculos de Clientes';
+$wb['circle_id_txt'] = 'ID de Círculo';
+$wb['circle_name_txt'] = 'Nombre de Círculo';
+$wb['description_txt'] = 'Descripción';
+$wb['add_new_record_txt'] = 'Añadir nuevo círculo';
+$wb['filter_txt'] = 'Filtro';
+$wb['delete_txt'] = 'Eliminar';
+$wb['active_txt'] = 'Activo';
 ?>

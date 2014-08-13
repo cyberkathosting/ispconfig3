@@ -1,7 +1,7 @@
 <?php
-$wb['head_txt'] = 'Update Packagelist';
+$wb['head_txt'] = 'Actualizar lista de paquetes';
 $wb['list_desc_txt'] = '';
-$wb['btn_start_txt'] = 'Update Packagelist';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['legend_txt'] = 'Here you can update the list of available packages. Please note that this can take up to five minutes. You can leave this page if you like; the process will continue in the background.';
+$wb['btn_start_txt'] = 'Actualizar lista de paquetes';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['legend_txt'] = 'Aquí puedes actualizar la lista de paquetes disponibles. Por favor ten en cuenta que puede tardar hasta 5 minutos. Puedes salir de esta página si quieres, el proceso continuará ejecutándose.';
 ?>

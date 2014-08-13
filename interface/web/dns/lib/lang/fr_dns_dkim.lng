@@ -1,10 +1,10 @@
 <?php
-$wb["public_key_txt"] = 'Clé publiquePublic-Key';
+$wb["public_key_txt"] = 'CléubliquePublic-Key';
 $wb["ttl_txt"] = 'TTL';
 $wb["active_txt"] = 'Actif';
-$wb["record_exists_txt"] = 'L\'enregistrement DNS exist déjà';
-$wb["limit_dns_record_txt"] = 'Le nombre max. d\'enregistrement DNS pour votre compte à été atteint.';
-$wb["no_zone_perm"] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement à cette Zone DNS.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['selector_txt'] = 'DKIM-Selector';
+$wb["record_exists_txt"] = 'L\'enregistrement DNS exist dé';
+$wb["limit_dns_record_txt"] = 'Le nombre max. d\'enregistrement DNS pour votre compte àtétteint.';
+$wb["no_zone_perm"] = 'Vous n\'avez pas la permission d\'ajouter un enregistrement àette Zone DNS.';
+$wb['ttl_range_error'] = 'Le temps minimum TTL est de 60 secondes.';
+$wb['selector_txt'] = 'Selecteur DKIM';
 ?>

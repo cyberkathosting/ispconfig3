@@ -85,7 +85,7 @@ class sites_web_vhost_domain_plugin {
 				$client_id = $app->functions->intval($client["client_id"]);
 			}
 
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 
 			// Set the values for document_root, system_user and system_group
@@ -113,10 +113,42 @@ class sites_web_vhost_domain_plugin {
 					unset($records);
 					unset($rec);
 
+					// Update the webdav user(s) too
+					$records = $app->db->queryAllRecords("SELECT webdav_user_id FROM webdav_user WHERE parent_domain_id = ".$page_form->id);
+					foreach($records as $rec) {
+						$app->db->datalogUpdate('webdav_user', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'webdav_user_id', $app->functions->intval($rec['webdav_user_id']));
+					}
+					unset($records);
+					unset($rec);
+
+					// Update the web folder(s) too
+					$records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = ".$page_form->id);
+					foreach($records as $rec) {
+						$app->db->datalogUpdate('web_folder', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'web_folder_id', $app->functions->intval($rec['web_folder_id']));
+					}
+					unset($records);
+					unset($rec);
+
+					//* Update all web folder users
+					$records = $app->db->queryAllRecords("SELECT web_folder_user.web_folder_user_id FROM web_folder_user, web_folder WHERE web_folder_user.web_folder_id = web_folder.web_folder_id AND web_folder.parent_domain_id = ".$page_form->id);
+					foreach($records as $rec) {
+						$app->db->datalogUpdate('web_folder_user', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'web_folder_user_id', $app->functions->intval($rec['web_folder_user_id']));
+					}
+					unset($records);
+					unset($rec);
+
 					// Update the Shell user(s) too
 					$records = $app->db->queryAllRecords("SELECT shell_user_id FROM shell_user WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {
 						$app->db->datalogUpdate('shell_user', "sys_userid = '".$web_rec['sys_userid']."', sys_groupid = '".$web_rec['sys_groupid']."', puser = '$system_user', pgroup = '$system_group', dir = '$document_root'", 'shell_user_id', $app->functions->intval($rec['shell_user_id']));
+					}
+					unset($records);
+					unset($rec);
+
+					// Update the cron(s) too
+					$records = $app->db->queryAllRecords("SELECT id FROM cron WHERE parent_domain_id = ".$page_form->id);
+					foreach($records as $rec) {
+						$app->db->datalogUpdate('cron', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'id', $app->functions->intval($rec['id']));
 					}
 					unset($records);
 					unset($rec);
@@ -142,6 +174,22 @@ class sites_web_vhost_domain_plugin {
 					$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {
 						$app->db->datalogUpdate('web_database', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'database_id', $app->functions->intval($rec['database_id']));
+					}
+
+					//* Update all database users
+					$records = $app->db->queryAllRecords("SELECT web_database_user.database_user_id FROM web_database_user, web_database WHERE web_database_user.database_user_id IN (web_database.database_user_id, web_database.database_ro_user_id) AND web_database.parent_domain_id = ".$page_form->id);
+					foreach($records as $rec) {
+						$app->db->datalogUpdate('web_database_user', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."'", 'database_user_id', $app->functions->intval($rec['database_user_id']));
+					}
+					unset($records);
+					unset($rec);
+
+					// Update APS instances
+					$records = $app->db->queryAllRecords("SELECT instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = '".$app->db->quote($page_form->oldDataRecord["domain"])."'");
+					if(is_array($records) && !empty($records)){
+						foreach($records as $rec){
+							$app->db->datalogUpdate('aps_instances', "sys_userid = '".$app->functions->intval($web_rec['sys_userid'])."', sys_groupid = '".$app->functions->intval($web_rec['sys_groupid'])."', customer_id = '".$app->functions->intval($client_id)."'", 'id', $rec['instance_id']);
+						}
 					}
 					unset($records);
 					unset($rec);

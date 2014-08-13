@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['type_txt'] = 'Filtro';
-$wb['pattern_txt'] = 'Patrón de expresion regular';
+$wb['pattern_txt'] = 'Patrón (expresion regular)';
 $wb['data_txt'] = 'Fecha';
 $wb['action_txt'] = 'Acción';
 $wb['active_txt'] = 'Activar';

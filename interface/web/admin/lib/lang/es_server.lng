@@ -10,6 +10,6 @@ $wb['vserver_server_txt'] = 'Servidor-Virtual';
 $wb['active_txt'] = 'Activar';
 $wb['mirror_server_id_txt'] = 'Es el espejo del Servidor';
 $wb['- None -'] = '- Ninguno -';
-$wb['proxy_server_txt'] = 'Servidor-Proxy';
-$wb['firewall_server_txt'] = 'Servidor-Cortafuegos';
+$wb['proxy_server_txt'] = 'Proxy';
+$wb['firewall_server_txt'] = 'Cortafuegos';
 ?>

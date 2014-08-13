@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Fichero de importación de idioma';
+$wb['list_head_txt'] = 'Importar Fichero de Idioma';
 $wb['language_import_txt'] = 'Elija el fichero de idioma';
 $wb['btn_save_txt'] = 'Importar el fichero de idioma';
 $wb['language_overwrite_txt'] = 'Sobreescribir los ficheros, si existen';
 $wb['btn_cancel_txt'] = 'Atrás';
 $wb['ignore_version_txt'] = 'Saltar comprobación de la versión ISPConfig';
-$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
+$wb['list_desc_txt'] = 'AVISO: No importes ficheros de idioma de fuentes no fiables.';
 ?>

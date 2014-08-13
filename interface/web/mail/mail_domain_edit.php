@@ -61,6 +61,9 @@ class page_action extends tform_actions {
 			if(!$app->tform->checkResellerLimit('limit_maildomain')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_maildomain_txt"]);
 			}
+		} else {
+			$settings = $app->getconf->get_global_config('mail');
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_mailserver']);
 		}
 
 		parent::onShowNew();
@@ -69,7 +72,10 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+		$app->uses('ini_parser,getconf');
+		$settings = $app->getconf->get_global_config('domains');
+
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && $settings['use_domain_module'] != 'y') {
 			// Getting Clients of the user
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 
@@ -96,20 +102,21 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>$tmp[server_name]</option>");
 			unset($tmp);
 
-			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$clients = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
-			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
-			//$tmp_data_record = $app->tform->getDataRecord($this->id);
-			if(is_array($clients)) {
-				foreach( $clients as $client) {
-					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+			if ($settings['use_domain_module'] != 'y') {
+				// Fill the client select field
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql);
+				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
+				//$tmp_data_record = $app->tform->getDataRecord($this->id);
+				if(is_array($clients)) {
+					foreach( $clients as $client) {
+						$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
+						$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					}
 				}
+				$app->tpl->setVar("client_group_id", $client_select);
 			}
-			$app->tpl->setVar("client_group_id", $client_select);
-
 		}
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin')
@@ -144,13 +151,11 @@ class page_action extends tform_actions {
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
-		$app->uses('ini_parser,getconf');
-		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
 			/*
 			 * The domain-module is in use.
 			*/
-			$domains = $app->tools_sites->getDomainModuleDomains();
+			$domains = $app->tools_sites->getDomainModuleDomains("mail_domain", $this->dataRecord["domain"]);
 			$domain_select = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
@@ -208,6 +213,9 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
+			if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+				$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['domain']);
+			}
 			$domain_check = $app->tools_sites->checkDomainModuleDomain($this->dataRecord['domain']);
 			if(!$domain_check) {
 				// invalid domain selected
@@ -258,24 +266,13 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE mail_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
-		}
-
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->dataRecord["domain"])."'");
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $ploicy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
@@ -284,7 +281,7 @@ class page_action extends tform_actions {
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
-		}  // endif spamfilter policy
+		} // endif spamfilter policy
 	}
 
 	function onBeforeUpdate() {
@@ -313,25 +310,8 @@ class page_action extends tform_actions {
 		}
 	}
 
-
-
 	function onAfterUpdate() {
 		global $app, $conf;
-
-		// make sure that the record belongs to the client group and not the admin group when admin inserts it
-		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
-		}
-		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
-			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-			$app->db->query("UPDATE mail_domain SET sys_userid = $client_user_id, sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
-		}
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
@@ -344,7 +324,7 @@ class page_action extends tform_actions {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ".$this->id);
 				// We create a new record
 				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$tmp_domain["sys_groupid"].", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
+				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$app->functions->intval($tmp_domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
@@ -354,50 +334,7 @@ class page_action extends tform_actions {
 				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 			}
 		} // endif spamfilter policy
-		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
-		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
-			$app->uses('getconf');
-			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
-
-			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-			$sys_groupid = $app->functions->intval((isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid']);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
-			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
-			if(is_array($mailusers)) {
-				foreach($mailusers as $rec) {
-					// setting Maildir, Homedir, UID and GID
-					$mail_parts = explode("@", $rec['email']);
-					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
-					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
-					$maildir = $app->db->quote($maildir);
-					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
-				}
-			}
-
-			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
-			if(is_array($forwardings)) {
-				foreach($forwardings as $rec) {
-					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
-					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']));
-					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
-				}
-			}
-
-			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
-
-			//* Delete the old spamfilter record
-			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
-			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
-			unset($tmp);
-
-		} // end if domain name changed
-
 	}
-
 }
 
 $page = new page_action;

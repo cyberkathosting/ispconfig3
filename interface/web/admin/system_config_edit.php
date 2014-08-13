@@ -64,6 +64,9 @@ class page_action extends tform_actions {
 			$server_id = $this->id;
 
 			$this->dataRecord = $app->getconf->get_global_config($section);
+			if (is_null($this->dataRecord)) {
+				$this->dataRecord = array();
+			}
 			if ($section == 'domains'){
 				if (isset($this->dataRecord['use_domain_module'])){
 					$_SESSION['use_domain_module_old_value'] = $this->dataRecord['use_domain_module'];

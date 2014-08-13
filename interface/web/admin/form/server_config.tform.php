@@ -880,6 +880,13 @@ $form["tabs"]['web'] = array(
 			'width' => '10',
 			'maxlength' => '255'
 		),
+		'php_handler' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'fast-cgi',
+			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM'),
+			'searchable' => 2
+		),
 		'nginx_cgi_socket' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

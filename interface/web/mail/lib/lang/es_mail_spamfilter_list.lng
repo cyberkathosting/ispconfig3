@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Filtro de spam';
-$wb['active_txt'] = 'Activar';
+$wb['active_txt'] = 'Activo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['server_name_txt'] = 'server_name';
 $wb['email_txt'] = 'Correo';

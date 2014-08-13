@@ -61,6 +61,10 @@
 		</IfModule>
 
 		<Directory {tmpl_var name='web_document_root_www'}>
+				# Clear PHP settings of this website
+				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+						SetHandler None
+				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -89,6 +93,10 @@
 </tmpl_if>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
+				# Clear PHP settings of this website
+				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
+						SetHandler None
+				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -190,10 +198,6 @@
 			SuexecUserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 		</IfModule>
 </tmpl_if>
-		# Clear PHP settings of this website
-		<FilesMatch ".+\.ph(p[345]?|t|tml)$">
-				SetHandler None
-		</FilesMatch>
 <tmpl_if name='php' op='==' value='mod'>
 		# mod_php enabled
 		AddType application/x-httpd-php .php .php3 .php4 .php5
@@ -308,9 +312,16 @@
 					Allow from all
 					</tmpl_if>
 			    </Directory>
-				<FilesMatch "\.php[345]?$">
-					SetHandler php5-fcgi
-				</FilesMatch>
+				<Directory {tmpl_var name='web_document_root_www'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler php5-fcgi
+					</FilesMatch>
+				</Directory>
+				<Directory {tmpl_var name='web_document_root'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler php5-fcgi
+					</FilesMatch>
+				</Directory>
                 Action php5-fcgi /php5-fcgi virtual
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
@@ -332,12 +343,22 @@
 					Allow from all
 					</tmpl_if>
 			    </Directory>
-				<FilesMatch "\.php[345]?$">
-					SetHandler hhvm-fcgi
-				</FilesMatch>
-				<FilesMatch "\.hh$">
-					SetHandler hhvm-fcgi
-				</FilesMatch>
+				<Directory {tmpl_var name='web_document_root_www'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler hhvm-fcgi
+					</FilesMatch>
+					<FilesMatch "\.hh$">
+						SetHandler hhvm-fcgi
+					</FilesMatch>
+				</Directory>
+				<Directory {tmpl_var name='web_document_root'}>
+					<FilesMatch "\.php[345]?$">
+						SetHandler hhvm-fcgi
+					</FilesMatch>
+					<FilesMatch "\.hh$">
+						SetHandler hhvm-fcgi
+					</FilesMatch>
+				</Directory>
                 Action hhvm-fcgi /hhvm-fcgi virtual
 				Alias /hhvm-fcgi {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization

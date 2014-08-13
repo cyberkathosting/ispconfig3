@@ -123,7 +123,21 @@ class mail_plugin_dkim {
 
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
-                mkdir($mail_config['dkim_path'], 0750, true);
+				if($app->system->is_user('amavis')) { 
+					$amavis_user='amavis'; 
+				} elseif ($app->system->is_user('vscan')) { 
+					$amavis_user='vscan'; 
+				}
+				else { 
+					$amavis_user=''; 
+				}
+				if(!empty($amavis_user)) {
+					mkdir($mail_config['dkim_path'], 0750, true);
+					exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
+					unset($amavis_user);
+				} else {
+					mkdir($mail_config['dkim_path'], 0755, true);
+				}
             }
 
 			if (!is_writeable($mail_config['dkim_path'])) {
@@ -132,7 +146,7 @@ class mail_plugin_dkim {
 			}
 
 		} else {
-			$app->log('Unable to write DKIM settings; Check your config!', LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings - no DKIM-Path defined', LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
@@ -173,7 +187,7 @@ class mail_plugin_dkim {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private', LOGLEVEL_DEBUG);
 			$success=true;
 			/* now we get the DKIM Public-key */
-			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout', $pubkey, $result);
+			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout 2> /dev/null', $pubkey, $result);
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */

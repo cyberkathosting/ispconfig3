@@ -62,13 +62,25 @@ class page_action extends tform_actions {
 		 */
 		$domain = $this->dataRecord['domain'];
 
+		$sql = "SELECT id FROM dns_soa WHERE origin = '" . $app->db->quote($domain.".") . "'";
+		$res = $app->db->queryOneRecord($sql);
+		if (is_array($res)){
+			$app->error($wb['error_domain_in dnsuse']);
+		}
+
+		$sql = "SELECT id FROM dns_slave WHERE origin = '" . $app->db->quote($domain.".") . "'";
+		$res = $app->db->queryOneRecord($sql);
+		if (is_array($res)){
+			$app->error($wb['error_domain_in dnsslaveuse']);
+		}
+
 		$sql = "SELECT domain_id FROM mail_domain WHERE domain = '" . $app->db->quote($domain) . "'";
 		$res = $app->db->queryOneRecord($sql);
 		if (is_array($res)){
 			$app->error($wb['error_domain_in mailuse']);
 		}
 
-		$sql = "SELECT domain_id FROM web_domain WHERE domain = '" . $app->db->quote($domain) . "'";
+		$sql = "SELECT domain_id FROM web_domain WHERE (domain = '" . $app->db->quote($domain) . "' AND type IN ('alias', 'vhost', 'vhostalias')) OR (domain LIKE '%." . $app->db->quote($domain) . "' AND type IN ('subdomain', 'vhostsubdomain'))";
 		$res = $app->db->queryOneRecord($sql);
 		if (is_array($res)){
 			$app->error($wb['error_domain_in webuse']);

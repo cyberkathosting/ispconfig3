@@ -340,6 +340,10 @@ class remoting {
 
 		//* Load the form definition
 		$app->remoting_lib->loadFormDef($formdef_file);
+		
+		//* get old record and merge with params, so only new values have to be set in $params
+		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
+		$params = $app->functions->array_merge($old_rec,$params);
 
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'UPDATE', $primary_id);

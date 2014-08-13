@@ -77,10 +77,21 @@ class cronjob_monitor_email_quota extends cronjob {
 
 		$mailboxes = $app->db->queryAllRecords("SELECT email,maildir FROM mail_user WHERE server_id = $server_id");
 		if(is_array($mailboxes)) {
+
+			//* with dovecot we can use doveadm instead of 'du -s'
+			$dovecot = false;
+			if (isset($mail_config['pop3_imap_daemon']) && $mail_config ['pop3_imap_daemon'] = 'dovecot' && is_executable('doveadm')) {
+				exec('doveadm quota 2>&1', $tmp_output, $tmp_retval); // with dovecot 2.2.x 'doveadm quota' is unuseable
+				if ($retval = 64) $dovecot = true;
+			}
+
 			foreach($mailboxes as $mb) {
 				$email = $mb['email'];
 				$email_parts = explode('@', $mb['email']);
 				$filename = $mb['maildir'].'/.quotausage';
+				if(!file_exists($filename) && $dovecot) {
+					exec('doveadm quota recalc -u '.$email);
+				}
 				if(file_exists($filename) && !is_link($filename)) {
 					$quotafile = file($filename);
 					preg_match('/storage.*?([0-9]+)/s', implode('',$quotafile), $storage_value);

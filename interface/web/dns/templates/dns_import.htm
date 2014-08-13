@@ -32,7 +32,14 @@
             </tmpl_if>
             <div class="ctrlHolder">
                 <label for="domain">{tmpl_var name='domain_txt'}</label>
-                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" /><p class="value">{tmpl_var name='domain_field_desc_txt'}</p>
+                <tmpl_if name="domain_option">
+                    <select name="domain" id="domain" class="selectInput">
+                        {tmpl_var name='domain_option'}
+                    </select>
+                    <tmpl_else>
+                        <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" onkeydown="keydown(event.which);" />
+                </tmpl_if>
+                <p class="value"><tmpl_var name='domain_field_desc_txt'}</p>
             </div>    
             <div class="ctrlHolder">
                 <label for="file">{tmpl_var name='zonefile_to_import_txt'}</label>

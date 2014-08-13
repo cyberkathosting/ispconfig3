@@ -89,4 +89,40 @@ $liste["item"][] = array(   'field'     => "autoresponder",
 	'width' => "",
 	'value' => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
+$liste["item"][] = array( 'field'  => "postfix",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
+$liste["item"][] = array( 'field'  => "disablesmtp",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
+$liste["item"][] = array( 'field'  => "disableimap",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
+$liste["item"][] = array( 'field'  => "disablepop3",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
 ?>

@@ -4,5 +4,5 @@ $wb['repo_url_txt'] = 'URL';
 $wb['repo_username_txt'] = 'Usuario (opcional)';
 $wb['repo_password_txt'] = 'Contraseña (opcional)';
 $wb['active_txt'] = 'Activar';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
+$wb['Software Repository which may contain addons or updates'] = 'Repositorio de software que puede contener extensiones o actualizaciones';
 ?>

@@ -41,6 +41,8 @@ $wb['Firewall'] = 'Firewall';
 
 $wb['Interface'] = 'Interface';
 $wb['Interface Config'] = 'Main Config';
+    $wb['Sites'] = 'Sites';
+    $wb['DNS'] = 'DNS';
     $wb['Domains'] = 'Domains';
     $wb['Misc'] = 'Misc';
 
