@@ -93,6 +93,13 @@ $form["tabs"]['shell'] = array (
 				1 => array ( 'type' => 'REGEX',
 					'regex' => '/^[\w\.\-]{0,32}$/',
 					'errmsg'=> 'username_error_regex'),
+				2 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysuser',
+							'check_names' => true,
+							'errmsg' => 'invalid_username_txt'
+						),
 			),
 			'default' => '',
 			'value'  => '',

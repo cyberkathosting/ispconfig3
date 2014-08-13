@@ -582,6 +582,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'formtype' => 'TEXT',
 				'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 						'errmsg'=> 'sysuser_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysuser',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default' => '',
 				'value'  => '',
@@ -593,6 +600,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'formtype' => 'TEXT',
 				'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 						'errmsg'=> 'sysgroup_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysuser',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default' => '',
 				'value'  => '',
