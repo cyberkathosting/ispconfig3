@@ -263,7 +263,7 @@ class shelluser_base_plugin {
 					$homedir = $data['old']['dir'];
 					if(substr($homedir, -1) !== '/') $homedir .= '/';
 					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
-					$dirs = array('.ssh');
+					$dirs = array('.ssh', '.cache');
 					foreach($files as $delfile) {
 						if(is_file($homedir . $delfile) && fileowner($homedir . $delfile) == $userid) unlink($homedir . $delfile);
 					}
