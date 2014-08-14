@@ -247,9 +247,13 @@ class shelluser_jailkit_plugin {
 			$app->system->web_folder_protection($web['document_root'], false);
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
+				$userid = intval($app->system->getuid($data['old']['username']));
 				$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
 				$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 				exec($command);
+				
+				$this->_delete_homedir($data['old']['dir'].$jailkit_chroot_userhome,$userid,$data['old']['parent_domain_id']);
+				
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 			}
 
@@ -522,6 +526,48 @@ class shelluser_jailkit_plugin {
 		exec("chmod 700 ".$sshdir);
 		exec("chmod 600 '$sshkeys'");
 
+	}
+	
+	private function _delete_homedir($homedir,$userid,$parent_domain_id) {
+		global $app, $conf;
+		
+		// check if we have to delete the dir
+				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($homedir) . '\'');
+				
+				if(!$check && is_dir($homedir)) {
+					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($parent_domain_id));
+					$app->system->web_folder_protection($web['document_root'], false);
+					
+					// delete dir
+					if(substr($homedir, -1) !== '/') $homedir .= '/';
+					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
+					$dirs = array('.ssh');
+					foreach($files as $delfile) {
+						if(is_file($homedir . $delfile) && fileowner($homedir . $delfile) == $userid) unlink($homedir . $delfile);
+					}
+					foreach($dirs as $deldir) {
+						if(is_dir($homedir . $deldir) && fileowner($homedir . $deldir) == $userid) exec('rm -rf ' . escapeshellarg($homedir . $deldir));
+					}
+					$empty = true;
+					$dirres = opendir($homedir);
+					if($dirres) {
+						while(($entry = readdir($dirres)) !== false) {
+							if($entry != '.' && $entry != '..') {
+								$empty = false;
+								break;
+							}
+						}
+						closedir($dirres);
+					}
+					if($empty == true) {
+						rmdir($homedir);
+					}
+					unset($files);
+					unset($dirs);
+					
+					$app->system->web_folder_protection($web['document_root'], true);
+				}
+	
 	}
 
 } // end class

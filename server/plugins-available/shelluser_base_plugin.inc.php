@@ -254,6 +254,11 @@ class shelluser_base_plugin {
 				// check if we have to delete the dir
 				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($data['old']['dir']) . '\'');
 				if(!$check && is_dir($data['old']['dir'])) {
+					
+					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
+					
+					$app->system->web_folder_protection($web['document_root'], false);
+					
 					// delete dir
 					$homedir = $data['old']['dir'];
 					if(substr($homedir, -1) !== '/') $homedir .= '/';
@@ -281,6 +286,8 @@ class shelluser_base_plugin {
 					}
 					unset($files);
 					unset($dirs);
+					
+					$app->system->web_folder_protection($web['document_root'], true);
 				}
 				
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
