@@ -155,4 +155,7 @@ $wb['added_by_txt'] = 'Creado por';
 $wb['added_date_txt'] = 'Fecha de alta';
 $wb['parent_client_id_txt'] = 'Cliente de revendedor';
 $wb['none_txt'] = 'ninguno';
+$wb['limit_database_quota_txt'] = 'Cuota de base de datos';
+$wb['limit_database_quota_error_notint'] = 'Cuota de base de datos debe ser un número.';
+$wb['reseller_txt'] = 'Revendedor';
 ?>

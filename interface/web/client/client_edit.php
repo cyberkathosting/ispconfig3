@@ -96,6 +96,10 @@ class page_action extends tform_actions {
 		//* Resellers shall not be able to create another reseller
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			$this->dataRecord['limit_client'] = 0;
+		} else {
+			if($this->dataRecord["reseller"]) {
+				$this->dataRecord["limit_client"] = 1; // allow 1 client, template limits will be applied later, if we set -1 it would override template limits
+			}
 		}
 
 		if($this->id != 0) {
@@ -223,7 +227,7 @@ class page_action extends tform_actions {
 		
 		if($app->auth->is_admin()) {
 			// Fill the client select field
-			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client != 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = "<option value='0'>- ".$app->tform->lng('none_txt')." -</option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
