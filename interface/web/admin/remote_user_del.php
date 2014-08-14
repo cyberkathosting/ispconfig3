@@ -44,6 +44,7 @@ require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
+$app->auth->check_security_permissions('admin_allow_remote_users');
 
 $app->uses('tpl,tform');
 $app->load('tform_actions');

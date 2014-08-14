@@ -59,11 +59,11 @@ class shelluser_jailkit_plugin {
 		/*
 		Register for the events
 		*/
-
+		
 		$app->plugins->registerEvent('shell_user_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('shell_user_update', $this->plugin_name, 'update');
 		$app->plugins->registerEvent('shell_user_delete', $this->plugin_name, 'delete');
-
+		
 
 	}
 
@@ -71,7 +71,15 @@ class shelluser_jailkit_plugin {
 	function insert($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
+		
+		
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
@@ -143,7 +151,14 @@ class shelluser_jailkit_plugin {
 	function update($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
+		
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
 
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
@@ -209,7 +224,13 @@ class shelluser_jailkit_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['old']['parent_domain_id']);
 

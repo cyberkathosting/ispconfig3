@@ -46,7 +46,7 @@ class auth {
 	}
 	
 	public function is_superadmin() {
-		if($_SESSION['s']['user']['typ'] == 'admin' && $_SESSION['s']['user']['userid'] === 1) {
+		if($_SESSION['s']['user']['typ'] == 'admin' && $_SESSION['s']['user']['userid'] == 1) {
 			return true;
 		} else {
 			return false;
@@ -135,6 +135,22 @@ class auth {
 			header("Location: /index.php");
 			exit;
 		}
+	}
+	
+	public function check_security_permissions($permission) {
+		
+		global $app;
+		
+		$app->uses('getconf');
+		$security_config = $app->getconf->get_security_config('permissions');
+
+		$security_check = false;
+		if($security_config[$permission] == 'yes') $security_check = true;
+		if($security_config[$permission] == 'superadmin' && $app->auth->is_superadmin()) $security_check = true;
+		if($security_check !== true) {
+			$app->error($app->lng('security_check1_txt').' '.$permission.' '.$app->lng('security_check2_txt'));
+		}
+		
 	}
 
 	public function get_random_password($length = 8) {

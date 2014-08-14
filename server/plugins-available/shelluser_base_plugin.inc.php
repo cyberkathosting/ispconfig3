@@ -58,19 +58,25 @@ class shelluser_base_plugin {
 		/*
 		Register for the events
 		*/
-
+		
 		$app->plugins->registerEvent('shell_user_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('shell_user_update', $this->plugin_name, 'update');
 		$app->plugins->registerEvent('shell_user_delete', $this->plugin_name, 'delete');
-
+		
 
 	}
 
 
 	function insert($event_name, $data) {
 		global $app, $conf;
-
-		$app->uses('system');
+		
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
@@ -144,7 +150,13 @@ class shelluser_base_plugin {
 	function update($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
@@ -223,7 +235,13 @@ class shelluser_base_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		if($app->system->is_user($data['old']['username'])) {
 			// Get the UID of the user
