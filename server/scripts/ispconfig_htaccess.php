@@ -29,8 +29,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 
-$path = realpath(dirname(__FILE__)) . '/..';
-$iface_path = realpath(dirname(__FILE__)) . '/../../interface/web';
+$path = realpath(dirname(__FILE__) . '/..');
+$iface_path = realpath(dirname(__FILE__) . '/../../interface/web');
+$iface_base_path = realpath(dirname(__FILE__) . '/../../interface');
 
 require $path . '/lib/mysql_clientdb.conf';
 
@@ -55,13 +56,13 @@ mysqli_close($link);
 
 if($cont == '') die('No users found' . "\n");
 
-if(file_exists($iface_path . '/.htpasswd')) rename($iface_path . '/.htpasswd', $iface_path . '/.htpasswd.old');
-file_put_contents($iface_path . '/.htpasswd', $cont);
-chmod($iface_path . '/.htpasswd', 0644);
+if(file_exists($iface_base_path . '/.htpasswd')) rename($iface_base_path . '/.htpasswd', $iface_base_path . '/.htpasswd.old');
+file_put_contents($iface_base_path . '/.htpasswd', $cont);
+chmod($iface_base_path . '/.htpasswd', 0644);
 
 $cont = 'AuthType Basic
 AuthName "Login"
-AuthUserFile ' . $iface_path . '/.htpasswd
+AuthUserFile ' . $iface_base_path . '/.htpasswd
 require valid-user';
 
 if(file_exists($iface_path . '/.htaccess')) rename($iface_path . '/.htaccess', $iface_path . '/.htaccess.old');
