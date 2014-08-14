@@ -748,6 +748,10 @@ class installer extends installer_base
 		//* copy the ISPConfig server part
 		$command = "cp -rf ../server $install_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* copy the ISPConfig security part
+		$command = 'cp -rf ../security '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 
 		//* Create the config file for ISPConfig interface
