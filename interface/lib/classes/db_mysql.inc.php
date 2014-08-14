@@ -263,14 +263,8 @@ class db extends mysqli
 		global $app, $conf;
 
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
-		
-		if(strpos($db_table, '.') !== false) {
-			$db_table = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $db_table);
-		} else {
-			$db_table = '`' . $db_table . '`';
-		}
 		
 		$primary_field = $this->quote($primary_field);
 		$primary_id = intval($primary_id);
@@ -314,13 +308,13 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
-			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
 		} else {
-			$tablename = '`' . $tablename . '`';
+			$tablename_escaped = '`' . $tablename . '`';
 		}
 		
 		$index_field = $this->quote($index_field);
@@ -340,9 +334,9 @@ class db extends mysqli
 		}
 
 		$old_rec = array();
-		$this->query("INSERT INTO $tablename $insert_data_str");
+		$this->query("INSERT INTO $tablename_escaped $insert_data_str");
 		$index_value = $this->insertID();
-		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 
 		return $index_value;
@@ -353,19 +347,19 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
-			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
 		} else {
-			$tablename = '`' . $tablename . '`';
+			$tablename_escaped = '`' . $tablename . '`';
 		}
 		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
-		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 
 		if(is_array($update_data)) {
 			$update_data_str = '';
@@ -377,8 +371,8 @@ class db extends mysqli
 			$update_data_str = $update_data;
 		}
 
-		$this->query("UPDATE $tablename SET $update_data_str WHERE $index_field = '$index_value'");
-		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->query("UPDATE $tablename_escaped SET $update_data_str WHERE $index_field = '$index_value'");
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 
 		return true;
@@ -389,20 +383,20 @@ class db extends mysqli
 		global $app;
 		
 		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\.\-\_]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
 		
 		if(strpos($tablename, '.') !== false) {
-			$tablename = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
 		} else {
-			$tablename = '`' . $tablename . '`';
+			$tablename_escaped = '`' . $tablename . '`';
 		}
 		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
-		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
-		$this->query("DELETE FROM $tablename WHERE $index_field = '$index_value'");
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
+		$this->query("DELETE FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$new_rec = array();
 		$this->datalogSave($tablename, 'DELETE', $index_field, $index_value, $old_rec, $new_rec);
 
