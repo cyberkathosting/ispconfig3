@@ -18,4 +18,5 @@ $wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS'
 $wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
 $wb['dkim_selector_txt'] = 'DKIM-Selector';
 $wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9)';
+$wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
 ?>
