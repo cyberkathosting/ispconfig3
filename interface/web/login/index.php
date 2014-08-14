@@ -201,7 +201,7 @@ class login_index {
 										$user = false;
 									}
 								} elseif(substr($saved_password, 0, 3) == '$5$') {
-									//* The password is crypt-md5 encrypted
+									//* The password is crypt-sha256 encrypted
 									$salt = '$5$'.substr($saved_password, 3, 16).'$';
 
 									if(crypt(stripslashes($passwort), $salt) != $saved_password) {
