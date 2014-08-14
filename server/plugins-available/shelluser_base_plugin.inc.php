@@ -98,12 +98,17 @@ class shelluser_base_plugin {
 
 		if($app->system->is_user($data['new']['puser'])) {
 
-			//* Remove webfolder protection
-			$app->system->web_folder_protection($web['document_root'], false);
-
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
+				//* Remove webfolder protection
+				$app->system->web_folder_protection($web['document_root'], false);
+
+				if(!is_dir($data['new']['dir'])){
+					$app->file->mkdirs(escapeshellcmd($data['new']['dir']), '0700');
+					$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
+					$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+				}
 				$command = 'useradd';
 				$command .= ' -d '.escapeshellcmd($data['new']['dir']);
 				$command .= ' -g '.escapeshellcmd($data['new']['pgroup']);
@@ -138,7 +143,6 @@ class shelluser_base_plugin {
 
 				//* Add webfolder protection again
 				$app->system->web_folder_protection($web['document_root'], true);
-
 			} else {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.", LOGLEVEL_ERROR);
 			}
@@ -247,6 +251,38 @@ class shelluser_base_plugin {
 			// Get the UID of the user
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
+				// check if we have to delete the dir
+				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($data['old']['dir']) . '\'');
+				if(!$check && is_dir($data['old']['dir'])) {
+					// delete dir
+					$homedir = $data['old']['dir'];
+					if(substr($homedir, -1) !== '/') $homedir .= '/';
+					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
+					$dirs = array('.ssh');
+					foreach($files as $delfile) {
+						if(is_file($homedir . $delfile) && fileowner($homedir . $delfile) == $userid) unlink($homedir . $delfile);
+					}
+					foreach($dirs as $deldir) {
+						if(is_dir($homedir . $deldir) && fileowner($homedir . $deldir) == $userid) exec('rm -rf ' . escapeshellarg($homedir . $deldir));
+					}
+					$empty = true;
+					$dirres = opendir($homedir);
+					if($dirres) {
+						while(($entry = readdir($dirres)) !== false) {
+							if($entry != '.' && $entry != '..') {
+								$empty = false;
+								break;
+							}
+						}
+						closedir($dirres);
+					}
+					if($empty == true) {
+						rmdir($homedir);
+					}
+					unset($files);
+					unset($dirs);
+				}
+				
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
 					$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
