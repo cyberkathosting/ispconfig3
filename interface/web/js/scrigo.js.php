@@ -438,6 +438,8 @@ function loadMenus() {
 }
 
 function changeTab(tab,target,force) {
+	if(requestsRunning > 0) return false;
+	
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
 
