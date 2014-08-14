@@ -119,8 +119,12 @@ class mail_plugin_dkim {
 		}
 		/* dir for dkim-keys writeable? */
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		if (isset($mail_config['dkim_path']) && (!empty($mail_config['dkim_path'])) && isset($data['new']['dkim_private']) && !empty($data['new']['dkim_private'])) {
-
+		if (	isset($mail_config['dkim_path']) && 
+				!empty($mail_config['dkim_path']) && 
+				isset($data['new']['dkim_private']) && 
+				!empty($data['new']['dkim_private']) &&
+				$mail_config['dkim_path'] != '/'
+		) {
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
 				if($app->system->is_user('amavis')) { 
@@ -133,10 +137,12 @@ class mail_plugin_dkim {
 				}
 				if(!empty($amavis_user)) {
 					mkdir($mail_config['dkim_path'], 0750, true);
-					exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
+					exec('chown '.$amavis_user.' '.escapeshellarg($mail_config['dkim_path']));
 					unset($amavis_user);
 				} else {
 					mkdir($mail_config['dkim_path'], 0755, true);
+					$app->log('No user amavis or vscan found - using root for '.$mail_config['dkim_path']
+, LOGLEVEL_WARNING);
 				}
             }
 
@@ -194,6 +200,8 @@ class mail_plugin_dkim {
 			if (!file_put_contents($key_file.'.public', $public_key) === false)
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
+		} else {
+			$app->log('Unable to save DKIM Privte-key to '.$key_file.'.private', LOGLEVEL_ERROR);
 		}
 		return $success;
 	}
