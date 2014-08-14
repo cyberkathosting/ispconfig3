@@ -13,5 +13,8 @@ if [ -f /usr/local/ispconfig/server/lib/php.ini ]; then
         fi
 fi
 
+cd /usr/local/ispconfig/security
+/usr/bin/php -q /usr/local/ispconfig/security/check.php
+
 cd /usr/local/ispconfig/server
 /usr/bin/php -q /usr/local/ispconfig/server/server.php

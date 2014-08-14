@@ -958,13 +958,13 @@ class installer_dist extends installer_base {
 			$this->db->query($sql);
 		}
 
-		/// chown install dir to root and chmod 755
+		// chown install dir to root and chmod 755
 		$command = 'chown root:root '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chmod 755 '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		//* Chmod the files and directoreies in the install dir
+		//* Chmod the files and directories in the install dir
 		$command = 'chmod -R 750 '.$install_dir.'/*';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
@@ -974,6 +974,16 @@ class installer_dist extends installer_base {
 		
 		//* chown the server files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/server';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/security';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security directory and security_settings.ini to root:ispconfig
+		$command = 'chown root:ispconfig '.$install_dir.'/security/security_settings.ini';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
