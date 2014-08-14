@@ -114,7 +114,7 @@ class installer_dist extends installer_base {
 
 	function configure_postfix($options = '')
 	{
-		global $conf;
+		global $conf,$autoinstall;
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
 

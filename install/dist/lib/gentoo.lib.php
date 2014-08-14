@@ -49,7 +49,7 @@ class installer extends installer_base
 
 	public function configure_postfix($options = '')
 	{
-		global $conf;
+		global $conf,$autoinstall;
 
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
@@ -126,6 +126,7 @@ class installer extends installer_base
 				$command = 'cd '.$config_dir.'; '
 					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
 			}
+			exec($command);
 
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
