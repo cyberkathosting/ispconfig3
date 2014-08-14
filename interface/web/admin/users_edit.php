@@ -70,7 +70,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if($conf['demo_mode'] == true && $_REQUEST['id'] <= 3) $app->error('This function is disabled in demo mode.');
-		
+
 		//* Security settings check
 		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'admin') {
 			$app->auth->check_security_permissions('admin_allow_new_admin');
