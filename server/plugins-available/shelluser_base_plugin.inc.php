@@ -231,7 +231,7 @@ class shelluser_base_plugin {
 			if($userid > $this->min_uid) {
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
-					$command = 'userdel -f';
+					$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
 					$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 					exec($command);
 					$app->log("Deleted shelluser: ".$data['old']['username'], LOGLEVEL_DEBUG);

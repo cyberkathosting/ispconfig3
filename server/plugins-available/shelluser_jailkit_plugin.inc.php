@@ -226,7 +226,7 @@ class shelluser_jailkit_plugin {
 			$app->system->web_folder_protection($web['document_root'], false);
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
-				$command = 'userdel -f';
+				$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
 				$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 				exec($command);
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
