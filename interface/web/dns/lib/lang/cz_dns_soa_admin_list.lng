@@ -1,11 +1,11 @@
 <?php
-$wb["list_head_txt"] = 'DNS-Zones';
-$wb["active_txt"] = 'Active';
-$wb["server_id_txt"] = 'Server';
-$wb["origin_txt"] = 'Zone';
-$wb["ns_txt"] = 'NS';
-$wb["mbox_txt"] = 'Email';
-$wb["add_new_record_wizard_txt"] = 'Add new DNS Zone with Wizard';
-$wb["add_new_record_txt"] = 'Add new DNS Zone manually';
-$wb["sys_groupid_txt"] = 'Client';
+$wb['list_head_txt'] = 'DNS-Zóny';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zóna';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'E-mail';
+$wb['add_new_record_wizard_txt'] = 'Přidat novou DNS zónu pomocí průvodce';
+$wb['add_new_record_txt'] = 'Přidat novou DNS zónu manuálně';
+$wb['sys_groupid_txt'] = 'Klient';
 ?>

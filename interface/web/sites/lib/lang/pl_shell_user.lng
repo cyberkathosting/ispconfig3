@@ -31,4 +31,6 @@ $wb['username_not_allowed_txt'] = 'The username is not allowed.';
 $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 $wb['directory_error_regex'] = 'Invalid directory';
 $wb['shell_error_regex'] = 'Invalid shell';
+$wb['invalid_username_txt'] = 'Invalid Username';
+$wb['directory_error_notinweb'] = 'The directory has to be inside the web root.';
 ?>
