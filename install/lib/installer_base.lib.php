@@ -646,7 +646,7 @@ class installer_base {
 				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
 			}
 			chgrp($full_file_name, 'list');
-			chmod($full_file_name, 0750);
+			chmod($full_file_name, 0755);
 		}
 
 		//* Create aliasaes
