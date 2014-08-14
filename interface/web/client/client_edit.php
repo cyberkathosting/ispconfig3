@@ -98,7 +98,7 @@ class page_action extends tform_actions {
 			$this->dataRecord['limit_client'] = 0;
 		} else {
 			if($this->dataRecord["reseller"]) {
-				$this->dataRecord["limit_client"] = 1;
+				$this->dataRecord["limit_client"] = 1; // allow 1 client, template limits will be applied later, if we set -1 it would override template limits
 			}
 		}
 
