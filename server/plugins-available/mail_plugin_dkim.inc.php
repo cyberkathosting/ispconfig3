@@ -152,7 +152,7 @@ class mail_plugin_dkim {
 			}
 
 		} else {
-			$app->log('Unable to write DKIM settings - no DKIM-Path defined', LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings - no or invalid DKIM-Path defined', LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
@@ -174,6 +174,7 @@ class mail_plugin_dkim {
                 break;
                 }
         }
+		if ( $initfile == '' ) $initfile = 'service amavis';
         $app->log('Restarting amavis: '.$initfile.'.', LOGLEVEL_DEBUG);
         exec(escapeshellarg($initfile).' restart', $output);
         foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
@@ -189,7 +190,7 @@ class mail_plugin_dkim {
 	function write_dkim_key($key_file, $key_value, $key_domain) {
 		global $app, $mailconfig;
 		$success=false;
-		if (!$app->system->file_put_contents($key_file.'.private', $key_value) === false) {
+		if ( $app->system->file_put_contents($key_file.'.private', $key_value) ) {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private', LOGLEVEL_DEBUG);
 			$success=true;
 			/* now we get the DKIM Public-key */
@@ -197,7 +198,7 @@ class mail_plugin_dkim {
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */
-			if (!$app->system->file_put_contents($key_file.'.public', $public_key) === false)
+			if ( $app->system->file_put_contents($key_file.'.public', $public_key) )
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else {
