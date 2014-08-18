@@ -111,7 +111,7 @@ class mail_plugin_dkim {
 
 		//* When we can use 60-dkim for the dkim-keys create the file if it does not exists.
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0 && !file_exists($amavis_configfile))
-			file_put_contents($amavis_configfile, '');
+			$app->system->file_put_contents($amavis_configfile, '');
 
 		if ( $amavis_configfile == '' || !is_writeable($amavis_configfile) ) {
 			$app->log('Amavis-config not found or not writeable.', LOGLEVEL_ERROR);
@@ -123,7 +123,8 @@ class mail_plugin_dkim {
 				!empty($mail_config['dkim_path']) && 
 				isset($data['new']['dkim_private']) && 
 				!empty($data['new']['dkim_private']) &&
-				$mail_config['dkim_path'] != '/'
+				$mail_config['dkim_path'] != '/' &&
+				$app->system->checkpath($mail_config['dkim_path'])
 		) {
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
@@ -137,8 +138,7 @@ class mail_plugin_dkim {
 				}
 				if(!empty($amavis_user)) {
 					mkdir($mail_config['dkim_path'], 0750, true);
-					exec('chown '.$amavis_user.' '.escapeshellarg($mail_config['dkim_path']));
-					unset($amavis_user);
+					$app->system->chown($mail_config['dkim_path'], $amavis_user);
 				} else {
 					mkdir($mail_config['dkim_path'], 0755, true);
 					$app->log('No user amavis or vscan found - using root for '.$mail_config['dkim_path']
@@ -152,7 +152,7 @@ class mail_plugin_dkim {
 			}
 
 		} else {
-			$app->log('Unable to write DKIM settings - no DKIM-Path defined', LOGLEVEL_ERROR);
+			$app->log('Unable to write DKIM settings - no or invalid DKIM-Path defined', LOGLEVEL_ERROR);
 			$check=false;
 		}
 		return $check;
@@ -161,23 +161,24 @@ class mail_plugin_dkim {
 	/**
 	 * This function restarts amavis
 	 */
-	function restart_amavis() {
-		global $app, $conf;
-		$pos_init=array(
-			$conf['init_scripts'].'/amavis',
-			$conf['init_scripts'].'/amavisd'
-		);
-		$initfile='';
-		foreach($pos_init as $init) {
-			if (is_executable($init)) {
-				$initfile=$init;
-				break;
-				}
-		}
-		$app->log('Restarting amavis: '.$initfile.'.', LOGLEVEL_DEBUG);
-		exec(escapeshellarg($initfile).' restart', $output);
-		foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
-	}
+    function restart_amavis() {
+        global $app, $conf;
+        $pos_init=array(
+            $conf['init_scripts'].'/amavis',
+            $conf['init_scripts'].'/amavisd'
+        );
+        $initfile='';
+        foreach($pos_init as $init) {
+            if (is_executable($init)) {
+                $initfile=$init;
+                break;
+                }
+        }
+		if ( $initfile == '' ) $initfile = 'service amavis';
+        $app->log('Restarting amavis: '.$initfile.'.', LOGLEVEL_DEBUG);
+        exec(escapeshellarg($initfile).' restart', $output);
+        foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
+    }
 
 	/**
 	 * This function writes the keyfiles (public and private)
@@ -189,7 +190,7 @@ class mail_plugin_dkim {
 	function write_dkim_key($key_file, $key_value, $key_domain) {
 		global $app, $mailconfig;
 		$success=false;
-		if (!file_put_contents($key_file.'.private', $key_value) === false) {
+		if ( $app->system->file_put_contents($key_file.'.private', $key_value) ) {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private', LOGLEVEL_DEBUG);
 			$success=true;
 			/* now we get the DKIM Public-key */
@@ -197,7 +198,7 @@ class mail_plugin_dkim {
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */
-			if (!file_put_contents($key_file.'.public', $public_key) === false)
+			if ( $app->system->file_put_contents($key_file.'.public', $public_key) )
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else {
@@ -214,11 +215,11 @@ class mail_plugin_dkim {
 	function remove_dkim_key($key_file, $key_domain) {
 		global $app;
 		if (file_exists($key_file.'.private')) {
-			exec('rm -f '.escapeshellarg($key_file.'.private'));
+			$app->system->unlink($key_file.'.private');
 			$app->log('Deleted the DKIM Private-key for '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else $app->log('Unable to delete the DKIM Private-key for '.$key_domain.' (not found).', LOGLEVEL_DEBUG);
 		if (file_exists($key_file.'.public')) {
-			exec('rm -f '.escapeshellarg($key_file.'.public'));
+			$app->system->unlink($key_file.'.public');
 			$app->log('Deleted the DKIM Public-key for '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else $app->log('Unable to delete the DKIM Public-key for '.$key_domain.' (not found).', LOGLEVEL_DEBUG);
 	}
@@ -239,20 +240,20 @@ class mail_plugin_dkim {
 		//* If we are using seperate config-files with amavis remove existing keys from 50-user to avoid duplicate keys
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
-			$temp_config = file_get_contents($temp_configfile);
+			$temp_config = $app->system->file_get_contents($temp_configfile);
 			if (preg_match($search_regex, $temp_config)) {
 				$temp_config = preg_replace($search_regex, '', $temp_config)."\n";
-				file_put_contents($temp_configfile, $temp_config);
+				$app->system->file_put_contents($temp_configfile, $temp_config);
 			}
 			unset($temp_configfile);
 			unset($temp_config);
 		}
 
 		$key_value="dkim_key('".$key_domain."', '".$selector."', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
-		$amavis_config = file_get_contents($amavis_configfile);
+		$amavis_config = $app->system->file_get_contents($amavis_configfile);
 		$amavis_config = preg_replace($search_regex, '', $amavis_config).$key_value;
 
-		if (file_put_contents($amavis_configfile, $amavis_config)) {
+		if ( $app->system->file_put_contents($amavis_configfile, $amavis_config) ) {
 			$app->log('Adding DKIM Private-key to amavis-config.', LOGLEVEL_DEBUG);
 			$restart = true;
 		} else {
@@ -271,13 +272,13 @@ class mail_plugin_dkim {
 
 		$restart = false;
 		$amavis_configfile = $this->get_amavis_config();
-		$amavis_config = file_get_contents($amavis_configfile);
+		$amavis_config = $app->system->file_get_contents($amavis_configfile);
 
 		$search_regex = "/(\n|\r)?dkim_key.*".$key_domain.".*(\n|\r)?/";
 
 		if (preg_match($search_regex, $amavis_config)) {
 			$amavis_config = preg_replace($search_regex, '', $amavis_config);
-			file_put_contents($amavis_configfile, $amavis_config);
+			$app->system->file_put_contents($amavis_configfile, $amavis_config);
 			$app->log('Deleted the DKIM settings from amavis-config for '.$key_domain.'.', LOGLEVEL_DEBUG);
 			$restart = true;
 		}
@@ -285,10 +286,10 @@ class mail_plugin_dkim {
 		//* If we are using seperate config-files with amavis remove existing keys from 50-user, too
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
-			$temp_config = file_get_contents($temp_configfile);
+			$temp_config = $app->system->file_get_contents($temp_configfile);
 			if (preg_match($search_regex, $temp_config)) {
 				$temp_config = preg_replace($search_regex, '', $temp_config);
-				file_put_contents($temp_configfile, $temp_config);
+				$app->system->file_put_contents($temp_configfile, $temp_config);
 				$restart = true;
 			}
 			unset($temp_configfile);
