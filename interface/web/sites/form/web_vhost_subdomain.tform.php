@@ -486,7 +486,7 @@ $form["tabs"]['stats'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'webalizer',
-			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats')
+			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
 		),
 		//#################################
 		// ENDE Datatable fields
