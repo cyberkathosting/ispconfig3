@@ -458,9 +458,13 @@ class page_action extends tform_actions {
 					}
 					$server_id = intval(@$this->dataRecord["server_id"]);
 				} else {
-					// Get the first server ID
-					$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
-					$server_id = intval($tmp['server_id']);
+					$settings = $app->getconf->get_global_config('sites');
+					$server_id = intval($settings['default_webserver']);
+					if (!$server_id) {
+						// Get the first server ID
+						$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
+						$server_id = intval($tmp['server_id']);
+					}
 				}
 
 				//* get global web config
