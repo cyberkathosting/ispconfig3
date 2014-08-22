@@ -409,7 +409,7 @@ class page_action extends tform_actions {
 		$ssl_domains = array();
 		$tmpd = $app->db->queryAllRecords("SELECT domain, type FROM web_domain WHERE domain_id = ".$this->id." OR parent_domain_id = ".$this->id);
 		foreach($tmpd as $tmp) {
-			if($tmp['type'] == 'subdomain' || $tmp['type'] == 'vhostsubdomain']) {
+			if($tmp['type'] == 'subdomain' || $tmp['type'] == 'vhostsubdomain') {
 				$ssl_domains[] = $tmp["domain"];
 			} else {
 				$ssl_domains = array_merge($ssl_domains, array($tmp["domain"],'www.'.$tmp["domain"],'*.'.$tmp["domain"]));
