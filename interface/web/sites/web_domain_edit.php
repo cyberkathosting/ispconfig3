@@ -406,8 +406,15 @@ class page_action extends tform_actions {
 		}
 
 		$ssl_domain_select = '';
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$this->id);
-		$ssl_domains = array($tmp["domain"], 'www.'.$tmp["domain"], '*.'.$tmp["domain"]);
+		$ssl_domains = array();
+		$tmpd = $app->db->queryAllRecords("SELECT domain, type FROM web_domain WHERE domain_id = ".$this->id." OR parent_domain_id = ".$this->id);
+		foreach($tmpd as $tmp) {
+			if($tmp['type'] == 'subdomain' || $tmp['type'] == 'vhostsubdomain']) {
+				$ssl_domains[] = $tmp["domain"];
+			} else {
+				$ssl_domains = array_merge($ssl_domains, array($tmp["domain"],'www.'.$tmp["domain"],'*.'.$tmp["domain"]));
+			}
+		}
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
