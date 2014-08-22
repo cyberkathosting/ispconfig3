@@ -358,7 +358,7 @@ class page_action extends tform_actions {
 		//* dkim-value changed
 		if ( $mail_data != $post_data ) {
 			//* get the dns-record for the public from the db
-			$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?'", $mail_data['dkim_selector'].'._domainkey.'.$mail_data['domain'].'.', $mail_data['sys_groupid']);
+			$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?", $mail_data['dkim_selector'].'._domainkey.'.$mail_data['domain'].'.', $mail_data['sys_groupid']);
 
 			//* we modify dkim dns-values for active mail-domains only
 			if ( $post_data['active'] == 'y' ) {
