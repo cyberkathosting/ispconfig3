@@ -127,4 +127,5 @@ $wb['backup_excludes_txt'] = 'Vyloučené adresáře';
 $wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Neplatné nastavení php.ini';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 ?>

@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Pozadinski modul';
-$wb['module_txt'] = 'Modul';
-$wb['title_txt'] = 'Naslov';
-?>

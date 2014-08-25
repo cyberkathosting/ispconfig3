@@ -1,8 +1,0 @@
-<?php
-$wb['title_txt'] = 'Naziv';
-$wb['target_txt'] = 'Destinacija';
-$wb['link_txt'] = 'Link';
-$wb['header_txt'] = 'Navi postavke';
-$wb['save_txt'] = 'Spremi';
-$wb['cancel_txt'] = 'Odustani';
-?>

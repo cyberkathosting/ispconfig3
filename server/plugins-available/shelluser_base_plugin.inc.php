@@ -58,19 +58,25 @@ class shelluser_base_plugin {
 		/*
 		Register for the events
 		*/
-
+		
 		$app->plugins->registerEvent('shell_user_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('shell_user_update', $this->plugin_name, 'update');
 		$app->plugins->registerEvent('shell_user_delete', $this->plugin_name, 'delete');
-
+		
 
 	}
 
 
 	function insert($event_name, $data) {
 		global $app, $conf;
-
-		$app->uses('system');
+		
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
@@ -92,12 +98,17 @@ class shelluser_base_plugin {
 
 		if($app->system->is_user($data['new']['puser'])) {
 
-			//* Remove webfolder protection
-			$app->system->web_folder_protection($web['document_root'], false);
-
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
+				//* Remove webfolder protection
+				$app->system->web_folder_protection($web['document_root'], false);
+
+				if(!is_dir($data['new']['dir'])){
+					$app->file->mkdirs(escapeshellcmd($data['new']['dir']), '0700');
+					$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
+					$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+				}
 				$command = 'useradd';
 				$command .= ' -d '.escapeshellcmd($data['new']['dir']);
 				$command .= ' -g '.escapeshellcmd($data['new']['pgroup']);
@@ -132,7 +143,6 @@ class shelluser_base_plugin {
 
 				//* Add webfolder protection again
 				$app->system->web_folder_protection($web['document_root'], true);
-
 			} else {
 				$app->log("UID = $uid for shelluser:".$data['new']['username']." not allowed.", LOGLEVEL_ERROR);
 			}
@@ -144,7 +154,13 @@ class shelluser_base_plugin {
 	function update($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		//* Check if the resulting path is inside the docroot
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
@@ -223,15 +239,60 @@ class shelluser_base_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system');
+		$app->uses('system,getconf');
+		
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['allow_shell_user'] != 'yes') {
+			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
 
 		if($app->system->is_user($data['old']['username'])) {
 			// Get the UID of the user
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
+				// check if we have to delete the dir
+				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($data['old']['dir']) . '\'');
+				if(!$check && is_dir($data['old']['dir'])) {
+					
+					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
+					
+					$app->system->web_folder_protection($web['document_root'], false);
+					
+					// delete dir
+					$homedir = $data['old']['dir'];
+					if(substr($homedir, -1) !== '/') $homedir .= '/';
+					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
+					$dirs = array('.ssh', '.cache');
+					foreach($files as $delfile) {
+						if(is_file($homedir . $delfile) && fileowner($homedir . $delfile) == $userid) unlink($homedir . $delfile);
+					}
+					foreach($dirs as $deldir) {
+						if(is_dir($homedir . $deldir) && fileowner($homedir . $deldir) == $userid) exec('rm -rf ' . escapeshellarg($homedir . $deldir));
+					}
+					$empty = true;
+					$dirres = opendir($homedir);
+					if($dirres) {
+						while(($entry = readdir($dirres)) !== false) {
+							if($entry != '.' && $entry != '..') {
+								$empty = false;
+								break;
+							}
+						}
+						closedir($dirres);
+					}
+					if($empty == true) {
+						rmdir($homedir);
+					}
+					unset($files);
+					unset($dirs);
+					
+					$app->system->web_folder_protection($web['document_root'], true);
+				}
+				
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
-					$command = 'userdel -f';
+					$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
 					$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 					exec($command);
 					$app->log("Deleted shelluser: ".$data['old']['username'], LOGLEVEL_DEBUG);

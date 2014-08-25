@@ -147,4 +147,6 @@ $wb['strength_4'] = 'Silná';
 $wb['strength_5'] = 'Velmi silná';
 $wb['weak_password_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé a mající sílu \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé.';
+$wb['security_check1_txt'] = 'Check for security permission:';
+$wb['security_check2_txt'] = 'failed.';
 ?>

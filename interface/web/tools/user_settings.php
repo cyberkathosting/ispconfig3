@@ -44,6 +44,10 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('tools');
 
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$app->auth->check_security_permissions('admin_allow_new_admin');
+}
+
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');

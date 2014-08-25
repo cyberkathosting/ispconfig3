@@ -49,5 +49,5 @@ $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
 $wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
-$wb['disablesmtp_txt'] = 'Disable SMTP (sending)';
+$wb['disablesmtp_txt'] = 'Zakázat SMTP (pouze odesílání)';
 ?>

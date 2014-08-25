@@ -59,6 +59,15 @@ class getconf {
 		}
 		return ($section == '') ? $this->config['global'] : $this->config['global'][$section];
 	}
+	
+	public function get_security_config($section = '') {
+		global $app;
+
+		$app->uses('ini_parser');
+		$security_config = $app->ini_parser->parse_ini_string(file_get_contents('/usr/local/ispconfig/security/security_settings.ini'));
+
+		return ($section == '') ? $security_config : $security_config[$section];
+	}
 
 }
 

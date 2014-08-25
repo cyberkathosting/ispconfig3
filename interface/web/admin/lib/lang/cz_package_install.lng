@@ -1,5 +1,5 @@
 <?php
-$wb['repo_name_txt'] = 'Repozitář';
+$wb['repo_name_txt'] = 'Název zdroje';
 $wb['repo_url_txt'] = 'URL';
 $wb['repo_username_txt'] = 'Uživatel (volitelné)';
 $wb['repo_password_txt'] = 'Heslo (volitelné)';

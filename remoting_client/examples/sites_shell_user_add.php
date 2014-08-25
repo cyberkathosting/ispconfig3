@@ -20,14 +20,14 @@ try {
 	$params = array(
 		'server_id' => 1,
 		'parent_domain_id' => 1,
-		'username' => 'threep2',
-		'password' => 'wood',
+		'username' => 'tom',
+		'password' => 'test',
 		'quota_size' => 10000,
 		'active' => 'y',
-		'puser' => 'null',
-		'pgroup' => 'null',
+		'puser' => 'web1',
+		'pgroup' => 'client0',
 		'shell' => '/bin/bash',
-		'dir' => 'maybe',
+		'dir' => '/var/www/clients/client0/web1',
 		'chroot' => ''
 	);
 

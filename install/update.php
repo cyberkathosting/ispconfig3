@@ -443,6 +443,9 @@ if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
 
 $inst->install_ispconfig();
 
+// Cleanup
+$inst->cleanup_ispconfig();
+
 //** Configure Crontab
 $update_crontab_answer = $inst->simple_query('Reconfigure Crontab?', array('yes', 'no'), 'yes','reconfigure_crontab');
 if($update_crontab_answer == 'yes') {
@@ -493,6 +496,11 @@ if($reconfigure_services_answer == 'yes') {
 		//if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))     system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
+
+//* Create md5 filelist
+$md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';
+exec('find /usr/local/ispconfig -type f -print0 | xargs -0 md5sum > '.$md5_filename);
+chmod($md5_filename,0700);
 
 echo "Update finished.\n";
 

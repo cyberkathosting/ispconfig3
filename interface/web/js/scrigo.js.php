@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../../lib/config.inc.php';
 header('Content-Type: text/javascript; charset=utf-8'); // the config file sets the content type header so we have to override it here!
 require_once '../../lib/app.inc.php';
@@ -438,6 +437,8 @@ function loadMenus() {
 }
 
 function changeTab(tab,target,force) {
+	if(requestsRunning > 0) return false;
+	
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
 

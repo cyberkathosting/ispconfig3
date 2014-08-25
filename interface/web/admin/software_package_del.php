@@ -33,6 +33,7 @@ require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
+$app->auth->check_security_permissions('admin_allow_software_packages');
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
 $software_update_inst_id = $app->functions->intval($_GET['software_update_inst_id']);
