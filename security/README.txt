@@ -69,6 +69,45 @@ Setting:     remote_api_allowed
 Options:     yes/no
 Description: Disables the remote API
 
+Setting:     ids_enabled
+Options:     yes/no
+Description: Enables the Intrusion Detection System
+
+Setting:     ids_log_level
+Options:     1 (number, default = 1)
+Description: IDS score that triggers the log in /usr/local/ispconfig/interface/temp/ids.log
+             This log can be used to feed the whitelist. 
+			 
+			 Example:
+			 
+			 cat /usr/local/ispconfig/interface/temp/ids.log >> /usr/local/ispconfig/security/ids.whitelist
+			 rm -f /usr/local/ispconfig/interface/temp/ids.log
+			 
+			 If you want to use a custom whitelist, then store it as /usr/local/ispconfig/security/ids.whitelist.custom
+
+Setting:     ids_warn_level
+Options:     5 (number, default = 5)
+Description: When the IDS score exceeds this level, a error message is logged into the system log. No message is displayed to the user.
+
+Setting:     ids_block_level
+Options:     100 (number, default = 100)
+Description: When the IDS score exceeds this level, a error message is shown to the user and further processing is blocked. A score of 100 will most likely never be reached. 
+             We have choosen such a high score as default until we have more complete whitelists for this new feature.
+
+Setting:     sql_scan_enabled
+Options:     yes/no
+Description: Enables the scan for SQL injections in the DB library.
+
+Setting:     sql_scan_action
+Options:     warn/block
+Description: warn = write errot message to log only. Block = block user action and show error to the user.
+
+Setting:     apache_directives_scan_enabled
+Options:     yes/no
+Description: Scan apache directives field for potentially malicious directives. This function uses the regex
+             list from /usr/local/ispconfig/security/apache_directives.blacklist file.
+			 If you want to use a custom blacklist, then store it as /usr/local/ispconfig/security/apache_directives.blacklist.custom
+
 Setting:     security_admin_email
 Options:     email address
 Description: Email address of the security admin
