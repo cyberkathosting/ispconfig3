@@ -48,6 +48,7 @@ class app {
 	private $_wb;
 	private $_loaded_classes = array();
 	private $_conf;
+	private $_security_config;
 	
 	public $loaded_plugins = array();
 
@@ -109,7 +110,8 @@ class app {
 		}
 
 		$this->uses('functions'); // we need this before all others!
-		$this->uses('auth,plugin');
+		$this->uses('auth,plugin,ini_parser,getconf');
+		
 	}
 
 	public function __get($prop) {
@@ -326,5 +328,14 @@ class app {
 //** Initialize application (app) object
 //* possible future =  new app($conf);
 $app = new app();
+
+// load and enable PHP Intrusion Detection System (PHPIDS)
+$ids_security_config = $app->getconf->get_security_config('ids');
+		
+if(is_dir(ISPC_CLASS_PATH.'/IDS') && $ids_security_config['ids_enabled'] == 'yes') {
+	$app->uses('ids');
+	$app->ids->start();
+}
+unset($ids_security_config);
 
 ?>

@@ -1010,6 +1010,12 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chown root:ispconfig '.$install_dir.'/security';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.whitelist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.htmlfield';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/apache_directives.blacklist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
 		exec("chmod -R 770 $install_dir/interface/lib/lang");

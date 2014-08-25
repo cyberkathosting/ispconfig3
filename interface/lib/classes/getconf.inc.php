@@ -31,6 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class getconf {
 
 	private $config;
+	private $security_config;
 
 	public function get_server_config($server_id, $section = '') {
 		global $app;
@@ -55,15 +56,20 @@ class getconf {
 		return ($section == '') ? $this->config['global'] : $this->config['global'][$section];
 	}
 	
+	// Function has been moved to $app->get_security_config($section)
 	public function get_security_config($section = '') {
 		global $app;
+		
+		if(is_array($this->security_config)) {
+			return ($section == '') ? $this->security_config : $this->security_config[$section];
+		} else {
+			$this->uses('ini_parser');
+			$security_config_path = '/usr/local/ispconfig/security/security_settings.ini';
+			if(!is_file($security_config_path)) $security_config_path = realpath(ISPC_ROOT_PATH.'/../security/security_settings.ini');
+			$this->security_config = $this->ini_parser->parse_ini_string(file_get_contents($security_config_path));
 
-		$app->uses('ini_parser');
-		$security_config_path = '/usr/local/ispconfig/security/security_settings.ini';
-		if(!is_file($security_config_path)) $security_config_path = realpath(ISPC_ROOT_PATH.'/../security/security_settings.ini');
-		$security_config = $app->ini_parser->parse_ini_string(file_get_contents($security_config_path));
-
-		return ($section == '') ? $security_config : $security_config[$section];
+			return ($section == '') ? $this->security_config : $this->security_config[$section];
+		}
 	}
 
 }

@@ -1,0 +1,5 @@
+# Format: usertype:url_path:field
+# usertype can be: any/client/admin
+# Example:
+# admin:/admin/language_edit.php:POST.records.weak_password_txt
+admin:/admin/language_edit.php:POST.records
