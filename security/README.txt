@@ -69,6 +69,10 @@ Setting:     remote_api_allowed
 Options:     yes/no
 Description: Disables the remote API
 
+Setting:     password_reset_allowed
+Options:     yes/no
+Description: Disables the password reset function.
+
 Setting:     ids_enabled
 Options:     yes/no
 Description: Enables the Intrusion Detection System

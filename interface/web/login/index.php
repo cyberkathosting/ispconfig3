@@ -325,6 +325,15 @@ class login_index {
 			$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
 		}
 		
+		$app->load('getconf');
+
+		$security_config = $app->getconf->get_security_config('permissions');
+		if($security_config['password_reset_allowed'] == 'yes') {
+			$app->tpl->setVar('pw_lost_show', 1);
+		} else {
+			$app->tpl->setVar('pw_lost_show', 0);
+		}
+		
 		$app->tpl->setVar('error', $error);
 		$app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
