@@ -1426,7 +1426,7 @@ class remoting {
 		
 		if($params['parent_client_id']) {
 			// check if this one is reseller
-			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($client_id));
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
 				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
@@ -1461,7 +1461,7 @@ class remoting {
 
 		if($params['parent_client_id']) {
 			// check if this one is reseller
-			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($client_id));
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
 				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
