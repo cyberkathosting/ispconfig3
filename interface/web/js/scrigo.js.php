@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../../lib/config.inc.php';
 header('Content-Type: text/javascript; charset=utf-8'); // the config file sets the content type header so we have to override it here!
 require_once '../../lib/app.inc.php';
