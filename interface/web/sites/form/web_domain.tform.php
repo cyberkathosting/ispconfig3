@@ -730,6 +730,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			'apache_directives' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXT',
+				'validators' => array (  0 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_domain',
+							'function' => 'web_apache_directives',
+							'errmsg' => 'apache_directive_blockd_error'
+						),
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',

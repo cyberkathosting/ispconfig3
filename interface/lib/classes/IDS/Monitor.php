@@ -250,7 +250,7 @@ class Monitor
         $filterSet = $this->storage->getFilterSet();
 
         if ($tags = $this->tags) {
-            $filterSet = array_filter(
+            $filterSet = @array_filter(
                 $filterSet,
                 function (Filter $filter) use ($tags) {
                     return (bool) array_intersect($tags, $filter->getTags());
@@ -259,7 +259,7 @@ class Monitor
         }
 
         $scanKeys = $this->scanKeys;
-        $filterSet = array_filter(
+        $filterSet = @array_filter(
             $filterSet,
             function (Filter $filter) use ($key, $value, $scanKeys) {
                 return $filter->match($value) || $scanKeys && $filter->match($key);
