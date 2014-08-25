@@ -138,7 +138,7 @@ class db extends mysqli
 				$chars = array(';', '#', '/*', '*/', '--', ' UNION ', '\\\'', '\\"');
 		
 				$string = str_replace('\\\\', '', $string);
-				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\])\\2/is', '$1', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\]?)\\2/is', '$1', $string);
 				$ok = true;
 
 				if(substr_count($string, "`") % 2 != 0 || substr_count($string, "'") % 2 != 0 || substr_count($string, '"') % 2 != 0) {
