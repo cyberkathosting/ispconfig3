@@ -123,7 +123,7 @@ class validate_domain {
 						foreach($regex as $r) {
 							if(preg_match(trim($r),$directive)) {
 								$blocked = true;
-								$blocked_line = $directive;
+								$blocked_line .= $directive.'<br />';
 							};
 						}
 					}
