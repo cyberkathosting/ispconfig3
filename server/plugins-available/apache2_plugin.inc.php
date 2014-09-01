@@ -171,30 +171,34 @@ class apache2_plugin {
 
 			$rand_file = escapeshellcmd($rand_file);
 			$key_file = escapeshellcmd($key_file);
+			$openssl_cmd_key_file = $key_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
+			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
+			$openssl_cmd_csr_file = $csr_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
 			$config_file = escapeshellcmd($ssl_cnf_file);
 			$crt_file = escapeshellcmd($crt_file);
+			$openssl_cmd_crt_file = $crt_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048");
-				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
+				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file 2048");
+				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
+				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file -out $openssl_cmd_key_file2");
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file");
+					exec("openssl ca -batch -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file");
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file", LOGLEVEL_ERROR);
+					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
+					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
@@ -273,7 +277,7 @@ class apache2_plugin {
 			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 			{
-				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke $crt_file");
+				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke ".escapeshellcmd($crt_file));
 				$app->log("Revoking CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 			};
 			$app->system->unlink($csr_file);

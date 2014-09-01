@@ -150,3 +150,4 @@ $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zás
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 ?>
+

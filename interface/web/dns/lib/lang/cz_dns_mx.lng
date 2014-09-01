@@ -16,3 +16,4 @@ $wb['data_error_regex'] = 'Hostname e-mailového serveru má chybný formát';
 $wb['duplicate_mx_record_txt'] = 'Duplicitní MX záznam.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
+

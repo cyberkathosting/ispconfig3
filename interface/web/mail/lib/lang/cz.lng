@@ -46,3 +46,4 @@ $wb['Relay Recipients'] = 'Relay adresáti';
 $wb['Statistics'] = 'Statistiky';
 $wb['Mailbox quota'] = 'Kvóty pro e-mailové schránky';
 ?>
+

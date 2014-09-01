@@ -51,3 +51,4 @@ $wb['email_error_isascii'] = 'Please do not use special unicode characters for y
 $wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
 $wb['disablesmtp_txt'] = 'Zakázat SMTP (pouze odesílání)';
 ?>
+
