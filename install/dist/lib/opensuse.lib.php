@@ -656,6 +656,9 @@ class installer_dist extends installer_base {
 		if($conf['apache']['installed'] == false) return;
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
+		
+		//* enable apache logio module
+		exec('a2enmod logio');
 
 		//if(is_file('/etc/suphp.conf')) {
 		replaceLine('/etc/suphp.conf', 'php=php', 'x-httpd-suphp="php:/srv/www/cgi-bin/php5"', 0, 0);
