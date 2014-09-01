@@ -160,7 +160,7 @@ class login_index {
 					} else {
 						if(stristr($username, '@')) {
 							//* mailuser login
-							$sql = "SELECT * FROM mail_user WHERE login = '$username'";
+							$sql = "SELECT * FROM mail_user WHERE login = '$username' or email = '$username'";
 							$mailuser = $app->db->queryOneRecord($sql);
 							$user = false;
 							if($mailuser) {
