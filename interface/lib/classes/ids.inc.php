@@ -51,7 +51,6 @@ class ids {
 		require_once(ISPC_CLASS_PATH.'/IDS/Converter.php');
 		
 		$ids_request = array(
-			'SESSION' => $_SESSION,
 			'GET' => $_GET,
 			'POST' => $_POST,
 			'COOKIE' => $_COOKIE
