@@ -9,7 +9,7 @@ if($app->auth->is_admin()) {
 
 	$items[] = array( 'title'  => 'Resync',
 		'target'  => 'content',
-		'link' => 'tools/resync.php');
+		'link' => 'tools/resync_show.php');
 
 
 	$module['nav'][] = array( 'title' => 'Sync Tools',

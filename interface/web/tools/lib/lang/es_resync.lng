@@ -11,4 +11,9 @@ $wb['resync_dns_txt'] = 'Resincronizar Registros DNS ';
 $wb['btn_start_txt'] = 'Inicio';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['resync_client_txt'] = 'Resincronizar Clientes';
+$wb['resync_webdav_txt'] = 'Resync WebDAV-Users';
+$wb['resync_mail_txt'] = 'Resync Maildomains';
+$wb['resync_vserver_txt'] = 'Resync vServer';
+$wb['resync_firewall_txt'] = 'Resync Firewall';
+$wb['resync_no_server_txt'] = 'No active server found';
 ?>
