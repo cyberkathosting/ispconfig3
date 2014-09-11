@@ -66,7 +66,10 @@ class page_action extends tform_actions {
 					$tmp_id .= $server['server_id'].',';
 					$server_name[$server['server_id']] = $server['server_name'];
 				}
+			} else {
+				$server_name[$server_id] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$server_id)['server_name'];
 			}
+				
 			if ( isset($tmp_id) ) $server_id = rtrim($tmp_id,',');
 
 			if ($active_only) {
