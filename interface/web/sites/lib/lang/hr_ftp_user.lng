@@ -25,12 +25,14 @@ $wb['directory_error_empty'] = 'Prazan direktorij.';
 $wb['directory_error_notinweb'] = 'Direktorij nije unutar početne web stranice.';
 $wb['parent_domain_id_error_empty'] = 'Nije izabrana web stranica.';
 $wb['quota_size_error_regex'] = 'Kvota: unesi -1 za neograničeno ili broj > 0';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
-$wb['directory_error_regex'] = 'Invalid directory';
+$wb['dir_dot_error'] = '.. nije dozvoljen u putanji.';
+$wb['dir_slashdot_error'] = './ nije dozvoljen u putanji.';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
+$wb['invalid_system_user_or_group_txt'] = 'Nepostojeći sistemski korisnik ili grupa';
+$wb['directory_error_regex'] = 'Neispravan direktorij';
 ?>
+
+

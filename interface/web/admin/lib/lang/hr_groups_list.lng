@@ -5,3 +5,5 @@ $wb['name_txt'] = 'Grupa';
 $wb['add_new_record_txt'] = 'Dodaj grupu';
 $wb['warning_txt'] = '<b>UPOZORENJE:</b> Ne mijenjajte postavke klijenta ovdje. Koristite ';
 ?>
+
+

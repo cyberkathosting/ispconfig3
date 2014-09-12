@@ -4,7 +4,7 @@ $wb['start_txt'] = 'Pokreni virualni server';
 $wb['stop_txt'] = 'Zaustavi virtualni server';
 $wb['restart_txt'] = 'Restartaj virtualni server';
 $wb['ostemplate_txt'] = 'Kreiraj predložak operativnog sistema';
-$wb['ostemplate_desc_txt'] = '(primjer: debian-6.0-i386-custom)';
+$wb['ostemplate_desc_txt'] = '(primjer: debian-7.0-i386-custom)';
 $wb['btn_save_txt'] = 'Pokreni selektiranu akciju';
 $wb['btn_cancel_txt'] = 'Prekini';
 $wb['start_exec_txt'] = 'Komanda za pokretanje je poslana VM host serveru. Treba pričekati minutu, dvije dok se VM ne pokrene.';
@@ -14,3 +14,5 @@ $wb['ostemplate_name_error'] = 'OS predložak sadrži nedozvoljene znakove.';
 $wb['ostemplate_name_unique_error'] = 'Već postoji OS predložak sa tim nazivom.';
 $wb['ostemplate_exec_txt'] = 'Komanda za kreiranje OS predloška je poslana host serveru. Treba pričekati minutu, dvije dok se OS predložak ne kreira';
 ?>
+
+

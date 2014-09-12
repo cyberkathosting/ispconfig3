@@ -20,17 +20,19 @@ $wb['directory_error_empty'] = 'Direktorij je prazan.';
 $wb['limit_shell_user_txt'] = 'Iskorišten je maksimalan broj shell korisnika.';
 $wb['parent_domain_id_error_empty'] = 'Nije izabrana web stranica.';
 $wb['ssh_rsa_txt'] = 'SSH-RSA javni ključ (za logiranje ključevima)';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['username_must_not_exceed_32_chars_txt'] = 'The username must not exceed 32 characters.';
-$wb['username_not_allowed_txt'] = 'The username is not allowed.';
-$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
-$wb['directory_error_regex'] = 'Invalid directory';
-$wb['shell_error_regex'] = 'Invalid shell';
-$wb['invalid_username_txt'] = 'Invalid Username';
-$wb['directory_error_notinweb'] = 'The directory has to be inside the web root.';
+$wb['dir_dot_error'] = 'Nije dozvoljeno koristiti .. u putanji.';
+$wb['dir_slashdot_error'] = 'Nije dozvoljeno koristiti ./ u putanji.';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
+$wb['username_must_not_exceed_32_chars_txt'] = 'Korisničko ime ne može biti duže od 32 znaka.';
+$wb['username_not_allowed_txt'] = 'Izabrano korisničko ime nije dozvoljeno.';
+$wb['invalid_system_user_or_group_txt'] = 'Neispravan sistemski korisnik ili grupa';
+$wb['directory_error_regex'] = 'Neispravan direktorij';
+$wb['shell_error_regex'] = 'Neispravan shell';
+$wb['invalid_username_txt'] = 'Neispravno korisničko ime';
+$wb['directory_error_notinweb'] = 'Direktorij treba biti unutar web početne putanje (root).';
 ?>
+
+

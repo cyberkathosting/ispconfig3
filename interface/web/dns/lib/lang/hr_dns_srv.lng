@@ -9,12 +9,14 @@ $wb['port_txt'] = 'Port';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivno';
 $wb['aux_txt'] = 'Prioritet';
-$wb['limit_dns_record_txt'] = 'IskoriÅ¡ten je maksimalan broj DNS zapisa za vaÅ¡ raÄ�un.';
+$wb['limit_dns_record_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
 $wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
 $wb['name_error_empty'] = 'Naziv hosta nije upisan.';
-$wb['name_error_regex'] = 'Naziv hosta je u pogreÅ¡nom formatu.';
+$wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Polje serverski zapis je prazno';
 $wb['data_error_regex'] = 'Neispravan format serverskog zapisa';
-$wb['srv_error_regex'] = 'Neispravan format serverskog zapisa. Mora sadrÅ¾avati barem 3 tekstualne rijeÄ�i odvojene razmakom.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['srv_error_regex'] = 'Neispravan format serverskog zapisa. Mora sadržavati barem 3 tekstualne riječi odvojene razmakom.';
+$wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
+
+

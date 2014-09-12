@@ -1,9 +1,11 @@
 <?php
-$wb['Email Account'] = 'Email Account';
-$wb['Overview'] = 'Overview';
-$wb['Password'] = 'Password';
+$wb['Email Account'] = 'Email račun';
+$wb['Overview'] = 'Pregled';
+$wb['Password'] = 'Šifra';
 $wb['Autoresponder'] = 'Autoresponder';
-$wb['Send copy'] = 'Send copy';
+$wb['Send copy'] = 'Pošalji kopiju';
 $wb['Spamfilter'] = 'Spamfilter';
-$wb['Email Filters'] = 'Email Filters';
+$wb['Email Filters'] = 'Email filteri';
 ?>
+
+

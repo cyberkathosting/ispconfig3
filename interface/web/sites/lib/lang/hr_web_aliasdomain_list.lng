@@ -12,3 +12,5 @@ $wb['no_redirect_txt'] = 'Bez redirekcije';
 $wb['no_flag_txt'] = 'Bez označavanja';
 $wb['none_txt'] = 'Ništa';
 ?>
+
+

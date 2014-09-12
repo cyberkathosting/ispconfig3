@@ -15,3 +15,5 @@ $wb['email_error_unique'] = 'There is already an spamfilter record for this emai
 $wb['spam_redirect_maildir_purge_txt'] = 'Purge Maildir after';
 $wb['days_txt'] = 'Days.';
 ?>
+
+
