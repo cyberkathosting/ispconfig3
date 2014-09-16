@@ -147,6 +147,7 @@ class nginx_plugin {
 
         [ req ]
         default_bits           = 2048
+		default_md             = sha256
         default_keyfile        = keyfile.pem
         distinguished_name     = req_distinguished_name
         attributes             = req_attributes
@@ -187,7 +188,7 @@ class nginx_plugin {
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
 				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file 2048");
-				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
+				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
 				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file -out $openssl_cmd_key_file2");
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
