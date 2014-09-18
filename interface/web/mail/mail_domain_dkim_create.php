@@ -48,12 +48,12 @@ header('Cache-Control: must-revalidate, pre-check=0, no-store, no-cache, max-age
 
 function validate_domain($domain) {
 	$regex = '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,30}$/';
-	return preg_match($regex, $domain);
+	if ( preg_match($regex, $domain) === 1 ) return true; else return false;
 }
 
 function validate_selector($selector) {
 	$regex = '/^[a-z0-9]{0,63}$/';
-	return preg_match($regex, $selector);
+	if ( preg_match($regex, $selector) === 1 ) return true; else return false;
 }
 
 /**
