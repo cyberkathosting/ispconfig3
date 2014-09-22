@@ -313,6 +313,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'dkim_strength' => array(
+			'datatype' => 'INTEGER',
+			'formtype' => 'SELECT',
+			'default' => '1024',
+			'value' => array('1024' => 'normal (1024)', '2048' => 'strong (2048)', '4096' => 'very strong (4096)')
+		),
         'relayhost_password' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'TEXT',

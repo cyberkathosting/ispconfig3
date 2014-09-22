@@ -202,4 +202,5 @@ $wb["overquota_db_notify_client_txt"] = 'Send DB quota warnings to client';
 $wb['monitor_system_updates_txt'] = 'Check for Linux updates';
 $wb['php_handler_txt'] = "PHP Handler";
 $wb['disabled_txt'] = 'Disabled';
+$wb['dkim_strength_txt'] = 'DKIM strength';
 ?>

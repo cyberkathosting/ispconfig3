@@ -72,13 +72,17 @@ class validate_dkim {
 	 *
 	 * @return boolean - true if $POST contains a real key-file
 	 */
-	function validate_post($key, $value) {
+	function validate_post($key, $value, $dkim_strength) {
+		$value=str_replace("\n", "", $value);
 		switch ($key) {
 		case 'public':
 			if (preg_match("/(^-----BEGIN PUBLIC KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,221}(-----END PUBLIC KEY-----(\n|\r)?$)/", $value) === 1) { return true; } else { return false; }
 			break;
 		case 'private':
-			if (preg_match("/(^-----BEGIN RSA PRIVATE KEY-----)[a-zA-Z0-9\r\n\/\+=]{1,850}(-----END RSA PRIVATE KEY-----(\n|\r)?$)/", $value) === 1) { return true; } else { return false; }
+			if ( $dkim_strength == 1024 ) $range = "{812,816}";
+			if ( $dkim_strength == 2048 ) $range = "{1588,1592}";
+			if ( $dkim_strength == 4096 ) $range = "{3132,3136}";
+			if (preg_match("/^-----BEGIN RSA PRIVATE KEY-----[a-zA-Z0-9\/\+=]".$range."-----END RSA PRIVATE KEY-----$/", $value) === 1) return true; else return false;
 			break;
 		}
 	}

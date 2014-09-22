@@ -33,6 +33,7 @@ module=postfix_mysql
 maildir_path=/var/vmail/[domain]/[localpart]
 homedir_path=/var/vmail
 dkim_path=/var/lib/amavis/dkim
+dkim_strength=1024
 pop3_imap_daemon=courier
 mail_filter_syntax=maildrop
 mailuser_uid=5000
@@ -48,6 +49,19 @@ message_size_limit=0
 mailbox_quota_stats=y
 realtime_blackhole_list=
 overquota_notify_admin=y
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
 overquota_notify_client=y
 overquota_notify_freq=7
 overquota_notify_onok=n
