@@ -128,13 +128,13 @@ $mail_server_id = $app->functions->intval( $app->db->queryOneRecord("SELECT serv
 $dkim_strength = $app->functions->intval( $app->getconf->get_server_config($mail_server_id, 'mail')['dkim_strength'] );
 if ( empty($dkim_strength) ) $dkim_strength = 1024;
 
+$_POST=getRealPOST();
 switch ($_POST['action']) {
 	case 'create': /* create DKIM Private-key */
 		$rnd_val = $dkim_strength * 10;
 		exec('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
 		exec('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
 		unlink('../../temp/random-data.bin');
-		$_POST=getRealPOST();
 		foreach($privkey as $values) $private_key=$private_key.$values."\n";
 		//* check the selector for updated dkim-settings only
 		if ( isset($_POST['dkim_public']) && !empty($_POST['dkim_public']) ) $selector = new_selector($_POST['dkim_selector'], $_POST['domain']); 
