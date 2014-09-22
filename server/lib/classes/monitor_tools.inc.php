@@ -215,13 +215,11 @@ class monitor_tools {
 				$distver = 'Unknown';
 				$distid = 'centos53';
 				$distbaseid = 'fedora';
-				swriteln("Operating System: CentOS 6 or compatible\n");
 			} elseif(stristr($content, 'CentOS Linux release 7')) {
 				$distname = 'CentOS';
 				$distver = 'Unknown';
 				$distid = 'centos53';
 				$distbaseid = 'fedora';
-				swriteln("Operating System: CentOS 7 or compatible\n");
 			} else {
 				$distname = 'Redhat';
 				$distver = 'Unknown';
