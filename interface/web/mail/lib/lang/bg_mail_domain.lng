@@ -1,4 +1,4 @@
-m_selector_error'] = '<?php
+<?php
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
 $wb['type_txt'] = 'Type';
