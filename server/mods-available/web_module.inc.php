@@ -212,11 +212,12 @@ class web_module {
 
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
-			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
-
+			$cmd = $app->system->getinitcommand($daemon, 'restart');
 		} else {
-			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
+			$cmd = $app->system->getinitcommand($daemon, 'reload');
 		}
+		exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
+		$app->log("Restarting httpd: $cmd", LOGLEVEL_DEBUG);
 		
 		// nginx: do a syntax check because on some distributions, the init script always returns 0 - even if the syntax is not ok (how stupid is that?)
 		if($web_config['server_type'] == 'nginx' && $retval['retval'] == 0){
@@ -249,6 +250,22 @@ class web_module {
 					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
 						$initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
 					}
+					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
+					if(preg_match('/^ID=centos/m', $tmp) && preg_match('/^VERSION_ID="7"/m', $tmp)) {
+						$initcommand = 'systemctl restart php-fpm.service';
+					}
+					unset($tmp);
+				}	
+			}
+			
+			if($action == 'reload') {
+				// And the next workaround, php-fpm reloads in centos 7 downt work as well.
+				if(file_exists('/etc/os-release')) {
+					$tmp = file_get_contents('/etc/os-release');
+					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
+					if(preg_match('/^ID="centos"/m', $tmp) && preg_match('/^VERSION_ID="7"/m', $tmp)) {
+						$initcommand = 'systemctl restart php-fpm.service';
+					}
 					unset($tmp);
 				}
 			}
@@ -256,6 +273,7 @@ class web_module {
 
 		$retval = array('output' => '', 'retval' => 0);
 		exec($initcommand.' 2>&1', $retval['output'], $retval['retval']);
+		$app->log("Restarting php-fpm: $initcommand", LOGLEVEL_DEBUG);
 		return $retval;
 	}
 
