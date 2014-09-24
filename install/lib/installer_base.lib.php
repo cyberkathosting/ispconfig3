@@ -2302,7 +2302,7 @@ class installer_base {
 	public function getinitcommand($servicename, $action, $init_script_directory = ''){
 		global $conf;
 		// systemd
-		if(is_executable('/bin/systemd')){
+		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
 			return 'systemctl '.$action.' '.$servicename.'.service';
 		}
 		// upstart
