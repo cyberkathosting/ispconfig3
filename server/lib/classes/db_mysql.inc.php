@@ -130,6 +130,8 @@ class db extends mysqli
 	}
 
 	public function query($queryString) {
+		global $app;
+		
 		if($this->isConnected == false) return false;
 		$try = 0;
 		do {
@@ -138,6 +140,17 @@ class db extends mysqli
 			if(!$ok) {
 				if(!$this->real_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
 					$this->updateError('DB::query -> reconnect');
+					if($this->errorNumber == '111') {
+						// server is not available
+						if($try > 9) {
+							if(isset($app) && isset($app->forceErrorExit)) {
+								$app->forceErrorExit('Database connection failure!');
+							}
+							// if we reach this, the app object is missing or has no exit method, so we continue as normal
+						}
+						sleep(30); // additional seconds, please!
+					}
+
 					if($try > 9) {
 						return false;
 					} else {
