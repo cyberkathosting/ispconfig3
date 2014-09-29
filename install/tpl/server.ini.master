@@ -33,6 +33,7 @@ module=postfix_mysql
 maildir_path=/var/vmail/[domain]/[localpart]
 homedir_path=/var/vmail
 dkim_path=/var/lib/amavis/dkim
+dkim_strength=1024
 pop3_imap_daemon=courier
 mail_filter_syntax=maildrop
 mailuser_uid=5000

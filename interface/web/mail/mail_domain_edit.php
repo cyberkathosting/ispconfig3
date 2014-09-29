@@ -286,10 +286,10 @@ class page_action extends tform_actions {
 		//* create dns-record with dkim-values if the zone exists
 		if ( (isset($this->dataRecord['dkim']) && $this->dataRecord['dkim'] == 'y') && (isset($this->dataRecord['active']) && $this->dataRecord['active'] == 'y') ) {
 			$soa_rec = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
-			if ( isset($soa_rec) ) {
+			if ( isset($soa_rec) && !empty($soa_rec) ) {
 				//* check for a dkim-record in the dns
 				$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?", $this->dataRecord['dkim_selector'].'._domainkey.'.$this->dataRecord['domain'].'.', $_SESSION["s"]["user"]['sys_groupid']);
-				if ( isset($dns_data) ) {
+				if ( isset($dns_data) && !empty($dns_data) ) {
 					$dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $this->dataRecord['dkim_public']);
 					$dns_data['active'] = 'Y';
 					$dns_data['stamp'] = date('Y-m-d H:i:s');
@@ -346,7 +346,7 @@ class page_action extends tform_actions {
 		//* get domain-data from the db
 		$mail_data = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $this->dataRecord['domain']);
 		
-		if ( isset($mail_data) ) {
+		if ( isset($mail_data) && !empty($mail_data) ) {
 			$post_data = $mail_data;
 			$post_data['dkim_selector'] = $this->dataRecord['dkim_selector'];
 			$post_data['dkim_public'] = $this->dataRecord['dkim_public'];
@@ -358,7 +358,7 @@ class page_action extends tform_actions {
 		//* dkim-value changed
 		if ( $mail_data != $post_data ) {
 			//* get the dns-record for the public from the db
-			$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?'", $mail_data['dkim_selector'].'._domainkey.'.$mail_data['domain'].'.', $mail_data['sys_groupid']);
+			$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?", $mail_data['dkim_selector'].'._domainkey.'.$mail_data['domain'].'.', $mail_data['sys_groupid']);
 
 			//* we modify dkim dns-values for active mail-domains only
 			if ( $post_data['active'] == 'y' ) {
@@ -376,7 +376,7 @@ class page_action extends tform_actions {
 				}
 			} else $new_dns_data['active'] = 'N';
 
-			if ( isset($dns_data) && isset($new_dns_data) ) {
+			if ( isset($dns_data) && !empty($dns_data) && isset($new_dns_data) ) {
 				//* update dns-record
 				$new_dns_data['serial'] = $app->validate_dns->increase_serial($dns_data['serial']);
 				$app->db->datalogUpdate('dns_rr', $new_dns_data, 'id', $dns_data['id']);
@@ -387,7 +387,7 @@ class page_action extends tform_actions {
 				//* create a new dns-record
 				$new_dns_data = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $mail_data['domain'].'.');
 				//* create a new record only if the dns-zone exists
-				if ( isset($new_dns_data) && $post_data['dkim'] == 'y' ) {
+				if ( isset($new_dns_data) && !empty($new_dns_data) && $post_data['dkim'] == 'y' ) {
 					$new_dns_data['name'] = $post_data['dkim_selector'].'._domainkey.'.$post_data['domain'].'.';
 					$new_dns_data['type'] = 'TXT';
 					$new_dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $post_data['dkim_public']);

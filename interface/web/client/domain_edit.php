@@ -207,7 +207,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name");
 			$this->dataRecord["client_group_id"] = $group["groupid"];
                 }
 

@@ -2,14 +2,18 @@
 $wb['head_txt'] = 'Resync Tool';
 $wb['legend_txt'] = 'Resync';
 $wb['resync_sites_txt'] = 'Resync Websites';
-$wb['resync_ftp_txt'] = 'Resync FTP users';
+$wb['resync_ftp_txt'] = 'Resync FTP-Accounts';
+$wb['resync_webdav_txt'] = 'Resync WebDAV-Users';
 $wb['resync_shell_txt'] = 'Resync shell users';
 $wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
+$wb['resync_db_txt'] = 'Resync Client Database config';
 $wb['resync_mailbox_txt'] = 'Resync Mailboxes';
-$wb['resync_dkim_txt'] = 'Resync DKIM-Keys';
+$wb['resync_mail_txt'] = 'Resync Maildomains';
 $wb['resync_dns_txt'] = 'Resync DNS records';
+$wb['resync_vserver_txt'] = 'Resync vServer';
 $wb['resync_client_txt'] = 'Resync Client records';
+$wb['resync_firewall_txt'] = 'Resync Firewall';
+$wb['resync_no_server_txt'] = 'No active server found';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Cancel';
 ?>
