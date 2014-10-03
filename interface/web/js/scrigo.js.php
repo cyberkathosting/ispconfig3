@@ -94,7 +94,15 @@ function onAfterContentLoad(url, data) {
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
-    $('#pageContent').find("select:not(.chosen-select)").combobox();
+
+
+    $('#pageContent').find("select:not(.chosen-select)").combobox({
+	    select: function (event, ui) {
+            if (jQuery(".panel #Filter").length > 0) {
+                jQuery(".panel #Filter").trigger('click');
+            }
+	    }
+    });
     $('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
@@ -845,13 +853,13 @@ function getRandomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-jQuery('.addPlaceholder').live("click", function(){
+jQuery('.addPlaceholder').on("click", function(){
 	var placeholderText = jQuery(this).text();
 	var template = jQuery(this).siblings(':input');
 	template.insertAtCaret(placeholderText);
 });
 
-jQuery('.addPlaceholderContent').live("click", function(){
+jQuery('.addPlaceholderContent').on("click", function(){
 	var placeholderContentText = jQuery(this).find('.addPlaceholderContent').text();
 	var template2 = jQuery(this).siblings(':input');
 	template2.insertAtCaret(placeholderContentText);
