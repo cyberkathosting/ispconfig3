@@ -55,7 +55,9 @@
 		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
 		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
 <tmpl_if name='has_bundle_cert'>
-		SSLCACertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
+		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
+		SSLCertificateChainFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
+		</tmpl_if>
 </tmpl_if>
 </tmpl_if>
 		</IfModule>

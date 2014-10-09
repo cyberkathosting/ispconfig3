@@ -335,8 +335,15 @@ class apache2_plugin {
 
 			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
-			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
-			if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
+			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+				$tmp_data = '';
+				if(trim($data["new"]["ssl_cert"]) != '') $tmp_data .= $data["new"]["ssl_cert"] . "\n";
+				if(trim($data["new"]["ssl_bundle"]) != '') $tmp_data .= $data["new"]["ssl_bundle"];
+				if(trim($tmp_data) != '') $app->system->file_put_contents($crt_file, $tmp_data);
+			} else {
+				if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
+				if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
+			}
 
 			//* Write the key file, if field is empty then import the key into the db
 			if(trim($data["new"]["ssl_key"]) != '') {
