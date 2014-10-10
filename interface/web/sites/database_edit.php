@@ -405,9 +405,6 @@ class page_action extends tform_actions {
 		global $app;
 		if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(), $this->id)) {
 
-			$app->uses('sites_database_plugin');
-			//$app->sites_database_plugin->processDatabaseUpdate($this);
-
 			$app->db->query($sql);
 			if($app->db->errorMessage != '') die($app->db->errorMessage);
 		}
@@ -416,34 +413,15 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-
-			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $app->db->quote($web['backup_interval']);
-			$backup_copies = $app->functions->intval($web['backup_copies']);
-
-			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
-			$app->db->query($sql);
-		}
+		$app->uses('sites_database_plugin');
+		$app->sites_database_plugin->processDatabaseInsert($this);
 	}
 
 	function onAfterUpdate() {
 		global $app, $conf;
 
-		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-
-			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $app->db->quote($web['backup_interval']);
-			$backup_copies = $app->functions->intval($web['backup_copies']);
-
-			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
-			$app->db->query($sql);
-		}
-
+		$app->uses('sites_database_plugin');
+		$app->sites_database_plugin->processDatabaseUpdate($this);
 	}
 
 }
