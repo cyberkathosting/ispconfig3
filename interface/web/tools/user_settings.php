@@ -97,6 +97,16 @@ class page_action extends tform_actions {
 			$app->error('Invalid language.');
 		}
 	}
+	
+	function onAfterUpdate() {
+		global $app;
+		
+		if($_POST['passwort'] != '') {
+			$tmp_user = $app->db->queryOneRecord("SELECT passwort FROM sys_user WHERE userid = '".$app->functions->intval($_SESSION['s']['user']['userid'])."'");
+			$_SESSION['s']['user']['passwort'] = $tmp_user['passwort'];
+			unset($tmp_user);
+		}
+	}
 
 
 }
