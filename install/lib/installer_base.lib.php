@@ -682,6 +682,9 @@ class installer_base {
 
 		//* mysql-virtual_relayrecipientmaps.cf
 		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
+		
+		//* mysql-virtual_outgoing_bcc.cf
+		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
