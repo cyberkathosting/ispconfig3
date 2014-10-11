@@ -381,6 +381,10 @@ $form["tabs"]['mail'] = array(
 		'mailbox_virtual_uidgid_maps' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
+			'validators' => array (0 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_server_mail_config',
+					'function' => 'mailbox_virtual_uidgid_maps'),
+			),
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
