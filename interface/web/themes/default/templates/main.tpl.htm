@@ -38,10 +38,6 @@
                     }
                 });
                 
-                $('.subsectiontoggle').on("click", function(){
-                    $(this).children().toggleClass('showing').end().next().slideToggle();
-                });
-                
                 $('#globalsearch').ispconfigSearch({
                     dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
                     resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
@@ -58,29 +54,30 @@
                 tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
 				
 				// Store password in browser; works in Firefox, but not Chrome
-				$('#username').on("blur", function(){
-					if($('#username').val() == '') {
-						return true;
-					}
-					if($('#dummy_username').val() == '' || $('#dummy_username').val() != $(this).val()){
-						$('#dummy_login').show();
-						$('#dummy_username').attr('value', $(this).val()).trigger('focus').trigger('blur');
-						$('#dummy_login').hide();
-					}
-					if($('#dummy_username').val() == $(this).val() && $(this).val() != ''){
-						$('#passwort').val($('#dummy_passwort').val());
-					} else {
+				$(document).on('keyup', '#username', function() {
+					$('#username').on("blur", function(){
+						if($('#username').val() == '') {
+							return true;
+						}
+						if($('#dummy_username').val() == '' || $('#dummy_username').val() != $(this).val()){
+							$('#dummy_login').show();
+							$('#dummy_username').attr('value', $(this).val()).trigger('focus').trigger('blur');
+							$('#dummy_login').hide();
+						}
+						if($('#dummy_username').val() == $(this).val() && $(this).val() != ''){
+							$('#passwort').val($('#dummy_passwort').val());
+						} else {
+							$('#passwort').val('');
+						}
+						$('#passwort').focus();
+					});
+					
+					$('#username').on("keyup", function(){
+						$('#dummy_username').val('');
+						$('#dummy_passwort').val('');
 						$('#passwort').val('');
-					}
-					$('#passwort').focus();
+					});
 				});
-				
-				$('#username').on("keyup", function(){
-					$('#dummy_username').val('');
-					$('#dummy_passwort').val('');
-					$('#passwort').val('');
-				});
-
 
 	            $(document).on("change", function(event) {
 	                var elName = event.target.localName;
