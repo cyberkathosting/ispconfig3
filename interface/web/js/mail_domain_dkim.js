@@ -31,6 +31,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 This Javascript is invoked by
 	* mail/templates/mail_domain_edit.htm to show and/or create the key-pair
 */
+
+
+$('.subsectiontoggle').on('click', function(){
+	$(this).children().toggleClass('showing').end().next().slideToggle();
+});
+
+
         var request = false;
 
         function setRequest(action,value,privatekey) {
@@ -46,13 +53,9 @@ This Javascript is invoked by
                         alert("Error creating XMLHTTP-instance");
                         return false;
                 } else {
-						var domain=encodeURIComponent(document.getElementById("domain").value)
-						var selector=encodeURIComponent(document.getElementById("dkim_selector").value)
-						var publickey=encodeURIComponent(document.getElementById("dkim_public").value)
-						var privatekey=encodeURIComponent(document.getElementById("dkim_private").value)
                         request.open('POST', 'mail/mail_domain_dkim_create.php', true);
                         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        request.send('domain='+domain+'&action='+action+'&dkim_selector='+selector+'&dkim_public='+publickey+'&dkim_private='+privatekey);
+                        request.send('domain='+value+'&action='+action+'&pkey='+privatekey);
                         request.onreadystatechange = interpretRequest;
                 }
         }
@@ -62,15 +65,15 @@ This Javascript is invoked by
                         case 4:
                                 if (request.status != 200) {alert("Request done but NOK\nError:"+request.status);}
                                 else {
-                                        document.getElementsByName('dkim_selector')[0].value = request.responseXML.getElementsByTagName('selector')[0].firstChild.nodeValue;
                                         document.getElementsByName('dkim_private')[0].value = request.responseXML.getElementsByTagName('privatekey')[0].firstChild.nodeValue;
-										document.getElementsByName('dkim_public')[0].value = request.responseXML.getElementsByTagName('publickey')[0].firstChild.nodeValue;
-										document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
+                                        document.getElementsByName('dkim_public')[0].value = request.responseXML.getElementsByTagName('publickey')[0].firstChild.nodeValue;
+					document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
                                 }
                                 break;
                         default:
                                 break;
                 }
         }
+
 var serverType = jQuery('#dkim_private').val();
 setRequest('show','{tmpl_var name="domain"}',serverType);
