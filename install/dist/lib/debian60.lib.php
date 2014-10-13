@@ -57,7 +57,7 @@ class installer extends installer_base {
 		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
-			'virtual_transport = lmtp:unix:private/dovecot-lmtp',
+			'virtual_transport = dovecot',
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth'
 		);
