@@ -121,6 +121,7 @@ class monitor_core_module {
 		$this->_monitorFail2ban();
 		$this->_monitorIPTables();
 		$this->_monitorSysLog();
+		$this->_cleanupAPS();
 	}
 
 	private function _monitorEmailQuota() {
@@ -843,6 +844,22 @@ class monitor_core_module {
 			'AND ' .
 			'  server_id = ' . $serverId;
 		$app->dbmaster->query($sql);
+	}
+	
+	private function _cleanupAPS() {
+		global $app, $conf;
+		
+		// run this only on the master
+		if($conf['server_id'] == 1) {
+			$records = $app->db->queryAllRecords("SELECT s.instance_id, s.name, s.value FROM `aps_instances_settings` as s INNER JOIN `aps_instances` as i ON (i.id = s.instance_id) WHERE s.value != '' AND s.name IN ('main_database_password', 'admin_password') AND i.instance_status > 1");
+			if(is_array($records)) {
+				foreach($records as $rec) {
+					$tmp = $app->db->queryOneRecord("SELECT id FROM aps_instances_settings WHERE instance_id = '".$app->db->quote($rec['instance_id'])."' AND name = '".$app->db->quote($rec['name'])."'");
+					$app->db->datalogUpdate('aps_instances_settings', "value = ''", 'id', $tmp['id']);
+				}
+			}
+		}
+		
 	}
 
 }
