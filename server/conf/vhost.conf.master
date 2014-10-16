@@ -47,7 +47,8 @@
 
 		<IfModule mod_ssl.c>
 <tmpl_if name='ssl_enabled'>
-	SSLEngine on
+		SSLEngine on
+		SSLProtocol All -SSLv2 -SSLv3
 		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
 		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
 <tmpl_if name='has_bundle_cert'>
