@@ -135,7 +135,7 @@ class db extends mysqli
 				$string_orig = $string;
 				
 				//echo $string;
-				$chars = array(';', '#', '/*', '*/', '--', ' UNION ', '\\\'', '\\"');
+				$chars = array(';', '#', '/*', '*/', '--', '\\\'', '\\"');
 		
 				$string = str_replace('\\\\', '', $string);
 				$string = preg_replace('/(^|[^\\\])([\'"])\\2/is', '$1', $string);
