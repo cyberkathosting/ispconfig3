@@ -962,6 +962,8 @@ class installer extends installer_base
 			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
+		
+		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.

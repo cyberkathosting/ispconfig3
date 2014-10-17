@@ -1716,6 +1716,8 @@ class installer_base {
 		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
 		rename($ssl_key_file, $ssl_key_file.'.secure');
 		rename($ssl_key_file.'.insecure', $ssl_key_file);
+		
+		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 	}
 
@@ -1994,6 +1996,8 @@ class installer_base {
 			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
+		
+		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
