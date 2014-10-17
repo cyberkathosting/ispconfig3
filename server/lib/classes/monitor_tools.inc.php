@@ -656,6 +656,59 @@ class monitor_tools {
 		$app->dbmaster->query($sql);
 	}
 
+	public function send_notification_email($template, $placeholders, $recipients) {
+		global $conf;
+
+		if(!is_array($recipients) || count($recipients) < 1) return false;
+		if(!is_array($placeholders)) $placeholders = array();
+
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt');
+		} else {
+			$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_en.txt');
+		}
+
+		//* get mail headers, subject and body
+		$mailHeaders = '';
+		$mailBody = '';
+		$mailSubject = '';
+		$inHeader = true;
+		for($l = 0; $l < count($lines); $l++) {
+			if($lines[$l] == '') {
+				$inHeader = false;
+				continue;
+			}
+			if($inHeader == true) {
+				$parts = explode(':', $lines[$l], 2);
+				if(strtolower($parts[0]) == 'subject') $mailSubject = trim($parts[1]);
+				unset($parts);
+				$mailHeaders .= trim($lines[$l]) . "\n";
+			} else {
+				$mailBody .= trim($lines[$l]) . "\n";
+			}
+		}
+		$mailBody = trim($mailBody);
+
+		//* Replace placeholders
+		$mailHeaders = strtr($mailHeaders, $placeholders);
+		$mailSubject = strtr($mailSubject, $placeholders);
+		$mailBody = strtr($mailBody, $placeholders);
+
+		for($r = 0; $r < count($recipients); $r++) {
+			mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+		}
+
+		unset($mailSubject);
+		unset($mailHeaders);
+		unset($mailBody);
+		unset($lines);
+
+		return true;
+	}
 
 }
 
