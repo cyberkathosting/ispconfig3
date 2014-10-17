@@ -495,15 +495,27 @@ class apache2_plugin {
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
+			/*
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
-			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
+			$app->system->removeLine('/etc/fstab', $fstab_line);
+			*/
+			
+			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
+			
+			if($web_config['network_filesystem'] == 'y') {
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
+				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
+			} else {
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
+			}
 			
 			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
-
+			
 		}
 
 		//print_r($data);
