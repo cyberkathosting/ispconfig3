@@ -220,6 +220,19 @@ class installer extends installer_base
 	{
 		global $conf;
 
+		$virtual_transport = 'dovecot';
+		
+		// check if virtual_transport must be changed
+		if ($this->is_update) {
+			$tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$ini_array = ini_to_array(stripslashes($tmp['config']));
+			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
+			
+			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
+				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+			}
+		}
+
 		$config_dir = $conf['dovecot']['config_dir'];
 
 		$configfile = $conf['postfix']['config_dir'].'/master.cf';
@@ -245,7 +258,7 @@ class installer extends installer_base
 		//* Reconfigure postfix to use dovecot authentication
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
-			'virtual_transport = dovecot',
+			'virtual_transport = '.$virtual_transport,
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth'
 		);
