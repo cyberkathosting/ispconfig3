@@ -983,19 +983,20 @@ class installer_base {
 
 		//* Get the dovecot version
 		exec('dovecot --version', $tmp);
-		$parts = explode('.', trim($tmp[0]));
-		$dovecot_version = $parts[0];
+		$dovecot_version = $tmp[0];
 		unset($tmp);
-		unset($parts);
 
 		//* Copy dovecot configuration file
-		if($dovecot_version == 2) {
+		if(version_compare($dovecot_version,2) >= 0) {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
+			if(version_compare($dovecot_version,2.1) < 0) {
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
