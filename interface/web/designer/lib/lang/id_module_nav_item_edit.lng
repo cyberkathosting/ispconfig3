@@ -1,8 +1,0 @@
-<?php
-$wb['title_txt'] = 'Judul';
-$wb['target_txt'] = 'Target';
-$wb['link_txt'] = 'Tautan';
-$wb['header_txt'] = 'Properti Navigasi';
-$wb['save_txt'] = 'Simpan';
-$wb['cancel_txt'] = 'Batal';
-?>

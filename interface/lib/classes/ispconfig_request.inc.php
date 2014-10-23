@@ -53,8 +53,7 @@ abstract class ISPConfigRequest {
 		$url_info = parse_url($url);
 		if(isset($url_info['scheme']) && $url_info['scheme'] == 'https') {
 			$port = isset($url_info['port']) ? $url_info['port'] : 443;
-			//@$fp = stream_socket_client('ssl://' . $url_info['host'] . ':' . $port, $errno, $errstr, 10, STREAM_CLIENT_CONNECT, stream_context_create(array('ssl' => array('ciphers' => 'ALL:!AES:!3DES:!RC4:@STRENGTH'))));
-			@$fp = fsockopen('sslv3://' . $url_info['host'], $port, $errno, $errstr, 10);
+			@$fp = fsockopen('tls://' . $url_info['host'], $port, $errno, $errstr, 10);
 		} else {
 			$port = isset($url_info['port']) ? $url_info['port'] : 80;
 			@$fp = fsockopen($url_info['host'], $port, $errno, $errstr, 10);
@@ -169,8 +168,7 @@ abstract class ISPConfigRequest {
 		$url_info = parse_url($url);
 		if((isset($url_info['scheme']) && $url_info['scheme'] == 'https') || $url_info['port'] == 443) {
 			$port = (!isset($url_info['port']) || !$url_info['port'] || $url_info['port'] == 443 || $url_info['port'] == 80) ? 443 : $url_info['port'];
-			//@$fp = stream_socket_client('ssl://' . $url_info['host'] . ':' . $port, $errno, $errstr, 10, STREAM_CLIENT_CONNECT, stream_context_create(array('ssl' => array('ciphers' => 'ALL:!AES:!3DES:!RC4:@STRENGTH'))));
-			@$fp = fsockopen('sslv3://' . $url_info['host'], $port, $errno, $errstr, 10);
+			@$fp = fsockopen('tls://' . $url_info['host'], $port, $errno, $errstr, 10);
 		} else {
 			$port = isset($url_info['port']) ? $url_info['port'] : 80;
 			@$fp = fsockopen($url_info['host'], $port, $errno, $errstr, 10);

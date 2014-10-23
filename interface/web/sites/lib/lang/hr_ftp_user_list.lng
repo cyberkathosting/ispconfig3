@@ -6,3 +6,5 @@ $wb['parent_domain_id_txt'] = 'Web stranica';
 $wb['username_txt'] = 'Korisničko ime';
 $wb['add_new_record_txt'] = 'Dodaj FTP račun';
 ?>
+
+

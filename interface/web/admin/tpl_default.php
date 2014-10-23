@@ -1,4 +1,5 @@
 <?php
+die('unused');
 /*
 Copyright (c) 2007, Till Brehm, projektfarm Gmbh
 All rights reserved.

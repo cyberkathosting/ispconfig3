@@ -158,4 +158,3 @@ $wb['Show Munin'] = 'Visa Munin';
 $wb['no_munin_url_defined_txt'] = 'Ingen Munin-URL definierad.';
 $wb['no_permissions_to_view_munin_txt'] = 'Du har inte behörighet att visa Munin.';
 ?>
-

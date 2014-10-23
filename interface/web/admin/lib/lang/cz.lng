@@ -34,7 +34,7 @@ $wb['Interface Config'] = 'Hlavní konfigurace';
 $wb['Domains'] = 'Domény';
 $wb['Misc'] = 'Různé';
 $wb['Software'] = 'Software';
-$wb['Repositories'] = 'Repozitáře';
+$wb['Repositories'] = 'Zdroje repozitářů';
 $wb['Packages'] = 'Balíčky';
 $wb['Updates'] = 'Aktualizace';
 $wb['Language Editor'] = 'Jazykový editor';
@@ -48,3 +48,4 @@ $wb['Do OS-Update'] = 'Aktualizovat operační systém';
 $wb['Do ISPConfig-Update'] = 'Aktualizovat ISPConfig';
 $wb['Directive Snippets'] = 'Directive Snippets';
 ?>
+

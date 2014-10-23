@@ -31,6 +31,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 
+$app->load('getconf');
+
+$security_config = $app->getconf->get_security_config('permissions');
+if($security_config['password_reset_allowed'] != 'yes') die('Password reset function has been disabled.');
+
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");

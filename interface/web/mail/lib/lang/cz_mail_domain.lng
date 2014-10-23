@@ -20,3 +20,4 @@ $wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanu
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 ?>
+

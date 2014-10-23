@@ -41,7 +41,6 @@ class monitor_core_module {
 
 	function process() {
 	}
-
 }
 
 ?>

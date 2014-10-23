@@ -1,12 +1,11 @@
 <?php
 $wb['login_1_txt'] = 'Vill du loggga in som användare';
-$wb['login_2_txt'] = 'If you do so, you can "go back" by clicking at logout.';
+$wb['login_2_txt'] = 'If you do so, you can \\"go back\\" by clicking at logout.';
 $wb['btn_yes_txt'] = 'Ja, logga in som kund';
 $wb['btn_back_txt'] = 'Nej, tillbaka till listan';
 $wb['udp_port_help_txt'] = 'Avdelade med kommatecken';
 $wb['active_txt'] = 'Aktiv';
 $wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
-$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, ":" and ",".';
-$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, ":" and ",".';
+$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
 ?>
-

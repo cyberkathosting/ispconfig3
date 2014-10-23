@@ -1,9 +1,11 @@
 <?php
 $wb['list_head_txt'] = 'Importiraj jezičnu datoteku';
 $wb['language_import_txt'] = 'Izaberi jezičnu datoteku';
-$wb['btn_save_txt'] = 'Importiraj selektiranu jezičnu datoteku';
+$wb['btn_save_txt'] = 'Importiraj datoteku';
 $wb['language_overwrite_txt'] = 'Prebriši datoteku, ukoliko već postoji.';
 $wb['btn_cancel_txt'] = 'Natrag';
 $wb['ignore_version_txt'] = 'Preskoči provjeru ISPConfig verzije';
-$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
+$wb['list_desc_txt'] = 'PAŽNJA: Nemojte importirati jezične datoteke preuzete sa nepoznatih web lokacija.';
 ?>
+
+

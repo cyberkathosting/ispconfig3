@@ -12,4 +12,3 @@ $wb['password_match_txt'] = 'Lösenorden matchar';
 $wb['no_folder_perm'] = 'Du har inga rättigheter för denna katalog';
 $wb['error_user_exists_already_txt'] = 'Det finns redan ett inlägg för denna användare';
 ?>
-

@@ -32,4 +32,3 @@ $wb['password_match_txt'] = 'Lösenorden matchar';
 $wb['username_error_collision'] = 'Användarnamnet får inte vara web  eller web och ett nummer';
 $wb['client_not_admin_err'] = 'En användare som tillhör en kund kan inte sättas som admin';
 ?>
-

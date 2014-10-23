@@ -1,12 +1,14 @@
 <?php
-$wb['page_head_txt'] = 'Mailbox settings';
+$wb['page_head_txt'] = 'Postavke sandučića';
 $wb['page_desc_txt'] = 'Here you can edit the settings for the email account.';
-$wb['email_txt'] = 'Email address';
-$wb['login_txt'] = 'Login';
-$wb['server_address_txt'] = 'Mailserver address';
-$wb['cc_txt'] = 'Send copy to (CC)';
-$wb['quota_txt'] = 'Mailbox size';
-$wb['unlimited_txt'] = 'Unlimited';
+$wb['email_txt'] = 'Email adresa';
+$wb['login_txt'] = 'Prijava';
+$wb['server_address_txt'] = 'Adresa mail servera';
+$wb['cc_txt'] = 'Pošalji kopiju na (CC)';
+$wb['quota_txt'] = 'Veličina sandučića';
+$wb['unlimited_txt'] = 'Neograničeno';
 $wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'None';
+$wb['none_txt'] = 'Ništa';
 ?>
+
+

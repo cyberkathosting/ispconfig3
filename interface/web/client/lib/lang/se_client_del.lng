@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Radera kunden';
 $wb['btn_cancel_txt'] = 'Avbryt utan att radera kunden';
 $wb['confirm_client_delete_txt'] = 'Är du säker på att du vill radera den här kunden?';
 ?>
-

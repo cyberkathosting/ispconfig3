@@ -88,7 +88,7 @@ $form["tabs"]['database'] = array (
 		'type' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
-			'default' => 'y',
+			'default' => 'mysql',
 			'value'  => array(
 				'mongo' => 'MongoDB',
 				'mysql' => 'MySQL'
@@ -156,7 +156,7 @@ $form["tabs"]['database'] = array (
 		'database_charset' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
-			'default' => 'y',
+			'default' => '',
 			'value'  => array('' => 'DB-Default', 'latin1' => 'Latin 1', 'utf8' => 'UTF-8')
 		),
 		'remote_access' => array (

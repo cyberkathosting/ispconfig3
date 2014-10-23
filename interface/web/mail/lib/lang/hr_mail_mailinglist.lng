@@ -12,11 +12,13 @@ $wb['listname_txt'] = 'Naziv liste';
 $wb['client_txt'] = 'Klijent';
 $wb['email_txt'] = 'Email';
 $wb['password_txt'] = 'Šifra';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
 $wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['mailinglist_txt'] = 'Mailing list';
+$wb['email_error_isemail'] = 'Email adresa je neispravna.';
+$wb['mailinglist_txt'] = 'Email lista';
 ?>
+
+

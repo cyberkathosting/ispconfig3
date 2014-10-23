@@ -1,6 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'DNS čarobnjak predložaka';
+$wb['list_head_txt'] = 'Čarobnjak za DNS predloške';
 $wb['visible_txt'] = 'Vidljivo';
 $wb['name_txt'] = 'Naziv';
 $wb['add_new_record_txt'] = 'Dodaj novi';
 ?>
+
+

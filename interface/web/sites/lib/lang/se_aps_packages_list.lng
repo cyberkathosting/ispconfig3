@@ -6,4 +6,3 @@ $wb['category_txt'] = 'Kategori';
 $wb['status_txt'] = 'Olåst';
 $wb['filter_txt'] = 'Sök';
 ?>
-

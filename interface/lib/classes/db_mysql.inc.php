@@ -168,6 +168,53 @@ class db extends mysqli
 		mysqli_query($this->_iConnId, 'SET NAMES '.$this->dbCharset);
 		mysqli_query($this->_iConnId, "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
 	}
+	
+	private function securityScan($string) {
+		global $app, $conf;
+		
+		// get security config
+		if(isset($app)) {
+			$app->uses('getconf');
+			$ids_config = $app->getconf->get_security_config('ids');
+			
+			if($ids_config['sql_scan_enabled'] == 'yes') {
+				
+				$string_orig = $string;
+				
+				//echo $string;
+				$chars = array(';', '#', '/*', '*/', '--', '\\\'', '\\"');
+		
+				$string = str_replace('\\\\', '', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])\\2/is', '$1', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\])\\2/is', '$1', $string);
+				$ok = true;
+
+				if(substr_count($string, "`") % 2 != 0 || substr_count($string, "'") % 2 != 0 || substr_count($string, '"') % 2 != 0) {
+					$app->log("SQL injection warning (" . $string_orig . ")",2);
+					$ok = false;
+				} else {
+					foreach($chars as $char) {
+						if(strpos($string, $char) !== false) {
+							$ok = false;
+							$app->log("SQL injection warning (" . $string_orig . ")",2);
+							break;
+						}
+					}
+				}
+				if($ok == true) {
+					return true;
+				} else {
+					if($ids_config['sql_scan_action'] == 'warn') {
+						// we return false in warning level.
+						return false;
+					} else {
+						// if sql action = 'block' or anything else then stop here.
+						$app->error('Possible SQL injection. All actions have been logged.');
+					}
+				}
+			}
+		}
+	}
 
 	private function _query($sQuery = '') {
 		global $app;
@@ -198,6 +245,7 @@ class db extends mysqli
 
 		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
+		$this->securityScan($sQuery);
 
 		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
@@ -493,12 +541,12 @@ class db extends mysqli
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
 		global $app, $conf;
 
-		// Insert backticks only for incomplete table names.
-		if(stristr($db_table, '.')) {
-			$escape = '';
-		} else {
-			$escape = '`';
-		}
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
+		
+		$primary_field = $this->quote($primary_field);
+		$primary_id = intval($primary_id);
 
 		if($force_update == true) {
 			//* We force a update even if no record has changed
@@ -537,7 +585,11 @@ class db extends mysqli
 	//** Inserts a record and saves the changes into the datalog
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
-
+		
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
 		if(is_array($insert_data)) {
 			$key_str = '';
 			$val_str = '';
@@ -566,6 +618,10 @@ class db extends mysqli
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
 
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 
 		if(is_array($update_data)) {
@@ -590,6 +646,10 @@ class db extends mysqli
 	public function datalogDelete($tablename, $index_field, $index_value) {
 		global $app;
 
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->query("DELETE FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$new_rec = array();

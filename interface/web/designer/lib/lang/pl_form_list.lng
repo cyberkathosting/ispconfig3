@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Tylny formularz';
-$wb['form_txt'] = 'Formularz';
-$wb['module_txt'] = 'Moduł';
-$wb['title_txt'] = 'Tytuł';
-$wb['description_txt'] = 'Opis';
-?>

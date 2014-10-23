@@ -17,3 +17,4 @@ $wb['resync_vserver_txt'] = 'Resync vServer';
 $wb['resync_firewall_txt'] = 'Resync Firewall';
 $wb['resync_no_server_txt'] = 'No active server found';
 ?>
+

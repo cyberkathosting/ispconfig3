@@ -7,7 +7,7 @@ $wb['passwort_txt'] = 'Šifra';
 $wb['password_strength_txt'] = 'Jačina šifre';
 $wb['modules_txt'] = 'Modul';
 $wb['startmodule_txt'] = 'Početni modul';
-$wb['app_theme_txt'] = 'Izgled';
+$wb['app_theme_txt'] = 'Tema';
 $wb['typ_txt'] = 'Vrsta';
 $wb['active_txt'] = 'Aktivno';
 $wb['language_txt'] = 'Jezik';
@@ -25,10 +25,12 @@ $wb['fax_txt'] = 'Faks';
 $wb['groups_txt'] = 'Grupe';
 $wb['default_group_txt'] = 'Standardna grupa';
 $wb['startmodule_err'] = 'Početni modul nije u izabranim modulima.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['username_error_collision'] = 'The username may not be web or web plus a number.\\"';
-$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
+$wb['username_error_collision'] = 'Korisničko ime ne može biti web ili web sa brojem.\\"';
+$wb['client_not_admin_err'] = 'Korisnik koji je u grupi klijenti ne može biti admin';
 ?>
+
+

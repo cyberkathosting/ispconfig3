@@ -5,4 +5,3 @@ $wb['subject_txt'] = 'Ämne';
 $wb['add_new_record_txt'] = 'Skapa nyttt supportmeddelande';
 $wb['date_txt'] = 'Datum';
 ?>
-

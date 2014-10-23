@@ -20,4 +20,3 @@ $wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanu
 $wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
 $wb['no_policy'] = '- ej aktiverat -';
 ?>
-

@@ -6,6 +6,8 @@ $wb['contact_name_txt'] = 'Kontakt osoba';
 $wb['city_txt'] = 'Grad';
 $wb['country_txt'] = 'Država';
 $wb['add_new_record_txt'] = 'Dodaj novog preprodavača';
-$wb['customer_no_txt'] = 'Customer No.';
-$wb['username_txt'] = 'Username';
+$wb['customer_no_txt'] = 'Klijent br.';
+$wb['username_txt'] = 'Korisničko ime';
 ?>
+
+

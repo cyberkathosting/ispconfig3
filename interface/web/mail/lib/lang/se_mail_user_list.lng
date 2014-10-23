@@ -6,4 +6,3 @@ $wb['add_new_record_txt'] = 'Lägg till nytt epostkonto';
 $wb['name_txt'] = 'Riktigt namn';
 $wb['login_txt'] = 'Logga in';
 ?>
-

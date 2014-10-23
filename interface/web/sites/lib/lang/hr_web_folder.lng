@@ -4,5 +4,7 @@ $wb['parent_domain_id_txt'] = 'Web stranica';
 $wb['path_txt'] = 'Putanja';
 $wb['active_txt'] = 'Aktivno';
 $wb['path_error_regex'] = 'Neispravna putanja direktorija.';
-$wb['error_folder_already_protected_txt'] = 'There is already a record for this folder.';
+$wb['error_folder_already_protected_txt'] = 'Već postoji zapis za ovaj direktorij.';
 ?>
+
+

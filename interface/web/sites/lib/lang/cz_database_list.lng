@@ -8,3 +8,4 @@ $wb['database_name_txt'] = 'Název databáze';
 $wb['add_new_record_txt'] = 'Přidat databázi';
 $wb['parent_domain_id_txt'] = 'Webové stránky';
 ?>
+

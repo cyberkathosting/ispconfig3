@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Backend Module';
-$wb['module_txt'] = 'Modul';
-$wb['title_txt'] = 'Bezeichnung';
-?>

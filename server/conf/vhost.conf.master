@@ -51,7 +51,8 @@
 
 		<IfModule mod_ssl.c>
 <tmpl_if name='ssl_enabled'>
-	SSLEngine on
+		SSLEngine on
+		SSLProtocol All -SSLv2 -SSLv3
 		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
 		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
 <tmpl_if name='has_bundle_cert'>
@@ -231,9 +232,16 @@
 		# php as cgi enabled
 		ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
 		Action php5-cgi /php5-cgi
-		<FilesMatch "\.php[345]?$">
-			SetHandler php5-cgi
-		</FilesMatch>
+		<Directory {tmpl_var name='web_document_root_www'}>
+			<FilesMatch "\.php[345]?$">
+				SetHandler php5-cgi
+			</FilesMatch>
+		</Directory>
+		<Directory {tmpl_var name='web_document_root'}>
+			<FilesMatch "\.php[345]?$">
+				SetHandler php5-cgi
+			</FilesMatch>
+		</Directory>
 		<Directory {tmpl_var name='cgi_starter_path'}>
 			<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 			Require all granted
@@ -333,6 +341,9 @@
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
 		</IfModule>
+		<IfModule mod_proxy_fcgi.c>
+			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
+		</IfModule>
 </tmpl_if>
 
 <tmpl_if name='php' op='==' value='hhvm'>
@@ -385,7 +396,7 @@
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
 		
-		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_if name='rewrite_type' value=''><tmpl_if name="rewrite_is_url" op="==" value="n">[PT]</tmpl_if></tmpl_else><tmpl_var name='rewrite_type'></tmpl_if>
+		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_var name='rewrite_type'>
 	
 </tmpl_loop>
 </tmpl_if>

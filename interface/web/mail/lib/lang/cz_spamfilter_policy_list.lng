@@ -7,3 +7,4 @@ $wb['banned_files_lover_txt'] = 'Zabanované soubory';
 $wb['bad_header_lover_txt'] = 'Špatné hlavičky';
 $wb['add_new_record_txt'] = 'Přidat záznam politiky';
 ?>
+

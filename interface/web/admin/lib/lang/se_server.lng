@@ -13,4 +13,3 @@ $wb['- None -'] = '- Ingen';
 $wb['proxy_server_txt'] = 'Proxy-server';
 $wb['firewall_server_txt'] = 'Brandväggsserver';
 ?>
-

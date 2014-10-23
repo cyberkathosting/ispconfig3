@@ -8,4 +8,3 @@ $wb['type_txt'] = 'Typ';
 $wb['recipient_txt'] = 'Mottagare';
 $wb['access_txt'] = 'åtkomst';
 ?>
-

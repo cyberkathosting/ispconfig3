@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Repozitář';
+$wb['list_head_txt'] = 'Zdroje repozitářů';
 $wb['active_txt'] = 'Aktivní';
-$wb['repo_name_txt'] = 'Repozitář';
+$wb['repo_name_txt'] = 'Název zdroje';
 $wb['repo_url_txt'] = 'URL';
 ?>
+

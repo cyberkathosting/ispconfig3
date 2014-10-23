@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Pozadinska forma';
-$wb['form_txt'] = 'Forma';
-$wb['module_txt'] = 'Modul';
-$wb['title_txt'] = 'Naslov';
-$wb['description_txt'] = 'Opis';
-?>

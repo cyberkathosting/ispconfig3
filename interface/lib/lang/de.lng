@@ -147,4 +147,6 @@ $wb['strength_4'] = 'Stark';
 $wb['strength_5'] = 'Sehr stark';
 $wb['weak_password_txt'] = 'Das gewählte Passwort erfüllt die Sicherheitsanforderungen nicht. Es muss mindestens {chars} Zeichen lang sein und die Stärke \\"{strength}\\" besitzen.';
 $wb['weak_password_length_txt'] = 'Das gewählte Passwort erfüllt die Sicherheitsanforderungen nicht. Es muss mindestens {chars} Zeichen lang sein.';
+$wb['security_check1_txt'] = 'Sicherheitsüberprüfung für:';
+$wb['security_check2_txt'] = 'fehlgeschlagen.';
 ?>

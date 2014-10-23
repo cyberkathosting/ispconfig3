@@ -7,4 +7,3 @@ $wb['client_ids_txt'] = 'Kunder/Återförsäljare';
 $wb['description_txt'] = 'BEskrivning';
 $wb['active_txt'] = 'Aktiv';
 ?>
-

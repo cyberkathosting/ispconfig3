@@ -268,7 +268,7 @@ class tform_tpl_generator {
 					case 'TEXT':
 						$type = 'text';
 						$typevalue = '';
-						$defaultValue = 'NULL';
+						$defaultValue = NULL;
 						break;
 					case 'DATE':
 						$type = 'date';

@@ -83,7 +83,14 @@ class mysql_clientdb_plugin {
 		if(!is_array($host_list)) $host_list = explode(',', $host_list);
 
 		$success = true;
-
+		if(!preg_match('/\*[A-F0-9]{40}$/', $database_password)) {
+				$result = $link->query("SELECT PASSWORD('" . $link->escape_string($database_password) . "') as `crypted`");
+				if($result) {
+						$row = $result->fetch_assoc();
+						$database_password = $row['crypted'];
+						$result->free();
+				}
+		}
 		// loop through hostlist
 		foreach($host_list as $db_host) {
 			$db_host = trim($db_host);
@@ -270,7 +277,7 @@ class mysql_clientdb_plugin {
 			$old_host_list .= 'localhost';
 
 			// Create the database user if database was disabled before
-			if($data['new']['active'] == 'y' && $data['old']['active'] == 'n') {
+			if($data['new']['active'] == 'y') {
 				if($db_user) {
 					if($db_user['database_user'] == 'root') $app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
 					else $this->process_host_list('GRANT', $data['new']['database_name'], $db_user['database_user'], $db_user['database_password'], $host_list, $link);

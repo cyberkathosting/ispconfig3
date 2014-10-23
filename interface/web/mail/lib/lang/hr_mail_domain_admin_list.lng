@@ -6,3 +6,5 @@ $wb['add_new_record_txt'] = 'Dodaj domenu';
 $wb['active_txt'] = 'Aktivno';
 $wb['sys_groupid_txt'] = 'Klijent';
 ?>
+
+

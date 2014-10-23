@@ -32,6 +32,7 @@ require_once '../../lib/app.inc.php';
 
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
+$app->auth->check_security_permissions('admin_allow_langedit');
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
 //* This is only allowed for administrators

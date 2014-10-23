@@ -11,4 +11,3 @@ $wb['command_txt'] = 'Kommando';
 $wb['add_new_cron_txt'] = 'Lägg till nytt cron-jobb';
 $wb['parent_domain_id_txt'] = 'Webbsida';
 ?>
-

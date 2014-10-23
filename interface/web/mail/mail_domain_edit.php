@@ -428,6 +428,57 @@ class page_action extends tform_actions {
 				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 			}
 		} // endif spamfilter policy
+		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
+		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
+			$app->uses('getconf');
+			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
+
+			//* Update the mailboxes
+			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
+			$sys_groupid = $app->functions->intval((isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid']);
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
+			if(is_array($mailusers)) {
+				foreach($mailusers as $rec) {
+					// setting Maildir, Homedir, UID and GID
+					$mail_parts = explode("@", $rec['email']);
+					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
+					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
+					$maildir = $app->db->quote($maildir);
+					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
+					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
+				}
+			}
+
+			//* Update the aliases
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($this->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
+			if(is_array($forwardings)) {
+				foreach($forwardings as $rec) {
+					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
+					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']));
+					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
+				}
+			}
+
+			//* Update the mailinglist
+			$app->db->query("UPDATE mail_mailinglist SET sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE domain = '".$app->db->quote($this->oldDataRecord['domain'])."'");
+			
+			//* Update fetchmail accounts
+			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like '%@".$app->db->quote($this->oldDataRecord['domain'])."'");
+			if(is_array($fetchmail)) {
+				foreach($fetchmail as $rec) {
+					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
+					$app->db->datalogUpdate('mail_get', "destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailget_id', $rec['mailget_id']);
+				}
+			}
+			
+			//* Delete the old spamfilter record
+			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($this->oldDataRecord["domain"])."'");
+			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
+			unset($tmp);
+
+		} // end if domain name changed
+
 	}
 }
 

@@ -6,4 +6,3 @@ $wb['active_txt'] = 'Aktiv';
 $wb['path_error_regex'] = 'Ogiltig katalogsökväg';
 $wb['error_folder_already_protected_txt'] = 'Det finns redan ett inlägg för den här mappen.';
 ?>
-

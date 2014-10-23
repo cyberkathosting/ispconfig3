@@ -1,13 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
+$wb['list_head_txt'] = 'Instalirani paketi';
+$wb['name_txt'] = 'Naziv';
+$wb['version_txt'] = 'Verzija';
+$wb['customer_txt'] = 'Klijent';
 $wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
-$wb['reinstall_txt'] = 'Reinstall';
+$wb['install_location_txt'] = 'Lokacija instalacije';
+$wb['pkg_delete_confirmation'] = 'Da li stvarno želite obrisati ovu instalaciju?';
+$wb['pkg_reinstall_confirmation'] = 'Da li stvarno želite reinstalirati ovaj paket sa istim postavkama?';
+$wb['filter_txt'] = 'Traži';
+$wb['delete_txt'] = 'Obriši';
+$wb['reinstall_txt'] = 'Reinstaliraj';
 ?>
+
+
