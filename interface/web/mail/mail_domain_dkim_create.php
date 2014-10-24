@@ -124,8 +124,14 @@ function new_selector ($old_selector, $domain) {
 }
 
 //* get dkim-strength for server_id
-$mail_server_id = $app->functions->intval( $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain = ?", $_POST['domain']) );
-$dkim_strength = $app->functions->intval( $app->getconf->get_server_config($mail_server_id, 'mail')['dkim_strength'] );
+//$mail_server_id = $app->functions->intval( $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain = ?", $_POST['domain']) );
+//$dkim_strength = $app->functions->intval( $app->getconf->get_server_config($mail_server_id, 'mail')['dkim_strength'] );
+$rec = $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain = ?", $_POST['domain']);
+$mail_server_id = $app->functions->intval($rec['server_id']);
+unset ($rec);
+$rec = $app->getconf->get_server_config($mail_server_id, 'mail');
+$dkim_strength = $app->functions->intval($rec['dkim_strength']);
+unset ($rec);
 if ( empty($dkim_strength) ) $dkim_strength = 1024;
 
 switch ($_POST['action']) {
