@@ -50,64 +50,6 @@ class cronjob_quota_notify extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		//########
-		// function for sending notification emails
-		//########
-		function send_notification_email($template, $placeholders, $recipients) {
-			global $conf;
-
-			if(!is_array($recipients) || count($recipients) < 1) return false;
-			if(!is_array($placeholders)) $placeholders = array();
-
-			if(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt');
-			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt');
-			} elseif(file_exists($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt')) {
-				$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt');
-			} else {
-				$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_en.txt');
-			}
-
-			//* get mail headers, subject and body
-			$mailHeaders = '';
-			$mailBody = '';
-			$mailSubject = '';
-			$inHeader = true;
-			for($l = 0; $l < count($lines); $l++) {
-				if($lines[$l] == '') {
-					$inHeader = false;
-					continue;
-				}
-				if($inHeader == true) {
-					$parts = explode(':', $lines[$l], 2);
-					if(strtolower($parts[0]) == 'subject') $mailSubject = trim($parts[1]);
-					unset($parts);
-					$mailHeaders .= trim($lines[$l]) . "\n";
-				} else {
-					$mailBody .= trim($lines[$l]) . "\n";
-				}
-			}
-			$mailBody = trim($mailBody);
-
-			//* Replace placeholders
-			$mailHeaders = strtr($mailHeaders, $placeholders);
-			$mailSubject = strtr($mailSubject, $placeholders);
-			$mailBody = strtr($mailBody, $placeholders);
-
-			for($r = 0; $r < count($recipients); $r++) {
-				mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
-			}
-
-			unset($mailSubject);
-			unset($mailHeaders);
-			unset($mailBody);
-			unset($lines);
-
-			return true;
-		}
-
-
 		//######################################################################################################
 		// enforce traffic quota (run only on the "master-server")
 		//######################################################################################################
@@ -170,7 +112,7 @@ class cronjob_quota_notify extends cronjob {
 								}
 							}
 
-							send_notification_email('web_traffic_notification', $placeholders, $recipients);
+							$this->_tools->send_notification_email('web_traffic_notification', $placeholders, $recipients);
 						}
 
 					} else {
@@ -290,7 +232,7 @@ class cronjob_quota_notify extends cronjob {
 									$recipients[] = $client['email'];
 								}
 							}
-							send_notification_email('web_quota_ok_notification', $placeholders, $recipients);
+							$this->_tools->send_notification_email('web_quota_ok_notification', $placeholders, $recipients);
 						}
 					} else {
 
@@ -325,7 +267,7 @@ class cronjob_quota_notify extends cronjob {
 									$recipients[] = $client['email'];
 								}
 							}
-							send_notification_email('web_quota_notification', $placeholders, $recipients);
+							$this->_tools->send_notification_email('web_quota_notification', $placeholders, $recipients);
 						}
 					}
 				}
@@ -419,7 +361,7 @@ class cronjob_quota_notify extends cronjob {
 								}
 							}
 
-							send_notification_email('mail_quota_ok_notification', $placeholders, $recipients);
+							$this->_tools->send_notification_email('mail_quota_ok_notification', $placeholders, $recipients);
 						}
 					} else {
 
@@ -454,7 +396,7 @@ class cronjob_quota_notify extends cronjob {
 								}
 							}
 
-							send_notification_email('mail_quota_notification', $placeholders, $recipients);
+							$this->_tools->send_notification_email('mail_quota_notification', $placeholders, $recipients);
 						}
 					}
 				}
@@ -534,7 +476,7 @@ class cronjob_quota_notify extends cronjob {
 										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '') 
 											$recipients[] = $client['email'];
 
-										send_notification_email('db_quota_ok_notification', $placeholders, $recipients);
+										$this->_tools->send_notification_email('db_quota_ok_notification', $placeholders, $recipients);
 
 									}
 
@@ -566,7 +508,7 @@ class cronjob_quota_notify extends cronjob {
 									if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '')
 										$recipients[] = $client['email'];
 
-									send_notification_email('db_quota_notification', $placeholders, $recipients);
+									$this->_tools->send_notification_email('db_quota_notification', $placeholders, $recipients);
 
 								}
 
