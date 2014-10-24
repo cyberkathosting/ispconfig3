@@ -1,6 +1,0 @@
-<?php
-$wb['title_txt'] = 'Titolo';
-$wb['header_txt'] = 'Proprietà Navi';
-$wb['save_txt'] = 'Salva';
-$wb['cancel_txt'] = 'Annulla';
-?>

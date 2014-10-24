@@ -5,5 +5,7 @@ $wb['installed_txt'] = 'Akcija';
 $wb['update_title_txt'] = 'Nadogradi';
 $wb['version_txt'] = 'Verzija';
 $wb['action_txt'] = 'Akcija';
-$wb['no_updates_txt'] = 'No updates available';
+$wb['no_updates_txt'] = 'Nema nadogradnji';
 ?>
+
+

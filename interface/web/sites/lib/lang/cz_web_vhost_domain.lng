@@ -1,4 +1,10 @@
 <?php
+$wb['parent_domain_id_txt'] = 'Rodičovské webové stránky';
+$wb['web_folder_txt'] = 'Webová složka';
+$wb['web_folder_invalid_txt'] = 'The web folder is invalid, please choose a different one.';
+$wb['web_folder_unique_txt'] = 'The web folder is already used, please choose a different one.';
+$wb['backup_interval_txt'] = 'Interval zálohování';
+$wb['backup_copies_txt'] = 'Počet záložních kopií';
 $wb['ssl_state_txt'] = 'Stát';
 $wb['ssl_locality_txt'] = 'Lokalita';
 $wb['ssl_organisation_txt'] = 'Organizace';
@@ -133,3 +139,4 @@ $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. E
 $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Invalid php.ini settings';
 ?>
+

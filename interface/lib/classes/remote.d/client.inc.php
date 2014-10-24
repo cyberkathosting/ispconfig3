@@ -158,13 +158,31 @@ class remoting_client extends remoting {
 
 	public function client_add($session_id, $reseller_id, $params)
 	{
+		global $app;
+		
 		if (!$this->checkPerm($session_id, 'client_add'))
 		{
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
-		$affected_rows = $this->klientadd('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $params);
+
+		if($params['parent_client_id']) {
+			// check if this one is reseller
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
+			if($check['limit_client'] == 0) {
+				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
+				return false;
+			}
+
+			if(isset($params['limit_client']) && $params['limit_client'] != 0) {
+				$this->server->fault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				return false;
+			}
+		}
+
+		$affected_rows = $this->klientadd('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] != 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $params);
+
 		return $affected_rows;
 
 	}
@@ -180,11 +198,27 @@ class remoting_client extends remoting {
 		}
 
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php');
+		$app->remoting_lib->loadFormDef('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] != 0 ? 'reseller' : 'client') . '.tform.php');
 		$old_rec = $app->remoting_lib->getDataRecord($client_id);
 		
 		//* merge old record with params, so only new values have to be set in $params
 		$params = $app->functions->array_merge($old_rec,$params);
+
+		if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
+
+		if($params['parent_client_id']) {
+			// check if this one is reseller
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
+			if($check['limit_client'] == 0) {
+				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
+				return false;
+			}
+
+			if(isset($params['limit_client']) && $params['limit_client'] != 0) {
+				$this->server->fault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				return false;
+			}
+		}
 
 		// we need the previuos templates assigned here
 		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
@@ -208,8 +242,7 @@ class remoting_client extends remoting {
 		}
 
 
-		if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
-		$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] > 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params, 'client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_update');
+		$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] != 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params, 'client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_update');
 
 		$app->remoting_lib->ispconfig_sysuser_update($params, $client_id);
 

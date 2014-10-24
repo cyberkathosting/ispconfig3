@@ -1,9 +1,11 @@
 <?php
-$wb['Client Circle'] = 'Client Circle';
-$wb['Circle'] = 'Circle';
-$wb['circle_txt'] = 'Circle';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['client_ids_txt'] = 'Clients/Resellers';
-$wb['description_txt'] = 'Description';
-$wb['active_txt'] = 'Active';
+$wb['Client Circle'] = 'Krug klijenata';
+$wb['Circle'] = 'Krug';
+$wb['circle_txt'] = 'Krug';
+$wb['circle_name_txt'] = 'Naziv kruga';
+$wb['client_ids_txt'] = 'Klijenti/Preprodavači';
+$wb['description_txt'] = 'Opis';
+$wb['active_txt'] = 'Aktivno';
 ?>
+
+

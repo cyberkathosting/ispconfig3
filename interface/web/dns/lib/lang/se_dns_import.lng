@@ -12,4 +12,3 @@ $wb['title'] = 'Importera zonfiler';
 $wb['no_file_uploaded_error'] = 'Ingen zonfil uppladdad';
 $wb['zone_file_import_txt'] = 'Zonfilsimport';
 ?>
-

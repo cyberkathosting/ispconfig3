@@ -48,8 +48,8 @@
                 
                 $('.ttip').tipsy({live: true, gravity: 'ne', html: true});
                 
-                tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled>';
-                tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled>';
+                tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
+                tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
                 tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
                 tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
 				
@@ -167,6 +167,7 @@
                 <!-- begin: #content -->
                 <section id="content">
                     <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
+						<input type="text" style="display:none" /><input type="password" style="display:none"/>
                         <div id="pageContent"><!-- AJAX CONTENT --></div>
                     </form>
                     <div id="ie_clearing">&nbsp;</div>

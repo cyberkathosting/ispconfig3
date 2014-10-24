@@ -20,3 +20,5 @@ $wb['dkim_selector_txt'] = 'DKIM-Selector';
 $wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9) up to 63 chars';
 $wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
 ?>
+
+

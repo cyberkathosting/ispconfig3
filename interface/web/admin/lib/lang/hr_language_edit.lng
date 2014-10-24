@@ -6,3 +6,5 @@ $wb['lang_file_txt'] = 'Jezična datoteka';
 $wb['btn_save_txt'] = 'Spremi';
 $wb['btn_cancel_txt'] = 'Natrag';
 ?>
+
+

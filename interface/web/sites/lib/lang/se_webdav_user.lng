@@ -19,4 +19,3 @@ $wb['repeat_password_txt'] = 'Repetera lösenord';
 $wb['password_mismatch_txt'] = 'Lösenorden matchar inte';
 $wb['password_match_txt'] = 'Lösenorden matchar';
 ?>
-

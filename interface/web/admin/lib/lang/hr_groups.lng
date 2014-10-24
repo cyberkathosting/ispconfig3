@@ -3,3 +3,5 @@ $wb['description_txt'] = 'Opis';
 $wb['name_txt'] = 'Grupa';
 $wb['name_err'] = 'Grupa mora biti barem jedan do maksimalno 30 znakova.';
 ?>
+
+

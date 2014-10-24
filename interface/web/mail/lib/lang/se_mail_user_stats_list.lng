@@ -6,4 +6,3 @@ $wb['last_month_txt'] = 'Föregående månad';
 $wb['this_year_txt'] = 'I år';
 $wb['last_year_txt'] = 'Föregående år';
 ?>
-

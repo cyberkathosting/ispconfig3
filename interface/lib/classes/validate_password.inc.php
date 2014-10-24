@@ -53,10 +53,11 @@ class validate_password {
 			$different += 1;
 		}
 
-		if (preg_match('/[`~!@#$%^&*()_+|\\=-[]}{\';:\/?.>,<" ]/', $password)) {
+		if (preg_match('/[`~!@#$%^&*()_+|\\=-\[\]}{\';:\/?.>,<" ]/', $password)) {
 			$points += 1;
 			$different += 1;
 		}
+		
 
 		if ($points == 0 || $different < 3) {
 			if ($length >= 5 && $length <= 6) {
@@ -122,7 +123,7 @@ class validate_password {
 			$lng_text = str_replace('{chars}', $min_password_length, $lng_text);
 		}
 		if(!$lng_text) $lng_text = 'weak_password_txt'; // always return a string, even if language is missing - otherwise validator is NOT MATCHING!
-		
+
 		if(strlen($field_value) < $min_password_length) return $lng_text;
 		if($this->_get_password_strength($field_value) < $min_password_strength) return $lng_text;
 		

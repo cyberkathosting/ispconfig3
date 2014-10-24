@@ -67,7 +67,7 @@ $wb['error_ssl_organisation_empty'] = 'SSL Organisation is empty.';
 $wb['error_ssl_organisation_unit_empty'] = 'SSL Organisation Unit is empty.';
 $wb['error_ssl_country_empty'] = 'SSL Country is empty.';
 $wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
-$wb['client_group_id_txt'] = 'Client';
+$wb['client_group_id_txt'] = 'Klient';
 $wb['stats_password_txt'] = 'Set Webstatistics password';
 $wb['allow_override_txt'] = 'Apache AllowOverride';
 $wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
@@ -127,3 +127,4 @@ $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 $wb['Domain'] = 'Alias domény pro webové stránky';
 ?>
+

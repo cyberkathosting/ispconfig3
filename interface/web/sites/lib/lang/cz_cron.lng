@@ -22,3 +22,4 @@ $wb['server_id_error_empty'] = 'ID serveru je prázdné.';
 $wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
 $wb['command_error_empty'] = 'Command is empty.';
 ?>
+

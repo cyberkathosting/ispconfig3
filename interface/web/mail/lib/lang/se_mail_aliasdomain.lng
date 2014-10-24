@@ -9,4 +9,3 @@ $wb['source_error_empty'] = 'Källdomän är tomt.';
 $wb['source_error_unique'] = 'Källdomänen finns redan.';
 $wb['source_error_regex'] = 'Ogiltig källdomän..';
 ?>
-

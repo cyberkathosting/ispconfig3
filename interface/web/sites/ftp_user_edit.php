@@ -142,6 +142,11 @@ class page_action extends tform_actions {
 		$dir = $app->db->quote($web["document_root"]);
 		$uid = $app->db->quote($web["system_user"]);
 		$gid = $app->db->quote($web["system_group"]);
+		
+		// Check system user and group
+		if($app->functions->is_allowed_user($uid) == false || $app->functions->is_allowed_group($gid) == false) {
+			$app->error('Invalid system user or group');
+		}
 
 		// The FTP user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
@@ -152,7 +157,7 @@ class page_action extends tform_actions {
 
 	function onBeforeUpdate() {
 		global $app, $conf, $interfaceConf;
-
+		
 		/*
 		 * If the names should be restricted -> do it!
 		 */

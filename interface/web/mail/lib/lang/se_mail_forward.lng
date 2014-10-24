@@ -7,4 +7,3 @@ $wb['duplicate_mailbox_txt'] = 'Det finns redan ett epostkonto med denna adress'
 $wb['domain_txt'] = 'Domän';
 $wb['source_txt'] = 'Källadress';
 ?>
-

@@ -5,3 +5,5 @@ $wb['VM Templates'] = 'VM predlošci';
 $wb['IP addresses'] = 'IP adrese';
 $wb['OpenVZ'] = 'OpenVZ';
 ?>
+
+

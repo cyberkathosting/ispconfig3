@@ -8,3 +8,5 @@ $wb['add_new_record_txt'] = 'Dodaj novu web stranicu';
 $wb['parent_domain_id_txt'] = 'Website';
 
 ?>
+
+

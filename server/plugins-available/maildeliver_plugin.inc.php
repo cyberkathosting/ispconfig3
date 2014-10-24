@@ -131,6 +131,7 @@ class maildeliver_plugin {
 			$tpl->setLoop('ccloop', $tmp_addresses_arr);
 
 			// Custom filters
+			if($data["new"]["custom_mailfilter"] == 'NULL') $data["new"]["custom_mailfilter"] = '';
 			$tpl->setVar('custom_mailfilter', $data["new"]["custom_mailfilter"]);
 
 			// Move junk

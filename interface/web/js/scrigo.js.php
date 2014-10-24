@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../../lib/config.inc.php';
 header('Content-Type: text/javascript; charset=utf-8'); // the config file sets the content type header so we have to override it here!
 require_once '../../lib/app.inc.php';
@@ -447,6 +446,8 @@ function loadMenus() {
 }
 
 function changeTab(tab,target,force) {
+	if(requestsRunning > 0) return false;
+	
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
 
@@ -818,7 +819,7 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	oldPWField.remove();
 	var pword = password(<?php echo $min_password_length; ?>, false, 1);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
-	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
+	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup').select();
 }
 
 var funcDisableClick = function(e) { e.preventDefault(); return false; };

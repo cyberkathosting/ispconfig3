@@ -76,29 +76,31 @@ class firewall_plugin {
 		global $app, $conf;
 
 		//* load the server configuration options
-		$app->uses('getconf');
-		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-		if($server_config['firewall'] == 'ufw') {
-			$this->ufw_update($event_name, $data);
-		} else {
-			$this->bastille_update($event_name, $data);
+		if(!$data['mirrored']) {
+			$app->uses('getconf');
+			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+			if($server_config['firewall'] == 'ufw') {
+				$this->ufw_update($event_name, $data);
+			} else {
+				$this->bastille_update($event_name, $data);
+			}
 		}
-
 	}
 
 	public function delete($event_name, $data) {
 		global $app, $conf;
 
 		//* load the server configuration options
-		$app->uses('getconf');
-		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		if(!$data['mirrored']) {
+			$app->uses('getconf');
+			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 
-		if($server_config['firewall'] == 'ufw') {
-			$this->ufw_delete($event_name, $data);
-		} else {
-			$this->bastille_delete($event_name, $data);
+			if($server_config['firewall'] == 'ufw') {
+				$this->ufw_delete($event_name, $data);
+			} else {
+				$this->bastille_delete($event_name, $data);
+			}
 		}
-
 	}
 
 	private function ufw_update($event_name, $data) {

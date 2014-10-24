@@ -6,3 +6,5 @@ $wb['repo_password_txt'] = 'Šifra (opcionalno)';
 $wb['active_txt'] = 'Aktivno';
 $wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
 ?>
+
+

@@ -1,10 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Client Circles';
-$wb['circle_id_txt'] = 'Circle ID';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['description_txt'] = 'Description';
-$wb['add_new_record_txt'] = 'Add new circle';
+$wb['list_head_txt'] = 'Krug klijenata';
+$wb['circle_id_txt'] = 'ID kruga';
+$wb['circle_name_txt'] = 'Naziv kruga';
+$wb['description_txt'] = 'Opis';
+$wb['add_new_record_txt'] = 'Dodaj novi krug';
 $wb['filter_txt'] = 'Filter';
-$wb['delete_txt'] = 'Delete';
-$wb['active_txt'] = 'Active';
+$wb['delete_txt'] = 'Obriši';
+$wb['active_txt'] = 'Aktivno';
 ?>
+
+

@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Usuarios de carpetas protegidas';
 $wb['active_txt'] = 'Activo';
 $wb['web_folder_id_txt'] = 'Carpeta';
 $wb['username_txt'] = 'Nombre de usuario';
+$wb['add_new_record_txt'] = 'Add new Folder User';
 ?>

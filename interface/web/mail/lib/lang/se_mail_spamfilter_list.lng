@@ -6,4 +6,3 @@ $wb['server_name_txt'] = 'servernamn';
 $wb['email_txt'] = 'Epost';
 $wb['add_new_record_txt'] = 'Lägg till nytt spamfilter';
 ?>
-

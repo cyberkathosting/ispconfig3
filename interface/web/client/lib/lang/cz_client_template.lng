@@ -66,8 +66,8 @@ $wb['limit_mailmailinglist_error_notint'] = 'Limit pro e-mailové konference mus
 $wb['limit_openvz_vm_txt'] = 'Max. počet virtuálních serverů';
 $wb['limit_openvz_vm_template_id_txt'] = 'Povinná šablona pro virtuální server';
 $wb['limit_openvz_vm_error_notint'] = 'Limit pro virtuální servery musí být číslo.';
-$wb['ssh_chroot_txt'] = 'SSH-Chroot Options';
-$wb['web_php_options_txt'] = 'PHP Options';
+$wb['ssh_chroot_txt'] = 'SSH-Chroot Možnosti';
+$wb['web_php_options_txt'] = 'PHP Možnosti';
 $wb['template_type_txt'] = 'Typ šablony';
 $wb['template_name_txt'] = 'Název šablony';
 $wb['limit_cgi_txt'] = 'CGI - dostupná volba pro klienta';
@@ -77,7 +77,7 @@ $wb['limit_ruby_txt'] = 'Ruby - dostupná volba pro klienta';
 $wb['limit_python_txt'] = 'Python - dostupná volba pro klienta';
 $wb['force_suexec_txt'] = 'SuEXEC - povinné pro klienta';
 $wb['limit_hterror_txt'] = 'Vlastní Error (chybové) dokumenty';
-$wb['limit_wildcard_txt'] = 'Wildcard subdomain available';
+$wb['limit_wildcard_txt'] = '(*.) automatická subdoména - dostupná volba pro klienta';
 $wb['limit_ssl_txt'] = 'SSL - dostupná volba pro klienta';
 $wb['web_limits_txt'] = 'Webové limity';
 $wb['email_limits_txt'] = 'E-mailové limity';
@@ -91,3 +91,4 @@ $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
 $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Klientské limity';
 ?>
+

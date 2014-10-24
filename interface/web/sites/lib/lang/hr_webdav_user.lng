@@ -12,10 +12,12 @@ $wb['username_error_unique'] = 'Izabrano korisničko ime već postoji.';
 $wb['username_error_regex'] = 'Korisničko ime sadrži znakove koji nisu dopušteni.';
 $wb['directory_error_empty'] = 'Direktorij je prazan.';
 $wb['parent_domain_id_error_empty'] = 'Nije izabrana web stranica.';
-$wb['dir_dot_error'] = 'No .. in path allowed.';
-$wb['dir_slashdot_error'] = 'No ./ in path allowed.';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['dir_dot_error'] = '.. nije dozvoljenu u putanji.';
+$wb['dir_slashdot_error'] = './ nije dozvoljeno u putanji.';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
 ?>
+
+

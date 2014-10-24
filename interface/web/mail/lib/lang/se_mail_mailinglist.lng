@@ -20,4 +20,3 @@ $wb['listname_error_unique'] = 'There is already a mailinlist with name on the s
 $wb['email_error_isemail'] = 'Epostadressen är ogiltig';
 $wb['mailinglist_txt'] = 'Epostlista';
 ?>
-

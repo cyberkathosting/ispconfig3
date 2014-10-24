@@ -5,4 +5,3 @@ $wb['add_new_record_txt'] = 'Lägg till ny PHP-version';
 $wb['client_id_txt'] = 'Kund';
 $wb['name_txt'] = 'PHP-namn';
 ?>
-

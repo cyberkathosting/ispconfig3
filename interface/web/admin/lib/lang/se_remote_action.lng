@@ -10,4 +10,3 @@ $wb['select_all_server'] = 'Alla servrar';
 $wb['ispconfig_update_title'] = 'ISPConfig uppdateringsinstruktioner';
 $wb['ispconfig_update_text'] = 'Logga in som root på din server och kör kommandot<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />för att påbörja ISPConfig-uppdateringen.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Klicka här för detaljerade instruktioner</a>';
 ?>
-

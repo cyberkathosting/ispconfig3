@@ -46,4 +46,3 @@ $wb['Domain Alias'] = 'Domain Alias';
 $wb['Relay Recipients'] = 'Relay Recipients';
 $wb['Mailbox quota'] = 'Mailbox quota';
 ?>
-

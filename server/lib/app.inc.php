@@ -35,6 +35,7 @@ class app {
 
 	var $loaded_modules = array();
 	var $loaded_plugins = array();
+	var $_calling_script = '';
 
 	function __construct() {
 
@@ -58,6 +59,23 @@ class app {
 
 		}
 
+	}
+
+	function setCaller($caller) {
+		$this->_calling_script = $caller;
+	}
+	
+	function getCaller() {
+		return $this->_calling_script;
+	}
+	
+	function forceErrorExit($errmsg = 'undefined') {
+		global $conf;
+		
+		if($this->_calling_script == 'server') {
+			@unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock');
+		}
+		die('Exiting because of error: ' . $errmsg);
 	}
 
 	function uses($classes) {

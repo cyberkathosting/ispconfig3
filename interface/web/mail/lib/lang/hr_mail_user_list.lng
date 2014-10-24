@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox';
+$wb['list_head_txt'] = 'Email sandučić';
 $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Automatski odgovor';
-$wb['add_new_record_txt'] = 'Dodaj mailbox';
+$wb['add_new_record_txt'] = 'Dodaj email sandučić';
 $wb['name_txt'] = 'Ime';
 $wb['login_txt'] = 'Prijava';
 ?>
+
+
