@@ -69,7 +69,7 @@ class page_action extends tform_actions {
 			} else {
 				$temp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$server_id);
 				$server_name[$server_id] = $temp['server_name'];
-				unset($temp)
+				unset($temp);
 			}
 				
 			if ( isset($tmp_id) ) $server_id = rtrim($tmp_id,',');
