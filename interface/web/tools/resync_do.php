@@ -67,7 +67,9 @@ class page_action extends tform_actions {
 					$server_name[$server['server_id']] = $server['server_name'];
 				}
 			} else {
-				$server_name[$server_id] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$server_id)['server_name'];
+				$temp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$server_id);
+				$server_name[$server_id] = $temp['server_name'];
+				unset($temp)
 			}
 				
 			if ( isset($tmp_id) ) $server_id = rtrim($tmp_id,',');
@@ -283,7 +285,15 @@ class page_action extends tform_actions {
 			$msg .= '<b>Resynced DNS zone</b><br>';
 			if(is_array($zone_records) && !empty($zone_records)) {
 				foreach($zone_records as $zone_rec) {
-					if ($server_id == -1) $records = query_server('dns_rr', $server_id, $server_type, 'WHERE 1', false)[0]; else $records = query_server('dns_rr', $server_id, $server_type, "WHERE active = 'Y'")[0];
+					if ($server_id == -1) {
+						$temp = query_server('dns_rr', $server_id, $server_type, 'WHERE 1', false);
+						$records = $temp[0];
+						unset($temp);
+					} else {
+						$temp= query_server('dns_rr', $server_id, $server_type, "WHERE active = 'Y'");
+						$records = $temp[0];
+						unset($temp);
+					}
 					$rr_count = 0;
 					if (is_array($records)) {
 						foreach($records as $rec) {
