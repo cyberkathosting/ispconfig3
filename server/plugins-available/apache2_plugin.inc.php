@@ -1275,8 +1275,10 @@ class apache2_plugin {
 		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
 		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
 		
-		// User sockets, but not with apache 2.4 as socket support is buggy in that version
-		if($data['new']['php_fpm_use_socket'] == 'y' && $app->system->getapacheversion() < 2.4){
+		$apache_modules = $app->system->getapachemodules();
+		
+		// Use sockets, but not with apache 2.4 on centos (mod_proxy_fcgi) as socket support is buggy in that version
+		if($data['new']['php_fpm_use_socket'] == 'y' && in_array('fastcgi_module',$apache_modules)){
 			$use_tcp = 0;
 			$use_socket = 1;
 		} else {

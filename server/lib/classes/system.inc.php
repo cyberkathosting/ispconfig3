@@ -1765,8 +1765,8 @@ class system{
 		global $app;
 		
 		$cmd = '';
-		if(is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
-		elseif(is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
+		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
+		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
 		else {
 			$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
 			return array();
