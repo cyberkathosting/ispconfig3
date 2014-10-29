@@ -117,14 +117,14 @@ class mail_plugin_dkim {
 			$app->log('Amavis-config not found or not writeable.', LOGLEVEL_ERROR);
 			$check=false;
 		}
+
 		/* dir for dkim-keys writeable? */
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		if (	isset($mail_config['dkim_path']) && 
 				!empty($mail_config['dkim_path']) && 
 				isset($data['new']['dkim_private']) && 
 				!empty($data['new']['dkim_private']) &&
-				$mail_config['dkim_path'] != '/' &&
-				$app->system->checkpath($mail_config['dkim_path'])
+				$mail_config['dkim_path'] != '/' 
 		) {
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
@@ -148,6 +148,11 @@ class mail_plugin_dkim {
 			if (!is_writeable($mail_config['dkim_path'])) {
 				$app->log('DKIM Path '.$mail_config['dkim_path'].' not writeable.', LOGLEVEL_ERROR);
 				$check=false;
+			}
+
+			if ( !$app->system->checkpath($mail_config['dkim_path']) ) {
+				$app->log('DKIM Path '.$mail_config['dkim_path'].' failed in checkpath.', LOGLEVEL_ERROR);
+				$check = false;
 			}
 
 		} else {
@@ -184,7 +189,7 @@ class mail_plugin_dkim {
 	 * @param string $key_file full path to the key-file
 	 * @param string $key_value private-key
 	 * @param string $key_domain mail-domain
-	 * @return bool - true when the key is written to disk
+	 * @return bool - true when the private key was written to disk
 	 */
 	function write_dkim_key($key_file, $key_value, $key_domain) {
 		global $app, $mailconfig;
