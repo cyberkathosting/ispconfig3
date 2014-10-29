@@ -147,7 +147,6 @@ switch ($_POST['action']) {
 	break;
 
 	case 'show': /* show the DNS-Record onLoad */
-		$_POST=getRealPOST();
 		$private_key=$_POST['dkim_private'];
 	break;
 }
