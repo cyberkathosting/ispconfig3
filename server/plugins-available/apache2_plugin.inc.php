@@ -2664,7 +2664,8 @@ class apache2_plugin {
 		$tpl->newTemplate('php_fpm_pool.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
 		
-		if($data['new']['php_fpm_use_socket'] == 'y'){
+		// Use sockets, but not with apache 2.4 on centos (mod_proxy_fcgi) as socket support is buggy in that version
+		if($data['new']['php_fpm_use_socket'] == 'y' && in_array('fastcgi_module',$apache_modules)){
 			$use_tcp = 0;
 			$use_socket = 1;
 			if(!is_dir($socket_dir)) $app->system->mkdirpath($socket_dir);
