@@ -33,6 +33,10 @@ This Javascript is invoked by
 */
 var request = false;
 
+$('.subsectiontoggle').on('click', function(){
+	$(this).children().toggleClass('showing').end().next().slideToggle();
+});
+
 function setRequest(action) {
 	if (window.XMLHttpRequest) {
 		request = new XMLHttpRequest();
