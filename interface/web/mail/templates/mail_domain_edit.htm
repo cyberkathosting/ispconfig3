@@ -82,12 +82,12 @@
                     {tmpl_var name='active'}
                 </div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='dkim_settings_txt'}<em></em></div>
 			<tmpl_if name="domain_module">
 				<input type="hidden" name="domain_module" value="1" id="domain_module" />
 			<tmpl_else>
 				<input type="hidden" name="domain_module" value="0" id="domain_module" />
 			</tmpl_if>
+            <div class="subsectiontoggle"><span></span>{tmpl_var name='dkim_settings_txt'}<em></em></div>
             <div style="display:none;">
               <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='dkim_txt'}</p>

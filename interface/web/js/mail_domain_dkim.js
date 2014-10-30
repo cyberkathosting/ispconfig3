@@ -66,7 +66,7 @@ function setRequest(action) {
 		}
 		var selector=jQuery('#dkim_selector').val();
 		var publickey=jQuery('#dkim_public').val();
-		var privatekey=jQuery('#dkim_private').val();
+		var privatekey=encodeURIComponent(document.getElementById("dkim_private").value)
 		request.open('POST', 'mail/mail_domain_dkim_create.php', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		request.send('domain='+domain+'&action='+action+'&dkim_selector='+selector+'&dkim_public='+publickey+'&dkim_private='+privatekey);
