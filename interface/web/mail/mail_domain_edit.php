@@ -176,6 +176,9 @@ class page_action extends tform_actions {
 				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option", $domain_select);
+			$app->tpl->setVar("domain_module", 1);
+		} else {
+			$app->tpl->setVar("domain_module", 0);
 		}
 
 

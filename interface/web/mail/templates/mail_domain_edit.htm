@@ -82,6 +82,11 @@
                     {tmpl_var name='active'}
                 </div>
             </div>
+			<tmpl_if name="domain_module">
+				<input type="hidden" name="domain_module" value="1" id="domain_module" />
+			<tmpl_else>
+				<input type="hidden" name="domain_module" value="0" id="domain_module" />
+			</tmpl_if>
             <div class="subsectiontoggle"><span></span>{tmpl_var name='dkim_settings_txt'}<em></em></div>
             <div style="display:none;">
               <div class="ctrlHolder">
@@ -97,11 +102,12 @@
               <div class="ctrlHolder">
                 <label for="dkim_private">{tmpl_var name='dkim_private_txt'}</label>
                 <textarea name="dkim_private" id="dkim_private" rows='10' cols='30'>{tmpl_var name='dkim_private'}</textarea>
-<a href="javascript:setRequest('create','{tmpl_var name='domain'}','{tmpl_var name='dkim_selector'}')">{tmpl_var name='dkim_generate_txt'}</a>
+<a href="javascript:setRequest('create')">{tmpl_var name='dkim_generate_txt'}</a>
               </div>
 		<div class="ctrlHolder">
                 <textarea name="dkim_public" style="display:none;" id="dkim_public" rows='5' cols='30' readonly>{tmpl_var name='dkim_public'}</textarea>
               </div>
+
               <div class="ctrlHolder">
                 <label for="dns_record">{tmpl_var name='dkim_dns_txt'}</label>
                 <textarea name="dns_record" id="dns_record" rows='10' cols='30' readonly>{tmpl_var name='dns_record'}</textarea>
@@ -113,7 +119,6 @@
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input type="hidden" name="type" value="local">
-
         <div class="buttonHolder buttons">
             <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/mail_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
             <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mail/mail_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
