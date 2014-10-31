@@ -2361,14 +2361,14 @@ class installer_base {
 
 	public function getinitcommand($servicename, $action, $init_script_directory = ''){
 		global $conf;
-		// systemd
-		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
-			return 'systemctl '.$action.' '.$servicename.'.service';
-		}
 		// upstart
 		if(is_executable('/sbin/initctl')){
 			exec('/sbin/initctl version 2>/dev/null | /bin/grep -q upstart', $retval['output'], $retval['retval']);
 			if(intval($retval['retval']) == 0) return 'service '.$servicename.' '.$action;
+		}
+		// systemd
+		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
+			return 'systemctl '.$action.' '.$servicename.'.service';
 		}
 		// sysvinit
 		if($init_script_directory == '') $init_script_directory = $conf['init_scripts'];
