@@ -244,7 +244,7 @@ class page_action extends tform_actions {
 			$index_field = 'mailuser_id';
 			$server_type = 'mail';
 			$server_id = $app->functions->intval($this->dataRecord['mailbox_server_id']);
-			if ($server_id == -1) $tmp = query_server($db_table, $server_id, $server_type, 'WHERE 1', false); else $tmp = query_server($db_table, $server_id, $server_type);
+			if ($server_id == -1) $tmp = query_server($db_table, $server_id, $server_type, 'WHERE 1', false); else $tmp = query_server($db_table, $server_id, $server_type, 'WHERE 1');
 			$records = $tmp[0];
 			$server_name = $tmp[1];
 			unset($tmp);

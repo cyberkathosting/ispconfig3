@@ -385,7 +385,7 @@ class installer_dist extends installer_base {
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
