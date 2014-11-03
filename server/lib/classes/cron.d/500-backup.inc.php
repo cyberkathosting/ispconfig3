@@ -74,10 +74,14 @@ class cronjob_backup extends cronjob {
 			
 			//* mount backup directory, if necessary
 			$run_backups = true;
-			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
+			$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
+			if( $server_config['backup_dir_is_mount'] == 'y' &&
+				is_file($backup_dir_mount_cmd) &&
+				is_executable($backup_dir_mount_cmd) &&
+				fileowner($backup_dir_mount_cmd) === 0
+			){
+			if(!$app->system->is_mounted($backup_dir)){
+					exec($backup_dir_mount_cmd);
 					sleep(1);
 					if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
 				}
