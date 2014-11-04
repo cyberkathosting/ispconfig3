@@ -63,6 +63,7 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
 
   # SSL Configuration
   <tmpl_var name="ssl_comment">SSLEngine On
+  <tmpl_var name="ssl_comment">SSLProtocol All -SSLv2 -SSLv3
   <tmpl_var name="ssl_comment">SSLCertificateFile /usr/local/ispconfig/interface/ssl/ispserver.crt
   <tmpl_var name="ssl_comment">SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
   <tmpl_var name="ssl_bundle_comment">SSLCACertificateFile /usr/local/ispconfig/interface/ssl/ispserver.bundle

@@ -6,4 +6,3 @@ $wb['pattern_txt'] = 'Mönster';
 $wb['action_txt'] = 'Händelse';
 $wb['add_new_record_txt'] = 'Lägg till nytt innehållsfilter';
 ?>
-

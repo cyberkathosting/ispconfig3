@@ -4,3 +4,5 @@ $wb['faq_question_txt'] = 'Pitanje';
 $wb['faq_answer_txt'] = 'Odgovor';
 $wb['faq_section_txt'] = 'Rubrika';
 ?>
+
+

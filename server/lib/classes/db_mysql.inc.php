@@ -176,6 +176,7 @@ class db extends mysqli
 	private function _query($sQuery = '') {
 		global $app;
 
+		if($this->isConnected == false) return false;
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
 			return false;
@@ -187,6 +188,17 @@ class db extends mysqli
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
 				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+					if($this->errorNumber == '111') {
+						// server is not available
+						if($try > 9) {
+							if(isset($app) && isset($app->forceErrorExit)) {
+								$app->forceErrorExit('Database connection failure!');
+							}
+							// if we reach this, the app object is missing or has no exit method, so we continue as normal
+						}
+						sleep(30); // additional seconds, please!
+					}
+
 					if($try > 9) {
 						$this->_sqlerror('DB::query -> reconnect');
 						return false;

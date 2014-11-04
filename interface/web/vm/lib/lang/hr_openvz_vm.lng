@@ -34,7 +34,9 @@ $wb['cpu_units_error_empty'] = 'CPU units polje je prazno.';
 $wb['cpu_num_error_empty'] = 'CPU number polje je prazno.';
 $wb['cpu_limit_error_empty'] = 'CPU limit polje je prazno.';
 $wb['io_priority_error_empty'] = 'I/O priority polje je prazno.';
-$wb['template_nameserver_error_empty'] = 'Nameserver(s) polje je prazno.';
+$wb['template_nameserver_error_empty'] = 'Nameserver(i) polje je prazno.';
 $wb['Virtual server'] = 'Virtualni server';
 $wb['Advanced'] = 'Napredno';
 ?>
+
+

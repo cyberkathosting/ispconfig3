@@ -1,0 +1,3 @@
+/^\s*(LoadModule|LoadFile|Include)(\s+|[\\\\])/mi
+/^\s*(SuexecUserGroup|suPHP_UserGroup|suPHP_PHPPath|suPHP_ConfigPath)(\s+|[\\\\])/mi
+/^\s*(FCGIWrapper|FastCgiExternalServer)(\s+|[\\\\])/mi

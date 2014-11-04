@@ -13,4 +13,3 @@ $wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
 $wb['backup_type_mysql'] = 'MySQL-databaser';
 $wb['backup_type_web'] = 'Webbsidefiler';
 ?>
-

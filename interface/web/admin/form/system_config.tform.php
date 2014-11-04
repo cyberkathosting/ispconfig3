@@ -548,7 +548,7 @@ $form["tabs"]['misc'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array ( 0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-0\-\_\[\]]{0,50}$/',
+					'regex' => '/^[a-zA-Z0-9\-\_\[\]]{0,50}$/',
 					'errmsg'=> 'customer_no_template_error_regex'),
 			),
 			'default' => '',

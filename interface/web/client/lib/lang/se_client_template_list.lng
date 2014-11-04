@@ -4,4 +4,3 @@ $wb['template_type_txt'] = 'Typ';
 $wb['template_name_txt'] = 'Mallnamn';
 $wb['template_id_txt'] = 'Mall-ID';
 ?>
-

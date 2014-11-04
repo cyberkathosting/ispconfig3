@@ -11,5 +11,4 @@ $wb['domain_error_regex'] = 'Domain name invalid.';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
 $wb['none_txt'] = 'None';
-
 ?>

@@ -148,4 +148,6 @@ $wb['strength_5'] = 'Muy fuerte';
 $wb['weak_password_txt'] = 'La contraseña elegida no cumple las directrices de seguridad. Debe tener al menos {chars} caracteres y una fortaleza \"{strength}\".';
 $wb['weak_password_length_txt'] = 'La contraseña elegida no cumple las directrices de seguridad. Debe tener al menos {chars} caracteres.';
 $wb['Firewall'] = 'Cortafuegos';
+$wb['security_check1_txt'] = 'Check for security permission:';
+$wb['security_check2_txt'] = 'failed.';
 ?>

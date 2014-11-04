@@ -48,6 +48,7 @@ class app {
 	private $_wb;
 	private $_loaded_classes = array();
 	private $_conf;
+	private $_security_config;
 	
 	public $loaded_plugins = array();
 
@@ -78,16 +79,16 @@ class app {
 					$tmp = $this->ini_parser->parse_ini_string(stripslashes($tmp['config']));
 					if(!isset($tmp['misc']['session_allow_endless']) || $tmp['misc']['session_allow_endless'] != 'y') {
 						$this->session->set_timeout($sess_timeout);
-						session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
+						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 					} else {
 						// we are doing login here, so we need to set the session data
 						$this->session->set_permanent(true);
 						$this->session->set_timeout(365 * 24 * 3600); // one year
-						session_set_cookie_params(365 * 24 * 3600); // make the cookie live 5 minutes longer
+						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 					}
 				} else {
 					$this->session->set_timeout($sess_timeout);
-					session_set_cookie_params(($sess_timeout * 60) + 300); // make the cookie live 5 minutes longer
+					session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
 				}
 			} else {
 				session_set_cookie_params(0); // until browser is closed
@@ -109,7 +110,8 @@ class app {
 		}
 
 		$this->uses('functions'); // we need this before all others!
-		$this->uses('auth,plugin');
+		$this->uses('auth,plugin,ini_parser,getconf');
+		
 	}
 
 	public function __get($prop) {
@@ -326,5 +328,14 @@ class app {
 //** Initialize application (app) object
 //* possible future =  new app($conf);
 $app = new app();
+
+// load and enable PHP Intrusion Detection System (PHPIDS)
+$ids_security_config = $app->getconf->get_security_config('ids');
+		
+if(is_dir(ISPC_CLASS_PATH.'/IDS') && $ids_security_config['ids_enabled'] == 'yes') {
+	$app->uses('ids');
+	$app->ids->start();
+}
+unset($ids_security_config);
 
 ?>

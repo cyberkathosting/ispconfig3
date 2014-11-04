@@ -52,16 +52,29 @@ class page_action extends tform_actions {
 
 	function onBeforeInsert() {
 		global $app, $conf;
+		
+		//* Security settings check
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'admin') {
+			$app->auth->check_security_permissions('admin_allow_new_admin');
+		}
 
 		if(!in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
+		
+		
+		
 	}
 
 	function onBeforeUpdate() {
 		global $app, $conf;
 
 		if($conf['demo_mode'] == true && $_REQUEST['id'] <= 3) $app->error('This function is disabled in demo mode.');
+
+		//* Security settings check
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'admin') {
+			$app->auth->check_security_permissions('admin_allow_new_admin');
+		}
 
 		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];

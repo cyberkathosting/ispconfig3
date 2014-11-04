@@ -6,4 +6,3 @@ $wb['lang_file_txt'] = 'Språkfil';
 $wb['btn_save_txt'] = 'Spara';
 $wb['btn_cancel_txt'] = 'Tillbaka';
 ?>
-

@@ -33,6 +33,19 @@ class installer extends installer_base {
 	public function configure_dovecot()
 	{
 		global $conf;
+		
+		$virtual_transport = 'dovecot';
+		
+		// check if virtual_transport must be changed
+		if ($this->is_update) {
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$ini_array = ini_to_array(stripslashes($tmp['config']));
+			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
+			
+			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
+				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+			}
+		}
 
 		$config_dir = $conf['dovecot']['config_dir'];
 
@@ -57,7 +70,7 @@ class installer extends installer_base {
 		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
-			'virtual_transport = lmtp:unix:private/dovecot-lmtp',
+			'virtual_transport = '.$virtual_transport,
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth'
 		);
@@ -79,19 +92,20 @@ class installer extends installer_base {
 
 		//* Get the dovecot version
 		exec('dovecot --version', $tmp);
-		$parts = explode('.', trim($tmp[0]));
-		$dovecot_version = $parts[0];
+		$dovecot_version = $tmp[0];
 		unset($tmp);
-		unset($parts);
 
 		//* Copy dovecot configuration file
-		if($dovecot_version == 2) {
+		if(version_compare($dovecot_version,2) >= 0) {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
+			if(version_compare($dovecot_version,2.1) < 0) {
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
@@ -99,6 +113,8 @@ class installer extends installer_base {
 				copy('tpl/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
 			}
 		}
+		
+		
 
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';
@@ -111,6 +127,7 @@ class installer extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 
 		chmod($config_dir.'/'.$configfile, 0600);

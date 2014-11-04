@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Händelse';
 $wb['active_txt'] = 'Aktiv';
 $wb['pattern_error_empty'] = 'Matchningsfältet är tomt.';
 ?>
-

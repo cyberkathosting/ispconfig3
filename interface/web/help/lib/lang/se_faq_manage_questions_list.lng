@@ -7,4 +7,3 @@ $wb['faq_sections_txt'] = 'Kategori';
 $wb['faq_faq_questions_txt'] = 'Vanliga frågor';
 $wb['faq_new_question_txt'] = 'Lägg till ny fråga och svar';
 ?>
-

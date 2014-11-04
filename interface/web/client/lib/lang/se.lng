@@ -24,4 +24,3 @@ $wb['error_domain_in webuse'] = 'Den här domänen kan inte tas bort då den anv
 $wb['error_client_can_not_add_domain'] = 'Du kan inte lägga till en ny domän';
 $wb['error_client_group_id_empty'] = 'Du måste välja en kund<br>';
 ?>
-

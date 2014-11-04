@@ -6,3 +6,5 @@ $wb['destination_txt'] = 'Odredište';
 $wb['email_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Dodaj email alias';
 ?>
+
+

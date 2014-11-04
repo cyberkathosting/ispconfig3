@@ -6,3 +6,4 @@ $wb['parent_domain_id_txt'] = 'Stránka';
 $wb['username_txt'] = 'Uživatelské jméno';
 $wb['add_new_record_txt'] = 'Přidat shell uživatele';
 ?>
+

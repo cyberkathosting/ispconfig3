@@ -9,7 +9,7 @@ $wb['retry_txt'] = 'Retry';
 $wb['expire_txt'] = 'Expire';
 $wb['minimum_txt'] = 'Minimalno';
 $wb['ttl_txt'] = 'TTL';
-$wb['xfer_txt'] = 'Dozvoli transfer zona <br />ovim IP-ovima (odvojeni zarezom)';
+$wb['xfer_txt'] = 'Dozvoli transfer zona<br />slijedećim IP-evima (odvojiti zarezom)';
 $wb['active_txt'] = 'Aktivno';
 $wb['limit_dns_zone_txt'] = 'Iskorišten je maksimalan broj DNS zapisa za vaš račun.';
 $wb['client_txt'] = 'Klijent';
@@ -29,10 +29,12 @@ $wb['eg_domain_tld'] = 'npr. domena.tld';
 $wb['eg_ns1_domain_tld'] = 'npr. ns1.domena.tld';
 $wb['eg_webmaster_domain_tld'] = 'npr. webmaster@domena.tld';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'Ova domena ne može biti promijenjena. Pošaljite zahtjev administratoru ako želite promijeniti naziv domene.';
-$wb['refresh_range_error'] = 'Min. Refresh time is 60 seconds.';
-$wb['retry_range_error'] = 'Min. Retry time is 60 seconds.';
-$wb['expire_range_error'] = 'Min. Expire time is 60 seconds.';
-$wb['minimum_range_error'] = 'Min. Minimum time is 60 seconds.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['xfer_error_regex'] = 'Also notify: Please use an IP address.';
+$wb['refresh_range_error'] = 'Minimalno vrijeme osvježavanja je 60 sekundi.';
+$wb['retry_range_error'] = 'Minimalno Retry vrijeme je 60 sekundi.';
+$wb['expire_range_error'] = 'Minimalno vrijeme isteka je 60 sekundi.';
+$wb['minimum_range_error'] = 'Minimalno vrijeme minimuma je 60 sekundi.';
+$wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
+$wb['xfer_error_regex'] = 'Također obavijesti: Koristite IP adresu.';
 ?>
+
+

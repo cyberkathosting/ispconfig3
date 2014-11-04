@@ -4,4 +4,3 @@ $wb['install_key_txt'] = 'Fyll i installationsnyckel';
 $wb['btn_save_txt'] = 'Påbörja installation';
 $wb['btn_cancel_txt'] = 'Avbryt';
 ?>
-

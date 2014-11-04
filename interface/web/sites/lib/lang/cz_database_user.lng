@@ -21,3 +21,4 @@ $wb['globalsearch_noresults_limit_txt'] = '0 výsledků';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 ?>
+

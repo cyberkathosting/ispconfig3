@@ -66,6 +66,7 @@ class tform extends tform_base {
 		This function checks if a user has the parmissions $perm for the data record with the ID $record_id
 		If record_id = 0, the the permissions are tested against the defaults of the form file.
 		*/
+
 	function checkPerm($record_id, $perm) {
 		global $app;
 
@@ -249,7 +250,7 @@ class tform extends tform_base {
 	 */
 	function _getDateTimeHTML($form_element, $default_value, $display_seconds=false)
 	{
-		$_datetime = strtotime($default_value);
+		$_datetime = ($default_value && $default_value != '0000-00-00 00:00:00' ? strtotime($default_value) : false);
 		$_showdate = ($_datetime === false) ? false : true;
 
 		$dselect = array('day', 'month', 'year', 'hour', 'minute');

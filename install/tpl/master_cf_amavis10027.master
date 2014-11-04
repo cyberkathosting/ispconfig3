@@ -14,5 +14,4 @@
         -o smtp_send_xforward_command=yes
 	    -o milter_default_action=accept
     	-o milter_macro_daemon_name=ORIGINATING
-	    -o smtpd_milters=inet:127.0.0.1:4445
 

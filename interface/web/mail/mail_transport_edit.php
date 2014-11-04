@@ -70,6 +70,7 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
+		$types = array('smtp' => 'smtp', 'uucp' => 'uucp', 'slow' => 'slow', 'error' => 'error', 'custom' => 'custom', '' => 'null');
 		$tmp_parts = explode(":", $this->dataRecord["transport"]);
 		if(!empty($this->id) && !stristr($this->dataRecord["transport"], ':')) {
 			$rec["type"] = 'custom';
@@ -77,12 +78,14 @@ class page_action extends tform_actions {
 			if(empty($this->id) && empty($tmp_parts[0])) {
 				$rec["type"] = 'smtp';
 			} else {
-				$rec["type"] = $tmp_parts[0];
+				$rec["type"] = $types[$tmp_parts[0]] ? $tmp_parts[0] : 'custom';
 			}
 		}
-		if(!empty($tmp_parts[2])) {
+		if($rec["type"] == 'custom') {
+			$dest = $this->dataRecord["transport"];
+		} elseif(!empty($tmp_parts[2])) {
 			$dest = @$tmp_parts[1].':'.@$tmp_parts[2];
-		} elseif(!empty($tmp_parts[1])) {
+		} elseif(!empty($tmp_parts[1]) || $this->dataRecord["transport"] == ":") {
 			$dest = $tmp_parts[1];
 		} else {
 			$dest = $this->dataRecord["transport"];
@@ -95,7 +98,6 @@ class page_action extends tform_actions {
 			$rec["destination"] = @$dest;
 		}
 
-		$types = array('smtp' => 'smtp', 'uucp' => 'uucp', 'slow' => 'slow', 'error' => 'error', 'custom' => 'custom', '' => 'null');
 		$type_select = '';
 		if(is_array($types)) {
 			foreach( $types as $key => $val) {

@@ -1,79 +1,211 @@
-<h2><tmpl_var name="head_txt"></h2>
+<h2><tmpl_var name="list_head_txt"></h2>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_language_import">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name="legend_txt"}</legend>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_sites_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_sites" type="checkbox" value="1" name="resync_sites" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_ftp_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_ftp" type="checkbox" value="1" name="resync_ftp" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_shell_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_shell" type="checkbox" value="1" name="resync_shell" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_cron_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_cron" type="checkbox" value="1" name="resync_cron" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_db_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_db" type="checkbox" value="1" name="resync_db" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_mailbox_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_mailbox" type="checkbox" value="1" name="resync_mailbox" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_dkim_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_dkim" type="checkbox" value="1" name="resync_dkim" />
-                </div>
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_dns_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_dns" type="checkbox" value="1" name="resync_dns" />
-                </div>
-            </div>
-			<div class="ctrlHolder">
-                <p class="label">{tmpl_var name="resync_client_txt"}</p>
-                <div class="multiField">
-                    <input id="resync_client" type="checkbox" value="1" name="resync_client" />
-                </div>
-            </div>
-        </fieldset>
+<div class="panel panel_mail_domain">
+<div class="pnl_formsarea">
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="web_server_found">
+				<input id="resync_sites" type="checkbox" value="1" name="resync_sites">
+				<label for="resync_sites">{tmpl_var name='resync_sites_txt'}</label>
+				<select name="web_server_id" id="web_server_id" class="selectInput">
+					{tmpl_var name='web_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_sites">{tmpl_var name="resync_sites_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
 
-        <tmpl_if name="msg">
-            <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
-        </tmpl_if>
-        <tmpl_if name="error">
-            <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
-        </tmpl_if>
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="web_server_found">
+				<input id="resync_ftp" type="checkbox" value="1" name="resync_ftp">
+				<label for="resync_ftp">{tmpl_var name="resync_ftp_txt"}</label> 
+				<select name="ftp_server_id" id="ftp_server_id" class="selectInput">
+					{tmpl_var name='ftp_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_ftp">{tmpl_var name="resync_ftp_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
 
-        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="file_server_found">
+				<input id="resync_webdav" type="checkbox" value="1" name="resync_webdav">
+				<label for="resync_webdav">{tmpl_var name="resync_webdav_txt"}</label> 
+				<select name="webdav_server_id" id="webdav_server_id" class="selectInput">
+					{tmpl_var name='file_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_webdav">{tmpl_var name="resync_webdav_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/resync.php');"><span>{tmpl_var name="btn_start_txt"}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
-        </div>
-    </div>
-  
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="web_server_found">
+				<input id="resync_shell" type="checkbox" value="1" name="resync_shell">
+				<label for="resync_shell">{tmpl_var name="resync_shell_txt"}</label> 
+				<select name="shell_server_id" id="shell_server_id" class="selectInput">
+					{tmpl_var name='web_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_shell">{tmpl_var name="resync_shell_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="web_server_found">
+				<input id="resync_cron" type="checkbox" value="1" name="resync_cron">
+				<label for="resync_cron">{tmpl_var name="resync_cron_txt"}</label> 
+				<select name="cron_server_id" id="cron_server_id" class="selectInput">
+					{tmpl_var name='web_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_cron">{tmpl_var name="resync_cron_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="db_server_found">
+				<input id="resync_db" type="checkbox" value="1" name="resync_db">
+				<label for="resync_db">{tmpl_var name="resync_db_txt"}</label> 
+				<select name="db_server_id" id="db_server_id" class="selectInput">
+					{tmpl_var name='db_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_db">{tmpl_var name="resync_db_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+	
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="mail_server_found">
+				<input id="resync_mail" type="checkbox" value="1" name="resync_mail">
+				<label for="resync_mail">{tmpl_var name="resync_mail_txt"}</label> 
+				<select name="mail_server_id" id="mail_server_id" class="selectInput">
+					{tmpl_var name='mail_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_mail">{tmpl_var name="resync_mail_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="mail_server_found">
+				<input id="resync_mailbox" type="checkbox" value="1" name="resync_mailbox">
+				<label for="resync_mailbox">{tmpl_var name="resync_mailbox_txt"}</label> 
+				<select name="mailbox_server_id" id="mailbox_server_id" class="selectInput">
+					{tmpl_var name='mail_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_mailbox">{tmpl_var name="resync_mailbox_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="dns_server_found">
+				<input id="resync_dns" type="checkbox" value="1" name="resync_dns">
+				<label for="resync_dns">{tmpl_var name="resync_dns_txt"}</label> 
+				<select name="dns_server_id" id="dns_server_id" class="selectInput">
+					{tmpl_var name='dns_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_dns">{tmpl_var name="resync_dns_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="vserver_server_found">
+				<input id="resync_vserver" type="checkbox" value="1" name="resync_vserver">
+				<label for="resync_vserver">{tmpl_var name="resync_vserver_txt"}</label> 
+				<select name="vserver_server_id" id="vserver_server_id" class="selectInput">
+					{tmpl_var name='vserver_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_vserver">{tmpl_var name="resync_vserver_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<tmpl_if name="firewall_server_found">
+				<input id="resync_firewall" type="checkbox" value="1" name="resync_firewall">
+				<label for="resync_firewall">{tmpl_var name="resync_firewall_txt"}</label> 
+				<select name="firewall_server_id" id="firewall_server_id" class="selectInput">
+					{tmpl_var name='firewall_server_id'}
+				</select>
+			<tmpl_else>
+				<label for="resync_firewall">{tmpl_var name="resync_firewall_txt"}</label> 
+				<span style="color:red">
+					<strong>{tmpl_var name="resync_no_server_txt"}</strong>
+				</span>
+			</tmpl_if>
+		</div>
+	</fieldset>
+
+	<fieldset class="inlineLabels">
+		<div class="ctrlHolder">
+			<input id="resync_client" type="checkbox" value="1" name="resync_client">
+			<label for="resync_client">{tmpl_var name="resync_client_txt"}</label> 
+		</div>
+	</fieldset>
+
+	<input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+	<div class="buttonHolder buttons">
+		<button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','tools/resync_do.php');">
+			<span>{tmpl_var name='btn_save_txt'}</span>
+		</button>
+		<button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('tools/resync.php');">
+			<span>{tmpl_var name='btn_cancel_txt'}</span>
+		</button>
+	</div>
 </div>
+</div>
+

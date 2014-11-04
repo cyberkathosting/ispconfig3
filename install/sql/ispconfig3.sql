@@ -450,7 +450,7 @@ CREATE TABLE `dns_rr` (
   `zone` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
   `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
-  `data` varchar(255) NOT NULL DEFAULT '',
+  `data` TEXT NOT NULL DEFAULT '',
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '86400',
   `active` enum('N','Y') NOT NULL default 'Y',
@@ -903,6 +903,7 @@ CREATE TABLE `mail_user` (
   `maildir` varchar(255) NOT NULL default '',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` varchar(255) NOT NULL default '',
+  `sender_cc` varchar(255) NOT NULL default '',
   `homedir` varchar(255) NOT NULL default '',
   `autoresponder` enum('n','y') NOT NULL default 'n',
   `autoresponder_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -1880,7 +1881,7 @@ CREATE TABLE `web_domain` (
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
-  UNIQUE KEY `serverdomain` (  `server_id` ,  `domain` )
+  UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

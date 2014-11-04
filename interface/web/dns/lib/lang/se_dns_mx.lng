@@ -16,4 +16,3 @@ $wb['data_error_regex'] = 'Mailserver hostname format invalid';
 $wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
-

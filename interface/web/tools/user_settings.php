@@ -44,6 +44,10 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('tools');
 
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$app->auth->check_security_permissions('admin_allow_new_admin');
+}
+
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
@@ -91,6 +95,16 @@ class page_action extends tform_actions {
 			$_SESSION['s']['language'] = $_POST['language'];
 		} else {
 			$app->error('Invalid language.');
+		}
+	}
+	
+	function onAfterUpdate() {
+		global $app;
+		
+		if($_POST['passwort'] != '') {
+			$tmp_user = $app->db->queryOneRecord("SELECT passwort FROM sys_user WHERE userid = '".$app->functions->intval($_SESSION['s']['user']['userid'])."'");
+			$_SESSION['s']['user']['passwort'] = $tmp_user['passwort'];
+			unset($tmp_user);
 		}
 	}
 

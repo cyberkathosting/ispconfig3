@@ -11,4 +11,3 @@ $wb['source_ip_txt'] = 'Källadress';
 $wb['active_txt'] = 'Aktiv';
 $wb['iptables_error_unique'] = 'Det finns redan brandväggsinlägg för den här servern';
 ?>
-

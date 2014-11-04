@@ -28,14 +28,16 @@ $wb['error_domain_regex'] = 'Domena sadrži nedozvoljene znakove.';
 $wb['error_ns1_regex'] = 'NS1 sadrži nedozvoljene znakove.';
 $wb['error_ns2_regex'] = 'NS2 sadrži nedozvoljene znakove.';
 $wb['error_email_regex'] = 'Email adresa nije ispravna.';
-$wb['dns_zone_txt'] = 'DNS Zone';
-$wb['globalsearch_resultslimit_of_txt'] = 'of';
-$wb['globalsearch_resultslimit_results_txt'] = 'results';
-$wb['globalsearch_noresults_text_txt'] = 'No results.';
-$wb['globalsearch_noresults_limit_txt'] = '0 results';
-$wb['globalsearch_searchfield_watermark_txt'] = 'Search';
-$wb['globalsearch_suggestions_text_txt'] = 'Suggestions';
 $wb['dkim_txt'] = 'DKIM enabled';
-$wb['list_head_txt'] = 'DNS Zone Wizard';
-$wb['list_desc_txt'] = 'Create a DNS Zone via a wizard';
+$wb['dns_zone_txt'] = 'DNS zona';
+$wb['globalsearch_resultslimit_of_txt'] = 'od';
+$wb['globalsearch_resultslimit_results_txt'] = 'rezultata';
+$wb['globalsearch_noresults_text_txt'] = 'Nema rezultata.';
+$wb['globalsearch_noresults_limit_txt'] = '0 rezultata';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Traži';
+$wb['globalsearch_suggestions_text_txt'] = 'Sugestija';
+$wb['list_head_txt'] = 'DNS čarobnjak';
+$wb['list_desc_txt'] = 'Kreiraj DNS zonu sa čarobnjakom';
 ?>
+
+

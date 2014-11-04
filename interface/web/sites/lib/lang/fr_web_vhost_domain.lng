@@ -134,4 +134,6 @@ $wb['backup_excludes_txt'] = 'Excluded Directories';
 $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. Example: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid characters.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Invalid php.ini settings';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb['apache_directive_blocked_error'] = 'Apache directive blocked by security settings:';
 ?>

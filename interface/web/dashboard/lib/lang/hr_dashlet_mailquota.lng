@@ -1,8 +1,10 @@
 <?php
 $wb['mailquota_txt'] = 'Mailbox Quota';
 $wb['email_txt'] = 'Email Address';
-$wb['name_txt'] = 'Name';
+$wb['name_txt'] = 'Naziv';
 $wb['used_txt'] = 'Used Space';
-$wb['quota_txt'] = 'Quota';
+$wb['quota_txt'] = 'Kvota';
 $wb['no_email_accounts_txt'] = 'No email accounts found.';
 ?>
+
+

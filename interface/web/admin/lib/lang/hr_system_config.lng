@@ -71,3 +71,5 @@ $wb['No'] = 'No';
 $wb['min_password_length_txt'] = 'Minimum password length';
 $wb['min_password_strength_txt'] = 'Minimum password strength';
 ?>
+
+

@@ -6,3 +6,5 @@ $wb['password_strength_3_txt'] = 'Odlična';
 $wb['password_strength_4_txt'] = 'Jaka';
 $wb['password_strength_5_txt'] = 'Vrlo jaka';
 ?>
+
+

@@ -5,3 +5,5 @@ $wb['btn_save_txt'] = 'Obriši klijenta';
 $wb['btn_cancel_txt'] = 'Prekini i ne briši klijenta';
 $wb['confirm_client_delete_txt'] = 'Are you sure you want to delete this client?';
 ?>
+
+

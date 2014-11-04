@@ -15,4 +15,3 @@ $wb['eg_domain_tld'] = 'e.g. domain.tld.';
 $wb['ipv4_form_txt'] = 'IPv4 form - e.g. 1.2.3.4';
 $wb['secondary_zone_txt'] = 'Secondary DNS Zone';
 ?>
-

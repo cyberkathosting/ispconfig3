@@ -9,4 +9,3 @@ $wb['limit_mailcatchall_txt'] = 'Det maximala antalet catchall-adresser för dit
 $wb['source_txt'] = 'Källa';
 $wb['destination_error_isemail'] = 'Destinationen när inte en giltig epostadress.';
 ?>
-

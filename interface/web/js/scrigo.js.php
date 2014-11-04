@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../../lib/config.inc.php';
 header('Content-Type: text/javascript; charset=utf-8'); // the config file sets the content type header so we have to override it here!
 require_once '../../lib/app.inc.php';
@@ -94,7 +93,15 @@ function onAfterContentLoad(url, data) {
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
-    $('#pageContent').find("select:not(.chosen-select)").combobox();
+
+
+    $('#pageContent').find("select:not(.chosen-select)").combobox({
+	    select: function (event, ui) {
+            if (jQuery(".panel #Filter").length > 0) {
+                jQuery(".panel #Filter").trigger('click');
+            }
+	    }
+    });
     $('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
@@ -439,6 +446,8 @@ function loadMenus() {
 }
 
 function changeTab(tab,target,force) {
+	if(requestsRunning > 0) return false;
+	
 	//document.forms[0].next_tab.value = tab;
 	document.pageForm.next_tab.value = tab;
 
@@ -810,7 +819,7 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	oldPWField.remove();
 	var pword = password(<?php echo $min_password_length; ?>, false, 1);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
-	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup');
+	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup').select();
 }
 
 var funcDisableClick = function(e) { e.preventDefault(); return false; };
@@ -845,13 +854,13 @@ function getRandomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-jQuery('.addPlaceholder').live("click", function(){
+jQuery('.addPlaceholder').on("click", function(){
 	var placeholderText = jQuery(this).text();
 	var template = jQuery(this).siblings(':input');
 	template.insertAtCaret(placeholderText);
 });
 
-jQuery('.addPlaceholderContent').live("click", function(){
+jQuery('.addPlaceholderContent').on("click", function(){
 	var placeholderContentText = jQuery(this).find('.addPlaceholderContent').text();
 	var template2 = jQuery(this).siblings(':input');
 	template2.insertAtCaret(placeholderContentText);

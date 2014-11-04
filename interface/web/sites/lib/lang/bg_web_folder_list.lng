@@ -4,4 +4,5 @@ $wb['active_txt'] = 'Активен';
 $wb['server_id_txt'] = 'Сървър';
 $wb['parent_domain_id_txt'] = 'Уебсайт';
 $wb['path_txt'] = 'Път';
+$wb['add_new_record_txt'] = 'Add new Folder';
 ?>

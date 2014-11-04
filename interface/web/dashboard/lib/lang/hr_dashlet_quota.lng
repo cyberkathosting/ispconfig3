@@ -6,3 +6,5 @@ $wb['hard_txt'] = 'Hard limit';
 $wb['soft_txt'] = 'Soft limit';
 $wb['no_sites_txt'] = 'No web sites found.';
 ?>
+
+

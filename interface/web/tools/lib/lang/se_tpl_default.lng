@@ -5,4 +5,3 @@ $wb['no_settings_txt'] = 'Det finns inga instälningar för det förvalda temat'
 $wb['btn_start_txt'] = 'Spara';
 $wb['btn_cancel_txt'] = 'Tillbaka';
 ?>
-

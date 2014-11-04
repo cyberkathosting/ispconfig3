@@ -8,3 +8,5 @@ $wb['recipient_txt'] = 'Primatelj';
 $wb['add_new_record_txt'] = 'Dodaj novi zapis na blacklistu';
 $wb['access_txt'] = 'pristup';
 ?>
+
+

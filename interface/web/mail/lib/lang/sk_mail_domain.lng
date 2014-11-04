@@ -12,10 +12,9 @@ $wb["dkim_txt"] = 'enable DKIM';
 $wb["dkim_private_txt"] = 'DKIM Private-key';
 $wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
 $wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
-$wb["dkim_dns_txt"] = 'DNS-Record (TYPE TXT)<br><br>add this record to your DNS';
+$wb["dkim_dns_txt"] = 'DNS-Record';
 $wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
-$wb['dkim_selector_txt'] = 'DKIM-Selector';
-$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9)';
+$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9) up to 63 chars';
 
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- Nie je aktivovaný -';

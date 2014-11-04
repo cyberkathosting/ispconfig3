@@ -13,6 +13,9 @@ if(!stristr($_SESSION['s']['user']['modules'], 'admin')) {
 	die;
 }
 
+$app->auth->check_module_permissions('admin');
+$app->auth->check_security_permissions('admin_allow_remote_users');
+
 // Disable this function in demo mode
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 

@@ -387,7 +387,7 @@ table.list td.tbl_col_disablepop3 {
 }
 table.list .tbl_col_buttons,
 table.list .tbl_col_limit {
-    width: 150px;
+    width: 50px;
 }
 .tbl_col_client_pid input {
     width: 50px;
@@ -1871,4 +1871,65 @@ a.link-page.current-page {
     font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 12px;
     text-decoration: underline;
+}
+
+.custom-combobox {
+    position: relative !important;
+    display: inline-block !important;
+    overflow: hidden;
+    padding-right: 10px;
+    max-width: 356px;
+}
+.custom-combobox-toggle {
+    background: none repeat scroll 0 0 #ffffff !important;
+    border: 1px solid #dfdfdf !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: -1px;
+    z-index: 5000;
+    bottom: 0 !important;
+    margin-left: -1px !important;
+    padding: 1px !important;
+    /* support: IE7 */
+    *height: 1.7em !important;
+    *top: 0.1em !important;
+    width: 17px !important;
+}
+.custom-combobox-input {
+    background: none repeat scroll 0 0 #ffffff !important;
+    border: 1px solid #dfdfdf !important;
+    font-weight: normal !important;
+    margin: 0 !important;
+    padding: 0.3em !important;
+    display: inline-block !important;
+    width: 100%;
+}
+
+.tbl_col_limit .custom-combobox-toggle {
+	right: 0px;
+}
+
+.tbl_col_limit .custom-combobox-input {
+	width: 80% !important;
+}
+
+.tbl_col_limit input {
+    padding: 0.3em !important;	
+}
+
+.ui-autocomplete {
+	overflow-x: hidden !important;
+	padding-bottom: 3px !important;
+}
+
+li.ui-menu-item {
+	display: block !important;
+	width: auto !important;
+	margin-right: -1px !important;
+	margin-bottom: -1px !important;
+	margin-top: -1px !important;
+	font-weight: normal !important;
+	border: 1px solid #fff !important;
+	padding-left: 4px !important;
+	margin-left: 0px !important
 }

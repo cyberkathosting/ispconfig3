@@ -6,4 +6,3 @@ $wb['hard_txt'] = 'Hård gräns';
 $wb['soft_txt'] = 'Mjuk gräns';
 $wb['no_sites_txt'] = 'Ingen webbsida hittades.';
 ?>
-

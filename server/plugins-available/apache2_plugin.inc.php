@@ -242,6 +242,7 @@ class apache2_plugin {
 
         [ req ]
         default_bits           = 2048
+		default_md             = sha256
         default_keyfile        = keyfile.pem
         distinguished_name     = req_distinguished_name
         attributes             = req_attributes
@@ -265,30 +266,34 @@ class apache2_plugin {
 
 			$rand_file = escapeshellcmd($rand_file);
 			$key_file = escapeshellcmd($key_file);
+			$openssl_cmd_key_file = $key_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
+			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
+			$openssl_cmd_csr_file = $csr_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
 			$config_file = escapeshellcmd($ssl_cnf_file);
 			$crt_file = escapeshellcmd($crt_file);
+			$openssl_cmd_crt_file = $crt_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $key_file 2048");
-				exec("openssl req -new -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -out $csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $key_file -out $key_file2");
+				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file 2048");
+				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
+				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file -out $openssl_cmd_key_file2");
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file");
+					exec("openssl ca -batch -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file");
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $csr_file", LOGLEVEL_ERROR);
+					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $key_file -in $csr_file -out $crt_file -days $ssl_days -config $config_file ");
+					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
@@ -335,8 +340,15 @@ class apache2_plugin {
 
 			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
-			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
-			if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
+			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+				$tmp_data = '';
+				if(trim($data["new"]["ssl_cert"]) != '') $tmp_data .= $data["new"]["ssl_cert"] . "\n";
+				if(trim($data["new"]["ssl_bundle"]) != '') $tmp_data .= $data["new"]["ssl_bundle"];
+				if(trim($tmp_data) != '') $app->system->file_put_contents($crt_file, $tmp_data);
+			} else {
+				if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
+				if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
+			}
 
 			//* Write the key file, if field is empty then import the key into the db
 			if(trim($data["new"]["ssl_key"]) != '') {
@@ -367,7 +379,7 @@ class apache2_plugin {
 			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 			{
-				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke $crt_file");
+				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke ".escapeshellcmd($crt_file));
 				$app->log("Revoking CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 			};
 			$app->system->unlink($csr_file);
@@ -438,8 +450,9 @@ class apache2_plugin {
 			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
-		if($data['new']['system_user'] == 'root' or $data['new']['system_group'] == 'root') {
-			$app->log('Websites cannot be owned by the root user or group.', LOGLEVEL_WARN);
+		if($app->system->is_allowed_user($data['new']['system_user'], $app->system->is_user($data['new']['system_user']), true) == false
+			|| $app->system->is_allowed_group($data['new']['system_group'], $app->system->is_group($data['new']['system_group']), true) == false) {
+			$app->log('Websites cannot be owned by the root user or group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
 			return 0;
 		}
 		if(trim($data['new']['domain']) == '') {
@@ -555,6 +568,9 @@ class apache2_plugin {
 					$app->system->rename($data['new']['document_root'], $data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
 					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'), LOGLEVEL_DEBUG);
 				}
+				
+				//* Unmount the old log directory bfore we move the log dir
+				exec('umount '.escapeshellcmd($old_dir.'/log'));
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -580,13 +596,27 @@ class apache2_plugin {
 			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
+			/*
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
-			$app->system->replaceLine('/etc/fstab', $fstab_line, $fstab_line, 1, 1);
-
+			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
+			$app->system->removeLine('/etc/fstab', $fstab_line);
+			*/
+			
+			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
+			
+			if($web_config['network_filesystem'] == 'y') {
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
+				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
+			} else {
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
+			}
+			
+			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
+			
 		}
 
 		//print_r($data);
@@ -804,7 +834,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
 
 				// make tmp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -864,7 +894,7 @@ class apache2_plugin {
 				$app->system->chmod($data['new']['document_root'].'/cgi-bin', 0755);
 
 				// make temp directory writable for Apache and the website users
-				$app->system->chmod($data['new']['document_root'].'/tmp', 0777);
+				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
 
 				// Set Log directory to 755 to make the logs accessible by the FTP user
 				if(realpath($data['new']['document_root'].'/'.$log_folder . '/error.log') == '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log') {
@@ -1301,18 +1331,15 @@ class apache2_plugin {
 
 		} else {
 			//remove the php fastgi starter script if available
+			$fastcgi_starter_script = $fastcgi_config['fastcgi_starter_script'].($data['old']['type'] == 'vhostsubdomain' ? '_web' . $data['old']['domain_id'] : '');
 			if ($data['old']['php'] == 'fast-cgi') {
 				$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $fastcgi_config['fastcgi_starter_path']);
 				$fastcgi_starter_path = str_replace('[client_id]', $client_id, $fastcgi_starter_path);
 				if($data['old']['type'] == 'vhost') {
-					if (is_dir($fastcgi_starter_path)) {
-						exec('rm -rf '.$fastcgi_starter_path);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
+					if (is_dir($fastcgi_starter_path)) @rmdir($fastcgi_starter_path);
 				} else {
-					$fcgi_starter_script = $fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].'_web' . $data['old']['domain_id'];
-					if (file_exists($fcgi_starter_script)) {
-						exec('rm -f '.$fcgi_starter_script);
-					}
+					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
 				}
 			}
 		}
@@ -1350,8 +1377,11 @@ class apache2_plugin {
 		$pool_name = 'web'.$data['new']['domain_id'];
 		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
 		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
-
-		if($data['new']['php_fpm_use_socket'] == 'y'){
+		
+		$apache_modules = $app->system->getapachemodules();
+		
+		// Use sockets, but not with apache 2.4 on centos (mod_proxy_fcgi) as socket support is buggy in that version
+		if($data['new']['php_fpm_use_socket'] == 'y' && in_array('fastcgi_module',$apache_modules)){
 			$use_tcp = 0;
 			$use_socket = 1;
 		} else {
@@ -2136,7 +2166,7 @@ class apache2_plugin {
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
 			$app->system->touch($folder_path.'.htpasswd');
-			$app->system->chmod($folder_path.'.htpasswd', 0750);
+			$app->system->chmod($folder_path.'.htpasswd', 0751);
 			$app->system->chown($folder_path.'.htpasswd', $website['system_user']);
 			$app->system->chgrp($folder_path.'.htpasswd', $website['system_group']);
 			$app->log('Created file '.$folder_path.'.htpasswd', LOGLEVEL_DEBUG);
@@ -2190,7 +2220,7 @@ class apache2_plugin {
 		unset($old_content);
 
 		$app->system->file_put_contents($folder_path.'.htaccess', $ht_file);
-		$app->system->chmod($folder_path.'.htaccess', 0750);
+		$app->system->chmod($folder_path.'.htaccess', 0751);
 		$app->system->chown($folder_path.'.htaccess', $website['system_user']);
 		$app->system->chgrp($folder_path.'.htaccess', $website['system_group']);
 		$app->log('Created/modified file '.$folder_path.'.htaccess', LOGLEVEL_DEBUG);
@@ -2352,7 +2382,7 @@ class apache2_plugin {
 			}
 
 			$app->system->file_put_contents($new_folder_path.'.htaccess', $ht_file);
-			$app->system->chmod($new_folder_path.'.htaccess', 0750);
+			$app->system->chmod($new_folder_path.'.htaccess', 0751);
 			$app->system->chown($new_folder_path.'.htaccess', $website['system_user']);
 			$app->system->chgrp($new_folder_path.'.htaccess', $website['system_group']);
 			$app->log('Created/modified file '.$new_folder_path.'.htaccess', LOGLEVEL_DEBUG);
@@ -2360,7 +2390,7 @@ class apache2_plugin {
 			//* Create empty .htpasswd file, if it does not exist
 			if(!is_file($folder_path.'.htpasswd')) {
 				$app->system->touch($new_folder_path.'.htpasswd');
-				$app->system->chmod($new_folder_path.'.htpasswd', 0750);
+				$app->system->chmod($new_folder_path.'.htpasswd', 0751);
 				$app->system->chown($new_folder_path.'.htpasswd', $website['system_user']);
 				$app->system->chgrp($new_folder_path.'.htpasswd', $website['system_group']);
 				$app->log('Created file '.$new_folder_path.'.htpasswd', LOGLEVEL_DEBUG);
@@ -2799,7 +2829,10 @@ class apache2_plugin {
 		$tpl->newTemplate('php_fpm_pool.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
 		
-		if($data['new']['php_fpm_use_socket'] == 'y'){
+		$apache_modules = $app->system->getapachemodules();
+		
+		// Use sockets, but not with apache 2.4 on centos (mod_proxy_fcgi) as socket support is buggy in that version
+		if($data['new']['php_fpm_use_socket'] == 'y' && in_array('fastcgi_module',$apache_modules)){
 			$use_tcp = 0;
 			$use_socket = 1;
 			if(!is_dir($socket_dir)) $app->system->mkdirpath($socket_dir);
@@ -2812,7 +2845,7 @@ class apache2_plugin {
 
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
-		$tpl->setVar('fpm_listen_mode', '0600');
+		$tpl->setVar('fpm_listen_mode', '0660');
 
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);

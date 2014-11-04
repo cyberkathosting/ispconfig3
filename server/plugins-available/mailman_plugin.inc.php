@@ -75,6 +75,7 @@ class mailman_plugin {
 
 		exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
 		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
@@ -84,12 +85,17 @@ class mailman_plugin {
 	// The purpose of this plugin is to rewrite the main.cf file
 	function update($event_name, $data) {
 		global $app, $conf;
+		
+		$this->update_config();
 
 		if($data["new"]["password"] != $data["old"]["password"] && $data["new"]["password"] != '') {
 			exec("nohup /usr/lib/mailman/bin/change_pw -l ".escapeshellcmd($data["new"]["listname"])." -p ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
 			exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
 		}
+		
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
 	}
 
 	function delete($event_name, $data) {
@@ -100,6 +106,9 @@ class mailman_plugin {
 		exec("nohup /usr/lib/mailman/bin/rmlist -a ".escapeshellcmd($data["old"]["listname"])." >/dev/null 2>&1 &");
 
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
+		
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
+		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
 
 	}
 

@@ -158,3 +158,4 @@ $wb['monitor_database_size_txt'] = 'Size';
 $wb['monitor_database_client_txt'] = 'Client';
 $wb['monitor_database_domain_txt'] = 'Domain';
 ?>
+

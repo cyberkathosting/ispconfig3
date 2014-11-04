@@ -44,6 +44,10 @@
                         {tmpl_var name='parent_client_id'}
                     </select>
                 </div>
+                <div class="ctrlHolder">
+                    <label for="reseller">{tmpl_var name='reseller_txt'}</label>
+                    <input type="checkbox" name="reseller" value="1" id="reseller" />
+                </div>
                 </tmpl_if>
             <div class="subsectiontoggle"><span class="showing"></span>{tmpl_var name='web_limits_txt'}<em class="showing"></em></div>
             <div>
@@ -322,16 +326,20 @@ function custom_template_selected() {
     return ($('#template_master').val() == '0' ? true : false);
 }
 
-jQuery('#template_additional_list').find('li > a').click(function(e) {
+$('.subsectiontoggle').on("click", function(){
+    $(this).children().toggleClass('showing').end().next().slideToggle();
+});
+
+$('#template_additional_list').find('li > a').click(function(e) {
     e.preventDefault();
     delAdditionalTemplate($(this).parent().attr('rel'));
 });
 
-jQuery('div.panel_client')
+$('div.panel_client')
         .find('div.pnl_formsarea')
         .find('fieldset')
         .find('input,select,button')
-        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter,#parent_client_id')
+        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter,#parent_client_id,#reseller')
         .click(function(e) {
             if(custom_template_selected()) return true;
             e.preventDefault();
