@@ -61,6 +61,7 @@ class cronjob_backup_mail extends cronjob {
 		if($backup_dir != '') {
 			//* mount backup directory, if necessary
 			$run_backups = true;
+			$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
 			if( $server_config['backup_dir_is_mount'] == 'y' &&
 				is_file($backup_dir_mount_cmd) &&
 				is_executable($backup_dir_mount_cmd) &&
