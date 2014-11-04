@@ -74,8 +74,7 @@ class cronjob_backup_mail extends cronjob {
 				}
 			}
 
-			$sql = "SELECT * FROM mail_user WHERE server_id = '".intval($conf['server_id'])."' AND maildir <> ''";
-			$records = $app->db->queryAllRecords($sql);
+			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir <> ''", intval($conf['server_id']));
 
 			if(is_array($records) && $run_backups) {
 				if(!is_dir($backup_dir)) {
@@ -89,8 +88,7 @@ class cronjob_backup_mail extends cronjob {
 					if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
 						$email = $rec['email'];
 						$email=explode("@",$email)[1];
-						$sql="SELECT * FROM mail_domain WHERE domain = '" . $app->db->quote($email)."'";
-						$domain_rec=$app->db->queryOneRecord($sql);
+						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $email);
 						unset($email);
 
 						$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
@@ -121,9 +119,9 @@ class cronjob_backup_mail extends cronjob {
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, 'root');
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);
 							/* Insert mail backup record in database */
-							$sql = "INSERT INTO mail_backup (server_id,parent_domain_id,mailuser_id,backup_mode,tstamp,filename,filesize) VALUES (".$conf['server_id'].",".$domain_rec['domain_id'].",".$rec['mailuser_id'].",'".$backup_mode."',".time().",'".$app->db->quote($mail_backup_file)."','".$app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file))."')";
-							$app->db->query($sql);	
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+							$sql = "INSERT INTO mail_backup (server_id, parent_domain_id, mailuser_id, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
+							$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file)));	
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file)));
 						} else {
 							/* Backup failed - remove archive */
 							if(is_file($mail_backup_dir.'/'.$mail_backup_file)) unlink($mail_backup_dir.'/'.$mail_backup_file);
@@ -143,9 +141,9 @@ class cronjob_backup_mail extends cronjob {
 						for ($n = $backup_copies; $n <= 10; $n++) {
 							if(isset($files[$n]) && is_file($mail_backup_dir.'/'.$files[$n])) {
 								unlink($mail_backup_dir.'/'.$files[$n]);
-								$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND filename = '".$app->db->quote($files[$n])."'";
-								$app->db->query($sql);
-								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+								$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+								$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $files[$n]);
+								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $files[$n]);
 							}
 						}
 						unset($files);
@@ -154,9 +152,9 @@ class cronjob_backup_mail extends cronjob {
 					/* Remove inactive backups */
 					if($rec['backup_interval'] == 'none') {
 						/* remove backups from db */
-						$sql = "DELETE FROM mail_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$domain_rec['domain_id']." AND mailuser_id = ".$rec['mailuser_id'];
-						$app->db->query($sql);
-						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
+						$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
 						/* remove archives */
 						$mail_backup_dir = $backup_dir.'/mail'.$rec['domain_id'];	
 						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
