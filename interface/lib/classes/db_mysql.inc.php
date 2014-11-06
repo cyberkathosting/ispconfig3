@@ -179,6 +179,11 @@ class db extends mysqli
 			
 			if($ids_config['sql_scan_enabled'] == 'yes') {
 				
+				// Remove whitespace
+				$string = trim($string);
+				if(substr($string,-1) == ';') $string = substr($string,0,-1);
+				
+				// Save original string
 				$string_orig = $string;
 				
 				//echo $string;
