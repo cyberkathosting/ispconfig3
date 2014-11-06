@@ -71,22 +71,9 @@ class cronjob_backup extends cronjob {
 			} else {
 				chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 			}
-			
-			//* mount backup directory, if necessary
-			$run_backups = true;
-			$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
-			if( $server_config['backup_dir_is_mount'] == 'y' &&
-				is_file($backup_dir_mount_cmd) &&
-				is_executable($backup_dir_mount_cmd) &&
-				fileowner($backup_dir_mount_cmd) === 0
-			){
-			if(!$app->system->is_mounted($backup_dir)){
-					exec($backup_dir_mount_cmd);
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
-				}
-			}
-
+            $run_backups = true;
+            //* mount backup directory, if necessary
+            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 			if($run_backups){
 				//* backup only active domains
 				$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";

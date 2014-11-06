@@ -59,20 +59,9 @@ class cronjob_backup_mail extends cronjob {
 		if($backup_mode == '') $backup_mode = 'userzip';
 
 		if($backup_dir != '') {
-			//* mount backup directory, if necessary
 			$run_backups = true;
-			$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
-			if( $server_config['backup_dir_is_mount'] == 'y' &&
-				is_file($backup_dir_mount_cmd) &&
-				is_executable($backup_dir_mount_cmd) &&
-				fileowner($backup_dir_mount_cmd) === 0
-			){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec($backup_dir_mount_cmd);
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
-				}
-			}
+			//* mount backup directory, if necessary
+			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 
 			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir <> ''", intval($conf['server_id']));
 
