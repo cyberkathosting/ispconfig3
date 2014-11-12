@@ -7,4 +7,3 @@ $wb['btn_cancel_txt'] = 'Tillbaka';
 $wb['ignore_version_txt'] = 'Hoppa över ISPConfig versionskontroll';
 $wb['list_desc_txt'] = 'VARNING: Importera inte språkfiler från opålitliga källor!';
 ?>
-

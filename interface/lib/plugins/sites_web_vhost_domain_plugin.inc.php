@@ -85,7 +85,7 @@ class sites_web_vhost_domain_plugin {
 				$client_id = $app->functions->intval($client["client_id"]);
 			}
 
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 
 			// Set the values for document_root, system_user and system_group

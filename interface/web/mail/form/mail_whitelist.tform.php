@@ -51,7 +51,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['whitelist'] = array (
-	'title'  => "Witelist",
+	'title'  => "Whitelist",
 	'width'  => 100,
 	'template'  => "templates/mail_whitelist_edit.htm",
 	'fields'  => array (
@@ -63,7 +63,7 @@ $form["tabs"]['whitelist'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),

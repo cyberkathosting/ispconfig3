@@ -31,6 +31,12 @@
                     {tmpl_var name='website_symlinks_rel'}
                 </div>
             </div>
+			<div class="ctrlHolder">
+                <label for="website_symlinks_rel">{tmpl_var name='network_filesystem_txt'}</label>
+                <div class="multiField">
+                    {tmpl_var name='network_filesystem'}
+                </div>
+            </div>
             <div class="ctrlHolder">
                 <label for="website_autoalias">{tmpl_var name='website_autoalias_txt'}</label>
                 <input name="website_autoalias" id="website_autoalias" value="{tmpl_var name='website_autoalias'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='website_autoalias_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[client_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[client_username]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_domain]</a>
@@ -232,6 +238,14 @@
                 <div class="ctrlHolder">
                     <label for="php_ini_check_minutes">{tmpl_var name='php_ini_check_minutes_txt'}</label>
                     <input name="php_ini_check_minutes" id="php_ini_check_minutes" value="{tmpl_var name='php_ini_check_minutes'}" size="40" type="text" class="textInput" /> {tmpl_var name='php_ini_check_minutes_info_txt'}
+                </div>
+                <div class="ctrlHolder">
+                    <label for="php_handler">{tmpl_var name='php_handler_txt'}</label>
+                    <div class="multiField">
+                        <select name="php_handler" id="php_handler" class="selectInput">
+                            {tmpl_var name='php_handler'}
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="subsectiontoggle"><span></span>{tmpl_var name='apps_vhost_settings_txt'}<em></em></div>

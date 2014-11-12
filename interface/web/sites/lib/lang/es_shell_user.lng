@@ -28,4 +28,9 @@ $wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
 $wb['password_match_txt'] = 'Las contraseñas coinciden.';
 $wb['username_must_not_exceed_32_chars_txt'] = 'El nombre de usuario no debe ser más largo de 32 caracteres.';
 $wb['username_not_allowed_txt'] = 'El nombre de usuario no está permitido.';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb['directory_error_regex'] = 'Invalid directory';
+$wb['shell_error_regex'] = 'Invalid shell';
+$wb['invalid_username_txt'] = 'Invalid Username';
+$wb['directory_error_notinweb'] = 'The directory has to be inside the web root.';
 ?>

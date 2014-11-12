@@ -176,4 +176,5 @@ $wb['parent_client_id_txt'] = 'Client of reseller';
 $wb['none_txt'] = 'none';
 $wb['limit_database_quota_txt'] = 'Database quota';
 $wb['limit_database_quota_error_notint'] = 'The database quota limit must be a number.';
+$wb['reseller_txt'] = 'Reseller';
 ?>

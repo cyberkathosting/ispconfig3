@@ -82,7 +82,11 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $shelluser_prefix));
 		}
 
-		$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $shelluser_prefix, $global_config['shelluser_prefix']));
+		if($this->dataRecord['username'] == "") {
+			$app->tpl->setVar("username_prefix", $shelluser_prefix);
+		} else {
+			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $shelluser_prefix, $global_config['shelluser_prefix']));
+		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -135,6 +139,8 @@ class page_action extends tform_actions {
 			}
 		}
 		unset($blacklist);
+		
+		if($app->functions->is_allowed_user(trim(strtolower($this->dataRecord['username']))) == false) $app->tform->errorMessage .= $app->tform->lng('username_not_allowed_txt');
 
 		/*
 		 * If the names should be restricted -> do it!
@@ -163,6 +169,11 @@ class page_action extends tform_actions {
 		$dir = $app->db->quote($web["document_root"]);
 		$uid = $app->db->quote($web["system_user"]);
 		$gid = $app->db->quote($web["system_group"]);
+		
+		// Check system user and group
+		if($app->functions->is_allowed_user($uid) == false || $app->functions->is_allowed_group($gid) == false) {
+			$app->error($app->tform->lng('invalid_system_user_or_group_txt'));
+		}
 
 		// The FTP user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);

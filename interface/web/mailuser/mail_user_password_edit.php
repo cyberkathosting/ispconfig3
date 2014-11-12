@@ -51,7 +51,8 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 
 	function onSubmit() {
-
+		global $app, $conf;
+		
 		$this->id = $app->functions->intval($_SESSION['s']['user']['mailuser_id']);
 
 		parent::onSubmit();

@@ -86,6 +86,18 @@ function get_distname() {
 			$mainver = array_filter($mainver);
 			$mainver = current($mainver).'.'.next($mainver);
 			switch ($mainver){
+			case "14.10":
+				$relname = "(Utopic Unicorn)";
+				break;
+			case "14.04":
+				$relname = "(Trusty Tahr)";
+				break;
+			case "13.10":
+				$relname = "(Saucy Salamander)";
+				break;
+			case "13.04":
+				$relname = "(Raring Ringtail)";
+				break;
 			case "12.10":
 				$relname = "(Quantal Quetzal)";
 				break;
@@ -246,6 +258,18 @@ function get_distname() {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 5 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 6')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos53';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 6 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 7')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos70';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 7 or compatible\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';

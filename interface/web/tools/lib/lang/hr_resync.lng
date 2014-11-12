@@ -1,14 +1,16 @@
 <?php
-$wb['head_txt'] = 'Resync Tool';
-$wb['legend_txt'] = 'Resync';
-$wb['resync_sites_txt'] = 'Resync Websites';
-$wb['resync_ftp_txt'] = 'Resync FTP users';
-$wb['resync_shell_txt'] = 'Resync shell users';
-$wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
-$wb['resync_dns_txt'] = 'Resync DNS records';
-$wb['btn_start_txt'] = 'Start';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['resync_client_txt'] = 'Resync Client records';
+$wb['head_txt'] = 'Sinkronizacija';
+$wb['legend_txt'] = 'Sinkroniziraj';
+$wb['resync_sites_txt'] = 'Sinkroniziraj web stranice';
+$wb['resync_ftp_txt'] = 'Sinkroniziraj FTP korisnike';
+$wb['resync_shell_txt'] = 'Sinkroniziraj shell korisnike';
+$wb['resync_cron_txt'] = 'Sinkroniziraj cron zadatke';
+$wb['resync_db_txt'] = 'Sinkroniziraj clientdb konfiguraciju';
+$wb['resync_mailbox_txt'] = 'Sinkroniziraj email sandučiće';
+$wb['resync_dns_txt'] = 'Sinkroniziraj DNS zapise';
+$wb['btn_start_txt'] = 'Pokreni';
+$wb['btn_cancel_txt'] = 'Odustani';
+$wb['resync_client_txt'] = 'Sinkroniziraj klijente';
 ?>
+
+

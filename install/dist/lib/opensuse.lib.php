@@ -125,11 +125,12 @@ class installer_dist extends installer_base {
 
 		//* Create aliasaes
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 	}
 
 	function configure_postfix($options = '')
 	{
-		global $conf;
+		global $conf,$autoinstall;
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
 
@@ -269,8 +270,13 @@ class installer_dist extends installer_base {
 
 		if(!stristr($options, 'dont-create-certs')) {
 			//* Create the SSL certificate
-			$command = 'cd '.$config_dir.'; '
-				.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:2048 -nodes -keyout smtpd.key -keyform PEM -days 365 -x509';
+			if(AUTOINSTALL){
+				$command = 'cd '.$config_dir.'; '
+					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
+			} else {
+				$command = 'cd '.$config_dir.'; '
+					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
+			}
 			exec($command);
 
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
@@ -430,6 +436,19 @@ class installer_dist extends installer_base {
 	{
 		global $conf;
 
+		$virtual_transport = 'dovecot';
+		
+		// check if virtual_transport must be changed
+		if ($this->is_update) {
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$ini_array = ini_to_array(stripslashes($tmp['config']));
+			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
+			
+			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
+				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+			}
+		}
+
 		$config_dir = $conf['dovecot']['config_dir'];
 
 		//* Configure master.cf and add a line for deliver
@@ -453,7 +472,7 @@ class installer_dist extends installer_base {
 		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
-			'virtual_transport = lmtp:unix:private/dovecot-lmtp',
+			'virtual_transport = '.$virtual_transport,
 			'smtpd_sasl_type = dovecot',
 			'smtpd_sasl_path = private/auth',
 		);
@@ -507,6 +526,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf("$config_dir/$configfile", $content);
 
 		exec("chmod 600 $config_dir/$configfile");
@@ -674,6 +694,9 @@ class installer_dist extends installer_base {
 		if($conf['apache']['installed'] == false) return;
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
+		
+		//* enable apache logio module
+		exec('a2enmod logio');
 
 		//if(is_file('/etc/suphp.conf')) {
 		replaceLine('/etc/suphp.conf', 'php=php', 'x-httpd-suphp="php:/srv/www/cgi-bin/php5"', 0, 0);
@@ -922,6 +945,31 @@ class installer_dist extends installer_base {
 		//* copy the ISPConfig server part
 		$command = "cp -rf ../server $install_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Make a backup of the security settings
+		if(is_file('/usr/local/ispconfig/security/security_settings.ini')) copy('/usr/local/ispconfig/security/security_settings.ini','/usr/local/ispconfig/security/security_settings.ini~');
+		
+		//* copy the ISPConfig security part
+		$command = 'cp -rf ../security '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Apply changed security_settings.ini values to new security_settings.ini file
+		if(is_file('/usr/local/ispconfig/security/security_settings.ini~')) {
+			$security_settings_old = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini~'));
+			$security_settings_new = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini'));
+			if(is_array($security_settings_new) && is_array($security_settings_old)) {
+				foreach($security_settings_new as $section => $sval) {
+					if(is_array($sval)) {
+						foreach($sval as $key => $val) {
+							if(isset($security_settings_old[$section]) && isset($security_settings_old[$section][$key])) {
+								$security_settings_new[$section][$key] = $security_settings_old[$section][$key];
+							}
+						}
+					}
+				}
+				file_put_contents('/usr/local/ispconfig/security/security_settings.ini',array_to_ini($security_settings_new));
+			}
+		}
 
 		//* Create a symlink, so ISPConfig is accessible via web
 		// Replaced by a separate vhost definition for port 8080
@@ -1047,12 +1095,38 @@ class installer_dist extends installer_base {
 			$this->db->query($sql);
 		}
 
-		//* Chmod the files
-		$command = "chmod -R 750 $install_dir";
+		// chown install dir to root and chmod 755
+		$command = 'chown root:root '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chmod 755 '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		//* chown the files to the ispconfig user and group
-		$command = "chown -R ispconfig:ispconfig $install_dir";
+		//* Chmod the files and directories in the install dir
+		$command = 'chmod -R 750 '.$install_dir.'/*';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* chown the interface files to the ispconfig user and group
+		$command = 'chown -R ispconfig:ispconfig '.$install_dir.'/interface';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the server files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/server';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/security';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security directory and security_settings.ini to root:ispconfig
+		$command = 'chown root:ispconfig '.$install_dir.'/security/security_settings.ini';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.whitelist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.htmlfield';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/apache_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
@@ -1095,6 +1169,13 @@ class installer_dist extends installer_base {
 			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
 			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
 		}
+		
+		if(is_dir($install_dir.'/interface/invoices')) {
+			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
+			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
+		}
+		
+		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
@@ -1303,91 +1384,6 @@ class installer_dist extends installer_base {
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 
 
-	}
-
-	public function configure_dbserver()
-	{
-		global $conf;
-
-		//* If this server shall act as database server for client DB's, we configure this here
-		$install_dir = $conf['ispconfig_install_dir'];
-
-		// Create a file with the database login details which
-		// are used to create the client databases.
-
-		if(!is_dir("$install_dir/server/lib")) {
-			$command = "mkdir $install_dir/server/lib";
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		}
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mysql_clientdb.conf.master', "tpl/mysql_clientdb.conf.master");
-		$content = str_replace('{hostname}', $conf['mysql']['host'], $content);
-		$content = str_replace('{username}', $conf['mysql']['admin_user'], $content);
-		$content = str_replace('{password}', $conf['mysql']['admin_password'], $content);
-		wf("$install_dir/server/lib/mysql_clientdb.conf", $content);
-		exec('chmod 600 '."$install_dir/server/lib/mysql_clientdb.conf");
-		exec('chown root:root '."$install_dir/server/lib/mysql_clientdb.conf");
-
-	}
-
-	public function install_crontab()
-	{
-		global $conf;
-
-		//* Root Crontab
-		exec('crontab -u root -l > crontab.txt');
-		$existing_root_cron_jobs = file('crontab.txt');
-
-		// remove existing ispconfig cronjobs, in case the syntax has changed
-		foreach($existing_root_cron_jobs as $key => $val) {
-			if(stristr($val, '/usr/local/ispconfig')) unset($existing_root_cron_jobs[$key]);
-		}
-
-		$root_cron_jobs = array(
-			'* * * * * /usr/local/ispconfig/server/server.sh &> /dev/null',
-			'30 00 * * * /usr/local/ispconfig/server/cron_daily.sh &> /dev/null'
-		);
-
-		if ($conf['nginx']['installed'] == true) {
-			$root_cron_jobs[] = "0 0 * * * /usr/local/ispconfig/server/scripts/create_daily_nginx_access_logs.sh &> /dev/null";
-		}
-
-		foreach($root_cron_jobs as $cron_job) {
-			if(!in_array($cron_job."\n", $existing_root_cron_jobs)) {
-				$existing_root_cron_jobs[] = $cron_job."\n";
-			}
-		}
-		file_put_contents('crontab.txt', $existing_root_cron_jobs);
-		exec('crontab -u root crontab.txt &> /dev/null');
-		unlink('crontab.txt');
-
-		//* Getmail crontab
-		if(is_user('getmail')) {
-			$cf = $conf['getmail'];
-			exec('crontab -u getmail -l > crontab.txt');
-			$existing_cron_jobs = file('crontab.txt');
-
-			$cron_jobs = array(
-				'*/5 * * * * /usr/local/bin/run-getmail.sh > /dev/null 2>> /dev/null'
-			);
-
-			// remove existing ispconfig cronjobs, in case the syntax has changed
-			foreach($existing_cron_jobs as $key => $val) {
-				if(stristr($val, 'getmail')) unset($existing_cron_jobs[$key]);
-			}
-
-			foreach($cron_jobs as $cron_job) {
-				if(!in_array($cron_job."\n", $existing_cron_jobs)) {
-					$existing_cron_jobs[] = $cron_job."\n";
-				}
-			}
-			file_put_contents('crontab.txt', $existing_cron_jobs);
-			exec('crontab -u getmail crontab.txt &> /dev/null');
-			unlink('crontab.txt');
-		}
-
-		exec('touch /var/log/ispconfig/cron.log');
-		exec('chmod 660 /var/log/ispconfig/cron.log');
 	}
 
 }

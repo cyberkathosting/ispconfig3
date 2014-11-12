@@ -31,6 +31,5 @@ $wb['Available packages'] = 'Tillgängliga paket';
 $wb['Installed packages'] = 'Installerade paket';
 $wb['Update Packagelist'] = 'Uppdatera paketlista';
 $wb['Subdomain (Vhost)'] = 'Underdomän (Vhost)';
-$wb['error_proxy_requires_url'] = 'Redirect Type "proxy" requires a URL as the redirect path.';
+$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 ?>
-

@@ -7,4 +7,3 @@ $wb['add_new_record_txt'] = 'Lägg till ny catchall';
 $wb['active_txt'] = 'Aktiv';
 $wb['source_txt'] = 'källa';
 ?>
-

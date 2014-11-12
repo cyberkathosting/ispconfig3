@@ -6,4 +6,3 @@ $wb['active_txt'] = 'Aktiv';
 $wb['source_txt'] = 'Källa';
 $wb['add_new_record_txt'] = 'Lägg till nytt epostalias';
 ?>
-

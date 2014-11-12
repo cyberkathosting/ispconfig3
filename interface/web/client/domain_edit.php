@@ -89,7 +89,7 @@ class page_action extends tform_actions {
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = ($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[name]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
@@ -195,7 +195,7 @@ class page_action extends tform_actions {
 
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
+		if(($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) || ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
 		}
@@ -207,7 +207,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name");
 			$this->dataRecord["client_group_id"] = $group["groupid"];
                 }
 

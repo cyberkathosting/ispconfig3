@@ -112,9 +112,7 @@ class tform_actions {
 		$sql = $app->tform->getSQL($this->dataRecord, $app->tform->getCurrentTab(), 'UPDATE', $this->id, $ext_where);
 		if($app->tform->errorMessage == '') {
 
-			if($app->tform->formDef['db_history'] == 'yes') {
-				$this->oldDataRecord = $app->tform->getDataRecord($this->id);
-			}
+			$this->oldDataRecord = $app->tform->getDataRecord($this->id);
 
 			// Save record in database
 			$this->onUpdateSave($sql);

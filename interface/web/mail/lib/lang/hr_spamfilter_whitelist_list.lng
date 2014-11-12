@@ -7,3 +7,5 @@ $wb['rid_txt'] = 'Korisnik';
 $wb['email_txt'] = 'Whitelistani email';
 $wb['add_new_record_txt'] = 'Dodaj whitelistu';
 ?>
+
+

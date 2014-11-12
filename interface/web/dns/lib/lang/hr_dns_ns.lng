@@ -12,5 +12,7 @@ $wb['name_error_empty'] = 'Naziv zone nije upisan.';
 $wb['name_error_regex'] = 'Naziv zone je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Nameserver nije upisan';
 $wb['data_error_regex'] = 'Nameserver je u pogrešnom formatu';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
+
+

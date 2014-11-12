@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Utilisateur du dossier';
 $wb['active_txt'] = 'Actif';
 $wb['web_folder_id_txt'] = 'Dossier';
 $wb['username_txt'] = 'Nom de l\'utilisateur';
+$wb['add_new_record_txt'] = 'Add new Folder User';
 ?>

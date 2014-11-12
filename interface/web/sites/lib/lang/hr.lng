@@ -1,15 +1,15 @@
 <?php
 $wb['Websites'] = 'Web stranice';
 $wb['Website'] = 'Web stranice';
-$wb['Subdomain'] = 'Poddomena';
+$wb['Subdomain'] = 'Poddomene';
 $wb['Aliasdomain'] = 'Alias za web stranicu';
 $wb['Database'] = 'Baza';
-$wb['Web Access'] = 'Web Access';
-$wb['FTP-User'] = 'FTP korisnik';
+$wb['Web Access'] = 'Web pristup';
+$wb['FTP-User'] = 'FTP korisnici';
 $wb['Webdav-User'] = 'Webdav korisnik';
-$wb['Folder'] = 'Protected Folders';
-$wb['Folder users'] = 'Protected Folder Users';
-$wb['Command Line'] = 'Command Line';
+$wb['Folder'] = 'Zaštićeni direktoriji';
+$wb['Folder users'] = 'Korisnici zaštićenih direktorija';
+$wb['Command Line'] = 'Komandna linija';
 $wb['Shell-User'] = 'Shell korisnik';
 $wb['Cron Jobs'] = 'Cron zadaci';
 $wb['Statistics'] = 'Statistike';
@@ -21,15 +21,17 @@ $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';
 $wb['Options'] = 'Opcije';
-$wb['Domain'] = 'Domena';
+$wb['Domena'] = 'Domena';
 $wb['Redirect'] = 'Preusmjeravanje';
 $wb['SSL'] = 'SSL';
-$wb['Sites'] = 'Sites';
-$wb['Database User'] = 'Database Users';
-$wb['APS Installer'] = 'APS Installer';
-$wb['Available packages'] = 'Available packages';
-$wb['Installed packages'] = 'Installed packages';
-$wb['Update Packagelist'] = 'Update Packagelist';
-$wb['Subdomain (Vhost)'] = 'Subdomain (Vhost)';
-$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
+$wb['Sites'] = 'Stranice';
+$wb['Database User'] = 'Korisnici baze';
+$wb['APS Installer'] = 'APS instalacija';
+$wb['Available packages'] = 'Dostupni paketi';
+$wb['Installed packages'] = 'Instalirani paketi';
+$wb['Update Packagelist'] = 'Osvježi listu paketa';
+$wb['Subdomain (Vhost)'] = 'Poddomena (Vhost)';
+$wb['error_proxy_requires_url'] = '\\"proxy\\" redirekcija zahtijeva URL za redirekcijsku putanju.';
 ?>
+
+

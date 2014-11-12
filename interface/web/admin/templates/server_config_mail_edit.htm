@@ -24,6 +24,14 @@
                 <input name="dkim_path" id="dkim_path" value="{tmpl_var name='dkim_path'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
             <div class="ctrlHolder">
+				<p class="label">{tmpl_var name='dkim_strength_txt'}</p>
+				<div class="multiField">
+					<select name="dkim_strength" id="dkim_strength" class="selectInput">
+						{tmpl_var name='dkim_strength'}
+					</select>
+				</div>
+			</div>
+            <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='pop3_imap_daemon_txt'}</p>
                 <div class="multiField">
                     <select name="pop3_imap_daemon" id="pop3_imap_daemon" class="selectInput">
@@ -58,7 +66,7 @@
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='mailbox_virtual_uidgid_maps_txt'}</p>
                 <div class="multiField">
-                    {tmpl_var name='mailbox_virtual_uidgid_maps'}
+                    {tmpl_var name='mailbox_virtual_uidgid_maps'}&nbsp;{tmpl_var name='mailbox_virtual_uidgid_maps_info_txt'}
                 </div>
             </div>
             <div class="ctrlHolder">

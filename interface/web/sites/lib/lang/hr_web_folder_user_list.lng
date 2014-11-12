@@ -3,4 +3,7 @@ $wb['list_head_txt'] = 'Web direktorij korisnik';
 $wb['active_txt'] = 'Aktivno';
 $wb['web_folder_id_txt'] = 'Web direkotrij';
 $wb['username_txt'] = 'Korisničko ime';
+$wb['add_new_record_txt'] = 'Dodaj novog korisnika web direktorija';
 ?>
+
+

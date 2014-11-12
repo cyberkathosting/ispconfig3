@@ -115,5 +115,4 @@ $wb['available_php_directive_snippets_txt'] = 'Available PHP Directive Snippets:
 $wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Snippets:';
 $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 $wb['Domain'] = 'Aliasdomain';
-
 ?>

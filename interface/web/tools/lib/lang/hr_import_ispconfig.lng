@@ -1,23 +1,25 @@
 <?php
-$wb['head_txt'] = 'Import email configuration from ISPConfig 3';
-$wb['legend_txt'] = 'Remote server connection details';
-$wb['legend2_txt'] = 'Import email domain';
-$wb['resync_sites_txt'] = 'Resync Websites';
-$wb['resync_ftp_txt'] = 'Resync FTP users';
-$wb['resync_shell_txt'] = 'Resync shell users';
-$wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
-$wb['resync_dns_txt'] = 'Resync DNS records';
-$wb['btn_start_txt'] = 'Start Import';
-$wb['btn_connect_txt'] = 'Connect to remote server';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['client_group_id_txt'] = 'Local client';
-$wb['mail_domain_txt'] = 'Remote email domain';
-$wb['import_mailbox_txt'] = 'Import mailbox';
-$wb['import_aliasdomain_txt'] = 'Import alias domain';
-$wb['import_alias_txt'] = 'Import email alias';
-$wb['import_forward_txt'] = 'Import forward';
-$wb['import_user_filter_txt'] = 'Import user filter';
-$wb['import_spamfilter_txt'] = 'Import spamfilter';
+$wb['head_txt'] = 'Importiraj email konfiguraciju iz ISPConfig 3';
+$wb['legend_txt'] = 'Podaci za spajanje na udaljeni server';
+$wb['legend2_txt'] = 'Importiraj email domenu';
+$wb['resync_sites_txt'] = 'Sinkroniziraj web stranice';
+$wb['resync_ftp_txt'] = 'Sinkroniziraj FTP korisnike';
+$wb['resync_shell_txt'] = 'Sinkroniziraj shell korisnike';
+$wb['resync_cron_txt'] = 'Sinkroniziraj cron zadatke';
+$wb['resync_db_txt'] = 'Sinkroniziraj clientdb konfiguraciju';
+$wb['resync_mailbox_txt'] = 'Sinkroniziraj email sandučiće';
+$wb['resync_dns_txt'] = 'Sinkroniziraj DNS zapise';
+$wb['btn_start_txt'] = 'Importiraj';
+$wb['btn_connect_txt'] = 'Spoji na udaljeni server';
+$wb['btn_cancel_txt'] = 'Odustani';
+$wb['client_group_id_txt'] = 'Localni klijent';
+$wb['mail_domain_txt'] = 'Udaljena email domena';
+$wb['import_mailbox_txt'] = 'Importiraj sandučiće';
+$wb['import_aliasdomain_txt'] = 'Importiraj alias domene';
+$wb['import_alias_txt'] = 'Importiraj email alias-e';
+$wb['import_forward_txt'] = 'Importiraj forward-ere';
+$wb['import_user_filter_txt'] = 'Importiraj korisničke filtere';
+$wb['import_spamfilter_txt'] = 'Importiraj spamfilter';
 ?>
+
+

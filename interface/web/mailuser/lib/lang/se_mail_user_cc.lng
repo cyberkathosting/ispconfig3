@@ -7,4 +7,3 @@ $wb['email_is_cc_error'] = 'Epostadress och -Skicka kopia till- kan inte vara sa
 $wb['name_optional_txt'] = '(Frivilligt)';
 $wb['cc_note_txt'] = '(Separera flera epostadresser med kommatecken)';
 ?>
-

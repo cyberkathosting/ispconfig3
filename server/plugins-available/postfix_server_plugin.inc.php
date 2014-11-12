@@ -79,12 +79,12 @@ class postfix_server_plugin {
 		global $app, $conf;
 
 		// get the config
-		$app->uses("getconf");
+		$app->uses("getconf,system");
 		$old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
 		copy('/etc/postfix/main.cf', '/etc/postfix/main.cf~');
-
+		
 		if($mail_config['relayhost'] != '') {
 			exec("postconf -e 'relayhost = ".$mail_config['relayhost']."'");
 			if($mail_config['relayhost_user'] != '' && $mail_config['relayhost_password'] != '') {
@@ -136,6 +136,19 @@ class postfix_server_plugin {
 				}
 			}
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		}
+		
+		if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
+			// If dovecot switch to lmtp
+			if($app->system->is_installed('dovecot')) {
+				exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
+			}
+		}
+		else {
+			// If dovecot switch to dovecot
+			if($app->system->is_installed('dovecot')) {
+				exec("postconf -e 'virtual_transport = dovecot'");
+			}
 		}
 
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");

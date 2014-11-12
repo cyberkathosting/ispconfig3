@@ -31,42 +31,65 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 This Javascript is invoked by
 	* mail/templates/mail_domain_edit.htm to show and/or create the key-pair
 */
-        var request = false;
+var request = false;
 
-        function setRequest(action,value,privatekey) {
-                if (window.XMLHttpRequest) {request = new XMLHttpRequest();}
-                else if (window.ActiveXObject) {
-                        try {request = new ActiveXObject('Msxml2.XMLHTTP');}
-                        catch (e) {
-                                try {request = new ActiveXObject('Microsoft.XMLHTTP');}
-                                catch (e) {}
-                        }
-                }
-                if (!request) {
-                        alert("Error creating XMLHTTP-instance");
-                        return false;
-                } else {
-                        request.open('POST', 'mail/mail_domain_dkim_create.php', true);
-                        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        request.send('domain='+value+'&action='+action+'&pkey='+privatekey);
-                        request.onreadystatechange = interpretRequest;
-                }
-        }
+$('.subsectiontoggle').on('click', function(){
+	$(this).children().toggleClass('showing').end().next().slideToggle();
+});
 
-        function interpretRequest() {
-                switch (request.readyState) {
-                        case 4:
-                                if (request.status != 200) {alert("Request done but NOK\nError:"+request.status);}
-                                else {
-                                        document.getElementsByName('dkim_private')[0].value = request.responseXML.getElementsByTagName('privatekey')[0].firstChild.nodeValue;
-                                        document.getElementsByName('dkim_public')[0].value = request.responseXML.getElementsByTagName('publickey')[0].firstChild.nodeValue;
-					document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
-                                }
-                                break;
-                        default:
-                                break;
-                }
-        }
+function setRequest(action) {
+	if (window.XMLHttpRequest) {
+		request = new XMLHttpRequest();
+	} else if (window.ActiveXObject) {
+		try {
+			request = new ActiveXObject('Msxml2.XMLHTTP');
+		}
+		catch (e) {
+			try {
+				request = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			catch (e) {}
+		}
+	}
 
-var serverType = jQuery('#dkim_private').val();
-setRequest('show','{tmpl_var name="domain"}',serverType);
+	if (!request) {
+		alert("Error creating XMLHTTP-instance");
+		return false;
+	} else {
+		// jQuery depends on domain-module active / inactive
+		var check = jQuery('#domain_module').val();
+		if ( check == "1" ) {
+			var skillsSelect = document.getElementById("domain");
+			var domain = skillsSelect.options[skillsSelect.selectedIndex].text;
+		} else { 
+			var domain = jQuery('#domain').val();
+		}
+		var selector=jQuery('#dkim_selector').val();
+		var publickey=jQuery('#dkim_public').val();
+		var privatekey=encodeURIComponent(document.getElementById("dkim_private").value)
+		request.open('POST', 'mail/mail_domain_dkim_create.php', true);
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		request.send('domain='+domain+'&action='+action+'&dkim_selector='+selector+'&dkim_public='+publickey+'&dkim_private='+privatekey);
+		request.onreadystatechange = interpretRequest;
+	}
+}
+
+function interpretRequest() {
+	switch (request.readyState) {
+		case 4:
+			if ( request.status != 200 ) {
+				alert("Request done but NOK\nError:"+request.status);
+			} else {
+				document.getElementsByName('dkim_selector')[0].value = request.responseXML.getElementsByTagName('selector')[0].firstChild.nodeValue;
+				document.getElementsByName('dkim_private')[0].value = request.responseXML.getElementsByTagName('privatekey')[0].firstChild.nodeValue;
+				document.getElementsByName('dkim_public')[0].value = request.responseXML.getElementsByTagName('publickey')[0].firstChild.nodeValue;
+				document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
+			}
+		break;
+
+		default:
+		break;
+	}
+}
+
+setRequest('show');

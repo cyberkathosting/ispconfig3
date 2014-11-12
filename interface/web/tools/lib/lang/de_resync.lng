@@ -12,4 +12,9 @@ $wb['resync_dns_txt'] = 'DNS Einträge';
 $wb['resync_client_txt'] = 'Kunden';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Zurück';
+$wb['resync_webdav_txt'] = 'Resync WebDAV-Benutzer';
+$wb['resync_mail_txt'] = 'Resync Maildomains';
+$wb['resync_vserver_txt'] = 'Resync vServer';
+$wb['resync_firewall_txt'] = 'Resync Firewall';
+$wb['resync_no_server_txt'] = 'Kein aktiver Serfer gefunden';
 ?>

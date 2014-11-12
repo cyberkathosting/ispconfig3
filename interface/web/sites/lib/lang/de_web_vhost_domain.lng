@@ -132,4 +132,6 @@ $wb['web_folder_unique_txt'] = 'Dieser Ordner wird bereits verwendet, bitte gebe
 $wb['host_txt'] = 'Host';
 $wb['domain_error_wildcard'] = 'Wildcard-Subdomains sind nicht erlaubt.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Unzulässige php.ini-Einstellungen';
+$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb['apache_directive_blocked_error'] = 'Die Apache Direktive wurde durch die Sicherheitsrichtline blockiert:';
 ?>

@@ -30,6 +30,30 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
 	ISPConfig 3 installer.
+	
+	-------------------------------------------------------------------------------------
+	- Interactive install
+	-------------------------------------------------------------------------------------
+	run:
+	
+	php install.php
+	
+	-------------------------------------------------------------------------------------
+	- Noninteractive (autoinstall) mode
+	-------------------------------------------------------------------------------------
+	
+	The autoinstall mode can read the installer questions from a .ini style file or from
+	a php config file. Examples for both file types are in the docs folder. 
+	See autoinstall.ini.sample and autoinstall.conf_sample.php.
+	
+	run:
+	
+	php install.php --autoinstall=autoinstall.ini
+	
+	or
+	
+	php install.php --autoinstall=autoinstall.conf.php
+	
 */
 
 error_reporting(E_ALL|E_STRICT);
@@ -78,6 +102,30 @@ $dist = get_distname();
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
 
+//** Include the autoinstaller configuration (for non-interactive setups)
+error_reporting(E_ALL ^ E_NOTICE);
+
+//** Get commandline options
+$cmd_opt = getopt('', array('autoinstall::'));
+
+//** Load autoinstall file
+if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
+	$path_parts = pathinfo($cmd_opt['autoinstall']);
+	if($path_parts['extension'] == 'php') {
+		include_once $cmd_opt['autoinstall'];
+	} elseif($path_parts['extension'] == 'ini') {
+		$tmp = ini_to_array(file_get_contents('autoinstall.ini'));
+		$autoinstall = $tmp['install'] + $tmp['ssl_cert'] + $tmp['expert'] + $tmp['update'];
+		unset($tmp);
+	}
+	unset($path_parts);
+	define('AUTOINSTALL', true);
+} else {
+	$autoinstall = array();
+	define('AUTOINSTALL', false);
+}
+
+
 //** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
@@ -109,7 +157,7 @@ if(is_dir('/usr/local/ispconfig')) {
 $inst->find_installed_apps();
 
 //** Select the language and set default timezone
-$conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en');
+$conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
 $conf['timezone'] = get_system_timezone();
 
 //* Set default theme
@@ -117,13 +165,13 @@ $conf['theme'] = 'default';
 $conf['language_file_import_enabled'] = true;
 
 //** Select installation mode
-$install_mode = $inst->simple_query('Installation mode', array('standard', 'expert'), 'standard');
+$install_mode = $inst->simple_query('Installation mode', array('standard', 'expert'), 'standard','install_mode');
 
 
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0]);
+$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0],'hostname');
 unset($tmp_out);
 
 // Check if the mysql functions are loaded in PHP
@@ -132,16 +180,17 @@ if(!function_exists('mysql_connect')) die('No PHP MySQL functions available. Ple
 //** Get MySQL root credentials
 $finished = false;
 do {
-	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host']);
-	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user']);
-	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password']);
-	$tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database']);
-	$tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset']);
-
+	$tmp_mysql_server_host = $inst->free_query('MySQL server hostname', $conf['mysql']['host'],'mysql_hostname');	 
+	$tmp_mysql_server_admin_user = $inst->free_query('MySQL root username', $conf['mysql']['admin_user'],'mysql_root_user');	 
+	$tmp_mysql_server_admin_password = $inst->free_query('MySQL root password', $conf['mysql']['admin_password'],'mysql_root_password');	 
+	$tmp_mysql_server_database = $inst->free_query('MySQL database to create', $conf['mysql']['database'],'mysql_database');	 
+	$tmp_mysql_server_charset = $inst->free_query('MySQL charset', $conf['mysql']['charset'],'mysql_charset');
+	
 	if($install_mode == 'expert') {
 		swriteln("The next two questions are about the internal ISPConfig database user and password.\nIt is recommended to accept the defaults which are 'ispconfig' as username and a random password.\nIf you use a different password, use only numbers and chars for the password.\n");
-		$conf['mysql']['ispconfig_user'] = $inst->free_query('ISPConfig mysql database username', $conf['mysql']['ispconfig_user']);
-		$conf['mysql']['ispconfig_password'] = $inst->free_query('ISPConfig mysql database password', $conf['mysql']['ispconfig_password']);
+		
+		$conf['mysql']['ispconfig_user'] = $inst->free_query('ISPConfig mysql database username', $conf['mysql']['ispconfig_user'],'mysql_ispconfig_user');	 
+		$conf['mysql']['ispconfig_password'] = $inst->free_query('ISPConfig mysql database password', $conf['mysql']['ispconfig_password'],'mysql_ispconfig_password');
 	}
 
 	//* Initialize the MySQL server connection
@@ -176,7 +225,7 @@ if($install_mode == 'standard') {
 
 	//* Configure Webserver - Apache or nginx
 	if($conf['apache']['installed'] == true && $conf['nginx']['installed'] == true) {
-		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache');
+		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache','http_server');
 		if($http_server_to_use == 'apache'){
 			$conf['nginx']['installed'] = false;
 		} else {
@@ -302,12 +351,12 @@ if($install_mode == 'standard') {
 	swriteln('Installing ISPConfig');
 
 	//** Customize the port ISPConfig runs on
-	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080');
+	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 	if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 	if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 	unset($ispconfig_vhost_port);
 
-	if(strtolower($inst->simple_query('Do you want a secure (SSL) connection to the ISPConfig web interface', array('y', 'n'), 'y')) == 'y') {
+	if(strtolower($inst->simple_query('Do you want a secure (SSL) connection to the ISPConfig web interface', array('y', 'n'), 'y','ispconfig_use_ssl')) == 'y') {	 
 		$inst->make_ispconfig_ssl_cert();
 	}
 
@@ -322,7 +371,7 @@ if($install_mode == 'standard') {
 	$inst->install_crontab();
 
 	swriteln('Restarting services ...');
-	if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart'));
+	if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 	if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
 	if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 	if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
@@ -364,17 +413,16 @@ if($install_mode == 'standard') {
 	//** Get Server ID
 	// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
 	// Server ID is an autoInc value of the mysql database now
-
-	if(strtolower($inst->simple_query('Shall this server join an existing ISPConfig multiserver setup', array('y', 'n'), 'n')) == 'y') {
+	if(strtolower($inst->simple_query('Shall this server join an existing ISPConfig multiserver setup', array('y', 'n'), 'n','join_multiserver_setup')) == 'y') {
 		$conf['mysql']['master_slave_setup'] = 'y';
 
 		//** Get MySQL root credentials
 		$finished = false;
 		do {
-			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host']);
-			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user']);
-			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password']);
-			$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database']);
+			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname'); 
+			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
+			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password'); 
+			$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 			//* Initialize the MySQL server connection
 			if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
@@ -407,7 +455,7 @@ if($install_mode == 'standard') {
 
 	//* Configure Webserver - Apache or nginx
 	if($conf['apache']['installed'] == true && $conf['nginx']['installed'] == true) {
-		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache');
+		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache','http_server');
 		if($http_server_to_use == 'apache'){
 			$conf['nginx']['installed'] = false;
 		} else {
@@ -420,8 +468,7 @@ if($install_mode == 'standard') {
 	swriteln('');
 	$inst->add_database_server_record();
 
-
-	if(strtolower($inst->simple_query('Configure Mail', array('y', 'n') , 'y') ) == 'y') {
+	if(strtolower($inst->simple_query('Configure Mail', array('y', 'n') , 'y','configure_mail') ) == 'y') {
 
 		$conf['services']['mail'] = true;
 
@@ -480,20 +527,20 @@ if($install_mode == 'standard') {
 	}
 
 	//** Configure Jailkit
-	if(strtolower($inst->simple_query('Configure Jailkit', array('y', 'n'), 'y') ) == 'y') {
+	if(strtolower($inst->simple_query('Configure Jailkit', array('y', 'n'), 'y','configure_jailkit') ) == 'y') {
 		swriteln('Configuring Jailkit');
 		$inst->configure_jailkit();
 	}
 
 	//** Configure Pureftpd
-	if(strtolower($inst->simple_query('Configure FTP Server', array('y', 'n'), 'y') ) == 'y') {
+	if(strtolower($inst->simple_query('Configure FTP Server', array('y', 'n'), 'y','configure_ftp') ) == 'y') {
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
 		if($conf['pureftpd']['installed'] == true && $conf['pureftpd']['init_script'] != '') system($inst->getinitcommand($conf['pureftpd']['init_script'], 'restart'));
 	}
 
 	//** Configure DNS
-	if(strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y')) == 'y') {
+	if(strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y','configure_dns')) == 'y') {
 		$conf['services']['dns'] = true;
 		//* Configure DNS
 		if($conf['powerdns']['installed'] == true) {
@@ -532,7 +579,7 @@ if($install_mode == 'standard') {
 	//** Configure Apache
 	if($conf['apache']['installed'] == true){
 		swriteln("\nHint: If this server shall run the ISPConfig interface, select 'y' in the 'Configure Apache Server' option.\n");
-		if(strtolower($inst->simple_query('Configure Apache Server', array('y', 'n'), 'y')) == 'y') {
+		if(strtolower($inst->simple_query('Configure Apache Server', array('y', 'n'), 'y','configure_apache')) == 'y') {
 			$conf['services']['web'] = true;
 			swriteln('Configuring Apache');
 			$inst->configure_apache();
@@ -550,7 +597,7 @@ if($install_mode == 'standard') {
 	//** Configure nginx
 	if($conf['nginx']['installed'] == true){
 		swriteln("\nHint: If this server shall run the ISPConfig interface, select 'y' in the 'Configure nginx Server' option.\n");
-		if(strtolower($inst->simple_query('Configure nginx Server', array('y', 'n'), 'y')) == 'y') {
+		if(strtolower($inst->simple_query('Configure nginx Server', array('y', 'n'), 'y','configure_nginx')) == 'y') {
 			$conf['services']['web'] = true;
 			swriteln('Configuring nginx');
 			$inst->configure_nginx();
@@ -566,8 +613,13 @@ if($install_mode == 'standard') {
 	}
 
 	//** Configure Firewall
-	if(strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y')) == 'y') {
-		if($conf['ufw']['installed'] == true) {
+	if(strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
+		//if($conf['bastille']['installed'] == true) {
+		//* Configure Bastille Firewall
+		$conf['services']['firewall'] = true;
+		swriteln('Configuring Bastille Firewall');
+		$inst->configure_firewall();
+		/*} elseif($conf['ufw']['installed'] == true) {
 			//* Configure Ubuntu Firewall
 			$conf['services']['firewall'] = true;
 			swriteln('Configuring Ubuntu Firewall');
@@ -578,6 +630,7 @@ if($install_mode == 'standard') {
 			swriteln('Configuring Bastille Firewall');
 			$inst->configure_bastille_firewall();
 		}
+		*/
 	}
 
 	//** Configure Firewall
@@ -588,7 +641,7 @@ if($install_mode == 'standard') {
 
 	//** Configure ISPConfig :-)
 	$install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
-	if(strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default)) == 'y') {
+	if(strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
 		swriteln('Installing ISPConfig');
 
 		//** We want to check if the server is a module or cgi based php enabled server
@@ -606,12 +659,12 @@ if($install_mode == 'standard') {
 		*/
 
 		//** Customise the port ISPConfig runs on
-		$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080');
+		$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 		if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 		if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 		unset($ispconfig_vhost_port);
 
-		if(strtolower($inst->simple_query('Enable SSL for the ISPConfig web interface', array('y', 'n'), 'y')) == 'y') {
+		if(strtolower($inst->simple_query('Enable SSL for the ISPConfig web interface', array('y', 'n'), 'y','ispconfig_use_ssl')) == 'y') {
 			$inst->make_ispconfig_ssl_cert();
 		}
 
@@ -640,6 +693,11 @@ if($install_mode == 'standard') {
 
 
 } //* << $install_mode / 'Standard' or Genius
+
+//* Create md5 filelist
+$md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';
+exec('find /usr/local/ispconfig -type f -print0 | xargs -0 md5sum > '.$md5_filename);
+chmod($md5_filename,0700);
 
 
 echo "Installation completed.\n";

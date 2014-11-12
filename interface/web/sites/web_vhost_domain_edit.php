@@ -113,12 +113,16 @@ class page_action extends tform_actions {
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			$web_servers = explode(',', $client['web_servers']);
-			$app->tpl->setVar("server_id_value", $web_servers[0]);
+			$server_id = $web_servers[0];
+			$app->tpl->setVar("server_id_value", $server_id);
 			unset($web_servers);
 		} else {
 			$settings = $app->getconf->get_global_config('sites');
-			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_webserver']);
+			$server_id = intval($settings['default_webserver']);
+			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = $server_id;
 		}
+		$web_config = $app->getconf->get_server_config($server_id, 'web');
+		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
@@ -454,9 +458,13 @@ class page_action extends tform_actions {
 					}
 					$server_id = intval(@$this->dataRecord["server_id"]);
 				} else {
-					// Get the first server ID
-					$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
-					$server_id = intval($tmp['server_id']);
+					$settings = $app->getconf->get_global_config('sites');
+					$server_id = intval($settings['default_webserver']);
+					if (!$server_id) {
+						// Get the first server ID
+						$tmp = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = 1 ORDER BY server_name LIMIT 0,1");
+						$server_id = intval($tmp['server_id']);
+					}
 				}
 
 				//* get global web config
@@ -601,8 +609,15 @@ class page_action extends tform_actions {
 		}
 
 		$ssl_domain_select = '';
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".$this->id);
-		$ssl_domains = array($tmp["domain"], 'www.'.$tmp["domain"], '*.'.$tmp["domain"]);
+		$ssl_domains = array();
+		$tmpd = $app->db->queryAllRecords("SELECT domain, type FROM web_domain WHERE domain_id = ".$this->id." OR parent_domain_id = ".$this->id);
+		foreach($tmpd as $tmp) {
+			if($tmp['type'] == 'subdomain' || $tmp['type'] == 'vhostsubdomain') {
+				$ssl_domains[] = $tmp["domain"];
+			} else {
+				$ssl_domains = array_merge($ssl_domains, array($tmp["domain"],'www.'.$tmp["domain"],'*.'.$tmp["domain"]));
+			}
+		}
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
@@ -881,9 +896,11 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id, `web_folder`, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id, `system_user`, `system_group`, `web_folder`, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ".$app->functions->intval($this->id));
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				$this->dataRecord['web_folder'] = $tmp['web_folder']; // cannot be changed!
+				$this->dataRecord['system_user'] = $tmp['system_user'];
+				$this->dataRecord['system_group'] = $tmp['system_group'];
 
 				// set the settings to current if not provided (or cleared due to limits)
 				if($this->dataRecord['cgi'] == 'n') $this->dataRecord['cgi'] = $tmp['cgi'];

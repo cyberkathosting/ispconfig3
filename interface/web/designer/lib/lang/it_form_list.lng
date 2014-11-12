@@ -1,7 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Backend Form';
-$wb['form_txt'] = 'Form';
-$wb['module_txt'] = 'Modulo';
-$wb['title_txt'] = 'Titolo';
-$wb['description_txt'] = 'Descrizione';
-?>

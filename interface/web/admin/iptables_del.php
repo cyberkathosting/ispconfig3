@@ -1,4 +1,5 @@
 <?php
+die('unused');
 /*
 Copyright (c) 2011, Andrew "lathama" Latham, Till Brehm, projektfarm Gmbh
 All rights reserved.

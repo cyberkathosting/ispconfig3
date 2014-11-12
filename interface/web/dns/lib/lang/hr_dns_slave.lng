@@ -1,11 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'DNS Zona';
+$wb['origin_txt'] = 'DNS zona';
 $wb['ns_txt'] = 'NS';
 $wb['active_txt'] = 'Aktivno';
 $wb['limit_dns_slave_zone_txt'] = 'Iskorišten je maksimalan broj sekundarnih DNS zona za vaš račun.';
 $wb['client_txt'] = 'Klijent';
-$wb['xfer_txt'] = 'Allow zone transfers to <br />these IPs (comma separated list)';
+$wb['xfer_txt'] = 'Dozvoli transfer zona<br />slijedećim IP-evima (odvojiti zarezom)';
 $wb['server_id_error_empty'] = 'Nije izabran server.';
 $wb['origin_error_empty'] = 'Zona je prazna.';
 $wb['origin_error_unique'] = 'Već postoji zapis za ovu zonu.';
@@ -13,5 +13,7 @@ $wb['origin_error_regex'] = 'Zona je u pogrešnom formatu.';
 $wb['ns_error_regex'] = 'NS je u pogrešnom formatu.';
 $wb['eg_domain_tld'] = 'npr. domena.tld.';
 $wb['ipv4_form_txt'] = 'IPv4 forma - npr. 1.2.3.4';
-$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
+$wb['secondary_zone_txt'] = 'Sekundarne DNS zone';
 ?>
+
+

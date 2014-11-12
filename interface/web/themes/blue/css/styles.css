@@ -373,7 +373,15 @@ table.list td[class$="_pid"],
 table.list th[class$="_active"],
 table.list td[class$="_active"],
 table.list th.tbl_col_autoresponder,
-table.list td.tbl_col_autoresponder {
+table.list td.tbl_col_autoresponder,
+table.list th.tbl_col_postfix,
+table.list td.tbl_col_postfix,
+table.list th.tbl_col_disablesmtp,
+table.list td.tbl_col_disablesmtp,
+table.list th.tbl_col_disableimap,
+table.list td.tbl_col_disableimap,
+table.list th.tbl_col_disablepop3,
+table.list td.tbl_col_disablepop3 {
     width: 70px;
     text-align: center;
 }

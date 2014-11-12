@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Huvudformulär';
-$wb['form_txt'] = 'Formulär';
-$wb['module_txt'] = 'Modul';
-$wb['title_txt'] = 'Titel';
-$wb['description_txt'] = 'Beskrivning';
-?>
-

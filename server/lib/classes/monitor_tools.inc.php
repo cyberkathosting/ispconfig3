@@ -62,6 +62,18 @@ class monitor_tools {
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
+				case "14.10":
+					$relname = "(Utopic Unicorn)";
+					break;
+				case "14.04":
+					$relname = "(Trusty Tahr)";
+					break;
+				case "13.10":
+					$relname = "(Saucy Salamander)";
+					break;
+				case "13.04":
+					$relname = "(Raring Ringtail)";
+					break;
 				case "12.10":
 					$relname = "(Quantal Quetzal)";
 					break;
@@ -199,6 +211,16 @@ class monitor_tools {
 			} elseif (stristr($content, 'CentOS release 5.3 (Final)')) {
 				$distname = 'CentOS';
 				$distver = '5.3';
+				$distid = 'centos53';
+				$distbaseid = 'fedora';
+			} elseif(stristr($content, 'CentOS Linux release 6')) {
+				$distname = 'CentOS';
+				$distver = 'Unknown';
+				$distid = 'centos53';
+				$distbaseid = 'fedora';
+			} elseif(stristr($content, 'CentOS Linux release 7')) {
+				$distname = 'CentOS';
+				$distver = 'Unknown';
 				$distid = 'centos53';
 				$distbaseid = 'fedora';
 			} else {
@@ -656,6 +678,59 @@ class monitor_tools {
 		$app->dbmaster->query($sql);
 	}
 
+	public function send_notification_email($template, $placeholders, $recipients) {
+		global $conf;
+
+		if(!is_array($recipients) || count($recipients) < 1) return false;
+		if(!is_array($placeholders)) $placeholders = array();
+
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_'.$conf['language'].'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/' . $template . '_en.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_'.$conf['language'].'.txt');
+		} else {
+			$lines = file($conf['rootpath'].'/conf/mail/' . $template . '_en.txt');
+		}
+
+		//* get mail headers, subject and body
+		$mailHeaders = '';
+		$mailBody = '';
+		$mailSubject = '';
+		$inHeader = true;
+		for($l = 0; $l < count($lines); $l++) {
+			if($lines[$l] == '') {
+				$inHeader = false;
+				continue;
+			}
+			if($inHeader == true) {
+				$parts = explode(':', $lines[$l], 2);
+				if(strtolower($parts[0]) == 'subject') $mailSubject = trim($parts[1]);
+				unset($parts);
+				$mailHeaders .= trim($lines[$l]) . "\n";
+			} else {
+				$mailBody .= trim($lines[$l]) . "\n";
+			}
+		}
+		$mailBody = trim($mailBody);
+
+		//* Replace placeholders
+		$mailHeaders = strtr($mailHeaders, $placeholders);
+		$mailSubject = strtr($mailSubject, $placeholders);
+		$mailBody = strtr($mailBody, $placeholders);
+
+		for($r = 0; $r < count($recipients); $r++) {
+			mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+		}
+
+		unset($mailSubject);
+		unset($mailHeaders);
+		unset($mailBody);
+		unset($lines);
+
+		return true;
+	}
 
 }
 

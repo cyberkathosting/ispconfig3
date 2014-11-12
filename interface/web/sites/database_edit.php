@@ -146,7 +146,11 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix));
 		}
 
-		$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+		if($this->dataRecord['database_name'] == "") {
+			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
+		} else {
+			$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
@@ -345,15 +349,7 @@ class page_action extends tform_actions {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
 			if($server_config['ip_address']!='') {
-				/*
-                if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
-                $this->dataRecord['remote_access'] = 'y';
-                if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
-                    $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
-                }
-				*/
-
-				if(isset($this->dataRecord['remote_access']) && $this->dataRecord['remote_access'] != 'y'){
+				if($this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
 				} else {
@@ -432,15 +428,7 @@ class page_action extends tform_actions {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
 			if($server_config['ip_address']!='') {
-				/*
-                if($this->dataRecord['remote_access'] != 'y') $this->dataRecord['remote_ips'] = '';
-                $this->dataRecord['remote_access'] = 'y';
-                if(preg_match('/(^|,)' . preg_quote($server_config['ip_address'], '/') . '(,|$)/', $this->dataRecord['remote_ips']) == false) {
-                    $this->dataRecord['remote_ips'] .= ($this->dataRecord['remote_ips'] != '' ? ',' : '') . $server_config['ip_address'];
-                }
-				*/
-
-				if(isset($this->dataRecord['remote_access']) && $this->dataRecord['remote_access'] != 'y'){
+				if($this->dataRecord['remote_access'] != 'y'){
 					$this->dataRecord['remote_ips'] = $server_config['ip_address'];
 					$this->dataRecord['remote_access'] = 'y';
 				} else {
@@ -484,10 +472,6 @@ class page_action extends tform_actions {
 	function onInsertSave($sql) {
 		global $app, $conf;
 
-		$app->uses('sites_database_plugin');
-
-		//$app->sites_database_plugin->processDatabaseInsert($this);
-
 		$app->db->query($sql);
 		if($app->db->errorMessage != '') die($app->db->errorMessage);
 		$new_id = $app->db->insertID();
@@ -499,9 +483,6 @@ class page_action extends tform_actions {
 		global $app;
 		if(!empty($sql) && !$app->tform->isReadonlyTab($app->tform->getCurrentTab(), $this->id)) {
 
-			$app->uses('sites_database_plugin');
-			//$app->sites_database_plugin->processDatabaseUpdate($this);
-
 			$app->db->query($sql);
 			if($app->db->errorMessage != '') die($app->db->errorMessage);
 		}
@@ -510,34 +491,15 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-
-			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $app->db->quote($web['backup_interval']);
-			$backup_copies = $app->functions->intval($web['backup_copies']);
-
-			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
-			$app->db->query($sql);
-		}
+		$app->uses('sites_database_plugin');
+		$app->sites_database_plugin->processDatabaseInsert($this);
 	}
 
 	function onAfterUpdate() {
 		global $app, $conf;
 
-		if($this->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
-
-			//* The Database user shall be owned by the same group then the website
-			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $app->db->quote($web['backup_interval']);
-			$backup_copies = $app->functions->intval($web['backup_copies']);
-
-			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$this->id;
-			$app->db->query($sql);
-		}
-
+		$app->uses('sites_database_plugin');
+		$app->sites_database_plugin->processDatabaseUpdate($this);
 	}
 
 }

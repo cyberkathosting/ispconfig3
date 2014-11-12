@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'DNS zone';
+$wb['active_txt'] = 'Aktivno';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zona';
+$wb['ns_txt'] = 'NS';
+$wb['mbox_txt'] = 'Email';
+$wb['add_new_record_wizard_txt'] = 'Dodaj novu DNS zonu sa čarobnjakom';
+$wb['add_new_record_txt'] = 'Dodaj novu DNS zonu ručno';
+$wb['sys_groupid_txt'] = 'Klijent';
+?>
+
+

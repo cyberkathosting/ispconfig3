@@ -72,16 +72,9 @@ class backup_plugin {
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
 			
-			//* mount backup directory, if necessary
 			$backup_dir_is_ready = true;
-			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $backup_dir_is_ready = false;
-				}
-			}
+            //* mount backup directory, if necessary
+            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
 
 			if($backup_dir_is_ready){
 				//* Make backup available for download
@@ -172,17 +165,10 @@ class backup_plugin {
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'];
 
-			//* mount backup directory, if necessary
 			$backup_dir_is_ready = true;
-			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $backup_dir_is_ready = false;
-				}
-			}
-			
+			//* mount backup directory, if necessary
+			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
+
 			if($backup_dir_is_ready){
 				$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));

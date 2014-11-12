@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox quota';
-$wb['quota_txt'] = 'Kvota';
-$wb['name_txt'] = 'Name';
-$wb['email_txt'] = 'Email Address';
-$wb['used_txt'] = 'Used space';
-$wb['percentage_txt'] = 'Used %';
+$wb['list_head_txt'] = 'Limiti sandučića';
+$wb['quota_txt'] = 'Limit';
+$wb['name_txt'] = 'Ime';
+$wb['email_txt'] = 'Email adresa';
+$wb['used_txt'] = 'Prostor';
+$wb['percentage_txt'] = 'Koristi %';
 ?>
+
+

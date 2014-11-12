@@ -14,4 +14,3 @@ $wb['data_error_empty'] = 'Namnserver tom';
 $wb['data_error_regex'] = 'Namnserverformatet är ogiltigt';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
-

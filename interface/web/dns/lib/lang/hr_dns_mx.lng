@@ -13,6 +13,8 @@ $wb['name_error_empty'] = 'Naziv hosta nije upisan.';
 $wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Naziv mail hosta polje je prazno';
 $wb['data_error_regex'] = 'Neispravan format naziva mail host zapisa';
-$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['duplicate_mx_record_txt'] = 'Duplicirani MX zapis.';
+$wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
+
+

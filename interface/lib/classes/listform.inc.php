@@ -97,6 +97,7 @@ class listform {
 			$querystring = str_replace("{AUTHSQL}", $app->tform->getAuthSQL('r'), $querystring);
 			$querystring = str_replace("{AUTHSQL-A}", $app->tform->getAuthSQL('r', 'a'), $querystring);
 			$querystring = str_replace("{AUTHSQL-B}", $app->tform->getAuthSQL('r', 'b'), $querystring);
+			$querystring = preg_replace_callback('@{AUTHSQL::(.+?)}@', create_function('$matches','global $app; $tmp = $app->tform->getAuthSQL("r", $matches[1]); return $tmp;'), $querystring);
 
 			//* Getting the records
 			$tmp_records = $app->db->queryAllRecords($querystring);
@@ -248,6 +249,8 @@ class listform {
 	public function getPagingSQL($sql_where = '1')
 	{
 		global $app, $conf;
+		
+		$old_search_limit = intval($_SESSION['search']['limit']);
 
 		//* Add Global Limit from selectbox
 		if(!empty($_POST['search_limit']) and $app->functions->intval($_POST['search_limit']) > 0){
@@ -272,6 +275,9 @@ class listform {
 
 		//* set PAGE to worth request variable "PAGE" - ? setze page auf wert der request variablen "page"
 		if(isset($_REQUEST["page"])) $_SESSION["search"][$list_name]["page"] = $app->functions->intval($_REQUEST["page"]);
+		
+		//* Set search to changed when search limit has been changed.
+		if(intval($_SESSION['search']['limit']) != $old_search_limit) $this->searchChanged = 1;
 
 		//* PAGE to 0 set, if look for themselves ?  page auf 0 setzen, wenn suche sich ge�ndert hat.
 		if($this->searchChanged == 1) $_SESSION['search'][$list_name]['page'] = 0;

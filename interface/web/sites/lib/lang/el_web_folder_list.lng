@@ -4,4 +4,5 @@ $wb['active_txt'] = 'Ενεργός';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['path_txt'] = 'Διαδρομή';
+$wb['add_new_record_txt'] = 'Add new Folder';
 ?>

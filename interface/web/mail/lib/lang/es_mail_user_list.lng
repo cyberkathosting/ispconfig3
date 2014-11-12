@@ -5,4 +5,8 @@ $wb['autoresponder_txt'] = 'Autoresponder';
 $wb['add_new_record_txt'] = 'Añadir nuevo buzón';
 $wb['name_txt'] = 'Nombre';
 $wb['login_txt'] = 'Iniciar sesión';
+$wb['postfix_txt'] = 'Recepción';
+$wb['disablesmtp_txt'] = 'SMTP (envío)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

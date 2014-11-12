@@ -7,7 +7,7 @@ $wb['dkim_txt'] = 'Activer DKIM';
 $wb['dkim_private_txt'] = 'ClérivéDKIM';
 $wb['dkim_public_txt'] = 'Cléublique DKIM\npour information seulement';
 $wb['dkim_generate_txt'] = 'Gérer la clérivéDKIM';
-$wb['dkim_dns_txt'] = 'Enregistrement DNS (TYPE TXT)<br><br>Ajouter l\'enregistrement àotre DNS';
+$wb['dkim_dns_txt'] = 'Enregistrement DNS';
 $wb['dkim_private_key_error'] = 'ClérivéDKIM invalide';
 $wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
 $wb['domain_error_empty'] = 'Le domaine est vide.';
@@ -19,6 +19,6 @@ $wb['policy_txt'] = 'Filtre antispam';
 $wb['no_policy'] = '- inactif -';
 $wb['error_not_allowed_server_id'] = 'Le serveur choisi n\'est pas autoriséour ce compte.';
 $wb['dkim_selector_txt'] = 'DKIM-Selector';
-$wb['dkim_selector_error'] = 'Selecteur DKIM non valide. Utiliser que des caractès alphanuméques minuscules (a-z et/oo 0-9)';
+$wb['dkim_selector_error'] = 'Selecteur DKIM non valide. Utiliser que des caractès alphanuméques minuscules (a-z et/oo 0-9) up to 63 chars';
 ?>
 

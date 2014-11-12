@@ -1,8 +1,0 @@
-<?php
-$wb['title_txt'] = 'Titlu';
-$wb['target_txt'] = 'Target';
-$wb['link_txt'] = 'Link';
-$wb['header_txt'] = 'Navi Proprietati';
-$wb['save_txt'] = 'Salveaza';
-$wb['cancel_txt'] = 'Anuleaza';
-?>
