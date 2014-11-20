@@ -260,6 +260,19 @@ $form['tabs']['users'] = array (
 			'maxlength' => '2',
 			'rows'  => '',
 			'cols'  => ''
+		),
+		'lost_password_function' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'CHECKBOX',
+			'regex'  => '',
+			'errmsg' => '',
+			'default' => 1,
+			'value'  => array(0 => 0, 1 => 1),
+			'separator' => '',
+			'width'  => '30',
+			'maxlength' => '255',
+			'rows'  => '',
+			'cols'  => ''
 		)
 		//#################################
 		// ENDE Datenbankfelder
