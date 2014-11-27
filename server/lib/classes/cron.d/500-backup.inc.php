@@ -71,22 +71,13 @@ class cronjob_backup extends cronjob {
 			} else {
 				chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 			}
-			
-			//* mount backup directory, if necessary
-			$run_backups = true;
-			$server_config['backup_dir_mount_cmd'] = trim($server_config['backup_dir_mount_cmd']);
-			if($server_config['backup_dir_is_mount'] == 'y' && $server_config['backup_dir_mount_cmd'] != ''){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec(escapeshellcmd($server_config['backup_dir_mount_cmd']));
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
-				}
-			}
-
+            $run_backups = true;
+            //* mount backup directory, if necessary
+            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 			if($run_backups){
 				//* backup only active domains
-				$sql = "SELECT * FROM web_domain WHERE server_id = '".$conf['server_id']."' AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
-				$records = $app->db->queryAllRecords($sql);
+				$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
+				$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 				if(is_array($records)) {
 					foreach($records as $rec) {
 
@@ -138,9 +129,12 @@ class cronjob_backup extends cronjob {
 									//* Insert web backup record in database
 									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-									$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-									$app->db->query($sql);
-									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+									$filesize = $app->functions->formatBytes(filesize($web_backup_dir.'/'.$web_backup_file));
+									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
+									$app->db->query($sql, $conf['server_id'], $web_id, 'web', $backup_mode, time(), $web_backup_file, $filesize);
+									if($app->db->dbHost != $app->dbmaster->dbHost) 
+										$app->dbmaster->query($sql, $conf['server_id'], $web_id, 'web', $backup_mode, time(), $web_backup_file, $filesize);
+									unset($filesize);
 								}
 							} else {
 								if(is_file($web_backup_dir.'/'.$web_backup_file)) unlink($web_backup_dir.'/'.$web_backup_file);
@@ -167,9 +161,9 @@ class cronjob_backup extends cronjob {
 									//$tmp = $app->dbmaster->queryOneRecord($sql);
 									//$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
 									//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
-									$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
-									$app->db->query($sql);
-									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+									$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+									$app->db->query($sql, $conf['server_id'], $web_id, $files[$n]);
+									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'],  $web_id, $files[$n]);
 								}
 							}
 
@@ -199,16 +193,15 @@ class cronjob_backup extends cronjob {
 							$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
 							if(is_dir($web_backup_dir)) {
 								exec('sudo -u '.escapeshellarg($web_user).' rm -f '.escapeshellarg($web_backup_dir.'/*'));
-								$sql = "DELETE FROM web_backup WHERE server_id = ".intval($conf['server_id'])." AND parent_domain_id = ".intval($web_id);
-								$app->db->query($sql);
-								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+								$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ?";
+								$app->db->query($sql, $conf['server_id'], $web_id);
+								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id);
 							}
 						}
 					}
 				}
 
-				$sql = "SELECT * FROM web_database WHERE server_id = ".$conf['server_id']." AND backup_interval != 'none' AND backup_interval != ''";
-				$records = $app->db->queryAllRecords($sql);
+				$records = $app->db->queryAllRecords("SELECT * FROM web_database WHERE server_id = ? AND backup_interval != 'none' AND backup_interval != ''", $conf['server_id']);
 				if(is_array($records)) {
 
 					include 'lib/mysql_clientdb.conf';
@@ -245,9 +238,12 @@ class cronjob_backup extends cronjob {
 									//* Insert web backup record in database
 									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-									$sql = "INSERT INTO web_backup (server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-									$app->db->query($sql);
-									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+									$filesize = $app->functions->formatBytes(filesize($db_backup_dir.'/'.$db_backup_file.'.gz'));
+									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
+									$app->db->query($sql, $conf['server_id'], $web_id, 'mysql', 'sqlgz', time(), $db_backup_file.'.gz', $filesize);
+									if($app->db->dbHost != $app->dbmaster->dbHost) 
+										$app->dbmaster->query($sql, $conf['server_id'], $web_id, 'mysql', 'sqlgz', time(), $db_backup_file.'.gz', $filesize);
+									unset($filesize);
 								}
 							} else {
 								if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')) unlink($db_backup_dir.'/'.$db_backup_file.'.gz');
@@ -277,9 +273,9 @@ class cronjob_backup extends cronjob {
 										//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
 										//$tmp = $app->dbmaster->queryOneRecord($sql);
 										//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
-										$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
-										$app->db->query($sql);
-										if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+										$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+										$app->db->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
+										if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
 									}
 								}
 							}
@@ -296,14 +292,14 @@ class cronjob_backup extends cronjob {
 				}
 
 				// remove non-existing backups from database
-				$backups = $app->db->queryAllRecords("SELECT * FROM web_backup WHERE server_id = ".$conf['server_id']);
+				$backups = $app->db->queryAllRecords("SELECT * FROM web_backup WHERE server_id = ?", $conf['server_id']);
 				if(is_array($backups) && !empty($backups)){
 					foreach($backups as $backup){
 						$backup_file = $backup_dir.'/web'.$backup['parent_domain_id'].'/'.$backup['filename'];
 						if(!is_file($backup_file)){
-							$sql = "DELETE FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = ".$backup['parent_domain_id']." AND filename = '".$backup['filename']."'";
-							$app->db->query($sql);
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+							$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						}
 					}
 				}

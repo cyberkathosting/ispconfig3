@@ -163,7 +163,7 @@ echo "<selector>".$selector."</selector>\n";
 echo "<privatekey>".$private_key."</privatekey>\n";
 echo "<publickey>".$public_key."</publickey>\n";
 if ( validate_domain($_POST['domain']) ) {
-	echo '<dns_record>'.$selector.'_domainkey.'.$_POST['domain'].'. 3600	TXT	"v=DKIM1; t=s; p='.$dns_record.'"</dns_record>';
+	echo '<dns_record>'.$selector.'._domainkey.'.$_POST['domain'].'. 3600	TXT	"v=DKIM1; t=s; p='.$dns_record.'"</dns_record>';
 }
 echo "</formatname>\n";
 ?>
