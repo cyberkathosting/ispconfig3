@@ -77,6 +77,8 @@ if(@is_dir($js_d)) {
 if (!empty($js_d_files)) $app->tpl->setLoop('js_d_includes', $js_d_files);
 unset($js_d_files);
 
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+
 $app->tpl_defaults();
 $app->tpl->pparse();
 ?>

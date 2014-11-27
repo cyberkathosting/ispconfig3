@@ -1,0 +1,185 @@
+@import "colors"
+@import "mixins"
+
+html, body
+  -webkit-tap-highlight-color: $color-black
+
+body
+  background: $color-background-blueish
+  color: $color-font-main
+
+.green
+  color: $color-green
+
+.form-control:focus
+  border-color: $color-input-focus
+
+.formbutton-default
+  @include background-gradient
+  color: $color-background-blueish
+
+.formbutton-success
+  @include background-gradient-green
+  border-color: $color-green-border
+  border-bottom-color: $color-green-border
+  color: $color-white
+
+  &:hover, &.active
+    border-bottom-color: $color-green-border-hover
+    color: $color-white
+
+#searchform
+  button
+    @include background-gradient
+
+#logout-button
+  background: $color-red
+  border-bottom-color: $color-red-dark
+
+  &:hover
+    background: $color-red-hover
+    border-bottom-color: $color-red-dark-hover
+
+#main-navigation
+  a
+    @include background-gradient
+    border-bottom-color: $color-grey
+
+    &:hover, &.active
+      border-bottom-color: $color-grey-hover
+      color: $color-red
+
+  .icon
+    text-shadow: 1px 1px 1px $color-white
+
+#sidebar
+  border-color: $color-notification-info-border
+  background: $color-white
+
+  header
+    background: $color-notification-info-background
+    color: $color-notification-info-font
+
+  li
+    border-top-color: $color-notification-info-border
+
+  a
+    color: inherit
+
+    &:hover
+      color: $color-notification-info-link-hover
+
+.page-header
+  border-color: $color-grey
+
+
+.alert-notification
+  background: $color-notification-info-background
+  border-color: $color-notification-info-border
+  color: $color-notification-info-font
+
+  a
+    color: $color-notification-info-link
+
+    &:hover
+      color: $color-notification-info-link-hover
+
+.alert-danger
+  background: $color-notification-danger-background
+  border-color: $color-notification-danger-border
+  color: $color-notification-danger-font
+
+.modules
+  li
+    background: $color-grey-bg
+    border-color: $color-grey-border
+    box-shadow: inset 1px 3px 8px -5px $color-black-transparent
+
+  .button
+    @include background-gradient
+    border-bottom-color: $color-grey
+
+    &:hover, &.active
+      border-bottom-color: $color-grey-hover
+
+  a
+    color: inherit
+
+.table-wrapper
+  background: $color-white
+  border-color: $color-grey-border
+
+.table
+  caption
+    border-bottom-color: $color-grey-border
+
+  tbody
+    tr
+      border-top-color: $color-grey-border
+
+      &:nth-child(odd)
+        background: $color-background-blueish
+
+      &:nth-child(even)
+        background: $color-white
+
+      &:hover
+        background: $color-table-hover
+
+.tfooter
+  border-top-color: $color-grey-border
+
+.content-tab-wrapper
+  background: $color-white
+  border-color: $color-grey-border
+
+  .nav-tabs
+    background: $color-grey-light
+    box-shadow: inset -1px -2px 6px -5px $color-black-transparent
+
+    > li > a
+      border-right-color: $color-grey-border !important
+      color: inherit
+
+      &:hover
+        background: darken($color-grey-light, 5%)
+
+    .active a
+      background: $color-white !important
+
+      &:focus
+        color: inherit
+
+thead.dark
+  background: linear-gradient(to bottom, $color-thead-begin, $color-thead-end) !important
+  color: $color-font-main
+
+#footer
+  border-top-color: $color-grey-border
+
+.pushy
+  background: $color-background-blueish
+
+  ul
+    &.subnavi li
+      a
+        &:hover
+          background: none
+
+  a
+    &:hover, &.active
+      background: $color-background-blueish
+      color: inherit
+
+@media screen and (max-width: 860px)
+  #main-navigation
+    a
+      border-right-color: $color-grey-border
+      border-bottom-color: $color-grey-border
+
+      &.active
+        border-right-color: $color-grey-border
+        border-bottom-color: $color-grey-border
+
+      &:hover
+        border-bottom-color: $color-grey-border

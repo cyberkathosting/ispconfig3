@@ -102,7 +102,8 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
             }
 	    }
     });
-    $('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
+    /* TODO: find a better way! */
+    //$('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
 ?>
@@ -418,7 +419,7 @@ function loadMenus() {
 											},
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
-												jQuery('#sideNav').html(jqXHR.responseText);
+												jQuery('#sidebar').html(jqXHR.responseText);
 											},
 											error: function() {
                                                 hideLoadIndicator();
@@ -435,7 +436,7 @@ function loadMenus() {
 											},
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
-												jQuery('#topNav').html(jqXHR.responseText);
+												jQuery('#topnav-container').html(jqXHR.responseText);
 											},
 											error: function(o) {
                                                 hideLoadIndicator();

@@ -1,194 +1,183 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">      
-    <head>
-        <!--Possible? Vars in lang= ?-->
-        <meta charset="<tmpl_var name="html_content_encoding">" />
-        <title><tmpl_var name="app_title"> <tmpl_var name="app_version"></title>
-        <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-        <link href="themes/default/css/styles.css" rel="stylesheet" media="screen" type="text/css" />
-        <link href="themes/default/css/print.css" rel="stylesheet" media="print" type="text/css" />
-        <!--[if IE 9]><link href="themes/default/css/iehacks.css" rel="stylesheet" type="text/css" /><![endif]-->
-        <!--[if lte IE 8]><script type="text/javascript" src="themes/default/js/html5shiv.js"></script><![endif]-->
-        <!--[if lte IE 7]><link href="themes/default/css/iehacks.css" rel="stylesheet" type="text/css" /><![endif]-->
-        <link href="themes/default/css/jquery-ui-1.11.1.min.css" rel="stylesheet" type="text/css" />
-        <link href="themes/default/css/jquery-ui-1.11.1.structure.min.css" rel="stylesheet" type="text/css" />
-        <link href="themes/default/css/jquery-ui-1.11.1.theme.min.css" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="/themes/default/images/favicon.ico" />
-        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.11.1.custom.min.js"></script>
-        <script type="text/javascript" src="js/scrigo.js.php"></script>
-        <script type="text/javascript" src="js/uni-form/uni-form.jquery.js"></script>
-        <script type="text/javascript" src="js/jquery.ispconfigsearch.js"></script>
-        <script type="text/javascript" src="js/jquery.tipsy.js"></script>
-        <script type="text/javascript" src="js/jquery.combobox.js"></script>
-        <script type="text/javascript" src="js/chosen/chosen.jquery.min.js"></script>
-        <tmpl_loop name="js_d_includes">
-            <script type="text/javascript" src="js/js.d/<tmpl_var name='file'>"></script>
-        </tmpl_loop>
-        <script language="JavaScript" type="text/javascript">
-            $(document).ready(function() {
-                loadInitContent();
-				
-				$('form').not('#dummy_login_form').attr('autocomplete','off');
-                
-                $("#pageForm").submit(function(e){
-                    //Prevent form submit: e.preventDefault() in lists
-                    if ($(".panel #Filter").length > 0) {
-                        e.preventDefault();
-                    }
-                });
-                
-                $('#globalsearch').ispconfigSearch({
-                    dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
-                    resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
-                    noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
-                    noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
-                    searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">'
-                });
-                
-                $('.ttip').tipsy({live: true, gravity: 'ne', html: true});
-                
-                tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
-                tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
-                tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
-                tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
-				
-				// Store password in browser; works in Firefox, but not Chrome
-				$(document).on('keyup', '#username', function() {
-					$('#username').on("blur", function(){
-						if($('#username').val() == '') {
-							return true;
-						}
-						if($('#dummy_username').val() == '' || $('#dummy_username').val() != $(this).val()){
-							$('#dummy_login').show();
-							$('#dummy_username').attr('value', $(this).val()).trigger('focus').trigger('blur');
-							$('#dummy_login').hide();
-						}
-						if($('#dummy_username').val() == $(this).val() && $(this).val() != ''){
-							$('#passwort').val($('#dummy_passwort').val());
-						} else {
-							$('#passwort').val('');
-						}
-						$('#passwort').focus();
-					});
-					
-					$('#username').on("keyup", function(){
-						$('#dummy_username').val('');
-						$('#dummy_passwort').val('');
-						$('#passwort').val('');
-					});
-				});
+<html lang='en'>
 
-	            $(document).on("change", function(event) {
-	                var elName = event.target.localName;
-	                if ($(".panel #Filter").length > 0 && elName == 'select') {
-	                    event.preventDefault();
-	                    $(".panel #Filter").trigger('click');
-	                }
-	                if(elName == 'select' || elName == 'input' || elName == 'textarea') {
-	                    if($(event.target).hasClass('no-page-form-change') == false) {
-	                        // set marker that something was changed
-	                        pageFormChanged = true;
-	                    }
-	                }
-	            });
+<head>
+  <meta charset='utf-8' />
 
-				
-            });
-            
-            
-            $(document).bind("keypress", function(event) {
-                //Use $ submit with keypress Enter in panel filterbar
-                if (event.which == '13' && $(".panel #Filter").length > 0 && $(event.target).hasClass('ui-autocomplete-input') == false ) {
-                    event.preventDefault();
-                    $(".panel #Filter").trigger('click');
-                }
-                //Use $ submit with keypress Enter in forms
-                if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
-                    event.preventDefault();
-                    $(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
-                }
-            });
-            
-            $(document).delegate('.pnl_listarea th', 'click', function(event) {
-                if($(this).attr('class').length > 0 && $(".panel #Filter").length > 0 && $(this).hasClass('tbl_col_buttons') == false && $(this).hasClass('tbl_col_limit') == false && $(this).hasClass('tbl_col_nosort') == false) {
-                  event.preventDefault();
-                  var clickevent = $('#Filter').attr('onclick');
-                  var element = $(this).attr('class');
-                  if(typeof clickevent == 'string') {
-                      $('#Filter').attr('onclick', clickevent.replace(".php')", ".php?orderby=" + element + "')"));
-                  }
-                  $(".panel #Filter").trigger('click');
-                  
-                  $("#pageForm").ajaxComplete(function() {
-                      if($("th."+element).css("background-position") == '0px -15px') {
-                        if($("th."+element).css("text-align") == "right") {
-                          $("th."+element).css("text-align","left");
-                        } else {
-                          $("th."+element).css("text-align","right");
-                        }
-                      } else {
-                        $(".pnl_listarea th").css("text-align","");
-                      }
-                      $(".pnl_listarea th").css("background-position","0 0");
-                      $("th."+element).css("background-position","0 -15px");
-                  });
-                }
-            });
-            
-        </script>
-    </head>
-    <body>
-        <div id="page">
-            <!-- begin: header -->
-            <header>
-                <nav id="topsubnav">
-                    <!-- start: skip link navigation -->
-                    <a class="skip" href="#navigation" title="skip link">Skip to the navigation</a><span class="hideme">.</span>
-                    <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
-                    <!-- end: skip link navigation -->
-                    <tmpl_if name="cpuser">
-                        <a href="#logout" onclick="loadContent('login/logout.php');"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>-->
-                        <tmpl_if name='usertype' op='==' value='normaluser'><input type="text" id="globalsearch" size="25" value="" /></tmpl_if>
-                    </tmpl_if>
-                </nav>
-                <h1 id="ir-HeaderLogo" class="swap" style="background-image:url('{tmpl_var name='app_logo'}');"><span>ISPConfig 3</span></h1>
-                <span>hosting control panel</span>
-            </header>
-            <!-- end: header -->
-            <a id="navigation" name="navigation"></a><!-- skiplink anchor: navigation -->
-            <!-- begin: main navigation #nav -->
-            <nav id="topNav">&nbsp;</nav>
-            <!-- end: main navigation -->
+  <title><tmpl_var name="app_title"> <tmpl_var name="app_version"></title>
 
-            <!-- begin: main content area #main -->
-            <section id="main" name="content">
-                <nav id="sideNav" class="clearfix">&nbsp;</nav>
-                <!-- begin: #content -->
-                <section id="content">
-                    <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
-						<input type="text" style="display:none" /><input type="password" style="display:none"/>
-                        <div id="pageContent"><!-- AJAX CONTENT --></div>
-                    </form>
-                    <div id="ie_clearing">&nbsp;</div>
-                    <!-- End: IE Column Clearing -->
-                </section>
-                <!-- end: #content -->
-            </section>
-            <!-- end: #main -->
-            <!-- begin: footer -->
-            <footer>
-                Powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
-            </footer><!-- end: footer -->
+  <meta name='viewport' content='width=device-width, user-scalable=yes'>
+  <meta name='description' lang='en' content='' />
+  <meta name='keywords' lang='en' content='' />
+  <meta name='robots' content='index, follow' />
+
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/fonts.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/pushy.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/responsive.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/themes/default/theme.min.css' />
+</head>
+
+<body>
+  <!-- off canvas -->
+  <nav class='pushy pushy-left'></nav>
+  <div class='site-overlay'></div>
+
+  <div id='container'>
+    <div id='main-wrapper'>
+      <div id='inner-wrapper'>
+        <div class='clear'>
+          <div class='left clear'>
+            <!-- off canvas menu button -->
+            <div class='menu-btn left'>&#9776;</div>
+            <!-- logo -->
+            <div id='logo'><a href='#'></a></div>
+          </div>
+          <div id='headerbar' class='clear'>
+            <!-- logout button -->
+            <tmpl_if name="cpuser">
+				<button type='button' id='logout-button' class='btn btn-sm btn-danger' onclick="loadContent('login/logout.php');"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></button>
+				<tmpl_if name='usertype' op='==' value='normaluser'>
+					<!-- search field -->
+					<form action='#' method='get' id='searchform' role='form'>
+					  <div>
+						<div>
+						  <div class='input-group input-group-sm'>
+							<input id='globalsearch' type='text' class='form-control' placeholder='Search' />
+							<span class='input-group-btn'>
+							  <button class='btn btn-default btn-sm' title='Search…'>
+								<span class='icon icon-lens'></span>
+							  </button>
+							</span>
+						  </div>
+						</div>
+					  </div>
+					</form>
+				</tmpl_if>
+            </tmpl_if>
+          </div>
         </div>
-		
-<div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
-<form action="" method="post" target="dummy_login" id="dummy_login_form">
-<input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
-<input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
-<input type="submit" value="Login" id="dummy_submit"/>
-</form>
-<iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
-</div>
-    </body>
+		<div id='topnav-container'>
+		</div>
+		<div class='clear'>
+          <!-- content -->
+          <div id='content' class='right'>
+			<form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class='form-horizontal' role='form'>
+				<div id="pageContent"><!-- AJAX CONTENT --></div>
+			</form>
+          </div>
+          <!-- news sidebar -->
+          <div id='sidebar' class='news-sidebar left'>
+          </div>
+        </div>
+        <footer id='footer'>
+          powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.11.1.custom.min.js"></script>
+  <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/bootstrap.min.js'></script>
+  <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/ispconfig.min.js'></script>
+  <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/modernizr.custom.min.js'></script>
+  <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/pushy.min.js'></script>
+  <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/responsive.min.js'></script>
+  <script src='js/scrigo.js.php'></script>
+  <script type="text/javascript" src="js/jquery.ispconfigsearch.js"></script>
+  <script type="text/javascript" src="js/jquery.tipsy.js"></script>
+  <script type="text/javascript" src="js/jquery.combobox.js"></script>
+  <tmpl_loop name="js_d_includes">
+	<script type="text/javascript" src="js/js.d/<tmpl_var name='file'>"></script>
+  </tmpl_loop>
+  <script>
+  <!--
+	$(document).ready(function() {
+		loadInitContent();
+	});
+	
+	$('#searchform').submit(function(e) {
+		e.preventDefault();
+	});
+	
+	$("#pageForm").submit(function(e){
+		//Prevent form submit: e.preventDefault() in lists
+		if ($(".panel #Filter").length > 0) {
+			e.preventDefault();
+		}
+	});
+	
+	/*$('#globalsearch').ispconfigSearch({
+		dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
+		resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
+		noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
+		noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
+		searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">'
+	});
+	*/
+	//$('.ttip').tipsy({live: true, gravity: 'ne', html: true});
+	
+	tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
+	tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
+	tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
+	tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
+	
+	$(document).on("change", function(event) {
+		var elName = event.target.localName;
+		if ($(".panel #Filter").length > 0 && elName == 'select') {
+			event.preventDefault();
+			$(".panel #Filter").trigger('click');
+		}
+		if(elName == 'select' || elName == 'input' || elName == 'textarea') {
+			if($(event.target).hasClass('no-page-form-change') == false) {
+				// set marker that something was changed
+				pageFormChanged = true;
+			}
+		}
+	});
+
+	$(document).bind("keypress", function(event) {
+		//Use $ submit with keypress Enter in panel filterbar
+		if (event.which == '13' && $(".panel #Filter").length > 0 && $(event.target).hasClass('ui-autocomplete-input') == false ) {
+			event.preventDefault();
+			$(".panel #Filter").trigger('click');
+		}
+		//Use $ submit with keypress Enter in forms
+		if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
+			event.preventDefault();
+			$(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
+		}
+	});
+	
+	$(document).delegate('.pnl_listarea th', 'click', function(event) {
+		if($(this).attr('class').length > 0 && $(".panel #Filter").length > 0 && $(this).hasClass('tbl_col_buttons') == false && $(this).hasClass('tbl_col_limit') == false && $(this).hasClass('tbl_col_nosort') == false) {
+		  event.preventDefault();
+		  var clickevent = $('#Filter').attr('onclick');
+		  var element = $(this).attr('class');
+		  if(typeof clickevent == 'string') {
+			  $('#Filter').attr('onclick', clickevent.replace(".php')", ".php?orderby=" + element + "')"));
+		  }
+		  $(".panel #Filter").trigger('click');
+		  
+		  $("#pageForm").ajaxComplete(function() {
+			  if($("th."+element).css("background-position") == '0px -15px') {
+				if($("th."+element).css("text-align") == "right") {
+				  $("th."+element).css("text-align","left");
+				} else {
+				  $("th."+element).css("text-align","right");
+				}
+			  } else {
+				$(".pnl_listarea th").css("text-align","");
+			  }
+			  $(".pnl_listarea th").css("background-position","0 0");
+			  $("th."+element).css("background-position","0 -15px");
+		  });
+		}
+	});
+  //-->
+  </script>
+</body>
+
 </html>

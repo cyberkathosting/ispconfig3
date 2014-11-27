@@ -1,0 +1,70 @@
+@font-face {
+	font-family: 'ispconfig';
+	src:url('../fonts/ispconfig.eot?-drlkxz');
+	src:url('../fonts/ispconfig.eot?#iefix-drlkxz') format('embedded-opentype'),
+		url('../fonts/ispconfig.woff?-drlkxz') format('woff'),
+		url('../fonts/ispconfig.ttf?-drlkxz') format('truetype'),
+		url('../fonts/ispconfig.svg?-drlkxz#ispconfig') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon {
+	font-family: 'ispconfig';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-calendar:before {
+	content: "\e60e";
+}
+.icon-billing:before {
+	content: "\e60d";
+}
+.icon-lens:before {
+	content: "\e60b";
+}
+.icon-bulb:before {
+	content: "\e60c";
+}
+.icon-vm2:before {
+	content: "\e600";
+}
+.icon-vm:before {
+	content: "\e601";
+}
+.icon-tools:before {
+	content: "\e602";
+}
+.icon-admin:before {
+	content: "\e603";
+}
+.icon-sites:before {
+	content: "\e604";
+}
+.icon-monitor:before {
+	content: "\e605";
+}
+.icon-dashboard:before {
+	content: "\e606";
+}
+.icon-help:before {
+	content: "\e607";
+}
+.icon-mail:before {
+	content: "\e608";
+}
+.icon-dns:before {
+	content: "\e609";
+}
+.icon-client:before {
+	content: "\e60a";
+}
