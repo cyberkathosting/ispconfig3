@@ -121,6 +121,10 @@ class page_action extends tform_actions {
 			$server_id = intval($settings['default_webserver']);
 			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = $server_id;
 		}
+		if(!$server_id){
+			$default_web_server = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = ? ORDER BY server_id LIMIT 0,1", 1);
+			$server_id = $default_web_server['server_id'];
+		}
 		$web_config = $app->getconf->get_server_config($server_id, 'web');
 		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
