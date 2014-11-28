@@ -204,6 +204,9 @@
 <tmpl_if name='php' op='==' value='mod'>
 		# mod_php enabled
 		AddType application/x-httpd-php .php .php3 .php4 .php5
+		SetEnv TMP <tmpl_var name='document_root'>/tmp
+		SetEnv TMPDIR <tmpl_var name='document_root'>/tmp
+		SetEnv TEMP <tmpl_var name='document_root'>/tmp
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"
 		php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
 		php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
