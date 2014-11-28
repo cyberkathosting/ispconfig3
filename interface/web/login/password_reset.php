@@ -54,7 +54,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$username = $app->db->quote($_POST['username']);
 	$email = $app->db->quote($_POST['email']);
 
-	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function FROM client,sys_user WHERE client.username = '$username' AND client.email = '$email' AND client.client_id = sys_user.client_id");
+	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
 
 	if($client['lost_password_function'] == 0) {
 		$app->tpl->setVar("error", $wb['lost_password_function_disabled_txt']);
