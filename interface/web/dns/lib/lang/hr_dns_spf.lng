@@ -1,0 +1,25 @@
+<?php
+$wb['data_txt'] = 'SPF-Record';
+$wb['spf_mechanism_txt'] = 'SPF Mechanism';
+$wb['spf_mechanism_pass_txt'] = 'Pass - allow mail from other senders';
+$wb['spf_mechanism_fail_txt'] = 'Fail - reject mail from other senders';
+$wb['spf_mechanism_softfail_txt'] = 'SoftFail - allow mail from other senders but mark the email';
+$wb['spf_mechanism_neutral_txt'] = 'Neutral - do nothing';
+$wb['spf_mx_txt'] = 'Allow servers listed as MX to send email for this domain';
+$wb['spf_a_txt'] = 'Allow current IP address of the domain to send email for this domain';
+$wb['spf_ip_txt'] = 'Additional IP addresses in CIDR format that deliver or relay mail for this domain';
+$wb['spf_ip_note_txt'] = '(Sepearate IPs with whitespaces)';
+$wb['spf_invalid_ip_txt'] = 'Invalid IP-address';
+$wb['spf_hostname_txt'] = 'Any other server hostname that may deliver or relay mail for this domain';
+$wb['spf_hostname_note_txt'] = '(Sepearate hostnames with whitespaces)';
+$wb['spf_invalid_hostname_txt'] = 'Invalid hostname';
+$wb['spf_domain_txt'] = 'Any domains that may deliver or relay mail for this domain';
+$wb['spf_domain_note_txt'] = '(Sepearate domains with whitespaces)';
+$wb['spf_invalid_domain_txt'] = 'Invalid domainname';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["record_exists_txt"] = 'DNS-Record already exists';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+?>
