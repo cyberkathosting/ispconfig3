@@ -239,7 +239,7 @@ class shelluser_base_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		$app->uses('system,getconf');
+		$app->uses('system,getconf,services');
 		
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
@@ -251,11 +251,11 @@ class shelluser_base_plugin {
 			// Get the UID of the user
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
+				$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
+					
 				// check if we have to delete the dir
 				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($data['old']['dir']) . '\'');
 				if(!$check && is_dir($data['old']['dir'])) {
-					
-					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
 					
 					$app->system->web_folder_protection($web['document_root'], false);
 					
@@ -292,10 +292,33 @@ class shelluser_base_plugin {
 				
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
+					// if this web uses PHP-FPM, that PPH-FPM service must be stopped before we can delete this user
+					if($web['php'] == 'php-fpm'){
+						if(trim($web['fastcgi_php_version']) != ''){
+							$default_php_fpm = false;
+							list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($web['fastcgi_php_version']));
+						} else {
+							$default_php_fpm = true;
+						}
+						$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+						if(!$default_php_fpm){
+							$app->services->restartService('php-fpm', 'stop:'.$custom_php_fpm_init_script);
+						} else {
+							$app->services->restartService('php-fpm', 'stop:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+						}
+					}
 					$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
 					$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 					exec($command);
 					$app->log("Deleted shelluser: ".$data['old']['username'], LOGLEVEL_DEBUG);
+					// start PHP-FPM again
+					if($web['php'] == 'php-fpm'){
+						if(!$default_php_fpm){
+							$app->services->restartService('php-fpm', 'start:'.$custom_php_fpm_init_script);
+						} else {
+							$app->services->restartService('php-fpm', 'start:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+						}
+					}
 				}
 
 			} else {
