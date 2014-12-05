@@ -1030,6 +1030,12 @@ class apache2_plugin {
 		$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
 
 		// Custom Apache directives
+		if(intval($data['new']['directive_snippets_id']) > 0){
+			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+			if(isset($snippet['snippet'])){
+				$vhost_data['apache_directives'] = $snippet['snippet'];
+			}
+		}
 		// Make sure we only have Unix linebreaks
 		$vhost_data['apache_directives'] = str_replace("\r\n", "\n", $vhost_data['apache_directives']);
 		$vhost_data['apache_directives'] = str_replace("\r", "\n", $vhost_data['apache_directives']);

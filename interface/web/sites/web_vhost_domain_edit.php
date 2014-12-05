@@ -191,7 +191,7 @@ class page_action extends tform_actions {
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
 				// check if server is in client's servers or add it.
 				$chk_sid = explode(',', $client['web_servers']);
-				if(in_array($this->dataRecord["server_id"], $client['web_servers']) == false) {
+				if(in_array($this->dataRecord["server_id"], explode(',', $client['web_servers'])) == false) {
 					if($client['web_servers'] != '') $client['web_servers'] .= ',';
 					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
 				}

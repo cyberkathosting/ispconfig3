@@ -190,6 +190,17 @@ if($type == 'get_use_loadindicator'){
 	$json .= '"}';
 }
 
+if ($type == 'getdirectivesnippet') {
+	$server_type = 'apache';
+	$web_config = $app->getconf->get_server_config($server_id, 'web');
+	if (!empty($web_config['server_type']))
+		$server_type = $web_config['server_type'];
+
+	$snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND type = ? ORDER BY name ASC", $server_type);
+
+	$json = json_encode($snippets);
+}
+
 //}
 
 header('Content-type: application/json');

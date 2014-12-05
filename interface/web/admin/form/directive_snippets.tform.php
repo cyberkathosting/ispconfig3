@@ -93,6 +93,12 @@ $form["tabs"]['directive_snippets'] = array (
 			'maxlength' => '255',
 			'searchable' => 2
 		),
+		'customer_viewable' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
