@@ -1089,7 +1089,16 @@ class nginx_plugin {
 
 		// Custom nginx directives
 		$final_nginx_directives = array();
-		$nginx_directives = $data['new']['nginx_directives'];
+		if(intval($data['new']['directive_snippets_id']) > 0){
+			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+			if(isset($snippet['snippet'])){
+				$nginx_directives = $snippet['snippet'];
+			} else {
+				$nginx_directives = $data['new']['nginx_directives'];
+			}
+		} else {
+			$nginx_directives = $data['new']['nginx_directives'];
+		}
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);

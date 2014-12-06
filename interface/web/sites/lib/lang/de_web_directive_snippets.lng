@@ -1,0 +1,3 @@
+<?php
+$wb['directive_snippets_id_txt'] = 'Gewünschte Konfiguration';
+?>

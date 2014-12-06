@@ -19,6 +19,12 @@
                 <label for="snippet">{tmpl_var name='snippet_txt'}</label>
                 <textarea name="snippet" id="snippet" rows='10' cols='50' style="width:400px;">{tmpl_var name='snippet'}</textarea><span class="nginx"> &nbsp; {tmpl_var name='variables_txt'}: </span><a href="javascript:void(0);" class="addPlaceholder nginx">{DOCROOT}</a><span class="nginx">, </span><a href="javascript:void(0);" class="addPlaceholder nginx">{FASTCGIPASS}</a>
             </div>
+			<div class="ctrlHolder">
+                <p class="label">{tmpl_var name='customer_viewable_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='customer_viewable'}
+                </div>
+            </div>
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='active_txt'}</p>
                 <div class="multiField">
@@ -43,8 +49,19 @@
     } else {
         jQuery('.nginx:visible').hide();
     }
+	
+	if (jQuery('#type').val() != 'nginx' && jQuery('#type').val() != 'apache') {
+		jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
+	}else {
+		jQuery('#customer_viewable').closest('div.ctrlHolder:hidden').show();
+	}
     
     jQuery('#type').change(function(){
+		if (jQuery(this).val() != 'nginx' && jQuery(this).val() != 'apache') {
+			jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
+		} else {
+			jQuery('#customer_viewable').closest('div.ctrlHolder:hidden').show();
+		}
         if(jQuery(this).val() == 'nginx'){
             jQuery('.nginx:hidden').show();
         } else {

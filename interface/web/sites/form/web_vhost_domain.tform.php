@@ -282,7 +282,13 @@ $form["tabs"]['domain'] = array (
 		//#################################
 		// ENDE Datatable fields
 		//#################################
-	)
+	),
+	'plugins' => array (
+		// needs serverId for web.server_type
+		'directive_snippets_id' => array (
+			'class' => 'plugin_directive_snippets'
+		),
+ 	)
 );
 
 // add type-specific field attributes
