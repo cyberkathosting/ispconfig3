@@ -925,6 +925,12 @@ class nginx_plugin {
 			}
 		}
 
+		// Spdy
+		$tpl->setVar('spdy_enabled', '');
+		if($data['new']['enable_spdy'] == 'y') {
+			$tpl->setVar('spdy_enabled', ' spdy');
+		}
+
 		// PHP-FPM
 		// Support for multiple PHP versions
 		/*

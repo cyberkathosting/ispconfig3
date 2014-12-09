@@ -1021,6 +1021,15 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'enable_spdy' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'y',
+			'value' => array (
+				0 => 'n',
+				1 => 'y'
+			)
+		),
 		'apps_vhost_port' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
