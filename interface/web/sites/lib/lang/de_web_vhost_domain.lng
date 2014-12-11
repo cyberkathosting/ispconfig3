@@ -136,5 +136,5 @@ $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 $wb['apache_directive_blocked_error'] = 'Die Apache Direktive wurde durch die Sicherheitsrichtline blockiert:';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
-$wb['enable_spdy_txt'] = 'Aktiviere Spdy';
+$wb['enable_spdy_txt'] = 'Aktiviere SPDY';
 ?>
