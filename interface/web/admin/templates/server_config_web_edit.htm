@@ -101,14 +101,6 @@
                 <label for="htaccess_allow_override">{tmpl_var name='htaccess_allow_override_txt'}</label>
                 <input name="htaccess_allow_override" id="htaccess_allow_override" value="{tmpl_var name='htaccess_allow_override'}" size="40" maxlength="255" type="text" class="textInput" />
             </div>
-			<div class="ctrlHolder">
-				<p class="label">
-					<tmpl_var name="enable_spdy_txt">
-				</p>
-				<div class="multiField">
-					<tmpl_var name="enable_spdy">
-				</div>
-			</div>
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='enable_ip_wildcard_txt'}</p>
                 <div class="multiField">
@@ -169,6 +161,14 @@
                         {tmpl_var name='enable_sni'}
                     </div>
                 </div>
+				<div class="ctrlHolder">
+					<p class="label">
+						<tmpl_var name="enable_spdy_txt">
+					</p>
+					<div class="multiField">
+						<tmpl_var name="enable_spdy">
+					</div>
+				</div>
                 <div class="ctrlHolder">
                     <label for="CA_path">{tmpl_var name='CA_path_txt'}</label>
                     <input name="CA_path" id="CA_path" value="{tmpl_var name='CA_path'}" size="40" maxlength="255" type="text" autocomplete="off" class="textInput" />
