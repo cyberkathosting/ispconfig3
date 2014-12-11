@@ -8,7 +8,7 @@ server {
         listen <tmpl_var name='ip_address'>:443 ssl{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 <tmpl_if name='ipv6_enabled'>
-        listen [<tmpl_var name='ipv6_address'>]:443 ssl;
+        listen [<tmpl_var name='ipv6_address'>]:443 ssl{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};;
 </tmpl_if>
         ssl_certificate <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt;
         ssl_certificate_key <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key;
