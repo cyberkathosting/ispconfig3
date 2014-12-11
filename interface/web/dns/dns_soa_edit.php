@@ -283,7 +283,11 @@ function onBeforeUpdate () {
 	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		//* We do not allow users to change a domain which has been created by the admin
 		$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ".$this->id);
-		if(isset($this->dataRecord["origin"]) && $rec['origin'] != $this->dataRecord["origin"] && $app->tform->checkPerm($this->id, 'u')) {
+		$drOrigin = (isset($this->dataRecord['origin']))
+			? $app->functions->idn_encode($this->dataRecord['origin'])
+			: false;
+
+		if($rec['origin'] !== $drOrigin && $app->tform->checkPerm($this->id, 'u')) {
 			//* Add a error message and switch back to old server
 			$app->tform->errorMessage .= $app->lng('The Zone (soa) can not be changed. Please ask your Administrator if you want to change the Zone name.');
 			$this->dataRecord["origin"] = $rec['origin'];

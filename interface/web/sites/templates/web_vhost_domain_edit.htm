@@ -219,6 +219,7 @@
                     {tmpl_var name='fastcgi_php_version'}
                 </select>
             </div>
+			{tmpl_var name="directive_snippets_id"}
             <div class="ctrlHolder">
                 <p class="label">{tmpl_var name='active_txt'}</p>
                 <div class="multiField">
@@ -249,6 +250,7 @@
             adjustForm();
             reloadWebIP();
             reloadFastcgiPHPVersions();
+			reloadDirectiveSnippets();
         });
     }
     adjustForm(true);
@@ -316,6 +318,23 @@
             }
         });
     }
+	
+	function reloadDirectiveSnippets() {
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getdirectivesnippet"}, function(data) {
+            var options = '<option value="0"></option>';
+			for (var i = 0, len = data.length; i < len; i++) {
+				var isSelected = '';
+
+				 if ($('#directive_snippets_id').val() == i + 1) {
+					 isSelected = 'selected="selected"';
+				 }
+
+				 options += '<option ' + isSelected + ' value="' + data[i]['directive_snippets_id'] + '">' + data[i]['name'] + '</option>';
+			}
+
+			$('#directive_snippets_id').html(options).change();
+		});
+	}
 		
     function reloadWebIP() {
         loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
@@ -340,9 +359,9 @@
     }
     
     <tmpl_if name="readonly_tab">
-        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').bind('click mousedown', function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
+        jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').not('#directive_snippets_id').bind('click mousedown', function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
         jQuery('#dom-edit-submit').click(function() {
-               submitForm('pageForm','sites/web_vhost_domain_edit.php');
+			submitForm('pageForm','sites/web_vhost_domain_edit.php');
         });
     <tmpl_else>
         jQuery('#dom-edit-submit').click(function() {

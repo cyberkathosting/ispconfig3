@@ -854,13 +854,13 @@ function getRandomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-jQuery('.addPlaceholder').on("click", function(){
+jQuery(document).on("click", ".addPlaceholder", function(){
 	var placeholderText = jQuery(this).text();
 	var template = jQuery(this).siblings(':input');
 	template.insertAtCaret(placeholderText);
 });
 
-jQuery('.addPlaceholderContent').on("click", function(){
+jQuery(document).on("click", ".addPlaceholderContent", function(){
 	var placeholderContentText = jQuery(this).find('.addPlaceholderContent').text();
 	var template2 = jQuery(this).siblings(':input');
 	template2.insertAtCaret(placeholderContentText);

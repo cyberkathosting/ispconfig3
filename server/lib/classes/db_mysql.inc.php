@@ -176,7 +176,7 @@ class db extends mysqli
 	private function _query($sQuery = '') {
 		global $app;
 
-		if($this->isConnected == false) return false;
+		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
 			return false;

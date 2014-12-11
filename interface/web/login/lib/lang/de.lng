@@ -24,4 +24,5 @@ $wb['theme_not_compatible'] = 'Das gewählte Design ist mit dieser ISPConfig Ver
 $wb['back_txt'] = 'Zur&uuml;ck';
 $wb['stay_logged_in_txt'] = 'Dauerhaft eingeloggt bleiben';
 $wb['email_error'] = 'Email contains unallowed characters or has a invalid format.';
+$wb['lost_password_function_disabled_txt'] = 'Die Passwort vergessen Funktion steht für diesen Benutzer nicht zur Verfügung.';
 ?>

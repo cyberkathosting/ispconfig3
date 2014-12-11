@@ -37,6 +37,10 @@
                         e.preventDefault();
                     }
                 });
+				
+				jQuery(document).on("click", ".subsectiontoggle", function(){
+                    jQuery(this).children().toggleClass('showing').end().next().slideToggle();
+                });
                 
                 $('#globalsearch').ispconfigSearch({
                     dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
