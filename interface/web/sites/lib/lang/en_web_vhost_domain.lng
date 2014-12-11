@@ -139,5 +139,5 @@ $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid c
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Cancel";
-$wb['enable_spdy_txt'] = 'enable SPDY';
+$wb['enable_spdy_txt'] = 'Enable SPDY';
 ?>
