@@ -699,6 +699,8 @@ class page_action extends tform_actions {
 		
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
 
+		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+
 		parent::onShowEnd();
 	}
 
@@ -1066,6 +1068,10 @@ class page_action extends tform_actions {
 			if(!$custom_php_ini_settings_are_valid){
 				$app->tform->errorMessage .= $app->tform->lng("invalid_custom_php_ini_settings_txt").'<br>';
 			}
+		}
+
+		if($web_config['enable_spdy'] === 'n') {
+			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
 
 		parent::onSubmit();
