@@ -364,7 +364,12 @@ $form["tabs"]['address'] = array (
 			'width'  => '30',
 			'maxlength' => '255',
 			'rows'  => '',
-			'cols'  => ''
+			'cols'  => '',
+			'validators' => array (  0 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_vat_id',
+					'errmsg'=> 'invalid_vat_id'),
+				),
 		),
 		'company_id' => array (
 			'datatype' => 'VARCHAR',
