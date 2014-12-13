@@ -179,4 +179,5 @@ $wb['limit_database_quota_error_notint'] = 'The database quota limit must be a n
 $wb['reseller_txt'] = 'Reseller';
 $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Cancel";
+$wb['invalid_vat_id'] = 'The VAT ID is invalid.';
 ?>

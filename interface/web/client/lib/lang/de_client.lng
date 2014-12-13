@@ -110,7 +110,7 @@ $wb['limit_webdav_user_error_notint'] = 'Das WebDAV Benutzer Limit muss eine Zah
 $wb['limit_backup_txt'] = 'Backupfunktion verfügbar';
 $wb['limit_dns_slave_zone_error_notint'] = 'Das Secondary DNS Zonen Limit muss eine Zahl sein.';
 $wb['customer_no_txt'] = 'Kundennummer';
-$wb['vat_id_txt'] = 'USt-ID';
+$wb['vat_id_txt'] = 'USt.-ID';
 $wb['required_fields_txt'] = '* Benötigte Felder';
 $wb['limit_mailmailinglist_txt'] = 'Max. Anzahl an Mailinglisten';
 $wb['limit_mailmailinglist_error_notint'] = 'Das Mailinglisten Limit muss eine Zahl sein.';
@@ -176,4 +176,5 @@ $wb['limit_database_quota_error_notint'] = 'Das Datenbank-quota muß eine Nummer
 $wb['reseller_txt'] = 'Reseller';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
+$wb['invalid_vat_id'] = 'Die USt.-ID ist ungültig.';
 ?>
