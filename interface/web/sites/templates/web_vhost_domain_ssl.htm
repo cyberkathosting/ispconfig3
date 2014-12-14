@@ -64,6 +64,14 @@
                     {tmpl_var name='ssl_action'}
                 </select>
             </div>
+			{tmpl_if name="is_spdy_enabled"}
+			<div class="ctrlHolder">
+				<p class="label">{tmpl_var name='enable_spdy_txt'}</p>
+				<div class="multiField">
+					{tmpl_var name="enable_spdy"}
+				</div>
+			</div>
+			{/tmpl_if}
         </fieldset>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

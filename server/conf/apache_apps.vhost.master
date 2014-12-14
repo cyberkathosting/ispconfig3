@@ -10,11 +10,17 @@
 <VirtualHost {tmpl_var name='apps_vhost_ip'}:{tmpl_var name='apps_vhost_port'}>
   ServerAdmin webmaster@localhost
   {tmpl_var name='apps_vhost_servername'}
-  
+
   <FilesMatch "\.ph(p3?|tml)$">
     SetHandler None
   </FilesMatch>
-  
+
+  {tmpl_if name="enable_spdy" op="==" value="y"}
+  <IfModule spdy_module>
+	SpdyEnabled on
+  </IfModule>
+  {/tmpl_if}
+
   <IfModule mod_php5.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     AddType application/x-httpd-php .php

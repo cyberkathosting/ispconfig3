@@ -1877,6 +1877,7 @@ CREATE TABLE `web_domain` (
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
+  `enable_spdy` ENUM('y','n') NULL DEFAULT 'n',
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
   `added_date` date NOT NULL DEFAULT '0000-00-00',

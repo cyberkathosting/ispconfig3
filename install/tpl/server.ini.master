@@ -85,6 +85,7 @@ php_ini_path_apache=/etc/php5/apache2/php.ini
 php_ini_path_cgi=/etc/php5/cgi/php.ini
 check_apache_config=y
 enable_sni=y
+enable_spdy=n
 enable_ip_wildcard=y
 overtraffic_notify_admin=y
 overtraffic_notify_client=y
