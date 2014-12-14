@@ -104,9 +104,15 @@ class page_action extends tform_actions {
 			$temp = explode('; ', $old_data);
 			foreach ($temp as $part) {
 				if (preg_match("/^p=/", $part)) $dmarc_policy = str_replace('p=', '', $part);
-				if (preg_match("/^rua=/", $part)) $dmarc_rua = str_replace('rua=mailto:', '', $part).' ';
-				if (preg_match("/^ruf=/", $part)) $dmarc_ruf = str_replace('ruf=mailto:', '', $part).' ';
-				if (preg_match("/^fo:/", $part)) $dmarc_fo = str_replace('fo:', '', $part);
+				if (preg_match("/^rua=/", $part)) {
+					$dmarc_rua = str_replace(array('rua=','mailto:'), '', $part).' ';
+					$dmarc_rua = str_replace(',', ' ', $dmarc_rua);
+				}
+				if (preg_match("/^ruf=/", $part)) {
+					$dmarc_ruf = str_replace(array('ruf=','mailto:'), '', $part).' ';
+					$dmarc_ruf = str_replace(',', ' ', $dmarc_ruf);
+				}
+				if (preg_match("/^fo=/", $part)) $dmarc_fo = str_replace('fo=', '', $part);
 				if (preg_match("/^adkim=/", $part)) $dmarc_adkim = str_replace('adkim=', '', $part);
 				if (preg_match("/^aspf=/", $part)) $dmarc_aspf = str_replace('aspf=', '', $part);
 				if (preg_match("/^rf=/", $part)) $dmarc_rf = str_replace('rf=', '', $part);
@@ -137,10 +143,10 @@ class page_action extends tform_actions {
 		if (!empty($dmarc_ruf)) $app->tpl->setVar("dmarc_ruf", $dmarc_ruf);
 
 		//set dmarc-fo-options
-		$temp = explode(':', $dmarc_fo);
-		if (is_array($temp))
+		if (isset($dmarc_fo)) {
+			$temp = explode(':', $dmarc_fo);
 			foreach ($temp as $fo => $value) $app->tpl->setVar("dmarc_fo".$value, 'CHECKED');
-		else
+		} else
 			$app->tpl->setVar("dmarc_fo0", 'CHECKED');
 
 		unset($temp);
@@ -277,63 +283,53 @@ class page_action extends tform_actions {
 		//create dmarc-record
 		$dmarc_record[] = 'p='.$this->dataRecord['dmarc_policy'];
 
-		/* TODO: 
-		draft-kucherawy-dmarc-base-07 allows multiple rua and ruf-entries
-		*/
-		$dmarc_rua = trim($this->dataRecord['dmarc_rua']);
-		if (!empty($dmarc_rua)) {
-			if (!filter_var($dmarc_rua, FILTER_VALIDATE_EMAIL)) {
-				if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
- 				$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_rua;
-			} else {
-				/* TODO: 
-				allow an external report-address. this requieres changes in a remote zone.
-				*/
-				$mail_domain = explode('@', $dmarc_rua);
-				if ($mail_domain[1] != $domain_name) {
+		if (!empty($this->dataRecord['dmarc_rua'])) {
+			$dmarc_rua = explode(' ', $this->dataRecord['dmarc_rua']);
+			$dmarc_rua = array_filter($dmarc_rua);
+			foreach ($dmarc_rua as $rec) {
+				if (!filter_var($rec, FILTER_VALIDATE_EMAIL)) {
 					if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_domain_txt'].$dmarc_ruf.' in '.$dmarc_ruf;
+					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_rua;
 				} else {
-					$dmarc_record[] = 'rua=mailto:'.$dmarc_rua;
+					$temp .= 'mailto:'.$rec.',';
 				}
 			}
+			$dmarc_record[] = 'rua='.rtrim($temp, ',');
+			unset ($dmarc_rua);
+			unset($temp);
 		}
-		unset ($dmarc_rua);
-		unset ($mail_domain);
-
-		$dmarc_ruf = trim($this->dataRecord['dmarc_ruf']);
-		if (!empty($dmarc_ruf)) {
-			if (!filter_var($dmarc_ruf, FILTER_VALIDATE_EMAIL)) {
-				if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
- 				$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_ruf;
-			} else {
-				/* TODO: 
-				allow an external report-address. this requieres changes in a remote zone.
-				*/
-				$mail_domain[1] = explode('@', $dmarc_ruf);
-				if ($mail_domain != $domain_name) {
+		
+		if (!empty($this->dataRecord['dmarc_ruf'])) {
+			$dmarc_ruf = explode(' ', $this->dataRecord['dmarc_ruf']);
+			$dmarc_ruf = array_filter($dmarc_ruf);
+			foreach ($dmarc_ruf as $rec) {
+				if (!filter_var($rec, FILTER_VALIDATE_EMAIL)) {
 					if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
- 					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_domain_txt'].$dmarc_ruf.' in '.$dmarc_ruf;
+					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_rua;
 				} else {
-					$dmarc_record[] = 'ruf=mailto:'.$dmarc_ruf;
+					$temp .= 'mailto:'.$rec.',';
 				}
 			}
+			$dmarc_record[] = 'ruf='.rtrim($temp, ',');
+			unset ($dmarc_ruf);
+			unset($temp);
 		}
-		unset ($dmarc_ruf);
-		unset ($mail_domain);	
 		
 		$fo_rec = '';
 		if (isset($this->dataRecord['dmarc_fo0'])) $fo_rec[] = '0';
 		if (isset($this->dataRecord['dmarc_fo1'])) $fo_rec[] = '1';
 		if (isset($this->dataRecord['dmarc_fod'])) $fo_rec[] = 'd';
 		if (isset($this->dataRecord['dmarc_fos'])) $fo_rec[] = 's';
-		if (is_array($fo_rec) && !empty($fo_rec)) 
-			$dmarc_record[] = 'fo:'.implode(':', $fo_rec);
+		if (is_array($fo_rec) && !empty($fo_rec)) {
+			$rec = 'fo='.implode(':', $fo_rec);
+			if ($rec != 'fo=0') $dmarc_record[] = 'fo='.implode(':', $fo_rec);
+			unset($rec);
+		}
 
-		if (!empty($this->dataRecord['dmarc_adkim']) && $this->dataRecord['dmarc_adkim'] != 'r' )
+		if ($this->dataRecord['dmarc_adkim'] != 'r' )
 			$dmarc_record[] = 'adkim='.$this->dataRecord['dmarc_adkim'];
 
-		if (!empty($this->dataRecord['dmarc_aspf']) && $this->dataRecord['dmarc_aspf'] != 'r' )
+		if ($this->dataRecord['dmarc_aspf'] != 'r' )
 			$dmarc_record[] = 'aspf='.$this->dataRecord['dmarc_aspf'];
 
 		if (isset($this->dataRecord['dmarc_rf_afrf']) && isset($this->dataRecord['dmarc_rf_iodef']))
