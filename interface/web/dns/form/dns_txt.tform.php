@@ -117,7 +117,7 @@ $form["tabs"]['dns'] = array (
 				),
 				2 => array ( 
 					'type' => 'REGEX', 
-					'regex' => "/^((?!v=DMARC).)*$/s", 
+					'regex' => "/^((?!v=DMARC1; ).)*$/s", 
 					'errmsg'=> 'invalid_type_dmarc'),
 				3 => array ( 
 					'type' => 'REGEX', 
