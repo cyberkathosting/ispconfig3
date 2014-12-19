@@ -282,7 +282,13 @@ $form["tabs"]['domain'] = array (
 		//#################################
 		// ENDE Datatable fields
 		//#################################
-	)
+	),
+	'plugins' => array (
+		// needs serverId for web.server_type
+		'directive_snippets_id' => array (
+			'class' => 'plugin_directive_snippets'
+		),
+ 	)
 );
 
 // add type-specific field attributes
@@ -516,6 +522,15 @@ if($ssl_available) {
 				'formtype' => 'SELECT',
 				'default' => '',
 				'value'  => array('' => 'none_txt', 'save' => 'save_certificate_txt', 'create' => 'create_certificate_txt', 'del' => 'delete_certificate_txt')
+			),
+			'enable_spdy' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default'  => 'n',
+				'value' => array (
+					0 => 'n',
+					1 => 'y'
+				)
 			),
 			//#################################
 			// ENDE Datatable fields

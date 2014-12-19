@@ -121,6 +121,10 @@ class page_action extends tform_actions {
 			$server_id = intval($settings['default_webserver']);
 			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = $server_id;
 		}
+		if(!$server_id){
+			$default_web_server = $app->db->queryOneRecord("SELECT server_id FROM server WHERE web_server = ? ORDER BY server_id LIMIT 0,1", 1);
+			$server_id = $default_web_server['server_id'];
+		}
 		$web_config = $app->getconf->get_server_config($server_id, 'web');
 		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
@@ -187,7 +191,7 @@ class page_action extends tform_actions {
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
 				// check if server is in client's servers or add it.
 				$chk_sid = explode(',', $client['web_servers']);
-				if(in_array($this->dataRecord["server_id"], $client['web_servers']) == false) {
+				if(in_array($this->dataRecord["server_id"], explode(',', $client['web_servers'])) == false) {
 					if($client['web_servers'] != '') $client['web_servers'] .= ',';
 					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
 				}
@@ -695,6 +699,8 @@ class page_action extends tform_actions {
 		
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
 
+		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+
 		parent::onShowEnd();
 	}
 
@@ -1062,6 +1068,10 @@ class page_action extends tform_actions {
 			if(!$custom_php_ini_settings_are_valid){
 				$app->tform->errorMessage .= $app->tform->lng("invalid_custom_php_ini_settings_txt").'<br>';
 			}
+		}
+
+		if($web_config['enable_spdy'] === 'n') {
+			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
 
 		parent::onSubmit();

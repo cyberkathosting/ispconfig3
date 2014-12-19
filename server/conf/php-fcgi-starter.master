@@ -9,6 +9,9 @@ export PHP_DOCUMENT_ROOT
 # export PHP_FCGI_CHILDREN
 PHP_FCGI_MAX_REQUESTS=<tmpl_var name='php_fcgi_max_requests'>
 export PHP_FCGI_MAX_REQUESTS
+export TMP=<tmpl_var name='document_root'>/tmp
+export TMPDIR=<tmpl_var name='document_root'>/tmp
+export TEMP=<tmpl_var name='document_root'>/tmp
 exec <tmpl_var name='php_fcgi_bin'> \
 <tmpl_if name="security_level" op="==" value="20"> -d open_basedir="<tmpl_var name='open_basedir'>" \
 -d disable_functions="" \

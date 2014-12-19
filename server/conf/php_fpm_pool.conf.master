@@ -28,6 +28,10 @@ pm.max_requests = <tmpl_var name='pm_max_requests'>
 
 chdir = /
 
+env[TMP] = <tmpl_var name='document_root'>/tmp
+env[TMPDIR] = <tmpl_var name='document_root'>/tmp
+env[TEMP] = <tmpl_var name='document_root'>/tmp
+
 <tmpl_if name='security_level' op='==' value='20'>
 <tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>
 php_admin_value[session.save_path] = <tmpl_var name='document_root'>/tmp

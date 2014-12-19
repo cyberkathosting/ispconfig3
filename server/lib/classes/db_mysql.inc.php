@@ -86,7 +86,7 @@ class db extends mysqli
 			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!');
 			return false;
 		}
-		if(!((bool)mysqli_query( $this->_iConnId, "USE $this->dbName"))) {
+		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
 			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
 			return false;
@@ -176,7 +176,7 @@ class db extends mysqli
 	private function _query($sQuery = '') {
 		global $app;
 
-		if($this->isConnected == false) return false;
+		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
 			return false;

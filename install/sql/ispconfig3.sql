@@ -429,6 +429,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `snippet` mediumtext,
+  `customer_viewable` ENUM('n','y') NOT NULL DEFAULT 'n',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`directive_snippets_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1876,10 +1877,12 @@ CREATE TABLE `web_domain` (
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
+  `enable_spdy` ENUM('y','n') NULL DEFAULT 'n',
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
+  `directive_snippets_id` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

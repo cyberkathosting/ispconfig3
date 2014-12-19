@@ -205,7 +205,7 @@ $wb['backup_delete_txt'] = 'Delete backups on domain/website delete';
 $wb["overquota_db_notify_admin_txt"] = 'Send DB quota warnings to admin';
 $wb["overquota_db_notify_client_txt"] = 'Send DB quota warnings to client';
 $wb['monitor_system_updates_txt'] = 'Check for Linux updates';
-$wb['php_handler_txt'] = "PHP Handler";
+$wb['php_handler_txt'] = "Default PHP Handler";
 $wb['disabled_txt'] = 'Disabled';
 $wb['dkim_strength_txt'] = 'DKIM strength';
 $wb['monitor_system_updates_txt'] = 'Check for Linux updates';
@@ -260,4 +260,8 @@ $wb['cron_init_script_error_regex'] = 'Invalid cron init script.';
 $wb['crontab_dir_error_regex'] = 'Invalid crontab directory.';
 $wb['cron_wget_error_regex'] = 'Invalid cron wget path.';
 $wb['network_filesystem_txt'] = 'Network Filesystem';
+$wb['php_ini_check_minutes_txt'] = 'Check php.ini every X minutes for changes';
+$wb['php_ini_check_minutes_error_empty'] = 'Please specify a value how often php.ini should be checked for changes.';
+$wb['php_ini_check_minutes_info_txt'] = '0 = no check';
+$wb['enable_spdy_txt'] = 'Makes SPDY available';
 ?>

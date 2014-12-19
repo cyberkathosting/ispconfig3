@@ -993,7 +993,7 @@ $form["tabs"]['web'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'fast-cgi',
-			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM'),
+			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
 		'nginx_cgi_socket' => array(
@@ -1020,6 +1020,15 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'enable_spdy' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'n',
+			'value' => array (
+				0 => 'n',
+				1 => 'y'
+			)
 		),
 		'apps_vhost_port' => array(
 			'datatype' => 'VARCHAR',

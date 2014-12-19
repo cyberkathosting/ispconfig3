@@ -161,6 +161,14 @@
                         {tmpl_var name='enable_sni'}
                     </div>
                 </div>
+				<div class="ctrlHolder">
+					<p class="label">
+						<tmpl_var name="enable_spdy_txt">
+					</p>
+					<div class="multiField">
+						<tmpl_var name="enable_spdy">
+					</div>
+				</div>
                 <div class="ctrlHolder">
                     <label for="CA_path">{tmpl_var name='CA_path_txt'}</label>
                     <input name="CA_path" id="CA_path" value="{tmpl_var name='CA_path'}" size="40" maxlength="255" type="text" autocomplete="off" class="textInput" />
@@ -237,7 +245,7 @@
                 </div>
                 <div class="ctrlHolder">
                     <label for="php_ini_check_minutes">{tmpl_var name='php_ini_check_minutes_txt'}</label>
-                    <input name="php_ini_check_minutes" id="php_ini_check_minutes" value="{tmpl_var name='php_ini_check_minutes'}" size="40" type="text" class="textInput" /> {tmpl_var name='php_ini_check_minutes_info_txt'}
+                    <input name="php_ini_check_minutes" id="php_ini_check_minutes" value="{tmpl_var name='php_ini_check_minutes'}" size="40" type="text" class="textInput" /> &nbsp;{tmpl_var name='php_ini_check_minutes_info_txt'}
                 </div>
                 <div class="ctrlHolder">
                     <label for="php_handler">{tmpl_var name='php_handler_txt'}</label>
