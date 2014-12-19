@@ -1,50 +1,47 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_server_ip">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>IP Address</legend>
-            <div class="ctrlHolder">
-                <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                <select name="server_id" id="server_id" class="selectInput">
+        <legend>IP Address</legend>
+            <div class="form-group">
+                <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                     {tmpl_var name='server_id'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="client_id">{tmpl_var name='client_id_txt'}</label>
-                <select name="client_id" id="client_id" class="selectInput">
+            </div></div>
+            <div class="form-group">
+                <label for="client_id" class="col-sm-3 control-label">{tmpl_var name='client_id_txt'}</label>
+                <div class="col-sm-9"><select name="client_id" id="client_id" class="form-control">
                     {tmpl_var name='client_id'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="ip_type">{tmpl_var name='ip_type_txt'}</label>
-                <select name="ip_type" id="ip_type" class="selectInput">
+            </div></div>
+            <div class="form-group">
+                <label for="ip_type" class="col-sm-3 control-label">{tmpl_var name='ip_type_txt'}</label>
+                <div class="col-sm-9"><select name="ip_type" id="ip_type" class="form-control">
                     {tmpl_var name='ip_type'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-                <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='virtualhost_txt'}</p>
-                <div class="multiField">
+            </div></div>
+            <div class="form-group">
+                <label for="ip_address" class="col-sm-3 control-label">{tmpl_var name='ip_address_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='virtualhost_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='virtualhost'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="virtualhost_port">{tmpl_var name='virtualhost_port_txt'}</label>
-                <input name="virtualhost_port" id="virtualhost_port" value="{tmpl_var name='virtualhost_port'}" size="15" maxlength="15" type="text" class="textInput" />
-            </div>
-        </fieldset>
+            <div class="form-group">
+                <label for="virtualhost_port" class="col-sm-3 control-label">{tmpl_var name='virtualhost_port_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="virtualhost_port" id="virtualhost_port" value="{tmpl_var name='virtualhost_port'}" class="form-control" />
+            </div></div>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_ip_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/server_ip_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_ip_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_ip_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

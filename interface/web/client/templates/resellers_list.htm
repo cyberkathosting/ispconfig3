@@ -1,58 +1,58 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_clients">
 
-    <div class="pnl_toolsarea">
-        <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
-            <div class="buttons">
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('client/reseller_edit.php');">
+        <p>{tmpl_var name="toolsarea_head_txt"}</p>
+            
+                <button class="button iconstxt icoAdd" type="button" data-load-content="client/reseller_edit.php">
                     <span>{tmpl_var name="add_new_record_txt"}</span>
                 </button>
-            </div>
-        </fieldset>
-    </div>
+            
+        
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_client_id" scope="col"><tmpl_var name="client_id_txt"></th>
-                        <th class="tbl_col_company_name" scope="col"><tmpl_var name="company_name_txt"></th>
-                        <th class="tbl_col_contact_name" scope="col"><tmpl_var name="contact_name_txt"></th>
-						<th class="tbl_col_customer_no" scope="col"><tmpl_var name="customer_no_txt"></th>
-                        <th class="tbl_col_username" scope="col"><tmpl_var name="username_txt"></th>
-                        <th class="tbl_col_city" scope="col"><tmpl_var name="city_txt"></th>
-                        <th class="tbl_col_country" scope="col"><tmpl_var name="country_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+    
+        <p><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark">
+                    <tr>
+                        <th><tmpl_var name="client_id_txt"></th>
+                        <th><tmpl_var name="company_name_txt"></th>
+                        <th><tmpl_var name="contact_name_txt"></th>
+						<th><tmpl_var name="customer_no_txt"></th>
+                        <th><tmpl_var name="username_txt"></th>
+                        <th><tmpl_var name="city_txt"></th>
+                        <th><tmpl_var name="country_txt"></th>
+                        <th>{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_client_pid"><input type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
-                        <td class="tbl_col_company_name"><input type="text" name="search_company_name" value="{tmpl_var name='search_company_name'}" size="10" /></td>
-                        <td class="tbl_col_contact_name"><input type="text" name="search_contact_name" value="{tmpl_var name='search_contact_name'}" size="10" /></td>
-						<td class="tbl_col_customer_no"><input type="text" name="search_customer_no" value="{tmpl_var name='search_customer_no'}" size="10" /></td>
-                        <td class="tbl_col_username"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" size="10" /></td>
-                        <td class="tbl_col_city"><input type="text" name="search_city" value="{tmpl_var name='search_city'}" /></td>
-                        <td class="tbl_col_country"><select name="search_country">{tmpl_var name='search_country'}</select></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','client/reseller_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    <tr>
+                        <td><div class="col-sm-9"><input type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></div></td>
+                        <td><div class="col-sm-9"><input type="text" name="search_company_name" value="{tmpl_var name='search_company_name'}" /></div></td>
+                        <td><div class="col-sm-9"><input type="text" name="search_contact_name" value="{tmpl_var name='search_contact_name'}" /></div></td>
+						<td><div class="col-sm-9"><input type="text" name="search_customer_no" value="{tmpl_var name='search_customer_no'}" /></div></td>
+                        <td><div class="col-sm-9"><input type="text" name="search_username" value="{tmpl_var name='search_username'}" /></div></td>
+                        <td><div class="col-sm-9"><input type="text" name="search_city" value="{tmpl_var name='search_city'}" /></div></td>
+                        <td><select name="search_country">{tmpl_var name='search_country'}</select></td>
+                        <td>
+                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','client/reseller_list.php');">{tmpl_var name="filter_txt"}</button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_client_pid"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="client_id"}</a></td>
-                            <td class="tbl_col_company_name"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="company_name"}</a></td>
-                            <td class="tbl_col_contact_name"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="contact_name"}</a></td>
-							<td class="tbl_col_customer_no"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="customer_no"}</a></td>
-                            <td class="tbl_col_username"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="username"}</a></td>
-                            <td class="tbl_col_city"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="city"}</a></td>
-                            <td class="tbl_col_country"><a href="#" onclick="loadContent('client/reseller_edit.php?id={tmpl_var name='id'}');"><div class="country-{tmpl_var name="countryiso"}" style="float:left"></div>{tmpl_var name="country"}</a></td>
-                            <td class="tbl_col_buttons">
-                                <a class="button icons16 icoLoginAs" href="javascript: loadContent('login/login_as.php?cid={tmpl_var name='id'}');"><span>{tmpl_var name='login_as_txt'}</span></a>
-                                <a class="button icons16 icoDelete" href="javascript: del_record('client/reseller_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="company_name"}</a></td>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="contact_name"}</a></td>
+							<td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="customer_no"}</a></td>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="city"}</a></td>
+                            <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}"><div class="country-{tmpl_var name="countryiso"}" style="float:left"></div>{tmpl_var name="country"}</a></td>
+                            <td>
+                                <a class="button icons16 icoLoginAs" data-load-content="login/login_as.php?cid={tmpl_var name='id'}"><span>{tmpl_var name='login_as_txt'}</span></a>
+                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('client/reseller_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
                             </td>
                         </tr>
                     </tmpl_loop>
@@ -64,11 +64,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="8"><tmpl_var name="paging"></td>
+                        <td colspan="8"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    

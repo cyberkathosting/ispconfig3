@@ -1,135 +1,132 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_dns_soa">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>DNS Zone</legend>
+        <legend>DNS Zone</legend>
             <tmpl_if name="is_admin">
-                <div class="ctrlHolder">
+                <div class="form-group">
                     <tmpl_if name="edit_disabled">
-                        <label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
-                        <select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
+                        <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                        <div class="col-sm-9"><select name="server_id_disabled" id="server_id_disabled" class="form-control" disabled="disabled">
                             {tmpl_var name='server_id'}
                         </select>
-                        <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
+                        </div><input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                         <tmpl_else>
-                            <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id" id="server_id" class="selectInput">
+                            <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                            <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                                 {tmpl_var name='server_id'}
                             </select>
-                    </tmpl_if>
+                    </div></tmpl_if>
                 </div>
                 <tmpl_unless name="domain_option">
-                    <div class="ctrlHolder">
-                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                    <div class="form-group">
+                        <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                        <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
                         </select>
-                    </div>
+                    </div></div>
                 </tmpl_unless>
             <tmpl_else>
                 <tmpl_if name="only_one_server">
                     <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
                 <tmpl_else>
-                    <div class="ctrlHolder">
+                    <div class="form-group">
                         <tmpl_if name="edit_disabled">
-                            <label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
+                            <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                            <div class="col-sm-9"><select name="server_id_disabled" id="server_id_disabled" class="form-control" disabled="disabled">
                                 {tmpl_var name='client_server_id'}
                             </select>
-                            <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
+                            </div><input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                         <tmpl_else>
-                            <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id" id="server_id" class="selectInput">
+                            <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                            <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                                 {tmpl_var name='client_server_id'}
                             </select>
-                        </tmpl_if>
+                        </div></tmpl_if>
                     </div>
                 </tmpl_if>
             </tmpl_if>
             <tmpl_if name="is_reseller">
                 <tmpl_unless name="domain_option">
-                    <div class="ctrlHolder">
-                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                    <div class="form-group">
+                        <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                        <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
                         </select>
-                    </div>
+                    </div></div>
                 </tmpl_unless>
             </tmpl_if>
-            <div class="ctrlHolder">
-                <label for="origin">{tmpl_var name='origin_txt'}</label>
+            <div class="form-group">
+                <label for="origin" class="col-sm-3 control-label">{tmpl_var name='origin_txt'}</label>
                 <tmpl_if name="domain_option">
-                    <select name="origin" id="origin" class="selectInput">
+                    <div class="col-sm-9"><select name="origin" id="origin" class="form-control">
                         {tmpl_var name='domain_option'}
                     </select>
-                    <tmpl_else>
-                        <input name="origin" id="origin" value="{tmpl_var name='origin'}" size="30" maxlength="255" type="text" class="textInput" />
-                </tmpl_if>
+                    </div><tmpl_else>
+                        <div class="col-sm-9"><input type="text" name="origin" id="origin" value="{tmpl_var name='origin'}" class="form-control" />
+                </div></tmpl_if>
                 <p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="ns">{tmpl_var name='ns_txt'}</label>
-                <input name="ns" id="ns" value="{tmpl_var name='ns'}" size="30" maxlength="255" type="text" class="textInput" />
-                <p class="formHint">{tmpl_var name='eg_ns1_domain_tld'}</p>
+            <div class="form-group">
+                <label for="ns" class="col-sm-3 control-label">{tmpl_var name='ns_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ns" id="ns" value="{tmpl_var name='ns'}" class="form-control" />
+                </div><p class="formHint">{tmpl_var name='eg_ns1_domain_tld'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="mbox">{tmpl_var name='mbox_txt'}</label>
-                <input name="mbox" id="mbox" value="{tmpl_var name='mbox'}" size="30" maxlength="255" type="text" class="textInput" />
-                <p class="formHint">{tmpl_var name='eg_webmaster_domain_tld'}</p>
+            <div class="form-group">
+                <label for="mbox" class="col-sm-3 control-label">{tmpl_var name='mbox_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mbox" id="mbox" value="{tmpl_var name='mbox'}" class="form-control" />
+                </div><p class="formHint">{tmpl_var name='eg_webmaster_domain_tld'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="refresh">{tmpl_var name='refresh_txt'}</label>
-                <input name="refresh" id="refresh" value="{tmpl_var name='refresh'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <label for="retry">{tmpl_var name='retry_txt'}</label>
-                <input name="retry" id="retry" value="{tmpl_var name='retry'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <label for="expire">{tmpl_var name='expire_txt'}</label>
-                <input name="expire" id="expire" value="{tmpl_var name='expire'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <label for="minimum">{tmpl_var name='minimum_txt'}</label>
-                <input name="minimum" id="minimum" value="{tmpl_var name='minimum'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <label for="ttl">{tmpl_var name='ttl_txt'}</label>
-                <input name="ttl" id="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10" type="text" class="textInput" />&nbsp;{tmpl_var name='seconds_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <label for="xfer">{tmpl_var name='xfer_txt'}</label>
-                <input name="xfer" id="xfer" value="{tmpl_var name='xfer'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="also_notify">{tmpl_var name='also_notify_txt'}</label>
-                <input name="also_notify" id="also_notify" value="{tmpl_var name='also_notify'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="update_acl">{tmpl_var name='update_acl_txt'}</label>
-                <input name="update_acl" id="update_acl" value="{tmpl_var name='update_acl'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
+            <div class="form-group">
+                <label for="refresh" class="col-sm-3 control-label">{tmpl_var name='refresh_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="refresh" id="refresh" value="{tmpl_var name='refresh'}" class="form-control" />&nbsp;{tmpl_var name='seconds_txt'}
+            </div></div>
+            <div class="form-group">
+                <label for="retry" class="col-sm-3 control-label">{tmpl_var name='retry_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="retry" id="retry" value="{tmpl_var name='retry'}" class="form-control" />&nbsp;{tmpl_var name='seconds_txt'}
+            </div></div>
+            <div class="form-group">
+                <label for="expire" class="col-sm-3 control-label">{tmpl_var name='expire_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="expire" id="expire" value="{tmpl_var name='expire'}" class="form-control" />&nbsp;{tmpl_var name='seconds_txt'}
+            </div></div>
+            <div class="form-group">
+                <label for="minimum" class="col-sm-3 control-label">{tmpl_var name='minimum_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="minimum" id="minimum" value="{tmpl_var name='minimum'}" class="form-control" />&nbsp;{tmpl_var name='seconds_txt'}
+            </div></div>
+            <div class="form-group">
+                <label for="ttl" class="col-sm-3 control-label">{tmpl_var name='ttl_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" />&nbsp;{tmpl_var name='seconds_txt'}
+            </div></div>
+            <div class="form-group">
+                <label for="xfer" class="col-sm-3 control-label">{tmpl_var name='xfer_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="xfer" id="xfer" value="{tmpl_var name='xfer'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="also_notify" class="col-sm-3 control-label">{tmpl_var name='also_notify_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="also_notify" id="also_notify" value="{tmpl_var name='also_notify'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="update_acl" class="col-sm-3 control-label">{tmpl_var name='update_acl_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="update_acl" id="update_acl" value="{tmpl_var name='update_acl'}" class="form-control" />
+            </div></div>
                 
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input name="serial" type="hidden" value="{tmpl_var name='serial'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_soa_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('dns/dns_soa_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_soa_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>
 <script language="JavaScript" type="text/javascript">
     jQuery('#xfer').ispconfigSearch({
         dataSrc: '/dns/ajax_get_json.php?type=get_ipv4',

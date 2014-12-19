@@ -1,38 +1,35 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_dns_hinfo">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="name">{tmpl_var name='name_txt'}</label>
-                <input name="name" id="name" value="{tmpl_var name='name'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="data">{tmpl_var name='data_txt'}</label>
-                <input name="data" id="data" value="{tmpl_var name='data'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="ttl">{tmpl_var name='ttl_txt'}</label>
-                <input name="ttl" id="ttl" value="{tmpl_var name='ttl'}" size="10" maxlength="10" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+        
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">{tmpl_var name='name_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="name" id="name" value="{tmpl_var name='name'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="data" class="col-sm-3 control-label">{tmpl_var name='data_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="data" id="data" value="{tmpl_var name='data'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="ttl" class="col-sm-3 control-label">{tmpl_var name='ttl_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input type="hidden" name="zone" value="{tmpl_var name='zone'}">
         <input type="hidden" name="type" value="{tmpl_var name='type'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_hinfo_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='zone'}');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_hinfo_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='zone'}"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

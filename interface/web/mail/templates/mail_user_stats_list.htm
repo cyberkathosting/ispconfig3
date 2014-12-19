@@ -1,40 +1,41 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_mail_user_stats">
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_email" scope="col"><tmpl_var name="email_txt"></th>
-                        <th class="tbl_col_mail_traffic_this_month" scope="col"><tmpl_var name="this_month_txt"></th>
-                        <th class="tbl_col_mail_traffic_last_month" scope="col"><tmpl_var name="last_month_txt"></th>
-                        <th class="tbl_col_mail_traffic_this_year" scope="col"><tmpl_var name="this_year_txt"></th>
-                        <th class="tbl_col_mail_traffic_last_year" scope="col"><tmpl_var name="last_year_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+        <p><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark">
+                    <tr>
+                        <th><tmpl_var name="email_txt"></th>
+                        <th><tmpl_var name="this_month_txt"></th>
+                        <th><tmpl_var name="last_month_txt"></th>
+                        <th><tmpl_var name="this_year_txt"></th>
+                        <th><tmpl_var name="last_year_txt"></th>
+                        <th>{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_email"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
-                        <td class="tbl_col_this_month"></td>
-                        <td class="tbl_col_last_month"></td>
-                        <td class="tbl_col_this_year"></td>
-                        <td class="tbl_col_last_year"></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    <tr>
+                        <td><div class="col-sm-9"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></div></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_stats.php');">{tmpl_var name="filter_txt"}</button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_email"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="email"}</a></td>
-                            <td class="tbl_col_this_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"}</a></td>
-                            <td class="tbl_col_last_month"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"}</a></td>
-                            <td class="tbl_col_this_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"}</a></td>
-                            <td class="tbl_col_last_year"><a href="#" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"}</a></td>
-                            <td class="tbl_col_buttons"></td>
+                            <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="email"}</a></td>
+                            <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_month"}</a></td>
+                            <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"}</a></td>
+                            <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"}</a></td>
+                            <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"}</a></td>
+                            <td></td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">
@@ -46,11 +47,10 @@
 
                 <tfoot>
                 <tr>
-                    <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
+                    <td colspan="6"><tmpl_var name="paging"></td>
                 </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    </div>

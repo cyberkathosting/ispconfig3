@@ -1,54 +1,51 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_database_user">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
+        
             <tmpl_if name="is_admin">
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
+                <div class="form-group">
+                    <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                    <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                         {tmpl_var name='client_group_id'}
                     </select>
-                </div>
+                </div></div>
             </tmpl_if>
             <tmpl_if name="is_reseller">
-                <div class="ctrlHolder">
-                    <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                    <select name="client_group_id" id="client_group_id" class="selectInput">
+                <div class="form-group">
+                    <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                    <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                         {tmpl_var name='client_group_id'}
                     </select>
-                </div>
+                </div></div>
             </tmpl_if>
-            <div class="ctrlHolder">
-                <label for="database_user">{tmpl_var name='database_user_txt'}</label>
+            <div class="form-group">
+                <label for="database_user" class="col-sm-3 control-label">{tmpl_var name='database_user_txt'}</label>
                 <p class="prefix">{tmpl_var name='database_user_prefix'}</p>
-                <input name="database_user" id="database_user" value="{tmpl_var name='database_user'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="database_password">{tmpl_var name='database_password_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="database_user" id="database_user" value="{tmpl_var name='database_user'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="database_password" class="col-sm-3 control-label">{tmpl_var name='database_password_txt'}</label>
                 <input name="database_password" id="database_password" value="{tmpl_var name='database_password'}" size="30" maxlength="255" type="password" class="textInput formLengthHalf" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('database_password','repeat_password');" />&nbsp;<a href="javascript:void(0);" onclick="generatePassword('database_password','repeat_password');">{tmpl_var name='generate_password_txt'}</a>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='password_strength_txt'}</p>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='password_strength_txt'}</label>
                 <div id="passBar"></div>
                 <p class="formHint"><span id="passText">&nbsp;</span></p>
             </div>
-            <div class="ctrlHolder">
-                <label for="repeat_password">{tmpl_var name='repeat_password_txt'}</label>
+            <div class="form-group">
+                <label for="repeat_password" class="col-sm-3 control-label">{tmpl_var name='repeat_password_txt'}</label>
                 <input name="repeat_password" id="repeat_password" value="" size="30" maxlength="100" type="password" class="textInput formLengthHalf" autocomplete="off" onkeyup="checkPassMatch('database_password','repeat_password');" />
             </div>
             <div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
             <div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/database_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/database_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/database_user_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/database_user_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

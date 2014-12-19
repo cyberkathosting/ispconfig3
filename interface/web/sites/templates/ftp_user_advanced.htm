@@ -1,54 +1,51 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_ftp_user">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="uid">{tmpl_var name='uid_txt'}</label>
-                <input name="uid" id="uid" value="{tmpl_var name='uid'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
+        
+            <div class="form-group">
+                <label for="uid" class="col-sm-3 control-label">{tmpl_var name='uid_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="uid" id="uid" value="{tmpl_var name='uid'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="gid" class="col-sm-3 control-label">{tmpl_var name='gid_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="gid" id="gid" value="{tmpl_var name='gid'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="dir" class="col-sm-3 control-label">{tmpl_var name='dir_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dir" id="dir" value="{tmpl_var name='dir'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="quota_files" class="col-sm-3 control-label">{tmpl_var name='quota_files_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="quota_files" id="quota_files" value="{tmpl_var name='quota_files'}" class="form-control" /></div><label class="col-sm-3 control-label">{tmpl_var name='quota_files_unity_txt'}</label>
             </div>
-            <div class="ctrlHolder">
-                <label for="gid">{tmpl_var name='gid_txt'}</label>
-                <input name="gid" id="gid" value="{tmpl_var name='gid'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
+            <div class="form-group">
+                <label for="ul_ratio" class="col-sm-3 control-label">{tmpl_var name='ul_ratio_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ul_ratio" id="ul_ratio" value="{tmpl_var name='ul_ratio'}" class="form-control" /></div><label class="col-sm-3 control-label"></label>
             </div>
-            <div class="ctrlHolder">
-                <label for="dir">{tmpl_var name='dir_txt'}</label>
-                <input name="dir" id="dir" value="{tmpl_var name='dir'}" size="30" maxlength="255" type="text" class="textInput" />
+            <div class="form-group">
+                <label for="dl_ratio" class="col-sm-3 control-label">{tmpl_var name='dl_ratio_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dl_ratio" id="dl_ratio" value="{tmpl_var name='dl_ratio'}" class="form-control" /></div><label class="col-sm-3 control-label"></label>
             </div>
-            <div class="ctrlHolder">
-                <label for="quota_files">{tmpl_var name='quota_files_txt'}</label>
-                <input name="quota_files" id="quota_files" value="{tmpl_var name='quota_files'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label">{tmpl_var name='quota_files_unity_txt'}</p>
+            <div class="form-group">
+                <label for="ul_bandwidth" class="col-sm-3 control-label">{tmpl_var name='ul_bandwidth_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ul_bandwidth" id="ul_bandwidth" value="{tmpl_var name='ul_bandwidth'}" class="form-control" /></div><label class="col-sm-3 control-label">kb/s</label>
             </div>
-            <div class="ctrlHolder">
-                <label for="ul_ratio">{tmpl_var name='ul_ratio_txt'}</label>
-                <input name="ul_ratio" id="ul_ratio" value="{tmpl_var name='ul_ratio'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label"></p>
+            <div class="form-group">
+                <label for="dl_bandwidth" class="col-sm-3 control-label">{tmpl_var name='dl_bandwidth_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dl_bandwidth" id="dl_bandwidth" value="{tmpl_var name='dl_bandwidth'}" class="form-control" /></div><label class="col-sm-3 control-label">kb/s</label>
             </div>
-            <div class="ctrlHolder">
-                <label for="dl_ratio">{tmpl_var name='dl_ratio_txt'}</label>
-                <input name="dl_ratio" id="dl_ratio" value="{tmpl_var name='dl_ratio'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label"></p>
-            </div>
-            <div class="ctrlHolder">
-                <label for="ul_bandwidth">{tmpl_var name='ul_bandwidth_txt'}</label>
-                <input name="ul_bandwidth" id="ul_bandwidth" value="{tmpl_var name='ul_bandwidth'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label">kb/s</p>
-            </div>
-            <div class="ctrlHolder">
-                <label for="dl_bandwidth">{tmpl_var name='dl_bandwidth_txt'}</label>
-                <input name="dl_bandwidth" id="dl_bandwidth" value="{tmpl_var name='dl_bandwidth'}" size="7" maxlength="7" type="text" class="textInput formLengthLimit" /><p class="label">kb/s</p>
-            </div>
-            <div class="ctrlHolder">
-                <label for="expires">{tmpl_var name='expires_txt'}</label>
+            <div class="form-group">
+                <label for="expires" class="col-sm-3 control-label">{tmpl_var name='expires_txt'}</label>
                 {tmpl_var name='expires'}
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/ftp_user_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/ftp_user_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/ftp_user_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/ftp_user_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

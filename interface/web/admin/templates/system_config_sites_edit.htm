@@ -1,88 +1,85 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_system_config">
-	
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="dbname_prefix">{tmpl_var name='dbname_prefix_txt'}</label>
-                <input name="dbname_prefix" id="dbname_prefix" value="{tmpl_var name='dbname_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="dbuser_prefix">{tmpl_var name='dbuser_prefix_txt'}</label>
-                <input name="dbuser_prefix" id="dbuser_prefix" value="{tmpl_var name='dbuser_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="ftpuser_prefix">{tmpl_var name='ftpuser_prefix_txt'}</label>
-                <input name="ftpuser_prefix" id="ftpuser_prefix" value="{tmpl_var name='ftpuser_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="shelluser_prefix">{tmpl_var name='shelluser_prefix_txt'}</label>
-                <input name="shelluser_prefix" id="shelluser_prefix" value="{tmpl_var name='shelluser_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="webdavuser_prefix">{tmpl_var name='webdavuser_prefix_txt'}</label>
-                <input name="webdavuser_prefix" id="webdavuser_prefix" value="{tmpl_var name='webdavuser_prefix'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='dblist_phpmyadmin_link_txt'}</p>
-                <div class="multiField">
+
+        
+            <div class="form-group">
+                <label for="dbname_prefix" class="col-sm-3 control-label">{tmpl_var name='dbname_prefix_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dbname_prefix" id="dbname_prefix" value="{tmpl_var name='dbname_prefix'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="dbuser_prefix" class="col-sm-3 control-label">{tmpl_var name='dbuser_prefix_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dbuser_prefix" id="dbuser_prefix" value="{tmpl_var name='dbuser_prefix'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="ftpuser_prefix" class="col-sm-3 control-label">{tmpl_var name='ftpuser_prefix_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ftpuser_prefix" id="ftpuser_prefix" value="{tmpl_var name='ftpuser_prefix'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="shelluser_prefix" class="col-sm-3 control-label">{tmpl_var name='shelluser_prefix_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="shelluser_prefix" id="shelluser_prefix" value="{tmpl_var name='shelluser_prefix'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="webdavuser_prefix" class="col-sm-3 control-label">{tmpl_var name='webdavuser_prefix_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="webdavuser_prefix" id="webdavuser_prefix" value="{tmpl_var name='webdavuser_prefix'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='dblist_phpmyadmin_link_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='dblist_phpmyadmin_link'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="phpmyadmin_url">{tmpl_var name='phpmyadmin_url_txt'}</label>
-                <input name="phpmyadmin_url" id="phpmyadmin_url" value="{tmpl_var name='phpmyadmin_url'}" size="30" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='phpmyadmin_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>, <a href="javascript:void(0);" class="addPlaceholder">[DATABASENAME]</a>
+            <div class="form-group">
+                <label for="phpmyadmin_url" class="col-sm-3 control-label">{tmpl_var name='phpmyadmin_url_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="phpmyadmin_url" id="phpmyadmin_url" value="{tmpl_var name='phpmyadmin_url'}" class="form-control" />&nbsp;{tmpl_var name='phpmyadmin_url_note_txt'} </div><a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>, <a href="javascript:void(0);" class="addPlaceholder">[DATABASENAME]</a>
             </div>
-            <div class="ctrlHolder">
-                <label for="webftp_url">{tmpl_var name='webftp_url_txt'}</label>
-                <input name="webftp_url" id="webftp_url" value="{tmpl_var name='webftp_url'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='vhost_subdomains_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="webftp_url" class="col-sm-3 control-label">{tmpl_var name='webftp_url_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="webftp_url" id="webftp_url" value="{tmpl_var name='webftp_url'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='vhost_subdomains_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='vhost_subdomains'}&nbsp;{tmpl_var name='vhost_subdomains_note_txt'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='vhost_aliasdomains_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='vhost_aliasdomains_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='vhost_aliasdomains'}&nbsp;{tmpl_var name='vhost_aliasdomains_note_txt'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='client_username_web_check_disabled_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='client_username_web_check_disabled_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='client_username_web_check_disabled'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='reseller_can_use_options_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='reseller_can_use_options_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='reseller_can_use_options'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="default_webserver">{tmpl_var name='default_webserver_txt'}</label>
-                <select name="default_webserver" id="default_webserver" class="selectInput">
+            <div class="form-group">
+                <label for="default_webserver" class="col-sm-3 control-label">{tmpl_var name='default_webserver_txt'}</label>
+                <div class="col-sm-9"><select name="default_webserver" id="default_webserver" class="form-control">
                     {tmpl_var name='default_webserver'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="default_dbserver">{tmpl_var name='default_dbserver_txt'}</label>
-                <select name="default_dbserver" id="default_dbserver" class="selectInput">
+            </div></div>
+            <div class="form-group">
+                <label for="default_dbserver" class="col-sm-3 control-label">{tmpl_var name='default_dbserver_txt'}</label>
+                <div class="col-sm-9"><select name="default_dbserver" id="default_dbserver" class="form-control">
                     {tmpl_var name='default_dbserver'}
                 </select>
-            </div>
-        </fieldset>
+            </div></div>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/system_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/users_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/system_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/users_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

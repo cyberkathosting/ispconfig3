@@ -1,37 +1,34 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_mailuser_autoresponder">
-    
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="autoresponder_subject">{tmpl_var name='autoresponder_subject_txt'}</label>
-                <input type="text" name="autoresponder_subject" id="autoresponder_subject" maxlength='250' value="{tmpl_var name='autoresponder_subject'}" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="autoresponder_text">{tmpl_var name='autoresponder_text_txt'}</label>
+
+        
+            <div class="form-group">
+                <label for="autoresponder_subject" class="col-sm-3 control-label">{tmpl_var name='autoresponder_subject_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="autoresponder_subject" id="autoresponder_subject" value="{tmpl_var name='autoresponder_subject'}" />
+            </div></div>
+            <div class="form-group">
+                <label for="autoresponder_text" class="col-sm-3 control-label">{tmpl_var name='autoresponder_text_txt'}</label>
                 <textarea name="autoresponder_text" id="autoresponder_text" rows='15' cols='30'>{tmpl_var name='autoresponder_text'}</textarea>
             </div>
-            <div class="ctrlHolder">
-                <label for="autoresponder">{tmpl_var name='autoresponder_active'}</label>
-                <input type="checkbox" value="y" id="autoresponder" name="autoresponder" onclick="AR_ResetDates();" {tmpl_var name='ar_active'} />
-            </div>
-            <div class="ctrlHolder">
-                <label for="autoresponder_start_date">{tmpl_var name='autoresponder_start_date_txt'}</label>
+            <div class="form-group">
+                <label for="autoresponder" class="col-sm-3 control-label">{tmpl_var name='autoresponder_active'}</label>
+                <div class="col-sm-9"><input type="checkbox" value="y" id="autoresponder" name="autoresponder" onclick="AR_ResetDates();" {tmpl_var name='ar_active'} />
+            </div></div>
+            <div class="form-group">
+                <label for="autoresponder_start_date" class="col-sm-3 control-label">{tmpl_var name='autoresponder_start_date_txt'}</label>
                 {tmpl_var name='autoresponder_start_date'}&nbsp;
                 <a href="javascript:AR_SetNow();">{tmpl_var name='now_txt'}</a>
             </div>
-            <div class="ctrlHolder">
-                <label for="autoresponder_end_date">{tmpl_var name='autoresponder_end_date_txt'}</label>
+            <div class="form-group">
+                <label for="autoresponder_end_date" class="col-sm-3 control-label">{tmpl_var name='autoresponder_end_date_txt'}</label>
                 {tmpl_var name='autoresponder_end_date'}
             </div>
-        </fieldset>
+        
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mailuser/mail_user_autoresponder_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mailuser/index.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-    
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mailuser/mail_user_autoresponder_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mailuser/index.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

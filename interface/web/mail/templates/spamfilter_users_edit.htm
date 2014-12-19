@@ -1,50 +1,47 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_spamfilter_users">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                <select name="server_id" id="server_id" class="selectInput">
+        
+            <div class="form-group">
+                <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                     {tmpl_var name='server_id'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="priority">{tmpl_var name='priority_txt'}</label>
-                <select name="priority" id="priority" class="selectInput formLengthLimit">
+            </div></div>
+            <div class="form-group">
+                <label for="priority" class="col-sm-3 control-label">{tmpl_var name='priority_txt'}</label>
+                <div class="col-sm-9"><select name="priority" id="priority" class="form-control">
                     {tmpl_var name='priority'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="policy_id">{tmpl_var name='policy_id_txt'}</label>
-                <select name="policy_id" id="policy_id" class="selectInput">
+            </div></div>
+            <div class="form-group">
+                <label for="policy_id" class="col-sm-3 control-label">{tmpl_var name='policy_id_txt'}</label>
+                <div class="col-sm-9"><select name="policy_id" id="policy_id" class="form-control">
                     {tmpl_var name='policy_id'}
                 </select>
-            </div>
-            <div class="ctrlHolder">
-                <label for="email">{tmpl_var name='email_txt'}</label>
-                <input name="email" id="email" value="{tmpl_var name='email'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="fullname">{tmpl_var name='fullname_txt'}</label>
-                <input name="fullname" id="fullname" value="{tmpl_var name='fullname'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="local">{tmpl_var name='local_txt'}</label>
-                <select name="local" id="local" class="selectInput formLengthBool">
+            </div></div>
+            <div class="form-group">
+                <label for="email" class="col-sm-3 control-label">{tmpl_var name='email_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="email" id="email" value="{tmpl_var name='email'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="fullname" class="col-sm-3 control-label">{tmpl_var name='fullname_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="fullname" id="fullname" value="{tmpl_var name='fullname'}" class="form-control" />
+            </div></div>
+            <div class="form-group">
+                <label for="local" class="col-sm-3 control-label">{tmpl_var name='local_txt'}</label>
+                <div class="col-sm-9"><select name="local" id="local" class="form-control">
                     {tmpl_var name='local'}
                 </select>
-            </div>
-        </fieldset>
+            </div></div>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/spamfilter_users_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mail/spamfilter_users_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/spamfilter_users_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/spamfilter_users_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+        </div></div>

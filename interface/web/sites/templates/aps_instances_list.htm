@@ -1,50 +1,49 @@
 <h2>{tmpl_var name="list_head_txt"}</h2>
 
-<div class="panel panel_list_instances">
-    
-    <div class="pnl_listarea">
-        <fieldset><legend>{tmpl_var name="list_head_txt"}</legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_name" scope="col">{tmpl_var name='name_txt'}</th>
-                        <th class="tbl_col_version" scope="col">{tmpl_var name='version_txt'}</th>
+
+        <p>{tmpl_var name="list_head_txt"}</p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark">
+                    <tr>
+                        <th>{tmpl_var name='name_txt'}</th>
+                        <th>{tmpl_var name='version_txt'}</th>
                         <tmpl_if name='is_noclient'>
-                        <!--<th class="tbl_col_customer" scope="col">{tmpl_var name='customer_txt'}</th>-->
+                        <!--<th>{tmpl_var name='customer_txt'}</th>-->
                         </tmpl_if>
-                        <th class="tbl_col_installlocation" scope="col">{tmpl_var name='install_location_txt'}</th>
-                        <th class="tbl_col_instancestatus" scope="col">{tmpl_var name='status_txt'}</th>
-                        <th class="tbl_col_limit" scope="col" >&nbsp;</th>
+                        <th>{tmpl_var name='install_location_txt'}</th>
+                        <th>{tmpl_var name='status_txt'}</th>
+                        <th >&nbsp;</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td class="tbl_col_version"><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
+                    <tr>
+                        <td><div class="col-sm-9"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></div></td>
+                        <td><div class="col-sm-9"><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></div></td>
                         <tmpl_if name='is_noclient'>
-                        <!--<td class="tbl_col_customer"><input type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></td>-->
+                        <!--<td><div class="col-sm-9"><input type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></div></td>-->
                         </tmpl_if>
-                        <td class="tbl_col_installlocation">&nbsp;</td>
-                        <td class="tbl_col_instancestatus"><select name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');"><span>{tmpl_var name='filter_txt'}</span></button>
+                        <td>&nbsp;</td>
+                        <td><select name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
+                        <td>
+                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='filter_txt'}</button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name='records'>
                         <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_name"><a href="#" onclick="loadContent('sites/aps_packagedetails_show.php?id={tmpl_var name='package_id'}');">{tmpl_var name='package_name'}</a></td>
-                            <td class="tbl_col_version">{tmpl_var name='package_version'}-{tmpl_var name='package_release'}</td>
+                            <td><a href="#" data-load-content="sites/aps_packagedetails_show.php?id={tmpl_var name='package_id'}">{tmpl_var name='package_name'}</a></td>
+                            <td>{tmpl_var name='package_version'}-{tmpl_var name='package_release'}</td>
                             <tmpl_if name='is_noclient'>
-                                <!--<td class="tbl_col_customer"><a href="#" onclick="loadContent('sites/aps_packagedetails_show.php?id={tmpl_var name='package_id'}');">{tmpl_var name='customer_name'}</a></td>-->
+                                <!--<td><a href="#" data-load-content="sites/aps_packagedetails_show.php?id={tmpl_var name='package_id'}">{tmpl_var name='customer_name'}</a></td>-->
                             </tmpl_if>
-                            <td class="tbl_col_installlocation"><a href="http://{tmpl_var name='install_location'}" target="_blank">{tmpl_var name='install_location_short'}</a></td>
-                            <td class="tbl_col_instancestatus"><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
-                            <td class="tbl_col_buttons">
+                            <td><a href="http://{tmpl_var name='install_location'}" target="_blank">{tmpl_var name='install_location_short'}</a></td>
+                            <td><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
+                            <td>
                                 <tmpl_if name='delete_possible'>
-                                    <a class="button icons16 icoDelete" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span>{tmpl_var name='delete_txt'}</span></a>
+                                    <a class="btn btn-default formbutton-delete" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')">{tmpl_var name='delete_txt'}</button>
                                 </tmpl_if>
                                 <tmpl_if name='reinstall_possible'>
-                                    <a class="button icons16 icoEdit" href="javascript: del_record('sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_reinstall_confirmation'}')"><span>{tmpl_var name='reinstall_txt'}</span></a>
+                                    <a class="btn btn-default formbutton-default" href="javascript: del_record('sites/aps_do_operation.php?action=reinstall_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_reinstall_confirmation'}')">{tmpl_var name='reinstall_txt'}</button>
                                 </tmpl_if>
                             </td>        
                         </tr>
@@ -52,11 +51,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="6">{tmpl_var name='paging'}</td>
+                        <td colspan="6">{tmpl_var name='paging'}</td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-    
 </div>
+        
+    </div>

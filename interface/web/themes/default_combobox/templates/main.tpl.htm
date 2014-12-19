@@ -163,7 +163,7 @@
 					select = this.element.hide(),
 					selected = select.children( ":selected" ),
 					value = selected.val() ? selected.text() : "";
-				var input = this.input = $( "<input>" )
+				var input = this.input = $( "<div class="col-sm-9"><input type="text">" )
 					.insertAfter( select )
 					.width( oldWidth )
 					.val( value )
@@ -179,7 +179,7 @@
 									return {
 										label: text.replace(
 											new RegExp(
-												"(?![^&;]+;)(?!<[^<>]*)(" +
+												"(?![^&;]+;)(?!</div><[^<>]*)(" +
 												$.ui.autocomplete.escapeRegex(request.term) +
 												")(?![^<>]*>)(?![^&;]+;)", "gi"
 											), "<strong>$1</strong>" ),
@@ -292,8 +292,8 @@
                     <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
                     <!-- end: skip link navigation -->
 			        <tmpl_if name="cpuser">
-                    <span><a href="#logout" onclick="loadContent('login/logout.php');">LOGOUT <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>--></span>
-					<tmpl_if name='usertype' op='==' value='normaluser'><input type="text" id="globalsearch" size="25" value="" /></tmpl_if>
+                    <span><a href="#logout" data-load-content="login/logout.php">LOGOUT <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>--></span>
+					<tmpl_if name='usertype' op='==' value='normaluser'><div class="col-sm-9"><input type="text" id="globalsearch" value="" /></div></tmpl_if>
 			        </tmpl_if>
                 </div>
                 <h1 id="ir-HeaderLogo" class="swap" style="background-image:url('{tmpl_var name='app_logo'}');"><span>ISPConfig 3</span></h1>
@@ -323,7 +323,7 @@
                         <a id="content" name="content"></a>
                         <!-- skiplink anchor: Content -->
                         <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
-						<input type="text" style="display:none" /><input type="password" style="display:none"/>
+						<div class="col-sm-9"><input type="text" style="display:none" /></div><input type="password" style="display:none"/>
                         <div id="pageContent"><!-- AJAX CONTENT --></div>
                         </form>
                     </div>

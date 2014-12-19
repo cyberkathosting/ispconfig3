@@ -39,15 +39,15 @@
           <div id='headerbar' class='clear'>
             <!-- logout button -->
             <tmpl_if name="cpuser">
-				<button type='button' id='logout-button' class='btn btn-sm btn-danger' onclick="loadContent('login/logout.php');"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></button>
+				<button type='button' id='logout-button' class='btn btn-sm btn-danger' data-load-content="login/logout.php"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></button>
 				<tmpl_if name='usertype' op='==' value='normaluser'>
 					<!-- search field -->
 					<form action='#' method='get' id='searchform' role='form'>
 					  <div>
 						<div>
 						  <div class='input-group input-group-sm'>
-							<input id='globalsearch' type='text' class='form-control' placeholder='Search' />
-							<span class='input-group-btn'>
+							<div class="col-sm-9"><input type="text" id='globalsearch' class="form-control" placeholder='Search' />
+							</div><span class='input-group-btn'>
 							  <button class='btn btn-default btn-sm' title='Search…'>
 								<span class='icon icon-lens'></span>
 							  </button>
@@ -138,6 +138,14 @@
 				pageFormChanged = true;
 			}
 		}
+	});
+	
+	$(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
+		e.preventDefault();
+		var content_to_load = $(this).attr('data-load-content');
+		if(!content_to_load) return this;
+		
+		loadContent(content_to_load);
 	});
 
 	$(document).bind("keypress", function(event) {

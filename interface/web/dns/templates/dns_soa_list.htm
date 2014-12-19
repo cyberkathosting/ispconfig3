@@ -1,9 +1,9 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_dns_soa">
 
-    <div class="pnl_toolsarea">
         <tmpl_if name='datalog_changes_count' op='>' value='0'>
         <div>
             <div class="systemmonitor-state state-info">
@@ -20,48 +20,48 @@
             </div><br />
         </div>
         </tmpl_if>
-        <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
-            <div class="buttons">
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('dns/dns_wizard.php');"><span>{tmpl_var name="add_new_record_wizard_txt"}</span></button>
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('dns/dns_soa_edit.php');"><span>{tmpl_var name="add_new_record_txt"}</span></button>
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('dns/dns_import.php');"><span>{tmpl_var name="import_zone_file_txt"}</span></button>
-            </div>
-        </fieldset>
-    </div>
+        <p>{tmpl_var name="toolsarea_head_txt"}</p>
+            
+                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_wizard.php"><span>{tmpl_var name="add_new_record_wizard_txt"}</span></button>
+                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_soa_edit.php"><span>{tmpl_var name="add_new_record_txt"}</span></button>
+                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_import.php"><span>{tmpl_var name="import_zone_file_txt"}</span></button>
+            
+        
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-            <thead>
-                <tr class="caption">
-                    <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
-                    <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
-                    <th class="tbl_col_origin" scope="col"><tmpl_var name="origin_txt"></th>
-                    <th class="tbl_col_ns" scope="col"><tmpl_var name="ns_txt"></th>
-                    <th class="tbl_col_mbox" scope="col"><tmpl_var name="mbox_txt"></th>
-                    <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+    
+        <p><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+            <thead class="dark">
+                <tr>
+                    <th><tmpl_var name="active_txt"></th>
+                    <th><tmpl_var name="server_id_txt"></th>
+                    <th><tmpl_var name="origin_txt"></th>
+                    <th><tmpl_var name="ns_txt"></th>
+                    <th><tmpl_var name="mbox_txt"></th>
+                    <th>{tmpl_var name='search_limit'}</th>
                 </tr>
-                <tr class="filter">
-                    <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
-                    <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-                    <td class="tbl_col_origin"><input type="text" name="search_origin" value="{tmpl_var name='search_origin'}" /></td>
-                    <td class="tbl_col_ns"><input type="text" name="search_ns" value="{tmpl_var name='search_ns'}" /></td>
-                    <td class="tbl_col_mbox"><input type="text" name="search_mbox" value="{tmpl_var name='search_mbox'}" /></td>
-                    <td class="tbl_col_buttons">
-                        <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','dns/dns_soa_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                <tr>
+                    <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+                    <td><div class="col-sm-9"><input type="text" name="search_origin" value="{tmpl_var name='search_origin'}" /></div></td>
+                    <td><div class="col-sm-9"><input type="text" name="search_ns" value="{tmpl_var name='search_ns'}" /></div></td>
+                    <td><div class="col-sm-9"><input type="text" name="search_mbox" value="{tmpl_var name='search_mbox'}" /></div></td>
+                    <td>
+                        <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','dns/dns_soa_list.php');">{tmpl_var name="filter_txt"}</button>
                     </td>
                 </tr>
             </thead>
             <tbody>
                 <tmpl_loop name="records">
                     <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td class="tbl_col_active"><a href="#" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</td>
-                        <td class="tbl_col_server_id"><a href="#" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a></td>
-                        <td class="tbl_col_origin"><a href="#" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="origin"}</a></td>
-                        <td class="tbl_col_ns"><a href="#" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="ns"}</a></td>
-                        <td class="tbl_col_mbox"><a href="#" onclick="loadContent('dns/dns_soa_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="mbox"}</a></td>
-                        <td class="tbl_col_buttons">   
-                            <a class="button icons16 icoDelete" href="javascript: del_record('dns/dns_soa_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="origin"}</a></td>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ns"}</a></td>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="mbox"}</a></td>
+                        <td>   
+                            <a class="btn btn-default formbutton-delete" href="javascript: del_record('dns/dns_soa_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
                         </td>
                     </tr>
                 </tmpl_loop>
@@ -73,11 +73,10 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
+                    <td colspan="6"><tmpl_var name="paging"></td>
                 </tr>
             </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    
