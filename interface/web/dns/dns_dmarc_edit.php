@@ -225,56 +225,28 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 
 		$domain_name = rtrim($soa['origin'], '.');
-		// DMARC requieres at lest a spf OR dkim-record
-		// abort if more than 1 active spf-records (backward-compatibility)
-		$sql = "SELECT * FROM dns_rr WHERE name = ? AND type='TXT' AND data like 'v=spf1%' AND active='Y'";
-		$temp = $app->db->queryAllRecords($sql, $domain_name.'.');
-		if (is_array($temp[1])) {
-			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_more_spf_txt'].$email;
-		}
-
-		$sql = "SELECT *  FROM dns_rr WHERE name LIKE ? AND type='TXT' AND active = 'Y' AND (data LIKE 'v=DKIM1;%' OR data LIKE 'v=spf1%')";
-		$temp = $app->db->queryAllRecords($sql, '%._domainkey.'.$domain_name.'.');
-		if (empty($temp)) {
-			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_dkim_spf_txt'].$email;
-		}
-		unset($temp);
-		//TODO: should DMARC requiere DKIM and SPF to be valid? This breaks draft-kucherawy-dmarc-base-07 but makes much more sense
-/*
 		// DMARC requieres at least one active dkim-record...
 		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND active='Y'";
-		$temp = $app->db->queryOneRecord($sql, '%._domainkey.'.$domain_name.'.');
+		$temp = $app->db->queryAllRecords($sql, '%._domainkey.$domain_name'.'.');
 		if (!is_array($temp)) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
 			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_dkim_txt'].$email;
 		}
-		unset($temp);
 
-		// ... and dkim-signed mails to allow "policy != none"
-		$sql = "SELECT * FROM mail_domain WHERE domain = '".$app->db->quote($domain_name)."'";
-		$temp = $app->db->queryOneRecord($sql);
-		if ($temp['dkim'] != 'y' && $this->dataRecord['dmarc_policy'] != 'none') {
-			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_policy_error_txt'].$email;
-		}
-		unset($temp);
-
-		// DMARC requieres an active spf-record
-		$sql = "SELECT * FROM dns_rr WHERE name = ? AND type='TXT' AND data like 'v=spf1%' AND active='Y'";
+		// ... and an active spf-record (this breaks the current draft but DMARC is useless if you use DKIM or SPF
+		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND (data LIKE 'v=spf1;%' AND active = 'y')";
 		$temp = $app->db->queryAllRecords($sql, $domain_name.'.');
 		// abort if more than 1 active spf-records (backward-compatibility)
 		if (is_array($temp[1])) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_more_spf_txt'].$email;
+			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_more_spf_txt'];
 		}
 		if (empty($temp)) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_spf_txt'].$email;
+			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_spf_txt'];
 		}
 		unset($temp);
-*/
+
 		//validate dmarc_pct
 		$this->dataRecord['dmarc_pct'] = $app->functions->intval($this->dataRecord['dmarc_pct']);
 		if ($this->dataRecord['dmarc_pct'] < 0) $this->dataRecord['dmarc_pct'] = 0;
@@ -289,7 +261,7 @@ class page_action extends tform_actions {
 			foreach ($dmarc_rua as $rec) {
 				if (!filter_var($rec, FILTER_VALIDATE_EMAIL)) {
 					if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_rua;
+					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].': '.$dmarc_rua;
 				} else {
 					$temp .= 'mailto:'.$rec.',';
 				}
@@ -305,7 +277,7 @@ class page_action extends tform_actions {
 			foreach ($dmarc_ruf as $rec) {
 				if (!filter_var($rec, FILTER_VALIDATE_EMAIL)) {
 					if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
-					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].$dmarc_rua;
+					$app->tform->errorMessage .= $app->tform->wordbook['dmarc_invalid_email_txt'].': '.$dmarc_rua;
 				} else {
 					$temp .= 'mailto:'.$rec.',';
 				}
