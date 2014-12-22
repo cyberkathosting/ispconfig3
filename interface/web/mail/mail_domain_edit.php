@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('dkim_selector', $rec['dkim_selector']);
 		$app->tpl->setVar('dkim_private', $rec['dkim_private']);
 		$app->tpl->setVar('dkim_public', $rec['dkim_public']);
-		if (isset($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record);
+		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record);
 
 		parent::onShowEnd();
 	}
