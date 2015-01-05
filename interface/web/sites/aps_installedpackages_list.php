@@ -125,10 +125,6 @@ if(is_array($records))
 		else $ils = $rec['install_location'];
 		$rec['install_location_short'] = $ils;
 
-		// Also set a boolean-like variable for the reinstall button (vlibTemplate doesn't allow variable comparisons)
-		// For a reinstall, the package must be already installed successfully and (still be) enabled
-		if($rec['instance_status'] == INSTANCE_SUCCESS && $rec['package_status'] == PACKAGE_ENABLED)
-			$rec['reinstall_possible'] = 'true';
 		// Of course an instance can only then be removed when it's not already tagged for removal
 		if($rec['instance_status'] != INSTANCE_REMOVE && $rec['instance_status'] != INSTANCE_INSTALL)
 			$rec['delete_possible'] = 'true';
