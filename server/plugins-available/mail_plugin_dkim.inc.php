@@ -143,7 +143,12 @@ class mail_plugin_dkim {
 					mkdir($mail_config['dkim_path'], 0755, true);
 					$app->log('No user amavis or vscan found - using root for '.$mail_config['dkim_path'], LOGLEVEL_WARNING);
 				}
-            }
+            } else {
+				if (!$app->system->checkpath($mail_config['dkim_path'])) {
+					$app->log('Unable to write DKIM settings - invalid DKIM-Path (symlink?)', LOGLEVEL_ERROR);
+					$check=false;
+				}
+			}
 
 			if (!is_writeable($mail_config['dkim_path'])) {
 				$app->log('DKIM Path '.$mail_config['dkim_path'].' not writeable.', LOGLEVEL_ERROR);

@@ -13,4 +13,7 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Text ist leer';
 $wb['data_error_regex'] = 'Textformat ungültig';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['invalid_type_dkim'] = 'DKIM ist nicht zulässig. Bitte den DKIM-Button nutzen';
+$wb['invalid_type_dmarc'] = 'DMARC ist nicht zulässig. Bitte den DMARC-Button nutzen';
+$wb['invalid_type_spf'] = 'SPF ist nicht zulässig. Bitte den SPF-Button nutzen';
 ?>
