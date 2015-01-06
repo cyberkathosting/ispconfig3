@@ -95,12 +95,14 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
 
 
-    $('#pageContent').find("select:not(.chosen-select)").combobox({
-	    select: function (event, ui) {
+    $('#pageContent').find("select:not(.chosen-select)").select2({
+		placeholder: '',
+		width: 'element',
+		allowClear: true,
+	}).on('change', function(e) {
             if (jQuery(".panel #Filter").length > 0) {
                 jQuery(".panel #Filter").trigger('click');
             }
-	    }
     });
     /* TODO: find a better way! */
     //$('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});

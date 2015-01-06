@@ -16,6 +16,8 @@
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/pushy.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/responsive.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/themes/default/theme.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2-bootstrap.css' />
   <link href="themes/<tmpl_var name='current_theme'>/assets/stylesheets/jquery-ui-1.11.1.min.css" rel="stylesheet" type="text/css" />
   <link href="themes/<tmpl_var name='current_theme'>/assets/stylesheets/jquery-ui-1.11.1.structure.min.css" rel="stylesheet" type="text/css" />
   <link href="themes/<tmpl_var name='current_theme'>/assets/stylesheets/jquery-ui-1.11.1.theme.min.css" rel="stylesheet" type="text/css" />
@@ -81,16 +83,15 @@
   </div>
 
   <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.11.1.custom.min.js"></script>
   <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/bootstrap.min.js'></script>
   <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/ispconfig.min.js'></script>
   <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/modernizr.custom.min.js'></script>
   <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/pushy.min.js'></script>
   <script src='themes/<tmpl_var name='current_theme'>/assets/javascripts/responsive.min.js'></script>
+  <script src='js/select2/select2.min.js'></script>
   <script src='js/scrigo.js.php'></script>
   <script type="text/javascript" src="js/jquery.ispconfigsearch.js"></script>
   <script type="text/javascript" src="js/jquery.tipsy.js"></script>
-  <script type="text/javascript" src="js/jquery.combobox.js"></script>
   <tmpl_loop name="js_d_includes">
 	<script type="text/javascript" src="js/js.d/<tmpl_var name='file'>"></script>
   </tmpl_loop>
