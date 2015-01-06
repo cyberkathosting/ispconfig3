@@ -1,10 +1,18 @@
 	<h2>{tmpl_var name='available_modules_txt'}</h2>
-	<div style="width:350px;">
+	<div style='margin: 0 auto;'>
+	<ul class='modules clear'>
 	<tmpl_loop name='modules'>
-		<div class="dashboard-modules {tmpl_var name='modules_name'}">
-			<a href="#" onclick="capp('{tmpl_var name='modules_name'}')">
-			{tmpl_var name='modules_title'}
-			</a>
-		</div>
+		<li>
+			<div class='clear'>
+			  <div class='icon icon-{tmpl_var name='modules_name'}'></div>
+			  <div class='left'>
+				<div class='title'>{tmpl_var name='modules_title'}</div>
+			  </div>
+			</div>
+			<div class='btn btn-default button'>
+			  <a href='#' data-capp='{tmp_var name="modules_name"}'>Go to {tmpl_var name='modules_title'}</a>
+			</div>
+		</li>
 	</tmpl_loop>
+	</ul>
 	</div>

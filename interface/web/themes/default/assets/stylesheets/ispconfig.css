@@ -217,7 +217,7 @@ body {
 .progress {
   display: inline-block;
   margin-bottom: 0;
-  width: 300px;
+  width: 150px;
   height: 10px; }
 
 .content-tab-wrapper {
