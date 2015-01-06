@@ -84,29 +84,4 @@ else if($_GET['action'] == 'delete_instance')
 		//echo $app->lng('Installation_remove');
 		@header('Location:aps_installedpackages_list.php');
 	}
-else if($_GET['action'] == 'reinstall_instance')
-	{
-		// Make sure a valid package ID is given (also corresponding to the calling user)
-		$client_id = 0;
-		$is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
-		if(!$is_admin)
-		{
-			$cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
-			$client_id = $cid['client_id'];
-		}
-		// Assume that the given instance belongs to the currently calling client_id. Unimportant if status is admin
-		if(!$gui->isValidInstanceID($_GET['id'], $client_id, $is_admin)) die($app->lng('Invalid ID'));
-
-		// We've an InstanceID, so make sure the package is not enabled and InstanceStatus is still "installed"
-		$check = $app->db->queryOneRecord("SELECT aps_instances.id FROM aps_instances, aps_packages
-        WHERE aps_instances.package_id = aps_packages.id
-        AND aps_instances.instance_status = ".INSTANCE_SUCCESS."
-        AND aps_packages.package_status = ".PACKAGE_ENABLED."
-        AND aps_instances.id = ".$app->db->quote($_GET['id']).";");
-		if(!$check) die('Check failed'); // normally this might not happen at all, so just die
-
-		$gui->reinstallInstance($_GET['id']);
-		//echo $app->lng('Installation_task');
-		@header('Location:aps_installedpackages_list.php');
-	}
 ?>

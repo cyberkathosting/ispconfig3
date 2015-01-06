@@ -206,6 +206,16 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
 
+		// load dkim-values
+		$sql = "SELECT domain, dkim_private, dkim_public, dkim_selector FROM mail_domain WHERE domain_id = ?";
+		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));
+		$dns_key = str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$rec['dkim_public']);
+		$dns_record = '.' . $rec['dkim_selector'] . '_domainkey._' . $rec['domain'] . '. 3600   TXT   v=DKIM1; t=s; p=' . $dns_key;
+		$app->tpl->setVar('dkim_selector', $rec['dkim_selector']);
+		$app->tpl->setVar('dkim_private', $rec['dkim_private']);
+		$app->tpl->setVar('dkim_public', $rec['dkim_public']);
+		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record);
+
 		parent::onShowEnd();
 	}
 
@@ -286,36 +296,6 @@ class page_action extends tform_actions {
 			}
 		} // endif spamfilter policy
 
-		//* create dns-record with dkim-values if the zone exists
-		if ( (isset($this->dataRecord['dkim']) && $this->dataRecord['dkim'] == 'y') && (isset($this->dataRecord['active']) && $this->dataRecord['active'] == 'y') ) {
-			$soa_rec = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
-			if ( isset($soa_rec) && !empty($soa_rec) ) {
-				//* check for a dkim-record in the dns
-				$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?", $this->dataRecord['dkim_selector'].'._domainkey.'.$this->dataRecord['domain'].'.', $_SESSION["s"]["user"]['sys_groupid']);
-				if ( isset($dns_data) && !empty($dns_data) ) {
-					$dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $this->dataRecord['dkim_public']);
-					$dns_data['active'] = 'Y';
-					$dns_data['stamp'] = date('Y-m-d H:i:s');
-					$dns_data['serial'] = $app->validate_dns->increase_serial($dns_data['serial']);
-					$app->db->datalogUpdate('dns_rr', $dns_data, 'id', $dns_data['id']);
-					$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $dns_data['zone']);
-					$new_serial = $app->validate_dns->increase_serial($zone['serial']);
-					$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
-				} else { //* no dkim-record found - create new record
-					$dns_data = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
-					$dns_data['name'] = $this->dataRecord['dkim_selector'].'._domainkey.'.$this->dataRecord['domain'].'.';
-					$dns_data['type'] = 'TXT';
-					$dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $this->dataRecord['dkim_public']);
-					$dns_data['aux'] = 0;
-					$dns_data['active'] = 'Y';
-					$dns_data['stamp'] = date('Y-m-d H:i:s');
-					$dns_data['serial'] = $app->validate_dns->increase_serial($dns_data['serial']);
-					$app->db->datalogInsert('dns_rr', $dns_data, 'id', $dns_data['zone']);
-					$new_serial = $app->validate_dns->increase_serial($soa_rec['serial']);
-					$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $soa_rec['zone']);
-				}
-			}
-		} //* endif add dns-record
 	}
 
 	function onBeforeUpdate() {
@@ -343,68 +323,6 @@ class page_action extends tform_actions {
 			unset($rec);
 		}
 
-		//* update dns-record when the dkim record was changed
-		// NOTE: only if the domain-name was not changed
-
-		//* get domain-data from the db
-		$mail_data = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $this->dataRecord['domain']);
-		
-		if ( isset($mail_data) && !empty($mail_data) ) {
-			$post_data = $mail_data;
-			$post_data['dkim_selector'] = $this->dataRecord['dkim_selector'];
-			$post_data['dkim_public'] = $this->dataRecord['dkim_public'];
-			$post_data['dkim_private'] = $this->dataRecord['dkim_private'];
-			if ( isset($this->dataRecord['dkim']) ) $post_data['dkim'] = 'y'; else $post_data['dkim'] = 'n';
-			if ( isset($this->dataRecord['active']) ) $post_data['active'] = 'y'; else      $post_data['active'] = 'n';
-		}
-
-		//* dkim-value changed
-		if ( $mail_data != $post_data ) {
-			//* get the dns-record for the public from the db
-			$dns_data = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE name = ? AND sys_groupid = ?", $mail_data['dkim_selector'].'._domainkey.'.$mail_data['domain'].'.', $mail_data['sys_groupid']);
-
-			//* we modify dkim dns-values for active mail-domains only
-			if ( $post_data['active'] == 'y' ) {
-				if ( $post_data['dkim'] == 'n' ) {
-					$new_dns_data['active'] = 'N';
-				} else {
-					if ( $post_data['dkim_selector'] != $mail_data['dkim_selector'] )
-						$new_dns_data['name'] = $post_data['dkim_selector'].'._domainkey.'.$post_data['domain'].'.';
-					if ( $post_data['dkim'] != $mail_data['dkim'] )
-						$new_dns_data['active'] = 'Y';
-					if ( $post_data['active'] != $mail_data['active'] && $post_data['active'] == 'y' )
-						$new_dns_data['active'] = 'Y';
-					if ( $post_data['dkim_public'] != $mail_data['dkim_public'] )
-						$new_dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $post_data['dkim_public']);
-				}
-			} else $new_dns_data['active'] = 'N';
-
-			if ( isset($dns_data) && !empty($dns_data) && isset($new_dns_data) ) {
-				//* update dns-record
-				$new_dns_data['serial'] = $app->validate_dns->increase_serial($dns_data['serial']);
-				$app->db->datalogUpdate('dns_rr', $new_dns_data, 'id', $dns_data['id']);
-				$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $dns_data['zone']);
-				$new_serial = $app->validate_dns->increase_serial($zone['serial']);
-				$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
-			} else {
-				//* create a new dns-record
-				$new_dns_data = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $mail_data['domain'].'.');
-				//* create a new record only if the dns-zone exists
-				if ( isset($new_dns_data) && !empty($new_dns_data) && $post_data['dkim'] == 'y' ) {
-					$new_dns_data['name'] = $post_data['dkim_selector'].'._domainkey.'.$post_data['domain'].'.';
-					$new_dns_data['type'] = 'TXT';
-					$new_dns_data['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $post_data['dkim_public']);
-					$new_dns_data['aux'] = 0;
-					$new_dns_data['active'] = 'Y';
-					$new_dns_data['stamp'] = date('Y-m-d H:i:s');
-					$new_dns_data['serial'] = $app->validate_dns->increase_serial($new_dns_data['serial']);
-					$app->db->datalogInsert('dns_rr', $new_dns_data, 'id', $new_dns_data['zone']);
-					$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $new_dns_data['zone']);
-					$new_serial = $app->validate_dns->increase_serial($zone['serial']);
-					$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
-				}
-			}
-		} //* endif $mail_data != $post_data
 	}
 
 	function onAfterUpdate() {
@@ -482,6 +400,65 @@ class page_action extends tform_actions {
 
 		} // end if domain name changed
 
+		//* update dns-record when the dkim record was changed
+		// NOTE: only if the domain-name was not changed
+		if ( $this->dataRecord['active'] == 'y' && $this->dataRecord['domain'] ==  $this->oldDataRecord['domain'] ) {
+			$dkim_active = @($this->dataRecord['dkim'] == 'y') ? true : false; 
+			$selector = @($this->dataRecord['dkim_selector'] != $this->oldDataRecord['dkim_selector']) ? true : false;
+			$dkim_private = @($this->dataRecord['dkim_private'] != $this->oldDataRecord['dkim_private']) ? true : false;
+
+			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain']);
+
+			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )
+				//* create a new record only if the dns-zone exists
+				if ( isset($soa) && !empty($soa) ) {
+					$this->update_dns($this->dataRecord, $soa);
+				}
+			elseif ( !isset($this->dataRecord['dkim']) ) {
+				// updated existing dmarc-record to policy 'none'
+				$sql = "SELECT * from dns_rr WHERE name ='_dmarc.?.' AND data LIKE 'v=DMARC1%' AND ?";
+				$rec = $app->db->queryOneRecord($sql, $this->dataRecord['domain'], $app->tform->getAuthSQL('r'));
+				if (is_array($rec))
+					if (strpos($rec['data'], 'p=none=') === false) {
+						$rec['data'] = str_replace(array('quarantine', 'reject'), 'none', $rec['data']);
+						$app->db->datalogUpdate('dns_rr', $rec, 'id', $rec['id']);
+						$soa_id = $app->functions->intval($soa['zone']);
+						$serial = $app->validate_dns->increase_serial($soa["serial"]);
+						$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+					}	
+				}
+		}
+
+	}
+
+	private function update_dns($dataRecord, $new_rr) {
+		global $app, $conf;
+
+		// purge old rr-record(s)
+		$sql = "SELECT * FROM dns_rr WHERE name LIKE '%._domainkey.?.' AND data LIKE 'v=DKIM1%' AND ? ORDER BY serial DESC";
+		$rec = $app->db->queryAllRecords($sql, $dataRecord['domain'], $app->tform->getAuthSQL('r'));
+		if (is_array($rec[1])) {
+			for ($i=1; $i < count($rec); ++$i)
+				$app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);
+		}
+		// also delete a dsn-records with same selector 
+		$sql = "SELECT * from dns_rr WHERE name ='?._domainkey.?.' AND data LIKE 'v=DKIM1%' AND ?";
+		$rec = $app->db->queryAllRecords($sql, $dataRecord['dkim_selector'], $dataRecord['domain'], $app->tform->getAuthSQL('r'));
+		if (is_array($rec))
+			foreach ($rec as $del)
+				$app->db->datalogDelete('dns_rr', 'id', $del['id']);
+
+		$new_rr['name'] = $dataRecord['dkim_selector'].'._domainkey.'.$dataRecord['domain'].'.';
+		$new_rr['type'] = 'TXT';
+		$new_rr['data'] = 'v=DKIM1; t=s; p='.str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"), '', $this->dataRecord['dkim_public']);
+		$new_rr['aux'] = 0;
+		$new_rr['active'] = 'Y';
+		$new_rr['stamp'] = date('Y-m-d H:i:s');
+		$new_rr['serial'] = $app->validate_dns->increase_serial($new_rr['serial']);
+		$app->db->datalogInsert('dns_rr', $new_rr, 'id', $new_rr['zone']);
+		$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ".$app->functions->intval($new_rr['zone']));
+		$new_serial = $app->validate_dns->increase_serial($zone['serial']);
+		$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
 	}
 }
 

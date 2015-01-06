@@ -189,6 +189,13 @@ $items[] = array(   'title'   => 'Database quota',
 	'link'    => 'sites/database_quota_stats.php',
 	'html_id' => 'databse_quota_stats');
 
+$items[] = array (
+	'title'   => 'Backup Stats',
+	'target'  => 'content',
+	'link'    => 'sites/backup_stats.php',
+	'html_id' => 'backup_stats'
+);
+
 $module['nav'][] = array(   'title' => 'Statistics',
 	'open'  => 1,
 	'items' => $items);

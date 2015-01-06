@@ -6,10 +6,8 @@ $wb['customer_txt'] = 'Klijent';
 $wb['status_txt'] = 'Status';
 $wb['install_location_txt'] = 'Lokacija instalacije';
 $wb['pkg_delete_confirmation'] = 'Da li stvarno želite obrisati ovu instalaciju?';
-$wb['pkg_reinstall_confirmation'] = 'Da li stvarno želite reinstalirati ovaj paket sa istim postavkama?';
 $wb['filter_txt'] = 'Traži';
 $wb['delete_txt'] = 'Obriši';
-$wb['reinstall_txt'] = 'Reinstaliraj';
 ?>
 
 

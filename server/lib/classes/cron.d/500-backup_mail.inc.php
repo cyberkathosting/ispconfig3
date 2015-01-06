@@ -75,10 +75,10 @@ class cronjob_backup_mail extends cronjob {
 				foreach($records as $rec) {
 					//* Do the mailbox backup
 					if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-						$email = $rec['email'];
-						$email=explode("@",$email)[1];
-						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $email);
-						unset($email);
+						$temp = explode("@",$email);
+						$domain = $temp[1];
+						unset($temp);;
+						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
 
 						$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
 						if(!is_dir($mail_backup_dir)) mkdir($mail_backup_dir, 0750);

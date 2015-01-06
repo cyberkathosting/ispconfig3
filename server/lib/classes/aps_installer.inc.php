@@ -376,7 +376,7 @@ class ApsInstaller extends ApsBase
 		   setups get enough time to create the database */
 		if($this->handle_type == 'install') {
 			for($n = 1; $n < 15; $n++) {
-				$link = mysql_connect($newdb_host, $newdb_login, $newdb_pw);
+				$link = mysqli_connect($newdb_host, $newdb_login, $newdb_pw);
 				if (!$link) {
 					unset($link);
 					sleep(5);

@@ -212,8 +212,6 @@ class sites_web_vhost_domain_plugin {
 					if(is_array($records) && !empty($records)){
 						foreach($records as $rec){
 							$app->db->datalogUpdate('aps_instances_settings', "value = '".$app->db->quote($page_form->dataRecord["domain"])."'", 'id', $rec['id']);
-							// Reinstall of package needed?
-							//$app->db->datalogUpdate('aps_instances', "instance_status = '1'", 'id', $rec['instance_id']);
 						}
 					}
 					unset($records);

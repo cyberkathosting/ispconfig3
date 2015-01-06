@@ -6,8 +6,6 @@ $wb['customer_txt'] = 'Client';
 $wb['status_txt'] = 'Status';
 $wb['install_location_txt'] = 'Install location';
 $wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['pkg_reinstall_confirmation'] = 'Do you really want to reinstall this package with the same settings?';
 $wb['filter_txt'] = 'Search';
 $wb['delete_txt'] = 'Delete';
-$wb['reinstall_txt'] = 'Reinstall';
 ?>
