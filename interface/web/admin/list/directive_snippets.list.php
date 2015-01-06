@@ -74,5 +74,14 @@ $liste["item"][] = array( 'field'  => "type",
 	'suffix' => "",
 	'width'  => "",
 	'value'  => array('apache' => 'Apache', 'nginx' => 'nginx', 'php' => 'PHP', 'proxy' => 'Proxy'));
+	
+$liste["item"][] = array( 'field'  => "customer_viewable",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
 ?>
