@@ -246,6 +246,10 @@ thead.dark th {
   line-height: 40px;
   font-weight: normal; }
 
+thead.dark td input,
+thead.dark td select {
+  width: 100%; }
+
 #footer {
   margin: 20px 0;
   padding-top: 20px;

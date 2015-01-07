@@ -45,9 +45,9 @@
                         <th>{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><div class="col-sm-9"><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></div></td>
-            <tmpl_if name="enable_custom_login"><td><div class="col-sm-9"><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></div></td></tmpl_if>
-                        <td><div class="col-sm-9"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></div></td>
+                        <td><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
+            <tmpl_if name="enable_custom_login"><td><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
+                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td><select name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
                         <td><select name="search_postfix">{tmpl_var name='search_postfix'}</select></th>
                         <td><select name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></th>

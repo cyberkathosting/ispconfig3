@@ -42,11 +42,11 @@
                     <th>{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
-                    <tmpl_if name="vhostdomain_type" value="domain"><td><div class="col-sm-9"><input type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></div></td></tmpl_if>
+                    <tmpl_if name="vhostdomain_type" value="domain"><td><input type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></td></tmpl_if>
                     <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
                     <td><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td></tmpl_if>
-                    <td><div class="col-sm-9"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></div></td>
+                    <td><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                     <td>
                         <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_vhost_domain_list.php');">{tmpl_var name="filter_txt"}</button>
                     </td>

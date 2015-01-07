@@ -44,7 +44,7 @@
                         <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
-                        <td><div class="col-sm-9"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></div></td>
+                        <td><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                         <td>
                             <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_childdomain_list.php?type={tmpl_var name="childdomain_type"}');">{tmpl_var name="filter_txt"}</button>
                         </td>

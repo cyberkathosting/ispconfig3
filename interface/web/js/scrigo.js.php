@@ -98,6 +98,7 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
     $('#pageContent').find("select:not(.chosen-select)").select2({
 		placeholder: '',
 		width: 'element',
+		selectOnBlur: true,
 		allowClear: true,
 	}).on('change', function(e) {
             if (jQuery(".panel #Filter").length > 0) {

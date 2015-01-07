@@ -16,10 +16,10 @@
                         <th >&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><div class="col-sm-9"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></div></td>
-                        <td><div class="col-sm-9"><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></div></td>
+                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
                         <tmpl_if name='is_noclient'>
-                        <!--<td><div class="col-sm-9"><input type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></div></td>-->
+                        <!--<td><input type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></td>-->
                         </tmpl_if>
                         <td>&nbsp;</td>
                         <td><select name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>

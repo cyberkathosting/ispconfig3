@@ -27,8 +27,8 @@
                     <tr>
                         <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-                        <td><div class="col-sm-9"><input type="text" name="search_tcp_port" value="{tmpl_var name='search_tcp_port'}" /></div></td>
-                        <td><div class="col-sm-9"><input type="text" name="search_udp_port" value="{tmpl_var name='search_udp_port'}" /></div></td>
+                        <td><input type="text" name="search_tcp_port" value="{tmpl_var name='search_tcp_port'}" /></td>
+                        <td><input type="text" name="search_udp_port" value="{tmpl_var name='search_udp_port'}" /></td>
                         <td>
                             <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/firewall_list.php');">{tmpl_var name="filter_txt"}</button>
                         </td>

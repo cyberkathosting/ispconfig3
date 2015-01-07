@@ -15,8 +15,8 @@
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><div class="col-sm-9"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></div></td>
-                        <td><div class="col-sm-9"><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></div></td>
+                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
                         <td><select name="search_category" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
                             <tmpl_if name='is_admin'>
                                 <td><select name="search_package_status" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
