@@ -9,9 +9,11 @@ function loadPushyMenu() {
   // Hauptnavigation
   $('<ul />').appendTo($responsiveNavigation);
 
+  var $addto = false;
   $($mainNavigation).find('a').each(function () {
     var $item = $(this);
     var $activeClass = $item.hasClass('active') ? ' class="active"' : '';
+    var isactive = $activeClass != '' ? true : false;
     
     var capp = $item.attr('data-capp');
     if(capp) $activeClass += ' data-capp="' + capp + '"';
@@ -19,11 +21,14 @@ function loadPushyMenu() {
 	capp = $item.attr('data-load-content');
     if(capp) $activeClass += ' data-load-content="' + capp + '"';
 
-    $responsiveNavigation.find('ul').append($('<li><a href="' + $item.attr('href') + '"' + $activeClass + '><i class="icon ' + $item.data('icon-class') + '"></i>' + $item.text() + '</a></li>'));
+	var $newel = $('<li><a href="' + $item.attr('href') + '"' + $activeClass + '><i class="icon ' + $item.data('icon-class') + '"></i>' + $item.text() + '</a></li>');
+	if(isactive != '') $addto = $newel;
+    $responsiveNavigation.find('ul').append($newel);
   });
 
   // Subnavigation
-  $('<ul class="subnavi" />').appendTo($responsiveNavigation);
+  if(!$addto) $addto = $responsiveNavigation;
+  $('<ul class="subnavi" />').appendTo($addto);
 
   $($subNavigation).find('a').each(function () {
     var $item = $(this);
@@ -35,6 +40,9 @@ function loadPushyMenu() {
 	capp = $item.attr('data-load-content');
     if(capp) addattr += ' data-load-content="' + capp + '"';
 
+	capp = $item.hasClass('subnav-header');
+	if(capp) addattr += ' class="subnav-header"';
+	
     $responsiveNavigation.find('ul.subnavi').append($('<li><a href="' + $item.attr('href') + '"' + addattr + '>' + $item.text() + '</a></li>'));
   });
 };
