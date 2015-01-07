@@ -30,7 +30,7 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="email_txt"></th>
                 <tmpl_if name="enable_custom_login"><th><tmpl_var name="login_txt"></th></tmpl_if>
@@ -43,16 +43,16 @@
                         <th>{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
-            <tmpl_if name="enable_custom_login"><td><input type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
-                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td><select name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
-                        <td><select name="search_postfix">{tmpl_var name='search_postfix'}</select></th>
-                        <td><select name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></th>
-                        <td><select name="search_disableimap">{tmpl_var name='search_disableimap'}</select></th>
-                        <td><select name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></th>
+                        <td><input class="form-control" type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
+            <tmpl_if name="enable_custom_login"><td><input class="form-control" type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
+                        <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><select class="form-control" name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
+                        <td><div class="col-sm-9"><select class="form-control" name="search_postfix">{tmpl_var name='search_postfix'}</select></div></th>
+                        <td><div class="col-sm-9"><select class="form-control" name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></div></th>
+                        <td><div class="col-sm-9"><select class="form-control" name="search_disableimap">{tmpl_var name='search_disableimap'}</select></div></th>
+                        <td><div class="col-sm-9"><select class="form-control" name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></div></th>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -75,7 +75,7 @@
                             <tmpl_if name="mailboxlist_webmail_link">
                                 <a class="btn btn-default formbutton-default" href="mail/webmailer.php?id={tmpl_var name='id'}" target="webmail">{tmpl_var name="webmail_txt"}</button>
                             </tmpl_if>
-                            <a class="btn btn-default formbutton-delete" href="javascript: del_record('mail/mail_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/mail_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

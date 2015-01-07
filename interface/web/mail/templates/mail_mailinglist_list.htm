@@ -29,17 +29,17 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="listname_txt"></th>
                         <th><tmpl_var name="domain_txt"></th>
                         <th>{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_listname" value="{tmpl_var name='search_listname'}" /></td>
-                        <td><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
+                        <td><input class="form-control" type="text" name="search_listname" value="{tmpl_var name='search_listname'}" /></td>
+                        <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_mailinglist_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_mailinglist_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@
                                 <tmpl_if name="mailmailinglist_link">
                                     <a class="btn btn-default formbutton-default" href="mail/mailinglist.php?id={tmpl_var name='id'}" target="mailmailinglist">{tmpl_var name='mailinglist_txt'}</button>
                                 </tmpl_if>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('mail/mail_mailinglist_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/mail_mailinglist_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

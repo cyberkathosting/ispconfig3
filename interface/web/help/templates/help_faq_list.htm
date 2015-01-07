@@ -5,7 +5,7 @@
         {tmpl_var name='hf_answer'}
     </p>
     <tmpl_if name='is_admin'>
-        <a class="btn btn-default formbutton-delete" href="javascript: del_record('help/faq_delete.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name="delete_txt"}</button>
+        <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('help/faq_delete.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
         <a href="#" data-load-content="help/faq_edit.php?id={tmpl_var name='id'}">{tmpl_var name="edit_txt"}</a>
         <br/>
         <br/>

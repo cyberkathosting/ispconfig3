@@ -14,7 +14,7 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="repo_name_txt"></th>
@@ -22,11 +22,11 @@
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
-                        <td><input type="text" name="search_repo_name" value="{tmpl_var name='search_repo_name'}" /></td>
-                        <td><input type="text" name="search_repo_url" value="{tmpl_var name='search_repo_url'}" /></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><input class="form-control" type="text" name="search_repo_name" value="{tmpl_var name='search_repo_name'}" /></td>
+                        <td><input class="form-control" type="text" name="search_repo_url" value="{tmpl_var name='search_repo_url'}" /></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/software_repo_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/software_repo_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                             <td><a href="#" data-load-content="admin/software_repo_edit.php?id={tmpl_var name='id'}">{tmpl_var name="repo_name"}</a></td>
                             <td><a href="#" data-load-content="admin/software_repo_edit.php?id={tmpl_var name='id'}">{tmpl_var name="repo_url"}</a></td>
                             <td>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/software_repo_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/software_repo_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

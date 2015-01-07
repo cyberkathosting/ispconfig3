@@ -14,15 +14,15 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="server_name_txt"></th>
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
+                        <td><input class="form-control" type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/spamfilter_config_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/spamfilter_config_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -31,7 +31,7 @@
                         <tr>
                             <td><a href="#" data-load-content="mail/spamfilter_config_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_name"}</a></td>
                             <td>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('mail/spamfilter_config_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/spamfilter_config_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

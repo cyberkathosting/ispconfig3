@@ -13,16 +13,16 @@
     <p><tmpl_var name="list_head_txt"></p>
       <div class="table-wrapper marginTop15">
 <table class="table">
-        <thead class="dark">
+        <thead class="dark form-group-sm">
           <tr>
             <th><tmpl_var name="template_type_txt"></th>
             <th><tmpl_var name="template_name_txt"></th>
             <th>&nbsp;</th>
           </tr>
           <tr>
-            <td><select name="search_template_type" onChange="submitForm('pageForm','billing/invoice_message_template_list.php');">{tmpl_var name='search_template_type'}</select></td>
-            <td><input type="text" name="search_template_name" value="{tmpl_var name='search_template_name'}" /></td>
-            <td><div class="buttons"><button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','billing/invoice_message_template_list.php');">{tmpl_var name="filter_txt"}</button></div></td>
+            <td><select class="form-control" name="search_template_type" onChange="submitForm('pageForm','billing/invoice_message_template_list.php');">{tmpl_var name='search_template_type'}</select></td>
+            <td><input class="form-control" type="text" name="search_template_name" value="{tmpl_var name='search_template_name'}" /></td>
+            <td><div class="buttons"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onClick="submitForm('pageForm','billing/invoice_message_template_list.php');"><span class="icon icon-filter"></span></button></div></td>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
             <td><a href="#" data-load-content="billing/invoice_message_template_edit.php?id={tmpl_var name='id'}">{tmpl_var name="template_name"}</a></td>
             <td>
               <div class="buttons icons16">    
-                <a class="btn btn-default formbutton-delete" href="javascript: del_record('billing/invoice_message_template_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('billing/invoice_message_template_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
               </div>
             </td>
           </tr>

@@ -4,7 +4,7 @@
         <p>{tmpl_var name="list_head_txt"}</p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th>{tmpl_var name='name_txt'}</th>
                         <th>{tmpl_var name='version_txt'}</th>
@@ -16,15 +16,15 @@
                         <th >&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
+                        <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><input class="form-control" type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
                         <tmpl_if name='is_noclient'>
-                        <!--<td><input type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></td>-->
+                        <!--<td><input class="form-control" type="text" name="search_customer_name" value="{tmpl_var name='search_customer_name'}" /></td>-->
                         </tmpl_if>
                         <td>&nbsp;</td>
-                        <td><select name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
+                        <td><select class="form-control" name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='filter_txt'}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -40,7 +40,7 @@
                             <td><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
                             <td>
                                 <tmpl_if name='delete_possible'>
-                                    <a class="btn btn-default formbutton-delete" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')">{tmpl_var name='delete_txt'}</button>
+                                    <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span class="icon icon-delete"></span></button>
                                 </tmpl_if>
                             </td>        
                         </tr>

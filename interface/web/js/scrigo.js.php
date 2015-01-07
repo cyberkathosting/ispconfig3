@@ -101,8 +101,8 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 		selectOnBlur: true,
 		allowClear: true,
 	}).on('change', function(e) {
-            if (jQuery(".panel #Filter").length > 0) {
-                jQuery(".panel #Filter").trigger('click');
+            if (jQuery("#pageForm .table #Filter").length > 0) {
+                jQuery("#pageForm .table #Filter").trigger('click');
             }
     });
     /* TODO: find a better way! */

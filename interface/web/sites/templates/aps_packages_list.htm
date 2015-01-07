@@ -4,7 +4,7 @@
         <p>{tmpl_var name="list_head_txt"} ({tmpl_var name='package_count'})</p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th>{tmpl_var name='name_txt'}</th>
                         <th>{tmpl_var name='version_txt'}</th>
@@ -15,13 +15,13 @@
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td><input type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
-                        <td><select name="search_category" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
+                        <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><input class="form-control" type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
+                        <td><select class="form-control" name="search_category" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
                             <tmpl_if name='is_admin'>
-                                <td><select name="search_package_status" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
+                                <td><select class="form-control" name="search_package_status" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
                             </tmpl_if>
-                        <td><button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='filter_txt'}</button></td>
+                        <td><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_availablepackages_list.php');"><span class="icon icon-filter"></span></button></td>
                     </tr>
                 </thead>
                 <tbody>

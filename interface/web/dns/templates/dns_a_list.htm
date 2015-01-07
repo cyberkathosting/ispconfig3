@@ -37,7 +37,7 @@
     <p><tmpl_var name="list_head_txt"></p>
         <div class="table-wrapper marginTop15">
 <table class="table">
-            <thead class="dark">
+            <thead class="dark form-group-sm">
                 <tr>
                     <th><tmpl_var name="active_txt"></th>
                     <th><tmpl_var name="type_txt"></th>
@@ -48,14 +48,14 @@
                     <th>{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
-                    <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
-                    <td><select name="search_type">{tmpl_var name='search_type'}</select></td>
-                    <td><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                    <td><input type="text" name="search_data" value="{tmpl_var name='search_data'}" /></td>
-                    <td><input type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
-                    <td><input type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
+                    <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
+                    <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                    <td><input class="form-control" type="text" name="search_data" value="{tmpl_var name='search_data'}" /></td>
+                    <td><input class="form-control" type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
+                    <td><input class="form-control" type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
                     <td>
-                        <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return changeTab('dns_records','dns/dns_soa_edit.php');">{tmpl_var name="filter_txt"}</button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return changeTab('dns_records','dns/dns_soa_edit.php');"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
             </thead>
@@ -69,7 +69,7 @@
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="aux"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ttl"}</a></td>
                         <td>
-                            <a class="btn btn-default formbutton-delete" href="javascript: del_record('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

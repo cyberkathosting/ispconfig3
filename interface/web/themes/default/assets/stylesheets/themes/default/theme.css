@@ -31,6 +31,17 @@ body {
     border-bottom-color: #509b5a;
     color: white; }
 
+.formbutton-danger {
+  background: linear-gradient(to bottom, #c70f19, #b60008);
+  border-color: #980b13;
+  border-bottom-color: #980b13;
+  color: white; }
+  .formbutton-danger:hover {
+    background: linear-gradient(to bottom, #c30b15, #b20004); }
+  .formbutton-danger:hover, .formbutton-danger.active {
+    border-bottom-color: #8f0209;
+    color: white; }
+
 #searchform button {
   background: linear-gradient(to bottom, white, #eef0f2); }
   #searchform button:hover {

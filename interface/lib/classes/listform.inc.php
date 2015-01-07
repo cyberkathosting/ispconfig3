@@ -348,29 +348,33 @@ class listform {
 
 		sort($show_pages);
 		$show_pages = array_unique($show_pages);
-
+		
+		$content = '<nav>
+		<ul class="pagination">';
+		
 		//* Show Back
 		if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
-			$content = '<a class="btn-page first-page" href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'">'
-				.'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_stop_180.png"></a> &nbsp; ';
-			$content .= '<a class="btn-page previous-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'">'
-				.'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_180.png"></a> &nbsp; ';
+			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'" aria-label="First">
+			<span aria-hidden="true">&laquo;</span></a></li>';
+			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'" aria-label="Previous">
+			<span aria-hidden="true">&lsaquo;</span></a></li>';
 		}
-		$content .= ' '.$this->lng('page_txt').' ';
 		$prev = -1;
 		foreach($show_pages as $p) {
-			if($prev != -1 && $p > $prev + 1) $content .= '<span class="page-spacer">...</span>';
-			$content .= '<a class="link-page' . ($p == $vars['page'] ? ' current-page' : '') . '" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$p.$vars['page_params']."');".'">'. ($p+1) .'</a>';
+			if($prev != -1 && $p > $prev + 1) $content .= '<li class="disabled"><a href="#">…</a></li>';
+			$content .= '<li' . ($p == $vars['page'] ? ' class="active"' : '') . '><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$p.$vars['page_params']."');".'">'. ($p+1) .'</a></li>';
 			$prev = $p;
 		}
 		//.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' &nbsp; ';
 		//* Show Next
 		if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
-			$content .= '<a class="btn-page next-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'">'
-				.'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow.png"></a> &nbsp; ';
-			$content .= '<a class="btn-page last-page" href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'">'
-				.'<img src="themes/'.$_SESSION['s']['theme'].'/icons/x16/arrow_stop.png"></a>';
+			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'" aria-label="Next">
+			<span aria-hidden="true">&rsaquo;</span></a></li>';
+			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'" aria-label="Last">
+			<span aria-hidden="true">&raquo;</span></a></li>';
 		}
+		$content .= '</ul></nav>';
+		
 		return $content;
 	}
 

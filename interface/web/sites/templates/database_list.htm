@@ -30,7 +30,7 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="remote_access_txt"></th>
@@ -42,15 +42,15 @@
                         <th>{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><select name="search_active">{tmpl_var name='search_active'}</select></td>
-                        <td><select name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
-                        <td><select name="search_type">{tmpl_var name='search_type'}</select></td>
-                        <td><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-						<td><select name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
-                        <td><select name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
-                        <td><input type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}"/></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><select class="form-control" name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
+                        <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
+                        <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+						<td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
+                        <td><select class="form-control" name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
+                        <td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}"/></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -66,10 +66,10 @@
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_name"}</a></td>
                             <td>
                                 <tmpl_if name="dblist_phpmyadmin_link">
-                                    <a class="btn btn-default formbutton-default" href="sites/database_phpmyadmin.php?id={tmpl_var name='id'}" target="phpmyadmin">{tmpl_var name='admin_txt'}</button>
+                                    <a class="btn btn-default formbutton-default formbutton-narrow" href="sites/database_phpmyadmin.php?id={tmpl_var name='id'}" target="phpmyadmin"><span class="icon icon-dbadmin"></span></button>
                                 </tmpl_if>
-                                <a class="btn btn-default formbutton-default" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name='edit_txt'}</button>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('sites/database_del.php?id={tmpl_var name='id'}&amp;phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                                <a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}"><span class="icon icon-edit"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/database_del.php?id={tmpl_var name='id'}&amp;phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

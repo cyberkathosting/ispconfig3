@@ -26,7 +26,7 @@
 				<tmpl_if name="session_allow_endless" value="y">
             <div class="form-group">
                 <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='stay_logged_in_txt'}</label>
-                <div class="col-sm-9"><input type="checkbox" name="stay" id="stay" value="1" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
+                <div class="col-sm-9"><input class="form-control" type="checkbox" name="stay" id="stay" value="1" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
             </div></div>
 				</tmpl_if>
             </tmpl_if>

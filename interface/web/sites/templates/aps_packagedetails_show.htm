@@ -80,7 +80,7 @@
                             <tmpl_if name='pkg_license_name'>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
                             <tmpl_if name='pkg_license_type' op='==' value='url'><a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
                             <tmpl_elseif name='pkg_license_content'>
-                                <div class="col-sm-9"><textarea rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea></div>
+                                <div class="col-sm-9"><textarea class="form-control" rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea></div>
                             </tmpl_if>
                         </td>
                     </tr>

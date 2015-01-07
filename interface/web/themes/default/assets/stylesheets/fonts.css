@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon:before {
+	vertical-align: middle;
+}
 .icon-calendar:before {
 	content: "\e60e";
 }
@@ -67,4 +70,25 @@
 }
 .icon-client:before {
 	content: "\e60a";
+}
+.icon-edit:before {
+	content: "\e615";
+}
+.icon-filter:before {
+	content: "\e614";
+}
+.icon-link:before {
+	content: "\e60f";
+}
+.icon-action:before {
+	content: "\e610";
+}
+.icon-dbadmin:before {
+	content: "\e612";
+}
+.icon-loginas:before {
+	content: "\e611";
+}
+.icon-delete:before {
+	content: "\e613";
 }

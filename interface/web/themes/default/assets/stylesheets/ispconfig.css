@@ -38,7 +38,8 @@ body {
   font-weight: bold;
   transition: all ease 500ms; }
 
-.formbutton-success {
+.formbutton-success,
+.formbutton-danger {
   padding: 6px 30px;
   border-style: solid;
   border-width: 1px;
@@ -46,6 +47,14 @@ body {
   font-size: 12px;
   font-weight: bold;
   transition: all ease 500ms; }
+
+.formbutton-narrow {
+  padding: 6px 8px;
+  margin-left: 2px;
+  margin-right: 2px; }
+
+.formbutton-narrower {
+  padding: 4px 6px; }
 
 #main-wrapper {
   margin: 0 auto;

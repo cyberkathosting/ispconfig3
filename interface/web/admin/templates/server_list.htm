@@ -7,7 +7,7 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="server_name_txt"></th>
                         <th><tmpl_var name="mail_server_txt"></th>
@@ -19,15 +19,15 @@
                         <th>{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
-                        <td><select name="search_active">{tmpl_var name='search_mail_server'}</select></td>
-                        <td><select name="search_active">{tmpl_var name='search_web_server'}</select></td>
-                        <td><select name="search_active">{tmpl_var name='search_dns_server'}</select></td>
-                        <td><select name="search_active">{tmpl_var name='search_file_server'}</select></td>
-                        <td><select name="search_active">{tmpl_var name='search_db_server'}</select></td>
-                        <td><select name="search_active">{tmpl_var name='search_vserver_server'}</select></td>
+                        <td><input class="form-control" type="text" name="search_server_name" value="{tmpl_var name='search_server_name'}" /></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_mail_server'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_web_server'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_dns_server'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_file_server'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_db_server'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_vserver_server'}</select></td>
                         <td>
-                            <button type="button" class="btn btn-default formbutton-filter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/server_list.php');">{tmpl_var name="filter_txt"}</button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/server_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@
                             <td>{tmpl_var name="db_server"}</td>
                             <td>{tmpl_var name="vserver_server"}</td>
                             <td>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/server_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/server_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

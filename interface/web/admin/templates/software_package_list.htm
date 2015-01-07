@@ -14,7 +14,7 @@
         <p><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
-                <thead class="dark">
+                <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="installed_txt"></th>
                         <th><tmpl_var name="package_title_txt"></th>
@@ -32,8 +32,8 @@
                             <td>{tmpl_var name="package_description"}</td>
                             <td>ispapp{tmpl_var name="package_id"}</td>
 							<td>
-								<a class="btn btn-default formbutton-default" data-load-content="admin/software_package_edit.php?id={tmpl_var name='package_id'}">{tmpl_var name='edit_txt'}</button>
-                                <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
+								<a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="admin/software_package_edit.php?id={tmpl_var name='package_id'}"><span class="icon icon-edit"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
 						</tmpl_if>

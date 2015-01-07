@@ -7,7 +7,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="web_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_sites" value="1" name="resync_sites">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_sites" value="1" name="resync_sites">
 				</div><label for="resync_sites" class="col-sm-3 control-label">{tmpl_var name='resync_sites_txt'}</label>
 				<div class="col-sm-9"><select name="web_server_id" id="web_server_id" class="form-control">
 					{tmpl_var name='web_server_id'}
@@ -24,7 +24,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="web_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_ftp" value="1" name="resync_ftp">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_ftp" value="1" name="resync_ftp">
 				</div><label for="resync_ftp" class="col-sm-3 control-label">{tmpl_var name="resync_ftp_txt"}</label> 
 				<div class="col-sm-9"><select name="ftp_server_id" id="ftp_server_id" class="form-control">
 					{tmpl_var name='ftp_server_id'}
@@ -41,7 +41,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="file_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_webdav" value="1" name="resync_webdav">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_webdav" value="1" name="resync_webdav">
 				</div><label for="resync_webdav" class="col-sm-3 control-label">{tmpl_var name="resync_webdav_txt"}</label> 
 				<div class="col-sm-9"><select name="webdav_server_id" id="webdav_server_id" class="form-control">
 					{tmpl_var name='file_server_id'}
@@ -58,7 +58,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="web_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_shell" value="1" name="resync_shell">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_shell" value="1" name="resync_shell">
 				</div><label for="resync_shell" class="col-sm-3 control-label">{tmpl_var name="resync_shell_txt"}</label> 
 				<div class="col-sm-9"><select name="shell_server_id" id="shell_server_id" class="form-control">
 					{tmpl_var name='web_server_id'}
@@ -75,7 +75,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="web_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_cron" value="1" name="resync_cron">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_cron" value="1" name="resync_cron">
 				</div><label for="resync_cron" class="col-sm-3 control-label">{tmpl_var name="resync_cron_txt"}</label> 
 				<div class="col-sm-9"><select name="cron_server_id" id="cron_server_id" class="form-control">
 					{tmpl_var name='web_server_id'}
@@ -92,7 +92,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="db_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_db" value="1" name="resync_db">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_db" value="1" name="resync_db">
 				</div><label for="resync_db" class="col-sm-3 control-label">{tmpl_var name="resync_db_txt"}</label> 
 				<div class="col-sm-9"><select name="db_server_id" id="db_server_id" class="form-control">
 					{tmpl_var name='db_server_id'}
@@ -109,7 +109,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="mail_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_mail" value="1" name="resync_mail">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_mail" value="1" name="resync_mail">
 				</div><label for="resync_mail" class="col-sm-3 control-label">{tmpl_var name="resync_mail_txt"}</label> 
 				<div class="col-sm-9"><select name="mail_server_id" id="mail_server_id" class="form-control">
 					{tmpl_var name='mail_server_id'}
@@ -126,7 +126,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="mail_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_mailbox" value="1" name="resync_mailbox">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_mailbox" value="1" name="resync_mailbox">
 				</div><label for="resync_mailbox" class="col-sm-3 control-label">{tmpl_var name="resync_mailbox_txt"}</label> 
 				<div class="col-sm-9"><select name="mailbox_server_id" id="mailbox_server_id" class="form-control">
 					{tmpl_var name='mail_server_id'}
@@ -142,7 +142,7 @@
 	<fieldset class="inlineLabels">
 		<div class="form-group">
 			<tmpl_if name="dns_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_dns" value="1" name="resync_dns">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_dns" value="1" name="resync_dns">
 				</div><label for="resync_dns" class="col-sm-3 control-label">{tmpl_var name="resync_dns_txt"}</label> 
 				<div class="col-sm-9"><select name="dns_server_id" id="dns_server_id" class="form-control">
 					{tmpl_var name='dns_server_id'}
@@ -159,7 +159,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="vserver_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_vserver" value="1" name="resync_vserver">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_vserver" value="1" name="resync_vserver">
 				</div><label for="resync_vserver" class="col-sm-3 control-label">{tmpl_var name="resync_vserver_txt"}</label> 
 				<div class="col-sm-9"><select name="vserver_server_id" id="vserver_server_id" class="form-control">
 					{tmpl_var name='vserver_server_id'}
@@ -176,7 +176,7 @@
 	
 		<div class="form-group">
 			<tmpl_if name="firewall_server_found">
-				<div class="col-sm-9"><input type="checkbox" id="resync_firewall" value="1" name="resync_firewall">
+				<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_firewall" value="1" name="resync_firewall">
 				</div><label for="resync_firewall" class="col-sm-3 control-label">{tmpl_var name="resync_firewall_txt"}</label> 
 				<div class="col-sm-9"><select name="firewall_server_id" id="firewall_server_id" class="form-control">
 					{tmpl_var name='firewall_server_id'}
@@ -192,7 +192,7 @@
 
 	
 		<div class="form-group">
-			<div class="col-sm-9"><input type="checkbox" id="resync_client" value="1" name="resync_client">
+			<div class="col-sm-9"><input class="form-control" type="checkbox" id="resync_client" value="1" name="resync_client">
 			</div><label for="resync_client" class="col-sm-3 control-label">{tmpl_var name="resync_client_txt"}</label> 
 		</div>
 	

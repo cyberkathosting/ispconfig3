@@ -11,13 +11,13 @@
             </div></div>
             <div class="form-group">
                 <label for="source" class="col-sm-3 control-label">{tmpl_var name='source_txt'}</label>
-                <select id="source" name="source"  class="textInput formLengthHalf">{tmpl_var name='source'}</select>
-                <select id="op" name="op"  class="textInput formLengthHalf">{tmpl_var name='op'}</select><br><br>
+                <div class="col-sm-9"><select id="source" name="source" class="form-control">{tmpl_var name='source'}</select></div>
+                <div class="col-sm-9"><select id="op" name="op" class="form-control">{tmpl_var name='op'}</select></div><br><br>
                 <div><label></label><div class="col-sm-9"><input type="text" id="searchterm" name="searchterm" value="{tmpl_var name='searchterm'}" class="form-control"></div></div>
             </div>
             <div class="form-group">
                 <label for="action" class="col-sm-3 control-label">{tmpl_var name='action_txt'}</label>
-                <select id="action" name="action" class="textInput formLengthHalf">{tmpl_var name='action'}</select><br><br>
+                <div class="col-sm-9"><select id="action" name="action" class="form-control">{tmpl_var name='action'}</select></div><br><br>
                 <div><label></label><div class="col-sm-9"><input type="text" id="target" name="target" value="{tmpl_var name='target'}" class="form-control"></div></div>
             </div>
             <div class="form-group">
