@@ -6,9 +6,7 @@
 
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="admin/software_package_list.php?action=repoupdate">
-                    <span>{tmpl_var name="repoupdate_txt"}</span>
-                </button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="admin/software_package_list.php?action=repoupdate">{tmpl_var name="repoupdate_txt"}</button>
             
         
 
@@ -28,13 +26,13 @@
                 <tbody>
 					<tmpl_loop name="records">
                         <tmpl_if name="has_packages">
-						<tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+						<tr>
                             <td>{tmpl_var name="installed"}</td>
                             <td>{tmpl_var name="package_title"}</td>
                             <td>{tmpl_var name="package_description"}</td>
                             <td>ispapp{tmpl_var name="package_id"}</td>
 							<td>
-								<a class="button icons16 icoEdit" data-load-content="admin/software_package_edit.php?id={tmpl_var name='package_id'}"><span>{tmpl_var name='edit_txt'}</span></a>
+								<a class="btn btn-default formbutton-default" data-load-content="admin/software_package_edit.php?id={tmpl_var name='package_id'}">{tmpl_var name='edit_txt'}</button>
                                 <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
                             </td>
                         </tr>

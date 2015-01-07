@@ -93,13 +93,13 @@
     <input type="hidden" name="connected" value="{tmpl_var name='connected'}">
     <tmpl_if name="connected">
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');">{tmpl_var name="btn_start_txt"}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" data-load-content="tools/index.php"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');">{tmpl_var name="btn_start_txt"}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">{tmpl_var name="btn_cancel_txt"}</button>
         </div></div>
     <tmpl_else>
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');">{tmpl_var name="btn_connect_txt"}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" data-load-content="tools/index.php"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="Import" onClick="submitForm('pageForm','tools/import_ispconfig.php');">{tmpl_var name="btn_connect_txt"}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">{tmpl_var name="btn_cancel_txt"}</button>
         </div></div>
     </tmpl_if>
   </div>

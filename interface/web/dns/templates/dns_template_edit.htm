@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="template" class="col-sm-3 control-label">{tmpl_var name='template_txt'}</label>
-                <textarea name="template" id="template" rows='15' cols='40'>{tmpl_var name='template'}</textarea>
+                <div class="col-sm-9"><textarea name="template" id="template" rows='15' cols='40'>{tmpl_var name='template'}</textarea></div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='visible_txt'}</label>
@@ -30,6 +30,6 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_template_edit.php');">{tmpl_var name='btn_save_txt'}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_template_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_template_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_template_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

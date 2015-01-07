@@ -6,9 +6,7 @@
 
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="help/support_message_edit.php">
-                    <span>{tmpl_var name="add_new_record_txt"}</span>
-                </button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="help/support_message_edit.php">{tmpl_var name="add_new_record_txt"}</button>
             
         
 
@@ -34,7 +32,7 @@
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <tr>
                             <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sender_id"}</a></td>
                             <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="subject"}</a></td>
 							<td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="tstamp"}</a></td>

@@ -84,27 +84,27 @@
             </div></div>
             <div class="form-group php">
                 <label for="custom_php_ini" class="col-sm-3 control-label">{tmpl_var name='custom_php_ini_txt'}</label>
-                <textarea name="custom_php_ini" id="custom_php_ini" rows='10' cols='50' style="width:400px;">{tmpl_var name='custom_php_ini'}</textarea>&nbsp;<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
+                <div class="col-sm-9"><textarea name="custom_php_ini" id="custom_php_ini" rows='10' cols='50' style="width:400px;">{tmpl_var name='custom_php_ini'}</textarea></div>&nbsp;<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
             </div>
             <div class="form-group apache">
                 <label for="apache_directives" class="col-sm-3 control-label">{tmpl_var name='apache_directives_txt'}</label>
-                <textarea name="apache_directives" id="apache_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='apache_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>
+                <div class="col-sm-9"><textarea name="apache_directives" id="apache_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='apache_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>
             </div>
             <div class="form-group nginx">
                 <label for="nginx_directives" class="col-sm-3 control-label">{tmpl_var name='nginx_directives_txt'}</label>
-                <textarea name="nginx_directives" id="nginx_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='nginx_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>
+                <div class="col-sm-9"><textarea name="nginx_directives" id="nginx_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='nginx_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>
             </div>
 			<div class="form-group proxy">
                 <label for="proxy_directives" class="col-sm-3 control-label">{tmpl_var name='proxy_directives_txt'}</label>
-                <textarea name="proxy_directives" id="proxy_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='proxy_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+                <div class="col-sm-9"><textarea name="proxy_directives" id="proxy_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='proxy_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
             </div>
         
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_vhost_domain_edit.php');">{tmpl_var name='btn_save_txt'}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_vhost_domain_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
 <script language="JavaScript" type="text/javascript">
     var webId = jQuery('input[name="id"]').val();

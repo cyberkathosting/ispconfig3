@@ -7,15 +7,15 @@
     <legend>Options</legend>
       <div class="form-group proxy">
                 <label for="proxy_directives" class="col-sm-3 control-label">{tmpl_var name='proxy_directives_txt'}</label>
-                <textarea name="proxy_directives" id="proxy_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='proxy_directives'}</textarea>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+                <div class="col-sm-9"><textarea name="proxy_directives" id="proxy_directives" rows='10' cols='50' style="width:400px;">{tmpl_var name='proxy_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
             </div>
     
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
     <div class="clear"><div class="right">
-      <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_childdomain_edit.php');">{tmpl_var name='btn_save_txt'}</button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_childdomain_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+      <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_childdomain_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+      <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_childdomain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
     </div></div>
 <script language="JavaScript" type="text/javascript">
     var webId = jQuery('input[name="id"]').val();

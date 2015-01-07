@@ -35,7 +35,7 @@
                 <tmpl_if name='pkg_license_type' op='==' value='url'>
                     <a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
                     <tmpl_elseif name='pkg_license_content'>
-                        <textarea rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea>
+                        <div class="col-sm-9"><textarea rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea></div>
                 </tmpl_if>
             </div>
             <div class="form-group">
@@ -46,6 +46,6 @@
             
         <input type="hidden" name="install" value="0" />
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

@@ -6,9 +6,7 @@
 
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="admin/users_edit.php">
-                    <span>{tmpl_var name="add_new_record_txt"}</span>
-                </button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="admin/users_edit.php">{tmpl_var name="add_new_record_txt"}</button>
                 <p><tmpl_var name="warning_txt"></p>
             
         
@@ -37,14 +35,14 @@
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <tr>
                             <td><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
                             <td><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><div class="icons16 group-{tmpl_var name="typ"}" title="{tmpl_var name="typ"}"><span>{tmpl_var name="typ"}</span></div> <div class="group-icon"><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></div></td>
                             <td>{tmpl_var name="groups"}</td>
                             <td>
                                 <tmpl_if name="username" op="!=" value="admin">
-                                    <a class="button icons16 icoLoginAs" data-load-content="login/login_as.php?cid={tmpl_var name='client_id'}"><span>{tmpl_var name='login_as_txt'}</span></a>
+                                    <a class="btn btn-default formbutton-default" data-load-content="login/login_as.php?cid={tmpl_var name='client_id'}">{tmpl_var name='login_as_txt'}</button>
                                     <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>
                                 </tmpl_if>
                             </td>

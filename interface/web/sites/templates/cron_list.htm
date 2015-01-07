@@ -6,9 +6,7 @@
 
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="sites/cron_edit.php">
-                    <span>{tmpl_var name="add_new_cron_txt"}</span>
-                </button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/cron_edit.php">{tmpl_var name="add_new_cron_txt"}</button>
             
         
 
@@ -46,7 +44,7 @@
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <tr>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>

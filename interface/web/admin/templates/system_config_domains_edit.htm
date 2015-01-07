@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='new_domain_txt'}</label>
                 <div class="col-sm-9">
-                    <textarea name="new_domain_html" id="new_domain_html" style="width: 500px; height: 250px">{tmpl_var name='new_domain_html'}</textarea>
+                    <div class="col-sm-9"><textarea name="new_domain_html" id="new_domain_html" style="width: 500px; height: 250px">{tmpl_var name='new_domain_html'}</textarea></div>
                 </div>
             </div>
         
@@ -25,6 +25,6 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/system_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/users_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/system_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/users_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

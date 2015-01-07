@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     <tmpl_loop name='records'>
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <tr>
                             <td><a href="#" data-load-content="sites/aps_packagedetails_show.php?id={tmpl_var name='id'}">{tmpl_var name='name'}</a></td>
                             <td>{tmpl_var name='version'}-{tmpl_var name='release'}</td>
                             <td>{tmpl_var name='category'}</td>

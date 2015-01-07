@@ -2,9 +2,7 @@
 
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="help/faq_edit.php">
-                    <span>{tmpl_var name="faq_new_question_txt"}</span>
-                </button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="help/faq_edit.php">{tmpl_var name="faq_new_question_txt"}</button>
             
         
 
@@ -22,14 +20,14 @@
                 </thead>
 				<tbody>
                 <tmpl_loop name="records">
-                    <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                    <tr>
                         <td width="60%">{tmpl_var name='hf_question'}</td>
                         <td width="30%">{tmpl_var name='hf_section'}</td>
                         <td width="5%">
                             <a class="btn btn-default formbutton-delete" href="javascript: del_record('help/faq_delete.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name="faq_delete_txt"}</button>
                         </td>
                         <td width="5%">
-                            <a class="button icons16 icoEdit" data-load-content="help/faq_edit.php?id={tmpl_var name='id'}"><span>{tmpl_var name="faq_edit_txt"}</span></a>
+                            <a class="btn btn-default formbutton-default" data-load-content="help/faq_edit.php?id={tmpl_var name='id'}">{tmpl_var name="faq_edit_txt"}</button>
                         </td>
                     </tr>
                 </tmpl_loop>

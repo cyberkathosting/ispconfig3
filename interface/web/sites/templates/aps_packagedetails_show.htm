@@ -10,9 +10,7 @@
 <div class="pnl_toolsarea">
     <fieldset>
         
-            <button class="button iconstxt icoAdd" type="button" data-load-content="sites/aps_install_package.php?id={tmpl_var name='pkg_id'}">
-                <span>{tmpl_var name="install_package_txt"}</span>
-            </button>
+            <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/aps_install_package.php?id={tmpl_var name='pkg_id'}">{tmpl_var name="install_package_txt"}</button>
         
     </fieldset>
 <p>&nbsp;</p><p>&nbsp;</p>
@@ -82,7 +80,7 @@
                             <tmpl_if name='pkg_license_name'>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
                             <tmpl_if name='pkg_license_type' op='==' value='url'><a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
                             <tmpl_elseif name='pkg_license_content'>
-                                <textarea rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea>
+                                <div class="col-sm-9"><textarea rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea></div>
                             </tmpl_if>
                         </td>
                     </tr>

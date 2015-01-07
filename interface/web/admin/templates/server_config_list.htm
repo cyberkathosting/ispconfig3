@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <tr>
                             <td><a href="#" data-load-content="admin/server_config_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_name"}</a></td>
                             <td>
                                 <a class="btn btn-default formbutton-delete" href="javascript: del_record('admin/server_config_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');">{tmpl_var name='delete_txt'}</button>

@@ -7,13 +7,13 @@
         
             <div class="form-group">
                 <label for="custom_mailfilter" class="col-sm-3 control-label">{tmpl_var name='custom_mailfilter_txt'}</label>
-                <textarea name="custom_mailfilter" id="custom_mailfilter" rows='15' cols='30'>{tmpl_var name='custom_mailfilter'}</textarea>
+                <div class="col-sm-9"><textarea name="custom_mailfilter" id="custom_mailfilter" rows='15' cols='30'>{tmpl_var name='custom_mailfilter'}</textarea></div>
             </div>
         
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/mail_user_edit.php');">{tmpl_var name='btn_save_txt'}</button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_user_list.php"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/mail_user_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_user_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

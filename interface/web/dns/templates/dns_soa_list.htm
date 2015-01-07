@@ -22,9 +22,9 @@
         </tmpl_if>
         <p>{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_wizard.php"><span>{tmpl_var name="add_new_record_wizard_txt"}</span></button>
-                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_soa_edit.php"><span>{tmpl_var name="add_new_record_txt"}</span></button>
-                <button class="button iconstxt icoAdd" type="button" data-load-content="dns/dns_import.php"><span>{tmpl_var name="import_zone_file_txt"}</span></button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_wizard.php">{tmpl_var name="add_new_record_wizard_txt"}</button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_soa_edit.php">{tmpl_var name="add_new_record_txt"}</button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_import.php">{tmpl_var name="import_zone_file_txt"}</button>
             
         
 
@@ -54,7 +54,7 @@
             </thead>
             <tbody>
                 <tmpl_loop name="records">
-                    <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                    <tr>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="origin"}</a></td>
