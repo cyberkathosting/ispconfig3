@@ -423,6 +423,7 @@ function loadMenus() {
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
 												jQuery('#sidebar').html(jqXHR.responseText);
+												loadPushyMenu();
 											},
 											error: function() {
                                                 hideLoadIndicator();
@@ -440,6 +441,7 @@ function loadMenus() {
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
 												jQuery('#topnav-container').html(jqXHR.responseText);
+												loadPushyMenu();
 											},
 											error: function(o) {
                                                 hideLoadIndicator();

@@ -146,6 +146,10 @@ thead.dark {
   background: linear-gradient(to bottom, #57646d, #3e474e) !important;
   color: white; }
 
+thead.dark tr:nth-child(2) {
+  background: linear-gradient(to bottom, #FAFAFA, #E8EBEE) !important; }
+
+
 #footer {
   border-top-color: #d3d7da; }
 

@@ -1,7 +1,7 @@
 	<!-- main navigation -->
 	<nav id='main-navigation' class='btn-group btn-group-justified'>
     <tmpl_loop name="nav_top">
-		<a href="#" class="btn btn-default <tmpl_if name="active">active"<tmpl_else>" onclick="capp('<tmpl_var name='module'>')"</tmpl_if> data-icon-class="icon-<tmpl_var name='module'>">
+		<a href="#" class="btn btn-default <tmpl_if name="active">active"<tmpl_else>" data-capp="<tmpl_var name='module'>"</tmpl_if> data-icon-class="icon-<tmpl_var name='module'>">
 		  <div class="icon icon-<tmpl_var name='module'>"></div>
 		  <div class="title"><tmpl_var name="title"></div>
 		</a>

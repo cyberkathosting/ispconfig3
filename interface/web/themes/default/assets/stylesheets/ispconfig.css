@@ -225,6 +225,9 @@ body {
   border-top-style: solid;
   border-top-width: 1px; }
 
+.pagination {
+  margin: 10px 0; }
+
 .progress {
   display: inline-block;
   margin-bottom: 0;
@@ -272,6 +275,89 @@ thead.dark td select {
 .menu-btn {
   display: none;
   cursor: pointer; }
+
+.df-container,
+.gs-container {
+  position: relative; }
+
+.gs-container:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+ul.df-resultbox,
+ul.gs-resultbox {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 100%;
+    margin: 0;
+    padding: 0 0 10px;
+    min-width: 250px;
+    max-width: 500px;
+    z-index: 999999;
+    background: #fff;
+    list-style: none;
+	box-shadow: 2px 2px 5px #c5c5c5;
+	border-radius: 5px; }
+
+ul.df-resultbox li,
+ul.gs-resultbox li {
+  float: none;
+  display: block;
+  cursor: pointer;
+  padding: 0 10px; }
+
+ul.gs-resultbox li {
+  padding: 3px 10px;
+  line-height: 1.1;
+  font-size: 0.9em; }
+
+ul.df-resultbox li:nth-child(even),
+ul.gs-resultbox li:nth-child(even) {
+	background: #f2f5f7; }
+
+ul.df-resultbox li.df-cheader,
+ul.gs-resultbox li.gs-cheader {
+  background: #fff;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  }
+
+ul.df-resultbox li p,
+ul.gs-resultbox li p {
+  margin-bottom: 0;
+  color: inherit; }
+
+ul.df-resultbox li.df-cheader p.df-cheader-title,
+ul.gs-resultbox li.gs-cheader p.gs-cheader-title {
+  font-weight: bold;
+  margin-bottom: 0; }
+
+ul.df-resultbox li.df-cheader p.df-cheader-limit,
+ul.gs-resultbox li.gs-cheader p.gs-cheader-limit {
+  font-weight: normal; }
+
+ul.df-resultbox li.df-cdata img,
+ul.gs-resultbox li.gs-cdata img {
+  margin-right: 12px; }
+    
+ul.df-resultbox li.df-cdata p span.df-cdata-title,
+ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
+  font-weight: bold; }
+
+ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
+  display: block; }
+
+ul.df-resultbox li:first-child,
+ul.gs-resultbox li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px; }
+
+ul.df-resultbox li:last-child,
+ul.gs-resultbox li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #logo {

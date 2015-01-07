@@ -48,7 +48,7 @@ html, body {
       #main-navigation .btn:first-child {
         margin-left: -1px; } }
 @media screen and (max-width: 670px) {
-  #main-navigation, .subnavigation {
+  #main-navigation, #sidebar {
     display: none; }
 
   .menu-btn {

@@ -47,10 +47,10 @@
 					<form action='#' method='get' id='searchform' role='form'>
 					  <div>
 						<div>
-						  <div class='input-group input-group-sm'>
-							<div class="col-sm-9"><input type="text" id='globalsearch' class="form-control" placeholder='Search' />
-							</div><span class='input-group-btn'>
-							  <button class='btn btn-default btn-sm' title='Search…'>
+						  <div class='input-group'>
+							<input id='globalsearch' type='text' class='form-control' placeholder='Search' />
+							<span class='input-group-btn'>
+							  <button class='btn btn-default' title='Search…'>
 								<span class='icon icon-lens'></span>
 							  </button>
 							</span>
@@ -112,14 +112,15 @@
 		}
 	});
 	
-	/*$('#globalsearch').ispconfigSearch({
+	$('#globalsearch').ispconfigSearch({
 		dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
 		resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
 		noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
 		noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
-		searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">'
+		searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">',
+		resultBoxPosition: ''
 	});
-	*/
+	
 	//$('.ttip').tipsy({live: true, gravity: 'ne', html: true});
 	
 	tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
