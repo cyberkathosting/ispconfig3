@@ -137,4 +137,7 @@ $wb['apache_directive_blocked_error'] = 'Die Apache Direktive wurde durch die Si
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['enable_spdy_txt'] = 'Aktiviere SPDY';
+$wb['load_client_data_txt'] = 'Kundendaten übernehmen';
+$wb['load_my_data_txt'] = 'Meine Kontaktdaten laden';
+$wb['reset_client_data_txt'] = 'Daten verwerfen';
 ?>

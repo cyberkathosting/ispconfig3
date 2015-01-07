@@ -140,4 +140,7 @@ $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invali
 $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Cancel";
 $wb['enable_spdy_txt'] = 'Enable SPDY';
+$wb['load_client_data_txt'] = 'Load client details';
+$wb['load_my_data_txt'] = 'Load my contact details';
+$wb['reset_client_data_txt'] = 'Reset data';
 ?>

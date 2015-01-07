@@ -14,6 +14,12 @@
 
     <div class="pnl_formsarea">
         <fieldset class="inlineLabels">
+			<tmpl_if name='show_helper_links'>
+				<div class="ctrlHolder" id="show_helper_links" style="display:none;">
+					<label></label>
+					<a href="javascript:void(0);" id="load_data"><tmpl_if name='is_admin'>{tmpl_var name='load_client_data_txt'}</tmpl_else>{tmpl_var name='load_my_data_txt'}</tmpl_if></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="reset_data">{tmpl_var name='reset_client_data_txt'}</a>
+				</div>
+			</tmpl_if>
             <div class="ctrlHolder">
                 <label for="ssl_state">{tmpl_var name='ssl_state_txt'}</label>
                 <input name="ssl_state" id="ssl_state" value="{tmpl_var name='ssl_state'}" size="30" maxlength="255" type="text" class="textInput" />
@@ -37,7 +43,7 @@
                 </select>
             </div>
             <div class="ctrlHolder">
-                <label for="client_group_id">{tmpl_var name='ssl_domain_txt'}</label>
+                <label for="ssl_domain">{tmpl_var name='ssl_domain_txt'}</label>
                 <select name="ssl_domain" id="ssl_domain" class="selectInput">
                     {tmpl_var name='ssl_domain'}
                 </select>
@@ -83,3 +89,29 @@
     </div>
 
 </div>
+<script language="JavaScript" type="text/javascript">
+	<tmpl_if name='show_helper_links'>
+	if($("input[name=id]").val() > 0) $('#show_helper_links:hidden').show();
+
+	$('#reset_data').click(function(){
+		$('#ssl_organisation').add('#ssl_locality').add('#ssl_state').add('#ssl_organisation_unit').val('');
+		$('#ssl_country').val($("#ssl_country option:first").val());
+	});
+	$('#load_data').click(function(){
+		loadClientData();
+	});
+	
+	
+	function loadClientData() {
+        var web_id = $("input[name=id]").val();
+        
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {'web_id': web_id, 'type': "getclientssldata"}, function(data) {
+			$('#ssl_organisation').val(data['company_name']);
+			$('#ssl_locality').val(data['city']);
+			$('#ssl_country').val(data['country']);
+			$('#ssl_state').val(data['state']);
+			$('#ssl_organisation_unit').val('IT');
+        });
+    }
+	</tmpl_if>
+</script>
