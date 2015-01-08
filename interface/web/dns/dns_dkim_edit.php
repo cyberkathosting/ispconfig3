@@ -71,7 +71,7 @@ class page_action extends tform_actions {
 
 		parent::onShowNew();
 
-        $soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND ?'", $_GET['zone'], $app->tform->getAuthSQL('r'));
+        $soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND ?", $_GET['zone'], $app->tform->getAuthSQL('r'));
         $sql=$app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ?", substr_replace($soa['origin'],'',-1), $app->tform->getAuthSQL('r'));
         $public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
 		$app->tpl->setVar('public_key', $public_key);
