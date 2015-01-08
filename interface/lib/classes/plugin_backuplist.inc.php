@@ -108,8 +108,13 @@ class plugin_backuplist extends plugin_base {
 		}
 
 		//* Get the data
+		$server_ids = array();
 		$web = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$app->functions->intval($this->form->id));
-		$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$app->functions->intval($this->form->id)." AND server_id = ".$app->functions->intval($web['server_id'])." ORDER BY tstamp DESC, backup_type ASC";
+		$database = $app->db->queryOneRecord("SELECT server_id FROM web_database WHERE parent_domain_id = ".$app->functions->intval($this->form->id));
+		if($app->functions->intval($web['server_id']) > 0) $server_ids[] = $app->functions->intval($web['server_id']);
+		if($app->functions->intval($database['server_id']) > 0) $server_ids[] = $app->functions->intval($database['server_id']);
+		$server_ids = array_unique($server_ids);
+		$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$app->functions->intval($this->form->id)." AND server_id IN (".implode(',', $server_ids).") ORDER BY tstamp DESC, backup_type ASC";
 		$records = $app->db->queryAllRecords($sql);
 
 		$bgcolor = "#FFFFFF";
