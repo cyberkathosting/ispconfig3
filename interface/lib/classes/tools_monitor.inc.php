@@ -91,16 +91,18 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>
+                <table class="table">
+                <thead class="dark">
                 <tr>
-                <td>'.$app->lng("monitor_diskusage_filesystem_txt").'</td>
-            <td>'.$app->lng("monitor_diskusage_type_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_size_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_used_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_available_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_usage_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_mounted_txt").'</td>
-                </tr>';
+                <th>'.$app->lng("monitor_diskusage_filesystem_txt").'</th>
+            <th class="small-col">'.$app->lng("monitor_diskusage_type_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_size_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_used_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_available_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_usage_txt").'</th>
+                <th>'.$app->lng("monitor_diskusage_mounted_txt").'</th>
+                </tr></thead>
+                <tbody>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				foreach ($line as $item) {
@@ -108,7 +110,7 @@ class tools_monitor {
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
@@ -128,12 +130,13 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
 	                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                	<table><thead><tr>
-                	<td>'.$app->lng("monitor_database_name_txt").'</td>
-	                <td>'.$app->lng("monitor_database_size_txt").'</td>
-        	        <td>'.$app->lng("monitor_database_client_txt").'</td>
-					<td>'.$app->lng("monitor_database_domain_txt").'</td>
-                	</tr>';
+                	<table class="table"><thead class="dark"><tr>
+                	<th>'.$app->lng("monitor_database_name_txt").'</th>
+	                <th class="tiny-col">'.$app->lng("monitor_database_size_txt").'</th>
+        	        <th>'.$app->lng("monitor_database_client_txt").'</th>
+					<th>'.$app->lng("monitor_database_domain_txt").'</th>
+                	</tr></thead>
+                	<tbody>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
@@ -150,7 +153,7 @@ class tools_monitor {
 				foreach ($line as $item) {
 					$html .= '<td>' . $item . '</td>';
 				}
-				$html .= '</tr></tmpl loop>';
+				$html .= '</tr>';
 			}
 			$html .= '</tbody></table></div></div>';
 		} else {
@@ -174,7 +177,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 
 			foreach($data as $key => $value) {
 				if ($key != '') {
@@ -184,7 +188,7 @@ class tools_monitor {
                         </tr>';
 				}
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 
 		} else {
@@ -209,7 +213,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 			foreach($data as $key => $value) {
 				if ($key != '') {
 					$html .= '<tr>
@@ -218,7 +223,7 @@ class tools_monitor {
                         </tr>';
 				}
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
@@ -242,7 +247,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 
 			if($data['webserver'] != -1) {
 				if($data['webserver'] == 1) {
@@ -330,7 +336,7 @@ class tools_monitor {
 			}
 
 
-			$html .= '</table></div></div>';
+			$html .= '</tbody></table></div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_services_txt").'</p>';
 		}

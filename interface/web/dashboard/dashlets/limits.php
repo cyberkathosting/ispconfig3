@@ -143,10 +143,15 @@ class dashlet_limits {
 			}
 			if($value != 0 || $value == $wb['unlimited_txt']) {
 				$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value;
+				$usage = $this->_get_limit_usage($limit);
+				$percentage = ($value == '-1' || $value == 0 ? 0 : round(100 * $usage / $value));
 				$rows[] = array('field' => $field,
 					'field_txt' => $wb[$field.'_txt'],
 					'value' => $value_formatted,
-					'usage' => $this->_get_limit_usage($limit));
+					'value_raw' => $value,
+					'usage' => $usage,
+					'usage_raw' => $usage,
+					'percentage' => $percentage);
 			}
 		}
 		$tpl->setLoop('rows', $rows);

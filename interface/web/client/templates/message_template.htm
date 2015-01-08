@@ -1,35 +1,35 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_invoice_message_template">
 
   <div class="pnl_formsarea">
-    <fieldset class="inlineLabels"><legend>Settings</legend>
-      <div class="ctrlHolder">
-      	<label for="template_type">{tmpl_var name='template_type_txt'}</label>
-        <select name="template_type" id="template_type" class="selectInput">
+    <legend>Settings</legend>
+      <div class="form-group">
+      	<label for="template_type" class="col-sm-3 control-label">{tmpl_var name='template_type_txt'}</label>
+        <div class="col-sm-9"><select name="template_type" id="template_type" class="form-control">
 					{tmpl_var name='template_type'}
-				</select>
+				</select></div>
       </div>
-      <div class="ctrlHolder">
-      	<label for="template_name">{tmpl_var name='template_name_txt'}</label>
-        <input name="template_name" id="template_name" value="{tmpl_var name='template_name'}" size="30" maxlength="255" type="text" class="textInput" />
+      <div class="form-group">
+      	<label for="template_name" class="col-sm-3 control-label">{tmpl_var name='template_name_txt'}</label>
+        <div class="col-sm-9"><input type="text" name="template_name" id="template_name" value="{tmpl_var name='template_name'}" class="form-control" /></div></div>
+      <div class="form-group">
+      	<label for="subject" class="col-sm-3 control-label">{tmpl_var name='subject_txt'}</label>
+        <div class="col-sm-9"><input type="text" name="subject" id="subject" value="{tmpl_var name='subject'}" class="form-control" /></div><br clear="all">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}
 			</div>
-      <div class="ctrlHolder">
-      	<label for="subject">{tmpl_var name='subject_txt'}</label>
-        <input name="subject" id="subject" value="{tmpl_var name='subject'}" style="width:500px" size="30" maxlength="255" type="text" class="textInput" />
-		<br clear="all">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}
-			</div>
-      <div class="ctrlHolder">
-      	<label for="message">{tmpl_var name='message_txt'}</label>
-        <textarea name="message" id="message" rows='' cols='' style="width:500px">{tmpl_var name='message'}</textarea>
+      <div class="form-group">
+      	<label for="message" class="col-sm-3 control-label">{tmpl_var name='message_txt'}</label>
+        <div class="col-sm-9"><textarea class="form-control" name="message" id="message" rows='' cols=''>{tmpl_var name='message'}</textarea></div>
 		<br clear="all">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}
       </div>
-	  <div class="buttonHolder buttons">
-      <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/message_template_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onClick="loadContent('client/message_template_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-    </div>
-    </fieldset>
+	  <div class="clear"><div class="right">
+      <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/message_template_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+      <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/message_template_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+    </div></div>
+    
 
     <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

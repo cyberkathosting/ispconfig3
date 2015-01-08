@@ -1,42 +1,43 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 
-<div class="panel panel_list_user_quota_stats">
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                <tr class="caption">
-                    <th class="tbl_col_domain" scope="col"><tmpl_var name="domain_txt"></th>
-                    <th class="tbl_col_system_user" scope="col"><tmpl_var name="system_user_txt"></th>
-                    <th class="tbl_col_used_sort" scope="col"><tmpl_var name="used_txt"></th>
-                    <th class="tbl_col_soft tbl_col_nosort" scope="col"><tmpl_var name="soft_txt"></th>
-                    <th class="tbl_col_hard tbl_col_nosort" scope="col"><tmpl_var name="hard_txt"></th>
-                    <th class="tbl_col_files" scope="col"><tmpl_var name="files_txt"></th>
-                    <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                <tr>
+                    <th><tmpl_var name="domain_txt"></th>
+                    <th><tmpl_var name="system_user_txt"></th>
+                    <th><tmpl_var name="used_txt"></th>
+                    <th><tmpl_var name="soft_txt"></th>
+                    <th><tmpl_var name="hard_txt"></th>
+                    <th><tmpl_var name="files_txt"></th>
+                    <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
-                <tr class="filter">
-                    <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-                    <td class="tbl_col_system_user"><input type="text" name="search_system_user" value="{tmpl_var name='search_system_user'}" /></td>
-                    <td class="tbl_col_used">&nbsp;</td>
-                    <td class="tbl_col_soft">&nbsp;</td>
-                    <td class="tbl_col_hard">&nbsp;</td>
-                    <td class="tbl_col_files">&nbsp;</td>
-                    <td class="tbl_col_buttons">
-                        <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/user_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                <tr>
+                    <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
+                    <td><input class="form-control" type="text" name="search_system_user" value="{tmpl_var name='search_system_user'}" /></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/user_quota_stats.php');"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_domain"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a></td>
-                            <td class="tbl_col_system_user"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="system_user"}</a></td>
-                            <td class="tbl_col_used"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="used"}</a></td>
-                            <td class="tbl_col_soft"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="soft"}</a></td>
-                            <td class="tbl_col_hard"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="hard"}</a></td>
-                            <td class="tbl_col_files"><a href="#" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="files"}</a></td>
-                            <td class="tbl_col_buttons"></td>
+                        <tr>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="system_user"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="soft"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="files"}</a></td>
+                            <td class="text-right"></td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">
@@ -47,11 +48,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="7"><tmpl_var name="paging"></td>
+                        <td colspan="7"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    </div>

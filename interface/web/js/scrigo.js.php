@@ -87,6 +87,22 @@ function hideLoadIndicator() {
     }
 }
 
+function onAfterSideNavLoaded() {
+	<?php
+if($server_config_array['misc']['use_combobox'] == 'y'){
+?>
+    $('#sidebar').find("select:not(.chosen-select)").select2({
+		placeholder: '',
+		width: 'element',
+		selectOnBlur: true,
+		allowClear: true,
+	});
+<?php
+}
+?>
+
+}
+
 function onAfterContentLoad(url, data) {
     if(!data) data = '';
     else data = '&' + data;
@@ -95,14 +111,26 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
 
 
-    $('#pageContent').find("select:not(.chosen-select)").combobox({
-	    select: function (event, ui) {
-            if (jQuery(".panel #Filter").length > 0) {
-                jQuery(".panel #Filter").trigger('click');
+    $('#pageContent').find("select:not(.chosen-select)").select2({
+		placeholder: '',
+		width: 'element',
+		selectOnBlur: true,
+		allowClear: true,
+		formatResult: function(o) {
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
+			else return o.text;
+		},
+		formatSelection: function(o) {
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
+			else return o.text;
+		}
+	}).on('change', function(e) {
+            if (jQuery("#pageForm .table #Filter").length > 0) {
+                jQuery("#pageForm .table #Filter").trigger('click');
             }
-	    }
     });
-    $('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
+    /* TODO: find a better way! */
+    //$('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
 ?>
@@ -418,7 +446,9 @@ function loadMenus() {
 											},
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
-												jQuery('#sideNav').html(jqXHR.responseText);
+												jQuery('#sidebar').html(jqXHR.responseText);
+												onAfterSideNavLoaded();
+												loadPushyMenu();
 											},
 											error: function() {
                                                 hideLoadIndicator();
@@ -435,7 +465,8 @@ function loadMenus() {
 											},
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
-												jQuery('#topNav').html(jqXHR.responseText);
+												jQuery('#topnav-container').html(jqXHR.responseText);
+												loadPushyMenu();
 											},
 											error: function(o) {
                                                 hideLoadIndicator();

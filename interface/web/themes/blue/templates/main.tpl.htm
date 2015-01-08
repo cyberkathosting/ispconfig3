@@ -142,8 +142,8 @@
                     <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
                     <!-- end: skip link navigation -->
                     <tmpl_if name="cpuser">
-                        <a href="#logout" onclick="loadContent('login/logout.php');"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>-->
-                        <tmpl_if name='usertype' op='==' value='normaluser'><input type="text" id="globalsearch" size="25" value="" /></tmpl_if>
+                        <a href="#logout" data-load-content="login/logout.php"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>-->
+                        <tmpl_if name='usertype' op='==' value='normaluser'><div class="col-sm-9"><input class="form-control" type="text" id="globalsearch" value="" /></div></tmpl_if>
                     </tmpl_if>
                 </nav>
                 <h1 id="ir-HeaderLogo" class="swap" style="background-image:url('{tmpl_var name='app_logo'}');"><span>ISPConfig 3</span></h1>
@@ -161,8 +161,7 @@
                 <!-- begin: #content -->
                 <section id="content">
                     <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
-						<input type="text" style="display:none" /><input type="password" style="display:none"/>
-                        <div id="pageContent"><!-- AJAX CONTENT --></div>
+						<div class="col-sm-9"><input class="form-control" type="text" style="display:none" /></div><div class="col-sm-9"><input class="form-control" type="password" style="display:none"/></div><div id="pageContent"><!-- AJAX CONTENT --></div>
                     </form>
                     <div id="ie_clearing">&nbsp;</div>
                     <!-- End: IE Column Clearing -->
@@ -178,9 +177,7 @@
 		
 <div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
 <form action="" method="post" target="dummy_login" id="dummy_login_form">
-<input name="username" id="dummy_username" type="text" autocomplete="on" value="" />
-<input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
-<input type="submit" value="Login" id="dummy_submit"/>
+<div class="col-sm-9"><input class="form-control" type="text" name="username" id="dummy_username" autocomplete="on" value="" /></div><div class="col-sm-9"><input class="form-control" type="password" name="passwort" id="dummy_passwort" autocomplete="on" value="" /></div><input type="submit" value="Login" id="dummy_submit"/>
 </form>
 <iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
 </div>

@@ -1,119 +1,105 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_server_config">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='auto_network_configuration_txt'}</p>
-                <div class="multiField">
+
+        
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='auto_network_configuration_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='auto_network_configuration'} {tmpl_var name='network_config_warning_txt'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="ip_address">{tmpl_var name='ip_address_txt'}</label>
-                <input name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
+            <div class="form-group">
+                <label for="ip_address" class="col-sm-3 control-label">{tmpl_var name='ip_address_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ip_address" id="ip_address" value="{tmpl_var name='ip_address'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="netmask" class="col-sm-3 control-label">{tmpl_var name='netmask_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="netmask" id="netmask" value="{tmpl_var name='netmask'}" class="form-control" /></div></div>
+	    <div class="form-group">
+		<label for="v6_prefix" class="col-sm-3 control-label">{tmpl_var name='v6_prefix_txt'}</label>
+		<div class="col-sm-9"><input type="text" name="v6_prefix" id="v6_prefix" value="{tmpl_var name='v6_prefix'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="gateway" class="col-sm-3 control-label">{tmpl_var name='gateway_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="gateway" id="gateway" value="{tmpl_var name='gateway'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="hostname" class="col-sm-3 control-label">{tmpl_var name='hostname_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="hostname" id="hostname" value="{tmpl_var name='hostname'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="nameservers" class="col-sm-3 control-label">{tmpl_var name='nameservers_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="nameservers" id="nameservers" value="{tmpl_var name='nameservers'}" class="form-control" /></div><p class="formHint">{tmpl_var name='nameservers_hint_txt'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="netmask">{tmpl_var name='netmask_txt'}</label>
-                <input name="netmask" id="netmask" value="{tmpl_var name='netmask'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
-            </div>
-	    <div class="ctrlHolder">
-		<label for="v6_prefix">{tmpl_var name='v6_prefix_txt'}</label>
-		<input name="v6_prefix" id="v6_prefix" value="{tmpl_var name='v6_prefix'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="gateway">{tmpl_var name='gateway_txt'}</label>
-                <input name="gateway" id="gateway" value="{tmpl_var name='gateway'}" size="15" maxlength="255" type="text" class="textInput formLengthIPv4" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="hostname">{tmpl_var name='hostname_txt'}</label>
-                <input name="hostname" id="hostname" value="{tmpl_var name='hostname'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="nameservers">{tmpl_var name='nameservers_txt'}</label>
-                <input name="nameservers" id="nameservers" value="{tmpl_var name='nameservers'}" size="40" maxlength="255" type="text" class="textInput" />
-                <p class="formHint">{tmpl_var name='nameservers_hint_txt'}</p>
-            </div>
-            <div class="ctrlHolder">
-                <label for="firewall">{tmpl_var name='firewall_txt'}</label>
-                <select name="firewall" id="firewall" class="selectInput">
+            <div class="form-group">
+                <label for="firewall" class="col-sm-3 control-label">{tmpl_var name='firewall_txt'}</label>
+                <div class="col-sm-9"><select name="firewall" id="firewall" class="form-control">
                     {tmpl_var name='firewall'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="loglevel">{tmpl_var name='loglevel_txt'}</label>
-                <select name="loglevel" id="loglevel" class="selectInput">
+            <div class="form-group">
+                <label for="loglevel" class="col-sm-3 control-label">{tmpl_var name='loglevel_txt'}</label>
+                <div class="col-sm-9"><select name="loglevel" id="loglevel" class="form-control">
                     {tmpl_var name='loglevel'}
-                </select>
+                </select></div>
             </div>
-			<div class="ctrlHolder">
-                <label for="admin_notify_events">{tmpl_var name='admin_notify_events_txt'}</label>
-                <select name="admin_notify_events" id="admin_notify_events" class="selectInput">
+			<div class="form-group">
+                <label for="admin_notify_events" class="col-sm-3 control-label">{tmpl_var name='admin_notify_events_txt'}</label>
+                <div class="col-sm-9"><select name="admin_notify_events" id="admin_notify_events" class="form-control">
                     {tmpl_var name='admin_notify_events'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="backup_dir">{tmpl_var name='backup_dir_txt'}</label>
-                <input name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-			<div class="ctrlHolder">
-                <p class="label">{tmpl_var name='backup_dir_is_mount_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="backup_dir" class="col-sm-3 control-label">{tmpl_var name='backup_dir_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="backup_dir" id="backup_dir" value="{tmpl_var name='backup_dir'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='backup_dir_is_mount_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='backup_dir_is_mount'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="backup_mode">{tmpl_var name='backup_mode_txt'}</label>
-                <select name="backup_mode" id="backup_mode" class="selectInput">
+            <div class="form-group">
+                <label for="backup_mode" class="col-sm-3 control-label">{tmpl_var name='backup_mode_txt'}</label>
+                <div class="col-sm-9"><select name="backup_mode" id="backup_mode" class="form-control">
                     {tmpl_var name='backup_mode'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='backup_delete_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='backup_delete_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='backup_delete'}
                 </div>
             </div>
-			<div class="ctrlHolder">
-                <label for="monit_url">{tmpl_var name='monit_url_txt'}</label>
-                <input name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='monit_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
+			<div class="form-group">
+                <label for="monit_url" class="col-sm-3 control-label">{tmpl_var name='monit_url_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='monit_url_note_txt'} </div><a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
             </div>
-			<div class="ctrlHolder">
-                <label for="monit_user">{tmpl_var name='monit_user_txt'}</label>
-                <input name="monit_user" id="monit_user" value="{tmpl_var name='monit_user'}" size="40" maxlength="255" type="text" class="textInput" />
+			<div class="form-group">
+                <label for="monit_user" class="col-sm-3 control-label">{tmpl_var name='monit_user_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="monit_user" id="monit_user" value="{tmpl_var name='monit_user'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="monit_password" class="col-sm-3 control-label">{tmpl_var name='monit_password_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="monit_password" id="monit_password" value="{tmpl_var name='monit_password'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="munin_url" class="col-sm-3 control-label">{tmpl_var name='munin_url_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="munin_url" id="munin_url" value="{tmpl_var name='munin_url'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='munin_url_note_txt'} </div><a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
             </div>
-			<div class="ctrlHolder">
-                <label for="monit_password">{tmpl_var name='monit_password_txt'}</label>
-                <input name="monit_password" id="monit_password" value="{tmpl_var name='monit_password'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-			<div class="ctrlHolder">
-                <label for="munin_url">{tmpl_var name='munin_url_txt'}</label>
-                <input name="munin_url" id="munin_url" value="{tmpl_var name='munin_url'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='munin_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
-            </div>
-			<div class="ctrlHolder">
-                <label for="munin_user">{tmpl_var name='munin_user_txt'}</label>
-                <input name="munin_user" id="munin_user" value="{tmpl_var name='munin_user'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-			<div class="ctrlHolder">
-                <label for="munin_password">{tmpl_var name='munin_password_txt'}</label>
-                <input name="munin_password" id="munin_password" value="{tmpl_var name='munin_password'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-			<div class="ctrlHolder">
-                <p class="label">{tmpl_var name='monitor_system_updates_txt'}</p>
-                <div class="multiField">
+			<div class="form-group">
+                <label for="munin_user" class="col-sm-3 control-label">{tmpl_var name='munin_user_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="munin_user" id="munin_user" value="{tmpl_var name='munin_user'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="munin_password" class="col-sm-3 control-label">{tmpl_var name='munin_password_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="munin_password" id="munin_password" value="{tmpl_var name='munin_password'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='monitor_system_updates_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='monitor_system_updates'}
                 </div>
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

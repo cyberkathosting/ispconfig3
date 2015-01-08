@@ -1,29 +1,25 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_language_add">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>Language Add</legend>
-            <div class="ctrlHolder">
-                <label for="lng_select">{tmpl_var name='language_select_txt'}</label>
-                <select name="lng_select" id="language" class="selectInput flags">
+        <legend>Language Add</legend>
+            <div class="form-group">
+                <label for="lng_select" class="col-sm-3 control-label">{tmpl_var name='language_select_txt'}</label>
+                <div class="col-sm-9"><select name="lng_select" id="language" class="form-control flags">
                     {tmpl_var name='language_option'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="lng_new">{tmpl_var name='language_new_txt'}</label>
-                <input name="lng_new" id="lng_new" value="" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-                <p class="formHint">{tmpl_var name='language_new_hint_txt'}</p>
+            <div class="form-group">
+                <label for="lng_new" class="col-sm-3 control-label">{tmpl_var name='language_new_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="lng_new" id="lng_new" value="" class="form-control" /></div><p class="formHint">{tmpl_var name='language_new_hint_txt'}</p>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/language_add.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/language_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/language_add.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/language_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

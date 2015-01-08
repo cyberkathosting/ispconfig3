@@ -1,48 +1,43 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_directive_snippets">
 
-    <div class="pnl_toolsarea">
-        <fieldset><legend>{tmpl_var name="toolsarea_head_txt"}</legend>
-            <div class="buttons">
-                <button class="button iconstxt icoAdd" type="button" onclick="loadContent('admin/directive_snippets_edit.php');">
-                    <span>{tmpl_var name="add_new_record_txt"}</span>
-                </button>
-            </div>
-        </fieldset>
-    </div>
-
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
-                        <th class="tbl_col_name" scope="col"><tmpl_var name="name_txt"></th>
-                        <th class="tbl_col_type" scope="col"><tmpl_var name="type_txt"></th>
-						<th class="tbl_col_customer_viewable" scope="col" style="width:120px"><tmpl_var name="customer_viewable_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+        <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
+            
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="admin/directive_snippets_edit.php">{tmpl_var name="add_new_record_txt"}</button>
+            
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                    <tr>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
+                        <th><tmpl_var name="name_txt"></th>
+                        <th><tmpl_var name="type_txt"></th>
+						<th><tmpl_var name="customer_viewable_txt"></th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_active"><select name="search_active">{tmpl_var name='search_active'}</select></td>
-                        <td class="tbl_col_name"><input type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td class="tbl_col_type"><select name="search_type">{tmpl_var name='search_type'}</select></td>
-						<td class="tbl_col_customer_viewable" style="text-align:center"><select name="search_customer_viewable">{tmpl_var name='search_customer_viewable'}</select></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/directive_snippets_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    <tr>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
+						<td><select class="form-control" name="search_customer_viewable">{tmpl_var name='search_customer_viewable'}</select></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/directive_snippets_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_active"><a href="#" onclick="loadContent('admin/directive_snippets_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a></td>
-                            <td class="tbl_col_name"><a href="#" onclick="loadContent('admin/directive_snippets_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="name"}</a></td>
-                            <td class="tbl_col_type"><a href="#" onclick="loadContent('admin/directive_snippets_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="type"}</a></td>
-							<td class="tbl_col_customer_viewable"><a href="#" onclick="loadContent('admin/directive_snippets_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="customer_viewable"}</a></td>
-                            <td class="tbl_col_buttons">
-                                <a class="button icons16 icoDelete" href="javascript: del_record('admin/directive_snippets_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a>
+                        <tr>
+                            <td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
+                            <td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="type"}</a></td>
+							<td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="customer_viewable"}</a></td>
+                            <td class="text-right">
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/directive_snippets_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>
@@ -55,11 +50,10 @@
 
                 <tfoot>
                     <tr>
-                    <td class="tbl_footer tbl_paging" colspan="5"><tmpl_var name="paging"></td>
+                    <td colspan="5"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    

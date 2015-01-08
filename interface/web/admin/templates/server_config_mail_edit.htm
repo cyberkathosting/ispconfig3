@@ -1,134 +1,115 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_server_config">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="module">{tmpl_var name='module_txt'}</label>
-                <select name="module" id="module" class="selectInput formLengthHalf">
+
+        
+            <div class="form-group">
+                <label for="module" class="col-sm-3 control-label">{tmpl_var name='module_txt'}</label>
+                <div class="col-sm-9"><select name="module" id="module" class="form-control">
                     {tmpl_var name='module'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="maildir_path">{tmpl_var name='maildir_path_txt'}</label>
-                <input name="maildir_path" id="maildir_path" value="{tmpl_var name='maildir_path'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="homedir_path">{tmpl_var name='homedir_path_txt'}</label>
-                <input name="homedir_path" id="homedir_path" value="{tmpl_var name='homedir_path'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="dkim_path">{tmpl_var name='dkim_path_txt'}</label>
-                <input name="dkim_path" id="dkim_path" value="{tmpl_var name='dkim_path'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-				<p class="label">{tmpl_var name='dkim_strength_txt'}</p>
-				<div class="multiField">
-					<select name="dkim_strength" id="dkim_strength" class="selectInput">
+            <div class="form-group">
+                <label for="maildir_path" class="col-sm-3 control-label">{tmpl_var name='maildir_path_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="maildir_path" id="maildir_path" value="{tmpl_var name='maildir_path'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="homedir_path" class="col-sm-3 control-label">{tmpl_var name='homedir_path_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="homedir_path" id="homedir_path" value="{tmpl_var name='homedir_path'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="dkim_path" class="col-sm-3 control-label">{tmpl_var name='dkim_path_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="dkim_path" id="dkim_path" value="{tmpl_var name='dkim_path'}" class="form-control" /></div></div>
+            <div class="form-group">
+				<label class="col-sm-3 control-label">{tmpl_var name='dkim_strength_txt'}</label>
+				<div class="col-sm-9"><select name="dkim_strength" id="dkim_strength" class="form-control">
 						{tmpl_var name='dkim_strength'}
-					</select>
-				</div>
+					</select></div>
 			</div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='pop3_imap_daemon_txt'}</p>
-                <div class="multiField">
-                    <select name="pop3_imap_daemon" id="pop3_imap_daemon" class="selectInput">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='pop3_imap_daemon_txt'}</label>
+                <div class="col-sm-9"><select name="pop3_imap_daemon" id="pop3_imap_daemon" class="form-control">
                         {tmpl_var name='pop3_imap_daemon'}
-                    </select>
-                </div>
+                    </select></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mail_filter_syntax_txt'}</p>
-                <div class="multiField">
-                    <select name="mail_filter_syntax" id="mail_filter_syntax" class="selectInput">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mail_filter_syntax_txt'}</label>
+                <div class="col-sm-9"><select name="mail_filter_syntax" id="mail_filter_syntax" class="form-control">
                         {tmpl_var name='mail_filter_syntax'}
-                    </select>
-                </div>
+                    </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="mailuser_uid">{tmpl_var name='mailuser_uid_txt'}</label>
-                <input name="mailuser_uid" id="mailuser_uid" value="{tmpl_var name='mailuser_uid'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="mailuser_gid">{tmpl_var name='mailuser_gid_txt'}</label>
-                <input name="mailuser_gid" id="mailuser_gid" value="{tmpl_var name='mailuser_gid'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="mailuser_name">{tmpl_var name='mailuser_name_txt'}</label>
-                <input name="mailuser_name" id="mailuser_name" value="{tmpl_var name='mailuser_name'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="mailuser_group">{tmpl_var name='mailuser_group_txt'}</label>
-                <input name="mailuser_group" id="mailuser_group" value="{tmpl_var name='mailuser_group'}" size="10" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailbox_virtual_uidgid_maps_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="mailuser_uid" class="col-sm-3 control-label">{tmpl_var name='mailuser_uid_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mailuser_uid" id="mailuser_uid" value="{tmpl_var name='mailuser_uid'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="mailuser_gid" class="col-sm-3 control-label">{tmpl_var name='mailuser_gid_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mailuser_gid" id="mailuser_gid" value="{tmpl_var name='mailuser_gid'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="mailuser_name" class="col-sm-3 control-label">{tmpl_var name='mailuser_name_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mailuser_name" id="mailuser_name" value="{tmpl_var name='mailuser_name'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="mailuser_group" class="col-sm-3 control-label">{tmpl_var name='mailuser_group_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mailuser_group" id="mailuser_group" value="{tmpl_var name='mailuser_group'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailbox_virtual_uidgid_maps_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailbox_virtual_uidgid_maps'}&nbsp;{tmpl_var name='mailbox_virtual_uidgid_maps_info_txt'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="relayhost">{tmpl_var name='relayhost_txt'}</label>
-                <input name="relayhost" id="relayhost" value="{tmpl_var name='relayhost'}" size="40" maxlength="255" type="text" class="textInput formLengthHalf" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="relayhost_user">{tmpl_var name='relayhost_user_txt'}</label>
-                <input name="relayhost_user" id="relayhost_user" value="{tmpl_var name='relayhost_user'}" size="40" maxlength="255" type="text" autocomplete="off" class="textInput formLengthHalf" autocomplete="off" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="relayhost_password">{tmpl_var name='relayhost_password_txt'}</label>
-                <input name="relayhost_password" id="relayhost_password" value="{tmpl_var name='relayhost_password'}" size="40" maxlength="255" type="password" autocomplete="off" class="textInput formLengthHalf" autocomplete="off" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="mailbox_size_limit">{tmpl_var name='mailbox_size_limit_txt'}</label>
-                <input name="mailbox_size_limit" id="mailbox_size_limit" value="{tmpl_var name='mailbox_size_limit'}" size="10" maxlength="15" type="text" class="textInput formLengthLimit" />&nbsp;MB
-            </div>
-            <div class="ctrlHolder">
-                <label for="message_size_limit">{tmpl_var name='message_size_limit_txt'}</label>
-                <input name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" size="10" maxlength="15" type="text" class="textInput formLengthLimit" />&nbsp;MB
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailbox_quota_stats_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="relayhost" class="col-sm-3 control-label">{tmpl_var name='relayhost_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="relayhost" id="relayhost" value="{tmpl_var name='relayhost'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="relayhost_user" class="col-sm-3 control-label">{tmpl_var name='relayhost_user_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="relayhost_user" id="relayhost_user" value="{tmpl_var name='relayhost_user'}" autocomplete="off" class="form-control" autocomplete="off" /></div></div>
+            <div class="form-group">
+                <label for="relayhost_password" class="col-sm-3 control-label">{tmpl_var name='relayhost_password_txt'}</label>
+                <div class="col-sm-9"><input type="password" name="relayhost_password" id="relayhost_password" value="{tmpl_var name='relayhost_password'}" autocomplete="off" class="form-control" autocomplete="off" /></div></div>
+            <div class="form-group">
+                <label for="mailbox_size_limit" class="col-sm-3 control-label">{tmpl_var name='mailbox_size_limit_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="mailbox_size_limit" id="mailbox_size_limit" value="{tmpl_var name='mailbox_size_limit'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
+            </div></div>
+            <div class="form-group">
+                <label for="message_size_limit" class="col-sm-3 control-label">{tmpl_var name='message_size_limit_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailbox_quota_stats_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailbox_quota_stats'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="realtime_blackhole_list">{tmpl_var name='realtime_blackhole_list_txt'}</label>
-                <input name="realtime_blackhole_list" id="realtime_blackhole_list" value="{tmpl_var name='realtime_blackhole_list'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='realtime_blackhole_list_note_txt'}
-            </div>
-			<div class="ctrlHolder">
-                <p class="label">{tmpl_var name='overquota_notify_admin_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="realtime_blackhole_list" class="col-sm-3 control-label">{tmpl_var name='realtime_blackhole_list_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="realtime_blackhole_list" id="realtime_blackhole_list" value="{tmpl_var name='realtime_blackhole_list'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='realtime_blackhole_list_note_txt'}
+            </div></div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='overquota_notify_admin_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='overquota_notify_admin'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='overquota_notify_client_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='overquota_notify_client_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='overquota_notify_client'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="overquota_notify_freq">{tmpl_var name='overquota_notify_freq_txt'}</label>
-                <input name="overquota_notify_freq" id="overquota_notify_freq" value="{tmpl_var name='overquota_notify_freq'}" size="40" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='overquota_notify_freq_note_txt'}
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='overquota_notify_onok_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="overquota_notify_freq" class="col-sm-3 control-label">{tmpl_var name='overquota_notify_freq_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="overquota_notify_freq" id="overquota_notify_freq" value="{tmpl_var name='overquota_notify_freq'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='overquota_notify_freq_note_txt'}
+            </div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='overquota_notify_onok_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='overquota_notify_onok'}
                 </div>
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-    
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

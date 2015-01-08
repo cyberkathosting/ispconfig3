@@ -1,40 +1,41 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_web_sites_stats">
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_domain" scope="col"><tmpl_var name="domain_txt"></th>
-                        <th class="tbl_col_web_traffic_this_month" scope="col"><tmpl_var name="this_month_txt"></th>
-                        <th class="tbl_col_web_traffic_last_month" scope="col"><tmpl_var name="last_month_txt"></th>
-                        <th class="tbl_col_web_traffic_this_year" scope="col"><tmpl_var name="this_year_txt"></th>
-                        <th class="tbl_col_web_traffic_last_year" scope="col"><tmpl_var name="last_year_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                    <tr>
+                        <th><tmpl_var name="domain_txt"></th>
+                        <th><tmpl_var name="this_month_txt"></th>
+                        <th><tmpl_var name="last_month_txt"></th>
+                        <th><tmpl_var name="this_year_txt"></th>
+                        <th><tmpl_var name="last_year_txt"></th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_domain"><input type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-                        <td class="tbl_col_this_month"></td>
-                        <td class="tbl_col_last_month"></td>
-                        <td class="tbl_col_this_year"></td>
-                        <td class="tbl_col_last_year"></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_sites_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    <tr>
+                        <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_sites_stats.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                 <tmpl_loop name="records">
-                    <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td class="tbl_col_domain"><a target="_blank" href="http://{tmpl_var name="domain"}/stats">{tmpl_var name="domain"}</a></td>
-                        <td class="tbl_col_this_month"><a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_month"} MB</a></td>
-                        <td class="tbl_col_last_month"><a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_month"} MB</a></td>
-                        <td class="tbl_col_this_year"><a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="this_year"} MB</a></td>
-                        <td class="tbl_col_last_year"><a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="last_year"} MB</a></td>
-                        <td class="tbl_col_buttons"></td>
+                    <tr>
+                        <td><a target="_blank" href="http://{tmpl_var name="domain"}/stats">{tmpl_var name="domain"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_month"} MB</a></td>
+                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"} MB</a></td>
+                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"} MB</a></td>
+                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"} MB</a></td>
+                        <td class="text-right"></td>
                     </tr>
                 </tmpl_loop>
                 <tmpl_unless name="records">
@@ -42,22 +43,21 @@
                         <td colspan="6">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                     </tr>
                 </tmpl_unless>
-                    <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td class="tbl_col_domain"><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_txt"}</a></td>
-                        <td class="tbl_col_this_month"><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_month"} MB</a></td>
-                        <td class="tbl_col_last_month"><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_month"} MB</a></td>
-                        <td class="tbl_col_this_year"><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_year"} MB</a></td>
-                        <td class="tbl_col_last_year"><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_year"} MB</a></td>
-                        <td class="tbl_col_buttons"></td>
+                    <tr>
+                        <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_txt"}</a></td>
+                        <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_month"} MB</a></td>
+                        <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_month"} MB</a></td>
+                        <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_year"} MB</a></td>
+                        <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_year"} MB</a></td>
+                        <td class="text-right"></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="6"><tmpl_var name="paging"></td>
+                        <td colspan="6"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    </div>

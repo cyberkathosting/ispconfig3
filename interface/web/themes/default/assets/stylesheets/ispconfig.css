@@ -1,0 +1,627 @@
+body {
+  overflow-y: scroll; }
+
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.clear:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+.marginTop15 {
+  margin-top: 15px; }
+
+.paddingX5 {
+  padding-left: 5px !important;
+  padding-right: 5px !important; }
+
+.width65 {
+  width: 65px; }
+
+.form-group input[type='checkbox'] {
+  margin-top: 10px; }
+
+.control-label {
+  font-weight: normal; }
+  .control-label:after {
+    content: ":"; }
+
+.formbutton-default {
+  padding: 6px 30px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all ease 500ms; }
+
+.formbutton-success,
+.formbutton-danger {
+  padding: 6px 30px;
+  border-style: solid;
+  border-width: 1px;
+  border-bottom-width: solid;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all ease 500ms; }
+
+.formbutton-narrow {
+  padding: 6px 8px;
+  margin-left: 2px;
+  margin-right: 2px; }
+
+.formbutton-narrower {
+  padding: 4px 6px; }
+
+#main-wrapper {
+  margin: 0 auto;
+  width: 95%;
+  max-width: 1260px; }
+
+#logo {
+  float: left;
+  width: 200px;
+  height: 65px;
+  background: url("../images/logo.png") no-repeat; }
+  #logo a {
+    display: block;
+    width: 100%;
+    height: 100%; }
+
+#headerbar {
+  float: right; }
+
+#searchform {
+  float: right;
+  margin-top: 16px; }
+  #searchform > div {
+    position: relative;
+    display: table; }
+    #searchform > div > div {
+      display: table-cell;
+      padding-right: 8px;
+      vertical-align: top; }
+  #searchform .icon {
+    padding: 0 2px;
+    font-size: 16px; }
+
+#logout-button {
+  float: right;
+  margin-top: 16px;
+  margin-left: 25px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  transition: all ease 500ms; }
+
+#main-navigation {
+  margin-top: 24px; }
+  #main-navigation a {
+    padding: 0 12px;
+    height: 70px;
+    border-bottom-style: solid;
+    botder-bottom-width: 2px;
+    transition: all ease 500ms; }
+  #main-navigation .icon {
+    font-size: 32px; }
+  #main-navigation .title {
+    margin-top: 2px;
+    font-weight: bold; }
+
+.btn-group-justified .btn {
+  border-right-width: 0; }
+  .btn-group-justified .btn:last-of-type {
+    border-right-width: 1px; }
+
+#content {
+  width: 78%; }
+
+#sidebar {
+  margin-top: 27px;
+  width: 18%;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px; }
+  #sidebar header {
+    margin: 1px;
+    padding: 0 10px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px; }
+  #sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; }
+  #sidebar li {
+    padding: 10px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    font-size: 12px; }
+  #sidebar a {
+    text-decoration: none;
+    transition: color ease 500ms; }
+
+.page-header {
+  margin: 20px 0;
+  padding: 0; }
+
+.alert-notification a {
+  font-weight: bold;
+  text-decoration: none;
+  transition: color ease 500ms; }
+
+.alert-label, .alert-content {
+  display: inline-block;
+  vertical-align: top; }
+
+.alert-label {
+  width: 60px; }
+
+.modules {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  .modules li {
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    padding: 8px;
+    width: 200px;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px; }
+  .modules .icon {
+    float: left;
+    margin-right: 15px;
+    font-size: 50px; }
+  .modules .left {
+    margin-top: 5px; }
+  .modules .title {
+    margin-top: 6px;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold; }
+  .modules .button {
+    margin-top: 10px;
+    width: 100%;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all ease 500ms; }
+  .modules a {
+    text-decoration: none; }
+
+.table-wrapper {
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px; }
+
+.table {
+  table-layout: fixed;
+  margin-bottom: 1px; }
+  .table caption {
+    padding: 5px 10px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px; }
+  .table tbody tr {
+    border-top-style: solid;
+    border-top-width: 1px;
+    transition: background ease 500ms; }
+    .table tbody tr:last-child {
+      border-radius: 4px; }
+
+.tfooter {
+  margin-top: -1px;
+  height: 40px;
+  border-top-style: solid;
+  border-top-width: 1px; }
+
+.pagination {
+  margin: 10px 0; }
+
+.progress {
+  display: inline-block;
+  margin-bottom: 0;
+  width: 150px;
+  height: 10px; }
+
+p.fieldset-legend {
+  display: none; }
+
+.content-tab-wrapper {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px; }
+  .content-tab-wrapper .nav-tabs > li > a {
+    border-radius: 0;
+    border: none !important;
+    border-right-style: solid !important;
+    border-right-width: 1px !important;
+    outline: none;
+    font-weight: bold;
+    transition: background ease 500ms; }
+  .content-tab-wrapper .nav-tabs li:not(:first-child) a {
+    margin-left: -2px; }
+
+.tab-content {
+  padding: 25px 10px; }
+
+.input-group-btn .icon-calendar {
+  font-size: 18px; }
+
+thead.dark th {
+  height: 40px;
+  line-height: 40px;
+  font-weight: normal; }
+
+thead.dark th.small-col {
+  width: 14%; }
+
+thead.dark th.tiny-col {
+  width: 8%;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+thead.dark td input,
+thead.dark td select {
+  width: 100%; }
+
+#footer {
+  margin: 20px 0;
+  padding-top: 20px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  font-size: 10px; }
+
+.menu-btn {
+  display: none;
+  cursor: pointer; }
+
+.df-container,
+.gs-container {
+  position: relative; }
+
+.gs-container:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+ul.df-resultbox,
+ul.gs-resultbox {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 100%;
+    margin: 0;
+    padding: 0 0 10px;
+    min-width: 250px;
+    max-width: 500px;
+    z-index: 999999;
+    background: #fff;
+    list-style: none;
+	box-shadow: 2px 2px 5px #c5c5c5;
+	border-radius: 5px; }
+
+ul.df-resultbox li,
+ul.gs-resultbox li {
+  float: none;
+  display: block;
+  cursor: pointer;
+  padding: 0 10px; }
+
+ul.gs-resultbox li {
+  padding: 3px 10px;
+  line-height: 1.1;
+  font-size: 0.9em; }
+
+ul.df-resultbox li:nth-child(even),
+ul.gs-resultbox li:nth-child(even) {
+	background: #f2f5f7; }
+
+ul.df-resultbox li.df-cheader,
+ul.gs-resultbox li.gs-cheader {
+  background: #fff;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  }
+
+ul.df-resultbox li p,
+ul.gs-resultbox li p {
+  margin-bottom: 0;
+  color: inherit; }
+
+ul.df-resultbox li.df-cheader p.df-cheader-title,
+ul.gs-resultbox li.gs-cheader p.gs-cheader-title {
+  font-weight: bold;
+  margin-bottom: 0; }
+
+ul.df-resultbox li.df-cheader p.df-cheader-limit,
+ul.gs-resultbox li.gs-cheader p.gs-cheader-limit {
+  font-weight: normal; }
+
+ul.df-resultbox li.df-cdata img,
+ul.gs-resultbox li.gs-cdata img {
+  margin-right: 12px; }
+    
+ul.df-resultbox li.df-cdata p span.df-cdata-title,
+ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
+  font-weight: bold; }
+
+ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
+  display: block; }
+
+ul.df-resultbox li:first-child,
+ul.gs-resultbox li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px; }
+
+ul.df-resultbox li:last-child,
+ul.gs-resultbox li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
+
+span.flags {
+    background-image: url("../images/flags_sprite.png");
+    background-repeat: no-repeat;
+    min-height: 20px;
+    padding-left: 27px;
+    vertical-align: middle;
+}
+span.flag-el {background-position:0 -1475px}
+span.flag-ad {background-position:0 -1px}
+span.flag-ae {background-position:0 -23px}
+span.flag-af {background-position:0 -45px}
+span.flag-ag {background-position:0 -67px}
+span.flag-ai {background-position:0 -89px}
+span.flag-al {background-position:0 -111px}
+span.flag-am {background-position:0 -133px}
+span.flag-an {background-position:0 -155px}
+span.flag-ao {background-position:0 -177px}
+span.flag-aq {background-position:0 -199px}
+span.flag-ar {background-position:0 -221px}
+span.flag-as {background-position:0 -243px}
+span.flag-at {background-position:0 -265px}
+span.flag-au {background-position:0 -287px}
+span.flag-aw {background-position:0 -309px}
+span.flag-ax {background-position:0 -331px}
+span.flag-az {background-position:0 -353px}
+span.flag-ba {background-position:0 -375px}
+span.flag-bb {background-position:0 -397px}
+span.flag-bd {background-position:0 -419px}
+span.flag-be {background-position:0 -441px}
+span.flag-bf {background-position:0 -463px}
+span.flag-bg {background-position:0 -485px}
+span.flag-bh {background-position:0 -507px}
+span.flag-bi {background-position:0 -529px}
+span.flag-bj {background-position:0 -551px}
+span.flag-bm {background-position:0 -573px}
+span.flag-bn {background-position:0 -595px}
+span.flag-bo {background-position:0 -617px}
+span.flag-br {background-position:0 -639px}
+span.flag-bs {background-position:0 -661px}
+span.flag-bt {background-position:0 -683px}
+span.flag-bv {background-position:0 -705px}
+span.flag-bw {background-position:0 -727px}
+span.flag-by {background-position:0 -749px}
+span.flag-bz {background-position:0 -771px}
+span.flag-ca {background-position:0 -793px}
+span.flag-cc {background-position:0 -837px}
+span.flag-cd {background-position:0 -859px}
+span.flag-cf {background-position:0 -881px}
+span.flag-cg {background-position:0 -903px}
+span.flag-ch {background-position:0 -925px}
+span.flag-ci {background-position:0 -947px}
+span.flag-ck {background-position:0 -969px}
+span.flag-cl {background-position:0 -991px}
+span.flag-cm {background-position:0 -1013px}
+span.flag-cn {background-position:0 -1035px}
+span.flag-co {background-position:0 -1057px}
+span.flag-cr {background-position:0 -1079px}
+span.flag-cs {background-position:0 -1101px}
+span.flag-cu {background-position:0 -1123px}
+span.flag-cv {background-position:0 -1145px}
+span.flag-cx {background-position:0 -1167px}
+span.flag-cy {background-position:0 -1189px}
+span.flag-cz {background-position:0 -1211px}
+span.flag-de {background-position:0 -1233px}
+span.flag-dj {background-position:0 -1255px}
+span.flag-dk {background-position:0 -1277px}
+span.flag-dm {background-position:0 -1299px}
+span.flag-do {background-position:0 -1321px}
+span.flag-dz {background-position:0 -1343px}
+span.flag-ec {background-position:0 -1365px}
+span.flag-ee {background-position:0 -1387px}
+span.flag-eg {background-position:0 -1409px}
+span.flag-eh {background-position:0 -1431px}
+span.flag-er {background-position:0 -1475px}
+span.flag-es {background-position:0 -1497px}
+span.flag-et {background-position:0 -1519px}
+span.flag-fi {background-position:0 -1585px}
+span.flag-fj {background-position:0 -1607px}
+span.flag-fk {background-position:0 -1629px}
+span.flag-fm {background-position:0 -1651px}
+span.flag-fo {background-position:0 -1673px}
+span.flag-fr {background-position:0 -1695px}
+span.flag-ga {background-position:0 -1717px}
+span.flag-gb {background-position:0 -1739px}
+span.flag-gd {background-position:0 -1761px}
+span.flag-ge {background-position:0 -1783px}
+span.flag-gf {background-position:0 -1805px}
+span.flag-gh {background-position:0 -1827px}
+span.flag-gi {background-position:0 -1849px}
+span.flag-gl {background-position:0 -1871px}
+span.flag-gm {background-position:0 -1893px}
+span.flag-gn {background-position:0 -1915px}
+span.flag-gp {background-position:0 -1937px}
+span.flag-gq {background-position:0 -1959px}
+span.flag-gr {background-position:0 -1981px}
+span.flag-gs {background-position:0 -2003px}
+span.flag-gt {background-position:0 -2025px}
+span.flag-gu {background-position:0 -2047px}
+span.flag-gw {background-position:0 -2069px}
+span.flag-gy {background-position:0 -2091px}
+span.flag-hk {background-position:0 -2113px}
+span.flag-hm {background-position:0 -2135px}
+span.flag-hn {background-position:0 -2157px}
+span.flag-hr {background-position:0 -2179px}
+span.flag-ht {background-position:0 -2201px}
+span.flag-hu {background-position:0 -2223px}
+span.flag-id {background-position:0 -2245px}
+span.flag-ie {background-position:0 -2267px}
+span.flag-il {background-position:0 -2289px}
+span.flag-in {background-position:0 -2311px}
+span.flag-io {background-position:0 -2333px}
+span.flag-iq {background-position:0 -2355px}
+span.flag-ir {background-position:0 -2377px}
+span.flag-is {background-position:0 -2399px}
+span.flag-it {background-position:0 -2421px}
+span.flag-jm {background-position:0 -2443px}
+span.flag-jo {background-position:0 -2465px}
+span.flag-jp {background-position:0 -2487px}
+span.flag-ke {background-position:0 -2509px}
+span.flag-kg {background-position:0 -2531px}
+span.flag-kh {background-position:0 -2553px}
+span.flag-ki {background-position:0 -2575px}
+span.flag-km {background-position:0 -2597px}
+span.flag-kn {background-position:0 -2619px}
+span.flag-kp {background-position:0 -2641px}
+span.flag-kr {background-position:0 -2663px}
+span.flag-kw {background-position:0 -2685px}
+span.flag-ky {background-position:0 -2707px}
+span.flag-kz {background-position:0 -2729px}
+span.flag-la {background-position:0 -2751px}
+span.flag-lb {background-position:0 -2773px}
+span.flag-lc {background-position:0 -2795px}
+span.flag-li {background-position:0 -2817px}
+span.flag-lk {background-position:0 -2839px}
+span.flag-lr {background-position:0 -2861px}
+span.flag-ls {background-position:0 -2883px}
+span.flag-lt {background-position:0 -2905px}
+span.flag-lu {background-position:0 -2927px}
+span.flag-lv {background-position:0 -2949px}
+span.flag-ly {background-position:0 -2971px}
+span.flag-ma {background-position:0 -2993px}
+span.flag-mc {background-position:0 -3015px}
+span.flag-md {background-position:0 -3037px}
+span.flag-me {background-position:0 -3059px}
+span.flag-mg {background-position:0 -3081px}
+span.flag-mh {background-position:0 -3103px}
+span.flag-mk {background-position:0 -3125px}
+span.flag-ml {background-position:0 -3147px}
+span.flag-mm {background-position:0 -3169px}
+span.flag-mn {background-position:0 -3191px}
+span.flag-mo {background-position:0 -3213px}
+span.flag-mp {background-position:0 -3235px}
+span.flag-mq {background-position:0 -3257px}
+span.flag-mr {background-position:0 -3279px}
+span.flag-ms {background-position:0 -3301px}
+span.flag-mt {background-position:0 -3323px}
+span.flag-mu {background-position:0 -3345px}
+span.flag-mv {background-position:0 -3367px}
+span.flag-mw {background-position:0 -3389px}
+span.flag-mx {background-position:0 -3411px}
+span.flag-my {background-position:0 -3433px}
+span.flag-mz {background-position:0 -3455px}
+span.flag-na {background-position:0 -3477px}
+span.flag-nc {background-position:0 -3499px}
+span.flag-ne {background-position:0 -3521px}
+span.flag-nf {background-position:0 -3543px}
+span.flag-ng {background-position:0 -3565px}
+span.flag-ni {background-position:0 -3587px}
+span.flag-nl {background-position:0 -3609px}
+span.flag-no {background-position:0 -3631px}
+span.flag-np {background-position:0 -3653px}
+span.flag-nr {background-position:0 -3675px}
+span.flag-nu {background-position:0 -3697px}
+span.flag-nz {background-position:0 -3719px}
+span.flag-om {background-position:0 -3741px}
+span.flag-pa {background-position:0 -3763px}
+span.flag-pe {background-position:0 -3785px}
+span.flag-pf {background-position:0 -3807px}
+span.flag-pg {background-position:0 -3829px}
+span.flag-ph {background-position:0 -3851px}
+span.flag-pk {background-position:0 -3873px}
+span.flag-pl {background-position:0 -3895px}
+span.flag-pm {background-position:0 -3917px}
+span.flag-pn {background-position:0 -3939px}
+span.flag-pr {background-position:0 -3961px}
+span.flag-ps {background-position:0 -3983px}
+span.flag-pt {background-position:0 -4005px}
+span.flag-pw {background-position:0 -4027px}
+span.flag-py {background-position:0 -4049px}
+span.flag-qa {background-position:0 -4071px}
+span.flag-re {background-position:0 -4093px}
+span.flag-ro {background-position:0 -4115px}
+span.flag-rs {background-position:0 -4137px}
+span.flag-ru {background-position:0 -4159px}
+span.flag-rw {background-position:0 -4181px}
+span.flag-sa {background-position:0 -4203px}
+span.flag-sb {background-position:0 -4225px}
+span.flag-sc {background-position:0 -4247px}
+span.flag-sd {background-position:0 -4291px}
+span.flag-se {background-position:0 -4313px}
+span.flag-sg {background-position:0 -4335px}
+span.flag-sh {background-position:0 -4357px}
+span.flag-si {background-position:0 -4379px}
+span.flag-sj {background-position:0 -4401px}
+span.flag-sk {background-position:0 -4423px}
+span.flag-sl {background-position:0 -4445px}
+span.flag-sm {background-position:0 -4467px}
+span.flag-sn {background-position:0 -4489px}
+span.flag-so {background-position:0 -4511px}
+span.flag-sr {background-position:0 -4533px}
+span.flag-st {background-position:0 -4555px}
+span.flag-sv {background-position:0 -4577px}
+span.flag-sy {background-position:0 -4599px}
+span.flag-sz {background-position:0 -4621px}
+span.flag-tc {background-position:0 -4643px}
+span.flag-td {background-position:0 -4665px}
+span.flag-tf {background-position:0 -4687px}
+span.flag-tg {background-position:0 -4709px}
+span.flag-th {background-position:0 -4731px}
+span.flag-tj {background-position:0 -4753px}
+span.flag-tk {background-position:0 -4775px}
+span.flag-tl {background-position:0 -4797px}
+span.flag-tm {background-position:0 -4819px}
+span.flag-tn {background-position:0 -4841px}
+span.flag-to {background-position:0 -4863px}
+span.flag-tr {background-position:0 -4885px}
+span.flag-tt {background-position:0 -4907px}
+span.flag-tv {background-position:0 -4929px}
+span.flag-tw {background-position:0 -4951px}
+span.flag-tz {background-position:0 -4973px}
+span.flag-ua {background-position:0 -4995px}
+span.flag-ug {background-position:0 -5017px}
+span.flag-um {background-position:0 -5039px}
+span.flag-us {background-position:0 -5061px}
+span.flag-uy {background-position:0 -5083px}
+span.flag-uz {background-position:0 -5105px}
+span.flag-va {background-position:0 -5127px}
+span.flag-vc {background-position:0 -5149px}
+span.flag-ve {background-position:0 -5171px}
+span.flag-vg {background-position:0 -5193px}
+span.flag-vi {background-position:0 -5215px}
+span.flag-vn {background-position:0 -5237px}
+span.flag-vu {background-position:0 -5259px}
+span.flag-wf {background-position:0 -5303px}
+span.flag-ws {background-position:0 -5325px}
+span.flag-ye {background-position:0 -5347px}
+span.flag-yt {background-position:0 -5369px}
+span.flag-za {background-position:0 -5391px}
+span.flag-zm {background-position:0 -5413px}
+span.flag-zw {background-position:0 -5435px}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  #logo {
+    background-image: url("../images/logo@2x.png");
+    background-size: 200px 65px; } }
