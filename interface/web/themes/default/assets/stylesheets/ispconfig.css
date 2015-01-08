@@ -234,6 +234,9 @@ body {
   width: 150px;
   height: 10px; }
 
+p.fieldset-legend {
+  display: none; }
+
 .content-tab-wrapper {
   border-style: solid;
   border-width: 1px;
