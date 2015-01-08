@@ -10,14 +10,14 @@
                     <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
                     <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                         {tmpl_var name='server_id'}
-                    </select>
-                </div></div>
+                    </select></div>
+                </div>
                 <div class="form-group">
                     <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
                     <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                         {tmpl_var name='client_group_id'}
-                    </select>
-                </div></div>
+                    </select></div>
+                </div>
             <tmpl_else>
                 <tmpl_if name="only_one_server">
                     <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
@@ -26,8 +26,8 @@
                         <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
                         <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                             {tmpl_var name='server_id'}
-                        </select>
-                    </div></div>
+                        </select></div>
+                    </div>
                 </tmpl_if>
             </tmpl_if>
             <div class="form-group">
@@ -35,8 +35,8 @@
                 <tmpl_if name="domain_option">
                     <div class="col-sm-9"><select name="domain" id="domain" class="form-control">
                         {tmpl_var name='domain_option'}
-                    </select>
-                    </div><tmpl_else>
+                    </select></div>
+                    <tmpl_else>
                         <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" onkeydown="keydown(event.which);" /></div></tmpl_if>
                 <p class="value"><tmpl_var name='domain_field_desc_txt'}</p>
             </div>    

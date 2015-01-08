@@ -10,14 +10,14 @@
                     <label for="parent_domain_id" class="col-sm-3 control-label">{tmpl_var name='parent_domain_id_txt'}</label>
                     <div class="col-sm-9"><select name="parent_domain_id" id="parent_domain_id" class="form-control" disabled="disabled">
                         {tmpl_var name='parent_domain_id'}
-                    </select>
-                    </div><input type="hidden" name="parent_domain_id" value="{tmpl_var name='parent_domain_id_value'}" />
+                    </select></div>
+                    <input type="hidden" name="parent_domain_id" value="{tmpl_var name='parent_domain_id_value'}" />
                     <tmpl_else>
                         <label for="parent_domain_id" class="col-sm-3 control-label">{tmpl_var name='parent_domain_id_txt'}</label>
                         <div class="col-sm-9"><select name="parent_domain_id" id="parent_domain_id" class="form-control">
                             {tmpl_var name='parent_domain_id'}
-                        </select>
-                </div></tmpl_if>
+                        </select></div>
+                </tmpl_if>
             </div>
             <div class="form-group">
                 <label for="run_min" class="col-sm-3 control-label">{tmpl_var name='run_min_txt'}</label>

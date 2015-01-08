@@ -10,8 +10,8 @@
                     <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
                     <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                         {tmpl_var name='client_group_id'}
-                    </select>
-                </div></div>
+                    </select></div>
+                </div>
             </tmpl_if>
 
             <tmpl_if name="is_reseller">
@@ -19,8 +19,8 @@
                     <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
                     <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                         {tmpl_var name='client_group_id'}
-                    </select>
-                </div></div>
+                    </select></div>
+                </div>
             </tmpl_if>
 
             <tmpl_if name="edit_disabled">
@@ -28,8 +28,8 @@
                     <label for="domain_disabled" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}</label>
                     <div class="col-sm-9"><select name="domain_disabled" id="domain_disabled" class="form-control" disabled="disabled">
                         {tmpl_var name='domain_option'}
-                    </select>
-                    </div><input type="hidden" name="domain" value="{tmpl_var name='domain_value'}" />
+                    </select></div>
+                    <input type="hidden" name="domain" value="{tmpl_var name='domain_value'}" />
                 </div>
 
                 <div class="form-group">
@@ -45,8 +45,8 @@
                         <label for="domain" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}</label>
                         <div class="col-sm-9"><select name="domain" id="domain" class="form-control">
                             {tmpl_var name='domain_option'}
-                        </select>
-                    </div></div>
+                        </select></div>
+                    </div>
                     <div class="form-group">
                         <label for="listname" class="col-sm-3 control-label">{tmpl_var name='listname_txt'}</label>
                         <div class="col-sm-9"><input type="text" name="listname" id="listname" value="{tmpl_var name='listname'}" class="form-control" /></div></div>

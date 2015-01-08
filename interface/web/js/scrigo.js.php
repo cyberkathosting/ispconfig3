@@ -100,6 +100,14 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 		width: 'element',
 		selectOnBlur: true,
 		allowClear: true,
+		formatResult: function(o) {
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '"></span>' + o.text;
+			else return o.text;
+		},
+		formatSelection: function(o) {
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '"></span>' + o.text;
+			else return o.text;
+		}
 	}).on('change', function(e) {
             if (jQuery("#pageForm .table #Filter").length > 0) {
                 jQuery("#pageForm .table #Filter").trigger('click');

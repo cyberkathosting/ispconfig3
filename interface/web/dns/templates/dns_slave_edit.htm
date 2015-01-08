@@ -11,22 +11,22 @@
                         <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
                         <div class="col-sm-9"><select name="server_id_disabled" id="server_id_disabled" class="form-control" disabled="disabled">
                             {tmpl_var name='server_id'}
-                        </select>
-                        </div><input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
+                        </select></div>
+                        <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                     <tmpl_else>
                             <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
                             <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                                 {tmpl_var name='server_id'}
-                            </select>
-                    </div></tmpl_if>
+                            </select></div>
+                    </tmpl_if>
                 </div>
                 <tmpl_unless name="domain_option">
                     <div class="form-group">
                         <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
                         <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
-                        </select>
-                    </div></div>
+                        </select></div>
+                    </div>
                 </tmpl_unless>
             </tmpl_if>
             <tmpl_if name="is_reseller">
@@ -35,8 +35,8 @@
                         <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
                         <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
-                        </select>
-                    </div></div>
+                        </select></div>
+                    </div>
                 </tmpl_unless>
             </tmpl_if>
             <div class="form-group">
@@ -44,8 +44,8 @@
                 <tmpl_if name="domain_option">
                     <div class="col-sm-9"><select name="origin" id="origin" class="form-control">
                         {tmpl_var name='domain_option'}
-                    </select>
-                    </div><tmpl_else>
+                    </select></div>
+                    <tmpl_else>
                         <div class="col-sm-9"><input type="text" name="origin" id="origin" value="{tmpl_var name='origin'}" class="form-control" /></div></tmpl_if>
                 <p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
             </div>
