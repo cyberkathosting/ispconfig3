@@ -136,8 +136,8 @@
                     {tmpl_var name='overquota_notify_onok'}
                 </div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='ssl_settings_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-ssl-settings" aria-expanded="false" aria-controls="toggle-ssl-settings">{tmpl_var name='ssl_settings_txt'}</button></div>
+            <div id="toggle-ssl-settings" class="collapse">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='enable_sni_txt'}</label>
                     <div class="col-sm-9">
@@ -159,8 +159,8 @@
                     <label for="CA_pass" class="col-sm-3 control-label">{tmpl_var name='CA_pass_txt'}</label>
                     <div class="col-sm-9"><input type="password" name="CA_pass" id="CA_pass" value="{tmpl_var name='CA_pass'}" autocomplete="off" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='permissions_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-permissions" aria-expanded="false" aria-controls="toggle-permissions">{tmpl_var name='permissions_txt'}</button></div>
+            <div id="toggle-permissions" class="collapse">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='set_folder_permissions_on_update_txt'}</label>
                     <div class="col-sm-9">
@@ -189,7 +189,7 @@
                     <label for="connect_userid_to_webid_start" class="col-sm-3 control-label">{tmpl_var name='connect_userid_to_webid_start_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="connect_userid_to_webid_start" id="connect_userid_to_webid_start" value="{tmpl_var name='connect_userid_to_webid_start'}" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='php_settings_txt'}<em></em></div>
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-php_settings" aria-expanded="false" aria-controls="toggle-php_settings">{tmpl_var name='php_settings_txt'}</button></div>
             <div style="display:none;">
                 <div class="form-group apache">
                     <label for="php_ini_path_apache" class="col-sm-3 control-label">{tmpl_var name='php_ini_path_apache_txt'}</label>
@@ -226,8 +226,8 @@
                         </select></div>
                 </div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='apps_vhost_settings_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-apps_vhost_settings" aria-expanded="false" aria-controls="toggle-apps_vhost_settings">{tmpl_var name='apps_vhost_settings_txt'}</button></div>
+            <div id="toggle-apps_vhost_settings" class="collapse">
                 <div class="form-group">
                     <label for="apps_vhost_port" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_port_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="apps_vhost_port" id="apps_vhost_port" value="{tmpl_var name='apps_vhost_port'}" class="form-control" /></div></div>
@@ -238,8 +238,8 @@
                     <label for="apps_vhost_servername" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_servername_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="apps_vhost_servername" id="apps_vhost_servername" value="{tmpl_var name='apps_vhost_servername'}" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='awstats_settings_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-awstats_settings" aria-expanded="false" aria-controls="toggle-awstats_settings">{tmpl_var name='awstats_settings_txt'}</button></div>
+            <div id="toggle-awstats_settings" class="collapse">
                 <div class="form-group">
                     <label for="awstats_conf_dir" class="col-sm-3 control-label">{tmpl_var name='awstats_conf_dir_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="awstats_conf_dir" id="awstats_conf_dir" value="{tmpl_var name='awstats_conf_dir'}" class="form-control" /></div></div>

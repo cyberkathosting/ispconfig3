@@ -112,8 +112,8 @@
                     </div>
                 </div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='email_limits_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-email_limits" aria-expanded="false" aria-controls="toggle-email_limits">{tmpl_var name='email_limits_txt'}</button></div>
+            <div id="toggle-email_limits" class="collapse">
                 <div class="form-group">
                     <label for="default_mailserver" class="col-sm-3 control-label">{tmpl_var name='default_mailserver_txt'}</label>
                     <div class="col-sm-9"><select name="default_mailserver" id="default_mailserver" class="form-control">
@@ -163,8 +163,8 @@
                     <label for="limit_spamfilter_policy" class="col-sm-3 control-label">{tmpl_var name='limit_spamfilter_policy_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_spamfilter_policy" id="limit_spamfilter_policy" value="{tmpl_var name='limit_spamfilter_policy'}" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='database_limits_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-database_limits" aria-expanded="false" aria-controls="toggle-database_limits">{tmpl_var name='database_limits_txt'}</button></div>
+            <div id="toggle-database_limits" class="collapse">
                 <div class="form-group">
                     <label for="default_dbserver" class="col-sm-3 control-label">{tmpl_var name='default_dbserver_txt'}</label>
                     <div class="col-sm-9"><select name="default_dbserver" id="default_dbserver" class="form-control">
@@ -179,8 +179,8 @@
 					<div class="col-sm-6"><input type="text" name="limit_database_quota" id="limit_database_quota" value="{tmpl_var name='limit_database_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
 				</div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='cron_job_limits_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-cron_job_limits" aria-expanded="false" aria-controls="toggle-cron_job_limits">{tmpl_var name='cron_job_limits_txt'}</button></div>
+            <div id="toggle-cron_job_limits" class="collapse">
                 <div class="form-group">
                     <label for="limit_cron" class="col-sm-3 control-label">{tmpl_var name='limit_cron_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_cron" id="limit_cron" value="{tmpl_var name='limit_cron'}" class="form-control" /></div></div>
@@ -194,8 +194,8 @@
                     <label for="limit_cron_frequency" class="col-sm-3 control-label">{tmpl_var name='limit_cron_frequency_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_cron_frequency" id="limit_cron_frequency" value="{tmpl_var name='limit_cron_frequency'}" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='dns_limits_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-dns_limits" aria-expanded="false" aria-controls="toggle-dns_limits">{tmpl_var name='dns_limits_txt'}</button></div>
+            <div id="toggle-dns_limits" class="collapse">
                 <div class="form-group">
                     <label for="default_dnsserver" class="col-sm-3 control-label">{tmpl_var name='default_dnsserver_txt'}</label>
                     <div class="col-sm-9"><select name="default_dnsserver" id="default_dnsserver" class="form-control">
@@ -218,8 +218,8 @@
                     <label for="limit_dns_record" class="col-sm-3 control-label">{tmpl_var name='limit_dns_record_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_dns_record" id="limit_dns_record" value="{tmpl_var name='limit_dns_record'}" class="form-control" /></div></div>
             </div>
-            <div class="subsectiontoggle"><span></span>{tmpl_var name='virtualization_limits_txt'}<em></em></div>
-            <div style="display:none;">
+            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-virtualization_limits" aria-expanded="false" aria-controls="toggle-virtualization_limits">{tmpl_var name='virtualization_limits_txt'}</button></div>
+            <div id="toggle-virtualization_limits" class="collapse">
                 <div class="form-group">
                     <label for="limit_openvz_vm" class="col-sm-3 control-label">{tmpl_var name='limit_openvz_vm_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_openvz_vm" id="limit_openvz_vm" value="{tmpl_var name='limit_openvz_vm'}" class="form-control" /></div></div>
@@ -230,15 +230,15 @@
                     </select></div>
                 </div>
             </div>
-			<div class="subsectiontoggle"><span></span>{tmpl_var name='aps_limits_txt'}<em></em></div>
-            <div style="display:none;">
+			<div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-aps_limits" aria-expanded="false" aria-controls="toggle-aps_limits">{tmpl_var name='aps_limits_txt'}</button></div>
+            <div id="toggle-aps_limits" class="collapse">
                 <div class="form-group">
                     <label for="limit_aps" class="col-sm-3 control-label">{tmpl_var name='limit_aps_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_aps" id="limit_aps" value="{tmpl_var name='limit_aps'}" class="form-control" /></div></div>
             </div>
 			<tmpl_if name="is_admin">
-			<div class="subsectiontoggle"><span></span>{tmpl_var name='client_limits_txt'}<em></em></div>
-			<div style="display:none;">
+			<div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-client_limits" aria-expanded="false" aria-controls="toggle-client_limits">{tmpl_var name='client_limits_txt'}</button></div>
+			<div id="toggle-client_limits" class="collapse">
 				<div class="form-group">
 					<label for="limit_client" class="col-sm-3 control-label">{tmpl_var name='limit_client_txt'}</label>
 					<div class="col-sm-9"><input type="text" name="limit_client" id="limit_client" value="{tmpl_var name='limit_client'}" class="form-control" /></div></div>
