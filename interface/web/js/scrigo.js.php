@@ -95,17 +95,17 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
 
 
-    $('#pageContent').find("select:not(.chosen-select)").select2({
+    $('#pageContent,#sidebar').find("select:not(.chosen-select)").select2({
 		placeholder: '',
 		width: 'element',
 		selectOnBlur: true,
 		allowClear: true,
 		formatResult: function(o) {
-			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '"></span>' + o.text;
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
 			else return o.text;
 		},
 		formatSelection: function(o) {
-			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '"></span>' + o.text;
+			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
 			else return o.text;
 		}
 	}).on('change', function(e) {

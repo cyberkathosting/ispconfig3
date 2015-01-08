@@ -107,7 +107,7 @@
 	
 	$("#pageForm").submit(function(e){
 		//Prevent form submit: e.preventDefault() in lists
-		if ($(".panel #Filter").length > 0) {
+		if ($("#pageForm .table #Filter").length > 0) {
 			e.preventDefault();
 		}
 	});
@@ -130,9 +130,9 @@
 	
 	$(document).on("change", function(event) {
 		var elName = event.target.localName;
-		if ($(".panel #Filter").length > 0 && elName == 'select') {
+		if ($("#pageForm .table #Filter").length > 0 && elName == 'select') {
 			event.preventDefault();
-			$(".panel #Filter").trigger('click');
+			$("#pageForm .table #Filter").trigger('click');
 		}
 		if(elName == 'select' || elName == 'input' || elName == 'textarea') {
 			if($(event.target).hasClass('no-page-form-change') == false) {
@@ -160,9 +160,9 @@
 
 	$(document).bind("keypress", function(event) {
 		//Use $ submit with keypress Enter in panel filterbar
-		if (event.which == '13' && $(".panel #Filter").length > 0 && $(event.target).hasClass('ui-autocomplete-input') == false ) {
+		if (event.which == '13' && $("#pageForm .table #Filter").length > 0 && $(event.target).hasClass('ui-autocomplete-input') == false ) {
 			event.preventDefault();
-			$(".panel #Filter").trigger('click');
+			$("#pageForm .table #Filter").trigger('click');
 		}
 		//Use $ submit with keypress Enter in forms
 		if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
@@ -172,14 +172,14 @@
 	});
 	
 	$(document).delegate('.pnl_listarea th', 'click', function(event) {
-		if($(this).attr('class').length > 0 && $(".panel #Filter").length > 0 && $(this).hasClass('tbl_col_buttons') == false && $(this).hasClass('tbl_col_limit') == false && $(this).hasClass('tbl_col_nosort') == false) {
+		if($(this).attr('class').length > 0 && $("#pageForm .table #Filter").length > 0 && $(this).hasClass('tbl_col_buttons') == false && $(this).hasClass('tbl_col_limit') == false && $(this).hasClass('tbl_col_nosort') == false) {
 		  event.preventDefault();
 		  var clickevent = $('#Filter').attr('onclick');
 		  var element = $(this).attr('class');
 		  if(typeof clickevent == 'string') {
 			  $('#Filter').attr('onclick', clickevent.replace(".php')", ".php?orderby=" + element + "')"));
 		  }
-		  $(".panel #Filter").trigger('click');
+		  $("#pageForm .table #Filter").trigger('click');
 		  
 		  $("#pageForm").ajaxComplete(function() {
 			  if($("th."+element).css("background-position") == '0px -15px') {

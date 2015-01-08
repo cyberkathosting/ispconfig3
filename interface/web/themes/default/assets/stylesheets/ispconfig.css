@@ -368,11 +368,10 @@ ul.gs-resultbox li:last-child {
   border-bottom-right-radius: 5px; }
 
 span.flags {
-    display: inline-block;
     background-image: url("../images/flags_sprite.png");
     background-repeat: no-repeat;
-    height: 20px;
-    width: 30px;
+    min-height: 20px;
+    padding-left: 27px;
     vertical-align: middle;
 }
 span.flag-el {background-position:0 -1475px}

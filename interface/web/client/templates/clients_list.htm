@@ -47,7 +47,7 @@
 							<td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="customer_no"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="city"}</a></td>
-                            <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}"><div class="country-{tmpl_var name="countryiso"}" style="float:left"></div>{tmpl_var name="country"}</a></td>
+                            <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}"><span class="flags flag-{tmpl_var name="countryiso"}">{tmpl_var name="country"}</span></a></td>
                             <td class="text-right">
                                 <tmpl_if name="is_admin">
                                     <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='id'}"><span class="icon icon-loginas"></span></button>
