@@ -18,13 +18,13 @@
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="client_id_txt"></th>
                         <th><tmpl_var name="name_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_client_id">{tmpl_var name='search_client_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/server_php_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -35,7 +35,7 @@
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/server_php_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

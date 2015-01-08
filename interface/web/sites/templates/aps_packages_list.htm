@@ -12,7 +12,7 @@
                             <tmpl_if name='is_admin'>
                                 <th>{tmpl_var name='status_txt'}</th>
                             </tmpl_if>
-                        <th class="small-col">&nbsp;</th>
+                        <th class="small-col text-right">&nbsp;</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
@@ -21,7 +21,7 @@
                             <tmpl_if name='is_admin'>
                                 <td><select class="form-control" name="search_package_status" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
                             </tmpl_if>
-                        <td><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_availablepackages_list.php');"><span class="icon icon-filter"></span></button></td>
+                        <td class="text-right"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_availablepackages_list.php');"><span class="icon icon-filter"></span></button></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                                 <tmpl_if name='is_admin'>
                                     <td><a href="javascript:loadContentInto('status_content{tmpl_var name='__ROWNUM__'}', 'sites/aps_do_operation.php?action=change_status&id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}');"><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='package_status'}</span></a></td>
                                 </tmpl_if>
-                            <td>&nbsp;</td>
+                            <td class="text-right">&nbsp;</td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">

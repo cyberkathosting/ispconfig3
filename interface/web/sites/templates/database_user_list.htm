@@ -33,18 +33,18 @@
                 <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="database_user_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_database_user" value="{tmpl_var name='search_database_user'}"/></td>
-                        <td><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_user_list.php');"><span class="icon icon-filter"></span></button></td>
+                        <td class="text-right"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_user_list.php');"><span class="icon icon-filter"></span></button></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
                             <td><a href="#" data-load-content="sites/database_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_user"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="sites/database_user_edit.php?id={tmpl_var name='id'}"><span class="icon icon-edit"></span></button>
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/database_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>

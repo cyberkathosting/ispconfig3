@@ -22,17 +22,17 @@
                         <th><tmpl_var name="template_id_txt"></th>
                         <th><tmpl_var name="hostname_txt"></th>
                         <th><tmpl_var name="ip_address_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_veid" value="{tmpl_var name='search_veid'}" /></td>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_ostemplate_id">{tmpl_var name='search_ostemplate_id'}</select></td>
                         <td><select class="form-control" name="search_template_id">{tmpl_var name='search_template_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_hostname" value="{tmpl_var name='search_hostname'}" /></td>
                         <td><input class="form-control" type="text" name="search_ip_address" value="{tmpl_var name='search_ip_address'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','vm/openvz_vm_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -47,7 +47,7 @@
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="template_id"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hostname"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ip_address"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="vm/openvz_action.php?id={tmpl_var name='id'}"><span class="icon icon-action"></span></button>
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('vm/openvz_vm_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>

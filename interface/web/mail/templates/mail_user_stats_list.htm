@@ -14,7 +14,7 @@
                         <th><tmpl_var name="last_month_txt"></th>
                         <th><tmpl_var name="this_year_txt"></th>
                         <th><tmpl_var name="last_year_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
@@ -22,7 +22,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_stats.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -35,7 +35,7 @@
                             <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"}</a></td>
-                            <td></td>
+                            <td class="text-right"></td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">

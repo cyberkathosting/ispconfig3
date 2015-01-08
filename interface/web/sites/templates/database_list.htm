@@ -39,17 +39,17 @@
 						<th><tmpl_var name="parent_domain_id_txt"></th>
                         <th><tmpl_var name="database_user_txt"></th>
                         <th><tmpl_var name="database_name_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_remote_access">{tmpl_var name='search_remote_access'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><select class="form-control" name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
                         <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 						<td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td><select class="form-control" name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}"/></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -64,7 +64,7 @@
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_user_id"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_name"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <tmpl_if name="dblist_phpmyadmin_link">
                                     <a class="btn btn-default formbutton-default formbutton-narrow" href="sites/database_phpmyadmin.php?id={tmpl_var name='id'}" target="phpmyadmin"><span class="icon icon-dbadmin"></span></button>
                                 </tmpl_if>

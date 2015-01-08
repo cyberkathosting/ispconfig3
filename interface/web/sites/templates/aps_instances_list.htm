@@ -13,7 +13,7 @@
                         </tmpl_if>
                         <th>{tmpl_var name='install_location_txt'}</th>
                         <th>{tmpl_var name='status_txt'}</th>
-                        <th class="small-col" >&nbsp;</th>
+                        <th class="small-col text-right" >&nbsp;</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
@@ -23,7 +23,7 @@
                         </tmpl_if>
                         <td>&nbsp;</td>
                         <td><select class="form-control" name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -38,7 +38,7 @@
                             </tmpl_if>
                             <td><a href="http://{tmpl_var name='install_location'}" target="_blank">{tmpl_var name='install_location_short'}</a></td>
                             <td><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
-                            <td>
+                            <td class="text-right">
                                 <tmpl_if name='delete_possible'>
                                     <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span class="icon icon-delete"></span></button>
                                 </tmpl_if>

@@ -21,14 +21,14 @@
                         <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="username_txt"></th>
                         <th><tmpl_var name="groups_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td><select class="form-control" name="search_groups">{tmpl_var name='search_groups'}</select></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/users_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -40,7 +40,7 @@
                             <td class="tiny-col"><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><div class="icons16 group-{tmpl_var name="typ"}" title="{tmpl_var name="typ"}"><span>{tmpl_var name="typ"}</span></div> <div class="group-icon"><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></div></td>
                             <td>{tmpl_var name="groups"}</td>
-                            <td>
+                            <td class="text-right">
                                 <tmpl_if name="username" op="!=" value="admin">
                                     <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='client_id'}"><span class="icon icon-loginas"></span></button>
                                     <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>

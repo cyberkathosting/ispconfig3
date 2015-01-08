@@ -19,12 +19,12 @@
                     <tr>
                         <th><tmpl_var name="name_txt"></th>
                         <th><tmpl_var name="description_txt"></th>
-                        <th>&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_description" value="{tmpl_var name='search_description'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/groups_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -34,7 +34,7 @@
                         <tr>
                             <td><a href="#" data-load-content="admin/groups_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
                             <td><a href="#" data-load-content="admin/groups_edit.php?id={tmpl_var name='id'}">{tmpl_var name="description"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/groups_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

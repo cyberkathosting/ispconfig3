@@ -13,7 +13,7 @@
 					<th><tmpl_var name="used_txt"></th>
 					<th><tmpl_var name="quota_txt"></th>
 					<th><tmpl_var name="percentage_txt">
-					<th class="small-col">{tmpl_var name='search_limit'}</th>
+					<th class="small-col text-right">{tmpl_var name='search_limit'}</th>
 				</tr>
 				<tr>
 					<td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
@@ -21,7 +21,7 @@
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td>
+					<td class="text-right">
 						<button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_quota_stats.php');"><span class="icon icon-filter"></span></button>
 					</td>
 				</tr>
@@ -34,7 +34,7 @@
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="percentage"}</a></td>
-							<td></td>
+							<td class="text-right"></td>
 						</tr>
 					</tmpl_loop>
 					<tmpl_unless name="records">

@@ -35,14 +35,14 @@
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="parent_domain_id_txt"></th>
                         <th><tmpl_var name="path_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active" onChange="submitForm('pageForm','sites/web_folder_list.php');">{tmpl_var name='search_active'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active" onChange="submitForm('pageForm','sites/web_folder_list.php');">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id" onChange="submitForm('pageForm','sites/web_folder_list.php');">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_parent_domain_id" onChange="submitForm('pageForm','sites/web_folder_list.php');">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_path" value="{tmpl_var name='search_path'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_folder_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -54,7 +54,7 @@
                         <td><a href="#" data-load-content="sites/web_folder_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                         <td><a href="#" data-load-content="sites/web_folder_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>
                         <td><a href="#" data-load-content="sites/web_folder_edit.php?id={tmpl_var name='id'}">{tmpl_var name="path"}</a></td>
-                        <td>
+                        <td class="text-right">
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/web_folder_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>

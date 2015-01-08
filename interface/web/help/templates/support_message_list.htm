@@ -19,13 +19,13 @@
                         <th><tmpl_var name="sender_id_txt"></th>
                         <th><tmpl_var name="subject_txt"></th>
 						<th><tmpl_var name="date_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_sender_id">{tmpl_var name='search_sender_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_subject" value="{tmpl_var name='search_subject'}" /></td>
 						<td>&nbsp;</td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','help/support_message_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -36,7 +36,7 @@
                             <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sender_id"}</a></td>
                             <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="subject"}</a></td>
 							<td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="tstamp"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('help/support_message_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

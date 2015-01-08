@@ -18,12 +18,12 @@
                     <tr>
                         <th><tmpl_var name="visible_txt"></th>
                         <th><tmpl_var name="name_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_visible">{tmpl_var name='search_visible'}</select></td>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','dns/dns_template_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -33,7 +33,7 @@
                     <tr>
                         <td><a href="#" data-load-content="dns/dns_template_edit.php?id={tmpl_var name='id'}">{tmpl_var name="visible"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_template_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
-                        <td>
+                        <td class="text-right">
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('dns/dns_template_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>

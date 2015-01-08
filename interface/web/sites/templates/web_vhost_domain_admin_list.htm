@@ -21,16 +21,16 @@
                     <th><tmpl_var name="server_id_txt"></th>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><th><tmpl_var name="parent_domain_id_txt"></th></tmpl_if>
                     <th><tmpl_var name="domain_txt"></th>
-                    <th class="small-col">{tmpl_var name='search_limit'}</th>
+                    <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
                     <tmpl_if name="vhostdomain_type" value="domain"><td><input class="form-control" type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></td></tmpl_if>
-                    <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
+                    <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                     <td><select class="form-control" name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>
                     <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td></tmpl_if>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-                    <td>
+                    <td class="text-right">
                         <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/web_vhost_domain_list.php');"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
@@ -43,8 +43,9 @@
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="sys_groupid"}</a></td>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="server_id"}</a></td>
 						<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><a href="#" data-load-content="sites/web_vhost_aliasdomain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td></tmpl_if>
-                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="domain"}</a><a href="http://{tmpl_var name="domain"}" target="_blank" class="btn btn-default formbutton-default formbutton-narrower"><span class="icon icon-link"></span></button></td>
-                        <td>
+                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="domain"}</a></td>
+                        <td class="text-right">
+							<a href="http://{tmpl_var name="domain"}" target="_blank" class="btn btn-default formbutton-default formbutton-narrow"><span class="icon icon-link"></span></button>
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/web_vhost_domain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>

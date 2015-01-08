@@ -23,7 +23,7 @@
                         <th><tmpl_var name="username_txt"></th>
                         <th><tmpl_var name="city_txt"></th>
                         <th><tmpl_var name="country_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
@@ -33,7 +33,7 @@
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td><input class="form-control" type="text" name="search_city" value="{tmpl_var name='search_city'}" /></td>
                         <td><select class="form-control" name="search_country">{tmpl_var name='search_country'}</select></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','client/reseller_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
                             <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
                             <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}">{tmpl_var name="city"}</a></td>
                             <td><a href="#" data-load-content="client/reseller_edit.php?id={tmpl_var name='id'}"><div class="country-{tmpl_var name="countryiso"}" style="float:left"></div>{tmpl_var name="country"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='id'}"><span class="icon icon-loginas"></span></button>
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('client/reseller_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>

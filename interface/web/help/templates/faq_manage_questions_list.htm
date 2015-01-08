@@ -14,8 +14,8 @@
                     <tr>
                         <th class="tiny-col">{tmpl_var name="faq_question_txt"}</th>
                         <th>{tmpl_var name="faq_section_name_txt"}</th>
-                        <th>{tmpl_var name="faq_delete_txt"}</th>
-                        <th>{tmpl_var name="faq_edit_txt"}</th>
+                        <th class="text-right">{tmpl_var name="faq_delete_txt"}</th>
+                        <th class="text-right">{tmpl_var name="faq_edit_txt"}</th>
                     </tr>
                 </thead>
 				<tbody>
@@ -23,10 +23,10 @@
                     <tr>
                         <td width="60%">{tmpl_var name='hf_question'}</td>
                         <td width="30%">{tmpl_var name='hf_section'}</td>
-                        <td width="5%">
+                        <td class="text-right" width="5%">
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('help/faq_delete.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
-                        <td width="5%">
+                        <td class="text-right" width="5%">
                             <a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="help/faq_edit.php?id={tmpl_var name='id'}"><span class="icon icon-edit"></span></button>
                         </td>
                     </tr>

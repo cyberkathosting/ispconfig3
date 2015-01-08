@@ -264,7 +264,9 @@ thead.dark th.small-col {
   width: 14%; }
 
 thead.dark th.tiny-col {
-  width: 7%; }
+  width: 8%;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 thead.dark td input,
 thead.dark td select {

@@ -14,7 +14,7 @@
                     <th><tmpl_var name="soft_txt"></th>
                     <th><tmpl_var name="hard_txt"></th>
                     <th><tmpl_var name="files_txt"></th>
-                    <th class="small-col">{tmpl_var name='search_limit'}</th>
+                    <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
@@ -23,7 +23,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>
+                    <td class="text-right">
                         <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/user_quota_stats.php');"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
@@ -37,7 +37,7 @@
                             <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="soft"}</a></td>
                             <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>
                             <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="files"}</a></td>
-                            <td></td>
+                            <td class="text-right"></td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">

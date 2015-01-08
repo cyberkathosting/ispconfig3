@@ -13,14 +13,14 @@
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="loglevel_txt"></th>
                         <th><tmpl_var name="message_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_loglevel">{tmpl_var name='search_loglevel'}</select></td>
                         <td><input class="form-control" type="text" name="search_message" value="{tmpl_var name='search_message'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','monitor/log_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -32,7 +32,7 @@
                             <td>{tmpl_var name="server_id"}</td>
                             <td>{tmpl_var name="loglevel"}</td>
                             <td>{tmpl_var name="message"}</td>
-                            <td>
+                            <td class="text-right">
                                 <tmpl_if name="loglevel" op="==" value="Error">
                                     <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('monitor/log_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                                 </tmpl_if>

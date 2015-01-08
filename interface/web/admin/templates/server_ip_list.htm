@@ -21,7 +21,7 @@
                         <th><tmpl_var name="ip_address_txt"></th>
                         <th><tmpl_var name="virtualhost_txt"></th>
                         <th><tmpl_var name="virtualhost_port_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
@@ -30,7 +30,7 @@
                         <td><input class="form-control" type="text" name="search_ip_address" value="{tmpl_var name='search_ip_address'}" /></td>
                         <td><select class="form-control" name="search_virtualhost">{tmpl_var name='search_virtualhost'}</select></td>
                         <td><input class="form-control" type="text" name="search_virtualhost_port" value="{tmpl_var name='search_virtualhost_port'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/server_ip_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -44,7 +44,7 @@
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ip_address"}</a></td>
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="virtualhost"}</a></td>
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="virtualhost_port"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/server_ip_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

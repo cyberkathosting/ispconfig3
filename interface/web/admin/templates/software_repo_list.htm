@@ -19,13 +19,13 @@
                         <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="repo_name_txt"></th>
                         <th><tmpl_var name="repo_url_txt"></th>
-                        <th>&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><input class="form-control" type="text" name="search_repo_name" value="{tmpl_var name='search_repo_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_repo_url" value="{tmpl_var name='search_repo_url'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/software_repo_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -36,7 +36,7 @@
                             <td class="tiny-col"><a href="#" data-load-content="admin/software_repo_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="admin/software_repo_edit.php?id={tmpl_var name='id'}">{tmpl_var name="repo_name"}</a></td>
                             <td><a href="#" data-load-content="admin/software_repo_edit.php?id={tmpl_var name='id'}">{tmpl_var name="repo_url"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/software_repo_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

@@ -33,12 +33,12 @@
                     <tr>
                         <th><tmpl_var name="listname_txt"></th>
                         <th><tmpl_var name="domain_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_listname" value="{tmpl_var name='search_listname'}" /></td>
                         <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_mailinglist_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
                         <tr>
                             <td><a href="#" data-load-content="mail/mail_mailinglist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="listname"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_mailinglist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <tmpl_if name="mailmailinglist_link">
                                     <a class="btn btn-default formbutton-default formbutton-narrow" href="mail/mailinglist.php?id={tmpl_var name='id'}" target="mailmailinglist"><span class="icon icon-mail"></span></button>
                                 </tmpl_if>

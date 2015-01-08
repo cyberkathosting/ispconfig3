@@ -23,10 +23,10 @@
                         <th><tmpl_var name="multiport_txt"></th>
                         <th><tmpl_var name="state_txt"></th>
                         <th><tmpl_var name="target_txt"></th>
-                        <th>&nbsp;</th>
+                        <th class="text-right">&nbsp;</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
+                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td></td>
                         <td><select class="form-control" name="search_protocol">{tmpl_var name='search_protocol'}</select></td>
@@ -34,7 +34,7 @@
                         <td></td>
                         <td></td>
                         <td><select class="form-control" name="search_target">{tmpl_var name='search_target'}</select></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/iptables_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -50,7 +50,7 @@
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="multiport"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="state"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="target"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/iptables_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>

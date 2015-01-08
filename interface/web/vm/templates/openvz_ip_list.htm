@@ -19,14 +19,14 @@
                         <th><tmpl_var name="vm_id_txt"></th>
                         <th><tmpl_var name="ip_address_txt"></th>
                         <th><tmpl_var name="reserved_txt"></th>
-                        <th class="small-col">{tmpl_var name='search_limit'}</th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_vm_id">{tmpl_var name='search_vm_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_ip_address" value="{tmpl_var name='search_ip_address'}" /></td>
                         <td><select class="form-control" name="search_reserved">{tmpl_var name='search_reserved'}</select></td>
-                        <td>
+                        <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','vm/openvz_ip_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -38,7 +38,7 @@
                             <td><a href="#" data-load-content="vm/openvz_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="vm_id"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ip_address"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="reserved"}</a></td>
-                            <td>
+                            <td class="text-right">
                                 <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('vm/openvz_ip_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
