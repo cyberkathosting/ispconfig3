@@ -43,7 +43,7 @@
                     <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
-                    <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
 					<td><select class="form-control" name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>
                     <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                     <td><input class="form-control" type="text" name="search_origin" value="{tmpl_var name='search_origin'}" /></td>
@@ -57,7 +57,7 @@
             <tbody>
                 <tmpl_loop name="records">
                     <tr>
-                        <td class="tiny-col"><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
+                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
 						<td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sys_groupid"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="origin"}</a></td>

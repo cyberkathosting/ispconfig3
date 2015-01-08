@@ -26,7 +26,7 @@
                         <th class="text-right">&nbsp;</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td></td>
                         <td><select class="form-control" name="search_protocol">{tmpl_var name='search_protocol'}</select></td>
@@ -42,7 +42,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td class="tiny-col"><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="table"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="protocol"}</a></td>

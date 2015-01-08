@@ -17,7 +17,7 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="client_id_txt"></th>
+                        <th class="small-col"><tmpl_var name="client_id_txt"></th>
                         <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="username_txt"></th>
                         <th><tmpl_var name="groups_txt"></th>
@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_client_id" value="{tmpl_var name='search_client_id'}" /></td>
-                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td><select class="form-control" name="search_groups">{tmpl_var name='search_groups'}</select></td>
                         <td class="text-right">
@@ -37,7 +37,7 @@
                     <tmpl_loop name="records">
                         <tr>
                             <td><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
-                            <td class="tiny-col"><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><div class="icons16 group-{tmpl_var name="typ"}" title="{tmpl_var name="typ"}"><span>{tmpl_var name="typ"}</span></div> <div class="group-icon"><a href="#" data-load-content="admin/users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></div></td>
                             <td>{tmpl_var name="groups"}</td>
                             <td class="text-right">

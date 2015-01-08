@@ -37,7 +37,7 @@
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><select class="form-control" name="search_active" onChange="submitForm('pageForm','sites/web_folder_user_list.php');">{tmpl_var name='search_active'}</select></td>
+                        <td><select class="form-control" name="search_active" onChange="submitForm('pageForm','sites/web_folder_user_list.php');">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_web_folder_id" onChange="submitForm('pageForm','sites/web_folder_user_list.php');">{tmpl_var name='search_web_folder_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td class="text-right">
@@ -48,7 +48,7 @@
                 <tbody>
                 <tmpl_loop name="records">
                     <tr>
-                        <td class="tiny-col"><a href="#" data-load-content="sites/web_folder_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_folder_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                         <td><a href="#" data-load-content="sites/web_folder_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="web_folder_id"}</a></td>
                         <td><a href="#" data-load-content="sites/web_folder_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
                         <td class="text-right">

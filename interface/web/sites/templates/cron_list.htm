@@ -28,7 +28,7 @@
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td class="tiny-col"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_run_min" value="{tmpl_var name='search_run_min'}" /></td>
@@ -45,7 +45,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td class="tiny-col"><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>
                             <td><a href="#" data-load-content="sites/cron_edit.php?id={tmpl_var name='id'}">{tmpl_var name="run_min"}</a></td>
