@@ -32,15 +32,15 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="domain_txt"></th>
                         <th><tmpl_var name="transport_txt"></th>
                         <th><tmpl_var name="sort_order_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="small-col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                         <td><input class="form-control" type="text" name="search_transport" value="{tmpl_var name='search_transport'}" /></td>
@@ -53,7 +53,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="mail/mail_transport_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td class="tiny-col"><a href="#" data-load-content="mail/mail_transport_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_transport_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_transport_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_transport_edit.php?id={tmpl_var name='id'}">{tmpl_var name="transport"}</a></td>

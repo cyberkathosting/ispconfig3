@@ -35,22 +35,22 @@
                         <th><tmpl_var name="email_txt"></th>
                 <tmpl_if name="enable_custom_login"><th><tmpl_var name="login_txt"></th></tmpl_if>
                 <th><tmpl_var name="name_txt"></th>
-                        <th><tmpl_var name="autoresponder_txt"></th>
-                        <th><tmpl_var name="postfix_txt"></th>
-                        <th><tmpl_var name="disablesmtp_txt"></th>
-                        <th><tmpl_var name="disableimap_txt"></th>
-                        <th><tmpl_var name="disablepop3_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="tiny-col"><tmpl_var name="autoresponder_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="postfix_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="disablesmtp_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="disableimap_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="disablepop3_txt"></th>
+                        <th class="small-col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
             <tmpl_if name="enable_custom_login"><td><input class="form-control" type="text" name="search_login" value="{tmpl_var name='search_login'}" /></td></tmpl_if>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
-                        <td><select class="form-control" name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
-                        <td><div class="col-sm-9"><select class="form-control" name="search_postfix">{tmpl_var name='search_postfix'}</select></div></th>
-                        <td><div class="col-sm-9"><select class="form-control" name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></div></th>
-                        <td><div class="col-sm-9"><select class="form-control" name="search_disableimap">{tmpl_var name='search_disableimap'}</select></div></th>
-                        <td><div class="col-sm-9"><select class="form-control" name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></div></th>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></div></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_postfix">{tmpl_var name='search_postfix'}</select></div></th>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></div></th>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_disableimap">{tmpl_var name='search_disableimap'}</select></div></th>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></div></th>
                         <td>
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');"><span class="icon icon-filter"></span></button>
                         </td>
@@ -66,11 +66,11 @@
                             </td>
                         </tmpl_if>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="autoresponder"}</a></td>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="postfix"}</a></td>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablesmtp"}</a></td>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disableimap"}</a></td>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablepop3"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="autoresponder"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="postfix"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablesmtp"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disableimap"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablepop3"}</a></td>
                         <td>
                             <tmpl_if name="mailboxlist_webmail_link">
                                 <a class="btn btn-default formbutton-default formbutton-narrow" href="mail/webmailer.php?id={tmpl_var name='id'}" target="webmail"><span class="icon icon-mail"></span></button>

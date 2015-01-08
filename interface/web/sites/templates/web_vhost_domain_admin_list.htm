@@ -16,16 +16,16 @@
                 <thead class="dark form-group-sm">
                 <tr>
                     <tmpl_if name="vhostdomain_type" value="domain"><th><tmpl_var name="domain_id_txt"></th></tmpl_if>
-                    <th><tmpl_var name="active_txt"></th>
+                    <th class="tiny-col"><tmpl_var name="active_txt"></th>
                     <th><tmpl_var name="sys_groupid_txt"></th>
                     <th><tmpl_var name="server_id_txt"></th>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><th><tmpl_var name="parent_domain_id_txt"></th></tmpl_if>
                     <th><tmpl_var name="domain_txt"></th>
-                    <th>{tmpl_var name='search_limit'}</th>
+                    <th class="small-col">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
                     <tmpl_if name="vhostdomain_type" value="domain"><td><input class="form-control" type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></td></tmpl_if>
-                    <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                     <td><select class="form-control" name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>
                     <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td></tmpl_if>
@@ -39,7 +39,7 @@
                 <tmpl_loop name="records">
                     <tr>
                     	<tmpl_if name="vhostdomain_type" value="domain"><td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="domain_id"}</a></td></tmpl_if>
-                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="active"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="active"}</a></td>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="sys_groupid"}</a></td>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="server_id"}</a></td>
 						<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><a href="#" data-load-content="sites/web_vhost_aliasdomain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td></tmpl_if>

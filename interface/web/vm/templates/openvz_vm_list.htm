@@ -16,17 +16,17 @@
                 <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="veid_txt"></th>
-                        <th><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="ostemplate_id_txt"></th>
                         <th><tmpl_var name="template_id_txt"></th>
                         <th><tmpl_var name="hostname_txt"></th>
                         <th><tmpl_var name="ip_address_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="small-col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_veid" value="{tmpl_var name='search_veid'}" /></td>
-                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_ostemplate_id">{tmpl_var name='search_ostemplate_id'}</select></td>
                         <td><select class="form-control" name="search_template_id">{tmpl_var name='search_template_id'}</select></td>
@@ -41,7 +41,7 @@
                     <tmpl_loop name="records">
                         <tr>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="veid"}</a></td>
-                            <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td class="tiny-col"><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ostemplate_id"}</a></td>
                             <td><a href="#" data-load-content="vm/openvz_vm_edit.php?id={tmpl_var name='id'}">{tmpl_var name="template_id"}</a></td>

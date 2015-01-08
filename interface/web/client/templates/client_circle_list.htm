@@ -17,14 +17,14 @@
                 <thead class="dark form-group-sm">
                     <tr>
                         <th><tmpl_var name="circle_id_txt"></th>
-                        <th><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="circle_name_txt"></th>
                         <th><tmpl_var name="description_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="small-col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_circle_id" value="{tmpl_var name='search_circle_id'}" /></td>
-                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                         <td><input class="form-control" type="text" name="search_circle_name" value="{tmpl_var name='search_circle_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_description" value="{tmpl_var name='search_description'}" /></td>
                         <td>
@@ -36,7 +36,7 @@
                     <tmpl_loop name="records">
                         <tr>
                             <td><a href="#" data-load-content="client/client_circle_edit.php?id={tmpl_var name='id'}">{tmpl_var name="circle_id"}</a></td>
-                            <td><a href="#" data-load-content="client/client_circle_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td class="tiny-col"><a href="#" data-load-content="client/client_circle_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="client/client_circle_edit.php?id={tmpl_var name='id'}">{tmpl_var name="circle_name"}</a></td>
                             <td><a href="#" data-load-content="client/client_circle_edit.php?id={tmpl_var name='id'}">{tmpl_var name="description"}</a></td>
                             <td>

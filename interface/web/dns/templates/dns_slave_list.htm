@@ -32,14 +32,14 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                 <tr>
-                    <th><tmpl_var name="active_txt"></th>
+                    <th class="tiny-col"><tmpl_var name="active_txt"></th>
                     <th><tmpl_var name="server_id_txt"></th>
                     <th><tmpl_var name="origin_txt"></th>
                     <th><tmpl_var name="ns_txt"></th>
-                    <th>{tmpl_var name='search_limit'}</th>
+                    <th class="small-col">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
-                    <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                     <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                     <td><input class="form-control" type="text" name="search_origin" value="{tmpl_var name='search_origin'}" /></td>
                     <td><input class="form-control" type="text" name="search_ns" value="{tmpl_var name='search_ns'}" /></td>
@@ -51,7 +51,7 @@
                 <tbody>
                 <tmpl_loop name="records">
                     <tr>
-                        <td><a href="#" data-load-content="dns/dns_slave_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                        <td class="tiny-col"><a href="#" data-load-content="dns/dns_slave_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_slave_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_slave_edit.php?id={tmpl_var name='id'}">{tmpl_var name="origin"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_slave_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ns"}</a></td>

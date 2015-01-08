@@ -16,15 +16,15 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="priority_txt"></th>
                         <th><tmpl_var name="rid_txt"></th>
                         <th><tmpl_var name="email_txt"></th>
-                        <th>{tmpl_var name='search_limit'}</th>
+                        <th class="small-col">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_priority">{tmpl_var name='search_priority'}</select></td>
                         <td><select class="form-control" name="search_rid">{tmpl_var name='search_rid'}</select></td>
@@ -37,7 +37,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="mail/spamfilter_blacklist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td class="tiny-col"><a href="#" data-load-content="mail/spamfilter_blacklist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="mail/spamfilter_blacklist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="mail/spamfilter_blacklist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="priority"}</a></td>
                             <td><a href="#" data-load-content="mail/spamfilter_blacklist_edit.php?id={tmpl_var name='id'}">{tmpl_var name="rid"}</a></td>

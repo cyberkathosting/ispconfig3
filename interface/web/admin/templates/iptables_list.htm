@@ -15,7 +15,7 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
                         <th><tmpl_var name="server_id_txt"></th>
                         <th><tmpl_var name="table_txt"></th>
                         <th><tmpl_var name="protocol_txt"></th>
@@ -26,7 +26,7 @@
                         <th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                        <td class="tiny-col"><div class="col-sm-9"><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></div></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td></td>
                         <td><select class="form-control" name="search_protocol">{tmpl_var name='search_protocol'}</select></td>
@@ -42,7 +42,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
+                            <td class="tiny-col"><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="table"}</a></td>
                             <td><a href="#" data-load-content="admin/iptables_edit.php?id={tmpl_var name='id'}">{tmpl_var name="protocol"}</a></td>

@@ -260,6 +260,12 @@ thead.dark th {
   line-height: 40px;
   font-weight: normal; }
 
+thead.dark th.small-col {
+  width: 14%; }
+
+thead.dark th.tiny-col {
+  width: 7%; }
+
 thead.dark td input,
 thead.dark td select {
   width: 100%; }
