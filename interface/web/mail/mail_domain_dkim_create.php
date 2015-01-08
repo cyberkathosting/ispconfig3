@@ -89,10 +89,10 @@ function new_selector ($old_selector, $domain, $client_id = -1) {
 	//* validate post-values
 	if ( validate_domain($domain) && validate_selector($old_selector) ) {
 		//* get active selectors from dns
-		$soa_rec = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE active = 'Y' AND origin = ?");
+		$soa_rec = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE active = 'Y' AND origin = ?", $domain.'.');
 		if ( isset($soa_rec) && !empty($soa_rec) ) {
 			//* check for a dkim-record in the dns?
-			$dns_data = $app->db->queryOneRecord("SELECT name FROM dns_rr WHERE name = ? AND active = 'Y''", $old_selector.'._domainkey.'.$domain.'.');
+			$dns_data = $app->db->queryOneRecord("SELECT name FROM dns_rr WHERE name = ? AND active = 'Y'", $old_selector.'._domainkey.'.$domain.'.');
 			if ( !empty($dns_data) ){
 				$selector = str_replace( '._domainkey.'.$domain.'.', '', $dns_data['name']);
 			} else {

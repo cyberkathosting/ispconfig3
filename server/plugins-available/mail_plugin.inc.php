@@ -457,7 +457,7 @@ class mail_plugin {
 				exec(escapeshellcmd('rm -rf '.$mail_backup_dir));
 				//* cleanup database
 				$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
-				$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
+				$app->db->query($sql, $conf['server_id'], $data['old']['domain_id'], $data['old']['mailuser_id']);
 				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
 
 				$app->log('Deleted the mail backup directory: '.$mail_backup_dir, LOGLEVEL_DEBUG);
