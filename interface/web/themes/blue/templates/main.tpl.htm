@@ -161,8 +161,7 @@
                 <!-- begin: #content -->
                 <section id="content">
                     <form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class="uniForm">
-						<div class="col-sm-9"><input class="form-control" type="text" style="display:none" /></div><input type="password" style="display:none"/>
-                        <div id="pageContent"><!-- AJAX CONTENT --></div>
+						<div class="col-sm-9"><input class="form-control" type="text" style="display:none" /></div><div class="col-sm-9"><input class="form-control" type="password" style="display:none"/></div><div id="pageContent"><!-- AJAX CONTENT --></div>
                     </form>
                     <div id="ie_clearing">&nbsp;</div>
                     <!-- End: IE Column Clearing -->
@@ -178,9 +177,7 @@
 		
 <div id="dummy_login" style="display:none;position:absolute;top:-1000px;left:-1000px;">
 <form action="" method="post" target="dummy_login" id="dummy_login_form">
-<div class="col-sm-9"><input class="form-control" type="text" name="username" id="dummy_username" autocomplete="on" value="" />
-</div><input name="passwort" id="dummy_passwort" type="password" autocomplete="on" value="" />
-<input type="submit" value="Login" id="dummy_submit"/>
+<div class="col-sm-9"><input class="form-control" type="text" name="username" id="dummy_username" autocomplete="on" value="" /></div><div class="col-sm-9"><input class="form-control" type="password" name="passwort" id="dummy_passwort" autocomplete="on" value="" /></div><input type="submit" value="Login" id="dummy_submit"/>
 </form>
 <iframe id="dummy_iframe" src="dummy_login.html" name="dummy_login" style="display:none;"></iframe>
 </div>

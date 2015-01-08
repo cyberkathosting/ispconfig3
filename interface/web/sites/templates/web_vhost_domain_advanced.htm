@@ -17,12 +17,10 @@
             <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
             <div class="form-group">
                 <label for="added_date" class="col-sm-3 control-label">{tmpl_var name='added_date_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="added_date" id="added_date" value="{tmpl_var name='added_date'}" class="form-control" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="added_date" id="added_date" value="{tmpl_var name='added_date'}" class="form-control" /></div></div>
 			<div class="form-group">
                 <label for="added_by" class="col-sm-3 control-label">{tmpl_var name='added_by_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="added_by" id="added_by" value="{tmpl_var name='added_by'}" class="form-control" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="added_by" id="added_by" value="{tmpl_var name='added_by'}" class="form-control" /></div></div>
 			<div class="form-group">
                 <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user_txt'}</label>
                 <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user'}</label>
@@ -35,8 +33,7 @@
             </div>
             <div class="form-group apache">
                 <label for="allow_override" class="col-sm-3 control-label">{tmpl_var name='allow_override_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" /></div></div>
             <div class="phpfpm">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_use_socket_txt'}</label>
@@ -55,33 +52,27 @@
                 </div>
                 <div class="form-group">
                     <label for="pm_max_children" class="col-sm-3 control-label">{tmpl_var name='pm_max_children_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_children" id="pm_max_children" value="{tmpl_var name='pm_max_children'}" class="form-control" />
-                </div></div>
+                    <div class="col-sm-9"><input type="text" name="pm_max_children" id="pm_max_children" value="{tmpl_var name='pm_max_children'}" class="form-control" /></div></div>
                 <div class="form-group pm_dynamic">
                     <label for="pm_start_servers" class="col-sm-3 control-label">{tmpl_var name='pm_start_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_start_servers" id="pm_start_servers" value="{tmpl_var name='pm_start_servers'}" class="form-control" />
-                </div></div>
+                    <div class="col-sm-9"><input type="text" name="pm_start_servers" id="pm_start_servers" value="{tmpl_var name='pm_start_servers'}" class="form-control" /></div></div>
                 <div class="form-group pm_dynamic">
                     <label for="pm_min_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_min_spare_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_min_spare_servers" id="pm_min_spare_servers" value="{tmpl_var name='pm_min_spare_servers'}" class="form-control" />
-                </div></div>
+                    <div class="col-sm-9"><input type="text" name="pm_min_spare_servers" id="pm_min_spare_servers" value="{tmpl_var name='pm_min_spare_servers'}" class="form-control" /></div></div>
                 <div class="form-group pm_dynamic">
                     <label for="pm_max_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_max_spare_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_spare_servers" id="pm_max_spare_servers" value="{tmpl_var name='pm_max_spare_servers'}" class="form-control" />
-                </div></div>
+                    <div class="col-sm-9"><input type="text" name="pm_max_spare_servers" id="pm_max_spare_servers" value="{tmpl_var name='pm_max_spare_servers'}" class="form-control" /></div></div>
                 <div class="form-group pm_ondemand">
                     <label for="pm_process_idle_timeout" class="col-sm-3 control-label">{tmpl_var name='pm_process_idle_timeout_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_process_idle_timeout" id="pm_process_idle_timeout" value="{tmpl_var name='pm_process_idle_timeout'}" class="form-control" />&nbsp;s
+                    <div class="col-sm-6"><input type="text" name="pm_process_idle_timeout" id="pm_process_idle_timeout" value="{tmpl_var name='pm_process_idle_timeout'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;s
                 </div></div>
                 <div class="form-group">
                     <label for="pm_max_requests" class="col-sm-3 control-label">{tmpl_var name='pm_max_requests_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_requests" id="pm_max_requests" value="{tmpl_var name='pm_max_requests'}" class="form-control" />
-                </div></div>
+                    <div class="col-sm-9"><input type="text" name="pm_max_requests" id="pm_max_requests" value="{tmpl_var name='pm_max_requests'}" class="form-control" /></div></div>
             </div>
             <div class="form-group php">
                 <label for="php_open_basedir" class="col-sm-3 control-label">{tmpl_var name='php_open_basedir_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" class="form-control"  style="width:400px;" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" class="form-control"  style="width:400px;" /></div></div>
             <div class="form-group php">
                 <label for="custom_php_ini" class="col-sm-3 control-label">{tmpl_var name='custom_php_ini_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="custom_php_ini" id="custom_php_ini" rows='10' cols='50' style="width:400px;">{tmpl_var name='custom_php_ini'}</textarea></div>&nbsp;<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}

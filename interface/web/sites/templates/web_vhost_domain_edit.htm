@@ -87,12 +87,11 @@
                         {tmpl_var name='domain_option'}
                     </select>
                     </div><tmpl_else>
-                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" />
-                </div></tmpl_if>
+                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
             </div>
             <div class="form-group">
                 <label for="hd_quota" class="col-sm-3 control-label">{tmpl_var name='hd_quota_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" class="form-control" />&nbsp;MB
+                <div class="col-sm-6"><input type="text" name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
             </div></div>
 		</tmpl_if>
 		<tmpl_if name="vhostdomain_type" value="subdomain">
@@ -105,8 +104,7 @@
             </tmpl_if>
             <div class="form-group">
                 <label for="domain" class="col-sm-3 control-label">{tmpl_var name='host_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></div>
             <tmpl_if name="domain_option">
             <div class="form-group">
                 <label for="sel_domain" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}</label>
@@ -122,7 +120,7 @@
             </tmpl_if>
             <div class="form-group">
                 <label for="web_folder" class="col-sm-3 control-label">{tmpl_var name='web_folder_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" class="form-control"<tmpl_if name='fixed_folder' op='==' value='y'> readonly="readonly"</div></tmpl_if> />
+                <div class="col-sm-6"><input type="text" name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" class="form-control"<tmpl_if name='fixed_folder' op='==' value='y'></div><div class="col-sm-3 input-sm"> readonly="readonly"</div></tmpl_if> />
             </div>
 		</tmpl_if>
 		<tmpl_if name="vhostdomain_type" value="aliasdomain">
@@ -134,8 +132,7 @@
                         {tmpl_var name='domain_option'}
                     </select>
                     </div><tmpl_else>
-                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" />
-                </div></tmpl_if>
+                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
             </div>
             <div class="form-group">
                 <label for="parent_domain_id" class="col-sm-3 control-label">{tmpl_var name='parent_domain_id_txt'}</label>
@@ -145,12 +142,12 @@
             </div></div>
             <div class="form-group">
                 <label for="web_folder" class="col-sm-3 control-label">{tmpl_var name='web_folder_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" class="form-control"<tmpl_if name='fixed_folder' op='==' value='y'> readonly="readonly"</div></tmpl_if> />
+                <div class="col-sm-6"><input type="text" name="web_folder" id="web_folder" value="{tmpl_var name='web_folder'}" class="form-control"<tmpl_if name='fixed_folder' op='==' value='y'></div><div class="col-sm-3 input-sm"> readonly="readonly"</div></tmpl_if> />
             </div>
 		</tmpl_if>
             <div class="form-group">
                 <label for="traffic_quota" class="col-sm-3 control-label">{tmpl_var name='traffic_quota_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" class="form-control" />&nbsp;MB </div><tmpl_var name='traffic_quota_exceeded_txt'>
+                <div class="col-sm-6"><input type="text" name="traffic_quota" id="traffic_quota" value="{tmpl_var name='traffic_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB </div><tmpl_var name='traffic_quota_exceeded_txt'>
             </div>
             <tmpl_if name="limit_cgi" op="==" value="y"><div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='cgi_txt'}</label>

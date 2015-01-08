@@ -56,15 +56,13 @@
                 <label for="database_name" class="col-sm-3 control-label">{tmpl_var name='database_name_txt'}</label>
                 <p class="prefix">{tmpl_var name='database_name_prefix'}</p>
                 <tmpl_if name="edit_disabled">
-                    <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" disabled="disabled" />
-                    </div><input name="database_name" type="hidden" value="{tmpl_var name='database_name'}" />
+                    <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" disabled="disabled" /></div><input name="database_name" type="hidden" value="{tmpl_var name='database_name'}" />
                     <tmpl_else>
-                        <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" />
-                </div></tmpl_if>
+                        <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" /></div></tmpl_if>
             </div>
 			<div class="form-group">
 				<label for="database_quota" class="col-sm-3 control-label">{tmpl_var name='limit_database_quota_txt'}</label>
-				<div class="col-sm-9"><input type="text" name="database_quota" id="database_quota" value="{tmpl_var name='limit_database_quota'}" class="form-control" />&nbsp;MB
+				<div class="col-sm-6"><input type="text" name="database_quota" id="database_quota" value="{tmpl_var name='limit_database_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
 			</div></div>
             <div class="form-group">
                 <label for="database_user_id" class="col-sm-3 control-label">{tmpl_var name='database_user_txt'}</label>
@@ -100,8 +98,7 @@
             </div>
             <div class="form-group">
                 <label for="remote_ips" class="col-sm-3 control-label">{tmpl_var name='remote_ips_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" class="form-control" />
-            </div></div>
+                <div class="col-sm-9"><input type="text" name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" class="form-control" /></div></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">
