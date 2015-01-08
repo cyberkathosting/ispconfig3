@@ -25,7 +25,7 @@
 		<ul class='nav nav-tabs'>
 		<tmpl_loop name="formTab">
 			<li<tmpl_if name="active"> class='active'</tmpl_if>>
-				<a href='#' data-toggle='tab' onclick="return changeTab('<tmpl_var name='name'>','<tmpl_var name='app_module'>/<tmpl_var name='form_action'>')"><tmpl_var name='title'></a>
+				<a href='#' onclick="return changeTab('<tmpl_var name='name'>','<tmpl_var name='app_module'>/<tmpl_var name='form_action'>')"><tmpl_var name='title'></a>
 			</li>
         </tmpl_loop>
 		</ul>
