@@ -1,5 +1,5 @@
 UPDATE `dns_template` SET `fields` = 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM' WHERE `dns_template`.`template_id` =1;
-UPDATE `dbispconfig`.`dns_template` SET `template` = '[ZONE]
+UPDATE `dns_template` SET `template` = '[ZONE]
 origin={DOMAIN}.
 ns={NS1}.
 mbox={EMAIL}.
