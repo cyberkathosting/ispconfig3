@@ -87,6 +87,22 @@ function hideLoadIndicator() {
     }
 }
 
+function onAfterSideNavLoaded() {
+	<?php
+if($server_config_array['misc']['use_combobox'] == 'y'){
+?>
+    $('#sidebar').find("select:not(.chosen-select)").select2({
+		placeholder: '',
+		width: 'element',
+		selectOnBlur: true,
+		allowClear: true,
+	});
+<?php
+}
+?>
+
+}
+
 function onAfterContentLoad(url, data) {
     if(!data) data = '';
     else data = '&' + data;
@@ -95,7 +111,7 @@ if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
 
 
-    $('#pageContent,#sidebar').find("select:not(.chosen-select)").select2({
+    $('#pageContent').find("select:not(.chosen-select)").select2({
 		placeholder: '',
 		width: 'element',
 		selectOnBlur: true,
@@ -431,6 +447,7 @@ function loadMenus() {
 											success: function(data, textStatus, jqXHR) {
                                                 hideLoadIndicator();
 												jQuery('#sidebar').html(jqXHR.responseText);
+												onAfterSideNavLoaded();
 												loadPushyMenu();
 											},
 											error: function() {
