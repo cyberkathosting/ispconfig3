@@ -14,7 +14,7 @@ class quota_lib {
 		//print_r($monitor_data);
 		
 		// select all websites or websites belonging to client
-		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".(($clientid != null)?" AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)":''), $app->functions->intval($client_id));
+		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".(($clientid != null)?" AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)":''), $clientid);
 		
 		//print_r($sites);
 		if(is_array($sites) && !empty($sites)){
@@ -35,7 +35,13 @@ class quota_lib {
 				if (!is_numeric($sites[$i]['soft'])) $sites[$i]['soft']=$sites[$i]['soft'][1];
 				if (!is_numeric($sites[$i]['hard'])) $sites[$i]['hard']=$sites[$i]['hard'][1];
 				if (!is_numeric($sites[$i]['files'])) $sites[$i]['files']=$sites[$i]['files'][1];
-		
+				
+				$sites[$i]['used_raw'] = $sites[$i]['used'];
+				$sites[$i]['soft_raw'] = $sites[$i]['soft'];
+				$sites[$i]['hard_raw'] = $sites[$i]['hard'];
+				$sites[$i]['files_raw'] = $sites[$i]['files'];
+				$sites[$i]['used_percentage'] = ($sites[$i]['soft'] > 0 && $sites[$i]['used'] > 0 ? round($sites[$i]['used'] * 100 / $sites[$i]['soft']) : 0);
+				
 				if ($readable) {
 					// colours
 					$sites[$i]['display_colour'] = '#000000';
@@ -109,7 +115,7 @@ class quota_lib {
 		//print_r($monitor_data);
 		
 		// select all email accounts or email accounts belonging to client
-		$emails = $app->db->queryAllRecords("SELECT * FROM mail_user".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : ''), $app->functions->intval($client_id));
+		$emails = $app->db->queryAllRecords("SELECT * FROM mail_user".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : ''), $clientid);
 		
 		//print_r($emails);
 		if(is_array($emails) && !empty($emails)){
@@ -119,6 +125,11 @@ class quota_lib {
 				$emails[$i]['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
 		
 				if (!is_numeric($emails[$i]['used'])) $emails[$i]['used']=$emails[$i]['used'][1];
+				
+				$emails[$i]['quota_raw'] = $emails[$i]['quota'];
+				$emails[$i]['used_raw'] = $emails[$i]['used'];
+				$emails[$i]['used_percentage'] = ($emails[$i]['quota'] > 0 && $emails[$i]['used'] > 0 ? round($emails[$i]['used'] * 100 / $emails[$i]['quota']) : 0);
+
 				
 				if ($readable) {
 					// colours

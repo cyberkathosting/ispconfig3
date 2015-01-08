@@ -6,29 +6,28 @@
 </tmpl_if>
 <h3><tmpl_var name="list_head_txt"></h3>
 
-<div class="panel panel_list_mail_backup">
-    
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_date" scope="col"><tmpl_var name="date_txt"></th>
-                        <th class="tbl_col_filename" scope="col"><tmpl_var name="filename_txt"></th>
-			<th class="tbl_col_filename" scope="col"><tmpl_var name="filesize_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                    <tr>
+                        <th><tmpl_var name="date_txt"></th>
+                        <th><tmpl_var name="filename_txt"></th>
+			<th><tmpl_var name="filesize_txt"></th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_date">{tmpl_var name="date"}</td>
-                            <td class="tbl_col_filename">{tmpl_var name="filename"}</td>
-			    <td class="tbl_col_filesize">{tmpl_var name="filesize"}</td>
-                            <td class="tbl_col_buttons">
+                        <tr>
+                            <td>{tmpl_var name="date"}</td>
+                            <td>{tmpl_var name="filename"}</td>
+			    <td>{tmpl_var name="filesize"}</td>
+                            <td class="text-right">
                                 <div class="buttons">
-                                    <button class="button iconstxt icoRestore" type="button" onclick="confirm_action('mail/mail_user_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');"><span>{tmpl_var name="restore_backup_txt"}</span></button>
-<!--                                    <button class="button iconstxt icoDownload" type="button" onclick="loadContent('mail/mail_user_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}');"><span>{tmpl_var name="download_backup_txt"}</span></button>
+                                    <button class="btn btn-default formbutton-default" type="button" onclick="confirm_action('mail/mail_user_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');">{tmpl_var name="restore_backup_txt"}</button>
+<!--                                    <button class="btn btn-default formbutton-default" type="button" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}">{tmpl_var name="download_backup_txt"}</button>
 -->
                                 </div>
                             </td>
@@ -41,7 +40,6 @@
                     </tmpl_unless>
                 </tbody>
             </table>
-        </fieldset>
-    </div>
-    
 </div>
+        
+    </div>

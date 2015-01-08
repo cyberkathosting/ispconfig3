@@ -1,0 +1,13 @@
+@import "colors"
+
+@mixin background-gradient
+  background: linear-gradient(to bottom, $color-gradient-grey-start, $color-gradient-grey-stop)
+
+  &:hover
+    background: linear-gradient(to bottom, darken($color-gradient-grey-start, 2%), darken($color-gradient-grey-stop, 2%))
+
+@mixin background-gradient-green
+  background: linear-gradient(to bottom, $color-gradient-green-start, $color-gradient-green-stop)
+
+  &:hover
+    background: linear-gradient(to bottom, darken($color-gradient-green-start, 2%), darken($color-gradient-green-stop, 2%))

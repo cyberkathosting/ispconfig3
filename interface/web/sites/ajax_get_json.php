@@ -201,6 +201,44 @@ if ($type == 'getdirectivesnippet') {
 	$json = json_encode($snippets);
 }
 
+if($type == 'getclientssldata'){
+	$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", intval($web_id));
+	$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", intval($web['sys_groupid']));
+	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", intval($sys_group['client_id']));
+	if(is_array($client) && !empty($client)){
+		if($client['telephone'] == '' && $client['mobile'] != '') $client['telephone'] = $client['mobile'];
+		
+		$fname = '';
+		$lname = '';
+		$parts = preg_split("/\s+/", $client['contact_name']);
+		if(sizeof($parts) == 2){
+			$fname = $parts[0];
+			$lname = $parts[1];
+		}
+		if(sizeof($parts) > 2){
+			$fname = $parts[0].' ';
+			for($i=1;$i<sizeof($parts);$i++){
+				if($i == (sizeof($parts) - 1)){
+					$lname .= $parts[$i];
+				} else {
+					if(preg_match('@^(von|van|ten|ter|zur|zu|auf|sieber)$@i', $parts[$i])){
+						$lname .= implode(' ', array_slice($parts, $i));
+						break;
+					} else {
+						$fname .= $parts[$i].' ';
+					}
+				}
+			}
+		}
+		$fname = trim($fname);
+		$lname = trim($lname);
+		$client['fname'] = $fname;
+		$client['lname'] = $lname;
+		if(trim($client['company_name']) == '') $client['company_name'] = $fname.' '.$lname;
+	}
+	$json = $app->functions->json_encode($client);
+}
+
 //}
 
 header('Content-type: application/json');

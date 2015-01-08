@@ -1,25 +1,22 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_sys_state">
 
-    <div class="pnl_toolsarea">
-        <fieldset class="inlineLabels"><legend><tmpl_var name="monTransRefreshsq"></legend>
-            <div class="buttons">
-                <div class="ctrlHolder">
-                    <label for="refreshinterval">&nbsp;</label>
-                    <select name="refreshinterval" id="refreshinterval" class="selectInput withicons" onChange="loadContentRefresh('monitor/show_sys_state.php?state={tmpl_var name="state_type"}')">
+        <legend><tmpl_var name="monTransRefreshsq"></legend>
+            
+                <div class="form-group">
+                    <label for="refreshinterval" class="col-sm-3 control-label">&nbsp;</label>
+                    <div class="col-sm-9"><select name="refreshinterval" id="refreshinterval" class="form-control" onChange="loadContentRefresh('monitor/show_sys_state.php?state={tmpl_var name="state_type"}')">
                         {tmpl_var name='refresh'}
-                    </select>
-                </div>
-            </div>
-        </fieldset>
+                    </select></div>
+                
+        
     </div>
   
     <div class="pnl_formarea">
-        <fieldset><legend></legend>
+        <p class="fieldset-legend"></p>
             <div class="stateview"><tmpl_var name="state_data"></div>
-        </fieldset>
+        
     </div>
-
-</div>

@@ -252,7 +252,7 @@ class db extends mysqli
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
 
-		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
+		$this->_iQueryId = @mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', false, 'SQL-Query = ' . $sQuery);
 			return false;

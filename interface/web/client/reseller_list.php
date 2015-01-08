@@ -49,7 +49,7 @@ $app->uses('listform_actions');
 
 $app->listform_actions->SQLOrderBy = 'ORDER BY client.company_name, client.contact_name, client.client_id';
 $app->listform_actions->SQLExtWhere = "(client.limit_client > 0 or client.limit_client = -1)";
-$app->listform_actions->SQLExtSelect = ', client.country as countryiso';
+$app->listform_actions->SQLExtSelect = ', LOWER(client.country) as countryiso';
 $app->listform_actions->onLoad();
 
 

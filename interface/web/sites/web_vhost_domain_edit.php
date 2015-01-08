@@ -142,6 +142,8 @@ class page_action extends tform_actions {
 		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
 
 		if($this->_vhostdomain_type != 'domain') $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]));
+		
+		$is_admin = false;
 
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -451,6 +453,8 @@ class page_action extends tform_actions {
 
 			//* Admin: If the logged in user is admin
 		} else {
+		
+			$is_admin = true;
 
 			if($this->_vhostdomain_type == 'domain') {
 				// The user is admin, so we fill in all IP addresses of the server
@@ -700,6 +704,14 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
 
 		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+		$app->tpl->setVar("is_admin", $is_admin);
+		
+		if($this->id > 0) {
+			$tmp_web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", intval($this->id));
+			$tmp_sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", intval($tmp_web['sys_groupid']));
+			if(intval($tmp_sys_group['client_id']) > 0) $tmp_client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", intval($tmp_sys_group['client_id']));
+			if(is_array($tmp_client) && !empty($tmp_client) && trim($this->dataRecord['ssl_organisation']) == '' && trim($this->dataRecord['ssl_locality']) == '' && trim($this->dataRecord['ssl_state']) == '' && trim($this->dataRecord['ssl_organisation_unit']) == '') $app->tpl->setVar("show_helper_links", true);
+		}
 
 		parent::onShowEnd();
 	}

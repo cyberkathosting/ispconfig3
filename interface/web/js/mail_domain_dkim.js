@@ -31,9 +31,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 This Javascript is invoked by
 	* mail/templates/mail_domain_edit.htm to show and/or create the key-pair
 */
-$('.subsectiontoggle').on('click', function(){
-	$(this).children().toggleClass('showing').end().next().slideToggle();
-});
 
 var request = false;
 

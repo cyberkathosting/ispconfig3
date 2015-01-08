@@ -1,4 +1,6 @@
-<h2><tmpl_var name="login_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="login_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_login">
@@ -7,36 +9,33 @@
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3>ERROR</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" onclick="loadContent('login/password_reset.php');">{tmpl_var name='pw_lost_txt'}</a></div>
+        <div id="errorMsg"><h3>ERROR</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" data-load-content="login/password_reset.php">{tmpl_var name='pw_lost_txt'}</a></div>
     </tmpl_if>
 
     <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name='login_txt'}Login</legend>
-            <div class="ctrlHolder">
-                <label for="username">{tmpl_var name='username_txt'}</label>
-                <input name="username" id="username" value="" size="30" maxlength="255" type="text" class="formLengthEmailUser"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="passwort">{tmpl_var name='password_txt'}</label>
-                <input name="passwort" id="passwort" value="" size="30" maxlength="255" type="password" class="formLengthEmailUser"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
-            </div>
+        <legend>{tmpl_var name='login_txt'}Login</legend>
+            <div class="form-group">
+                <label for="username" class="col-sm-3 control-label">{tmpl_var name='username_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="username" id="username" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
+            <div class="form-group">
+                <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
+                <div class="col-sm-9"><input type="password" name="passwort" id="passwort" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
             <tmpl_if name="session_timeout" op=">" value="0">
 				<tmpl_if name="session_allow_endless" value="y">
-            <div class="ctrlHolder">
-                <label for="passwort">{tmpl_var name='stay_logged_in_txt'}</label>
-                <input name="stay" id="stay" value="1" type="checkbox" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" />
-            </div>
+            <div class="form-group">
+                <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='stay_logged_in_txt'}</label>
+                <div class="col-sm-9"><input class="form-control" type="checkbox" name="stay" id="stay" value="1" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
 				</tmpl_if>
             </tmpl_if>
-        </fieldset>
+        
 
         <input type="hidden" name="s_mod" value="login" />
         <input type="hidden" name="s_pg" value="index" />
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoKey" type="button" value="{tmpl_var name='add_new_record_txt'}" onclick="submitLoginForm('pageForm');"><span>{tmpl_var name='login_button_txt'}</span></button>
-            <tmpl_if name="pw_lost_show"><button class="negative iconstxt icoKey" type="button" value="{tmpl_var name='pw_lost_txt'}" onclick="loadContent('login/password_reset.php');"><span>{tmpl_var name='pw_lost_txt'}</span></button></tmpl_if>
-        </div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='add_new_record_txt'}" onclick="submitLoginForm('pageForm');">{tmpl_var name='login_button_txt'}</button>
+            <tmpl_if name="pw_lost_show"><button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='pw_lost_txt'}" data-load-content="login/password_reset.php">{tmpl_var name='pw_lost_txt'}</button></tmpl_if>
+        </div></div>
     </div>
 
 </div>

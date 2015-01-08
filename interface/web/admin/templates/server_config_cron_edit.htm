@@ -1,30 +1,24 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_server_config">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="init_script">{tmpl_var name='init_script_txt'}</label>
-                <input name="init_script" id="init_script" value="{tmpl_var name='init_script'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="crontab_dir">{tmpl_var name='crontab_dir_txt'}</label>
-                <input name="crontab_dir" id="crontab_dir" value="{tmpl_var name='crontab_dir'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="wget">{tmpl_var name='wget_txt'}</label>
-                <input name="wget" id="wget" value="{tmpl_var name='wget'}" size="40" maxlength="255" type="text" class="textInput" />
-            </div>
-        </fieldset>
+
+        
+            <div class="form-group">
+                <label for="init_script" class="col-sm-3 control-label">{tmpl_var name='init_script_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="init_script" id="init_script" value="{tmpl_var name='init_script'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="crontab_dir" class="col-sm-3 control-label">{tmpl_var name='crontab_dir_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="crontab_dir" id="crontab_dir" value="{tmpl_var name='crontab_dir'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="wget" class="col-sm-3 control-label">{tmpl_var name='wget_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="wget" id="wget" value="{tmpl_var name='wget'}" class="form-control" /></div></div>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/server_config_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/server_config_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
