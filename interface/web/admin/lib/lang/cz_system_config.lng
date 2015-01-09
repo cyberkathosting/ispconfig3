@@ -48,6 +48,7 @@ $wb['use_combobox_txt'] = 'Použití jQuery UI Combobox';
 $wb['use_loadindicator_txt'] = 'Použití indikátoru zatížení';
 $wb['f5_to_reload_js_txt'] = 'Pokud vypnete tuto volbu, zřejmě budete muset používat klávesu F5, aby internetový prohlížeč znovu načetl JavaScript knihovny nebo budete muset ručně vyprázdňovat mezipaměť (cache) vašeho internetového prohlížeče.';
 $wb['client_username_web_check_disabled_txt'] = 'Disable client username check for the word \'web\'.';
+$wb['backups_include_into_web_quota_txt'] = 'Include backup files into web quota.';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Show Autoresponder tab in Mailbox detail';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show Mail Filter tab in Mailbox detail';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show Custom Rules tab in Mailbox detail';

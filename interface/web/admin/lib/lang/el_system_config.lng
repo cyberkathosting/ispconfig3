@@ -48,6 +48,7 @@ $wb['use_combobox_txt'] = 'Χρήση jQuery UI Combobox';
 $wb['use_loadindicator_txt'] = 'Χρήση Load Indicator (ενδεικτή φόρτωσης)';
 $wb['f5_to_reload_js_txt'] = 'Αν το αλλάξετε, ίσως πρέπει να πατήσετε το F5 για να κάνετε τον φυλλομετρητη να ξαναφορτώσει τις βιβλιοθήκες JavaScript ή να αδείασετε την cache του φυλλομετρητή.';
 $wb['client_username_web_check_disabled_txt'] = 'Απενεργοποίηση ελέγχου στο όνομα χρήστη για την λέξη \'web\'.';
+$wb['backups_include_into_web_quota_txt'] = 'Include backup files into web quota.';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Εμφάνιση της καρτέλας Αυτόματης Απάντησης στις λεπτομέρειες του λογαριασμού mail';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Εμφάνιση της καρτέλας Φίλτρα mail στις λεπτομέρειες του λογαριασμού mail';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Εμφάνιση της καρτέλας Προσαρμοσμένοι Κανόνες στις λεπτομέρειες του λογαριασμού mail';
