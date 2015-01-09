@@ -67,7 +67,7 @@ class backup_plugin {
 
 			$app->uses('ini_parser,file,getconf,system');
 
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$backup['parent_domain_id']);
+			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
 			
@@ -100,7 +100,7 @@ class backup_plugin {
 				//* Make backup available for download
 				if($action_name == 'backup_download') {
 					//* Copy the backup file to the backup folder of the website
-					if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+					if(file_exists($backup_dir.'/'.$backup['filename']) && file_exists($web['document_root'].'/backup/') && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 						copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
 						chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
 						$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'], LOGLEVEL_DEBUG);
