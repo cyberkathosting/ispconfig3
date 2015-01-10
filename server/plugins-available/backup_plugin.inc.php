@@ -53,7 +53,8 @@ class backup_plugin {
 		//* Register for actions
 		$app->plugins->registerAction('backup_download', $this->plugin_name, 'backup_action');
 		$app->plugins->registerAction('backup_restore', $this->plugin_name, 'backup_action');
-
+		$app->plugins->registerAction('backup_mailrestore', $this->plugin_name, 'backup_action');
+		
 	}
 
 	//* Do a backup action
@@ -64,7 +65,7 @@ class backup_plugin {
 		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
 		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = $backup_id");
 
-		if(is_array($backup)) {
+		if(is_array($backup) && ($action_name != 'backup_mailrestore')) {
 
 			$app->uses('ini_parser,file,getconf,system');
 
@@ -159,7 +160,7 @@ class backup_plugin {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
 		//* Restore a mail backup - florian@schaal-24.de
-		} elseif (is_array($mail_backup) && $action_name == 'backup_restore') {
+		} elseif (is_array($mail_backup) && ($action_name == 'backup_mailrestore')) {
 			$app->uses('ini_parser,file,getconf');
 
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');

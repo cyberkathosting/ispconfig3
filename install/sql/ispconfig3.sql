@@ -703,7 +703,7 @@ CREATE TABLE `mail_backup` (
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL DEFAULT '',
-  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1746,7 +1746,7 @@ CREATE TABLE `web_backup` (
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL DEFAULT '',
-  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
