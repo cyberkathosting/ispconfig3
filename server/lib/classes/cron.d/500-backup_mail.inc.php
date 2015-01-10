@@ -51,7 +51,8 @@ class cronjob_backup_mail extends cronjob {
 
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-
+		$global_config = $app->getconf->get_global_config('sites');
+		
 		$backup_dir = $server_config['backup_dir'];
 		$backup_dir_permissions =0750;
 
@@ -104,13 +105,35 @@ class cronjob_backup_mail extends cronjob {
 							exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
 						}
 						if($retval == 0){
-							chown($mail_backup_dir.'/'.$mail_backup_file, 'root');
-							chgrp($mail_backup_dir.'/'.$mail_backup_file, 'root');
+							$backupusername = 'root';
+							$backupgroup = 'root';
+							if ($global_config['backups_include_into_web_quota'] == 'y') {
+								// this only works, if mail and webdomains are on the same server
+								// find webdomain fitting to maildomain
+								$sql = "SELECT * FROM web_domain WHERE domain = ".$domain_rec['domain'];
+								$webdomain = $app->db->queryOneRecord($sql);
+								// if this is not also the website, find website now
+								if ($webdomain && ($webdomain['parent_domain_id'] != 0)) {
+									do {
+										$sql = "SELECT * FROM web_domain WHERE domain_id = ".$domain_rec['parent_domain_id'];
+										$webdomain = $app->db->queryOneRecord($sql);
+									} while ($webdomain && ($webdomain['parent_domain_id'] != 0));
+								}
+								// if webdomain is found, change username/group now
+								if ($webdomain) {
+									$backupusername = $webdomain['system_user'];
+									$backupgroup = $webdomain['system_group'];
+								}
+							}
+							chown($mail_backup_dir.'/'.$mail_backup_file, $backupusername);
+							chgrp($mail_backup_dir.'/'.$mail_backup_file, $backupgroup);
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);
 							/* Insert mail backup record in database */
+							$filesize = filesize($mail_backup_dir.'/'.$mail_backup_file);
 							$sql = "INSERT INTO mail_backup (server_id, parent_domain_id, mailuser_id, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
-							$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file)));	
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $app->functions->formatBytes(filesize($mail_backup_dir.'/'.$mail_backup_file)));
+							$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $filesize);	
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id'], $backup_mode, time(), $mail_backup_file, $filesize);
+							unset($filesize);
 						} else {
 							/* Backup failed - remove archive */
 							if(is_file($mail_backup_dir.'/'.$mail_backup_file)) unlink($mail_backup_dir.'/'.$mail_backup_file);
