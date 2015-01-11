@@ -80,10 +80,33 @@ class cronjob_backup_mail extends cronjob {
 						$domain = $temp[1];
 						unset($temp);;
 						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
+						
+						$backupusername = 'root';
+						$backupgroup = 'root';
+						if ($global_config['backups_include_into_web_quota'] == 'y') {
+							// this only works, if mail and webdomains are on the same server
+							// find webdomain fitting to maildomain
+							$sql = "SELECT * FROM web_domain WHERE domain = '".$domain_rec['domain']."'";
+							$webdomain = $app->db->queryOneRecord($sql);
+							// if this is not also the website, find website now
+							if ($webdomain && ($webdomain['parent_domain_id'] != 0)) {
+								do {
+									$sql = "SELECT * FROM web_domain WHERE domain_id = ".$webdomain['parent_domain_id'];
+									$webdomain = $app->db->queryOneRecord($sql);
+								} while ($webdomain && ($webdomain['parent_domain_id'] != 0));
+							}
+							// if webdomain is found, change username/group now
+							if ($webdomain) {
+								$backupusername = $webdomain['system_user'];
+								$backupgroup = $webdomain['system_group'];
+							}
+						}						
 
 						$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
 						if(!is_dir($mail_backup_dir)) mkdir($mail_backup_dir, 0750);
 						chmod($mail_backup_dir, $backup_dir_permissions);
+						chown($mail_backup_dir, $backupusername);
+						chgrp($mail_backup_dir, $backupgroup);
 
 						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_'.date('Y-m-d_H-i');
 
@@ -98,33 +121,13 @@ class cronjob_backup_mail extends cronjob {
 						//* create archives
 						if($backup_mode == 'userzip') {
 							$mail_backup_file.='.zip';
-							exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/nul', $tmp_output, $retval);
+							exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
 						} else {
 							/* Create a tar.gz backup */
 							$mail_backup_file.='.tar.gz';
 							exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
 						}
 						if($retval == 0){
-							$backupusername = 'root';
-							$backupgroup = 'root';
-							if ($global_config['backups_include_into_web_quota'] == 'y') {
-								// this only works, if mail and webdomains are on the same server
-								// find webdomain fitting to maildomain
-								$sql = "SELECT * FROM web_domain WHERE domain = ".$domain_rec['domain'];
-								$webdomain = $app->db->queryOneRecord($sql);
-								// if this is not also the website, find website now
-								if ($webdomain && ($webdomain['parent_domain_id'] != 0)) {
-									do {
-										$sql = "SELECT * FROM web_domain WHERE domain_id = ".$domain_rec['parent_domain_id'];
-										$webdomain = $app->db->queryOneRecord($sql);
-									} while ($webdomain && ($webdomain['parent_domain_id'] != 0));
-								}
-								// if webdomain is found, change username/group now
-								if ($webdomain) {
-									$backupusername = $webdomain['system_user'];
-									$backupgroup = $webdomain['system_group'];
-								}
-							}
 							chown($mail_backup_dir.'/'.$mail_backup_file, $backupusername);
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, $backupgroup);
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);
