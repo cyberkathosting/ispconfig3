@@ -178,23 +178,12 @@ class backup_plugin {
 	
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'];
+			$backup_dir_is_ready = true;
 	
 			//* mount backup directory, if necessary
-			$run_backups = true;
-			$backup_dir_mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
-			if( $server_config['backup_dir_is_mount'] == 'y' &&
-					is_file($backup_dir_mount_cmd) &&
-					is_executable($backup_dir_mount_cmd) &&
-					fileowner($backup_dir_mount_cmd) === 0
-			){
-				if(!$app->system->is_mounted($backup_dir)){
-					exec($backup_dir_mount_cmd);
-					sleep(1);
-					if(!$app->system->is_mounted($backup_dir)) $run_backups = false;
-				}
-			}
+			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
 	
-			if($run_backups){
+			if($backup_dir_is_ready){
 				$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));
 			
