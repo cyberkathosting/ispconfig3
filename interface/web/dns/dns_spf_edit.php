@@ -202,7 +202,7 @@ class page_action extends tform_actions {
 		if (!empty($spf_domain)) {
 			$rec = split(' ', $spf_domain);
 			foreach ($rec as $domain) {
-				if (preg_match('/_^[a-zA-Z0-9\\.\\-\\*]{0,64}$/', $domain))
+				if (preg_match('/^[_a-zA-Z0-9\\.\\-\\*]{0,64}$/', $domain))
 					$spf_record[] = 'include:' . $domain;
 				else {
 					if (isset($app->tform->errorMessage )) $app->tform->errorMessage .= '<br/>' . $app->tform->wordbook["spf_invalid_domain_txt"]. $domain;
