@@ -39,6 +39,9 @@ class plugin_backuplist_mail extends plugin_base {
 
 	function onShow() {
 		global $app;
+		
+		$app->uses('functions');
+		
 		$listTpl = new tpl;
 		$listTpl->newTemplate('templates/mail_user_backup_list.htm');
 				
@@ -105,6 +108,7 @@ class plugin_backuplist_mail extends plugin_base {
 				$rec["bgcolor"] = $bgcolor;
 				$rec['date'] = date($app->lng('conf_format_datetime'),$rec['tstamp']);
 				$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+				$rec['filesize'] = $app->functions->formatBytes($rec['filesize']);
 				$records_new[] = $rec;
 			}
 		}
