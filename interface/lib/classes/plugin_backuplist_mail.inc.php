@@ -82,7 +82,7 @@ class plugin_backuplist_mail extends plugin_base {
 					"VALUES (".
 						(int)$this->form->dataRecord['server_id'] . ", " .
 						time() . ", " .
-						"'backup_restore', " .
+						"'backup_restore_mail', " .
 						"'".$backup_id."', " .
 						"'pending', " .
 						"''" .
