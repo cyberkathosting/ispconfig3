@@ -261,7 +261,7 @@
     } else {
         jQuery('.fastcgi_php_version:visible').hide();
     }
-    //resetFormChanged();
+    //ISPConfig.resetFormChanged();
     
     jQuery('#php').change(function(){
         reloadFastcgiPHPVersions();
@@ -304,7 +304,7 @@
                 jQuery('#php option[value="suphp"]').show();
             }
             if(noFormChange) {
-                resetFormChanged();
+                ISPConfig.resetFormChanged();
                 jQuery('#php').addClass('no-page-form-change').change();
                 jQuery('#php').removeClass('no-page-form-change');
             } else {
@@ -331,8 +331,8 @@
 	}
 		
     function reloadWebIP() {
-        loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
-        loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
+        ISPConfig.loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
+        ISPConfig.loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
     }
 		
     function reloadFastcgiPHPVersions(noFormChange) {
@@ -348,7 +348,7 @@
                 options += '<option value="'+key+'"'+phpfastcgiselected+'>'+val+'</option>';
             });
             $('#fastcgi_php_version').html(options).change();
-            if(noFormChange) resetFormChanged();
+            if(noFormChange) ISPConfig.resetFormChanged();
         });
     }
     

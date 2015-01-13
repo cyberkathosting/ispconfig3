@@ -43,7 +43,7 @@
                         <td><a href="#" data-load-content="mail/spamfilter_users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="policy_id"}</a></td>
                         <td><a href="#" data-load-content="mail/spamfilter_users_edit.php?id={tmpl_var name='id'}">{tmpl_var name="fullname"}</a></td>
                         <td class="text-right">
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/spamfilter_users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mail/spamfilter_users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                     </tmpl_loop>

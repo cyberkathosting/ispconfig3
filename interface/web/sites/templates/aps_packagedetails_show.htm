@@ -20,18 +20,18 @@
     <input type="hidden" name="next_tab" value="" />
     <ul>
         <li<tmpl_if name='next_tab' op='==' value='details'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('details', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='details_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('details', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='details_txt'}</a>
         </li>
         <tmpl_if name='pkg_screenshots'>
         <li<tmpl_if name='next_tab' op='==' value='screenshots'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('screenshots', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='screenshots_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('screenshots', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='screenshots_txt'}</a>
         </li></tmpl_if>
         <tmpl_if name='pkg_changelog'>
         <li<tmpl_if name='next_tab' op='==' value='changelog'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('changelog', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='changelog_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('changelog', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='changelog_txt'}</a>
         </li></tmpl_if>
         <li<tmpl_if name='next_tab' op='==' value='settings'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('settings', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='settings_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('settings', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='settings_txt'}</a>
         </li>
     </ul>
 </div>

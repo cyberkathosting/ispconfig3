@@ -15,7 +15,7 @@
                         <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                     <tmpl_else>
                             <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
-                            <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control" onChange="loadOptionInto('ip_address','vm/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)">
+                            <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control" onChange="ISPConfig.loadOptionInto('ip_address','vm/ajax_get_ip.php?server_id='+document.getElementById('server_id').value)">
                                 {tmpl_var name='server_id'}
                             </select></div>
                     </tmpl_if>

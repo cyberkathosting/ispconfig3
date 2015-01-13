@@ -16,15 +16,15 @@
         <legend>{tmpl_var name='login_txt'}Login</legend>
             <div class="form-group">
                 <label for="username" class="col-sm-3 control-label">{tmpl_var name='username_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="username" id="username" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
+                <div class="col-sm-9"><input type="text" name="username" id="username" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {ISPConfig.submitLoginForm('pageForm'); return false;};" /></div></div>
             <div class="form-group">
                 <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
-                <div class="col-sm-9"><input type="password" name="passwort" id="passwort" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
+                <div class="col-sm-9"><input type="password" name="passwort" id="passwort" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {ISPConfig.submitLoginForm('pageForm'); return false;};" /></div></div>
             <tmpl_if name="session_timeout" op=">" value="0">
 				<tmpl_if name="session_allow_endless" value="y">
             <div class="form-group">
                 <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='stay_logged_in_txt'}</label>
-                <div class="col-sm-9"><input class="form-control" type="checkbox" name="stay" id="stay" value="1" onkeypress="if (event.keyCode && event.keyCode == 13) {submitLoginForm('pageForm'); return false;};" /></div></div>
+                <div class="col-sm-9"><input class="form-control" type="checkbox" name="stay" id="stay" value="1" onkeypress="if (event.keyCode && event.keyCode == 13) {ISPConfig.submitLoginForm('pageForm'); return false;};" /></div></div>
 				</tmpl_if>
             </tmpl_if>
         
@@ -33,7 +33,7 @@
         <input type="hidden" name="s_pg" value="index" />
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='add_new_record_txt'}" onclick="submitLoginForm('pageForm');">{tmpl_var name='login_button_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='add_new_record_txt'}" onclick="ISPConfig.submitLoginForm('pageForm');">{tmpl_var name='login_button_txt'}</button>
             <tmpl_if name="pw_lost_show"><button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='pw_lost_txt'}" data-load-content="login/password_reset.php">{tmpl_var name='pw_lost_txt'}</button></tmpl_if>
         </div></div>
     </div>

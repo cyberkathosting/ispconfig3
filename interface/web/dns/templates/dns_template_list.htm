@@ -34,7 +34,7 @@
                         <td><a href="#" data-load-content="dns/dns_template_edit.php?id={tmpl_var name='id'}">{tmpl_var name="visible"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_template_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
                         <td class="text-right">
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('dns/dns_template_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('dns/dns_template_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

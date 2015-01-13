@@ -56,7 +56,7 @@
                             <td><a href="#" data-load-content="sites/web_childdomain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>
                             <td><a href="#" data-load-content="sites/web_childdomain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
                             <td class="text-right">
-                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/web_childdomain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('sites/web_childdomain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

@@ -40,7 +40,7 @@
                             <td><span id="status_content{tmpl_var name='__ROWNUM__'}">{tmpl_var name='instance_status'}</span></td>
                             <td class="text-right">
                                 <tmpl_if name='delete_possible'>
-                                    <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span class="icon icon-delete"></span></button>
+                                    <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('sites/aps_do_operation.php?action=delete_instance&id={tmpl_var name='id'}','{tmpl_var name='pkg_delete_confirmation'}')"><span class="icon icon-delete"></span></button>
                                 </tmpl_if>
                             </td>        
                         </tr>
