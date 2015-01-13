@@ -103,6 +103,18 @@
 	
 	<tmpl_if name="use_loadindicator" value="y">ISPConfig.setOption('useLoadIndicator', true);</tmpl_if>
 	<tmpl_if name="use_combobox" value="y">ISPConfig.setOption('useComboBox', true);</tmpl_if>
+	
+	$(document).ready(function() {
+		$('#globalsearch').ispconfigSearch({
+			dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
+			resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
+			noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
+			noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
+			searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">',
+			resultBoxPosition: ''
+		});
+
+	});
   //-->
   </script>
 </body>

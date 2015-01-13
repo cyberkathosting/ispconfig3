@@ -705,13 +705,4 @@ $(document).on('ready', function () {
 			e.preventDefault();
 		}
 	});
-	
-	$('#globalsearch').ispconfigSearch({
-		dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
-		resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
-		noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
-		noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
-		searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">',
-		resultBoxPosition: ''
-	});
 });
