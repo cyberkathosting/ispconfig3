@@ -94,94 +94,15 @@
   </tmpl_loop>
   <script>
   <!--
-	$(document).ready(function() {
-		loadInitContent();
-	});
-	
-	$('#searchform').submit(function(e) {
-		e.preventDefault();
-	});
-	
-	$("#pageForm").submit(function(e){
-		//Prevent form submit: e.preventDefault() in lists
-		if ($("#pageForm .table #Filter").length > 0) {
-			e.preventDefault();
-		}
-	});
-	
-	$('#globalsearch').ispconfigSearch({
-		dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
-		resultsLimit: '$ <tmpl_var name="globalsearch_resultslimit_of_txt"> % <tmpl_var name="globalsearch_resultslimit_results_txt">',
-		noResultsText: '<tmpl_var name="globalsearch_noresults_text_txt">',
-		noResultsLimit: '<tmpl_var name="globalsearch_noresults_limit_txt">',
-		searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">',
-		resultBoxPosition: ''
-	});
-	
 	//$('.ttip').tipsy({live: true, gravity: 'ne', html: true});
 	
-	tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
-	tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
-	tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
-	tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
+	ISPConfig.tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
+	ISPConfig.tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
+	ISPConfig.tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
+	ISPConfig.tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
 	
-	$(document).on("change", function(event) {
-		var elName = event.target.localName;
-		if ($("#pageForm .table #Filter").length > 0 && elName == 'select') {
-			event.preventDefault();
-			$("#pageForm .table #Filter").trigger('click');
-		}
-		if(elName == 'select' || elName == 'input' || elName == 'textarea') {
-			if($(event.target).hasClass('no-page-form-change') == false) {
-				// set marker that something was changed
-				pageFormChanged = true;
-			}
-		}
-	});
-	
-	$(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
-		e.preventDefault();
-		var content_to_load = $(this).attr('data-load-content');
-		if(!content_to_load) return this;
-		
-		loadContent(content_to_load);
-	});
-
-	$(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
-		e.preventDefault();
-		var content_to_load = $(this).attr('data-capp');
-		if(!content_to_load) return this;
-		
-		capp(content_to_load);
-	});
-
-	$(document).bind("keypress", function(event) {
-		//Use $ submit with keypress Enter in panel filterbar
-		if (event.which == '13' && $("#pageForm .table #Filter").length > 0 && $(event.target).hasClass('ui-autocomplete-input') == false ) {
-			event.preventDefault();
-			$("#pageForm .table #Filter").trigger('click');
-		}
-		//Use $ submit with keypress Enter in forms
-		if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
-			event.preventDefault();
-			$(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
-		}
-	});
-	
-	$(document).on('click', 'th[data-column]', function(e) {
-		var $self = $(this);
-		var column = $self.attr('data-column');
-		if(!column) return this;
-		
-		if($("#pageForm .table #Filter").length > 0 && $self.attr('data-sortable') != 'false') {
-			var $el = $('#Filter');
-			var act = $el.attr('data-form-action');
-			var form = $el.attr('data-submit-form');
-			
-			act = act + '?orderby=' + column;
-			submitForm(form, act);
-		}
-	});
+	<tmpl_if name="use_loadindicator" value="y">ISPConfig.setOption('useLoadIndicator', true);</tmpl_if>
+	<tmpl_if name="use_combobox" value="y">ISPConfig.setOption('useComboBox', true);</tmpl_if>
   //-->
   </script>
 </body>

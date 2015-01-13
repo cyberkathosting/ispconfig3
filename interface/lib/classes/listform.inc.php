@@ -354,23 +354,23 @@ class listform {
 		
 		//* Show Back
 		if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
-			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page=0'.$vars['page_params']."');".'" aria-label="First">
+			$content .= '<li><a href="#" data-load-content="'.$vars['list_file'].'?page=0'.$vars['page_params'].'" aria-label="First">
 			<span aria-hidden="true">&laquo;</span></a></li>';
-			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params']."');".'" aria-label="Previous">
+			$content .= '<li><a href="#" data-load-content='.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'" aria-label="Previous">
 			<span aria-hidden="true">&lsaquo;</span></a></li>';
 		}
 		$prev = -1;
 		foreach($show_pages as $p) {
 			if($prev != -1 && $p > $prev + 1) $content .= '<li class="disabled"><a href="#">…</a></li>';
-			$content .= '<li' . ($p == $vars['page'] ? ' class="active"' : '') . '><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$p.$vars['page_params']."');".'">'. ($p+1) .'</a></li>';
+			$content .= '<li' . ($p == $vars['page'] ? ' class="active"' : '') . '><a href="#" data-load-content="'.$vars['list_file'].'?page='.$p.$vars['page_params'].'">'. ($p+1) .'</a></li>';
 			$prev = $p;
 		}
 		//.$vars['next_page'].' '.$this->lng('page_of_txt').' '.$vars['max_pages'].' &nbsp; ';
 		//* Show Next
 		if(isset($vars['show_page_next']) && $vars['show_page_next'] == 1){
-			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params']."');".'" aria-label="Next">
+			$content .= '<li><a href="#" data-load-content="'.$vars['list_file'].'?page='.$vars['next_page'].$vars['page_params'].'" aria-label="Next">
 			<span aria-hidden="true">&rsaquo;</span></a></li>';
-			$content .= '<li><a href="'."javascript:loadContent('".$vars['list_file'].'?page='.$vars['pages'].$vars['page_params']."');".'" aria-label="Last">
+			$content .= '<li><a href="#" data-load-content="'.$vars['list_file'].'?page='.$vars['pages'].$vars['page_params'].'" aria-label="Last">
 			<span aria-hidden="true">&raquo;</span></a></li>';
 		}
 		$content .= '</ul></nav>';
