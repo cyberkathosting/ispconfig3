@@ -20,7 +20,7 @@
             <th class="text-right">&nbsp;</th>
           </tr>
           <tr>
-            <td><select class="form-control" name="search_template_type" onChange="submitForm('pageForm','billing/invoice_message_template_list.php');">{tmpl_var name='search_template_type'}</select></td>
+            <td><select class="form-control" name="search_template_type" onChange="ISPConfig.submitForm('pageForm','billing/invoice_message_template_list.php');">{tmpl_var name='search_template_type'}</select></td>
             <td><input class="form-control" type="text" name="search_template_name" value="{tmpl_var name='search_template_name'}" /></td>
             <td class="text-right"><div class="buttons"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="billing/invoice_message_template_list.php"><span class="icon icon-filter"></span></button></div></td>
           </tr>

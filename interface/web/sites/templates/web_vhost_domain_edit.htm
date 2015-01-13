@@ -355,11 +355,11 @@
     <tmpl_if name="readonly_tab">
         jQuery('div.panel_web_domain').find('fieldset').find('input,select,button').not('#directive_snippets_id').bind('click mousedown', function(e) { e.preventDefault(); }).focus(function() { $(this).blur(); });
         jQuery('#dom-edit-submit').click(function() {
-			submitForm('pageForm','sites/web_vhost_domain_edit.php');
+			ISPConfig.submitForm('pageForm','sites/web_vhost_domain_edit.php');
         });
     <tmpl_else>
         jQuery('#dom-edit-submit').click(function() {
-            submitForm('pageForm','sites/web_vhost_domain_edit.php');
+            ISPConfig.submitForm('pageForm','sites/web_vhost_domain_edit.php');
         });
     </tmpl_if>
 			

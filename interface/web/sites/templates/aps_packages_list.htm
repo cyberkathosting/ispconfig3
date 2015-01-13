@@ -17,9 +17,9 @@
                     <tr>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
-                        <td><select class="form-control" name="search_category" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
+                        <td><select class="form-control" name="search_category" onChange="ISPConfig.submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
                             <tmpl_if name='is_admin'>
-                                <td><select class="form-control" name="search_package_status" onChange="submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
+                                <td><select class="form-control" name="search_package_status" onChange="ISPConfig.submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_package_status'}</select></td>
                             </tmpl_if>
                         <td class="text-right"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" data-submit-form="pageForm" data-form-action="sites/aps_availablepackages_list.php"><span class="icon icon-filter"></span></button></td>
                     </tr>
