@@ -495,7 +495,7 @@ var ISPConfig = {
 			url: "keepalive.php",
 			dataType: "html",
 			success: function(data, textStatus, jqXHR) {
-				setTimeout( keepalive, 1000000 );
+				setTimeout( function() { ISPConfig.keepalive(); }, 1000000 );
 			},
 			error: function() {
 				ISPConfig.reportError('Session expired. Please login again.');
