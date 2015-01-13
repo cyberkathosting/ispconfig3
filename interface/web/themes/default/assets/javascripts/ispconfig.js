@@ -633,8 +633,18 @@ $(document).on('click', 'th[data-column]', function(e) {
 		var act = $el.attr('data-form-action');
 		var form = $el.attr('data-submit-form');
 		
+		var dir = $self.attr('data-ordered');
+		
 		act = act + '?orderby=' + column;
 		ISPConfig.submitForm(form, act);
+		
+		$(document).ajaxComplete(function() {
+			var $self = $('#pageForm .table th[data-column="' + column + '"]');
+			$self.parent().children('th[data-column]').removeAttr('data-ordered');
+			if(dir && dir == 'asc') $self.attr('data-ordered', 'desc');
+			else $self.attr('data-ordered', 'asc');
+		});
+		
 	}
 });
 
