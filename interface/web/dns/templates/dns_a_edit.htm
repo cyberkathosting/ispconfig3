@@ -28,7 +28,7 @@
         <input type="hidden" name="type" value="{tmpl_var name='type'}">
             
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','dns/dns_a_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="dns/dns_a_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='zone'}">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
 <script language="JavaScript" type="text/javascript">

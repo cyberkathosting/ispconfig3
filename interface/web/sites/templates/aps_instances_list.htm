@@ -24,7 +24,7 @@
                         <td>&nbsp;</td>
                         <td><select class="form-control" name="search_instance_status" onChange="submitForm('pageForm','sites/aps_installedpackages_list.php');">{tmpl_var name='search_instance_status'}</select></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','sites/aps_installedpackages_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" data-submit-form="pageForm" data-form-action="sites/aps_installedpackages_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

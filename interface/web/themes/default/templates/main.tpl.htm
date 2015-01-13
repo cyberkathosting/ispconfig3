@@ -168,29 +168,18 @@
 		}
 	});
 	
-	$(document).delegate('.pnl_listarea th', 'click', function(event) {
-		if($(this).attr('class').length > 0 && $("#pageForm .table #Filter").length > 0 && $(this).hasClass('tbl_col_buttons') == false && $(this).hasClass('tbl_col_limit') == false && $(this).hasClass('tbl_col_nosort') == false) {
-		  event.preventDefault();
-		  var clickevent = $('#Filter').attr('onclick');
-		  var element = $(this).attr('class');
-		  if(typeof clickevent == 'string') {
-			  $('#Filter').attr('onclick', clickevent.replace(".php')", ".php?orderby=" + element + "')"));
-		  }
-		  $("#pageForm .table #Filter").trigger('click');
-		  
-		  $("#pageForm").ajaxComplete(function() {
-			  if($("th."+element).css("background-position") == '0px -15px') {
-				if($("th."+element).css("text-align") == "right") {
-				  $("th."+element).css("text-align","left");
-				} else {
-				  $("th."+element).css("text-align","right");
-				}
-			  } else {
-				$(".pnl_listarea th").css("text-align","");
-			  }
-			  $(".pnl_listarea th").css("background-position","0 0");
-			  $("th."+element).css("background-position","0 -15px");
-		  });
+	$(document).on('click', 'th[data-column]', function(e) {
+		var $self = $(this);
+		var column = $self.attr('data-column');
+		if(!column) return this;
+		
+		if($("#pageForm .table #Filter").length > 0 && $self.attr('data-sortable') != 'false') {
+			var $el = $('#Filter');
+			var act = $el.attr('data-form-action');
+			var form = $el.attr('data-submit-form');
+			
+			act = act + '?orderby=' + column;
+			submitForm(form, act);
 		}
 	});
   //-->

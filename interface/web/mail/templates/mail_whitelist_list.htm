@@ -16,10 +16,10 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="server_id_txt"></th>
-                        <th><tmpl_var name="source_txt"></th>
-                        <th><tmpl_var name="type_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                        <th data-column="source"><tmpl_var name="source_txt"></th>
+                        <th data-column="type"><tmpl_var name="type_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                         <td><input class="form-control" type="text" name="search_source" value="{tmpl_var name='search_source'}" /></td>
                         <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_whitelist_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/mail_whitelist_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

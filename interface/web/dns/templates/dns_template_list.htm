@@ -16,15 +16,15 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="visible_txt"></th>
-                        <th><tmpl_var name="name_txt"></th>
+                        <th data-column="visible"><tmpl_var name="visible_txt"></th>
+                        <th data-column="name"><tmpl_var name="name_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><select class="form-control" name="search_visible">{tmpl_var name='search_visible'}</select></td>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','dns/dns_template_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="dns/dns_template_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

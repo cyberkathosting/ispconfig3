@@ -15,15 +15,15 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="parent_remote_userid_txt"></th>
-                        <th><tmpl_var name="username_txt"></th>
+                        <th data-column="parent_remote_userid"><tmpl_var name="parent_remote_userid_txt"></th>
+                        <th data-column="username"><tmpl_var name="username_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>           
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/remote_user_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="admin/remote_user_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

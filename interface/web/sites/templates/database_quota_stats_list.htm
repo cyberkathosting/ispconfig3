@@ -8,10 +8,10 @@
 <table class="table">
 				<thead class="dark form-group-sm">
 				<tr>
-					<th><tmpl_var name="database_txt"></th>
-					<th><tmpl_var name="client_txt"></th>
-					<th><tmpl_var name="used_txt"></th>
-					<th><tmpl_var name="quota_txt"></th>
+					<th data-column="database"><tmpl_var name="database_txt"></th>
+					<th data-column="client"><tmpl_var name="client_txt"></th>
+					<th data-column="used"><tmpl_var name="used_txt"></th>
+					<th data-column="quota"><tmpl_var name="quota_txt"></th>
 					<th><tmpl_var name="percentage_txt">
 					<th class="small-col text-right">{tmpl_var name='search_limit'}</th>
 				</tr>
@@ -22,7 +22,7 @@
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td class="text-right">
-						<button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_quota_stats.php');"><span class="icon icon-filter"></span></button>
+						<button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/database_quota_stats.php"><span class="icon icon-filter"></span></button>
 					</td>
 				</tr>
 				</thead>

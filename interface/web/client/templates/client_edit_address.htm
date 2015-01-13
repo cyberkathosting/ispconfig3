@@ -144,6 +144,6 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','client/client_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/client_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/client_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

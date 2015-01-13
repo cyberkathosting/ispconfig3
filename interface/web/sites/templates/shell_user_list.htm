@@ -32,10 +32,10 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="server_id_txt"></th>
-                        <th><tmpl_var name="parent_domain_id_txt"></th>
-                        <th><tmpl_var name="username_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                        <th data-column="parent_domain_id"><tmpl_var name="parent_domain_id_txt"></th>
+                        <th data-column="username"><tmpl_var name="username_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                         <td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/shell_user_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/shell_user_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

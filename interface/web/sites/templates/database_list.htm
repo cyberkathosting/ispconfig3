@@ -32,13 +32,13 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="remote_access_txt"></th>
-                        <th><tmpl_var name="type_txt"></th>
-                        <th><tmpl_var name="server_id_txt"></th>
-						<th><tmpl_var name="parent_domain_id_txt"></th>
-                        <th><tmpl_var name="database_user_txt"></th>
-                        <th><tmpl_var name="database_name_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th class="tiny-col" data-column="remote_access"><tmpl_var name="remote_access_txt"></th>
+                        <th data-column="type"><tmpl_var name="type_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+						<th data-column="parent_domain_id"><tmpl_var name="parent_domain_id_txt"></th>
+                        <th data-column="database_user"><tmpl_var name="database_user_txt"></th>
+                        <th data-column="database_name"><tmpl_var name="database_name_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -50,7 +50,7 @@
                         <td><select class="form-control" name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}"/></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/database_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

@@ -16,11 +16,11 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="server_id_txt"></th>
-                        <th><tmpl_var name="priority_txt"></th>
-                        <th><tmpl_var name="rid_txt"></th>
-                        <th><tmpl_var name="email_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                        <th data-column="priority"><tmpl_var name="priority_txt"></th>
+                        <th data-column="rid"><tmpl_var name="rid_txt"></th>
+                        <th data-column="email"><tmpl_var name="email_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -30,7 +30,7 @@
                         <td><select class="form-control" name="search_rid">{tmpl_var name='search_rid'}</select></td>
                         <td><input class="form-control" type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/spamfilter_whitelist_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/spamfilter_whitelist_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

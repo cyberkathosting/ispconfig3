@@ -7,21 +7,11 @@
             <table class="list">
                 <thead>
 					<tr class="caption">
-						<th class="tbl_col_active" scope="col">
-							<tmpl_var name="active_txt">
-						</th>
-						<th class="tbl_col_domain" scope="col">
-							<tmpl_var name="domain_txt">
-						</th>
-						<th class="tbl_col_server" scope="col">
-							<tmpl_var name="backup_server_txt">
-						</th>
-						<th class="tbl_col_interval" scope="col">
-							<tmpl_var name="backup_interval_txt">
-						</th>
-						<th class="tbl_col_backup_count" scope="col">
-							<tmpl_var name="backup_count_txt">
-						</th>
+						<th class="tbl_col_active" scope="col" data-column="active"><tmpl_var name="active_txt"></th>
+						<th class="tbl_col_domain" scope="col" data-column="domain"><tmpl_var name="domain_txt"></th>
+						<th class="tbl_col_server" scope="col" data-column="backup_server"><tmpl_var name="backup_server_txt"></th>
+						<th class="tbl_col_interval" scope="col" data-column="backup_interval"><tmpl_var name="backup_interval_txt"></th>
+						<th class="tbl_col_backup_count" scope="col" data-column="backup_count"><tmpl_var name="backup_count_txt"></th>
 					</tr>
                 </thead>
 				<tbody>

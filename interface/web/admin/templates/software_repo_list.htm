@@ -16,9 +16,9 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="repo_name_txt"></th>
-                        <th><tmpl_var name="repo_url_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="repo_name"><tmpl_var name="repo_name_txt"></th>
+                        <th data-column="repo_url"><tmpl_var name="repo_url_txt"></th>
                         <th class="text-right">&nbsp;</th>
                     </tr>
                     <tr>
@@ -26,7 +26,7 @@
                         <td><input class="form-control" type="text" name="search_repo_name" value="{tmpl_var name='search_repo_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_repo_url" value="{tmpl_var name='search_repo_url'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/software_repo_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="admin/software_repo_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

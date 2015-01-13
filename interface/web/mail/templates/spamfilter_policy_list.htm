@@ -16,11 +16,11 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="policy_name_txt"></th>
-                        <th><tmpl_var name="virus_lover_txt"></th>
-                        <th><tmpl_var name="spam_lover_txt"></th>
-                        <th><tmpl_var name="banned_files_lover_txt"></th>
-                        <th><tmpl_var name="bad_header_lover_txt"></th>
+                        <th data-column="policy_name"><tmpl_var name="policy_name_txt"></th>
+                        <th data-column="virus_lover"><tmpl_var name="virus_lover_txt"></th>
+                        <th data-column="spam_lover"><tmpl_var name="spam_lover_txt"></th>
+                        <th data-column="banned_files_lover"><tmpl_var name="banned_files_lover_txt"></th>
+                        <th data-column="bad_header_lover"><tmpl_var name="bad_header_lover_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -30,7 +30,7 @@
                         <td><select class="form-control" name="search_banned_files_lover">{tmpl_var name='search_banned_files_lover'}</select></td>
                         <td><select class="form-control" name="search_bad_header_lover">{tmpl_var name='search_bad_header_lover'}</select></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/spamfilter_policy_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/spamfilter_policy_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>

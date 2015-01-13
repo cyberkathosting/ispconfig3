@@ -8,46 +8,48 @@ include_once ISPC_ROOT_PATH.'/web/strengthmeter/lib/lang/'.$lang.'_strengthmeter
 $app->uses('ini_parser,getconf');
 $server_config_array = $app->getconf->get_global_config();
 ?>
-var pageFormChanged = false;
-var tabChangeWarningTxt = '';
-var tabChangeDiscardTxt = '';
-var tabChangeWarning = false;
-var tabChangeDiscard = false;
-var requestsRunning = 0;
-var indicatorPaddingH = -1;
-var indicatorPaddingW = -1;
-var indicatorCompleted = false;
-var registeredHooks = new Array();
-redirect = '';
 
-function reportError(request) {
-	/* Error reporting is disabled by default as some browsers like safari
-	   sometimes throw errors when a ajax request is delayed even if the
-	   ajax request worked. */
+var ISPConfig = {
+	pageFormChanged: false,
+	tabChangeWarningTxt: '',
+	tabChangeDiscardTxt: '',
+	tabChangeWarning: false,
+	tabChangeDiscard: false,
+	requestsRunning: 0,
+	indicatorPaddingH: -1,
+	indicatorPaddingW: -1,
+	indicatorCompleted: false,
+	registeredHooks: new Array(),
+	redirect: '',
 
-	/*alert(request);*/
-}
+	reportError: function(request) {
+		/* Error reporting is disabled by default as some browsers like safari
+		   sometimes throw errors when a ajax request is delayed even if the
+		   ajax request worked. */
 
-function registerHook(name, callback) {
-    if(!registeredHooks[name]) registeredHooks[name] = new Array();
-    var newindex = registeredHooks[name].length;
-    registeredHooks[name][newindex] = callback;
-}
+		/*alert(request);*/
+	},
+	
+	registerHook: function(name, callback) {
+		if(!registeredHooks[name]) registeredHooks[name] = new Array();
+		var newindex = registeredHooks[name].length;
+		registeredHooks[name][newindex] = callback;
+	},
+	
+	callHook: function(name, params) {
+		if(!registeredHooks[name]) return;
+		for(var i = 0; i < registeredHooks[name].length; i++) {
+			var callback = registeredHooks[name][i];
+			callback(name, params);
+		}
+	},
+	
+	resetFormChanged: function() {
+		pageFormChanged = false;
+	},
 
-function callHook(name, params) {
-    if(!registeredHooks[name]) return;
-    for(var i = 0; i < registeredHooks[name].length; i++) {
-        var callback = registeredHooks[name][i];
-        callback(name, params);
-    }
-}
-
-function resetFormChanged() {
-    pageFormChanged = false;
-}
-
-function showLoadIndicator() {
-    document.body.style.cursor = 'wait';
+	showLoadIndicator: function() {
+		document.body.style.cursor = 'wait';
 
 <?php
 if($server_config_array['misc']['use_loadindicator'] == 'y'){
@@ -75,438 +77,391 @@ if($server_config_array['misc']['use_loadindicator'] == 'y'){
 <?php
 }
 ?>
-}
+	},
 
-function hideLoadIndicator() {
-    document.body.style.cursor = '';
+	hideLoadIndicator: function() {
+		document.body.style.cursor = '';
 
-    requestsRunning -= 1;
-    if(requestsRunning < 1) {
-        requestsRunning = 0; // just for the case...
-        if(indicatorCompleted == true) jQuery('#ajaxloader').fadeOut('fast', function() { jQuery('#ajaxloader').hide(); } );
-    }
-}
+		requestsRunning -= 1;
+		if(requestsRunning < 1) {
+			requestsRunning = 0; // just for the case...
+			if(indicatorCompleted == true) jQuery('#ajaxloader').fadeOut('fast', function() { jQuery('#ajaxloader').hide(); } );
+		}
+	}
 
-function onAfterSideNavLoaded() {
+	onAfterSideNavLoaded: function() {
 	<?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
-    $('#sidebar').find("select:not(.chosen-select)").select2({
-		placeholder: '',
-		width: 'element',
-		selectOnBlur: true,
-		allowClear: true,
-	});
+		$('#sidebar').find("select:not(.chosen-select)").select2({
+			placeholder: '',
+			width: 'element',
+			selectOnBlur: true,
+			allowClear: true,
+		});
 <?php
 }
 ?>
+	},
 
-}
-
-function onAfterContentLoad(url, data) {
-    if(!data) data = '';
-    else data = '&' + data;
+	onAfterContentLoad: function(url, data) {
+		if(!data) data = '';
+		else data = '&' + data;
 <?php
 if($server_config_array['misc']['use_combobox'] == 'y'){
 ?>
 
 
-    $('#pageContent').find("select:not(.chosen-select)").select2({
-		placeholder: '',
-		width: 'element',
-		selectOnBlur: true,
-		allowClear: true,
-		formatResult: function(o) {
-			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
-			else return o.text;
-		},
-		formatSelection: function(o) {
-			if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
-			else return o.text;
-		}
-	}).on('change', function(e) {
-            if (jQuery("#pageForm .table #Filter").length > 0) {
-                jQuery("#pageForm .table #Filter").trigger('click');
-            }
-    });
-    /* TODO: find a better way! */
-    //$('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
+		$('#pageContent').find("select:not(.chosen-select)").select2({
+			placeholder: '',
+			width: 'element',
+			selectOnBlur: true,
+			allowClear: true,
+			formatResult: function(o) {
+				if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
+				else return o.text;
+			},
+			formatSelection: function(o) {
+				if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + o.text + '</span>';
+				else return o.text;
+			}
+		}).on('change', function(e) {
+			if (jQuery("#pageForm .table #Filter").length > 0) {
+				jQuery("#pageForm .table #Filter").trigger('click');
+			}
+		});
+		/* TODO: find a better way! */
+		//$('.chosen-select').chosen({no_results_text: "<?php echo $wb['globalsearch_noresults_text_txt']; ?>", width: '300px'});
 <?php
 }
 ?>
-    callHook('onAfterContentLoad', {'url': url, 'data': data });
-}
+		callHook('onAfterContentLoad', {'url': url, 'data': data });
+	},
 
-function loadContentRefresh(pagename) {
-
-  if(document.getElementById('refreshinterval').value > 0) {
-	var pageContentObject2 = jQuery.ajax({	type: "GET",
-											url: pagename,
-											data: "refresh="+document.getElementById('refreshinterval').value,
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-                                                hideLoadIndicator();
-												jQuery('#pageContent').html(jqXHR.responseText);
-                                                onAfterContentLoad(pagename, "refresh="+document.getElementById('refreshinterval').value);
-                                                pageFormChanged = false;
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful.'+pagename);
-											}
-										});
-  	setTimeout( "loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000*60 );
-  }
-}
-
-function capp(module, redirect) {
-	var submitFormObj = jQuery.ajax({		type: "GET",
-											url: "capp.php",
-											data: "mod="+module+((redirect != undefined) ? '&redirect='+redirect : ''),
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(jqXHR.responseText != '') {
-													if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-														var parts = jqXHR.responseText.split(':');
-														loadContent(parts[1]);
-													} else if (jqXHR.responseText.indexOf('URL_REDIRECT:') > -1) {
-														var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
-														document.location.href = newUrl;
-													} else {
-														//alert(jqXHR.responseText);
-													}
-												}
-												loadMenus();
-                                                hideLoadIndicator();
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful.'+module);
-											}
-									});
-}
-
-function submitLoginForm(formname) {
-    //* Validate form. TODO: username and password with strip();
-    var frm = document.getElementById(formname);
-    var userNameObj = frm.username;
-    if(userNameObj.value == ''){
-        userNameObj.focus();
-        return;
-    }
-    var passwordObj = frm.passwort;
-    if(passwordObj.value == ''){
-        passwordObj.focus();
-        return;
-    }
-
-	$('#dummy_username').val(userNameObj.value);
-	$('#dummy_passwort').val(passwordObj.value);
-	$('#dummy_login_form').submit();
-
-	var submitFormObj = jQuery.ajax({		type: "POST",
-											url: "content.php",
-											data: jQuery('#'+formname).serialize(),
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-													var parts = jqXHR.responseText.split(':');
-													//alert(parts[1]);
-													loadContent(parts[1]);
-													//redirect = parts[1];
-													//window.setTimeout('loadContent(redirect)', 1000);
-												} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
-													// Go to the login page
-													document.location.href = 'index.php';
-												} else {
-													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad('content.php', jQuery('#'+formname).serialize());
-                                                    pageFormChanged = false;
-												}
-												loadMenus();
-                                                hideLoadIndicator();
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful.110');
-											}
-									});
-	/*
-	if(redirect != '') {
-		loadContent(redirect);
-		redirect = '';
-	}
-	document.getElementById('footer').innerHTML = 'Powered by <a href="http://www.ispconfig.org" target="_blank">ISPConfig</a>';
-	*/
-
-}
-
-function submitForm(formname,target) {
-	var submitFormObj = jQuery.ajax({		type: "POST",
-											url: target,
-											data: jQuery('#'+formname).serialize(),
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-													var parts = jqXHR.responseText.split(':');
-													//alert(parts[1]);
-													loadContent(parts[1]);
-													//redirect = parts[1];
-													//window.setTimeout('loadContent(redirect)', 1000);
-												} else {
-													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
-                                                    pageFormChanged = false;
-												}
-                                                hideLoadIndicator();
-											},
-											error: function(jqXHR, textStatus, errorThrown) {
-                                                hideLoadIndicator();
-												var parts = jqXHR.responseText.split(':');
-												reportError('Ajax Request was not successful. 111');
-											}
-									});
-	/*
-	if(redirect != '') {
-		loadContent(redirect);
-		redirect = '';
-	}
-	*/
-}
-
-function submitFormConfirm(formname,target,confirmation) {
-	var successMessage = arguments[3];
-	if(window.confirm(confirmation)) {
-		var submitFormObj = jQuery.ajax({	type: "POST",
-											url: target,
-											data: jQuery('#'+formname).serialize(),
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(successMessage) alert(successMessage);
-												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-													var parts = jqXHR.responseText.split(':');
-													//alert(parts[1]);
-													loadContent(parts[1]);
-													//redirect = parts[1];
-													//window.setTimeout('loadContent(redirect)', 1000);
-												} else {
-													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad(target, jQuery('#'+formname).serialize());
-                                                    pageFormChanged = false;
-												}
-                                                hideLoadIndicator();
-											},
-											error: function(jqXHR, textStatus, errorThrown) {
-                                                hideLoadIndicator();
-												var parts = jqXHR.responseText.split(':');
-												reportError('Ajax Request was not successful. 111');
-											}
-									});
-	}
-}
-
-function submitUploadForm(formname,target) {
-	var handleResponse = function(loadedFrame) {
-		var response, responseStr = loadedFrame.contentWindow.document.body.innerHTML;
-
-		try {
-			response = JSON.parse(responseStr);
-		} catch(e) {
-			response = responseStr;
+	/* THIS ONE SHOULD BE REMOVED AFTER CREATING THE STATIC LOGIN PAGE!!! */
+	submitLoginForm: function(formname) {
+		//* Validate form. TODO: username and password with strip();
+		var frm = document.getElementById(formname);
+		var userNameObj = frm.username;
+		if(userNameObj.value == ''){
+			userNameObj.focus();
+			return;
 		}
-		var msg = '';
-		var okmsg = jQuery('#OKMsg',response).html();
-		if(okmsg){
-			msg = '<div id="OKMsg">'+okmsg+'</div>';
+		var passwordObj = frm.passwort;
+		if(passwordObj.value == ''){
+			passwordObj.focus();
+			return;
 		}
-		var errormsg = jQuery('#errorMsg',response).html();
-		if(errormsg){
-			msg = msg+'<div id="errorMsg">'+errormsg+'</div>';
+
+		$('#dummy_username').val(userNameObj.value);
+		$('#dummy_passwort').val(passwordObj.value);
+		$('#dummy_login_form').submit();
+
+		var submitFormObj = jQuery.ajax({
+			type: "POST",
+			url: "content.php",
+			data: jQuery('#'+formname).serialize(),
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+					var parts = jqXHR.responseText.split(':');
+					//alert(parts[1]);
+					loadContent(parts[1]);
+					//redirect = parts[1];
+					//window.setTimeout('loadContent(redirect)', 1000);
+				} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
+					// Go to the login page
+					document.location.href = 'index.php';
+				} else {
+					jQuery('#pageContent').html(jqXHR.responseText);
+					onAfterContentLoad('content.php', jQuery('#'+formname).serialize());
+					pageFormChanged = false;
+				}
+				loadMenus();
+				hideLoadIndicator();
+			},
+			error: function() {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful.110');
+			}
+		});
+	},
+
+	submitForm: function(formname, target, confirmation) {
+		var successMessage = arguments[3];
+		if(!confirmation) confirmation = false;
+		
+		if(!confirmation || window.confirm(confirmation)) {
+			var submitFormObj = jQuery.ajax({
+				type: "POST",
+				url: target,
+				data: jQuery('#'+formname).serialize(),
+				dataType: "html",
+				beforeSend: function() {
+					showLoadIndicator();
+				},
+				success: function(data, textStatus, jqXHR) {
+					if(successMessage) alert(successMessage);
+					if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+						var parts = jqXHR.responseText.split(':');
+						//alert(parts[1]);
+						loadContent(parts[1]);
+						//redirect = parts[1];
+						//window.setTimeout('loadContent(redirect)', 1000);
+					} else {
+						jQuery('#pageContent').html(jqXHR.responseText);
+						onAfterContentLoad(target, jQuery('#'+formname).serialize());
+						pageFormChanged = false;
+					}
+					hideLoadIndicator();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					hideLoadIndicator();
+					var parts = jqXHR.responseText.split(':');
+					reportError('Ajax Request was not successful. 111');
+				}
+			});
 		}
-		return msg;
+	},
 
-    };
+	submitUploadForm: function(formname, target) {
+		var handleResponse = function(loadedFrame) {
+			var response, responseStr = loadedFrame.contentWindow.document.body.innerHTML;
 
-	var frame_id = 'ajaxUploader-iframe-' + Math.round(new Date().getTime() / 1000);
-	jQuery('body').after('<iframe width="0" height="0" style="display:none;" name="'+frame_id+'" id="'+frame_id+'"/>');
-	jQuery('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
-	jQuery('#'+frame_id).load(function() {
-        var msg = handleResponse(this);
-		jQuery('#errorMsg').remove();
-		jQuery('#OKMsg').remove();
-		jQuery('input[name="id"]').before(msg);
-		jQuery(this).remove();
-      });
+			try {
+				response = JSON.parse(responseStr);
+			} catch(e) {
+				response = responseStr;
+			}
+			var msg = '';
+			var okmsg = jQuery('#OKMsg',response).html();
+			if(okmsg){
+				msg = '<div id="OKMsg">'+okmsg+'</div>';
+			}
+			var errormsg = jQuery('#errorMsg',response).html();
+			if(errormsg){
+				msg = msg+'<div id="errorMsg">'+errormsg+'</div>';
+			}
+			return msg;
 
-	/*
-	if(redirect != '') {
-		loadContent(redirect);
-		redirect = '';
-	}
-	*/
-}
+		};
 
-function loadContent(pagename) {
-  var params = arguments[1];
-  var pageContentObject2 = jQuery.ajax({	type: "GET",
-											url: pagename,
-                                            data: (params ? params : null),
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-													var parts = jqXHR.responseText.split(':');
-													loadContent(parts[1]);
-												} else if (jqXHR.responseText.indexOf('URL_REDIRECT:') > -1) {
-													var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
-													document.location.href = newUrl;
-												} else {
-													//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
-													//var reponse = jQuery(jqXHR.responseText);
-													//var reponseScript = reponse.filter("script");
-													//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
+		var frame_id = 'ajaxUploader-iframe-' + Math.round(new Date().getTime() / 1000);
+		jQuery('body').after('<iframe width="0" height="0" style="display:none;" name="'+frame_id+'" id="'+frame_id+'"/>');
+		jQuery('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
+		jQuery('#'+frame_id).load(function() {
+			var msg = handleResponse(this);
+			jQuery('#errorMsg').remove();
+			jQuery('#OKMsg').remove();
+			jQuery('input[name="id"]').before(msg);
+			jQuery(this).remove();
+		  });
+	},
 
-													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad(pagename, (params ? params : null));
-                                                    pageFormChanged = false;
-												}
-                                                hideLoadIndicator();
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful. 113');
-											}
-									});
-}
-
-
-function loadInitContent() {
-	var pageContentObject = jQuery.ajax({	type: "GET",
-											url: "content.php",
-											data: "s_mod=login&s_pg=index",
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-												if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-													var parts = jqXHR.responseText.split(":");
-													loadContent(parts[1]);
-												} else {
-													jQuery('#pageContent').html(jqXHR.responseText);
-                                                    onAfterContentLoad('content.php', "s_mod=login&s_pg=index");
-                                                    pageFormChanged = false;
-												}
-                                                hideLoadIndicator();
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful. 114');
-											}
-										});
-
-  loadMenus();
-  keepalive();
-  setTimeout("setFocus()",1000);
-
-}
-
-function setFocus() {
-	try {
-		jQuery('form#pageForm').find('input[name="username"]').focus();
-	} catch (e) {
-	}
-}
-
-
-function loadMenus() {
-  var sideNavObject = jQuery.ajax({			type: "GET",
-											url: "nav.php",
-											data: "nav=side",
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-                                                hideLoadIndicator();
-												jQuery('#sidebar').html(jqXHR.responseText);
-												onAfterSideNavLoaded();
-												loadPushyMenu();
-											},
-											error: function() {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful. 115');
-											}
-									});
-
-  var topNavObject = jQuery.ajax({			type: "GET",
-											url: "nav.php",
-											data: "nav=top",
-											dataType: "html",
-											beforeSend: function() {
-												showLoadIndicator();
-											},
-											success: function(data, textStatus, jqXHR) {
-                                                hideLoadIndicator();
-												jQuery('#topnav-container').html(jqXHR.responseText);
-												loadPushyMenu();
-											},
-											error: function(o) {
-                                                hideLoadIndicator();
-												reportError('Ajax Request was not successful. 116');
-											}
-								});
-
-}
-
-function changeTab(tab,target,force) {
-	if(requestsRunning > 0) return false;
+	function capp(module, redirect) {
+		var submitFormObj = jQuery.ajax({
+			type: "GET",
+			url: "capp.php",
+			data: "mod="+module+((redirect != undefined) ? '&redirect='+redirect : ''),
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				if(jqXHR.responseText != '') {
+					if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+						var parts = jqXHR.responseText.split(':');
+						loadContent(parts[1]);
+					} else if (jqXHR.responseText.indexOf('URL_REDIRECT:') > -1) {
+						var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
+						document.location.href = newUrl;
+					} else {
+						//alert(jqXHR.responseText);
+					}
+				}
+				loadMenus();
+				hideLoadIndicator();
+			},
+			error: function() {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful.'+module);
+			}
+		});
+	},
 	
-	//document.forms[0].next_tab.value = tab;
-	document.pageForm.next_tab.value = tab;
+	loadContent: function(pagename) {
+		var params = arguments[1];
+		var pageContentObject2 = jQuery.ajax({
+			type: "GET",
+			url: pagename,
+			data: (params ? params : null),
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+					var parts = jqXHR.responseText.split(':');
+					loadContent(parts[1]);
+				} else if (jqXHR.responseText.indexOf('URL_REDIRECT:') > -1) {
+					var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
+					document.location.href = newUrl;
+				} else {
+					//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
+					//var reponse = jQuery(jqXHR.responseText);
+					//var reponseScript = reponse.filter("script");
+					//jQuery.each(reponseScript, function(idx, val) { eval(val.text); } );
 
-    var idel = jQuery('form#pageForm').find('[name="id"]');
-    var id = null;
-    if(idel.length > 0) id = idel.val();
-    if(tabChangeDiscard == 'y' && !force) {
-        if((idel.length < 1 || id) && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
-            var next_tab = tab;
-            if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
-            else loadContent(target, {'next_tab': next_tab});
-        } else {
-            return false;
-        }
-    } else {
-        if(id && tabChangeWarning == 'y' && pageFormChanged == true) {
-            if(window.confirm(tabChangeWarningTxt)) {
-                submitForm('pageForm', target);
-            } else {
-                var next_tab = tab;
-                if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
-                else loadContent(target, {'next_tab': next_tab});
-            }
-        } else {
-            submitForm('pageForm',target);
-        }
-    }
-}
+					jQuery('#pageContent').html(jqXHR.responseText);
+					onAfterContentLoad(pagename, (params ? params : null));
+					pageFormChanged = false;
+				}
+				hideLoadIndicator();
+			},
+			error: function() {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful. 113');
+			}
+		});
+	},
+
+	loadContentRefresh: function(pagename) {
+		if($('#refreshinterval').val() > 0) {
+			var pageContentObject2 = jQuery.ajax({
+				type: "GET",
+				url: pagename,
+				data: "refresh="+document.getElementById('refreshinterval').value,
+				dataType: "html",
+				beforeSend: function() {
+					showLoadIndicator();
+				},
+				success: function(data, textStatus, jqXHR) {
+					hideLoadIndicator();
+					jQuery('#pageContent').html(jqXHR.responseText);
+					onAfterContentLoad(pagename, "refresh="+document.getElementById('refreshinterval').value);
+					pageFormChanged = false;
+				},
+				error: function() {
+					hideLoadIndicator();
+					reportError('Ajax Request was not successful.'+pagename);
+				}
+			});
+			setTimeout( "ISPConfig.loadContentRefresh('"+pagename+"&refresh="+document.getElementById('refreshinterval').value+"')", document.getElementById('refreshinterval').value*1000*60 );
+		}
+	},
+
+
+	loadInitContent: function() {
+		var pageContentObject = jQuery.ajax({
+			type: "GET",
+			url: "content.php",
+			data: "s_mod=login&s_pg=index",
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
+					var parts = jqXHR.responseText.split(":");
+					loadContent(parts[1]);
+				} else {
+					jQuery('#pageContent').html(jqXHR.responseText);
+					onAfterContentLoad('content.php', "s_mod=login&s_pg=index");
+					pageFormChanged = false;
+				}
+				hideLoadIndicator();
+			},
+			error: function() {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful. 114');
+			}
+		});
+		
+		loadMenus();
+		keepalive();
+		setTimeout(function() {
+			try {
+				jQuery('form#pageForm').find('input[name="username"]').focus();
+			} catch (e) {
+			
+			}
+		}, 1000);
+	},
+	
+	loadMenus: function() {
+		var sideNavObject = jQuery.ajax({
+			type: "GET",
+			url: "nav.php",
+			data: "nav=side",
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				hideLoadIndicator();
+				jQuery('#sidebar').html(jqXHR.responseText);
+				onAfterSideNavLoaded();
+				loadPushyMenu();
+			},
+			error: function() {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful. 115');
+			}
+		});
+
+		var topNavObject = jQuery.ajax({
+			type: "GET",
+			url: "nav.php",
+			data: "nav=top",
+			dataType: "html",
+			beforeSend: function() {
+				showLoadIndicator();
+			},
+			success: function(data, textStatus, jqXHR) {
+				hideLoadIndicator();
+				jQuery('#topnav-container').html(jqXHR.responseText);
+				loadPushyMenu();
+			},
+			error: function(o) {
+				hideLoadIndicator();
+				reportError('Ajax Request was not successful. 116');
+			}
+		});
+	},
+
+	changeTab: function(tab, target, force) {
+		if(requestsRunning > 0) return false;
+	
+		document.pageForm.next_tab.value = tab;
+
+		var idel = jQuery('form#pageForm').find('[name="id"]');
+		var id = null;
+		if(idel.length > 0) id = idel.val();
+		if(tabChangeDiscard == 'y' && !force) {
+			if((idel.length < 1 || id) && (pageFormChanged == false || window.confirm(tabChangeDiscardTxt))) {
+				var next_tab = tab;
+				if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
+				else loadContent(target, {'next_tab': next_tab});
+			} else {
+				return false;
+			}
+		} else {
+			if(id && tabChangeWarning == 'y' && pageFormChanged == true) {
+				if(window.confirm(tabChangeWarningTxt)) {
+					submitForm('pageForm', target);
+				} else {
+					var next_tab = tab;
+					if(id) loadContent(target, {'next_tab': next_tab, 'id': id});
+					else loadContent(target, {'next_tab': next_tab});
+				}
+			} else {
+				submitForm('pageForm',target);
+			}
+		}
+	},
 
 function del_record(link,confirmation) {
   if(window.confirm(confirmation)) {
