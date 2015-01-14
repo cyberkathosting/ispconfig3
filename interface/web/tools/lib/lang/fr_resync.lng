@@ -1,20 +1,15 @@
 <?php
 $wb['head_txt'] = 'Outil de Resynchronisation';
 $wb['legend_txt'] = 'Resynchroniser';
-$wb['Resynchroniser_sites_txt'] = 'Resynchroniser Sites web';
-$wb['Resynchroniser_ftp_txt'] = 'Resynchroniser utilisateurs FTP';
-$wb['Resynchroniser_shell_txt'] = 'Resynchroniser utilisateurs shell';
-$wb['Resynchroniser_cron_txt'] = 'Resynchroniser cronjobs';
-$wb['Resynchroniser_db_txt'] = 'Resynchroniser configuration clientdb';
-$wb['Resynchroniser_mailbox_txt'] = 'Resynchroniser Boites aux lettres';
-$wb['Resynchroniser_dkim_txt'] = 'Resynchroniser DKIM-Keys';
-$wb['Resynchroniser_dns_txt'] = 'Resynchroniser enregistrements DNS';
+$wb['resync_sites_txt'] = 'Resynchroniser Sites web';
+$wb['resync_ftp_txt'] = 'Resynchroniser utilisateurs FTP';
+$wb['resync_shell_txt'] = 'Resynchroniser utilisateurs shell';
+$wb['resync_cron_txt'] = 'Resynchroniser cronjobs';
+$wb['resync_db_txt'] = 'Resynchroniser configuration clientdb';
+$wb['resync_mailbox_txt'] = 'Resynchroniser Boites aux lettres';
+$wb['resync_dkim_txt'] = 'Resynchroniser DKIM-Keys';
+$wb['resync_dns_txt'] = 'Resynchroniser enregistrements DNS';
 $wb['btn_start_txt'] = 'Dérrer';
 $wb['btn_cancel_txt'] = 'Annuler';
-$wb['Resynchroniser_client_txt'] = 'Resynchroniser Enregisitrements Client';
-$wb['resync_webdav_txt'] = 'Resync WebDAV-Users';
-$wb['resync_mail_txt'] = 'Resync Maildomains';
-$wb['resync_vserver_txt'] = 'Resync vServer';
-$wb['resync_firewall_txt'] = 'Resync Firewall';
-$wb['resync_no_server_txt'] = 'No active server found';
+$wb['resync_client_txt'] = 'Resynchroniser Enregisitrements Client';
 ?>
