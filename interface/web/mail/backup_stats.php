@@ -18,6 +18,7 @@ class list_action extends listform_actions {
 	public function prepareDataRow($rec)
 	{
 		global $app;
+		$app->uses('functions');
 
 		$rec = parent::prepareDataRow($rec);
 
@@ -28,6 +29,9 @@ class list_action extends listform_actions {
 		}
 		$recBackup = $app->db->queryOneRecord('SELECT COUNT(backup_id) AS backup_count FROM mail_backup WHERE mailuser_id = ?', $rec['mailuser_id']);
 		$rec['backup_copies_exists'] = $recBackup['backup_count'];
+		unset($recBackup);
+		$recBackup = $app->db->queryOneRecord('SELECT SUM(filesize) AS backup_size FROM mail_backup WHERE mailuser_id = ?', $rec['mailuser_id']);
+		$rec['backup_size'] = $app->functions->formatBytes($recBackup['backup_size']);
 
 		return $rec;
 	}
