@@ -51,6 +51,14 @@ if($sys_config['tab_change_discard'] == 'y') {
 	$app->tpl->setVar('global_tabchange_discard_txt', $app->lng('global_tabchange_discard_txt'));
 }
 
+if($sys_config['use_loadindicator'] == 'y') {
+	$app->tpl->setVar('use_loadindicator', 'y');
+}
+if($sys_config['use_combobox'] == 'y') {
+	$app->tpl->setVar('use_combobox', 'y');
+}
+
+
 if(isset($_SESSION['show_info_msg'])) {
 	$app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
 	unset($_SESSION['show_info_msg']);

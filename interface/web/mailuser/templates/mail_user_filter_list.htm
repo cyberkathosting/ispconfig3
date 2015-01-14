@@ -15,13 +15,13 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                 <tr>
-                    <th><tmpl_var name="rulename_txt"></th>
+                    <th data-column="rulename"><tmpl_var name="rulename_txt"></th>
                     <th class="text-right">&nbsp;</th>
                 </tr>
                 <tr>
                     <td><input class="form-control" type="text" name="search_rulename" value="{tmpl_var name='search_rulename'}" /></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_edit.php');"><span class="icon icon-filter"></span></button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/mail_user_edit.php"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
                 </thead>
@@ -30,7 +30,7 @@
                 <tr>
                     <td><a href="#" data-load-content="mailuser/mail_user_filter_edit.php?id={tmpl_var name='id'}">{tmpl_var name="rulename"}</a></td>
                     <td class="text-right">
-                        <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mailuser/mail_user_filter_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                        <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mailuser/mail_user_filter_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                     </td>
                 </tr>
                 </tmpl_loop>

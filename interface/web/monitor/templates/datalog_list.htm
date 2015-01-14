@@ -9,10 +9,10 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="tstamp_txt"></th>
-                        <th><tmpl_var name="server_id_txt"></th>
-                        <th><tmpl_var name="action_txt"></th>
-                        <th><tmpl_var name="dbtable_txt"></th>
+                        <th data-column="tstamp"><tmpl_var name="tstamp_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                        <th data-column="action"><tmpl_var name="action_txt"></th>
+                        <th data-column="dbtable"><tmpl_var name="dbtable_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -21,7 +21,7 @@
                         <td><select class="form-control" name="search_action">{tmpl_var name='search_action'}</select></td>
                         <td><input class="form-control" type="text" name="search_dbtable" value="{tmpl_var name='search_dbtable'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','monitor/datalog_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="monitor/datalog_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -33,7 +33,7 @@
                             <td>{tmpl_var name="action"}</td>
                             <td>{tmpl_var name="dbtable"}</td>
                             <td class="text-right">    
-                                <!--<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('monitor/datalog_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button> -->
+                                <!--<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('monitor/datalog_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button> -->
                             </td>
                         </tr>
                     </tmpl_loop>

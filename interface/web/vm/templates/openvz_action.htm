@@ -37,6 +37,6 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','vm/openvz_action.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="vm/openvz_action.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="vm/openvz_vm_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

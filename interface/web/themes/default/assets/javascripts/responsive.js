@@ -1,4 +1,4 @@
-function loadPushyMenu() {
+ISPConfig.loadPushyMenu = function() {
   // Off-Canvas Menü
   var $mainNavigation = $('#main-navigation');
   var $subNavigation = $('#sidebar');

@@ -32,9 +32,9 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                 <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="source_txt"></th>
-                        <th><tmpl_var name="destination_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="source"><tmpl_var name="source_txt"></th>
+                        <th data-column="destination"><tmpl_var name="destination_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -42,7 +42,7 @@
                         <td><input class="form-control" type="text" name="search_source" value="{tmpl_var name='search_source'}" /></td>
                         <td><input class="form-control" type="text" name="search_destination" value="{tmpl_var name='search_destination'}" /></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_forward_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/mail_forward_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
                             <td><a href="#" data-load-content="mail/mail_forward_edit.php?id={tmpl_var name='id'}">{tmpl_var name="source"}</a></td>
                             <td><a href="#" data-load-content="mail/mail_forward_edit.php?id={tmpl_var name='id'}">{tmpl_var name="destination"}</a></td>
                             <td class="text-right">
-                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/mail_forward_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mail/mail_forward_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

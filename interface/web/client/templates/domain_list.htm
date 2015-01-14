@@ -16,14 +16,14 @@
 <table class="table">
             <thead class="dark form-group-sm">
                 <tr>
-                    <th><tmpl_var name="domain_txt"></th>
-                    <th><tmpl_var name="user_txt"></th>
+                    <th data-column="domain"><tmpl_var name="domain_txt"></th>
+                    <th data-column="user"><tmpl_var name="user_txt"></th>
                     <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                     <td><select class="form-control" name="search_sys_groupid">{tmpl_var name='search_sys_groupid'}</select></td>
-                    <td class="text-right"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" onclick="submitForm('pageForm','client/domain_list.php');"><span class="icon icon-filter"></span></button></td>
+                    <td class="text-right"><button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name='filter_txt'}" data-submit-form="pageForm" data-form-action="client/domain_list.php"><span class="icon icon-filter"></span></button></td>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
                     <td><a href="#" data-load-content="client/domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
                     <td><a href="#" data-load-content="client/domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sys_groupid"}</a></td>
                     <td class="text-right">
-                        <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('client/domain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                        <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('client/domain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                     </td>
                 </tr>
                 </tmpl_loop>

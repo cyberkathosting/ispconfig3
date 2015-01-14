@@ -142,7 +142,7 @@
                     <a class="skip" href="#content" title="skip link">Skip to the content</a><span class="hideme">.</span>
                     <!-- end: skip link navigation -->
                     <tmpl_if name="cpuser">
-                        <a href="#logout" data-load-content="login/logout.php"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="capp('help')">Help</a> | <a href="#">Imprint</a>-->
+                        <a href="#logout" data-load-content="login/logout.php"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></a><!-- | <a href="#" onclick="ISPConfig.capp('help')">Help</a> | <a href="#">Imprint</a>-->
                         <tmpl_if name='usertype' op='==' value='normaluser'><div class="col-sm-9"><input class="form-control" type="text" id="globalsearch" value="" /></div></tmpl_if>
                     </tmpl_if>
                 </nav>

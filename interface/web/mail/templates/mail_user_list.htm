@@ -32,14 +32,14 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="email_txt"></th>
-                <tmpl_if name="enable_custom_login"><th><tmpl_var name="login_txt"></th></tmpl_if>
-                <th><tmpl_var name="name_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="autoresponder_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="postfix_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="disablesmtp_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="disableimap_txt"></th>
-                        <th class="tiny-col"><tmpl_var name="disablepop3_txt"></th>
+                        <th data-column="email"><tmpl_var name="email_txt"></th>
+                <tmpl_if name="enable_custom_login"><th data-column="login"><tmpl_var name="login_txt"></th></tmpl_if>
+                <th data-column="name"><tmpl_var name="name_txt"></th>
+                        <th class="tiny-col" data-column="autoresponder"><tmpl_var name="autoresponder_txt"></th>
+                        <th class="tiny-col" data-column="postfix"><tmpl_var name="postfix_txt"></th>
+                        <th class="tiny-col" data-column="disablesmtp"><tmpl_var name="disablesmtp_txt"></th>
+                        <th class="tiny-col" data-column="disableimap"><tmpl_var name="disableimap_txt"></th>
+                        <th class="tiny-col" data-column="disablepop3"><tmpl_var name="disablepop3_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                         <td><select class="form-control" name="search_disableimap">{tmpl_var name='search_disableimap'}</select></td>
                         <td><select class="form-control" name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/mail_user_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -75,7 +75,7 @@
                             <tmpl_if name="mailboxlist_webmail_link">
                                 <a class="btn btn-default formbutton-default formbutton-narrow" href="mail/webmailer.php?id={tmpl_var name='id'}" target="webmail"><span class="icon icon-mail"></span></button>
                             </tmpl_if>
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('mail/mail_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mail/mail_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

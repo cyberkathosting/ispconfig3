@@ -16,10 +16,10 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="installed_txt"></th>
-                        <th><tmpl_var name="package_title_txt"></th>
-                        <th><tmpl_var name="package_description_txt"></th>
-                        <th><tmpl_var name="package_id_txt"></th>
+                        <th data-column="installed"><tmpl_var name="installed_txt"></th>
+                        <th data-column="package_title"><tmpl_var name="package_title_txt"></th>
+                        <th data-column="package_description"><tmpl_var name="package_description_txt"></th>
+                        <th data-column="package_id"><tmpl_var name="package_id_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                 </thead>
@@ -33,7 +33,7 @@
                             <td>ispapp{tmpl_var name="package_id"}</td>
 							<td class="text-right">
 								<a class="btn btn-default formbutton-default formbutton-narrow" data-load-content="admin/software_package_edit.php?id={tmpl_var name='package_id'}"><span class="icon icon-edit"></span></button>
-                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/software_package_del.php?software_update_inst_id={tmpl_var name='software_update_inst_id'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
 						</tmpl_if>

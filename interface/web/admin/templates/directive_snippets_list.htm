@@ -13,10 +13,10 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                        <th><tmpl_var name="name_txt"></th>
-                        <th><tmpl_var name="type_txt"></th>
-						<th><tmpl_var name="customer_viewable_txt"></th>
+                        <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                        <th data-column="name"><tmpl_var name="name_txt"></th>
+                        <th data-column="type"><tmpl_var name="type_txt"></th>
+						<th data-column="customer_viewable"><tmpl_var name="customer_viewable_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -25,7 +25,7 @@
                         <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
 						<td><select class="form-control" name="search_customer_viewable">{tmpl_var name='search_customer_viewable'}</select></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/directive_snippets_list.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="admin/directive_snippets_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                             <td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="type"}</a></td>
 							<td><a href="#" data-load-content="admin/directive_snippets_edit.php?id={tmpl_var name='id'}">{tmpl_var name="customer_viewable"}</a></td>
                             <td class="text-right">
-                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('admin/directive_snippets_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                                <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/directive_snippets_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                             </td>
                         </tr>
                     </tmpl_loop>

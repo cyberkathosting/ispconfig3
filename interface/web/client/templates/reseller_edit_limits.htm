@@ -9,7 +9,7 @@
 		<div class="pnl_toolsarea">
 			<p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
 			<div class="buttons topbuttons">
-				<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='add_additional_template_txt'}" onclick="addAdditionalTemplate();">{tmpl_var name='add_additional_template_txt'}</button>
+				<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='add_additional_template_txt'}" onclick="ISPConfig.addAdditionalTemplate();">{tmpl_var name='add_additional_template_txt'}</button>
 			</div>
 			
 		</div>
@@ -294,7 +294,7 @@
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','client/reseller_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/reseller_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/reseller_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
     </div>
@@ -309,7 +309,7 @@ function custom_template_selected() {
 
 jQuery('#template_additional_list').find('li > a').click(function(e) {
     e.preventDefault();
-    delAdditionalTemplate($(this).parent().attr('rel'));
+    ISPConfig.delAdditionalTemplate($(this).parent().attr('rel'));
 });
 
 jQuery('div.panel_client')

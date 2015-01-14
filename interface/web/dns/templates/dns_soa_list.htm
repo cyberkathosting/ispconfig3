@@ -34,11 +34,11 @@
 <table class="table">
             <thead class="dark form-group-sm">
                 <tr>
-                    <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                    <th><tmpl_var name="server_id_txt"></th>
-                    <th><tmpl_var name="origin_txt"></th>
-                    <th><tmpl_var name="ns_txt"></th>
-                    <th><tmpl_var name="mbox_txt"></th>
+                    <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                    <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                    <th data-column="origin"><tmpl_var name="origin_txt"></th>
+                    <th data-column="ns"><tmpl_var name="ns_txt"></th>
+                    <th data-column="mbox"><tmpl_var name="mbox_txt"></th>
                     <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
@@ -48,7 +48,7 @@
                     <td><input class="form-control" type="text" name="search_ns" value="{tmpl_var name='search_ns'}" /></td>
                     <td><input class="form-control" type="text" name="search_mbox" value="{tmpl_var name='search_mbox'}" /></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','dns/dns_soa_list.php');"><span class="icon icon-filter"></span></button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="dns/dns_soa_list.php"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
             </thead>
@@ -61,7 +61,7 @@
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ns"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="mbox"}</a></td>
                         <td class="text-right">   
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('dns/dns_soa_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('dns/dns_soa_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

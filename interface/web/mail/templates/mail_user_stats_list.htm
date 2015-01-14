@@ -9,11 +9,11 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th><tmpl_var name="email_txt"></th>
-                        <th><tmpl_var name="this_month_txt"></th>
-                        <th><tmpl_var name="last_month_txt"></th>
-                        <th><tmpl_var name="this_year_txt"></th>
-                        <th><tmpl_var name="last_year_txt"></th>
+                        <th data-column="email"><tmpl_var name="email_txt"></th>
+                        <th data-column="this_month"><tmpl_var name="this_month_txt"></th>
+                        <th data-column="last_month"><tmpl_var name="last_month_txt"></th>
+                        <th data-column="this_year"><tmpl_var name="this_year_txt"></th>
+                        <th data-column="last_year"><tmpl_var name="last_year_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -23,7 +23,7 @@
                         <td></td>
                         <td></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','mail/mail_user_stats.php');"><span class="icon icon-filter"></span></button>
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/mail_user_stats.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
