@@ -76,7 +76,8 @@ class cronjob_backup_mail extends cronjob {
 				foreach($records as $rec) {
 					//* Do the mailbox backup
 					if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-						$temp = explode("@",$rec['email']);
+						$email = $rec['email'];
+						$temp = explode("@",$email);
 						$domain = $temp[1];
 						unset($temp);;
 						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
