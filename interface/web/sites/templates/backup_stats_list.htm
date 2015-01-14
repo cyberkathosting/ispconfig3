@@ -14,6 +14,7 @@
 						<th data-column="backup_server"><tmpl_var name="backup_server_txt"></th>
 						<th data-column="backup_interval"><tmpl_var name="backup_interval_txt"></th>
 						<th data-column="backup_count"><tmpl_var name="backup_count_txt"></th>
+						<th data-column="backup_size"><tmpl_var name="backup_size_txt"></th>
 					</tr>
                 </thead>
 				<tbody>
@@ -24,6 +25,7 @@
 						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a> </td>
 						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_interval"}</a> /  <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies"}</a> </td>
 						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies_exists"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_size"}</a> </td>
 					</tr>
 					</tmpl_loop>
 				</tbody>
