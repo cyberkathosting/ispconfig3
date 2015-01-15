@@ -9,6 +9,7 @@
 				<thead class="dark form-group-sm">
 				<tr>
 					<th data-column="database"><tmpl_var name="database_txt"></th>
+					<th data-column="server_name"><tmpl_var name="server_name_txt"></th>
 					<th data-column="client"><tmpl_var name="client_txt"></th>
 					<th data-column="used"><tmpl_var name="used_txt"></th>
 					<th data-column="quota"><tmpl_var name="quota_txt"></th>
@@ -30,6 +31,7 @@
 					<tmpl_loop name="records">
 						<tr>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_name"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>

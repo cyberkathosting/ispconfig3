@@ -13,9 +13,11 @@ $list_def_file = "list/database_quota_stats.list.php";
 ******************************************/
 
 //* Check permissions for module
-$app->auth->check_module_permissions('mail');
+$app->auth->check_module_permissions('sites');
 
-$app->load('listform_actions','functions');
+$app->uses('functions');
+
+$app->load('listform_actions');
 
 $tmp_rec =  $app->db->queryOneRecord("SELECT data from monitor_data WHERE type = 'database_size' ORDER BY created DESC");
 $monitor_data = array();
@@ -24,12 +26,12 @@ $tmp_array = unserialize($tmp_rec['data']);
 foreach($tmp_array as $database_name => $data) {
 	$db_name = $data['database_name'];
 
-	$temp = $app->db->queryOneRecord("SELECT client.username, web_database.database_quota FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name = ?'", $db_name);
+	$temp = $app->db->queryOneRecord("SELECT client.username, web_database.database_quota FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name = ?", $db_name);
 
 	$monitor_data[$db_name]['database_name'] = $data['database_name'];
-	$monitor_data[$db_name]['client']=$temp['username'];
-	$monitor_data[$db_name]['used'] = $data['size'];
-	$monitor_data[$db_name]['quota']=$temp['database_quota'];
+	$monitor_data[$db_name]['client'] = isset($temp['username']) ? $temp['username'] : '';
+	$monitor_data[$db_name]['used'] = isset($data['size']) ? $data['size'] : 0;
+	$monitor_data[$db_name]['quota'] = isset($temp['database_quota']) ? $temp['database_quota'] : 0;
 
 	unset($temp);
 }
@@ -47,18 +49,17 @@ class list_action extends listform_actions {
 
 		$database_name = $rec['database_name'];
 
-		$rec['database'] = isset($monitor_data[$database_name]['database_name']) ? $monitor_data[$database_name]['database_name'] : array(1 => 0);
-		$rec['client'] = isset($monitor_data[$database_name]['client']) ? $monitor_data[$database_name]['client'] : array(1 => 0);
-		$rec['used'] = isset($monitor_data[$database_name]['used']) ? $monitor_data[$database_name]['used'] : array(1 => 0);
-		$rec['quota'] = isset($monitor_data[$database_name]['quota']) ? $monitor_data[$database_name]['quota'] : array(1 => 0);
-
-		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
+		$rec['database'] = $monitor_data[$database_name]['database_name'];
+		$rec['client'] = $monitor_data[$database_name]['client'];
+		$rec['server_name'] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $rec['server_id'])['server_name'];
+		$rec['used'] = $monitor_data[$database_name]['used'];
+		$rec['quota'] = $monitor_data[$database_name]['quota'];
 
 		if($rec['quota'] == 0){
 			$rec['quota'] = $app->lng('unlimited');
 			$rec['percentage'] = '';
 		} else {
-			$rec['percentage'] = round(100 * $rec['used'] / ( $rec['quota']*1024*1024) ).'%';
+			if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) ).'%';
 			$rec['quota'] .= ' MB';
 		}
 
@@ -73,7 +74,7 @@ class list_action extends listform_actions {
 
 $list = new list_action;
 $list->SQLExtWhere = "";
-
+$list->SQLOrderBy = "";
 $list->onLoad();
 
 ?>
