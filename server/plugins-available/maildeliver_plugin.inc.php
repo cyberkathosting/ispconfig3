@@ -216,11 +216,12 @@ class maildeliver_plugin {
 			if ( ! is_dir($data["new"]["maildir"].'/sieve/') ) {
 				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			}
-			file_put_contents($sieve_file, $tpl->grab());
-			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($sieve_file));
 
-			chown($sieve_file_isp,$mail_config['mailuser_name']);
-			chgrp($sieve_file_isp,$mail_config['mailuser_group']);
+			file_put_contents($sieve_file_isp, $tpl->grab()) or $app->log("Unable to write sieve filter file", LOGLEVEL_WARN);
+			if ( is_file($sieve_file_isp) ) {
+				chown($sieve_file_isp,$mail_config['mailuser_name']);
+				chgrp($sieve_file_isp,$mail_config['mailuser_group']);
+			}
 			chdir($data["new"]["maildir"]);
 			//* create symlink to activate sieve script
 			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);
@@ -228,6 +229,8 @@ class maildeliver_plugin {
 				lchown(".sieve",$mail_config['mailuser_name']);
 				lchgrp(".sieve",$mail_config['mailuser_group']);
 			}
+			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($sieve_file));
+
 			unset($tpl);
 
 		}
