@@ -160,4 +160,66 @@ class quota_lib {
 		
 		return $emails;
 	}
+	
+	public function get_databasequota_data($clientid = null, $readable = true) {
+		global $app;
+	
+		$tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'database_size' ORDER BY created DESC");
+		$monitor_data = array();
+		if(is_array($tmp_rec)) {
+			foreach ($tmp_rec as $tmp_mon) {
+				$tmp_array = unserialize($app->db->unquote($tmp_mon['data']));
+				if(is_array($tmp_array)) {
+					foreach($tmp_array as $key => $data) {
+						if(!isset($monitor_data[$data['database_name']]['size'])) $monitor_data[$data['database_name']]['size'] = $data['size'];
+					}
+				}
+			}
+		}
+		//print_r($monitor_data);
+	
+		// select all databases belonging to client
+		$databases = $app->db->queryAllRecords("SELECT * FROM web_database".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : ''), $clientid);
+	
+		//print_r($databases);
+		if(is_array($databases) && !empty($databases)){
+			for($i=0;$i<sizeof($databases);$i++){
+				$databasename = $databases[$i]['database_name'];
+	
+				$databases[$i]['used'] = isset($monitor_data[$databasename]['size']) ? $monitor_data[$databasename]['size'] : 0;
+	
+				$databases[$i]['quota_raw'] = $databases[$i]['database_quota'];
+				$databases[$i]['used_raw'] = $databases[$i]['used'];
+				$databases[$i]['used_percentage'] = (($databases[$i]['database_quota'] > 0) && ($databases[$i]['used'] > 0)) ? round($databases[$i]['used'] * 100 / $databases[$i]['database_quota']) : 0;
+	
+				if ($readable) {
+					// colours
+					$databases[$i]['display_colour'] = '#000000';
+					if($databases[$i]['database_quota'] > 0){
+						$used_ratio = $databases[$i]['used']/$databases[$i]['database_quota'];
+					} else {
+						$used_ratio = 0;
+					}
+					if($used_ratio >= 0.8) $databases[$i]['display_colour'] = '#fd934f';
+					if($used_ratio >= 1) $databases[$i]['display_colour'] = '#cc0000';
+						
+					if($databases[$i]['database_quota'] == 0){
+						$databases[$i]['database_quota'] = $app->lng('unlimited');
+					} else {
+						$databases[$i]['database_quota'] = round($databases[$i]['database_quota'] / 1048576, 4).' MB';
+					}
+						
+						
+					if($databases[$i]['used'] < 1544000) {
+						$databases[$i]['used'] = round($databases[$i]['used'] / 1024, 4).' KB';
+					} else {
+						$databases[$i]['used'] = round($databases[$i]['used'] / 1048576, 4).' MB';
+					}
+				}
+			}
+		}
+	
+		return $databases;
+	}
+	
 }
