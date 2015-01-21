@@ -296,6 +296,12 @@ class page_action extends tform_actions {
 			}
 		} // endif spamfilter policy
 
+		//* create dns-record with dkim-values if the zone exists
+		if ( $this->dataRecord['active'] == 'y' && $this->dataRecord['dkim'] == 'y' ) {
+			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
+			if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
+		}
+
 	}
 
 	function onBeforeUpdate() {
@@ -407,17 +413,17 @@ class page_action extends tform_actions {
 			$selector = @($this->dataRecord['dkim_selector'] != $this->oldDataRecord['dkim_selector']) ? true : false;
 			$dkim_private = @($this->dataRecord['dkim_private'] != $this->oldDataRecord['dkim_private']) ? true : false;
 
-			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain']);
+			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
 
 			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )
 				//* create a new record only if the dns-zone exists
 				if ( isset($soa) && !empty($soa) ) {
 					$this->update_dns($this->dataRecord, $soa);
 				}
-			elseif ( !isset($this->dataRecord['dkim']) ) {
+			if (! $dkim_active) {
 				// updated existing dmarc-record to policy 'none'
-				$sql = "SELECT * from dns_rr WHERE name ='_dmarc.?.' AND data LIKE 'v=DMARC1%' AND ?";
-				$rec = $app->db->queryOneRecord($sql, $this->dataRecord['domain'], $app->tform->getAuthSQL('r'));
+				$sql = "SELECT * from dns_rr WHERE name = ? AND data LIKE 'v=DMARC1%' AND ?";
+				$rec = $app->db->queryOneRecord($sql, '_dmarc.'.$this->dataRecord['domain'].'.', $app->tform->getAuthSQL('r'));
 				if (is_array($rec))
 					if (strpos($rec['data'], 'p=none=') === false) {
 						$rec['data'] = str_replace(array('quarantine', 'reject'), 'none', $rec['data']);
@@ -435,15 +441,15 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// purge old rr-record(s)
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE '%._domainkey.?.' AND data LIKE 'v=DKIM1%' AND ? ORDER BY serial DESC";
-		$rec = $app->db->queryAllRecords($sql, $dataRecord['domain'], $app->tform->getAuthSQL('r'));
+		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND data LIKE 'v=DKIM1%' AND ? ORDER BY serial DESC";
+		$rec = $app->db->queryAllRecords($sql, '%._domainkey.'.$dataRecord['domain'].'.', $app->tform->getAuthSQL('r'));
 		if (is_array($rec[1])) {
 			for ($i=1; $i < count($rec); ++$i)
 				$app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);
 		}
 		// also delete a dsn-records with same selector 
-		$sql = "SELECT * from dns_rr WHERE name ='?._domainkey.?.' AND data LIKE 'v=DKIM1%' AND ?";
-		$rec = $app->db->queryAllRecords($sql, $dataRecord['dkim_selector'], $dataRecord['domain'], $app->tform->getAuthSQL('r'));
+		$sql = "SELECT * from dns_rr WHERE name ? AND data LIKE 'v=DKIM1%' AND ?";
+		$rec = $app->db->queryAllRecords($sql, '.._domainkey.'.$dataRecord['dkim_selector'].'.', $dataRecord['domain'], $app->tform->getAuthSQL('r'));
 		if (is_array($rec))
 			foreach ($rec as $del)
 				$app->db->datalogDelete('dns_rr', 'id', $del['id']);
@@ -456,7 +462,7 @@ class page_action extends tform_actions {
 		$new_rr['stamp'] = date('Y-m-d H:i:s');
 		$new_rr['serial'] = $app->validate_dns->increase_serial($new_rr['serial']);
 		$app->db->datalogInsert('dns_rr', $new_rr, 'id', $new_rr['zone']);
-		$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ".$app->functions->intval($new_rr['zone']));
+		$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $new_rr['zone']);
 		$new_serial = $app->validate_dns->increase_serial($zone['serial']);
 		$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
 	}
