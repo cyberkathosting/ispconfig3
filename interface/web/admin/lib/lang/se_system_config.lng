@@ -48,6 +48,7 @@ $wb['use_combobox_txt'] = 'Använd jQuery UI Combobox';
 $wb['use_loadindicator_txt'] = 'Använd laddningsindikator';
 $wb['f5_to_reload_js_txt'] = 'Om du ändrar detta kan du behöva trycka F5 för att ladda om javascript, eller rensa din webbläsarcache.';
 $wb['client_username_web_check_disabled_txt'] = 'Disable client username check for the word \'web\'.';
+$wb['backups_include_into_web_quota_txt'] = 'Include backup files into web quota.';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Visa autosvarsfliken vid detaljerna för epostkonto';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Visa epostfilterfliken vid detaljerna för epostkonto';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show custom mailfilter tab in mail account details';

@@ -32,3 +32,5 @@ NS|{DOMAIN}.|{NS2}.|0|3600
 MX|{DOMAIN}.|mail.{DOMAIN}.|10|3600
 TXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600' WHERE `dns_template`.`template_id` = 1;
 
+ALTER TABLE `mail_backup` CHANGE `filesize` `filesize` VARCHAR(20) NOT NULL DEFAULT '';
+ALTER TABLE `web_backup` CHANGE `filesize` `filesize` VARCHAR(20) NOT NULL DEFAULT '';

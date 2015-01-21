@@ -309,6 +309,71 @@ class remoting_mail extends remoting {
 		// $app->plugin->raiseEvent('mail:mail_user_filter:on_after_delete',$this);
 		return $affected_rows;
 	}
+	
+	// Mail backup list function by Dominik Müller, info@profi-webdesign.net
+	public function mail_user_backup_list($session_id, $primary_id = null)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		if ($site_id != null) {
+			$sql  = "SELECT * FROM mail_backup WHERE parent_domain_id = ".$app->functions->intval($site_id);
+		}
+		else {
+			$sql  = "SELECT * FROM mail_backup";
+		}
+	
+		$result = $app->db->queryAllRecords($sql);
+		return $result;
+	}
+	
+	// Mail backup restore/download functions by Dominik Müller, info@profi-webdesign.net
+	public function mail_user_backup($session_id, $primary_id, $action_type)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		//*Set variables
+		$backup_record  =       $app->db->queryOneRecord("SELECT * FROM `mail_backup` WHERE `backup_id`='$primary_id'");
+		$server_id      =       $backup_record['server_id'];
+	
+		//*Set default action state
+		$action_state   =       "pending";
+		$tstamp         =       time();
+	
+		//* Basic validation of variables
+		if ($server_id <= 0) {
+			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			return false;
+		}
+	
+		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail') {
+			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			return false;
+		}
+	
+		//* Validate instance
+		$instance_record        =       $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`='$primary_id' and `action_type`='$action_type' and `action_state`='pending'");
+		if ($instance_record['action_id'] >= 1) {
+			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			return false;
+		}
+	
+		//* Save the record
+		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = '$server_id', `tstamp` = '$tstamp', `action_type` = '$action_type', `action_param` = '$primary_id', `action_state` = '$action_state'")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	//* Get alias details
 	public function mail_alias_get($session_id, $primary_id)

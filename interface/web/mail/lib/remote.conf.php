@@ -17,6 +17,7 @@ $function_list['mail_fetchmail_get,mail_fetchmail_add,mail_fetchmail_update,mail
 $function_list['mail_spamfilter_whitelist_get,mail_spamfilter_whitelist_add,mail_spamfilter_whitelist_update,mail_spamfilter_whitelist_delete'] = 'Mail spamfilter whitelist functions';
 $function_list['mail_spamfilter_blacklist_get,mail_spamfilter_blacklist_add,mail_spamfilter_blacklist_update,mail_spamfilter_blacklist_delete'] = 'Mail spamfilter blacklist functions';
 $function_list['mail_user_filter_get,mail_user_filter_add,mail_user_filter_update,mail_user_filter_delete'] = 'Mail user filter functions';
+$function_list['mail_user_backup'] = 'Mail Backup functions';
 $function_list['mail_filter_get,mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions';
 
 

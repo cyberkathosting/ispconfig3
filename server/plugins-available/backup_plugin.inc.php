@@ -53,7 +53,9 @@ class backup_plugin {
 		//* Register for actions
 		$app->plugins->registerAction('backup_download', $this->plugin_name, 'backup_action');
 		$app->plugins->registerAction('backup_restore', $this->plugin_name, 'backup_action');
-
+		//$app->plugins->registerAction('backup_download_mail', $this->plugin_name, 'backup_action_mail');
+		$app->plugins->registerAction('backup_restore_mail', $this->plugin_name, 'backup_action_mail');
+		
 	}
 
 	//* Do a backup action
@@ -62,7 +64,6 @@ class backup_plugin {
 
 		$backup_id = intval($data);
 		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
-		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = $backup_id");
 
 		if(is_array($backup)) {
 
@@ -158,38 +159,51 @@ class backup_plugin {
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
-		//* Restore a mail backup - florian@schaal-24.de
-		} elseif (is_array($mail_backup) && $action_name == 'backup_restore') {
-			$app->uses('ini_parser,file,getconf');
+		} else {
+			$app->log('No backup with ID '.$backup_id.' found.', LOGLEVEL_DEBUG);
+		}
 
+		return 'ok';
+	}
+
+	//* Restore a mail backup - florian@schaal-24.de
+	public function backup_action_mail($action_name, $data) {
+		global $app, $conf;
+	
+		$backup_id = intval($data);
+		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = $backup_id");
+	
+		if (is_array($mail_backup) && $action_name == 'backup_restore_mail') {
+			$app->uses('ini_parser,file,getconf');
+	
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'];
-
 			$backup_dir_is_ready = true;
+	
 			//* mount backup directory, if necessary
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
-
+	
 			if($backup_dir_is_ready){
 				$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));
-
+			
 				$backup_dir = $server_config['backup_dir'].'/mail'.$domain_rec['domain_id'];
 				$mail_backup_file = $backup_dir.'/'.$mail_backup['filename'];
-
+			
 				$sql = "SELECT * FROM mail_user WHERE server_id = '".$conf['server_id']."' AND mailuser_id = ".intval($mail_backup['mailuser_id']);
 				$record = $app->db->queryOneRecord($sql);
-
+			
 				//* strip mailbox from maildir
 				$domain_dir=explode('/',$record['maildir']);
 				$_temp=array_pop($domain_dir);unset($_temp);
 				$domain_dir=implode('/',$domain_dir);
-
+			
 				if(!is_dir($domain_dir)) {
 					mkdir($domain_dir, 0700); //* never create the full path
 					chown($domain_dir, $mail_config['mailuser_name']);
 					chgrp($domain_dir, $mail_config['mailuser_group']);
 				}
-
+			
 				if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir)) {
 					if($mail_backup['backup_mode'] == 'userzip') {
 						copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
@@ -222,7 +236,8 @@ class backup_plugin {
 
 		return 'ok';
 	}
-
+			
+				
 } // end class
 
 ?>			

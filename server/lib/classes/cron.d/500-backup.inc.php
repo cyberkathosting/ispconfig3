@@ -51,6 +51,7 @@ class cronjob_backup extends cronjob {
 		global $app, $conf;
 
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		$global_config = $app->getconf->get_global_config('sites');
 		$backup_dir = $server_config['backup_dir'];
 		$backup_mode = $server_config['backup_mode'];
 		if($backup_mode == '') $backup_mode = 'userzip';
@@ -122,14 +123,16 @@ class cronjob_backup extends cronjob {
 							}
 							if($retval == 0 || ($backup_mode != 'userzip' && $retval == 1) || ($backup_mode == 'userzip' && $retval == 12)) { // tar can return 1, zip can return 12(due to harmless warings) and still create valid backups  
 								if(is_file($web_backup_dir.'/'.$web_backup_file)){
-									chown($web_backup_dir.'/'.$web_backup_file, 'root');
-									chgrp($web_backup_dir.'/'.$web_backup_file, 'root');
+									$backupusername = ($global_config['backups_include_into_web_quota'] == 'y') ? $web_user : 'root';
+									$backupgroup = ($global_config['backups_include_into_web_quota'] == 'y') ? $web_group : 'root';
+									chown($web_backup_dir.'/'.$web_backup_file, $backupusername);
+									chgrp($web_backup_dir.'/'.$web_backup_file, $backupgroup);
 									chmod($web_backup_dir.'/'.$web_backup_file, 0750);
 
 									//* Insert web backup record in database
 									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
 									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-									$filesize = $app->functions->formatBytes(filesize($web_backup_dir.'/'.$web_backup_file));
+									$filesize = filesize($web_backup_dir.'/'.$web_backup_file);
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'web', $backup_mode, time(), $web_backup_file, $filesize);
 									if($app->db->dbHost != $app->dbmaster->dbHost) 
@@ -215,8 +218,16 @@ class cronjob_backup extends cronjob {
 							$db_backup_dir = $backup_dir.'/web'.$web_id;
 							if(!is_dir($db_backup_dir)) mkdir($db_backup_dir, 0750);
 							chmod($db_backup_dir, 0750);
-							chown($db_backup_dir, 'root');
-							chgrp($db_backup_dir, 'root');
+							$backupusername = 'root';
+							$backupgroup = 'root';
+							if ($global_config['backups_include_into_web_quota'] == 'y') {
+								$sql = "SELECT * FROM web_domain WHERE domain_id = ".$rec['parent_domain_id'];
+								$webdomain = $app->db->queryOneRecord($sql);
+								$backupusername = $webdomain['system_user'];
+								$backupgroup = $webdomain['system_group'];
+							}
+							chown($db_backup_dir, $backupusername);
+							chgrp($db_backup_dir, $backupgroup);
 
 							//* Do the mysql database backup with mysqldump
 							$db_id = $rec['database_id'];
@@ -238,7 +249,7 @@ class cronjob_backup extends cronjob {
 									//* Insert web backup record in database
 									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
 									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
-									$filesize = $app->functions->formatBytes(filesize($db_backup_dir.'/'.$db_backup_file.'.gz'));
+									$filesize = filesize($db_backup_dir.'/'.$db_backup_file.'.gz');
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'mysql', 'sqlgz', time(), $db_backup_file.'.gz', $filesize);
 									if($app->db->dbHost != $app->dbmaster->dbHost) 

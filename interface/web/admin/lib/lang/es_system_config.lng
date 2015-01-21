@@ -46,6 +46,7 @@ $wb['use_combobox_txt'] = 'Usar Combobox de jQuery UI';
 $wb['use_loadindicator_txt'] = 'Usar indicador de carga';
 $wb['f5_to_reload_js_txt'] = 'Si cambias esto, podrías tener que pulsar F5 para que tu navegador recargue las librerías JavaScript o vacíar la caché del navegador.';
 $wb['client_username_web_check_disabled_txt'] = "Desactivar comprobación de la palabra 'web' en el nombre de cliente.";
+$wb['backups_include_into_web_quota_txt'] = 'Include backup files into web quota.';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Mostrar pestaña autoresponder en los detalles de la cuenta de correo';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Mostrar pestaña filtro de correo en los detalles de la cuenta de correo';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Mostrar pestaña filtros personalizados en los detalles de la cuenta de correo';
