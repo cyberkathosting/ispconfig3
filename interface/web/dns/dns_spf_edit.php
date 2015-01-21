@@ -229,7 +229,7 @@ class page_action extends tform_actions {
 		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
 
 		// always update an existing entry
-		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data LIKE 'v=spf1%' AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord['name'].'.');
+		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data LIKE 'v=spf1%' AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord['name']);
 		$this->id = $check['id'];
 
 		if (!isset($this->dataRecord['active'])) $this->dataRecord['active'] = 'N';
