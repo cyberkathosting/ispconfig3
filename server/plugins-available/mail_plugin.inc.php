@@ -403,17 +403,19 @@ class mail_plugin {
 			//* mount backup directory, if necessary
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $mount_backup = false;
 			if($mount_backup){
-				$sql = "SELECT * FROM mail_domain WHERE domain = '".explode("@",$data['old']['email'])[1]."'";
-				$domain_rec = $app->db->queryOneRecord($sql);
-				$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
-				$mail_backup_files = 'mail'.$data['old']['mailuser_id'];
-				exec(escapeshellcmd('rm -f '.$mail_backup_dir.'/'.$mail_backup_files).'*');
-				//* cleanup database
-				$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
-				$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
-				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
+				$sql = "SELECT * FROM mail_domain WHERE domain = ?";
+				$domain_rec = $app->db->queryOneRecord($sql, explode("@",$data['old']['email'])[1]);
+				if (is_array($domain_rec)) {
+					$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
+					$mail_backup_files = 'mail'.$data['old']['mailuser_id'];
+					exec(escapeshellcmd('rm -f '.$mail_backup_dir.'/'.$mail_backup_files).'*');
+					//* cleanup database
+					$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
+					$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
+					if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
 
-				$app->log('Deleted the mail backups for: '.$data['old']['email'], LOGLEVEL_DEBUG);
+					$app->log('Deleted the mail backups for: '.$data['old']['email'], LOGLEVEL_DEBUG);
+				}
 			}
 		}
 	}
@@ -421,7 +423,6 @@ class mail_plugin {
 	function domain_delete($event_name, $data) {
 		global $app, $conf;
 
-		// get the config
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
@@ -456,9 +457,9 @@ class mail_plugin {
 				$mail_backup_dir = $backup_dir.'/mail'.$data['old']['domain_id'];
 				exec(escapeshellcmd('rm -rf '.$mail_backup_dir));
 				//* cleanup database
-				$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
-				$app->db->query($sql, $conf['server_id'], $data['old']['domain_id'], $data['old']['mailuser_id']);
-				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $data['old']['mailuser_id']);
+				$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ?";
+				$app->db->query($sql, $conf['server_id'], $data['old']['domain_id']);
+				if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id']);
 
 				$app->log('Deleted the mail backup directory: '.$mail_backup_dir, LOGLEVEL_DEBUG);
 			}
