@@ -98,7 +98,7 @@ echo '
 	<input type="hidden" name="s_pg" value="index" />
     <div class="wf_actions buttons">
       <button class="positive iconstxt icoPositive" type="button" value="'.$wb['btn_yes_txt'].'" onclick="submitLoginForm(' . "'pageForm'" . ');"><span>'.$wb['btn_yes_txt'].'</span></button>
-      <button class="negative iconstxt icoNegative" type="button" value="'.$wb['btn_back_txt'].'" onclick="loadContent('. "'$backlink'" . ');"><span>'.$wb['btn_back_txt'].'</span></button>
+      <button class="negative iconstxt icoNegative" type="button" value="'.$wb['btn_back_txt'].'" data-load-content="'.$backlink.'"><span>'.$wb['btn_back_txt'].'</span></button>
     </div>
 ';
 ?>

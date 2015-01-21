@@ -39,7 +39,7 @@
 	
     <input type="hidden" name="remote_session_id" value="{tmpl_var name='remote_session_id'}">
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="Import" onClick="submitForm('pageForm','tools/import_vpopmail.php');">{tmpl_var name="btn_start_txt"}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="Import" data-submit-form="pageForm" data-form-action="tools/import_vpopmail.php">{tmpl_var name="btn_start_txt"}</button>
             <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">{tmpl_var name="btn_cancel_txt"}</button>
         </div></div>
   </div>

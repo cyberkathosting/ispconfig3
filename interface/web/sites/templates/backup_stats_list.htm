@@ -1,48 +1,42 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_backup_stats">
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-					<tr class="caption">
-						<th class="tbl_col_active" scope="col">
-							<tmpl_var name="active_txt">
-						</th>
-						<th class="tbl_col_domain" scope="col">
-							<tmpl_var name="domain_txt">
-						</th>
-						<th class="tbl_col_server" scope="col">
-							<tmpl_var name="backup_server_txt">
-						</th>
-						<th class="tbl_col_interval" scope="col">
-							<tmpl_var name="backup_interval_txt">
-						</th>
-						<th class="tbl_col_backup_count" scope="col">
-							<tmpl_var name="backup_count_txt">
-						</th>
+
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+					<tr>
+						<th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+						<th data-column="domain"><tmpl_var name="domain_txt"></th>
+						<th data-column="backup_server"><tmpl_var name="backup_server_txt"></th>
+						<th data-column="backup_interval"><tmpl_var name="backup_interval_txt"></th>
+						<th data-column="backup_count"><tmpl_var name="backup_count_txt"></th>
+						<th data-column="backup_size"><tmpl_var name="backup_size_txt"></th>
 					</tr>
                 </thead>
 				<tbody>
 					<tmpl_loop name="records">
 					<tr class="tbl_row_{tmpl_if name='__EVEN__'}even{tmpl_else}uneven{/tmpl_if}">
-						<td class="tbl_col_active"> <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="active"}</a> </td>
-						<td class="tbl_col_domain"> <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="domain"}</a> </td>
-						<td class="tbl_col_server"> <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="server_id"}</a> </td>
-						<td class="tbl_col_interval"> <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="backup_interval"}</a> /  <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="backup_copies"}</a> </td>
-						<td class="tbl_col_backup_count"> <a href="#" onclick="loadContent('sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="backup_copies_exists"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_interval"}</a> /  <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies_exists"}</a> </td>
+						<td> <a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_size"}</a> </td>
 					</tr>
 					</tmpl_loop>
 				</tbody>
 				<tfoot>
 					<tr>
-						<td class="tbl_footer tbl_paging" colspan="5">
+						<td colspan="5">
 							<tmpl_var name="paging">
 						</td>
 					</tr>
 				</tfoot>
             </table>
-        </fieldset>
-    </div>
 </div>
+        
+    </div>

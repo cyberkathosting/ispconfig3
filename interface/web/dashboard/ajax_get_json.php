@@ -91,7 +91,7 @@ if($type == 'globalsearch'){
 					$description = 'Database User: '.$result['database_user'].' - Remote IPs: '.$result['remote_ips'];
 					$result_databases['cdata'][] = array('title' => $result['database_name'],
 												'description' => $description,
-												'onclick' => 'capp(\'sites\',\'sites/database_edit.php?id='.$result['database_id'].'\');',
+												'onclick' => 'ISPConfig.capp(\'sites\',\'sites/database_edit.php?id='.$result['database_id'].'\');',
 												'fill_text' => strtolower($result['database_name'])
 												);
 				}
@@ -227,7 +227,7 @@ function _search($module, $section, $additional_sql = ''){
 
 				$result_array['cdata'][] = array('title' => $wb[$title_key.'_txt'].': '.$result[$title_key],
 					'description' => $description,
-					'onclick' => "capp('".$module."','".$module."/".$form_file."?id=".$result[$db_table_idx]."');",
+					'onclick' => "ISPConfig.capp('".$module."','".$module."/".$form_file."?id=".$result[$db_table_idx]."');",
 					'fill_text' => strtolower($result[$title_key])
 				);
 			}

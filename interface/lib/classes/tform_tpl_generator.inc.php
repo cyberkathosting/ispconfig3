@@ -136,8 +136,8 @@ class tform_tpl_generator {
     <input type=\"hidden\" name=\"id\" value=\"{tmpl_var name='id'}\">
 
     <div class=\"buttonHolder buttons\">
-      <button class=\"positive iconstxt icoPositive\" type=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onclick=\"submitForm('pageForm','".$module."/".$formDef["action"]."');\"><span>{tmpl_var name='btn_save_txt'}</span></button>
-      <button class=\"negative iconstxt icoNegative\" type=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" onclick=\"loadContent('".$module."/".$formDef["list_default"]."');\"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
+      <button class=\"positive iconstxt icoPositive\" type=\"button\" value=\"{tmpl_var name='btn_save_txt'}\" onclick=\"ISPConfig.submitForm('pageForm','".$module."/".$formDef["action"]."');\"><span>{tmpl_var name='btn_save_txt'}</span></button>
+      <button class=\"negative iconstxt icoNegative\" type=\"button\" value=\"{tmpl_var name='btn_cancel_txt'}\" data-load-content=\"".$module."/".$formDef["list_default"]."\"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
     </div>
   </div>
 

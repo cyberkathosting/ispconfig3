@@ -176,37 +176,13 @@ if(is_array($installed_packages)) {
 
 			foreach($updates as $key => $u) {
 				$version = $u['v1'].'.'.$u['v2'].'.'.$u['v3'].'.'.$u['v4'];
-				$installed_txt = "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install Update</a><br />";
+				$installed_txt = "<a href=\"#\" data-load-content=\"admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."\">Install Update</a><br />";
 				$records_out[] = array('version' => $version, 'update_title' => $u["update_title"], 'installed' => $installed_txt);
 
 			}
 		}
 	}
 }
-
-/*
-$updates = $app->db->queryAllRecords('SELECT software_update.update_title, software_update.software_update_id, software_update.package_name, v1, v2, v3, v4, software_update_inst.status
-		FROM software_update LEFT JOIN software_update_inst ON ( software_update.software_update_id = software_update_inst.software_update_id )
-		WHERE server_id = '.$server_id.'
-		GROUP BY software_update.package_name
-		ORDER BY software_update.package_name ASC, v1 DESC , v2 DESC , v3 DESC , v4 DESC');
-
-if(is_array($updates)) {
-	foreach($updates as $key => $u) {
-		$installed_txt = '';
-
-		$version = $u['v1'].'.'.$u['v2'].'.'.$u['v3'].'.'.$u['v4'];
-		$updates[$key]['version'] = $version;
-		if($u['status'] == 'installed' || $u['status'] == 'installing' || $u['status'] == 'deleting') {
-			$installed_txt .= "Installed version $version<br />";
-		} else {
-			$installed_txt .= "<a href=\"#\" onclick=\"loadContent('admin/software_update_list.php?action=install&package=".$u["package_name"]."&id=".$u["software_update_id"]."&server_id=".$server_id."');\">Install now</a><br />";
-		}
-		$updates[$key]['installed'] = $installed_txt;
-
-	}
-}
-*/
 
 
 

@@ -1,0 +1,42 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+					<tr>
+						<th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+						<th data-column="domain"><tmpl_var name="domain_txt"></th>
+						<th data-column="backup_server"><tmpl_var name="backup_server_txt"></th>
+						<th data-column="backup_interval"><tmpl_var name="backup_interval_txt"></th>
+						<th data-column="backup_count"><tmpl_var name="backup_count_txt"></th>
+						<th data-column="backup_size"><tmpl_var name="backup_size_txt"></th>
+					</tr>
+                </thead>
+				<tbody>
+					<tmpl_loop name="records">
+					<tr class="tbl_row_{tmpl_if name='__EVEN__'}even{tmpl_else}uneven{/tmpl_if}">
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a> </td>
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="email"}</a> </td>
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a> </td>
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_interval"}</a> /  <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies"}</a> </td>
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_copies_exists"}</a> </td>
+						<td> <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="backup_size"}</a> </td>
+					</tr>
+					</tmpl_loop>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5">
+							<tmpl_var name="paging">
+						</td>
+					</tr>
+				</tfoot>
+            </table>
+</div>
+        
+    </div>

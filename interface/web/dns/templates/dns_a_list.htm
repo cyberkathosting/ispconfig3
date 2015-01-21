@@ -41,12 +41,12 @@
 <table class="table">
             <thead class="dark form-group-sm">
                 <tr>
-                    <th class="tiny-col"><tmpl_var name="active_txt"></th>
-                    <th><tmpl_var name="type_txt"></th>
-                    <th><tmpl_var name="name_txt"></th>
-                    <th><tmpl_var name="data_txt"></th>
-                    <th><tmpl_var name="aux_txt"></th>
-                    <th><tmpl_var name="ttl_txt"></th>
+                    <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
+                    <th data-column="type"><tmpl_var name="type_txt"></th>
+                    <th data-column="name"><tmpl_var name="name_txt"></th>
+                    <th data-column="data"><tmpl_var name="data_txt"></th>
+                    <th data-column="aux"><tmpl_var name="aux_txt"></th>
+                    <th data-column="ttl"><tmpl_var name="ttl_txt"></th>
                     <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
                     <td><input class="form-control" type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
                     <td><input class="form-control" type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return changeTab('dns_records','dns/dns_soa_edit.php');"><span class="icon icon-filter"></span></button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return ISPConfig.changeTab('dns_records','dns/dns_soa_edit.php');"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
             </thead>
@@ -71,7 +71,7 @@
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="aux"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ttl"}</a></td>
                         <td class="text-right">
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: del_record('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
                         </td>
                     </tr>
                 </tmpl_loop>

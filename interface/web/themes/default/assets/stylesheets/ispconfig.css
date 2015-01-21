@@ -271,6 +271,37 @@ thead.dark th.tiny-col {
   overflow: hidden;
   text-overflow: ellipsis; }
 
+thead.dark th[data-column] {
+  cursor: pointer;
+}
+
+thead.dark th[data-column][data-ordered] {
+	font-weight: bold;
+	position: relative;
+}
+
+thead.dark th[data-column][data-ordered]:before {
+	content: "";
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 16px;
+	width: 0;
+	height: 0;
+	vertical-align: middle;
+	border-bottom: 5px solid #fff;
+	border-top: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-left: 6px solid transparent;
+	line-height: inherit;
+}
+
+thead.dark th[data-column][data-ordered="desc"]:before {
+	top: 21px;
+	border-bottom: 5px solid transparent;
+	border-top: 5px solid #fff;
+}
+
 thead.dark td input,
 thead.dark td select {
   width: 100%; }

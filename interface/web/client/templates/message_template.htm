@@ -26,7 +26,7 @@
 		<br clear="all">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}
       </div>
 	  <div class="clear"><div class="right">
-      <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" onClick="submitForm('pageForm','client/message_template_edit.php');">{tmpl_var name='btn_save_txt'}</button>
+      <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/message_template_edit.php">{tmpl_var name='btn_save_txt'}</button>
       <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/message_template_list.php">{tmpl_var name='btn_cancel_txt'}</button>
     </div></div>
     

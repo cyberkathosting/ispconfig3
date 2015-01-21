@@ -44,6 +44,6 @@
             
         <input type="hidden" name="install" value="0" />
         <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; ISPConfig.submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>

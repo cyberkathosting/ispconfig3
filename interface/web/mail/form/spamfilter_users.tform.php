@@ -91,10 +91,6 @@ $form["tabs"]['users'] = array (
 			'formtype' => 'TEXT',
 			'default' => '',
 			'filters'   => array( 0 => array( 'event' => 'SAVE',
-					'type' => 'IDNTOASCII'),
-				1 => array( 'event' => 'SHOW',
-					'type' => 'IDNTOUTF8'),
-				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',

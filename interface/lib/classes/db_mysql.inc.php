@@ -425,6 +425,34 @@ class db extends mysqli
 	}
 
 
+	/**
+	 * check if a utf8 string is valid
+	 *
+	 * @access public
+	 * @param string  $string the string to check
+	 * @return bool true if it is valid utf8, false otherwise
+	 */
+	private function check_utf8($str) {
+		$len = strlen($str);
+		for($i = 0; $i < $len; $i++){
+			$c = ord($str[$i]);
+			if ($c > 128) {
+				if (($c > 247)) return false;
+				elseif ($c > 239) $bytes = 4;
+				elseif ($c > 223) $bytes = 3;
+				elseif ($c > 191) $bytes = 2;
+				else return false;
+				if (($i + $bytes) > $len) return false;
+				while ($bytes > 1) {
+					$i++;
+					$b = ord($str[$i]);
+					if ($b < 128 || $b > 191) return false;
+					$bytes--;
+				}
+			}
+		}
+		return true;
+	} // end of check_utf8
 
 	/**
 	 * Escape a string for usage in a query
@@ -442,16 +470,16 @@ class db extends mysqli
 			$sString = '';
 		}
 
-		/*$cur_encoding = mb_detect_encoding($sString);
+		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_WARN);
+				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
-		} elseif(!PXBase::check_utf8($sString)) {
+		} elseif(!$this->check_utf8($sString)) {
 			$sString = utf8_encode($sString);
-		}*/
+		}
 
 		if($this->_iConnId) return mysqli_real_escape_string($this->_iConnId, $sString);
 		else return addslashes($sString);

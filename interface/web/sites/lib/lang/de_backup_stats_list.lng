@@ -6,4 +6,5 @@ $wb['domain_txt']          = 'Domain';
 $wb['backup_count_txt']    = 'Anz. Backups';
 $wb['backup_server_txt']   = 'Server';
 $wb['backup_interval_txt'] = 'Intervall / Anz.';
+$wb['backup_size_txt'] = 'Backupgrösse';
 ?>
