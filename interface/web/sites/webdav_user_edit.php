@@ -137,12 +137,6 @@ class page_action extends tform_actions {
 
 			/* restrict the names */
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
-
-			/*
-			 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
-			 */
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
 		}
 
 		parent::onBeforeInsert();
@@ -156,9 +150,16 @@ class page_action extends tform_actions {
 
 		// The webdav user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
-
-		$sql = "UPDATE webdav_user SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE webdav_user_id = ".$this->id;
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
+		 */
+		$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+		$this->dataRecord["password"] = $hash;
+		
+		$sql = "UPDATE webdav_user SET server_id = ".$server_id.", sys_groupid = '".$sys_groupid."', password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id;
 		$app->db->query($sql);
+		
 	}
 
 	function onBeforeUpdate() {
@@ -172,16 +173,7 @@ class page_action extends tform_actions {
 		$this->dataRecord["username"] = $data['username'];
 		$this->dataRecord["dir"]      = $data['dir'];
 		$this->dataRecord['username_prefix'] = $data['username_prefix'];
-		$passwordOld = $data['password'];
-
-		/*
-		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
-		 * needs (only if the pwd is changed)
-		 */
-		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $passwordOld)) {
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
-		}
+		$this->dataRecord['passwordOld'] = $data['password'];
 
 		parent::onBeforeUpdate();
 	}
@@ -200,6 +192,17 @@ class page_action extends tform_actions {
 			$sql = "UPDATE webdav_user SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE webdav_user_id = ".$this->id;
 			$app->db->query($sql);
 		}
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
+		 * needs (only if the pwd is changed)
+		 */
+		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $this->dataRecord['passwordOld'])) {
+			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+			$this->dataRecord["password"] = $hash;
+			$app->db->query("UPDATE webdav_user SET password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id);
+		}
+		
 	}
 
 }
