@@ -185,9 +185,9 @@ class page_action extends tform_actions {
 		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $this->dataRecord['passwordOld'])) {
 			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
 			$this->dataRecord["password"] = $hash;
+			$app->db->query("UPDATE webdav_user SET password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id);
 		}
 		
-		$app->db->query("UPDATE webdav_user SET password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id);
 	}
 
 }
