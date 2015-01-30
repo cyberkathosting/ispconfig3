@@ -1,0 +1,7 @@
+<?php
+$wb['databasequota_txt'] = 'Datenbank Quota';
+$wb['database_txt'] = 'Datenbank Name';
+$wb['used_txt'] = 'Verwendet';
+$wb['quota_txt'] = 'Verfügbar';
+$wb['no_database_accounts_txt'] = 'Keine Datenbanken gefunden.';
+?>

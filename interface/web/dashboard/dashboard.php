@@ -157,7 +157,7 @@ while ($file = @readdir($handle)) {
 
 /* Which dashlets in which column */
 /******************************************************************************/
-$default_leftcol_dashlets = array('modules', 'invoices', 'quota', 'mailquota');
+$default_leftcol_dashlets = array('modules', 'invoices', 'quota', 'mailquota', 'databasequota');
 $default_rightcol_dashlets = array('customer', 'products', 'shop', 'limits');
 
 $app->uses('getconf');
