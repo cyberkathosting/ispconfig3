@@ -108,6 +108,7 @@ class page_action extends tform_actions {
 		if (!empty($this->dataRecord['data'])) {
 			$this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
 			$this->dataRecord['name']=$this->dataRecord['selector'].'._domainkey.'.$this->dataRecord['name'];
+			$this->dataRecord['ttl']=60;
 		}
 			// Update the serial number  and timestamp of the RR record
 			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
