@@ -20,6 +20,7 @@ $wb['server_id_txt'] = 'id_server';
 $wb['password_txt'] = 'Kata Sandi';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Dapat Menerima';
+$wb["greylisting_txt"] = 'Enable greylisting';
 $wb['access_txt'] = 'Dapat Mengakses';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- tidak diaktifkan -';

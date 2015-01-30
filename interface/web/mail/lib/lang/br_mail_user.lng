@@ -16,6 +16,7 @@ $wb['server_id_txt'] = 'Server_id';
 $wb['password_txt'] = 'Senha';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Habilitar Recebimento';
+$wb["greylisting_txt"] = 'Enable greylisting';
 $wb['access_txt'] = 'Habilitar Acesso';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- desativado -';

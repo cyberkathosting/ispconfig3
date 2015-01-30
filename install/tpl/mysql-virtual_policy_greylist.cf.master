@@ -1,0 +1,5 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+query = SELECT 'greylisting' FROM mail_user WHERE email='%s' AND greylisting='y' and server_id = {server_id}
+hosts = {mysql_server_ip}

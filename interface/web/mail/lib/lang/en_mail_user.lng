@@ -22,6 +22,7 @@ $wb["server_id_txt"] = 'Aerver_id';
 $wb["password_txt"] = 'Password';
 $wb["maildir_txt"] = 'Maildir';
 $wb["postfix_txt"] = 'Enable receiving';
+$wb["greylisting_txt"] = 'Enable greylisting';
 $wb["access_txt"] = 'Enable access';
 $wb["policy_txt"] = 'Spamfilter';
 $wb["no_policy"] = '- not enabled -';

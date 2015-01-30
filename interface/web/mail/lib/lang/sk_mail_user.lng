@@ -16,6 +16,7 @@ $wb['server_id_txt'] = 'Server_id';
 $wb['password_txt'] = 'Heslo';
 $wb['maildir_txt'] = 'Mailová záložka';
 $wb['postfix_txt'] = 'Povoliť príjem';
+$wb["greylisting_txt"] = 'Enable greylisting';
 $wb['access_txt'] = 'Povoliť Prístup';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nepovolená -';

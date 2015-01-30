@@ -16,6 +16,7 @@ $wb['server_id_txt'] = 'server-id';
 $wb['password_txt'] = 'lösenord';
 $wb['maildir_txt'] = 'maildir';
 $wb['postfix_txt'] = 'Aktivera mottagning';
+$wb["greylisting_txt"] = 'Enable greylisting';
 $wb['access_txt'] = 'Aktivera åtkomst';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- ej aktiverat -';
