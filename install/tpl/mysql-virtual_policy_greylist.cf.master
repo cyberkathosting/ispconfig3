@@ -1,5 +1,5 @@
 user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
-query = SELECT 'greylisting' FROM mail_user WHERE email='%s' AND greylisting='y' and server_id = {server_id}
+query = SELECT DISTINCT('greylisting') FROM mail_forwarding mf, mail_user mu where (mf.source='%s' and mf.greylisting='y' and mf.server_id = {server_id}) or (mu.email='%s' and mu.greylisting='y' and mu.server_id = {server_id})
 hosts = {mysql_server_ip}

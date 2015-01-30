@@ -11,4 +11,5 @@ $wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa z e-mailem o tak
 $wb['domain_txt'] = 'Domena';
 $wb['duplicate_email_alias_txt'] = 'Istnieje już taki alias email.';
 $wb['source_txt'] = 'Alias';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>
