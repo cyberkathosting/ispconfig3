@@ -122,7 +122,7 @@ class quota_lib {
 			// This Month
 			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND MONTH(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year, $tmp_month);
 			foreach ($tmp_recs as $tmp_rec) {
-				$traffic_data[]['this_month'] = $tmp_rec['t'];
+				$traffic_data[$tmp_rec['hostname']]['this_month'] = $tmp_rec['t'];
 			}
 			// This Year
 			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year);
