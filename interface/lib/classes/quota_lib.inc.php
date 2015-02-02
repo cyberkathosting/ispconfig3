@@ -95,7 +95,68 @@ class quota_lib {
 		
 		return $sites;
 	}
-
+	
+	public function get_trafficquota_data($clientid = null, $lastdays = 0) {
+		global $app;
+	
+		$traffic_data = array();
+	
+		// select vhosts (belonging to client)
+		if($clientid != null){
+			$sql_where = " AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=".$clientid.")";
+		}
+		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')".$sql_where);
+	
+		$hostnames = array();
+		$traffic_data = array();
+	
+		foreach ($sites as $site) {
+			$hostnames[] = $site['domain'];
+			$traffic_data[$site['domain']]['domain_id'] = $site['domain_id'];
+		}
+	
+		// fetch all traffic-data of selected vhosts
+		if (!empty($hostnames)) {
+			$tmp_year = date('Y');
+			$tmp_month = date('m');
+			// This Month
+			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND MONTH(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year, $tmp_month);
+			foreach ($tmp_recs as $tmp_rec) {
+				$traffic_data[]['this_month'] = $tmp_rec['t'];
+			}
+			// This Year
+			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year);
+			foreach ($tmp_recs as $tmp_rec) {
+				$traffic_data[$tmp_rec['hostname']]['this_year'] = $tmp_rec['t'];
+			}
+				
+			$tmp_year = date('Y', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+			$tmp_month = date('m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
+			// Last Month
+			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND MONTH(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year, $tmp_month);
+			foreach ($tmp_recs as $tmp_rec) {
+				$traffic_data[$tmp_rec['hostname']]['last_month'] = $tmp_rec['t'];
+			}
+				
+			$tmp_year = date('Y', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
+			// Last Year
+			$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE YEAR(traffic_date) = ? AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname", $tmp_year);
+			foreach ($tmp_recs as $tmp_rec) {
+				$traffic_data[$tmp_rec['hostname']]['last_year'] = $tmp_rec['t'];
+			}
+				
+			if (is_int($lastdays)  && ($lastdays > 0)) {
+				// Last xx Days
+				$tmp_recs = $app->db->queryAllRecords("SELECT hostname, SUM(traffic_bytes) as t FROM web_traffic WHERE (traffic_date >= DATE_SUB(NOW(), INTERVAL ".$app->db->quote($lastdays)." DAY)) AND hostname IN ('".join("','",$hostnames)."') GROUP BY hostname");
+				foreach ($tmp_recs as $tmp_rec) {
+					$traffic_data[$tmp_rec['hostname']]['lastdays'] = $tmp_rec['t'];
+				}
+			}
+		}
+	
+		return $traffic_data;
+	}
+	
 	public function get_mailquota_data($clientid = null, $readable = true) {
 		global $app;
 		
