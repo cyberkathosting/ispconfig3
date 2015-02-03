@@ -6,4 +6,5 @@ $wb['limit_mailforward_txt'] = 'Maksymalna ilość przekierowań e-mail dla Twoj
 $wb['duplicate_mailbox_txt'] = 'Istnieje już skrzynka pocztowa o podanym adresie e-mail';
 $wb['domain_txt'] = 'Domena';
 $wb['source_txt'] = 'E-mail źródłowy';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

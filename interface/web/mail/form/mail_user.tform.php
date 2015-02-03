@@ -233,6 +233,12 @@ $form["tabs"]['mailuser'] = array(
 			'default' => 'y',
 			'value'  => array(1 => 'y', 0 => 'n')
 		),
+		'greylisting' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		/*
 		'access' => array (
 			'datatype'	=> 'VARCHAR',

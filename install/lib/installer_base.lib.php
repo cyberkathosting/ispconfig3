@@ -135,6 +135,7 @@ class installer_base {
 
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
+		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
 		if(is_installed('mailman')) $conf['mailman']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
@@ -704,6 +705,9 @@ class installer_base {
 		//* mysql-virtual_outgoing_bcc.cf
 		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
 
+                //* mysql-virtual_policy_greylist.cf
+                $this->process_postfix_config('mysql-virtual_policy_greylist.cf');
+
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
@@ -742,11 +746,19 @@ class installer_base {
 		unset($rbl_hosts);
 		unset($server_ini_array);
 
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = 'check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
@@ -841,7 +853,7 @@ class installer_base {
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
-
+	
 	public function configure_saslauthd() {
 		global $conf;
 

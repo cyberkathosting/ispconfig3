@@ -7,4 +7,5 @@ $wb["duplicate_mailbox_txt"] = 'There is already a mailbox with this email addre
 $wb['domain_txt'] = 'Domain';
 $wb["source_txt"] = 'Source Email';
 $wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

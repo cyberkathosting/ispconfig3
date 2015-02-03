@@ -15,6 +15,7 @@ $wb['server_id_txt'] = 'szerver_azonosító';
 $wb['password_txt'] = 'Jelszó';
 $wb['maildir_txt'] = 'levelezőláda';
 $wb['postfix_txt'] = 'Bejövő engedélyezés';
+$wb['greylisting_txt'] = 'Enable greylisting';
 $wb['access_txt'] = 'Hozzáférés engelyezés';
 $wb['policy_txt'] = 'Spam szűrő';
 $wb['no_policy'] = '- nem engelyézett -';

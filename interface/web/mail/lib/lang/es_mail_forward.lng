@@ -6,4 +6,5 @@ $wb['limit_mailforward_txt'] = 'Se ha alcanzado el número máximo de reenvíos 
 $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón de correo con esta dirección';
 $wb['domain_txt'] = 'Dominio';
 $wb['source_txt'] = 'Source Email';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

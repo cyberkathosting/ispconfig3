@@ -124,6 +124,12 @@ $form["tabs"]['alias'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'greylisting' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

@@ -6,4 +6,5 @@ $wb['limit_mailforward_txt'] = 'Het max. aantal e-mail forwarders is voor uw acc
 $wb['duplicate_mailbox_txt'] = 'Er is al een mailbox met dit e-mailadres';
 $wb['domain_txt'] = 'Domain';
 $wb['source_txt'] = 'Source Email';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>
