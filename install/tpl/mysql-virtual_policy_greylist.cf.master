@@ -1,0 +1,5 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+query = SELECT 'greylisting' FROM (SELECT greylisting, source AS email FROM mail_forwarding WHERE server_id = {server_id} UNION SELECT greylisting, email FROM mail_user WHERE server_id = {server_id}) addresses WHERE addresses.email='%s' AND addresses.greylisting='y'
+hosts = {mysql_server_ip}

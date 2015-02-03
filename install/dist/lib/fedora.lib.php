@@ -152,6 +152,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_relayrecipientmaps.cf
 		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
 
+		//* mysql-virtual_policy_greylist.cf
+		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
+
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
 		if(is_file($full_file_name)) {
@@ -193,13 +196,21 @@ class installer_dist extends installer_base {
 		}
 		unset($rbl_hosts);
 		unset($server_ini_array);
-
+		
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = 'check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
 		//* These postconf commands will be executed on installation and update
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_postfix.conf.master', 'tpl/fedora_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);

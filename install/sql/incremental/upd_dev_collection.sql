@@ -36,3 +36,5 @@ ALTER TABLE `mail_backup` CHANGE `filesize` `filesize` VARCHAR(20) NOT NULL DEFA
 ALTER TABLE `web_backup` CHANGE `filesize` `filesize` VARCHAR(20) NOT NULL DEFAULT '';
 
 ALTER TABLE `sys_datalog` ADD INDEX `dbtable` (`dbtable` (25), `dbidx` (25)), ADD INDEX (`action`);
+ALTER TABLE `mail_user` ADD `greylisting` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `postfix`;
+ALTER TABLE `mail_forwarding` ADD `greylisting` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `active`;

@@ -16,6 +16,7 @@ $wb['server_id_txt'] = 'Aerver_id';
 $wb['password_txt'] = 'パスワード';
 $wb['maildir_txt'] = 'メールディレクトリ';
 $wb['postfix_txt'] = 'メールを受信する';
+$wb['greylisting_txt'] = 'Enable greylisting';
 $wb['access_txt'] = 'アクセスを許可する';
 $wb['policy_txt'] = 'スパムフィルター';
 $wb['no_policy'] = '- 利用しない -';

@@ -6,4 +6,5 @@ $wb['limit_mailforward_txt'] = 'Det maximala antalet vidarebefordringar för dit
 $wb['duplicate_mailbox_txt'] = 'Det finns redan ett epostkonto med denna adress';
 $wb['domain_txt'] = 'Domän';
 $wb['source_txt'] = 'Källadress';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>
