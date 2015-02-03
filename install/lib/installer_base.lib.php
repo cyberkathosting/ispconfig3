@@ -854,10 +854,6 @@ class installer_base {
 
 	}
 	
-	public function configure_postgrey() {
-		
-	}
-
 	public function configure_saslauthd() {
 		global $conf;
 
