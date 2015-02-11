@@ -47,7 +47,6 @@ class list_action extends listform_actions {
 		$rec['domain'] = $rec['domain'].($server['server_name'] != '' ? ' ('.$server['server_name'].')' : '');
 		
 		$rec['used'] = $monitor_data['user'][$username]['used'];
-		$rec['used_sort'] = $rec['used'];
 		$rec['soft'] = $monitor_data['user'][$username]['soft'];
 		$rec['hard'] = $monitor_data['user'][$username]['hard'];
 		$rec['files'] = $monitor_data['user'][$username]['files'];
@@ -59,6 +58,7 @@ class list_action extends listform_actions {
 				$rec['used'] = $rec['used'][1];
 			}
 		}
+		$rec['used_sort'] = $rec['used'];
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 		if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];
