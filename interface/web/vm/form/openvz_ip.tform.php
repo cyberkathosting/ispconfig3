@@ -77,10 +77,9 @@ $form["tabs"]['main'] = array (
 		'ip_address' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  0 => array ( 'type' => 'ISIPV4',
-					'errmsg'=> 'ip_error_wrong'),
-				1 => array ( 'type' => 'UNIQUE',
-					'errmsg'=> 'ip_error_unique'),
+			'validators' => array (
+				0 => array ( 'type' => 'ISIP', 'errmsg'=> 'ip_error_wrong'),
+				1 => array ( 'type' => 'UNIQUE', 'errmsg'=> 'ip_error_unique'),
 			),
 			'default' => '',
 			'value'  => '',
