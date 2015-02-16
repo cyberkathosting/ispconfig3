@@ -985,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ip` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT '0',
-  `ip_address` varchar(15) DEFAULT NULL,
+  `ip_address` varchar(39) DEFAULT NULL,
   `vm_id` int(11) NOT NULL DEFAULT '0',
   `reserved` varchar(255) NOT NULL DEFAULT 'n',
   PRIMARY KEY (`ip_address_id`)
