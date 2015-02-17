@@ -1964,7 +1964,7 @@ CREATE TABLE `web_traffic` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table  `xmpp_domain`
+-- Table structure for table `xmpp_domain`
 --
 
 CREATE TABLE `xmpp_domain` (
@@ -2008,6 +2008,33 @@ CREATE TABLE `xmpp_domain` (
   KEY `domain_active` (`domain`,`active`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table  `xmpp_user`
+--
+
+CREATE TABLE `xmpp_user` (
+  `xmppuser_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `xmpp_domain_id` int(11) unsigned NOT NULL default '0',
+  `login` varchar(255) NOT NULL default '',
+  `jid` varchar(255) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
+  `is_domain_admin` enum('n','y') NOT NULL default 'n',
+  `is_muc_admin` enum('n','y') NOT NULL default 'n',
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
+  PRIMARY KEY  (`xmppuser_id`),
+  KEY `server_id` (`server_id`,`jid`),
+  KEY `jid_active` (`jid`,`active`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 -- --------------------------------------------------------
 -- --------------------------------------------------------

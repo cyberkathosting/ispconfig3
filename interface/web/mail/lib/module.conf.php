@@ -163,8 +163,8 @@ if($app->auth->get_client_limit($userid, 'xmppaccount') != 0)
 {
     $items[] = array( 'title'  => 'XMPP Account',
         'target'  => 'content',
-        'link' => 'mail/xmpp_account_list.php',
-        'html_id' => 'xmpp_account_list');
+        'link' => 'mail/xmpp_user_list.php',
+        'html_id' => 'xmpp_user_list');
 }
 
 if(count($items))
