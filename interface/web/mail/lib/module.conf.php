@@ -148,6 +148,30 @@ if($app->auth->get_client_limit($userid, 'fetchmail') != 0)
 		'items' => $items);
 }
 
+//**** XMPP Menu
+$items = array();
+
+if($app->auth->get_client_limit($userid, 'xmppdomain') != 0)
+{
+    $items[] = array( 'title'  => 'XMPP Domain',
+        'target'  => 'content',
+        'link' => 'mail/xmpp_domain_list.php',
+        'html_id' => 'xmpp_domain_list');
+}
+
+if($app->auth->get_client_limit($userid, 'xmppaccount') != 0)
+{
+    $items[] = array( 'title'  => 'XMPP Account',
+        'target'  => 'content',
+        'link' => 'mail/xmpp_account_list.php',
+        'html_id' => 'xmpp_account_list');
+}
+
+if(count($items))
+    $module['nav'][] = array( 'title' => 'Jabber / XMPP',
+        'open'  => 1,
+        'items' => $items);
+
 
 
 //**** Statistics menu

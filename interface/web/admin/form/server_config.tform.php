@@ -1318,6 +1318,86 @@ $form["tabs"]['fastcgi'] = array(
 );
 
 
+$form["tabs"]['xmpp'] = array(
+    'title' => "XMPP",
+    'width' => 80,
+    'template' => "templates/server_config_xmpp_edit.htm",
+    'fields' => array(
+        //#################################
+        // Begin Datatable fields
+        //#################################
+        'xmpp_use_ipv6' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value' => array(0 => 'n', 1 => 'y')
+        ),
+        'xmpp_bosh_max_inactivity' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '30',
+            'validators' => array(0 => array('type' => 'ISINT',
+                'errmsg' => 'ip_address_error_wrong'),
+                array('type'=>'RANGE', 'range'=>'15:360', 'errmsg' => 'xmpp_bosh_timeout_range_wrong')
+            ),
+            'value' => '',
+            'width' => '15'
+        ),
+
+        'xmpp_server_admins' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => 'admin@service.com, superuser@service.com',
+            'value' => '',
+            'width' => '15'
+        ),
+
+        'xmpp_modules_enabled' => array(
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXT',
+            'default' => "saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons",
+            'value' => '',
+            'separator' => ","
+        ),
+
+        'xmpp_port_http' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5290',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5290',
+            'width' => '15'
+        ),
+        'xmpp_port_https' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5291',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5291',
+            'width' => '15'
+        ),
+        'xmpp_port_pastebin' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5292',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5292',
+            'width' => '15'
+        ),
+        'xmpp_port_bosh' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5280',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5280',
+            'width' => '15'
+        ),
+        //#################################
+        // ENDE Datatable fields
+        //#################################
+    )
+);
+
 $form["tabs"]['jailkit'] = array(
 	'title' => "Jailkit",
 	'width' => 80,

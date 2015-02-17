@@ -1,0 +1,28 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["domain_txt"] = 'Domain';
+$wb["type_txt"] = 'Type';
+$wb["active_txt"] = 'Active';
+$wb["client_txt"] = 'Client';
+$wb["auth_method_txt"] = 'Authentication Method';
+$wb["public_registration_txt"] = 'Enable public registration';
+$wb["registration_url_txt"] = 'Registration URL';
+$wb["registration_message_txt"] = 'Registration Message';
+$wb["domain_admins_txt"] = 'Domain Admins (JIDs)';
+$wb["use_pubsub_txt"] = 'Enable Pubsub';
+$wb["use_proxy_txt"] = 'Enable Bytestream Proxy';
+$wb["use_anon_host_txt"] = 'Enable Anonymous Host';
+$wb["use_vjud_txt"] = 'Enable VJUD User Directory';
+$wb["vjud_opt_mode_txt"] = 'VJUD Opt Mode';
+$wb["use_muc_host_txt"] = 'Enable Multi User Chatrooms';
+$wb["muc_name_txt"] = 'Name in MUC Service Discovery';
+$wb["muc_restrict_room_creation_txt"] = 'Permission to create chatrooms';
+$wb["muc_admins_txt"] = 'MUC Admins (JIDs)';
+$wb["use_pastebin_txt"] = 'Enable Pastebin';
+$wb["pastebin_expire_after_txt"] = 'Pastes expire after (hours)';
+$wb["pastebin_trigger_txt"] = 'Pastebin trigger';
+$wb["use_http_archive_txt"] = 'Enable HTTP chatroom archive';
+$wb["http_archive_show_join_txt"] = 'Show join messages in archive';
+$wb["http_archive_show_status_txt"] = 'Show status changes in archive';
+$wb["use_status_host_txt"] = 'Enable XML Status host';
+?>

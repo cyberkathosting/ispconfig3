@@ -155,6 +155,7 @@ class installer_base {
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
+        if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
 
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
@@ -1308,6 +1309,66 @@ class installer_base {
 	}
 
 
+    public function configure_xmpp() {
+        global $conf;
+
+        if($conf['xmpp']['installed'] == false) return;
+        //* Create the logging directory for xmpp server
+        if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
+        chown('/var/log/metronome', 'metronome');
+        if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
+        chown('/var/run/metronome', 'metronome');
+        if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
+        chown('/var/lib/metronome', 'metronome');
+        if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
+        if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
+        unlink('/etc/metronome/metronome.cfg.lua');
+
+        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+        $server_name = $row["server_name"];
+
+        $tpl = new tpl('metronome_conf_main.master');
+        wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        $tpl = new tpl('metronome_conf_global.master');
+        $tpl->setVar('xmpp_admins','');
+        wf('/etc/metronome/global.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        // Copy isp libs
+        if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
+        caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+
+        // Copy init script
+        caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
+        caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
+
+        exec($this->getinitcommand('xmpp', 'restart'));
+
+
+
+        /*// Dont just copy over the virtualhost template but add some custom settings
+        $tpl = new tpl('apache_apps.vhost.master');
+
+        $tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
+        $tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
+        $tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
+        $tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
+        $tpl->setVar('apache_version',getapacheversion());
+
+
+        // comment out the listen directive if port is 80 or 443
+        if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
+            $tpl->setVar('vhost_port_listen','#');
+        } else {
+            $tpl->setVar('vhost_port_listen','');
+        }
+
+        wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
+        unset($tpl);*/
+    }
+
 
 	public function configure_apache() {
 		global $conf;
@@ -1969,8 +2030,9 @@ class installer_base {
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
+        $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ".intval($conf['server_id']);
 
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			$this->dbmaster->query($sql);

@@ -347,6 +347,13 @@ if($install_mode == 'standard') {
 	}
 	*/
 
+    //* Configure XMPP
+    if($conf['xmpp']['installed'] == true){
+        $conf['services']['xmpp'] = true;
+        swriteln('Configuring Metronome XMPP Server');
+        $inst->configure_xmpp();
+    }
+
 	//* Configure ISPConfig
 	swriteln('Installing ISPConfig');
 
@@ -398,6 +405,7 @@ if($install_mode == 'standard') {
 	//if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 	if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 	if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
+    if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
 
 } else {
 
@@ -408,6 +416,7 @@ if($install_mode == 'standard') {
 	$conf['services']['db'] = true;
 	$conf['services']['firewall'] = false;
 	$conf['services']['proxy'] = false;
+    $conf['services']['xmpp'] = false;
 
 
 	//** Get Server ID
@@ -638,6 +647,16 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Firewall');
 		$inst->configure_firewall();
 	}*/
+
+    //** Configure XMPP
+    if($conf['xmpp']['installed'] == true){
+        if(strtolower($inst->simple_query('Configure Metronome XMPP Server', array('y', 'n'), 'y', 'configure_xmpp')) == 'y'){
+            $conf['services']['xmpp'] = true;
+            swriteln('Configuring Metronome XMPP Server');
+            $inst->configure_xmpp();
+            if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+        }
+    }
 
 	//** Configure ISPConfig :-)
 	$install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';

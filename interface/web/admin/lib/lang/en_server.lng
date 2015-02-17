@@ -12,4 +12,6 @@ $wb["firewall_server_txt"] = 'Firewall-Server';
 $wb["active_txt"] = 'Active';
 $wb["mirror_server_id_txt"] = 'Is mirror of Server';
 $wb["- None -"] = '- None -';
+// New for XMPP
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>

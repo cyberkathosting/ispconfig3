@@ -1,0 +1,87 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_muc_host_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_muc_host'}
+    </div>
+</div>
+
+<div id="toggle-use-muc" class="collapse">
+    <div class="form-group">
+        <label for="muc_name" class="col-sm-3 control-label">{tmpl_var name='muc_name_txt'}</label>
+        <div class="col-sm-9">
+            <input type="text" name="muc_name" id="muc_name" value="{tmpl_var name='muc_name'}" class="form-control" maxlength="30" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="muc_restrict_room_creation" class="col-sm-3 control-label">{tmpl_var name='muc_restrict_room_creation_txt'}</label>
+        <div class="col-sm-3"><select name="muc_restrict_room_creation" id="muc_restrict_room_creation" class="form-control">
+            {tmpl_var name='muc_restrict_room_creation'}
+        </select></div>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{tmpl_var name='muc_admins_txt'}</label>
+            <div class="col-sm-9"><textarea class="form-control" name="muc_admins" id="muc_admins" rows='3' cols='30'>{tmpl_var name='muc_admins'}</textarea></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_pastebin_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_pastebin'}
+        </div>
+    </div>
+    <div id="toggle-use-pastebin" class="collapse">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{tmpl_var name='pastebin_expire_after_txt'}</label>
+            <div class="col-sm-3">
+                <input type="number" name="pastebin_expire_after" id="pastebin_expire_after" value="{tmpl_var name='pastebin_expire_after'}" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{tmpl_var name='pastebin_trigger_txt'}</label>
+            <div class="col-sm-3">
+                <input type="text" name="pastebin_trigger" id="pastebin_trigger" value="{tmpl_var name='pastebin_trigger'}" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_http_archive_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_http_archive'}
+        </div>
+    </div>
+    <div id="toggle-use-archive" class="collapse">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_join_txt'}</label>
+            <div class="col-sm-9">
+                {tmpl_var name='http_archive_show_join'}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_status_txt'}</label>
+            <div class="col-sm-9">
+                {tmpl_var name='http_archive_show_status'}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="type" value="muc" />
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/xmpp_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/xmpp_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
+<script language="JavaScript" type="text/javascript" src="js/xmpp_domain_muc.js"></script>

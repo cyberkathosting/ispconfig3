@@ -1,0 +1,52 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_anon_host_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_anon_host'}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_pubsub_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_pubsub'}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_vjud_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_vjud'}
+    </div>
+</div>
+<div class="form-group">
+    <label for="vjud_opt_mode" class="col-sm-3 control-label">{tmpl_var name='vjud_opt_mode_txt'}</label>
+    <div class="col-sm-3"><select name="vjud_opt_mode" id="vjud_opt_mode" class="form-control">
+        {tmpl_var name='vjud_opt_mode'}
+    </select></div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_proxy_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_proxy'}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='use_status_host_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='use_status_host'}
+    </div>
+</div>
+
+
+
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="type" value="modules" />
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/xmpp_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/xmpp_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

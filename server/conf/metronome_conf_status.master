@@ -1,0 +1,12 @@
+Component "xmpp.{tmpl_var name='domain'}" "http"
+        modules_enabled = {
+                "server_status",
+                "webpresence"
+        };
+        server_status_basepath = "/xmppd/";
+        server_status_show_hosts = {
+{tmpl_var name='status_hosts'}
+        };
+        server_status_show_comps = {
+{tmpl_var name='status_comps'}
+        };
