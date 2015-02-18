@@ -87,14 +87,17 @@ class page_action extends tform_actions {
     			'mail_domain' => array (
         			'index_field' => 'domain_id',
         			'server_type' => 'mail',
+					'server_id' => $server_id,
     			),
     			'mail_mailinglist' => array (
         			'index_field' =>  'mailinglist_id',
         			'server_type' => 'mail',
+					'server_id' => $server_id,
     			),
     			'mail_user' => array (
         			'index_field' =>  'mailuser_id',
         			'server_type' => 'mail',
+					'server_id' => $server_id,
     			),
 			);
 		}
@@ -103,6 +106,7 @@ class page_action extends tform_actions {
 				'mail_access' => array (
 					'index_field' => 'access_id',
         			'server_type' => 'mail',
+					'server_id' => $server_id,
     			),
 				'mail_content_filter' => array (
 					'index_field' => 'content_filter_id',
@@ -119,18 +123,22 @@ class page_action extends tform_actions {
     			'web_domain' => array (
         			'index_field' => 'domain_id',
         			'server_type' => 'web',
+					'server_id' => $server_id,
     			),
     			'shell_user' => array (
         			'index_field' => 'shell_user_id',
         			'server_type' => 'web',
+					'server_id' => $server_id,
     			),
     			'cron' => array (
         			'index_field' => 'id',
         			'server_type' => 'cron',
+					'server_id' => $server_id,
     			),
     			'ftp_user' => array (
         			'index_field' => 'ftp_user_id',
         			'server_type' => 'web',
+					'server_id' => $server_id,
     			),
 			);
 		}
@@ -139,6 +147,7 @@ class page_action extends tform_actions {
 				'dns_soa' => array (
 					'index_field' => 'id',
 					'server_type' => 'dns',
+					'server_id' => $server_id,
 				),
 			);
 		}
@@ -147,6 +156,7 @@ class page_action extends tform_actions {
     			'webdav_user' => array (
         			'index_field' => 'webdav_user_id',
         			'server_type' => 'file',
+					'server_id' => $server_id,
     			),
 			);
 		}
@@ -155,6 +165,7 @@ class page_action extends tform_actions {
 				'web_database' => array (
 					'index_field' => 'web_database_id',
 					'server_type' => 'db',
+					'server_id' => $server_id,
 				),
 			);
 		}
@@ -163,6 +174,7 @@ class page_action extends tform_actions {
 				'openvz_vm' => array (
 					'index_field' => 'vm_id',
 					'server_type' => 'vserver',
+					'server_id' => $server_id,
 				),
 			);
 		}
@@ -170,7 +182,8 @@ class page_action extends tform_actions {
 		//* firewall
 		$array_out = array();
 		foreach($server_data as $db_table => $data) {
-			$records = $app->db->queryAllRecords("SELECT * FROM $db_table WHERE server_id = ?", $server_id);
+			$sql = @(isset($data['server_id']))?"SELECT * FROM $db_table WHERE server_id = $server_id":"SELECT * FROM $db_table";;
+			$records = $app->db->queryAllRecords($sql);
 			if (!empty($records)) array_push($array_out, $db_table);
 		}
 
@@ -359,7 +372,7 @@ class page_action extends tform_actions {
 	}
 			
 	//* fetch values during do_resync
-	private function query_server($db_table, $server_id, $server_type, $active=true) {
+	private function query_server($db_table, $server_id, $server_type, $active=true, $opt='') {
 		global $app;
 
 		$server_name = array();
@@ -376,7 +389,7 @@ class page_action extends tform_actions {
 		unset($temp);
 
 		if ( isset($temp_id) ) $server_id = rtrim($temp_id,',');
-		$sql = "SELECT * FROM $db_table WHERE server_id IN (".$server_id.")"; 
+		$sql = "SELECT * FROM $db_table WHERE server_id IN (".$server_id.") ".$opt; 
 		if ($active) $sql .= " AND active = 'y'"; 
 		$records = $app->db->queryAllRecords($sql);
 
@@ -491,7 +504,7 @@ class page_action extends tform_actions {
 			$msg .= '<b>'.$app->tform->wordbook['do_dns_txt'].'</b><br>';
 			if(is_array($soa_records) && !empty($soa_records)) 
 				foreach($soa_records as $soa_rec) {
-					$temp = $this->query_server('dns_rr', $soa_rec['server_id'], $server_type);
+					$temp = $this->query_server('dns_rr', $soa_rec['server_id'], 'dns', true, "AND zone = ".$app->functions->intval($soa_rec['id']));
 					$rr_records = $temp[0];
 					if(!empty($rr_records)) {
 						foreach($rr_records as $rec) {
@@ -503,7 +516,7 @@ class page_action extends tform_actions {
 					}
 					$new_serial = $app->validate_dns->increase_serial($soa_rec['serial']);
 					$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $soa_rec['id']);
-					$msg .= '['.$server_name[$soa_rec['server_id']].'] '.$soa_rec['origin'].'<br>';
+					$msg .= '['.$server_name[$soa_rec['server_id']].'] '.$soa_rec['origin'].' ('.count($rr_records).')<br>';
 				}
 			else $msg .= $app->tform->wordbook['no_results_txt'].'<br>'; 
 
