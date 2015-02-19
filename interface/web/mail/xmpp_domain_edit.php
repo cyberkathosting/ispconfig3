@@ -272,7 +272,7 @@ class page_action extends tform_actions {
                     $this->dataRecord["management_method"] = 'maildomain';
                     // Check for corresponding mail domain
                     $tmp = $app->db->queryOneRecord("SELECT count(domain_id) AS number FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."' AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
-                    if($tmp['count']==0){
+                    if($tmp['number']==0){
                         $app->error($app->tform->wordbook["no_corresponding_maildomain_txt"]);
                         break;
                     }
