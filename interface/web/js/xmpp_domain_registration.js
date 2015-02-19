@@ -1,4 +1,6 @@
 $('document').ready(function(){
+    // Not needed as long as maildomain hook is not implemented
+    return;
     $('#management_method').on('select2-selecting', function(e){
         val = e.choice ? e.choice.id : e.target.selectedIndex;
         if(val == 0){

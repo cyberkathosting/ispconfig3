@@ -264,6 +264,8 @@ class page_action extends tform_actions {
 
         // Read management method
         if(isset($this->dataRecord["management_method"]))
+            // Set management method to 0 as long as the mailaccount hook is not implemented
+            $this->dataRecord["management_method"] = 0;
             switch($this->dataRecord["management_method"]){
                 case 0:
                     $this->dataRecord["management_method"] = 'normal';

@@ -73,13 +73,16 @@
 
 
 
-
+<!--
+management by maildomain is currently not supported
 <div class="form-group">
     <label for="management_method" class="col-sm-3 control-label">{tmpl_var name='management_method_txt'}</label>
     <div class="col-sm-9"><select name="management_method" id="management_method" class="form-control">
         {tmpl_var name='management_method'}
     </select></div>
 </div>
+-->
+<input type="hidden" name="management_method" id="management_method" value="0" />
 
 <div id="toggle-management-normal" class="collapse">
     <!--
@@ -92,7 +95,7 @@
     </div-->
 </div>
         <input type="hidden" name="public_registration" id="public_registration" value="n" />
-<div id="toggle-registration-closed" class="collapse">
+<div id="toggle-registration-closed" class="collapse in">
     <div class="form-group">
         <label for="registration_url" class="col-sm-3 control-label">{tmpl_var name='registration_url_txt'}</label>
         <div class="col-sm-9">
