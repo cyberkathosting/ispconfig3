@@ -263,16 +263,19 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 
         // Read auth method
-        if(isset($this->dataRecord["auth_method"]))
-            switch($this->dataRecord["auth_method"]){
+        if(isset($this->dataRecord["management_method"]))
+            switch($this->dataRecord["management_method"]){
                 case 0:
-                    $this->dataRecord["auth_method"] = 'plain';
+                    $this->dataRecord["management_method"] = 'normal';
                     break;
                 case 1:
-                    $this->dataRecord["auth_method"] = 'hashed';
-                    break;
-                case 2:
-                    $this->dataRecord["auth_method"] = 'isp';
+                    $this->dataRecord["management_method"] = 'maildomain';
+                    // Check for corresponding mail domain
+                    $tmp = $app->db->queryOneRecord("SELECT count(domain_id) AS number FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."' AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
+                    if($tmp['count']==0){
+                        $app->error($app->tform->wordbook["no_corresponding_maildomain_txt"]);
+                        break;
+                    }
                     break;
             }
         // vjud opt mode
@@ -311,6 +314,10 @@ class page_action extends tform_actions {
 
         //* make sure that the xmpp domain is lowercase
         if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+
+        // create new accounts from mail domain
+        if($this->dataRecord['management_method']=='maildomain')
+            $this->syncMailusers($this->dataRecord['domain']);
 
         // Insert DNS Records
         $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
@@ -354,10 +361,16 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+        // create new accounts from mail domain
+        if($this->oldDataRecord['management_method'] != 'maildomain' && $this->dataRecord['management_method']=='maildomain')
+            $this->syncMailusers($this->dataRecord['domain']);
+        // or reset to normal permissions
+        elseif($this->oldDataRecord['management_method'] == 'maildomain' && $this->dataRecord['management_method']!='maildomain')
+            $this->desyncMailusers($this->dataRecord['domain']);
         // Update DNS Records
         // TODO: Update gets only triggered from main form. WHY?
         // TODO: if(in_array($this->_xmpp_type, array('muc', 'modules'))){
-            $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
+            $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM dns_soa WHERE active = 'Y' AND  = ?", $this->dataRecord['domain'].'.');
             if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
         //}
 	}
@@ -427,6 +440,66 @@ class page_action extends tform_actions {
         $app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
     }
 
+
+    private function syncMailusers($domain){
+        global $app, $conf;
+        // get all mailusers
+        $db_mailusers = $app->db->queryAllRecords("SELECT email, password, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM mail_user WHERE email like ?", '@'.$this->dataRecord['domain'].'.');
+        // get existing xmpp users
+        $db_xmppusers = $app->db->queryAllRecords("SELECT jid, password, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM xmpp_user WHERE jid like ?", '@'.$this->dataRecord['domain'].'.');
+
+        // Migrate user accounts
+        $users_delete = array();
+        $users_update = array();
+        $users_create = array();
+        foreach($db_xmppusers AS $ix=>$x){
+            $matched = false;
+            foreach($db_mailusers AS $im=>$m){
+                if($x['jid']==$m['email']){
+                    // User matched, mark for update
+                    $x['password'] = $m['password'];
+                    $users_update[] = $x;
+                    unset($db_xmppusers[$ix]);
+                    unset($db_mailusers[$im]);
+                    $matched = true;
+                    break;
+                }
+            }
+            // XMPP user not matched, mark for deletion
+            if(!$matched){
+                $users_delete[] = $x;
+                unset($db_xmppusers[$ix]);
+            }
+        }
+        // Mark remaining mail users for creation
+        $users_create = $db_xmppusers;
+        foreach($users_create AS $u){
+            $u['server_id'] = $this->dataRecord['server_id'];
+            $u['sys_perm_user'] = 'r';
+            $u['sys_perm_group'] = 'r';
+            $app->db->datalogInsert('xmpp_user', $u, 'xmppuser_id');
+        }
+        foreach($users_update AS $u){
+            $u['sys_perm_user'] = 'r';
+            $u['sys_perm_group'] = 'r';
+            $app->db->datalogUpdate('xmpp_user', $u, 'xmppuser_id', $u['xmppuser_id']);
+        }
+        foreach($users_delete AS $u){
+            $app->db->datalogDelete('xmpp_user', 'xmppuser_id', $u['xmppuser_id']);
+        }
+
+    }
+
+    private function desyncMailusers($domain){
+        global $app, $conf;
+        // get existing xmpp users
+        $db_xmppusers = $app->db->queryAllRecords("SELECT jid, password, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM xmpp_user WHERE jid like ?", '@'.$this->dataRecord['domain'].'.');
+        foreach($db_xmppusers AS $u){
+            $u['sys_perm_user'] = 'riud';
+            $u['sys_perm_group'] = 'riud';
+            $app->db->datalogUpdate('xmpp_user', $u, 'xmppuser_id', $u['xmppuser_id']);
+        }
+    }
 
 }
 

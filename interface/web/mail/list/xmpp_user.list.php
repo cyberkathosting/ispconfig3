@@ -59,23 +59,4 @@ $liste["item"][] = array(   'field'     => "JID",
 	'width'     => "",
 	'value'     => "");
 
-$liste["item"][] = array( 'field'  => "is_domain_admin",
-	'datatype' => "VARCHAR",
-	'formtype' => "SELECT",
-	'op'  => "=",
-	'prefix' => "",
-	'suffix' => "",
-	'width'  => "",
-	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
-
-$liste["item"][] = array( 'field'  => "is_muc_admin",
-	'datatype' => "VARCHAR",
-	'formtype' => "SELECT",
-	'op'  => "=",
-	'prefix' => "",
-	'suffix' => "",
-	'width'  => "",
-	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
-
-
 ?>

@@ -1339,6 +1339,16 @@ class installer_base {
         // Copy isp libs
         if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
         caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+        // Process db config
+        $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
+        $content = rf($full_file_name);
+        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $conf['server_id'], $content);
+        wf($full_file_name, $content);
+
 
         // Copy init script
         caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);

@@ -67,6 +67,9 @@ class xmpp_plugin {
         $app->plugins->registerEvent('xmpp_domain_insert', 'xmpp_plugin', 'domainInsert');
         $app->plugins->registerEvent('xmpp_domain_update', 'xmpp_plugin', 'domainUpdate');
         $app->plugins->registerEvent('xmpp_domain_delete', 'xmpp_plugin', 'domainDelete');
+        $app->plugins->registerEvent('xmpp_user_insert', 'xmpp_plugin', 'userInsert');
+        $app->plugins->registerEvent('xmpp_user_update', 'xmpp_plugin', 'userUpdate');
+        $app->plugins->registerEvent('xmpp_user_delete', 'xmpp_plugin', 'userDelete');
 
     }
 
@@ -135,7 +138,6 @@ class xmpp_plugin {
         $tpl->newTemplate('metronome_conf_host.master');
         $tpl->setVar('domain', $data['new']['domain']);
         $tpl->setVar('active', $data['new']['active'] == 'y' ? 'true' : 'false');
-        $tpl->setVar('auth_method', $data['new']['auth_method'] == 'isp' ? 'external' : 'internal_'.$data['new']['auth_method']);
         $tpl->setVar('public_registration', $data['new']['public_registration'] == 'y' ? 'true' : 'false');
 
         $admins = array();
@@ -225,6 +227,27 @@ class xmpp_plugin {
         exec('rm -rf /var/lib/metronome/*%2e'.$folder);
 
         $app->services->restartServiceDelayed('metronome', 'restart');
+    }
+
+    function userInsert($event_name, $data){
+        //$data['new']['auth_method']
+        // Check domain for auth settings
+        // Don't allow manual user creation for mailaccount controlled domains
+
+        // maybe metronomectl adduser for new local users
+    }
+    function userUpdate($event_name, $data){
+        // Check domain for auth settings
+        // Don't allow manual user update for mailaccount controlled domains
+
+        // maybe metronomectl passwd for existing local users
+    }
+    function userDelete($event_name, $data){
+        // Check domain for auth settings
+        // Don't allow manual user deletion for mailaccount controlled domains
+
+        // Remove account from metronome
+        exec('metronomectl deluser '.$data['old']['jid']);
     }
 
 } // end class

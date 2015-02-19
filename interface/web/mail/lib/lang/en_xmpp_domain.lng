@@ -4,7 +4,7 @@ $wb["domain_txt"] = 'Domain';
 $wb["type_txt"] = 'Type';
 $wb["active_txt"] = 'Active';
 $wb["client_txt"] = 'Client';
-$wb["auth_method_txt"] = 'Authentication Method';
+$wb["management_method_txt"] = 'Management of user accounts';
 $wb["public_registration_txt"] = 'Enable public registration';
 $wb["registration_url_txt"] = 'Registration URL';
 $wb["registration_message_txt"] = 'Registration Message';
@@ -25,4 +25,5 @@ $wb["use_http_archive_txt"] = 'Enable HTTP chatroom archive';
 $wb["http_archive_show_join_txt"] = 'Show join messages in archive';
 $wb["http_archive_show_status_txt"] = 'Show status changes in archive';
 $wb["use_status_host_txt"] = 'Enable XML Status host';
+$wb["no_corresponding_maildomain_txt"] = 'Corresponding mail domain for user management not found. Please create the mail domain first.';
 ?>

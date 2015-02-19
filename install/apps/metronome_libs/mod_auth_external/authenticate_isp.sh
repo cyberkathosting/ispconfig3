@@ -12,7 +12,7 @@ while read ACTION USER HOST PASS ; do
 
     case $ACTION in
         "auth")
-            if [ `/usr/bin/php /usr/lib/metronome/spicy-modules/mod_auth_external/authenticate_isp.php $USER $HOST $PASS` == 1 ] ; then
+            if [ `/usr/bin/php /usr/lib/metronome/isp-modules/mod_auth_external/db_auth.php $USER $HOST $PASS 2>/dev/null` == 1 ] ; then
                 echo $AUTH_OK
                 [ $USELOG == true ] && { echo "AUTH OK" >> $LOGFILE; }
             else
@@ -21,17 +21,17 @@ while read ACTION USER HOST PASS ; do
             fi
         ;;
         "isuser")
-             if [ `/usr/bin/php /usr/lib/metronome/spicy-modules/mod_auth_external/isuser_isp.php $USER $HOST` == 1 ] ; then
+             if [ `/usr/bin/php /usr/lib/metronome/isp-modules/mod_auth_external/db_isuser.php $USER $HOST 2>/dev/null` == 1 ] ; then
                 echo $AUTH_OK
-                [ $USELOG == true ] && { echo "AUTH OK" >> $LOGFILE; }
+                [ $USELOG == true ] && { echo "ISUSER OK" >> $LOGFILE; }
             else
                 echo $AUTH_FAILED
-                [ $USELOG == true ] && { echo "AUTH FAILED" >> $LOGFILE; }
+                [ $USELOG == true ] && { echo "ISUSER FAILED" >> $LOGFILE; }
             fi
         ;;
         *)
             echo $AUTH_FAILED
-            [ $USELOG == true ] && { echo "NO ACTION GIVEN" >> $LOGFILE; }
+            [ $USELOG == true ] && { echo "UNKNOWN ACTION GIVEN: $ACTION" >> $LOGFILE; }
         ;;
     esac
 

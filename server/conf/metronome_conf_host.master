@@ -1,11 +1,8 @@
 VirtualHost "{tmpl_var name='domain'}"
-        enabled = {tmpl_var name='active'};
-        authentication = "{tmpl_var name='auth_method'}";
-    <tmpl_if name='auth_method' op='==' value='external'>
-        external_auth_command = "/usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh";
-    <tmpl_else>
-        allow_registration = {tmpl_var name='public_registration'};
-    </tmpl_if>
+    enabled = {tmpl_var name='active'};
+    authentication = "external";
+    external_auth_command = "/usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh";
+    allow_registration = {tmpl_var name='public_registration'};
     <tmpl_if name='registration_url' op='!=' value=''>
         registration_url = "{tmpl_var name='registration_url'}";
         registration_text = "{tmpl_var name='registration_message'}";

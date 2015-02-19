@@ -98,11 +98,11 @@ $form["tabs"]['domain'] = array (
 			'maxlength' => '255',
 			'searchable' => 1
 		),
-		'auth_method' => array (
+		'management_method' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'SELECT',
-			'default'       => '1',
-			'value'         => array(0 => 'Plain', 1 => 'Hashed', 2 => 'By Email Mailbox')
+			'default'       => '0',
+			'value'         => array(0 => 'Normal', 1 => 'By Mail Domain')
 		),
         'public_registration' => array (
             'datatype' => 'VARCHAR',
