@@ -113,6 +113,7 @@ class xmpp_plugin {
         $app->system->file_put_contents($this->xmpp_config_dir.'/global.cfg.lua', $tpl->grab());
         unset($tpl);
 
+        $app->services->restartServiceDelayed('metronome', 'restart');
         return;
     }
 
@@ -205,6 +206,8 @@ class xmpp_plugin {
             $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
             unset($tpl);
         }
+
+        $app->services->restartServiceDelayed('metronome', 'restart');
     }
 
     function domainDelete($event_name, $data){
