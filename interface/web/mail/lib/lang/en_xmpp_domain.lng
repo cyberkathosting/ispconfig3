@@ -25,5 +25,6 @@ $wb["use_http_archive_txt"] = 'Enable HTTP chatroom archive';
 $wb["http_archive_show_join_txt"] = 'Show join messages in archive';
 $wb["http_archive_show_status_txt"] = 'Show status changes in archive';
 $wb["use_status_host_txt"] = 'Enable XML Status host';
+$wb["cant_change_domainname_txt"] = 'The Domain name of existing XMPP domain cannot be changed.';
 $wb["no_corresponding_maildomain_txt"] = 'Corresponding mail domain for user management not found. Please create the mail domain first.';
 ?>

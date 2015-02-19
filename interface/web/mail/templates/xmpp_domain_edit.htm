@@ -67,7 +67,7 @@
                         {tmpl_var name='domain_option'}
                     </select></div>
                     <tmpl_else>
-                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
+                        <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" <tmpl_if name="edit_disabled">readonly="readonly"</tmpl_if>/></div></tmpl_if>
             </div>
 
 
@@ -81,7 +81,7 @@
     </select></div>
 </div>
 
-<div id="toggle-auth-internal" class="collapse">
+<div id="toggle-management-normal" class="collapse">
     <div class="form-group">
         <label class="col-sm-3 control-label">{tmpl_var name='public_registration_txt'}</label>
         <div class="col-sm-9">

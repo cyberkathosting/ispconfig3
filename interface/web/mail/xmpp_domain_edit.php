@@ -262,7 +262,7 @@ class page_action extends tform_actions {
 		//* make sure that the xmpp domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 
-        // Read auth method
+        // Read management method
         if(isset($this->dataRecord["management_method"]))
             switch($this->dataRecord["management_method"]){
                 case 0:
@@ -328,6 +328,11 @@ class page_action extends tform_actions {
         global $app, $conf;
 
         if($this->_xmpp_type == 'server') {
+            // Check if the domain has been changed
+            $rec = $app->db->queryOneRecord("SELECT domain from xmpp_domain WHERE domain_id = ".$this->id);
+            if($this->dataRecord['domain']!=$rec['domain'])
+                $app->error($app->tform->wordbook["cant_change_domainname_txt"]);
+
             //* Check if the server has been changed
             // We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
             if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {

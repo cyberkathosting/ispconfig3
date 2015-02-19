@@ -1,15 +1,17 @@
 $('document').ready(function(){
-    $('#auth_method').on('select2-selecting', function(e){
+    $('#management_method').on('select2-selecting', function(e){
         val = e.choice ? e.choice.id : e.target.selectedIndex;
-        if(val == 2){
-            //Mailbox
-            $('#toggle-auth-internal').removeClass('in');
-            $('#toggle-registration-closed').removeClass('in');
-        }else if(val != undefined){
-            $('#toggle-auth-internal').addClass('in');
+        if(val == 0){
+            //normal
+            $('#toggle-management-normal').addClass('in');
+            $('#toggle-registration-closed').addClass('in');
             $('#public_registration').trigger('change');
+        }else if(val != undefined){
+            //maildomain
+            $('#toggle-management-normal').removeClass('in');
+            $('#toggle-registration-closed').removeClass('in');
         }else{
-            $('#toggle-auth-internal').removeClass('in');
+            $('#toggle-management-normal').removeClass('in');
             $('#toggle-registration-closed').removeClass('in');
         }
     });
@@ -21,5 +23,5 @@ $('document').ready(function(){
         }
     });
     $('#public_registration').trigger('change');
-    $('#auth_method').trigger('select2-selecting');
+    $('#management_method').trigger('select2-selecting');
 })
