@@ -295,6 +295,9 @@ class page_action extends tform_actions {
             }
         }
 
+        // Reset public registration to 'n', is not yet supported
+        $this->dataRecord["public_registration"] = 'n';
+
 		parent::onSubmit();
 	}
 

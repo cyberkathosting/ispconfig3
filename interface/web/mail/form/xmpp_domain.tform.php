@@ -125,13 +125,13 @@ $form["tabs"]['domain'] = array (
         'registration_message' => array(
             'datatype' => 'TEXT',
             'formtype' => 'TEXT',
-            'default' => "Please visit our website for information on registration.",
+            'default' => "",
             'value' => ''
         ),
         'domain_admins' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'TEXT',
-            'default' => 'admin@service.com, superuser@service.com',
+            'default' => '',
             'value' => '',
             'width' => '15',
             'maxlength' => '3'
