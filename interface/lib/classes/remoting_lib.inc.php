@@ -186,12 +186,11 @@ class remoting_lib extends tform_base {
 	 /**
 	 * Rewrite the record data to be stored in the database
 	 * and check values with regular expressions.
-	 * dummy parameter is only there for compatibility with params of base class
 	 *
 	 * @param record = Datensatz als Array
 	 * @return record
 	 */
-	function encode($record, $dbencode = true, $dummy = '') {
+	function encode($record, $tab = '', $dbencode = true) {
 		$new_record = $this->_encode($record, '', $dbencode, true);
 		if(isset($record['_ispconfig_pw_crypted'])) $new_record['_ispconfig_pw_crypted'] = $record['_ispconfig_pw_crypted']; // this one is not in form definitions!
 
