@@ -466,7 +466,7 @@ class page_action extends tform_actions {
 
 		//* database
 		if(isset($this->dataRecord['resync_db']) && $this->dataRecord['resync_db'] == 1) {
-			$msg .= $this->do_resync('web_database_user', 'database_user_id', 'db', $this->dataRecord['db_server_id'], 'database_user',  $app->tform->wordbook['do_db_user_txt']);
+			$msg .= $this->do_resync('web_database_user', 'database_user_id', 'db', $this->dataRecord['db_server_id'], 'database_user',  $app->tform->wordbook['do_db_user_txt'], false);
 			$msg .= $this->do_resync('web_database', 'database_id', 'db', $this->dataRecord['db_server_id'], 'database_name',  $app->tform->wordbook['do_db_txt']);
 		}
 
