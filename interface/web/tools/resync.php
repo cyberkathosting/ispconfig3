@@ -389,7 +389,9 @@ class page_action extends tform_actions {
 		unset($temp);
 
 		if ( isset($temp_id) ) $server_id = rtrim($temp_id,',');
-		$sql = "SELECT * FROM $db_table WHERE server_id IN (".$server_id.") ".$opt; 
+		$sql = "SELECT * FROM $db_table";
+		if ($db_table != "mail_user_filter") $sql .= " WHERE server_id IN (".$server_id.") ";
+		$sql .= $opt;
 		if ($active) $sql .= " AND active = 'y'"; 
 		$records = $app->db->queryAllRecords($sql);
 
@@ -407,7 +409,7 @@ class page_action extends tform_actions {
 		if(!empty($records)) 
 			foreach($records as $rec) {
 				$app->db->datalogUpdate($db_table, $rec, $index_field, $rec[$index_field], true);
-				$msg .= '['.$server_name[$rec['server_id']].'] '.$rec[$msg_field].'<br>';
+				if(!empty($rec[$msg_field])) $msg .= '['.$server_name[$rec['server_id']].'] '.$rec[$msg_field].'<br>';
 			}
 		else $msg .= $app->tform->wordbook['no_results_txt'].'<br>';
 
@@ -466,7 +468,7 @@ class page_action extends tform_actions {
 
 		//* database
 		if(isset($this->dataRecord['resync_db']) && $this->dataRecord['resync_db'] == 1) {
-			$msg .= $this->do_resync('web_database_user', 'database_user_id', 'db', $this->dataRecord['db_server_id'], 'database_user',  $app->tform->wordbook['do_db_user_txt']);
+			$msg .= $this->do_resync('web_database_user', 'database_user_id', 'db', $this->dataRecord['db_server_id'], 'database_user',  $app->tform->wordbook['do_db_user_txt'], false);
 			$msg .= $this->do_resync('web_database', 'database_id', 'db', $this->dataRecord['db_server_id'], 'database_name',  $app->tform->wordbook['do_db_txt']);
 		}
 
