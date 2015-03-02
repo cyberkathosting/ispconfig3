@@ -76,7 +76,7 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "web_domain.type = '" . $query_type . "'" . ($show_type != 'domain' ? " AND web_domain.parent_domain_id = '0'" : "");
+$list->SQLExtWhere = "web_domain.type = '" . $query_type . "'" . ($show_type == 'domain' ? " AND web_domain.parent_domain_id = '0'" : "");
 $list->SQLOrderBy = 'ORDER BY web_domain.domain';
 $list->onLoad();
 
