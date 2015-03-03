@@ -1309,7 +1309,7 @@ class installer_base {
 	}
 
 
-    public function configure_xmpp() {
+    public function configure_xmpp($options = '') {
         global $conf;
 
         if($conf['xmpp']['installed'] == false) return;
@@ -1349,30 +1349,37 @@ class installer_base {
         $content = str_replace('{server_id}', $conf['server_id'], $content);
         wf($full_file_name, $content);
 
-        // Create SSL Certificate for localhost
-        echo "writing new private key to 'localhost.key'\n-----\n";
-        $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
-        $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
-        $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
-        $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
-        $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
-        $ssl_email = $this->free_query('Email Address', '');
+        if(!stristr($options, 'dont-create-certs')){
+            // Create SSL Certificate for localhost
+            echo "writing new private key to 'localhost.key'\n-----\n";
+            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
+            $ssl_email = $this->free_query('Email Address', '');
 
-        $tpl = new tpl('metronome_conf_ssl.master');
-        $tpl->setVar('ssl_country',$ssl_country);
-        $tpl->setVar('ssl_locality',$ssl_locality);
-        $tpl->setVar('ssl_organisation',$ssl_organisation);
-        $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
-        $tpl->setVar('domain',$ssl_domain);
-        $tpl->setVar('ssl_email',$ssl_email);
-        wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
-        unset($tpl);
-        // Generate new key, csr and cert
-        exec("(cd /etc/metronome/certs && make localhost.key)");
-        exec("(cd /etc/metronome/certs && make localhost.csr)");
-        exec("(cd /etc/metronome/certs && make localhost.cert)");
-        exec('chmod 0400 /etc/metronome/certs/localhost.key');
-        exec('chown metronome /etc/metronome/certs/localhost.key');
+            $tpl = new tpl('metronome_conf_ssl.master');
+            $tpl->setVar('ssl_country',$ssl_country);
+            $tpl->setVar('ssl_locality',$ssl_locality);
+            $tpl->setVar('ssl_organisation',$ssl_organisation);
+            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
+            $tpl->setVar('domain',$ssl_domain);
+            $tpl->setVar('ssl_email',$ssl_email);
+            wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
+            unset($tpl);
+            // Generate new key, csr and cert
+            exec("(cd /etc/metronome/certs && make localhost.key)");
+            exec("(cd /etc/metronome/certs && make localhost.csr)");
+            exec("(cd /etc/metronome/certs && make localhost.cert)");
+            exec('chmod 0400 /etc/metronome/certs/localhost.key');
+            exec('chown metronome /etc/metronome/certs/localhost.key');
+        }else{
+            echo "-----\n";
+            echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
+            echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
+            echo "-----\n";
+        }
 
         // Copy init script
         caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);

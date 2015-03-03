@@ -392,6 +392,11 @@ if($reconfigure_services_answer == 'yes') {
 		$inst->configure_apps_vhost();
 	}
 
+    if($conf['services']['xmpp']) {
+        //** Configure Metronome XMPP
+        $inst->configure_xmpp('dont-create-certs');
+    }
+
 
 	//* Configure DBServer
 	swriteln('Configuring Database');
@@ -493,6 +498,10 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '') system($inst->getinitcommand($conf['powerdns']['init_script'], 'restart').' &> /dev/null');
 		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
 	}
+
+    if($conf['services']['xmpp']) {
+        if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+    }
 
 	if($conf['services']['proxy']) {
 		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
