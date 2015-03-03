@@ -33,6 +33,16 @@ stop()
     $METRONOME stop >> /dev/null
 }
 
+reload()
+{
+    &METRONOME reload >> /dev/null
+}
+
+restart()
+{
+    &METRONOME restart >> /dev/null
+}
+
 case "$1" in
     start)
         echo -n "Starting Metronome..."
@@ -42,13 +52,16 @@ case "$1" in
         echo -n "Stopping Metronome..."
         stop &
     ;;
+    reload)
+        echo -n "Reloading Metronome config..."
+        reload &
+    ;;
     restart)
         echo -n "Restarting Metronome..."
-        stop &
-        start &
+        restart &
     ;;
     *)
-        echo "Usage: $0 {start|stop|restart}" >&2
+        echo "Usage: $0 {start|stop|reload|restart}" >&2
         exit 1
     ;;
 esac

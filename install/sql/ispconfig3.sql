@@ -2002,6 +2002,18 @@ CREATE TABLE `xmpp_domain` (
   `http_archive_show_status` enum('n', 'y') NOT NULL DEFAULT 'n',
   `use_status_host` enum('n','y') NOT NULL DEFAULT 'n',
 
+  `ssl_state` varchar(255) NULL,
+  `ssl_locality` varchar(255) NULL,
+  `ssl_organisation` varchar(255) NULL,
+  `ssl_organisation_unit` varchar(255) NULL,
+  `ssl_country` varchar(255) NULL,
+  `ssl_email` varchar(255) NULL,
+  `ssl_request` mediumtext NULL,
+  `ssl_cert` mediumtext NULL,
+  `ssl_bundle` mediumtext NULL,
+  `ssl_key` mediumtext NULL,
+  `ssl_action` varchar(16) NULL,
+
   `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),

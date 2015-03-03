@@ -280,5 +280,128 @@ $form["tabs"]['muc'] = array (
     )
 );
 
+$form["tabs"]['ssl'] = array (
+    'title'  => "SSL",
+    'width'  => 100,
+    'template'  => "templates/xmpp_domain_edit_ssl.htm",
+    'readonly' => false,
+    'fields'  => array (
+        //#################################
+        // Begin Datatable fields
+        //#################################
+        'ssl_state' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'validators' => array (  0 => array ( 'type' => 'REGEX',
+                'regex' => '/^(([\.]{0})|([-a-zA-Z0-9._,&äöüÄÖÜ ]{1,255}))$/',
+                'errmsg'=> 'ssl_state_error_regex'),
+            ),
+            'default' => '',
+            'value'  => '',
+            'width'  => '30',
+            'maxlength' => '255'
+        ),
+        'ssl_locality' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'validators' => array (  0 => array ( 'type' => 'REGEX',
+                'regex' => '/^(([\.]{0})|([-a-zA-Z0-9._,&äöüÄÖÜ ]{1,255}))$/',
+                'errmsg'=> 'ssl_locality_error_regex'),
+            ),
+            'default' => '',
+            'value'  => '',
+            'width'  => '30',
+            'maxlength' => '255'
+        ),
+        'ssl_organisation' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'validators' => array (  0 => array ( 'type' => 'REGEX',
+                'regex' => '/^(([\.]{0})|([-a-zA-Z0-9._,&äöüÄÖÜ ]{1,255}))$/',
+                'errmsg'=> 'ssl_organisation_error_regex'),
+            ),
+            'default' => '',
+            'value'  => '',
+            'width'  => '30',
+            'maxlength' => '255'
+        ),
+        'ssl_organisation_unit' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'validators' => array (  0 => array ( 'type' => 'REGEX',
+                'regex' => '/^(([\.]{0})|([-a-zA-Z0-9._,&äöüÄÖÜ ]{1,255}))$/',
+                'errmsg'=> 'ssl_organistaion_unit_error_regex'),
+            ),
+            'default' => '',
+            'value'  => '',
+            'width'  => '30',
+            'maxlength' => '255'
+        ),
+        'ssl_country' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'SELECT',
+            'default' => '',
+            'datasource' => array (  'type' => 'SQL',
+                'querystring' => 'SELECT iso,printable_name FROM country ORDER BY printable_name',
+                'keyfield'=> 'iso',
+                'valuefield'=> 'printable_name'
+            ),
+            'value'  => ''
+        ),
+        'ssl_email' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '',
+            'value'  => '',
+            'width'  => '30',
+            'maxlength' => '255',
+            'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+                'errmsg'=> 'ssl_error_isemail')
+            ),
+        ),
+        'ssl_key' => array (
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXTAREA',
+            'default' => '',
+            'value'  => '',
+            'cols'  => '30',
+            'rows'  => '10'
+        ),
+        'ssl_request' => array (
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXTAREA',
+            'default' => '',
+            'value'  => '',
+            'cols'  => '30',
+            'rows'  => '10'
+        ),
+        'ssl_cert' => array (
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXTAREA',
+            'default' => '',
+            'value'  => '',
+            'cols'  => '30',
+            'rows'  => '10'
+        ),
+        'ssl_bundle' => array (
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXTAREA',
+            'default' => '',
+            'value'  => '',
+            'cols'  => '30',
+            'rows'  => '10'
+        ),
+        'ssl_action' => array (
+            'datatype' => 'VARCHAR',
+            'formtype' => 'SELECT',
+            'default' => '',
+            'value'  => array('' => 'none_txt', 'save' => 'save_certificate_txt', 'create' => 'create_certificate_txt', 'del' => 'delete_certificate_txt')
+        ),
+        //#################################
+        // ENDE Datatable fields
+        //#################################
+    )
+);
+
 
 ?>

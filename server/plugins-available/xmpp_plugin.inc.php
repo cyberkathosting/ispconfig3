@@ -38,6 +38,10 @@ class xmpp_plugin {
 
     var $xmpp_config_dir = '/etc/metronome';
 
+    var $ssl_certificate_changed = false;
+    var $ssl_certificate_deleted = false;
+
+
     //* This function is called during ispconfig installation to determine
     //  if a symlink shall be created for this plugin.
     function onInstall() {
@@ -64,6 +68,11 @@ class xmpp_plugin {
 
         $app->plugins->registerEvent('server_insert', 'xmpp_plugin', 'insert');
         $app->plugins->registerEvent('server_update', 'xmpp_plugin', 'update');
+
+        $app->plugins->registerEvent('xmpp_domain_insert', 'xmpp_plugin', 'ssl');
+        $app->plugins->registerEvent('xmpp_domain_update', 'xmpp_plugin', 'ssl');
+        $app->plugins->registerEvent('xmpp_domain_delete', 'xmpp_plugin', 'ssl');
+
         $app->plugins->registerEvent('xmpp_domain_insert', 'xmpp_plugin', 'domainInsert');
         $app->plugins->registerEvent('xmpp_domain_update', 'xmpp_plugin', 'domainUpdate');
         $app->plugins->registerEvent('xmpp_domain_delete', 'xmpp_plugin', 'domainDelete');
@@ -193,6 +202,10 @@ class xmpp_plugin {
 
         }
 
+        // Check for SSL
+        if(strlen($data['new']['ssl_cert']) && strlen($data['new']['ssl_key']) && !$this->ssl_certificate_deleted || $this->ssl_certificate_changed)
+            $tpl->setVar('ssl_cert', true);
+
         $app->system->file_put_contents($this->xmpp_config_dir.'/hosts/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
         unset($tpl);
 
@@ -207,7 +220,7 @@ class xmpp_plugin {
             unset($tpl);
         }
 
-        $app->services->restartServiceDelayed('metronome', 'restart');
+        $app->services->restartServiceDelayed('metronome', 'reload');
     }
 
     function domainDelete($event_name, $data){
@@ -251,6 +264,131 @@ class xmpp_plugin {
 
         // Remove account from metronome
         exec('metronomectl deluser '.$data['old']['jid']);
+    }
+
+    // Handle the creation of SSL certificates
+    function ssl($event_name, $data) {
+        global $app, $conf;
+
+        $app->uses('system,tpl');
+
+        // load the server configuration options
+        $app->uses('getconf');
+        $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+
+        $ssl_dir = '/etc/metronome/certs';
+        $domain = $data['new']['domain'];
+        $cnf_file = $ssl_dir.'/'.$domain.'.cnf';
+        $key_file = $ssl_dir.'/'.$domain.'.key';
+        $csr_file = $ssl_dir.'/'.$domain.'.csr';
+        $crt_file = $ssl_dir.'/'.$domain.'.cert';
+
+        //* Create a SSL Certificate, but only if this is not a mirror server.
+        if($data['new']['ssl_action'] == 'create' && $conf['mirror_server_id'] == 0) {
+
+            $this->ssl_certificate_changed = true;
+
+            //* Rename files if they exist
+            if(file_exists($cnf_file)) $app->system->rename($cnf_file, $cnf_file.'.bak');
+            if(file_exists($key_file)){
+                $app->system->rename($key_file, $key_file.'.bak');
+                $app->system->chmod($key_file.'.bak', 0400);
+                $app->system->chown($key_file.'.bak', 'metronome');
+            }
+            if(file_exists($csr_file)) $app->system->rename($csr_file, $csr_file.'.bak');
+            if(file_exists($crt_file)) $app->system->rename($crt_file, $crt_file.'.bak');
+
+            // Write new CNF file
+            $tpl = new tpl();
+            $tpl->newTemplate('metronome_conf_ssl.master');
+            $tpl->setVar('domain', $domain);
+            $tpl->setVar('ssl_country', $data['new']['ssl_country']);
+            $tpl->setVar('ssl_locality', $data['new']['ssl_locality']);
+            $tpl->setVar('ssl_organisation', $data['new']['ssl_organisation']);
+            $tpl->setVar('ssl_organisation_unit', $data['new']['ssl_organisation_unit']);
+            $tpl->setVar('ssl_email', $data['new']['ssl_email']);
+            $app->system->file_put_contents($cnf_file, $tpl->grab());
+
+            // Generate new key, csr and cert
+            exec("(cd /etc/metronome/certs && make $domain.key)");
+            exec("(cd /etc/metronome/certs && make $domain.csr)");
+            exec("(cd /etc/metronome/certs && make $domain.cert)");
+
+            $ssl_key = $app->db->quote($app->system->file_get_contents($key_file));
+            $app->system->chmod($key_file, 0400);
+            $app->system->chown($key_file, 'metronome');
+            $ssl_request = $app->db->quote($app->system->file_get_contents($csr_file));
+            $ssl_cert = $app->db->quote($app->system->file_get_contents($crt_file));
+            /* Update the DB of the (local) Server */
+            $app->db->query("UPDATE xmpp_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            /* Update also the master-DB of the Server-Farm */
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->log('Creating XMPP SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
+        }
+
+        //* Save a SSL certificate to disk
+        if($data["new"]["ssl_action"] == 'save') {
+            $this->ssl_certificate_changed = true;
+
+            //* Rename files if they exist
+            if(file_exists($cnf_file)) $app->system->rename($cnf_file, $cnf_file.'.bak');
+            if(file_exists($key_file)){
+                $app->system->rename($key_file, $key_file.'.bak');
+                $app->system->chmod($key_file.'.bak', 0400);
+                $app->system->chown($key_file.'.bak', 'metronome');
+            }
+            if(file_exists($csr_file)) $app->system->rename($csr_file, $csr_file.'.bak');
+            if(file_exists($crt_file)) $app->system->rename($crt_file, $crt_file.'.bak');
+
+            //* Write new ssl files
+            if(trim($data["new"]["ssl_request"]) != '')
+                $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
+            if(trim($data["new"]["ssl_cert"]) != '')
+                $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
+
+            //* Write the key file, if field is empty then import the key into the db
+            if(trim($data["new"]["ssl_key"]) != '') {
+                $app->system->file_put_contents($key_file, $data["new"]["ssl_key"]);
+                $app->system->chmod($key_file, 0400);
+                $app->system->chown($key_file, 'metronome');
+            } else {
+                $ssl_key = $app->db->quote($app->system->file_get_contents($key_file));
+                /* Update the DB of the (local) Server */
+                $app->db->query("UPDATE xmpp_domain SET ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+                /* Update also the master-DB of the Server-Farm */
+                $app->dbmaster->query("UPDATE xmpp_domain SET ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+            }
+
+            /* Update the DB of the (local) Server */
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+
+            /* Update also the master-DB of the Server-Farm */
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->log('Saving XMPP SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
+        }
+
+        //* Delete a SSL certificate
+        if($data['new']['ssl_action'] == 'del') {
+            $this->ssl_certificate_deleted = true;
+            $app->system->unlink($csr_file);
+            $app->system->unlink($crt_file);
+            $app->system->unlink($key_file);
+            $app->system->unlink($cnf_file);
+            $app->system->unlink($csr_file.'.bak');
+            $app->system->unlink($crt_file.'.bak');
+            $app->system->unlink($key_file.'.bak');
+            $app->system->unlink($cnf_file.'.bak');
+            /* Update the DB of the (local) Server */
+            $app->db->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            /* Update also the master-DB of the Server-Farm */
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->log('Deleting SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
+        }
+
     }
 
 } // end class

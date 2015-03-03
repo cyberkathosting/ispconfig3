@@ -79,6 +79,8 @@ class xmpp_module {
         */
 
         $app->modules->registerTableHook('xmpp_domain', 'xmpp_module', 'process');
+        $app->services->registerService('metronome', 'xmpp_module', 'reloadXMPP');
+        $app->services->registerService('metronome', 'xmpp_module', 'restartXMPP');
 
     }
 
@@ -104,6 +106,26 @@ class xmpp_module {
         } // end switch
     } // end function
 
+
+    function restartXMPP($action = 'restart') {
+        global $app, $conf;
+
+        // load the server configuration options
+        $app->uses('getconf,system');
+        $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
+
+        $daemon = 'metronome';
+
+        $retval = array('output' => '', 'retval' => 0);
+        if($action == 'restart') {
+            $cmd = $app->system->getinitcommand($daemon, 'restart');
+        } else {
+            $cmd = $app->system->getinitcommand($daemon, 'reload');
+        }
+        exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
+        $app->log("Restarting xmpp: $cmd", LOGLEVEL_DEBUG);
+        return $retval;
+    }
 } // end class
 
 ?>

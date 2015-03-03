@@ -52,12 +52,12 @@ VirtualHost "{tmpl_var name='domain'}"
         admins = {
 {tmpl_var name='domain_admins'}
         };
--- TODO: SSL Certs for Hosts
---        ssl = {
---                key = "/var/lib/metronome/iplay-esports.de.key",
---                certificate = "/var/lib/metronome/iplay-esports.de.crt",
---        };
-
+<tmpl_if name='ssl_cert' op='==' value='true'>
+        ssl = {
+                key = "/etc/metronome/certs/{tmpl_var name='domain'}.key",
+                certificate = "/etc/metronome/certs/{tmpl_var name='domain'}.cert",
+        };
+</tmpl_if>
 
 <tmpl_if name='use_proxy' op='==' value='true'>
 VirtualHost "anon.{tmpl_var name='domain'}"

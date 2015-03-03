@@ -1,0 +1,100 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<tmpl_if name="config_error_msg">
+<div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
+                <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
+				<div>
+				<div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div><div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+				</div>
+</div>
+</tmpl_if>
+
+
+			<tmpl_if name='show_helper_links'>
+				<div id="show_helper_links" style="display:none;">
+					<label></label>
+					<div class="col-sm-9">
+					<a href="javascript:void(0);" id="load_data"><tmpl_if name='is_admin'>{tmpl_var name='load_client_data_txt'}</tmpl_else>{tmpl_var name='load_my_data_txt'}</tmpl_if></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="reset_data">{tmpl_var name='reset_client_data_txt'}</a>
+					</div>
+				</div>
+			</tmpl_if>
+            <div class="form-group">
+                <label for="ssl_state" class="col-sm-3 control-label">{tmpl_var name='ssl_state_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ssl_state" id="ssl_state" value="{tmpl_var name='ssl_state'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="ssl_locality" class="col-sm-3 control-label">{tmpl_var name='ssl_locality_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ssl_locality" id="ssl_locality" value="{tmpl_var name='ssl_locality'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="ssl_organisation" class="col-sm-3 control-label">{tmpl_var name='ssl_organisation_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ssl_organisation" id="ssl_organisation" value="{tmpl_var name='ssl_organisation'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="ssl_organisation_unit" class="col-sm-3 control-label">{tmpl_var name='ssl_organisation_unit_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ssl_organisation_unit" id="ssl_organisation_unit" value="{tmpl_var name='ssl_organisation_unit'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="ssl_country" class="col-sm-3 control-label">{tmpl_var name='ssl_country_txt'}</label>
+                <div class="col-sm-9"><select name="ssl_country" id="ssl_country" class="form-control flags">
+                    {tmpl_var name='ssl_country'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="ssl_email" class="col-sm-3 control-label">{tmpl_var name='ssl_email_txt'}</label>
+                <div class="col-sm-9"><input type="email" name="ssl_email" id="ssl_email" value="{tmpl_var name='ssl_email'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="ssl_request" class="col-sm-3 control-label">{tmpl_var name='ssl_key_txt'}</label>
+                <div class="col-sm-9"><textarea class="form-control" name="ssl_key" id="ssl_key" rows='10' cols='30'>{tmpl_var name='ssl_key'}</textarea></div>
+            </div>
+            <div class="form-group">
+                <label for="ssl_request" class="col-sm-3 control-label">{tmpl_var name='ssl_request_txt'}</label>
+                <div class="col-sm-9"><textarea class="form-control" name="ssl_request" id="ssl_request" rows='10' cols='30'>{tmpl_var name='ssl_request'}</textarea></div>
+            </div>
+            <div class="form-group">
+                <label for="ssl_cert" class="col-sm-3 control-label">{tmpl_var name='ssl_cert_txt'}</label>
+                <div class="col-sm-9"><textarea class="form-control" name="ssl_cert" id="ssl_cert" rows='10' cols='30'>{tmpl_var name='ssl_cert'}</textarea></div>
+            </div>
+            <div class="form-group">
+                <label for="ssl_action" class="col-sm-3 control-label">{tmpl_var name='ssl_action_txt'}</label>
+                <div class="col-sm-9"><select name="ssl_action" id="ssl_action" class="form-control">
+                    {tmpl_var name='ssl_action'}
+                </select></div>
+            </div>
+        
+
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="type" value="ssl">
+
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/xmpp_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/xmpp_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
+
+<script>
+<!--
+	<tmpl_if name='show_helper_links'>
+	if($("input[name=id]").val() > 0) $('#show_helper_links:hidden').show();
+
+	$('#reset_data').click(function(){
+		$('#ssl_organisation').add('#ssl_locality').add('#ssl_state').add('#ssl_organisation_unit').val('');
+		$('#ssl_country').val($("#ssl_country option:first").val());
+	});
+	$('#load_data').click(function(){
+		loadClientData();
+	});
+	
+	
+	function loadClientData() {
+        var web_id = $("input[name=id]").val();
+        
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {'web_id': web_id, 'type': "getclientssldata"}, function(data) {
+			$('#ssl_organisation').val(data['company_name']);
+			$('#ssl_locality').val(data['city']);
+			$('#ssl_country').val(data['country']);
+			$('#ssl_state').val(data['state']);
+			$('#ssl_organisation_unit').val('IT');
+        });
+    }
+	</tmpl_if>
+//-->
+</script>

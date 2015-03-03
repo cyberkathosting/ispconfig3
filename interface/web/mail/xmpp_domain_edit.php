@@ -49,14 +49,16 @@ $app->uses('tpl,tform,tform_actions,tools_sites');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-    var $_xmpp_type = 'domain';
+    var $_xmpp_type = 'server';
 
     function onLoad() {
         $show_type = 'server';
-        if(isset($_GET['type']) && $_GET['type'] == 'modules') {
+        if(isset($_REQUEST['type']) && $_REQUEST['type'] == 'modules') {
             $show_type = 'modules';
-        } elseif(isset($_GET['type']) && $_GET['type'] == 'muc') {
+        } elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'muc') {
             $show_type = 'muc';
+        }elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'ssl') {
+            $show_type = 'ssl';
         }
 
         $_SESSION['s']['var']['xmpp_type'] = $show_type;
@@ -360,6 +362,21 @@ class page_action extends tform_actions {
                     $this->dataRecord["domain"] = $rec['domain'];
                 }
                 unset($rec);
+            }
+        }
+
+        if($this->_xmpp_type == 'ssl'){
+            //* Check that all fields for the SSL cert creation are filled
+            if(isset($this->dataRecord['ssl_action']) && $this->dataRecord['ssl_action'] == 'create') {
+                if($this->dataRecord['ssl_state'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_state_empty').'<br />';
+                if($this->dataRecord['ssl_locality'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_locality_empty').'<br />';
+                if($this->dataRecord['ssl_organisation'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_organisation_empty').'<br />';
+                if($this->dataRecord['ssl_organisation_unit'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_organisation_unit_empty').'<br />';
+                if($this->dataRecord['ssl_country'] == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_country_empty').'<br />';
+            }
+
+            if(isset($this->dataRecord['ssl_action']) && $this->dataRecord['ssl_action'] == 'save') {
+                if(trim($this->dataRecord['ssl_cert']) == '') $app->tform->errorMessage .= $app->tform->lng('error_ssl_cert_empty').'<br />';
             }
         }
 
