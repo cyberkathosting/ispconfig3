@@ -4,43 +4,50 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
 
-
-<div class="form-group">
-    <label class="col-sm-3 control-label">{tmpl_var name='use_anon_host_txt'}</label>
-    <div class="col-sm-9">
-        {tmpl_var name='use_anon_host'}
+<tmpl_if name="limit_xmpp_anon" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_anon_host_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_anon_host'}
+        </div>
     </div>
-</div>
+</tmpl_if>
 <div class="form-group">
     <label class="col-sm-3 control-label">{tmpl_var name='use_pubsub_txt'}</label>
     <div class="col-sm-9">
         {tmpl_var name='use_pubsub'}
     </div>
 </div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">{tmpl_var name='use_vjud_txt'}</label>
-    <div class="col-sm-9">
-        {tmpl_var name='use_vjud'}
+<tmpl_if name="limit_xmpp_vjud" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_vjud_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_vjud'}
+        </div>
     </div>
-</div>
-<div class="form-group">
-    <label for="vjud_opt_mode" class="col-sm-3 control-label">{tmpl_var name='vjud_opt_mode_txt'}</label>
-    <div class="col-sm-3"><select name="vjud_opt_mode" id="vjud_opt_mode" class="form-control">
-        {tmpl_var name='vjud_opt_mode'}
-    </select></div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">{tmpl_var name='use_proxy_txt'}</label>
-    <div class="col-sm-9">
-        {tmpl_var name='use_proxy'}
+    <div class="form-group">
+        <label for="vjud_opt_mode" class="col-sm-3 control-label">{tmpl_var name='vjud_opt_mode_txt'}</label>
+        <div class="col-sm-3"><select name="vjud_opt_mode" id="vjud_opt_mode" class="form-control">
+            {tmpl_var name='vjud_opt_mode'}
+        </select></div>
     </div>
-</div>
-<div class="form-group">
-    <label class="col-sm-3 control-label">{tmpl_var name='use_status_host_txt'}</label>
-    <div class="col-sm-9">
-        {tmpl_var name='use_status_host'}
+</tmpl_if>
+<tmpl_if name="limit_xmpp_proxy" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_proxy_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_proxy'}
+        </div>
     </div>
-</div>
+</tmpl_if>
+<tmpl_if name="limit_xmpp_status" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_status_host_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_status_host'}
+        </div>
+    </div>
+</tmpl_if>
 
 
 

@@ -33,47 +33,51 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">{tmpl_var name='use_pastebin_txt'}</label>
-        <div class="col-sm-9">
-            {tmpl_var name='use_pastebin'}
-        </div>
-    </div>
-    <div id="toggle-use-pastebin" class="collapse">
+    <tmpl_if name='limit_xmpp_pastebin' value="y">
         <div class="form-group">
-            <label class="col-sm-3 control-label">{tmpl_var name='pastebin_expire_after_txt'}</label>
-            <div class="col-sm-3">
-                <input type="number" name="pastebin_expire_after" id="pastebin_expire_after" value="{tmpl_var name='pastebin_expire_after'}" class="form-control" />
+            <label class="col-sm-3 control-label">{tmpl_var name='use_pastebin_txt'}</label>
+            <div class="col-sm-9">
+                {tmpl_var name='use_pastebin'}
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">{tmpl_var name='pastebin_trigger_txt'}</label>
-            <div class="col-sm-3">
-                <input type="text" name="pastebin_trigger" id="pastebin_trigger" value="{tmpl_var name='pastebin_trigger'}" class="form-control" />
+        <div id="toggle-use-pastebin" class="collapse">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='pastebin_expire_after_txt'}</label>
+                <div class="col-sm-3">
+                    <input type="number" name="pastebin_expire_after" id="pastebin_expire_after" value="{tmpl_var name='pastebin_expire_after'}" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='pastebin_trigger_txt'}</label>
+                <div class="col-sm-3">
+                    <input type="text" name="pastebin_trigger" id="pastebin_trigger" value="{tmpl_var name='pastebin_trigger'}" class="form-control" />
+                </div>
             </div>
         </div>
-    </div>
+    </tmpl_if>
 
-    <div class="form-group">
-        <label class="col-sm-3 control-label">{tmpl_var name='use_http_archive_txt'}</label>
-        <div class="col-sm-9">
-            {tmpl_var name='use_http_archive'}
-        </div>
-    </div>
-    <div id="toggle-use-archive" class="collapse">
+    <tmpl_if name='limit_xmpp_httparchive' value="y">
         <div class="form-group">
-            <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_join_txt'}</label>
+            <label class="col-sm-3 control-label">{tmpl_var name='use_http_archive_txt'}</label>
             <div class="col-sm-9">
-                {tmpl_var name='http_archive_show_join'}
+                {tmpl_var name='use_http_archive'}
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_status_txt'}</label>
-            <div class="col-sm-9">
-                {tmpl_var name='http_archive_show_status'}
+        <div id="toggle-use-archive" class="collapse">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_join_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='http_archive_show_join'}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='http_archive_show_status_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='http_archive_show_status'}
+                </div>
             </div>
         </div>
-    </div>
+    </tmpl_if>
 
 </div>
 

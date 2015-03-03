@@ -782,9 +782,8 @@ $form["tabs"]['limits'] = array (
                 'class'=> 'custom_datasource',
                 'function'=> 'client_servers'
             ),
-            'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-                'errmsg'=> 'no_xmpp_server_error'),
-                1 => array ( 'type' => 'CUSTOM',
+            'validators'    => array (
+                0 => array ( 'type' => 'CUSTOM',
                     'class' => 'validate_client',
                     'function' => 'check_used_servers',
                     'errmsg'=> 'xmpp_servers_used'),
@@ -831,17 +830,6 @@ $form["tabs"]['limits'] = array (
             'formtype' => 'CHECKBOX',
             'default' => 'n',
             'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_auth_options' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOXARRAY',
-            'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
-                'errmsg'=> 'xmpp_auth_options_notempty'),
-            ),
-            'default' => '',
-            'separator' => ',',
-            'valuelimit' => 'client:xmpp_auth_options',
-            'value'  => array('plain' => 'Plain', 'hashed' => 'Hashed', 'isp' => 'By Mail Account')
         ),
         'limit_xmpp_vjud' => array(
             'datatype' => 'VARCHAR',

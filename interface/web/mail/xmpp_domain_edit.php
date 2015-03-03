@@ -72,18 +72,18 @@ class page_action extends tform_actions {
 
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			if(!$app->tform->checkClientLimit('limit_xmppdomain')) {
+			if(!$app->tform->checkClientLimit('limit_xmpp_domain')) {
 				$app->error($app->tform->wordbook["limit_xmppdomain_txt"]);
 			}
-			if(!$app->tform->checkResellerLimit('limit_xmppdomain')) {
+			if(!$app->tform->checkResellerLimit('limit_xmpp_domain')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_xmppdomain_txt"]);
 			}
 		} else {
 			$settings = $app->getconf->get_global_config('xmpp');
-			$app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_xmppserver']);
-		}
+        }
+        $app->tform->formDef['tabs']['domain']['fields']['server_id']['default'] = intval($settings['default_xmppserver']);
 
-		parent::onShowNew();
+        parent::onShowNew();
 	}
 
 	function onShowEnd() {
@@ -91,6 +91,17 @@ class page_action extends tform_actions {
 
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
+
+        $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status');
+        if($_SESSION["s"]["user"]["typ"] != 'admin') {
+            $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+            $client = $app->db->queryOneRecord("SELECT client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+            // add limits to template to be able to hide settings
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
+        }else{
+            foreach($read_limits as $limit) $app->tpl->setVar($limit, 'y');
+        }
+
 
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && $settings['use_domain_module'] != 'y') {
 			// Getting Clients of the user
@@ -112,12 +123,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.default_xmppserver, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by client.contact_name");
-
-			// Set the xmppserver to the default server of the client
-			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = $client[default_xmppserver]");
-			$app->tpl->setVar("server_id", "<option value='$client[default_xmppserver]'>$tmp[server_name]</option>");
-			unset($tmp);
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by client.contact_name");
 
 			if ($settings['use_domain_module'] != 'y') {
 				// Fill the client select field
@@ -233,7 +239,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_xmppdomain, default_xmppserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_xmpp_domain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
@@ -249,9 +255,9 @@ class page_action extends tform_actions {
 					$app->error($app->tform->wordbook['error_not_allowed_server_id']);
 				}
 
-				if($client["limit_xmppdomain"] >= 0) {
+				if($client["limit_xmpp_domain"] >= 0) {
 					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM xmpp_domain WHERE sys_groupid = $client_group_id");
-					if($tmp["number"] >= $client["limit_xmppdomain"]) {
+					if($tmp["number"] >= $client["limit_xmpp_domain"]) {
 						$app->error($app->tform->wordbook["limit_xmppdomain_txt"]);
 					}
 				}
@@ -355,7 +361,7 @@ class page_action extends tform_actions {
                 //* If the user is neither admin nor reseller
             } else {
                 //* We do not allow users to change a domain which has been created by the admin
-                $rec = $app->db->queryOneRecord("SELECT sys_perm_group, domainfrom xmpp_domain WHERE domain_id = ".$this->id);
+                $rec = $app->db->queryOneRecord("SELECT sys_perm_group, domain from xmpp_domain WHERE domain_id = ".$this->id);
                 if(isset($this->dataRecord["domain"]) && $rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id, 'u')) {
                     //* Add a error message and switch back to old server
                     $app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');

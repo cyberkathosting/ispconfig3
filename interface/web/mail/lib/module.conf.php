@@ -151,7 +151,7 @@ if($app->auth->get_client_limit($userid, 'fetchmail') != 0)
 //**** XMPP Menu
 $items = array();
 
-if($app->auth->get_client_limit($userid, 'xmppdomain') != 0)
+if($app->auth->get_client_limit($userid, 'xmpp_domain') != 0)
 {
     $items[] = array( 'title'  => 'XMPP Domain',
         'target'  => 'content',
@@ -159,7 +159,7 @@ if($app->auth->get_client_limit($userid, 'xmppdomain') != 0)
         'html_id' => 'xmpp_domain_list');
 }
 
-if($app->auth->get_client_limit($userid, 'xmppaccount') != 0)
+if($app->auth->get_client_limit($userid, 'xmpp_user') != 0)
 {
     $items[] = array( 'title'  => 'XMPP Account',
         'target'  => 'content',

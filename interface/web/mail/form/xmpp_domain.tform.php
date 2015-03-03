@@ -55,6 +55,20 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+$muc_available = $muc_pastebin_available = $muc_httparchive_available = $anon_available = $vjud_available = $proxy_available = $status_available = true;
+if(!$app->auth->is_admin()) {
+    $client_group_id = $_SESSION["s"]["user"]["default_group"];
+    $client = $app->db->queryOneRecord("SELECT limit_xmpp_muc, limit_xmpp_anon, limit_xmpp_vjud, limit_xmpp_proxy, limit_xmpp_status, limit_xmpp_pastebin, limit_xmpp_httparchive FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+
+    if($client['limit_xmpp_muc'] != 'y') $muc_available = false;
+    if($client['limit_xmpp_pastebin'] != 'y' || $client['limit_xmpp_muc'] != 'y') $muc_pastebin_available = false;
+    if($client['limit_xmpp_httparchive'] != 'y' || $client['limit_xmpp_muc'] != 'y') $muc_httparchive_available = false;
+    if($client['limit_xmpp_anon'] != 'y') $anon_available = false;
+    if($client['limit_xmpp_vjud'] != 'y') $vjud_available = false;
+    if($client['limit_xmpp_proxy'] != 'y') $proxy_available= false;
+    if($client['limit_xmpp_status'] != 'y') $status_available = false;
+}
+
 $form["tabs"]['domain'] = array (
 	'title'  => "Domain",
 	'width'  => 100,
@@ -149,7 +163,6 @@ $form["tabs"]['domain'] = array (
 	)
 );
 
-
 $form["tabs"]['features'] = array (
     'title'  => "Modules",
     'width'  => 100,
@@ -158,127 +171,139 @@ $form["tabs"]['features'] = array (
         //#################################
         // Begin Datatable fields
         //#################################
-        'use_anon_host' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
         'use_pubsub' => array (
             'datatype' => 'VARCHAR',
             'formtype' => 'CHECKBOX',
             'default' => 'y',
             'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'use_vjud' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'vjud_opt_mode' => array (
-            'datatype'      => 'VARCHAR',
-            'formtype'      => 'SELECT',
-            'default'       => '0',
-            'value'         => array(0 => 'Opt-In', 1 => 'Opt-Out')
-        ),
-        'use_proxy' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'use_status_host' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
+        )
         //#################################
         // ENDE Datatable fields
         //#################################
     )
 );
+if($anon_available)
+    $form['tabs']['features']['fields']['use_anon_host'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+if($vjud_available){
+    $form['tabs']['features']['fields']['use_vjud'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+    $form['tabs']['features']['fields']['vjud_opt_mode'] = array (
+        'datatype'      => 'VARCHAR',
+        'formtype'      => 'SELECT',
+        'default'       => '0',
+        'value'         => array(0 => 'Opt-In', 1 => 'Opt-Out')
+    );
+}
 
-$form["tabs"]['muc'] = array (
-    'title'  => "MUC",
-    'width'  => 100,
-    'template'  => "templates/xmpp_domain_edit_muc.htm",
-    'fields'  => array (
-        //#################################
-        // Begin Datatable fields
-        //#################################
-        'use_muc_host' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'muc_name' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => ''
-        ),
-        'muc_restrict_room_creation' => array (
-            'datatype'      => 'VARCHAR',
-            'formtype'      => 'SELECT',
-            'default'       => '1',
-            'value'         => array(0 => 'Everyone', 1 => 'Members', 2 => 'Admins')
-        ),
-        'muc_admins' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => 'admin@service.com, superuser@service.com',
-            'value' => '',
-            'width' => '15',
-            'maxlength' => '3'
-        ),
-        'use_pastebin' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'pastebin_expire_after' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '48',
-            'validators' => array(0 => array('type' => 'ISINT'),
-                array('type'=>'RANGE', 'range'=>'1:168')
+if($proxy_available)
+    $form['tabs']['features']['fields']['use_proxy'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+if($status_available)
+    $form['tabs']['features']['fields']['use_status_host'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+
+
+if($muc_available)
+    $form["tabs"]['muc'] = array (
+        'title'  => "MUC",
+        'width'  => 100,
+        'template'  => "templates/xmpp_domain_edit_muc.htm",
+        'fields'  => array (
+            //#################################
+            // Begin Datatable fields
+            //#################################
+            'use_muc_host' => array (
+                'datatype' => 'VARCHAR',
+                'formtype' => 'CHECKBOX',
+                'default' => 'y',
+                'value'  => array(0 => 'n', 1 => 'y')
             ),
-            'value' => '',
-            'width' => '15'
+            'muc_name' => array(
+                'datatype' => 'VARCHAR',
+                'formtype' => 'TEXT',
+                'default' => ''
+            ),
+            'muc_restrict_room_creation' => array (
+                'datatype'      => 'VARCHAR',
+                'formtype'      => 'SELECT',
+                'default'       => '1',
+                'value'         => array(0 => 'Everyone', 1 => 'Members', 2 => 'Admins')
+            ),
+            'muc_admins' => array(
+                'datatype' => 'VARCHAR',
+                'formtype' => 'TEXT',
+                'default' => 'admin@service.com, superuser@service.com',
+                'value' => '',
+                'width' => '15',
+                'maxlength' => '3'
+            ),
+            //#################################
+            // ENDE Datatable fields
+            //#################################
+        )
+    );
+if($muc_available && $muc_pastebin_available){
+    $form['tabs']['muc']['fields']['use_pastebin'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+    $form['tabs']['muc']['fields']['pastebin_expire_after'] = array(
+        'datatype' => 'VARCHAR',
+        'formtype' => 'TEXT',
+        'default' => '48',
+        'validators' => array(0 => array('type' => 'ISINT'),
+            array('type'=>'RANGE', 'range'=>'1:168')
         ),
-        'pastebin_trigger' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '!paste',
-            'value' => '',
-            'width' => '15'
-        ),
-        'use_http_archive' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'http_archive_show_join' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'http_archive_show_status' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'y',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        //#################################
-        // ENDE Datatable fields
-        //#################################
-    )
-);
+        'value' => '',
+        'width' => '15'
+    );
+    $form['tabs']['muc']['fields']['pastebin_trigger'] = array(
+        'datatype' => 'VARCHAR',
+        'formtype' => 'TEXT',
+        'default' => '!paste',
+        'value' => '',
+        'width' => '15'
+    );
+}
+if($muc_available && $muc_httparchive_available){
+    $form['tabs']['muc']['fields']['use_http_archive'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+    $form['tabs']['muc']['fields']['http_archive_show_join'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+    $form['tabs']['muc']['fields']['http_archive_show_status'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+}
 
 $form["tabs"]['ssl'] = array (
     'title'  => "SSL",
