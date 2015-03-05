@@ -112,7 +112,6 @@ class xmpp_module {
 
         // load the server configuration options
         $app->uses('getconf,system');
-        $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
 
         $daemon = 'metronome';
 

@@ -329,8 +329,8 @@ class page_action extends tform_actions {
         if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 
         // create new accounts from mail domain
-        if($this->dataRecord['management_method']=='maildomain')
-            $this->syncMailusers($this->dataRecord['domain']);
+        //if($this->dataRecord['management_method']=='maildomain')
+        //    $this->syncMailusers($this->dataRecord['domain']);
 
         // Insert DNS Records
         $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
@@ -395,17 +395,15 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
         // create new accounts from mail domain
-        if($this->oldDataRecord['management_method'] != 'maildomain' && $this->dataRecord['management_method']=='maildomain')
-            $this->syncMailusers($this->dataRecord['domain']);
+        //if($this->oldDataRecord['management_method'] != 'maildomain' && $this->dataRecord['management_method']=='maildomain')
+        //    $this->syncMailusers($this->dataRecord['domain']);
         // or reset to normal permissions
-        elseif($this->oldDataRecord['management_method'] == 'maildomain' && $this->dataRecord['management_method']!='maildomain')
-            $this->desyncMailusers($this->dataRecord['domain']);
+        //elseif($this->oldDataRecord['management_method'] == 'maildomain' && $this->dataRecord['management_method']!='maildomain')
+        //    $this->desyncMailusers($this->dataRecord['domain']);
         // Update DNS Records
         // TODO: Update gets only triggered from main form. WHY?
-        // TODO: if(in_array($this->_xmpp_type, array('muc', 'modules'))){
-            $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM dns_soa WHERE active = 'Y' AND  = ?", $this->dataRecord['domain'].'.');
-            if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
-        //}
+        $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM dns_soa WHERE active = 'Y' AND  = ?", $this->dataRecord['domain'].'.');
+        if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
 	}
 
 
@@ -473,6 +471,8 @@ class page_action extends tform_actions {
         $app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
     }
 
+    /*
+     * NOT YET FINISHED
 
     private function syncMailusers($domain){
         global $app, $conf;
@@ -533,6 +533,7 @@ class page_action extends tform_actions {
             $app->db->datalogUpdate('xmpp_user', $u, 'xmppuser_id', $u['xmppuser_id']);
         }
     }
+    */
 
 }
 

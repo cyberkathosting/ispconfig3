@@ -1,6 +1,8 @@
 ALTER TABLE `server` ADD COLUMN `xmpp_server` tinyint(1) NOT NULL default '0' AFTER `firewall_server`;
 
 ALTER TABLE `client`
+  ADD COLUMN `default_xmppserver` int(11) unsigned NOT NULL DEFAULT '1',
+  ADD COLUMN `xmpp_servers` blob,
   ADD COLUMN `limit_xmpp_domain` int(11) NOT NULL DEFAULT '-1',
   ADD COLUMN `limit_xmpp_user` int(11) NOT NULL DEFAULT '-1',
   ADD COLUMN `limit_xmpp_muc` ENUM( 'n', 'y' ) NOT NULL default 'n',

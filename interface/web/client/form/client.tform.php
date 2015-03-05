@@ -773,6 +773,17 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+        'default_xmppserver' => array (
+            'datatype' => 'INTEGER',
+            'formtype' => 'SELECT',
+            'default' => '1',
+            'datasource' => array (  'type' => 'CUSTOM',
+                'class'=> 'custom_datasource',
+                'function'=> 'client_servers'
+            ),
+            'value'  => '',
+            'name'  => 'default_xmppserver'
+        ),
         'xmpp_servers' => array (
             'datatype' => 'VARCHAR',
             'formtype' => 'MULTIPLE',

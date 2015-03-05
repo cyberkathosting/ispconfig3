@@ -52,47 +52,38 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 
 	function onBeforeDelete() {
-		global $app; $conf;
+		global $app, $conf;
 
 		$domain = $this->dataRecord['domain'];
 
 		// Before we delete the email domain,
 		// we will delete all depending records.
-        // TODO: Delete xmpp accounts in filesystem
-        // TODO: Delete xmpp accounts in isp
-        // TODO: Delete DNS Records
-/*
-		// Delete all forwardings where the source or destination belongs to this domain
-		$records = $app->db->queryAllRecords("SELECT forwarding_id as id FROM mail_forwarding WHERE source like '%@".$app->db->quote($domain)."' OR (destination like '%@".$app->db->quote($domain)."' AND type != 'forward')");
-		foreach($records as $rec) {
-			$app->db->datalogDelete('mail_forwarding', 'forwarding_id', $rec['id']);
-		}
-
-		// Delete all fetchmail accounts where destination belongs to this domain
-		$records = $app->db->queryAllRecords("SELECT mailget_id as id FROM mail_get WHERE destination like '%@".$app->db->quote($domain)."'");
-		foreach($records as $rec) {
-			$app->db->datalogDelete('mail_get', 'mailget_id', $rec['id']);
-		}
-
-		// Delete all mailboxes where destination belongs to this domain
-		$records = $app->db->queryAllRecords("SELECT mailuser_id as id FROM mail_user WHERE email like '%@".$app->db->quote($domain)."'");
-		foreach($records as $rec) {
-			$app->db->datalogDelete('mail_user', 'mailuser_id', $rec['id']);
-		}
-
-		// Delete all spamfilters that belong to this domain
-		$records = $app->db->queryAllRecords("SELECT id FROM spamfilter_users WHERE email = '%@".$app->db->quote($domain)."'");
-		foreach($records as $rec) {
-			$app->db->datalogDelete('spamfilter_users', 'id', $rec['id']);
-		}
-
-		// Delete all mailinglists that belong to this domain
-		$records = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = '".$app->db->quote($domain)."'");
-		foreach($records as $rec) {
-			$app->db->datalogDelete('mail_mailinglist', 'mailinglist_id', $rec['id']);
-		}
-*/
+        $this->delete_accounts($domain);
+        // and DNS entries
+        $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $domain.'.');
+        if ( isset($soa) && !empty($soa) ) $this->remove_dns($soa);
 	}
+
+    private function delete_accounts($domain){
+        global $app;
+        // get all accounts
+        $sql = "SELECT * FROM xmpp_user WHERE jid LIKE ? AND ?";
+        $users = $app->db->queryAllRecords($sql, '%@'.$domain, $app->tform->getAuthSQL('d'));
+        foreach($users AS $u)
+            $app->db->datalogDelete('xmpp_user', 'xmppuser_id', $u['xmppuser_id']);
+    }
+
+    private function remove_dns($new_rr) {
+        global $app;
+
+        // purge all xmpp related rr-record
+        $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND ? ORDER BY serial DESC";
+        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%', $app->tform->getAuthSQL('r'));
+        if (is_array($rec[1])) {
+            for ($i=0; $i < count($rec); ++$i)
+                $app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);
+        }
+    }
 
 }
 

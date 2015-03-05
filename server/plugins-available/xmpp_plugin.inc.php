@@ -1,9 +1,7 @@
 <?php
 
-
-// TODO Plugin bei Installation symlinken in plugins-enabled!
 /*
-Copyright (c) 2007, Till Brehm, projektfarm Gmbh
+Copyright (c) 2015 Michael Fürmann, Spicy Web (spicyweb.de)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +32,6 @@ class xmpp_plugin {
 
     var $plugin_name = 'xmpp_server_plugin';
     var $class_name = 'xmpp_server_plugin';
-
 
     var $xmpp_config_dir = '/etc/metronome';
 
@@ -100,20 +97,22 @@ class xmpp_plugin {
         $old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
         $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
 
+        // Global server config
         $tpl = new tpl();
         $tpl->newTemplate('metronome_conf_global.master');
-
         $tpl->setVar('ipv6', $xmpp_config['xmpp_use_ipv6']=='y'?'true':'false');
         $tpl->setVar('bosh_timeout', intval($xmpp_config['xmpp_bosh_max_inactivity']));
         $tpl->setVar('port_http', intval($xmpp_config['xmpp_port_http']));
         $tpl->setVar('port_https', intval($xmpp_config['xmpp_port_https']));
         $tpl->setVar('port_pastebin', intval($xmpp_config['xmpp_port_pastebin']));
         $tpl->setVar('port_bosh', intval($xmpp_config['xmpp_port_bosh']));
+        // Global server admins (for all hosted domains)
         $admins = '';
         foreach(explode(',', $xmpp_config['xmpp_server_admins']) AS $a)
             $admins.= "\t\"".trim($a)."\",\n";
         $tpl->setVar('server_admins', $admins);
         unset($admins);
+        // enabled modules, so own modules or simmilar prosody-modules can easily be added
         $modules = '';
         foreach(explode(',', $xmpp_config['xmpp_modules_enabled']) AS $m)
             $modules.= "\t\"".trim($m)."\",\n";
@@ -149,13 +148,14 @@ class xmpp_plugin {
         $tpl->setVar('domain', $data['new']['domain']);
         $tpl->setVar('active', $data['new']['active'] == 'y' ? 'true' : 'false');
         $tpl->setVar('public_registration', $data['new']['public_registration'] == 'y' ? 'true' : 'false');
-
+        // Domain admins
         $admins = array();
         foreach(explode(',',$data['new']['domain_admins']) AS $adm){
             $admins[] = trim($adm);
         }
         $tpl->setVar('domain_admins', "\t\t\"".implode("\",\n\t\t\"",$admins)."\"\n");
 
+        // Enable / Disable features
         if($data['new']['use_pubsub']=='y'){
             $tpl->setVar('use_pubsub', 'true');
             $status_comps[] = 'pubsub.'.$data['new']['domain'];
@@ -188,6 +188,7 @@ class xmpp_plugin {
             $status_comps[] = 'muc.'.$data['new']['domain'];
             $tpl->setVar('muc_restrict_room_creation', $data['new']['muc_restrict_room_creation']);
             $tpl->setVar('muc_name', strlen($data['new']['muc_name']) ? $data['new']['muc_name'] : $data['new']['domain'].' Chatrooms');
+            // Admins for MUC channels
             $admins = array();
             foreach(explode(',',$data['new']['muc_admins']) AS $adm){
                 $admins[] = trim($adm);
@@ -242,7 +243,7 @@ class xmpp_plugin {
         exec('rm -rf /var/lib/metronome/'.$folder);
         exec('rm -rf /var/lib/metronome/*%2e'.$folder);
 
-        $app->services->restartServiceDelayed('metronome', 'restart');
+        $app->services->restartServiceDelayed('metronome', 'reload');
     }
 
     function userInsert($event_name, $data){

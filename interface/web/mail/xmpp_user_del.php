@@ -58,7 +58,8 @@ class page_action extends tform_actions {
 		$domain = $jid_parts[1];
 
         // check if domain is managed through mail domain
-        $app->error('blubb');
+        // if yes, manual deletion is not allowed
+        //$app->error('blubb');
 
 
 	}

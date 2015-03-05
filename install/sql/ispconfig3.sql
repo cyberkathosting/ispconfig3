@@ -184,6 +184,8 @@ CREATE TABLE `client` (
   `limit_spamfilter_wblist` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_user` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_policy` int(11) NOT NULL DEFAULT '0',
+  `default_xmppserver` int(11) unsigned NOT NULL DEFAULT '1',
+  `xmpp_servers` blob,
   `limit_xmpp_domain` int(11) NOT NULL DEFAULT '-1',
   `limit_xmpp_user` int(11) NOT NULL DEFAULT '-1',
   `limit_xmpp_muc` ENUM( 'n', 'y' ) NOT NULL default 'n',
