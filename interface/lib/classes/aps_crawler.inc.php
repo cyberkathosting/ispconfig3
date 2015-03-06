@@ -189,6 +189,7 @@ class ApsCrawler extends ApsBase
 			curl_setopt($conn[$i], CURLOPT_TIMEOUT, 0);
 			curl_setopt($conn[$i], CURLOPT_FAILONERROR, 1);
 			curl_setopt($conn[$i], CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($conn[$i], CURLOPT_SSL_VERIFYPEER, 0);
 
 			curl_multi_add_handle($mh, $conn[$i]);
 		}
