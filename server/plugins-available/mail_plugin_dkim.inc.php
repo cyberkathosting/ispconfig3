@@ -405,7 +405,7 @@ class mail_plugin_dkim {
 			}
 
 			/* resync */
-			if ($data['new']['active'] == 'y' && $data['new'] == $data['old']) {
+			if ($data['new']['active'] == 'y' && $data['new'] == $data['old'] && $data['new']['dkim']=='y') {
 				$this->add_dkim($data);
 			}
 		}

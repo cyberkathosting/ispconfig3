@@ -314,6 +314,8 @@ class cronjob_backup extends cronjob {
 						}
 					}
 				}
+				//* end run_backups
+				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {
 				//* send email to admin that backup directory could not be mounted
 				$global_config = $app->getconf->get_global_config('mail');
