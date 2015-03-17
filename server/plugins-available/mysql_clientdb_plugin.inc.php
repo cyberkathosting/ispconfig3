@@ -195,7 +195,7 @@ class mysql_clientdb_plugin {
 			}
 
 			//* Create the new database
-			if ($link->query('CREATE DATABASE '.$link->escape_string($data['new']['database_name']).$query_charset_table)) {
+			if ($link->query('CREATE DATABASE `'.$link->escape_string($data['new']['database_name']).'`'.$query_charset_table)) {
 				$app->log('Created MySQL database: '.$data['new']['database_name'], LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Unable to create the database: '.$link->error, LOGLEVEL_WARNING);
