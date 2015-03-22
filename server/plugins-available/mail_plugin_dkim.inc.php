@@ -75,9 +75,9 @@ class mail_plugin_dkim {
 	 */
 	function get_amavis_config() {
 		$pos_config=array(
-			'/etc/amavisd.conf',
 			'/etc/amavisd.conf/50-user',
 			'/etc/amavis/conf.d/50-user',
+			'/etc/amavisd.conf',
 			'/etc/amavisd/amavisd.conf'
 		);
 		$amavis_configfile='';
