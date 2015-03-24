@@ -31,6 +31,10 @@ do_start()
 		esac
 	fi
 	
+	if [[ -S /var/run/mysqld/mysqld.sock && ! -S /tmp/mysql.sock ]] ; then
+		ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock ;
+	fi
+	
 	umask 017
 	sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 	INIFILE=""
@@ -41,7 +45,7 @@ do_start()
 	elif [[ -e "/etc/php5/cgi/php.ini" ]] ; then
 		INIFILE="-vServer.IniFile=/etc/php5/cgi/php.ini" ;
 	fi
-	/usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vServer.FixPathInfo=true $INIFILE -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+	/usr/bin/hhvm --mode daemon -vServer.Type=fastcgi --user {SYSTEM_USER} -vServer.FileSocket=/var/run/hhvm/hhvm.{SYSTEM_USER}.sock -vLog.Level=Warning -vLog.UseLogFile=false -vRepo.Central.Path=/var/run/hhvm/hhvm.{SYSTEM_USER}.hhbc -vServer.FixPathInfo=false $INIFILE -vPidFile=/var/run/hhvm/hhvm_{SYSTEM_USER}.pid & echo $! > /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 }
 
 do_stop()
