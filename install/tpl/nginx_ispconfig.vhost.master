@@ -19,7 +19,7 @@ server {
         }
 
         # serve static files directly
-        location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
+        location ~* ^.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt)$ {
                access_log        off;
         }
 
