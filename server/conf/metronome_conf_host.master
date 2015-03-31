@@ -1,0 +1,135 @@
+VirtualHost "{tmpl_var name='domain'}"
+    enabled = {tmpl_var name='active'};
+    authentication = "external";
+    external_auth_command = "/usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh";
+    allow_registration = {tmpl_var name='public_registration'};
+    <tmpl_if name='registration_url' op='!=' value=''>
+        registration_url = "{tmpl_var name='registration_url'}";
+        registration_text = "{tmpl_var name='registration_message'}";
+    </tmpl_if>
+        no_registration_whitelist = true;
+
+        modules_enabled = {
+                "roster",
+                "private",
+                "vcard",
+                "privacy",
+                "pep",
+<tmpl_if name='public_registration' op='==' value='true'>
+                "register",
+<tmpl_elseif name='registration_url' op='!=' value=''>
+                "register_redirect",
+</tmpl_if>
+                "admin_adhoc",
+        };
+        disco_items = {
+<tmpl_if name='use_muc' op='==' value='true'>
+                {
+                        "muc.{tmpl_var name='domain'}",
+                        "{tmpl_var name='muc_name'}",
+                },
+</tmpl_if>
+<tmpl_if name='use_pubsub' op='==' value='true'>
+                {
+                        "pubsub.{tmpl_var name='domain'}",
+                        "{tmpl_var name='domain'} Publish/Subscribe",
+                },
+</tmpl_if>
+<tmpl_if name='use_proxy' op='==' value='true'>
+                {
+                        "proxy.{tmpl_var name='domain'}",
+                        "{tmpl_var name='domain'} Bytestream Proxy",
+                },
+</tmpl_if>
+<tmpl_if name='use_vjud' op='==' value='true'>
+                {
+                        "vjud.{tmpl_var name='domain'}",
+                        "{tmpl_var name='domain'} User Directory",
+                },
+</tmpl_if>
+        };
+
+        admins = {
+{tmpl_var name='domain_admins'}
+        };
+<tmpl_if name='ssl_cert' op='==' value='true'>
+        ssl = {
+                key = "/etc/metronome/certs/{tmpl_var name='domain'}.key",
+                certificate = "/etc/metronome/certs/{tmpl_var name='domain'}.cert",
+        };
+</tmpl_if>
+
+<tmpl_if name='use_proxy' op='==' value='true'>
+VirtualHost "anon.{tmpl_var name='domain'}"
+        enabled = true;
+        authentication = "anonymous";
+        allow_anonymous_multiresourcing = true;
+        anonymous_jid_gentoken = "{tmpl_var name='domain'} Anonymous User";
+        admins = {
+        };
+</tmpl_if>
+
+
+<tmpl_if name='use_muc' op='==' value='true'>
+Component "muc.{tmpl_var name='domain'}" "muc"
+        modules_enabled = {
+                "muc_limits",
+                "muc_log",
+<tmpl_if name='use_archive' op='==' value='true'>
+                "muc_log_http",
+</tmpl_if>
+<tmpl_if name='use_pastebin' op='==' value='true'>
+                "pastebin",
+</tmpl_if>
+        };
+        muc_event_rate = 0.7;
+        muc_burst_factor = 13;
+        muc_log_presences = false;
+<tmpl_if name='use_archive' op='==' value='true'>
+        muc_log_http_config = {
+                show_join = {tmpl_var name='archive_join'},
+                show_status = {tmpl_var name='archive_status'},
+                theme = "metronome",
+                url_base = "logs",
+        };
+</tmpl_if>
+<tmpl_if name='use_pastebin' op='==' value='true'>
+        pastebin_path = "/pastes/";
+        pastebin_expire_after = {tmpl_var name='pastebin_expire'};
+        pastebin_trigger = "{tmpl_var name='pastebin_trigger'}";
+</tmpl_if>
+        name = "{tmpl_var name='muc_name'}";
+        restrict_room_creation = "{tmpl_var name='muc_restrict_room_creation'}";
+        admins = {
+{tmpl_var name='muc_admins'}
+        };
+</tmpl_if>
+
+
+<tmpl_if name='use_pubsub' op='==' value='true'>
+Component "pubsub.{tmpl_var name='domain'}" "pubsub"
+        name = "{tmpl_var name='domain'} Publish/Subscribe";
+        unrestricted_node_creation = false;
+</tmpl_if>
+
+<tmpl_if name='use_proxy' op='==' value='true'>
+Component "proxy.{tmpl_var name='domain'}" "proxy65"
+        proxy65_acl = {
+                "{tmpl_var name='domain'}",
+        };
+        proxy65_interfaces = {
+                "*",
+                "::",
+        };
+        proxy65_ports = {
+                5000,
+        };
+</tmpl_if>
+
+
+<tmpl_if name='use_vjud' op='==' value='true'>
+Component "vjud.{tmpl_var name='domain'}" "vjud"
+        ud_disco_name = "{tmpl_var name='domain'} User Directory";
+        synchronize_to_host_vcards = "{tmpl_var name='domain'}";
+        vjud_mode = "{tmpl_var name='vjud_opt_mode'}";
+</tmpl_if>
