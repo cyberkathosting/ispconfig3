@@ -154,6 +154,10 @@ class installer extends installer_base {
 	*/
 	}
 
+    public function configure_xmpp() {
+        parent::configure_xmpp();
+    }
+
 }
 
 ?>

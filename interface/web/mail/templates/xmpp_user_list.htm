@@ -1,0 +1,74 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+        <tmpl_if name='datalog_changes_count' op='>' value='0'>
+        <div>
+            <div class="systemmonitor-state state-info">
+                <div class="status"></div>
+                <div class="statusMsg">
+                    {tmpl_var name="datalog_changes_txt"}
+                    <ul>
+                    <tmpl_loop name="datalog_changes">
+                        <li><strong>{tmpl_var name="text"}:</strong> {tmpl_var name="count"}</li>
+                    </tmpl_loop>
+                    </ul>
+                    {tmpl_var name="datalog_changes_end_txt"}
+                </div>
+            </div><br />
+        </div>
+        </tmpl_if>
+        <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
+            
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="mail/xmpp_user_edit.php">{tmpl_var name="add_new_record_txt"}</button>
+            
+        
+
+    
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                    <tr>
+                        <th data-column="jid"><tmpl_var name="jid_txt"></th>
+                        <th class="small-col" data-column="is_domain_admin"><tmpl_var name="is_domain_admin_txt"></th>
+                        <th class="small-col" data-column="is_muc_admin"><tmpl_var name="is_muc_admin_txt"></th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+                    </tr>
+                    <tr>
+                        <td><input class="form-control" type="text" name="search_jid" value="{tmpl_var name='search_jid'}" /></td>
+                        <td><select class="form-control" name="search_is_domain_admin">{tmpl_var name='search_is_domain_admin'}</select></td>
+                        <td><select class="form-control" name="search_is_muc_admin">{tmpl_var name='search_is_muc_admin'}</select></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/xmpp_user_list.php"><span class="icon icon-filter"></span></button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                <tmpl_loop name="records">
+                    <tr>
+                        <td><a href="#" data-load-content="mail/xmpp_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="jid"}</a></td>
+                        <td><a href="#" data-load-content="mail/xmpp_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="is_domain_admin"}</a></td>
+                        <td><a href="#" data-load-content="mail/xmpp_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="is_muc_admin"}</a></td>
+                        <td class="text-right">
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mail/xmpp_user_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                        </td>
+                    </tr>
+                </tmpl_loop>
+                <tmpl_unless name="records">
+                    <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
+                        <td colspan="4">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                    </tr>
+                </tmpl_unless>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4"><tmpl_var name="paging"></td>
+                    </tr>
+                </tfoot>
+            </table>
+</div>
+        
+    

@@ -1,0 +1,72 @@
+oid_section = new_oids
+
+[ new_oids ]
+
+# RFC 3920 section 5.1.1 defines this OID
+xmppAddr = 1.3.6.1.5.5.7.8.5
+
+# RFC 4985 defines this OID
+SRVName  = 1.3.6.1.5.5.7.8.7
+
+[ req ]
+
+default_bits       = 4096
+default_keyfile    = {tmpl_var name='domain'}.key
+distinguished_name = distinguished_name
+req_extensions     = v3_extensions
+x509_extensions    = v3_extensions
+
+# ask about the DN?
+prompt = no
+
+[ distinguished_name ]
+
+commonName             = {tmpl_var name='domain'}
+countryName            = {tmpl_var name='ssl_country'}
+localityName           = {tmpl_var name='ssl_locality'}
+organizationName       = {tmpl_var name='ssl_organisation'}
+organizationalUnitName = {tmpl_var name='ssl_organisation_unit'}
+emailAddress           = {tmpl_var name='ssl_email'}
+
+[ v3_extensions ]
+
+# for certificate requests (req_extensions)
+# and self-signed certificates (x509_extensions)
+
+basicConstraints = CA:FALSE
+keyUsage         = digitalSignature,keyEncipherment
+extendedKeyUsage = serverAuth,clientAuth
+subjectAltName   = @subject_alternative_name
+
+[ subject_alternative_name ]
+
+# See http://tools.ietf.org/html/draft-ietf-xmpp-3920bis#section-13.7.1.2 for more info.
+
+DNS.0       =                                           {tmpl_var name='domain'}
+otherName.0 =                 xmppAddr;FORMAT:UTF8,UTF8:{tmpl_var name='domain'}
+otherName.1 =            SRVName;IA5STRING:_xmpp-client.{tmpl_var name='domain'}
+otherName.2 =            SRVName;IA5STRING:_xmpp-server.{tmpl_var name='domain'}
+
+DNS.1       =                                       muc.{tmpl_var name='domain'}
+otherName.3 =             xmppAddr;FORMAT:UTF8,UTF8:muc.{tmpl_var name='domain'}
+otherName.4 =        SRVName;IA5STRING:_xmpp-server.muc.{tmpl_var name='domain'}
+
+DNS.2       =                                    pubsub.{tmpl_var name='domain'}
+otherName.5 =          xmppAddr;FORMAT:UTF8,UTF8:pubsub.{tmpl_var name='domain'}
+otherName.6 =     SRVName;IA5STRING:_xmpp-server.pubsub.{tmpl_var name='domain'}
+
+DNS.3       =                                      anon.{tmpl_var name='domain'}
+otherName.7 =            xmppAddr;FORMAT:UTF8,UTF8:anon.{tmpl_var name='domain'}
+otherName.8 =       SRVName;IA5STRING:_xmpp-server.anon.{tmpl_var name='domain'}
+
+DNS.4       =                                      xmpp.{tmpl_var name='domain'}
+otherName.9 =            xmppAddr;FORMAT:UTF8,UTF8:xmpp.{tmpl_var name='domain'}
+otherName.10=       SRVName;IA5STRING:_xmpp-server.xmpp.{tmpl_var name='domain'}
+
+DNS.5       =                                     proxy.{tmpl_var name='domain'}
+otherName.11=           xmppAddr;FORMAT:UTF8,UTF8:proxy.{tmpl_var name='domain'}
+otherName.12=      SRVName;IA5STRING:_xmpp-server.proxy.{tmpl_var name='domain'}
+
+DNS.6       =                                      vjud.{tmpl_var name='domain'}
+otherName.13=            xmppAddr;FORMAT:UTF8,UTF8:vjud.{tmpl_var name='domain'}
+otherName.14=       SRVName;IA5STRING:_xmpp-server.vjud.{tmpl_var name='domain'}

@@ -156,6 +156,7 @@ class backup_plugin {
 						}
 					}
 				}
+				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
@@ -227,6 +228,7 @@ class backup_plugin {
 						}
 					}
 				}
+				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}

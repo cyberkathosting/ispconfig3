@@ -1,0 +1,73 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='xmpp_use_ipv6_txt'}</label>
+    <div class="col-sm-9">
+        {tmpl_var name='xmpp_use_ipv6'}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='xmpp_bosh_max_inactivity_txt'}</label>
+    <div class="col-sm-3">
+        <input type="number" name="xmpp_bosh_max_inactivity" id="xmpp_bosh_max_inactivity" value="{tmpl_var name='xmpp_bosh_max_inactivity'}" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='xmpp_server_admins_txt'}</label>
+    <div class="col-sm-9">
+        <input type="text" name="xmpp_server_admins" id="xmpp_server_admins" value="{tmpl_var name='xmpp_server_admins'}" class="form-control" />
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='xmpp_modules_enabled_txt'}</label>
+    <div class="col-sm-9"><textarea class="form-control" name="xmpp_modules_enabled" id="xmpp_modules_enabled" rows='3' cols='30'>{tmpl_var name='xmpp_modules_enabled'}</textarea></div>
+</div>
+<div class="col-sm-12">
+    <h4>{tmpl_var name='xmpp_ports_txt'}</h4>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="col-sm-6 control-label">{tmpl_var name='xmpp_port_http_txt'}</label>
+            <div class="col-sm-6">
+                <input type="number" name="xmpp_port_http" id="xmpp_port_http" value="{tmpl_var name='xmpp_port_http'}" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="col-sm-6 control-label">{tmpl_var name='xmpp_port_https_txt'}</label>
+            <div class="col-sm-6">
+                <input type="number" name="xmpp_port_https" id="xmpp_port_https" value="{tmpl_var name='xmpp_port_https'}" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="col-sm-6 control-label">{tmpl_var name='xmpp_port_pastebin_txt'}</label>
+            <div class="col-sm-6">
+                <input type="number" name="xmpp_port_pastebin" id="xmpp_port_pastebin" value="{tmpl_var name='xmpp_port_pastebin'}" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="col-sm-6 control-label">{tmpl_var name='xmpp_port_bosh_txt'}</label>
+            <div class="col-sm-6">
+                <input type="number" name="xmpp_port_bosh" id="xmpp_port_bosh" value="{tmpl_var name='xmpp_port_bosh'}" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+<div class="clear"><div class="right">
+    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/server_config_edit.php">{tmpl_var name='btn_save_txt'}</button>
+    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div></div>

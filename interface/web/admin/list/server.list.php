@@ -110,4 +110,13 @@ $liste['item'][] = array( 'field'  => 'vserver_server',
 	'width'  => '',
 	'value'  => array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", '0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
 
+$liste['item'][] = array( 'field'  => 'xmpp_server',
+	'datatype' => 'VARCHAR',
+	'formtype' => 'SELECT',
+	'op'  => 'like',
+	'prefix' => '%',
+	'suffix' => '%',
+	'width'  => '',
+	'value'  => array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", '0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+
 ?>

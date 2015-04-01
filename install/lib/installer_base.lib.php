@@ -155,6 +155,7 @@ class installer_base {
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
+        if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
 
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
@@ -1308,6 +1309,125 @@ class installer_base {
 	}
 
 
+    public function configure_xmpp($options = '') {
+        global $conf;
+
+        if($conf['xmpp']['installed'] == false) return;
+        //* Create the logging directory for xmpp server
+        if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
+        chown('/var/log/metronome', 'metronome');
+        if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
+        chown('/var/run/metronome', 'metronome');
+        if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
+        chown('/var/lib/metronome', 'metronome');
+        if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
+        if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
+        unlink('/etc/metronome/metronome.cfg.lua');
+
+        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+        $server_name = $row["server_name"];
+
+        $tpl = new tpl('metronome_conf_main.master');
+        wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        $tpl = new tpl('metronome_conf_global.master');
+        $tpl->setVar('xmpp_admins','');
+        wf('/etc/metronome/global.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        // Copy isp libs
+        if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
+        caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+        // Process db config
+        $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
+        $content = rf($full_file_name);
+        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $conf['server_id'], $content);
+        wf($full_file_name, $content);
+
+        if(!stristr($options, 'dont-create-certs')){
+            // Create SSL Certificate for localhost
+            echo "writing new private key to 'localhost.key'\n-----\n";
+            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
+            $ssl_email = $this->free_query('Email Address', '');
+
+            $tpl = new tpl('metronome_conf_ssl.master');
+            $tpl->setVar('ssl_country',$ssl_country);
+            $tpl->setVar('ssl_locality',$ssl_locality);
+            $tpl->setVar('ssl_organisation',$ssl_organisation);
+            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
+            $tpl->setVar('domain',$ssl_domain);
+            $tpl->setVar('ssl_email',$ssl_email);
+            wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
+            unset($tpl);
+            // Generate new key, csr and cert
+            exec("(cd /etc/metronome/certs && make localhost.key)");
+            exec("(cd /etc/metronome/certs && make localhost.csr)");
+            exec("(cd /etc/metronome/certs && make localhost.cert)");
+            exec('chmod 0400 /etc/metronome/certs/localhost.key');
+            exec('chown metronome /etc/metronome/certs/localhost.key');
+        }else{
+            echo "-----\n";
+            echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
+            echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
+            echo "-----\n";
+        }
+
+        // Copy init script
+        caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
+        caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
+        caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
+
+        exec($this->getinitcommand('xmpp', 'restart'));
+
+/*
+writing new private key to 'smtpd.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+ * */
+
+        /*// Dont just copy over the virtualhost template but add some custom settings
+        $tpl = new tpl('apache_apps.vhost.master');
+
+        $tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
+        $tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
+        $tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
+        $tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
+        $tpl->setVar('apache_version',getapacheversion());
+
+
+        // comment out the listen directive if port is 80 or 443
+        if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
+            $tpl->setVar('vhost_port_listen','#');
+        } else {
+            $tpl->setVar('vhost_port_listen','');
+        }
+
+        wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
+        unset($tpl);*/
+    }
+
 
 	public function configure_apache() {
 		global $conf;
@@ -1969,8 +2089,9 @@ class installer_base {
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
+        $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ".intval($conf['server_id']);
 
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			$this->dbmaster->query($sql);
