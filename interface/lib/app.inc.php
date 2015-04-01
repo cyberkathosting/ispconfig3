@@ -70,6 +70,8 @@ class app {
 
 			$this->uses('session');
 			$sess_timeout = $this->conf('interface', 'session_timeout');
+			$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
+			$cookie_secure = ($_SERVER["HTTPS"] == 'on')?true:false;
 			if($sess_timeout) {
 				/* check if user wants to stay logged in */
 				if(isset($_POST['s_mod']) && isset($_POST['s_pg']) && $_POST['s_mod'] == 'login' && $_POST['s_pg'] == 'index' && isset($_POST['stay']) && $_POST['stay'] == '1') {
@@ -79,19 +81,19 @@ class app {
 					$tmp = $this->ini_parser->parse_ini_string(stripslashes($tmp['config']));
 					if(!isset($tmp['misc']['session_allow_endless']) || $tmp['misc']['session_allow_endless'] != 'y') {
 						$this->session->set_timeout($sess_timeout);
-						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
+						session_set_cookie_params(3600 * 24 * 365,'/',$cookie_domain,$cookie_secure,true); // cookie timeout is never updated, so it must not be short
 					} else {
 						// we are doing login here, so we need to set the session data
 						$this->session->set_permanent(true);
-						$this->session->set_timeout(365 * 24 * 3600); // one year
-						session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
+						$this->session->set_timeout(365 * 24 * 3600,'/',$cookie_domain,$cookie_secure,true); // one year
+						session_set_cookie_params(3600 * 24 * 365,'/',$cookie_domain,$cookie_secure,true); // cookie timeout is never updated, so it must not be short
 					}
 				} else {
 					$this->session->set_timeout($sess_timeout);
-					session_set_cookie_params(3600 * 24 * 365); // cookie timeout is never updated, so it must not be short
+					session_set_cookie_params(3600 * 24 * 365,'/',$cookie_domain,$cookie_secure,true); // cookie timeout is never updated, so it must not be short
 				}
 			} else {
-				session_set_cookie_params(0); // until browser is closed
+				session_set_cookie_params(0,'/',$cookie_domain,$cookie_secure,true); // until browser is closed
 			}
 			
 			session_set_save_handler( array($this->session, 'open'),
