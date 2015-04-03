@@ -152,7 +152,7 @@ class postfix_server_plugin {
 				reset($new_options); $i = 0;
 				// insert after check_sender_access but before permit_...
 				while (isset($new_options[$i]) && substr($new_options[$i], 0, 19) == 'check_sender_access') ++$i;
-				$new_options = array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
+				array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
 			}
 			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
 		}		
