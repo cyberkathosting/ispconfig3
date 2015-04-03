@@ -141,7 +141,7 @@ class postfix_server_plugin {
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
 			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
 			foreach ($options as $key => $value) {
-				if (!preg_math('/reject_authenticated_sender_login_mismatch/', $value)) {
+				if (!preg_match('/reject_authenticated_sender_login_mismatch/', $value)) {
 					$new_options[] = $value;
 				}
 			}
