@@ -159,6 +159,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_sender.cf
 		$this->process_postfix_config('mysql-virtual_sender.cf');
 
+		//* mysql-virtual_sender_login_maps.cf
+		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
+		
 		//* mysql-virtual_client.cf
 		$this->process_postfix_config('mysql-virtual_client.cf');
 

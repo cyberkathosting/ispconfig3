@@ -1033,8 +1033,8 @@ auth default {
   # This can be made to work with SQL and LDAP databases, see their example
   # configuration files for more information how to do it.
   # <doc/wiki/UserDatabase.Prefetch.txt>
-  #userdb prefetch {
-  #}
+  userdb prefetch {
+  }
 
   # System users (NSS, /etc/passwd, or similiar). In many systems nowadays this
   # uses Name Service Switch, which is configured in /etc/nsswitch.conf.

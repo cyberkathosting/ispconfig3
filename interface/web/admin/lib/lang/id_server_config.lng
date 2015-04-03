@@ -32,6 +32,7 @@ $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid-mapping cannot be c
 $wb['relayhost_txt'] = 'Relayhost';
 $wb['relayhost_user_txt'] = 'Pengguna Relayhost';
 $wb['relayhost_password_txt'] = 'Kata Sandi Relayhost';
+$wb['reject_sender_login_mismatch_txt'] = 'Reject sender and login mismatch';
 $wb['mailbox_size_limit_txt'] = 'Batasan Ukuran Mailbox';
 $wb['message_size_limit_txt'] = 'Batasan Ukuran Pesan';
 $wb['ip_address_txt'] = 'Alamat IP';

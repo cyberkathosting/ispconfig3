@@ -32,6 +32,7 @@ $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid-mapping cannot be c
 $wb['relayhost_txt'] = 'Relayhost';
 $wb['relayhost_user_txt'] = 'Relayhost Kullanıcı';
 $wb['relayhost_password_txt'] = 'Relayhost Şifre';
+$wb['reject_sender_login_mismatch_txt'] = 'Reject sender and login mismatch';
 $wb['mailbox_size_limit_txt'] = 'Mail kutusu boyutu';
 $wb['message_size_limit_txt'] = 'Mesaj boyutu';
 $wb['ip_address_txt'] = 'IP Adresleri';

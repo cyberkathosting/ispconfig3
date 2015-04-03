@@ -30,6 +30,7 @@ $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid-mapping cannot be c
 $wb['relayhost_txt'] = 'Servidor de retransmisión';
 $wb['relayhost_user_txt'] = 'Usuario de retransmisión';
 $wb['relayhost_password_txt'] = 'Contraseña de retramisión';
+$wb['reject_sender_login_mismatch_txt'] = 'Reject sender and login mismatch';
 $wb['mailbox_size_limit_txt'] = 'Límite de tamaño del buzón';
 $wb['message_size_limit_txt'] = 'Límite de tamaño del mensaje';
 $wb['ip_address_txt'] = 'Dirección IP';

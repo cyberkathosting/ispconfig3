@@ -138,6 +138,23 @@ class postfix_server_plugin {
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 		}
 		
+		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
+			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			foreach ($options as $key => $value) {
+				if (!preg_math('/reject_authenticated_sender_login_mismatch/', $value)) {
+					$new_options[] = $value;
+				}
+			}
+				
+			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
+				reset($new_options); $i = 0;
+				// insert after check_sender_access but before permit_...
+				while (isset($new_options[$i]) && substr($new_options[$i], 0, 19) == 'check_sender_access') ++$i;
+				$new_options = array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
+			}
+			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
+		}		
+		
 		if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 			// If dovecot switch to lmtp
 			if($app->system->is_installed('dovecot')) {

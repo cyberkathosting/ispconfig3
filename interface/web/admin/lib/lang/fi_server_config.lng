@@ -30,6 +30,7 @@ $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid-mapping cannot be c
 $wb['relayhost_txt'] = 'Edelleenlähetyspalvelin';
 $wb['relayhost_user_txt'] = 'Edelleenlähetyspalvelimen käyttäjätunnus';
 $wb['relayhost_password_txt'] = 'Edelleenlähetyspalvelimen salasana';
+$wb['reject_sender_login_mismatch_txt'] = 'Reject sender and login mismatch';
 $wb['mailbox_size_limit_txt'] = 'Postilaatikon koko';
 $wb['message_size_limit_txt'] = 'Viestien enimmäiskoko';
 $wb['ip_address_txt'] = 'IP-osoite';
