@@ -115,6 +115,7 @@ class postfix_server_plugin {
 				$rbl_hosts = explode(",", $rbl_hosts);
 			}
 			$options = explode(", ", exec("postconf -h smtpd_recipient_restrictions"));
+			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_rbl_client/', $value)) {
 					$new_options[] = $value;
@@ -140,6 +141,7 @@ class postfix_server_plugin {
 		
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
 			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_authenticated_sender_login_mismatch/', $value)) {
 					$new_options[] = $value;
