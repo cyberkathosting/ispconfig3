@@ -1,5 +1,5 @@
 user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
-query = SELECT destination FROM mail_forwarding WHERE source = '%s' AND active = 'y' AND type = 'alias' AND server_id = 1 UNION SELECT email FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND server_id = {server_id};
+query = SELECT destination FROM mail_forwarding WHERE source = '%s' AND active = 'y' AND type = 'alias' AND server_id = {server_id} UNION SELECT email FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND server_id = {server_id};
 hosts = {mysql_server_ip}
