@@ -228,23 +228,28 @@ class installer_dist extends installer_base {
 			}
 		}
 		unset($rbl_hosts);
-		unset($server_ini_array);
 
 		//* If Postgrey is installed, configure it
 		$greylisting = '';
 		if($conf['postgrey']['installed'] == true) {
-			$greylisting = 'check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
 		}
 		
-		//* These postconf commands will be executed on installation and update
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
+		unset($server_ini_array);
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
 		);
-
+		
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/opensuse_postfix.conf.master', 'tpl/opensuse_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
 		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines

@@ -748,13 +748,18 @@ class installer_base {
 			}
 		}
 		unset($rbl_hosts);
-		unset($server_ini_array);
 
 		//* If Postgrey is installed, configure it
 		$greylisting = '';
 		if($conf['postgrey']['installed'] == true) {
-			$greylisting = 'check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
 		}
+		
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
+		unset($server_ini_array);
 		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
@@ -762,6 +767,7 @@ class installer_base {
 			'{vmail_groupid}' => $cf['vmail_groupid'],
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
