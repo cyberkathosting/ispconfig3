@@ -202,7 +202,7 @@ class functions {
 		}
 
 		$ips = array();
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = '".$app->db->quote($type)."'");
+		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = ?", $type);
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
 				if(preg_match($regex, $result['ip'])){
@@ -229,39 +229,6 @@ class functions {
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-		
-		/*
-		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_slave WHERE xfer != ''");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				$tmp_ips = explode(',', $result['xfer']);
-				foreach($tmp_ips as $tmp_ip){
-					$tmp_ip = trim($tmp_ip);
-					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
-				}
-			}
-		}
-		$results = $app->db->queryAllRecords("SELECT xfer FROM dns_soa WHERE xfer != ''");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				$tmp_ips = explode(',', $result['xfer']);
-				foreach($tmp_ips as $tmp_ip){
-					$tmp_ip = trim($tmp_ip);
-					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
-				}
-			}
-		}
-		$results = $app->db->queryAllRecords("SELECT also_notify FROM dns_soa WHERE also_notify != ''");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				$tmp_ips = explode(',', $result['also_notify']);
-				foreach($tmp_ips as $tmp_ip){
-					$tmp_ip = trim($tmp_ip);
-					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
-				}
-			}
-		}
-		*/
 		
 		$results = $app->db->queryAllRecords("SELECT remote_ips FROM web_database WHERE remote_ips != ''");
 		if(!empty($results) && is_array($results)){

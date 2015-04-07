@@ -85,9 +85,8 @@ if(isset($settings['error'])) $app->error($settings['error']);
 // Get domain list
 $domains = array();
 $domain_for_user = '';
-if(!$adminflag) $domain_for_user = "AND (sys_userid = '".$app->db->quote($_SESSION['s']['user']['userid'])."'
-    OR sys_groupid = '".$app->db->quote($_SESSION['s']['user']['default_group'])."' )";
-$domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y' ".$domain_for_user." ORDER BY domain;");
+if(!$adminflag) $domain_for_user = "AND (sys_userid = ? OR sys_groupid = ?)";
+$domains_assoc = $app->db->queryAllRecords("SELECT domain FROM web_domain WHERE document_root != '' AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y' ".$domain_for_user." ORDER BY domain", $_SESSION['s']['user']['userid'], $_SESSION['s']['user']['default_group']);
 if(!empty($domains_assoc)) foreach($domains_assoc as $domain) $domains[] = $domain['domain'];
 
 	// If data has been submitted, validate it

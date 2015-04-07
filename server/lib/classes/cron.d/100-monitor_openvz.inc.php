@@ -86,14 +86,8 @@ class cronjob_monitor_openvz extends cronjob {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-			'VALUES (' .
-			$res['server_id'] . ', ' .
-			"'" . $app->dbmaster->quote($res['type']) . "', " .
-			'UNIX_TIMESTAMP(), ' .
-			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-			"'" . $res['state'] . "'" .
-			')';
-		$app->dbmaster->query($sql);
+			'VALUES (?, ?, UNIX_TIMESTAMP(), ?, ?)';
+		$app->dbmaster->query($sql, $res['server_id'], $res['type'], serialize($res['data']), $res['state']);
 
 		/* The new data is written, now we can delete the old one */
 		$this->_tools->delOldRecords($res['type'], $res['server_id']);
@@ -158,14 +152,8 @@ class cronjob_monitor_openvz extends cronjob {
 		 * Insert the data into the database
 		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-			'VALUES (' .
-			$res['server_id'] . ', ' .
-			"'" . $app->dbmaster->quote($res['type']) . "', " .
-			'UNIX_TIMESTAMP(), ' .
-			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-			"'" . $res['state'] . "'" .
-			')';
-		$app->dbmaster->query($sql);
+			'VALUES (?, ?, UNIX_TIMESTAMP(), ?, ?)';
+		$app->dbmaster->query($sql, $res['server_id'], $res['type'], serialize($res['data']), $res['state']);
 
 		/* The new data is written, now we can delete the old one */
 		$this->_tools->delOldRecords($res['type'], $res['server_id']);

@@ -80,8 +80,8 @@ class postfix_filter_plugin {
 
 		$type = $data["new"]["type"];
 		if($type != '') {
-			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ".intval($conf["server_id"])." AND type = '".$app->db->quote($type)."' AND active = 'y'";
-			$rules = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ? AND type = ?' AND active = 'y'";
+			$rules = $app->db->queryAllRecords($sql, $conf["server_id"], $type);
 			$content = '';
 			foreach($rules as $rule) {
 				$content .= $rule["pattern"];
@@ -111,8 +111,8 @@ class postfix_filter_plugin {
 
 		$type = $data["old"]["type"];
 		if($type != '') {
-			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ".intval($conf["server_id"])." AND type = '".$app->db->quote($type)."' AND active = 'y'";
-			$rules = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ? AND type = ? AND active = 'y'";
+			$rules = $app->db->queryAllRecords($sql, $conf["server_id"], $type);
 			$content = '';
 			foreach($rules as $rule) {
 				$content .= $rule["pattern"];

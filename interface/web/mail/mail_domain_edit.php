@@ -122,7 +122,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin')
 		{
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client_mail = $app->db->queryOneRecord("SELECT mail_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client_mail = $app->db->queryOneRecord("SELECT mail_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			$client_mail['mail_servers_ids'] = explode(',', $client_mail['mail_servers']);
 
@@ -241,7 +241,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
@@ -258,7 +258,7 @@ class page_action extends tform_actions {
 				}
 
 				if($client["limit_maildomain"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_maildomain"]) {
 						$app->error($app->tform->wordbook["limit_maildomain_txt"]);
 					}

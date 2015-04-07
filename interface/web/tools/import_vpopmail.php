@@ -68,7 +68,7 @@ if(isset($_POST['db_hostname']) && $_POST['db_hostname'] != '') {
 		$msg .= 'Databse connection succeeded<br />';
 
 		$local_server_id = intval($_POST['local_server_id']);
-		$tmp = $app->db->queryOneRecord("SELECT mail_server FROM server WHERE server_id = $local_server_id");
+		$tmp = $app->db->queryOneRecord("SELECT mail_server FROM server WHERE server_id = ?", $local_server_id);
 
 		if($tmp['mail_server'] == 1) {
 			start_import();
@@ -106,15 +106,15 @@ function start_import() {
 		foreach($records as $rec) {
 			$pw_domain = $rec['pw_domain'];
 			//* Check if we have a client with that username already
-			$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE username = '$pw_domain'");
+			$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE username = ?", $pw_domain);
 			if($tmp['number'] == 0) {
 				$pw_crypt_password = $app->auth->crypt_password($rec['pw_clear_passwd']);
 				$country = 'FI';
 
 				//* add client
 				$sql = "INSERT INTO `client` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `company_name`, `company_id`, `contact_name`, `customer_no`, `vat_id`, `street`, `zip`, `city`, `state`, `country`, `telephone`, `mobile`, `fax`, `email`, `internet`, `icq`, `notes`, `bank_account_owner`, `bank_account_number`, `bank_code`, `bank_name`, `bank_account_iban`, `bank_account_swift`, `default_mailserver`, `limit_maildomain`, `limit_mailbox`, `limit_mailalias`, `limit_mailaliasdomain`, `limit_mailforward`, `limit_mailcatchall`, `limit_mailrouting`, `limit_mailfilter`, `limit_fetchmail`, `limit_mailquota`, `limit_spamfilter_wblist`, `limit_spamfilter_user`, `limit_spamfilter_policy`, `default_webserver`, `limit_web_ip`, `limit_web_domain`, `limit_web_quota`, `web_php_options`, `limit_cgi`, `limit_ssi`, `limit_perl`, `limit_ruby`, `limit_python`, `force_suexec`, `limit_hterror`, `limit_wildcard`, `limit_ssl`, `limit_web_subdomain`, `limit_web_aliasdomain`, `limit_ftp_user`, `limit_shell_user`, `ssh_chroot`, `limit_webdav_user`, `limit_aps`, `default_dnsserver`, `limit_dns_zone`, `limit_dns_slave_zone`, `limit_dns_record`, `default_dbserver`, `limit_database`, `limit_cron`, `limit_cron_type`, `limit_cron_frequency`, `limit_traffic_quota`, `limit_client`, `limit_mailmailinglist`, `limit_openvz_vm`, `limit_openvz_vm_template_id`, `parent_client_id`, `username`, `password`, `language`, `usertheme`, `template_master`, `template_additional`, `created_at`, `id_rsa`, `ssh_rsa`)
-				VALUES(1, 1, 'riud', 'riud', '', '', '', '$pw_domain', '', '', '', '', '', '', '$country', '', '', '', '', 'http://', '', '', '', '', '', '', '', '', 1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, 0, 0, 0, 1, NULL, -1, -1, 'no,fast-cgi,cgi,mod,suphp', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', -1, -1, -1, 0, 'no,jailkit', 0, 0, 1, -1, -1, -1, 1, -1, 0, 'url', 5, -1, 0, -1, 0, 0, 0, '$pw_domain', '$pw_crypt_password', '".$conf['language']."', 'default', 0, '', NOW(), '', '')";
-				$app->db->query($sql);
+				VALUES(1, 1, 'riud', 'riud', '', '', '', ?, '', '', '', '', '', '', ?, '', '', '', '', 'http://', '', '', '', '', '', '', '', '', 1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, 0, 0, 0, 1, NULL, -1, -1, 'no,fast-cgi,cgi,mod,suphp', 'n', 'n', 'n', 'n', 'n', 'y', 'n', 'n', 'n', -1, -1, -1, 0, 'no,jailkit', 0, 0, 1, -1, -1, -1, 1, -1, 0, 'url', 5, -1, 0, -1, 0, 0, 0, ?, ?, ?, 'default', 0, '', NOW(), '', '')";
+				$app->db->query($sql, $pw_domain,$country, $pw_domain, $pw_crypt_password, $conf['language']);
 				$client_id = $app->db->insertID();
 
 				//* add sys_group
@@ -134,13 +134,13 @@ function start_import() {
 				// Create the controlpaneluser for the client
 				//Generate ssh-rsa-keys
 				exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-				$app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa.pub'))."' WHERE client_id = ".$client_id);
+				$app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents('/tmp/id_rsa'), @file_get_contents('/tmp/id_rsa.pub'), $client_id);
 				exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
 
 				// Create the controlpaneluser for the client
 				$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-				VALUES ('$username','$password','$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,".$client_id.")";
-				$app->db->query($sql);
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				$app->db->query($sql, $username,$password,$modules,$startmodule,$usertheme,$type,$active,$language,$groups,$groupid,$client_id);
 
 				//* Set the default servers
 				$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
@@ -152,8 +152,8 @@ function start_import() {
 				$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 AND mirror_server_id = 0 LIMIT 0,1');
 				$default_dbserver = $app->functions->intval($tmp['server_id']);
 
-				$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$client_id;
-				$app->db->query($sql);
+				$sql = "UPDATE client SET default_mailserver = ?, default_webserver = ?, default_dnsserver = ?, default_dbserver = ? WHERE client_id = ?";
+				$app->db->query($sql, $default_mailserver, $default_webserver, $default_dnsserver, $default_dbserver, $client_id);
 
 				$msg .= "Added Client $username.<br />";
 			} else {
@@ -169,9 +169,9 @@ function start_import() {
 			$domain = $rec['pw_domain'];
 
 			//* Check if domain exists already
-			$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE domain = '$domain'");
+			$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE domain = ?", $domain);
 			if($tmp['number'] == 0) {
-				$user_rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = '$domain'");
+				$user_rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = ?", $domain);
 				$sys_userid = ($user_rec['userid'] > 0)?$user_rec['userid']:1;
 				$sys_groupid = ($user_rec['default_group'] > 0)?$user_rec['default_group']:1;
 
@@ -193,12 +193,12 @@ function start_import() {
 			$email = $rec['pw_name'].'@'.$rec['pw_domain'];
 
 			//* Check for duplicate mailboxes
-			$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = '".$app->db->quote($email)."'");
+			$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = ?", $email);
 
 			if($tmp['number'] == 0) {
 
 				//* get the mail domain for the mailbox
-				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = '$domain'");
+				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
 
 				if(is_array($domain_rec)) {
 					$pw_crypt_password = $app->auth->crypt_password($rec['pw_clear_passwd']);
@@ -242,12 +242,12 @@ function start_import() {
 			}
 
 			//* Check for duplicate forwards
-			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($email)."' AND destination = '".$app->db->quote($target)."'");
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = ? AND destination = ?", $email, $target);
 
 			if($tmp['number'] == 0 && $target != '') {
 
 				//* get the mail domain
-				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = '".$rec['domain']."'");
+				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $rec['domain']);
 
 				if(is_array($domain_rec)) {
 					$sql = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `source`, `destination`, `type`, `active`)

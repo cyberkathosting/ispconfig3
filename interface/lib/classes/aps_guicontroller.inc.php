@@ -100,7 +100,7 @@ class ApsGUIController extends ApsBase
 
 		$customerdata = $app->db->queryOneRecord("SELECT client_id FROM sys_group, web_domain
             WHERE web_domain.sys_groupid = sys_group.groupid
-            AND web_domain.domain = '".$app->db->quote($domain)."';");
+            AND web_domain.domain = ?", $domain);
 		if(!empty($customerdata)) $customerid = $customerdata['client_id'];
 
 		return $customerid;
@@ -122,14 +122,14 @@ class ApsGUIController extends ApsBase
 
 		$websrv = $app->db->queryOneRecord("SELECT server_id FROM web_domain
             WHERE domain = (SELECT value FROM aps_instances_settings
-                WHERE name = 'main_domain' AND instance_id = ".$app->db->quote($instanceid).");");
+                WHERE name = 'main_domain' AND instance_id = ?)", $instanceid);
 
 		// If $websrv is empty, an error has occured. Domain no longer existing? Settings table damaged?
 		// Anyhow, remove this instance record because it's not useful at all
 		if(empty($websrv))
 		{
-			$app->db->query("DELETE FROM aps_instances WHERE id = ".$app->db->quote($instanceid).";");
-			$app->db->query("DELETE FROM aps_instances_settings WHERE instance_id = ".$app->db->quote($instanceid).";");
+			$app->db->query("DELETE FROM aps_instances WHERE id = ?", $instanceid);
+			$app->db->query("DELETE FROM aps_instances_settings WHERE instance_id = ?", $instanceid);
 		}
 		else $webserver_id = $websrv['server_id'];
 
@@ -154,9 +154,9 @@ class ApsGUIController extends ApsBase
 		$result = $app->db->queryOneRecord("SELECT id, name,
             CONCAT(version, '-', CAST(`release` AS CHAR)) AS current_version
             FROM aps_packages
-            WHERE name = (SELECT name FROM aps_packages WHERE id = ".$app->db->quote($id).")
+            WHERE name = (SELECT name FROM aps_packages WHERE id = ?)
             AND package_status = 2
-            ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC");
+            ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC", $id);
 
 		if(!empty($result) && ($id != $result['id'])) return $result['id'];
 
@@ -180,7 +180,7 @@ class ApsGUIController extends ApsBase
 			'package_status = '.PACKAGE_ENABLED.' AND' :
 			'(package_status = '.PACKAGE_ENABLED.' OR package_status = '.PACKAGE_LOCKED.') AND';
 
-		$result = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE ".$sql_ext." id = ".$app->db->quote($id).";");
+		$result = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE ".$sql_ext." id = ?", $id);
 		if(!$result) return false;
 
 		return true;
@@ -203,9 +203,15 @@ class ApsGUIController extends ApsBase
 		if(preg_match('/^[0-9]+$/', $id) != 1) return false;
 
 		// Only filter if not admin
-		$sql_ext = (!$is_admin) ? 'customer_id = '.$app->db->quote($client_id).' AND' : '';
-
-		$result = $app->db->queryOneRecord('SELECT id FROM aps_instances WHERE '.$sql_ext.' id = '.$app->db->quote($id).';');
+		$params = array();
+		$sql_ext = '';
+		if(!$is_admin) {
+			$sql_ext = 'customer_id = ? AND ';
+			$params[] = $client_id;
+		}
+		$params[] = $id;
+		
+		$result = $app->db->queryOneRecord('SELECT id FROM aps_instances WHERE '.$sql_ext.' id = ?', true, $params);
 		if(!$result) return false;
 
 		return true;
@@ -226,7 +232,7 @@ class ApsGUIController extends ApsBase
 		unset($tmp);
 	
 		// get information if the webserver is a db server, too
-		$web_server = $app->db->queryOneRecord("SELECT server_id,server_name,db_server FROM server WHERE server_id  = ".$app->functions->intval($websrv['server_id']));
+		$web_server = $app->db->queryOneRecord("SELECT server_id,server_name,db_server FROM server WHERE server_id  = ?", $websrv['server_id']);
 		if($web_server['db_server'] == 1) {
 			// create database on "localhost" (webserver)
 			$mysql_db_server_id = $app->functions->intval($websrv['server_id']);
@@ -235,7 +241,7 @@ class ApsGUIController extends ApsBase
 			$mysql_db_remote_ips = '';
 		} else {
 			//* get the default database server of the client
-			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$app->functions->intval($websrv['sys_groupid']));
+			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $websrv['sys_groupid']);
 			if(is_array($client) && $client['default_dbserver'] > 0 && $client['default_dbserver'] != $websrv['server_id']) {
 				$mysql_db_server_id =  $app->functions->intval($client['default_dbserver']);
 				$dbserver_config = $web_config = $app->getconf->get_server_config($app->functions->intval($mysql_db_server_id), 'server');
@@ -263,7 +269,7 @@ class ApsGUIController extends ApsBase
 			//* Find a free db name for the app
 			for($n = 1; $n <= 1000; $n++) {
 				$mysql_db_name = $app->db->quote(($dbname_prefix != '' ? $dbname_prefix.'aps'.$n : uniqid('aps')));
-				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = '".$app->db->quote($mysql_db_name)."'");
+				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = ?", $mysql_db_name);
 				if($tmp['number'] == 0) break;
 			}
 			$settings['main_database_name'] = $mysql_db_name;
@@ -272,14 +278,14 @@ class ApsGUIController extends ApsBase
 			//* Find a free db username for the app
 			for($n = 1; $n <= 1000; $n++) {
 				$mysql_db_user = $app->db->quote(($dbuser_prefix != '' ? $dbuser_prefix.'aps'.$n : uniqid('aps')));
-				$tmp = $app->db->queryOneRecord("SELECT count(database_user_id) as number FROM web_database_user WHERE database_user = '".$app->db->quote($mysql_db_user)."'");
+				$tmp = $app->db->queryOneRecord("SELECT count(database_user_id) as number FROM web_database_user WHERE database_user = ?", $mysql_db_user);
 				if($tmp['number'] == 0) break;
 			}
 			$settings['main_database_login'] = $mysql_db_user;
 		}
 		
 		//* Create the mysql database user if not existing
-		$tmp = $app->db->queryOneRecord("SELECT database_user_id FROM web_database_user WHERE database_user = '".$app->db->quote($settings['main_database_login'])."'");
+		$tmp = $app->db->queryOneRecord("SELECT database_user_id FROM web_database_user WHERE database_user = ?", $settings['main_database_login']);
 		if(!$tmp) {
 			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `database_user`, `database_user_prefix`, `database_password`)
                                           VALUES( ".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->functions->intval($websrv['sys_perm_group'])."', '', 0, '".$settings['main_database_login']."', '".$app->db->quote($dbuser_prefix) . "', PASSWORD('".$settings['main_database_password']."'))";
@@ -288,7 +294,7 @@ class ApsGUIController extends ApsBase
 		else $mysql_db_user_id = $tmp['database_user_id'];
 		
 		//* Create the mysql database if not existing
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = '".$app->db->quote($settings['main_database_name'])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = ?", $settings['main_database_name']);
 		if($tmp['number'] == 0) {
 			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `parent_domain_id`, `type`, `database_name`, `database_name_prefix`, `database_user_id`, `database_ro_user_id`, `database_charset`, `remote_access`, `remote_ips`, `backup_copies`, `active`, `backup_interval`)
                                           VALUES( ".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->functions->intval($websrv['sys_perm_group'])."', '', $mysql_db_server_id, ".$app->functions->intval($websrv['domain_id']).", 'mysql', '".$settings['main_database_name']."', '" . $app->db->quote($dbname_prefix) . "', '$mysql_db_user_id', 0, '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$app->functions->intval($websrv['backup_copies']).", 'y', '".$app->functions->intval($websrv['backup_interval'])."')";
@@ -312,7 +318,7 @@ class ApsGUIController extends ApsBase
 		$app->uses('tools_sites');
 
 		$webserver_id = 0;
-		$websrv = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$app->db->quote($settings['main_domain'])."';");
+		$websrv = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = ?", $settings['main_domain']);
 		if(!empty($websrv)) $webserver_id = $websrv['server_id'];
 		$customerid = $this->getCustomerIDFromDomain($settings['main_domain']);
 
@@ -336,7 +342,7 @@ class ApsGUIController extends ApsBase
 
 
 		//* Create the MySQL database for the application if necessary
-		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($packageid).';');
+		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = ?', $packageid);
 		$metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';
 		$sxe = $this->readInMetaFile($metafile);
 
@@ -371,24 +377,14 @@ class ApsGUIController extends ApsBase
 	public function deleteInstance($instanceid, $keepdatabase = false)
 	{
 		global $app;
-		/*
-		$app->db->query("UPDATE aps_instances SET instance_status = ".INSTANCE_REMOVE." WHERE id = ".$instanceid.";");
-
-        $webserver_id = $this->getInstanceDataForDatalog($instanceid);
-        if($webserver_id == '') return;
-
-        // Create a sys_datalog entry for deletion
-        $datalog = array('Instance_id' => $instanceid, 'server_id' => $webserver_id);
-        $app->db->datalogSave('aps', 'DELETE', 'id', $instanceid, array(), $datalog);
-		*/
 
 		if (!$keepdatabase) {
-			$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ".$instanceid." LIMIT 0,1";
-			$tmp = $app->db->queryOneRecord($sql);
+			$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ? LIMIT 0,1";
+			$tmp = $app->db->queryOneRecord($sql, $instanceid);
 			if($tmp['database_id'] > 0) $app->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
 	
 			$database_user = $tmp['database_user_id'];
-			$tmp = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = '" . $app->functions->intval($database_user) . "' OR `database_ro_user_id` = '" . $app->functions->intval($database_user) . "'");
+			$tmp = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = ? OR `database_ro_user_id` = ?", $database_user, $database_user);
 			if($tmp['cnt'] < 1) $app->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
 		}
 
@@ -406,7 +402,7 @@ class ApsGUIController extends ApsBase
 	{
 		global $app;
 
-		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($id).';');
+		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = ?', $id);
 
 		// Load in meta file if existing and register its namespaces
 		$metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';
@@ -528,7 +524,7 @@ class ApsGUIController extends ApsBase
 			if(in_array($postinput['main_domain'], $domains))
 			{
 				$docroot = $app->db->queryOneRecord("SELECT document_root FROM web_domain
-                    WHERE domain = '".$app->db->quote($postinput['main_domain'])."';");
+                    WHERE domain = ?", $postinput['main_domain']);
 				$new_path = $docroot['document_root'];
 				if(substr($new_path, -1) != '/') $new_path .= '/';
 				$new_path .= $main_location;
@@ -543,13 +539,13 @@ class ApsGUIController extends ApsBase
 				$instance_domains = $app->db->queryAllRecords("SELECT instance_id, s.value AS domain
                     FROM aps_instances AS i, aps_instances_settings AS s
                     WHERE i.id = s.instance_id AND s.name = 'main_domain'
-                        AND i.customer_id = '".$app->db->quote($customerid)."';");
+                        AND i.customer_id = ?", $customerid);
 				for($i = 0; $i < count($instance_domains); $i++)
 				{
 					$used_path = '';
 
 					$doc_root = $app->db->queryOneRecord("SELECT document_root FROM web_domain
-                        WHERE domain = '".$app->db->quote($instance_domains[$i]['domain'])."';");
+                        WHERE domain = ?", $instance_domains[$i]['domain']);
 
 					// Probably the domain settings were changed later, so make sure the doc_root
 					// is not empty for further validation
@@ -560,7 +556,7 @@ class ApsGUIController extends ApsBase
 
 						$location_for_domain = $app->db->queryOneRecord("SELECT value
                             FROM aps_instances_settings WHERE name = 'main_location'
-                            AND instance_id = '".$app->db->quote($instance_domains[$i]['instance_id'])."';");
+                            AND instance_id = ?", $instance_domains[$i]['instance_id']);
 
 						// The location might be empty but the DB return must not be false!
 						if($location_for_domain) $used_path .= $location_for_domain['value'];
@@ -693,7 +689,7 @@ class ApsGUIController extends ApsBase
 	{
 		global $app;
 
-		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = '.$app->db->quote($id).';');
+		$pkg = $app->db->queryOneRecord('SELECT * FROM aps_packages WHERE id = ?', $id);
 
 		// Load in meta file if existing and register its namespaces
 		$metafile = $this->interface_pkg_dir.'/'.$pkg['path'].'/APP-META.xml';

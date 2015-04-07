@@ -78,7 +78,7 @@ class cronjob_monitor_database_size extends cronjob {
 		$state = 'ok';
 
 		/** Fetch the data of all databases into an array */
-		$databases = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = $server_id GROUP BY sys_groupid, database_name ASC");
+		$databases = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = ? GROUP BY sys_groupid, database_name ASC", $server_id);
 
 		if(is_array($databases) && !empty($databases)) {
 
@@ -98,14 +98,8 @@ class cronjob_monitor_database_size extends cronjob {
 
 			//* Insert the data into the database
 			$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-				'VALUES (' .
-				$res['server_id'] . ', ' .
-				"'" . $app->dbmaster->quote($res['type']) . "', " .
-				'UNIX_TIMESTAMP(), ' .
-				"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-				"'" . $res['state'] . "'" .
-				')';
-			$app->dbmaster->query($sql);
+				'VALUES (?, ?, UNIX_TIMESTAMP(), ?, ?)';
+			$app->dbmaster->query($sql, $res['server_id'], $res['type'], serialize($res['data']), $res['state']);
 
 			//* The new data is written, now we can delete the old one
 			$this->_tools->delOldRecords($res['type'], $res['server_id']);

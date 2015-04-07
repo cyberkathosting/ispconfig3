@@ -50,7 +50,7 @@ class validate_ftpuser {
 
 		if($primary_id > 0) {
 			//* get parent_domain_id from website
-			$ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = '".$app->db->quote($primary_id)."'");
+			$ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = ?", $primary_id);
 			if(!is_array($ftp_data) || $ftp_data["parent_domain_id"] < 1) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -66,7 +66,7 @@ class validate_ftpuser {
 			$parent_domain_id = $app->functions->intval($app->remoting_lib->dataRecord['parent_domain_id']);
 		}
 
-		$domain_data = $app->db->queryOneRecord("SELECT domain_id, document_root FROM web_domain WHERE domain_id = '".$app->db->quote($parent_domain_id)."'");
+		$domain_data = $app->db->queryOneRecord("SELECT domain_id, document_root FROM web_domain WHERE domain_id = ?", $parent_domain_id);
 		if(!is_array($domain_data) || $domain_data["domain_id"] < 1) {
 			$errmsg = $validator['errmsg'];
 			if(isset($app->tform->wordbook[$errmsg])) {

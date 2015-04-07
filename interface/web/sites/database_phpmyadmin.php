@@ -45,14 +45,12 @@ $databaseId = $app->functions->intval($_GET['id']);
 /*
  * Get the data to connect to the database
  */
-$dbData = $app->db->queryOneRecord("SELECT server_id, database_name FROM web_database WHERE database_id = " . $databaseId);
+$dbData = $app->db->queryOneRecord("SELECT server_id, database_name FROM web_database WHERE database_id = ?", $databaseId);
 $serverId = $app->functions->intval($dbData['server_id']);
 if ($serverId == 0){
 	die ("No DB-Server found!");
 }
-$serverData = $app->db->queryOneRecord(
-	"SELECT server_name FROM server WHERE server_id = " .
-	$serverId);
+$serverData = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $serverId);
 
 $app->uses('getconf');
 $global_config = $app->getconf->get_global_config('sites');

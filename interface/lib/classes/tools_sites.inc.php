@@ -87,7 +87,7 @@ class tools_sites {
 			if(isset($dataRecord['client_group_id'])) {
 				$client_group_id = $dataRecord['client_group_id'];
 			} elseif (isset($dataRecord['parent_domain_id'])) {
-				$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
+				$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ?", $dataRecord['parent_domain_id']);
 				$client_group_id = $tmp['sys_groupid'];
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
@@ -96,7 +96,7 @@ class tools_sites {
 			}
 		}
 
-		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
+		$tmp = $app->db->queryOneRecord("SELECT name FROM sys_group WHERE groupid = ?", $client_group_id);
 		$clientName = $tmp['name'];
 		if ($clientName == "") $clientName = 'default';
 		$clientName = $this->convertClientName($clientName);
@@ -114,7 +114,7 @@ class tools_sites {
 			if(isset($dataRecord['client_group_id'])) {
 				$client_group_id = $dataRecord['client_group_id'];
 			} elseif (isset($dataRecord['parent_domain_id']) && $dataRecord['parent_domain_id'] != 0) {
-				$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = " . $dataRecord['parent_domain_id']);
+				$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ?", $dataRecord['parent_domain_id']);
 				$client_group_id = $tmp['sys_groupid'];
 			} elseif(isset($dataRecord['sys_groupid'])) {
 				$client_group_id = $dataRecord['sys_groupid'];
@@ -122,7 +122,7 @@ class tools_sites {
 				return '[CLIENTID]';
 			}
 		}
-		$tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = " . $app->functions->intval($client_group_id));
+		$tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $client_group_id);
 		$clientID = $tmp['client_id'];
 		if ($clientID == '') $clientID = '0';
 		return $clientID;

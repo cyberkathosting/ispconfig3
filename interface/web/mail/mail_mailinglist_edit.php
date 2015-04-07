@@ -138,7 +138,7 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailmailinglist, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_mailmailinglist, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			//* Check if Domain belongs to user
 			if(isset($_POST["domain"])) {
@@ -166,7 +166,7 @@ class page_action extends tform_actions {
 
 				// Check if the user may add another mail_domain
 				if($client["limit_mailmailinglist"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(mailinglist_id) as number FROM mail_mailinglist WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_mailmailinglist"]) {
 						$app->error($app->tform->wordbook["limit_mailmailinglist_txt"]);
 					}

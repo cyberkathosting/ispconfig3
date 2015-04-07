@@ -85,7 +85,7 @@ $ssl_available = true;
 $backup_available = ($vhostdomain_type == 'domain');
 if(!$app->auth->is_admin()) {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
-	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl, limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl, limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 	if($client['limit_wildcard'] != 'y') $wildcard_available = false;
 	if($client['limit_ssl'] != 'y') $ssl_available = false;

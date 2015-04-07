@@ -95,7 +95,7 @@ class validate_systemuser {
 
 		if($primary_id > 0) {
 			//* get parent_domain_id from website
-			$shell_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM shell_user WHERE shell_user_id = '".$app->db->quote($primary_id)."'");
+			$shell_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM shell_user WHERE shell_user_id = ?", $primary_id);
 			if(!is_array($shell_data) || $shell_data["parent_domain_id"] < 1) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -111,7 +111,7 @@ class validate_systemuser {
 			$parent_domain_id = $app->functions->intval($app->remoting_lib->dataRecord['parent_domain_id']);
 		}
 
-		$domain_data = $app->db->queryOneRecord("SELECT domain_id, document_root FROM web_domain WHERE domain_id = '".$app->db->quote($parent_domain_id)."'");
+		$domain_data = $app->db->queryOneRecord("SELECT domain_id, document_root FROM web_domain WHERE domain_id = ?", $parent_domain_id);
 		if(!is_array($domain_data) || $domain_data["domain_id"] < 1) {
 			$errmsg = $validator['errmsg'];
 			if(isset($app->tform->wordbook[$errmsg])) {

@@ -67,8 +67,8 @@ class page_action extends tform_actions {
     private function delete_accounts($domain){
         global $app;
         // get all accounts
-        $sql = "SELECT * FROM xmpp_user WHERE jid LIKE ? AND ?";
-        $users = $app->db->queryAllRecords($sql, '%@'.$domain, $app->tform->getAuthSQL('d'));
+        $sql = "SELECT * FROM xmpp_user WHERE jid LIKE ? AND " . $app->tform->getAuthSQL('d');
+        $users = $app->db->queryAllRecords($sql, '%@'.$domain);
         foreach($users AS $u)
             $app->db->datalogDelete('xmpp_user', 'xmppuser_id', $u['xmppuser_id']);
     }
@@ -77,8 +77,8 @@ class page_action extends tform_actions {
         global $app;
 
         // purge all xmpp related rr-record
-        $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND ? ORDER BY serial DESC";
-        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%', $app->tform->getAuthSQL('r'));
+        $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
+        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%');
         if (is_array($rec[1])) {
             for ($i=0; $i < count($rec); ++$i)
                 $app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);

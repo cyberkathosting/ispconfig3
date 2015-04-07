@@ -86,7 +86,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 		$domains = $exdb->queryAllRecords("SELECT * FROM domains WHERE type = 'MASTER'");
 		if(is_array($domains)) {
 			foreach($domains as $domain) {
-				$soa = $exdb->queryOneRecord("SELECT * FROM records WHERE type = 'SOA' AND domain_id = ".$domain['id']);
+				$soa = $exdb->queryOneRecord("SELECT * FROM records WHERE type = 'SOA' AND domain_id = ?", $domain['id']);
 				if(is_array($soa)) {
 					$parts = explode(' ', $soa['content']);
 					$origin = $app->db->quote(addot($soa['name']));
@@ -106,7 +106,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 					$msg .= 'Import Zone: '.$soa['name'].'<br />';
 
 					//* Process the other records
-					$records = $exdb->queryAllRecords("SELECT * FROM records WHERE type != 'SOA' AND domain_id = ".$domain['id']);
+					$records = $exdb->queryAllRecords("SELECT * FROM records WHERE type != 'SOA' AND domain_id = ?", $domain['id']);
 					if(is_array($records)) {
 						foreach($records as $rec) {
 							$rr = array();

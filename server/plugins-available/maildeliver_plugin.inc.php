@@ -165,8 +165,8 @@ class maildeliver_plugin {
 			$tpl->setVar('autoresponder_text', $data["new"]["autoresponder_text"]);
 
 			//* Set alias addresses for autoresponder
-			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = ?";
+			$records = $app->db->queryAllRecords($sql, $data["new"]["email"]);
 
 			$addresses = array();
 			$addresses[] = $data["new"]["email"];
@@ -181,8 +181,8 @@ class maildeliver_plugin {
 			$alias_addresses = array();
 
 			$email_parts = explode('@', $data["new"]["email"]);
-			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = '@".$app->db->quote($email_parts[1])."'";
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = ?";
+			$records = $app->db->queryAllRecords($sql, '@'.$email_parts[1]);
 			if(is_array($records) && count($records) > 0) {
 				$app->log("Found " . count($records) . " records (aliasdomains).", LOGLEVEL_DEBUG);
 				foreach($records as $rec) {

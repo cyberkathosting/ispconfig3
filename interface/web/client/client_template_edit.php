@@ -69,7 +69,7 @@ class page_action extends tform_actions {
 
 		if(isset($this->dataRecord['template_type'])) {
 			//* Check if the template_type has been changed
-			$rec = $app->db->queryOneRecord("SELECT template_type from client_template WHERE template_id = ".$this->id);
+			$rec = $app->db->queryOneRecord("SELECT template_type from client_template WHERE template_id = ?", $this->id);
 			if($rec['template_type'] != $this->dataRecord['template_type']) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The template type can not be changed.');
@@ -99,11 +99,12 @@ class page_action extends tform_actions {
 		 * the template has changed. apply the new data to all clients
 		 */
 		if ($template_type == 'm'){
-			$sql = "SELECT client_id FROM client WHERE template_master = " . $this->id;
+			$sql = "SELECT client_id FROM client WHERE template_master = ?";
+			$clients = $app->db->queryAllRecords($sql, $this->id);
 		} else {
-			$sql = "SELECT client_id FROM client WHERE template_additional LIKE '%/" . $this->id . "/%' OR template_additional LIKE '" . $this->id . "/%' OR template_additional LIKE '%/" . $this->id . "' UNION SELECT client_id FROM client_template_assigned WHERE client_template_id = " . $this->id;
+			$sql = "SELECT client_id FROM client WHERE template_additional LIKE ? OR template_additional LIKE ? OR template_additional LIKE ? UNION SELECT client_id FROM client_template_assigned WHERE client_template_id = ?";
+			$clients = $app->db->queryAllRecords($sql, '%/' . $this->id . '/%', $this->id . '/%', '%/' . $this->id, $this->id);
 		}
-		$clients = $app->db->queryAllRecords($sql);
 		if (is_array($clients)){
 			foreach ($clients as $client){
 				$app->client_templates->apply_client_templates($client['client_id']);

@@ -5,8 +5,8 @@
 //######################################################################################################
 
 
-$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ".$conf["server_id"];
-$records = $app->db->queryAllRecords($sql);
+$sql = "SELECT domain_id, domain, document_root FROM web_domain WHERE server_id = ?";
+$records = $app->db->queryAllRecords($sql, $conf["server_id"]);
 foreach($records as $rec) {
 	$domain = escapeshellcmd($rec["domain"]);
 	$logdir = escapeshellcmd($rec["document_root"].'/log');

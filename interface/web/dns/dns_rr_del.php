@@ -54,7 +54,7 @@ class page_action extends tform_actions {
 		global $app; $conf;
 
 		//* Update the serial number of the SOA record
-		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = '".$app->functions->intval($this->dataRecord["zone"])."' AND ".$app->tform->getAuthSQL('r'));
+		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
 		$soa_id = $app->functions->intval($this->dataRecord["zone"]);
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
 		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);

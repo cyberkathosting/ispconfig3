@@ -55,7 +55,7 @@ class page_action extends tform_actions {
 		$old_record = $app->tform->getDataRecord($this->id);
 
 		/* we cannot use datalogDelete here, as we need to set server_id to 0 */
-		$app->db->query("DELETE FROM `web_database_user` WHERE $index_field = '$index_value'");
+		$app->db->query("DELETE FROM `web_database_user` WHERE ?? = ?", $index_field, $index_value);
 		$new_rec = array();
 		$old_record['server_id'] = 0;
 		$app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $this->id, $old_record, $new_rec);
@@ -65,12 +65,12 @@ class page_action extends tform_actions {
 		global $app; $conf;
 
 		//* Update all records that belog to this user
-		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = '".$app->functions->intval($this->id)."'");
+		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = ?", $this->id);
 		foreach($records as $rec) {
 			$app->db->datalogUpdate('web_database', 'database_user_id=NULL', 'database_id', $rec['database_id']);
 
 		}
-		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($this->id)."'");
+		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = ?", $this->id);
 		foreach($records as $rec) {
 			$app->db->datalogUpdate('web_database', 'database_ro_user_id=NULL', 'database_id', $rec['database_id']);
 		}

@@ -182,8 +182,8 @@ class page_action extends tform_actions {
 		//* firewall
 		$array_out = array();
 		foreach($server_data as $db_table => $data) {
-			$sql = @(isset($data['server_id']))?"SELECT * FROM $db_table WHERE server_id = $server_id":"SELECT * FROM $db_table";;
-			$records = $app->db->queryAllRecords($sql);
+			$sql = @(isset($data['server_id']))?"SELECT * FROM ?? WHERE server_id = ":"SELECT * FROM ??";
+			$records = $app->db->queryAllRecords($sql, $db_table, $server_id);
 			if (!empty($records)) array_push($array_out, $db_table);
 		}
 
@@ -377,7 +377,7 @@ class page_action extends tform_actions {
 
 		$server_name = array();
 		if ( $server_id == 0 ) { //* resync multiple server
-			$temp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE ".$server_type."_server = 1 AND active = 1 AND mirror_server_id = 0");
+			$temp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE ?? = 1 AND active = 1 AND mirror_server_id = 0", $server_type."_server");
 			foreach ($temp as $server) {
 				$temp_id .= $server['server_id'].',';
 				$server_name[$server['server_id']] = $server['server_name'];
@@ -389,11 +389,11 @@ class page_action extends tform_actions {
 		unset($temp);
 
 		if ( isset($temp_id) ) $server_id = rtrim($temp_id,',');
-		$sql = "SELECT * FROM $db_table";
+		$sql = "SELECT * FROM ??";
 		if ($db_table != "mail_user_filter") $sql .= " WHERE server_id IN (".$server_id.") ";
 		$sql .= $opt;
 		if ($active) $sql .= " AND active = 'y'"; 
-		$records = $app->db->queryAllRecords($sql);
+		$records = $app->db->queryAllRecords($sql, $db_table);
 
 		return array($records, $server_name);
 	}			
@@ -529,7 +529,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord['resync_client'] == 1) {
         	$db_table = 'client';
         	$index_field = 'client_id';
-        	$records = $app->db->queryAllRecords("SELECT * FROM ".$db_table);
+        	$records = $app->db->queryAllRecords("SELECT * FROM ??", $db_table);
 			$msg .= '<b>'.$app->tform->wordbook['do_clients_txt'].'</b><br>';
 			if(!empty($records)) {
 	        	$tform_def_file = '../client/form/client.tform.php';

@@ -58,7 +58,7 @@ class cronjob_cleanup extends cronjob {
 			$records = $app->db->queryAllRecords("SELECT s.instance_id, s.name, s.value FROM `aps_instances_settings` as s INNER JOIN `aps_instances` as i ON (i.id = s.instance_id) WHERE s.value != '' AND s.name IN ('main_database_password', 'admin_password') AND i.instance_status > 1");
 			if(is_array($records)) {
 				foreach($records as $rec) {
-					$tmp = $app->db->queryOneRecord("SELECT id FROM aps_instances_settings WHERE instance_id = '".$app->db->quote($rec['instance_id'])."' AND name = '".$app->db->quote($rec['name'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT id FROM aps_instances_settings WHERE instance_id = ? AND name = ?", $rec['instance_id'], $rec['name']);
 					$app->db->datalogUpdate('aps_instances_settings', "value = ''", 'id', $tmp['id']);
 				}
 			}

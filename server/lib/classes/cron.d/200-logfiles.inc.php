@@ -60,7 +60,7 @@ class cronjob_logfiles extends cronjob {
 		// Manage and compress web logfiles and create traffic statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ".$conf['server_id'];
+		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ?", $conf['server_id'];
 		$records = $app->db->queryAllRecords($sql);
 		foreach($records as $rec) {
 
@@ -69,7 +69,7 @@ class cronjob_logfiles extends cronjob {
 
 			$log_folder = 'log';
 			if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
-				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $rec['parent_domain_id']);
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
 				$log_folder .= '/' . $subdomain_host;
@@ -89,16 +89,14 @@ class cronjob_logfiles extends cronjob {
 
 				//* Insert / update traffic in master database
 				$traffic_date = date('Y-m-d', time() - 86400);
-				$tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname='".$rec['domain']."' and traffic_date='".$traffic_date."'");
+				$tmp = $app->dbmaster->queryOneRecord("select hostname from web_traffic where hostname=? and traffic_date=?", $rec['domain'], $traffic_date);
 				if(is_array($tmp) && count($tmp) > 0) {
-					$sql = "update web_traffic set traffic_bytes=traffic_bytes+"
-						. $total_bytes
-						. " where hostname='" . $rec['domain']
-						. "' and traffic_date='" . $traffic_date . "'";
+					$sql = "UPDATE web_traffic SET traffic_bytes=traffic_bytes + ? WHERE hostname = ? AND traffic_date = ?";
+					$app->dbmaster->query($sql, $total_bytes, $rec['domain'], $traffic_date);
 				} else {
-					$sql = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('".$rec['domain']."', '".$traffic_date."', '".$total_bytes."')";
+					$sql = "INSERT INTO web_traffic (hostname, traffic_date, traffic_bytes) VALUES (?, ?, ?)";
+					$app->dbmaster->query($sql, $rec['domain'], $traffic_date, $total_bytes);
 				}
-				$app->dbmaster->query($sql);
 
 				fclose($handle);
 			}
@@ -197,8 +195,8 @@ class cronjob_logfiles extends cronjob {
 		// Cleanup website tmp directories
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ".$conf['server_id'];
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT domain_id, domain, document_root, system_user FROM web_domain WHERE server_id = ?";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 		$app->uses('system');
 		if(is_array($records)) {
 			foreach($records as $rec){
@@ -225,8 +223,8 @@ class cronjob_logfiles extends cronjob {
              * if they are NOT ok, the server will try to process them in 1 minute and so the
              * error appears again after 1 minute. So it is no problem to delete the old one!
              */
-			$sql = "DELETE FROM sys_log WHERE tstamp < " . $tstamp . " AND server_id != 0";
-			$app->dbmaster->query($sql);
+			$sql = "DELETE FROM sys_log WHERE tstamp < ? AND server_id != 0";
+			$app->dbmaster->query($sql, $tstamp);
 
 			/*
              * Delete all remote-actions "done" and older than 7 days
@@ -236,11 +234,8 @@ class cronjob_logfiles extends cronjob {
 			$sql = "SELECT max(action_id) FROM sys_remoteaction";
 			$res = $app->dbmaster->queryOneRecord($sql);
 			$maxId = $res['max(action_id)'];
-			$sql =  "DELETE FROM sys_remoteaction " .
-				"WHERE tstamp < " . $tstamp . " " .
-				" AND action_state = 'ok' " .
-				" AND action_id <" . intval($maxId);
-			$app->dbmaster->query($sql);
+			$sql =  "DELETE FROM sys_remoteaction WHERE tstamp < ? AND action_state = 'ok' AND action_id < ?";
+			$app->dbmaster->query($sql, $tstamp, $maxId);
 
 			/*
              * The sys_datalog is more difficult.
@@ -270,14 +265,10 @@ class cronjob_logfiles extends cronjob {
 			foreach($records as $server) {
 				$tmp_server_id = intval($server['server_id']);
 				if($tmp_server_id > 0) {
-					$sql =  "DELETE FROM sys_datalog " .
-						"WHERE tstamp < " . $tstamp .
-						" AND server_id = " . intval($server['server_id']) .
-						" AND datalog_id < " . intval($server['updated']) .
-						" AND datalog_id < " . intval($maxId);
+					$sql =  "DELETE FROM sys_datalog WHERE tstamp < ? AND server_id = ? AND datalog_id < ? AND datalog_id < ?";
+					//  echo $sql . "\n";
+					$app->dbmaster->query($sql, $tstamp, $server['server_id'], $server['updated'], $maxId);
 				}
-				//  echo $sql . "\n";
-				$app->dbmaster->query($sql);
 			}
 		}
 

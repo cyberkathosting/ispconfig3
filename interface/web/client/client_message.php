@@ -60,7 +60,7 @@ if(isset($_POST) && count($_POST) > 1) {
 	//* Send message
 	if($error == '') {
 		if($app->functions->intval($_POST['recipient']) > 0){
-			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".$app->functions->intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
+			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ? AND ".$app->tform->getAuthSQL('r'), $_POST['recipient']);
 			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
 				$tmp_client_ids = explode(',', $circle['client_ids']);
 				$where = array();

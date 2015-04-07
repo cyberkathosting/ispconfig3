@@ -159,7 +159,7 @@ class remoting_openvz extends remoting {
 		$server_id = $app->functions->intval($server_id);
 
 		if($server_id > 0) {
-			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = $server_id LIMIT 0,1");
+			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = ? LIMIT 0,1", $server_id);
 		} else {
 			$tmp = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 LIMIT 0,1");
 		}
@@ -229,9 +229,9 @@ class remoting_openvz extends remoting {
 
 		if (!empty($client_id)) {
 			$client_id      = $app->functions->intval($client_id);
-			$tmp    = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
-			$sql            = "SELECT * FROM openvz_vm WHERE sys_groupid = ".$app->functions->intval($tmp['groupid']);
-			$result         = $app->db->queryAllRecords($sql);
+			$tmp    = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
+			$sql            = "SELECT * FROM openvz_vm WHERE sys_groupid = ?";
+			$result         = $app->db->queryAllRecords($sql, $tmp['groupid']);
 			return          $result;
 		}
 		return false;
@@ -272,23 +272,23 @@ class remoting_openvz extends remoting {
 		}
 
 		// Verify if template and ostemplate exist
-		$tmp = $app->db->queryOneRecord("SELECT template_id FROM openvz_template WHERE template_id = $template_id");
+		$tmp = $app->db->queryOneRecord("SELECT template_id FROM openvz_template WHERE template_id = ?", $template_id);
 		if(!is_array($tmp)) {
 			throw new SoapFault('template_id_error', 'Template does not exist.');
 			return false;
 		}
-		$tmp = $app->db->queryOneRecord("SELECT ostemplate_id FROM openvz_ostemplate WHERE ostemplate_id = $ostemplate_id");
+		$tmp = $app->db->queryOneRecord("SELECT ostemplate_id FROM openvz_ostemplate WHERE ostemplate_id = ?", $ostemplate_id);
 		if(!is_array($tmp)) {
 			throw new SoapFault('ostemplate_id_error', 'OSTemplate does not exist.');
 			return false;
 		}
 
 		//* Get the template
-		$vtpl = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = $template_id");
+		$vtpl = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ?", $template_id);
 
 		//* Get the IP address and server_id
 		if($override_params['server_id'] > 0) {
-			$vmip = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = ".$override_params['server_id']." LIMIT 0,1");
+			$vmip = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 AND server_id = ? LIMIT 0,1", $override_params['server_id']);
 		} else {
 			$vmip = $app->db->queryOneRecord("SELECT ip_address_id, server_id, ip_address FROM openvz_ip WHERE reserved = 'n' AND vm_id = 0 LIMIT 0,1");
 		}
@@ -376,25 +376,18 @@ class remoting_openvz extends remoting {
 		$action = 'openvz_start_vm';
 
 		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction
-				WHERE server_id = '".$vm['server_id']."'
-				AND action_type = '$action'
-				AND action_param = '".$vm['veid']."'
-				AND action_state = 'pending'");
+				WHERE server_id = ?
+				AND action_type = ?
+				AND action_param = ?
+				AND action_state = 'pending'", $vm['server_id'], $action, $vm['veid']);
 
 		if($tmp['actions'] > 0) {
 			throw new SoapFault('action_pending', 'There is already a action pending for this VM.');
 			return false;
 		} else {
 			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-				"VALUES (".
-				(int)$vm['server_id'] . ", ".
-				time() . ", ".
-				"'".$action."', ".
-				$vm['veid'].", ".
-				"'pending', ".
-				"''".
-				")";
-			$app->db->query($sql);
+				"VALUES (?, ?, ?, ?, 'pending', '')";
+			$app->db->query($sql, (int)$vm['server_id'], time(), $action, $vm['veid']);
 		}
 	}
 
@@ -425,25 +418,18 @@ class remoting_openvz extends remoting {
 		$action = 'openvz_stop_vm';
 
 		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction
-				WHERE server_id = '".$vm['server_id']."'
-				AND action_type = '$action'
-				AND action_param = '".$vm['veid']."'
-				AND action_state = 'pending'");
+				WHERE server_id = ?
+				AND action_type = ?
+				AND action_param = ?
+				AND action_state = 'pending'", $vm['server_id'], $action, $vm['veid']);
 
 		if($tmp['actions'] > 0) {
 			throw new SoapFault('action_pending', 'There is already a action pending for this VM.');
 			return false;
 		} else {
 			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-				"VALUES (".
-				(int)$vm['server_id'] . ", ".
-				time() . ", ".
-				"'".$action."', ".
-				$vm['veid'].", ".
-				"'pending', ".
-				"''".
-				")";
-			$app->db->query($sql);
+				"VALUES (?, ?, ?, ?, 'pending', '')";
+			$app->db->query($sql, (int)$vm['server_id'], time(), $action, $vm['veid']);
 		}
 	}
 
@@ -474,25 +460,18 @@ class remoting_openvz extends remoting {
 		$action = 'openvz_restart_vm';
 
 		$tmp = $app->db->queryOneRecord("SELECT count(action_id) as actions FROM sys_remoteaction
-				WHERE server_id = '".$vm['server_id']."'
-				AND action_type = '$action'
-				AND action_param = '".$vm['veid']."'
-				AND action_state = 'pending'");
+				WHERE server_id = ?
+				AND action_type = ?
+				AND action_param = ?
+				AND action_state = 'pending'", $vm['server_id'], $action, $vm['veid']);
 
 		if($tmp['actions'] > 0) {
 			throw new SoapFault('action_pending', 'There is already a action pending for this VM.');
 			return false;
 		} else {
 			$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-				"VALUES (".
-				(int)$vm['server_id'] . ", ".
-				time() . ", ".
-				"'".$action."', ".
-				$vm['veid'].", ".
-				"'pending', ".
-				"''".
-				")";
-			$app->db->query($sql);
+				"VALUES (?, ?, ?, ?, 'pending', '')";
+			$app->db->query($sql, (int)$vm['server_id'], time(), $action, $vm['veid']);
 		}
 	}
 

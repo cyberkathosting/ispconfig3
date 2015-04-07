@@ -106,13 +106,13 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 
 	// Get the limits of the client
 	$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 
 	// load the list of clients
-	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-	$clients = $app->db->queryAllRecords($sql);
-	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".intval($client['client_id']));
+	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+	$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 	if(is_array($clients)) {
 		foreach( $clients as $client) {
@@ -127,7 +127,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 if($_SESSION["s"]["user"]["typ"] != 'admin')
 {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
-	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 	$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 
@@ -138,8 +138,8 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 		$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
 	}
 
-	$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
-	$dns_servers = $app->db->queryAllRecords($sql);
+	$sql = "SELECT server_id, server_name FROM server WHERE server_id IN ?";
+	$dns_servers = $app->db->queryAllRecords($sql, $client_dns['dns_servers_ids']);
 
 	$options_dns_servers = "";
 
@@ -199,8 +199,8 @@ $app->tpl->setVar($wb);
 if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
 	$valid_zone_file = FALSE;
 
-	$sql = "SELECT server_name FROM `server` WHERE server_id=".$app->functions->intval($server_id)." OR mirror_server_id=".$app->functions->intval($server_id)." ORDER BY server_name ASC";
-	$servers = $app->db->queryAllRecords($sql);
+	$sql = "SELECT server_name FROM `server` WHERE server_id=? OR mirror_server_id=? ORDER BY server_name ASC";
+	$servers = $app->db->queryAllRecords($sql, $server_id, $server_id);
 	for ($i=0;$i<count($servers);$i++)
 	{
 		if (substr($servers[$i]['server_name'], strlen($servers[$i]['server_name'])-1) != ".")

@@ -31,23 +31,29 @@ class mail_mail_domain_plugin {
 		// also make sure that the user can not delete entry created by an admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
-			$updates = "sys_groupid = $client_group_id, sys_perm_group = 'ru'";
+			$updates = "sys_groupid = ?, sys_perm_group = 'ru'";
+			$update_params = array($client_group_id);
 			if ($event_name == 'mail:mail_domain:on_after_update') {
-				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 				$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-				$updates = "sys_userid = $client_user_id, $updates";
+				$updates .= ", sys_userid = ?";
+				$update_params[] = $client_user_id
 			}
-			$app->db->query("UPDATE mail_domain SET $updates WHERE domain_id = ".$page_form->id);
+			$update_params[] = $page_form->id;
+			$app->db->query("UPDATE mail_domain SET " . $updates . " WHERE domain_id = ?", true, $update_params);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
 			$updates = "sys_groupid = $client_group_id, sys_perm_group = 'riud'";
+			$update_params = array($client_group_id);
 			if ($event_name == 'mail:mail_domain:on_after_update') {
-				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 				$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
-				$updates = "sys_userid = $client_user_id, $updates";
+				$updates .= ", sys_userid = ?";
+				$update_params[] = $client_user_id
 			}
-			$app->db->query("UPDATE mail_domain SET $updates WHERE domain_id = ".$page_form->id);
+			$update_params[] = $page_form->id;
+			$app->db->query("UPDATE mail_domain SET " . $updates . " WHERE domain_id = ?", true, $update_params);
 		}
 
 		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
@@ -57,9 +63,9 @@ class mail_mail_domain_plugin {
 			$mail_config = $app->getconf->get_server_config($page_form->dataRecord["server_id"], 'mail');
 
 			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like ?", "%@" . $page_form->oldDataRecord['domain']);
 			$sys_groupid = $app->functions->intval((isset($page_form->dataRecord['client_group_id']))?$page_form->dataRecord['client_group_id']:$page_form->oldDataRecord['sys_groupid']);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $sys_groupid");
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $sys_groupid);
 			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
@@ -74,7 +80,7 @@ class mail_mail_domain_plugin {
 			}
 
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like '%@".$app->db->quote($page_form->oldDataRecord['domain'])."' OR destination like '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source LIKE ? OR destination LIKE ?", "%@" . $page_form->oldDataRecord['domain'], "%@" . $page_form->oldDataRecord['domain']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
 					$destination = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']));
@@ -84,7 +90,7 @@ class mail_mail_domain_plugin {
 			}
 
 			//* Update the mailinglist
-			$mailing_lists = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = '".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$mailing_lists = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = ?", $page_form->oldDataRecord['domain']);
 			if(is_array($mailing_lists)) {
 				foreach($mailing_lists as $rec) {
 					$app->db->datalogUpdate('mail_mailinglist', "sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailinglist_id', $rec['mailinglist_id']);
@@ -92,7 +98,7 @@ class mail_mail_domain_plugin {
 			}
 
 			//* Update the mailget records
-			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id, destination FROM mail_get WHERE destination LIKE '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id, destination FROM mail_get WHERE destination LIKE ?", "%@" . $page_form->oldDataRecord['domain']);
 			if(is_array($mail_gets)) {
 				foreach($mail_gets as $rec) {
 					$destination = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']));
@@ -102,11 +108,11 @@ class mail_mail_domain_plugin {
 
 			if ($page_form->oldDataRecord["domain"] != $page_form->dataRecord['domain']) {
 				//* Delete the old spamfilter record
-				$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '@".$app->db->quote($page_form->oldDataRecord["domain"])."'");
+				$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", "@" . $page_form->oldDataRecord["domain"]);
 				$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
 				unset($tmp);
 			}
-			$app->db->query("UPDATE spamfilter_users SET email=REPLACE(email, '".$app->db->quote($page_form->oldDataRecord['domain'])."', '".$app->db->quote($page_form->dataRecord['domain'])."'), sys_userid = $client_user_id, sys_groupid = $sys_groupid WHERE email LIKE '%@".$app->db->quote($page_form->oldDataRecord['domain'])."'");
+			$app->db->query("UPDATE spamfilter_users SET email=REPLACE(email, ?, ?), sys_userid = ?, sys_groupid = ? WHERE email LIKE ?", $page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $client_user_id, $sys_groupid, "%@" . $page_form->oldDataRecord['domain']);
 
 		} // end if domain name changed
 	}

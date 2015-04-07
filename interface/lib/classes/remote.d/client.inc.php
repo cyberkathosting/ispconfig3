@@ -65,7 +65,7 @@ class remoting_client extends remoting {
 			if(isset($data['client_id'])) {
 				// this is a single record
 				if($data['template_additional'] == '') {
-					$tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ' . $data['client_id']);
+					$tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ?', $data['client_id']);
 					$tpl_arr = array();
 					if($tpls) {
 						foreach($tpls as $tpl) $tpl_arr[] = $tpl['item'];
@@ -78,7 +78,7 @@ class remoting_client extends remoting {
 				// multiple client records
 				foreach($data as $index => $client) {
 					if($client['template_additional'] == '') {
-						$tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ' . $client['client_id']);
+						$tpls = $app->db->queryAllRecords('SELECT CONCAT(`assigned_template_id`, \':\', `client_template_id`) as `item` FROM `client_template_assigned` WHERE `client_id` = ?', $client['client_id']);
 						$tpl_arr = array();
 						if($tpls) {
 							foreach($tpls as $tpl) $tpl_arr[] = $tpl['item'];
@@ -104,7 +104,7 @@ class remoting_client extends remoting {
 
 		$sys_userid = $app->functions->intval($sys_userid);
 
-		$rec = $app->db->queryOneRecord("SELECT client_id FROM sys_user WHERE userid = ".$sys_userid);
+		$rec = $app->db->queryOneRecord("SELECT client_id FROM sys_user WHERE userid = ?", $sys_userid);
 		if(isset($rec['client_id'])) {
 			return $app->functions->intval($rec['client_id']);
 		} else {
@@ -125,7 +125,7 @@ class remoting_client extends remoting {
 		
 		$client_id = $app->functions->intval($client_id);
 
-		$rec = $app->db->queryOneRecord("SELECT company_name,contact_name,gender,email,language FROM client WHERE client_id = ".$client_id);
+		$rec = $app->db->queryOneRecord("SELECT company_name,contact_name,gender,email,language FROM client WHERE client_id = ?", $client_id);
 		
 		if(is_array($rec)) {
 			return $rec;
@@ -145,7 +145,7 @@ class remoting_client extends remoting {
 
 		$client_id = $app->functions->intval($client_id);
 
-		$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client_id);
+		$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 		if(isset($rec['groupid'])) {
 			return $app->functions->intval($rec['groupid']);
 		} else {
@@ -169,7 +169,7 @@ class remoting_client extends remoting {
 
 		if($params['parent_client_id']) {
 			// check if this one is reseller
-			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
 				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
@@ -208,7 +208,7 @@ class remoting_client extends remoting {
 
 		if($params['parent_client_id']) {
 			// check if this one is reseller
-			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ' . intval($params['parent_client_id']));
+			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
 				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
@@ -221,7 +221,7 @@ class remoting_client extends remoting {
 		}
 
 		// we need the previuos templates assigned here
-		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
+		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ?', $client_id);
 		if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
 			// check previous type of storing templates
 			$tpls = explode('/', $old_rec['template_additional']);
@@ -258,8 +258,8 @@ class remoting_client extends remoting {
 		}
 
 		if(@is_numeric($client_id)) {
-			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ".$client_id;
-			return $app->db->queryOneRecord($sql);
+			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ?";
+			return $app->db->queryOneRecord($sql, $client_id);
 		} else {
 			$this->server->fault('The ID must be an integer.');
 			return array();
@@ -270,10 +270,10 @@ class remoting_client extends remoting {
 		global $app;
 
 		$this->id = $client_id;
-		$this->dataRecord = $app->db->queryOneRecord('SELECT * FROM `client` WHERE `client_id` = ' . $client_id);
+		$this->dataRecord = $app->db->queryOneRecord('SELECT * FROM `client` WHERE `client_id` = ?', $client_id);
 		$this->oldDataRecord = $this->dataRecord;
 
-		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $client_id);
+		$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ?', $client_id);
 		if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
 			// check previous type of storing templates
 			$tpls = explode('/', $this->oldDataRecord['template_additional']);
@@ -297,13 +297,13 @@ class remoting_client extends remoting {
 
 		if(@is_numeric($client_id) && @is_numeric($template_id)) {
 			// check if client exists
-			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ' . $client_id);
+			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
 				$this->server->fault('Invalid client');
 				return false;
 			}
 			// check if template exists
-			$check = $app->db->queryOneRecord('SELECT `template_id` FROM `client_template` WHERE `template_id` = ' . $template_id);
+			$check = $app->db->queryOneRecord('SELECT `template_id` FROM `client_template` WHERE `template_id` = ?', $template_id);
 			if(!$check) {
 				$this->server->fault('Invalid template');
 				return false;
@@ -312,8 +312,8 @@ class remoting_client extends remoting {
 			// for the update event we have to cheat a bit
 			$this->_set_client_formdata($client_id);
 
-			$sql = "INSERT INTO `client_template_assigned` (`client_id`, `client_template_id`) VALUES (" . $client_id . ", " . $template_id . ")";
-			$app->db->query($sql);
+			$sql = "INSERT INTO `client_template_assigned` (`client_id`, `client_template_id`) VALUES (?, ?)";
+			$app->db->query($sql, $client_id, $template_id);
 			$insert_id = $app->db->insertID();
 
 			$app->plugin->raiseEvent('client:client:on_after_update', $this);
@@ -335,13 +335,13 @@ class remoting_client extends remoting {
 
 		if(@is_numeric($client_id) && @is_numeric($template_id)) {
 			// check if client exists
-			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ' . $client_id);
+			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
 				$this->server->fault('Invalid client');
 				return false;
 			}
 			// check if template exists
-			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `assigned_template_id` = ' . $assigned_template_id);
+			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `assigned_template_id` = ?', $assigned_template_id);
 			if(!$check) {
 				$this->server->fault('Invalid template');
 				return false;
@@ -350,8 +350,8 @@ class remoting_client extends remoting {
 			// for the update event we have to cheat a bit
 			$this->_set_client_formdata($client_id);
 
-			$sql = "DELETE FROM `client_template_assigned` WHERE `assigned_template_id` = " . $template_id . " AND `client_id` = " . $client_id;
-			$app->db->query($sql);
+			$sql = "DELETE FROM `client_template_assigned` WHERE `assigned_template_id` = ? AND `client_id` = ?";
+			$app->db->query($sql, $template_id, $client_id);
 			$affected_rows = $app->db->affectedRows();
 
 			$app->plugin->raiseEvent('client:client:on_after_update', $this);
@@ -395,15 +395,15 @@ class remoting_client extends remoting {
 		if($client_id > 0) {
 			//* remove the group of the client from the resellers group
 			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
-			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
-			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = ?", $parent_client_id);
+			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 			$app->auth->remove_group_from_user($parent_user['userid'], $client_group['groupid']);
 
 			//* delete the group of the client
-			$app->db->query("DELETE FROM sys_group WHERE client_id = $client_id");
+			$app->db->query("DELETE FROM sys_group WHERE client_id = ", $client_id);
 
 			//* delete the sys user(s) of the client
-			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
+			$app->db->query("DELETE FROM sys_user WHERE client_id = ", $client_id);
 
 			//* Delete all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
@@ -413,7 +413,7 @@ class remoting_client extends remoting {
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
-						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
+						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ", $client_group_id);
 						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
 						$index_field = '';
@@ -428,11 +428,11 @@ class remoting_client extends remoting {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
 									//* Delete traffic records that dont have a sys_groupid column
 									if($table == 'web_domain') {
-										$app->db->query("DELETE FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."'");
+										$app->db->query("DELETE FROM web_traffic WHERE hostname = ?", $rec['domain']);
 									}
 									//* Delete mail_traffic records that dont have a sys_groupid
 									if($table == 'mail_user') {
-										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = '".$app->db->quote($rec['mailuser_id'])."'");
+										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = ?", $rec['mailuser_id']);
 									}
 								}
 							}
@@ -469,7 +469,7 @@ class remoting_client extends remoting {
 			return false;
 		}
 		$username = $app->db->quote($username);
-		$rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = '".$username."'");
+		$rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = ?", $username);
 		if (isset($rec)) {
 			return $rec;
 		} else {
@@ -517,13 +517,13 @@ class remoting_client extends remoting {
 			return false;
 		}
 		$client_id = $app->functions->intval($client_id);
-		$client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ".$client_id);
+		$client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ?", $client_id);
 		if($client['client_id'] > 0) {
 			$new_password = $app->db->quote($new_password);
-			$sql = "UPDATE client SET password = md5('".($new_password)."') 	WHERE client_id = ".$client_id;
-			$app->db->query($sql);
-			$sql = "UPDATE sys_user SET passwort = md5('".($new_password)."') 	WHERE client_id = ".$client_id;
-			$app->db->query($sql);
+			$sql = "UPDATE client SET password = md5(?) 	WHERE client_id = ?";
+			$app->db->query($sql, $new_password, $client_id);
+			$sql = "UPDATE sys_user SET passwort = md5(?) 	WHERE client_id = ?";
+			$app->db->query($sql, $new_password, $client_id);
 			return true;
 		} else {
 			throw new SoapFault('no_client_found', 'There is no user account for this client_id');
@@ -567,8 +567,8 @@ class remoting_client extends remoting {
 		}
 		
 		//* Check failed logins
-		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '".$app->db->quote($remote_ip)."' AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
-		$alreadyfailed = $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
+		$alreadyfailed = $app->db->queryOneRecord($sql, $remote_ip);
 		
 		//* too many failedlogins
 		if($alreadyfailed['times'] > 5) {
@@ -582,8 +582,8 @@ class remoting_client extends remoting {
 		
 		if(strstr($username,'@')) {
 			// Check against client table
-			$sql = "SELECT * FROM client WHERE email = '".$app->db->quote($username)."'";
-			$user = $app->db->queryOneRecord($sql);
+			$sql = "SELECT * FROM client WHERE email = ?";
+			$user = $app->db->queryOneRecord($sql, $username);
 
 			if($user) {
 				$saved_password = stripslashes($user['password']);
@@ -614,8 +614,8 @@ class remoting_client extends remoting {
 			
 		} else {
 			// Check against sys_user table
-			$sql = "SELECT * FROM sys_user WHERE username = '".$app->db->quote($username)."'";
-			$user = $app->db->queryOneRecord($sql);
+			$sql = "SELECT * FROM sys_user WHERE username = ?";
+			$user = $app->db->queryOneRecord($sql, $username);
 
 			if($user) {
 				$saved_password = stripslashes($user['passwort']);
@@ -649,15 +649,14 @@ class remoting_client extends remoting {
 		
 		//* Log failed login attempts
 		if($user === false) {
-			$time = time();
 			if(!$alreadyfailed['times'] ) {
 				//* user login the first time wrong
-				$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES ('".$app->db->quote($remote_ip)."', 1, NOW())";
-				$app->db->query($sql);
+				$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES (?, 1, NOW())";
+				$app->db->query($sql, $remote_ip);
 			} elseif($alreadyfailed['times'] >= 1) {
 				//* update times wrong
-				$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `login_time` >= '".$time."' LIMIT 1";
-				$app->db->query($sql);
+				$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `ip` = ? AND `login_time` > (NOW() - INTERVAL 1 MINUTE) ORDER BY `login_time` DESC LIMIT 1";
+				$app->db->query($sql, $remote_ip);
 			}
 		}
 		

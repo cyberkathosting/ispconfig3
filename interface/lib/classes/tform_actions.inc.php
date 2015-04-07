@@ -82,7 +82,7 @@ class tform_actions {
 		// check if the client is locked - he may not change anything, then.
 		if(!$app->auth->is_admin()) {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.locked FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$app->functions->intval($client_group_id));
+			$client = $app->db->queryOneRecord("SELECT client.locked FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			if(is_array($client) && $client['locked'] == 'y') {
 				$app->tform->errorMessage .= $app->lng("client_you_are_locked")."<br />";
 			}
@@ -311,7 +311,6 @@ class tform_actions {
 				if($app->tform->checkPerm($this->id, 'd') == false) $app->error($app->lng('error_no_delete_permission'));
 			}
 
-			//$this->dataRecord = $app->db->queryOneRecord("SELECT * FROM ".$liste["table"]." WHERE ".$liste["table_idx"]." = ".$this->id);
 			$this->dataRecord = $app->tform->getDataRecord($this->id);
 
 			$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_check_delete', $this);
@@ -324,7 +323,7 @@ class tform_actions {
 				$app->tform->datalogSave('DELETE', $this->id, $this->dataRecord, array());
 			}
 
-			$app->db->query("DELETE FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." LIMIT 1");
+			$app->db->query("DELETE FROM ?? WHERE ?? = ? LIMIT 1", $app->tform->formDef['db_table'], $app->tform->formDef['db_table_idx'], $this->id);
 
 
 			// loading plugins
@@ -379,11 +378,11 @@ class tform_actions {
 		$app->tpl->setInclude("content_tpl", $app->tform->formDef['template_print']);
 
 		if($app->tform->formDef['auth'] == 'no') {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
+			$sql = "SELECT * FROM ?? WHERE ?? = ?";
 		} else {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
+			$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$app->tform->getAuthSQL('r');
 		}
-		if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
+		if(!$record = $app->db->queryOneRecord($sql, $app->tform->formDef['db_table'], $app->tform->formDef['db_table_idx'], $this->id)) $app->error($app->lng('error_no_view_permission'));
 
 		$record["datum"] = date("d.m.Y");
 
@@ -423,11 +422,11 @@ class tform_actions {
 			$app->tpl->setInclude("content_tpl", $app->tform->formDef['template_mailsend']);
 			$app->tpl->setVar('show_mail', 1);
 			if($app->tform->formDef['auth'] == 'no') {
-				$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
+				$sql = "SELECT * FROM ?? WHERE ?? = ?";
 			} else {
-				$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
+				$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$app->tform->getAuthSQL('r');
 			}
-			if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
+			if(!$record = $app->db->queryOneRecord($sql, $app->tform->formDef['db_table'], $app->tform->formDef['db_table_idx'], $this->id)) $app->error($app->lng('error_no_view_permission'));
 
 			$record["datum"] = date("d.m.Y");
 			$record["mailmessage"] = $_POST["message"];
@@ -459,11 +458,11 @@ class tform_actions {
 
 
 		if($app->tform->formDef['auth'] == 'no') {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
+			$sql = "SELECT * FROM ?? WHERE ?? = ?";
 		} else {
-			$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
+			$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$app->tform->getAuthSQL('r');
 		}
-		if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
+		if(!$record = $app->db->queryOneRecord($sql, $app->tform->formDef['db_table'], $app->tform->formDef['db_table_idx'], $this->id)) $app->error($app->lng('error_no_view_permission'));
 
 		$record["datum"] = date("d.m.Y");
 
@@ -560,11 +559,11 @@ class tform_actions {
 		// bestehenden Datensatz anzeigen
 		if($app->tform->errorMessage == '') {
 			if($app->tform->formDef['auth'] == 'yes' && $_SESSION["s"]["user"]["typ"] != 'admin') {
-				$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id." AND ".$app->tform->getAuthSQL('r');
+				$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$app->tform->getAuthSQL('r');
 			} else {
-				$sql = "SELECT * FROM ".$app->tform->formDef['db_table']." WHERE ".$app->tform->formDef['db_table_idx']." = ".$this->id;
+				$sql = "SELECT * FROM ?? WHERE ?? = ?";
 			}
-			if(!$record = $app->db->queryOneRecord($sql)) $app->error($app->lng('error_no_view_permission'));
+			if(!$record = $app->db->queryOneRecord($sql, $app->tform->formDef['db_table'], $app->tform->formDef['db_table_idx'], $this->id)) $app->error($app->lng('error_no_view_permission'));
 		} else {
 			// $record = $app->tform->encode($_POST,$this->active_tab);
 			$record = $app->tform->encode($this->dataRecord, $this->active_tab, false);

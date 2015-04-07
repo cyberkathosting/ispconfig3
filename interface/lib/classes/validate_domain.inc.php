@@ -88,8 +88,8 @@ class validate_domain {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
-			$sql = "SELECT domain_id, domain FROM domain WHERE domain_id = " . $app->functions->intval($check_domain);
-			$domain_check = $app->db->queryOneRecord($sql);
+			$sql = "SELECT domain_id, domain FROM domain WHERE domain_id = ?";
+			$domain_check = $app->db->queryOneRecord($sql, $check_domain);
 			if(!$domain_check) return;
 			$check_domain = $domain_check['domain'];
 		}
@@ -157,24 +157,27 @@ class validate_domain {
 
 		if($domain['ip_address'] == '' || $domain['ipv6_address'] == ''){
 			if($domain['parent_domain_id'] > 0){
-				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($domain['parent_domain_id']));
+				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $domain['parent_domain_id']);
 			}
 		}
 
 		// check if domain has alias/subdomains - if we move a web to another IP, make sure alias/subdomains are checked as well
-		$aliassubdomains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ".$app->functions->intval($primary_id)." AND (type = 'alias' OR type = 'subdomain' OR type = 'vhostsubdomain')");
+		$aliassubdomains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ? AND (type = 'alias' OR type = 'subdomain' OR type = 'vhostsubdomain')", $primary_id);
 		$additional_sql1 = '';
 		$additional_sql2 = '';
+		$domain_params = array();
 		if(is_array($aliassubdomains) && !empty($aliassubdomains)){
 			foreach($aliassubdomains as $aliassubdomain){
-				$additional_sql1 .= " OR d.domain = '".$app->db->quote($aliassubdomain['domain'])."'";
-				$additional_sql2 .= " OR CONCAT(d.subdomain, '.', d.domain) = '".$app->db->quote($aliassubdomain['domain'])."'";
+				$additional_sql1 .= " OR d.domain = ?";
+				$additional_sql2 .= " OR CONCAT(d.subdomain, '.', d.domain) = ?";
+				$domain_params[] = $aliassubdomain['domain'];
 			}
 		}
 		
 		
-		$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (d.domain = '" . $app->db->quote($domain_name) . "'" . $additional_sql1 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . ($primary_id ? " AND d.parent_domain_id != " . $app->functions->intval($primary_id) : "");
-		$checks = $app->db->queryAllRecords($qrystr);
+		$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (d.domain = ?" . $additional_sql1 . ") AND d.server_id = ? AND d.domain_id != ?" . ($primary_id ? " AND d.parent_domain_id != ?" : "");
+		$params = array($domain_name) + $domain_params + array($domain['server_id'], $primary_id, $primary_id);
+		$checks = $app->db->queryAllRecords($qrystr, true, $params);
 		if(is_array($checks) && !empty($checks)){
 			foreach($checks as $check){
 				if($domain['ip_address'] == '*') return false;
@@ -185,8 +188,9 @@ class validate_domain {
 		}
 		
 		if($only_domain == false) {
-			$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (CONCAT(d.subdomain, '.', d.domain)= '" . $app->db->quote($domain_name) . "'" . $additional_sql2 . ") AND d.server_id = " . $app->functions->intval($domain['server_id']) . " AND d.domain_id != " . $app->functions->intval($primary_id) . ($primary_id ? " AND d.parent_domain_id != " . $app->functions->intval($primary_id) : "");
-			$checks = $app->db->queryAllRecords($qrystr);
+			$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (CONCAT(d.subdomain, '.', d.domain)= ?" . $additional_sql2 . ") AND d.server_id = ? AND d.domain_id != ?" . ($primary_id ? " AND d.parent_domain_id != ?" : "");
+			$params = array($domain_name) + $domain_params + array($domain['server_id'], $primary_id, $primary_id);
+			$checks = $app->db->queryAllRecords($qrystr, true $params);
 			if(is_array($checks) && !empty($checks)){
 				foreach($checks as $check){
 					if($domain['ip_address'] == '*') return false;
@@ -207,7 +211,7 @@ class validate_domain {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_wildcard FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_wildcard FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			if($client["limit_wildcard"] == 'y') return true;
 			else return false;

@@ -165,8 +165,6 @@ class page_action extends tform_actions {
 		$server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 
-		//$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
-		//if($conf['demo_mode'] != true) $app->db->query($sql);
 		if($conf['demo_mode'] != true) $app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($server_config_str)."'", 'sysini_id', 1);
 
 		/*
@@ -190,21 +188,9 @@ class page_action extends tform_actions {
 		if($server_config_array['misc']['maintenance_mode'] == 'y'){
 			//print_r($_SESSION);
 			//echo $_SESSION['s']['id'];
-			$app->db->query("DELETE FROM sys_session WHERE session_id != '".$app->db->quote($_SESSION['s']['id'])."'");
+			$app->db->query("DELETE FROM sys_session WHERE session_id != ?", $_SESSION['s']['id']);
 		}
 	}
-
-	/*
-	function onAfterUpdate() {
-        if($this->_js_changed == true) {
-            // not the best way, but it works
-            header('Content-Type: text/html');
-            print '<script type="text/javascript">document.location.reload(true);</script>';
-            exit;
-        }
-    }
-	*/
-
 }
 
 $app->tform_actions = new page_action;

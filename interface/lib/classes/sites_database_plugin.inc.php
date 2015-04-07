@@ -40,15 +40,15 @@ class sites_database_plugin {
 		global $app;
 
 		if($form_page->dataRecord["parent_domain_id"] > 0) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($form_page->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $form_page->dataRecord["parent_domain_id"]);
 
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
 			$backup_interval = $app->db->quote($web['backup_interval']);
 			$backup_copies = $app->functions->intval($web['backup_copies']);
 
-			$sql = "UPDATE web_database SET sys_groupid = '$sys_groupid', backup_interval = '$backup_interval', backup_copies = '$backup_copies' WHERE database_id = ".$form_page->id;
-			$app->db->query($sql);
+			$sql = "UPDATE web_database SET sys_groupid = ?, backup_interval = ?, backup_copies = ? WHERE database_id = ?";
+			$app->db->query($sql, $sys_groupid, $backup_interval, $backup_copies, $form_page->id);
 		}
 	}
 

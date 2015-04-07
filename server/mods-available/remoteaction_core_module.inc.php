@@ -62,10 +62,8 @@ class remoteaction_core_module {
 		 * First set the state
 		 */
 		global $app;
-		$sql = "UPDATE sys_remoteaction " .
-			"SET action_state = '" . $app->dbmaster->quote($state) . "' " .
-			"WHERE action_id = " . intval($id);
-		$app->dbmaster->query($sql);
+		$sql = "UPDATE sys_remoteaction SET action_state = ? WHERE action_id = ?";
+		$app->dbmaster->query($sql, $state, $id);
 
 		/*
 		 * Then save the maxid for the next time...
@@ -103,12 +101,8 @@ class remoteaction_core_module {
 		/*
 		 * Get all actions this server should execute
 		*/
-		$sql = "SELECT action_id, action_type, action_param " .
-			"FROM sys_remoteaction " .
-			"WHERE server_id = " . $server_id . " ".
-			" AND  action_id > " . intval($maxid_remote_action) . " ".
-			"ORDER BY action_id";
-		$actions = $app->dbmaster->queryAllRecords($sql);
+		$sql = "SELECT action_id, action_type, action_param FROM sys_remoteaction WHERE server_id = ? AND action_id > ? ORDER BY action_id";
+		$actions = $app->dbmaster->queryAllRecords($sql, $server_id, $maxid_remote_action);
 
 		/*
 		 * process all actions

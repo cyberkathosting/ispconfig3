@@ -43,7 +43,7 @@ class validate_client {
 		}
 
 		if($client_id == 0) {
-			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."'");
+			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = ?", $field_value);
 			if($num_rec["number"] > 0) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -53,7 +53,7 @@ class validate_client {
 				}
 			}
 		} else {
-			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."' AND client_id != ".$app->functions->intval($client_id));
+			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = ? AND client_id != ?", $field_value, $client_id);
 			if($num_rec["number"] > 0) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -108,23 +108,23 @@ class validate_client {
 			switch ($field_name)
 			{
 			case 'web_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM web_domain INNER JOIN sys_user ON web_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM web_domain INNER JOIN sys_user ON web_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'dns_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT id FROM dns_rr INNER JOIN sys_user ON dns_rr.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT id FROM dns_rr INNER JOIN sys_user ON dns_rr.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'db_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT database_id FROM web_database INNER JOIN sys_user ON web_database.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT database_id FROM web_database INNER JOIN sys_user ON web_database.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'mail_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
             case 'xmpp_servers':
-                $used_servers = $app->db->queryAllRecords('SELECT domain_id FROM xmpp_domain INNER JOIN sys_user ON xmpp_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+                $used_servers = $app->db->queryAllRecords('SELECT domain_id FROM xmpp_domain INNER JOIN sys_user ON xmpp_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
                 break;
 			}
 
@@ -151,7 +151,7 @@ class validate_client {
 		}
 		
 		// check if country is member of EU
-		$country_details = $app->db->queryOneRecord("SELECT * FROM country WHERE iso = '".$country."'");
+		$country_details = $app->db->queryOneRecord("SELECT * FROM country WHERE iso = ?", $country);
 		if($country_details['eu'] == 'y' && $vatid != ''){
 		
 			$vatid = preg_replace('/\s+/', '', $vatid);

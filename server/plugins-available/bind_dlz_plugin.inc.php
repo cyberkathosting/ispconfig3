@@ -121,7 +121,7 @@ class bind_dlz_plugin {
 
 		$origin = substr($data["new"]["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
-		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
+		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $ispconfig_id);
 
 		$ttl = $data["new"]["ttl"];
 

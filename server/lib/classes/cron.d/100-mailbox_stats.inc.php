@@ -57,8 +57,8 @@ class cronjob_mailbox_stats extends cronjob {
 		//######################################################################################################
 
 		$parse_mail_log = false;
-		$sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ".$conf['server_id'];
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT mailuser_id,maildir FROM mail_user WHERE server_id = ?";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 		if(count($records) > 0) $parse_mail_log = true;
 
 		foreach($records as $rec) {
@@ -82,16 +82,17 @@ class cronjob_mailbox_stats extends cronjob {
 				// Save the traffic stats in the sql database
 				$tstamp = date('Y-m');
 
-				$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
-				$tr = $app->dbmaster->queryOneRecord($sql);
+				$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ?";
+				$tr = $app->dbmaster->queryOneRecord($sql, $rec['mailuser_id']);
 
 				$mail_traffic += $tr['traffic'];
 				if($tr['traffic_id'] > 0) {
-					$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
+					$sql = "UPDATE mail_traffic SET traffic = ? WHERE traffic_id = ?";
+					$app->dbmaster->query($sql, $mail_traffic, $tr['traffic_id']);
 				} else {
-					$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
+					$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES (?,?,?)";
+					$app->dbmaster->query($sql, $tstamp, $rec['mailuser_id'], $mail_traffic);
 				}
-				$app->dbmaster->query($sql);
 				//echo $sql;
 
 			}
@@ -140,13 +141,13 @@ class cronjob_mailbox_stats extends cronjob {
 				}
 			}
 
-			$sql = "SELECT email FROM mail_user WHERE server_id = ".$conf['server_id'];
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT email FROM mail_user WHERE server_id = ?";
+			$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 			foreach($records as $record) {
 				$mail_boxes[] = $record['email'];
 			}
-			$sql = "SELECT source, destination FROM mail_forwarding WHERE server_id = ".$conf['server_id'];
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT source, destination FROM mail_forwarding WHERE server_id = ?";
+			$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 			foreach($records as $record) {
 				$targets = preg_split('/[\n,]+/', $record['destination']);
 				foreach($targets as $target) {
@@ -231,20 +232,21 @@ class cronjob_mailbox_stats extends cronjob {
 
 			// Save the traffic stats in the sql database
 			$tstamp = date('Y-m');
-			$sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ".$conf['server_id'];
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ?";
+			$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 			foreach($records as $rec) {
 				if(array_key_exists($rec['email'], $mailbox_traffic)) {
-					$sql = "SELECT * FROM mail_traffic WHERE month = '$tstamp' AND mailuser_id = ".$rec['mailuser_id'];
-					$tr = $app->dbmaster->queryOneRecord($sql);
+					$sql = "SELECT * FROM mail_traffic WHERE month = ? AND mailuser_id = ?";
+					$tr = $app->dbmaster->queryOneRecord($sql, $tstamp, $rec['mailuser_id']);
 
 					$mail_traffic = $tr['traffic'] + $mailbox_traffic[$rec['email']];
 					if($tr['traffic_id'] > 0) {
-						$sql = "UPDATE mail_traffic SET traffic = $mail_traffic WHERE traffic_id = ".$tr['traffic_id'];
+						$sql = "UPDATE mail_traffic SET traffic = ? WHERE traffic_id = ?";
+						$app->dbmaster->query($sql, $mail_traffic, $tr['traffic_id']);
 					} else {
-						$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES ('$tstamp',".$rec['mailuser_id'].",$mail_traffic)";
+						$sql = "INSERT INTO mail_traffic (month,mailuser_id,traffic) VALUES (?,?,?)";
+						$app->dbmaster->query($sql, $tstamp, $rec['mailuser_id'], $mail_traffic);
 					}
-					$app->dbmaster->query($sql);
 					//echo $sql;
 				}
 			}

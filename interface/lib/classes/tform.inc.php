@@ -166,7 +166,7 @@ class tform extends tform_base {
 
 		// Get the limits of the client that is currently logged in
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-		$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT $limit_name as number, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 		// Check if the user may add another item
 		if($client["number"] >= 0) {
@@ -188,7 +188,7 @@ class tform extends tform_base {
 
 		// Get the limits of the client that is currently logged in
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-		$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 		//* If the client belongs to a reseller, we will check against the reseller Limit too
 		if($client['parent_client_id'] != 0) {

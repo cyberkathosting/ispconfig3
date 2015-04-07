@@ -95,7 +95,7 @@ class page_action extends tform_actions {
         $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status');
         if($_SESSION["s"]["user"]["typ"] != 'admin') {
             $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-            $client = $app->db->queryOneRecord("SELECT client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+            $client = $app->db->queryOneRecord("SELECT client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
             // add limits to template to be able to hide settings
             foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
         }else{
@@ -145,7 +145,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin')
 		{
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client_xmpp = $app->db->queryOneRecord("SELECT xmpp_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client_xmpp = $app->db->queryOneRecord("SELECT xmpp_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			$client_xmpp['xmpp_servers_ids'] = explode(',', $client_xmpp['xmpp_servers']);
 
@@ -239,7 +239,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_xmpp_domain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_xmpp_domain FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
@@ -256,7 +256,7 @@ class page_action extends tform_actions {
 				}
 
 				if($client["limit_xmpp_domain"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM xmpp_domain WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM xmpp_domain WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_xmpp_domain"]) {
 						$app->error($app->tform->wordbook["limit_xmppdomain_txt"]);
 					}

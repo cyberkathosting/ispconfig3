@@ -241,8 +241,8 @@ class remoting_aps extends remoting {
 			return false;
 		}
 	
-		$sql = "SELECT * FROM web_domain WHERE domain = '".$app->db->quote($params['main_domain'])."'";
-		$domain = $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM web_domain WHERE domain = ?";
+		$domain = $app->db->queryOneRecord($sql, $params['main_domain']);
 	
 		if (!$domain) {
 			$this->server->fault('invalid parameters', 'No valid domain given.');
@@ -269,8 +269,8 @@ class remoting_aps extends remoting {
 			return false;
 		}
 	
-		$sql  = "SELECT * FROM aps_instances WHERE id = ".$app->functions->intval($primary_id);
-		$result = $app->db->queryOneRecord($sql);
+		$sql  = "SELECT * FROM aps_instances WHERE id = ?";
+		$result = $app->db->queryOneRecord($sql, $app->functions->intval($primary_id));
 		return $result;
 	}
 	
@@ -283,8 +283,8 @@ class remoting_aps extends remoting {
 			return false;
 		}
 	
-		$sql  = "SELECT * FROM aps_instances_settings WHERE instance_id = ".$app->functions->intval($primary_id);
-		$result = $app->db->queryAllRecords($sql);
+		$sql  = "SELECT * FROM aps_instances_settings WHERE instance_id = ?";
+		$result = $app->db->queryAllRecords($sql, $app->functions->intval($primary_id));
 		return $result;
 	}
 	
@@ -301,8 +301,8 @@ class remoting_aps extends remoting {
 		$gui = new ApsGUIController($app);
 	
 		// Check if Instance exists
-		$sql  = "SELECT * FROM aps_instances WHERE id = ".$app->functions->intval($primary_id);
-		$result = $app->db->queryOneRecord($sql);
+		$sql  = "SELECT * FROM aps_instances WHERE id = ?";
+		$result = $app->db->queryOneRecord($sql, $primary_id);
 	
 		if (!$result) {
 			$this->server->fault('instance_error', 'No valid instance id given.');

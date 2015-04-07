@@ -103,14 +103,12 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Get the record of the parent domain
-		//$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
-		//if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		if(isset($this->dataRecord["parent_domain_id"])) {
-			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 			if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		} else {
 			$tmp = $app->tform->getDataRecord($this->id);
-			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval($tmp["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $tmp["parent_domain_id"]);
 			if(!$parent_domain) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 			unset($tmp);
 		}
@@ -163,7 +161,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 
 		$server_id = $app->functions->intval($web["server_id"]);
 		$dir = $app->db->quote($web["document_root"]);
@@ -178,8 +176,8 @@ class page_action extends tform_actions {
 		// The FTP user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-		$sql = "UPDATE shell_user SET server_id = $server_id, dir = '$dir', puser = '$uid', pgroup = '$gid', sys_groupid = '$sys_groupid' WHERE shell_user_id = ".$this->id;
-		$app->db->query($sql);
+		$sql = "UPDATE shell_user SET server_id = ?, dir = ?, puser = ?, pgroup = ?, sys_groupid = ? WHERE shell_user_id = ?";
+		$app->db->query($sql, $server_id, $dir, $uid, $gid, $sys_groupid, $this->id);
 
 	}
 

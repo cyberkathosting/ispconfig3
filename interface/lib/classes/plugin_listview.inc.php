@@ -126,7 +126,7 @@ class plugin_listview extends plugin_base {
 
 
 		// Get the data
-		$records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
+		$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE $sql_where $sql_order_by $limit_sql", $app->listform->listDef["table"]);
 
 		$bgcolor = "#FFFFFF";
 		if(is_array($records)) {

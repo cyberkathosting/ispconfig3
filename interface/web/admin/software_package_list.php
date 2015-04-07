@@ -49,7 +49,7 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 		if(is_array($packages)) {
 			foreach($packages as $p) {
 				$package_name = $app->db->quote($p['name']);
-				$tmp = $app->db->queryOneRecord("SELECT package_id FROM software_package WHERE package_name = '".$app->db->quote($package_name)."'");
+				$tmp = $app->db->queryOneRecord("SELECT package_id FROM software_package WHERE package_name = ?", $package_name);
 
 				$package_title = $app->db->quote($p['title']);
 				$package_description = $app->db->quote($p['description']);
@@ -60,14 +60,10 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 				$package_remote_functions = $app->db->quote($p['remote_functions']);
 
 				if(empty($tmp['package_id'])) {
-					//$sql = "INSERT INTO software_package (software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db')";
-					//$app->db->query($sql);
 					$insert_data = "(software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db,package_remote_functions) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db','$package_remote_functions')";
 					$app->db->datalogInsert('software_package', $insert_data, 'package_id');
 					$packages_added++;
 				} else {
-					//$sql = "UPDATE software_package SET software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db' WHERE package_name = '$package_name'";
-					//$app->db->query($sql);
 					$update_data = "software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db', package_remote_functions = '$package_remote_functions'";
 					//echo $update_data;
 					$app->db->datalogUpdate('software_package', $update_data, 'package_id', $tmp['package_id']);
@@ -100,14 +96,9 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 						$type = $app->db->quote($u['type']);
 
 						// Check that we do not have this update in the database yet
-						$sql = "SELECT * FROM software_update WHERE package_name = '$package_name' and v1 = '$v1' and v2 = '$v2' and v3 = '$v3' and v4 = '$v4'";
-						$tmp = $app->db->queryOneRecord($sql);
+						$sql = "SELECT * FROM software_update WHERE package_name = ? and v1 = ? and v2 = ? and v3 = ? and v4 = ?";
+						$tmp = $app->db->queryOneRecord($sql, $package_name, $v1, $v2, $v3, $v4);
 						if(!isset($tmp['software_update_id'])) {
-							// Insert the update in the datbase
-							//$sql = "INSERT INTO software_update (software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type)
-							//VALUES ($software_repo_id, '$package_name', '$update_url', '$update_md5', '$update_dependencies', '$update_title', '$v1', '$v2', '$v3', '$v4', '$type')";
-							//die($sql);
-							//$app->db->query($sql);
 							$insert_data = "(software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type)
                             VALUES ($software_repo_id, '$package_name', '$update_url', '$update_md5', '$update_dependencies', '$update_title', '$v1', '$v2', '$v3', '$v4', '$type')";
 							$app->db->datalogInsert('software_update', $insert_data, 'software_update_id');
@@ -119,23 +110,6 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 		}
 	}
 }
-
-//* Install packages, if GET Request
-/*
-if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] != '' && $_GET['server_id'] > 0) {
-	$package_name = $app->db->quote($_GET['package']);
-	$server_id = $app->functions->intval($_GET['server_id']);
-	$sql = "SELECT software_update_id, package_name, update_title FROM software_update WHERE type = 'full' AND package_name = '$package_name' ORDER BY v1 DESC, v2 DESC, v3 DESC, v4 DESC LIMIT 0,1";
-	$tmp = $app->db->queryOneRecord($sql);
-	$software_update_id = $tmp['software_update_id'];
-
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
-	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
-	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
-}
-*/
-
-
 
 // Show the list in the interface
 // Loading the template
@@ -150,7 +124,7 @@ if(is_array($packages) && count($packages) > 0) {
 	foreach($packages as $key => $p) {
 		$installed_txt = '';
 		foreach($servers as $s) {
-			$inst = $app->db->queryOneRecord("SELECT * FROM software_update, software_update_inst WHERE software_update_inst.software_update_id = software_update.software_update_id AND software_update_inst.package_name = '".$app->db->quote($p["package_name"])."' AND server_id = '".$app->functions->intval($s["server_id"])."'");
+			$inst = $app->db->queryOneRecord("SELECT * FROM software_update, software_update_inst WHERE software_update_inst.software_update_id = software_update.software_update_id AND software_update_inst.package_name = ? AND server_id = ?", $p["package_name"], $s["server_id"]);
 			$version = $inst['v1'].'.'.$inst['v2'].'.'.$inst['v3'].'.'.$inst['v4'];
 
 			if($inst['status'] == 'installed') {

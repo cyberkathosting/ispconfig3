@@ -51,7 +51,7 @@ $app->tpl_defaults();
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	$name = $_SESSION['s']['user']['username'];
 } else {
-	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."'");
+	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
 	$name = $tmp['contact_name'];
 }
 

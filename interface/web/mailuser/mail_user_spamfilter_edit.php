@@ -74,11 +74,11 @@ class page_action extends tform_actions {
 		$rec = $app->tform->getDataRecord($this->id);
 		$email_parts = explode('@', $rec['email']);
 		$email_domain = $email_parts[1];
-		$domain = $app->db->queryOneRecord("SELECT sys_userid, sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($email_domain)."'");
+		$domain = $app->db->queryOneRecord("SELECT sys_userid, sys_groupid, server_id FROM mail_domain WHERE domain = ?", $email_domain);
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($rec["email"])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $rec["email"]);
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
@@ -104,7 +104,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email", $rec['email']);
 
 		// Get the spamfilter policys for the user
-		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$app->db->quote($rec['email'])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $rec['email']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";

@@ -347,7 +347,7 @@ class tform_base {
 				return $values;
 			} else {
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				$allowed = explode(',', $client['lm']);
 			}
 		}
@@ -359,7 +359,7 @@ class tform_base {
 			} else {
 				//* Get the limits of the client that is currently logged in
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
 				//* If the client belongs to a reseller, we will check against the reseller Limit too
 				if($client['parent_client_id'] != 0) {

@@ -69,24 +69,10 @@ class cronjob_quota_notify extends cronjob {
 					$web_traffic_quota = $rec['traffic_quota'];
 					$domain = $rec['domain'];
 
-					// get the client
-					/*
-                    $client_group_id = $rec["sys_groupid"];
-                    $client = $app->db->queryOneRecord("SELECT limit_traffic_quota,parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-                    $reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota FROM client WHERE client_id = ".intval($client['parent_client_id']));
-
-                    $client_traffic_quota = intval($client['limit_traffic_quota']);
-                    $reseller_traffic_quota = intval($reseller['limit_traffic_quota']);
-                    */
-
 					//* get the traffic
 					$tmp = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) As total_traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
 					$web_traffic = round($tmp['total_traffic_bytes']/1024/1024);
 
-					//* Website is over quota, we will disable it
-					/*if( ($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) ||
-                        ($client_traffic_quota > 0 && $web_traffic > $client_traffic_quota) ||
-                        ($reseller_traffic_quota > 0 && $web_traffic > $reseller_traffic_quota)) {*/
 					if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
 						$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
 						$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.', LOGLEVEL_DEBUG);
@@ -106,7 +92,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overtraffic_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -227,7 +213,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -262,7 +248,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -355,7 +341,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($mail_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -390,7 +376,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($mail_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -427,7 +413,7 @@ class cronjob_quota_notify extends cronjob {
 			}
 
 			//* get databases
-			$database_records = $app->db->queryAllRecords("SELECT database_id,sys_groupid,database_name,database_quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_database;");
+			$database_records = $app->db->queryAllRecords("SELECT database_id,sys_groupid,database_name,database_quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_database");
 
 			if(is_array($database_records) && !empty($database_records) && is_array($monitor_data) && !empty($monitor_data)) {
 				//* check database-quota
@@ -442,7 +428,7 @@ class cronjob_quota_notify extends cronjob {
 
 							if ($monitor['database_name'] == $database) {
 								//* get the client
-								$client = $app->db->queryOneRecord("SELECT client.username, client.email FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name='".$database."'");
+								$client = $app->db->queryOneRecord("SELECT client.username, client.email FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name=?", $database);
 
 								//* check quota
 								if ($quota > 0) $used_ratio = $monitor['size'] / $quota;

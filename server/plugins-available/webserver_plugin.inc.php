@@ -107,7 +107,7 @@ class webserver_plugin {
 
 
 		//** read additional php versions of this server
-		$php_versions = $app->db->queryAllRecords('SELECT server_php_id, php_fastcgi_ini_dir, php_fpm_ini_dir FROM server_php WHERE server_id = ' . intval($conf['server_id']));
+		$php_versions = $app->db->queryAllRecords('SELECT server_php_id, php_fastcgi_ini_dir, php_fpm_ini_dir FROM server_php WHERE server_id = ?', $conf['server_id']);
 		foreach($php_versions as $php) {
 			if($php['php_fastcgi_ini_dir'] && $php['php_fastcgi_ini_dir'] . '/php.ini' != $web_config['php_ini_path_cgi']) {
 				$check_files[] = array('file' => $php['php_fastcgi_ini_dir'] . '/php.ini',

@@ -98,7 +98,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		//* Check if Domain belongs to user
 		if(isset($_POST["jid_domain"])) {
-			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM xmpp_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["jid_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
+			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM xmpp_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["jid_domain"]));
 			if($domain["domain"] != $app->functions->idn_encode($_POST["jid_domain"])) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		}
 
@@ -112,12 +112,12 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_xmpp_user, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_xmpp_user, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ", $client_group_id);
 
 
 			// Check if the user may add another xmpp user.
 			if($this->id == 0 && $client["limit_xmpp_user"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(xmppuser_id) as number FROM xmpp_user WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(xmppuser_id) as number FROM xmpp_user WHERE sys_groupid = ", $client_group_id);
 				if($tmp["number"] >= $client["limit_xmpp_user"]) {
 					$app->tform->errorMessage .= $app->tform->lng("limit_xmpp_user_txt")."<br>";
 				}
@@ -148,8 +148,8 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Set the domain owner as xmpp user owner
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM xmpp_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["jid_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("UPDATE xmpp_user SET sys_groupid = ".$app->functions->intval($domain["sys_groupid"])." WHERE xmppuser_id = ".$this->id);
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM xmpp_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["jid_domain"]));
+		$app->db->query("UPDATE xmpp_user SET sys_groupid = ? WHERE xmppuser_id = ?", $domain["sys_groupid"], $this->id);
 
 	}
 
@@ -158,8 +158,8 @@ class page_action extends tform_actions {
 
 		// Set the domain owner as mailbox owner
 		if(isset($_POST["xmpp_domain"])) {
-			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM xmpp_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["jid_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-			$app->db->query("UPDATE xmpp_user SET sys_groupid = ".$app->functions->intval($domain["sys_groupid"])." WHERE xmppuser_id = ".$this->id);
+			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM xmpp_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["jid_domain"]));
+			$app->db->query("UPDATE xmpp_user SET sys_groupid = ? WHERE xmppuser_id = ?", $domain["sys_groupid"], $this->id);
 
 		}
 	}

@@ -76,15 +76,8 @@ if (isset($_POST['server_select'])) {
 	}
 	foreach ($servers as $serverId) {
 		$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-			"VALUES (".
-			$app->functions->intval($serverId) . ", " .
-			time() . ", " .
-			"'os_update', " .
-			"'', " .
-			"'pending', " .
-			"''" .
-			")";
-		$app->db->query($sql);
+			"VALUES (?, UNIX_TIMESTAMP(), 'os_update', '', 'pending', '')";
+		$app->db->query($sql, $serverId);
 	}
 	$msg = $wb['action_scheduled'];
 }

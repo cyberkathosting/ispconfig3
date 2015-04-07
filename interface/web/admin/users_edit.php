@@ -96,16 +96,16 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
-		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ".$this->id);
+		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $this->id);
 		$client_id = $app->functions->intval($client['client_id']);
 		$username = $app->db->quote($this->dataRecord["username"]);
 		$old_username = $app->db->quote($this->oldDataRecord['username']);
 
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
-			$sql = "UPDATE client SET username = '$username' WHERE client_id = $client_id AND username = '$old_username'";
-			$app->db->query($sql);
-			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = $client_id");
+			$sql = "UPDATE client SET username = ? WHERE client_id = ? AND username = ?";
+			$app->db->query($sql, $username, $client_id, $old_username);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ?", $client_id);
 			$app->db->datalogUpdate("sys_group", "name = '$username'", 'groupid', $tmp['groupid']);
 			unset($tmp);
 		}
@@ -120,28 +120,17 @@ class page_action extends tform_actions {
 			}
 			$salt.="$";
 			$password = crypt(stripslashes($password), $salt);
-			$sql = "UPDATE client SET password = '$password' WHERE client_id = $client_id AND username = '$username'";
-			$app->db->query($sql);
+			$sql = "UPDATE client SET password = ? WHERE client_id = ? AND username = ?";
+			$app->db->query($sql, $password, $client_id, $username);
 		}
 
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
 			$language = $app->db->quote($this->dataRecord["language"]);
-			$sql = "UPDATE client SET language = '$language' WHERE client_id = $client_id AND username = '$username'";
-			$app->db->query($sql);
+			$sql = "UPDATE client SET language = ? WHERE client_id = ? AND username = ?";
+			$app->db->query($sql, $language, $client_id, $username);
 		}
 
-		// reseller status changed
-		/*
-		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
-			$modules = $conf['interface_modules_enabled'];
-			if($this->dataRecord["limit_client"] > 0) $modules .= ',client';
-			$modules = $app->db->quote($modules);
-			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
-			$app->db->query($sql);
-		}
-		*/
 		parent::onAfterUpdate();
 	}
 

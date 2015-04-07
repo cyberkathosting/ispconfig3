@@ -120,7 +120,7 @@ $app->tpl->setVar("refresh", $tmp);
 
 
 /* fetch the Data from the DB */
-$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = '" . $app->db->quote($logId) . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = ? and server_id = ? order by created desc", $logId, $_SESSION['monitor']['server_id']);
 
 if(isset($record['data'])) {
 	$data = unserialize($record['data']);

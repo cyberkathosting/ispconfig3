@@ -58,7 +58,7 @@ $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d =
 $muc_available = $muc_pastebin_available = $muc_httparchive_available = $anon_available = $vjud_available = $proxy_available = $status_available = true;
 if(!$app->auth->is_admin()) {
     $client_group_id = $_SESSION["s"]["user"]["default_group"];
-    $client = $app->db->queryOneRecord("SELECT limit_xmpp_muc, limit_xmpp_anon, limit_xmpp_vjud, limit_xmpp_proxy, limit_xmpp_status, limit_xmpp_pastebin, limit_xmpp_httparchive FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+    $client = $app->db->queryOneRecord("SELECT limit_xmpp_muc, limit_xmpp_anon, limit_xmpp_vjud, limit_xmpp_proxy, limit_xmpp_status, limit_xmpp_pastebin, limit_xmpp_httparchive FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
     if($client['limit_xmpp_muc'] != 'y') $muc_available = false;
     if($client['limit_xmpp_pastebin'] != 'y' || $client['limit_xmpp_muc'] != 'y') $muc_pastebin_available = false;

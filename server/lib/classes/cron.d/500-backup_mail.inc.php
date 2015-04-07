@@ -64,7 +64,7 @@ class cronjob_backup_mail extends cronjob {
 			//* mount backup directory, if necessary
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 
-			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir <> ''", intval($conf['server_id']));
+			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir != ''", intval($conf['server_id']));
 
 			if(is_array($records) && $run_backups) {
 				if(!is_dir($backup_dir)) {
@@ -87,13 +87,13 @@ class cronjob_backup_mail extends cronjob {
 						if ($global_config['backups_include_into_web_quota'] == 'y') {
 							// this only works, if mail and webdomains are on the same server
 							// find webdomain fitting to maildomain
-							$sql = "SELECT * FROM web_domain WHERE domain = '".$domain_rec['domain']."'";
-							$webdomain = $app->db->queryOneRecord($sql);
+							$sql = "SELECT * FROM web_domain WHERE domain = ?";
+							$webdomain = $app->db->queryOneRecord($sql, $domain_rec['domain']);
 							// if this is not also the website, find website now
 							if ($webdomain && ($webdomain['parent_domain_id'] != 0)) {
 								do {
-									$sql = "SELECT * FROM web_domain WHERE domain_id = ".$webdomain['parent_domain_id'];
-									$webdomain = $app->db->queryOneRecord($sql);
+									$sql = "SELECT * FROM web_domain WHERE domain_id = ?";
+									$webdomain = $app->db->queryOneRecord($sql, $webdomain['parent_domain_id']);
 								} while ($webdomain && ($webdomain['parent_domain_id'] != 0));
 							}
 							// if webdomain is found, change username/group now

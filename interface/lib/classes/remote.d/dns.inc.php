@@ -50,9 +50,9 @@ class remoting_dns extends remoting {
 			return false;
 		}
 
-		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ".$app->functions->intval($client_id));
+		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ?", $client_id);
 		$server_id = $client["default_dnsserver"];
-		$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '$template_id'");
+		$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = ?", $template_id);
 		$fields = explode(',', $template_record['fields']);
 		$tform_def_file = "../../web/dns/form/dns_soa.tform.php";
 		$app->uses('tform');
@@ -117,7 +117,7 @@ class remoting_dns extends remoting {
 
 		if($error == '') {
 			// Insert the soa record
-			$tmp = $app->db->queryOneRecord("SELECT userid,default_group FROM sys_user WHERE client_id = ".$app->functions->intval($client_id));
+			$tmp = $app->db->queryOneRecord("SELECT userid,default_group FROM sys_user WHERE client_id = ?", $client_id);
 			$sys_userid = $tmp['userid'];
 			$sys_groupid = $tmp['default_group'];
 			unset($tmp);
@@ -180,7 +180,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 
-		$rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like '".$origin."%'");
+		$rec = $app->db->queryOneRecord("SELECT id FROM dns_soa WHERE origin like ?", $origin."%");
 		if(isset($rec['id'])) {
 			return $app->functions->intval($rec['id']);
 		} else {
@@ -764,8 +764,8 @@ class remoting_dns extends remoting {
 		if (!empty($client_id) && !empty($server_id)) {
 			$server_id      = $app->functions->intval($server_id);
 			$client_id      = $app->functions->intval($client_id);
-			$sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id AND server_id = $server_id";
-			$result         = $app->db->queryAllRecords($sql);
+			$sql            = "SELECT id, origin FROM dns_soa d INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = ? AND server_id = ?";
+			$result         = $app->db->queryAllRecords($sql, $client_id, $server_id);
 			return          $result;
 		}
 		return false;
@@ -785,8 +785,8 @@ class remoting_dns extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$sql    = "SELECT * FROM dns_rr WHERE zone = ".$app->functions->intval($zone_id);;
-		$result = $app->db->queryAllRecords($sql);
+		$sql    = "SELECT * FROM dns_rr WHERE zone = ?";
+		$result = $app->db->queryAllRecords($sql, $zone_id);
 		return $result;
 	}
 
@@ -809,8 +809,8 @@ class remoting_dns extends remoting {
 			} else {
 				$status = 'N';
 			}
-			$sql = "UPDATE dns_soa SET active = '$status' WHERE id = ".$app->functions->intval($primary_id);
-			$app->db->query($sql);
+			$sql = "UPDATE dns_soa SET active = ? WHERE id = ?";
+			$app->db->query($sql, $status, $primary_id);
 			$result = $app->db->affectedRows();
 			return $result;
 		} else {

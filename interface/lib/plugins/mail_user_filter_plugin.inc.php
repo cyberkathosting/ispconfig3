@@ -61,7 +61,7 @@ class mail_user_filter_plugin {
 	function mail_user_filter_edit($event_name, $page_form) {
 		global $app, $conf;
 
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$page_form->dataRecord["mailuser_id"]);
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n", $mailuser['custom_mailfilter']);
 		$out = '';
@@ -95,7 +95,7 @@ class mail_user_filter_plugin {
 	function mail_user_filter_del($event_name, $page_form) {
 		global $app, $conf;
 
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$page_form->dataRecord["mailuser_id"]);
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n", $mailuser['custom_mailfilter']);
 		$out = '';
@@ -124,7 +124,7 @@ class mail_user_filter_plugin {
 		global $app, $conf;
 
 		$app->uses("getconf");
-		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".$app->functions->intval($page_form->dataRecord["mailuser_id"]));
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$mail_config = $app->getconf->get_server_config($app->functions->intval($mailuser_rec["server_id"]), 'mail');
 
 		if($mail_config['mail_filter_syntax'] == 'sieve') {
