@@ -81,7 +81,7 @@ class installer extends installer_base
 		}
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM `" . $this->db->quote($conf["mysql"]["database"]) . "`.`server` WHERE server_id = ".$conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?.`server` WHERE server_id = ?", $conf["mysql"]["database"], $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
