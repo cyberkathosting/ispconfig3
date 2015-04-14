@@ -80,8 +80,8 @@ class page_action extends tform_actions {
 		// The web folder user entry shall be owned by the same group as the web folder
 		$sys_groupid = $app->functions->intval($folder['sys_groupid']);
 
-		$sql = "UPDATE web_folder_user SET sys_groupid = ? WHERE web_folder_user_id = ?", $sys_groupid, $this->id;
-		$app->db->query($sql);
+		$sql = "UPDATE web_folder_user SET sys_groupid = ? WHERE web_folder_user_id = ?";
+		$app->db->query($sql, $sys_groupid, $this->id);
 	}
 	
 	function onAfterUpdate() {

@@ -370,7 +370,7 @@ class remoting_mail extends remoting {
 		}
 	
 		//* Save the record
-		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = ?, `tstamp` = ?, `action_type` = ?, `action_param` = ?, `action_state` = ?"), $server_id, $tstamp, $action_type, $primary_id, $action_state) {
+		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = ?, `tstamp` = ?, `action_type` = ?, `action_param` = ?, `action_state` = ?", $server_id, $tstamp, $action_type, $primary_id, $action_state)) {
 			return true;
 		} else {
 			return false;

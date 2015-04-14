@@ -37,7 +37,7 @@ class mail_mail_domain_plugin {
 				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 				$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
 				$updates .= ", sys_userid = ?";
-				$update_params[] = $client_user_id
+				$update_params[] = $client_user_id;
 			}
 			$update_params[] = $page_form->id;
 			$app->db->query("UPDATE mail_domain SET " . $updates . " WHERE domain_id = ?", true, $update_params);
@@ -50,7 +50,7 @@ class mail_mail_domain_plugin {
 				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 				$client_user_id = ($tmp['userid'] > 0)?$tmp['userid']:1;
 				$updates .= ", sys_userid = ?";
-				$update_params[] = $client_user_id
+				$update_params[] = $client_user_id;
 			}
 			$update_params[] = $page_form->id;
 			$app->db->query("UPDATE mail_domain SET " . $updates . " WHERE domain_id = ?", true, $update_params);

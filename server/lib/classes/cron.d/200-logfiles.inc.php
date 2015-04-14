@@ -60,8 +60,8 @@ class cronjob_logfiles extends cronjob {
 		// Manage and compress web logfiles and create traffic statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ?", $conf['server_id'];
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ?";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 		foreach($records as $rec) {
 
 			//* create traffic statistics based on yesterdays access log file

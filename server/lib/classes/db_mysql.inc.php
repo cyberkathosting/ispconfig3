@@ -618,7 +618,7 @@ class db extends mysqli
 			$params = array($tablename);
 			$v_params = array();
 			foreach($insert_data as $key => $val) {
-				$key_str .= '??,'
+				$key_str .= '??,';
 				$params[] = $key;
 				
 				$val_str .= '?,';
