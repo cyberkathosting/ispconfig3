@@ -70,7 +70,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Get the parent mail_user record
-		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".$app->functions->intval($_REQUEST["mailuser_id"])."' AND ".$app->tform->getAuthSQL('r'));
+		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = ? AND ".$app->tform->getAuthSQL('r'). $_REQUEST["mailuser_id"]);
 
 		// Check if Domain belongs to user
 		if($mailuser["mailuser_id"] != $_POST["mailuser_id"]) $app->tform->errorMessage .= $app->tform->wordbook["no_mailuser_perm"];

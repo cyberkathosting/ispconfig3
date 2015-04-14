@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 		unset($domain_select);
 
 		// Get the spamfilter policys for the user
-		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
@@ -139,7 +139,7 @@ class page_action extends tform_actions {
 
 		//* Check if Domain belongs to user
 		if(isset($_POST["email_domain"])) {
-			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
+			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 			if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		}
 
@@ -167,7 +167,7 @@ class page_action extends tform_actions {
 
 			// Check the quota and adjust
 			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0 && (($app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) || ($_POST["quota"] <= 0))) {
-				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ".$app->functions->intval($this->id)." AND ".$app->tform->getAuthSQL('u'));
+				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ? AND ".$app->tform->getAuthSQL('u'), $this->id);
 				$mailquota = $tmp["mailquota"] / 1024 / 1024;
 				$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);
 				if(($mailquota + $new_mailbox_quota > $client["limit_mailquota"]) || ($new_mailbox_quota == 0 && $client["limit_mailquota"] != -1)) {
@@ -182,11 +182,11 @@ class page_action extends tform_actions {
 
 			if($client['parent_client_id'] > 0) {
 				// Get the limits of the reseller
-				$reseller = $app->db->queryOneRecord("SELECT limit_mailquota, limit_maildomain FROM client WHERE client_id = ".$client['parent_client_id']);
+				$reseller = $app->db->queryOneRecord("SELECT limit_mailquota, limit_maildomain FROM client WHERE client_id = ?", $client['parent_client_id']);
 
 				//* Check the website quota of the client
 				if(isset($_POST["quota"]) && $reseller["limit_mailquota"] >= 0 && $app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) {
-					$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user, sys_group, client WHERE mail_user.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ".$client['parent_client_id']." IN (client.parent_client_id, client.client_id) AND mailuser_id != ".$app->functions->intval($this->id));
+					$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user, sys_group, client WHERE mail_user.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ? IN (client.parent_client_id, client.client_id) AND mailuser_id != ?", $client['parent_client_id'], $this->id);
 
 					$mailquota = $tmp["mailquota"] / 1024 / 1024;
 					$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);
@@ -231,7 +231,7 @@ class page_action extends tform_actions {
 			$this->dataRecord['gid'] = -1;
 				
 			//* Check if there is no alias or forward with this address
-			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = '".$app->db->quote($this->dataRecord["email"])."'");
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = ?", $this->dataRecord["email"]);
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
 			unset($tmp);
 
@@ -257,13 +257,13 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Set the domain owner as mailbox owner
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("UPDATE mail_user SET sys_groupid = ".$app->functions->intval($domain["sys_groupid"])." WHERE mailuser_id = ".$this->id);
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
+		$app->db->query("UPDATE mail_user SET sys_groupid = ? WHERE mailuser_id = ?", $domain["sys_groupid"], $this->id);
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
@@ -283,8 +283,8 @@ class page_action extends tform_actions {
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
-			$app->db->query($sql);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
 		}
 	}
 
@@ -293,12 +293,12 @@ class page_action extends tform_actions {
 
 		// Set the domain owner as mailbox owner
 		if(isset($_POST["email_domain"])) {
-			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-			$app->db->query("UPDATE mail_user SET sys_groupid = ".$app->functions->intval($domain["sys_groupid"])." WHERE mailuser_id = ".$this->id);
+			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
+			$app->db->query("UPDATE mail_user SET sys_groupid = ? WHERE mailuser_id = ?", $domain["sys_groupid"], $this->id);
 
 			// Spamfilter policy
 			$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($this->dataRecord["email"])."'");
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
@@ -324,8 +324,8 @@ class page_action extends tform_actions {
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = '$disableimap', disablesieve = '$disableimap', `disablesieve-filter` = '$disableimap', disablepop3 = '$disablepop3', disablesmtp = '$disablesmtp', disabledeliver = '$disabledeliver', disablelda = '$disabledeliver', disabledoveadm = '$disableimap' WHERE mailuser_id = ".$this->id;
-			$app->db->query($sql);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
 		}
 
 		//** If the email address has been changed, change it in all aliases too
@@ -333,7 +333,7 @@ class page_action extends tform_actions {
 			//if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
 
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = '".$app->db->quote($this->oldDataRecord['email'])."'");
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = ?", $this->oldDataRecord['email']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
 					$destination = $app->db->quote($this->dataRecord['email']);

@@ -56,8 +56,8 @@ if($type == 'getservertype'){
 
 if($type == 'getserverid'){
 	$json = '{"serverid":"';
-	$sql = "SELECT server_id FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
-	$server = $app->db->queryOneRecord($sql);
+	$sql = "SELECT server_id FROM web_domain WHERE domain_id = ?? AND ".$app->tform->getAuthSQL('r');
+	$server = $app->db->queryOneRecord($sql, $web_id);
 	$json .= $server['server_id'];
 	unset($server);
 	$json .= '"}';
@@ -77,7 +77,7 @@ if($type == 'getphpfastcgi'){
 		$sql_where = " AND (client_id = 0 OR client_id = ".$app->functions->intval($_SESSION["s"]["user"]["client_id"]) . ")";
 		//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 	} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $client_group_id);
 		//$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"];
 		$sql_where = " AND (client_id = 0";
 		if($app->functions->intval($client['client_id']) > 0) $sql_where .= " OR client_id = ".$app->functions->intval($client['client_id']);
@@ -85,7 +85,7 @@ if($type == 'getphpfastcgi'){
 		//* Admin: If the logged in user is admin
 	} else {
 		//$sql_where = '';
-		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $client_group_id);
 		//$sql_where = " AND (client_id = 0 OR client_id = ".$_SESSION["s"]["user"]["client_id"];
 		$sql_where = " AND (client_id = 0";
 		if($app->functions->intval($client['client_id']) > 0) $sql_where .= " OR client_id = ".$app->functions->intval($client['client_id']);
@@ -93,10 +93,9 @@ if($type == 'getphpfastcgi'){
 	}
 
 	if($php_type == 'php-fpm'){
-		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = $server_id".$sql_where);
-	}
-	if($php_type == 'fast-cgi'){
-		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = $server_id".$sql_where);
+		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where, $server_id);
+	} elseif($php_type == 'fast-cgi'){
+		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where, $server_id);
 	}
 	$php_select = "";
 	if(is_array($php_records) && !empty($php_records)) {
@@ -116,8 +115,8 @@ if($type == 'getphpfastcgi'){
 
 if($type == 'getphptype'){
 	$json = '{"phptype":"';
-	$sql = "SELECT php FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
-	$php = $app->db->queryOneRecord($sql);
+	$sql = "SELECT php FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r');
+	$php = $app->db->queryOneRecord($sql, $web_id);
 	$json .= $php['php'];
 	unset($php);
 	$json .= '"}';
@@ -125,8 +124,8 @@ if($type == 'getphptype'){
 
 if($type == 'getredirecttype'){
 	$json = '{"redirecttype":"';
-	$sql = "SELECT redirect_type FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
-	$redirect = $app->db->queryOneRecord($sql);
+	$sql = "SELECT redirect_type FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r');
+	$redirect = $app->db->queryOneRecord($sql, $web_id);
 	$json .= $redirect['redirect_type'];
 	unset($redirect);
 	$json .= '"}';
@@ -155,11 +154,11 @@ if($type == 'get_ipv6'){
 if($type == 'getdatabaseusers') {
 	$json = '{}';
 
-	$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = $web_id AND ".$app->tform->getAuthSQL('r');
-	$group = $app->db->queryOneRecord($sql);
+	$sql = "SELECT sys_groupid FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r');
+	$group = $app->db->queryOneRecord($sql, $web_id);
 	if($group) {
-		$sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = '" . $app->functions->intval($group['sys_groupid']) . "'";
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT database_user_id, database_user FROM web_database_user WHERE sys_groupid = ?";
+		$records = $app->db->queryAllRecords($sql, $group['sys_groupid']);
 
 		$tmp_array = array();
 		foreach($records as $record) {
@@ -202,9 +201,9 @@ if ($type == 'getdirectivesnippet') {
 }
 
 if($type == 'getclientssldata'){
-	$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", intval($web_id));
-	$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", intval($web['sys_groupid']));
-	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", intval($sys_group['client_id']));
+	$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $web_id);
+	$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", $web['sys_groupid']);
+	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", $sys_group['client_id']);
 	if(is_array($client) && !empty($client)){
 		if($client['telephone'] == '' && $client['mobile'] != '') $client['telephone'] = $client['mobile'];
 		

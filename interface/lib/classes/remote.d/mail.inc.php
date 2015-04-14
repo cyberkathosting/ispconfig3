@@ -1061,7 +1061,6 @@ class remoting_mail extends remoting {
 			return false;
 		}
 		if (!empty($domain)) {
-			$domain       = $app->db->quote($domain);
 			$sql            = "SELECT * FROM mail_domain WHERE domain = ?";
 			$result         = $app->db->queryAllRecords($sql, $domain);
 			return          $result;

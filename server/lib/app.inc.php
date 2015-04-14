@@ -151,7 +151,7 @@ class app {
 			if(isset($this->dbmaster)) {
 				$server_id = $conf['server_id'];
 				$loglevel = $priority;
-				$message = $this->dbmaster->quote($msg);
+				$message = $msg;
 				$datalog_id = (isset($this->modules->current_datalog_id) && $this->modules->current_datalog_id > 0)?$this->modules->current_datalog_id:0;
 				if($datalog_id > 0) {
 					$tmp_rec = $this->dbmaster->queryOneRecord("SELECT count(syslog_id) as number FROM sys_log WHERE datalog_id = ? AND loglevel = ?", $datalog_id, LOGLEVEL_ERROR);

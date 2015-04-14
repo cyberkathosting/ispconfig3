@@ -48,23 +48,40 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 		$packages = $client->get_packages($repo['repo_username'], $repo['repo_password']);
 		if(is_array($packages)) {
 			foreach($packages as $p) {
-				$package_name = $app->db->quote($p['name']);
+				$package_name = $p['name'];
 				$tmp = $app->db->queryOneRecord("SELECT package_id FROM software_package WHERE package_name = ?", $package_name);
 
-				$package_title = $app->db->quote($p['title']);
-				$package_description = $app->db->quote($p['description']);
+				$package_title = $p['title'];
+				$package_description = $p['description'];
 				$software_repo_id = $app->functions->intval($repo['software_repo_id']);
-				$package_type = $app->db->quote($p['type']);
-				$package_installable = $app->db->quote($p['installable']);
-				$package_requires_db = $app->db->quote($p['requires_db']);
-				$package_remote_functions = $app->db->quote($p['remote_functions']);
+				$package_type = $p['type'];
+				$package_installable = $p['installable'];
+				$package_requires_db = $p['requires_db'];
+				$package_remote_functions = $p['remote_functions'];
 
 				if(empty($tmp['package_id'])) {
-					$insert_data = "(software_repo_id, package_name, package_title, package_description,package_type,package_installable,package_requires_db,package_remote_functions) VALUES ($software_repo_id, '$package_name', '$package_title', '$package_description','$package_type','$package_installable','$package_requires_db','$package_remote_functions')";
+					$insert_data = array(
+						"software_repo_id" => $software_repo_id,
+						"package_name" => $package_name, 
+						"package_title" => $package_title, 
+						"package_description" => $package_description,
+						"package_type" => $package_type,
+						"package_installable" => $package_installable,
+						"package_requires_db" => $package_requires_db,
+						"package_remote_functions" => $package_remote_functions
+						);
 					$app->db->datalogInsert('software_package', $insert_data, 'package_id');
 					$packages_added++;
 				} else {
-					$update_data = "software_repo_id = $software_repo_id, package_title = '$package_title', package_description = '$package_description', package_type = '$package_type', package_installable = '$package_installable', package_requires_db = '$package_requires_db', package_remote_functions = '$package_remote_functions'";
+					$update_data = array(
+						"software_repo_id" => $software_repo_id,
+						"package_title" => $package_title, 
+						"package_description" => $package_description,
+						"package_type" => $package_type,
+						"package_installable" => $package_installable,
+						"package_requires_db" => $package_requires_db,
+						"package_remote_functions" => $package_remote_functions
+						);
 					//echo $update_data;
 					$app->db->datalogUpdate('software_package', $update_data, 'package_id', $tmp['package_id']);
 				}
@@ -99,8 +116,19 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 						$sql = "SELECT * FROM software_update WHERE package_name = ? and v1 = ? and v2 = ? and v3 = ? and v4 = ?";
 						$tmp = $app->db->queryOneRecord($sql, $package_name, $v1, $v2, $v3, $v4);
 						if(!isset($tmp['software_update_id'])) {
-							$insert_data = "(software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type)
-                            VALUES ($software_repo_id, '$package_name', '$update_url', '$update_md5', '$update_dependencies', '$update_title', '$v1', '$v2', '$v3', '$v4', '$type')";
+							$insert_data = array(
+								"software_repo_id" => $software_repo_id,
+								"package_name" => $package_name,
+								"update_url" => $update_url,
+								"update_md5" => $update_md5,
+								"update_dependencies" => $update_dependencies,
+								"update_title" => $update_title,
+								"v1" => $v1,
+								"v2" => $v2,
+								"v3" => $v3,
+								"v4" => $v4,
+								"type" => $type
+							);
 							$app->db->datalogInsert('software_update', $insert_data, 'software_update_id');
 						}
 

@@ -98,8 +98,8 @@ class page_action extends tform_actions {
 
 		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $this->id);
 		$client_id = $app->functions->intval($client['client_id']);
-		$username = $app->db->quote($this->dataRecord["username"]);
-		$old_username = $app->db->quote($this->oldDataRecord['username']);
+		$username = $this->dataRecord["username"];
+		$old_username = $this->oldDataRecord['username'];
 
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 
 		// password changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["passwort"]) && $this->dataRecord["passwort"] != '') {
-			$password = $app->db->quote($this->dataRecord["passwort"]);
+			$password = $this->dataRecord["passwort"];
 			$salt="$1$";
 			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 			for ($n=0;$n<8;$n++) {
@@ -126,7 +126,7 @@ class page_action extends tform_actions {
 
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
-			$language = $app->db->quote($this->dataRecord["language"]);
+			$language = $this->dataRecord["language"];
 			$sql = "UPDATE client SET language = ? WHERE client_id = ? AND username = ?";
 			$app->db->query($sql, $language, $client_id, $username);
 		}

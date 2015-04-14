@@ -93,9 +93,6 @@ class remoting {
 		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMSTAMP()";
 		$app->db->query($sql);
 
-		$username = $app->db->quote($username);
-		$password = $app->db->quote($password);
-
 		if($client_login == true) {
 			$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
 			$user = $app->db->queryOneRecord($sql, $username);
@@ -175,8 +172,6 @@ class remoting {
 			return false;
 		}
 
-		$session_id = $app->db->quote($session_id);
-
 		$sql = "DELETE FROM remote_session WHERE remote_session = ?";
 		if($app->db->query($sql, $session_id) != false) {
 			return true;
@@ -201,7 +196,7 @@ class remoting {
 		$sql = $app->remoting_lib->getSQL($params, 'INSERT', 0);
 
 		//* Check if no system user with that username exists
-		$username = $app->db->quote($params["username"]);
+		$username = $params["username"];
 		$tmp = $app->db->queryOneRecord("SELECT count(userid) as number FROM sys_user WHERE username = ?", $username);
 		if($tmp['number'] > 0) $app->remoting_lib->errorMessage .= "Duplicate username<br />";
 
@@ -470,8 +465,6 @@ class remoting {
 			throw new SoapFault('session_id_empty', 'The SessionID is empty.');
 			return false;
 		}
-
-		$session_id = $app->db->quote($session_id);
 
 		$sql = "SELECT * FROM remote_session WHERE remote_session = ? AND tstamp >= UNIX_TIMSTAMP()";
 		$session = $app->db->queryOneRecord($sql, $session_id);

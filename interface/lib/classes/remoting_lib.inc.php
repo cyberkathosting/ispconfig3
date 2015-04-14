@@ -262,12 +262,12 @@ class remoting_lib extends tform_base {
 
 	function ispconfig_sysuser_add($params, $insert_id){
 		global $conf, $app, $sql1;
-		$username = $app->db->quote($params["username"]);
-		$password = $app->db->quote($params["password"]);
+		$username = $params["username"];
+		$password = $params["password"];
 		if(!isset($params['modules'])) {
 			$modules = $conf['interface_modules_enabled'];
 		} else {
-			$modules = $app->db->quote($params['modules']);
+			$modules = $params['modules'];
 		}
 		if(isset($params['limit_client']) && $params['limit_client'] > 0) {
 			$modules .= ',client';
@@ -276,18 +276,18 @@ class remoting_lib extends tform_base {
 		if(!isset($params['startmodule'])) {
 			$startmodule = 'dashboard';
 		} else {
-			$startmodule = $app->db->quote($params["startmodule"]);
+			$startmodule = $params["startmodule"];
 			if(!preg_match('/'.$startmodule.'/', $modules)) {
 				$_modules = explode(',', $modules);
 				$startmodule=$_modules[0];
 			}
 		}
-		$usertheme = $app->db->quote($params["usertheme"]);
+		$usertheme = $params["usertheme"];
 		$type = 'user';
 		$active = 1;
 		$insert_id = $app->functions->intval($insert_id);
-		$language = $app->db->quote($params["language"]);
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('$username','','$insert_id')", 'groupid');
+		$language = $params["language"];
+		$groupid = $app->db->datalogInsert('sys_group', array("name" => $username, "description" => "", "client_id" => $insert_id), 'groupid');
 		$groups = $groupid;
 		if(!isset($params['_ispconfig_pw_crypted']) || $params['_ispconfig_pw_crypted'] != 1) $password = $app->auth->crypt_password(stripslashes($password));
 		$sql1 = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
@@ -297,8 +297,8 @@ class remoting_lib extends tform_base {
 
 	function ispconfig_sysuser_update($params, $client_id){
 		global $app;
-		$username = $app->db->quote($params["username"]);
-		$clear_password = $app->db->quote($params["password"]);
+		$username = $params["username"];
+		$clear_password = $params["password"];
 		$client_id = $app->functions->intval($client_id);
 		if(!isset($params['_ispconfig_pw_crypted']) || $params['_ispconfig_pw_crypted'] != 1) $password = $app->auth->crypt_password(stripslashes($clear_password));
 		else $password = $clear_password;

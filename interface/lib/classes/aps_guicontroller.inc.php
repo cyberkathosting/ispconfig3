@@ -268,7 +268,7 @@ class ApsGUIController extends ApsBase
 		if (empty($settings['main_database_name'])) {
 			//* Find a free db name for the app
 			for($n = 1; $n <= 1000; $n++) {
-				$mysql_db_name = $app->db->quote(($dbname_prefix != '' ? $dbname_prefix.'aps'.$n : uniqid('aps')));
+				$mysql_db_name = ($dbname_prefix != '' ? $dbname_prefix.'aps'.$n : uniqid('aps'));
 				$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = ?", $mysql_db_name);
 				if($tmp['number'] == 0) break;
 			}
@@ -277,7 +277,7 @@ class ApsGUIController extends ApsBase
 		if (empty($settings['main_database_login'])) {
 			//* Find a free db username for the app
 			for($n = 1; $n <= 1000; $n++) {
-				$mysql_db_user = $app->db->quote(($dbuser_prefix != '' ? $dbuser_prefix.'aps'.$n : uniqid('aps')));
+				$mysql_db_user = ($dbuser_prefix != '' ? $dbuser_prefix.'aps'.$n : uniqid('aps'));
 				$tmp = $app->db->queryOneRecord("SELECT count(database_user_id) as number FROM web_database_user WHERE database_user = ?", $mysql_db_user);
 				if($tmp['number'] == 0) break;
 			}
@@ -287,8 +287,16 @@ class ApsGUIController extends ApsBase
 		//* Create the mysql database user if not existing
 		$tmp = $app->db->queryOneRecord("SELECT database_user_id FROM web_database_user WHERE database_user = ?", $settings['main_database_login']);
 		if(!$tmp) {
-			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `database_user`, `database_user_prefix`, `database_password`)
-                                          VALUES( ".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->functions->intval($websrv['sys_perm_group'])."', '', 0, '".$settings['main_database_login']."', '".$app->db->quote($dbuser_prefix) . "', PASSWORD('".$settings['main_database_password']."'))";
+			$insert_data = array("sys_userid" => $websrv['sys_userid'],
+								 "sys_groupid" => $websrv['sys_groupid'],
+								 "sys_perm_user" => 'riud',
+								 "sys_perm_group" => $websrv['sys_perm_group'],
+								 "sys_perm_other" => '',
+								 "server_id" => 0,
+								 "database_user" => $settings['main_database_login'],
+								 "database_user_prefix" => $dbuser_prefix,
+								 "database_password" => "PASSWORD('" . $settings['main_database_password'] . "')"
+								 );
 			$mysql_db_user_id = $app->db->datalogInsert('web_database_user', $insert_data, 'database_user_id');
 		}
 		else $mysql_db_user_id = $tmp['database_user_id'];
@@ -296,8 +304,25 @@ class ApsGUIController extends ApsBase
 		//* Create the mysql database if not existing
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = ?", $settings['main_database_name']);
 		if($tmp['number'] == 0) {
-			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `parent_domain_id`, `type`, `database_name`, `database_name_prefix`, `database_user_id`, `database_ro_user_id`, `database_charset`, `remote_access`, `remote_ips`, `backup_copies`, `active`, `backup_interval`)
-                                          VALUES( ".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->functions->intval($websrv['sys_perm_group'])."', '', $mysql_db_server_id, ".$app->functions->intval($websrv['domain_id']).", 'mysql', '".$settings['main_database_name']."', '" . $app->db->quote($dbname_prefix) . "', '$mysql_db_user_id', 0, '', '$mysql_db_remote_access', '$mysql_db_remote_ips', ".$app->functions->intval($websrv['backup_copies']).", 'y', '".$app->functions->intval($websrv['backup_interval'])."')";
+			$insert_data = array("sys_userid" => $websrv['sys_userid'],
+								 "sys_groupid" => $websrv['sys_groupid'],
+								 "sys_perm_user" => 'riud',
+								 "sys_perm_group" => $websrv['sys_perm_group'],
+								 "sys_perm_other" => '',
+								 "server_id" => $mysql_db_server_id,
+								 "parent_domain_id" => $websrv['domain_id'],
+								 "type" => 'mysql',
+								 "database_name" => $settings['main_database_name'],
+								 "database_name_prefix" => $dbname_prefix,
+								 "database_user_id" => $mysql_db_user_id,
+								 "database_ro_user_id" => 0,
+								 "database_charset" => '',
+								 "remote_access" => $mysql_db_remote_access,
+								 "remote_ips" => $mysql_db_remote_ips,
+								 "backup_copies" => $websrv['backup_copies'],
+								 "active" => 'y', 
+								 "backup_interval" => $websrv['backup_interval']
+								 );
 			$app->db->datalogInsert('web_database', $insert_data, 'database_id');
 		}
 		
@@ -351,7 +376,7 @@ class ApsGUIController extends ApsBase
 			// mysql-database-name is updated inside if not set already
 			if (!$this->createDatabaseForPackageInstance($settings, $websrv)) return false;
 		}
-
+		
 		//* Insert new package instance
 		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->db->quote($websrv['sys_perm_group'])."', '', ".$app->db->quote($webserver_id).",".$app->db->quote($customerid).", ".$app->db->quote($packageid).", ".INSTANCE_PENDING.")";
 		$InstanceID = $app->db->datalogInsert('aps_instances', $insert_data, 'id');

@@ -130,8 +130,6 @@ class cronjob_backup extends cronjob {
 									chmod($web_backup_dir.'/'.$web_backup_file, 0750);
 
 									//* Insert web backup record in database
-									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 									$filesize = filesize($web_backup_dir.'/'.$web_backup_file);
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'web', $backup_mode, time(), $web_backup_file, $filesize);
@@ -160,10 +158,6 @@ class cronjob_backup extends cronjob {
 							for ($n = $backup_copies; $n <= 10; $n++) {
 								if(isset($files[$n]) && is_file($web_backup_dir.'/'.$files[$n])) {
 									unlink($web_backup_dir.'/'.$files[$n]);
-									//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
-									//$tmp = $app->dbmaster->queryOneRecord($sql);
-									//$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
-									//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
 									$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 									$app->db->query($sql, $conf['server_id'], $web_id, $files[$n]);
 									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'],  $web_id, $files[$n]);
@@ -247,8 +241,6 @@ class cronjob_backup extends cronjob {
 									chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
 
 									//* Insert web backup record in database
-									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 									$filesize = filesize($db_backup_dir.'/'.$db_backup_file.'.gz');
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'mysql', 'sqlgz', time(), $db_backup_file.'.gz', $filesize);
@@ -281,9 +273,6 @@ class cronjob_backup extends cronjob {
 								for ($n = $backup_copies; $n <= 10; $n++) {
 									if(isset($filelist[$n]) && is_file($db_backup_dir.'/'.$filelist[$n])) {
 										unlink($db_backup_dir.'/'.$filelist[$n]);
-										//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
-										//$tmp = $app->dbmaster->queryOneRecord($sql);
-										//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
 										$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 										$app->db->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
 										if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id, $filelist[$n]);

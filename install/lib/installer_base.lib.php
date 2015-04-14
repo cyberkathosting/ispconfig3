@@ -167,7 +167,7 @@ class installer_base {
 		global $conf;
 
 		//** Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['mysql']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['mysql']['database'].'.');
 		}
 
@@ -192,8 +192,8 @@ class installer_base {
 			}
 
 			//* Load system.ini into the sys_ini table
-			$system_ini = $this->db->quote(rf('tpl/system.ini.master'));
-			$this->db->query("UPDATE sys_ini SET config = '$system_ini' WHERE sysini_id = 1");
+			$system_ini = rf('tpl/system.ini.master');
+			$this->db->query("UPDATE sys_ini SET config = ? WHERE sysini_id = 1", $system_ini);
 
 		}
 	}
@@ -210,15 +210,13 @@ class installer_base {
 		}
 
 		// Delete ISPConfig user in the local database, in case that it exists
-		$this->db->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['ispconfig_user']."' AND Host = '".$from_host."';");
-		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['database']."' AND Host = '".$from_host."';");
-		$this->db->query('FLUSH PRIVILEGES;');
+		$this->db->query("DELETE FROM mysql.user WHERE User = ? AND Host = ?", $conf['mysql']['ispconfig_user'], $from_host);
+		$this->db->query("DELETE FROM mysql.db WHERE Db = ? AND Host = ?", $conf['mysql']['database'], $from_host);
+		$this->db->query('FLUSH PRIVILEGES');
 
 		//* Create the ISPConfig database user in the local database
-		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['database'].".* "
-			."TO '".$conf['mysql']['ispconfig_user']."'@'".$from_host."' "
-			."IDENTIFIED BY '".$conf['mysql']['ispconfig_password']."';";
-		if(!$this->db->query($query)) {
+		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
+		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host, $conf['mysql']['ispconfig_password'])) {
 			$this->error('Unable to create database user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
 
@@ -309,14 +307,14 @@ class installer_base {
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->dbmaster->query($sql);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->dbmaster->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->dbmaster->insertID();
 			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->db->query($sql);
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['server_id'], $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 
 			//* username for the ispconfig user
 			$conf['mysql']['master_ispconfig_user'] = 'ispcsrv'.$conf['server_id'];
@@ -325,8 +323,8 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->db->query($sql);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->db->insertID();
 			$conf['server_id'] = $conf['server_id'];
 		}
@@ -388,141 +386,141 @@ class installer_base {
 			 * if not, the user already exists and we do not need the pwd
 			 */
 				if ($value['pwd'] != ''){
-					$query = "CREATE USER '".$value['user']."'@'".$host."' IDENTIFIED BY '" . $value['pwd'] . "'";
+					$query = "CREATE USER ?@? IDENTIFIED BY ?";
 					if ($verbose){
 						echo "\n\n" . $query ."\n";
 					}
-					$this->dbmaster->query($query); // ignore the error
+					$this->dbmaster->query($query, $value['user'], $host, $value['pwd']); // ignore the error
 				}
 
 				/*
 			 *  Try to delete all rights of the user in case that it exists.
 			 *  In Case that it will not exist, do nothing (ignore the error!)
 			 */
-				$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$value['user']."'@'".$host."' ";
+				$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM ?@?";
 				if ($verbose){
 					echo "\n\n" . $query ."\n";
 				}
-				$this->dbmaster->query($query); // ignore the error
+				$this->dbmaster->query($query, $value['user'], $host); // ignore the error
 
 				//* Create the ISPConfig database user in the remote database
-				$query = "GRANT SELECT ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.server', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT ON ".$value['db'].".`sys_log` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_log', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`status`, `error`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`status`, `error`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_datalog', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`software_update_inst` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`status`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.software_update_inst', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`updated`) ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`updated`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.server', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ".$value['db'].".`web_domain` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_domain', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT ON ".$value['db'].".`sys_group` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_group', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$value['db'].".`sys_remoteaction` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_remoteaction', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT , DELETE ON ".$value['db'].".`monitor_data` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT , DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.monitor_data', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`mail_traffic` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.mail_traffic', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`web_traffic` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_traffic', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE, DELETE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.aps_instances', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 				
-				$query = "GRANT SELECT, DELETE ON ".$value['db'].".`aps_instances_settings` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.aps_instances_settings', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, DELETE ON ".$value['db'].".`web_backup` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, DELETE ON ".$value['db'].".`mail_backup` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.mail_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 			}
@@ -530,7 +528,7 @@ class installer_base {
 			/*
 		 * It is all done. Relod the rights...
 		 */
-			$this->dbmaster->query('FLUSH PRIVILEGES;');
+			$this->dbmaster->query('FLUSH PRIVILEGES');
 		}
 
 	}
@@ -732,7 +730,7 @@ class installer_base {
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM `" . $this->db->quote($conf["mysql"]["database"]) . "`.`server` WHERE server_id = ".$conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
@@ -974,7 +972,7 @@ class installer_base {
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
@@ -1250,18 +1248,18 @@ class installer_base {
 		global $conf;
 
 		//* Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['powerdns']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['powerdns']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['powerdns']['database'].'.');
 		}
 
 		//* Create the ISPConfig database user in the local database
-		$query = "GRANT ALL ON `".$conf['powerdns']['database']."` . * TO '".$conf['mysql']['ispconfig_user']."'@'localhost';";
-		if(!$this->db->query($query)) {
+		$query = "GRANT ALL ON ?? TO ?@'localhost'";
+		if(!$this->db->query($query, $conf['powerdns']['database'] . '.*', $conf['mysql']['ispconfig_user'])) {
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
 
 		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
+		$this->db->query('FLUSH PRIVILEGES');
 
 		//* load the powerdns databse dump
 		if($conf['mysql']['admin_password'] == '') {
@@ -1324,7 +1322,7 @@ class installer_base {
         if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
         unlink('/etc/metronome/metronome.cfg.lua');
 
-        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
         $server_name = $row["server_name"];
 
         $tpl = new tpl('metronome_conf_main.master');
@@ -1483,7 +1481,7 @@ Email Address []:
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
-		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
 		if(is_array($records) && count($records) > 0) {
@@ -1566,36 +1564,6 @@ Email Address []:
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		/*
-		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
-		$ip_address = gethostbyname($row["server_name"]);
-		$server_name = $row["server_name"];
-
-        //setup proxy.conf
-		$configfile = 'proxy.conf';
-		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile)) copy($conf["nginx"]["config_dir"].'/'.$configfile,$conf["nginx"]["config_dir"].'/'.$configfile.'~');
-		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/nginx_".$configfile.".master");
-		wf($conf["nginx"]["config_dir"].'/'.$configfile,$content);
-		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/'.$configfile);
-		exec('chown root:root '.$conf["nginx"]["config_dir"].'/'.$configfile);
-
-        //setup conf.d/cache.conf
-        $configfile = 'cache.conf';
-		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile)) copy($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
-		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
-		$content = rf("tpl/nginx_".$configfile.".master");
-		wf($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$content);
-		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
-		exec('chown root:root '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
-
-        //setup cache directories
-        mkdir('/var/cache/nginx/cache');
-        exec('chown www-data:www-data /var/cache/nginx/cache');
-        mkdir('/var/cache/nginx/temp');
-        exec('chown www-data:www-data /var/cache/nginx/temp');
-		*/
 	}
 
 	public function configure_fail2ban() {
@@ -1605,7 +1573,7 @@ Email Address []:
 	public function configure_squid()
 	{
 		global $conf;
-		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
 		$ip_address = gethostbyname($row["server_name"]);
 		$server_name = $row["server_name"];
 
@@ -1652,7 +1620,7 @@ Email Address []:
 		$tcp_public_services = '';
 		$udp_public_services = '';
 
-		$row = $this->db->queryOneRecord('SELECT * FROM '.$conf["mysql"]["database"].'.firewall WHERE server_id = '.intval($conf['server_id']));
+		$row = $this->db->queryOneRecord('SELECT * FROM ?? WHERE server_id = ?', $conf["mysql"]["database"] . '.firewall', $conf['server_id']);
 
 		if(trim($row['tcp_port']) != '' || trim($row['udp_port']) != '') {
 			$tcp_public_services = trim(str_replace(',', ' ', $row['tcp_port']));
@@ -1664,7 +1632,7 @@ Email Address []:
 
 		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
 			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']);
-			if($row['tcp_port'] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ',".intval($conf['apache']['vhost_port'])."' WHERE server_id = ".intval($conf['server_id']));
+			if($row['tcp_port'] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ? WHERE server_id = ?", ',' . intval($conf['apache']['vhost_port']), $conf['server_id']);
 		}
 
 		$content = str_replace('{TCP_PUBLIC_SERVICES}', $tcp_public_services, $content);
@@ -2091,13 +2059,11 @@ Email Address []:
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
         $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ?";
 
+		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
-			$this->dbmaster->query($sql);
-			$this->db->query($sql);
-		} else {
-			$this->db->query($sql);
+			$this->dbmaster->query($sql, $conf['server_id']);
 		}
 
 

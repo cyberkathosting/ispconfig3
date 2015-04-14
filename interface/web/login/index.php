@@ -73,9 +73,9 @@ class login_index {
 			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = $app->lng('pw_error_length');
 
 			//** iporting variables
-			$ip    = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
-			$username = $app->db->quote($_POST['username']);
-			$passwort = $app->db->quote($_POST['passwort']);
+			$ip    = ip2long($_SERVER['REMOTE_ADDR']);
+			$username = $_POST['username'];
+			$passwort = $_POST['passwort'];
 			$loginAs  = false;
 			$time = time();
 

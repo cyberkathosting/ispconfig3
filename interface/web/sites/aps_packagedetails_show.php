@@ -47,7 +47,7 @@ require_once $lngfile;
 $app->tpl->setVar($wb);
 
 $gui = new ApsGUIController($app);
-$pkg_id = (isset($_GET['id'])) ? $app->db->quote($_GET['id']) : '';
+$pkg_id = (isset($_GET['id'])) ? $_GET['id'] : '';
 
 // Check if a newer version is available for the current package
 // Note: It's intended that here is no strict ID check (see below)

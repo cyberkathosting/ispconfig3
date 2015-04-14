@@ -227,15 +227,15 @@ class sites_web_vhost_domain_plugin {
 				if(empty($web_rec['php_open_basedir']) ||
 					(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $page_form->dataRecord["domain"] != $page_form->oldDataRecord["domain"])) {
 					$php_open_basedir = $web_rec['php_open_basedir'];
-					$php_open_basedir = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $web_rec['domain'], $php_open_basedir));
+					$php_open_basedir = str_replace($page_form->oldDataRecord['domain'], $web_rec['domain'], $php_open_basedir);
 					$sql = "UPDATE web_domain SET php_open_basedir = ? WHERE domain_id = ?";
 					$app->db->query($sql, $php_open_basedir, $page_form->id);
 				}
 				if(empty($web_rec['php_open_basedir']) ||
 					(isset($page_form->dataRecord["client_group_id"]) && $page_form->dataRecord["client_group_id"] != $page_form->oldDataRecord["sys_groupid"])) {
-					$document_root = $app->db->quote(str_replace("[client_id]", $client_id, $document_root));
+					$document_root = str_replace("[client_id]", $client_id, $document_root);
 					$php_open_basedir = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
-					$php_open_basedir = $app->db->quote(str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir));
+					$php_open_basedir = str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir);
 					$sql = "UPDATE web_domain SET php_open_basedir = ? WHERE domain_id = ?";
 					$app->db->query($sql, $php_open_basedir, $page_form->id);
 				}
@@ -243,11 +243,11 @@ class sites_web_vhost_domain_plugin {
 				//* Change database backup options when web backup options have been changed
 				if(isset($page_form->dataRecord['backup_interval']) && ($page_form->dataRecord['backup_interval'] != $page_form->oldDataRecord['backup_interval'] || $page_form->dataRecord['backup_copies'] != $page_form->oldDataRecord['backup_copies'])) {
 					//* Update all databases
-					$backup_interval = $app->db->quote($page_form->dataRecord['backup_interval']);
+					$backup_interval = $page_form->dataRecord['backup_interval'];
 					$backup_copies = $app->functions->intval($page_form->dataRecord['backup_copies']);
 					$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {
-						$app->db->datalogUpdate('web_database', "backup_interval = '$backup_interval', backup_copies = '$backup_copies'", 'database_id', $rec['database_id']);
+						$app->db->datalogUpdate('web_database', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies), 'database_id', $rec['database_id']);
 					}
 					unset($records);
 					unset($rec);

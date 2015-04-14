@@ -76,28 +76,6 @@ if($type == 'globalsearch'){
 	$result[] = _search('sites', 'shell_user');
 
 	// databases
-	/*
-		$result_databases = array('cheader' => array(), 'cdata' => array());
-		if(in_array('sites', $modules)){
-			$sql = "SELECT * FROM web_database WHERE database_name LIKE '%".$q."%' OR database_user LIKE '%".$q."%' OR remote_ips LIKE '%".$q."%'".$authsql." ORDER BY database_name";
-			$results = $app->db->queryAllRecords($sql);
-
-			if(is_array($results) && !empty($results)){
-				$result_databases['cheader'] = array('title' => 'Databases',
-														'total' => count($results),
-														'limit' => count($results)
-													);
-				foreach($results as $result){
-					$description = 'Database User: '.$result['database_user'].' - Remote IPs: '.$result['remote_ips'];
-					$result_databases['cdata'][] = array('title' => $result['database_name'],
-												'description' => $description,
-												'onclick' => 'ISPConfig.capp(\'sites\',\'sites/database_edit.php?id='.$result['database_id'].'\');',
-												'fill_text' => strtolower($result['database_name'])
-												);
-				}
-			}
-		}
-		*/
 	$result[] = _search('sites', 'database');
 
 	// database users
@@ -205,8 +183,8 @@ function _search($module, $section, $additional_sql = ''){
 		$order_clause = '';
 		if($order_by != '') $order_clause = ' ORDER BY '.$order_by;
 
-		$sql = "SELECT * FROM ".$db_table." WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
-		$results = $app->db->queryAllRecords($sql);
+		$sql = "SELECT * FROM ?? WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
+		$results = $app->db->queryAllRecords($sql, $db_table);
 
 		if(is_array($results) && !empty($results)){
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';

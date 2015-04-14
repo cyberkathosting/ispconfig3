@@ -164,9 +164,9 @@ class page_action extends tform_actions {
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 
 		$server_id = $app->functions->intval($web["server_id"]);
-		$dir = $app->db->quote($web["document_root"]);
-		$uid = $app->db->quote($web["system_user"]);
-		$gid = $app->db->quote($web["system_group"]);
+		$dir = $web["document_root"];
+		$uid = $web["system_user"];
+		$gid = $web["system_group"];
 		
 		// Check system user and group
 		if($app->functions->is_allowed_user($uid) == false || $app->functions->is_allowed_group($gid) == false) {

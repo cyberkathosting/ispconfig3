@@ -500,8 +500,8 @@ class mongo_clientdb_plugin {
 				return;
 			}
 
-			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['new']['database_user_id']) . "'");
-			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['new']['database_ro_user_id']) . "'");
+			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
+			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_ro_user_id']);
 
 			$user = $db_user['database_user'];
 			$password = $db_user['database_password_mongo'];
@@ -573,8 +573,8 @@ class mongo_clientdb_plugin {
 				return;
 			}
 
-			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['new']['database_user_id']) . "'");
-			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['new']['database_ro_user_id']) . "'");
+			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
+			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_ro_user_id']);
 
 			$user = $db_user['database_user'];
 			$password = $db_user['database_password_mongo'];
@@ -600,7 +600,7 @@ class mongo_clientdb_plugin {
 				} else {
 				// selected user has changed -> drop old one
 				if ($data['new']['database_user_id'] != $data['old']['database_user_id']) {
-					$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['old']['database_user_id']) . "'");
+					$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_user_id']);
 
 					if ((bool) $old_db_user) {
 						if ($old_db_user['database_user'] == 'root') {
@@ -613,7 +613,7 @@ class mongo_clientdb_plugin {
 
 				// selected read-only user has changed -> drop old one
 				if ($data['new']['database_ro_user_id'] != $data['old']['database_ro_user_id']) {
-					$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = '" . intval($data['old']['database_ro_user_id']) . "'");
+					$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password_mongo` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_ro_user_id']);
 
 					if ((bool) $old_db_user) {
 						if ($old_db_user['database_user'] == 'root') {

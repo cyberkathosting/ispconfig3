@@ -120,8 +120,8 @@ if(isset($_POST) && count($_POST) > 1) {
 	if($_SESSION["s"]["user"]["typ"] != 'admin'){
 		$client_id = $app->functions->intval($_SESSION['s']['user']['client_id']);
 		if($client_id > 0){
-			$sql = "SELECT email FROM client WHERE client_id = ".$client_id;
-			$client = $app->db->queryOneRecord($sql);
+			$sql = "SELECT email FROM client WHERE client_id = ?";
+			$client = $app->db->queryOneRecord($sql, $client_id);
 			if($client['email'] != '') $app->tpl->setVar('sender', $client['email']);
 		}
 	}

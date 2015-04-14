@@ -468,7 +468,6 @@ class remoting_client extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$username = $app->db->quote($username);
 		$rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = ?", $username);
 		if (isset($rec)) {
 			return $rec;
@@ -519,7 +518,6 @@ class remoting_client extends remoting {
 		$client_id = $app->functions->intval($client_id);
 		$client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ?", $client_id);
 		if($client['client_id'] > 0) {
-			$new_password = $app->db->quote($new_password);
 			$sql = "UPDATE client SET password = md5(?) 	WHERE client_id = ?";
 			$app->db->query($sql, $new_password, $client_id);
 			$sql = "UPDATE sys_user SET passwort = md5(?) 	WHERE client_id = ?";

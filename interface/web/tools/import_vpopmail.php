@@ -121,14 +121,14 @@ function start_import() {
 				$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($pw_domain)."','',".$client_id.")", 'groupid');
 				$groups = $groupid;
 
-				$username = $app->db->quote($pw_domain);
+				$username = $pw_domain;
 				$password = $pw_crypt_password;
 				$modules = $conf['interface_modules_enabled'];
 				$startmodule = 'dashboard';
-				$usertheme = $app->db->quote('default');
+				$usertheme = 'default';
 				$type = 'user';
 				$active = 1;
-				$language = $app->db->quote($conf["language"]);
+				$language = $conf["language"];
 				//$password = $app->auth->crypt_password($password);
 
 				// Create the controlpaneluser for the client

@@ -86,8 +86,7 @@ class mail_user_filter_plugin {
 			$out = $new_rule . $out;
 		}
 
-		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
+		$app->db->datalogUpdate('mail_user', array("custom_mailfilter" => $out), 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
 
 
 	}
@@ -111,8 +110,7 @@ class mail_user_filter_plugin {
 			}
 		}
 
-		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
+		$app->db->datalogUpdate('mail_user', array("custom_mailfilter" => $out), 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
 	}
 
 

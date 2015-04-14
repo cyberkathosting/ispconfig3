@@ -144,6 +144,7 @@ class tools_sites {
 		return $res;
 	}
 
+	/* TODO: rewrite SQL */
 	function getDomainModuleDomains($not_used_in_table = null, $selected_domain = null) {
 		global $app;
 
@@ -168,6 +169,7 @@ class tools_sites {
 		return $app->db->queryAllRecords($sql, $not_used_in_table, $selected_domain);
 	}
 
+	/* TODO: rewrite SQL */
 	function checkDomainModuleDomain($domain_id) {
 		global $app;
 
@@ -180,7 +182,8 @@ class tools_sites {
 		if(!$domain || !$domain['domain_id']) return false;
 		return $domain['domain'];
 	}
-
+	
+	/* TODO: rewrite SQL */
 	function getClientIdForDomain($domain_id) {
 		global $app;
 

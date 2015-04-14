@@ -54,10 +54,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$guar_ram = $app->functions->intval($this->dataRecord['ram']*256);
-		$burst_ram = $app->functions->intval($this->dataRecord['ram_burst']*256);
-		$sql = "UPDATE openvz_template SET shmpages = '$guar_ram:$guar_ram',vmguarpages = '$guar_ram:$guar_ram', oomguarpages = '$guar_ram:$guar_ram',privvmpages = '$burst_ram:$burst_ram' WHERE template_id = $this->id";
-		$app->db->query($sql);
+		$this->onAfterUpdate();
 	}
 
 	function onAfterUpdate() {
@@ -65,8 +62,8 @@ class page_action extends tform_actions {
 
 		$guar_ram = $app->functions->intval($this->dataRecord['ram']*256);
 		$burst_ram = $app->functions->intval($this->dataRecord['ram_burst']*256);
-		$sql = "UPDATE openvz_template SET shmpages = '$guar_ram:$guar_ram',vmguarpages = '$guar_ram:$guar_ram', oomguarpages = '$guar_ram:$guar_ram',privvmpages = '$burst_ram:$burst_ram' WHERE template_id = $this->id";
-		$app->db->query($sql);
+		$sql = "UPDATE openvz_template SET shmpages = ?,vmguarpages = ?, oomguarpages = ?,privvmpages = ? WHERE template_id = ?";
+		$app->db->query($sql, $guar_ram . ':' . $guar_ram, $guar_ram . ':' . $guar_ram, $guar_ram . ':' . $guar_ram, $burst_ram . ':' . $burst_ram, $this->id);
 	}
 
 }

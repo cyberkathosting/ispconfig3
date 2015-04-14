@@ -214,9 +214,9 @@ class vm_openvz_plugin {
 
 		$full_hostname = str_replace('{VEID}', $vm['veid'], $vm['hostname']);
 		$hostname_parts = explode('.', $full_hostname);
-		$hostname = $app->db->quote($hostname_parts[0]);
+		$hostname = $hostname_parts[0];
 		unset($hostname_parts[0]);
-		$zone = $app->db->quote((implode('.', $hostname_parts)));
+		$zone = implode('.', $hostname_parts);
 		unset($hostname_parts);
 
 		// Find the dns zone
@@ -224,7 +224,7 @@ class vm_openvz_plugin {
 		$rr_rec = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND name = ?", $zone_rec['id'], $hostname);
 
 		if($zone_rec['id'] > 0) {
-			$ip_address = $app->db->quote($vm['ip_address']);
+			$ip_address = $vm['ip_address'];
 			$sys_userid = $app->functions->intval($zone_rec['sys_userid']);
 			$sys_groupid = $app->functions->intval($zone_rec['sys_groupid']);
 			$server_id = $app->functions->intval($zone_rec['server_id']);

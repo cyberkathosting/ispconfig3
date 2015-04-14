@@ -102,7 +102,8 @@ class remoting_sites extends remoting {
 		$app->remoting_lib->loadFormDef('../sites/form/database.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-
+	
+	/* TODO: secure queries! */
 	//* Add a record
 	public function sites_database_add($session_id, $client_id, $params)
 	{

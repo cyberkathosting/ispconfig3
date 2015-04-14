@@ -177,7 +177,7 @@ class searchform {
 		if($this->searchChanged == 1)   $_SESSION['search'][$list_name]['page'] = 0;
 
 		$sql_von = $_SESSION['search'][$list_name]['page'] * $records_per_page;
-		$record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table WHERE $sql_where");
+		$record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM ?? WHERE $sql_where", $table);
 		$pages = $app->functions->intval(($record_count['anzahl'] - 1) / $records_per_page);
 
 		$vars['list_file']      = $this->listDef['file'];
@@ -247,7 +247,7 @@ class searchform {
 		$list_name = $this->listDef['name'];
 		$settings = $_SESSION['search'][$list_name];
 		unset($settings['page']);
-		$data = $app->db->quote(serialize($settings));
+		$data = serialize($settings);
 
 		$userid = $_SESSION['s']['user']['userid'];
 		$groupid = $_SESSION['s']['user']['default_group'];
@@ -260,9 +260,8 @@ class searchform {
 
 		$sql = 'INSERT INTO `searchform` ( '
 			.'`sys_userid` , `sys_groupid` , `sys_perm_user` , `sys_perm_group` , `sys_perm_other` , `module` , `searchform` , `title` , `data` '
-			.')VALUES ('
-			."'$userid', '$groupid', '$sys_perm_user', '$sys_perm_group', '$sys_perm_other', '$module', '$searchform', '$title', '$data')";
-		$app->db->query($sql);
+			.')VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+		$app->db->query($sql, $userid, $groupid, $sys_perm_user, $sys_perm_group, $sys_perm_other, $module, $searchform, $title, $data);
 	}
 
 	public function decode($record)
@@ -303,6 +302,7 @@ class searchform {
 		return $record;
 	}
 
+	/* TODO: check for double quoting mysql value */
 	public function encode($record)
 	{
 		global $app;

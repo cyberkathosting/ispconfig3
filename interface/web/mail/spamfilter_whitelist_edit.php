@@ -65,24 +65,6 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 	}
 
-	/*
-	function onBeforeUpdate() {
-		global $app, $conf;
-
-		//* Check if the server has been changed
-		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$rec = $app->db->queryOneRecord("SELECT server_id from spamfilter_wblist WHERE id = ".$this->id);
-			if($rec['server_id'] != $this->dataRecord["server_id"]) {
-				//* Add a error message and switch back to old server
-				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
-				$this->dataRecord["server_id"] = $rec['server_id'];
-			}
-			unset($rec);
-		}
-	}
-	*/
-
 	function onSubmit() {
 		global $app, $conf;
 
@@ -103,7 +85,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 
 		// Select and set the server_id so it matches the server_id of the spa,filter_users record
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM spamfilter_users WHERE id = ".$app->functions->intval($this->dataRecord["rid"]));
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM spamfilter_users WHERE id = ?", $this->dataRecord["rid"]);
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
 

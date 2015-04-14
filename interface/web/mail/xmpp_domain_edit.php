@@ -123,13 +123,13 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id order by client.contact_name");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ? order by client.contact_name", $client_group_id);
 
 			if ($settings['use_domain_module'] != 'y') {
 				// Fill the client select field
-				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-				$clients = $app->db->queryAllRecords($sql);
-				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
 				if(is_array($clients)) {
@@ -156,8 +156,8 @@ class page_action extends tform_actions {
 				$app->tpl->setVar('server_id_value', $client_xmpp['xmpp_servers_ids'][0]);
 			}
 
-			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_xmpp['xmpp_servers'] . ");";
-			$xmpp_servers = $app->db->queryAllRecords($sql);
+			$sql = "SELECT server_id, server_name FROM server WHERE server_id IN ?";
+			$xmpp_servers = $app->db->queryAllRecords($sql, $client_xmpp['xmpp_servers_ids']);
 
 			$options_xmpp_servers = "";
 
@@ -243,7 +243,7 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM xmpp_domain WHERE domain_id = ".$app->functions->intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM xmpp_domain WHERE domain_id = ?", $this->id);
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
 				// When the record is inserted
@@ -281,7 +281,7 @@ class page_action extends tform_actions {
                 case 1:
                     $this->dataRecord["management_method"] = 'maildomain';
                     // Check for corresponding mail domain
-                    $tmp = $app->db->queryOneRecord("SELECT count(domain_id) AS number FROM mail_domain WHERE domain = '".$this->dataRecord["domain"]."' AND ".$app->tform->getAuthSQL('r')." ORDER BY domain");
+                    $tmp = $app->db->queryOneRecord("SELECT count(domain_id) AS number FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r')." ORDER BY domain", $this->dataRecord["domain"]);
                     if($tmp['number']==0){
                         $app->error($app->tform->wordbook["no_corresponding_maildomain_txt"]);
                         break;
@@ -318,11 +318,11 @@ class page_action extends tform_actions {
         // also make sure that the user can not delete domain created by a admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
             $client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-            $app->db->query("UPDATE xmpp_domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+            $app->db->query("UPDATE xmpp_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
         }
         if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
             $client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-            $app->db->query("UPDATE xmpp_domain SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE domain_id = ".$this->id);
+            $app->db->query("UPDATE xmpp_domain SET sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $client_group_id, $this->id);
         }
 
         //* make sure that the xmpp domain is lowercase
@@ -342,7 +342,7 @@ class page_action extends tform_actions {
 
         if($this->_xmpp_type == 'server') {
             // Check if the domain has been changed
-            $rec = $app->db->queryOneRecord("SELECT domain from xmpp_domain WHERE domain_id = ".$this->id);
+            $rec = $app->db->queryOneRecord("SELECT domain from xmpp_domain WHERE domain_id = ?", $this->id);
             if($this->dataRecord['domain']!=$rec['domain'])
                 $app->error($app->tform->wordbook["cant_change_domainname_txt"]);
 
@@ -350,7 +350,7 @@ class page_action extends tform_actions {
             // We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
             if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
                 if (isset($this->dataRecord["server_id"])) {
-                    $rec = $app->db->queryOneRecord("SELECT server_id from xmpp_domain WHERE domain_id = ".$this->id);
+                    $rec = $app->db->queryOneRecord("SELECT server_id from xmpp_domain WHERE domain_id = ?", $this->id);
                     if($rec['server_id'] != $this->dataRecord["server_id"]) {
                         //* Add a error message and switch back to old server
                         $app->tform->errorMessage .= $app->lng('The Server can not be changed.');
@@ -361,7 +361,7 @@ class page_action extends tform_actions {
                 //* If the user is neither admin nor reseller
             } else {
                 //* We do not allow users to change a domain which has been created by the admin
-                $rec = $app->db->queryOneRecord("SELECT sys_perm_group, domain from xmpp_domain WHERE domain_id = ".$this->id);
+                $rec = $app->db->queryOneRecord("SELECT sys_perm_group, domain from xmpp_domain WHERE domain_id = ?", $this->id);
                 if(isset($this->dataRecord["domain"]) && $rec['domain'] != $this->dataRecord["domain"] && $app->tform->checkPerm($this->id, 'u')) {
                     //* Add a error message and switch back to old server
                     $app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
@@ -411,7 +411,7 @@ class page_action extends tform_actions {
     private function update_dns($dataRecord, $new_rr) {
         global $app, $conf;
 
-        $rec = $app->db->queryOneRecord("SELECT use_pubsub, use_proxy, use_anon_host, use_vjud, use_muc_host from xmpp_domain WHERE domain_id = ".$this->id);
+        $rec = $app->db->queryOneRecord("SELECT use_pubsub, use_proxy, use_anon_host, use_vjud, use_muc_host from xmpp_domain WHERE domain_id = ?", $this->id);
         $required_hosts = array('xmpp');
         if($rec['use_pubsub']=='y')
             $required_hosts[] = 'pubsub';
@@ -425,8 +425,8 @@ class page_action extends tform_actions {
             $required_hosts[] = 'muc';
 
         // purge old rr-record
-        $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND ? ORDER BY serial DESC";
-        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%', $app->tform->getAuthSQL('r'));
+        $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
+        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%');
         if (is_array($rec[1])) {
             for ($i=0; $i < count($rec); ++$i)
                 $app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);

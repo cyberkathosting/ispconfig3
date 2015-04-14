@@ -38,9 +38,9 @@ $app->auth->check_security_permissions('admin_allow_software_packages');
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
 
-$package_name = $app->db->quote($_REQUEST['package']);
+$package_name = $_REQUEST['package'];
 $install_server_id = $app->functions->intval($_REQUEST['server_id']);
-$install_key = $app->db->quote(trim($_REQUEST['install_key']));
+$install_key = trim($_REQUEST['install_key']);
 
 $package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = ?", $package_name);
 
@@ -105,7 +105,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 		if(!isset($package_config_array['remote_api'])) {
 			$remote_user = 'ispapp'.$package['package_id'];
 			$remote_password = md5(mt_rand());
-			$remote_functions = $app->db->quote($package['package_remote_functions']);
+			$remote_functions = $package['package_remote_functions'];
 
 			$package_config_array['remote_api'] = array(
 				'remote_hostname' => $_SERVER['HTTP_HOST'],
@@ -116,7 +116,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
 			$package['package_config'] = $package_config_str;
 			$remote_password_md5 = md5($remote_password);
-			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id', $package['package_id']);
+			$app->db->datalogUpdate('software_package', array("package_config" => $package_config_str), 'package_id', $package['package_id']);
 
 			$sql = "INSERT INTO `remote_user` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `remote_username`, `remote_password`, `remote_functions`) VALUES
 					(1, 1, 'riud', 'riud', '', ?, ?, ?)";

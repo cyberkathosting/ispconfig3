@@ -44,7 +44,7 @@ class sites_database_plugin {
 
 			//* The Database user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
-			$backup_interval = $app->db->quote($web['backup_interval']);
+			$backup_interval = $web['backup_interval'];
 			$backup_copies = $app->functions->intval($web['backup_copies']);
 
 			$sql = "UPDATE web_database SET sys_groupid = ?, backup_interval = ?, backup_copies = ? WHERE database_id = ?";
