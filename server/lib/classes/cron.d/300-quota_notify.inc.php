@@ -49,6 +49,11 @@ class cronjob_quota_notify extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
+		
+		/* used for all monitor cronjobs */
+		$app->load('monitor_tools');
+		$this->_tools = new monitor_tools();
+		/* end global section for monitor cronjobs */
 
 		//######################################################################################################
 		// enforce traffic quota (run only on the "master-server")

@@ -9,13 +9,13 @@
 			<tmpl_else>
 				<a href="#" data-load-content="<tmpl_var name='link'>">
 			</tmpl_if>
-		<tmpl_else>
-			<a href="#">
 		</tmpl_if>
 		  <div>
 			<strong><tmpl_var name="title"></strong>
 		  </div>
+		<tmpl_if name="link">
 		</a>
+		</tmpl_if>
 	  </li>
 	  </tmpl_loop>
 	</ul>
