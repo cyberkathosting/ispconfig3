@@ -476,6 +476,27 @@ class remoting_client extends remoting {
 			return false;
 		}
 	}
+	
+	public function client_get_by_customer_no($session_id, $customer_no) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'client_get_by_customer_no')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$customer_no = trim($customer_no);
+		if($customer_no == '') {
+			throw new SoapFault('permission_denied', 'There was no customer number specified.');
+			return false;
+		}
+		$customer_no = $app->db->quote($customer_no);
+		$rec = $app->db->queryOneRecord("SELECT * FROM client WHERE customer_no = '".$customer_no."'");
+		if (isset($rec)) {
+			return $rec;
+		} else {
+			throw new SoapFault('no_client_found', 'There is no user account for this customer number.');
+			return false;
+		}
+	}
 
 	/**
 	 * Get All client_id's from database
