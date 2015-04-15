@@ -40,102 +40,17 @@ $tform_def_file = "form/dns_a.tform.php";
 
 require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
-
-//* Check permissions for module
-$app->auth->check_module_permissions('dns');
+require_once './dns_edit_base.php';
 
 // Loading classes
-$app->uses('tpl,tform,tform_actions,validate_dns');
-$app->load('tform_actions');
+class page_action extends dns_page_action {
 
-class page_action extends tform_actions {
-
-	function onShowNew() {
-		global $app, $conf;
-
-		// we will check only users, not admins
-		if($_SESSION["s"]["user"]["typ"] == 'user') {
-
-			// Get the limits of the client
-			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-
-			// Check if the user may add another mailbox.
-			if($client["limit_dns_record"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE sys_groupid = ?", $client_group_id);
-				if($tmp["number"] >= $client["limit_dns_record"]) {
-					$app->error($app->tform->wordbook["limit_dns_record_txt"]);
-				}
-			}
-		}
-
-		parent::onShowNew();
-	}
-
-	function onSubmit() {
-		global $app, $conf;
-
-		// Get the parent soa record of the domain
-		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_POST["zone"]);
-
-		// Check if Domain belongs to user
-		if($soa["id"] != $_POST["zone"]) $app->tform->errorMessage .= $app->tform->wordbook["no_zone_perm"];
-
-		// Check the client limits, if user is not the admin
-		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
-			// Get the limits of the client
-			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-
-			// Check if the user may add another mailbox.
-			if($this->id == 0 && $client["limit_dns_record"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE sys_groupid = ?", $client_group_id);
-				if($tmp["number"] >= $client["limit_dns_record"]) {
-					$app->error($app->tform->wordbook["limit_dns_record_txt"]);
-				}
-			}
-		} // end if user is not admin
-
+	protected function checkDuplicate() {
 		//* Check for duplicates where IP and hostname are the same
 		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE (type = 'A' AND name = ? AND zone = ? and data = ? and id != ?) OR (type = 'CNAME' AND name = ? AND zone = ? and id != ?)", $this->dataRecord["name"], $this->dataRecord["zone"], $this->dataRecord["data"], $this->id, $this->dataRecord["name"], $this->dataRecord["zone"], $this->id);
-		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("data_error_duplicate")."<br>";
-		unset($tmp);
-
-
-		// Set the server ID of the rr record to the same server ID as the parent record.
-		$this->dataRecord["server_id"] = $soa["server_id"];
-
-		// Update the serial number  and timestamp of the RR record
-		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
-		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
-		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
-
-		parent::onSubmit();
+		if($tmp['number'] > 0) return true;
+		return false;
 	}
-
-	function onAfterInsert() {
-		global $app, $conf;
-
-		//* Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
-		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
-		$app->db->datalogUpdate('dns_rr', array("sys_groupid" => $soa['sys_groupid']), 'id', $this->id);
-
-		//* Update the serial number of the SOA record
-		$soa_id = $app->functions->intval($_POST["zone"]);
-		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
-	}
-
-	function onAfterUpdate() {
-		global $app, $conf;
-
-		//* Update the serial number of the SOA record
-		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
-		$soa_id = $app->functions->intval($_POST["zone"]);
-		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
-	}
-
 }
 
 $page = new page_action;
