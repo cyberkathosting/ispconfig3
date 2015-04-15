@@ -10,7 +10,7 @@
 	</tmpl_if>
 	<tmpl_if name="error">
 		<div class='alert alert-danger clear'>
-		  <div class='alert-label'><strong>ERROR</strong></div>
+		  <div class='alert-label'><strong><tmpl_var name="error_txt"></strong></div>
 		  <div class='alert-content'>
 			<ol><tmpl_var name="error"></ol>
 			<div>TODO: IP address is empty.</div>

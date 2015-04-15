@@ -321,7 +321,7 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
 			'default' => '2048',
-			'value' => array('1024' => 'week (1024)', '2048' => 'normal (2048)', '4096' => 'strong (4096)')
+			'value' => array('1024' => 'weak (1024)', '2048' => 'normal (2048)', '4096' => 'strong (4096)')
 		),
         'relayhost_password' => array(
             'datatype' => 'VARCHAR',
@@ -1024,7 +1024,7 @@ $form["tabs"]['web'] = array(
 		'enable_spdy' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
-			'default'  => 'n',
+			'default'  => 'y',
 			'value' => array (
 				0 => 'n',
 				1 => 'y'

@@ -32,6 +32,9 @@ class cronjob_mailbox_stats extends cronjob {
 
 	// job schedule
 	protected $_schedule = '0 0 * * *';
+	protected $mailbox_traffic = array();
+	protected $mail_boxes = array();
+	protected $mail_rewrites = array();
 
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
@@ -164,7 +167,7 @@ class cronjob_mailbox_stats extends cronjob {
 			$cur_line = false;
 
 			if(file_exists($state_file)) {
-				$prev_line = parse_mail_log_line(trim(file_get_contents($state_file)));
+				$prev_line = $this->parse_mail_log_line(trim(file_get_contents($state_file)));
 				//if($prev_line) echo "continuing from previous run, log position: " . $prev_line['message-id'] . " at " . strftime('%d.%m.%Y %H:%M:%S', $prev_line['timestamp']) . "\n";
 			}
 
@@ -175,7 +178,8 @@ class cronjob_mailbox_stats extends cronjob {
 				while($line = fgets($fp, 8192)) {
 					$l++;
 					//if($l % 1000 == 0) echo "\rline $l";
-					$cur_line = parse_mail_log_line($line);
+					$cur_line = $this->parse_mail_log_line($line);
+					//print_r($cur_line);
 					if(!$cur_line) continue;
 
 					if($prev_line) {
@@ -190,9 +194,13 @@ class cronjob_mailbox_stats extends cronjob {
 						}
 					}
 
-					add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+					$this->add_mailbox_traffic($cur_line['from'], $cur_line['size']);
+					//echo "1\n";
+					//print_r($this->mailbox_traffic);
 					foreach($cur_line['to'] as $to) {
-						add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+						$this->add_mailbox_traffic($to, $cur_line['size']);
+						//echo "2\n";
+						//print_r($this->mailbox_traffic);
 					}
 					$last_line = $line; // store for the state file
 				}
@@ -207,7 +215,7 @@ class cronjob_mailbox_stats extends cronjob {
 				while($line = fgets($fp, 8192)) {
 					$l++;
 					//if($l % 1000 == 0) echo "\rline $l";
-					$cur_line = parse_mail_log_line($line);
+					$cur_line = $this->parse_mail_log_line($line);
 					if(!$cur_line) continue;
 
 					if($prev_line) {
@@ -264,6 +272,41 @@ class cronjob_mailbox_stats extends cronjob {
 		global $app;
 
 		parent::onAfterRun();
+	}
+	
+	private function parse_mail_log_line($line) {
+		//Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
+
+		if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
+
+		$timestamp = strtotime($matches[1]);
+		if(!$timestamp) return false;
+
+		$to = array();
+		$recipients = explode(',', $matches[3]);
+		foreach($recipients as $recipient) {
+			$recipient = substr($recipient, 1, -1);
+			if(!$recipient || $recipient == $matches[2]) continue;
+			$to[] = $recipient;
+		}
+		return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
+	}
+	
+	private function add_mailbox_traffic($address, $traffic) {
+
+		$address = strtolower($address);
+
+		if(in_array($address, $this->mail_boxes) == true) {
+			if(!isset($this->mailbox_traffic[$address])) $this->mailbox_traffic[$address] = 0;
+			$this->mailbox_traffic[$address] += $traffic;
+		} elseif(array_key_exists($address, $this->mail_rewrites)) {
+			foreach($this->mail_rewrites[$address] as $address) {
+				if(!isset($this->mailbox_traffic[$address])) $this->mailbox_traffic[$address] = 0;
+				$this->mailbox_traffic[$address] += $traffic;
+			}
+		} else {
+			// this is not a local address - skip it
+		}
 	}
 
 }

@@ -635,7 +635,11 @@ $(document).on('click', 'th[data-column]', function(e) {
 		
 		var dir = $self.attr('data-ordered');
 		
-		act = act + '?orderby=' + column;
+		var separator = '?';
+		if(act.indexOf("?") >= 0){
+			separator = '&';
+		}
+		act = act + separator + 'orderby=' + column;
 		ISPConfig.submitForm(form, act);
 		
 		$(document).ajaxComplete(function() {

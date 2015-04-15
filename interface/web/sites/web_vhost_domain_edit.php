@@ -635,7 +635,7 @@ class page_action extends tform_actions {
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
-				$ssl_domain_select .= "<option value='$ssl_domain' $selected>$ssl_domain</option>\r\n";
+				$ssl_domain_select .= "<option value='$ssl_domain' $selected>".$app->functions->idn_decode($ssl_domain)."</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("ssl_domain", $ssl_domain_select);
