@@ -340,6 +340,7 @@ class remoting {
 
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'UPDATE', $primary_id);
+		
 		// throw new SoapFault('debug', $sql);
 		if($app->remoting_lib->errorMessage != '') {
 			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);

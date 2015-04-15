@@ -405,7 +405,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -434,7 +434,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
 		if ($readonly === true)
 			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ?", $domain_id);
 		return $domain_id;
@@ -454,7 +454,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', $client_id, $primary_id, $params);
+		$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
 
@@ -465,7 +465,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_domain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -864,11 +864,11 @@ class remoting_sites extends remoting {
 			} else {
 				$status = 'n';
 			}
-			$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+			$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 			$params = $app->remoting_lib->getDataRecord($primary_id);
 			$params['active'] = $status;
 			
-			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', 0, $primary_id, $params);
+			$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', 0, $primary_id, $params);
 			return $affected_rows;
 		} else {
 			throw new SoapFault('status_undefined', 'The status is not available');
