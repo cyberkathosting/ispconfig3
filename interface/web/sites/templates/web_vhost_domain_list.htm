@@ -1,5 +1,5 @@
 <div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
+	<h1><tmpl_if name='vhostdomain_type' op='==' value='domain'>{tmpl_var name="domain_list_head_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='subdomain'>{tmpl_var name="subdomain_list_head_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='aliasdomain'>{tmpl_var name="aliasdomain_list_head_txt"}</tmpl_if></h1>
 </div>
 <p><tmpl_var name="list_desc_txt"></p>
 
@@ -22,7 +22,7 @@
         </tmpl_if>
         <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
             
-                <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/web_vhost_domain_edit.php?type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="add_new_record_txt"}</button>
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/web_vhost_domain_edit.php?type={tmpl_var name='vhostdomain_type'}"><tmpl_if name='vhostdomain_type' op='==' value='domain'>{tmpl_var name="add_new_record_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='subdomain'>{tmpl_var name="add_new_subdomain_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='aliasdomain'>{tmpl_var name="add_new_aliasdomain_txt"}</tmpl_if></button>
             
         
 
@@ -36,7 +36,7 @@
                     <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
                     <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><th data-column="parent_domain_id"><tmpl_var name="parent_domain_id_txt"></th></tmpl_if>
-                    <th data-column="domain"><tmpl_var name="domain_txt"></th>
+                    <th data-column="domain"><tmpl_if name='vhostdomain_type' op='==' value='domain'>{tmpl_var name="domain_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='subdomain'>{tmpl_var name="subdomain_txt"}</tmpl_if><tmpl_if name='vhostdomain_type' op='==' value='aliasdomain'>{tmpl_var name="aliasdomain_txt"}</tmpl_if></th>
                     <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>

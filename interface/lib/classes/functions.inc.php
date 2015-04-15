@@ -380,6 +380,15 @@ class functions {
 		
 		return true;
 	}
+	
+	public function getimagesizefromstring($string){
+		if (!function_exists('getimagesizefromstring')) {
+			$uri = 'data://application/octet-stream;base64,' . base64_encode($string);
+			return getimagesize($uri);
+		} else {
+			return getimagesizefromstring($string);
+		}		
+	}
 
 }
 

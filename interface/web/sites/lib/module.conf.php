@@ -96,10 +96,24 @@ if($app->auth->get_client_limit($userid, 'ftp_user') != 0)
 
 if($app->auth->get_client_limit($userid, 'webdav_user') != 0)
 {
-	$items[] = array(   'title'  => "Webdav-User",
-		'target'  => 'content',
-		'link' => 'sites/webdav_user_list.php',
-		'html_id'   => 'webdav_user_list');
+	$apache_in_use = false;
+	$servers = $app->db->queryAllRecords("SELECT * FROM server WHERE web_server = 1 AND active = 1");
+	if(is_array($servers) && !empty($servers)){
+		foreach($servers as $server){
+			$tmp_web_config = $app->getconf->get_server_config($server['server_id'], 'web');
+			if(strtolower($tmp_web_config['server_type']) == 'apache'){
+				$apache_in_use = true;
+				break;
+			}
+		}
+	}
+
+	if($apache_in_use == true){
+		$items[] = array(   'title'  => "Webdav-User",
+			'target'  => 'content',
+			'link' => 'sites/webdav_user_list.php',
+			'html_id'   => 'webdav_user_list');
+	}
 }
 
 $items[] = array(   'title'     => "Folder",

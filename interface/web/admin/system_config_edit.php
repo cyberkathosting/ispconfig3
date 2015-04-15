@@ -96,6 +96,17 @@ class page_action extends tform_actions {
 
 		if($available_dashlets_txt == '') $available_dashlets_txt = '------';
 		$app->tpl->setVar("available_dashlets_txt", $available_dashlets_txt);
+		
+		// Logo
+		$sys_ini = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = ?", $this->id);
+		if($sys_ini['custom_logo'] != ''){
+			$logo = '<img src="'.$sys_ini['custom_logo'].'" />&nbsp;&nbsp;<a href="#" class="btn btn-default formbutton-danger formbutton-narrow" style="margin:5px" id="del_custom_logo"><span class="icon icon-delete"></span></a>';
+		} else {
+			$logo = '<img src="'.$sys_ini['default_logo'].'" />';
+		}
+		$default_logo = '<img src="'.$sys_ini['default_logo'].'" />';
+		$app->tpl->setVar("used_logo", $logo);
+		$app->tpl->setVar("default_logo", $default_logo);
 
 		parent::onShowEnd();
 	}
@@ -183,6 +194,20 @@ class page_action extends tform_actions {
 				"FROM web_domain WHERE type NOT IN ('subdomain','vhostsubdomain')";
 			$app->db->query($sql);
 		}
+		
+		//die(print_r($_FILES));
+		// Logo
+		/*
+		if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
+			//print_r($_FILES);
+			
+			$path= $_FILES['file']['tmp_name'];
+			$type = pathinfo($path, PATHINFO_EXTENSION);
+			$data = file_get_contents($path);
+			$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+			$app->db->query("UPDATE sys_ini SET custom_logo = ? WHERE sysini_id = ?", $base64, $this->id);
+		}
+		*/
 
 		// Maintenance mode
 		if($server_config_array['misc']['maintenance_mode'] == 'y'){

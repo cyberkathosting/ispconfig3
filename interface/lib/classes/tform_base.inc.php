@@ -810,6 +810,9 @@ class tform_base {
 				case 'IDNTOUTF8':
 					$returnval = $app->functions->idn_decode($returnval);
 					break;
+				case 'TRIM':
+					$returnval = trim($returnval);
+					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];
 					break;

@@ -65,7 +65,8 @@ body {
   float: left;
   width: 200px;
   height: 65px;
-  background: url("../images/logo.png") no-repeat; }
+  margin-top:10px;
+  /*background: url("../images/logo.png") no-repeat;*/ }
   #logo a {
     display: block;
     width: 100%;
