@@ -2365,7 +2365,7 @@ class nginx_plugin {
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
-			unlink('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' >/dev/null 2>&1');
+			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 		}
 	}
 
