@@ -44,7 +44,7 @@ service lmtp {
 }
 service imap-login {
   client_limit = 1000
-  process_limit = 500
+  process_limit = 512
 }
 protocol imap {
   mail_plugins = quota imap_quota
