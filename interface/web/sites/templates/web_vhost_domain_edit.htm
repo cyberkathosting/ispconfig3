@@ -333,9 +333,16 @@
 	}
 		
     function reloadWebIP() {
-        ISPConfig.loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId);
-        ISPConfig.loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId);
+        ISPConfig.loadOptionInto('ip_address','sites/ajax_get_ip.php?ip_type=IPv4&server_id='+serverId+'&client_group_id='+clientGroupId<tmpl_if name="use_combobox" value="y">, rerenderSelect2</tmpl_if>);
+        ISPConfig.loadOptionInto('ipv6_address','sites/ajax_get_ip.php?ip_type=IPv6&server_id='+serverId+'&client_group_id='+clientGroupId<tmpl_if name="use_combobox" value="y">, rerenderSelect2</tmpl_if>);
+		<tmpl_if name="use_combobox" value="y">
+		//$('#ip_address').add('#ipv6_address').select2();
+		</tmpl_if>
     }
+	
+	function rerenderSelect2(elem) {
+		$('#'+elem).select2();
+	}
 		
     function reloadFastcgiPHPVersions(noFormChange) {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi", client_group_id : clientGroupId}, function(data) {

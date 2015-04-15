@@ -2800,7 +2800,37 @@ class apache2_plugin {
 			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
 		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || $data['new']['custom_php_ini'] != $data['old']['custom_php_ini']) {
+		
+			// Custom php.ini settings
+			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+			if(intval($data['new']['directive_snippets_id']) > 0){
+				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+						foreach($required_php_snippets as $required_php_snippet){
+							$required_php_snippet = intval($required_php_snippet);
+							if($required_php_snippet > 0){
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet['snippet'] = trim($php_snippet['snippet']);
+								if($php_snippet['snippet'] != ''){
+									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
+								}
+							}
+						}
+					}
+				}
+			}
+			if($custom_php_ini_settings != ''){
+				// Make sure we only have Unix linebreaks
+				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
+			} else {
+				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			}
+			
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
@@ -2810,6 +2840,7 @@ class apache2_plugin {
 			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
 			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
+			if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 		}
 	}
 

@@ -713,6 +713,8 @@ if($install_mode == 'standard') {
 
 } //* << $install_mode / 'Standard' or Genius
 
+$inst->create_mount_script();
+
 //* Create md5 filelist
 $md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';
 exec('find /usr/local/ispconfig -type f -print0 | xargs -0 md5sum > '.$md5_filename);

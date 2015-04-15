@@ -182,7 +182,7 @@ $form["tabs"]['server'] = array(
 		'backup_dir_is_mount' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
-			'default' => 'n',
+			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'backup_mode' => array(

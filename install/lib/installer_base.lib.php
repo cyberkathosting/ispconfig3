@@ -2442,6 +2442,32 @@ Email Address []:
 
 	}
 	
+	public function create_mount_script(){
+		global $app, $conf;
+		$mount_script = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
+		$mount_command = '';
+		
+		if(is_file($mount_script)) return;
+		if(is_file('/etc/rc.local')){
+			$rc_local = file('/etc/rc.local');
+			if(is_array($rc_local) && !empty($rc_local)){
+				foreach($rc_local as $line){
+					$line = trim($line);
+					if(substr($line, 0, 1) == '#') continue;
+					if(strpos($line, 'sshfs') !== false && strpos($line, '/var/backup') !== false){
+						$mount_command = "#!/bin/sh\n\n";
+						$mount_command .= $line."\n\n";
+						file_put_contents($mount_script, $mount_command);
+						chmod($mount_script, 0755);
+						chown($mount_script, 'root');
+						chgrp($mount_script, 'root');
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	// This function is called at the end of the update process and contains code to clean up parts of old ISPCONfig releases
 	public function cleanup_ispconfig() {
 		global $app,$conf;

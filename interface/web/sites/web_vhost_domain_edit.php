@@ -719,6 +719,10 @@ class page_action extends tform_actions {
 			if(is_array($tmp_client) && !empty($tmp_client) && trim($this->dataRecord['ssl_organisation']) == '' && trim($this->dataRecord['ssl_locality']) == '' && trim($this->dataRecord['ssl_state']) == '' && trim($this->dataRecord['ssl_organisation_unit']) == '') $app->tpl->setVar("show_helper_links", true);
 		}
 
+		$sys_config = $app->getconf->get_global_config('misc');
+		if($sys_config['use_combobox'] == 'y') {
+			$app->tpl->setVar('use_combobox', 'y');
+		}
 		parent::onShowEnd();
 	}
 

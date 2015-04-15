@@ -442,7 +442,7 @@ disabled look for disabled choices in the results dropdown
 }
 .select2-results .select2-disabled {
   background: #f4f4f4;
-  display: list-item;
+  display: none;
   cursor: default;
 }
 

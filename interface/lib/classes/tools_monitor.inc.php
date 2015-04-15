@@ -488,7 +488,7 @@ class tools_monitor {
 			$data = unserialize($record['data']);
 			if ($data == '') {
 				$html .= '<p>'.
-					'fail2ban is not installed at this server.<br />' .
+					'fail2ban is not installed on this server.<br />' .
 					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
 					'</p>';
 			}
@@ -522,8 +522,7 @@ class tools_monitor {
 			$data = unserialize($record['data']);
 			if ($data == '') {
 				$html .= '<p>'.
-					'MongoDB is not installed at this server.<br />' .
-					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
+					'MongoDB is not installed on this server.<br />' .
 					'</p>';
 			}
 			else {

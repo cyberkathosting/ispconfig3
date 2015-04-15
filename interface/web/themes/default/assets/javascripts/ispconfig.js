@@ -464,7 +464,7 @@ var ISPConfig = {
 		});
 	},
 
-	loadOptionInto: function(elementid,pagename) {
+	loadOptionInto: function(elementid,pagename,callback) {
 		var pageContentObject2 = $.ajax({
 			type: "GET",
 			url: pagename,
@@ -481,6 +481,9 @@ var ISPConfig = {
 					foo2.appendChild(document.createTextNode(elemente[i]));
 					foo2.value=elemente[i];
 					el.appendChild(foo2);
+				}
+				if (typeof(callback) != 'undefined') {
+					callback(elementid,pagename);
 				}
 			},
 			error: function() {
