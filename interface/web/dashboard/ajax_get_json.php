@@ -55,19 +55,19 @@ if($type == 'globalsearch'){
 	$result[] = _search('client', 'reseller', "AND limit_client != 0");
 
 	// web sites
-	$result[] = _search('sites', 'web_domain', "AND type = 'vhost'");
+	$result[] = _search('sites', 'web_vhost_domain', "AND type = 'vhost'");
 
 	// subdomains
-	$result[] = _search('sites', 'web_subdomain', "AND type = 'subdomain'");
+	$result[] = _search('sites', 'web_childdomain', "AND type = 'subdomain'", 'type=subdomain');
 
 	// web site aliases
-	$result[] = _search('sites', 'web_aliasdomain', "AND type = 'alias'");
+	$result[] = _search('sites', 'web_childdomain', "AND type = 'alias'", 'type=aliasdomain');
 
 	// vhostsubdomains
-	$result[] = _search('sites', 'web_vhost_subdomain', "AND type = 'vhostsubdomain'");
+	$result[] = _search('sites', 'web_vhost_domain', "AND type = 'vhostsubdomain'", 'type=subdomain');
 
 	// vhostaliasdomains
-	$result[] = _search('sites', 'web_vhost_aliasdomain', "AND type = 'vhostalias'");
+	$result[] = _search('sites', 'web_vhost_domain', "AND type = 'vhostalias'", 'type=aliasdomain');
 
 	// FTP users
 	$result[] = _search('sites', 'ftp_user');
@@ -134,7 +134,7 @@ if($type == 'globalsearch'){
 
 //}
 
-function _search($module, $section, $additional_sql = ''){
+function _search($module, $section, $additional_sql = '', $params = ''){
 	global $app, $q, $authsql, $modules;
 
 	$result_array = array('cheader' => array(), 'cdata' => array());
@@ -142,9 +142,13 @@ function _search($module, $section, $additional_sql = ''){
 		$search_fields = array();
 		$desc_fields = array();
 		if(is_file('../'.$module.'/form/'.$section.'.tform.php')){
-			include_once '../'.$module.'/form/'.$section.'.tform.php';
+			include '../'.$module.'/form/'.$section.'.tform.php';
 
 			$category_title = $form["title"];
+			if($params == 'type=subdomain' && $section == 'web_childdomain') $category_title = 'Subdomain';
+			if($params == 'type=aliasdomain' && $section == 'web_childdomain') $category_title = 'Aliasdomain';
+			if($params == 'type=subdomain' && $section == 'web_vhost_domain') $category_title = 'Subdomain (Vhost)';
+			if($params == 'type=aliasdomain' && $section == 'web_vhost_domain') $category_title = 'Aliasdomain (Vhost)';
 			$form_file = $form["action"];
 			$db_table = $form["db_table"];
 			$db_table_idx = $form["db_table_idx"];
@@ -205,7 +209,7 @@ function _search($module, $section, $additional_sql = ''){
 
 				$result_array['cdata'][] = array('title' => $wb[$title_key.'_txt'].': '.$result[$title_key],
 					'description' => $description,
-					'onclick' => "ISPConfig.capp('".$module."','".$module."/".$form_file."?id=".$result[$db_table_idx]."');",
+					'onclick' => "ISPConfig.capp('".$module."','".$module."/".$form_file.urlencode("?id=".$result[$db_table_idx]).($params != ''? urlencode('&'.$params) : '')."');",
 					'fill_text' => strtolower($result[$title_key])
 				);
 			}

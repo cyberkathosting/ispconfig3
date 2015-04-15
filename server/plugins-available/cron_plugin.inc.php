@@ -210,7 +210,7 @@ class cron_plugin {
 				$log_root = '';
 				if($job['log'] == 'y') {
 					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'];
-					$log_root .= '/log';
+					$log_root .= '/private';
 					
 					$log_target = '>>' . $log_root . '/cron.log 2>>' . $log_root . '/cron_error.log';
 					$log_wget_target = $log_root . '/cron_wget.log';
