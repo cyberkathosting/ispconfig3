@@ -137,13 +137,17 @@ class db extends mysqli
 				} else {
 					if(is_int($sValue) || is_float($sValue)) {
 						$sTxt = $sValue;
-					} elseif(is_string($sValue) && (strcmp($sValue, '#NULL#') == 0)) {
+					} elseif(is_null($sValue) || (is_string($sValue) && (strcmp($sValue, '#NULL#') == 0))) {
 						$sTxt = 'NULL';
 					} elseif(is_array($sValue)) {
-						$sTxt = '';
-						foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
-						$sTxt = '(' . substr($sTxt, 1) . ')';
-						if($sTxt == '()') $sTxt = '(0)';
+						if(isset($sValue['SQL'])) {
+							$sTxt = $sValue['SQL'];
+						} else {
+							$sTxt = '';
+							foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
+							$sTxt = '(' . substr($sTxt, 1) . ')';
+							if($sTxt == '()') $sTxt = '(0)';
+						}
 					} else {
 						$sTxt = '\'' . $this->escape($sValue) . '\'';
 					}
@@ -578,7 +582,6 @@ class db extends mysqli
 		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
 		
-		$primary_field = $this->quote($primary_field);
 		$primary_id = intval($primary_id);
 
 		if($force_update == true) {
@@ -643,6 +646,7 @@ class db extends mysqli
 			/* TODO: deprecate this method! */
 			$insert_data_str = $insert_data;
 			$this->query("INSERT INTO ?? $insert_data_str", $tablename);
+			$app->log("deprecated use of passing values to datalogInsert() - table " . $tablename, 1);
 		}
 		
 		$old_rec = array();
@@ -679,6 +683,7 @@ class db extends mysqli
 			/* TODO: deprecate this method! */
 			$update_data_str = $update_data;
 			$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", $tablename, $index_field, $index_value);
+			$app->log("deprecated use of passing values to datalogUpdate() - table " . $tablename, 1);
 		}
 
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);

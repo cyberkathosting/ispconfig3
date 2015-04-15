@@ -89,18 +89,35 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 				$soa = $exdb->queryOneRecord("SELECT * FROM records WHERE type = 'SOA' AND domain_id = ?", $domain['id']);
 				if(is_array($soa)) {
 					$parts = explode(' ', $soa['content']);
-					$origin = $app->db->quote(addot($soa['name']));
-					$ns = $app->db->quote(addot($parts[0]));
-					$mbox = $app->db->quote(addot($parts[1]));
-					$serial = $app->db->quote($parts[2]);
+					$origin = addot($soa['name']);
+					$ns = addot($parts[0]);
+					$mbox = addot($parts[1]);
+					$serial = $parts[2];
 					$refresh = 7200;
 					$retry =  540;
 					$expire = 604800;
 					$minimum = 86400;
-					$ttl = $app->db->quote($soa['ttl']);
+					$ttl = $soa['ttl'];
 
-					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`) VALUES
-					('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '')";
+					$insert_data = array(
+						"sys_userid" => $sys_userid,
+						"sys_groupid" => $sys_groupid,
+						"sys_perm_user" => 'riud',
+						"sys_perm_group" => 'riud',
+						"sys_perm_other" => '',
+						"server_id" => $server_id,
+						"origin" => $origin,
+						"ns" => $ns,
+						"mbox" => $mbox,
+						"serial" => $serial,
+						"refresh" => $refresh,
+						"retry" => $retry,
+						"expire" => $expire,
+						"minimum" => $minimum,
+						"ttl" => $ttl,
+						"active" => 'Y',
+						"xfer" => ''
+					);
 					$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 					unset($parts);
 					$msg .= 'Import Zone: '.$soa['name'].'<br />';
@@ -111,19 +128,32 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 						foreach($records as $rec) {
 							$rr = array();
 
-							$rr['name'] = $app->db->quote(addot($rec['name']));
-							$rr['type'] = $app->db->quote($rec['type']);
-							$rr['aux'] = $app->db->quote($rec['prio']);
-							$rr['ttl'] = $app->db->quote($rec['ttl']);
+							$rr['name'] = addot($rec['name']);
+							$rr['type'] = $rec['type'];
+							$rr['aux'] = $rec['prio'];
+							$rr['ttl'] = $rec['ttl'];
 
 							if($rec['type'] == 'NS' || $rec['type'] == 'MX' || $rec['type'] == 'CNAME') {
-								$rr['data'] = $app->db->quote(addot($rec['content']));
+								$rr['data'] = addot($rec['content']);
 							} else {
-								$rr['data'] = $app->db->quote($rec['content']);
+								$rr['data'] = $rec['content'];
 							}
 
-							$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-							('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$rr[name]', '$rr[type]', '$rr[data]', '$rr[aux]', '$rr[ttl]', 'Y')";
+							$insert_data = array(
+								"sys_userid" => $sys_userid,
+								"sys_groupid" => $sys_groupid,
+								"sys_perm_user" => 'riud',
+								"sys_perm_group" => 'riud',
+								"sys_perm_other" => '',
+								"server_id" => $server_id,
+								"zone" => $dns_soa_id,
+								"name" => $rr['name'],
+								"type" => $rr['type'],
+								"data" => $rr['data'],
+								"aux" => $rr['aux'],
+								"ttl" => $rr['ttl'],
+								"active" => 'Y'
+							);
 							$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 							//$msg .= $insert_data.'<br />';
 

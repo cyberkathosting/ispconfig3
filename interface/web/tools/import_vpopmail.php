@@ -118,7 +118,7 @@ function start_import() {
 				$client_id = $app->db->insertID();
 
 				//* add sys_group
-				$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($pw_domain)."','',".$client_id.")", 'groupid');
+				$groupid = $app->db->datalogInsert('sys_group', array("name" => $pw_domain, "description" => '', "client_id" => $client_id), 'groupid');
 				$groups = $groupid;
 
 				$username = $pw_domain;
@@ -175,8 +175,16 @@ function start_import() {
 				$sys_userid = ($user_rec['userid'] > 0)?$user_rec['userid']:1;
 				$sys_groupid = ($user_rec['default_group'] > 0)?$user_rec['default_group']:1;
 
-				$sql = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `domain`, `active`)
-				VALUES(".$sys_userid.", ".$sys_groupid.", 'riud', 'riud', '', $local_server_id, '$domain', 'y')";
+				$sql = array(
+					"sys_userid" => $sys_userid,
+					"sys_groupid" => $sys_groupid,
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $local_server_id,
+					"domain" => $domain,
+					"active" => 'y'
+				);
 				$app->db->datalogInsert('mail_domain', $sql, 'domain_id');
 				$msg .= "Imported domain $domain <br />";
 			} else {
@@ -205,8 +213,40 @@ function start_import() {
 					$maildir_path = "/var/vmail/".$rec['pw_domain']."/".$rec['pw_name'];
 
 					//* Insert the mailbox
-					$sql = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `email`, `login`, `password`, `name`, `uid`, `gid`, `maildir`, `quota`, `cc`, `homedir`, `autoresponder`, `autoresponder_start_date`, `autoresponder_end_date`, `autoresponder_subject`, `autoresponder_text`, `move_junk`, `custom_mailfilter`, `postfix`, `access`, `disableimap`, `disablepop3`, `disabledeliver`, `disablesmtp`, `disablesieve`, `disablelda`, `disabledoveadm`)
-					VALUES(".$domain_rec['sys_userid'].", ".$domain_rec['sys_groupid'].", 'riud', 'riud', '', $local_server_id, '$email', '$email', '$pw_crypt_password', '$email', 5000, 5000, '$maildir_path', 0, '', '/var/vmail', 'n', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Out of office reply', '', 'n', '', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n')";
+					$sql = array(
+						"sys_userid" => $domain_rec['sys_userid'],
+						"sys_groupid" => $domain_rec['sys_groupid'],
+						"sys_perm_user" => 'riud',
+						"sys_perm_group" => 'riud',
+						"sys_perm_other" => '',
+						"server_id" => $local_server_id,
+						"email" => $email,
+						"login" => $email,
+						"password" => $pw_crypt_password,
+						"name" => $email,
+						"uid" => 5000,
+						"gid" => 5000,
+						"maildir" => $maildir_path,
+						"quota" => 0,
+						"cc" => '',
+						"homedir" => '/var/vmail',
+						"autoresponder" => 'n',
+						"autoresponder_start_date" => '0000-00-00 00:00:00',
+						"autoresponder_end_date" => '0000-00-00 00:00:00',
+						"autoresponder_subject" => 'Out of office reply',
+						"autoresponder_text" => '',
+						"move_junk" => 'n',
+						"custom_mailfilter" => '',
+						"postfix" => 'y',
+						"access" => 'n',
+						"disableimap" => 'n',
+						"disablepop3" => 'n',
+						"disabledeliver" => 'n',
+						"disablesmtp" => 'n',
+						"disablesieve" => 'n',
+						"disablelda" => 'n',
+						"disabledoveadm" => 'n'
+					);
 					$app->db->datalogInsert('mail_user', $sql, 'mailuser_id');
 					$msg .= "Imported mailbox $email <br />";
 				}
@@ -250,8 +290,18 @@ function start_import() {
 				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $rec['domain']);
 
 				if(is_array($domain_rec)) {
-					$sql = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `source`, `destination`, `type`, `active`)
-					VALUES(".$domain_rec['sys_userid'].", ".$domain_rec['sys_groupid'].", 'riud', 'riud', '', $local_server_id, '".$app->db->quote($email)."', '".$app->db->quote($target)."', 'forward', 'y')";
+					$sql = array(
+						"sys_userid" => $domain_rec['sys_userid'],
+						"sys_groupid" => $domain_rec['sys_groupid'],
+						"sys_perm_user" => 'riud',
+						"sys_perm_group" => 'riud',
+						"sys_perm_other" => '',
+						"server_id" => $local_server_id,
+						"source" => $email,
+						"destination" => $target,
+						"type" => 'forward',
+						"active" => 'y' 
+					);
 					$app->db->datalogInsert('mail_forwarding', $sql, 'forwarding_id');
 				}
 				$msg .= "Imported alias $email.<br />";

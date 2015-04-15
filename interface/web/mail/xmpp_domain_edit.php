@@ -468,7 +468,7 @@ class page_action extends tform_actions {
         // Refresh zone
         $zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $new_rr['zone']);
         $new_serial = $app->validate_dns->increase_serial($zone['serial']);
-        $app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
+        $app->db->datalogUpdate('dns_soa', array("serial" => $new_serial), 'id', $zone['id']);
     }
 
     /*

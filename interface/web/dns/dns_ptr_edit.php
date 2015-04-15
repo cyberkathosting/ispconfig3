@@ -113,12 +113,12 @@ class page_action extends tform_actions {
 
 		//* Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
 		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
-		$app->db->datalogUpdate('dns_rr', "sys_groupid = ".$soa['sys_groupid'], 'id', $this->id);
+		$app->db->datalogUpdate('dns_rr', array("sys_groupid" => $soa['sys_groupid']), 'id', $this->id);
 
 		//* Update the serial number of the SOA record
 		$soa_id = $app->functions->intval($_POST["zone"]);
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
 	}
 
 	function onAfterUpdate() {
@@ -128,7 +128,7 @@ class page_action extends tform_actions {
 		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
 		$soa_id = $app->functions->intval($_POST["zone"]);
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
 	}
 
 }

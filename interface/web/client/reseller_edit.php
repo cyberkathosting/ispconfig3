@@ -200,7 +200,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		// Create the group for the reseller
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
+		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
 
 		$username = $this->dataRecord["username"];

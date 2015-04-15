@@ -238,22 +238,23 @@ class remoting_lib extends tform_base {
 			$sql_offset = 0;
 			$sql_limit = 0;
 			$sql_where = '';
+			$params = array($this->formDef['db_table']);
 			foreach($primary_id as $key => $val) {
-				$key = $app->db->quote($key);
-				$val = $app->db->quote($val);
 				if($key == '#OFFSET#') $sql_offset = $app->functions->intval($val);
 				elseif($key == '#LIMIT#') $sql_limit = $app->functions->intval($val);
 				elseif(stristr($val, '%')) {
-					$sql_where .= "$key like '$val' AND ";
+					$sql_where .= "? like ? AND ";
 				} else {
-					$sql_where .= "$key = '$val' AND ";
+					$sql_where .= "? = ? AND ";
 				}
+				$params[] = $key;
+				$params[] = $val;
 			}
 			$sql_where = substr($sql_where, 0, -5);
 			if($sql_where == '') $sql_where = '1';
 			$sql = "SELECT * FROM ?? WHERE ".$sql_where. " AND " . $this->getAuthSQL('r', $this->formDef['db_table']);
 			if($sql_offset >= 0 && $sql_limit > 0) $sql .= ' LIMIT ' . $sql_offset . ',' . $sql_limit;
-			return $app->db->queryAllRecords($sql, $this->formDef['db_table']);
+			return $app->db->queryAllRecords($sql, true, $params);
 		} else {
 			$this->errorMessage = 'The ID must be either an integer or an array.';
 			return array();

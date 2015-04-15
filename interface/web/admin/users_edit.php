@@ -106,7 +106,7 @@ class page_action extends tform_actions {
 			$sql = "UPDATE client SET username = ? WHERE client_id = ? AND username = ?";
 			$app->db->query($sql, $username, $client_id, $old_username);
 			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ?", $client_id);
-			$app->db->datalogUpdate("sys_group", "name = '$username'", 'groupid', $tmp['groupid']);
+			$app->db->datalogUpdate("sys_group", array("name" => $username), 'groupid', $tmp['groupid']);
 			unset($tmp);
 		}
 

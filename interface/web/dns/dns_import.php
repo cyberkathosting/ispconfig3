@@ -695,21 +695,38 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 
 	// Insert the soa record
 	$sys_userid = $_SESSION['s']['user']['userid'];
-	$origin = $app->db->quote($soa['name']);
-	$ns = $app->db->quote($soa['ns']);
-	$mbox = $app->db->quote($soa['mbox']);
-	$refresh = $app->db->quote($soa['refresh']);
-	$retry = $app->db->quote($soa['retry']);
-	$expire = $app->db->quote($soa['expire']);
-	$minimum = $app->db->quote($soa['minimum']);
-	$ttl = $app->db->quote($soa['ttl']);
-	$xfer = $app->db->quote('');
-	$serial = $app->db->quote($app->functions->intval($soa['serial'])+1);
+	$origin = $soa['name'];
+	$ns = $soa['ns'];
+	$mbox = $soa['mbox'];
+	$refresh = $soa['refresh'];
+	$retry = $soa['retry'];
+	$expire = $soa['expire'];
+	$minimum = $soa['minimum'];
+	$ttl = $soa['ttl'];
+	$xfer = '';
+	$serial = $app->functions->intval($soa['serial']+1);
 	//print_r($soa);
 	//die();
 	if($valid_zone_file){
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`) VALUES
-		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer')";
+		$insert_data = array(
+			"sys_userid" => $sys_userid,
+			"sys_groupid" => $sys_groupid,
+			"sys_perm_user" => 'riud',
+			"sys_perm_group" => 'riud',
+			"sys_perm_other" => '',
+			"server_id" => $server_id,
+			"origin" => $origin,
+			"ns" => $ns,
+			"mbox" => $mbox,
+			"serial" => $serial,
+			"refresh" => $refresh,
+			"retry" => $retry,
+			"expire" => $expire,
+			"minimum" => $minimum,
+			"ttl" => $ttl,
+			"active" => 'Y',
+			"xfer" => $xfer
+		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 
 		// Insert the dns_rr records
@@ -717,8 +734,21 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		{
 			foreach($dns_rr as $rr)
 			{
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '".$app->db->quote($rr['name'])."', '".$app->db->quote($rr['type'])."', '".$app->db->quote($rr['data'])."', '".$app->db->quote($rr['aux'])."', '".$app->db->quote($rr['ttl'])."', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $sys_userid,
+					"sys_groupid" => $sys_groupid,
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $server_id,
+					"zone" => $dns_soa_id,
+					"name" => $rr['name'],
+					"type" => $rr['type'],
+					"data" => $rr['data'],
+					"aux" => $rr['aux'],
+					"ttl" => $rr['ttl'],
+					"active" => 'Y'
+				);
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
 		}

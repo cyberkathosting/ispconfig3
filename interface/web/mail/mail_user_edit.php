@@ -266,11 +266,22 @@ class page_action extends tform_actions {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
 			} else {
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$app->functions->intval($_SESSION["s"]["user"]["userid"]).", ".$app->functions->intval($domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($domain["server_id"]).", 10, ".$app->functions->intval($policy_id).", '".$app->db->quote($this->dataRecord["email"])."', '".$app->db->quote($this->dataRecord["email"])."', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $_SESSION["s"]["user"]["userid"],
+					"sys_groupid" => $domain["sys_groupid"],
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $domain["server_id"],
+					"priority" => 10,
+					"policy_id" => $policy_id,
+					"email" => $this->dataRecord["email"],
+					"fullname" => $this->dataRecord["email"],
+					"local" => 'Y'
+				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 			}
 		}  // endif spamfilter policy
@@ -302,11 +313,22 @@ class page_action extends tform_actions {
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
-					$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
+					$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
 				} else {
 					// We create a new record
-					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        	VALUES (".$app->functions->intval($_SESSION["s"]["user"]["userid"]).", ".$app->functions->intval($domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($domain["server_id"]).", 10, ".$app->functions->intval($policy_id).", '".$app->db->quote($this->dataRecord["email"])."', '".$app->db->quote($this->dataRecord["email"])."', 'Y')";
+					$insert_data = array(
+						"sys_userid" => $_SESSION["s"]["user"]["userid"],
+						"sys_groupid" => $domain["sys_groupid"],
+						"sys_perm_user" => 'riud',
+						"sys_perm_group" => 'riud',
+						"sys_perm_other" => '',
+						"server_id" => $domain["server_id"],
+						"priority" => 10,
+						"policy_id" => $policy_id,
+						"email" => $this->dataRecord["email"],
+						"fullname" => $this->dataRecord["email"],
+						"local" => 'Y'
+					);
 					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				}
 			}else {
@@ -336,8 +358,8 @@ class page_action extends tform_actions {
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = ?", $this->oldDataRecord['email']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = $app->db->quote($this->dataRecord['email']);
-					$app->db->datalogUpdate('mail_forwarding', "destination = '$destination'", 'forwarding_id', $rec['forwarding_id']);
+					$destination = $this->dataRecord['email'];
+					$app->db->datalogUpdate('mail_forwarding', array("destination" => $destination), 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
@@ -345,9 +367,9 @@ class page_action extends tform_actions {
 
 		//* Change backup options when user mail backup options have been changed
 		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
-			$backup_interval = $app->db->quote($this->dataRecord['backup_interval']);
+			$backup_interval = $this->dataRecord['backup_interval'];
 			$backup_copies = $app->functions->intval($this->dataRecord['backup_copies']);
-			$app->db->datalogUpdate('mail_user', "backup_interval = '$backup_interval', backup_copies = '$backup_copies'", 'mailuser_id', $rec['mailuser_id']);
+			$app->db->datalogUpdate('mail_user', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies), 'mailuser_id', $rec['mailuser_id']);
 			unset($backup_copies);
 			unset($backup_interval);
 		} // end if backup options changed

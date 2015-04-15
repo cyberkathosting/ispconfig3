@@ -266,12 +266,12 @@ class remoting_sites extends remoting {
 
 		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = ?", $primary_id);
 		foreach($records as $rec) {
-			$app->db->datalogUpdate('web_database', 'database_user_id=NULL', 'database_id', $rec['database_id']);
+			$app->db->datalogUpdate('web_database', array('database_user_id' => null), 'database_id', $rec['database_id']);
 
 		}
 		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = ?", $primary_id);
 		foreach($records as $rec) {
-			$app->db->datalogUpdate('web_database', 'database_ro_user_id=NULL', 'database_id', $rec['database_id']);
+			$app->db->datalogUpdate('web_database', array('database_ro_user_id' => null), 'database_id', $rec['database_id']);
 		}
 
 		return $affected_rows;

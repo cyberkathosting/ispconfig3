@@ -285,12 +285,23 @@ class page_action extends tform_actions {
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ?", $this->id);
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$app->functions->intval($tmp_domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $_SESSION["s"]["user"]["userid"], 
+					"sys_groupid" => $tmp_domain["sys_groupid"],
+					"sys_perm_user" => 'riud', 
+					"sys_perm_group" => 'riud', 
+					"sys_perm_other" => '',
+					"server_id" => $this->dataRecord["server_id"],
+					"priority" => 5,
+					"policy_id" => $policy_id,
+					"email" => '@' . $this->dataRecord["domain"],
+					"fullname" => '@' . $this->dataRecord["domain"],
+					"local" => 'Y'
+				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
@@ -340,12 +351,23 @@ class page_action extends tform_actions {
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ?", $this->id);
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$_SESSION["s"]["user"]["userid"].", ".$app->functions->intval($tmp_domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($this->dataRecord["server_id"]).", 5, ".$app->functions->intval($policy_id).", '@".$app->db->quote($this->dataRecord["domain"])."', '@".$app->db->quote($this->dataRecord["domain"])."', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $_SESSION["s"]["user"]["userid"], 
+					"sys_groupid" => $tmp_domain["sys_groupid"],
+					"sys_perm_user" => 'riud', 
+					"sys_perm_group" => 'riud', 
+					"sys_perm_other" => '',
+					"server_id" => $this->dataRecord["server_id"],
+					"priority" => 5,
+					"policy_id" => $policy_id,
+					"email" => '@' . $this->dataRecord["domain"],
+					"fullname" => '@' . $this->dataRecord["domain"],
+					"local" => 'Y'
+				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				unset($tmp_domain);
 			}
@@ -371,9 +393,8 @@ class page_action extends tform_actions {
 					$mail_parts = explode("@", $rec['email']);
 					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
-					$maildir = $app->db->quote($maildir);
-					$email = $app->db->quote($mail_parts[0].'@'.$this->dataRecord['domain']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
+					$email = $mail_parts[0].'@'.$this->dataRecord['domain'];
+					$app->db->datalogUpdate('mail_user', array("maildir" => $maildir, "email" => $email, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
 
@@ -381,9 +402,9 @@ class page_action extends tform_actions {
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like ? OR destination like ?", '%@' . $this->oldDataRecord['domain'], '%@' . $this->oldDataRecord['domain']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
-					$source = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']));
-					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
+					$destination = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']);
+					$source = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']);
+					$app->db->datalogUpdate('mail_forwarding', array("source" => $source, "destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
@@ -394,8 +415,8 @@ class page_action extends tform_actions {
 			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $this->oldDataRecord['domain']);
 			if(is_array($fetchmail)) {
 				foreach($fetchmail as $rec) {
-					$destination = $app->db->quote(str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']));
-					$app->db->datalogUpdate('mail_get', "destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailget_id', $rec['mailget_id']);
+					$destination = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']);
+					$app->db->datalogUpdate('mail_get', array("destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailget_id', $rec['mailget_id']);
 				}
 			}
 			
@@ -430,7 +451,7 @@ class page_action extends tform_actions {
 						$app->db->datalogUpdate('dns_rr', $rec, 'id', $rec['id']);
 						$soa_id = $app->functions->intval($soa['zone']);
 						$serial = $app->validate_dns->increase_serial($soa["serial"]);
-						$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+						$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
 					}	
 				}
 		}
@@ -464,7 +485,7 @@ class page_action extends tform_actions {
 		$app->db->datalogInsert('dns_rr', $new_rr, 'id', $new_rr['zone']);
 		$zone = $app->db->queryOneRecord("SELECT id, serial FROM dns_soa WHERE active = 'Y' AND id = ?", $new_rr['zone']);
 		$new_serial = $app->validate_dns->increase_serial($zone['serial']);
-		$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $zone['id']);
+		$app->db->datalogUpdate('dns_soa', array("serial" => $new_serial), 'id', $zone['id']);
 	}
 }
 

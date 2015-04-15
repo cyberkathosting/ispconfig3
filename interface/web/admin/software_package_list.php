@@ -104,13 +104,13 @@ if(is_array($repos) && isset($_GET['action']) && $_GET['action'] == 'repoupdate'
 						$v3 = $app->functions->intval($version_array[2]);
 						$v4 = $app->functions->intval($version_array[3]);
 
-						$package_name = $app->db->quote($u['package_name']);
+						$package_name = $u['package_name'];
 						$software_repo_id = $app->functions->intval($repo['software_repo_id']);
-						$update_url = $app->db->quote($u['url']);
-						$update_md5 = $app->db->quote($u['md5']);
-						$update_dependencies = (isset($u['dependencies']))?$app->db->quote($u['dependencies']):'';
-						$update_title = $app->db->quote($u['title']);
-						$type = $app->db->quote($u['type']);
+						$update_url = $u['url'];
+						$update_md5 = $u['md5'];
+						$update_dependencies = (isset($u['dependencies']))?$u['dependencies']:'';
+						$update_title = $u['title'];
+						$type = $u['type'];
 
 						// Check that we do not have this update in the database yet
 						$sql = "SELECT * FROM software_update WHERE package_name = ? and v1 = ? and v2 = ? and v3 = ? and v4 = ?";

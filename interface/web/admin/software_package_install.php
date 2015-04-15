@@ -63,7 +63,7 @@ if($package['package_installable'] == 'key' && $install_key != '') {
 		$message_err = 'Verification of the key failed.';
 	} else {
 		// Store the verified key into the database
-		$app->db->datalogUpdate('software_package', "package_key = '".$app->db->quote($install_key)."'", 'package_id', $package['package_id']);
+		$app->db->datalogUpdate('software_package', array("package_key" => $install_key), 'package_id', $package['package_id']);
 	}
 } else {
 	$message_ok = 'Please enter the software key for the package.';
@@ -91,7 +91,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 				'database_host' => 'localhost');
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
 			$package['package_config'] = $package_config_str;
-			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id', $package['package_id']);
+			$app->db->datalogUpdate('software_package', array("package_config" => $package_config_str), 'package_id', $package['package_id']);
 		}
 	}
 
@@ -127,7 +127,12 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 	}
 
 	//* Add the record to start the install process
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('".$app->db->quote($package_name)."', '".$app->db->quote($install_server_id)."', '".$app->db->quote($software_update_id)."','installing')";
+	$insert_data = array(
+		"package_name" => $package_name,
+		"server_id" => $install_server_id,
+		"software_update_id" => $software_update_id,
+		"status" => 'installing'
+	);
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
 	$message_ok = 'Starting package installation '."<a href=\"#\" onclick=\"ISPConfig.submitForm('pageForm','admin/software_package_list.php');\">".$app->lng('next')."</a>";
 

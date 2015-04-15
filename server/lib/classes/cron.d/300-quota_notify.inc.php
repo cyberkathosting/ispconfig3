@@ -74,7 +74,7 @@ class cronjob_quota_notify extends cronjob {
 					$web_traffic = round($tmp['total_traffic_bytes']/1024/1024);
 
 					if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
-						$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
+						$app->dbmaster->datalogUpdate('web_domain', array("traffic_quota_lock" => 'y', "active" => 'n'), 'domain_id', $rec['domain_id']);
 						$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.', LOGLEVEL_DEBUG);
 
 						//* Send traffic notifications
@@ -104,7 +104,7 @@ class cronjob_quota_notify extends cronjob {
 					} else {
 						//* unlock the website, if traffic is lower then quota
 						if($rec['traffic_quota_lock'] == 'y') {
-							$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'n',active = 'y'", 'domain_id', $rec['domain_id']);
+							$app->dbmaster->datalogUpdate('web_domain', array("traffic_quota_lock" => 'n', "active" => 'y'), 'domain_id', $rec['domain_id']);
 							$app->log('Traffic quota for '.$rec['domain'].' ok again. Re-enabling website.', LOGLEVEL_DEBUG);
 						}
 					}
@@ -192,7 +192,7 @@ class cronjob_quota_notify extends cronjob {
 					// send notifications only if 90% or more of the quota are used
 					if($used_ratio < 0.9) {
 						// reset notification date
-						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = NULL", 'domain_id', $rec['domain_id']);
+						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', array("last_quota_notification" => null), 'domain_id', $rec['domain_id']);
 
 						// send notification - everything ok again
 						if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y')) {
@@ -229,7 +229,7 @@ class cronjob_quota_notify extends cronjob {
 
 						//* Send quota notifications
 						if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-							$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
+							$app->dbmaster->datalogUpdate('web_domain', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'domain_id', $rec['domain_id']);
 
 							$placeholders = array('{domain}' => $rec['domain'],
 								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
@@ -321,7 +321,7 @@ class cronjob_quota_notify extends cronjob {
 					// send notifications only if 90% or more of the quota are used
 					if($used_ratio < 0.9) {
 						// reset notification date
-						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = NULL", 'mailuser_id', $rec['mailuser_id']);
+						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('mail_user', array("last_quota_notification" => null), 'mailuser_id', $rec['mailuser_id']);
 
 						// send notification - everything ok again
 						if($rec['last_quota_notification'] && $mail_config['overquota_notify_onok'] == 'y' && ($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y')) {
@@ -358,7 +358,7 @@ class cronjob_quota_notify extends cronjob {
 						elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
 
 						if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-							$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
+							$app->dbmaster->datalogUpdate('mail_user', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'mailuser_id', $rec['mailuser_id']);
 
 							$placeholders = array('{email}' => $rec['email'],
 								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
@@ -438,9 +438,9 @@ class cronjob_quota_notify extends cronjob {
 								if($used_ratio > 0.9) {
 
 									//* reset notification date
-									if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_database', "last_quota_notification = NULL", 'database_id', $rec['database_id']);
+									if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => null), 'database_id', $rec['database_id']);
 
-									$app->dbmaster->datalogUpdate('web_database', "last_quota_notification = CURDATE()", 'database_id', $rec['database_id']);
+									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
 
 									// send notification - everything ok again
 									if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y')) {
@@ -475,7 +475,7 @@ class cronjob_quota_notify extends cronjob {
 
 								//* Send quota notifications
 								if(($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y') && $send_notification == true) {
-									$app->dbmaster->datalogUpdate('web_database', "last_quota_notification = CURDATE()", 'database_id', $rec['database_id']);
+									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
 									$placeholders = array(
 										'{database_name}' => $rec['database_name'],
 										'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),

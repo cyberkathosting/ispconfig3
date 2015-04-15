@@ -73,9 +73,8 @@ class mail_mail_domain_plugin {
 					$mail_parts = explode("@", $rec['email']);
 					$maildir = str_replace("[domain]", $page_form->dataRecord['domain'], $mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
-					$maildir = $app->db->quote($maildir);
-					$email = $app->db->quote($mail_parts[0].'@'.$page_form->dataRecord['domain']);
-					$app->db->datalogUpdate('mail_user', "maildir = '$maildir', email = '$email', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailuser_id', $rec['mailuser_id']);
+					$email = $mail_parts[0].'@'.$page_form->dataRecord['domain'];
+					$app->db->datalogUpdate('mail_user', array("maildir" => $maildir, "email" => $email, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailuser_id', $rec['mailuser_id']);
 				}
 			}
 
@@ -83,9 +82,9 @@ class mail_mail_domain_plugin {
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source LIKE ? OR destination LIKE ?", "%@" . $page_form->oldDataRecord['domain'], "%@" . $page_form->oldDataRecord['domain']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']));
-					$source = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['source']));
-					$app->db->datalogUpdate('mail_forwarding', "source = '$source', destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'forwarding_id', $rec['forwarding_id']);
+					$destination = str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']);
+					$source = str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['source']);
+					$app->db->datalogUpdate('mail_forwarding', array("source" => $source, "destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
@@ -93,7 +92,7 @@ class mail_mail_domain_plugin {
 			$mailing_lists = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = ?", $page_form->oldDataRecord['domain']);
 			if(is_array($mailing_lists)) {
 				foreach($mailing_lists as $rec) {
-					$app->db->datalogUpdate('mail_mailinglist', "sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailinglist_id', $rec['mailinglist_id']);
+					$app->db->datalogUpdate('mail_mailinglist', array("sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailinglist_id', $rec['mailinglist_id']);
 				}
 			}
 
@@ -101,8 +100,8 @@ class mail_mail_domain_plugin {
 			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id, destination FROM mail_get WHERE destination LIKE ?", "%@" . $page_form->oldDataRecord['domain']);
 			if(is_array($mail_gets)) {
 				foreach($mail_gets as $rec) {
-					$destination = $app->db->quote(str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']));
-					$app->db->datalogUpdate('mail_get', "destination = '$destination', sys_userid = $client_user_id, sys_groupid = '$sys_groupid'", 'mailget_id', $rec['mailget_id']);
+					$destination = str_replace($page_form->oldDataRecord['domain'], $page_form->dataRecord['domain'], $rec['destination']);
+					$app->db->datalogUpdate('mail_get', array("destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailget_id', $rec['mailget_id']);
 				}
 			}
 

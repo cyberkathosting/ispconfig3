@@ -511,13 +511,13 @@ class page_action extends tform_actions {
 					if(!empty($rr_records)) {
 						foreach($rr_records as $rec) {
 							$new_serial = $app->validate_dns->increase_serial($rec['serial']);
-							$app->db->datalogUpdate('dns_rr', "serial = '".$new_serial."'", 'id', $rec['id']);
+							$app->db->datalogUpdate('dns_rr', array("serial" => $new_serial), 'id', $rec['id']);
 						}
 					} else { 
 						$msg .= $app->tform->wordbook['no_results_txt'].'<br>';
 					}
 					$new_serial = $app->validate_dns->increase_serial($soa_rec['serial']);
-					$app->db->datalogUpdate('dns_soa', "serial = '".$new_serial."'", 'id', $soa_rec['id']);
+					$app->db->datalogUpdate('dns_soa', array("serial" => $new_serial), 'id', $soa_rec['id']);
 					$msg .= '['.$server_name[$soa_rec['server_id']].'] '.$soa_rec['origin'].' ('.count($rr_records).')<br>';
 				}
 			else $msg .= $app->tform->wordbook['no_results_txt'].'<br>'; 

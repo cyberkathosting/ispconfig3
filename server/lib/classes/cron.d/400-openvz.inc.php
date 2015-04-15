@@ -60,7 +60,7 @@ class cronjob_openvz extends cronjob {
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records)) {
 				foreach($records as $rec) {
-					$app->dbmaster->datalogUpdate('openvz_vm', "active = 'n'", 'vm_id', $rec['vm_id']);
+					$app->dbmaster->datalogUpdate('openvz_vm', array("active" => 'n'), 'vm_id', $rec['vm_id']);
 					$app->log('Virtual machine active date expired. Disabling VM '.$rec['veid'], LOGLEVEL_DEBUG);
 				}
 			}

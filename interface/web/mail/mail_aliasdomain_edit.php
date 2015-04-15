@@ -118,8 +118,8 @@ class page_action extends tform_actions {
 		
 		/* TODO: check if this quoting is correkt! */
 		// compose the source and destination field
-		$this->dataRecord["source"] = "@".$app->db->quote($this->dataRecord["source"]);
-		$this->dataRecord["destination"] = "@".$app->db->quote($this->dataRecord["destination"]);
+		$this->dataRecord["source"] = "@".$this->dataRecord["source"];
+		$this->dataRecord["destination"] = "@".$this->dataRecord["destination"];
 		// Set the server id of the mailbox = server ID of mail domain.
 		$this->dataRecord["server_id"] = $app->functions->intval($domain["server_id"]);
 

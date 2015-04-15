@@ -95,11 +95,11 @@ class remoting_dns extends remoting {
 					if($section == 'dns_records') {
 						$parts = explode('|', $row);
 						$dns_rr[] = array(
-							'name' => $app->db->quote($parts[1]),
-							'type' => $app->db->quote($parts[0]),
-							'data' => $app->db->quote($parts[2]),
-							'aux'  => $app->db->quote($parts[3]),
-							'ttl'  => $app->db->quote($parts[4])
+							'name' => $parts[1],
+							'type' => $parts[0],
+							'data' => $parts[2],
+							'aux'  => $parts[3],
+							'ttl'  => $parts[4]
 						);
 					}
 				}
@@ -121,26 +121,58 @@ class remoting_dns extends remoting {
 			$sys_userid = $tmp['userid'];
 			$sys_groupid = $tmp['default_group'];
 			unset($tmp);
-			$origin = $app->db->quote($vars['origin']);
-			$ns = $app->db->quote($vars['ns']);
-			$mbox = $app->db->quote(str_replace('@', '.', $vars['mbox']));
-			$refresh = $app->db->quote($vars['refresh']);
-			$retry = $app->db->quote($vars['retry']);
-			$expire = $app->db->quote($vars['expire']);
-			$minimum = $app->db->quote($vars['minimum']);
-			$ttl = $app->db->quote($vars['ttl']);
-			$xfer = $app->db->quote($vars['xfer']);
-			$also_notify = $app->db->quote($vars['also_notify']);
-			$update_acl = $app->db->quote($vars['update_acl']);
+			$origin = $vars['origin'];
+			$ns = $vars['ns'];
+			$mbox = str_replace('@', '.', $vars['mbox']);
+			$refresh = $vars['refresh'];
+			$retry = $vars['retry'];
+			$expire = $vars['expire'];
+			$minimum = $vars['minimum'];
+			$ttl = $vars['ttl'];
+			$xfer = $vars['xfer'];
+			$also_notify = $vars['also_notify'];
+			$update_acl = $vars['update_acl'];
 			$serial = $app->validate_dns->increase_serial(0);
-			$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`, `also_notify`, `update_acl`) VALUES
-			('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer', '$also_notify', '$update_acl')";
+			$insert_data = array(
+				"sys_userid" => $sys_userid,
+				"sys_groupid" => $sys_groupid,
+				"sys_perm_user" => 'riud',
+				"sys_perm_group" => 'riud',
+				"sys_perm_other" => '',
+				"server_id" => $server_id,
+				"origin" => $origin,
+				"ns" => $ns,
+				"mbox" => $mbox,
+				"serial" => $serial,
+				"refresh" => $refresh,
+				"retry" => $retry,
+				"expire" => $expire,
+				"minimum" => $minimum,
+				"ttl" => $ttl,
+				"active" => 'Y',
+				"xfer" => $xfer,
+				"also_notify" => $also_notify,
+				"update_acl" => $update_acl
+			);
 			$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 			// Insert the dns_rr records
 			if(is_array($dns_rr) && $dns_soa_id > 0) {
 				foreach($dns_rr as $rr) {
-					$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-					('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$rr[name]', '$rr[type]', '$rr[data]', '$rr[aux]', '$rr[ttl]', 'Y')";
+					$insert_data = array(
+						"sys_userid" => $sys_userid,
+						"sys_groupid" => $sys_groupid,
+						"sys_perm_user" => 'riud',
+						"sys_perm_group" => 'riud',
+						"sys_perm_other" => '',
+						"server_id" => $server_id,
+						"zone" => $dns_soa_id,
+						"name" => $rr['name'],
+						"type" => $rr['type'],
+						"data" => $rr['data'],
+						"aux" => $rr['aux'],
+						"ttl" => $rr['ttl'],
+						"active" => 'Y'
+					);
 					$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 				}
 			}

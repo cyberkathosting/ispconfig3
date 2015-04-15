@@ -112,7 +112,7 @@ class vm_openvz_plugin {
 
 		//* Free the IP address
 		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
-		$app->db->datalogUpdate('openvz_ip', 'vm_id = 0', 'ip_address_id', $tmp['ip_address_id']);
+		$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
 		unset($tmp);
 
 	}
@@ -232,12 +232,25 @@ class vm_openvz_plugin {
 
 			if($rr_rec['id'] > 0) {
 				$app->uses('validate_dns');
-				$app->db->datalogUpdate('dns_rr', "data = '$ip_address'", 'id', $app->functions->intval($rr_rec['id']));
+				$app->db->datalogUpdate('dns_rr', array("data" => $ip_address), 'id', $app->functions->intval($rr_rec['id']));
 				$serial = $app->validate_dns->increase_serial($zone_rec['serial']);
-				$app->db->datalogUpdate('dns_soa', "serial = '$serial'", 'id', $app->functions->intval($zone_rec['id']));
+				$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $app->functions->intval($zone_rec['id']));
 			} else {
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$hostname', 'A', '$ip_address', '0', '3600', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $sys_userid,
+					"sys_groupid" => $sys_groupid,
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $server_id,
+					"zone" => $dns_soa_id,
+					"name" => $hostname,
+					"type" => 'A',
+					"data" => $ip_address,
+					"aux" => '0',
+					"ttl" => '3600',
+					"active" => 'Y'
+				);
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
 

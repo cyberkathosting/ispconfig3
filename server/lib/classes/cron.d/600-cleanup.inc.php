@@ -59,7 +59,7 @@ class cronjob_cleanup extends cronjob {
 			if(is_array($records)) {
 				foreach($records as $rec) {
 					$tmp = $app->db->queryOneRecord("SELECT id FROM aps_instances_settings WHERE instance_id = ? AND name = ?", $rec['instance_id'], $rec['name']);
-					$app->db->datalogUpdate('aps_instances_settings', "value = ''", 'id', $tmp['id']);
+					$app->db->datalogUpdate('aps_instances_settings', array("value" => ''), 'id', $tmp['id']);
 				}
 			}
 		}

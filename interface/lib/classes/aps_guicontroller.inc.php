@@ -356,12 +356,12 @@ class ApsGUIController extends ApsBase
 		//* Set PHP mode to php-fcgi and enable suexec in website on apache servers / set PHP mode to PHP-FPM on nginx servers
 		if($web_config['server_type'] == 'apache') {
 			if(($websrv['php'] != 'fast-cgi' || $websrv['suexec'] != 'y') && $websrv['php'] != 'php-fpm') {
-				$app->db->datalogUpdate('web_domain', "php = 'fast-cgi', suexec = 'y'", 'domain_id', $websrv['domain_id']);
+				$app->db->datalogUpdate('web_domain', array("php" => 'fast-cgi', "suexec" => 'y'), 'domain_id', $websrv['domain_id']);
 			}
 		} else {
 			// nginx
 			if($websrv['php'] != 'php-fpm' && $websrv['php'] != 'fast-cgi') {
-				$app->db->datalogUpdate('web_domain', "php = 'php-fpm'", 'domain_id', $websrv['domain_id']);
+				$app->db->datalogUpdate('web_domain', array("php" => 'php-fpm'), 'domain_id', $websrv['domain_id']);
 			}
 		}
 
@@ -378,19 +378,34 @@ class ApsGUIController extends ApsBase
 		}
 		
 		//* Insert new package instance
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `customer_id`, `package_id`, `instance_status`) VALUES (".$app->functions->intval($websrv['sys_userid']).", ".$app->functions->intval($websrv['sys_groupid']).", 'riud', '".$app->db->quote($websrv['sys_perm_group'])."', '', ".$app->db->quote($webserver_id).",".$app->db->quote($customerid).", ".$app->db->quote($packageid).", ".INSTANCE_PENDING.")";
+		$insert_data = array(
+			"sys_userid" => $websrv['sys_userid'],
+			"sys_groupid" => $websrv['sys_groupid'],
+			"sys_perm_user" => 'riud',
+			"sys_perm_group" => $websrv['sys_perm_group'],
+			"sys_perm_other" => '',
+			"server_id" => $webserver_id,
+			"customer_id" => $customerid,
+			"package_id" => $packageid,
+			"instance_status" => INSTANCE_PENDING
+		);
 		$InstanceID = $app->db->datalogInsert('aps_instances', $insert_data, 'id');
 
 		//* Insert all package settings
 		if(is_array($settings)) {
 			foreach($settings as $key => $value) {
-				$insert_data = "(server_id, instance_id, name, value) VALUES (".$app->db->quote($webserver_id).",".$app->db->quote($InstanceID).", '".$app->db->quote($key)."', '".$app->db->quote($value)."')";
+				$insert_data = array(
+					"server_id" => $webserver_id,
+					"instance_id" => $InstanceID,
+					"name" => $key,
+					"value" => $value
+				);
 				$app->db->datalogInsert('aps_instances_settings', $insert_data, 'id');
 			}
 		}
 
 		//* Set package status to install afetr we inserted the settings
-		$app->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_INSTALL, 'id', $InstanceID);
+		$app->db->datalogUpdate('aps_instances', array("instance_status" => INSTANCE_INSTALL), 'id', $InstanceID);
 	}
 
 	/**
@@ -413,7 +428,7 @@ class ApsGUIController extends ApsBase
 			if($tmp['cnt'] < 1) $app->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
 		}
 
-		$app->db->datalogUpdate('aps_instances', "instance_status = ".INSTANCE_REMOVE, 'id', $instanceid);
+		$app->db->datalogUpdate('aps_instances', array("instance_status" => INSTANCE_REMOVE), 'id', $instanceid);
 
 	}
 

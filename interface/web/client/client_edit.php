@@ -241,7 +241,7 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		// Create the group for the client
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
+		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
 
 		$username = $this->dataRecord["username"];
@@ -325,7 +325,7 @@ class page_action extends tform_actions {
 					//* save new counter value
 					$system_config['misc']['customer_no_counter']++;
 					$system_config_str = $app->ini_parser->get_ini_string($system_config);
-					$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+					$app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
 				}
 			} else {
 				//* Logged in user must be a reseller

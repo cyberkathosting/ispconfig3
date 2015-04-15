@@ -1108,6 +1108,7 @@ class tform_base {
 	 * @param primary_id
 	 * @return record
 	 */
+	 /* TODO: check for double quoting */
 	protected function _getSQL($record, $tab, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '', $api = false) {
 
 		global $app;

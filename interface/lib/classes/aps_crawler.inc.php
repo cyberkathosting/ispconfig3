@@ -357,7 +357,7 @@ class ApsCrawler extends ApsBase
 										if(file_exists($old_folder)) $this->removeDirectory($old_folder);
 
 										$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE name = ? AND CONCAT(version, '-', CAST(`release` AS CHAR)) = ?", $app_name, $ex_ver);
-										$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_OUTDATED, 'id', $tmp['id']);
+										$app->db->datalogUpdate('aps_packages', array("package_status" => PACKAGE_OUTDATED), 'id', $tmp['id']);
 										unset($tmp);
 									}
 
@@ -537,7 +537,7 @@ class ApsCrawler extends ApsBase
 			$diff = array_diff($existing_packages, $pkg_list);
 			foreach($diff as $todelete) {
 				$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = ?", $todelete);
-				$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_ERROR_NOMETA, 'id', $tmp['id']);
+				$app->db->datalogUpdate('aps_packages', array("package_status" => PACKAGE_ERROR_NOMETA), 'id', $tmp['id']);
 				unset($tmp);
 			}
 
@@ -569,11 +569,15 @@ class ApsCrawler extends ApsBase
 
 				// Insert only if data is complete
 				if($pkg != '' && $pkg_name != '' && $pkg_category != '' && $pkg_version != '' && $pkg_release != '' && $pkg_url){
-					$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES
-                    ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
-                    '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
-                    ".$app->db->quote($pkg_release).", '".$app->db->quote($pkg_url)."', ".PACKAGE_ENABLED.");";
-
+					$insert_data = array(
+						"path" => $pkg,
+						"name" => $pkg_name,
+						"category" => $pkg_category,
+						"version" => $pkg_version,
+						"release" => $pkg_release,
+						"package_url" => $pkg_url,
+						"package_status" => PACKAGE_ENABLED
+					);
 					$app->db->datalogInsert('aps_packages', $insert_data, 'id');
 				} else {
 					if(file_exists($this->interface_pkg_dir.'/'.$pkg)) $this->removeDirectory($this->interface_pkg_dir.'/'.$pkg);

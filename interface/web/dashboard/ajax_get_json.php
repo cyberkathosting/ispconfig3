@@ -40,7 +40,7 @@ $type = $_GET["type"];
 
 //if($_SESSION["s"]["user"]["typ"] == 'admin') {
 
-
+/* TODO: change sql queries */
 if($type == 'globalsearch'){
 	$q = $app->db->quote(trim($_GET["q"]));
 	$authsql = " AND ".$app->tform->getAuthSQL('r');

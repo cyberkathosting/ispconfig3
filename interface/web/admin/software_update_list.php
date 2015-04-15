@@ -101,12 +101,16 @@ if(is_array($repos)) {
 
 //* Install packages, if GET Request
 if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] != '' && $_GET['server_id'] > 0) {
-	$package_name = $app->db->quote($_GET['package']);
+	$package_name = $_GET['package'];
 	$server_id = $app->functions->intval($_GET['server_id']);
 	$software_update_id = $app->functions->intval($_GET['id']);
 
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
-	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
+	$insert_data = array(
+		"package_name" => $package_name,
+		"server_id" => $server_id,
+		"software_update_id" => $software_update_id,
+		"status" => 'installing'
+	);
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
 
 }
