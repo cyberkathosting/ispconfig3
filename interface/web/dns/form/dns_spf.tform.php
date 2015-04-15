@@ -127,7 +127,7 @@ $form["tabs"]['dns'] = array (
 					'range' => '60:',
 					'errmsg'=> 'ttl_range_error'),
 			),
-			'default' => '86400',
+			'default' => '3600',
 			'value'  => '',
 			'width'  => '10',
 			'maxlength' => '10'

@@ -161,6 +161,26 @@ class apache2_plugin {
 			if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
 				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 			}
+			
+			if(intval($web_data['directive_snippets_id']) > 0){
+				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($web_data['directive_snippets_id']));
+				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+						foreach($required_php_snippets as $required_php_snippet){
+							$required_php_snippet = intval($required_php_snippet);
+							if($required_php_snippet > 0){
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet['snippet'] = trim($php_snippet['snippet']);
+								if($php_snippet['snippet'] != ''){
+									$web_data['custom_php_ini'] .= "\n".$php_snippet['snippet'];
+								}
+							}
+						}
+					}
+				}
+			}
+		
 			$php_ini_content .= str_replace("\r", '', trim($web_data['custom_php_ini']));
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
 			$app->log('Info: rewrote custom php.ini for web ' . $web_data['domain_id'] . ' (' . $web_data['domain'] . ').', LOGLEVEL_DEBUG);
@@ -1008,6 +1028,26 @@ class apache2_plugin {
 				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 			}
 			$php_ini_content .= str_replace("\r", '', trim($data['new']['custom_php_ini']));
+			
+			if(intval($data['new']['directive_snippets_id']) > 0){
+				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+						foreach($required_php_snippets as $required_php_snippet){
+							$required_php_snippet = intval($required_php_snippet);
+							if($required_php_snippet > 0){
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet['snippet'] = trim($php_snippet['snippet']);
+								if($php_snippet['snippet'] != ''){
+									$php_ini_content .= "\n".$php_snippet['snippet'];
+								}
+							}
+						}
+					}
+				}
+			}
+		
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
 		} else {
 			$has_custom_php_ini = false;
@@ -2864,6 +2904,26 @@ class apache2_plugin {
 		// Custom php.ini settings
 		$final_php_ini_settings = array();
 		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+		
+		if(intval($data['new']['directive_snippets_id']) > 0){
+			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+			if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+				$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+				if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+					foreach($required_php_snippets as $required_php_snippet){
+						$required_php_snippet = intval($required_php_snippet);
+						if($required_php_snippet > 0){
+							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+							$php_snippet['snippet'] = trim($php_snippet['snippet']);
+							if($php_snippet['snippet'] != ''){
+								$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);

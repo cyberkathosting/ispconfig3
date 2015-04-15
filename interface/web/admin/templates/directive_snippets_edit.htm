@@ -18,6 +18,12 @@
                 <label for="snippet" class="col-sm-3 control-label">{tmpl_var name='snippet_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="snippet" id="snippet" rows='10' cols='50'>{tmpl_var name='snippet'}</textarea></div><span class="nginx"> &nbsp; {tmpl_var name='variables_txt'}: </span><a href="javascript:void(0);" class="addPlaceholder nginx">{DOCROOT}</a><span class="nginx">, </span><a href="javascript:void(0);" class="addPlaceholder nginx">{FASTCGIPASS}</a>
             </div>
+			<div class="form-group php">
+                <label class="col-sm-3 control-label">{tmpl_var name='required_php_snippets_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='required_php_snippets'}
+                </div>
+            </div>
 			<div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='customer_viewable_txt'}</label>
                 <div class="col-sm-9">
@@ -48,15 +54,19 @@
 	
 	if (jQuery('#type').val() != 'nginx' && jQuery('#type').val() != 'apache') {
 		jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
-	}else {
+		jQuery('.php:visible').hide();
+	} else {
 		jQuery('#customer_viewable').closest('div.ctrlHolder:hidden').show();
+		jQuery('.php:hidden').show();
 	}
     
     jQuery('#type').change(function(){
 		if (jQuery(this).val() != 'nginx' && jQuery(this).val() != 'apache') {
 			jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
+			jQuery('.php:visible').hide();
 		} else {
 			jQuery('#customer_viewable').closest('div.ctrlHolder:hidden').show();
+			jQuery('.php:hidden').show();
 		}
         if(jQuery(this).val() == 'nginx'){
             jQuery('.nginx:hidden').show();

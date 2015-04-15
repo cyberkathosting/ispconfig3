@@ -96,7 +96,7 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 					$refresh = 7200;
 					$retry =  540;
 					$expire = 604800;
-					$minimum = 86400;
+					$minimum = 3600;
 					$ttl = $soa['ttl'];
 
 					$insert_data = array(

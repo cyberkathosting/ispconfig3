@@ -442,6 +442,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `type` varchar(255) DEFAULT NULL,
   `snippet` mediumtext,
   `customer_viewable` ENUM('n','y') NOT NULL DEFAULT 'n',
+  `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`directive_snippets_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -465,7 +466,7 @@ CREATE TABLE `dns_rr` (
   `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
   `data` TEXT NOT NULL DEFAULT '',
   `aux` int(11) unsigned NOT NULL default '0',
-  `ttl` int(11) unsigned NOT NULL default '86400',
+  `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL default 'Y',
   `stamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `serial` int(10) unsigned default NULL,
@@ -517,8 +518,8 @@ CREATE TABLE `dns_soa` (
   `refresh` int(11) unsigned NOT NULL default '28800',
   `retry` int(11) unsigned NOT NULL default '7200',
   `expire` int(11) unsigned NOT NULL default '604800',
-  `minimum` int(11) unsigned NOT NULL default '86400',
-  `ttl` int(11) unsigned NOT NULL default '86400',
+  `minimum` int(11) unsigned NOT NULL default '3600',
+  `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL DEFAULT 'N',
   `xfer` varchar(255) NOT NULL DEFAULT '',
   `also_notify` varchar(255) default NULL,
@@ -2316,7 +2317,7 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`, `eu`)
 -- Dumping data for table `dns_template`
 -- 
 
-INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=86400\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
+INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
 
 
 -- --------------------------------------------------------

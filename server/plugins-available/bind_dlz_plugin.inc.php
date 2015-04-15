@@ -34,7 +34,7 @@ TABLE STRUCTURE of the "named" database:
 CREATE TABLE IF NOT EXISTS `records` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `zone` varchar(255) NOT NULL,
-  `ttl` int(11) NOT NULL default '86400',
+  `ttl` int(11) NOT NULL default '3600',
   `type` varchar(255) NOT NULL,
   `host` varchar(255) NOT NULL default '@',
   `mx_priority` int(11) default NULL,
