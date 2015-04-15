@@ -693,6 +693,10 @@ class page_action extends tform_actions {
 				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option", $domain_select);
+		} else {
+
+			// remove the parent domain part of the domain name before we show it in the text field.
+			if($this->dataRecord["type"] == 'vhostsubdomain') $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
 		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"]);
 

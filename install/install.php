@@ -627,19 +627,7 @@ if($install_mode == 'standard') {
 		//* Configure Bastille Firewall
 		$conf['services']['firewall'] = true;
 		swriteln('Configuring Bastille Firewall');
-		$inst->configure_firewall();
-		/*} elseif($conf['ufw']['installed'] == true) {
-			//* Configure Ubuntu Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Ubuntu Firewall');
-			$inst->configure_ufw_firewall();
-		} else {
-			//* Configure Bastille Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Bastille Firewall');
-			$inst->configure_bastille_firewall();
-		}
-		*/
+		$inst->configure_bastille_firewall();
 	}
 
 	//** Configure Firewall
