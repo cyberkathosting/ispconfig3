@@ -2355,6 +2355,11 @@ class nginx_plugin {
 		} else {
 			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
 		}
+		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_monit.master')) {
+			$monit_content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_monit.master');
+		} else {
+			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
+		}
 		
 		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || $data['new']['custom_php_ini'] != $data['old']['custom_php_ini']) {
 
@@ -2392,11 +2397,21 @@ class nginx_plugin {
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
 			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
+			
+			$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
+			file_put_contents('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'], $monit_content);
+			exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
 			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 			if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			
+			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
+				unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+				exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			}
 		}
 	}
 

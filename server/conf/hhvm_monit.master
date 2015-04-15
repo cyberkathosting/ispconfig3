@@ -1,0 +1,3 @@
+check process hhvm_{SYSTEM_USER} with pidfile /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
+   start program = "/etc/init.d/hhvm_{SYSTEM_USER} restart"
+   stop  program = "/etc/init.d/hhvm_{SYSTEM_USER} stop"
