@@ -55,7 +55,7 @@ $liste["item"][] = array(   'field'     => "visible",
 	'prefix' => "",
 	'suffix' => "",
 	'width' => "",
-	'value' => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value' => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 $liste["item"][] = array(   'field' => "name",

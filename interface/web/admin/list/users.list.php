@@ -60,7 +60,7 @@ $liste["item"][] = array(   'field' => "active",
 	'prefix' => "",
 	'suffix' => "",
 	'width' => "",
-	'value' => array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", '0' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value' => array('1' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", '0' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 $liste['item'][] = array(   'field' => 'username',
 	'datatype' => 'VARCHAR',

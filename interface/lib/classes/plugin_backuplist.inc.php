@@ -126,6 +126,10 @@ class plugin_backuplist extends plugin_base {
 				
 				$rec['download_available'] = true;
 				if($rec['server_id'] != $web['server_id']) $rec['download_available'] = false;
+				
+				if($rec['filesize'] > 0){
+					$rec['filesize'] = $app->functions->currency_format($rec['filesize']/(1024*1024), 'client').' MB';
+				}
 
 				$records_new[] = $rec;
 			}

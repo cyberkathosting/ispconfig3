@@ -95,7 +95,7 @@ $liste["item"][] = array( 'field'  => "virtualhost",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 $liste['item'][] = array( 'field'  => 'virtualhost_port',
