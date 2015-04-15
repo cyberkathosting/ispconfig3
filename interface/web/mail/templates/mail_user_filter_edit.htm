@@ -7,21 +7,22 @@
         
             <div class="form-group">
                 <label for="rulename" class="col-sm-3 control-label">{tmpl_var name='rulename_txt'}</label>
-                <div class="col-sm-9"><input type="text" id="rulename" name="rulename" value="{tmpl_var name='rulename'}" class="form-control"></div></div>
+                <div class="col-sm-9"><input type="text" id="rulename" name="rulename" value="{tmpl_var name='rulename'}" class="form-control"></div>
+			</div>
             <div class="form-group">
                 <label for="source" class="col-sm-3 control-label">{tmpl_var name='source_txt'}</label>
-                <div class="col-sm-9"><select id="source" name="source" class="form-control">{tmpl_var name='source'}</select></div>
-                <div class="col-sm-9"><select id="op" name="op" class="form-control">{tmpl_var name='op'}</select></div><br><br>
-                <div><label></label><div class="col-sm-9"><input type="text" id="searchterm" name="searchterm" value="{tmpl_var name='searchterm'}" class="form-control"></div></div>
+                <div class="col-sm-9" style="margin-bottom:10px"><select id="source" name="source" class="form-control">{tmpl_var name='source'}</select></div>
+                <div class="col-sm-3"></div><div class="col-sm-9" style="margin-bottom:10px"><select id="op" name="op" class="form-control">{tmpl_var name='op'}</select></div>
+				<div class="col-sm-3"></div><div class="col-sm-9"><input type="text" id="searchterm" name="searchterm" value="{tmpl_var name='searchterm'}" class="form-control"></div>
             </div>
             <div class="form-group">
                 <label for="action" class="col-sm-3 control-label">{tmpl_var name='action_txt'}</label>
-                <div class="col-sm-9"><select id="action" name="action" class="form-control">{tmpl_var name='action'}</select></div><br><br>
-                <div><label></label><div class="col-sm-9"><input type="text" id="target" name="target" value="{tmpl_var name='target'}" class="form-control"></div></div>
+                <div class="col-sm-9" style="margin-bottom:10px"><select id="action" name="action" class="form-control">{tmpl_var name='action'}</select></div>
+                <div class="col-sm-3"></div><div class="col-sm-9"><input type="text" id="target" name="target" value="{tmpl_var name='target'}" class="form-control"></div>
             </div>
             <div class="form-group">
                 <label for="active" class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
-                <span class="">{tmpl_var name='active'}</span>
+                <div class="col-sm-9"><span class="">{tmpl_var name='active'}</span></div>
             </div>
         
 

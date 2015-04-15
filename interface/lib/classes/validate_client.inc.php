@@ -161,6 +161,8 @@ class validate_client {
 
 			// Test if the country of the VAT-ID matches the country of the customer
 			if($country != ''){
+				// Greece
+				if($country == 'GR') $country = 'EL';
 				if(strtoupper($cc) != $country){
 					$errmsg = $validator['errmsg'];
 					if(isset($app->tform->wordbook[$errmsg])) {
