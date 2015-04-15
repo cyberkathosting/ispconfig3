@@ -322,7 +322,7 @@ class login_index {
 		// Maintenance mode - show message when people try to log in and also when people are forcedly logged off
 		if($maintenance_mode_error != '') $error = '<strong>'.$maintenance_mode_error.'</strong><br><br>'.$error;
 		if($error != ''){
-			$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
+			$error = '<div class="box box_error">'.$error.'</div>';
 		}
 		
 		$app->load('getconf');
@@ -335,6 +335,8 @@ class login_index {
 		}
 		
 		$app->tpl->setVar('error', $error);
+		$app->tpl->setVar('error_txt', $app->lng('error_txt'));
+		$app->tpl->setVar('login_txt', $app->lng('login_txt'));
 		$app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));

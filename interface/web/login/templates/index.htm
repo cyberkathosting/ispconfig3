@@ -9,11 +9,11 @@
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3>ERROR</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" data-load-content="login/password_reset.php">{tmpl_var name='pw_lost_txt'}</a></div>
+        <div id="errorMsg"><h3>{tmpl_var name='error_txt'}</h3><ol><li><tmpl_var name="error"></li></ol><br /><a href="#" data-load-content="login/password_reset.php">{tmpl_var name='pw_lost_txt'}</a></div>
     </tmpl_if>
 
     <div class="pnl_formsarea">
-        <legend>{tmpl_var name='login_txt'}Login</legend>
+        <legend>{tmpl_var name='login_txt'}</legend>
             <div class="form-group">
                 <label for="username" class="col-sm-3 control-label">{tmpl_var name='username_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="username" id="username" value="" class="form-control"  onkeypress="if (event.keyCode && event.keyCode == 13) {ISPConfig.submitLoginForm('pageForm'); return false;};" /></div></div>

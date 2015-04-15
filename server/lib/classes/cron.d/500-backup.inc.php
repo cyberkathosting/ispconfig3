@@ -363,6 +363,27 @@ class cronjob_backup extends cronjob {
 				}
 			}
 		}
+		
+		// delete files from backup download dir (/var/www/example.com/backup)
+		unset($records, $entry, $files);
+		$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$backup_download_dir = $rec['document_root'].'/backup';
+				if(is_dir($backup_download_dir)){
+					$dir_handle = dir($backup_download_dir);
+					$files = array();
+					while (false !== ($entry = $dir_handle->read())) {
+						if($entry != '.' && $entry != '..' && is_file($backup_download_dir.'/'.$entry)) {
+							// delete files older than 3 days
+							if(time() - filemtime($backup_download_dir.'/'.$entry) >= 60*60*24*3) @unlink($backup_download_dir.'/'.$entry);
+						}
+					}
+					$dir_handle->close();
+				}
+			}
+		}
 
 		parent::onRunJob();
 	}
