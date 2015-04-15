@@ -140,3 +140,4 @@ UPDATE `dbispconfig`.`sys_ini` SET `default_logo` = 'data:image/png;base64,iVBOR
 ALTER TABLE `directive_snippets` ADD `required_php_snippets` VARCHAR(255) NOT NULL DEFAULT '' AFTER `customer_viewable`;
 ALTER TABLE `dns_rr` CHANGE `ttl` `ttl` INT(11) UNSIGNED NOT NULL DEFAULT '3600';
 ALTER TABLE `dns_soa` CHANGE `minimum` `minimum` INT(11) UNSIGNED NOT NULL DEFAULT '3600', CHANGE `ttl` `ttl` INT(11) UNSIGNED NOT NULL DEFAULT '3600';
+ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm,hhvm';

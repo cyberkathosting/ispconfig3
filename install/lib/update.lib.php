@@ -385,4 +385,24 @@ function updateDbAndIni() {
 
 
 
+function setDefaultServers(){
+	global $inst, $conf;
+	
+	// clients
+	$clients = $inst->db->queryAllRecords("SELECT * FROM ".$conf["mysql"]["database"].".client");
+	if(is_array($clients) && !empty($clients)){
+		foreach($clients as $client){
+			// mailserver
+			if(trim($client['mail_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET mail_servers = '".trim($client['default_mailserver'])."' WHERE client_id = ".$client['client_id']);
+			// webserver
+			if(trim($client['web_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET web_servers = '".trim($client['default_webserver'])."' WHERE client_id = ".$client['client_id']);
+			// dns server
+			if(trim($client['dns_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET dns_servers = '".trim($client['default_dnsserver'])."' WHERE client_id = ".$client['client_id']);
+			// db server
+			if(trim($client['db_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET db_servers = '".trim($client['default_dbserver'])."' WHERE client_id = ".$client['client_id']);
+		}
+	}
+	
+}
+
 ?>

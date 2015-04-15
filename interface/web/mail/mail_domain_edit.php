@@ -139,7 +139,7 @@ class page_action extends tform_actions {
 			$options_mail_servers = "";
 
 			foreach ($mail_servers as $mail_server) {
-				$options_mail_servers .= "<option value='$mail_server[server_id]'>$mail_server[server_name]</option>";
+				$options_mail_servers .= '<option value="'.$mail_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $mail_server['server_id'] ? ' selected="selected"' : '').'>'.$mail_server['server_name'].'</option>';
 			}
 
 			$app->tpl->setVar("client_server_id", $options_mail_servers);

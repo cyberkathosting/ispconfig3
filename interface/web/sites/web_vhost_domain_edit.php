@@ -173,7 +173,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= "<option value='$web_server[server_id]'>$web_server[server_name]</option>";
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);
@@ -298,7 +298,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= "<option value='$web_server[server_id]'>$web_server[server_name]</option>";
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);

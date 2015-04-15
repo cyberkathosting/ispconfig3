@@ -201,7 +201,7 @@ CREATE TABLE `client` (
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL DEFAULT '-1',
   `limit_web_quota` int(11) NOT NULL DEFAULT '-1',
-  `web_php_options` varchar(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm',
+  `web_php_options` varchar(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm,hhvm',
   `limit_cgi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_ssi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_perl` enum('n','y') NOT NULL DEFAULT 'n',
