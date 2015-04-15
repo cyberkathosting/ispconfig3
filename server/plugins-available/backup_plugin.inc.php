@@ -75,7 +75,7 @@ class backup_plugin {
 			
 			$backup_dir_is_ready = true;
             //* mount backup directory, if necessary
-            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
+            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($server_config['backup_dir']) ) $backup_dir_is_ready = false;
 
 			if($backup_dir_is_ready){
 				//* Make backup available for download
