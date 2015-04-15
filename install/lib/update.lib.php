@@ -393,13 +393,13 @@ function setDefaultServers(){
 	if(is_array($clients) && !empty($clients)){
 		foreach($clients as $client){
 			// mailserver
-			if(trim($client['mail_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET mail_servers = '".trim($client['default_mailserver'])."' WHERE client_id = ".$client['client_id']);
+			if(trim($client['mail_servers']) == '') $inst->db->query("UPDATE ?? SET mail_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_mailserver']), $client['client_id']);
 			// webserver
-			if(trim($client['web_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET web_servers = '".trim($client['default_webserver'])."' WHERE client_id = ".$client['client_id']);
+			if(trim($client['web_servers']) == '') $inst->db->query("UPDATE ?? SET web_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_webserver']), $client['client_id']);
 			// dns server
-			if(trim($client['dns_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET dns_servers = '".trim($client['default_dnsserver'])."' WHERE client_id = ".$client['client_id']);
+			if(trim($client['dns_servers']) == '') $inst->db->query("UPDATE ?? SET dns_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_dnsserver']), $client['client_id']);
 			// db server
-			if(trim($client['db_servers']) == '') $inst->db->query("UPDATE ".$conf["mysql"]["database"].".client SET db_servers = '".trim($client['default_dbserver'])."' WHERE client_id = ".$client['client_id']);
+			if(trim($client['db_servers']) == '') $inst->db->query("UPDATE ?? SET db_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_dbserver']), $client['client_id']);
 		}
 	}
 	

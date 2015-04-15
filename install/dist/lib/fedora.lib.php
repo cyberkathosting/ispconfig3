@@ -791,7 +791,7 @@ class installer_dist extends installer_base {
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 	}
 
-	public function configure_firewall()
+	public function configure_bastille_firewall()
 	{
 		global $conf;
 
