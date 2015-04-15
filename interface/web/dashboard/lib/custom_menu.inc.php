@@ -71,7 +71,7 @@ if( $atom_url != '' ) {
 				$rows[] = array('title' => $item->get_title(),
 					'link' => $item->get_link(),
 					'content' => $item->get_content(),
-					'date' => $item->get_date('Y-m-d')
+					'date' => $item->get_date($app->lng('conf_format_dateshort'))
 				);
 			}
 			$n++;

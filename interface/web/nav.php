@@ -45,25 +45,41 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 		/*
 		 * If the dashboard is in the list of modules it always has to be the first!
 		 */
+		/*
 		asort($modules);
 		if (in_array('dashboard', $modules)) {
 			$key = array_search('dashboard', $modules);
 			unset($modules[$key]);
 			$modules = array_merge(array('dashboard'), $modules);
 		}
+		*/
 		if(is_array($modules)) {
 			foreach($modules as $mt) {
 				if(is_file($mt.'/lib/module.conf.php')) {
 					if(!preg_match("/^[a-z]{2,20}$/i", $mt)) die('module name contains unallowed chars.');
+					if($mt == 'dns'){
+						$dns_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE dns_server = 1 AND active = 1");
+						if($dns_servers['cnt'] == 0) continue;
+					}
+					if($mt == 'mail'){
+						$mail_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE mail_server = 1 AND active = 1");
+						if($mail_servers['cnt'] == 0) continue;
+					}
+					if($mt == 'sites'){
+						$web_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE web_server = 1 AND active = 1");
+						if($web_servers['cnt'] == 0) continue;
+					}
+					
 					include_once $mt.'/lib/module.conf.php';
 					$language = (isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language'];
 					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;
-					$topnav[] = array( 'title'  => $app->lng($module['title']),
+					$topnav[$module['order']] = array( 'title'  => $app->lng($module['title']),
 						'active'  => $active,
 						'module' => $module['name']);
 				}
 			}
+			ksort($topnav);
 		}
 	} else {
 		//*  Loading Login Module

@@ -129,11 +129,32 @@ class auth {
 
 	public function check_module_permissions($module) {
 		// Check if the current user has the permissions to access this module
+		$module = trim(preg_replace('@\s+@', '', $module));
 		$user_modules = explode(',',$_SESSION["s"]["user"]["modules"]);
-		if(!in_array($module,$user_modules)) {
-			// echo "LOGIN_REDIRECT:/index.php";
-			header("Location: /index.php");
-			exit;
+		if(strpos($module, ',') !== false){
+			$can_use_module = false;
+			$tmp_modules = explode(',', $module);
+			if(is_array($tmp_modules) && !empty($tmp_modules)){
+				foreach($tmp_modules as $tmp_module){
+					if($tmp_module != ''){
+						if(in_array($tmp_module,$user_modules)) {
+							$can_use_module = true;
+							break;
+						}
+					}
+				}
+			}
+			if(!$can_use_module){
+				// echo "LOGIN_REDIRECT:/index.php";
+				header("Location: /index.php");
+				exit;
+			}
+		} else {
+			if(!in_array($module,$user_modules)) {
+				// echo "LOGIN_REDIRECT:/index.php";
+				header("Location: /index.php");
+				exit;
+			}
 		}
 	}
 	

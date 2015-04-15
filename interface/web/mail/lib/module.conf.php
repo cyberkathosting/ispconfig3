@@ -7,6 +7,7 @@ $module['title']   = 'top_menu_email';
 $module['template']  = 'module.tpl.htm';
 $module['startpage']  = 'mail/mail_domain_list.php';
 $module['tab_width']    = '';
+$module['order']    = '40';
 
 
 //**** Email accounts menu

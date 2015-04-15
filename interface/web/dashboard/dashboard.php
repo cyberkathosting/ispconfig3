@@ -146,7 +146,7 @@ $app->tpl->setloop('info', $info);
 $dashlet_list = array();
 $handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
 while ($file = @readdir($handle)) {
-	if ($file != '.' && $file != '..' && !is_dir($file)) {
+	if ($file != '.' && $file != '..' && !is_dir(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file)) {
 		$dashlet_name = substr($file, 0, -4);
 		$dashlet_class = 'dashlet_'.$dashlet_name;
 		include_once ISPC_WEB_PATH.'/dashboard/dashlets/'.$file;
