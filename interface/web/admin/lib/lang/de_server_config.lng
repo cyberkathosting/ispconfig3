@@ -32,6 +32,7 @@ $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid Mapping kann nur um
 $wb['relayhost_txt'] = 'Relayhost';
 $wb['relayhost_user_txt'] = 'Relayhost Benutzer';
 $wb['relayhost_password_txt'] = 'Relayhost Passwort';
+$wb['reject_sender_login_mismatch_txt'] = 'Zurückweisen von Mails, wenn Sender nicht gleich Login';
 $wb['mailbox_size_limit_txt'] = 'E-Mailkonto Beschränkung';
 $wb['message_size_limit_txt'] = 'E-Mailgrößen Beschränkung';
 $wb['ip_address_txt'] = 'IP Adresse';
