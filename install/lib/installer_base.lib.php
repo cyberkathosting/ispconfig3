@@ -172,7 +172,7 @@ class installer_base {
 		}
 
 		//* Set the database name in the DB library
-		$this->db->dbName = $conf['mysql']['database'];
+		$this->db->setDBName($conf['mysql']['database']);
 
 		//* Load the database dump into the database, if database contains no tables
 		$db_tables = $this->db->getTables();
@@ -224,7 +224,7 @@ class installer_base {
 		$this->db->query('FLUSH PRIVILEGES;');
 
 		//* Set the database name in the DB library
-		$this->db->dbName = $conf['mysql']['database'];
+		$this->db->setDBName($conf['mysql']['database']);
 
 		$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
 

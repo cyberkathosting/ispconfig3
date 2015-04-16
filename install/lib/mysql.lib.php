@@ -69,7 +69,7 @@ class db extends mysqli
 		
 		if($this->_iConnId) return true;
 		$this->dbHost = $conf["mysql"]["host"];
-		$this->dbName = $conf["mysql"]["database"];
+		$this->dbName = false;//$conf["mysql"]["database"];
 		$this->dbUser = $conf["mysql"]["admin_user"];
 		$this->dbPass = $conf["mysql"]["admin_password"];
 		$this->dbCharset = $conf["mysql"]["charset"];
@@ -90,13 +90,25 @@ class db extends mysqli
 			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!');
 			return false;
 		}
+		
+		if($this->dbName) $this->setDBName($this->dbName);
+
+		$this->_setCharset();
+	}
+	
+	public function setDBData($host, $user, $password) {
+		$this->dbHost = $host;
+		$this->dbUser = $user;
+		$this->dbPass = $password;
+	}
+	
+	public function setDBName($name) {
+		$this->dbName = $name;
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
 			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
 			return false;
 		}
-
-		$this->_setCharset();
 	}
 	
 	public function close() {
