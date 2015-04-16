@@ -538,7 +538,27 @@ class db extends mysqli
 		}
 		return $out;
 	}
-
+	
+	public function insertFromArray($tablename, $data) {
+		if(!is_array($data)) return false;
+		
+		$k_query = '';
+		$v_query = '';
+		
+		$params = array($tablename);
+		$v_params = array();
+		
+		foreach($data as $key => $value) {
+			$k_query .= ($k_query != '' ? ', ' : '') . '??';
+			$v_query .= ($v_query != '' ? ', ' : '') . '?';
+			$params[] = $key;
+			$v_params[] = $value;
+		}
+		
+		$query = 'INSERT INTO ?? (' . $k_query . ') VALUES (' . $v_query . ')';
+		return $this->query($query, true, $params + $v_params);
+	}
+	
 	public function diffrec($record_old, $record_new) {
 		$diffrec_full = array();
 		$diff_num = 0;
