@@ -434,6 +434,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'reject_sender_login_mismatch' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'mailbox_size_limit' => array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',

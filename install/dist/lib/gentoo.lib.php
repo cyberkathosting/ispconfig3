@@ -81,11 +81,40 @@ class installer extends installer_base
 		}
 
 		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"].'.server', $conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+
+		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
+		$rbl_list = '';
+		if (@isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
+			$rbl_hosts = explode(",", str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
+			foreach ($rbl_hosts as $key => $value) {
+				$rbl_list .= ", reject_rbl_client ". $value;
+			}
+		}
+		unset($rbl_hosts);
+
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
+		unset($server_ini_array);
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
+		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/gentoo_postfix.conf.master', 'tpl/gentoo_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);

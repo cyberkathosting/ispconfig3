@@ -1006,8 +1006,8 @@ auth default {
   # This can be made to work with SQL and LDAP databases, see their example
   # configuration files for more information how to do it.
   # <doc/wiki/UserDatabase.Prefetch.txt>
-  #userdb prefetch {
-  #}
+  userdb prefetch {
+  }
 
   # User to use for the process. This user needs access to only user and
   # password databases, nothing else. Only shadow and pam authentication

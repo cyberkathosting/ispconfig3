@@ -13,6 +13,9 @@ passdb {
   driver = sql
 }
 userdb {
+  driver = prefetch
+}
+userdb {
   args = /etc/dovecot/dovecot-sql.conf
   driver = sql
 }
