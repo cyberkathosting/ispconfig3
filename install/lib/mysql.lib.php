@@ -69,7 +69,7 @@ class db extends mysqli
 		
 		if($this->_iConnId) return true;
 		$this->dbHost = $conf["mysql"]["host"];
-		$this->dbName = '';
+		$this->dbName = $conf["mysql"]["database"];
 		$this->dbUser = $conf["mysql"]["admin_user"];
 		$this->dbPass = $conf["mysql"]["admin_password"];
 		$this->dbCharset = $conf["mysql"]["charset"];
@@ -178,7 +178,6 @@ class db extends mysqli
 
 		$this->do_connect();
 
-		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
 			return false;
