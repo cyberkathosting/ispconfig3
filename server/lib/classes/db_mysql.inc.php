@@ -132,8 +132,10 @@ class db extends mysqli
 				if($iPos2 !== false && ($iPos === false || $iPos2 <= $iPos)) {
 					$sTxt = $this->escape($sValue);
 
-					if(strpos($sTxt, '.') !== false) $sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
-					else $sTxt = '`' . $sTxt . '`';
+					if(strpos($sTxt, '.') !== false) {
+						$sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
+						$sTxt = str_replace('.`*`', '.*', $sTxt);
+					} else $sTxt = '`' . $sTxt . '`';
 
 					$sQuery = substr_replace($sQuery, $sTxt, $iPos2, 2);
 					$iPos2 += strlen($sTxt);
