@@ -71,7 +71,15 @@ class db extends mysqli
 		$this->dbCharset = $conf["mysql"]["charset"];
 		$this->dbNewLink = false;
 		$this->dbClientFlags = null;
+	}
 
+	public function __destruct() {
+		if($this->_iConnId) mysqli_close($this->_iConnId);
+	}
+	
+	private function connect() {
+		if($this->_iConnId) return true;
+		
 		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
 		$try = 0;
 		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
@@ -94,11 +102,7 @@ class db extends mysqli
 
 		$this->_setCharset();
 	}
-
-	public function __destruct() {
-		if($this->_iConnId) mysqli_close($this->_iConnId);
-	}
-
+	
 	public function close() {
 		if($this->_iConnId) mysqli_close($this->_iConnId);
 		$this->_iConnId = null;
@@ -175,6 +179,8 @@ class db extends mysqli
 
 	private function _query($sQuery = '') {
 		global $app;
+
+		$this->connect();
 
 		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
