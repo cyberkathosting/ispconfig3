@@ -188,8 +188,6 @@ class db extends mysqli
 	}
 
 	private function _query($sQuery = '') {
-		global $app;
-
 		$this->do_connect();
 
 		if ($sQuery == '') {
@@ -206,10 +204,8 @@ class db extends mysqli
 					if($this->errorNumber == '111') {
 						// server is not available
 						if($try > 9) {
-							if(isset($app) && isset($app->forceErrorExit)) {
-								$app->forceErrorExit('Database connection failure!');
-							}
-							// if we reach this, the app object is missing or has no exit method, so we continue as normal
+							$this->_sqlerror('DB::query -> error connecting');
+							exit;
 						}
 						sleep(30); // additional seconds, please!
 					}
@@ -441,18 +437,13 @@ class db extends mysqli
 	 * @return string escaped string
 	 */
 	public function escape($sString) {
-		global $app;
 		if(!is_string($sString) && !is_numeric($sString)) {
-			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_INFO);
-			//$sAddMsg = getDebugBacktrace();
-			$app->log($sAddMsg, LOGLEVEL_DEBUG);
 			$sString = '';
 		}
 
 		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
@@ -470,7 +461,7 @@ class db extends mysqli
 	 * @access private
 	 */
 	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '') {
-		global $app, $conf;
+		global $conf;
 
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
 		$mysql_errno = (is_object($this->_iConnId) ? mysqli_errno($this->_iConnId) : mysqli_connect_errno());
@@ -479,9 +470,7 @@ class db extends mysqli
 
 		if($this->show_error_messages && $conf['demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
-		} else if(is_object($app) && method_exists($app, 'log')) {
-				$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
-			}
+		}
 	}
 
 	public function affectedRows() {
