@@ -60,10 +60,14 @@ class db extends mysqli
 	////
 	*/
 
-	// constructor
-	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL) {
+	public function __destruct() {
+		if($this->_iConnId) mysqli_close($this->_iConnId);
+	}
+	
+	private function do_connect() {
 		global $conf;
-
+		
+		if($this->_iConnId) return true;
 		$this->dbHost = $conf["mysql"]["host"];
 		$this->dbName = '';
 		$this->dbUser = $conf["mysql"]["admin_user"];
@@ -71,14 +75,6 @@ class db extends mysqli
 		$this->dbCharset = $conf["mysql"]["charset"];
 		$this->dbNewLink = false;
 		$this->dbClientFlags = null;
-	}
-
-	public function __destruct() {
-		if($this->_iConnId) mysqli_close($this->_iConnId);
-	}
-	
-	private function do_connect() {
-		if($this->_iConnId) return true;
 		
 		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
 		$try = 0;
