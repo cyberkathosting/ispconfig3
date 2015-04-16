@@ -77,7 +77,7 @@ class db extends mysqli
 		if($this->_iConnId) mysqli_close($this->_iConnId);
 	}
 	
-	private function connect() {
+	private function do_connect() {
 		if($this->_iConnId) return true;
 		
 		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
@@ -180,7 +180,7 @@ class db extends mysqli
 	private function _query($sQuery = '') {
 		global $app;
 
-		$this->connect();
+		$this->do_connect();
 
 		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
