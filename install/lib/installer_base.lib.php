@@ -278,8 +278,7 @@ class installer_base {
 		}
 
 		$server_ini_content = array_to_ini($tpl_ini_array);
-		$server_ini_content = mysql_real_escape_string($server_ini_content);
-
+		
 		$mail_server_enabled = ($conf['services']['mail'])?1:0;
 		$web_server_enabled = ($conf['services']['web'])?1:0;
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
