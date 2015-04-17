@@ -114,7 +114,7 @@ class auth {
 		$groupid = $app->functions->intval($groupid);
 
 		if($userid > 0 && $groupid > 0) {
-			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ", $userid);
+			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $userid);
 			$groups = explode(',', $user['groups']);
 			$key = array_search($groupid, $groups);
 			unset($groups[$key]);

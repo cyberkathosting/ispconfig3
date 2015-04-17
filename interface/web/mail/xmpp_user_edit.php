@@ -112,12 +112,12 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_xmpp_user, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ", $client_group_id);
+			$client = $app->db->queryOneRecord("SELECT limit_xmpp_user, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 
 			// Check if the user may add another xmpp user.
 			if($this->id == 0 && $client["limit_xmpp_user"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(xmppuser_id) as number FROM xmpp_user WHERE sys_groupid = ", $client_group_id);
+				$tmp = $app->db->queryOneRecord("SELECT count(xmppuser_id) as number FROM xmpp_user WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_xmpp_user"]) {
 					$app->tform->errorMessage .= $app->tform->lng("limit_xmpp_user_txt")."<br>";
 				}

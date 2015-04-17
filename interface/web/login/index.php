@@ -109,7 +109,7 @@ class login_index {
 								$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
 								$tmp = $app->db->queryOneRecord($sql, $username, $passwort);
 								$client_group_id = $app->functions->intval($tmp['default_group']);
-								$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ", $client_group_id);
+								$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								
 								if(!$tmp_client || $old_client["parent_client_id"] != $tmp_client["client_id"] || $tmp["default_group"] != $_SESSION["s_old"]["user"]["default_group"] ) {
 									die("You don't have the right to 'login as' this user!");
@@ -125,7 +125,7 @@ class login_index {
 					} elseif($_SESSION['s']['user']['typ'] != 'admin' && (!isset($_SESSION['s_old']['user']) || $_SESSION['s_old']['user']['typ'] != 'admin')) {
 						/* a reseller wants to 'login as', we need to check if he is allowed to */
 						$res_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ", $res_client_group_id);
+						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $res_client_group_id);
 						
 						/* this is the user the reseller wants to 'login as' */
 						$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";

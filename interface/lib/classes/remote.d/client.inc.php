@@ -400,10 +400,10 @@ class remoting_client extends remoting {
 			$app->auth->remove_group_from_user($parent_user['userid'], $client_group['groupid']);
 
 			//* delete the group of the client
-			$app->db->query("DELETE FROM sys_group WHERE client_id = ", $client_id);
+			$app->db->query("DELETE FROM sys_group WHERE client_id = ?", $client_id);
 
 			//* delete the sys user(s) of the client
-			$app->db->query("DELETE FROM sys_user WHERE client_id = ", $client_id);
+			$app->db->query("DELETE FROM sys_user WHERE client_id = ?", $client_id);
 
 			//* Delete all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic';
@@ -413,7 +413,7 @@ class remoting_client extends remoting {
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
-						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ", $client_group_id);
+						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ?", $client_group_id);
 						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
 						$index_field = '';

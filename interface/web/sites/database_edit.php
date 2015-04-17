@@ -174,7 +174,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ", $client_group_id);
+			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ?", $client_group_id);
 
 			// When the record is updated
 			if($this->id > 0) {

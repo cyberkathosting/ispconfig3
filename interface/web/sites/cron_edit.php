@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ", $client_group_id);
+			$client = $app->db->queryOneRecord("SELECT limit_cron, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// When the record is updated
 			if($this->id > 0) {
@@ -95,7 +95,7 @@ class page_action extends tform_actions {
 			} else {
 				// Check if the user may add another cron job.
 				if($client["limit_cron"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM cron WHERE sys_groupid = ", $client_group_id);
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM cron WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_cron"]) {
 						$app->error($app->tform->wordbook["limit_cron_txt"]);
 					}

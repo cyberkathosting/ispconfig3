@@ -74,7 +74,7 @@ class page_action extends tform_actions {
 
 			$this->dataRecord = $app->tform->getDataRecord($this->id);
 			$client_id = $app->functions->intval($this->dataRecord['client_id']);
-			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ", $client_id);
+			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 
 			// Get all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain';
