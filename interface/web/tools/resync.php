@@ -182,7 +182,7 @@ class page_action extends tform_actions {
 		//* firewall
 		$array_out = array();
 		foreach($server_data as $db_table => $data) {
-			$sql = @(isset($data['server_id']))?"SELECT * FROM ?? WHERE server_id = ":"SELECT * FROM ??";
+			$sql = @(isset($data['server_id']))?"SELECT * FROM ?? WHERE server_id = ?":"SELECT * FROM ??";
 			$records = $app->db->queryAllRecords($sql, $db_table, $server_id);
 			if (!empty($records)) array_push($array_out, $db_table);
 		}
