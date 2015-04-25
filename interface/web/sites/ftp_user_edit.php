@@ -96,11 +96,11 @@ class page_action extends tform_actions {
 
 		// Get the record of the parent domain
 		if(isset($this->dataRecord["parent_domain_id"])) {
-			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 			if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		} else {
 			$tmp = $app->tform->getDataRecord($this->id);
-			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval($tmp["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+			$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $tmp["parent_domain_id"]);
 			if(!$parent_domain) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 			unset($tmp);
 		}
@@ -137,11 +137,11 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 		$server_id = $app->functions->intval($web["server_id"]);
-		$dir = $app->db->quote($web["document_root"]);
-		$uid = $app->db->quote($web["system_user"]);
-		$gid = $app->db->quote($web["system_group"]);
+		$dir = $web["document_root"];
+		$uid = $web["system_user"];
+		$gid = $web["system_group"];
 		
 		// Check system user and group
 		if($app->functions->is_allowed_user($uid) == false || $app->functions->is_allowed_group($gid) == false) {
@@ -151,8 +151,8 @@ class page_action extends tform_actions {
 		// The FTP user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-		$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid', sys_groupid = '$sys_groupid' WHERE ftp_user_id = ".$this->id;
-		$app->db->query($sql);
+		$sql = "UPDATE ftp_user SET server_id = ?, dir = ?, uid = ?, gid = ?, sys_groupid = ? WHERE ftp_user_id = ?";
+		$app->db->query($sql, $server_id, $dir, $uid, $gid, $sys_groupid, $this->id);
 	}
 
 	function onBeforeUpdate() {
@@ -181,17 +181,17 @@ class page_action extends tform_actions {
 
 		//* When the site of the FTP user has been changed
 		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 			$server_id = $app->functions->intval($web["server_id"]);
-			$dir = $app->db->quote($web["document_root"]);
-			$uid = $app->db->quote($web["system_user"]);
-			$gid = $app->db->quote($web["system_group"]);
+			$dir = $web["document_root"];
+			$uid = $web["system_user"];
+			$gid = $web["system_group"];
 
 			// The FTP user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-			$sql = "UPDATE ftp_user SET server_id = $server_id, dir = '$dir', uid = '$uid', gid = '$gid', sys_groupid = '$sys_groupid' WHERE ftp_user_id = ".$this->id;
-			$app->db->query($sql);
+			$sql = "UPDATE ftp_user SET server_id = ?, dir = ?, uid = ?, gid = ?, sys_groupid = ? WHERE ftp_user_id = ?";
+			$app->db->query($sql, $server_id, $dir, $uid, $gid, $sys_groupid, $this->id);
 		}
 
 		//* 2. check to ensure that the FTP user path is not changed to a path outside of the docroot by a normal user
@@ -201,11 +201,11 @@ class page_action extends tform_actions {
 			//* This check should normally never be triggered
 			//* Set the path to a safe path (web doc root).
 			if($error_message != '') {
-				$ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = '".$app->db->quote($app->tform->primary_id)."'");
-				$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($ftp_data["parent_domain_id"]));
-				$dir = $app->db->quote($web["document_root"]);
-				$sql = "UPDATE ftp_user SET dir = '$dir' WHERE ftp_user_id = ".$this->id;
-				$app->db->query($sql);
+				$ftp_data = $app->db->queryOneRecord("SELECT parent_domain_id FROM ftp_user WHERE ftp_user_id = ?", $app->tform->primary_id);
+				$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $ftp_data["parent_domain_id"]);
+				$dir = $web["document_root"];
+				$sql = "UPDATE ftp_user SET dir = ? WHERE ftp_user_id = ?";
+				$app->db->query($sql, $dir, $this->id);
 				$app->log("Error in FTP path settings of FTP user ".$this->dataRecord['username'], 1);
 			}
 

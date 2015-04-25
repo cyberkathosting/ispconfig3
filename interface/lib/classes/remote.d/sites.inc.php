@@ -102,7 +102,8 @@ class remoting_sites extends remoting {
 		$app->remoting_lib->loadFormDef('../sites/form/database.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-
+	
+	/* TODO: secure queries! */
 	//* Add a record
 	public function sites_database_add($session_id, $client_id, $params)
 	{
@@ -114,7 +115,7 @@ class remoting_sites extends remoting {
 		}
 
 		//* Check for duplicates
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($params['database_name'])."' AND server_id = '".intval($params["server_id"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = ? AND server_id = ?", $params['database_name'], $params["server_id"]);
 		if($tmp['dbnum'] > 0) {
 			throw new SoapFault('database_name_error_unique', 'There is already a database with that name on the same server.');
 			return false;
@@ -135,7 +136,6 @@ class remoting_sites extends remoting {
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
-				//$app->db->query("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval, $retval, $params);
 			}
 			
@@ -169,7 +169,6 @@ class remoting_sites extends remoting {
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
-				//$app->db->query("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id, $primary_id, $params);
 			}
 			
@@ -239,7 +238,7 @@ class remoting_sites extends remoting {
 
 		$new_rec = $app->remoting_lib->getDataRecord($primary_id);
 
-		$records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".$app->functions->intval($primary_id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($primary_id)."'");
+		$records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = ? UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = ?", $primary_id, $primary_id);
 		foreach($records as $rec) {
 			$tmp_rec = $new_rec;
 			$tmp_rec['server_id'] = $rec['server_id'];
@@ -265,14 +264,14 @@ class remoting_sites extends remoting {
 		$app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
 		$affected_rows = $this->deleteQuery('../sites/form/database_user.tform.php', $primary_id);
 
-		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = '".$app->functions->intval($primary_id)."'");
+		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = ?", $primary_id);
 		foreach($records as $rec) {
-			$app->db->datalogUpdate('web_database', 'database_user_id=NULL', 'database_id', $rec['database_id']);
+			$app->db->datalogUpdate('web_database', array('database_user_id' => null), 'database_id', $rec['database_id']);
 
 		}
-		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($primary_id)."'");
+		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_ro_user_id = ?", $primary_id);
 		foreach($records as $rec) {
-			$app->db->datalogUpdate('web_database', 'database_ro_user_id=NULL', 'database_id', $rec['database_id']);
+			$app->db->datalogUpdate('web_database', array('database_ro_user_id' => null), 'database_id', $rec['database_id']);
 		}
 
 		return $affected_rows;
@@ -336,7 +335,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 
-		$data = $app->db->queryOneRecord("SELECT server_id FROM ftp_user WHERE username = '".$app->db->quote($ftp_user)."'");
+		$data = $app->db->queryOneRecord("SELECT server_id FROM ftp_user WHERE username = ?", $ftp_user);
 		//file_put_contents('/tmp/test.txt', serialize($data));
 		if(!isset($data['server_id'])) return false;
 
@@ -406,7 +405,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -420,7 +419,7 @@ class remoting_sites extends remoting {
 		}
 
 		if(!isset($params['client_group_id']) or (isset($params['client_group_id']) && empty($params['client_group_id']))) {
-			$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client_id));
+			$rec = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 			$params['client_group_id'] = $rec['groupid'];
 		}
 
@@ -435,9 +434,9 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
 		if ($readonly === true)
-			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ".$domain_id);
+			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ?", $domain_id);
 		return $domain_id;
 	}
 
@@ -455,7 +454,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', $client_id, $primary_id, $params);
+		$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
 
@@ -466,7 +465,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_domain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -751,7 +750,7 @@ class remoting_sites extends remoting {
 		}
 
 		// Delete all users that belong to this folder. - taken from web_folder_delete.php
-		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = '".$app->functions->intval($primary_id)."'");
+		$records = $app->db->queryAllRecords("SELECT web_folder_user_id FROM web_folder_user WHERE web_folder_id = ?", $primary_id);
 		foreach($records as $rec) {
 			$this->deleteQuery('../sites/form/web_folder_user.tform.php', $rec['web_folder_user_id']);
 			//$app->db->datalogDelete('web_folder_user','web_folder_user_id',$rec['web_folder_user_id']);
@@ -865,11 +864,11 @@ class remoting_sites extends remoting {
 			} else {
 				$status = 'n';
 			}
-			$app->remoting_lib->loadFormDef('../sites/form/web_domain.tform.php');
+			$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 			$params = $app->remoting_lib->getDataRecord($primary_id);
 			$params['active'] = $status;
 			
-			$affected_rows = $this->updateQuery('../sites/form/web_domain.tform.php', 0, $primary_id, $params);
+			$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', 0, $primary_id, $params);
 			return $affected_rows;
 		} else {
 			throw new SoapFault('status_undefined', 'The status is not available');
@@ -889,8 +888,8 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$client_id = $app->functions->intval($client_id);
-		$sql = "SELECT d.database_id, d.database_name, d.database_user_id, d.database_ro_user_id, du.database_user, du.database_password FROM web_database d LEFT JOIN web_database_user du ON (du.database_user_id = d.database_user_id) INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = $client_id";
-		$all = $app->db->queryAllRecords($sql);
+		$sql = "SELECT d.database_id, d.database_name, d.database_user_id, d.database_ro_user_id, du.database_user, du.database_password FROM web_database d LEFT JOIN web_database_user du ON (du.database_user_id = d.database_user_id) INNER JOIN sys_user s on(d.sys_groupid = s.default_group) WHERE client_id = ?";
+		$all = $app->db->queryAllRecords($sql, $client_id);
 		return $all;
 	}
 	
@@ -904,7 +903,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		
-		$result = $app->db->queryAllRecords("SELECT * FROM web_backup".(($site_id != null)?' WHERE parent_domain_id = ?':''), $app->functions->intval($site_id));
+		$result = $app->db->queryAllRecords("SELECT * FROM web_backup".(($site_id != null)?' WHERE parent_domain_id = ?':''), $site_id);
 		return $result;
 	}
 	

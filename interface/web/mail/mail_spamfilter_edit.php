@@ -76,8 +76,8 @@ class page_action extends tform_actions {
 		}
 
 		// Changing maildir to mailbox_id
-		$sql = "SELECT mailbox_id FROM mail_box WHERE maildir = '".$app->db->quote($this->dataRecord["spam_redirect_maildir"])."' AND ".$app->tform->getAuthSQL('r');
-		$mailbox = $app->db->queryOneRecord($sql);
+		$sql = "SELECT mailbox_id FROM mail_box WHERE maildir = ? AND ".$app->tform->getAuthSQL('r');
+		$mailbox = $app->db->queryOneRecord($sql, $this->dataRecord["spam_redirect_maildir"]);
 		$this->dataRecord["spam_redirect_maildir"] = $mailbox["mailbox_id"];
 
 		parent::onShowEnd();
@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($_POST["email_domain"])."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $_POST["email_domain"]);
 		if($domain["domain"] != $_POST["email_domain"]) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 
 		// compose the email field
@@ -108,8 +108,8 @@ class page_action extends tform_actions {
 		$this->dataRecord["spam_delete_score_int"]   = $_POST["spam_delete_score_int"] * 100;
 
 		// Changing mailbox_id to maildir
-		$sql = "SELECT maildir FROM mail_box WHERE mailbox_id = '".$app->functions->intval($_POST["spam_redirect_maildir"])."' AND ".$app->tform->getAuthSQL('r');
-		$mailbox = $app->db->queryOneRecord($sql);
+		$sql = "SELECT maildir FROM mail_box WHERE mailbox_id = ? AND ".$app->tform->getAuthSQL('r');
+		$mailbox = $app->db->queryOneRecord($sql, $_POST["spam_redirect_maildir"]);
 		$this->dataRecord["spam_redirect_maildir"] = $mailbox["maildir"];
 
 		parent::onSubmit();

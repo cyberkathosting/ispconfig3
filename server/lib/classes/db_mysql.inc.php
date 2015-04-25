@@ -132,8 +132,10 @@ class db extends mysqli
 				if($iPos2 !== false && ($iPos === false || $iPos2 <= $iPos)) {
 					$sTxt = $this->escape($sValue);
 
-					if(strpos($sTxt, '.') !== false) $sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
-					else $sTxt = '`' . $sTxt . '`';
+					if(strpos($sTxt, '.') !== false) {
+						$sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
+						$sTxt = str_replace('.`*`', '.*', $sTxt);
+					} else $sTxt = '`' . $sTxt . '`';
 
 					$sQuery = substr_replace($sQuery, $sTxt, $iPos2, 2);
 					$iPos2 += strlen($sTxt);
@@ -141,13 +143,17 @@ class db extends mysqli
 				} else {
 					if(is_int($sValue) || is_float($sValue)) {
 						$sTxt = $sValue;
-					} elseif(is_string($sValue) && (strcmp($sValue, '#NULL#') == 0)) {
+					} elseif(is_null($sValue) || (is_string($sValue) && (strcmp($sValue, '#NULL#') == 0))) {
 						$sTxt = 'NULL';
 					} elseif(is_array($sValue)) {
-						$sTxt = '';
-						foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
-						$sTxt = '(' . substr($sTxt, 1) . ')';
-						if($sTxt == '()') $sTxt = '(0)';
+						if(isset($sValue['SQL'])) {
+							$sTxt = $sValue['SQL'];
+						} else {
+							$sTxt = '';
+							foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
+							$sTxt = '(' . substr($sTxt, 1) . ')';
+							if($sTxt == '()') $sTxt = '(0)';
+						}
 					} else {
 						$sTxt = '\'' . $this->escape($sValue) . '\'';
 					}
@@ -615,20 +621,27 @@ class db extends mysqli
 		if(is_array($insert_data)) {
 			$key_str = '';
 			$val_str = '';
+			$params = array($tablename);
+			$v_params = array();
 			foreach($insert_data as $key => $val) {
-				$key_str .= "`".$key ."`,";
-				$val_str .= "'".$this->escape($val)."',";
+				$key_str .= '??,';
+				$params[] = $key;
+				
+				$val_str .= '?,';
+				$v_params[] = $val;
 			}
 			$key_str = substr($key_str, 0, -1);
 			$val_str = substr($val_str, 0, -1);
 			$insert_data_str = '('.$key_str.') VALUES ('.$val_str.')';
+			$this->query("INSERT INTO ?? $insert_data_str", true, $params + $v_params);
 		} else {
+			/* TODO: deprecate this method! */
 			$insert_data_str = $insert_data;
+			$this->query("INSERT INTO ?? $insert_data_str", $tablename);
+			$app->log("deprecated use of passing values to datalogInsert() - table " . $tablename, 1);
 		}
-		/* TODO: reduce risk of insert_data_str! */
-
+		
 		$old_rec = array();
-		$this->query("INSERT INTO ?? $insert_data_str", $tablename);
 		$index_value = $this->insertID();
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
@@ -643,17 +656,24 @@ class db extends mysqli
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 
 		if(is_array($update_data)) {
+			$params = array($tablename);
 			$update_data_str = '';
 			foreach($update_data as $key => $val) {
-				$update_data_str .= "`".$key ."` = '".$this->escape($val)."',";
+				$update_data_str .= '?? = ?,';
+				$params[] = $key;
+				$params[] = $val;
 			}
+			$params[] = $index_field;
+			$params[] = $index_value;
 			$update_data_str = substr($update_data_str, 0, -1);
+			$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", true, $params);
 		} else {
+			/* TODO: deprecate this method! */
 			$update_data_str = $update_data;
+			$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", $tablename, $index_field, $index_value);
+			$app->log("deprecated use of passing values to datalogUpdate() - table " . $tablename, 1);
 		}
-		/* TODO: reduce risk of update_data_str */
 
-		$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 
@@ -676,7 +696,7 @@ class db extends mysqli
 	public function datalogError($errormsg) {
 		global $app;
 
-		if(isset($app->modules->current_datalog_id) && $app->modules->current_datalog_id > 0) $this->query("UPDATE sys_datalog set error = '".$this->quote($errormsg)."' WHERE datalog_id = ".$app->modules->current_datalog_id);
+		if(isset($app->modules->current_datalog_id) && $app->modules->current_datalog_id > 0) $this->query("UPDATE sys_datalog set error = ? WHERE datalog_id = ?", $errormsg, $app->modules->current_datalog_id);
 
 		return true;
 	}

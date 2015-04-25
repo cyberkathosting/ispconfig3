@@ -72,23 +72,23 @@ if(is_array($repos)) {
 						$v3 = $app->functions->intval($version_array[2]);
 						$v4 = $app->functions->intval($version_array[3]);
 
-						$package_name = $app->db->quote($u['package_name']);
+						$package_name = $u['package_name'];
 						$software_repo_id = $app->functions->intval($repo['software_repo_id']);
-						$update_url = $app->db->quote($u['url']);
-						$update_md5 = $app->db->quote($u['md5']);
-						$update_dependencies = (isset($u['dependencies']))?$app->db->quote($u['dependencies']):'';
-						$update_title = $app->db->quote($u['title']);
-						$type = $app->db->quote($u['type']);
+						$update_url = $u['url'];
+						$update_md5 = $u['md5'];
+						$update_dependencies = (isset($u['dependencies']))?$u['dependencies']:'';
+						$update_title = $u['title'];
+						$type = $u['type'];
 
 						// Check that we do not have this update in the database yet
-						$sql = "SELECT * FROM software_update WHERE package_name = '$package_name' and v1 = '$v1' and v2 = '$v2' and v3 = '$v3' and v4 = '$v4'";
-						$tmp = $app->db->queryOneRecord($sql);
+						$sql = "SELECT * FROM software_update WHERE package_name = ? and v1 = ? and v2 = ? and v3 = ? and v4 = ?";
+						$tmp = $app->db->queryOneRecord($sql, $package_name, $v1, $v2, $v3, $v4);
 						if(!isset($tmp['software_update_id'])) {
 							// Insert the update in the datbase
 							$sql = "INSERT INTO software_update (software_repo_id, package_name, update_url, update_md5, update_dependencies, update_title, v1, v2, v3, v4, type)
-							VALUES ($software_repo_id, '$package_name', '$update_url', '$update_md5', '$update_dependencies', '$update_title', '$v1', '$v2', '$v3', '$v4', '$type')";
+							VALUES ($software_repo_id, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 							//die($sql);
-							$app->db->query($sql);
+							$app->db->query($sql, $package_name, $update_url, $update_md5, $update_dependencies, $update_title, $v1, $v2, $v3, $v4, $type);
 						}
 
 					}
@@ -101,12 +101,16 @@ if(is_array($repos)) {
 
 //* Install packages, if GET Request
 if(isset($_GET['action']) && $_GET['action'] == 'install' && $_GET['package'] != '' && $_GET['server_id'] > 0) {
-	$package_name = $app->db->quote($_GET['package']);
+	$package_name = $_GET['package'];
 	$server_id = $app->functions->intval($_GET['server_id']);
 	$software_update_id = $app->functions->intval($_GET['id']);
 
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installing')";
-	// $insert_data = "(package_name, server_id, software_update_id, status) VALUES ('$package_name', '$server_id', '$software_update_id','installed')";
+	$insert_data = array(
+		"package_name" => $package_name,
+		"server_id" => $server_id,
+		"software_update_id" => $software_update_id,
+		"status" => 'installing'
+	);
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
 
 }
@@ -162,12 +166,12 @@ if(is_array($installed_packages)) {
 	foreach($installed_packages as $ip) {
 
 		// Get version number of the latest installed version
-		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ".$app->functions->intval($server_id)." ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
-		$lu = $app->db->queryOneRecord($sql);
+		$sql = "SELECT v1, v2, v3, v4 FROM software_update, software_update_inst WHERE software_update.software_update_id = software_update_inst.software_update_id AND server_id = ? ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC LIMIT 0,1";
+		$lu = $app->db->queryOneRecord($sql, $server_id);
 
 		// Get all installable updates
-		$sql = "SELECT * FROM software_update WHERE v1 >= ".$app->functions->intval($lu['v1'])." AND v2 >= ".$app->functions->intval($lu['v2'])." AND v3 >= ".$app->functions->intval($lu['v3'])." AND v4 >= ".$app->functions->intval($lu['v4'])." AND package_name = '".$app->db->quote($ip['package_name'])."' ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC";
-		$updates = $app->db->queryAllRecords($sql);
+		$sql = "SELECT * FROM software_update WHERE v1 >= ? AND v2 >= ? AND v3 >= ? AND v4 >= ? AND package_name = ? ORDER BY v1 DESC , v2 DESC , v3 DESC , v4 DESC";
+		$updates = $app->db->queryAllRecords($sql, $lu['v1'], $lu['v2'], $lu['v3'], $lu['v4'], $ip['package_name']);
 		//die($sql);
 
 		if(is_array($updates)) {

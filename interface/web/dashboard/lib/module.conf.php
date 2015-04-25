@@ -32,6 +32,7 @@ $module['title']   = 'top_menu_dashboard';
 $module['template']  = 'dashboard.tpl.htm';
 $module['startpage']  = 'dashboard/dashboard.php';
 $module['tab_width']    = '';
+$module['order']    = '1';
 
 //$items = array();
 //

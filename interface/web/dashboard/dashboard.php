@@ -51,7 +51,7 @@ $app->tpl_defaults();
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	$name = $_SESSION['s']['user']['username'];
 } else {
-	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."'");
+	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
 	$name = $tmp['contact_name'];
 }
 
@@ -146,7 +146,7 @@ $app->tpl->setloop('info', $info);
 $dashlet_list = array();
 $handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
 while ($file = @readdir($handle)) {
-	if ($file != '.' && $file != '..' && !is_dir($file)) {
+	if ($file != '.' && $file != '..' && !is_dir(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file)) {
 		$dashlet_name = substr($file, 0, -4);
 		$dashlet_class = 'dashlet_'.$dashlet_name;
 		include_once ISPC_WEB_PATH.'/dashboard/dashlets/'.$file;

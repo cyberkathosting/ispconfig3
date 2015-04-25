@@ -55,7 +55,7 @@ $liste["item"][] = array( 'field'  => "active",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 $liste["item"][] = array( 'field'  => "server_id",
@@ -132,7 +132,7 @@ $liste["item"][] = array( 'field'  => "type",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('A'=>'A', 'AAAA' => 'AAAA', 'ALIAS'=>'ALIAS', 'CNAME'=>'CNAME', 'HINFO'=>'HINFO', 'MX'=>'MX', 'NS'=>'NS', 'PTR'=>'PTR', 'RP'=>'RP', 'SRV'=>'SRV', 'TXT'=>'TXT'));
+	'value'  => array('A'=>'A', 'AAAA' => 'AAAA', 'ALIAS'=>'ALIAS', 'CNAME'=>'CNAME', 'HINFO'=>'HINFO', 'MX'=>'MX', 'NS'=>'NS', 'PTR'=>'PTR', 'RP'=>'RP', 'SPF'=>'SPF', 'SRV'=>'SRV', 'TXT'=>'TXT'));
 
 
 ?>

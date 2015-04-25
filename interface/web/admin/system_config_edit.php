@@ -89,13 +89,24 @@ class page_action extends tform_actions {
 		$available_dashlets_txt = '';
 		$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
 		while ($file = @readdir($handle)) {
-			if ($file != '.' && $file != '..' && !is_dir($file)) {
+			if ($file != '.' && $file != '..' && !is_dir(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file)) {
 				$available_dashlets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.substr($file, 0, -4).']<pre class="addPlaceholderContent" style="display:none;">['.substr($file, 0, -4).'],</pre></a> ';
 			}
 		}
 
 		if($available_dashlets_txt == '') $available_dashlets_txt = '------';
 		$app->tpl->setVar("available_dashlets_txt", $available_dashlets_txt);
+		
+		// Logo
+		$sys_ini = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = ?", $this->id);
+		if($sys_ini['custom_logo'] != ''){
+			$logo = '<img src="'.$sys_ini['custom_logo'].'" />&nbsp;&nbsp;<a href="#" class="btn btn-default formbutton-danger formbutton-narrow" style="margin:5px" id="del_custom_logo"><span class="icon icon-delete"></span></a>';
+		} else {
+			$logo = '<img src="'.$sys_ini['default_logo'].'" />';
+		}
+		$default_logo = '<img src="'.$sys_ini['default_logo'].'" />';
+		$app->tpl->setVar("used_logo", $logo);
+		$app->tpl->setVar("default_logo", $default_logo);
 
 		parent::onShowEnd();
 	}
@@ -165,9 +176,7 @@ class page_action extends tform_actions {
 		$server_config_array[$section] = $new_config;
 		$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 
-		//$sql = "UPDATE sys_ini SET config = '".$app->db->quote($server_config_str)."' WHERE sysini_id = 1";
-		//if($conf['demo_mode'] != true) $app->db->query($sql);
-		if($conf['demo_mode'] != true) $app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($server_config_str)."'", 'sysini_id', 1);
+		if($conf['demo_mode'] != true) $app->db->datalogUpdate('sys_ini', array("config" => $server_config_str), 'sysini_id', 1);
 
 		/*
 		 * If we should use the domain-module, we have to insert all existing domains into the table
@@ -185,26 +194,28 @@ class page_action extends tform_actions {
 				"FROM web_domain WHERE type NOT IN ('subdomain','vhostsubdomain')";
 			$app->db->query($sql);
 		}
+		
+		//die(print_r($_FILES));
+		// Logo
+		/*
+		if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
+			//print_r($_FILES);
+			
+			$path= $_FILES['file']['tmp_name'];
+			$type = pathinfo($path, PATHINFO_EXTENSION);
+			$data = file_get_contents($path);
+			$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+			$app->db->query("UPDATE sys_ini SET custom_logo = ? WHERE sysini_id = ?", $base64, $this->id);
+		}
+		*/
 
 		// Maintenance mode
 		if($server_config_array['misc']['maintenance_mode'] == 'y'){
 			//print_r($_SESSION);
 			//echo $_SESSION['s']['id'];
-			$app->db->query("DELETE FROM sys_session WHERE session_id != '".$app->db->quote($_SESSION['s']['id'])."'");
+			$app->db->query("DELETE FROM sys_session WHERE session_id != ?", $_SESSION['s']['id']);
 		}
 	}
-
-	/*
-	function onAfterUpdate() {
-        if($this->_js_changed == true) {
-            // not the best way, but it works
-            header('Content-Type: text/html');
-            print '<script type="text/javascript">document.location.reload(true);</script>';
-            exit;
-        }
-    }
-	*/
-
 }
 
 $app->tform_actions = new page_action;

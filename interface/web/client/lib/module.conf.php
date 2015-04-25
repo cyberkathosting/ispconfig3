@@ -5,6 +5,7 @@ $module["title"]  = "top_menu_client";
 $module["template"]  = "module.tpl.htm";
 $module["startpage"]  = "client/client_list.php";
 $module["tab_width"]    = '';
+$module['order']    = '20';
 
 
 $items[] = array(   'title'  => "Edit Client",

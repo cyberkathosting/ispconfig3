@@ -66,12 +66,12 @@ class page_action extends tform_actions {
 		if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.company_name, client.contact_name, client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.company_name, client.contact_name, client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$records = $app->db->queryAllRecords($sql, $client['client_id']);
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
@@ -128,7 +128,7 @@ class page_action extends tform_actions {
 		$global_config = $app->getconf->get_global_config('sites');
 		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $this->dataRecord);
 
-		$this->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = '".$this->id."'");
+		$this->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_database_user WHERE database_user_id = ?", $this->id);
 
 		$dbuser_prefix = $app->tools_sites->getPrefix($this->oldDataRecord['database_user_prefix'], $dbuser_prefix);
 		$this->dataRecord['database_user_prefix'] = $dbuser_prefix;
@@ -200,11 +200,11 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
+			$app->db->query("UPDATE web_database_user SET sys_groupid = ?, sys_perm_group = 'riud' WHERE database_user_id = ?", $client_group_id, $this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
+			$app->db->query("UPDATE web_database_user SET sys_groupid = ?, sys_perm_group = 'riud' WHERE database_user_id = ?", $client_group_id, $this->id);
 		}
 	}
 
@@ -213,24 +213,12 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
+			$app->db->query("UPDATE web_database_user SET sys_groupid = ?, sys_perm_group = 'riud' WHERE database_user_id = ?", $client_group_id, $this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_database_user SET sys_groupid = $client_group_id, sys_perm_group = 'riud' WHERE database_user_id = ".$this->id);
+			$app->db->query("UPDATE web_database_user SET sys_groupid = ?, sys_perm_group = 'riud' WHERE database_user_id = ?", $client_group_id, $this->id);
 		}
-
-		/*$password = $app->db->queryOneRecord("SELECT database_password FROM web_database_user WHERE database_user_id = ".$this->id);
-
-        $records = $app->db->queryAllRecords("SELECT DISTINCT server_id FROM web_database WHERE database_user_id = '".$app->functions->intval($this->id)."' UNION SELECT DISTINCT server_id FROM web_database WHERE database_ro_user_id = '".$app->functions->intval($this->id)."'");
-        foreach($records as $rec) {
-            $new_rec = $this->dataRecord;
-            $new_rec['server_id'] = $rec['server_id'];
-			// Make sure to store the password in encrypted form in sys_datalog
-			$new_rec['database_password'] = $password['database_password'];
-            $app->db->datalogSave('web_database_user', 'UPDATE', 'database_user_id', $this->id, $this->oldDataRecord, $new_rec);
-        }
-        unset($new_rec);*/
 	}
 
 }

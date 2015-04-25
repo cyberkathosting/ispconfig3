@@ -75,7 +75,7 @@ class cronjob_monitor_email_quota extends cronjob {
 		//* The state of the email_quota.
 		$state = 'ok';
 
-		$mailboxes = $app->db->queryAllRecords("SELECT email,maildir FROM mail_user WHERE server_id = $server_id");
+		$mailboxes = $app->db->queryAllRecords("SELECT email,maildir FROM mail_user WHERE server_id = ?", $server_id);
 		if(is_array($mailboxes)) {
 
 			//* with dovecot we can use doveadm instead of 'du -s'
@@ -134,14 +134,8 @@ class cronjob_monitor_email_quota extends cronjob {
          * Insert the data into the database
          */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
-			'VALUES (' .
-			$res['server_id'] . ', ' .
-			"'" . $app->dbmaster->quote($res['type']) . "', " .
-			'UNIX_TIMESTAMP(), ' .
-			"'" . $app->dbmaster->quote(serialize($res['data'])) . "', " .
-			"'" . $res['state'] . "'" .
-			')';
-		$app->dbmaster->query($sql);
+			'VALUES (?, ?, UNIX_TIMESTAMP(), ?, ?)';
+		$app->dbmaster->query($sql, $res['server_id'], $res['type'], serialize($res['data']), $res['state']);
 
 		/* The new data is written, now we can delete the old one */
 		$this->_tools->delOldRecords($res['type'], $res['server_id']);

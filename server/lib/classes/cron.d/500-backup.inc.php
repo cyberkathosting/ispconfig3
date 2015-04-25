@@ -76,6 +76,8 @@ class cronjob_backup extends cronjob {
             //* mount backup directory, if necessary
             if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 			if($run_backups){
+				$web_array = array();
+				
 				//* backup only active domains
 				$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
 				$records = $app->db->queryAllRecords($sql, $conf['server_id']);
@@ -89,6 +91,7 @@ class cronjob_backup extends cronjob {
 							$web_user = $rec['system_user'];
 							$web_group = $rec['system_group'];
 							$web_id = $rec['domain_id'];
+							if(!in_array($web_id, $web_array)) $web_array[] = $web_id;
 							$web_backup_dir = $backup_dir.'/web'.$web_id;
 							if(!is_dir($web_backup_dir)) mkdir($web_backup_dir, 0750);
 							chmod($web_backup_dir, 0750);
@@ -130,8 +133,6 @@ class cronjob_backup extends cronjob {
 									chmod($web_backup_dir.'/'.$web_backup_file, 0750);
 
 									//* Insert web backup record in database
-									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",".$web_id.",'web','".$backup_mode."',".time().",'".$app->db->quote($web_backup_file)."')";
-									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 									$filesize = filesize($web_backup_dir.'/'.$web_backup_file);
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'web', $backup_mode, time(), $web_backup_file, $filesize);
@@ -159,14 +160,10 @@ class cronjob_backup extends cronjob {
 
 							for ($n = $backup_copies; $n <= 10; $n++) {
 								if(isset($files[$n]) && is_file($web_backup_dir.'/'.$files[$n])) {
-									unlink($web_backup_dir.'/'.$files[$n]);
-									//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($files[$n])."'";
-									//$tmp = $app->dbmaster->queryOneRecord($sql);
-									//$app->dbmaster->datalogDelete('web_backup', 'backup_id', $tmp['backup_id']);
-									//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
 									$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 									$app->db->query($sql, $conf['server_id'], $web_id, $files[$n]);
 									if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'],  $web_id, $files[$n]);
+									@unlink($web_backup_dir.'/'.$files[$n]);
 								}
 							}
 
@@ -215,6 +212,7 @@ class cronjob_backup extends cronjob {
 						if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
 
 							$web_id = $rec['parent_domain_id'];
+							if(!in_array($web_id, $web_array)) $web_array[] = $web_id;
 							$db_backup_dir = $backup_dir.'/web'.$web_id;
 							if(!is_dir($db_backup_dir)) mkdir($db_backup_dir, 0750);
 							chmod($db_backup_dir, 0750);
@@ -234,7 +232,7 @@ class cronjob_backup extends cronjob {
 							$db_name = $rec['database_name'];
 							$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
 							//$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
-							$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
+							$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." -c --add-drop-table --create-options --quick --max_allowed_packet=512M --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
 							exec($command, $tmp_output, $retval);
 
 							//* Compress the backup with gzip
@@ -247,8 +245,6 @@ class cronjob_backup extends cronjob {
 									chgrp($db_backup_dir.'/'.$db_backup_file.'.gz', filegroup($db_backup_dir));
 
 									//* Insert web backup record in database
-									//$insert_data = "(server_id,parent_domain_id,backup_type,backup_mode,tstamp,filename) VALUES (".$conf['server_id'].",$web_id,'mysql','sqlgz',".time().",'".$app->db->quote($db_backup_file).".gz')";
-									//$app->dbmaster->datalogInsert('web_backup', $insert_data, 'backup_id');
 									$filesize = filesize($db_backup_dir.'/'.$db_backup_file.'.gz');
 									$sql = "INSERT INTO web_backup (server_id, parent_domain_id, backup_type, backup_mode, tstamp, filename, filesize) VALUES (?, ?, ?, ?, ?, ?, ?)";
 									$app->db->query($sql, $conf['server_id'], $web_id, 'mysql', 'sqlgz', time(), $db_backup_file.'.gz', $filesize);
@@ -268,7 +264,7 @@ class cronjob_backup extends cronjob {
 							$dir_handle = dir($db_backup_dir);
 							$files = array();
 							while (false !== ($entry = $dir_handle->read())) {
-								if($entry != '.' && $entry != '..' && preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) && is_file($db_backup_dir.'/'.$entry)) {
+								if($entry != '.' && $entry != '..' && preg_match('/^db_('.$db_name.')_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) && is_file($db_backup_dir.'/'.$entry)) {
 									if(array_key_exists($matches[1], $files) == false) $files[$matches[1]] = array();
 									$files[$matches[1]][] = $entry;
 								}
@@ -280,13 +276,10 @@ class cronjob_backup extends cronjob {
 								rsort($filelist);
 								for ($n = $backup_copies; $n <= 10; $n++) {
 									if(isset($filelist[$n]) && is_file($db_backup_dir.'/'.$filelist[$n])) {
-										unlink($db_backup_dir.'/'.$filelist[$n]);
-										//$sql = "SELECT backup_id FROM web_backup WHERE server_id = ".$conf['server_id']." AND parent_domain_id = $web_id AND filename = '".$app->db->quote($filelist[$n])."'";
-										//$tmp = $app->dbmaster->queryOneRecord($sql);
-										//$sql = "DELETE FROM web_backup WHERE backup_id = ".intval($tmp['backup_id']);
 										$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 										$app->db->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
 										if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
+										@unlink($db_backup_dir.'/'.$filelist[$n]);
 									}
 								}
 							}
@@ -310,7 +303,51 @@ class cronjob_backup extends cronjob {
 						if(!is_file($backup_file)){
 							$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
+						}
+					}
+				}
+				if($app->db->dbHost != $app->dbmaster->dbHost){
+					$backups = $app->dbmaster->queryAllRecords("SELECT * FROM web_backup WHERE server_id = ?", $conf['server_id']);
+					if(is_array($backups) && !empty($backups)){
+						foreach($backups as $backup){
+							$backup_file = $backup_dir.'/web'.$backup['parent_domain_id'].'/'.$backup['filename'];
+							if(!is_file($backup_file)){
+								$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+								$app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
+							}
+						}
+					}
+				}
+				
+				// garbage collection (non-existing databases)
+				if(is_array($web_array) && !empty($web_array)){
+					foreach($web_array as $tmp_web_id){
+						$tmp_backup_dir = $backup_dir.'/web'.$tmp_web_id;
+						if(is_dir($tmp_backup_dir)){
+							$dir_handle = dir($tmp_backup_dir);
+							$files = array();
+							while (false !== ($entry = $dir_handle->read())) {
+								if($entry != '.' && $entry != '..' && preg_match('/^db_(.*?)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql.gz$/', $entry, $matches) && is_file($tmp_backup_dir.'/'.$entry)) {
+
+									$tmp_db_name = $matches[1];
+									$tmp_database = $app->db->queryOneRecord("SELECT * FROM web_database WHERE server_id = ? AND parent_domain_id = ? AND database_name = ?", $conf['server_id'], $tmp_web_id, $tmp_db_name);
+
+									if(is_array($tmp_database) && !empty($tmp_database)){
+										if($tmp_database['backup_interval'] == 'none' || intval($tmp_database['backup_copies']) == 0){
+											@unlink($tmp_backup_dir.'/'.$entry);
+											$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+											$app->db->query($sql, $conf['server_id'], $tmp_web_id, $entry);
+											if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $tmp_web_id, $entry);
+										}
+									} else {
+										@unlink($tmp_backup_dir.'/'.$entry);
+										$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+										$app->db->query($sql, $conf['server_id'], $tmp_web_id, $entry);
+										if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $tmp_web_id, $entry);
+									}
+								}
+							}
+							$dir_handle->close();
 						}
 					}
 				}
@@ -323,6 +360,27 @@ class cronjob_backup extends cronjob {
 					$subject = 'Backup directory '.$backup_dir.' could not be mounted';
 					$message = "Backup directory ".$backup_dir." could not be mounted.\n\nThe command\n\n".$server_config['backup_dir_mount_cmd']."\n\nfailed.";
 					mail($global_config['admin_mail'], $subject, $message);
+				}
+			}
+		}
+		
+		// delete files from backup download dir (/var/www/example.com/backup)
+		unset($records, $entry, $files);
+		$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
+		if(is_array($records)) {
+			foreach($records as $rec) {
+				$backup_download_dir = $rec['document_root'].'/backup';
+				if(is_dir($backup_download_dir)){
+					$dir_handle = dir($backup_download_dir);
+					$files = array();
+					while (false !== ($entry = $dir_handle->read())) {
+						if($entry != '.' && $entry != '..' && is_file($backup_download_dir.'/'.$entry)) {
+							// delete files older than 3 days
+							if(time() - filemtime($backup_download_dir.'/'.$entry) >= 60*60*24*3) @unlink($backup_download_dir.'/'.$entry);
+						}
+					}
+					$dir_handle->close();
 				}
 			}
 		}

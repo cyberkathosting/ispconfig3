@@ -34,28 +34,28 @@ class list_action extends listform_actions {
 		//* Set the statistics colums
 		//** Traffic of the current month
 		$tmp_date = date('Y-m');
-		$tmp_rec = $app->db->queryOneRecord("SELECT traffic as t FROM mail_traffic WHERE mailuser_id = ".$app->functions->intval($rec['mailuser_id'])." AND month = '$tmp_date'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT traffic as t FROM mail_traffic WHERE mailuser_id = ? AND month = ?", $rec['mailuser_id'], $tmp_date);
 //		$rec['this_month'] = number_format($app->functions->intval($tmp_rec['t'])/1024/1024, 0, '.', ' ');
 		$rec['this_month'] = $app->functions->formatBytes($tmp_rec['t']);
 		if ($rec['this_month'] == 'NAN') $rec['this_month'] = '0 KB';
 
 		//** Traffic of the current year
 		$tmp_date = date('Y');
-		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic) as t FROM mail_traffic WHERE mailuser_id = ".$app->functions->intval($rec['mailuser_id'])." AND month like '$tmp_date%'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic) as t FROM mail_traffic WHERE mailuser_id = ? AND month like ?", $rec['mailuser_id'], $tmp_date . '%');
 //		$rec['this_year'] = number_format($app->functions->intval($tmp_rec['t'])/1024/1024, 0, '.', ' ');
 		$rec['this_year'] = $app->functions->formatBytes($tmp_rec['t']);
 		if ($rec['this_year'] == 'NAN') $rec['this_year'] = '0 KB';
 
 		//** Traffic of the last month
 		$tmp_date = date('Y-m', mktime(0, 0, 0, date("m")-1, date("d"), date("Y")));
-		$tmp_rec = $app->db->queryOneRecord("SELECT traffic as t FROM mail_traffic WHERE mailuser_id = ".$app->functions->intval($rec['mailuser_id'])." AND month = '$tmp_date'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT traffic as t FROM mail_traffic WHERE mailuser_id = ? AND month = ?", $rec['mailuser_id'], $tmp_date);
 //		$rec['last_month'] = number_format($app->functions->intval($tmp_rec['t'])/1024/1024, 0, '.', ' ');
 		$rec['last_month'] = $app->functions->formatBytes($tmp_rec['t']);
 		if ($rec['last_month'] == 'NAN') $rec['last_month'] = '0 KB';
 
 		//** Traffic of the last year
 		$tmp_date = date('Y', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
-		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic) as t FROM mail_traffic WHERE mailuser_id = ".$app->functions->intval($rec['mailuser_id'])." AND month like '$tmp_date%'");
+		$tmp_rec = $app->db->queryOneRecord("SELECT sum(traffic) as t FROM mail_traffic WHERE mailuser_id = ? AND month like ?", $rec['mailuser_id'], $tmp_date . '%');
 //		$rec['last_year'] = number_format($app->functions->intval($tmp_rec['t'])/1024/1024, 0, '.', ' ');
 		$rec['last_year'] = $app->functions->formatBytes($tmp_rec['t']);
 		if ($rec['last_year'] == 'NAN') $rec['last_year'] = '0 KB';

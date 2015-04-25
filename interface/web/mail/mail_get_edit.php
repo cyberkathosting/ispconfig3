@@ -71,7 +71,7 @@ class page_action extends tform_actions {
 
 		//* Check if destination email belongs to user
 		if(isset($_POST["destination"])) {
-			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["destination"]));
 			if($email["email"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->lng("no_destination_perm");
 		}
 
@@ -79,11 +79,11 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_fetchmail FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_fetchmail FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another transport.
 			if($this->id == 0 && $client["limit_fetchmail"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(mailget_id) as number FROM mail_get WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(mailget_id) as number FROM mail_get WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_fetchmail"]) {
 					$app->tform->errorMessage .= $app->tform->wordbook["limit_fetchmail_txt"]."<br>";
 				}
@@ -93,7 +93,7 @@ class page_action extends tform_actions {
 
 
 		// Set the server ID according to the selected destination
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE email = ?", $this->dataRecord["destination"]);
 		$this->dataRecord["server_id"] = $tmp["server_id"];
 		unset($tmp);
 
@@ -108,8 +108,8 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 
-		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = '".$app->db->quote($this->dataRecord["destination"])."'");
-		$app->db->query("update mail_get SET sys_groupid = ".$app->functions->intval($tmp['sys_groupid'])." WHERE mailget_id = ".$this->id);
+		$tmp = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_user WHERE email = ?", $this->dataRecord["destination"]);
+		$app->db->query("update mail_get SET sys_groupid = ? WHERE mailget_id = ?", $tmp['sys_groupid'], $this->id);
 
 	}
 

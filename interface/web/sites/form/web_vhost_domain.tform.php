@@ -41,16 +41,19 @@
 $vhostdomain_type = 'domain';
 $form_title = "Web Domain";
 $validator_function = 'web_domain';
+$first_tab_title = "Domain";
 
 if(isset($_SESSION['s']['var']['vhostdomain_type'])) {
 	if($_SESSION['s']['var']['vhostdomain_type'] == 'subdomain') {
 		$vhostdomain_type = 'subdomain';
 		$form_title = "Subdomain";
 		$validator_function = 'sub_domain';
+		$first_tab_title = "Subomain";
 	} elseif($_SESSION['s']['var']['vhostdomain_type'] == 'aliasdomain') {
 		$vhostdomain_type = 'aliasdomain';
 		$form_title = "Aliasdomain";
 		$validator_function = 'alias_domain';
+		$first_tab_title = "Aliasomain";
 	}
 }
 
@@ -85,7 +88,7 @@ $ssl_available = true;
 $backup_available = ($vhostdomain_type == 'domain');
 if(!$app->auth->is_admin()) {
 	$client_group_id = $_SESSION["s"]["user"]["default_group"];
-	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl, limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client = $app->db->queryOneRecord("SELECT limit_wildcard, limit_ssl, limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 	if($client['limit_wildcard'] != 'y') $wildcard_available = false;
 	if($client['limit_ssl'] != 'y') $ssl_available = false;
@@ -96,7 +99,7 @@ $app->uses('getconf');
 $web_config = $app->getconf->get_global_config('sites');
 
 $form["tabs"]['domain'] = array (
-	'title'  => "Domain",
+	'title'  => $first_tab_title,
 	'width'  => 100,
 	'template'  => "templates/web_vhost_domain_edit.htm",
 	'readonly' => $web_domain_edit_readonly,

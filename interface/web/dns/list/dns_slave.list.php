@@ -59,7 +59,7 @@ $liste["item"][] = array(   'field'     => "active",
 	'prefix' => "",
 	'suffix' => "",
 	'width' => "",
-	'value' => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value' => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 $liste["item"][] = array(   'field' => "server_id",
@@ -83,7 +83,8 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 		'prefix' => "",
 		'suffix' => "",
 		'datasource' => array (  'type' => 'SQL',
-			'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+			//'querystring' => 'SELECT groupid, name FROM sys_group WHERE groupid != 1 ORDER BY name',
+			'querystring' => "SELECT sys_group.groupid,CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), IF(client.contact_firstname != '', CONCAT(client.contact_firstname, ' '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as name FROM sys_group, client WHERE sys_group.groupid != 1 AND sys_group.client_id = client.client_id ORDER BY client.company_name, client.contact_name",
 			'keyfield'=> 'groupid',
 			'valuefield'=> 'name'
 		),

@@ -5,6 +5,7 @@ $module["title"]   = "top_menu_dns";
 $module["template"]  = "module.tpl.htm";
 $module["startpage"]  = "dns/dns_soa_list.php";
 $module["tab_width"]    = '';
+$module['order']    = '50';
 
 
 $items[] = array( 'title'  => "Add DNS Zone",

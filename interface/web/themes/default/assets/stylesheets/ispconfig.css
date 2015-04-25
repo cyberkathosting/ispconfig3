@@ -65,7 +65,8 @@ body {
   float: left;
   width: 200px;
   height: 65px;
-  background: url("../images/logo.png") no-repeat; }
+  margin-top:10px;
+  /*background: url("../images/logo.png") no-repeat;*/ }
   #logo a {
     display: block;
     width: 100%;
@@ -474,6 +475,7 @@ span.flag-ec {background-position:0 -1365px}
 span.flag-ee {background-position:0 -1387px}
 span.flag-eg {background-position:0 -1409px}
 span.flag-eh {background-position:0 -1431px}
+/*span.flag-en {background-position:0 -1453px}*/
 span.flag-er {background-position:0 -1475px}
 span.flag-es {background-position:0 -1497px}
 span.flag-et {background-position:0 -1519px}
@@ -484,7 +486,7 @@ span.flag-fm {background-position:0 -1651px}
 span.flag-fo {background-position:0 -1673px}
 span.flag-fr {background-position:0 -1695px}
 span.flag-ga {background-position:0 -1717px}
-span.flag-gb {background-position:0 -1739px}
+span.flag-gb, span.flag-en {background-position:0 -1739px}
 span.flag-gd {background-position:0 -1761px}
 span.flag-ge {background-position:0 -1783px}
 span.flag-gf {background-position:0 -1805px}

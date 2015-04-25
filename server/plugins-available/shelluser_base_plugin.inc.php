@@ -79,7 +79,7 @@ class shelluser_base_plugin {
 		}
 
 		//* Check if the resulting path is inside the docroot
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 		if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
 			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
 			return false;
@@ -163,7 +163,7 @@ class shelluser_base_plugin {
 		}
 
 		//* Check if the resulting path is inside the docroot
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 		if(substr($data['new']['dir'],0,strlen($web['document_root'])) != $web['document_root']) {
 			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
 			return false;
@@ -252,10 +252,10 @@ class shelluser_base_plugin {
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
 				// check if we have to delete the dir
-				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($data['old']['dir']) . '\'');
+				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = ?', $data['old']['dir']);
 				if(!$check && is_dir($data['old']['dir'])) {
 					
-					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
+					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
 					
 					$app->system->web_folder_protection($web['document_root'], false);
 					
@@ -311,11 +311,11 @@ class shelluser_base_plugin {
 		global $app;
 		$this->app->log("ssh-rsa setup shelluser_base", LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
-		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = '.intval($domain_data['sys_groupid']));
+		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
+		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = '.$id);
+		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -323,7 +323,7 @@ class shelluser_base_plugin {
 		// ssh-rsa authentication variables
 		//$sshrsa = $this->data['new']['ssh_rsa'];
 		$sshrsa = '';
-		$ssh_users = $app->db->queryAllRecords("SELECT ssh_rsa FROM shell_user WHERE parent_domain_id = ".intval($this->data['new']['parent_domain_id']));
+		$ssh_users = $app->db->queryAllRecords("SELECT ssh_rsa FROM shell_user WHERE parent_domain_id = ?", $this->data['new']['parent_domain_id']);
 		if(is_array($ssh_users)) {
 			foreach($ssh_users as $sshu) {
 				if($sshu['ssh_rsa'] != '') $sshrsa .= "\n".$sshu['ssh_rsa'];
@@ -347,7 +347,7 @@ class shelluser_base_plugin {
 			$userkey = $app->system->file_get_contents('/tmp/id_rsa.pub');
 
 			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote($app->system->file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote($userkey)."' WHERE client_id = ".$id);
+			$this->app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", $app->system->file_get_contents('/tmp/id_rsa'), $userkey, $id);
 
 			$app->system->unlink('/tmp/id_rsa');
 			$app->system->unlink('/tmp/id_rsa.pub');

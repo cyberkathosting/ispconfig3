@@ -155,15 +155,15 @@ class app {
 	
 	public function conf($plugin, $key, $value = null) {
 		if(is_null($value)) {
-			$tmpconf = $this->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = '" . $this->db->quote($plugin) . "' AND `name` = '" . $this->db->quote($key) . "'");
+			$tmpconf = $this->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = ? AND `name` = ?", $plugin, $key);
 			if($tmpconf) return $tmpconf['value'];
 			else return null;
 		} else {
 			if($value === false) {
-				$this->db->query("DELETE FROM `sys_config` WHERE `group` = '" . $this->db->quote($plugin) . "' AND `name` = '" . $this->db->quote($key) . "'");
+				$this->db->query("DELETE FROM `sys_config` WHERE `group` = ? AND `name` = ?", $plugin, $key);
 				return null;
 			} else {
-				$this->db->query("REPLACE INTO `sys_config` (`group`, `name`, `value`) VALUES ('" . $this->db->quote($plugin) . "', '" . $this->db->quote($key) . "', '" . $this->db->quote($value) . "')");
+				$this->db->query("REPLACE INTO `sys_config` (`group`, `name`, `value`) VALUES (?, ?, ?)", $plugin, $key, $value);
 				return $value;
 			}
 		}
@@ -179,8 +179,8 @@ class app {
 			$server_id = 0;
 			$priority = $this->functions->intval($priority);
 			$tstamp = time();
-			$msg = $this->db->quote('[INTERFACE]: '.$msg);
-			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES ($server_id,0,$priority,$tstamp,'$msg')");
+			$msg = '[INTERFACE]: '.$msg;
+			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES (?, 0, ?, ?, ?)", $server_id, $priority,$tstamp,$msg);
 			/*
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {

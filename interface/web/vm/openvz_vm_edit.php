@@ -74,15 +74,15 @@ class page_action extends tform_actions {
 
 			//* Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			//* Fill the template_id field
 			if($client['limit_openvz_vm_template_id'] == 0) {
 				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
 			} else {
-				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = '.$app->functions->intval($client['limit_openvz_vm_template_id']).' ORDER BY template_name';
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = ? ORDER BY template_name';
 			}
-			$records = $app->db->queryAllRecords($sql);
+			$records = $app->db->queryAllRecords($sql, $client['limit_openvz_vm_template_id']);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
@@ -96,13 +96,13 @@ class page_action extends tform_actions {
 
 			//* Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 
 			//* Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$records = $app->db->queryAllRecords($sql, $client['client_id']);
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
@@ -117,9 +117,9 @@ class page_action extends tform_actions {
 			if($client['limit_openvz_vm_template_id'] == 0) {
 				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name';
 			} else {
-				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = '.$app->functions->intval($client['limit_openvz_vm_template_id']).' ORDER BY template_name';
+				$sql = 'SELECT template_id,template_name FROM openvz_template WHERE template_id = ? ORDER BY template_name';
 			}
-			$records = $app->db->queryAllRecords($sql);
+			$records = $app->db->queryAllRecords($sql, $client['limit_openvz_vm_template_id']);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
@@ -166,8 +166,8 @@ class page_action extends tform_actions {
 			$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 ORDER BY server_name LIMIT 0,1');
 			$vm_server_id = $app->functions->intval($tmp['server_id']);
 		}
-		$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = '".$this->id."') AND server_id = ".$app->functions->intval($vm_server_id)." ORDER BY ip_address";
-		$ips = $app->db->queryAllRecords($sql);
+		$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND (vm_id = 0 or vm_id = ?) AND server_id = ? ORDER BY ip_address";
+		$ips = $app->db->queryAllRecords($sql, $this->id, $vm_server_id);
 		$ip_select = "";
 		if(is_array($ips)) {
 			foreach( $ips as $ip) {

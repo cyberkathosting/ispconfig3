@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_cron, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// When the record is updated
 			if($this->id > 0) {
@@ -95,7 +95,7 @@ class page_action extends tform_actions {
 			} else {
 				// Check if the user may add another cron job.
 				if($client["limit_cron"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM cron WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM cron WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_cron"]) {
 						$app->error($app->tform->wordbook["limit_cron_txt"]);
 					}
@@ -104,7 +104,7 @@ class page_action extends tform_actions {
 		}
 
 		// Get the record of the parent domain
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 
 		// Set fixed values
@@ -115,7 +115,7 @@ class page_action extends tform_actions {
 		if(preg_match("'^http(s)?:\/\/'i", $command)) {
 			$this->dataRecord["type"] = 'url';
 		} else {
-			$domain_owner = $app->db->queryOneRecord("SELECT limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ".$app->functions->intval($parent_domain["sys_groupid"]));
+			$domain_owner = $app->db->queryOneRecord("SELECT limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $parent_domain["sys_groupid"]);
 			//* True when the site is assigned to a client
 			if(isset($domain_owner["limit_cron_type"])) {
 				if($domain_owner["limit_cron_type"] == 'full') {
@@ -140,7 +140,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			if($client["limit_cron_frequency"] > 1) {
 				if($app->tform->cron_min_freq < $client["limit_cron_frequency"]) {
@@ -170,7 +170,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_cron_frequency, limit_cron_type FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			if($client["limit_cron_frequency"] > 1) {
 				if($app->tform->cron_min_freq < $client["limit_cron_frequency"]) {
@@ -196,14 +196,14 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 		$server_id = $web["server_id"];
 
 		// The cron shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-		$sql = "UPDATE cron SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE id = ".$this->id;
-		$app->db->query($sql);
+		$sql = "UPDATE cron SET server_id = ?, sys_groupid = ? WHERE id = ?";
+		$app->db->query($sql, $server_id, $sys_groupid, $this->id);
 	}
 
 	function onAfterUpdate() {

@@ -50,15 +50,15 @@ if($_GET['action'] == 'change_status')
 	if(!$gui->isValidPackageID($_GET['id'], true)) die($app->lng('Invalid ID'));
 
 	// Change the existing status to the opposite
-	$get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = '".$app->functions->intval($_GET['id'])."';");
+	$get_status = $app->db->queryOneRecord("SELECT package_status FROM aps_packages WHERE id = ?", $_GET['id']);
 	if($get_status['package_status'] == strval(PACKAGE_LOCKED))
 	{
-		$app->db->query("UPDATE aps_packages SET package_status = ".PACKAGE_ENABLED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
+		$app->db->query("UPDATE aps_packages SET package_status = ? WHERE id = ?", PACKAGE_ENABLED, $_GET['id']);
 		echo '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>';
 	}
 	else
 	{
-		$app->db->query("UPDATE aps_packages SET Package_status = ".PACKAGE_LOCKED." WHERE id = '".$app->functions->intval($_GET['id'])."';");
+		$app->db->query("UPDATE aps_packages SET Package_status = ? WHERE id = ?", PACKAGE_LOCKED, $_GET['id']);
 		echo '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>';
 	}
 }
@@ -69,7 +69,7 @@ else if($_GET['action'] == 'delete_instance')
 		$is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
 		if(!$is_admin)
 		{
-			$cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = '".$app->db->quote($_SESSION['s']['user']['username'])."';");
+			$cid = $app->db->queryOneRecord("SELECT client_id FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
 			$client_id = $cid['client_id'];
 		}
 
@@ -78,8 +78,8 @@ else if($_GET['action'] == 'delete_instance')
 
 		// Only delete the instance if the status is "installed" or "flawed"
 		$check = $app->db->queryOneRecord("SELECT id FROM aps_instances
-        WHERE id = ".$app->db->quote($_GET['id'])." AND
-        (instance_status = ".INSTANCE_SUCCESS." OR instance_status = ".INSTANCE_ERROR.");");
+        WHERE id = ? AND
+        (instance_status = ? OR instance_status = ?)", $_GET['id'], INSTANCE_SUCCESS, INSTANCE_ERROR);
 		if($check['id'] > 0) $gui->deleteInstance($_GET['id']);
 		//echo $app->lng('Installation_remove');
 		@header('Location:aps_installedpackages_list.php');

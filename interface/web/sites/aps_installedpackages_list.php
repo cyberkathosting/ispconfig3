@@ -51,7 +51,7 @@ $client_ext = '';
 $is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;
 if(!$is_admin)
 {
-	$cid = $app->db->queryOneRecord('SELECT client_id FROM client WHERE username = "'.$app->db->quote($_SESSION['s']['user']['username']).'";');
+	$cid = $app->db->queryOneRecord('SELECT client_id FROM client WHERE username = ?', $_SESSION['s']['user']['username']);
 	//$client_ext = ' AND aps_instances.customer_id = '.$cid['client_id'];
 	$client_ext = ' AND '.$app->tform->getAuthSQL('r', 'aps_instances');
 }

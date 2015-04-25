@@ -246,6 +246,7 @@ class listform {
 		return $this->pagingValues[$key];
 	}
 
+	/* TODO: maybe rewrite sql */
 	public function getPagingSQL($sql_where = '1')
 	{
 		global $app, $conf;
@@ -283,7 +284,7 @@ class listform {
 		if($this->searchChanged == 1) $_SESSION['search'][$list_name]['page'] = 0;
 
 		$sql_von = $app->functions->intval($_SESSION['search'][$list_name]['page'] * $records_per_page);
-		$record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM $table".($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')." WHERE $sql_where");
+		$record_count = $app->db->queryOneRecord("SELECT count(*) AS anzahl FROM ??".($app->listform->listDef['additional_tables'] != ''? ','.$app->listform->listDef['additional_tables'] : '')." WHERE $sql_where", $table);
 		$pages = $app->functions->intval(($record_count['anzahl'] - 1) / $records_per_page);
 
 
@@ -482,7 +483,8 @@ class listform {
 		}
 		return $record;
 	}
-
+	
+	/* TODO: check double quoting of SQL */
 	public function encode($record)
 	{
 		global $app;

@@ -60,7 +60,7 @@ if(isset($_POST) && count($_POST) > 1) {
 	//* Send message
 	if($error == '') {
 		if($app->functions->intval($_POST['recipient']) > 0){
-			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ".$app->functions->intval($_POST['recipient'])." AND ".$app->tform->getAuthSQL('r'));
+			$circle = $app->db->queryOneRecord("SELECT client_ids FROM client_circle WHERE active = 'y' AND circle_id = ? AND ".$app->tform->getAuthSQL('r'), $_POST['recipient']);
 			if(isset($circle['client_ids']) && $circle['client_ids'] != ''){
 				$tmp_client_ids = explode(',', $circle['client_ids']);
 				$where = array();
@@ -120,8 +120,8 @@ if(isset($_POST) && count($_POST) > 1) {
 	if($_SESSION["s"]["user"]["typ"] != 'admin'){
 		$client_id = $app->functions->intval($_SESSION['s']['user']['client_id']);
 		if($client_id > 0){
-			$sql = "SELECT email FROM client WHERE client_id = ".$client_id;
-			$client = $app->db->queryOneRecord($sql);
+			$sql = "SELECT email FROM client WHERE client_id = ?";
+			$client = $app->db->queryOneRecord($sql, $client_id);
 			if($client['email'] != '') $app->tpl->setVar('sender', $client['email']);
 		}
 	}

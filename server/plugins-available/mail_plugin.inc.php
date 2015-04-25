@@ -98,10 +98,10 @@ class mail_plugin {
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$app->log('Map uid to linux-user',LOGLEVEL_DEBUG);
 				$email_parts = explode('@',$data['new']['email']);
-				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = ?", $email_parts[1]);
 				if ($webdomain) {
 					while (($webdomain['system_user'] == null) && ($webdomain['parent_domain_id'] != 0)) {
-						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = '".$webdomain['parent_domain_id']."'");
+						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = ?", $webdomain['parent_domain_id']);
 					}
 					$app->log($data['new']['server_id'].' == '.$webdomain['server_id'],LOGLEVEL_DEBUG);
 
@@ -118,7 +118,7 @@ class mail_plugin {
 		$app->log('Mailuser uid: '.$data['new']['uid'].', gid: '.$data['new']['gid'],LOGLEVEL_DEBUG);
 
 		// update DB if values changed
-		$app->db->query("UPDATE mail_user SET uid = ".$data['new']['uid'].", gid = ".$data['new']['gid']." WHERE mailuser_id = ".$data['new']['mailuser_id']);
+		$app->db->query("UPDATE mail_user SET uid = ?, gid = ? WHERE mailuser_id = ?", $data['new']['uid'], $data['new']['gid'], $data['new']['mailuser_id']);
 
 		// now get names of uid and gid
 		$user = $app->system->getuser($data['new']['uid']);
@@ -280,10 +280,10 @@ class mail_plugin {
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$app->log('Map uid to linux-user',LOGLEVEL_DEBUG);
 				$email_parts = explode('@',$data['new']['email']);
-				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+				$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain = ?", $email_parts[1]);
 				if ($webdomain) {
 					while ($webdomain['parent_domain_id'] != 0) {
-						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = '".$webdomain['parent_domain_id']."'");
+						$webdomain = $app->db->queryOneRecord("SELECT domain_id, server_id, system_user, parent_domain_id FROM web_domain WHERE domain_id = ?", $webdomain['parent_domain_id']);
 					}
 					$app->log($data['new']['server_id'].' == '.$webdomain['server_id'],LOGLEVEL_DEBUG);
 
@@ -300,7 +300,7 @@ class mail_plugin {
 		$app->log('Mailuser uid: '.$data['new']['uid'].', gid: '.$data['new']['gid'],LOGLEVEL_DEBUG);
 
 		// update DB if values changed
-		$app->db->query("UPDATE mail_user SET uid = ".$data['new']['uid'].", gid = ".$data['new']['gid']." WHERE mailuser_id = ".$data['new']['mailuser_id']);
+		$app->db->query("UPDATE mail_user SET uid = ?, gid = ? WHERE mailuser_id = ?", $data['new']['uid'], $data['new']['gid'], $data['new']['mailuser_id']);
 
 		$user = $app->system->getuser($data['new']['uid']);
 		$group = $app->system->getgroup($data['new']['gid']);

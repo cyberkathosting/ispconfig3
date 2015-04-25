@@ -7,6 +7,7 @@ $module['title']  = 'top_menu_tools';
 $module['template']  = 'module.tpl.htm';
 $module['startpage']  = 'tools/index.php';
 $module['tab_width']    = '60';
+$module['order']    = '80';
 
 
 //**** Change User password

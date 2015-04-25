@@ -2,7 +2,7 @@
     <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
 </tmpl_if>
 <tmpl_if name="error">
-    <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+    <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
 </tmpl_if>
 <h3><tmpl_var name="list_head_txt"></h3>
 
@@ -28,9 +28,9 @@
                             <td>{tmpl_var name="filesize"}</td>
                             <td class="text-right">
                                 <div class="buttons">
-                                    <button class="btn btn-default formbutton-default" type="button" onclick="ISPConfig.confirm_action('sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');">{tmpl_var name="restore_backup_txt"}</button>
+                                    <button class="btn btn-default formbutton-default" type="button" onclick="ISPConfig.confirm_action('sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');">{tmpl_var name="restore_backup_txt"}</button>
                                     <tmpl_if name="download_available">
-										<button class="btn btn-default formbutton-default" type="button" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}">{tmpl_var name="download_backup_txt"}</button>
+										<button class="btn btn-default formbutton-default" type="button" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}">{tmpl_var name="download_backup_txt"}</button>
 									</tmpl_if>
                                 </div>
                             </td>

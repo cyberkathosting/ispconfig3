@@ -71,7 +71,7 @@ class page_action extends tform_actions {
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$rec = $app->db->queryOneRecord("SELECT server_id from spamfilter_users WHERE id = ".$this->id);
+			$rec = $app->db->queryOneRecord("SELECT server_id from spamfilter_users WHERE id = ?", $this->id);
 			if($rec['server_id'] != $this->dataRecord["server_id"]) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
@@ -88,11 +88,11 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_spamfilter_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_spamfilter_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another mailbox.
 			if($this->id == 0 && $client["limit_spamfilter_user"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_users WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_users WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_spamfilter_user"]) {
 					$app->tform->errorMessage .= $app->tform->wordbook["limit_spamfilter_user_txt"]."<br>";
 				}

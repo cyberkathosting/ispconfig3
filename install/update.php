@@ -267,10 +267,8 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	// initialize the connection to the master database
 	$inst->dbmaster = new db();
 	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-	$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
-	$inst->dbmaster->dbName = $conf['mysql']["master_database"];
-	$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
-	$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+	$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
+	$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
 } else {
 	$inst->dbmaster = $inst->db;
 }
@@ -512,6 +510,11 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))     system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
+
+//* Set default servers
+setDefaultServers();
+
+$inst->create_mount_script();
 
 //* Create md5 filelist
 $md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';

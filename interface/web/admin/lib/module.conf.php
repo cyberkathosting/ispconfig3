@@ -7,6 +7,7 @@ $module['title']  = 'top_menu_system';
 $module['template']  = 'module.tpl.htm';
 $module['startpage']  = 'admin/server_list.php';
 $module['tab_width']    = '60';
+$module['order']    = '90';
 
 
 $items[] = array(   'title'     => 'CP Users',

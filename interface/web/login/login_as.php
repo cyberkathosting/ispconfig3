@@ -54,13 +54,13 @@ if(isset($_GET['id'])) {
 	$backlink = 'admin/users_list.php';
 } else {
 	$client_id = $app->functions->intval($_GET['cid']);
-	$tmp_client = $app->db->queryOneRecord("SELECT username, parent_client_id FROM client WHERE client_id = $client_id");
-	$tmp_sys_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE username = '".$app->db->quote($tmp_client['username'])."'");
+	$tmp_client = $app->db->queryOneRecord("SELECT username, parent_client_id FROM client WHERE client_id = ?", $client_id);
+	$tmp_sys_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE username = ?", $tmp_client['username']);
 	$userId = $app->functions->intval($tmp_sys_user['userid']);
 	/* check if this client belongs to reseller that tries to log in, if we are not admin */
 	if($_SESSION["s"]["user"]["typ"] != 'admin') {
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-		$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 		if(!$client || $tmp_client["parent_client_id"] != $client["client_id"]) {
 			die("You don't have the right to login as this user!");
 		}
@@ -76,7 +76,7 @@ if(isset($_GET['id'])) {
  * Get the data to login as user x
  */
 $dbData = $app->db->queryOneRecord(
-	"SELECT username, passwort FROM sys_user WHERE userid = " . $userId);
+	"SELECT username, passwort FROM sys_user WHERE userid = ?", $userId);
 
 /*
  * Now generate the login-Form

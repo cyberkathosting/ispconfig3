@@ -190,6 +190,7 @@ class listform_actions {
 		return $rec;
 	}
 
+	/* TODO: maybe rewrite SQL */
 	public function getQueryString($no_limit = false) {
 		global $app;
 		$sql_where = '';

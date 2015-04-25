@@ -51,8 +51,8 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) die($app->lng('user_regex_error'));
 	if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $_POST['email'])) die($app->lng('email_error'));
 
-	$username = $app->db->quote($_POST['username']);
-	$email = $app->db->quote($_POST['email']);
+	$username = $_POST['username'];
+	$email = $_POST['email'];
 
 	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
 
@@ -62,11 +62,10 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		if($client['client_id'] > 0) {
 			$new_password = $app->auth->get_random_password();
 			$new_password_encrypted = $app->auth->crypt_password($new_password);
-			$new_password_encrypted = $app->db->quote($new_password_encrypted);
 
-			$username = $app->db->quote($client['username']);
-			$app->db->query("UPDATE sys_user SET passwort = '$new_password_encrypted' WHERE username = '$username'");
-			$app->db->query("UPDATE client SET password = '$new_password_encrypted' WHERE username = '$username'");
+			$username = $client['username'];
+			$app->db->query("UPDATE sys_user SET passwort = ? WHERE username = ?", $new_password_encrypted, $username);
+			$app->db->query("UPDATE client SET password = ? WHERE username = ?", $new_password_encrypted, $username);
 			$app->tpl->setVar("message", $wb['pw_reset']);
 
 			$app->uses('getconf,ispcmail');

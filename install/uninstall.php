@@ -60,14 +60,6 @@ if($do_uninstall == 'yes') {
 
 	echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
-	// Delete the ISPConfig database
-	// $app->db->query("DROP DATABASE '".$conf["db_database"]."'");
-	// $app->db->query("DELETE FROM mysql.user WHERE User = 'ispconfig'");
-	
-//	exec("/etc/init.d/mysql stop");
-//	exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
-//	exec("/etc/init.d/mysql start");
-
 	$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
 	if (!$link) {
 		echo "Unable to connect to the database'.mysql_error($link)";

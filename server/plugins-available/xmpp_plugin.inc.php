@@ -315,17 +315,17 @@ class xmpp_plugin {
             exec("(cd /etc/metronome/certs && make $domain.csr)");
             exec("(cd /etc/metronome/certs && make $domain.cert)");
 
-            $ssl_key = $app->db->quote($app->system->file_get_contents($key_file));
+            $ssl_key = $app->system->file_get_contents($key_file);
             $app->system->chmod($key_file, 0400);
             $app->system->chown($key_file, 'metronome');
-            $ssl_request = $app->db->quote($app->system->file_get_contents($csr_file));
-            $ssl_cert = $app->db->quote($app->system->file_get_contents($crt_file));
+            $ssl_request = $app->system->file_get_contents($csr_file);
+            $ssl_cert = $app->system->file_get_contents($crt_file);
             /* Update the DB of the (local) Server */
-            $app->db->query("UPDATE xmpp_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
-            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->db->query("UPDATE xmpp_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
             /* Update also the master-DB of the Server-Farm */
-            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
-            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
             $app->log('Creating XMPP SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
         }
 
@@ -355,18 +355,18 @@ class xmpp_plugin {
                 $app->system->chmod($key_file, 0400);
                 $app->system->chown($key_file, 'metronome');
             } else {
-                $ssl_key = $app->db->quote($app->system->file_get_contents($key_file));
+                $ssl_key = $app->system->file_get_contents($key_file);
                 /* Update the DB of the (local) Server */
-                $app->db->query("UPDATE xmpp_domain SET ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+                $app->db->query("UPDATE xmpp_domain SET ssl_key = ? WHERE domain = ?", $ssl_key, $data['new']['domain']);
                 /* Update also the master-DB of the Server-Farm */
-                $app->dbmaster->query("UPDATE xmpp_domain SET ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+                $app->dbmaster->query("UPDATE xmpp_domain SET ssl_key = '$ssl_key' WHERE domain = ?", $data['new']['domain']);
             }
 
             /* Update the DB of the (local) Server */
-            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
             /* Update also the master-DB of the Server-Farm */
-            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
             $app->log('Saving XMPP SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
         }
 
@@ -382,11 +382,11 @@ class xmpp_plugin {
             $app->system->unlink($key_file.'.bak');
             $app->system->unlink($cnf_file.'.bak');
             /* Update the DB of the (local) Server */
-            $app->db->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
-            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->db->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+            $app->db->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
             /* Update also the master-DB of the Server-Farm */
-            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
-            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+            $app->dbmaster->query("UPDATE xmpp_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
             $app->log('Deleting SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
         }
 

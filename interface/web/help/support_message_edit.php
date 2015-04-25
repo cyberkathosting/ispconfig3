@@ -33,8 +33,8 @@ class page_action extends tform_actions {
 
 		//* Get recipient email address
 		if($this->dataRecord['recipient_id'] > 1){
-			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$app->functions->intval($this->dataRecord['recipient_id'])." AND sys_user.client_id = client.client_id";
-			$client = $app->db->queryOneRecord($sql);
+			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id";
+			$client = $app->db->queryOneRecord($sql, $this->dataRecord['recipient_id']);
 			$recipient_email = $client['email'];
 		} else {
 			$app->uses('ini_parser,getconf');
@@ -44,8 +44,8 @@ class page_action extends tform_actions {
 
 		//* Get sender email address
 		if($this->dataRecord['sender_id'] > 1){
-			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ".$app->functions->intval($this->dataRecord['sender_id'])." AND sys_user.client_id = client.client_id";
-			$client = $app->db->queryOneRecord($sql);
+			$sql = "SELECT client.email FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id";
+			$client = $app->db->queryOneRecord($sql, $this->dataRecord['sender_id']);
 			$sender_email = $client['email'];
 		} else {
 			$app->uses('ini_parser,getconf');
@@ -91,7 +91,7 @@ class page_action extends tform_actions {
 		//*  read only template  if a existing message is loaded
 		if($this->id > 0) {
 			$app->tform->formDef['tabs']['message']['template'] = 'templates/support_message_view.htm';
-			$record = $app->db->queryOneRecord("SELECT * FROM support_message WHERE support_message_id = ".$this->id);
+			$record = $app->db->queryOneRecord("SELECT * FROM support_message WHERE support_message_id = ?", $this->id);
 			if ($record['tstamp'] > 0) {
 				// is value int?
 				if (preg_match("/^[0-9]+[\.]?[0-9]*$/", $record['tstamp'], $p)) {
@@ -113,7 +113,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if($_SESSION['s']['user']['typ'] == 'admin') {
-			$app->db->query("UPDATE support_message SET sys_userid = ".$app->functions->intval($this->dataRecord['recipient_id'])." WHERE support_message_id = ".$this->id);
+			$app->db->query("UPDATE support_message SET sys_userid = ? WHERE support_message_id = ?", $this->dataRecord['recipient_id'], $this->id);
 		}
 
 	}

@@ -5,6 +5,7 @@ $module['title']   = 'top_menu_vm';
 $module['template']  = 'module.tpl.htm';
 $module['startpage']  = 'vm/openvz_vm_list.php';
 $module['tab_width']    = '';
+$module['order'] = '50';
 
 //**** Templates menu
 $items = array();

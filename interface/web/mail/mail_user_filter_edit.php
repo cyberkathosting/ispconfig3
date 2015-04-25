@@ -70,7 +70,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Get the parent mail_user record
-		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = '".$app->functions->intval($_REQUEST["mailuser_id"])."' AND ".$app->tform->getAuthSQL('r'));
+		$mailuser = $app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = ? AND ".$app->tform->getAuthSQL('r'). $_REQUEST["mailuser_id"]);
 
 		// Check if Domain belongs to user
 		if($mailuser["mailuser_id"] != $_POST["mailuser_id"]) $app->tform->errorMessage .= $app->tform->wordbook["no_mailuser_perm"];
@@ -85,11 +85,11 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailfilter FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_mailfilter FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another filter
 			if($this->id == 0 && $client["limit_mailfilter"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(filter_id) as number FROM mail_user_filter WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(filter_id) as number FROM mail_user_filter WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_mailfilter"]) {
 					$app->tform->errorMessage .= $app->tform->lng("limit_mailfilter_txt")."<br>";
 				}

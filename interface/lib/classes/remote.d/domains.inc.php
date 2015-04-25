@@ -86,8 +86,8 @@ class remoting_domains extends remoting {
 			return false;
 		}
 		$group_id = $app->functions->intval($group_id);
-		$sql = "SELECT domain_id, domain FROM domain WHERE sys_groupid  = $group_id ";
-		$all = $app->db->queryAllRecords($sql);
+		$sql = "SELECT domain_id, domain FROM domain WHERE sys_groupid  = ?";
+		$all = $app->db->queryAllRecords($sql, $group_id);
 		return $all;
 	}
 

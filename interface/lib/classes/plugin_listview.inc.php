@@ -126,7 +126,7 @@ class plugin_listview extends plugin_base {
 
 
 		// Get the data
-		$records = $app->db->queryAllRecords("SELECT * FROM ".$app->listform->listDef["table"]." WHERE $sql_where $sql_order_by $limit_sql");
+		$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE $sql_where $sql_order_by $limit_sql", $app->listform->listDef["table"]);
 
 		$bgcolor = "#FFFFFF";
 		if(is_array($records)) {
@@ -174,6 +174,58 @@ class plugin_listview extends plugin_base {
 		$_SESSION["s"]["form"]["return_to"] = $list_name;
 		//die(print_r($_SESSION["s"]["list"][$list_name]));
 
+		// defaults
+		$listTpl->setVar('app_title', $app->_conf['app_title']);
+		if(isset($_SESSION['s']['user'])) {
+			$listTpl->setVar('app_version', $app->_conf['app_version']);
+			// get pending datalog changes
+			$datalog = $app->db->datalogStatus();
+			$listTpl->setVar('datalog_changes_txt', $app->lng('datalog_changes_txt'));
+			$listTpl->setVar('datalog_changes_end_txt', $app->lng('datalog_changes_end_txt'));
+			$listTpl->setVar('datalog_changes_count', $datalog['count']);
+			$listTpl->setLoop('datalog_changes', $datalog['entries']);
+		} else {
+			$listTpl->setVar('app_version', '');
+		}
+		$listTpl->setVar('app_link', $app->_conf['app_link']);
+
+		$listTpl->setVar('app_logo', $app->_conf['logo']);
+
+		$listTpl->setVar('phpsessid', session_id());
+
+		$listTpl->setVar('theme', $_SESSION['s']['theme']);
+		$listTpl->setVar('html_content_encoding', $app->_conf['html_content_encoding']);
+
+		$listTpl->setVar('delete_confirmation', $app->lng('delete_confirmation'));
+		//print_r($_SESSION);
+		if(isset($_SESSION['s']['module']['name'])) {
+			$listTpl->setVar('app_module', $_SESSION['s']['module']['name']);
+		}
+		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
+			$listTpl->setVar('is_admin', 1);
+		}
+		if(isset($_SESSION['s']['user']) && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$listTpl->setVar('is_reseller', 1);
+		}
+		/* Show username */
+		if(isset($_SESSION['s']['user'])) {
+			$listTpl->setVar('cpuser', $_SESSION['s']['user']['username']);
+			$listTpl->setVar('logout_txt', $app->lng('logout_txt'));
+			/* Show search field only for normal users, not mail users */
+			if(stristr($_SESSION['s']['user']['username'], '@')){
+				$listTpl->setVar('usertype', 'mailuser');
+			} else {
+				$listTpl->setVar('usertype', 'normaluser');
+			}
+		}
+
+		/* Global Search */
+		$listTpl->setVar('globalsearch_resultslimit_of_txt', $app->lng('globalsearch_resultslimit_of_txt'));
+		$listTpl->setVar('globalsearch_resultslimit_results_txt', $app->lng('globalsearch_resultslimit_results_txt'));
+		$listTpl->setVar('globalsearch_noresults_text_txt', $app->lng('globalsearch_noresults_text_txt'));
+		$listTpl->setVar('globalsearch_noresults_limit_txt', $app->lng('globalsearch_noresults_limit_txt'));
+		$listTpl->setVar('globalsearch_searchfield_watermark_txt', $app->lng('globalsearch_searchfield_watermark_txt'));
+		
 		return $listTpl->grab();
 
 	}

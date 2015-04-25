@@ -116,7 +116,10 @@ $form["tabs"]['address'] = array (
 			'maxlength' => '255',
 			'rows'  => '',
 			'cols'  => '',
-			'searchable' => 1
+			'searchable' => 1,
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
 		),
 		'contact_name' => array (
 			'datatype' => 'VARCHAR',
@@ -131,7 +134,10 @@ $form["tabs"]['address'] = array (
 			'maxlength' => '255',
 			'rows'  => '',
 			'cols'  => '',
-			'searchable' => 1
+			'searchable' => 1,
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
 		),
 		'customer_no' => array (
 			'datatype' => 'VARCHAR',

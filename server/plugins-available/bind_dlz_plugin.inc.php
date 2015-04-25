@@ -34,7 +34,7 @@ TABLE STRUCTURE of the "named" database:
 CREATE TABLE IF NOT EXISTS `records` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `zone` varchar(255) NOT NULL,
-  `ttl` int(11) NOT NULL default '86400',
+  `ttl` int(11) NOT NULL default '3600',
   `type` varchar(255) NOT NULL,
   `host` varchar(255) NOT NULL default '@',
   `mx_priority` int(11) default NULL,
@@ -121,7 +121,7 @@ class bind_dlz_plugin {
 
 		$origin = substr($data["new"]["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
-		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
+		$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $ispconfig_id);
 
 		$ttl = $data["new"]["ttl"];
 
@@ -129,8 +129,7 @@ class bind_dlz_plugin {
 		//$_db->dbName = 'named';
 
 		$app->db->query("INSERT INTO named.records (zone, ttl, type, primary_ns, resp_contact, serial, refresh, retry, expire, minimum, ispconfig_id) VALUES ".
-			"('$origin', $ttl, 'SOA', '{$data["new"]["ns"]}', '{$data["new"]["mbox"]}', '{$serial["serial"]}', '{$serial["refresh"]}'," .
-			"'{$serial["retry"]}', '{$serial["expire"]}', '{$serial["minimum"]}', $ispconfig_id)");
+			"(?, ?, 'SOA', ?, ?, ?, ?, ?, ?, ?, ?)", $origin, $ttl, $data["new"]["ns"], $data["new"]["mbox"], $serial["serial"], $serial["refresh"], $serial["retry"], $serial["expire"], $serial["minimum"], $ispconfig_id);
 		//unset($_db);
 	}
 
@@ -149,16 +148,14 @@ class bind_dlz_plugin {
 			{
 				$origin = substr($data["new"]["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
-				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$ispconfig_id);
+				$serial = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $ispconfig_id);
 
 				$ttl = $data["new"]["ttl"];
 
 				//$_db = clone $app->db;
 				//$_db->dbName = 'named';
 
-				$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, primary_ns = '{$data["new"]["ns"]}', resp_contact = '{$data["new"]["mbox"]}', ".
-					"serial = '{$serial["serial"]}', refresh = '{$serial["refresh"]}', retry = '{$serial["retry"]}', expire = '{$serial["expire"]}', ".
-					"minimum = '{$serial["minimum"]}' WHERE ispconfig_id = ".$data["new"]["id"]." AND type = 'SOA'");
+				$app->db->query("UPDATE named.records SET zone = ?, ttl = ?, primary_ns = ?, resp_contact = ?, serial = ?, refresh = ?, retry = ?, expire = ?, minimum = ? WHERE ispconfig_id = ? AND type = 'SOA'", $origin, $ttl, $data["new"]["ns"], $data["new"]["mbox"], $serial["serial"], $serial["refresh"], $serial["retry"], $serial["expire"], $serial["minimum"], $data["new"]["id"]);
 				//unset($_db);
 			}
 			else
@@ -166,7 +163,7 @@ class bind_dlz_plugin {
 				$this->soa_insert($event_name, $data);
 				$ispconfig_id = $data["new"]["id"];
 
-				if ($records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = $ispconfig_id AND active = 'Y'"))
+				if ($records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $ispconfig_id))
 				{
 					foreach($records as $record)
 					{
@@ -188,7 +185,7 @@ class bind_dlz_plugin {
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
 
-		$app->db->query( "DELETE FROM named.dns_records WHERE zone = '".substr($data['old']['origin'], 0, -1)."'");
+		$app->db->query( "DELETE FROM named.dns_records WHERE zone = ?", substr($data['old']['origin'], 0, -1));
 		//unset($_db);
 	}
 
@@ -197,7 +194,7 @@ class bind_dlz_plugin {
 		global $app, $conf;
 		if($data["new"]["active"] != 'Y') return;
 
-		$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
+		$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $data["new"]["zone"]);
 		$origin = substr($zone["origin"], 0, -1);
 		$ispconfig_id = $data["new"]["id"];
 
@@ -251,13 +248,13 @@ class bind_dlz_plugin {
 
 		if ($type == 'MX') {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, mx_priority, data, ispconfig_id)".
-				" VALUES ('$origin', $ttl, '$type', '$name', {$data["new"]["aux"]}, '$content', $ispconfig_id)");
+				" VALUES (?, ?, ?, ?, ?, ?, ?)", $origin, $ttl, $type, $name, $data["new"]["aux"], $content, $ispconfig_id);
 		} elseif ($type == 'SRV') {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, data, ispconfig_id)".
-				" VALUES ('$origin', $ttl, '$type', '{$data["new"]["aux"]} $content', $ispconfig_id)");
+				" VALUES (?, ?, ?, ?, ?)", $origin, $ttl, $type, $data["new"]["aux"] . ' ' . $content, $ispconfig_id);
 		} else {
 			$app->db->query("INSERT INTO named.records (zone, ttl, type, host, data, ispconfig_id)".
-				" VALUES ('$origin', $ttl, '$type', '$name', '$content', $ispconfig_id)");
+				" VALUES (?, ?, ?, ?, ?, ?)", $origin, $ttl, $type, $name, $content, $ispconfig_id);
 		}
 
 		//unset($_db);
@@ -276,7 +273,7 @@ class bind_dlz_plugin {
 		{
 			if ($data["old"]["active"] == 'Y')
 			{
-				$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data["new"]["zone"]);
+				$zone = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $data["new"]["zone"]);
 				$origin = substr($zone["origin"], 0, -1);
 				$ispconfig_id = $data["new"]["id"];
 
@@ -328,14 +325,11 @@ class bind_dlz_plugin {
 				//$_db->dbName = 'named';
 
 				if ($type == 'MX') {
-					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', mx_priority = $prio, ".
-						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+					$app->db->query("UPDATE named.records SET zone = ?, ttl = ?, type = ?, host = ?, mx_priority = ?, data = ? WHERE ispconfig_id = ? AND type != 'SOA'", $origin, $ttl, $type, $name, $prio, $content, $ispconfig_id);
 				} elseif ($type == 'SRV') {
-					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', ".
-						"data = '$prio $content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+					$app->db->query("UPDATE named.records SET zone = ?, ttl = ?, type = ?, data = ? WHERE ispconfig_id = ? AND type != 'SOA'", $origin, $ttl, $type, $prio . ' ' . $content, $ispconfig_id);
 				} else {
-					$app->db->query("UPDATE named.records SET zone = '$origin', ttl = $ttl, type = '$type', host = '$name', ".
-						"data = '$content' WHERE ispconfig_id = $ispconfig_id AND type != 'SOA'");
+					$app->db->query("UPDATE named.records SET zone = ?, ttl = ?, type = ?, host = ?, data = ? WHERE ispconfig_id = ? AND type != 'SOA'", $origin, $ttl, $type, $name, $content, $ispconfig_id);
 				}
 
 				//unset($_db);
@@ -351,7 +345,7 @@ class bind_dlz_plugin {
 		//$_db = clone $app->db;
 		//$_db->dbName = 'named';
 
-		$app->db->query( "DELETE FROM named.dns_records WHERE type != 'SOA' AND zone = '".substr($data['old']['origin'], 0, -1)."'");
+		$app->db->query( "DELETE FROM named.dns_records WHERE type != 'SOA' AND zone = ?", substr($data['old']['origin'], 0, -1));
 		//unset($_db);
 	}
 

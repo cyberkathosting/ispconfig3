@@ -49,6 +49,11 @@ class cronjob_quota_notify extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
+		
+		/* used for all monitor cronjobs */
+		$app->load('monitor_tools');
+		$this->_tools = new monitor_tools();
+		/* end global section for monitor cronjobs */
 
 		//######################################################################################################
 		// enforce traffic quota (run only on the "master-server")
@@ -69,26 +74,12 @@ class cronjob_quota_notify extends cronjob {
 					$web_traffic_quota = $rec['traffic_quota'];
 					$domain = $rec['domain'];
 
-					// get the client
-					/*
-                    $client_group_id = $rec["sys_groupid"];
-                    $client = $app->db->queryOneRecord("SELECT limit_traffic_quota,parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-                    $reseller = $app->db->queryOneRecord("SELECT limit_traffic_quota FROM client WHERE client_id = ".intval($client['parent_client_id']));
-
-                    $client_traffic_quota = intval($client['limit_traffic_quota']);
-                    $reseller_traffic_quota = intval($reseller['limit_traffic_quota']);
-                    */
-
 					//* get the traffic
 					$tmp = $app->db->queryOneRecord("SELECT SUM(traffic_bytes) As total_traffic_bytes FROM web_traffic WHERE traffic_date like '$current_month%' AND hostname = '$domain'");
 					$web_traffic = round($tmp['total_traffic_bytes']/1024/1024);
 
-					//* Website is over quota, we will disable it
-					/*if( ($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) ||
-                        ($client_traffic_quota > 0 && $web_traffic > $client_traffic_quota) ||
-                        ($reseller_traffic_quota > 0 && $web_traffic > $reseller_traffic_quota)) {*/
 					if($web_traffic_quota > 0 && $web_traffic > $web_traffic_quota) {
-						$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'y',active = 'n'", 'domain_id', $rec['domain_id']);
+						$app->dbmaster->datalogUpdate('web_domain', array("traffic_quota_lock" => 'y', "active" => 'n'), 'domain_id', $rec['domain_id']);
 						$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.', LOGLEVEL_DEBUG);
 
 						//* Send traffic notifications
@@ -106,7 +97,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overtraffic_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -118,7 +109,7 @@ class cronjob_quota_notify extends cronjob {
 					} else {
 						//* unlock the website, if traffic is lower then quota
 						if($rec['traffic_quota_lock'] == 'y') {
-							$app->dbmaster->datalogUpdate('web_domain', "traffic_quota_lock = 'n',active = 'y'", 'domain_id', $rec['domain_id']);
+							$app->dbmaster->datalogUpdate('web_domain', array("traffic_quota_lock" => 'n', "active" => 'y'), 'domain_id', $rec['domain_id']);
 							$app->log('Traffic quota for '.$rec['domain'].' ok again. Re-enabling website.', LOGLEVEL_DEBUG);
 						}
 					}
@@ -206,7 +197,7 @@ class cronjob_quota_notify extends cronjob {
 					// send notifications only if 90% or more of the quota are used
 					if($used_ratio < 0.9) {
 						// reset notification date
-						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = NULL", 'domain_id', $rec['domain_id']);
+						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_domain', array("last_quota_notification" => null), 'domain_id', $rec['domain_id']);
 
 						// send notification - everything ok again
 						if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y')) {
@@ -227,7 +218,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -243,7 +234,7 @@ class cronjob_quota_notify extends cronjob {
 
 						//* Send quota notifications
 						if(($web_config['overquota_notify_admin'] == 'y' || $web_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-							$app->dbmaster->datalogUpdate('web_domain', "last_quota_notification = CURDATE()", 'domain_id', $rec['domain_id']);
+							$app->dbmaster->datalogUpdate('web_domain', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'domain_id', $rec['domain_id']);
 
 							$placeholders = array('{domain}' => $rec['domain'],
 								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
@@ -262,7 +253,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($web_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -335,7 +326,7 @@ class cronjob_quota_notify extends cronjob {
 					// send notifications only if 90% or more of the quota are used
 					if($used_ratio < 0.9) {
 						// reset notification date
-						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = NULL", 'mailuser_id', $rec['mailuser_id']);
+						if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('mail_user', array("last_quota_notification" => null), 'mailuser_id', $rec['mailuser_id']);
 
 						// send notification - everything ok again
 						if($rec['last_quota_notification'] && $mail_config['overquota_notify_onok'] == 'y' && ($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y')) {
@@ -355,7 +346,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($mail_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -372,7 +363,7 @@ class cronjob_quota_notify extends cronjob {
 						elseif($mail_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $mail_config['overquota_notify_freq']) $send_notification = true;
 
 						if(($mail_config['overquota_notify_admin'] == 'y' || $mail_config['overquota_notify_client'] == 'y') && $send_notification == true) {
-							$app->dbmaster->datalogUpdate('mail_user', "last_quota_notification = CURDATE()", 'mailuser_id', $rec['mailuser_id']);
+							$app->dbmaster->datalogUpdate('mail_user', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'mailuser_id', $rec['mailuser_id']);
 
 							$placeholders = array('{email}' => $rec['email'],
 								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
@@ -390,7 +381,7 @@ class cronjob_quota_notify extends cronjob {
 							//* Send email to client
 							if($mail_config['overquota_notify_client'] == 'y') {
 								$client_group_id = $rec["sys_groupid"];
-								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$client = $app->db->queryOneRecord("SELECT client.email FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								if($client['email'] != '') {
 									$recipients[] = $client['email'];
 								}
@@ -427,7 +418,7 @@ class cronjob_quota_notify extends cronjob {
 			}
 
 			//* get databases
-			$database_records = $app->db->queryAllRecords("SELECT database_id,sys_groupid,database_name,database_quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_database;");
+			$database_records = $app->db->queryAllRecords("SELECT database_id,sys_groupid,database_name,database_quota,last_quota_notification,DATEDIFF(CURDATE(), last_quota_notification) as `notified_before` FROM web_database");
 
 			if(is_array($database_records) && !empty($database_records) && is_array($monitor_data) && !empty($monitor_data)) {
 				//* check database-quota
@@ -442,7 +433,7 @@ class cronjob_quota_notify extends cronjob {
 
 							if ($monitor['database_name'] == $database) {
 								//* get the client
-								$client = $app->db->queryOneRecord("SELECT client.username, client.email FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name='".$database."'");
+								$client = $app->db->queryOneRecord("SELECT client.username, client.email FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name=?", $database);
 
 								//* check quota
 								if ($quota > 0) $used_ratio = $monitor['size'] / $quota;
@@ -452,9 +443,9 @@ class cronjob_quota_notify extends cronjob {
 								if($used_ratio > 0.9) {
 
 									//* reset notification date
-									if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_database', "last_quota_notification = NULL", 'database_id', $rec['database_id']);
+									if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => null), 'database_id', $rec['database_id']);
 
-									$app->dbmaster->datalogUpdate('web_database', "last_quota_notification = CURDATE()", 'database_id', $rec['database_id']);
+									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
 
 									// send notification - everything ok again
 									if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y')) {
@@ -489,7 +480,7 @@ class cronjob_quota_notify extends cronjob {
 
 								//* Send quota notifications
 								if(($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y') && $send_notification == true) {
-									$app->dbmaster->datalogUpdate('web_database', "last_quota_notification = CURDATE()", 'database_id', $rec['database_id']);
+									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
 									$placeholders = array(
 										'{database_name}' => $rec['database_name'],
 										'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),

@@ -81,7 +81,7 @@ class webmail_symlink_plugin {
 
 			// If the parent_domain_id has been chenged, we will have to update the old site as well.
 			if($this->action == 'update' && $data["new"]["parent_domain_id"] != $data["old"]["parent_domain_id"]) {
-				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$old_parent_domain_id." AND active = 'y'");
+				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $old_parent_domain_id);
 				$data["new"] = $tmp;
 				$data["old"] = $tmp;
 				$this->action = 'update';
@@ -89,7 +89,7 @@ class webmail_symlink_plugin {
 			}
 
 			// This is not a vhost, so we need to update the parent record instead.
-			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$new_parent_domain_id." AND active = 'y'");
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $new_parent_domain_id);
 			$data["new"] = $tmp;
 			$data["old"] = $tmp;
 			$this->action = 'update';

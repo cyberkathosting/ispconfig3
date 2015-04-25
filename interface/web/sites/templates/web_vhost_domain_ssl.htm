@@ -91,7 +91,7 @@
 
 	$('#reset_data').click(function(){
 		$('#ssl_organisation').add('#ssl_locality').add('#ssl_state').add('#ssl_organisation_unit').val('');
-		$('#ssl_country').val($("#ssl_country option:first").val());
+		$('#ssl_country').val($("#ssl_country option:first").val()).trigger('change');
 	});
 	$('#load_data').click(function(){
 		loadClientData();
@@ -104,7 +104,7 @@
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {'web_id': web_id, 'type': "getclientssldata"}, function(data) {
 			$('#ssl_organisation').val(data['company_name']);
 			$('#ssl_locality').val(data['city']);
-			$('#ssl_country').val(data['country']);
+			$('#ssl_country').val(data['country']).trigger('change');
 			$('#ssl_state').val(data['state']);
 			$('#ssl_organisation_unit').val('IT');
         });

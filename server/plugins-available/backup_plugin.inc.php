@@ -63,19 +63,19 @@ class backup_plugin {
 		global $app, $conf;
 
 		$backup_id = intval($data);
-		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = $backup_id");
+		$backup = $app->dbmaster->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ?", $backup_id);
 
 		if(is_array($backup)) {
 
 			$app->uses('ini_parser,file,getconf,system');
 
-			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$backup['parent_domain_id']);
+			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
 			
 			$backup_dir_is_ready = true;
             //* mount backup directory, if necessary
-            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $backup_dir_is_ready = false;
+            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($server_config['backup_dir']) ) $backup_dir_is_ready = false;
 
 			if($backup_dir_is_ready){
 				//* Make backup available for download
@@ -172,7 +172,7 @@ class backup_plugin {
 		global $app, $conf;
 	
 		$backup_id = intval($data);
-		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = $backup_id");
+		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = ?", $backup_id);
 	
 		if (is_array($mail_backup) && $action_name == 'backup_restore_mail') {
 			$app->uses('ini_parser,file,getconf');
@@ -186,13 +186,13 @@ class backup_plugin {
 	
 			if($backup_dir_is_ready){
 				$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ".intval($mail_backup['parent_domain_id']));
+				$domain_rec = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain_id = ?", $mail_backup['parent_domain_id']);
 			
 				$backup_dir = $server_config['backup_dir'].'/mail'.$domain_rec['domain_id'];
 				$mail_backup_file = $backup_dir.'/'.$mail_backup['filename'];
 			
-				$sql = "SELECT * FROM mail_user WHERE server_id = '".$conf['server_id']."' AND mailuser_id = ".intval($mail_backup['mailuser_id']);
-				$record = $app->db->queryOneRecord($sql);
+				$sql = "SELECT * FROM mail_user WHERE server_id = ? AND mailuser_id = ?";
+				$record = $app->db->queryOneRecord($sql, $conf['server_id'], $mail_backup['mailuser_id']);
 			
 				//* strip mailbox from maildir
 				$domain_dir=explode('/',$record['maildir']);

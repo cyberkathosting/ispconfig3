@@ -42,8 +42,8 @@
                             <td>{tmpl_var name="groups"}</td>
                             <td class="text-right">
                                 <tmpl_if name="username" op="!=" value="admin">
-                                    <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='client_id'}"><span class="icon icon-loginas"></span></button>
-                                    <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></button>
+                                    <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='client_id'}"><span class="icon icon-loginas"></span></a>
+                                    <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/users_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
                                 </tmpl_if>
                             </td>
                         </tr>

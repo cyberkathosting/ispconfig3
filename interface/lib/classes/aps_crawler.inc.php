@@ -356,15 +356,8 @@ class ApsCrawler extends ApsBase
 										$old_folder = $this->interface_pkg_dir.'/'.$app_name.'-'.$ex_ver.'.app.zip';
 										if(file_exists($old_folder)) $this->removeDirectory($old_folder);
 
-										/*
-										$app->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_OUTDATED."' WHERE name = '".
-											$app->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
-											$app->db->quote($ex_ver)."';");
-										*/
-										$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE name = '".
-											$app->db->quote($app_name)."' AND CONCAT(version, '-', CAST(`release` AS CHAR)) = '".
-											$app->db->quote($ex_ver)."';");
-										$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_OUTDATED, 'id', $tmp['id']);
+										$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE name = ? AND CONCAT(version, '-', CAST(`release` AS CHAR)) = ?", $app_name, $ex_ver);
+										$app->db->datalogUpdate('aps_packages', array("package_status" => PACKAGE_OUTDATED), 'id', $tmp['id']);
 										unset($tmp);
 									}
 
@@ -539,14 +532,12 @@ class ApsCrawler extends ApsBase
 
 			// Get registered packages and mark non-existant packages with an error code to omit the install
 			$existing_packages = array();
-			$path_query = $app->db->queryAllRecords('SELECT path AS Path FROM aps_packages;');
+			$path_query = $app->db->queryAllRecords('SELECT path AS Path FROM aps_packages');
 			foreach($path_query as $path) $existing_packages[] = $path['Path'];
 			$diff = array_diff($existing_packages, $pkg_list);
 			foreach($diff as $todelete) {
-				/*$app->db->query("UPDATE aps_packages SET package_status = '".PACKAGE_ERROR_NOMETA."'
-                    WHERE path = '".$app->db->quote($todelete)."';");*/
-				$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = '".$app->db->quote($todelete)."';");
-				$app->db->datalogUpdate('aps_packages', "package_status = ".PACKAGE_ERROR_NOMETA, 'id', $tmp['id']);
+				$tmp = $app->db->queryOneRecord("SELECT id FROM aps_packages WHERE path = ?", $todelete);
+				$app->db->datalogUpdate('aps_packages', array("package_status" => PACKAGE_ERROR_NOMETA), 'id', $tmp['id']);
 				unset($tmp);
 			}
 
@@ -576,20 +567,17 @@ class ApsCrawler extends ApsBase
 				//$pkg_url = $this->app_download_url_list[$pkg];
 				$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$pkg.'/PKG_URL');
 
-				/*
-                $app->db->query("INSERT INTO `aps_packages`
-                    (`path`, `name`, `category`, `version`, `release`, `package_status`) VALUES
-                    ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
-                    '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
-                    ".$app->db->quote($pkg_release).", ".PACKAGE_ENABLED.");");
-				*/
 				// Insert only if data is complete
 				if($pkg != '' && $pkg_name != '' && $pkg_category != '' && $pkg_version != '' && $pkg_release != '' && $pkg_url){
-					$insert_data = "(`path`, `name`, `category`, `version`, `release`, `package_url`, `package_status`) VALUES
-                    ('".$app->db->quote($pkg)."', '".$app->db->quote($pkg_name)."',
-                    '".$app->db->quote($pkg_category)."', '".$app->db->quote($pkg_version)."',
-                    ".$app->db->quote($pkg_release).", '".$app->db->quote($pkg_url)."', ".PACKAGE_ENABLED.");";
-
+					$insert_data = array(
+						"path" => $pkg,
+						"name" => $pkg_name,
+						"category" => $pkg_category,
+						"version" => $pkg_version,
+						"release" => $pkg_release,
+						"package_url" => $pkg_url,
+						"package_status" => PACKAGE_ENABLED
+					);
 					$app->db->datalogInsert('aps_packages', $insert_data, 'id');
 				} else {
 					if(file_exists($this->interface_pkg_dir.'/'.$pkg)) $this->removeDirectory($this->interface_pkg_dir.'/'.$pkg);
@@ -619,12 +607,12 @@ class ApsCrawler extends ApsBase
 			// This method must be used in interface mode
 			if(!$this->interface_mode) return false;
 
-			$incomplete_pkgs = $app->db->queryAllRecords("SELECT * FROM aps_packages WHERE package_url = ''");
+			$incomplete_pkgs = $app->db->queryAllRecords("SELECT * FROM aps_packages WHERE package_url = ?", '');
 			if(is_array($incomplete_pkgs) && !empty($incomplete_pkgs)){
 				foreach($incomplete_pkgs as $incomplete_pkg){
 					$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$incomplete_pkg['path'].'/PKG_URL');
 					if($pkg_url != ''){
-						$app->db->datalogUpdate('aps_packages', "package_url = '".$app->db->quote($pkg_url)."'", 'id', $incomplete_pkg['id']);
+						$app->db->datalogUpdate('aps_packages', array("package_url" => $pkg_url), 'id', $incomplete_pkg['id']);
 					}
 				}
 			}

@@ -1,10 +1,11 @@
+<tmpl_if name="list_head_txt">
 <div class='page-header'>
 	<h1><tmpl_var name="list_head_txt"></h1>
 </div>
-<p><tmpl_var name="list_desc_txt"></p>
+</tmpl_if>
+<tmpl_if name="list_desc_txt"><p><tmpl_var name="list_desc_txt"></p></tmpl_if>
 
 
-        <legend>{tmpl_var name='circle_txt'}</legend>
             <div class="form-group">
                 <label for="circle_name" class="col-sm-3 control-label">{tmpl_var name='circle_name_txt'}*</label>
                 <div class="col-sm-9"><input type="text" name="circle_name" id="circle_name" value="{tmpl_var name='circle_name'}" class="form-control" /></div></div>

@@ -34,7 +34,7 @@
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+        <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
     </tmpl_if>
 	
     <input type="hidden" name="remote_session_id" value="{tmpl_var name='remote_session_id'}">

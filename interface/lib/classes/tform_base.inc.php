@@ -347,7 +347,7 @@ class tform_base {
 				return $values;
 			} else {
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				$allowed = explode(',', $client['lm']);
 			}
 		}
@@ -359,19 +359,19 @@ class tform_base {
 			} else {
 				//* Get the limits of the client that is currently logged in
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
 				//* If the client belongs to a reseller, we will check against the reseller Limit too
 				if($client['parent_client_id'] != 0) {
 
 					//* first we need to know the groups of this reseller
-					$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ".$client['parent_client_id']);
+					$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ?", $client['parent_client_id']);
 					$reseller_groups = $tmp["groups"];
 					$reseller_userid = $tmp["userid"];
 
 					// Get the limits of the reseller of the logged in client
 					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-					$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ".$client['parent_client_id']);
+					$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ?", $client['parent_client_id']);
 					$allowed = explode(',', $reseller['lm']);
 				} else {
 					return $values;
@@ -810,6 +810,9 @@ class tform_base {
 				case 'IDNTOUTF8':
 					$returnval = $app->functions->idn_decode($returnval);
 					break;
+				case 'TRIM':
+					$returnval = trim($returnval);
+					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];
 					break;
@@ -853,7 +856,7 @@ class tform_base {
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'n' || ($validator['allowempty'] == 'y' && $field_value != '')){
 					if($this->action == 'NEW') {
-						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ?? WHERE ?? = ?", $this->formDef['db_table'], $field_name, $field_value);
 						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
@@ -863,7 +866,7 @@ class tform_base {
 							}
 						}
 					} else {
-						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."' AND ".$this->formDef['db_table_idx']." != ".$this->primary_id);
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ?? WHERE ?? = ? AND ?? != ?", $this->formDef['db_table'], $field_name, $field_value, $this->formDef['db_table_idx'], $this->primary_id);
 						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
@@ -1108,6 +1111,7 @@ class tform_base {
 	 * @param primary_id
 	 * @return record
 	 */
+	 /* TODO: check for double quoting */
 	protected function _getSQL($record, $tab, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '', $api = false) {
 
 		global $app;
@@ -1139,7 +1143,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
 								$record[$key] = $tmp['crypted'];
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} else {
@@ -1167,7 +1171,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
 								$record[$key] = $tmp['crypted'];
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} else {
@@ -1359,8 +1363,8 @@ class tform_base {
 	function getDataRecord($primary_id) {
 		global $app;
 		$escape = '`';
-		$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id." AND ".$this->getAuthSQL('r', $this->formDef['db_table']);
-		return $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$this->getAuthSQL('r', $this->formDef['db_table']);
+		return $app->db->queryOneRecord($sql, $this->formDef['db_table'], $this->formDef['db_table_idx'], $primary_id);
 	}
 
 

@@ -449,10 +449,8 @@ if($install_mode == 'standard') {
 		// initialize the connection to the master database
 		$inst->dbmaster = new db();
 		if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-		$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
-		$inst->dbmaster->dbName = $conf['mysql']["master_database"];
-		$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
-		$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+		$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
+		$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
 
 	} else {
 		// the master DB is the same then the slave DB
@@ -623,23 +621,17 @@ if($install_mode == 'standard') {
 
 	//** Configure Firewall
 	if(strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
-		//if($conf['bastille']['installed'] == true) {
-		//* Configure Bastille Firewall
-		$conf['services']['firewall'] = true;
-		swriteln('Configuring Bastille Firewall');
-		$inst->configure_firewall();
-		/*} elseif($conf['ufw']['installed'] == true) {
-			//* Configure Ubuntu Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Ubuntu Firewall');
-			$inst->configure_ufw_firewall();
-		} else {
-			//* Configure Bastille Firewall
-			$conf['services']['firewall'] = true;
-			swriteln('Configuring Bastille Firewall');
-			$inst->configure_bastille_firewall();
-		}
-		*/
+	   if($conf['ufw']['installed'] == true) {
+		   //* Configure Ubuntu Firewall
+		   $conf['services']['firewall'] = true;
+		   swriteln('Configuring Ubuntu Firewall');
+		   $inst->configure_ufw_firewall();
+	   } else {
+		   //* Configure Bastille Firewall
+		   $conf['services']['firewall'] = true;
+		   swriteln('Configuring Bastille Firewall');
+		   $inst->configure_bastille_firewall();
+	   }
 	}
 
 	//** Configure Firewall
@@ -712,6 +704,8 @@ if($install_mode == 'standard') {
 
 
 } //* << $install_mode / 'Standard' or Genius
+
+$inst->create_mount_script();
 
 //* Create md5 filelist
 $md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';

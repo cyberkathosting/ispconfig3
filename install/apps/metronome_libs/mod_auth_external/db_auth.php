@@ -17,7 +17,7 @@ try{
 
     // check for existing user
     $dbmail = $db->real_escape_string($arg_email);
-    $result = $db->query("SELECT jid, password FROM xmpp_user WHERE jid LIKE '".$dbmail."' AND active='y' AND server_id='".$isp_server_id."'");
+    $result = $db->query("SELECT jid, password FROM xmpp_user WHERE jid LIKE ? AND active='y' AND server_id=?", $dbmail, $isp_server_id);
     result_false($result->num_rows != 1);
 
     $user = $result->fetch_object();

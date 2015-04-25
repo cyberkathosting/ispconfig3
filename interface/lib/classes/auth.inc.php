@@ -57,7 +57,7 @@ class auth {
 		global $app, $conf;
 
 		$userid = $app->functions->intval($userid);
-		$client = $app->db->queryOneRecord("SELECT client.limit_client FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");
+		$client = $app->db->queryOneRecord("SELECT client.limit_client FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id", $userid);
 		if($client['limit_client'] != 0) {
 			return true;
 		} else {
@@ -73,12 +73,12 @@ class auth {
 		$groupid = $app->functions->intval($groupid);
 
 		if($userid > 0 && $groupid > 0) {
-			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $userid");
+			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $userid);
 			$groups = explode(',', $user['groups']);
 			if(!in_array($groupid, $groups)) $groups[] = $groupid;
 			$groups_string = implode(',', $groups);
-			$sql = "UPDATE sys_user SET groups = '$groups_string' WHERE userid = $userid";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET groups = ? WHERE userid = ?";
+			$app->db->query($sql, $groups_string, $userid);
 			return true;
 		} else {
 			return false;
@@ -95,7 +95,7 @@ class auth {
 		
 		// simple query cache
 		if($this->client_limits===null)
-			$this->client_limits = $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = $userid AND sys_user.client_id = client.client_id");
+			$this->client_limits = $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id", $userid);
 
 		// isn't client -> no limit
 		if(!$this->client_limits)
@@ -114,13 +114,13 @@ class auth {
 		$groupid = $app->functions->intval($groupid);
 
 		if($userid > 0 && $groupid > 0) {
-			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $userid");
+			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $userid);
 			$groups = explode(',', $user['groups']);
 			$key = array_search($groupid, $groups);
 			unset($groups[$key]);
 			$groups_string = implode(',', $groups);
-			$sql = "UPDATE sys_user SET groups = '$groups_string' WHERE userid = $userid";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET groups = ? WHERE userid = ?";
+			$app->db->query($sql, $groups_string, $userid);
 			return true;
 		} else {
 			return false;
@@ -129,11 +129,32 @@ class auth {
 
 	public function check_module_permissions($module) {
 		// Check if the current user has the permissions to access this module
+		$module = trim(preg_replace('@\s+@', '', $module));
 		$user_modules = explode(',',$_SESSION["s"]["user"]["modules"]);
-		if(!in_array($module,$user_modules)) {
-			// echo "LOGIN_REDIRECT:/index.php";
-			header("Location: /index.php");
-			exit;
+		if(strpos($module, ',') !== false){
+			$can_use_module = false;
+			$tmp_modules = explode(',', $module);
+			if(is_array($tmp_modules) && !empty($tmp_modules)){
+				foreach($tmp_modules as $tmp_module){
+					if($tmp_module != ''){
+						if(in_array($tmp_module,$user_modules)) {
+							$can_use_module = true;
+							break;
+						}
+					}
+				}
+			}
+			if(!$can_use_module){
+				// echo "LOGIN_REDIRECT:/index.php";
+				header("Location: /index.php");
+				exit;
+			}
+		} else {
+			if(!in_array($module,$user_modules)) {
+				// echo "LOGIN_REDIRECT:/index.php";
+				header("Location: /index.php");
+				exit;
+			}
 		}
 	}
 	

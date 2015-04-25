@@ -74,7 +74,7 @@ foreach($files as $f) {
 			unset($cronjob);
 			continue;
 		}
-		print 'Included ' . $class_name . ' from ' . $file_path . ' -> will now run job.' . "\n";
+		print 'Included ' . $class_name . ' from ' . $path . '/' . $f . ' -> will now run job.' . "\n";
 
 		$cronjob->run();
 

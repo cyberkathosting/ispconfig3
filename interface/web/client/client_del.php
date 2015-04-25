@@ -74,11 +74,7 @@ class page_action extends tform_actions {
 
 			$this->dataRecord = $app->tform->getDataRecord($this->id);
 			$client_id = $app->functions->intval($this->dataRecord['client_id']);
-
-
-			//$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
-			//$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
-			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 
 			// Get all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain';
@@ -89,7 +85,7 @@ class page_action extends tform_actions {
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
-						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
+						$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ?", $table, $client_group_id);
 						$number = count($records);
 						if($number > 0) $table_list[] = array('table' => $table."(".$number.")");
 					}
@@ -121,15 +117,15 @@ class page_action extends tform_actions {
 		if($client_id > 0) {
 			// remove the group of the client from the resellers group
 			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
-			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = $parent_client_id");
-			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = $client_id");
+			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = ?", $parent_client_id);
+			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
 			$app->auth->remove_group_from_user($parent_user['userid'], $client_group['groupid']);
 
 			// delete the group of the client
-			$app->db->query("DELETE FROM sys_group WHERE client_id = $client_id");
+			$app->db->query("DELETE FROM sys_group WHERE client_id = ?", $client_id);
 
 			// delete the sys user(s) of the client
-			$app->db->query("DELETE FROM sys_user WHERE client_id = $client_id");
+			$app->db->query("DELETE FROM sys_user WHERE client_id = ?", $client_id);
 
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
 			$tables = 'client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_folder,web_folder_user,domain';
@@ -138,7 +134,7 @@ class page_action extends tform_actions {
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
-						$records = $app->db->queryAllRecords("SELECT * FROM $table WHERE sys_groupid = ".$client_group_id);
+						$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ?", $table, $client_group_id);
 						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
 						$index_field = '';
@@ -152,11 +148,11 @@ class page_action extends tform_actions {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
 									//* Delete traffic records that dont have a sys_groupid column
 									if($table == 'web_domain') {
-										$app->db->query("DELETE FROM web_traffic WHERE hostname = '".$app->db->quote($rec['domain'])."'");
+										$app->db->query("DELETE FROM web_traffic WHERE hostname = ?", $rec['domain']);
 									}
 									//* Delete mail_traffic records that dont have a sys_groupid
 									if($table == 'mail_user') {
-										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = '".$app->db->quote($rec['mailuser_id'])."'");
+										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = ?", $rec['mailuser_id']);
 									}
 								}
 							}

@@ -41,24 +41,24 @@ class vm_openvz_plugin {
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
+			$app->db->query("UPDATE openvz_vm SET sys_groupid = ? WHERE vm_id = ?", $client_group_id, $this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
+			$app->db->query("UPDATE openvz_vm SET sys_groupid = ? WHERE vm_id = ?", $client_group_id, $this->id);
 		}
 
 		// Set the VEID
 		$tmp = $app->db->queryOneRecord('SELECT MAX(veid) + 1 as newveid FROM openvz_vm');
 		$veid = ($tmp['newveid'] > 100)?$tmp['newveid']:101;
-		$app->db->query("UPDATE openvz_vm SET veid = ".$veid." WHERE vm_id = ".$this->id);
+		$app->db->query("UPDATE openvz_vm SET veid = ? WHERE vm_id = ?", $veid, $this->id);
 		unset($tmp);
 
 		// Apply template values to the advanced tab settings
 		$this->applyTemplate();
 
 		// Set the IP address
-		$app->db->query("UPDATE openvz_ip SET vm_id = ".$this->id." WHERE ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."'");
+		$app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
 
 		// Create the OpenVZ config file and store it in config field
 		$this->makeOpenVZConfig();
@@ -82,11 +82,11 @@ class vm_openvz_plugin {
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
+			$app->db->query("UPDATE openvz_vm SET sys_groupid = ? WHERE vm_id = ?", $client_group_id, $this->id);
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE openvz_vm SET sys_groupid = $client_group_id WHERE vm_id = ".$this->id);
+			$app->db->query("UPDATE openvz_vm SET sys_groupid = ? WHERE vm_id = ?", $client_group_id, $this->id);
 		}
 
 		if(isset($this->dataRecord["ostemplate_id"]) && $this->oldDataRecord["ostemplate_id"] != $this->dataRecord["ostemplate_id"]) {
@@ -94,7 +94,7 @@ class vm_openvz_plugin {
 		}
 
 		// Set the IP address
-		if(isset($this->dataRecord['ip_address'])) $app->db->query("UPDATE openvz_ip SET vm_id = ".$this->id." WHERE ip_address = '".$app->db->quote($this->dataRecord['ip_address'])."'");
+		if(isset($this->dataRecord['ip_address'])) $app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
 
 		// Create the OpenVZ config file and store it in config field
 		$this->makeOpenVZConfig();
@@ -111,8 +111,8 @@ class vm_openvz_plugin {
 		global $app, $conf;
 
 		//* Free the IP address
-		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ".$app->functions->intval($page_form->id));
-		$app->db->datalogUpdate('openvz_ip', 'vm_id = 0', 'ip_address_id', $tmp['ip_address_id']);
+		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
+		$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
 		unset($tmp);
 
 	}
@@ -120,29 +120,29 @@ class vm_openvz_plugin {
 	private function applyTemplate() {
 		global $app, $conf;
 
-		$tpl = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ".$app->functions->intval($this->dataRecord["template_id"]));
+		$tpl = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ?", $this->dataRecord["template_id"]);
 
 		$sql = "UPDATE openvz_vm SET ";
-		$sql .= "diskspace = '".$app->db->quote($tpl['diskspace'])."', ";
-		$sql .= "ram = '".$app->db->quote($tpl['ram'])."', ";
-		$sql .= "ram_burst = '".$app->db->quote($tpl['ram_burst'])."', ";
-		$sql .= "cpu_units = '".$app->db->quote($tpl['cpu_units'])."', ";
-		$sql .= "cpu_num = '".$app->db->quote($tpl['cpu_num'])."', ";
-		$sql .= "cpu_limit = '".$app->db->quote($tpl['cpu_limit'])."', ";
-		$sql .= "io_priority = '".$app->db->quote($tpl['io_priority'])."', ";
-		$sql .= "nameserver = '".$app->db->quote($tpl['nameserver'])."', ";
-		$sql .= "create_dns = '".$app->db->quote($tpl['create_dns'])."', ";
-		$sql .= "capability = '".$app->db->quote($tpl['capability'])."' ";
-		$sql .= "WHERE vm_id = ".$app->functions->intval($this->id);
-		$app->db->query($sql);
+		$sql .= "diskspace = ?, ";
+		$sql .= "ram = ?, ";
+		$sql .= "ram_burst = ?, ";
+		$sql .= "cpu_units = ?, ";
+		$sql .= "cpu_num = ?, ";
+		$sql .= "cpu_limit = ?, ";
+		$sql .= "io_priority = ?, ";
+		$sql .= "nameserver = ?, ";
+		$sql .= "create_dns = ?, ";
+		$sql .= "capability = ? ";
+		$sql .= "WHERE vm_id = ?";
+		$app->db->query($sql, $tpl['diskspace'], $tpl['ram'], $tpl['ram_burst'], $tpl['cpu_units'], $tpl['cpu_num'], $tpl['cpu_limit'], $tpl['io_priority'], $tpl['nameserver'], $tpl['create_dns'], $tpl['capability'], $this->id);
 
 	}
 
 	private function makeOpenVZConfig() {
 		global $app, $conf;
 
-		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ".$app->functions->intval($this->id));
-		$vm_template = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ".$app->functions->intval($vm['template_id']));
+		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ?",$app->functions->intval($this->id));
+		$vm_template = $app->db->queryOneRecord("SELECT * FROM openvz_template WHERE template_id = ?",$app->functions->intval($vm['template_id']));
 		$burst_ram = $vm['ram_burst']*256;
 		$guar_ram = $vm['ram']*256;
 
@@ -194,12 +194,12 @@ class vm_openvz_plugin {
 		$tpl->setVar('nameserver', $vm['nameserver']);
 		$tpl->setVar('capability', $vm['capability']);
 
-		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ".$app->functions->intval($vm['ostemplate_id']));
+		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ?", $app->functions->intval($vm['ostemplate_id']));
 		$tpl->setVar('ostemplate', $tmp['template_file']);
 		unset($tmp);
 
-		$openvz_config = $app->db->quote($tpl->grab());
-		$app->db->query("UPDATE openvz_vm SET config = '".$openvz_config."' WHERE vm_id = ".$app->functions->intval($this->id));
+		$openvz_config = $tpl->grab();
+		$app->db->query("UPDATE openvz_vm SET config = ? WHERE vm_id = ?", $openvz_config, $app->functions->intval($this->id));
 
 		unset($tpl);
 
@@ -208,23 +208,23 @@ class vm_openvz_plugin {
 	private function createDNS() {
 		global $app, $conf;
 
-		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ".$app->functions->intval($this->id));
+		$vm = $app->db->queryOneRecord("SELECT * FROM openvz_vm WHERE vm_id = ?", $app->functions->intval($this->id));
 
 		if($vm['create_dns'] != 'y') return;
 
 		$full_hostname = str_replace('{VEID}', $vm['veid'], $vm['hostname']);
 		$hostname_parts = explode('.', $full_hostname);
-		$hostname = $app->db->quote($hostname_parts[0]);
+		$hostname = $hostname_parts[0];
 		unset($hostname_parts[0]);
-		$zone = $app->db->quote((implode('.', $hostname_parts)));
+		$zone = implode('.', $hostname_parts);
 		unset($hostname_parts);
 
 		// Find the dns zone
-		$zone_rec = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin = '".$app->db->quote($zone).".'");
-		$rr_rec = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = '".$app->functions->intval($zone_rec['id'])."' AND name = '".$app->db->quote($hostname)."'");
+		$zone_rec = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin = ?", $zone);
+		$rr_rec = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND name = ?", $zone_rec['id'], $hostname);
 
 		if($zone_rec['id'] > 0) {
-			$ip_address = $app->db->quote($vm['ip_address']);
+			$ip_address = $vm['ip_address'];
 			$sys_userid = $app->functions->intval($zone_rec['sys_userid']);
 			$sys_groupid = $app->functions->intval($zone_rec['sys_groupid']);
 			$server_id = $app->functions->intval($zone_rec['server_id']);
@@ -232,12 +232,25 @@ class vm_openvz_plugin {
 
 			if($rr_rec['id'] > 0) {
 				$app->uses('validate_dns');
-				$app->db->datalogUpdate('dns_rr', "data = '$ip_address'", 'id', $app->functions->intval($rr_rec['id']));
+				$app->db->datalogUpdate('dns_rr', array("data" => $ip_address), 'id', $app->functions->intval($rr_rec['id']));
 				$serial = $app->validate_dns->increase_serial($zone_rec['serial']);
-				$app->db->datalogUpdate('dns_soa', "serial = '$serial'", 'id', $app->functions->intval($zone_rec['id']));
+				$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $app->functions->intval($zone_rec['id']));
 			} else {
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$hostname', 'A', '$ip_address', '0', '3600', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $sys_userid,
+					"sys_groupid" => $sys_groupid,
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $server_id,
+					"zone" => $dns_soa_id,
+					"name" => $hostname,
+					"type" => 'A',
+					"data" => $ip_address,
+					"aux" => '0',
+					"ttl" => '3600',
+					"active" => 'Y'
+				);
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
 

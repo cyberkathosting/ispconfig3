@@ -55,8 +55,8 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Getting Servers
-		$sql = "SELECT server_id,server_name FROM server WHERE server_id != ".$app->functions->intval($this->id)." ORDER BY server_name";
-		$mirror_servers = $app->db->queryAllRecords($sql);
+		$sql = "SELECT server_id,server_name FROM server WHERE server_id != ? ORDER BY server_name";
+		$mirror_servers = $app->db->queryAllRecords($sql, $this->id);
 		$mirror_server_select = '<option value="0">'.$app->tform->lng('- None -').'</option>';
 		if(is_array($mirror_servers)) {
 			foreach( $mirror_servers as $mirror_server) {

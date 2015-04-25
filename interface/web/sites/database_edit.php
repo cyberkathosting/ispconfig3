@@ -79,7 +79,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT db_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
+			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ?", explode(',', $client['db_servers']));
 
 			$only_one_server = count($tmp) === 1;
 			$app->tpl->setVar('only_one_server', $only_one_server);
@@ -89,7 +89,7 @@ class page_action extends tform_actions {
 			}
 
 			foreach ($tmp as $db_server) {
-				$options_db_servers .= "<option value='$db_server[server_id]'>$db_server[server_name]</option>";
+				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$db_server['server_name'].'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_db_servers);
@@ -102,7 +102,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.client_id, limit_web_domain, db_servers, contact_name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Set the webserver to the default server of the client
-			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ($client[db_servers])");
+			$tmp = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id IN ?", explode(',', $client['db_servers']));
 
 			$only_one_server = count($tmp) === 1;
 			$app->tpl->setVar('only_one_server', $only_one_server);
@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 			}
 
 			foreach ($tmp as $db_server) {
-				$options_db_servers .= "<option value='$db_server[server_id]'>$db_server[server_name]</option>";
+				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$db_server['server_name'].'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_db_servers);
@@ -168,13 +168,13 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT db_servers, limit_database, limit_database_quota, parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ?", $client_group_id);
 
 			// When the record is updated
 			if($this->id > 0) {
@@ -207,7 +207,7 @@ class page_action extends tform_actions {
 
 				if($client['parent_client_id'] > 0) {
 					// Get the limits of the reseller
-					$reseller = $app->db->queryOneRecord("SELECT limit_database, limit_database_quota FROM client WHERE client_id = ".$client['parent_client_id']);
+					$reseller = $app->db->queryOneRecord("SELECT limit_database, limit_database_quota FROM client WHERE client_id = ?", $client['parent_client_id']);
 
 					//* Check the website quota of the client
 					if ($reseller['limit_database_quota'] >= 0) {
@@ -265,15 +265,15 @@ class page_action extends tform_actions {
 			}
 		} else {
 			// check if client of database parent domain is client of db user!
-			$web_group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
+			$web_group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_domain WHERE domain_id = ?", $this->dataRecord['parent_domain_id']);
 			if($this->dataRecord['database_user_id']) {
-				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_user_id'])."'");
+				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = ?", $this->dataRecord['database_user_id']);
 				if($group['sys_groupid'] != $web_group['sys_groupid']) {
 					$app->error($app->tform->wordbook['database_client_differs_txt']);
 				}
 			}
 			if($this->dataRecord['database_ro_user_id']) {
-				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = '".$app->functions->intval($this->dataRecord['database_ro_user_id'])."'");
+				$group = $app->db->queryOneRecord("SELECT sys_groupid FROM web_database_user WHERE database_user_id = ?", $this->dataRecord['database_ro_user_id']);
 				if($group['sys_groupid'] != $web_group['sys_groupid']) {
 					$app->error($app->tform->wordbook['database_client_differs_txt']);
 				}
@@ -340,11 +340,11 @@ class page_action extends tform_actions {
 		}
 
 		//* Check for duplicates
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($this->dataRecord['database_name'])."' AND server_id = '".$app->functions->intval($this->dataRecord["server_id"])."' AND database_id != '".$this->id."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = ? AND server_id = ? AND database_id != ?", $this->dataRecord['database_name'], $this->dataRecord["server_id"], $this->id);
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->lng('database_name_error_unique').'<br />';
 
 		// get the web server ip (parent domain)
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ?", $this->dataRecord['parent_domain_id']);
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
@@ -369,7 +369,7 @@ class page_action extends tform_actions {
 		if ($app->tform->errorMessage == '') {
 			// force update of the used database user
 			if($this->dataRecord['database_user_id']) {
-				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_user_id']));
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ?', $this->dataRecord['database_user_id']);
 				if($user_old_rec) {
 					$user_new_rec = $user_old_rec;
 					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
@@ -377,7 +377,7 @@ class page_action extends tform_actions {
 				}
 			}
 			if($this->dataRecord['database_ro_user_id']) {
-				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_ro_user_id']));
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ?', $this->dataRecord['database_ro_user_id']);
 				if($user_old_rec) {
 					$user_new_rec = $user_old_rec;
 					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
@@ -419,11 +419,11 @@ class page_action extends tform_actions {
 		}
 
 		//* Check for duplicates
-		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = '".$app->db->quote($this->dataRecord['database_name'])."' AND server_id = '".$app->functions->intval($this->dataRecord["server_id"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = ? AND server_id = ?", $this->dataRecord['database_name'], $this->dataRecord["server_id"]);
 		if($tmp['dbnum'] > 0) $app->tform->errorMessage .= $app->tform->lng('database_name_error_unique').'<br />';
 
 		// get the web server ip (parent domain)
-		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = '".$app->functions->intval($this->dataRecord['parent_domain_id'])."'");
+		$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ?", $this->dataRecord['parent_domain_id']);
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
@@ -448,7 +448,7 @@ class page_action extends tform_actions {
 		if ($app->tform->errorMessage == '') {
 			// force update of the used database user
 			if($this->dataRecord['database_user_id']) {
-				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_user_id']));
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ?', $this->dataRecord['database_user_id']);
 				if($user_old_rec) {
 					$user_new_rec = $user_old_rec;
 					$user_new_rec['server_id'] = $this->dataRecord['server_id'];
@@ -456,7 +456,7 @@ class page_action extends tform_actions {
 				}
 			}
 			if($this->dataRecord['database_ro_user_id']) {
-				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ' . $app->functions->intval($this->dataRecord['database_ro_user_id']));
+				$user_old_rec = $app->db->queryOneRecord('SELECT * FROM `web_database_user` WHERE `database_user_id` = ?', $this->dataRecord['database_ro_user_id']);
 				if($user_old_rec) {
 					$user_new_rec = $user_old_rec;
 					$user_new_rec['server_id'] = $this->dataRecord['server_id'];

@@ -9,7 +9,7 @@
                 <div id="OKMsg"><p><tmpl_var name="okmsg"></p></div>
             </tmpl_if>
             <tmpl_if name="error">
-                <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+                <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
             </tmpl_if>
             <div class="form-group">
                 <label for="sender" class="col-sm-3 control-label">{tmpl_var name='sender_txt'}</label>

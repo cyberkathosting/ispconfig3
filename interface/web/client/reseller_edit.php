@@ -61,11 +61,11 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another website.
 			if($client["limit_client"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_client"]) {
 					$app->error($app->tform->wordbook["limit_client_txt"]);
 				}
@@ -84,11 +84,11 @@ class page_action extends tform_actions {
 
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_client FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another website.
 			if($client["limit_client"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE sys_groupid = $client_group_id");
+				$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_client"]) {
 					$app->error($app->tform->wordbook["limit_client_txt"]);
 				}
@@ -96,7 +96,7 @@ class page_action extends tform_actions {
 		}
 		
 		if($this->id != 0) {
-			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ' . $this->id);
+			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ?', $this->id);
 			if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
 				// check previous type of storing templates
 				$tpls = explode('/', $this->oldDataRecord['template_additional']);
@@ -134,7 +134,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('tpl_add_select', $option);
 
 		// check for new-style records
-		$result = $app->db->queryAllRecords('SELECT assigned_template_id, client_template_id FROM client_template_assigned WHERE client_id = ' . $this->id);
+		$result = $app->db->queryAllRecords('SELECT assigned_template_id, client_template_id FROM client_template_assigned WHERE client_id = ?', $this->id);
 		if($result && count($result) > 0) {
 			// new style
 			$items = array();
@@ -160,8 +160,8 @@ class page_action extends tform_actions {
 			unset($tmprec);
 		} else {
 			// old style
-			$sql = "SELECT template_additional FROM client WHERE client_id = " . $this->id;
-			$result = $app->db->queryOneRecord($sql);
+			$sql = "SELECT template_additional FROM client WHERE client_id = ?";
+			$result = $app->db->queryOneRecord($sql, $this->id);
 			$tplAdd = explode("/", $result['template_additional']);
 			$text = '';
 			foreach($tplAdd as $item){
@@ -186,13 +186,6 @@ class page_action extends tform_actions {
 				$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
 				$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
 				$app->tpl->setVar('customer_no',$customer_no_string);
-				
-				//* save new counter value
-				/*
-				$system_config['misc']['customer_no_counter']++;
-				$system_config_str = $app->ini_parser->get_ini_string($system_config);
-				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
-				*/
 			}
 		}
 		
@@ -207,17 +200,17 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 		// Create the group for the reseller
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('".$app->db->quote($this->dataRecord["username"])."','',".$this->id.")", 'groupid');
+		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
 
-		$username = $app->db->quote($this->dataRecord["username"]);
-		$password = $app->db->quote($this->dataRecord["password"]);
-		$modules = $app->db->quote($conf['interface_modules_enabled'] . ',client');
+		$username = $this->dataRecord["username"];
+		$password = $this->dataRecord["password"];
+		$modules = $conf['interface_modules_enabled'] . ',client';
 		$startmodule = (stristr($modules, 'dashboard'))?'dashboard':'client';
-		$usertheme = $app->db->quote($this->dataRecord["usertheme"]);
+		$usertheme = $this->dataRecord["usertheme"];
 		$type = 'user';
 		$active = 1;
-		$language = $app->db->quote($this->dataRecord["language"]);
+		$language = $this->dataRecord["language"];
 
 		$salt="$1$";
 		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -229,11 +222,11 @@ class page_action extends tform_actions {
 
 		// Create the controlpaneluser for the reseller
 		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-		VALUES ('$username','$password','$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,".$this->id.")";
-		$app->db->query($sql);
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$app->db->query($sql, $username, $password, $modules, $startmodule, $usertheme, $type, $active, $language, $groups, $groupid, $this->id);
 
 		//* set the number of clients to 1
-		$app->db->query("UPDATE client SET limit_client = 1 WHERE client_id = ".$this->id);
+		$app->db->query("UPDATE client SET limit_client = 1 WHERE client_id = ?", $this->id);
 
 		//* Set the default servers
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE mail_server = 1 LIMIT 0,1');
@@ -245,8 +238,8 @@ class page_action extends tform_actions {
 		$tmp = $app->db->queryOneRecord('SELECT server_id FROM server WHERE db_server = 1 LIMIT 0,1');
 		$default_dbserver = $app->functions->intval($tmp['server_id']);
 
-		$sql = "UPDATE client SET default_mailserver = $default_mailserver, default_webserver = $default_webserver, default_dnsserver = $default_dnsserver, default_slave_dnsserver = $default_dnsserver, default_dbserver = $default_dbserver WHERE client_id = ".$this->id;
-		$app->db->query($sql);
+		$sql = "UPDATE client SET default_mailserver = ?, default_webserver = ?, default_dnsserver = ?, default_slave_dnsserver = ?, default_dbserver = ? WHERE client_id = ?";
+		$app->db->query($sql, $default_mailserver, $default_webserver, $default_dnsserver, $default_dnsserver, $default_dbserver, $this->id);
 		
 		if(isset($this->dataRecord['template_master'])) {
 			$app->uses('client_templates');
@@ -262,15 +255,15 @@ class page_action extends tform_actions {
 				//* save new counter value
 				$system_config['misc']['customer_no_counter']++;
 				$system_config_str = $app->ini_parser->get_ini_string($system_config);
-				$app->db->datalogUpdate('sys_ini', "config = '".$app->db->quote($system_config_str)."'", 'sysini_id', 1);
+				$app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
 				
 			}
 		}
 		
 		//* Send welcome email
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ".$client_group_id;
-		$email_template = $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
+		$email_template = $app->db->queryOneRecord($sql, $client_group_id);
 		$client = $app->tform->getDataRecord($this->id);
 
 		if(is_array($email_template) && $client['email'] != '') {
@@ -300,7 +293,7 @@ class page_action extends tform_actions {
 				$from = $system_config['admin_mail'];
 			} else {
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-				$reseller = $app->db->queryOneRecord("SELECT client.email FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ".$client_group_id);
+				$reseller = $app->db->queryOneRecord("SELECT client.email FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
 				$from = $reseller["email"];
 			}
 
@@ -321,19 +314,19 @@ class page_action extends tform_actions {
 
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
-			$username = $app->db->quote($this->dataRecord["username"]);
+			$username = $this->dataRecord["username"];
 			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET username = '$username' WHERE client_id = $client_id";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET username = ? WHERE client_id = ?";
+			$app->db->query($sql, $username, $client_id);
 
-			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = $client_id");
-			$app->db->datalogUpdate("sys_group", "name = '$username'", 'groupid', $tmp['groupid']);
+			$tmp = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ?", $client_id);
+			$app->db->datalogUpdate("sys_group", array("name" => $username), 'groupid', $tmp['groupid']);
 			unset($tmp);
 		}
 
 		// password changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
-			$password = $app->db->quote($this->dataRecord["password"]);
+			$password = $this->dataRecord["password"];
 			$client_id = $this->id;
 			$salt="$1$";
 			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -342,32 +335,32 @@ class page_action extends tform_actions {
 			}
 			$salt.="$";
 			$password = crypt(stripslashes($password), $salt);
-			$sql = "UPDATE sys_user SET passwort = '$password' WHERE client_id = $client_id";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE client_id = ?";
+			$app->db->query($sql, $password, $client_id);
 		}
 
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {
-			$language = $app->db->quote($this->dataRecord["language"]);
+			$language = $this->dataRecord["language"];
 			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET language = '$language' WHERE client_id = $client_id";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET language = ? WHERE client_id = ?";
+			$app->db->query($sql, $language, $client_id);
 		}
 
 		// ensure that a reseller is not converted to a client in demo mode when client_id <= 2
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] == true && $this->id <= 2) {
 			if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != -1) {
-				$app->db->query('UPDATE client set limit_client = -1 WHERE client_id = '.$this->id);
+				$app->db->query('UPDATE client set limit_client = -1 WHERE client_id = ?', $this->id);
 			}
 		}
 
 		// reseller status changed
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] != $this->oldDataRecord["limit_client"]) {
-			$modules = $app->db->quote($conf['interface_modules_enabled'] . ',client');
-			$modules = $app->db->quote($modules);
+			$modules = $conf['interface_modules_enabled'] . ',client';
+			$modules = $modules;
 			$client_id = $this->id;
-			$sql = "UPDATE sys_user SET modules = '$modules' WHERE client_id = $client_id";
-			$app->db->query($sql);
+			$sql = "UPDATE sys_user SET modules = ? WHERE client_id = ?";
+			$app->db->query($sql, $modules, $client_id);
 		}
 		
 		if(isset($this->dataRecord['template_master'])) {

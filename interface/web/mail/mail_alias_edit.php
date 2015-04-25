@@ -95,12 +95,12 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 		if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 
 		//* Check if destination email belongs to user
 		if(isset($_POST["destination"])) {
-			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+			$email = $app->db->queryOneRecord("SELECT email FROM mail_user WHERE email = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["destination"]));
 			if($email["email"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->lng("no_destination_perm");
 		}
 
@@ -108,11 +108,11 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailalias FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_mailalias FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another mailbox.
 			if($this->id == 0 && $client["limit_mailalias"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id AND type = 'alias'");
+				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = ? AND type = 'alias'", $client_group_id);
 				if($tmp["number"] >= $client["limit_mailalias"]) {
 					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailalias_txt"]."<br>";
 				}
@@ -130,15 +130,15 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_domain"]);
 
 		//* Check if there is no active mailbox with this address
-		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = '".$app->db->quote($this->dataRecord["source"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $this->dataRecord["source"]);
 		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_mailbox_txt")."<br>";
 		unset($tmp);
 
 		//* Check if email alias exists
 		if($this->id > 0) {
-			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["source"])."' AND destination = '".$app->db->quote($this->dataRecord["destination"])."' AND forwarding_id != ".$this->id);
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = ? AND destination = ? AND forwarding_id != ?", $this->dataRecord["source"], $this->dataRecord["destination"], $this->id);
 		} else {
-			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = '".$app->db->quote($this->dataRecord["source"])."' AND destination = '".$app->db->quote($this->dataRecord["destination"])."'");
+			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE source = ? AND destination = ?", $this->dataRecord["source"], $this->dataRecord["destination"]);
 		}
 		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_email_alias_txt")."<br>";
 		unset($tmp);
@@ -149,8 +149,8 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("update mail_forwarding SET sys_groupid = ".$app->functions->intval($domain['sys_groupid'])." WHERE forwarding_id = ".$this->id);
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
+		$app->db->query("update mail_forwarding SET sys_groupid = ? WHERE forwarding_id = ?", $domain['sys_groupid'], $this->id);
 
 	}
 

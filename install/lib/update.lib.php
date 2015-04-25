@@ -124,7 +124,7 @@ function updateDbAndIni() {
 	global $inst, $conf;
 
 	//* Update $conf array with values from the server.ini that shall be preserved
-	$tmp = $inst->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+	$tmp = $inst->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 	$ini_array = ini_to_array(stripslashes($tmp['config']));
 	$current_db_version = (isset($tmp['dbversion']))?intval($tmp['dbversion']):0;
 
@@ -218,8 +218,8 @@ function updateDbAndIni() {
 		}
 
 		//* update the database version in server table
-		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
-		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ".$conf["mysql"]["master_database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
+		$inst->db->query("UPDATE ?? SET dbversion = ? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $current_db_version, $conf['server_id']);
+		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ?? SET dbversion = ? WHERE server_id = ?", $conf["mysql"]["master_database"] . ".server", $current_db_version, $conf['server_id']);
 
 
 		//* If ISPConfig Version < 3.0.3, we will do a full db update
@@ -228,7 +228,7 @@ function updateDbAndIni() {
 		swriteln($inst->lng('Starting full database update.'));
 
 		//** Delete the old database
-		if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['mysql']['database']) ) {
+		if( !$inst->db->query('DROP DATABASE IF EXISTS ??', $conf['mysql']['database']) ) {
 			$inst->error('Unable to drop MySQL database: '.$conf['mysql']['database'].'.');
 		}
 
@@ -239,7 +239,7 @@ function updateDbAndIni() {
 		$db_tables = $inst->db->getTables();
 
 		foreach($db_tables as $table) {
-			$inst->db->query("TRUNCATE $table");
+			$inst->db->query("TRUNCATE ??", $table);
 		}
 
 		//** load old data back into database
@@ -262,15 +262,15 @@ function updateDbAndIni() {
 		}
 
 		//* update the database version in server table
-		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
-		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ".$conf["mysql"]["master_database"].".server SET dbversion = '".$current_db_version."' WHERE server_id = ".$conf['server_id']);
+		$inst->db->query("UPDATE ?? SET dbversion = ? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $current_db_version, $conf['server_id']);
+		if($inst->db->dbHost != $inst->dbmaster->dbHost) $inst->dbmaster->query("UPDATE ?? SET dbversion = ? WHERE server_id = ?", $conf["mysql"]["master_database"] . ".server", $current_db_version, $conf['server_id']);
 
 		if ($conf['powerdns']['installed']) {
 
 			swriteln($inst->lng('Starting full PowerDNS database update.'));
 
 			//** Delete the old PowerDNS database
-			if( !$inst->db->query('DROP DATABASE IF EXISTS '.$conf['powerdns']['database']) ) {
+			if( !$inst->db->query('DROP DATABASE IF EXISTS ??', $conf['powerdns']['database']) ) {
 				$inst->error('Unable to drop MySQL database: '.$conf['powerdns']['database'].'.');
 			}
 
@@ -288,7 +288,7 @@ function updateDbAndIni() {
 
 
 	//** Update server ini
-	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
@@ -344,12 +344,12 @@ function updateDbAndIni() {
 	}
 
 	$new_ini = array_to_ini($tpl_ini_array);
-	$sql = "UPDATE ".$conf["mysql"]["database"].".server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
-	$inst->db->query($sql);
+	$sql = "UPDATE ?? SET config = ? WHERE server_id = ?";
+	$inst->db->query($sql, $conf["mysql"]["database"] . ".server", $new_ini, $conf['server_id']);
 
 	if($inst->db->dbHost != $inst->dbmaster->dbHost) {
-		$sql = "UPDATE ".$conf["mysql"]["master_database"].".server SET config = '".mysql_real_escape_string($new_ini)."' WHERE server_id = ".$conf['server_id'];
-		$inst->dbmaster->query($sql);
+		$sql = "UPDATE ?? SET config = ? WHERE server_id = ?";
+		$inst->dbmaster->query($sql, $conf["mysql"]["master_database"].".server", $new_ini, $conf['server_id']);
 	}
 	unset($old_ini_array);
 	unset($tpl_ini_array);
@@ -357,7 +357,7 @@ function updateDbAndIni() {
 
 
 	//** Update system ini
-	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ".$conf["mysql"]["database"].".sys_ini WHERE sysini_id = 1");
+	$tmp_server_rec = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE sysini_id = 1", $conf["mysql"]["database"] . ".sys_ini");
 	$old_ini_array = ini_to_array(stripslashes($tmp_server_rec['config']));
 	unset($tmp_server_rec);
 	$tpl_ini_array = ini_to_array(rf('tpl/system.ini.master'));
@@ -372,11 +372,11 @@ function updateDbAndIni() {
 	}
 
 	$new_ini = array_to_ini($tpl_ini_array);
-	$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM '.$conf["mysql"]["database"].'.sys_ini WHERE 1');
+	$tmp = $inst->db->queryOneRecord('SELECT count(sysini_id) as number FROM ?? WHERE 1', $conf["mysql"]["database"] . '.sys_ini');
 	if($tmp['number'] == 0) {
-		$inst->db->query("INSERT INTO ".$conf["mysql"]["database"].".sys_ini (sysini_id, config) VALUES (1,'".mysql_real_escape_string($new_ini)."')");
+		$inst->db->query("INSERT INTO ?? (sysini_id, config) VALUES (1,?)", $conf["mysql"]["database"] . ".sys_ini", $new_ini);
 	} else {
-		$inst->db->query("UPDATE ".$conf["mysql"]["database"].".sys_ini SET config = '".mysql_real_escape_string($new_ini)."' WHERE sysini_id = 1");
+		$inst->db->query("UPDATE ?? SET config = ? WHERE sysini_id = 1", $conf["mysql"]["database"] . ".sys_ini", $new_ini);
 	}
 	unset($old_ini_array);
 	unset($tpl_ini_array);
@@ -384,5 +384,25 @@ function updateDbAndIni() {
 }
 
 
+
+function setDefaultServers(){
+	global $inst, $conf;
+	
+	// clients
+	$clients = $inst->db->queryAllRecords("SELECT * FROM ".$conf["mysql"]["database"].".client");
+	if(is_array($clients) && !empty($clients)){
+		foreach($clients as $client){
+			// mailserver
+			if(trim($client['mail_servers']) == '') $inst->db->query("UPDATE ?? SET mail_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_mailserver']), $client['client_id']);
+			// webserver
+			if(trim($client['web_servers']) == '') $inst->db->query("UPDATE ?? SET web_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_webserver']), $client['client_id']);
+			// dns server
+			if(trim($client['dns_servers']) == '') $inst->db->query("UPDATE ?? SET dns_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_dnsserver']), $client['client_id']);
+			// db server
+			if(trim($client['db_servers']) == '') $inst->db->query("UPDATE ?? SET db_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_dbserver']), $client['client_id']);
+		}
+	}
+	
+}
 
 ?>
