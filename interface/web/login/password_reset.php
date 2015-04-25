@@ -60,7 +60,11 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->tpl->setVar("error", $wb['lost_password_function_disabled_txt']);
 	} else {
 		if($client['client_id'] > 0) {
-			$new_password = $app->auth->get_random_password();
+			$server_config_array = $app->getconf->get_global_config();
+			$min_password_length = 8;
+			if(isset($server_config_array['misc']['min_password_length'])) $min_password_length = $server_config_array['misc']['min_password_length'];
+			
+			$new_password = $app->auth->get_random_password($min_password_length, true);
 			$new_password_encrypted = $app->auth->crypt_password($new_password);
 
 			$username = $client['username'];
@@ -69,7 +73,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$app->tpl->setVar("message", $wb['pw_reset']);
 
 			$app->uses('getconf,ispcmail');
-			$mail_config = $app->getconf->get_global_config('mail');
+			$mail_config = $server_config_array['mail'];
 			if($mail_config['smtp_enabled'] == 'y') {
 				$mail_config['use_smtp'] = true;
 				$app->ispcmail->setOptions($mail_config);
