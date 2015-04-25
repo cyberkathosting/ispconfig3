@@ -19,6 +19,7 @@ $wb['fastcgi_max_requests_txt'] = 'FastCGI max. požadavků';
 $wb['fastcgi_bin_txt'] = 'FastCGI cesta k binarnímu balíčku';
 $wb['module_txt'] = 'Modul';
 $wb['maildir_path_txt'] = 'Cesta k mail adresáři';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Cesta k domácímu adresáři';
 $wb['mailuser_uid_txt'] = 'Mail uživatel UID';
 $wb['mailuser_gid_txt'] = 'Mail uživatel GID';

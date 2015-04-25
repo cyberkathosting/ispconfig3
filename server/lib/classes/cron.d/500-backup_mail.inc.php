@@ -31,6 +31,7 @@ class cronjob_backup_mail extends cronjob {
 
 	// job schedule
 	protected $_schedule = '0 0 * * *';
+	private $tmp_backup_dir = '';
 
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
@@ -111,23 +112,46 @@ class cronjob_backup_mail extends cronjob {
 
 						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_'.date('Y-m-d_H-i');
 
-						$domain_dir=explode('/',$rec['maildir']); 
-						$_temp=array_pop($domain_dir);unset($_temp);
-						$domain_dir=implode('/',$domain_dir);
-						
-						$parts=explode('/',$rec['maildir']);
-						$source_dir=array_pop($parts);
-						unset($parts);
-
-						//* create archives
-						if($backup_mode == 'userzip') {
-							$mail_backup_file.='.zip';
-							exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
-						} else {
-							/* Create a tar.gz backup */
-							$mail_backup_file.='.tar.gz';
-							exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
+						// in case of mdbox -> create backup with doveadm before zipping
+						if ($rec['maildir_format'] == 'mdbox') {
+							if (empty($this->tmp_backup_dir)) $this->tmp_backup_dir = $rec['maildir'];
+							// Create temporary backup-mailbox
+							exec("su -c 'dsync backup -u \"".$rec["email"]."\" mdbox:".$this->tmp_backup_dir."/backup'", $tmp_output, $retval);
+		
+							if($backup_mode == 'userzip') {
+								$mail_backup_file.='.zip';
+								exec('cd '.$this->tmp_backup_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r backup > /dev/null && rm -rf backup', $tmp_output, $retval);
+							}
+							else {
+								$mail_backup_file.='.tar.gz';
+								exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$this->tmp_backup_dir.' backup && rm -rf '.$this->tmp_backup_dir.'/backup'), $tmp_output, $retval);
+							}
+							
+							if ($retval != 0) {
+								// Cleanup
+								if (file_exists($this->tmp_backup_dir.'/backup')) exec('rm -rf '.$this->tmp_backup_dir.'/backup');
+							}
 						}
+						else {
+							$domain_dir=explode('/',$rec['maildir']);
+							$_temp=array_pop($domain_dir);unset($_temp);
+							$domain_dir=implode('/',$domain_dir);
+							
+							$parts=explode('/',$rec['maildir']);
+							$source_dir=array_pop($parts);
+							unset($parts);
+							
+							//* create archives
+							if($backup_mode == 'userzip') {
+								$mail_backup_file.='.zip';
+								exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
+							} else {
+								/* Create a tar.gz backup */
+								$mail_backup_file.='.tar.gz';
+								exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
+							}
+						}
+						
 						if($retval == 0){
 							chown($mail_backup_dir.'/'.$mail_backup_file, $backupusername);
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, $backupgroup);
@@ -141,6 +165,10 @@ class cronjob_backup_mail extends cronjob {
 						} else {
 							/* Backup failed - remove archive */
 							if(is_file($mail_backup_dir.'/'.$mail_backup_file)) unlink($mail_backup_dir.'/'.$mail_backup_file);
+							// And remove backup-mdbox
+							if ($rec['maildir_format'] == 'mdbox') {
+								if(file_exists($rec['maildir'].'/backup'))  exec("su -c 'rm -rf ".$rec['maildir']."/backup'");
+							}
 							$app->log($mail_backup_file.' NOK:'.implode('',$tmp_output), LOGLEVEL_DEBUG);
 						}
 						/* Remove old backups */

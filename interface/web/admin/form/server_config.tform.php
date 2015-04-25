@@ -295,6 +295,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'maildir_format' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => '20',
+			'value' => array('maildir' => 'Maildir', 'mdbox' => 'mdbox')
+		),
 		'homedir_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

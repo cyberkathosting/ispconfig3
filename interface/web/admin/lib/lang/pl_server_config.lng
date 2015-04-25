@@ -19,6 +19,7 @@ $wb['fastcgi_max_requests_txt'] = 'Maksymalna ilość zadań FastCGI';
 $wb['fastcgi_bin_txt'] = 'Kosz FastCGI';
 $wb['module_txt'] = 'Moduł';
 $wb['maildir_path_txt'] = 'Adres poczty e-mail';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Bazowy adres poczty e-mail';
 $wb['mailuser_uid_txt'] = 'UID użytkownika e-mail';
 $wb['mailuser_gid_txt'] = 'GID użytkownika e-mail';

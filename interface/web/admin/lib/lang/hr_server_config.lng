@@ -18,6 +18,7 @@ $wb['fastcgi_max_requests_txt'] = 'Maks. broj FastCGI zahtjeva';
 $wb['fastcgi_bin_txt'] = 'FastCGI Bin';
 $wb['module_txt'] = 'Modul';
 $wb['maildir_path_txt'] = 'Put do Maildir-a';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Put do početne stranice';
 $wb['mailuser_uid_txt'] = 'Mailuser UID';
 $wb['mailuser_gid_txt'] = 'Mailuser GID';

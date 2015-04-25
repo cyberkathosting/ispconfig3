@@ -17,6 +17,7 @@ $wb['fastcgi_max_requests_txt'] = 'FastCGI-pyyntöraja';
 $wb['fastcgi_bin_txt'] = 'FastCGI-binääri';
 $wb['module_txt'] = 'Ohjelmaosio';
 $wb['maildir_path_txt'] = 'Postilaatikon hakemistopolku';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Kotikansion hakemistopolku';
 $wb['mailuser_uid_txt'] = 'Käyttäjätunnus';
 $wb['mailuser_gid_txt'] = 'Käyttäjäryhmä';

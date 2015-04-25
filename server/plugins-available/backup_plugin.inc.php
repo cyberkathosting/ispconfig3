@@ -204,27 +204,68 @@ class backup_plugin {
 					chown($domain_dir, $mail_config['mailuser_name']);
 					chgrp($domain_dir, $mail_config['mailuser_group']);
 				}
+				if (!is_dir($record['maildir'])) {
+					mkdir($record['maildir'], 0700); //* never create the full path
+					chown($record['maildir'], $mail_config['mailuser_name']);
+					chgrp($record['maildir'], $mail_config['mailuser_group']);
+				}
 			
-				if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir)) {
-					if($mail_backup['backup_mode'] == 'userzip') {
-						copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
-						chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
-						$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
-						exec($command,$tmp_output, $retval);
-						unlink($domain_dir.'/'.$mail_backup['filename']);
+				if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir) && is_dir($record['maildir'])) {
+					if ($record['maildir_format'] == 'mdbox') {
+						$retval = -1;
+						// First unzip backupfile to local backup-folder
+						if($mail_backup['backup_mode'] == 'userzip') {
+							copy($mail_backup_file, $record['maildir'].'/'.$mail_backup['filename']);
+							chgrp($record['maildir'].'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
+							$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($record['maildir'].'/'.$mail_backup['filename']).' -d '.escapeshellarg($record['maildir']).' 2> /dev/null';
+							exec($command,$tmp_output, $retval);
+							unlink($record['maildir'].'/'.$mail_backup['filename']);
+						}
+						if($mail_backup['backup_mode'] == 'rootgz') {
+							$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($record['maildir']);
+							exec($command,$tmp_output, $retval);
+						}
+						
+						if($retval == 0) {
+							// Now import backup-mailbox into special backup-folder
+							$backupname = "backup-".date("Y-m-d", $mail_backup['tstamp']);
+							exec("doveadm mailbox create -u \"".$record["email"]."\" $backupname");
+							exec("doveadm import -u \"".$record["email"]."\" mdbox:".$record['maildir']."/backup $backupname all", $tmp_output, $retval);
+							exec("for f in `doveadm mailbox list -u \"".$record["email"]."\" $backupname*`; do doveadm mailbox subscribe -u \"".$record["email"]."\" \$f; done", $tmp_output, $retval);
+							exec('rm -rf '.$record['maildir'].'/backup');
+						}
+						
 						if($retval == 0){
 							$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
 						} else {
+							// cleanup
+							if (file_exists($record['maildir'].'/'.$mail_backup['filename'])) unlink($record['maildir'].'/'.$mail_backup['filename']);
+							if (file_exists($record['maildir']."/backup")) exec('rm -rf '.$record['maildir']."/backup");
+							
 							$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
 						}
 					}
-					if($mail_backup['backup_mode'] == 'rootgz') {
-						$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
-						exec($command,$tmp_output, $retval);
-						if($retval == 0){
-							$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
-						} else {
-							$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+					else {
+						if($mail_backup['backup_mode'] == 'userzip') {
+							copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
+							chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
+							$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
+							exec($command,$tmp_output, $retval);
+							unlink($domain_dir.'/'.$mail_backup['filename']);
+							if($retval == 0){
+								$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+							} else {
+								$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+							}
+						}
+						if($mail_backup['backup_mode'] == 'rootgz') {
+							$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
+							exec($command,$tmp_output, $retval);
+							if($retval == 0){
+								$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+							} else {
+								$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+							}
 						}
 					}
 				}

@@ -19,6 +19,7 @@ $wb['fastcgi_max_requests_txt'] = 'FastCGI 最大リクエスト数';
 $wb['fastcgi_bin_txt'] = 'FastCGI実行ファイル';
 $wb['module_txt'] = 'モジュール';
 $wb['maildir_path_txt'] = 'メールディレクトリ';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'ホームディレクトリ';
 $wb['mailuser_uid_txt'] = 'メールユーザーのUID';
 $wb['mailuser_gid_txt'] = 'メールユーザーのGID';
