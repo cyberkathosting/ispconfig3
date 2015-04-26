@@ -178,6 +178,12 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 7.0 (Wheezy/Sid) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+			$distname = 'Debian';
+			$distver = 'Jessie';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
 		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
