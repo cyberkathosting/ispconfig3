@@ -1423,6 +1423,7 @@ class apache2_plugin {
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
+		$pool_dir = trim($pool_dir);
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['new']['domain_id'];
 		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
@@ -2862,6 +2863,7 @@ class apache2_plugin {
 	//* Update the PHP-FPM pool configuration file
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
+		$pool_dir = trim($pool_dir);
 		//$reload = false;
 
 		if($data['new']['php'] == 'php-fpm'){
@@ -3013,7 +3015,7 @@ class apache2_plugin {
 		unset($tpl);
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -3025,6 +3027,7 @@ class apache2_plugin {
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $conf["server_id"]);
 		if(is_array($php_versions) && !empty($php_versions)){
 			foreach($php_versions as $php_version){
+				$php_version['php_fpm_pool_dir'] = trim($php_version['php_fpm_pool_dir']);
 				if(substr($php_version['php_fpm_pool_dir'], -1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
 				if($php_version['php_fpm_pool_dir'] != $pool_dir){
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
@@ -3065,6 +3068,7 @@ class apache2_plugin {
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
+		$pool_dir = trim($pool_dir);
 
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['old']['domain_id'];
@@ -3077,7 +3081,7 @@ class apache2_plugin {
 		}
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -3089,6 +3093,7 @@ class apache2_plugin {
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $data['old']['server_id']);
 		if(is_array($php_versions) && !empty($php_versions)){
 			foreach($php_versions as $php_version){
+				$php_version['php_fpm_pool_dir'] = trim($php_version['php_fpm_pool_dir']);
 				if(substr($php_version['php_fpm_pool_dir'], -1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
 				if($php_version['php_fpm_pool_dir'] != $pool_dir){
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
