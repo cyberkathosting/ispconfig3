@@ -43,7 +43,7 @@ if($_SESSION["s"]["user"]['active'] != 1) {
 }
 
 if(!preg_match("/^[a-z]{2,20}$/i", $mod)) die('module name contains unallowed chars.');
-if($redirect != '' && !preg_match("/^[a-z0-9]+\/[a-z0-9_\.\-]+\?id=[0-9]{1,5}$/i", $redirect)) die('redirect contains unallowed chars.');
+if($redirect != '' && !preg_match("/^[a-z0-9]+\/[a-z0-9_\.\-]+\?id=[0-9]{1,9}$/i", $redirect)) die('redirect contains unallowed chars.');
 
 //* Check if user may use the module.
 $user_modules = explode(",", $_SESSION["s"]["user"]["modules"]);
