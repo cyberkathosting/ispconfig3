@@ -37,4 +37,5 @@ $wb['io_priority_error_empty'] = 'I/O priority está vacío.';
 $wb['template_nameserver_error_empty'] = 'Nameserver(s) está vacío.';
 $wb['Virtual server'] = 'Servidor virtual';
 $wb['Advanced'] = 'Avanzado';
+$wb['features_txt'] = 'Features';
 ?>

@@ -90,5 +90,6 @@ $wb['numiptent_error_empty'] = 'Numiptent is empty.';
 $wb['swappages_error_empty'] = 'Swappages is empty.';
 $wb['Template'] = 'Šablona';
 $wb['Advanced'] = 'Pokročilý';
+$wb['features_txt'] = 'Features';
 ?>
 

@@ -37,4 +37,5 @@ $wb['io_priority_error_empty'] = 'Το Προτεραιότητα Ε/Ε είνα
 $wb['template_nameserver_error_empty'] = 'Το Nameserver(s) είναι κενό.';
 $wb['Virtual server'] = 'Εικονικός server';
 $wb['Advanced'] = 'Για προχωρημένους';
+$wb['features_txt'] = 'Features';
 ?>
