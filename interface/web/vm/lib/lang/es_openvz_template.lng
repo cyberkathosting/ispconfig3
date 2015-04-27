@@ -90,4 +90,5 @@ $wb['numiptent_error_empty'] = 'Numiptent esta vacío.';
 $wb['swappages_error_empty'] = 'Swappages esta vacío.';
 $wb['Template'] = 'Plantilla';
 $wb['Advanced'] = 'Avanzado';
+$wb['features_txt'] = 'Features';
 ?>
