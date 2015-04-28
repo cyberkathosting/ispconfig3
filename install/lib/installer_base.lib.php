@@ -136,7 +136,7 @@ class installer_base {
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
-		if(is_installed('mailman')) $conf['mailman']['installed'] = true;
+		if(is_installed('mailman') || is_installed('mmsitepass')) $conf['mailman']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
@@ -154,11 +154,25 @@ class installer_base {
 		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
-		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
-        if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
+		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['bastille']['installed'] = true;
+		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
+		if(is_installed('spamassassin')) $conf['spamassasin']['installed'] = true;
+		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
+		if(is_installed('cron')) $conf['cron']['installed'] = true;
 
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
+
+    public function force_configure_app($service) {
+		$force = false;
+        swriteln("[WARN] autodetect for $service failed");
+        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
+//			swriteln("Configure $service");
+            $force = true;
+		} else swriteln("Skipping $service\n");
+		return $force;
+    }
+
 
 	/** Create the database for ISPConfig */
 
