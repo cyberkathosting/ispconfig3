@@ -260,8 +260,8 @@ if($install_mode == 'standard') {
 
 		//* Check for Dovecot and Courier
 		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
-			$conf['dovecot']['installed'] = @($conf['dovecot']['installed']) ? false : $inst->force_configure_app('Dovecot');
-			$conf['courier']['installed'] = @($conf['couier']['installed']) ? false : $inst->force_configure_app('Courier');
+			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot');
+			$conf['courier']['installed'] = $inst->force_configure_app('Courier');
 		}
 		//* Configure Mailserver - Dovecot or Courier
 		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
@@ -591,8 +591,8 @@ if($install_mode == 'standard') {
 
 		//* Check for Dovecot and Courier
 		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
-			$conf['dovecot']['installed'] = @($conf['dovecot']['installed']) ? false : $inst->force_configure_app('Dovecot');
-			$conf['courier']['installed'] = @($conf['couier']['installed']) ? false : $inst->force_configure_app('Courier');
+			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot');
+			$conf['courier']['installed'] = $inst->force_configure_app('Courier');
 		}
 		//* Configure Mailserver - Dovecot or Courier
 		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
