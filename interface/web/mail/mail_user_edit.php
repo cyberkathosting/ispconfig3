@@ -207,6 +207,16 @@ class page_action extends tform_actions {
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config(!empty($domain["server_id"]) ? $domain["server_id"] : '', 'mail');
 
+		// Set Maildir format
+		if ($this->id == 0) {
+			$this->dataRecord['maildir_format'] = $sys_config['maildir_format'];
+		}
+		else {
+			// restore Maildir format
+			$tmp = $app->db->queryOneRecord("SELECT maildir_format FROM mail_user WHERE mailuser_id = ".$app->functions->intval($this->id));
+			$this->dataRecord['maildir_format'] = $tmp['maildir_format'];
+		}
+		
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
 			$this->dataRecord["email"] = strtolower($_POST["email_local_part"]."@".$app->functions->idn_encode($_POST["email_domain"]));

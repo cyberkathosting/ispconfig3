@@ -18,6 +18,7 @@ $wb['fastcgi_max_requests_txt'] = 'FastCGI: Requisições máximas';
 $wb['fastcgi_bin_txt'] = 'FastCGI Bin';
 $wb['module_txt'] = 'Módulo';
 $wb['maildir_path_txt'] = 'Pasta do Maildir';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Pasta Home';
 $wb['mailuser_uid_txt'] = 'UID utilizador de email';
 $wb['mailuser_gid_txt'] = 'GID utilizador de email';

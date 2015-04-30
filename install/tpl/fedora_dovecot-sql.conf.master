@@ -134,8 +134,8 @@ connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_se
 default_pass_scheme = CRYPT
 
 # password-query with prefetch
-password_query = SELECT email as user, password, maildir as userdb_home, CONCAT('maildir:', maildir, '/Maildir') as userdb_mail, uid as userdb_uid, gid as userdb_gid, CONCAT('*:storage=', quota, 'B') AS userdb_quota_rule, CONCAT(maildir, '/.sieve') as userdb_sieve FROM mail_user WHERE (login = '%u' OR email = '%u') AND `disable%Ls` = 'n' AND server_id = '{server_id}'
-user_query = SELECT email as user, maildir as home, CONCAT('maildir:', maildir, '/Maildir') as mail, uid, gid, CONCAT('*:storage=', quota, 'B') AS quota_rule, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE (login = '%u' OR email = '%u') AND `disable%Ls` = 'n' AND server_id = '{server_id}'
+password_query = SELECT email as user, password, maildir as userdb_home, CONCAT( maildir_format, ':', maildir, '/', IF(maildir_format='maildir','Maildir',maildir_format)) as userdb_mail, uid as userdb_uid, gid as userdb_gid, CONCAT('*:storage=', quota, 'B') AS userdb_quota_rule, CONCAT(maildir, '/.sieve') as userdb_sieve FROM mail_user WHERE (login = '%u' OR email = '%u') AND `disable%Ls` = 'n' AND server_id = '{server_id}'
+user_query = SELECT email as user, maildir as home, CONCAT( maildir_format, ':', maildir, '/', IF(maildir_format='maildir','Maildir',maildir_format)) as mail, uid, gid, CONCAT('*:storage=', quota, 'B') AS quota_rule, CONCAT(maildir, '/.sieve') as sieve FROM mail_user WHERE (login = '%u' OR email = '%u') AND `disable%Ls` = 'n' AND server_id = '{server_id}'
 
 # The iterate_query is required for the doveadm command only and works only on dovecot 2 servers.
 # Do not enable it on Dovecot 1.x servers

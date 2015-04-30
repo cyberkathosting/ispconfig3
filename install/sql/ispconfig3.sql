@@ -915,6 +915,7 @@ CREATE TABLE `mail_user` (
   `uid` int(11) NOT NULL default '5000',
   `gid` int(11) NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
+  `maildir_format` varchar(255) NOT NULL default 'maildir',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` varchar(255) NOT NULL default '',
   `sender_cc` varchar(255) NOT NULL default '',

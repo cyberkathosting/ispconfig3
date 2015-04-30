@@ -19,6 +19,7 @@ $wb['fastcgi_max_requests_txt'] = 'Maks. Request FastCGI';
 $wb['fastcgi_bin_txt'] = 'FastCGI Bin';
 $wb['module_txt'] = 'Modul';
 $wb['maildir_path_txt'] = 'Path Direktori Mail';
+$wb['maildir_format_txt'] = 'Maildir Format';
 $wb['homedir_path_txt'] = 'Path Direktori Home';
 $wb['mailuser_uid_txt'] = 'UID Pengguna Mail';
 $wb['mailuser_gid_txt'] = 'GID Pengguna Mail';
