@@ -18,6 +18,7 @@
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/themes/default/theme.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2-bootstrap.css' />
+  <tmpl_if name='logged_in' value='n'><link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/login.css' /></tmpl_if>
 </head>
 
 <body>
@@ -59,8 +60,8 @@
             </tmpl_if>
           </div>
         </div>
-		<div id='topnav-container'>
-		</div>
+		<tmpl_if name='logged_in' value='y'><div id='topnav-container'>
+		</div></tmpl_if>
 		<div class='clear'>
           <!-- content -->
           <div id='content' class='right'>
@@ -69,8 +70,8 @@
 			</form>
           </div>
           <!-- news sidebar -->
-          <div id='sidebar' class='news-sidebar left'>
-          </div>
+          <tmpl_if name='logged_in' value='y'><div id='sidebar' class='news-sidebar left'>
+          </div></tmpl_if>
         </div>
         <footer id='footer'>
           powered by <a href="<tmpl_var name="app_link">" target="_blank"><tmpl_var name="app_title"></a>

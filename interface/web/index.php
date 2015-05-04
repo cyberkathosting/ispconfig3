@@ -35,6 +35,7 @@ if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 
 
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');
+$app->tpl->setVar('logged_in', ($_SESSION['s']['user']['active'] != 1 ? 'n' : 'y'));
 
 // tab change warning?
 // read misc config

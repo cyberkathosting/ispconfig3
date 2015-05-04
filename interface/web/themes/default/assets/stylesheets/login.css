@@ -1,0 +1,9 @@
+#content {
+	margin: 0 auto;
+	float: none;
+}
+
+.form-group input[type="checkbox"] {
+	width: auto;
+	height: auto;
+}
