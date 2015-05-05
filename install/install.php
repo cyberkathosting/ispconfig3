@@ -458,9 +458,9 @@ if($install_mode == 'standard') {
 		$check = false;
 		do {
 			unset($temp_password);
-			$temp_password = $inst->free_query('Re-enter Admin password', '');
+			$temp_password = $inst->free_query('Re-enter admin password', '');
 			$check = @($temp_password == $conf['interface_password'])?true:false;
-			if(!$check) swriteln('Passwords do noz match.');
+			if(!$check) swriteln('Passwords do not match.');
 		} while (!$check);
 	}
 	unset($check);
@@ -809,9 +809,9 @@ if($install_mode == 'standard') {
 			$check = false;
 			do {
 				unset($temp_password);
-				$temp_password = $inst->free_query('Re-enter Admin password', '');
+				$temp_password = $inst->free_query('Re-enter admin password', '');
 				$check = @($temp_password == $conf['interface_password'])?true:false;
-				if(!$check) swriteln('Passwords do noz match.');
+				if(!$check) swriteln('Passwords do not match.');
 			} while (!$check);
 		}
 		unset($check);
