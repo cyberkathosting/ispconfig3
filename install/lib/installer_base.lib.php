@@ -885,12 +885,12 @@ class installer_base {
 		unset($parts);
 		unset($out);
 
-		if(version_compare($saslversion , '2.1.23') > 0) {
-			//* Configfile for saslauthd versions 2.1.24 and newer
-			$configfile = 'sasl_smtpd2.conf';
-		} else {
+		if(version_compare($saslversion , '2.1.23', '<=')) {
 			//* Configfile for saslauthd versions up to 2.1.23
 			$configfile = 'sasl_smtpd.conf';
+		} else {
+			//* Configfile for saslauthd versions 2.1.24 and newer
+			$configfile = 'sasl_smtpd2.conf';
 		}
 
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
@@ -1052,21 +1052,21 @@ class installer_base {
 		unset($tmp);
 
 		//* Copy dovecot configuration file
-		if(version_compare($dovecot_version,2) >= 0) {
+		if(version_compare($dovecot_version,1, '<=')) {	//* Dovecot 1.x
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
+			} else {
+				copy('tpl/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
+			}
+		} else {	//* Dovecot 2.x
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
-			if(version_compare($dovecot_version,2.1) < 0) {
+			if(version_compare($dovecot_version, 2.1, '<')) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
-			}
-		} else {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
-			} else {
-				copy('tpl/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
 			}
 		}
 
