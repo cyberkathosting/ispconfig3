@@ -454,6 +454,17 @@ if($install_mode == 'standard') {
 	//** Customize the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 	$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
+	if($conf['interface_password'] != 'admin') {
+		$check = false;
+		do {
+			unset($temp_password);
+			$temp_password = $inst->free_query('Re-enter admin password', '');
+			$check = @($temp_password == $conf['interface_password'])?true:false;
+			if(!$check) swriteln('Passwords do not match.');
+		} while (!$check);
+	}
+	unset($check);
+	unset($temp_password);
 	if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 	if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 	unset($ispconfig_vhost_port);
@@ -794,6 +805,17 @@ if($install_mode == 'standard') {
 		//** Customise the port ISPConfig runs on
 		$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 		$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
+		if($conf['interface_password'] != 'admin') {
+			$check = false;
+			do {
+				unset($temp_password);
+				$temp_password = $inst->free_query('Re-enter admin password', '');
+				$check = @($temp_password == $conf['interface_password'])?true:false;
+				if(!$check) swriteln('Passwords do not match.');
+			} while (!$check);
+		}
+		unset($check);
+		unset($temp_password);
 		if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 		if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 		unset($ispconfig_vhost_port);
