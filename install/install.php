@@ -453,6 +453,7 @@ if($install_mode == 'standard') {
 
 	//** Customize the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
+	$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
 	if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 	if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 	unset($ispconfig_vhost_port);
@@ -792,6 +793,7 @@ if($install_mode == 'standard') {
 
 		//** Customise the port ISPConfig runs on
 		$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
+		$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
 		if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 		if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 		unset($ispconfig_vhost_port);
