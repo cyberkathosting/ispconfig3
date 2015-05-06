@@ -174,6 +174,18 @@ exec('hostname -f', $tmp_out);
 $conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0],'hostname');
 unset($tmp_out);
 
+//** Prevent empty hostname
+$conf['hostname']=trim($conf['hostname']);
+if($conf['hostname'] === '') {
+	$check = false;
+	do {
+		swriteln('Hostname may not be empty.');
+		$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', '', 'hostname');
+		$conf['hostname']=trim($conf['hostname']);
+		$check = @($conf['hostname'] !== '')?true:false;
+	} while (!$check);
+}
+
 // Check if the mysql functions are loaded in PHP
 if(!function_exists('mysql_connect')) die('No PHP MySQL functions available. Please ensure that the PHP MySQL module is loaded.');
 
