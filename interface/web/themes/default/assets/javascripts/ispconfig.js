@@ -121,6 +121,24 @@ var ISPConfig = {
 			});
 		}
 		
+		$('input[data-input-element="date"]').datetimepicker({
+			'language': 'en', // TODO
+			'todayHighlight': true,
+			'todayBtn': 'linked',
+			'bootcssVer': 3,
+			'fontAwesome': true,
+			'autoclose': true,
+			'minView': 'month'
+		});
+		$('input[data-input-element="datetime"]').datetimepicker({
+			'language': 'en', // TODO
+			'todayHighlight': true,
+			'todayBtn': 'linked',
+			'bootcssVer': 3,
+			'fontAwesome': true,
+			'autoclose': true
+		});
+		
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
 

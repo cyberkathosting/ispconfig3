@@ -193,6 +193,7 @@ class page_action extends tform_actions {
 		$trans = array("d" => "dd", "m" => "mm", "Y" => "yy");
 		$date_format = strtr($date_format, $trans);
 		$app->tpl->setVar("date_format", $date_format);
+		$app->tpl->setVar("conf_format_datetime_js", strtr($app->lng('conf_format_dateshort'), array('d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy', 'y' => 'yy', 'H' => 'hh', 'h' => 'HH', 'i' => 'ii')));
 
 		$app->tpl->setVar("daynamesmin_su", $app->lng('daynamesmin_su'));
 		$app->tpl->setVar("daynamesmin_mo", $app->lng('daynamesmin_mo'));

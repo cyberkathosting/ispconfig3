@@ -98,6 +98,7 @@ class tform_base {
 	var $errorMessage = '';
 
 	var $dateformat = "d.m.Y";
+	var $datetimeformat = 'd.m.Y H:i';
 	var $formDef = array();
 	var $wordbook;
 	var $module;
@@ -153,6 +154,7 @@ class tform_base {
 		$this->wordbook = $wb;
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
+		$this->datetimeformat = $app->lng('conf_format_datetime');
 
 		return true;
 	}
@@ -708,13 +710,8 @@ class tform_base {
 					if($record[$key] != '' && $record[$key] != '0000-00-00') {
 						if(function_exists('date_parse_from_format')) {
 							$date_parts = date_parse_from_format($this->dateformat, $record[$key]);
-							//list($tag,$monat,$jahr) = explode('.',$record[$key]);
 							$new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
-							//$tmp = strptime($record[$key],$this->dateformat);
-							//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
 						} else {
-							//$tmp = strptime($record[$key],$this->dateformat);
-							//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
 							$tmp = strtotime($record[$key]);
 							$new_record[$key] = date('Y-m-d', $tmp);
 						}
@@ -724,8 +721,6 @@ class tform_base {
 					break;
 				case 'INTEGER':
 					$new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
-					//if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
-					//if($key == 'refresh') die($record[$key]);
 					break;
 				case 'DOUBLE':
 					$new_record[$key] = $record[$key];
@@ -735,7 +730,7 @@ class tform_base {
 					break;
 
 				case 'DATETIME':
-					if (is_array($record[$key]))
+					/*if (is_array($record[$key]))
 					{
 						$filtered_values = array_map(create_function('$item', 'return (int)$item;'), $record[$key]);
 						extract($filtered_values, EXTR_PREFIX_ALL, '_dt');
@@ -743,7 +738,14 @@ class tform_base {
 						if ($_dt_day != 0 && $_dt_month != 0 && $_dt_year != 0) {
 							$new_record[$key] = date( 'Y-m-d H:i:s', mktime($_dt_hour, $_dt_minute, $_dt_second, $_dt_month, $_dt_day, $_dt_year) );
 						}
-					}
+					} else {*/
+						if($record[$key] != '' && $record[$key] != '0000-00-00 00:00:00') {
+							$tmp = strtotime($record[$key]);
+							$new_record[$key] = date($this->datetimeformat, $tmp);
+						} else {
+							$new_record[$key] = '0000-00-00 00:00:00';
+						}
+					/*}*/
 					break;
 				}
 
