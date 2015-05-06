@@ -62,6 +62,9 @@ class monitor_tools {
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
+				case "15.04":
+					$relname = "(Vivid Vervet)";
+					break;
 				case "14.10":
 					$relname = "(Utopic Unicorn)";
 					break;
