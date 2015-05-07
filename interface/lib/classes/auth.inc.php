@@ -153,13 +153,44 @@ class auth {
 		
 	}
 
-	public function get_random_password($length = 8) {
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		$password = '';
-		for ($n=0;$n<$length;$n++) {
-			$password.=$base64_alphabet[mt_rand(0, 63)];
+	public function get_random_password($minLength = 8, $special = false) {
+		$minLength = $minLength || 10;
+		if($minLength < 8) $minLength = 8;
+		$maxLength = $minLength + 5;
+		$length = mt_rand($minLength, $maxLength);
+		
+		$alphachars = "abcdefghijklmnopqrstuvwxyz";
+		$upperchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$numchars = "1234567890";
+		$specialchars = "!@#_";
+		
+		$num_special = 0;
+		if($special == true) {
+			$num_special = intval(mt_rand(0, round($length / 4))) + 1;
 		}
-		return $password;
+		$numericlen = mt_rand(1, 2);
+		$alphalen = $length - $num_special - $numericlen;
+		$upperlen = intval($alphalen / 2);
+		$alphalen = $alphalen - $upperlen;
+		$password = '';
+		
+		for($i = 0; $i < $alphalen; $i++) {
+			$password .= substr($alphachars, mt_rand(0, strlen($alphachars) - 1), 1);
+		}
+		
+		for($i = 0; $i < $upperlen; $i++) {
+			$password .= substr($upperchars, mt_rand(0, strlen($upperchars) - 1), 1);
+		}
+		
+		for($i = 0; $i < $num_special; $i++) {
+			$password .= substr($specialchars, mt_rand(0, strlen($specialchars) - 1), 1);
+		}
+		
+		for($i = 0; $i < $numericlen; $i++) {
+			$password .= substr($numchars, mt_rand(0, strlen($numchars) - 1), 1);
+		}
+		
+		return str_shuffle($password);
 	}
 
 	public function crypt_password($cleartext_password) {
