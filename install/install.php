@@ -171,7 +171,7 @@ $install_mode = $inst->simple_query('Installation mode', array('standard', 'expe
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname']=$tmp_out[0];
+$conf['hostname'] = @$tmp_out[0];
 unset($tmp_out);
 //** Prevent empty hostname
 $check = false;
