@@ -477,6 +477,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
+		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 
 
 		// Adding the amavisd commands to the postfix configuration
@@ -1271,7 +1272,13 @@ class installer_dist extends installer_base {
 		
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-
+		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
+		
 	}
 
 	public function configure_dbserver()
