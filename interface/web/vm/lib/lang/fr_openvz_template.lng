@@ -91,5 +91,5 @@ $wb['swappages_error_empty'] = 'Swappages est vide.';
 $wb['Template'] = 'Modèle';
 $wb['Advanced'] = 'Avancé';
 $wb['features_txt'] = 'Features';
-$wb[iptables_txt] = iptables;
+$wb["iptables_txt"] = "iptables2";
 ?>
