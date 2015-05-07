@@ -133,9 +133,10 @@ class vm_openvz_plugin {
 		$sql .= "nameserver = ?, ";
 		$sql .= "create_dns = ?, ";
 		$sql .= "capability = ?, ";
-		$sql .= "features = ? ";
+		$sql .= "features = ?, ";
+		$sql .= "iptables = ? ";
 		$sql .= "WHERE vm_id = ?";
-		$app->db->query($sql, $tpl['diskspace'], $tpl['ram'], $tpl['ram_burst'], $tpl['cpu_units'], $tpl['cpu_num'], $tpl['cpu_limit'], $tpl['io_priority'], $tpl['nameserver'], $tpl['create_dns'], $tpl['capability'], $tpl['features'], $this->id);
+		$app->db->query($sql, $tpl['diskspace'], $tpl['ram'], $tpl['ram_burst'], $tpl['cpu_units'], $tpl['cpu_num'], $tpl['cpu_limit'], $tpl['io_priority'], $tpl['nameserver'], $tpl['create_dns'], $tpl['capability'], $tpl['features'], $tpl['iptables'], $this->id);
 
 	}
 
@@ -195,6 +196,7 @@ class vm_openvz_plugin {
 		$tpl->setVar('nameserver', $vm['nameserver']);
 		$tpl->setVar('capability', $vm['capability']);
 		$tpl->setVar('features', $vm['features']);
+		$tpl->setVar('iptables', $vm['iptables']);
 
 		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ?", $app->functions->intval($vm['ostemplate_id']));
 		$tpl->setVar('ostemplate', $tmp['template_file']);

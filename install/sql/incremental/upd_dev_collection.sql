@@ -145,3 +145,5 @@ ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR(255) NOT
 
 ALTER TABLE openvz_template ADD COLUMN `features` varchar(255) DEFAULT NULL AFTER `capability`;
 ALTER TABLE openvz_vm ADD COLUMN `features` TEXT DEFAULT NULL AFTER `capability`;
+ALTER TABLE openvz_template ADD COLUMN `iptables` varchar(255) DEFAULT NULL AFTER `features`;
+ALTER TABLE openvz_vm ADD COLUMN `iptables` TEXT DEFAULT NULL AFTER `features`;
