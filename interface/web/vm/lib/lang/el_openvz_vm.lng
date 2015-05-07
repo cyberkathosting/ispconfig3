@@ -38,5 +38,5 @@ $wb['template_nameserver_error_empty'] = 'Το Nameserver(s) είναι κενό
 $wb['Virtual server'] = 'Εικονικός server';
 $wb['Advanced'] = 'Για προχωρημένους';
 $wb['features_txt'] = 'Features';
-$wb["iptables_txt"] = "iptables2";
+$wb[iptables_txt] = iptables;
 ?>
