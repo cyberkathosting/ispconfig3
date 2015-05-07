@@ -172,10 +172,11 @@ $install_mode = $inst->simple_query('Installation mode', array('standard', 'expe
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
 $conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0],'hostname');
-unset($tmp_out);
 
 //** Prevent empty hostname
-$conf['hostname']=trim($conf['hostname']);
+$conf['hostname']=trim(@$tmp_out[0]);
+unset($tmp_out);
+
 if($conf['hostname'] === '') {
 	$check = false;
 	do {
