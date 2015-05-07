@@ -255,9 +255,13 @@ class tform extends tform_base {
 		if ($display_seconds === true) {
 			$dselect[] = 'second';
 		}
+		
+		$tmp_dt = strtr($this->datetimeformat,array('d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy', 'y' => 'yy', 'H' => 'hh', 'h' => 'HH', 'i' => 'ii')) . ($display_seconds ? ':ss' : '');
 
 		$out = '';
-
+		
+		return '<input type="text" class="form-control" name="' . $form_element . '" value="' . ($_showdate ? date($this->datetimeformat . ($display_seconds ? ':s' : ''), $_datetime) : '') . '"  data-input-element="datetime" data-date-format="' . $tmp_dt . '" />'; 
+/*
 		foreach ($dselect as $dt_element)
 		{
 			$dt_options = array();
@@ -318,7 +322,7 @@ class tform extends tform_base {
 				$selected_value = (int)floor(date('s', $_datetime));
 				break;
 			}
-
+	
 			$out .= "<select name=\"".$form_element."[$dt_element]\" id=\"".$form_element."_$dt_element\" class=\"selectInput\" style=\"width: auto; float: none;\">";
 			if (!$_showdate) {
 				$out .= "<option value=\"-\" selected=\"selected\">--</option>" . PHP_EOL;
@@ -337,7 +341,7 @@ class tform extends tform_base {
 			$out .= '</select>' . str_repeat('&nbsp;', $dt_space);
 		}
 
-		return $out;
+		return $out;*/
 	}
 
 }
