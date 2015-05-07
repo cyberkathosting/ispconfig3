@@ -189,6 +189,8 @@ class ApsCrawler extends ApsBase
 			curl_setopt($conn[$i], CURLOPT_TIMEOUT, 0);
 			curl_setopt($conn[$i], CURLOPT_FAILONERROR, 1);
 			curl_setopt($conn[$i], CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($conn[$i], CURLOPT_SSL_VERIFYHOST, 1);
+			curl_setopt($conn[$i], CURLOPT_SSL_VERIFYPEER, false);
 
 			curl_multi_add_handle($mh, $conn[$i]);
 		}
@@ -283,6 +285,7 @@ class ApsCrawler extends ApsBase
 					$apps_count = substr_count($apps[$j], '<opensearch:totalResults>0</opensearch:totalResults>');
 					if($apps_count == 0) // obviously this vendor provides one or more apps
 						{
+						try {
 						// Rename namespaces and register them
 						$xml = str_replace("xmlns=", "ns=", $apps[$j]);
 						$sxe = new SimpleXMLElement($xml);
@@ -456,9 +459,15 @@ class ApsCrawler extends ApsBase
 
 						unset($sxe);
 						$apps_in_repo++;
+						} catch (Exception $e) {
+							// We dont want the crawler to fail on xml parse errors
+							$app->log($this->log_prefix.$e->getMessage(), LOGLEVEL_WARN);
+							//echo 'Caught exception: ',  $e->getMessage(), "\n";
+						}
 					}
 				}
 				//var_dump($apps);
+				//echo print_r($apps_to_dl).'<br>-------------------<br>';
 
 				// For memory reasons, unset the current vendor and his apps
 				unset($apps);
