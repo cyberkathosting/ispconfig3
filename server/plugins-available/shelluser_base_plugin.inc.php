@@ -103,14 +103,27 @@ class shelluser_base_plugin {
 			if($uid > $this->min_uid) {
 				//* Remove webfolder protection
 				$app->system->web_folder_protection($web['document_root'], false);
-
-				if(!is_dir($data['new']['dir'])){
-					$app->file->mkdirs(escapeshellcmd($data['new']['dir']), '0700');
-					$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
-					$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+				
+				//* Home directory of the new shell user
+				if($data['new']['chroot'] == 'jailkit') {
+					$homedir = $data['new']['dir'];
+				} else {
+					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
+				}
+				
+				if(!is_dir($data['new']['dir'].'/home')){
+					$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
+					$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
+					$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
+				}
+				
+				if(!is_dir($homedir)){
+					$app->file->mkdirs(escapeshellcmd($homedir), '0750');
+					$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
+					$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
 				}
 				$command = 'useradd';
-				$command .= ' -d '.escapeshellcmd($data['new']['dir']);
+				$command .= ' -d '.escapeshellcmd($homedir);
 				$command .= ' -g '.escapeshellcmd($data['new']['pgroup']);
 				$command .= ' -o '; // non unique
 				if($data['new']['password'] != '') $command .= ' -p '.escapeshellcmd($data['new']['password']);
@@ -129,10 +142,10 @@ class shelluser_base_plugin {
 				$this->_setup_ssh_rsa();
 
 				//* Create .bash_history file
-				$app->system->touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
-				$app->system->chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
-				$app->system->chown(escapeshellcmd($data['new']['dir']).'/.bash_history', $data['new']['username']);
-				$app->system->chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history', $data['new']['pgroup']);
+				$app->system->touch(escapeshellcmd($homedir).'/.bash_history');
+				$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0755);
+				$app->system->chown(escapeshellcmd($homedir).'/.bash_history', $data['new']['username']);
+				$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', $data['new']['pgroup']);
 
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
@@ -185,6 +198,16 @@ class shelluser_base_plugin {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
+				
+				//* Home directory of the shell user
+				if($data['new']['chroot'] == 'jailkit') {
+					$homedir = $data['new']['dir'];
+					$homedir_old = $data['old']['dir'];
+				} else {
+					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
+					$homedir_old = $data['old']['dir'].'/home/'.$data['old']['username'];
+				}
+				
 				// Check if the user that we want to update exists, if not, we insert it
 				if($app->system->is_user($data['old']['username'])) {
 					/*
@@ -202,12 +225,32 @@ class shelluser_base_plugin {
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					*/
 					//$groupinfo = $app->system->posix_getgrnam($data['new']['pgroup']);
-					if($data['new']['dir'] != $data['old']['dir'] && !is_dir($data['new']['dir'])){
-						$app->file->mkdirs(escapeshellcmd($data['new']['dir']), '0700');
-						$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
-						$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+					if($homedir != $homedir_old && !is_dir($homedir)){
+						$app->system->web_folder_protection($web['document_root'], false);
+						if(!is_dir($data['new']['dir'].'/home')){
+							$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
+							$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
+							$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
+						}
+						$app->file->mkdirs(escapeshellcmd($homedir), '0750');
+						$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['username']));
+						$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
+						$app->system->web_folder_protection($web['document_root'], true);
+					} else {
+						if(!is_dir($homedir)){
+							$app->system->web_folder_protection($web['document_root'], false);
+							if(!is_dir($data['new']['dir'].'/home')){
+								$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
+								$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
+								$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
+							}
+							$app->file->mkdirs(escapeshellcmd($homedir), '0750');
+							$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
+							$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
+							$app->system->web_folder_protection($web['document_root'], true);
+						}
 					}
-					$app->system->usermod($data['old']['username'], 0, $app->system->getgid($data['new']['pgroup']), $data['new']['dir'], $data['new']['shell'], $data['new']['password'], $data['new']['username']);
+					$app->system->usermod($data['old']['username'], 0, $app->system->getgid($data['new']['pgroup']), $homedir, $data['new']['shell'], $data['new']['password'], $data['new']['username']);
 					$app->log("Updated shelluser: ".$data['old']['username'], LOGLEVEL_DEBUG);
 
 					// call the ssh-rsa update function
@@ -218,10 +261,10 @@ class shelluser_base_plugin {
 
 					//* Create .bash_history file
 					if(!is_file($data['new']['dir']).'/.bash_history') {
-						$app->system->touch(escapeshellcmd($data['new']['dir']).'/.bash_history');
-						$app->system->chmod(escapeshellcmd($data['new']['dir']).'/.bash_history', 0755);
-						$app->system->chown(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['username']));
-						$app->system->chgrp(escapeshellcmd($data['new']['dir']).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
+						$app->system->touch(escapeshellcmd($homedir).'/.bash_history');
+						$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0755);
+						$app->system->chown(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['username']));
+						$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
 					}
 
 				} else {
@@ -260,7 +303,12 @@ class shelluser_base_plugin {
 					$app->system->web_folder_protection($web['document_root'], false);
 					
 					// delete dir
-					$homedir = $data['old']['dir'];
+					if($data['new']['chroot'] == 'jailkit') {
+						$homedir = $data['old']['dir'];
+					} else {
+						$homedir = $data['old']['dir'].'/home/'.$data['old']['username'];
+					}
+				
 					if(substr($homedir, -1) !== '/') $homedir .= '/';
 					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
 					$dirs = array('.ssh', '.cache');
