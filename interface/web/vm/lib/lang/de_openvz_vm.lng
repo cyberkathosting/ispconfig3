@@ -37,4 +37,5 @@ $wb['io_priority_error_empty'] = 'I/O Priorität ist leer.';
 $wb['template_nameserver_error_empty'] = 'Nameserver ist leer.';
 $wb['Virtual server'] = 'Virtueller Server';
 $wb['Advanced'] = 'Erweitert';
+$wb[iptables_txt] = iptables;
 ?>
