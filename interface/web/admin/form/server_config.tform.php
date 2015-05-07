@@ -616,14 +616,12 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-		/*
-'vhost_rewrite_v6' => array (
-'datatype' => 'VARCHAR',
-'formtype' => 'CHECKBOX',
-'default' => 'n',
-'value' => array(0 => 'n',1 => 'y')
-),
-*/
+		'vhost_rewrite_v6' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
