@@ -171,21 +171,16 @@ $install_mode = $inst->simple_query('Installation mode', array('standard', 'expe
 //** Get the hostname
 $tmp_out = array();
 exec('hostname -f', $tmp_out);
-$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', @$tmp_out[0],'hostname');
-
-//** Prevent empty hostname
-$conf['hostname']=trim(@$tmp_out[0]);
+$conf['hostname']=$tmp_out[0];
 unset($tmp_out);
-
-if($conf['hostname'] === '') {
-	$check = false;
-	do {
-		swriteln('Hostname may not be empty.');
-		$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', '', 'hostname');
-		$conf['hostname']=trim($conf['hostname']);
-		$check = @($conf['hostname'] !== '')?true:false;
-	} while (!$check);
-}
+//** Prevent empty hostname
+$check = false;
+do {
+	$conf['hostname'] = $inst->free_query('Full qualified hostname (FQDN) of the server, eg server1.domain.tld ', $conf['hostname'], 'hostname');
+	$conf['hostname']=trim($conf['hostname']);
+	$check = @($conf['hostname'] !== '')?true:false;
+	if(!$check) swriteln('Hostname may not be empty.');
+} while (!$check);
 
 // Check if the mysql functions are loaded in PHP
 if(!function_exists('mysql_connect')) die('No PHP MySQL functions available. Please ensure that the PHP MySQL module is loaded.');
