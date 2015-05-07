@@ -38,5 +38,5 @@ $wb['template_nameserver_error_empty'] = 'Nameserver(s) est vide.';
 $wb['Virtual server'] = 'Serveur virtuel';
 $wb['Advanced'] = 'Avancé';
 $wb['features_txt'] = 'Features';
-$wb[iptables_txt] = iptables;
+$wb["iptables_txt"] = "iptables";
 ?>

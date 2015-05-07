@@ -91,6 +91,6 @@ $wb['swappages_error_empty'] = 'Swappages is empty.';
 $wb['Template'] = 'Šablona';
 $wb['Advanced'] = 'Pokročilý';
 $wb['features_txt'] = 'Features';
-$wb[iptables_txt] = iptables;
+$wb["iptables_txt"] = "iptables";
 ?>
 
