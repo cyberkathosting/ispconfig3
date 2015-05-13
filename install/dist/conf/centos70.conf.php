@@ -171,9 +171,9 @@ $conf['powerdns']['init_script'] = 'pdns';
 $conf['bind']['installed'] = false; // will be detected automatically during installation
 $conf['bind']['bind_user'] = 'named';
 $conf['bind']['bind_group'] = 'named';
-$conf['bind']['bind_zonefiles_dir'] = '/var/named/chroot/var/named/';
-$conf['bind']['named_conf_path'] = '/var/named/chroot/etc/named.conf';
-$conf['bind']['named_conf_local_path'] = '/var/named/chroot/var/named/named.local';
+$conf['bind']['bind_zonefiles_dir'] = '/var/named';
+$conf['bind']['named_conf_path'] = '/etc/named.conf';
+$conf['bind']['named_conf_local_path'] = '/etc/named.conf.local';
 $conf['bind']['init_script'] = 'named';
 
 //* Jailkit

@@ -137,6 +137,15 @@ class page_action extends tform_actions {
 
 			/* restrict the names */
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
+
+			/*
+			*  Get the data of the domain, owning the webdav user
+			*/
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+			/* The server is the server of the domain */
+			$this->dataRecord["server_id"] = $web["server_id"];
+			/* The Webdav user shall be owned by the same group then the website */
+			$this->dataRecord["sys_groupid"] = $web['sys_groupid'];
 		}
 
 		parent::onBeforeInsert();
@@ -159,7 +168,6 @@ class page_action extends tform_actions {
 		
 		$sql = "UPDATE webdav_user SET server_id = ?, sys_groupid = ?, password = ? WHERE webdav_user_id = ?";
 		$app->db->query($sql, $server_id, $sys_groupid, $this->dataRecord["password"], $this->id);
-		
 	}
 
 	function onBeforeUpdate() {

@@ -460,6 +460,7 @@ class ApsCrawler extends ApsBase
 					}
 				}
 				//var_dump($apps);
+				//echo print_r($apps_to_dl).'<br>-------------------<br>';
 
 				// For memory reasons, unset the current vendor and his apps
 				unset($apps);

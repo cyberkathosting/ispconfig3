@@ -679,7 +679,7 @@ class installer_dist extends installer_base {
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		exec('chown '.$conf['bind']['bind_user'].':'.$conf['bind']['bind_group'].' '.$content);
-		exec('chmod 770 '.$content);
+		exec('chmod 2770 '.$content);
 
 	}
 

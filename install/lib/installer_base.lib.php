@@ -1321,11 +1321,12 @@ class installer_base {
 
 		//* Create the slave subdirectory
 		$content .= 'slave';
-		if(!@is_dir($content)) mkdir($content, 0770, true);
+		if(!@is_dir($content)) mkdir($content, 2770, true);
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		chown($content, $conf['bind']['bind_user']);
 		chgrp($content, $conf['bind']['bind_group']);
+		chmod($content, 2770);
 
 	}
 
@@ -2386,8 +2387,6 @@ Email Address []:
 		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
-		
-		
 	}
 
 	public function configure_dbserver() {
