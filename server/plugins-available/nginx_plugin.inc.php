@@ -1097,8 +1097,19 @@ class nginx_plugin {
 			} else {
 				$nginx_directives = $data['new']['nginx_directives'];
 			}
+			if($data['new']['enable_pagespeed'] == 'y'){
+				// if PageSpeed is already enabled, don't add configuration again
+				if(stripos($nginx_directives, 'pagespeed') !== false){
+					$vhost_data['enable_pagespeed'] = false;
+				} else {
+					$vhost_data['enable_pagespeed'] = true;
+				}
+			} else {
+				$vhost_data['enable_pagespeed'] = false;
+			}
 		} else {
 			$nginx_directives = $data['new']['nginx_directives'];
+			$vhost_data['enable_pagespeed'] = false;
 		}
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);

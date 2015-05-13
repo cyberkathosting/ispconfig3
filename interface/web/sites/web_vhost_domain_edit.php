@@ -1091,6 +1091,7 @@ class page_action extends tform_actions {
 		if($web_config['enable_spdy'] === 'n') {
 			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
+		if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
 
 		parent::onSubmit();
 	}

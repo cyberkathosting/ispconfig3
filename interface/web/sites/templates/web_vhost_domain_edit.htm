@@ -217,6 +217,12 @@
                 </select></div>
             </div>
 			{tmpl_var name="directive_snippets_id"}
+			<div class="form-group nginx pagespeed">
+				<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>
+				<div class="col-sm-9">
+					{tmpl_var name="enable_pagespeed"}
+				</div>
+			</div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">
@@ -276,6 +282,19 @@
     });
 	// new Vhostsubdomains/Vhostaliasdomains
 	if(serverId == '') jQuery('#parent_domain_id').trigger('change');
+	
+	if(jQuery('#directive_snippets_id').val() > 0){
+		jQuery('.pagespeed').show();
+	} else {
+		jQuery('.pagespeed').hide();
+	}
+	jQuery('#directive_snippets_id').change(function(){
+		if(jQuery(this).val() > 0){
+			jQuery('.pagespeed').show();
+		} else {
+			jQuery('.pagespeed').hide();
+		}
+	});
     
     function reloadServerId(noFormChange) {
         var parentWebId = jQuery('#parent_domain_id').val();
@@ -291,6 +310,19 @@
             if(data.servertype == "nginx"){
                 var selected = jQuery('#php').val();
                 jQuery('.apache').hide();
+				jQuery('.nginx').show();
+				if(jQuery('#directive_snippets_id').val() > 0){
+					jQuery('.pagespeed').show();
+				} else {
+					jQuery('.pagespeed').hide();
+				}
+				jQuery('#directive_snippets_id').change(function(){
+					if(jQuery(this).val() > 0){
+						jQuery('.pagespeed').show();
+					} else {
+						jQuery('.pagespeed').hide();
+					}
+				});
                 if(selected != "no" && selected != "php-fpm" && selected != "hhvm") {
                     jQuery('#php option[value="php-fpm"]').attr('selected', 'selected').val('php-fpm');
                 }
@@ -299,6 +331,7 @@
                 jQuery('#php option[value="mod"]').hide();
                 jQuery('#php option[value="suphp"]').hide();
             } else {
+				jQuery('.nginx').hide();
                 jQuery('.apache').show();
                 jQuery('#php option[value="fast-cgi"]').show();
                 jQuery('#php option[value="cgi"]').show();

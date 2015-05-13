@@ -710,7 +710,7 @@ class tform_base {
 					if($record[$key] != '' && $record[$key] != '0000-00-00') {
 						if(function_exists('date_parse_from_format')) {
 							$date_parts = date_parse_from_format($this->dateformat, $record[$key]);
-							$new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
+							$new_record[$key] = $date_parts['year'].'-'.str_pad($date_parts['month'], 2, "0", STR_PAD_LEFT).'-'.str_pad($date_parts['day'], 2, "0", STR_PAD_LEFT);
 						} else {
 							$tmp = strtotime($record[$key]);
 							$new_record[$key] = date('Y-m-d', $tmp);
