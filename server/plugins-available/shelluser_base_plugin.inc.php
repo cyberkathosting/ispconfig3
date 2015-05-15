@@ -96,6 +96,8 @@ class shelluser_base_plugin {
 			return false;
 		}
 
+		if($data['new']['active'] != 'y') $data['new']['shell'] = '/bin/false';
+		
 		if($app->system->is_user($data['new']['puser'])) {
 
 			// Get the UID of the parent user
@@ -193,6 +195,8 @@ class shelluser_base_plugin {
 			$app->log('Shell user must not be root or in group root.',LOGLEVEL_WARN);
 			return false;
 		}
+		
+		if($data['new']['active'] != 'y') $data['new']['shell'] = '/bin/false';
 		
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user

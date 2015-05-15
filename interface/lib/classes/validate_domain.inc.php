@@ -158,6 +158,10 @@ class validate_domain {
 		if($domain['ip_address'] == '' || $domain['ipv6_address'] == ''){
 			if($domain['parent_domain_id'] > 0){
 				$parent_domain = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $domain['parent_domain_id']);
+				if(is_array($parent_domain) && !empty($parent_domain)){
+					$domain['ip_address'] = $parent_domain['ip_address'];
+					$domain['ipv6_address'] = $parent_domain['ipv6_address'];
+				}
 			}
 		}
 
