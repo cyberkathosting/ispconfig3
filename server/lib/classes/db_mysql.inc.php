@@ -36,6 +36,7 @@ class db extends mysqli
 	private $_iConnId;
 
 	private $dbHost = '';  // hostname of the MySQL server
+	private $dbPort = '';  // port of the MySQL server
 	private $dbName = '';  // logical database name on that server
 	private $dbUser = '';  // database authorized user
 	private $dbPass = '';  // user's password
@@ -61,10 +62,11 @@ class db extends mysqli
 	*/
 
 	// constructor
-	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL) {
+	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL) {
 		global $app, $conf;
 
 		$this->dbHost = $host ? $host  : $conf['db_host'];
+		$this->dbPort = $port ? $port : $conf['db_port'];
 		$this->dbName = $database ? $database : $conf['db_database'];
 		$this->dbUser = $user ? $user : $conf['db_user'];
 		$this->dbPass = $pass ? $pass : $conf['db_password'];
@@ -72,13 +74,13 @@ class db extends mysqli
 		$this->dbNewLink = $conf['db_new_link'];
 		$this->dbClientFlags = $conf['db_client_flags'];
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		$try = 0;
 		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
 			if($try > 0) sleep(1);
 
 			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -193,7 +195,7 @@ class db extends mysqli
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
 					if($this->errorNumber == '111') {
 						// server is not available
 						if($try > 9) {

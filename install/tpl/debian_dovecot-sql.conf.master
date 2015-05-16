@@ -117,7 +117,7 @@
 #password_query = SELECT userid as user, password, home as userdb_home, uid as userdb_uid, gid as userdb_gid FROM users WHERE userid = '%u'
 
 driver = mysql
-connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_server_ispconfig_user} password={mysql_server_ispconfig_password}
+connect = host={mysql_server_host} dbname={mysql_server_database} user={mysql_server_ispconfig_user} password={mysql_server_ispconfig_password} port={mysql_server_port}
 default_pass_scheme = CRYPT
 
 # password-query with prefetch

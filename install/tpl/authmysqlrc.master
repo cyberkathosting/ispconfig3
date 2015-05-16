@@ -1,4 +1,5 @@
 MYSQL_SERVER {mysql_server_host}
+MYSQL_PORT {mysql_server_port}
 MYSQL_USERNAME {mysql_server_ispconfig_user}
 MYSQL_PASSWORD {mysql_server_ispconfig_password}
 MYSQL_PORT 0
