@@ -1,8 +1,7 @@
 MYSQL_SERVER {mysql_server_host}
-MYSQL_PORT {mysql_server_port}
 MYSQL_USERNAME {mysql_server_ispconfig_user}
 MYSQL_PASSWORD {mysql_server_ispconfig_password}
-MYSQL_PORT 0
+MYSQL_PORT {mysql_server_port}
 MYSQL_DATABASE {mysql_server_database}
 MYSQL_USER_TABLE mail_user
 MYSQL_CRYPT_PWFIELD password

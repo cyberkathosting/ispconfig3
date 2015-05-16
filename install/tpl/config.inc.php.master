@@ -83,7 +83,7 @@ define('DB_CHARSET',$conf['db_charset']);
 //** Database settings for the master DB. This setting is only used in multiserver setups
 $conf['dbmaster_type']			= 'mysql';
 $conf['dbmaster_host']			= '{mysql_master_server_host}';
-$conf['dbmaster_host']          = '{mysql_master_server_port}';
+$conf['dbmaster_port']			= '{mysql_master_server_port}';
 $conf['dbmaster_database']		= '{mysql_master_server_database}';
 $conf['dbmaster_user']			= '{mysql_master_server_ispconfig_user}';
 $conf['dbmaster_password']		= '{mysql_master_server_ispconfig_password}';
