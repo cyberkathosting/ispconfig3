@@ -3,4 +3,8 @@ PHPRC={fastcgi_phpini_path}
 export PHPRC
 export PHP_FCGI_MAX_REQUESTS=5000
 export PHP_FCGI_CHILDREN=1
-exec {fastcgi_bin} -d magic_quotes_gpc=off
+exec {fastcgi_bin} -d  \
+    -d disable_classes= \
+    -d disable_functions= \
+    -d magic_quotes_gpc=off \
+    -d open_basedir=

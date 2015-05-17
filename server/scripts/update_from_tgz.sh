@@ -12,7 +12,11 @@ if [ -f ISPConfig-3-stable.tar.gz ]
 then
 	tar xvfz ISPConfig-3-stable.tar.gz
 	cd ispconfig3_install/install/
-	php -q update.php
+	php -q \
+    -d disable_classes= \
+    -d disable_functions= \
+    -d open_basedir= \
+    update.php
 	rm -rf /tmp/ispconfig3_install/install
 	rm -f ISPConfig-3-stable.tar.gz
 else
