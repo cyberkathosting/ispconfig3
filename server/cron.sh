@@ -10,4 +10,8 @@ if [ -f /usr/local/ispconfig/server/lib/php.ini ]; then
 fi
 
 cd /usr/local/ispconfig/server
-/usr/bin/php -q /usr/local/ispconfig/server/cron.php
+/usr/bin/php -q \
+    -d disable_classes= \
+    -d disable_functions= \
+    -d open_basedir= \
+    /usr/local/ispconfig/server/cron.php
