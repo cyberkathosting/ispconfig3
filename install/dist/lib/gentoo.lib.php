@@ -834,6 +834,7 @@ class installer extends installer_base
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);

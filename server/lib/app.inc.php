@@ -51,7 +51,7 @@ class app {
 					*/
 
 			if($conf['dbmaster_host'] != '' && ($conf['dbmaster_host'] != $conf['db_host'] || ($conf['dbmaster_host'] == $conf['db_host'] && $conf['dbmaster_database'] != $conf['db_database']))) {
-				$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database']);
+				$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database'], $conf['dbmaster_port']);
 			} else {
 				$this->dbmaster = $this->db;
 			}

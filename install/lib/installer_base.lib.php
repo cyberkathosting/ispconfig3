@@ -968,6 +968,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 
 		chmod($config_dir.'/'.$configfile, 0660);
@@ -1081,6 +1082,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 
@@ -1259,6 +1261,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($conf['mydns']['config_dir'].'/'.$configfile, $content);
 		chmod($conf['mydns']['config_dir'].'/'.$configfile, 0600);
@@ -1302,6 +1305,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{powerdns_database}', $conf['powerdns']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		wf($conf['powerdns']['config_dir'].'/'.$configfile, $content);
 		chmod($conf['powerdns']['config_dir'].'/'.$configfile, 0600);
 		chown($conf['powerdns']['config_dir'].'/'.$configfile, 'root');
@@ -1967,11 +1971,13 @@ Email Address []:
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -1992,11 +1998,13 @@ Email Address []:
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -2650,6 +2658,7 @@ Email Address []:
 		$tContents = str_replace('{mysql_server_database}', $conf["mysql"]["database"], $tContents);
 		$tContents = str_replace('{mysql_server_ip}', $conf["mysql"]["ip"], $tContents);
 		$tContents = str_replace('{mysql_server_host}', $conf['mysql']['host'], $tContents);
+		$tContents = str_replace('{mysql_server_port}', $conf['mysql']['port'], $tContents);
 		$tContents = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $tContents);
 
 		return $tContents;

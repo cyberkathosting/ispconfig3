@@ -51,6 +51,7 @@ define('DEVSYSTEM', 0);
 //** Database
 $conf['db_type'] = 'mysql';
 $conf['db_host'] = 'localhost';
+$conf['db_port'] = 3306;
 $conf['db_database'] = 'ispconfig3_305';
 $conf['db_user'] = 'root';
 $conf['db_password'] = '';
@@ -60,6 +61,7 @@ $conf['db_client_flags'] = 0;
 
 define('DB_TYPE', $conf['db_type']);
 define('DB_HOST', $conf['db_host']);
+define('DB_PORT', $conf['db_port']);
 define('DB_DATABASE', $conf['db_database']);
 define('DB_USER', $conf['db_user']);
 define('DB_PASSWORD', $conf['db_password']);
@@ -69,6 +71,7 @@ define('DB_CHARSET', $conf['db_charset']);
 //** Database settings for the master DB. This setting is only used in multiserver setups
 $conf['dbmaster_type']   = 'mysql';
 $conf['dbmaster_host']   = '{mysql_master_server_host}';
+$conf['dbmaster_port']   = '{mysql_master_server_port}';
 $conf['dbmaster_database']  = '{mysql_master_server_database}';
 $conf['dbmaster_user']   = '{mysql_master_server_ispconfig_user}';
 $conf['dbmaster_password']  = '{mysql_master_server_ispconfig_password}';

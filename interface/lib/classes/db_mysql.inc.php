@@ -36,6 +36,7 @@ class db extends mysqli
 	private $_iConnId;
 
 	private $dbHost = '';  // hostname of the MySQL server
+	private $dbPort = '';  // port of the MySQL server
 	private $dbName = '';  // logical database name on that server
 	private $dbUser = '';  // database authorized user
 	private $dbPass = '';  // user's password
@@ -65,6 +66,7 @@ class db extends mysqli
 		global $conf;
 		if($prefix != '') $prefix .= '_';
 		$this->dbHost = $conf[$prefix.'db_host'];
+		$this->dbPort = $conf[$prefix.'db_port'];
 		$this->dbName = $conf[$prefix.'db_database'];
 		$this->dbUser = $conf[$prefix.'db_user'];
 		$this->dbPass = $conf[$prefix.'db_password'];
@@ -72,13 +74,13 @@ class db extends mysqli
 		$this->dbNewLink = $conf[$prefix.'db_new_link'];
 		$this->dbClientFlags = $conf[$prefix.'db_client_flags'];
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		$try = 0;
 		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
 			if($try > 0) sleep(1);
 
 			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -240,7 +242,7 @@ class db extends mysqli
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
 					if($try > 4) {
 						$this->_sqlerror('DB::query -> reconnect');
 						return false;

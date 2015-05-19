@@ -247,13 +247,15 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	$finished = false;
 	do {
 		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname');
+		$tmp_mysql_server_port = $inst->free_query('MySQL master server port', $conf['mysql']['master_port'],'mysql_master_port');
 		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
 		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password');
 		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 		//* Initialize the MySQL server connection
-		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, (int)$tmp_mysql_server_port)) {
 			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+			$conf['mysql']['master_port'] = $tmp_mysql_server_port;
 			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
 			$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
 			$conf['mysql']['master_database'] = $tmp_mysql_server_database;
