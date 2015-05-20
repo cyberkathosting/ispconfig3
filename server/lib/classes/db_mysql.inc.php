@@ -55,7 +55,9 @@ class db extends mysqli
 	private $autoCommit = 1;    // Autocommit Transactions
 	private $currentRow;  // current row number
 	public $errorNumber = 0; // last error number
+	*/
 	public $errorMessage = ''; // last error message
+	/*
 	private $errorLocation = '';// last error location
 	private $isConnected = false; // needed to know if we have a valid mysqli object from the constructor
 	////
@@ -467,6 +469,7 @@ class db extends mysqli
 
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
 		$mysql_errno = (is_object($this->_iConnId) ? mysqli_errno($this->_iConnId) : mysqli_connect_errno());
+		$this->errorMessage = $mysql_error;
 
 		//$sAddMsg .= getDebugBacktrace();
 

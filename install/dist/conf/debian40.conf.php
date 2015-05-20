@@ -183,7 +183,7 @@ $conf['jailkit']['installed'] = false; // will be detected automatically during 
 $conf['jailkit']['config_dir'] = '/etc/jailkit';
 $conf['jailkit']['jk_init'] = 'jk_init.ini';
 $conf['jailkit']['jk_chrootsh'] = 'jk_chrootsh.ini';
-$conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico';
+$conf['jailkit']['jailkit_chroot_app_programs'] = '/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch';
 $conf['jailkit']['jailkit_chroot_cron_programs'] = '/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php';
 
 //* Squid
