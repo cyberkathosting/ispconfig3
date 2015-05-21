@@ -67,13 +67,16 @@ class plugin_backuplist extends plugin_base {
 			}
 
 			if($_GET['backup_action'] == 'download' && $backup_id > 0) {
+				$server_id = $this->form->dataRecord['server_id'];
+				$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ".$backup_id);
+				if($backup['server_id'] > 0) $server_id = $backup['server_id'];
 				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";
 				$tmp = $app->db->queryOneRecord($sql);
 				if($tmp['number'] == 0) {
 					$message .= $wb['download_info_txt'];
 					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
 						"VALUES (".
-						(int)$this->form->dataRecord['server_id'] . ", " .
+						(int)$server_id . ", " .
 						time() . ", " .
 						"'backup_download', " .
 						"'".$backup_id."', " .
@@ -86,13 +89,16 @@ class plugin_backuplist extends plugin_base {
 				}
 			}
 			if($_GET['backup_action'] == 'restore' && $backup_id > 0) {
+				$server_id = $this->form->dataRecord['server_id'];
+				$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ".$backup_id);
+				if($backup['server_id'] > 0) $server_id = $backup['server_id'];
 				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = '$backup_id'";
 				$tmp = $app->db->queryOneRecord($sql);
 				if($tmp['number'] == 0) {
 					$message .= $wb['restore_info_txt'];
 					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
 						"VALUES (".
-						(int)$this->form->dataRecord['server_id'] . ", " .
+						(int)$server_id . ", " .
 						time() . ", " .
 						"'backup_restore', " .
 						"'".$backup_id."', " .
@@ -108,8 +114,17 @@ class plugin_backuplist extends plugin_base {
 		}
 
 		//* Get the data
+		$server_ids = array();
 		$web = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ".$app->functions->intval($this->form->id));
-		$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$app->functions->intval($this->form->id)." AND server_id = ".$app->functions->intval($web['server_id'])." ORDER BY tstamp DESC, backup_type ASC";
+		$databases = $app->db->queryAllRecords("SELECT server_id FROM web_database WHERE parent_domain_id = ".$app->functions->intval($this->form->id));
+		if($app->functions->intval($web['server_id']) > 0) $server_ids[] = $app->functions->intval($web['server_id']);
+		if(is_array($databases) && !empty($databases)){
+			foreach($databases as $database){
+				if($app->functions->intval($database['server_id']) > 0) $server_ids[] = $app->functions->intval($database['server_id']);
+			}
+		}
+		$server_ids = array_unique($server_ids);
+		$sql = "SELECT * FROM web_backup WHERE parent_domain_id = ".$app->functions->intval($this->form->id)." AND server_id IN (".implode(',', $server_ids).") ORDER BY tstamp DESC, backup_type ASC";
 		$records = $app->db->queryAllRecords($sql);
 
 		$bgcolor = "#FFFFFF";
@@ -122,6 +137,9 @@ class plugin_backuplist extends plugin_base {
 
 				$rec['date'] = date($app->lng('conf_format_datetime'), $rec['tstamp']);
 				$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+				
+				$rec['download_available'] = true;
+				if($rec['server_id'] != $web['server_id']) $rec['download_available'] = false;
 
 				$records_new[] = $rec;
 			}

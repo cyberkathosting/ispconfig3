@@ -62,6 +62,12 @@ class monitor_tools {
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
+				case "15.04":
+					$relname = "(Vivid Vervet)";
+					break;
+				case "14.10":
+					$relname = "(Utopic Unicorn)";
+					break;
 				case "14.04":
 					$relname = "(Trusty Tahr)";
 					break;
@@ -146,6 +152,11 @@ class monitor_tools {
 				$distver = 'Wheezy/Sid';
 				$distid = 'debian60';
 				$distbaseid = 'debian';
+			} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+				$distname = 'Debian';
+				$distver = 'Jessie';
+				$distid = 'debian60';
+				$distbaseid = 'debian';
 			} else {
 				$distname = 'Debian';
 				$distver = 'Unknown';
@@ -215,13 +226,11 @@ class monitor_tools {
 				$distver = 'Unknown';
 				$distid = 'centos53';
 				$distbaseid = 'fedora';
-				swriteln("Operating System: CentOS 6 or compatible\n");
 			} elseif(stristr($content, 'CentOS Linux release 7')) {
 				$distname = 'CentOS';
 				$distver = 'Unknown';
 				$distid = 'centos53';
 				$distbaseid = 'fedora';
-				swriteln("Operating System: CentOS 7 or compatible\n");
 			} else {
 				$distname = 'Redhat';
 				$distver = 'Unknown';

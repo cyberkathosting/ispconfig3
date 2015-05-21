@@ -28,7 +28,9 @@
                             <td class="tbl_col_buttons">
                                 <div class="buttons">
                                     <button class="button iconstxt icoRestore" type="button" onclick="confirm_action('sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=restore&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='restore_confirm_txt'}');"><span>{tmpl_var name="restore_backup_txt"}</span></button>
+									<tmpl_if name="download_available">
                                     <button class="button iconstxt icoDownload" type="button" onclick="loadContent('sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}');"><span>{tmpl_var name="download_backup_txt"}</span></button>
+									</tmpl_if>
                                 </div>
                             </td>
                         </tr>

@@ -1,5 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Email templates';
-$wb['template_type_txt'] = 'Message for';
-$wb['template_name_txt'] = 'Template name';
+$wb['list_head_txt'] = 'Email predlošci';
+$wb['template_type_txt'] = 'Poruka za';
+$wb['template_name_txt'] = 'Naziv predloška';
 ?>
+
+

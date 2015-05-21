@@ -121,6 +121,58 @@ class db extends mysqli
 		parent::query( 'SET NAMES '.$this->dbCharset);
 		parent::query( "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
 	}
+	
+	private function securityScan($string) {
+		global $app, $conf;
+		
+		// get security config
+		if(isset($app)) {
+			$app->uses('getconf');
+			$ids_config = $app->getconf->get_security_config('ids');
+			
+			if($ids_config['sql_scan_enabled'] == 'yes') {
+				
+				// Remove whitespace
+				$string = trim($string);
+				if(substr($string,-1) == ';') $string = substr($string,0,-1);
+				
+				// Save original string
+				$string_orig = $string;
+				
+				//echo $string;
+				$chars = array(';', '#', '/*', '*/', '--', '\\\'', '\\"');
+		
+				$string = str_replace('\\\\', '', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])\\2/is', '$1', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\])\\2/is', '$1', $string);
+				$ok = true;
+
+				if(substr_count($string, "`") % 2 != 0 || substr_count($string, "'") % 2 != 0 || substr_count($string, '"') % 2 != 0) {
+					$app->log("SQL injection warning (" . $string_orig . ")",2);
+					$ok = false;
+				} else {
+					foreach($chars as $char) {
+						if(strpos($string, $char) !== false) {
+							$ok = false;
+							$app->log("SQL injection warning (" . $string_orig . ")",2);
+							break;
+						}
+					}
+				}
+				if($ok == true) {
+					return true;
+				} else {
+					if($ids_config['sql_scan_action'] == 'warn') {
+						// we return false in warning level.
+						return false;
+					} else {
+						// if sql action = 'block' or anything else then stop here.
+						$app->error('Possible SQL injection. All actions have been logged.');
+					}
+				}
+			}
+		}
+	}
 
 	public function query($queryString) {
 		global $conf;
@@ -143,6 +195,7 @@ class db extends mysqli
 				}
 			}
 		} while($ok == false);
+		$this->securityScan($queryString);
 		$this->queryId = parent::query($queryString);
 		$this->updateError('DB::query('.$queryString.') -> mysqli_query');
 		if($this->errorNumber && $conf['demo_mode'] === false) debug_print_backtrace();
@@ -262,12 +315,12 @@ class db extends mysqli
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
 		global $app, $conf;
 
-		// Insert backticks only for incomplete table names.
-		if(stristr($db_table, '.')) {
-			$escape = '';
-		} else {
-			$escape = '`';
-		}
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
+		
+		$primary_field = $this->quote($primary_field);
+		$primary_id = intval($primary_id);
 
 		if($force_update == true) {
 			//* We force a update even if no record has changed
@@ -307,7 +360,16 @@ class db extends mysqli
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename_escaped = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 
 		if(is_array($insert_data)) {
@@ -325,9 +387,9 @@ class db extends mysqli
 		}
 
 		$old_rec = array();
-		$this->query("INSERT INTO $tablename $insert_data_str");
+		$this->query("INSERT INTO $tablename_escaped $insert_data_str");
 		$index_value = $this->insertID();
-		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 
 		return $index_value;
@@ -337,11 +399,20 @@ class db extends mysqli
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename_escaped = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
-		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 
 		if(is_array($update_data)) {
 			$update_data_str = '';
@@ -353,8 +424,8 @@ class db extends mysqli
 			$update_data_str = $update_data;
 		}
 
-		$this->query("UPDATE $tablename SET $update_data_str WHERE $index_field = '$index_value'");
-		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
+		$this->query("UPDATE $tablename_escaped SET $update_data_str WHERE $index_field = '$index_value'");
+		$new_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 
 		return true;
@@ -364,12 +435,21 @@ class db extends mysqli
 	public function datalogDelete($tablename, $index_field, $index_value) {
 		global $app;
 		
-		$tablename = $this->quote($tablename);
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+		
+		if(strpos($tablename, '.') !== false) {
+			$tablename_escaped = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $tablename);
+		} else {
+			$tablename_escaped = '`' . $tablename . '`';
+		}
+		
 		$index_field = $this->quote($index_field);
 		$index_value = $this->quote($index_value);
 
-		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename WHERE $index_field = '$index_value'");
-		$this->query("DELETE FROM $tablename WHERE $index_field = '$index_value'");
+		$old_rec = $this->queryOneRecord("SELECT * FROM $tablename_escaped WHERE $index_field = '$index_value'");
+		$this->query("DELETE FROM $tablename_escaped WHERE $index_field = '$index_value'");
 		$new_rec = array();
 		$this->datalogSave($tablename, 'DELETE', $index_field, $index_value, $old_rec, $new_rec);
 

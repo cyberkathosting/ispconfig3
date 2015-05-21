@@ -1721,14 +1721,14 @@ class system{
 
 	function getinitcommand($servicename, $action, $init_script_directory = ''){
 		global $conf;
-		// systemd
-		if(is_executable('/bin/systemd')){
-			return 'systemctl '.$action.' '.$servicename.'.service';
-		}
 		// upstart
 		if(is_executable('/sbin/initctl')){
 			exec('/sbin/initctl version 2>/dev/null | /bin/grep -q upstart', $retval['output'], $retval['retval']);
 			if(intval($retval['retval']) == 0) return 'service '.$servicename.' '.$action;
+		}
+		// systemd
+		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
+			return 'systemctl '.$action.' '.$servicename.'.service';
 		}
 		// sysvinit
 		if($init_script_directory == '') $init_script_directory = $conf['init_scripts'];
@@ -1765,8 +1765,8 @@ class system{
 		global $app;
 		
 		$cmd = '';
-		if(is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
-		elseif(is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
+		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
+		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
 		else {
 			$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
 			return array();

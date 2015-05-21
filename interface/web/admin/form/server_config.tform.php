@@ -549,6 +549,12 @@ $form["tabs"]['web'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'network_filesystem' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'website_autoalias' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

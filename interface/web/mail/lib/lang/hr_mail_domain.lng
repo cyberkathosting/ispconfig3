@@ -11,3 +11,5 @@ $wb['limit_maildomain_txt'] = 'Iskorišten je maksimalan broj email domena.';
 $wb['policy_txt'] = 'Spamfilter';
 $wb['no_policy'] = '- nema pravila -';
 ?>
+
+

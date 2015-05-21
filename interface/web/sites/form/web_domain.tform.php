@@ -496,7 +496,7 @@ $form["tabs"]['stats'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'webalizer',
-			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats')
+			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
 		),
 		//#################################
 		// ENDE Datatable fields
@@ -582,6 +582,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'formtype' => 'TEXT',
 				'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 						'errmsg'=> 'sysuser_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysuser',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default' => '',
 				'value'  => '',
@@ -593,6 +600,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'formtype' => 'TEXT',
 				'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 						'errmsg'=> 'sysgroup_error_empty'),
+						1 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_systemuser',
+							'function' => 'check_sysgroup',
+							'check_names' => true,
+							'errmsg' => 'invalid_system_user_or_group_txt'
+						),
 				),
 				'default' => '',
 				'value'  => '',
@@ -716,6 +730,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			'apache_directives' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXT',
+				'validators' => array (  0 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_domain',
+							'function' => 'web_apache_directives',
+							'errmsg' => 'apache_directive_blockd_error'
+						),
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',

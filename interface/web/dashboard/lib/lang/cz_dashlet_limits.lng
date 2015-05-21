@@ -28,3 +28,4 @@ $wb['limit_client_txt'] = 'Počet klientů';
 $wb['limit_database_txt'] = 'Počet databází';
 $wb['limit_mailmailinglist_txt'] = 'Počet e-mailových konferencí';
 ?>
+

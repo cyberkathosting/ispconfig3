@@ -1,0 +1,45 @@
+# Format: usertype:url_path:field
+# usertype can be: any/client/admin
+# Example:
+# admin:/admin/language_edit.php:POST.records.weak_password_txt
+admin:/admin/server_config_edit.php:POST.maildir_path
+admin:/admin/server_config_edit.php:POST.website_path
+admin:/admin/server_config_edit.php:POST.website_symlinks
+admin:/admin/server_config_edit.php:POST.vhost_conf_dir
+admin:/admin/server_config_edit.php:POST.vhost_conf_enabled_dir
+admin:/admin/server_config_edit.php:POST.nginx_vhost_conf_dir
+admin:/admin/server_config_edit.php:POST.nginx_vhost_conf_enabled_dir
+admin:/admin/server_config_edit.php:POST.php_open_basedir
+admin:/admin/server_config_edit.php:POST.awstats_pl
+admin:/admin/server_config_edit.php:POST.fastcgi_starter_path
+admin:/admin/server_config_edit.php:POST.fastcgi_bin
+admin:/admin/server_config_edit.php:POST.jailkit_chroot_home
+admin:/admin/remote_user_edit.php:POST.remote_functions.1
+admin:/admin/firewall_edit.php:POST.tcp_port
+admin:/admin/system_config_edit.php:POST.admin_dashlets_right
+admin:/admin/system_config_edit.php:POST.reseller_dashlets_left
+admin:/admin/system_config_edit.php:POST.reseller_dashlets_right
+admin:/admin/language_edit.php:POST.records.weak_password_txt
+user:/client/client_message.php:POST.message
+user:/client/message_template_edit.php:POST.subject
+admin:/dns/dns_template_edit.php:POST.template
+admin:/nav.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_sys_state.php:SESSION.s.module.nav.1.items.0.title
+admin:/capp.php:SESSION.s.module.nav.1.items.0.title
+admin:/keepalive.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/log_list.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/datalog_list.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_data.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_sys_state.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_monit.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_munin.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_data.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/show_log.php:SESSION.s.module.nav.1.items.0.title
+admin:/monitor/log_del.php:SESSION.s.module.nav.1.items.0.title
+admin:/keepalive.php:SESSION.s.module.nav.1.items.0.title
+admin:/capp.php:SESSION.s.module.nav.1.items.0.title
+admin:/sites/web_vhost_subdomain_edit.php:POST.php_open_basedir
+admin:/sites/web_domain_edit.php:POST.php_open_basedir
+admin:/sites/web_domain_edit.php:POST.apache_directives
+user:/sites/shell_user_edit.php:POST.ssh_rsa
+user:/sites/cron_edit.php:POST.command

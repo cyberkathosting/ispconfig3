@@ -135,12 +135,6 @@ class page_action extends tform_actions {
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
 
 			/*
-			 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
-			 */
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
-
-			/*
 			*  Get the data of the domain, owning the webdav user
 			*/
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
@@ -155,6 +149,14 @@ class page_action extends tform_actions {
 
 	function onAfterInsert() {
 		global $app, $conf;
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
+		 */
+		$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+		$this->dataRecord["password"] = $hash;
+		
+		$app->db->query("UPDATE webdav_user SET password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id);
 	}
 
 	function onBeforeUpdate() {
@@ -168,22 +170,24 @@ class page_action extends tform_actions {
 		$this->dataRecord["username"] = $data['username'];
 		$this->dataRecord["dir"]      = $data['dir'];
 		$this->dataRecord['username_prefix'] = $data['username_prefix'];
-		$passwordOld = $data['password'];
-
-		/*
-		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
-		 * needs (only if the pwd is changed)
-		 */
-		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $passwordOld)) {
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
-		}
+		$this->dataRecord['passwordOld'] = $data['password'];
 
 		parent::onBeforeUpdate();
 	}
 
 	function onAfterUpdate() {
 		global $app, $conf;
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
+		 * needs (only if the pwd is changed)
+		 */
+		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $this->dataRecord['passwordOld'])) {
+			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+			$this->dataRecord["password"] = $hash;
+			$app->db->query("UPDATE webdav_user SET password = '".$this->dataRecord["password"]."' WHERE webdav_user_id = ".$this->id);
+		}
+		
 	}
 
 }

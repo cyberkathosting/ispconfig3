@@ -116,7 +116,7 @@ $wb['limit_ruby_txt'] = 'Ruby - dostupná volba pro klienta';
 $wb['limit_python_txt'] = 'Python - dostupná volba pro klienta';
 $wb['force_suexec_txt'] = 'SuEXEC - povinné pro klienta';
 $wb['limit_hterror_txt'] = 'Vlastní Error (chybové) dokumenty';
-$wb['limit_wildcard_txt'] = 'Wildcard subdomain available';
+$wb['limit_wildcard_txt'] = '(*.) automatická subdoména - dostupná volba pro klienta';
 $wb['limit_ssl_txt'] = 'SSL - dostupná volba pro klienta';
 $wb['bank_account_number_txt'] = 'Číslo účtu';
 $wb['bank_code_txt'] = 'Kód banky';
@@ -154,3 +154,4 @@ $wb['added_date_txt'] = 'Datum vytvoření účtu';
 $wb['parent_client_id_txt'] = 'Přiřazení klienta k distributorovi (prodejci)';
 $wb['none_txt'] = 'Žádný';
 ?>
+

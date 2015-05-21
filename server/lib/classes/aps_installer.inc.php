@@ -554,6 +554,7 @@ class ApsInstaller extends ApsBase
 			curl_setopt($conn[$i], CURLOPT_TIMEOUT, 0);
 			curl_setopt($conn[$i], CURLOPT_FAILONERROR, 1);
 			curl_setopt($conn[$i], CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($conn[$i], CURLOPT_SSL_VERIFYPEER, 0);
 
 			curl_multi_add_handle($mh, $conn[$i]);
 		}
@@ -696,6 +697,7 @@ class ApsInstaller extends ApsBase
 			curl_setopt($ch, CURLOPT_TIMEOUT, 0);
 			curl_setopt($ch, CURLOPT_FAILONERROR, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			if(curl_exec($ch) === false) $app->log(curl_error($ch), 1);
 			fclose($fh);
 			curl_close($ch);

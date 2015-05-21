@@ -1,16 +1,18 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['client_id_txt'] = 'Client';
+$wb['client_id_txt'] = 'Klijent';
 $wb['name_txt'] = 'PHP Name';
 $wb['Name'] = 'Name';
-$wb['FastCGI Settings'] = 'FastCGI Settings';
-$wb['PHP-FPM Settings'] = 'PHP-FPM Settings';
-$wb['Additional PHP Versions'] = 'Additional PHP Versions';
-$wb['Form to edit additional PHP versions'] = 'Form to edit additional PHP versions';
+$wb['FastCGI Settings'] = 'FastCGI postavke';
+$wb['PHP-FPM Settings'] = 'PHP-FPM postavke';
+$wb['Additional PHP Versions'] = 'Dodatne PHP verzije';
+$wb['Form to edit additional PHP versions'] = 'Forma za dodatne PHP verzije';
 $wb['server_php_name_error_empty'] = 'The Name field must not be empty.';
-$wb['php_fastcgi_binary_txt'] = 'Path to the PHP FastCGI binary';
-$wb['php_fastcgi_ini_dir_txt'] = 'Path to the php.ini directory';
-$wb['php_fpm_init_script_txt'] = 'Path to the PHP-FPM init script';
-$wb['php_fpm_ini_dir_txt'] = 'Path to the php.ini directory';
-$wb['php_fpm_pool_dir_txt'] = 'Path to the PHP-FPM pool directory';
+$wb['php_fastcgi_binary_txt'] = 'Putanja do PHP FastCGI datoteke';
+$wb['php_fastcgi_ini_dir_txt'] = 'Putanja do php.ini direktorija';
+$wb['php_fpm_init_script_txt'] = 'Putanja do PHP-FPM init skripte';
+$wb['php_fpm_ini_dir_txt'] = 'Putanja do php.ini direktorija';
+$wb['php_fpm_pool_dir_txt'] = 'Putanja do PHP-FPM pool direktorija';
 ?>
+
+

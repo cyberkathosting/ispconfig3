@@ -105,7 +105,9 @@ class dashlet_limits {
 			'db_table' => 'client',
 			'db_where' => "");
 
-
+		$limits[] = array('field' => 'limit_domain',
+			'db_table' => 'domain',
+			'db_where' => "");
 
 
 		//* Loading Template

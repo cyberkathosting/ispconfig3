@@ -24,13 +24,14 @@ $wb['uid_error_empty'] = 'GID je prázdné.';
 $wb['directory_error_empty'] = 'Adresář je prázdný.';
 $wb['directory_error_notinweb'] = 'Adresář není uvnitř webového kořenového adresáře.';
 $wb['parent_domain_id_error_empty'] = 'Nevybrána žádná webová stránka.';
-$wb['quota_size_error_regex'] = 'Quota: enter a -1 for unlimited or a number > 0';
+$wb['quota_size_error_regex'] = 'Kvóta: zadejte -1 je bez omezení nebo číslo > 0 ';
 $wb['dir_dot_error'] = 'No .. in path allowed.';
 $wb['dir_slashdot_error'] = 'No ./ in path allowed.';
 $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
-$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
-$wb['directory_error_regex'] = 'Invalid directory';
+$wb['invalid_system_user_or_group_txt'] = 'Neplatný systémový uživatel nebo skupina';
+$wb['directory_error_regex'] = 'Neplatný adresář';
 ?>
+

@@ -40,8 +40,10 @@ $wb['DNS rp functions'] = 'DNS rp funkcije';
 $wb['DNS srv functions'] = 'DNS srv funkcije';
 $wb['DNS txt functions'] = 'DNS txt funkcije';
 $wb['Mail mailing list functions'] = 'Funkcije mailing lista';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generiraj šifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
 ?>
+
+

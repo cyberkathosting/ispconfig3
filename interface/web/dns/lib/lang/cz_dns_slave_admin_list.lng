@@ -1,10 +1,11 @@
 <?php
-$wb["list_head_txt"] = 'Secondary DNS-Zones';
-$wb["active_txt"] = 'Active';
-$wb["server_id_txt"] = 'Server';
-$wb["origin_txt"] = 'Zone';
-$wb["ns_txt"] = 'NS';
-$wb["add_new_record_txt"] = 'Add new Secondary DNS-Zone';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
-$wb["sys_groupid_txt"] = 'Client';
+$wb['list_head_txt'] = 'Sekundární DNS-Zóny';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zóna';
+$wb['ns_txt'] = 'NS';
+$wb['add_new_record_txt'] = 'Přidat novou Sekundarní DNS-Zónu';
+$wb['eg_domain_tld'] = 'např. domena.cz';
+$wb['sys_groupid_txt'] = 'Klient';
 ?>
+

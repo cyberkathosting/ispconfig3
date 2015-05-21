@@ -6,6 +6,7 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 mail_privileged_group = vmail
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
+ssl_protocols = !SSLv2 !SSLv3
 passdb {
   args = /etc/dovecot-sql.conf
   driver = sql

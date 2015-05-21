@@ -6,3 +6,5 @@ $wb['dbtable_txt'] = 'Tablica u bazi';
 $wb['action_txt'] = 'Akcija';
 $wb['status_txt'] = 'Status';
 ?>
+
+

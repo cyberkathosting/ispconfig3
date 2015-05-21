@@ -31,6 +31,8 @@ define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
 require SCRIPT_PATH."/lib/config.inc.php";
 require SCRIPT_PATH."/lib/app.inc.php";
 
+$app->setCaller('server');
+
 set_time_limit(0);
 ini_set('error_reporting', E_ALL & ~E_NOTICE);
 

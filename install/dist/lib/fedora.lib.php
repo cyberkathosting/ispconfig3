@@ -114,7 +114,7 @@ class installer_dist extends installer_base {
 
 	function configure_postfix($options = '')
 	{
-		global $conf;
+		global $conf,$autoinstall;
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
 
@@ -231,10 +231,10 @@ class installer_dist extends installer_base {
 			//* Create the SSL certificate
 			if(AUTOINSTALL){
 				$command = 'cd '.$config_dir.'; '
-					."openssl req -new -subj '/C=".$autoinstall['ssl_cert_country']."/ST=".$autoinstall['ssl_cert_state']."/L=".$autoinstall['ssl_cert_locality']."/O=".$autoinstall['ssl_cert_organisation']."/OU=".$autoinstall['ssl_cert_organisation_unit']."/CN=".$autoinstall['ssl_cert_common_name']."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
+					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
 			} else {
 				$command = 'cd '.$config_dir.'; '
-					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
+					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
 			}
 			exec($command);
 
@@ -416,17 +416,18 @@ class installer_dist extends installer_base {
 
 		//* Get the dovecot version
 		exec('dovecot --version', $tmp);
-		$parts = explode('.', trim($tmp[0]));
-		$dovecot_version = $parts[0];
+		$dovecot_version = $tmp[0];
 		unset($tmp);
-		unset($parts);
 
 		//* Copy dovecot configuration file
-		if($dovecot_version == 2) {
+		if(version_compare($dovecot_version,2) >= 0) {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/fedora_dovecot2.conf.master', $config_dir.'/'.$configfile);
+			}
+			if(version_compare($dovecot_version,2.1) < 0) {
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
 			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_dovecot.conf.master')) {
@@ -476,6 +477,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
+		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 
 
 		// Adding the amavisd commands to the postfix configuration
@@ -620,7 +622,7 @@ class installer_dist extends installer_base {
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		exec('chown '.$conf['bind']['bind_user'].':'.$conf['bind']['bind_group'].' '.$content);
-		exec('chmod 770 '.$content);
+		exec('chmod 2770 '.$content);
 
 	}
 
@@ -832,6 +834,31 @@ class installer_dist extends installer_base {
 		//* copy the ISPConfig server part
 		$command = "cp -rf ../server $install_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Make a backup of the security settings
+		if(is_file('/usr/local/ispconfig/security/security_settings.ini')) copy('/usr/local/ispconfig/security/security_settings.ini','/usr/local/ispconfig/security/security_settings.ini~');
+		
+		//* copy the ISPConfig security part
+		$command = 'cp -rf ../security '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* Apply changed security_settings.ini values to new security_settings.ini file
+		if(is_file('/usr/local/ispconfig/security/security_settings.ini~')) {
+			$security_settings_old = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini~'));
+			$security_settings_new = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini'));
+			if(is_array($security_settings_new) && is_array($security_settings_old)) {
+				foreach($security_settings_new as $section => $sval) {
+					if(is_array($sval)) {
+						foreach($sval as $key => $val) {
+							if(isset($security_settings_old[$section]) && isset($security_settings_old[$section][$key])) {
+								$security_settings_new[$section][$key] = $security_settings_old[$section][$key];
+							}
+						}
+					}
+				}
+				file_put_contents('/usr/local/ispconfig/security/security_settings.ini',array_to_ini($security_settings_new));
+			}
+		}
 
 		//* Create a symlink, so ISPConfig is accessible via web
 		// Replaced by a separate vhost definition for port 8080
@@ -958,12 +985,38 @@ class installer_dist extends installer_base {
 			$this->db->query($sql);
 		}
 
-		//* Chmod the files
-		$command = "chmod -R 750 $install_dir";
+		// chown install dir to root and chmod 755
+		$command = 'chown root:root '.$install_dir;
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chmod 755 '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-		//* chown the files to the ispconfig user and group
-		$command = "chown -R ispconfig:ispconfig $install_dir";
+		//* Chmod the files and directories in the install dir
+		$command = 'chmod -R 750 '.$install_dir.'/*';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* chown the interface files to the ispconfig user and group
+		$command = 'chown -R ispconfig:ispconfig '.$install_dir.'/interface';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the server files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/server';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security files to the root user and group
+		$command = 'chown -R root:root '.$install_dir.'/security';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		//* chown the security directory and security_settings.ini to root:ispconfig
+		$command = 'chown root:ispconfig '.$install_dir.'/security/security_settings.ini';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.whitelist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/ids.htmlfield';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/apache_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
@@ -1006,6 +1059,13 @@ class installer_dist extends installer_base {
 			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
 			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
 		}
+		
+		if(is_dir($install_dir.'/interface/invoices')) {
+			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
+			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
+		}
+		
+		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
@@ -1212,7 +1272,13 @@ class installer_dist extends installer_base {
 		
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-
+		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
+		
 	}
 
 	public function configure_dbserver()
@@ -1233,7 +1299,7 @@ class installer_dist extends installer_base {
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mysql_clientdb.conf.master', "tpl/mysql_clientdb.conf.master");
 		$content = str_replace('{hostname}', $conf['mysql']['host'], $content);
 		$content = str_replace('{username}', $conf['mysql']['admin_user'], $content);
-		$content = str_replace('{password}', $conf['mysql']['admin_password'], $content);
+		$content = str_replace('{password}', addslashes($conf['mysql']['admin_password']), $content);
 		wf("$install_dir/server/lib/mysql_clientdb.conf", $content);
 		exec('chmod 600 '."$install_dir/server/lib/mysql_clientdb.conf");
 		exec('chown root:root '."$install_dir/server/lib/mysql_clientdb.conf");

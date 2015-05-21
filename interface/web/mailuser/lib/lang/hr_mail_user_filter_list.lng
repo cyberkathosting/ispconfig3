@@ -1,8 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Email filter rules';
-$wb['rulename_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new Filter';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to delete the mailfilter?';
+$wb['list_head_txt'] = 'Prvila za email filtere';
+$wb['rulename_txt'] = 'Naziv';
+$wb['add_new_record_txt'] = 'Dodaj novi filter';
+$wb['page_txt'] = 'Stranica';
+$wb['page_of_txt'] = 'od';
+$wb['delete_confirmation'] = 'Da li stvarno želite obrisati ovaj mail filter?';
 ?>
+
+

@@ -57,7 +57,7 @@ require "/usr/local/ispconfig/server/lib/app.inc.php";
 
 exec("/etc/init.d/mysql stop");
 exec("rm -rf /var/lib/mysql/".$conf["db_database"]);
-exec("/etc/init.d/mysql start");
+exec("/etc/init.d/mysql start >/dev/null 2>&1");
 
 // Deleting the symlink in /var/www
 // Apache

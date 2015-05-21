@@ -31,6 +31,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 
+$app->load('getconf');
+
+$security_config = $app->getconf->get_security_config('permissions');
+if($security_config['password_reset_allowed'] != 'yes') die('Password reset function has been disabled.');
+
 // Loading the template
 $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
@@ -52,7 +57,11 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE username = '$username' AND email = '$email'");
 
 	if($client['client_id'] > 0) {
-		$new_password = $app->auth->get_random_password();
+		$server_config_array = $app->getconf->get_global_config();
+		$min_password_length = 8;
+		if(isset($server_config_array['misc']['min_password_length'])) $min_password_length = $server_config_array['misc']['min_password_length'];
+		
+		$new_password = $app->auth->get_random_password($min_password_length, true);
 		$new_password_encrypted = $app->auth->crypt_password($new_password);
 		$new_password_encrypted = $app->db->quote($new_password_encrypted);
 
@@ -62,7 +71,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->tpl->setVar("message", $wb['pw_reset']);
 
 		$app->uses('getconf,ispcmail');
-		$mail_config = $app->getconf->get_global_config('mail');
+		$mail_config = $server_config_array['mail'];
 		if($mail_config['smtp_enabled'] == 'y') {
 			$mail_config['use_smtp'] = true;
 			$app->ispcmail->setOptions($mail_config);

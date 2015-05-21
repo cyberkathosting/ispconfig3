@@ -7,3 +7,5 @@ $wb['action_txt'] = 'Akcija';
 $wb['active_txt'] = 'Aktivno';
 $wb['pattern_error_empty'] = 'Postupak je prazan.';
 ?>
+
+

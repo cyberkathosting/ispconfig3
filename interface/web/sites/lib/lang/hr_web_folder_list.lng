@@ -4,5 +4,7 @@ $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Web stranica';
 $wb['path_txt'] = 'Putanja';
-$wb['add_new_record_txt'] = 'Add new Folder';
+$wb['add_new_record_txt'] = 'Dodaj novi direktorij';
 ?>
+
+

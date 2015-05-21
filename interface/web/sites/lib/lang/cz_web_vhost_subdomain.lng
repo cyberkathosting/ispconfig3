@@ -1,6 +1,6 @@
 <?php
 $wb['parent_domain_id_txt'] = 'Rodičovské webové stránky';
-$wb['web_folder_txt'] = 'Web folder';
+$wb['web_folder_txt'] = 'Webová složka';
 $wb['web_folder_invalid_txt'] = 'The web folder is invalid, please choose a different one.';
 $wb['web_folder_unique_txt'] = 'The web folder is already used, please choose a different one.';
 $wb['backup_interval_txt'] = 'Interval zálohování';
@@ -125,3 +125,4 @@ $wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: 
 $wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>
+

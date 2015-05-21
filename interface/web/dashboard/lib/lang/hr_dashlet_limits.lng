@@ -28,3 +28,5 @@ $wb['limit_client_txt'] = 'Klijenti';
 $wb['limit_database_txt'] = 'Broj baza';
 $wb['limit_mailmailinglist_txt'] = 'Broj mail lista';
 ?>
+
+

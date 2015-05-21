@@ -1,20 +1,22 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
-$wb['gender_m_txt'] = 'Mr.';
-$wb['gender_f_txt'] = 'Ms.';
+$wb['btn_send_txt'] = 'Pošalji email';
+$wb['btn_cancel_txt'] = 'Odustani';
+$wb['sender_txt'] = 'Adresa pošiljatelja';
+$wb['subject_txt'] = 'Naslov';
+$wb['message_txt'] = 'Poruka';
+$wb['form_legend_client_txt'] = 'Pošalji email svim klijentima.';
+$wb['form_legend_admin_txt'] = 'Pošalji email svim klijentima i preprodavačima.';
+$wb['sender_invalid_error'] = 'Neispravan email pošiljatelja.';
+$wb['subject_invalid_error'] = 'Naslov emaila je prazan.';
+$wb['message_invalid_error'] = 'Niste napisali poruku.';
+$wb['email_sent_to_txt'] = 'Email poslan:';
+$wb['page_head_txt'] = 'Pošalji klijentske informacije';
+$wb['recipient_txt'] = 'Primatelj';
+$wb['all_clients_resellers_txt'] = 'Svi klijenti i preprodavači';
+$wb['all_clients_txt'] = 'Svi klijenti';
+$wb['variables_txt'] = 'Varijable:';
+$wb['gender_m_txt'] = 'g.';
+$wb['gender_f_txt'] = 'gđa.';
 ?>
+
+

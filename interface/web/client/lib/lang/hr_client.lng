@@ -129,13 +129,13 @@ $wb['database_limits_txt'] = 'Database Limits';
 $wb['cron_job_limits_txt'] = 'Cron Job Limits';
 $wb['dns_limits_txt'] = 'DNS Limits';
 $wb['virtualization_limits_txt'] = 'Virtualization Limits';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generirajšifru';
+$wb['repeat_password_txt'] = 'Ponovi šifru';
+$wb['password_mismatch_txt'] = 'Šifre nisu identične.';
+$wb['password_match_txt'] = 'Šifre su identične.';
 $wb['active_template_additional_txt'] = 'Active Addons';
 $wb['bank_account_owner_txt'] = 'Bank account owner';
-$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['email_error_isemail'] = 'Unesi ispravnu email adresu.';
 $wb['customer_no_error_unique'] = 'The customer no. must be unique (or empty).';
 $wb['paypal_email_error_isemail'] = 'Please enter a valid PayPal email address.';
 $wb['paypal_email_txt'] = 'PayPal Email';
@@ -154,3 +154,5 @@ $wb['added_date_txt'] = 'Added date';
 $wb['parent_client_id_txt'] = 'Client of reseller';
 $wb['none_txt'] = 'none';
 ?>
+
+
