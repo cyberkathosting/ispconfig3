@@ -1,0 +1,163 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+        
+            <div class="form-group">
+                <label for="domain" class="col-sm-2 control-label">{tmpl_var name='domain_txt'}</label>
+				<div class="col-sm-3">
+					<input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" readonly class="form-control" />
+				</div>
+			</div>
+            <div class="form-group">
+            	<label for="dmarc_policy" class="col-sm-2 control-label">{tmpl_var name='dmarc_policy_txt'}</label>
+                <div class="col-sm-3">
+					<select name="dmarc_policy" id="dmarc_policy" class="form-control">{tmpl_var name='dmarc_policy'}</select>
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_policy_note_txt'}
+				</div>
+            </div>
+			<div class="form-group">
+				<label for="dmarc_rua" class="col-sm-2 control-label">{tmpl_var name='dmarc_rua_txt'}</label>
+				<div class="col-sm-3">
+					<input type="text" name="dmarc_rua" id="dmarc_rua" value="{tmpl_var name='dmarc_rua'}" class="form-control" />
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_rua_note_txt'}
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="dmarc_ruf" class="col-sm-2 control-label">{tmpl_var name='dmarc_ruf_txt'}</label>
+				<div class="col-sm-3">
+					<input type="text" name="dmarc_ruf" id="dmarc_ruf" value="{tmpl_var name='dmarc_ruf'}" class="form-control" />
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_ruf_note_txt'}
+				</div>
+			</div>
+
+            <div class="form-group">
+				<label class="col-sm-2 control-label">{tmpl_var name='dmarc_fo_txt'}</label>
+				 <div class="col-sm-3">
+					<input type="checkbox" value="1" id="dmarc_fo0" name="dmarc_fo0" {tmpl_var name='dmarc_fo0'}/>
+				</div>
+				<div class="col-sm-3 input-sm">
+					{tmpl_var name='dmarc_fo0_txt'}
+				</div>
+			</div>
+            <div class="form-group">
+				<label class="col-sm-2 control-label"></label>
+				<div class="col-sm-3">
+					<input type="checkbox" value="1" id="dmarc_fo0" name="dmarc_fo0" {tmpl_var name='dmarc_fo1'}/>
+				</div>
+				<div class="col-sm-3 input-sm">
+					{tmpl_var name='dmarc_fo1_txt'}
+				</div>
+            </div>
+            <div class="form-group">
+				<label class="col-sm-2 control-label"></label>
+				<div class="col-sm-3">
+					<input type="checkbox" value="1" id="dmarc_fod" name="dmarc_fod" {tmpl_var name='dmarc_fod'}/>
+				</div>
+				<div class="col-sm-3 input-sm">
+					{tmpl_var name='dmarc_fod_txt'}
+				</div>
+            </div>
+            <div class="form-group">
+				<label class="col-sm-2 control-label"></label>
+				<div class="col-sm-3">
+					<input type="checkbox" value="1" id="dmarc_fos" name="dmarc_fos" {tmpl_var name='dmarc_fos'}/>
+				</div>
+				<div class="col-sm-3 input-sm">
+					{tmpl_var name='dmarc_fos_txt'}
+				</div>
+            </div>
+
+            <div class="form-group">
+            	<label for="dmarc_adkim" class="col-sm-2 control-label">{tmpl_var name='dmarc_adkim_txt'}</label>
+                <div class="col-sm-3">
+					<select name="dmarc_adkim" id="dmarc_adkim" class="form-control">{tmpl_var name='dmarc_adkim'}</select>
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_adkim_note_txt'}
+				</div>
+            </div>
+            <div class="form-group">
+            	<label for="dmarc_aspf" class="col-sm-2 control-label">{tmpl_var name='dmarc_aspf_txt'}</label>
+                <div class="col-sm-3">
+					<select name="dmarc_aspf" id="dmarc_aspf" class="form-control">{tmpl_var name='dmarc_aspf'}</select>
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_aspf_note_txt'}
+				</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{tmpl_var name='dmarc_rf_txt'}</label>
+                 <div class="col-sm-3">
+                    <input type="checkbox" value="1" id="dmarc_rf_afrf" name="dmarc_fo0" {tmpl_var name='dmarc_rf_afrf'}/>
+                </div>
+                <div class="col-sm-3 input-sm">
+                    {tmpl_var name='dmarc_rf_afrf_txt'}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-3">
+                    <input type="checkbox" value="1" id="dmarc_rf_iodef" name="dmarc_rf_iodef" {tmpl_var name='dmarc_rf_iodef'}/>
+                </div>
+                <div class="col-sm-3 input-sm">
+                    {tmpl_var name='dmarc_rf_iodef_txt'}
+                </div>
+            </div>
+			<div class="form-group">
+				<label for="dmarc_pct" class="col-sm-2 control-label">{tmpl_var name='dmarc_pct_txt'}</label>
+				<div class="col-sm-3">
+					<input type="text" name="dmarc_pct" id="dmarc_pct" value="{tmpl_var name='dmarc_pct'}" class="form-control" />
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_pct_note_txt'}
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="dmarc_ri" class="col-sm-2 control-label">{tmpl_var name='dmarc_ri_txt'}</label>
+				<div class="col-sm-3">
+					<input type="text" name="dmarc_ri" id="dmarc_ri" value="{tmpl_var name='dmarc_ri'}" class="form-control" />
+				</div>
+				<div class="col-sm-7 input-sm">
+					{tmpl_var name='dmarc_ri_note_txt'}
+				</div>
+			</div>
+            <div class="form-group">
+            	<label for="dmarc_sp" class="col-sm-2 control-label">{tmpl_var name='dmarc_sp_txt'}</label>
+                <div class="col-sm-3">
+					<select name="dmarc_sp" id="dmarc_sp" class="form-control">{tmpl_var name='dmarc_sp'}</select>
+				</div>
+            </div>
+            <div class="form-group">
+                <label for="ttl" class="col-sm-2 control-label">{tmpl_var name='ttl_txt'}</label>
+                <div class="col-sm-3">
+					<input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" />
+				</div>
+			</div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-3">
+                    <input type="checkbox" value="1" id="active" name="active" {tmpl_var name='active'}/>
+                </div>
+            </div>
+
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+        <input type="hidden" name="zone" value="{tmpl_var name='zone'}" id="zone">
+        <input type="hidden" name="type" value="{tmpl_var name='type'}">
+        <input type="hidden" name="name" value="{tmpl_var name='name'}">
+            </div>
+            
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="dns/dns_dmarc_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='zone'}">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
+

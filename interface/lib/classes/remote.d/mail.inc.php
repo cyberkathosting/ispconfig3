@@ -208,7 +208,7 @@ class remoting_mail extends remoting {
 
 		//* Check if mail domain exists
 		$email_parts = explode('@', $params['email']);
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
 			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
 			return false;
@@ -235,7 +235,7 @@ class remoting_mail extends remoting {
 
 		//* Check if mail domain exists
 		$email_parts = explode('@', $params['email']);
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = '".$app->db->quote($email_parts[1])."'");
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
 			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
 			return false;
@@ -309,6 +309,73 @@ class remoting_mail extends remoting {
 		// $app->plugin->raiseEvent('mail:mail_user_filter:on_after_delete',$this);
 		return $affected_rows;
 	}
+	
+	// Mail backup list function by Dominik Müller, info@profi-webdesign.net
+	public function mail_user_backup_list($session_id, $primary_id = null)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		$params = array();
+		if ($site_id != null) {
+			$params[] = $site_id;
+			$sql  = "SELECT * FROM mail_backup WHERE parent_domain_id = ?";
+		}
+		else {
+			$sql  = "SELECT * FROM mail_backup";
+		}
+	
+		$result = $app->db->queryAllRecords($sql, true, $params);
+		return $result;
+	}
+	
+	// Mail backup restore/download functions by Dominik Müller, info@profi-webdesign.net
+	public function mail_user_backup($session_id, $primary_id, $action_type)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+	
+		//*Set variables
+		$backup_record  =       $app->db->queryOneRecord("SELECT * FROM `mail_backup` WHERE `backup_id`=?", $primary_id);
+		$server_id      =       $backup_record['server_id'];
+	
+		//*Set default action state
+		$action_state   =       "pending";
+		$tstamp         =       time();
+	
+		//* Basic validation of variables
+		if ($server_id <= 0) {
+			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			return false;
+		}
+	
+		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail') {
+			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			return false;
+		}
+	
+		//* Validate instance
+		$instance_record        =       $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`=? and `action_type`=? and `action_state`='pending'", $primary_id, $action_type);
+		if ($instance_record['action_id'] >= 1) {
+			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			return false;
+		}
+	
+		//* Save the record
+		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = ?, `tstamp` = ?, `action_type` = ?, `action_param` = ?, `action_state` = ?", $server_id, $tstamp, $action_type, $primary_id, $action_state)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	//* Get alias details
 	public function mail_alias_get($session_id, $primary_id)
@@ -336,7 +403,7 @@ class remoting_mail extends remoting {
 		}
 
 		//* Check if there is no active mailbox with this address
-		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = '".$app->db->quote($params["source"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $params["source"]);
 		if($tmp['number'] > 0) {
 			throw new SoapFault('duplicate', 'There is already a mailbox with this email address.');
 		}
@@ -358,7 +425,7 @@ class remoting_mail extends remoting {
 		}
 
 		//* Check if there is no active mailbox with this address
-		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = '".$app->db->quote($params["source"])."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $params["source"]);
 		if($tmp['number'] > 0) {
 			throw new SoapFault('duplicate', 'There is already a mailbox with this email address.');
 		}
@@ -994,9 +1061,8 @@ class remoting_mail extends remoting {
 			return false;
 		}
 		if (!empty($domain)) {
-			$domain       = $app->db->quote($domain);
-			$sql            = "SELECT * FROM mail_domain WHERE domain = '$domain'";
-			$result         = $app->db->queryAllRecords($sql);
+			$sql            = "SELECT * FROM mail_domain WHERE domain = ?";
+			$result         = $app->db->queryAllRecords($sql, $domain);
 			return          $result;
 		}
 		return false;
@@ -1014,8 +1080,8 @@ class remoting_mail extends remoting {
 			} else {
 				$status = 'n';
 			}
-			$sql = "UPDATE mail_domain SET active = '$status' WHERE domain_id = ".$app->functions->intval($primary_id);
-			$app->db->query($sql);
+			$sql = "UPDATE mail_domain SET active = ? WHERE domain_id = ?";
+			$app->db->query($sql, $status, $primary_id);
 			$result = $app->db->affectedRows();
 			return $result;
 		} else {

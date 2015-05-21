@@ -75,7 +75,7 @@ DNS_SERVERS="{DNS_SERVERS}"
 # use the "\" continuation character (so Bastille can change the
 # values if it is run more than once)
 TRUSTED_IFACES="lo"                                        # MINIMAL/SAFEST
-PUBLIC_IFACES="eth+ ppp+ slip+ venet+ bond+"                        # SAFEST
+PUBLIC_IFACES="eth+ ppp+ slip+ venet+ bond+ en+"                        # SAFEST
 INTERNAL_IFACES=""                                # SAFEST
 
 

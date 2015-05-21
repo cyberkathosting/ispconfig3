@@ -105,24 +105,31 @@ $form["tabs"]['dns'] = array (
 		'data' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
-					'errmsg'=> 'data_error_empty'),
+			'validators' => array (  
+				0 => array ( 
+					'type' => 'NOTEMPTY', 
+					'errmsg'=> 'data_error_empty'
+				),
+				1 => array ( 
+					'type' => 'REGEX', 
+					'regex' => "/^((?!v=DKIM).)*$/s", 
+					'errmsg'=> 'invalid_type_dkim'
+				),
+				2 => array ( 
+					'type' => 'REGEX', 
+					'regex' => "/^((?!v=DMARC1; ).)*$/s", 
+					'errmsg'=> 'invalid_type_dmarc'),
+				3 => array ( 
+					'type' => 'REGEX', 
+					'regex' => "/^((?!v=spf).)*$/s", 
+					'errmsg'=> 'invalid_type_spf'
+				),
 			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
 		),
-		/*
-		'aux' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '10',
-			'maxlength'	=> '10'
-		),
-		*/
 		'ttl' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -130,7 +137,7 @@ $form["tabs"]['dns'] = array (
 					'range' => '60:',
 					'errmsg'=> 'ttl_range_error'),
 			),
-			'default' => '86400',
+			'default' => '3600',
 			'value'  => '',
 			'width'  => '10',
 			'maxlength' => '10'
@@ -163,6 +170,10 @@ $form["tabs"]['dns'] = array (
 	)
 );
 
-
-
+if($_SESSION["s"]["user"]["typ"] == 'admin') {
+	unset($form["tabs"]['dns']['fields']['data']['validators']);
+	$form["tabs"]['dns']['fields']['data']['validators'][0]['type'] = 'NOTEMPTY';
+	$form["tabs"]['dns']['fields']['data']['validators'][0]['errmsg'] = 'data_error_empty';
+	$form["tabs"]['dns']['fields']['data']['maxlength'] = 512;
+}
 ?>

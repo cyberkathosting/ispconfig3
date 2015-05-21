@@ -54,8 +54,8 @@ class cronjob_awstats extends cronjob {
 		// Create awstats statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'awstats' AND server_id = ".$conf['server_id'];
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'awstats' AND server_id = ?";
+		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
@@ -65,7 +65,7 @@ class cronjob_awstats extends cronjob {
 
 			$log_folder = 'log';
 			if($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') {
-				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($rec['parent_domain_id']));
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $rec['parent_domain_id']);
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $rec['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$rec['domain_id'];
 				$log_folder .= '/' . $subdomain_host;
@@ -89,8 +89,8 @@ class cronjob_awstats extends cronjob {
 
 			if(is_file($awstats_website_conf_file)) unlink($awstats_website_conf_file);
 
-			$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND parent_domain_id = ".$rec['domain_id'];
-			$aliases = $app->db->queryAllRecords($sql);
+			$sql = "SELECT domain FROM web_domain WHERE (type = 'alias' OR type = 'subdomain') AND parent_domain_id = ?";
+			$aliases = $app->db->queryAllRecords($sql, $rec['domain_id']);
 			$aliasdomain = '';
 
 			if(is_array($aliases)) {

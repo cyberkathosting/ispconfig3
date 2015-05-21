@@ -1,39 +1,42 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 
-<div class="panel panel_list_database_quota_stats">
 
-	 <div class="pnl_listarea">
-		 <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-			 <table class="list">
-				<thead>
-				<tr class="caption">
-					<th class="tbl_col_database tbl_col_nosort" scope="col"><tmpl_var name="database_txt"></th>
-					<th class="tbl_col_client tbl_col_nosort" scope="col"><tmpl_var name="client_txt"></th>
-					<th class="tbl_col_used_sort" scope="col"><tmpl_var name="used_txt"></th>
-					<th class="tbl_col_quota tbl_col_nosort" scope="col"><tmpl_var name="quota_txt"></th>
-					<th class="tbl_col_percentage tbl_col_nosort" scope="col"><tmpl_var name="percentage_txt">
-					<th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+		 <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+			 <div class="table-wrapper marginTop15">
+<table class="table">
+				<thead class="dark form-group-sm">
+				<tr>
+					<th data-column="database"><tmpl_var name="database_txt"></th>
+					<th data-column="server_name"><tmpl_var name="server_name_txt"></th>
+					<th data-column="client"><tmpl_var name="client_txt"></th>
+					<th data-column="used"><tmpl_var name="used_txt"></th>
+					<th data-column="quota"><tmpl_var name="quota_txt"></th>
+					<th><tmpl_var name="percentage_txt">
+					<th class="small-col text-right">{tmpl_var name='search_limit'}</th>
 				</tr>
-				<tr class="filter">
-					<td class="tbl_col_database"><input type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
-					<td class="tbl_col_client">&nbsp;</td>
-					<td class="tbl_col_used">&nbsp;</td>
-					<td class="tbl_col_quota">&nbsp;</td>
-					<td class="tbl_col_percentage">&nbsp;</td>
-					<td class="tbl_col_buttons">
-						<button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','sites/database_quota_stats.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+				<tr>
+					<td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="text-right">
+						<button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/database_quota_stats.php"><span class="icon icon-filter"></span></button>
 					</td>
 				</tr>
 				</thead>
 				<tbody>
 					<tmpl_loop name="records">
-						<tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-							<td class="tbl_col_database"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="database"}</a></td>
-							<td class="tbl_col_client"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="client"}</a></td>
-							<td class="tbl_col_used"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="used"}</a></td>
-							<td class="tbl_col_quota"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="quota"}</a></td>
-							<td class="tbl_col_percentage"><a href="#" onclick="loadContent('sites/database_edit.php?id={tmpl_var name='id'}');">{tmpl_var name="percentage"}</a></td>
-							<td class="tbl_col_buttons"></td>
+						<tr>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_name"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="percentage"}</a></td>
+							<td class="text-right"></td>
 						</tr>
 					</tmpl_loop>
 					<tmpl_unless name="records">
@@ -44,11 +47,10 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td class="tbl_footer tbl_paging" colspan="7"><tmpl_var name="paging"></td>
+						<td colspan="7"><tmpl_var name="paging"></td>
 					</tr>
 				</tfoot>
 			</table>
-		</fieldset>
-	</div>
-
 </div>
+		
+	</div>

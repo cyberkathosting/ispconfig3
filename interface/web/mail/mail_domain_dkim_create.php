@@ -57,23 +57,6 @@ function validate_selector($selector) {
 }
 
 /**
- * This function fix PHP's messing up POST input containing characters space, dot,
- * open square bracket and others to be compatible with with the deprecated register_globals
- * @return array POST
- */
-function getRealPOST() {
-	$pairs = explode("&", file_get_contents("php://input"));
-	$vars = array();
-	foreach ($pairs as $pair) {
-		$nv = explode("=", $pair, 2);
-		$name = urldecode($nv[0]);
-		$value = $nv[1];
-		$vars[$name] = $value;
-	}
-	return $vars;
-}
-
-/**
  * This function formats the public-key
  * @param array $pubkey
  * @return string public-key
@@ -101,7 +84,7 @@ function get_public_key($private_key, $dkim_strength) {
  * @param string $old_selector
  * @return string selector
  */
-function new_selector ($old_selector, $domain) {
+function new_selector ($old_selector, $domain, $client_id = -1) {
 	global $app;
 	//* validate post-values
 	if ( validate_domain($domain) && validate_selector($old_selector) ) {
@@ -110,12 +93,23 @@ function new_selector ($old_selector, $domain) {
 		if ( isset($soa_rec) && !empty($soa_rec) ) {
 			//* check for a dkim-record in the dns?
 			$dns_data = $app->db->queryOneRecord("SELECT name FROM dns_rr WHERE name = ? AND active = 'Y'", $old_selector.'._domainkey.'.$domain.'.');
-			$selector = str_replace( '._domainkey.'.$domain.'.', '', $dns_data['name']);
-				if ( $old_selector == $selector) {
-					$selector = substr($old_selector, 0, 53) . time(); //* add unix-timestamp to delimiter to allow old and new key in the dns
-				} else {
-					$selector = $old_selector;
+			if ( !empty($dns_data) ){
+				$selector = str_replace( '._domainkey.'.$domain.'.', '', $dns_data['name']);
+			} else {
+			}
+		} else { //* no dns-zone found - check for existing mail-domain to create a new selector (we need this if a external dns is used)
+			if ( $client_id >= 0 ) {
+				$sql = "SELECT * from mail_domain WHERE dkim = 'y' AND domain = ? AND dkim_selector = ?";
+				$maildomain =  $app->db->queryOneRecord($sql, $domain, $old_selector);
+				if ( !empty($maildomain) ) {
+					$selector = $maildomain['selector'];
 				}
+			}
+		}
+		if ( $old_selector == $selector) {
+			$selector = substr($old_selector, 0, 53) . time(); //* add unix-timestamp to delimiter to allow old and new key in the dns
+		} else {
+			$selector = $old_selector;
 		}
 	} else {
 		$selector = 'invalid domain or selector';
@@ -123,35 +117,35 @@ function new_selector ($old_selector, $domain) {
 	return $selector;
 }
 
+$client_id = $app->functions->intval($_POST['client_id']);
+
 //* get dkim-strength for server_id
-//$mail_server_id = $app->functions->intval( $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain = ?", $_POST['domain']) );
-//$dkim_strength = $app->functions->intval( $app->getconf->get_server_config($mail_server_id, 'mail')['dkim_strength'] );
-$rec = $app->db->queryOneRecord("SELECT server_id from mail_domain WHERE domain = ?", $_POST['domain']);
-$mail_server_id = $app->functions->intval($rec['server_id']);
-unset ($rec);
-$rec = $app->getconf->get_server_config($mail_server_id, 'mail');
-$dkim_strength = $app->functions->intval($rec['dkim_strength']);
-unset ($rec);
-if ( empty($dkim_strength) ) $dkim_strength = 1024;
-
-switch ($_POST['action']) {
-	case 'create': /* create DKIM Private-key */
-		$_POST=getRealPOST();
-		$rnd_val = $dkim_strength * 10;
-		exec('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
-		exec('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
-		unlink('../../temp/random-data.bin');
-		foreach($privkey as $values) $private_key=$private_key.$values."\n";
-		//* check the selector for updated dkim-settings only
-		if ( isset($_POST['dkim_public']) && !empty($_POST['dkim_public']) ) $selector = new_selector($_POST['dkim_selector'], $_POST['domain']); 
-	break;
-
-	case 'show': /* show the DNS-Record onLoad */
-		$private_key=$_POST['dkim_private'];
-	break;
+$sql = "SELECT server_id from mail_domain WHERE domain = ?";
+$mail_server = $app->db->queryOneRecord($sql, $_POST['domain']);
+if ( is_array($mail_server) ) { //* we are adding an existing mail-domain
+	$mail_server_id = $app->functions->intval( $mail_server['server_id'] );
+} else {
+	$sql = "SELECT default_mailserver FROM client WHERE client_id = ?";
+	$mail_server = $app->db->queryOneRecord($sql, $client_id);
+	$mail_server_id = $app->functions->intval( $mail_server['default_mailserver'] );
 }
+unset($mail_server);
+$mail_config = $app->getconf->get_server_config($mail_server_id, 'mail');
+$dkim_strength = $app->functions->intval($mail_config['dkim_strength']);
+unset($mail_config);
 
-$public_key=get_public_key($private_key, $dkim_strength);
+if ( empty($dkim_strength) ) $dkim_strength = 2048;
+
+$rnd_val = $dkim_strength * 10;
+exec('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
+exec('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
+unlink("../../temp/random-data.bin");
+foreach($privkey as $values) $private_key=$private_key.$values."\n";
+//* check the selector for updated dkim-settings only
+if ( isset($_POST['dkim_public']) && !empty($_POST['dkim_public']) ) $selector = new_selector($_POST['dkim_selector'], $_POST['domain'], $client_id); 
+
+if ( !isset($public_key) ) $public_key=get_public_key($private_key, $dkim_strength);
+
 $dns_record=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$public_key);
 
 if ( !isset($selector) ) {
@@ -163,7 +157,7 @@ echo "<selector>".$selector."</selector>\n";
 echo "<privatekey>".$private_key."</privatekey>\n";
 echo "<publickey>".$public_key."</publickey>\n";
 if ( validate_domain($_POST['domain']) ) {
-	echo '<dns_record>'.$selector.'_domainkey.'.$_POST['domain'].'. 3600	TXT	"v=DKIM1; t=s; p='.$dns_record.'"</dns_record>';
+	echo '<dns_record>'.$selector.'._domainkey.'.$_POST['domain'].'. 3600	TXT	"v=DKIM1; t=s; p='.$dns_record.'"</dns_record>';
 }
 echo "</formatname>\n";
 ?>

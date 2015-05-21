@@ -16,7 +16,7 @@ firewall=bastille
 loglevel=2
 admin_notify_events=1
 backup_dir=/var/backup
-backup_dir_is_mount=n
+backup_dir_is_mount=y
 backup_mode=rootgz
 backup_delete=y
 monit_url=
@@ -77,6 +77,7 @@ apps_vhost_ip=_default_
 apps_vhost_servername=
 php_open_basedir=[website_path]/web:[website_path]/private:[website_path]/tmp:/var/www/[website_domain]/web:/srv/www/[website_domain]/web:/usr/share/php5:/usr/share/php:/tmp:/usr/share/phpmyadmin:/etc/phpmyadmin:/var/lib/phpmyadmin
 htaccess_allow_override=All
+enable_spdy=y
 awstats_conf_dir=/etc/awstats
 awstats_data_dir=/var/lib/awstats
 awstats_pl=/usr/lib/cgi-bin/awstats.pl
@@ -85,6 +86,7 @@ php_ini_path_apache=/etc/php5/apache2/php.ini
 php_ini_path_cgi=/etc/php5/cgi/php.ini
 check_apache_config=y
 enable_sni=y
+enable_spdy=n
 enable_ip_wildcard=y
 overtraffic_notify_admin=y
 overtraffic_notify_client=y
@@ -127,7 +129,7 @@ fastcgi_config_syntax=1
 [jailkit]
 jailkit_chroot_home=/home/[username]
 jailkit_chroot_app_sections=basicshell editors extendedshell netutils ssh sftp scp groups jk_lsh
-jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico
+jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch
 jailkit_chroot_cron_programs=/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php
 
 [vlogger]
@@ -144,3 +146,12 @@ do_not_try_rescue_httpd=n
 do_not_try_rescue_mysql=n
 do_not_try_rescue_mail=n
 
+[xmpp]
+xmpp_use_ispv6=n
+xmpp_bosh_max_inactivity=30
+xmpp_server_admins=admin@service.com, superuser@service.com
+xmpp_modules_enabled=saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons
+xmpp_port_http=5290
+xmpp_port_https=5291
+xmpp_port_pastebin=5292
+xmpp_port_bosh=5280

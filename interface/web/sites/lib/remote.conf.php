@@ -8,6 +8,5 @@ $function_list['sites_web_domain_get,sites_web_domain_add,sites_web_domain_updat
 $function_list['sites_web_domain_backup'] = 'Sites Backup functions';
 $function_list['sites_web_aliasdomain_get,sites_web_aliasdomain_add,sites_web_aliasdomain_update,sites_web_aliasdomain_delete'] = 'Sites Aliasdomain functions';
 $function_list['sites_web_subdomain_get,sites_web_subdomain_add,sites_web_subdomain_update,sites_web_subdomain_delete'] = 'Sites Subdomain functions';
-
-
+$function_list['sites_aps_update_package_list,sites_aps_available_packages_list,sites_aps_install_package,sites_aps_get_package_details,sites_aps_get_package_file,sites_aps_get_package_settings,sites_aps_instance_get,sites_aps_instance_delete'] = 'Sites APS functions';
 ?>

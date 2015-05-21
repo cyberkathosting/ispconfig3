@@ -1,104 +1,94 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_system_config">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='enable_custom_login_txt'}</p>
-                <div class="multiField">
+
+        
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='enable_custom_login_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='enable_custom_login'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailbox_show_autoresponder_tab_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailbox_show_autoresponder_tab_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailbox_show_autoresponder_tab'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailbox_show_mail_filter_tab_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailbox_show_mail_filter_tab_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailbox_show_mail_filter_tab'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailbox_show_custom_rules_tab_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailbox_show_custom_rules_tab_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailbox_show_custom_rules_tab'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailboxlist_webmail_link_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailboxlist_webmail_link_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailboxlist_webmail_link'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="webmail_url">{tmpl_var name='webmail_url_txt'}</label>
-                <input name="webmail_url" id="webmail_url" value="{tmpl_var name='webmail_url'}" size="30" maxlength="255" type="text" class="textInput" />&nbsp;{tmpl_var name='webmail_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
+            <div class="form-group">
+                <label for="webmail_url" class="col-sm-3 control-label">{tmpl_var name='webmail_url_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="webmail_url" id="webmail_url" value="{tmpl_var name='webmail_url'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='webmail_url_note_txt'} </div><a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='mailmailinglist_link_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='mailmailinglist_link_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='mailmailinglist_link'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="mailmailinglist_url">{tmpl_var name='mailmailinglist_url_txt'}</label>
-                <input name="mailmailinglist_url" id="mailmailinglist_url" value="{tmpl_var name='mailmailinglist_url'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="admin_mail">{tmpl_var name='admin_mail_txt'}</label>
-                <input name="admin_mail" id="admin_mail" value="{tmpl_var name='admin_mail'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="admin_name">{tmpl_var name='admin_name_txt'}</label>
-                <input name="admin_name" id="admin_name" value="{tmpl_var name='admin_name'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='smtp_enabled_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="mailmailinglist_url" class="col-sm-3 control-label">{tmpl_var name='mailmailinglist_url_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="mailmailinglist_url" id="mailmailinglist_url" value="{tmpl_var name='mailmailinglist_url'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="admin_mail" class="col-sm-3 control-label">{tmpl_var name='admin_mail_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="admin_mail" id="admin_mail" value="{tmpl_var name='admin_mail'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="admin_name" class="col-sm-3 control-label">{tmpl_var name='admin_name_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="admin_name" id="admin_name" value="{tmpl_var name='admin_name'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='smtp_enabled_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='smtp_enabled'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="smtp_host">{tmpl_var name='smtp_host_txt'}</label>
-                <input name="smtp_host" id="smtp_host" value="{tmpl_var name='smtp_host'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="smtp_port">{tmpl_var name='smtp_port_txt'}</label>
-                <input name="smtp_port" id="smtp_port" value="{tmpl_var name='smtp_port'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="smtp_user">{tmpl_var name='smtp_user_txt'}</label>
-                <input name="smtp_user" id="smtp_user" value="{tmpl_var name='smtp_user'}" size="30" maxlength="255" type="text" autocomplete="off" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="smtp_pass">{tmpl_var name='smtp_pass_txt'}</label>
-                <input name="smtp_pass" id="smtp_pass" value="" size="30" maxlength="255" type="password" autocomplete="off" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="smtp_crypt">{tmpl_var name='smtp_crypt_txt'}</label>
-                <select name="smtp_crypt" id="smtp_crypt" class="selectInput formLengthHalf">
+            <div class="form-group">
+                <label for="smtp_host" class="col-sm-3 control-label">{tmpl_var name='smtp_host_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="smtp_host" id="smtp_host" value="{tmpl_var name='smtp_host'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="smtp_port" class="col-sm-3 control-label">{tmpl_var name='smtp_port_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="smtp_port" id="smtp_port" value="{tmpl_var name='smtp_port'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="smtp_user" class="col-sm-3 control-label">{tmpl_var name='smtp_user_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="smtp_user" id="smtp_user" value="{tmpl_var name='smtp_user'}" autocomplete="off" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="smtp_pass" class="col-sm-3 control-label">{tmpl_var name='smtp_pass_txt'}</label>
+                <div class="col-sm-9"><input type="password" name="smtp_pass" id="smtp_pass" value="" autocomplete="off" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="smtp_crypt" class="col-sm-3 control-label">{tmpl_var name='smtp_crypt_txt'}</label>
+                <div class="col-sm-9"><select name="smtp_crypt" id="smtp_crypt" class="form-control">
                     {tmpl_var name='smtp_crypt'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="default_mailserver">{tmpl_var name='default_mailserver_txt'}</label>
-                <select name="default_mailserver" id="default_mailserver" class="selectInput">
+            <div class="form-group">
+                <label for="default_mailserver" class="col-sm-3 control-label">{tmpl_var name='default_mailserver_txt'}</label>
+                <div class="col-sm-9"><select name="default_mailserver" id="default_mailserver" class="form-control">
                     {tmpl_var name='default_mailserver'}
-                </select>
+                </select></div>
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','admin/system_config_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('admin/users_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/system_config_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/users_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

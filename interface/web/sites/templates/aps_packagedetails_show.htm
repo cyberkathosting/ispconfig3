@@ -9,13 +9,10 @@
 
 <div class="pnl_toolsarea">
     <fieldset>
-        <div class="buttons">
-            <button class="button iconstxt icoAdd" type="button" onclick="loadContent('sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">
-                <span>{tmpl_var name="install_package_txt"}</span>
-            </button>
-        </div>
+        
+            <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/aps_install_package.php?id={tmpl_var name='pkg_id'}">{tmpl_var name="install_package_txt"}</button>
+        
     </fieldset>
-</div>
 <p>&nbsp;</p><p>&nbsp;</p>
 
 
@@ -23,18 +20,18 @@
     <input type="hidden" name="next_tab" value="" />
     <ul>
         <li<tmpl_if name='next_tab' op='==' value='details'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('details', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='details_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('details', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='details_txt'}</a>
         </li>
         <tmpl_if name='pkg_screenshots'>
         <li<tmpl_if name='next_tab' op='==' value='screenshots'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('screenshots', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='screenshots_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('screenshots', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='screenshots_txt'}</a>
         </li></tmpl_if>
         <tmpl_if name='pkg_changelog'>
         <li<tmpl_if name='next_tab' op='==' value='changelog'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('changelog', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='changelog_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('changelog', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='changelog_txt'}</a>
         </li></tmpl_if>
         <li<tmpl_if name='next_tab' op='==' value='settings'> class="active"</tmpl_if>>
-            <a href="#" onclick="return changeTab('settings', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='settings_txt'}</a>
+            <a href="#" onclick="return ISPConfig.changeTab('settings', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='settings_txt'}</a>
         </li>
     </ul>
 </div>
@@ -42,53 +39,54 @@
 
 <div class="panel panel_list_packages">
     
-    <div class="pnl_listarea">
-        <table class="list">
+    
+        <div class="table-wrapper marginTop15">
+<table class="table">
             <tbody>
                 <tmpl_if name='next_tab' op='==' value='details'>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td width="25%">{tmpl_var name='version_txt'}</td>
                         <td>{tmpl_var name='pkg_version'} (Release {tmpl_var name='pkg_release'})</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='category_txt'}</td>
                         <td>{tmpl_var name='pkg_category'}</td>
                     </tr>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td>{tmpl_var name='description_txt'}</td>
                         <td>{tmpl_var name='pkg_description'}</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='homepage_txt'}</td>
                         <td>
                             <a href="{tmpl_var name='pkg_homepage'}" target="_blank">{tmpl_var name='pkg_homepage'}</a>
                         </td>
                     </tr>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td>{tmpl_var name='installed_size_txt'}</td>
                         <td>{tmpl_var name='pkg_installed_size'}</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='supported_languages_txt'}</td>
                         <td>{tmpl_var name='pkg_languages'}</td>
                     </tr>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td>{tmpl_var name='config_script_txt'}</td>
                         <td>{tmpl_var name='pkg_config_script'}</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='license_txt'}</td>
                         <td>
                             <tmpl_if name='pkg_license_name'>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
                             <tmpl_if name='pkg_license_type' op='==' value='url'><a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
                             <tmpl_elseif name='pkg_license_content'>
-                                <textarea rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea>
+                                <div class="col-sm-9"><textarea class="form-control" rows="10" cols="80">{tmpl_var name='pkg_license_content'}</textarea></div>
                             </tmpl_if>
                         </td>
                     </tr>
                 <tmpl_elseif name='next_tab' op='==' value='screenshots'>
                     <tmpl_if name='pkg_screenshots'>
-                        <tr class="tbl_row_even">
+                        <tr>
                             <td style="text-align:center;">
                                 <tmpl_loop name='pkg_screenshots'>
                                     <img src="{tmpl_var name='ScreenPath'}" alt="{tmpl_var name='ScreenDescription'}" /><br />
@@ -99,7 +97,7 @@
                     </tmpl_if>
                 <tmpl_elseif name='next_tab' op='==' value='changelog'>
                     <tmpl_if name='pkg_changelog'>
-                        <tr class="tbl_row_even">
+                        <tr>
                             <td>
                                 <ul>
                                     <tmpl_loop name='pkg_changelog'>
@@ -115,27 +113,27 @@
                         </tr>
                     </tmpl_if>
                 <tmpl_elseif name='next_tab' op='==' value='settings'>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td width="25%">{tmpl_var name='php_extensions_txt'}</td>
                         <td>{tmpl_var name='pkg_requirements_php_extensions'}</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='php_settings_txt'}</td>
                         <td>
                             <tmpl_loop name='pkg_requirements_php_settings'>{tmpl_var name='PHPSettingName'} = {tmpl_var name='PHPSettingValue'}<br /></tmpl_loop>
                         </td>
                     </tr>
-                    <tr class="tbl_row_uneven">
+                    <tr>
                         <td>{tmpl_var name='supported_php_versions_txt'}</td>
                         <td>{tmpl_var name='pkg_requirements_supported_php_versions'}</td>
                     </tr>
-                    <tr class="tbl_row_even">
+                    <tr>
                         <td>{tmpl_var name='database_txt'}</td>
                         <td>{tmpl_var name='pkg_requirements_database'}</a></td>
                     </tr>
                 </tmpl_if>
             </tbody>
         </table>
+</div>
     </div>
     
-</div>

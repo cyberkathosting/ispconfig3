@@ -107,14 +107,14 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 
 	// Get the limits of the client
 	$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 
 	if ($domains_settings['use_domain_module'] != 'y') {
 		// load the list of clients
-		$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$app->functions->intval($client['client_id'])." ORDER BY client.company_name, client.contact_name, sys_group.name";
-		$clients = $app->db->queryAllRecords($sql);
-		$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+		$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+		$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+		$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 		$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 		if(is_array($clients)) {
 			foreach( $clients as $client) {
@@ -130,7 +130,7 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 if($_SESSION["s"]["user"]["typ"] != 'admin')
 {
 	$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+	$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 	$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 
@@ -141,13 +141,13 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 		$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
 	}
 
-	$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
-	$dns_servers = $app->db->queryAllRecords($sql);
+	$sql = "SELECT server_id, server_name FROM server WHERE server_id IN ?";
+	$dns_servers = $app->db->queryAllRecords($sql, $client_dns['dns_servers_ids']);
 
 	$options_dns_servers = "";
 
 	foreach ($dns_servers as $dns_server) {
-		$options_dns_servers .= "<option value='$dns_server[server_id]'>$dns_server[server_name]</option>";
+		$options_dns_servers .= '<option value="'.$dns_server['server_id'].'"'.($_POST['server_id'] == $dns_server['server_id'] ? ' selected="selected"' : '').'>'.$dns_server['server_name'].'</option>';
 	}
 
 	$app->tpl->setVar("server_id", $options_dns_servers);
@@ -155,7 +155,7 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 
 }
 
-$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = '".$app->functions->intval($template_id)."'");
+$template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = ?", $template_id);
 $fields = explode(',', $template_record['fields']);
 if(is_array($fields)) {
 	foreach($fields as $field) {
@@ -203,7 +203,7 @@ if($_POST['create'] == 1) {
 	if ($post_server_id)
 	{
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-		$client = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 		$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
 
@@ -335,11 +335,11 @@ if($_POST['create'] == 1) {
 				if($section == 'dns_records') {
 					$parts = explode('|', $row);
 					$dns_rr[] = array(
-						'name' => $app->db->quote($parts[1]),
-						'type' => $app->db->quote($parts[0]),
-						'data' => $app->db->quote($parts[2]),
-						'aux'  => $app->db->quote($parts[3]),
-						'ttl'  => $app->db->quote($parts[4])
+						'name' => $parts[1],
+						'type' => $parts[0],
+						'data' => $parts[2],
+						'aux'  => $parts[3],
+						'ttl'  => $parts[4]
 					);
 				}
 			}
@@ -359,28 +359,60 @@ if($_POST['create'] == 1) {
 	if($error == '') {
 		// Insert the soa record
 		$sys_userid = $_SESSION['s']['user']['userid'];
-		$origin = $app->db->quote($vars['origin']);
-		$ns = $app->db->quote($vars['ns']);
-		$mbox = $app->db->quote(str_replace('@', '.', $vars['mbox']));
-		$refresh = $app->db->quote($vars['refresh']);
-		$retry = $app->db->quote($vars['retry']);
-		$expire = $app->db->quote($vars['expire']);
-		$minimum = $app->db->quote($vars['minimum']);
-		$ttl = $app->db->quote($vars['ttl']);
-		$xfer = $app->db->quote($vars['xfer']);
-		$also_notify = $app->db->quote($vars['also_notify']);
-		$update_acl = $app->db->quote($vars['update_acl']);
+		$origin = $vars['origin'];
+		$ns = $vars['ns'];
+		$mbox = str_replace('@', '.', $vars['mbox']);
+		$refresh = $vars['refresh'];
+		$retry = $vars['retry'];
+		$expire = $vars['expire'];
+		$minimum = $vars['minimum'];
+		$ttl = $vars['ttl'];
+		$xfer = $vars['xfer'];
+		$also_notify = $vars['also_notify'];
+		$update_acl = $vars['update_acl'];
 		$serial = $app->validate_dns->increase_serial(0);
 
-		$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `origin`, `ns`, `mbox`, `serial`, `refresh`, `retry`, `expire`, `minimum`, `ttl`, `active`, `xfer`, `also_notify`, `update_acl`) VALUES
-		('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$origin', '$ns', '$mbox', '$serial', '$refresh', '$retry', '$expire', '$minimum', '$ttl', 'Y', '$xfer', '$also_notify', '$update_acl')";
+		$insert_data = array(
+			"sys_userid" => $sys_userid,
+			"sys_groupid" => $sys_groupid,
+			"sys_perm_user" => 'riud',
+			"sys_perm_group" => 'riud',
+			"sys_perm_other" => '',
+			"server_id" => $server_id,
+			"origin" => $origin,
+			"ns" => $ns,
+			"mbox" => $mbox,
+			"serial" => $serial,
+			"refresh" => $refresh,
+			"retry" => $retry,
+			"expire" => $expire,
+			"minimum" => $minimum,
+			"ttl" => $ttl,
+			"active" => 'Y',
+			"xfer" => $xfer,
+			"also_notify" => $also_notify,
+			"update_acl" => $update_acl
+		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 
 		// Insert the dns_rr records
 		if(is_array($dns_rr) && $dns_soa_id > 0) {
 			foreach($dns_rr as $rr) {
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `zone`, `name`, `type`, `data`, `aux`, `ttl`, `active`) VALUES
-				('$sys_userid', '$sys_groupid', 'riud', 'riud', '', '$server_id', '$dns_soa_id', '$rr[name]', '$rr[type]', '$rr[data]', '$rr[aux]', '$rr[ttl]', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $sys_userid,
+					"sys_groupid" => $sys_groupid,
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $server_id,
+					"zone" => $dns_soa_id,
+					"name" => $rr['name'],
+					"type" => $rr['type'],
+					"data" => $rr['data'],
+					"aux" => $rr['aux'],
+					"ttl" => $rr['ttl'],
+					"active" => 'Y'
+				);
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
 		}

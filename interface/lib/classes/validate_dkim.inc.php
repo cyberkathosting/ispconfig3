@@ -62,8 +62,10 @@ class validate_dkim {
 	 */
 	function check_template($field_name, $field_value, $validator) {
 		$dkim=false;
-		foreach($field_value as $field ) { if($field == 'DKIM') $dkim=true; }
-		if ($dkim && $field_value[0]!='DOMAIN') return $this->get_error($validator['errmsg']);
+		if(is_array($field_value) && !empty($field_value)){
+			foreach($field_value as $field ) { if($field == 'DKIM') $dkim=true; }
+			if ($dkim && $field_value[0]!='DOMAIN') return $this->get_error($validator['errmsg']);
+		}
 	}
 
 

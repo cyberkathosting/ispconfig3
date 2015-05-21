@@ -81,11 +81,40 @@ class installer extends installer_base
 		}
 
 		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"].'.server', $conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+
+		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
+		$rbl_list = '';
+		if (@isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
+			$rbl_hosts = explode(",", str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
+			foreach ($rbl_hosts as $key => $value) {
+				$rbl_list .= ", reject_rbl_client ". $value;
+			}
+		}
+		unset($rbl_hosts);
+
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
+		unset($server_ini_array);
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
+		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/gentoo_postfix.conf.master', 'tpl/gentoo_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
@@ -229,7 +258,7 @@ class installer extends installer_base
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"].".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
@@ -421,13 +450,13 @@ class installer extends installer_base
 		global $conf;
 
 		//* Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['powerdns']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['powerdns']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['powerdns']['database'].'.');
 		}
 
 		//* Create the ISPConfig database user in the local database
-		$query = 'GRANT ALL ON `'.$conf['powerdns']['database'].'` . * TO \''.$conf['mysql']['ispconfig_user'].'\'@\'localhost\';';
-		if(!$this->db->query($query)) {
+		$query = 'GRANT ALL ON ??.* TO ?@?';
+		if(!$this->db->query($query, $conf['powerdns']['database'], $conf['mysql']['ispconfig_user'], 'localhost')) {
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
 
@@ -537,25 +566,10 @@ class installer extends installer_base
 
 
 		//* Copy the ISPConfig configuration include
-		/*
-		$content = $this->get_template_file('apache_ispconfig.conf', true);
-
-		$records = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ".$conf["server_id"]." AND virtualhost = 'y'");
-		if(is_array($records) && count($records) > 0)
-		{
-			foreach($records as $rec) {
-				$content .= "NameVirtualHost ".$rec["ip_address"].":80\n";
-				$content .= "NameVirtualHost ".$rec["ip_address"].":443\n";
-			}
-		}
-
-		$this->write_config_file($conf['apache']['vhost_conf_dir'].'/000-ispconfig.conf', $content);
-		*/
-		
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
-		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
 		if(is_array($records) && count($records) > 0) {
@@ -820,6 +834,7 @@ class installer extends installer_base
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -904,13 +919,11 @@ class installer extends installer_base
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ?, vserver_server = ? WHERE server_id = ?";
 
+		$this->db->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
-			$this->dbmaster->query($sql);
-			$this->db->query($sql);
-		} else {
-			$this->db->query($sql);
+			$this->dbmaster->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
 		}
 
 		// chown install dir to root and chmod 755
@@ -1177,7 +1190,13 @@ class installer extends installer_base
 		
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-
+		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
+		
 	}
 
 }

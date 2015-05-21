@@ -28,19 +28,32 @@ class dashlet_modules {
 					include_once '../' . $mt.'/lib/module.conf.php';
 					/* We don't want to show the dashboard */
 					if ($mt != 'dashboard') {
+						if($mt == 'dns'){
+							$dns_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE dns_server = 1 AND active = 1");
+							if($dns_servers['cnt'] == 0) continue;
+						}
+						if($mt == 'mail'){
+							$mail_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE mail_server = 1 AND active = 1");
+							if($mail_servers['cnt'] == 0) continue;
+						}
+						if($mt == 'sites'){
+							$web_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE web_server = 1 AND active = 1");
+							if($web_servers['cnt'] == 0) continue;
+						}
+					
 						$module_title = $app->lng($module['title']);
 						if(function_exists('mb_strlen')) {
 							if(mb_strlen($module_title, "UTF-8") > 8) $module_title = mb_substr($module_title, 0, 7, "UTF-8").'..';
 						} else {
 							if(strlen($module_title) > 8) $module_title = substr($module_title, 0, 7).'..';
 						}
-						$mod[] = array( 'modules_title'  => $module_title,
+						$mod[$module['order']] = array( 'modules_title'  => $module_title,
 							'modules_startpage' => $module['startpage'],
 							'modules_name'   => $module['name']);
 					}
 				}
 			}
-
+			ksort($mod);
 			$tpl->setloop('modules', $mod);
 		}
 

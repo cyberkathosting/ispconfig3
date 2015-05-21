@@ -38,8 +38,8 @@ $server_id = $app->functions->intval($_GET["server_id"]);
 
 if($_SESSION["s"]["user"]["typ"] == 'admin' or $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
-	$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND server_id = $server_id";
-	$ips = $app->db->queryAllRecords($sql);
+	$sql = "SELECT ip_address FROM openvz_ip WHERE reserved = 'n' AND server_id = ?";
+	$ips = $app->db->queryAllRecords($sql, $server_id);
 	$ip_select = "";
 	if(is_array($ips)) {
 		foreach( $ips as $ip) {

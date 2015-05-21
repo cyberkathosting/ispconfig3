@@ -23,7 +23,7 @@ try {
 		'type' => 'ptr',
 		'data' => 'webmaster.test.int.',
 		'aux' => '0',
-		'ttl' => '86400',
+		'ttl' => '3600',
 		'active' => 'y',
 		'stamp' => 'CURRENT_TIMESTAMP',
 		'serial' => '1',

@@ -102,6 +102,7 @@ echo "Please enter the patch id that you want to be applied to your ISPConfig in
 
 if(!is_installed('patch')) {
 	swriteln("The program 'patch' is missing on your server. Please install it and try again.");
+	exit;
 }
 
 $patch_id = simple_query('Enter patch id', false, '');

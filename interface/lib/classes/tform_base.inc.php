@@ -98,6 +98,7 @@ class tform_base {
 	var $errorMessage = '';
 
 	var $dateformat = "d.m.Y";
+	var $datetimeformat = 'd.m.Y H:i';
 	var $formDef = array();
 	var $wordbook;
 	var $module;
@@ -153,6 +154,7 @@ class tform_base {
 		$this->wordbook = $wb;
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
+		$this->datetimeformat = $app->lng('conf_format_datetime');
 
 		return true;
 	}
@@ -347,7 +349,7 @@ class tform_base {
 				return $values;
 			} else {
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				$allowed = explode(',', $client['lm']);
 			}
 		}
@@ -359,19 +361,19 @@ class tform_base {
 			} else {
 				//* Get the limits of the client that is currently logged in
 				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 				//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
 				//* If the client belongs to a reseller, we will check against the reseller Limit too
 				if($client['parent_client_id'] != 0) {
 
 					//* first we need to know the groups of this reseller
-					$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ".$client['parent_client_id']);
+					$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ?", $client['parent_client_id']);
 					$reseller_groups = $tmp["groups"];
 					$reseller_userid = $tmp["userid"];
 
 					// Get the limits of the reseller of the logged in client
 					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-					$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ".$client['parent_client_id']);
+					$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ?", $client['parent_client_id']);
 					$allowed = explode(',', $reseller['lm']);
 				} else {
 					return $values;
@@ -708,13 +710,8 @@ class tform_base {
 					if($record[$key] != '' && $record[$key] != '0000-00-00') {
 						if(function_exists('date_parse_from_format')) {
 							$date_parts = date_parse_from_format($this->dateformat, $record[$key]);
-							//list($tag,$monat,$jahr) = explode('.',$record[$key]);
-							$new_record[$key] = $date_parts['year'].'-'.$date_parts['month'].'-'.$date_parts['day'];
-							//$tmp = strptime($record[$key],$this->dateformat);
-							//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
+							$new_record[$key] = $date_parts['year'].'-'.str_pad($date_parts['month'], 2, "0", STR_PAD_LEFT).'-'.str_pad($date_parts['day'], 2, "0", STR_PAD_LEFT);
 						} else {
-							//$tmp = strptime($record[$key],$this->dateformat);
-							//$new_record[$key] = ($tmp['tm_year']+1900).'-'.($tmp['tm_mon']+1).'-'.$tmp['tm_mday'];
 							$tmp = strtotime($record[$key]);
 							$new_record[$key] = date('Y-m-d', $tmp);
 						}
@@ -724,8 +721,6 @@ class tform_base {
 					break;
 				case 'INTEGER':
 					$new_record[$key] = (isset($record[$key]))?$app->functions->intval($record[$key]):0;
-					//if($new_record[$key] != $record[$key]) $new_record[$key] = $field['default'];
-					//if($key == 'refresh') die($record[$key]);
 					break;
 				case 'DOUBLE':
 					$new_record[$key] = $record[$key];
@@ -735,7 +730,7 @@ class tform_base {
 					break;
 
 				case 'DATETIME':
-					if (is_array($record[$key]))
+					/*if (is_array($record[$key]))
 					{
 						$filtered_values = array_map(create_function('$item', 'return (int)$item;'), $record[$key]);
 						extract($filtered_values, EXTR_PREFIX_ALL, '_dt');
@@ -743,7 +738,14 @@ class tform_base {
 						if ($_dt_day != 0 && $_dt_month != 0 && $_dt_year != 0) {
 							$new_record[$key] = date( 'Y-m-d H:i:s', mktime($_dt_hour, $_dt_minute, $_dt_second, $_dt_month, $_dt_day, $_dt_year) );
 						}
-					}
+					} else {*/
+						if($record[$key] != '' && $record[$key] != '0000-00-00 00:00:00') {
+							$tmp = strtotime($record[$key]);
+							$new_record[$key] = date($this->datetimeformat, $tmp);
+						} else {
+							$new_record[$key] = '0000-00-00 00:00:00';
+						}
+					/*}*/
 					break;
 				}
 
@@ -810,6 +812,9 @@ class tform_base {
 				case 'IDNTOUTF8':
 					$returnval = $app->functions->idn_decode($returnval);
 					break;
+				case 'TRIM':
+					$returnval = trim($returnval);
+					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];
 					break;
@@ -853,7 +858,7 @@ class tform_base {
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'n' || ($validator['allowempty'] == 'y' && $field_value != '')){
 					if($this->action == 'NEW') {
-						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."'");
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ?? WHERE ?? = ?", $this->formDef['db_table'], $field_name, $field_value);
 						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
@@ -863,7 +868,7 @@ class tform_base {
 							}
 						}
 					} else {
-						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ".$escape.$this->formDef['db_table'].$escape. " WHERE $field_name = '".$app->db->quote($field_value)."' AND ".$this->formDef['db_table_idx']." != ".$this->primary_id);
+						$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM ?? WHERE ?? = ? AND ?? != ?", $this->formDef['db_table'], $field_name, $field_value, $this->formDef['db_table_idx'], $this->primary_id);
 						if($num_rec["number"] > 0) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
@@ -1108,6 +1113,7 @@ class tform_base {
 	 * @param primary_id
 	 * @return record
 	 */
+	 /* TODO: check for double quoting */
 	protected function _getSQL($record, $tab, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '', $api = false) {
 
 		global $app;
@@ -1139,7 +1145,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
 								$record[$key] = $tmp['crypted'];
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} else {
@@ -1167,7 +1173,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD('".$app->db->quote(stripslashes($record[$key]))."') as `crypted`");
+								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
 								$record[$key] = $tmp['crypted'];
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} else {
@@ -1359,8 +1365,8 @@ class tform_base {
 	function getDataRecord($primary_id) {
 		global $app;
 		$escape = '`';
-		$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$this->formDef['db_table_idx']." = ".$primary_id." AND ".$this->getAuthSQL('r', $this->formDef['db_table']);
-		return $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM ?? WHERE ?? = ? AND ".$this->getAuthSQL('r', $this->formDef['db_table']);
+		return $app->db->queryOneRecord($sql, $this->formDef['db_table'], $this->formDef['db_table_idx'], $primary_id);
 	}
 
 

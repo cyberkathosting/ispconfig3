@@ -43,7 +43,7 @@ class validate_client {
 		}
 
 		if($client_id == 0) {
-			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."'");
+			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = ?", $field_value);
 			if($num_rec["number"] > 0) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -53,7 +53,7 @@ class validate_client {
 				}
 			}
 		} else {
-			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = '".$app->db->quote($field_value)."' AND client_id != ".$app->functions->intval($client_id));
+			$num_rec = $app->db->queryOneRecord("SELECT count(*) as number FROM sys_user WHERE username = ? AND client_id != ?", $field_value, $client_id);
 			if($num_rec["number"] > 0) {
 				$errmsg = $validator['errmsg'];
 				if(isset($app->tform->wordbook[$errmsg])) {
@@ -108,20 +108,24 @@ class validate_client {
 			switch ($field_name)
 			{
 			case 'web_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM web_domain INNER JOIN sys_user ON web_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM web_domain INNER JOIN sys_user ON web_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'dns_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT id FROM dns_rr INNER JOIN sys_user ON dns_rr.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT id FROM dns_rr INNER JOIN sys_user ON dns_rr.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'db_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT database_id FROM web_database INNER JOIN sys_user ON web_database.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT database_id FROM web_database INNER JOIN sys_user ON web_database.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
 
 			case 'mail_servers':
-				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ' . $client_id . ' AND server_id NOT IN (' . implode(', ', $field_value) . ');');
+				$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 				break;
+
+            case 'xmpp_servers':
+                $used_servers = $app->db->queryAllRecords('SELECT domain_id FROM xmpp_domain INNER JOIN sys_user ON xmpp_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
+                break;
 			}
 
 			if ($used_servers === null || count($used_servers))
@@ -136,7 +140,87 @@ class validate_client {
 		}
 	}
 
+	function check_vat_id ($field_name, $field_value, $validator){
+		global $app, $page;
+		
+		$vatid = trim($field_value);
+		if(isset($app->remoting_lib->primary_id)) {
+			$country = $app->remoting_lib->dataRecord['country'];
+		} else {
+			$country = $page->dataRecord['country'];
+		}
+		
+		// check if country is member of EU
+		$country_details = $app->db->queryOneRecord("SELECT * FROM country WHERE iso = ?", $country);
+		if($country_details['eu'] == 'y' && $vatid != ''){
+		
+			$vatid = preg_replace('/\s+/', '', $vatid);
+			$vatid = str_replace(array('.', '-', ','), '', $vatid);
+			$cc = substr($vatid, 0, 2);
+			$vn = substr($vatid, 2);
 
+			// Test if the country of the VAT-ID matches the country of the customer
+			if($country != ''){
+				// Greece
+				if($country == 'GR') $country = 'EL';
+				if(strtoupper($cc) != $country){
+					$errmsg = $validator['errmsg'];
+					if(isset($app->tform->wordbook[$errmsg])) {
+						return $app->tform->wordbook[$errmsg]."<br>\r\n";
+					} else {
+						return $errmsg."<br>\r\n";
+					}
+				}
+			}
+
+			$client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
+
+			if($client){
+				$params = array('countryCode' => $cc, 'vatNumber' => $vn);
+				try{
+					$r = $client->checkVat($params);
+					if($r->valid == true){
+					} else {
+						$errmsg = $validator['errmsg'];
+							if(isset($app->tform->wordbook[$errmsg])) {
+								return $app->tform->wordbook[$errmsg]."<br>\r\n";
+							} else {
+								return $errmsg."<br>\r\n";
+							}
+					}
+
+					// This foreach shows every single line of the returned information
+					/*
+					foreach($r as $k=>$prop){
+						echo $k . ': ' . $prop;
+					}
+					*/
+
+				} catch(SoapFault $e) {
+					//echo 'Error, see message: '.$e->faultstring;
+					switch ($e->faultstring) {
+						case 'INVALID_INPUT':
+							$errmsg = $validator['errmsg'];
+							if(isset($app->tform->wordbook[$errmsg])) {
+								return $app->tform->wordbook[$errmsg]."<br>\r\n";
+							} else {
+								return $errmsg."<br>\r\n";
+							}
+							break;
+						// the following cases shouldn't be the user's fault, so we return no error
+						case 'SERVICE_UNAVAILABLE':
+						case 'MS_UNAVAILABLE':
+						case 'TIMEOUT':
+						case 'SERVER_BUSY':
+							break;
+					}
+				}
+			} else {
+				// Connection to host not possible, europe.eu down?
+				// this shouldn't be the user's fault, so we return no error
+			}
+		}
+	}
 
 
 }

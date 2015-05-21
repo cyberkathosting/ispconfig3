@@ -102,7 +102,7 @@ class bind_plugin {
 			$zone = $data['new'];
 			$tpl->setVar($zone);
 
-			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ".$zone['id']." AND active = 'Y'");
+			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $zone['id']);
 			if(is_array($records) && !empty($records)){
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
@@ -117,7 +117,7 @@ class bind_plugin {
 
 			//TODO : change this when distribution information has been integrated into server record
 			if (file_exists('/etc/gentoo-release')) {
-				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
+				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
 			}
 			else {
 				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
@@ -151,7 +151,7 @@ class bind_plugin {
 		if($data['old']['origin'] != $data['new']['origin']) {
 			//TODO : change this when distribution information has been integrated into server record
 			if (file_exists('/etc/gentoo-release')) {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			}
 			else {
 				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
@@ -281,7 +281,7 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Get the data of the soa and call soa_update
-		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data['new']['zone']);
+		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $data['new']['zone']);
 		$data["new"] = $tmp;
 		$data["old"] = $tmp;
 		$this->action = 'update';
@@ -293,7 +293,7 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Get the data of the soa and call soa_update
-		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".$data['new']['zone']);
+		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $data['new']['zone']);
 		$data["new"] = $tmp;
 		$data["old"] = $tmp;
 		$this->action = 'update';
@@ -305,7 +305,7 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Get the data of the soa and call soa_update
-		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ".intval($data['old']['zone']));
+		$tmp = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ?", $data['old']['zone']);
 		$data["new"] = $tmp;
 		$data["old"] = $tmp;
 		$this->action = 'update';
@@ -319,18 +319,10 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Only write the master file for the current server
-		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl FROM dns_soa WHERE active = 'Y' AND server_id=".$conf["server_id"]);
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl FROM dns_soa WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
 		$zones = array();
 
 		//* Check if the current zone that triggered this function has at least one NS record
-		/* Has been replaced by a better zone check
-		$rec_num = $app->db->queryOneRecord("SELECT count(id) as ns FROM dns_rr WHERE type = 'NS' AND zone = ".intval($data['new']['id'])." AND active = 'Y'");
-		if($rec_num['ns'] == 0) {
-			$exclude_zone = $data['new']['origin'];
-		} else {
-			$exclude_zone = '';
-		}
-		*/
 
 		//TODO : change this when distribution information has been integrated into server record
 		if (file_exists('/etc/gentoo-release')) {
@@ -370,7 +362,7 @@ class bind_plugin {
 		$tpl->setLoop('zones', $zones);
 
 		//* And loop through the secondary zones, but only for the current server
-		$tmps_sec = $app->db->queryAllRecords("SELECT origin, xfer, ns FROM dns_slave WHERE active = 'Y' AND server_id=".$conf["server_id"]);
+		$tmps_sec = $app->db->queryAllRecords("SELECT origin, xfer, ns FROM dns_slave WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
 		$zones_sec = array();
 
 		foreach($tmps_sec as $tmp) {

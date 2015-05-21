@@ -35,6 +35,7 @@ if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 
 
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');
+$app->tpl->setVar('logged_in', ($_SESSION['s']['user']['active'] != 1 ? 'n' : 'y'));
 
 // tab change warning?
 // read misc config
@@ -50,6 +51,14 @@ $app->tpl->setVar('tabchange_discard_enabled', $sys_config['tab_change_discard']
 if($sys_config['tab_change_discard'] == 'y') {
 	$app->tpl->setVar('global_tabchange_discard_txt', $app->lng('global_tabchange_discard_txt'));
 }
+
+if($sys_config['use_loadindicator'] == 'y') {
+	$app->tpl->setVar('use_loadindicator', 'y');
+}
+if($sys_config['use_combobox'] == 'y') {
+	$app->tpl->setVar('use_combobox', 'y');
+}
+
 
 if(isset($_SESSION['show_info_msg'])) {
 	$app->tpl->setVar('show_info_msg', $_SESSION['show_info_msg']);
@@ -76,6 +85,21 @@ if(@is_dir($js_d)) {
 
 if (!empty($js_d_files)) $app->tpl->setLoop('js_d_includes', $js_d_files);
 unset($js_d_files);
+
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+
+// Logo
+$logo = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
+if($logo['custom_logo'] != ''){
+	$base64_logo_txt = $logo['custom_logo'];
+} else {
+	$base64_logo_txt = $logo['default_logo'];
+}
+$tmp_base64 = explode(',', $base64_logo_txt, 2);
+$logo_dimensions = $app->functions->getimagesizefromstring(base64_decode($tmp_base64[1]));
+$app->tpl->setVar('base64_logo_width', $logo_dimensions[0]);
+$app->tpl->setVar('base64_logo_height', $logo_dimensions[1]);
+$app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

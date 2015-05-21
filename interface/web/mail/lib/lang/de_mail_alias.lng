@@ -11,4 +11,5 @@ $wb['duplicate_mailbox_txt'] = 'Es existiert bereits eine E-Mail Konto mit diese
 $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'Dieser E-Mail Alias existiert bereits.';
 $wb['source_txt'] = 'Alias';
+$wb['greylisting_txt'] = 'Aktiviere Greylisting';
 ?>

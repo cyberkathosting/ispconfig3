@@ -1,26 +1,23 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_mailuser_cc">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='email_txt'}</p>
+        
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='email_txt'}</label>
                 <p class="value">{tmpl_var name='email'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="name">{tmpl_var name='cc_txt'}</label>
-                <input name="cc" id="cc" value="{tmpl_var name='cc'}" size="30" maxlength="255" type="text" class="textInput" /> &nbsp; {tmpl_var name='name_optional_txt'} {tmpl_var name='cc_note_txt'}
-            </div>
-        </fieldset>
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">{tmpl_var name='cc_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="cc" id="cc" value="{tmpl_var name='cc'}" class="form-control" /></div><div class="col-sm-3 input-sm"> &nbsp; {tmpl_var name='name_optional_txt'} {tmpl_var name='cc_note_txt'}
+            </div></div>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mailuser/mail_user_cc_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mailuser/index.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mailuser/mail_user_cc_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mailuser/index.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

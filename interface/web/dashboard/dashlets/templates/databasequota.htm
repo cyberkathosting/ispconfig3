@@ -1,0 +1,28 @@
+	<div class='table-wrapper'>
+	  <table class='table'>
+		<caption>{tmpl_var name='databasequota_txt'}</caption>
+		<thead class="dark form-group-sm">
+		  <tr>
+			<th>{tmpl_var name='database_txt'}</th>
+			<th>{tmpl_var name='used_txt'}</th>
+			<th colspan="2">{tmpl_var name='quota_txt'}</th>
+		  </tr>
+		</thead>
+		<tbody>
+		<tmpl_loop name='databasequota'>
+			<tr>
+				<td>{tmpl_var name='database_name'}</td>
+				<td>{tmpl_var name='used'}</td>
+				<td>{tmpl_var name='database_quota'}</td>
+				<td>
+				<div class='progress'>
+					<div class='progress-bar progress-bar-{tmpl_if name="used_percentage" op="<" value="50"}success{tmpl_elseif name="used_percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{tmpl_var name="used_percentage"}' style='width:{tmpl_var name="used_percentage"}%'>
+					<span class='sr-only'>{tmpl_var name='used'} {tmpl_var name='of_txt'} {tmpl_var name='database_quota'}</span>
+					</div>
+				</div>
+				</td>
+			</tr>
+		</tmpl_loop>
+		</tbody>
+	  </table>
+	</div>

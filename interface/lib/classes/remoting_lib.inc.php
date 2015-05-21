@@ -110,7 +110,7 @@ class remoting_lib extends tform_base {
 		if(isset($_SESSION['client_login']) && isset($_SESSION['client_sys_userid']) && $_SESSION['client_login'] == 1) {
 			$client_sys_userid = $app->functions->intval($_SESSION['client_sys_userid']);
 
-			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_user, client WHERE sys_user.client_id = client.client_id and sys_user.userid = " . $client_sys_userid);
+			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_user, client WHERE sys_user.client_id = client.client_id and sys_user.userid = ?", $client_sys_userid);
 
 			$this->client_id = $client['client_id'];
 			$client_login = true;
@@ -125,23 +125,11 @@ class remoting_lib extends tform_base {
 			$this->sys_groups            = 1;
 			$_SESSION["s"]["user"]["typ"] = 'admin';
 		} else {
-			//* load system user - try with sysuser and before with userid (workarrond)
-			/*
-				$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE sysuser_id = $client_id");
-				if(empty($user["userid"])) {
-						$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = $client_id");
-						if(empty($user["userid"])) {
-								$this->errorMessage .= "No sysuser with the ID $client_id found.";
-								return false;
-						}
-				}*/
-
-			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = $this->client_id");
+			$user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = ?", $this->client_id);
 			$this->sys_username         = $user['username'];
 			$this->sys_userid            = $user['userid'];
 			$this->sys_default_group     = $user['default_group'];
 			$this->sys_groups             = $user['groups'];
-			// $_SESSION["s"]["user"]["typ"] = $user['typ'];
 			// we have to force admin priveliges for the remoting API as some function calls might fail otherwise.
 			if($client_login == false) $_SESSION["s"]["user"]["typ"] = 'admin';
 		}
@@ -186,12 +174,11 @@ class remoting_lib extends tform_base {
 	 /**
 	 * Rewrite the record data to be stored in the database
 	 * and check values with regular expressions.
-	 * dummy parameter is only there for compatibility with params of base class
 	 *
 	 * @param record = Datensatz als Array
 	 * @return record
 	 */
-	function encode($record, $dbencode = true, $dummy = '') {
+	function encode($record, $tab = '', $dbencode = true) {
 		$new_record = $this->_encode($record, '', $dbencode, true);
 		if(isset($record['_ispconfig_pw_crypted'])) $new_record['_ispconfig_pw_crypted'] = $record['_ispconfig_pw_crypted']; // this one is not in form definitions!
 
@@ -240,8 +227,8 @@ class remoting_lib extends tform_base {
 				return parent::getDataRecord($primary_id);
 			} elseif($primary_id == -1) {
 				// Return a array with all records
-				$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape;
-				return $app->db->queryAllRecords($sql);
+				$sql = "SELECT * FROM ??";
+				return $app->db->queryAllRecords($sql, $this->formDef['db_table']);
 			} else {
 				throw new SoapFault('invalid_id', 'The ID has to be > 0 or -1.');
 				return array();
@@ -251,22 +238,23 @@ class remoting_lib extends tform_base {
 			$sql_offset = 0;
 			$sql_limit = 0;
 			$sql_where = '';
+			$params = array($this->formDef['db_table']);
 			foreach($primary_id as $key => $val) {
-				$key = $app->db->quote($key);
-				$val = $app->db->quote($val);
 				if($key == '#OFFSET#') $sql_offset = $app->functions->intval($val);
 				elseif($key == '#LIMIT#') $sql_limit = $app->functions->intval($val);
 				elseif(stristr($val, '%')) {
-					$sql_where .= "$key like '$val' AND ";
+					$sql_where .= "? like ? AND ";
 				} else {
-					$sql_where .= "$key = '$val' AND ";
+					$sql_where .= "? = ? AND ";
 				}
+				$params[] = $key;
+				$params[] = $val;
 			}
 			$sql_where = substr($sql_where, 0, -5);
 			if($sql_where == '') $sql_where = '1';
-			$sql = "SELECT * FROM ".$escape.$this->formDef['db_table'].$escape." WHERE ".$sql_where. " AND " . $this->getAuthSQL('r', $this->formDef['db_table']);
+			$sql = "SELECT * FROM ?? WHERE ".$sql_where. " AND " . $this->getAuthSQL('r', $this->formDef['db_table']);
 			if($sql_offset >= 0 && $sql_limit > 0) $sql .= ' LIMIT ' . $sql_offset . ',' . $sql_limit;
-			return $app->db->queryAllRecords($sql);
+			return $app->db->queryAllRecords($sql, true, $params);
 		} else {
 			$this->errorMessage = 'The ID must be either an integer or an array.';
 			return array();
@@ -275,12 +263,12 @@ class remoting_lib extends tform_base {
 
 	function ispconfig_sysuser_add($params, $insert_id){
 		global $conf, $app, $sql1;
-		$username = $app->db->quote($params["username"]);
-		$password = $app->db->quote($params["password"]);
+		$username = $params["username"];
+		$password = $params["password"];
 		if(!isset($params['modules'])) {
 			$modules = $conf['interface_modules_enabled'];
 		} else {
-			$modules = $app->db->quote($params['modules']);
+			$modules = $params['modules'];
 		}
 		if(isset($params['limit_client']) && $params['limit_client'] > 0) {
 			$modules .= ',client';
@@ -289,44 +277,51 @@ class remoting_lib extends tform_base {
 		if(!isset($params['startmodule'])) {
 			$startmodule = 'dashboard';
 		} else {
-			$startmodule = $app->db->quote($params["startmodule"]);
+			$startmodule = $params["startmodule"];
 			if(!preg_match('/'.$startmodule.'/', $modules)) {
 				$_modules = explode(',', $modules);
 				$startmodule=$_modules[0];
 			}
 		}
-		$usertheme = $app->db->quote($params["usertheme"]);
+		$usertheme = $params["usertheme"];
 		$type = 'user';
 		$active = 1;
 		$insert_id = $app->functions->intval($insert_id);
-		$language = $app->db->quote($params["language"]);
-		$groupid = $app->db->datalogInsert('sys_group', "(name,description,client_id) VALUES ('$username','','$insert_id')", 'groupid');
+		$language = $params["language"];
+		$groupid = $app->db->datalogInsert('sys_group', array("name" => $username, "description" => "", "client_id" => $insert_id), 'groupid');
 		$groups = $groupid;
 		if(!isset($params['_ispconfig_pw_crypted']) || $params['_ispconfig_pw_crypted'] != 1) $password = $app->auth->crypt_password(stripslashes($password));
 		$sql1 = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
-			VALUES ('$username','$password','$modules','$startmodule','$usertheme','$type','$active','$language',$groups,$groupid,$insert_id)";
-		$app->db->query($sql1);
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$app->db->query($sql1, $username,$password,$modules,$startmodule,$usertheme,$type,$active,$language,$groups,$groupid,$insert_id);
 	}
 
 	function ispconfig_sysuser_update($params, $client_id){
 		global $app;
-		$username = $app->db->quote($params["username"]);
-		$clear_password = $app->db->quote($params["password"]);
+		$username = $params["username"];
+		$clear_password = $params["password"];
 		$client_id = $app->functions->intval($client_id);
 		if(!isset($params['_ispconfig_pw_crypted']) || $params['_ispconfig_pw_crypted'] != 1) $password = $app->auth->crypt_password(stripslashes($clear_password));
 		else $password = $clear_password;
-		if ($clear_password) $pwstring = ", passwort = '$password'"; else $pwstring ="" ;
-		$sql = "UPDATE sys_user set username = '$username' $pwstring WHERE client_id = $client_id";
-		$app->db->query($sql);
+		$params = array($username);
+		if ($clear_password) {
+			$pwstring = ", passwort = ?";
+			$params[] = $password;
+		} else {
+			$pwstring ="" ;
+		}
+		$params[] = $client_id;
+		$sql = "UPDATE sys_user set username = ? $pwstring WHERE client_id = ?";
+		$app->db->query($sql, true, $params);
 	}
 
 	function ispconfig_sysuser_delete($client_id){
 		global $app;
 		$client_id = $app->functions->intval($client_id);
-		$sql = "DELETE FROM sys_user WHERE client_id = $client_id";
-		$app->db->query($sql);
-		$sql = "DELETE FROM sys_group WHERE client_id = $client_id";
-		$app->db->query($sql);
+		$sql = "DELETE FROM sys_user WHERE client_id = ?";
+		$app->db->query($sql, $client_id);
+		$sql = "DELETE FROM sys_group WHERE client_id = ?";
+		$app->db->query($sql, $client_id);
 	}
 
 }

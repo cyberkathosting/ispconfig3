@@ -73,9 +73,9 @@ class login_index {
 			if(!preg_match("/^.{1,64}$/i", $_POST['passwort'])) $error = $app->lng('pw_error_length');
 
 			//** iporting variables
-			$ip    = $app->db->quote(ip2long($_SERVER['REMOTE_ADDR']));
-			$username = $app->db->quote($_POST['username']);
-			$passwort = $app->db->quote($_POST['passwort']);
+			$ip    = ip2long($_SERVER['REMOTE_ADDR']);
+			$username = $_POST['username'];
+			$passwort = $_POST['passwort'];
 			$loginAs  = false;
 			$time = time();
 
@@ -103,13 +103,13 @@ class login_index {
 								
 								/* this is the one currently logged in (normal user) */
 								$old_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-								$old_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $old_client_group_id");
+								$old_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $old_client_group_id);
 								
 								/* this is the reseller, that shall be re-logged in */
-								$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
-								$tmp = $app->db->queryOneRecord($sql);
+								$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
+								$tmp = $app->db->queryOneRecord($sql, $username, $passwort);
 								$client_group_id = $app->functions->intval($tmp['default_group']);
-								$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+								$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 								
 								if(!$tmp_client || $old_client["parent_client_id"] != $tmp_client["client_id"] || $tmp["default_group"] != $_SESSION["s_old"]["user"]["default_group"] ) {
 									die("You don't have the right to 'login as' this user!");
@@ -125,12 +125,12 @@ class login_index {
 					} elseif($_SESSION['s']['user']['typ'] != 'admin' && (!isset($_SESSION['s_old']['user']) || $_SESSION['s_old']['user']['typ'] != 'admin')) {
 						/* a reseller wants to 'login as', we need to check if he is allowed to */
 						$res_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $res_client_group_id");
+						$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $res_client_group_id);
 						
 						/* this is the user the reseller wants to 'login as' */
-						$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
-						$tmp = $app->db->queryOneRecord($sql);
-						$tmp_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = " . $app->functions->intval($tmp["default_group"]));
+						$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
+						$tmp = $app->db->queryOneRecord($sql, $username, $passwort);
+						$tmp_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $tmp["default_group"]);
 						
 						if(!$tmp || $tmp_client["parent_client_id"] != $res_client["client_id"]) {
 							die("You don't have the right to login as this user!");
@@ -147,21 +147,21 @@ class login_index {
 				}
 
 				//* Check if there are already wrong logins
-				$sql = "SELECT * FROM `attempts_login` WHERE `ip`= '{$ip}' AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
-				$alreadyfailed = $app->db->queryOneRecord($sql);
+				$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
+				$alreadyfailed = $app->db->queryOneRecord($sql, $ip);
 				//* too many failedlogins
 				if($alreadyfailed['times'] > 5) {
 					$error = $app->lng('error_user_too_many_logins');
 				} else {
 
 					if ($loginAs){
-						$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username' and PASSWORT = '". $passwort. "'";
-						$user = $app->db->queryOneRecord($sql);
+						$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
+						$user = $app->db->queryOneRecord($sql, $username, $passwort);
 					} else {
 						if(stristr($username, '@')) {
 							//* mailuser login
-							$sql = "SELECT * FROM mail_user WHERE login = '$username' or email = '$username'";
-							$mailuser = $app->db->queryOneRecord($sql);
+							$sql = "SELECT * FROM mail_user WHERE login = ? or email = ?";
+							$mailuser = $app->db->queryOneRecord($sql, $username, $username);
 							$user = false;
 							if($mailuser) {
 								$saved_password = stripslashes($mailuser['password']);
@@ -187,8 +187,8 @@ class login_index {
 
 						} else {
 							//* normal cp user login
-							$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
-							$user = $app->db->queryOneRecord($sql);
+							$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
+							$user = $app->db->queryOneRecord($sql, $username);
 
 							if($user) {
 								$saved_password = stripslashes($user['passwort']);
@@ -225,8 +225,8 @@ class login_index {
 							// Maintenance mode - allow logins only when maintenance mode is off or if the user is admin
 							if(!$maintenance_mode || $user['typ'] == 'admin'){
 								// User login right, so attempts can be deleted
-								$sql = "DELETE FROM `attempts_login` WHERE `ip`='{$ip}'";
-								$app->db->query($sql);
+								$sql = "DELETE FROM `attempts_login` WHERE `ip`=?";
+								$app->db->query($sql, $ip);
 								$user = $app->db->toLower($user);
 
 								if ($loginAs) $oldSession = $_SESSION['s'];
@@ -290,12 +290,12 @@ class login_index {
 						if(!$alreadyfailed['times'] )
 						{
 							//* user login the first time wrong
-							$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES ('{$ip}', 1, NOW())";
-							$app->db->query($sql);
+							$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES (?, 1, NOW())";
+							$app->db->query($sql, $ip);
 						} elseif($alreadyfailed['times'] >= 1) {
 							//* update times wrong
-							$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `login_time` >= '{$time}' LIMIT 1";
-							$app->db->query($sql);
+							$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `ip` = ? AND `login_time` < NOW() ORDER BY `login_time` DESC LIMIT 1";
+							$app->db->query($sql, $ip);
 						}
 						//* Incorrect login - Username and password incorrect
 						$error = $app->lng('error_user_password_incorrect');
@@ -322,7 +322,7 @@ class login_index {
 		// Maintenance mode - show message when people try to log in and also when people are forcedly logged off
 		if($maintenance_mode_error != '') $error = '<strong>'.$maintenance_mode_error.'</strong><br><br>'.$error;
 		if($error != ''){
-			$error = '<div class="box box_error"><h1>Error</h1>'.$error.'</div>';
+			$error = '<div class="box box_error">'.$error.'</div>';
 		}
 		
 		$app->load('getconf');
@@ -335,6 +335,8 @@ class login_index {
 		}
 		
 		$app->tpl->setVar('error', $error);
+		$app->tpl->setVar('error_txt', $app->lng('error_txt'));
+		$app->tpl->setVar('login_txt', $app->lng('login_txt'));
 		$app->tpl->setVar('pw_lost_txt', $app->lng('pw_lost_txt'));
 		$app->tpl->setVar('username_txt', $app->lng('username_txt'));
 		$app->tpl->setVar('password_txt', $app->lng('password_txt'));

@@ -46,7 +46,7 @@ $sm_default_subject = '';
 if(isset($_GET['reply']))
 {
 	$sm_msg_id = preg_replace("/[^0-9]/", "", $_GET['reply']);
-	$res = $app->db->queryOneRecord("SELECT sender_id, subject FROM support_message WHERE support_message_id=$sm_msg_id");
+	$res = $app->db->queryOneRecord("SELECT sender_id, subject FROM support_message WHERE support_message_id=?", $sm_msg_id);
 	if($res['sender_id'])
 	{
 		$sm_default_recipient_id = $res['sender_id'];

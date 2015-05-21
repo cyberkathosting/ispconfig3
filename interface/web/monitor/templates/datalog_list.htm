@@ -1,38 +1,39 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_list_datalog">
 
-    <div class="pnl_listarea">
-        <fieldset><legend><tmpl_var name="list_head_txt"></legend>
-            <table class="list">
-                <thead>
-                    <tr class="caption">
-                        <th class="tbl_col_tstamp" scope="col"><tmpl_var name="tstamp_txt"></th>
-                        <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
-                        <th class="tbl_col_action" scope="col"><tmpl_var name="action_txt"></th>
-                        <th class="tbl_col_dbtable" scope="col"><tmpl_var name="dbtable_txt"></th>
-                        <th class="tbl_col_limit" scope="col">{tmpl_var name='search_limit'}</th>
+        <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
+            <div class="table-wrapper marginTop15">
+<table class="table">
+                <thead class="dark form-group-sm">
+                    <tr>
+                        <th data-column="tstamp"><tmpl_var name="tstamp_txt"></th>
+                        <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
+                        <th data-column="action"><tmpl_var name="action_txt"></th>
+                        <th data-column="dbtable"><tmpl_var name="dbtable_txt"></th>
+                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
-                    <tr class="filter">
-                        <td class="tbl_col_tstamp">&nbsp;</td>
-                        <td class="tbl_col_server_id"><select name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
-                        <td class="tbl_col_action"><select name="search_action">{tmpl_var name='search_action'}</select></td>
-                        <td class="tbl_col_dbtable"><input type="text" name="search_dbtable" value="{tmpl_var name='search_dbtable'}" /></td>
-                        <td class="tbl_col_buttons">
-                            <button type="button" class="button icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','monitor/datalog_list.php');"><span>{tmpl_var name="filter_txt"}</span></button>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
+                        <td><select class="form-control" name="search_action">{tmpl_var name='search_action'}</select></td>
+                        <td><input class="form-control" type="text" name="search_dbtable" value="{tmpl_var name='search_dbtable'}" /></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="monitor/datalog_list.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tmpl_loop name="records">
-                        <tr class="tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td class="tbl_col_tstamp">{tmpl_var name="tstamp"}</td>
-                            <td class="tbl_col_server_id">{tmpl_var name="server_id"}</td>
-                            <td class="tbl_col_action">{tmpl_var name="action"}</td>
-                            <td class="tbl_col_dbtable">{tmpl_var name="dbtable"}</td>
-                            <td class="tbl_col_buttons">    
-                                <!--<a class="button icons16 icoDelete" href="javascript: del_record('monitor/datalog_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span>{tmpl_var name='delete_txt'}</span></a> -->
+                        <tr>
+                            <td>{tmpl_var name="tstamp"}</td>
+                            <td>{tmpl_var name="server_id"}</td>
+                            <td>{tmpl_var name="action"}</td>
+                            <td>{tmpl_var name="dbtable"}</td>
+                            <td class="text-right">    
+                                <!--<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('monitor/datalog_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a> -->
                             </td>
                         </tr>
                     </tmpl_loop>
@@ -44,11 +45,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td class="tbl_footer tbl_paging" colspan="5"><tmpl_var name="paging"></td>
+                        <td colspan="5"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
-        </fieldset>
-    </div>
-
 </div>
+        
+    </div>

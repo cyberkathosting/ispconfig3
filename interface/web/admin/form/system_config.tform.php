@@ -166,6 +166,12 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'backups_include_into_web_quota' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'reseller_can_use_options' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

@@ -76,7 +76,7 @@ class cronjob {
 		// check the run time and values for this job
 
 		// get previous run data
-		$data = $app->db->queryOneRecord("SELECT `last_run`, `next_run`, `running` FROM `sys_cron` WHERE `name` = '" . $app->db->quote(get_class($this)) . "'");
+		$data = $app->db->queryOneRecord("SELECT `last_run`, `next_run`, `running` FROM `sys_cron` WHERE `name` = ?", get_class($this));
 		if($data) {
 			if($data['last_run']) $this->_last_run = $data['last_run'];
 			if($data['next_run']) $this->_next_run = $data['next_run'];
@@ -90,7 +90,7 @@ class cronjob {
 				$next_run = $app->cron->getNextRun(ISPConfigDateTime::dbtime());
 				$this->_next_run = $next_run;
 
-				$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES ('" . $app->db->quote(get_class($this)) . "', " . ($this->_last_run ? "'" . $app->db->quote($this->_last_run) . "'" : "NULL") . ", " . ($next_run === false ? "NULL" : "'" . $app->db->quote($next_run) . "'") . ", " . ($this->_running == true ? "1" : "0") . ")");
+				$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES (?, ?, ?, ?)", get_class($this), ($this->_last_run ? $this->_last_run : "#NULL#"), ($next_run === false ? "#NULL#" : $next_run . "'"), ($this->_running == true ? "1" : "0"));
 			}
 		}
 	}
@@ -131,7 +131,7 @@ class cronjob {
 
 		print "Jobs next run is now " . $next_run . "\n";
 
-		$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES ('" . $app->db->quote(get_class($this)) . "', NOW(), " . ($next_run === false ? "NULL" : "'" . $app->db->quote($next_run) . "'") . ", 1)");
+		$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES (?, NOW(), ?, 1)", get_class($this), ($next_run === false ? "#NULL#" : $next_run));
 		return true;
 	}
 
@@ -154,7 +154,7 @@ class cronjob {
 		global $app;
 
 		print "Called onCompleted() for class " . get_class($this) . "\n";
-		$app->db->query("UPDATE `sys_cron` SET `running` = 0 WHERE `name` = '" . $app->db->quote(get_class($this)) . "'");
+		$app->db->query("UPDATE `sys_cron` SET `running` = 0 WHERE `name` = ?", get_class($this));
 	}
 
 }

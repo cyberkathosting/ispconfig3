@@ -37,6 +37,8 @@ $wb['io_priority_error_empty'] = 'I/O priority polje je prazno.';
 $wb['template_nameserver_error_empty'] = 'Nameserver(i) polje je prazno.';
 $wb['Virtual server'] = 'Virtualni server';
 $wb['Advanced'] = 'Napredno';
+$wb['features_txt'] = 'Features';
+$wb["iptables_txt"] = "iptables";
 ?>
 
 

@@ -43,13 +43,13 @@ $listId = $app->functions->intval($_GET['id']);
 /*
  * Get the data to connect to the database
  */
-$dbData = $app->db->queryAllRecords("SELECT server_id, listname FROM mail_mailinglist WHERE mailinglist_id = " . $listId);
+$dbData = $app->db->queryAllRecords("SELECT server_id, listname FROM mail_mailinglist WHERE mailinglist_id = ?", $listId);
 $serverId = $app->functions->intval($dbData[0]['server_id']);
 if ($serverId == 0){
 	die ("No List - Server found!");
 }
 
-$serverData = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$serverId);
+$serverData = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $serverId);
 
 $app->uses('getconf');
 $global_config = $app->getconf->get_global_config('mail');

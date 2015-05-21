@@ -459,6 +459,22 @@ $form["tabs"]['advanced'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'features' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
+		'iptables' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

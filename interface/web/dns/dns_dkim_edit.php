@@ -70,12 +70,20 @@ class page_action extends tform_actions {
 		}
 
 		parent::onShowNew();
+
+        $soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_GET['zone']);
+        $sql=$app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND " . $app->tform->getAuthSQL('r'), substr_replace($soa['origin'],'',-1));
+        $public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
+		$app->tpl->setVar('public_key', $public_key);
+		$app->tpl->setVar('selector', $sql['dkim_selector']);
+		$app->tpl->setVar('name', $soa['origin']);
+
 	}
 
 	function onSubmit() {
 		global $app, $conf;
 		// Get the parent soa record of the domain
-		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->intval($_POST["zone"]));
+		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_POST["zone"]);
 		// Check if Domain belongs to user
 		if($soa["id"] != $_POST["zone"]) $app->tform->errorMessage .= $app->tform->wordbook["no_zone_perm"];
 
@@ -100,17 +108,17 @@ class page_action extends tform_actions {
 		if (!empty($this->dataRecord['data'])) {
 			$this->dataRecord['data']='v=DKIM1; t=s; p='.$this->dataRecord['data'];
 			$this->dataRecord['name']=$this->dataRecord['selector'].'._domainkey.'.$this->dataRecord['name'];
+			$this->dataRecord['ttl']=60;
 		}
-		// Update the serial number  and timestamp of the RR record
-		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
-		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
-		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
+			// Update the serial number  and timestamp of the RR record
+			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
+			$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+			$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
 
-		// check for duplicate entry
-		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord['zone'], $this->dataRecord['type'], $this->dataRecord['data'], $this->dataRecord['name']);
-		if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
-		if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
-
+			// check for duplicate entry
+			$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord["data"], $this->dataRecord['name']);
+			if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
+			if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
 		parent::onSubmit();
 	}
 
@@ -118,23 +126,23 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		//* Set the sys_groupid of the rr record to be the same then the sys_groupid of the soa record
-		$soa = $app->db->queryOneRecord("SELECT sys_groupid,serial FROM dns_soa WHERE id = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->intval($this->dataRecord['zone']));
-		$app->db->datalogUpdate('dns_rr', "sys_groupid = ".$soa['sys_groupid'], 'id', $this->id);
+		$soa = $app->db->queryOneRecord("SELECT sys_groupid,serial FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
+		$app->db->datalogUpdate('dns_rr', array("sys_groupid" => $soa['sys_groupid']), 'id', $this->id);
 
 		//* Update the serial number of the SOA record
 		$soa_id = $app->functions->intval($_POST["zone"]);
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
 	}
 
 	function onAfterUpdate() {
 		global $app, $conf;
 
 		//* Update the serial number of the SOA record
-		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->intval($this->dataRecord["zone"]));
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $this->dataRecord["zone"]);
 		$soa_id = $app->functions->intval($_POST["zone"]);
 		$serial = $app->validate_dns->increase_serial($soa["serial"]);
-		$app->db->datalogUpdate('dns_soa', "serial = $serial", 'id', $soa_id);
+		$app->db->datalogUpdate('dns_soa', array("serial" => $serial), 'id', $soa_id);
 	}
 
 }

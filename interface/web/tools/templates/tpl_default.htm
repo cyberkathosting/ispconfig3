@@ -1,21 +1,18 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_tools_tpl">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
+        
+            <div class="form-group">
                 <p><tmpl_var name="no_settings_txt"></p>
             </div>
-        </fieldset>
+        
         
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-<!--            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','tools/tpl_default.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>-->
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('tools/index.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+<!--            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="tools/tpl_default.php">{tmpl_var name='btn_save_txt'}</button>-->
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="tools/index.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

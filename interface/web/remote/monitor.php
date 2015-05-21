@@ -30,7 +30,7 @@ if($token == '' or $secret == '' or $token != $secret) {
 		$sql = 'SELECT server_id, server_name FROM server WHERE 1 ORDER BY server_id';
 		$records = $app->db->queryAllRecords($sql);
 		foreach($records as $index => $rec) {
-			$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE server_id = " . $rec['server_id'] . " AND state NOT IN ('ok', 'no_state', 'info')");
+			$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE server_id = ? AND state NOT IN ('ok', 'no_state', 'info')", $rec['server_id']);
 			if($rec) $records[$index]['state'] = 'warn';
 			else $records[$index]['state'] = 'ok';
 		}
@@ -38,7 +38,7 @@ if($token == '' or $secret == '' or $token != $secret) {
 		$out['data'] = $records;
 		$out['time'] = date('Y-m-d H:i', $rec['created']);
 	} else {
-		$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE type = '$type' AND server_id = $server_id");
+		$rec = $app->db->queryOneRecord("SELECT * FROM monitor_data WHERE type = ? AND server_id = ?", $type, $server_id);
 		if(is_array($rec)) {
 			$out['state'] = $rec['state'];
 			$out['data'] = unserialize(stripslashes($rec['data']));

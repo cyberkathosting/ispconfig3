@@ -104,7 +104,7 @@ class validate_dns {
 		}
 
 		if(substr($field, -1) == '.' && $area == 'Name'){
-			$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ".intval($zoneid));
+			$soa = $app->db->queryOneRecord("SELECT * FROM soa WHERE id = ?", $zoneid);
 			if(substr($field, (strlen($field) - strlen($soa['origin']))) != $soa['origin']) $error .= $desc." ".$app->tform->wordbook['error_out_of_zone']."<br>\r\n";
 		}
 

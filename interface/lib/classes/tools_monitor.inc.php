@@ -33,7 +33,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'server_load' AND server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -80,7 +80,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'disk_usage' AND server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -91,16 +91,18 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>
+                <table class="table">
+                <thead class="dark">
                 <tr>
-                <td>'.$app->lng("monitor_diskusage_filesystem_txt").'</td>
-            <td>'.$app->lng("monitor_diskusage_type_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_size_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_used_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_available_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_usage_txt").'</td>
-                <td>'.$app->lng("monitor_diskusage_mounted_txt").'</td>
-                </tr>';
+                <th>'.$app->lng("monitor_diskusage_filesystem_txt").'</th>
+            <th class="small-col">'.$app->lng("monitor_diskusage_type_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_size_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_used_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_available_txt").'</th>
+                <th class="tiny-col">'.$app->lng("monitor_diskusage_usage_txt").'</th>
+                <th>'.$app->lng("monitor_diskusage_mounted_txt").'</th>
+                </tr></thead>
+                <tbody>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				foreach ($line as $item) {
@@ -108,7 +110,7 @@ class tools_monitor {
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_diskusage_txt").'</p>';
@@ -121,28 +123,31 @@ class tools_monitor {
 	function showDatabaseSize () {
 		global $app;
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'database_size' AND server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
 			//* format the data
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
 	                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                	<table><thead><tr>
-                	<td>'.$app->lng("monitor_database_name_txt").'</td>
-	                <td>'.$app->lng("monitor_database_size_txt").'</td>
-        	        <td>'.$app->lng("monitor_database_client_txt").'</td>
-					<td>'.$app->lng("monitor_database_domain_txt").'</td>
-                	</tr>';
+                	<table class="table"><thead class="dark"><tr>
+                	<th>'.$app->lng("monitor_database_name_txt").'</th>
+	                <th class="tiny-col">'.$app->lng("monitor_database_size_txt").'</th>
+        	        <th>'.$app->lng("monitor_database_client_txt").'</th>
+					<th>'.$app->lng("monitor_database_domain_txt").'</th>
+                	</tr></thead>
+                	<tbody>';
 			foreach($data as $line) {
 				$html .= '<tr>';
 				if ($line['size'] > 0) $line['size'] = $app->functions->formatBytes($line['size']);
 
 				//* get the client
-				$line['client']=$app->db->queryOneRecord("SELECT client.username FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name='".$line['database_name']."'")['username'];
+				$tmp = $app->db->queryOneRecord("SELECT client.username FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name=?", $line['database_name']);
+				$line['client'] = $tmp['username'];
 
 				//* get the domain
-				$line['domain']=$app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name='".$line['database_name']."')")['domain'];
+				$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name=?", $line['database_name']);
+				$line['domain'] = $tmp['domain'];
 
 				//* remove the sys_groupid from output
 				unset($line['sys_groupid']);
@@ -150,7 +155,7 @@ class tools_monitor {
 				foreach ($line as $item) {
 					$html .= '<td>' . $item . '</td>';
 				}
-				$html .= '</tr></tmpl loop>';
+				$html .= '</tr>';
 			}
 			$html .= '</tbody></table></div></div>';
 		} else {
@@ -163,7 +168,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mem_usage' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -174,7 +179,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 
 			foreach($data as $key => $value) {
 				if ($key != '') {
@@ -184,7 +190,7 @@ class tools_monitor {
                         </tr>';
 				}
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 
 		} else {
@@ -198,7 +204,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'cpu_info' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -209,7 +215,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 			foreach($data as $key => $value) {
 				if ($key != '') {
 					$html .= '<tr>
@@ -218,7 +225,7 @@ class tools_monitor {
                         </tr>';
 				}
 			}
-			$html .= '</table>';
+			$html .= '</tbody></table>';
 			$html .= '</div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_cpuinfo_txt").'</p>';
@@ -231,7 +238,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'services' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -242,7 +249,8 @@ class tools_monitor {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
                 <div class="systemmonitor-content icons32 ico-'.$record['state'].'">
-                <table>';
+                <table class="table">
+                <tbody>';
 
 			if($data['webserver'] != -1) {
 				if($data['webserver'] == 1) {
@@ -330,7 +338,7 @@ class tools_monitor {
 			}
 
 
-			$html .= '</table></div></div>';
+			$html .= '</tbody></table></div></div>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_services_txt").'</p>';
 		}
@@ -343,7 +351,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'system_update' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -373,7 +381,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'openvz_beancounter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'openvz_beancounter' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -402,7 +410,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'raid_state' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -435,7 +443,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'rkhunter' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -466,7 +474,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_fail2ban' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_fail2ban' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -480,7 +488,7 @@ class tools_monitor {
 			$data = unserialize($record['data']);
 			if ($data == '') {
 				$html .= '<p>'.
-					'fail2ban is not installed at this server.<br />' .
+					'fail2ban is not installed on this server.<br />' .
 					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
 					'</p>';
 			}
@@ -500,7 +508,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_mongodb' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_mongodb' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$html =
@@ -514,8 +522,7 @@ class tools_monitor {
 			$data = unserialize($record['data']);
 			if ($data == '') {
 				$html .= '<p>'.
-					'MongoDB is not installed at this server.<br />' .
-					'See more (for debian) <a href="http://www.howtoforge.com/fail2ban_debian_etch" target="htf">here...</a>'.
+					'MongoDB is not installed on this server.<br />' .
 					'</p>';
 			}
 			else {
@@ -532,7 +539,7 @@ class tools_monitor {
 
 	function showIPTables() {
 		global $app;
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 		if(isset($record['data'])) {
 			$html =
 				'<div class="systemmonitor-state state-'.$record['state'].'">
@@ -556,7 +563,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'mailq' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
@@ -572,7 +579,7 @@ class tools_monitor {
 		global $app;
 
 		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $_SESSION['monitor']['server_id'] . " order by created desc");
+		$record = $app->db->queryOneRecord("SELECT created FROM monitor_data WHERE type = ? and server_id = ? ORDER BY created DESC", $type, $_SESSION['monitor']['server_id']);
 
 		/* TODO: datetimeformat should be set somewhat other way */
 		$dateTimeFormat = $app->lng("monitor_settings_datetimeformat_txt");

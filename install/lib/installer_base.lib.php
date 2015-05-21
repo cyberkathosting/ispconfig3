@@ -135,7 +135,8 @@ class installer_base {
 
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
-		if(is_installed('mailman')) $conf['mailman']['installed'] = true;
+		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
+		if(is_installed('mailman') || is_installed('mmsitepass')) $conf['mailman']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
@@ -153,10 +154,25 @@ class installer_base {
 		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
-		if(is_dir("/etc/Bastille")) $conf['bastille']['installed'] = true;
+		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['bastille']['installed'] = true;
+		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
+		if(is_installed('spamassassin')) $conf['spamassasin']['installed'] = true;
+		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
+		if(is_installed('cron')) $conf['cron']['installed'] = true;
 
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
+
+    public function force_configure_app($service) {
+		$force = false;
+        swriteln("[WARN] autodetect for $service failed");
+        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
+//			swriteln("Configure $service");
+            $force = true;
+		} else swriteln("Skipping $service\n");
+		return $force;
+    }
+
 
 	/** Create the database for ISPConfig */
 
@@ -165,12 +181,12 @@ class installer_base {
 		global $conf;
 
 		//** Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['mysql']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['mysql']['database'].'.');
 		}
 
 		//* Set the database name in the DB library
-		$this->db->dbName = $conf['mysql']['database'];
+		$this->db->setDBName($conf['mysql']['database']);
 
 		//* Load the database dump into the database, if database contains no tables
 		$db_tables = $this->db->getTables();
@@ -190,8 +206,8 @@ class installer_base {
 			}
 
 			//* Load system.ini into the sys_ini table
-			$system_ini = $this->db->quote(rf('tpl/system.ini.master'));
-			$this->db->query("UPDATE sys_ini SET config = '$system_ini' WHERE sysini_id = 1");
+			$system_ini = rf('tpl/system.ini.master');
+			$this->db->query("UPDATE sys_ini SET config = ? WHERE sysini_id = 1", $system_ini);
 
 		}
 	}
@@ -208,15 +224,13 @@ class installer_base {
 		}
 
 		// Delete ISPConfig user in the local database, in case that it exists
-		$this->db->query("DELETE FROM mysql.user WHERE User = '".$conf['mysql']['ispconfig_user']."' AND Host = '".$from_host."';");
-		$this->db->query("DELETE FROM mysql.db WHERE Db = '".$conf['mysql']['database']."' AND Host = '".$from_host."';");
-		$this->db->query('FLUSH PRIVILEGES;');
+		$this->db->query("DELETE FROM mysql.user WHERE User = ? AND Host = ?", $conf['mysql']['ispconfig_user'], $from_host);
+		$this->db->query("DELETE FROM mysql.db WHERE Db = ? AND Host = ?", $conf['mysql']['database'], $from_host);
+		$this->db->query('FLUSH PRIVILEGES');
 
 		//* Create the ISPConfig database user in the local database
-		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON '.$conf['mysql']['database'].".* "
-			."TO '".$conf['mysql']['ispconfig_user']."'@'".$from_host."' "
-			."IDENTIFIED BY '".$conf['mysql']['ispconfig_password']."';";
-		if(!$this->db->query($query)) {
+		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
+		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host, $conf['mysql']['ispconfig_password'])) {
 			$this->error('Unable to create database user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
 
@@ -224,7 +238,7 @@ class installer_base {
 		$this->db->query('FLUSH PRIVILEGES;');
 
 		//* Set the database name in the DB library
-		$this->db->dbName = $conf['mysql']['database'];
+		$this->db->setDBName($conf['mysql']['database']);
 
 		$tpl_ini_array = ini_to_array(rf('tpl/server.ini.master'));
 
@@ -278,8 +292,7 @@ class installer_base {
 		}
 
 		$server_ini_content = array_to_ini($tpl_ini_array);
-		$server_ini_content = mysql_real_escape_string($server_ini_content);
-
+		
 		$mail_server_enabled = ($conf['services']['mail'])?1:0;
 		$web_server_enabled = ($conf['services']['web'])?1:0;
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
@@ -307,14 +320,14 @@ class installer_base {
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->dbmaster->query($sql);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->dbmaster->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->dbmaster->insertID();
 			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES ('".$conf['server_id']."',1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->db->query($sql);
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['server_id'], $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 
 			//* username for the ispconfig user
 			$conf['mysql']['master_ispconfig_user'] = 'ispcsrv'.$conf['server_id'];
@@ -323,8 +336,8 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', '".$conf['hostname']."', '$mail_server_enabled', '$web_server_enabled', '$dns_server_enabled', '$file_server_enabled', '$db_server_enabled', '$vserver_server_enabled', '$server_ini_content', 0, 1, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);";
-			$this->db->query($sql);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->db->insertID();
 			$conf['server_id'] = $conf['server_id'];
 		}
@@ -386,141 +399,141 @@ class installer_base {
 			 * if not, the user already exists and we do not need the pwd
 			 */
 				if ($value['pwd'] != ''){
-					$query = "CREATE USER '".$value['user']."'@'".$host."' IDENTIFIED BY '" . $value['pwd'] . "'";
+					$query = "CREATE USER ?@? IDENTIFIED BY ?";
 					if ($verbose){
 						echo "\n\n" . $query ."\n";
 					}
-					$this->dbmaster->query($query); // ignore the error
+					$this->dbmaster->query($query, $value['user'], $host, $value['pwd']); // ignore the error
 				}
 
 				/*
 			 *  Try to delete all rights of the user in case that it exists.
 			 *  In Case that it will not exist, do nothing (ignore the error!)
 			 */
-				$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$value['user']."'@'".$host."' ";
+				$query = "REVOKE ALL PRIVILEGES, GRANT OPTION FROM ?@?";
 				if ($verbose){
 					echo "\n\n" . $query ."\n";
 				}
-				$this->dbmaster->query($query); // ignore the error
+				$this->dbmaster->query($query, $value['user'], $host); // ignore the error
 
 				//* Create the ISPConfig database user in the remote database
-				$query = "GRANT SELECT ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.server', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT ON ".$value['db'].".`sys_log` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_log', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`status`, `error`) ON ".$value['db'].".`sys_datalog` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`status`, `error`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_datalog', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`status`) ON ".$value['db'].".`software_update_inst` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`status`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.software_update_inst', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE(`updated`) ON ".$value['db'].".`server` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE(`updated`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.server', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ".$value['db'].".`web_domain` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_domain', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT ON ".$value['db'].".`sys_group` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_group', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ".$value['db'].".`sys_remoteaction` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE (`action_state`, `response`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.sys_remoteaction', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT , DELETE ON ".$value['db'].".`monitor_data` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT , DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.monitor_data', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`mail_traffic` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.mail_traffic', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, UPDATE ON ".$value['db'].".`web_traffic` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_traffic', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE, DELETE ON ".$value['db'].".`aps_instances` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, UPDATE, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.aps_instances', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 				
-				$query = "GRANT SELECT, DELETE ON ".$value['db'].".`aps_instances_settings` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.aps_instances_settings', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, DELETE ON ".$value['db'].".`web_backup` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, INSERT, DELETE ON ".$value['db'].".`mail_backup` TO '".$value['user']."'@'".$host."' ";
+				$query = "GRANT SELECT, INSERT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
-				if(!$this->dbmaster->query($query)) {
+				if(!$this->dbmaster->query($query, $value['db'] . '.mail_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 			}
@@ -528,7 +541,7 @@ class installer_base {
 			/*
 		 * It is all done. Relod the rights...
 		 */
-			$this->dbmaster->query('FLUSH PRIVILEGES;');
+			$this->dbmaster->query('FLUSH PRIVILEGES');
 		}
 
 	}
@@ -692,6 +705,9 @@ class installer_base {
 		//* mysql-virtual_sender.cf
 		$this->process_postfix_config('mysql-virtual_sender.cf');
 
+		//* mysql-virtual_sender_login_maps.cf
+		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
+
 		//* mysql-virtual_client.cf
 		$this->process_postfix_config('mysql-virtual_client.cf');
 
@@ -703,6 +719,9 @@ class installer_base {
 		
 		//* mysql-virtual_outgoing_bcc.cf
 		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
+
+                //* mysql-virtual_policy_greylist.cf
+                $this->process_postfix_config('mysql-virtual_policy_greylist.cf');
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
@@ -727,7 +746,7 @@ class installer_base {
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM `" . $this->db->quote($conf["mysql"]["database"]) . "`.`server` WHERE server_id = ".$conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
@@ -740,13 +759,27 @@ class installer_base {
 			}
 		}
 		unset($rbl_hosts);
-		unset($server_ini_array);
 
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
+		unset($server_ini_array);
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
+		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
@@ -841,7 +874,7 @@ class installer_base {
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
-
+	
 	public function configure_saslauthd() {
 		global $conf;
 
@@ -852,12 +885,12 @@ class installer_base {
 		unset($parts);
 		unset($out);
 
-		if(version_compare($saslversion , '2.1.23') > 0) {
-			//* Configfile for saslauthd versions 2.1.24 and newer
-			$configfile = 'sasl_smtpd2.conf';
-		} else {
+		if(version_compare($saslversion , '2.1.23', '<=')) {
 			//* Configfile for saslauthd versions up to 2.1.23
 			$configfile = 'sasl_smtpd.conf';
+		} else {
+			//* Configfile for saslauthd versions 2.1.24 and newer
+			$configfile = 'sasl_smtpd2.conf';
 		}
 
 		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
@@ -935,6 +968,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 
 		chmod($config_dir.'/'.$configfile, 0660);
@@ -961,7 +995,7 @@ class installer_base {
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
@@ -1019,21 +1053,21 @@ class installer_base {
 		unset($tmp);
 
 		//* Copy dovecot configuration file
-		if(version_compare($dovecot_version,2) >= 0) {
+		if(version_compare($dovecot_version,1, '<=')) {	//* Dovecot 1.x
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
+			} else {
+				copy('tpl/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
+			}
+		} else {	//* Dovecot 2.x
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
-			if(version_compare($dovecot_version,2.1) < 0) {
+			if(version_compare($dovecot_version, 2.1, '<')) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
-			}
-		} else {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
-			} else {
-				copy('tpl/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
 			}
 		}
 
@@ -1048,6 +1082,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 
@@ -1066,7 +1101,7 @@ class installer_base {
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
 		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) copy($conf['amavis']['config_dir'].'/conf.d/50-user', $conf['amavis']['config_dir'].'/50-user~');
-		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user~')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
@@ -1074,6 +1109,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		wf($conf['amavis']['config_dir'].'/conf.d/50-user', $content);
+		chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
 
 		// TODO: chmod and chown on the config file
 
@@ -1225,6 +1261,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($conf['mydns']['config_dir'].'/'.$configfile, $content);
 		chmod($conf['mydns']['config_dir'].'/'.$configfile, 0600);
@@ -1237,18 +1274,18 @@ class installer_base {
 		global $conf;
 
 		//* Create the database
-		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS '.$conf['powerdns']['database'].' DEFAULT CHARACTER SET '.$conf['mysql']['charset'])) {
+		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['powerdns']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['powerdns']['database'].'.');
 		}
 
 		//* Create the ISPConfig database user in the local database
-		$query = "GRANT ALL ON `".$conf['powerdns']['database']."` . * TO '".$conf['mysql']['ispconfig_user']."'@'localhost';";
-		if(!$this->db->query($query)) {
+		$query = "GRANT ALL ON ?? TO ?@'localhost'";
+		if(!$this->db->query($query, $conf['powerdns']['database'] . '.*', $conf['mysql']['ispconfig_user'])) {
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
 
 		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
+		$this->db->query('FLUSH PRIVILEGES');
 
 		//* load the powerdns databse dump
 		if($conf['mysql']['admin_password'] == '') {
@@ -1268,6 +1305,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{powerdns_database}', $conf['powerdns']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		wf($conf['powerdns']['config_dir'].'/'.$configfile, $content);
 		chmod($conf['powerdns']['config_dir'].'/'.$configfile, 0600);
 		chown($conf['powerdns']['config_dir'].'/'.$configfile, 'root');
@@ -1287,14 +1325,134 @@ class installer_base {
 
 		//* Create the slave subdirectory
 		$content .= 'slave';
-		if(!@is_dir($content)) mkdir($content, 0770, true);
+		if(!@is_dir($content)) mkdir($content, 2770, true);
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		chown($content, $conf['bind']['bind_user']);
 		chgrp($content, $conf['bind']['bind_group']);
+		chmod($content, 2770);
 
 	}
 
+
+    public function configure_xmpp($options = '') {
+        global $conf;
+
+        if($conf['xmpp']['installed'] == false) return;
+        //* Create the logging directory for xmpp server
+        if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
+        chown('/var/log/metronome', 'metronome');
+        if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
+        chown('/var/run/metronome', 'metronome');
+        if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
+        chown('/var/lib/metronome', 'metronome');
+        if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
+        if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
+        unlink('/etc/metronome/metronome.cfg.lua');
+
+        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
+        $server_name = $row["server_name"];
+
+        $tpl = new tpl('metronome_conf_main.master');
+        wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        $tpl = new tpl('metronome_conf_global.master');
+        $tpl->setVar('xmpp_admins','');
+        wf('/etc/metronome/global.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        // Copy isp libs
+        if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
+        caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+        // Process db config
+        $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
+        $content = rf($full_file_name);
+        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $conf['server_id'], $content);
+        wf($full_file_name, $content);
+
+        if(!stristr($options, 'dont-create-certs')){
+            // Create SSL Certificate for localhost
+            echo "writing new private key to 'localhost.key'\n-----\n";
+            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
+            $ssl_email = $this->free_query('Email Address', '');
+
+            $tpl = new tpl('metronome_conf_ssl.master');
+            $tpl->setVar('ssl_country',$ssl_country);
+            $tpl->setVar('ssl_locality',$ssl_locality);
+            $tpl->setVar('ssl_organisation',$ssl_organisation);
+            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
+            $tpl->setVar('domain',$ssl_domain);
+            $tpl->setVar('ssl_email',$ssl_email);
+            wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
+            unset($tpl);
+            // Generate new key, csr and cert
+            exec("(cd /etc/metronome/certs && make localhost.key)");
+            exec("(cd /etc/metronome/certs && make localhost.csr)");
+            exec("(cd /etc/metronome/certs && make localhost.cert)");
+            exec('chmod 0400 /etc/metronome/certs/localhost.key');
+            exec('chown metronome /etc/metronome/certs/localhost.key');
+        }else{
+            echo "-----\n";
+            echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
+            echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
+            echo "-----\n";
+        }
+
+        // Copy init script
+        caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
+        caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
+        caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
+
+        exec($this->getinitcommand('xmpp', 'restart'));
+
+/*
+writing new private key to 'smtpd.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+ * */
+
+        /*// Dont just copy over the virtualhost template but add some custom settings
+        $tpl = new tpl('apache_apps.vhost.master');
+
+        $tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
+        $tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
+        $tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
+        $tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
+        $tpl->setVar('apache_version',getapacheversion());
+
+
+        // comment out the listen directive if port is 80 or 443
+        if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
+            $tpl->setVar('vhost_port_listen','#');
+        } else {
+            $tpl->setVar('vhost_port_listen','');
+        }
+
+        wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
+        unset($tpl);*/
+    }
 
 
 	public function configure_apache() {
@@ -1351,7 +1509,7 @@ class installer_base {
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
-		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
 		if(is_array($records) && count($records) > 0) {
@@ -1434,36 +1592,6 @@ class installer_base {
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		/*
-		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
-		$ip_address = gethostbyname($row["server_name"]);
-		$server_name = $row["server_name"];
-
-        //setup proxy.conf
-		$configfile = 'proxy.conf';
-		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile)) copy($conf["nginx"]["config_dir"].'/'.$configfile,$conf["nginx"]["config_dir"].'/'.$configfile.'~');
-		if(is_file($conf["nginx"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/'.$configfile.'~');
-		$content = rf("tpl/nginx_".$configfile.".master");
-		wf($conf["nginx"]["config_dir"].'/'.$configfile,$content);
-		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/'.$configfile);
-		exec('chown root:root '.$conf["nginx"]["config_dir"].'/'.$configfile);
-
-        //setup conf.d/cache.conf
-        $configfile = 'cache.conf';
-		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile)) copy($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
-		if(is_file($conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~')) exec('chmod 400 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile.'~');
-		$content = rf("tpl/nginx_".$configfile.".master");
-		wf($conf["nginx"]["config_dir"].'/conf.d/'.$configfile,$content);
-		exec('chmod 600 '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
-		exec('chown root:root '.$conf["nginx"]["config_dir"].'/conf.d/'.$configfile);
-
-        //setup cache directories
-        mkdir('/var/cache/nginx/cache');
-        exec('chown www-data:www-data /var/cache/nginx/cache');
-        mkdir('/var/cache/nginx/temp');
-        exec('chown www-data:www-data /var/cache/nginx/temp');
-		*/
 	}
 
 	public function configure_fail2ban() {
@@ -1473,7 +1601,7 @@ class installer_base {
 	public function configure_squid()
 	{
 		global $conf;
-		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$conf["server_id"]."");
+		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
 		$ip_address = gethostbyname($row["server_name"]);
 		$server_name = $row["server_name"];
 
@@ -1520,7 +1648,7 @@ class installer_base {
 		$tcp_public_services = '';
 		$udp_public_services = '';
 
-		$row = $this->db->queryOneRecord('SELECT * FROM '.$conf["mysql"]["database"].'.firewall WHERE server_id = '.intval($conf['server_id']));
+		$row = $this->db->queryOneRecord('SELECT * FROM ?? WHERE server_id = ?', $conf["mysql"]["database"] . '.firewall', $conf['server_id']);
 
 		if(trim($row['tcp_port']) != '' || trim($row['udp_port']) != '') {
 			$tcp_public_services = trim(str_replace(',', ' ', $row['tcp_port']));
@@ -1532,7 +1660,7 @@ class installer_base {
 
 		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
 			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']);
-			if($row['tcp_port'] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ',".intval($conf['apache']['vhost_port'])."' WHERE server_id = ".intval($conf['server_id']));
+			if($row['tcp_port'] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ? WHERE server_id = ?", ',' . intval($conf['apache']['vhost_port']), $conf['server_id']);
 		}
 
 		$content = str_replace('{TCP_PUBLIC_SERVICES}', $tcp_public_services, $content);
@@ -1843,11 +1971,13 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -1868,11 +1998,13 @@ class installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -1957,14 +2089,13 @@ class installer_base {
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
+        $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ?";
 
+		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
-			$this->dbmaster->query($sql);
-			$this->db->query($sql);
-		} else {
-			$this->db->query($sql);
+			$this->dbmaster->query($sql, $conf['server_id']);
 		}
 
 
@@ -2078,6 +2209,11 @@ class installer_base {
 		//* Make the shell scripts executable
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
+			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
+			$this->db->query($sql, $conf['interface_password']);
+		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
@@ -2254,6 +2390,11 @@ class installer_base {
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
 		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
 	}
 
 	public function configure_dbserver() {
@@ -2343,6 +2484,32 @@ class installer_base {
 
 	}
 	
+	public function create_mount_script(){
+		global $app, $conf;
+		$mount_script = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
+		$mount_command = '';
+		
+		if(is_file($mount_script)) return;
+		if(is_file('/etc/rc.local')){
+			$rc_local = file('/etc/rc.local');
+			if(is_array($rc_local) && !empty($rc_local)){
+				foreach($rc_local as $line){
+					$line = trim($line);
+					if(substr($line, 0, 1) == '#') continue;
+					if(strpos($line, 'sshfs') !== false && strpos($line, '/var/backup') !== false){
+						$mount_command = "#!/bin/sh\n\n";
+						$mount_command .= $line."\n\n";
+						file_put_contents($mount_script, $mount_command);
+						chmod($mount_script, 0755);
+						chown($mount_script, 'root');
+						chgrp($mount_script, 'root');
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	// This function is called at the end of the update process and contains code to clean up parts of old ISPCONfig releases
 	public function cleanup_ispconfig() {
 		global $app,$conf;
@@ -2355,7 +2522,11 @@ class installer_base {
 		if(is_file('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php');
 		if(is_file('/usr/local/ispconfig/interface/lib/classes/form.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/form.inc.php');
 		
-		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
 		
 	}
 
@@ -2487,6 +2658,7 @@ class installer_base {
 		$tContents = str_replace('{mysql_server_database}', $conf["mysql"]["database"], $tContents);
 		$tContents = str_replace('{mysql_server_ip}', $conf["mysql"]["ip"], $tContents);
 		$tContents = str_replace('{mysql_server_host}', $conf['mysql']['host'], $tContents);
+		$tContents = str_replace('{mysql_server_port}', $conf['mysql']['port'], $tContents);
 		$tContents = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $tContents);
 
 		return $tContents;

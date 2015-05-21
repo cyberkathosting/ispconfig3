@@ -1,124 +1,118 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_database">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
+        
             <tmpl_if name="is_admin">
-                <div class="ctrlHolder">
+                <div class="form-group">
                     <tmpl_if name="edit_disabled">
-                        <label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
-                        <select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
+                        <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                        <div class="col-sm-9"><select name="server_id_disabled" id="server_id_disabled" class="form-control" disabled="disabled">
                             {tmpl_var name='server_id'}
-                        </select>
+                        </select></div>
                         <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                         <tmpl_else>
-                            <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id" id="server_id" class="selectInput">
+                            <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                            <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                                 {tmpl_var name='server_id'}
-                            </select>
+                            </select></div>
                     </tmpl_if>
                 </div>
             <tmpl_else>
                 <tmpl_if name="only_one_server">
                     <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
                 <tmpl_else>
-                    <div class="ctrlHolder">
+                    <div class="form-group">
                         <tmpl_if name="edit_disabled">
-                            <label for="server_id_disabled">{tmpl_var name='server_id_txt'}</label>
-                            <select name="server_id_disabled" id="server_id_disabled" class="selectInput" disabled="disabled">
+                            <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                            <div class="col-sm-9"><select name="server_id_disabled" id="server_id_disabled" class="form-control" disabled="disabled">
                                 {tmpl_var name='server_id'}
-                            </select>
+                            </select></div>
                             <input type="hidden" name="server_id" value="{tmpl_var name='server_id_value'}" />
                             <tmpl_else>
-                                <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                                <select name="server_id" id="server_id" class="selectInput">
+                                <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                                <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                                     {tmpl_var name='server_id'}
-                                </select>
+                                </select></div>
                         </tmpl_if>
                     </div>
                 </tmpl_if>
             </tmpl_if>
-            <div class="ctrlHolder">
-                <label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
-                <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
+            <div class="form-group">
+                <label for="parent_domain_id" class="col-sm-3 control-label">{tmpl_var name='parent_domain_id_txt'}</label>
+                <div class="col-sm-9"><select name="parent_domain_id" id="parent_domain_id" class="form-control">
                     {tmpl_var name='parent_domain_id'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="type">{tmpl_var name='type_txt'}</label>
-                <select name="type" id="type" class="selectInput formLengthHalf">
+            <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">{tmpl_var name='type_txt'}</label>
+                <div class="col-sm-9"><select name="type" id="type" class="form-control">
                     {tmpl_var name='type'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="database_name">{tmpl_var name='database_name_txt'}</label>
+            <div class="form-group">
+                <label for="database_name" class="col-sm-3 control-label">{tmpl_var name='database_name_txt'}</label>
                 <p class="prefix">{tmpl_var name='database_name_prefix'}</p>
                 <tmpl_if name="edit_disabled">
-                    <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" disabled="disabled" />
-                    <input name="database_name" type="hidden" value="{tmpl_var name='database_name'}" />
+                    <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" disabled="disabled" /></div><input name="database_name" type="hidden" value="{tmpl_var name='database_name'}" />
                     <tmpl_else>
-                        <input name="database_name" id="database_name" value="{tmpl_var name='database_name'}" size="30" maxlength="255" type="text" class="textInput formLengthHalf" />
-                </tmpl_if>
+                        <div class="col-sm-9"><input type="text" name="database_name" id="database_name" value="{tmpl_var name='database_name'}" class="form-control" /></div></tmpl_if>
             </div>
-			<div class="ctrlHolder">
-				<label for="database_quota">{tmpl_var name='limit_database_quota_txt'}</label>
-				<input name="database_quota" id="database_quota" value="{tmpl_var name='limit_database_quota'}" size="10" maxlength="10" type="text" class="textInput formLengthLimit" />&nbsp;MB
-			</div>
-            <div class="ctrlHolder">
-                <label for="database_user_id">{tmpl_var name='database_user_txt'}</label>
-                <select name="database_user_id" id="database_user_id" class="selectInput">
+			<div class="form-group">
+				<label for="database_quota" class="col-sm-3 control-label">{tmpl_var name='limit_database_quota_txt'}</label>
+				<div class="col-sm-6"><input type="text" name="database_quota" id="database_quota" value="{tmpl_var name='limit_database_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
+			</div></div>
+            <div class="form-group">
+                <label for="database_user_id" class="col-sm-3 control-label">{tmpl_var name='database_user_txt'}</label>
+                <div class="col-sm-9"><select name="database_user_id" id="database_user_id" class="form-control">
                     {tmpl_var name='database_user_id'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="database_ro_user_id">{tmpl_var name='database_ro_user_txt'}</label>
-                <select name="database_ro_user_id" id="database_ro_user_id" class="selectInput">
+            <div class="form-group">
+                <label for="database_ro_user_id" class="col-sm-3 control-label">{tmpl_var name='database_ro_user_txt'}</label>
+                <div class="col-sm-9"><select name="database_ro_user_id" id="database_ro_user_id" class="form-control">
                     {tmpl_var name='database_ro_user_id'}
-                </select>&nbsp;{tmpl_var name='optional_txt'}
+                </select></div>&nbsp;{tmpl_var name='optional_txt'}
             </div>
-            <div class="ctrlHolder">
+            <div class="form-group">
                 <tmpl_if name="edit_disabled">
-                    <label for="database_charset_disabled">{tmpl_var name='database_charset_txt'}</label>
-                    <select name="database_charset_disabled" id="database_charset_disabled" class="selectInput formLengthHalf" disabled="disabled">
+                    <label for="database_charset_disabled" class="col-sm-3 control-label">{tmpl_var name='database_charset_txt'}</label>
+                    <div class="col-sm-9"><select name="database_charset_disabled" id="database_charset_disabled" class="form-control" disabled="disabled">
                         {tmpl_var name='database_charset'}
-                    </select>
+                    </select></div>
                     <input type="hidden" name="database_charset" value="{tmpl_var name='database_charset_value'}" />
                     <tmpl_else>
-                        <label for="database_charset">{tmpl_var name='database_charset_txt'}</label>
-                        <select name="database_charset" id="database_charset" class="selectInput formLengthHalf">
+                        <label for="database_charset" class="col-sm-3 control-label">{tmpl_var name='database_charset_txt'}</label>
+                        <div class="col-sm-9"><select name="database_charset" id="database_charset" class="form-control">
                             {tmpl_var name='database_charset'}
-                        </select>
+                        </select></div>
                 </tmpl_if>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='remote_access_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='remote_access_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='remote_access'}
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="remote_ips">{tmpl_var name='remote_ips_txt'}</label>
-                <input name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" size="30" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="remote_ips" class="col-sm-3 control-label">{tmpl_var name='remote_ips_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/database_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/database_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/database_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/database_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
 <script language="JavaScript" type="text/javascript">
     <tmpl_if name="is_admin">    
     function reloadDatabaseUsers() {
@@ -151,6 +145,6 @@
         fillSearchField: true,
         fillSearchFieldWith: 'fill_text',
         searchFieldWatermark: '',
-        resultBoxPosition: 'e'
+        resultBoxPosition: ''
     });
 </script>

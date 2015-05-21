@@ -85,12 +85,12 @@ class modules {
 		//* If its a multiserver setup
 		if($app->db->dbHost != $app->dbmaster->dbHost || ($app->db->dbHost == $app->dbmaster->dbHost && $app->db->dbName != $app->dbmaster->dbName)) {
 			if($conf['mirror_server_id'] > 0) {
-				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = ".$conf['mirror_server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
+				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ? AND (server_id = ? OR server_id = ? OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
 			} else {
-				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
+				$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ? AND (server_id = ? OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
 			}
 
-			$records = $app->dbmaster->queryAllRecords($sql);
+			$records = $app->dbmaster->queryAllRecords($sql, $conf['last_datalog_id'], $conf['server_id'], $conf['mirror_server_id']);
 			foreach($records as $d) {
 
 				//** encode data to utf-8 and unserialize it
@@ -133,46 +133,38 @@ class modules {
 						$idx = explode(':', $d['dbidx']);
 						$tmp_sql1 = '';
 						$tmp_sql2 = '';
+						$f_params = array($d['dbtable']);
+						$params = array();
 						foreach($data['new'] as $fieldname => $val) {
-							$tmp_sql1 .= "`$fieldname`,";
-							$tmp_sql2 .= "'".$app->db->quote($val)."',";
+							$tmp_sql1 .= "??,";
+							$tmp_sql2 .= "?,";
+							$f_params[] = $fieldname;
+							$params[] = $val;
 						}
+						$params = $f_params + $params;
+						unset($f_params);
+						
 						$tmp_sql1 = substr($tmp_sql1, 0, -1);
 						$tmp_sql2 = substr($tmp_sql2, 0, -1);
 						//$tmp_sql1 .= "$idx[0]";
 						//$tmp_sql2 .= "$idx[1]";
-						$sql = "REPLACE INTO $d[dbtable] ($tmp_sql1) VALUES ($tmp_sql2)";
+						$sql = "REPLACE INTO ?? ($tmp_sql1) VALUES ($tmp_sql2)";
 						$app->db->errorNumber = 0;
 						$app->db->errorMessage = '';
-						$app->db->query($sql);
+						$app->db->query($sql, true, $params);
+						unset($params);
 						if($app->db->errorNumber > 0) {
 							$replication_error = true;
 							$app->log("Replication failed. Error: (" . $d['dbtable'] . ") in MySQL server: (".$app->db->dbHost.") " . $app->db->errorMessage . " # SQL: " . $sql, LOGLEVEL_ERROR);
 						}
 						$app->log('Replicated from master: '.$sql, LOGLEVEL_DEBUG);
 					}
-					/*
-					if($d["action"] == 'u') {
-						$sql = "UPDATE $d[dbtable] SET ";
-						foreach($data['new'] as $fieldname => $val) {
-							$sql .= "`$fieldname` = '$val',";
-						}
-						$sql = substr($sql,0,-1);
-						$idx = explode(":",$d["dbidx"]);
-						$sql .= " WHERE $idx[0] = $idx[1]";
-						$app->db->query($sql);
-						if($app->db->errorNumber > 0) {
-							$replication_error = true;
-							$app->log("Replication failed. Error: (" . $d[dbtable] . ") " . $app->db->errorMessage . " # SQL: " . $sql,LOGLEVEL_ERROR);
-						}
-						$app->log("Replicated from master: ".$sql,LOGLEVEL_DEBUG);
-					}
-					*/
+					
 					if($d['action'] == 'd') {
 						$idx = explode(':', $d['dbidx']);
-						$sql = "DELETE FROM $d[dbtable] ";
-						$sql .= " WHERE $idx[0] = $idx[1]";
-						$app->db->query($sql);
+						$sql = "DELETE FROM ?? ";
+						$sql .= " WHERE ?? = ?";
+						$app->db->query($sql, $d['dbtable'], $idx[0], $idx[1]);
 						if($app->db->errorNumber > 0) {
 							$replication_error = true;
 							$app->log("Replication failed. Error: (" . $d[dbtable] . ") " . $app->db->errorMessage . " # SQL: " . $sql, LOGLEVEL_ERROR);
@@ -183,12 +175,12 @@ class modules {
 
 					if($replication_error == false) {
 						if(is_array($data['old']) || is_array($data['new'])) {
-							$app->db->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf['server_id']);
+							$app->db->query("UPDATE server SET updated = ? WHERE server_id = ?", $d["datalog_id"], $conf['server_id']);
 							$this->raiseTableHook($d['dbtable'], $d['action'], $data);
 						} else {
 							$app->log('Data array was empty for datalog_id '.$d['datalog_id'], LOGLEVEL_WARN);
 						}
-						$app->dbmaster->query("UPDATE server SET updated = ".$d["datalog_id"]." WHERE server_id = ".$conf['server_id']);
+						$app->dbmaster->query("UPDATE server SET updated = ? WHERE server_id = ?", $d["datalog_id"], $conf['server_id']);
 						$app->log('Processed datalog_id '.$d['datalog_id'], LOGLEVEL_DEBUG);
 					} else {
 						$app->log('Error in Replication, changes were not processed.', LOGLEVEL_ERROR);
@@ -205,23 +197,14 @@ class modules {
 
 			//* if we have a single server setup
 		} else {
-			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ".$conf['last_datalog_id']." AND (server_id = ".$conf['server_id']." OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM sys_datalog WHERE datalog_id > ? AND (server_id = ? OR server_id = 0) ORDER BY datalog_id LIMIT 0,1000";
+			$records = $app->db->queryAllRecords($sql, $conf['last_datalog_id'], $conf['server_id']);
 			foreach($records as $d) {
 
 				//** encode data to utf-8 to be able to unserialize it and then unserialize it
 				if(!$data = unserialize(stripslashes($d['data']))) {
 					$data = unserialize($d['data']);
 				}
-				//** decode data back to current locale
-				/*
-				foreach($data['old'] as $key => $val) {
-					$data['old'][$key] = utf8_decode($val);
-				}
-				foreach($data['new'] as $key => $val) {
-					$data['new'][$key] = utf8_decode($val);
-				}
-				*/
 
 				//* Data on a single server is never mirrored
 				$data['mirrored'] = false;
@@ -232,9 +215,7 @@ class modules {
 				} else {
 					$app->log('Data array was empty for datalog_id '.$d['datalog_id'], LOGLEVEL_WARN);
 				}
-				//$app->db->query("DELETE FROM sys_datalog WHERE datalog_id = ".$rec["datalog_id"]);
-				//$app->log("Deleting sys_datalog ID ".$rec["datalog_id"],LOGLEVEL_DEBUG);
-				$app->db->query("UPDATE server SET updated = ".$d['datalog_id']." WHERE server_id = ".$conf['server_id']);
+				$app->db->query("UPDATE server SET updated = ? WHERE server_id = ?", $d['datalog_id'], $conf['server_id']);
 				$app->log('Processed datalog_id '.$d['datalog_id'], LOGLEVEL_DEBUG);
 			}
 		}
@@ -251,11 +232,11 @@ class modules {
 		//* SQL query to get all pending actions
 		$sql = "SELECT action_id, action_type, action_param " .
 			"FROM sys_remoteaction " .
-			"WHERE server_id = " . $server_id . " ".
-			" AND  action_id > " . intval($maxid_remote_action) . " ".
+			"WHERE server_id = ? ".
+			" AND  action_id > ? ".
 			"ORDER BY action_id";
 
-		$actions = $app->dbmaster->queryAllRecords($sql);
+		$actions = $app->dbmaster->queryAllRecords($sql, $server_id, $maxid_remote_action);
 
 		if(is_array($actions)) {
 			foreach($actions as $action) {
@@ -265,9 +246,9 @@ class modules {
 
 				//* Update the action state
 				$sql = "UPDATE sys_remoteaction " .
-					"SET action_state = '" . $app->dbmaster->quote($state) . "' " .
-					"WHERE action_id = " . intval($action['action_id']);
-				$app->dbmaster->query($sql);
+					"SET action_state = ? " .
+					"WHERE action_id = ?";
+				$app->dbmaster->query($sql, $state, $action['action_id']);
 
 				/*
 				* Then save the maxid for the next time...

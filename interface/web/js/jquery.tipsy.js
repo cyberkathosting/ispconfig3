@@ -9,6 +9,13 @@
         return (typeof thing == 'function') ? (thing.call(ctx)) : thing;
     };
     
+    function isElementInDOM(ele) {
+      while (ele = ele.parentNode) {
+        if (ele == document) return true;
+      }
+      return false;
+    };
+    
     function Tipsy(element, options) {
         this.$element = $(element);
         this.options = options;
@@ -104,6 +111,7 @@
         tip: function() {
             if (!this.$tip) {
                 this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
+                this.$tip.data('tipsy-pointee', this.$element[0]);
             }
             return this.$tip;
         },
@@ -166,7 +174,7 @@
         if (!options.live) this.each(function() { get(this); });
         
         if (options.trigger != 'manual') {
-            var binder   = options.live ? 'on' : 'bind',
+            var binder   = options.live ? 'live' : 'bind',
                 eventIn  = options.trigger == 'hover' ? 'mouseenter' : 'focus',
                 eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
             this[binder](eventIn, enter)[binder](eventOut, leave);
@@ -189,6 +197,15 @@
         opacity: 0.8,
         title: 'title',
         trigger: 'hover'
+    };
+    
+    $.fn.tipsy.revalidate = function() {
+      $('.tipsy').each(function() {
+        var pointee = $.data(this, 'tipsy-pointee');
+        if (!pointee || !isElementInDOM(pointee)) {
+          $(this).remove();
+        }
+      });
     };
     
     // Overwrite this method to provide options on a per-element basis.
@@ -239,200 +256,3 @@
 	};
     
 })(jQuery);
-
-
-
-(function( $ ) {
-    $.widget( "ui.combobox", {
-        _create: function() {
-            var elwidth = this.element.width();
-            var elheight = this.element.height();
-            var input,
-                self = this,
-                select = this.element,
-                internal = false,
-                selected = select.children( ":selected" ),
-                value = selected.val() ? selected.text() : "",
-                wrapper = this.wrapper = $( "<span>" )
-                    .addClass( "ui-combobox" )
-                    .insertAfter( select );
-            
-            input = $( "<input>" ).css( { "width": (select.is(':visible') ? (elwidth > 15 ? elwidth - 15 : 1) : 350), "height": (elheight > 0 ? elheight : 16) });
-            select.hide();
-            input.appendTo( wrapper )
-                .val( value )
-                .addClass( "ui-state-default ui-combobox-input" )
-                .autocomplete({
-                    delay: 0,
-                    minLength: 0,
-                    source: function( request, response ) {
-                        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-                        response( select.children( "option" ).map(function() {
-                            var text = $( this ).text();
-                            //if ( this.value && ( !request.term || matcher.test(text) ) )
-                            if ( (!request.term || matcher.test(text)) && $(this).css('display') != 'none' )
-                                return {
-                                    label: (text == "" ? "&nbsp;" : text.replace(
-                                        new RegExp(
-                                            "(?![^&;]+;)(?!<[^<>]*)(" +
-                                            $.ui.autocomplete.escapeRegex(request.term) +
-                                            ")(?![^<>]*>)(?![^&;]+;)", "gi"
-                                        ), "<strong>$1</strong>" )),
-                                    'value': (text ? text : ''),
-                                    'class': (select.hasClass('flags') ? 'country-' + ($(this).val() ? $(this).val().toUpperCase() : '') : $(this).attr('class')),
-                                    option: this
-                                };
-                        }) );
-                    },
-                    select: function( event, ui ) {
-                        ui.item.option.selected = true;
-                        self._trigger( "selected", event, {
-                            item: ui.item.option
-                        });
-                        if((select.onchange || false) && typeof select.onchange == 'function') {
-                            select.onchange( { target: select } );
-                        } else if($(select).attr('onchange')) {
-                            eval($(select).attr('onchange'));
-                        } else {
-                            if(!ui.item.internal) {
-                                internal = true;
-                                $(select).change();
-                            }
-                        }
-                        if (jQuery(".panel #Filter").length > 0) {
-                            jQuery(".panel #Filter").trigger('click');
-                        }
-                    },
-                    change: function( event, ui ) {
-                        if ( !ui.item ) {
-                            var matcher = new RegExp( "" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "", "i" ),
-                                matchtext = $(this).val();
-                                valid = false;
-                            select.children( "option" ).each(function() {
-                                if( (($(this).text() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
-                                    select.val($(this).val());
-                                    this.selected = valid = true;
-                                    return false;
-                                }
-                            });
-                            if ( !valid ) {
-                                // remove invalid value, as it didn't match anything
-                                $( this ).val( "" );
-                                select.val( "" );
-                                input.data( "autocomplete" ).term = "";
-                                return false;
-                            }
-                        }
-                    }
-                })
-                .keypress(function(event) {
-                    if(select.attr('disabled')) {
-						event.preventDefault();
-						return false;
-					}
-                    if(event.keyCode == 13) {
-                        event.preventDefault();
-                        var matcher = new RegExp( "" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "", "i" ),
-                            matchtext = $(this).val();
-                            valid = false,
-                            selected = false;
-                        select.children( "option" ).each(function() {
-                            if( (($(this).val() == "" && matchtext == "") || $( this ).text().match( matcher )) && $(this).css('display') != 'none' ) {
-                                valid = true;
-                                selected = $(this);
-                                return false;
-                            }
-                        });
-                        if(!valid) return false;
-                        
-                        $(this).autocomplete('option','select').call($(this), event, { item: { option: selected.get(0), internal: true } });
-                    }
-                })
-                .addClass( "ui-widget ui-widget-content ui-corner-left" )
-                .click(function() {
-                    if(select.attr('disabled')) {
-						event.preventDefault();
-						return false;
-					}
-                    // close if already visible
-                    if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-                        //input.autocomplete( "close" );
-                        return;
-                    }
-
-                    // pass empty string as value to search for, displaying all results
-                    input.autocomplete( "search", "" );
-                    input.focus();
-                });
-            if(select.hasClass('flags')) input.addClass('flags');
-
-            input.data( "autocomplete" )._renderItem = function( ul, item ) {
-                var el = $( "<li></li>" )
-                    .data( "item.autocomplete", item )
-                    .append( "<a>" + item.label + "</a>" )
-                    .appendTo( ul );
-                if(item && item['class'] && el) el.addClass(item['class']);
-                return el;
-            };
-            select.change(function(e) {
-                if(internal == true) {
-                    internal = false;
-                    return;
-                }
-                var matchtext = $(this).val().toLowerCase();
-                    valid = false,
-                    selected = false,
-                    selected_val = "";
-                select.children( "option" ).each(function() {
-                    if( (($(this).val() == "" && matchtext == "") || $( this ).val().toLowerCase() == matchtext) && $(this).css('display') != 'none' ) {
-                        valid = true;
-                        selected = $(this);
-                        selected_val = $(this).text();
-                        return false;
-                    }
-                });
-                if(!valid) return false;
-                
-                input.val(selected_val).autocomplete('option','select').call(input, (e ? e : {target: select}), { item: { option: selected.get(0), internal: true } });
-            });
-
-            $( "<a>" )
-                .attr( "tabIndex", -1 )
-                .attr( "title", "Show All Items" )
-                .appendTo( wrapper )
-                .button({
-                    icons: {
-                        primary: "ui-icon-triangle-1-s"
-                    },
-                    text: false
-                })
-                .removeClass( "ui-corner-all" )
-                .addClass( "ui-corner-right ui-combobox-toggle" )
-                .css( { "width": 15, "height": (elheight > 0 ? elheight : 16) })
-                .click(function() {
-                    if(select.attr('disabled')) {
-						event.preventDefault();
-						return false;
-					}
-                    // close if already visible
-                    if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-                        input.autocomplete( "close" );
-                        return;
-                    }
-
-                    // work around a bug (likely same cause as #5265)
-                    $( this ).blur();
-
-                    // pass empty string as value to search for, displaying all results
-                    input.autocomplete( "search", "" );
-                    input.focus();
-                });
-        },
-
-        destroy: function() {
-            this.wrapper.remove();
-            this.element.show();
-            $.Widget.prototype.destroy.call( this );
-        }
-    });
-})( jQuery );

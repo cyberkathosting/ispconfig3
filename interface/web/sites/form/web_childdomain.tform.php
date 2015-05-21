@@ -58,7 +58,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['domain'] = array (
-	'title'  => "Domain",
+	'title'  => ($childdomain_type == 'aliasdomain'? 'Aliasdomain' : 'Subdomain'),
 	'width'  => 100,
 	'template'  => "templates/web_childdomain_edit.htm",
 	'fields'  => array (

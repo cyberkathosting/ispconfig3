@@ -36,6 +36,7 @@ class db extends mysqli
 	private $_iConnId;
 
 	private $dbHost = '';  // hostname of the MySQL server
+	private $dbPort = '';  // port of the MySQL server
 	private $dbName = '';  // logical database name on that server
 	private $dbUser = '';  // database authorized user
 	private $dbPass = '';  // user's password
@@ -54,7 +55,9 @@ class db extends mysqli
 	private $autoCommit = 1;    // Autocommit Transactions
 	private $currentRow;  // current row number
 	private $errorNumber = 0; // last error number
+	*/
 	public $errorMessage = ''; // last error message
+	/*
 	private $errorLocation = '';// last error location
 	private $isConnected = false; // needed to know if we have a valid mysqli object from the constructor
 	////
@@ -65,6 +68,7 @@ class db extends mysqli
 		global $conf;
 		if($prefix != '') $prefix .= '_';
 		$this->dbHost = $conf[$prefix.'db_host'];
+		$this->dbPort = $conf[$prefix.'db_port'];
 		$this->dbName = $conf[$prefix.'db_database'];
 		$this->dbUser = $conf[$prefix.'db_user'];
 		$this->dbPass = $conf[$prefix.'db_password'];
@@ -72,13 +76,13 @@ class db extends mysqli
 		$this->dbNewLink = $conf[$prefix.'db_new_link'];
 		$this->dbClientFlags = $conf[$prefix.'db_client_flags'];
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		$try = 0;
 		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
 			if($try > 0) sleep(1);
 
 			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -86,7 +90,7 @@ class db extends mysqli
 			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!');
 			return false;
 		}
-		if(!((bool)mysqli_query( $this->_iConnId, "USE $this->dbName"))) {
+		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
 			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
 			return false;
@@ -128,8 +132,10 @@ class db extends mysqli
 					$sTxt = $this->escape($sValue);
 					
 					$sTxt = str_replace('`', '', $sTxt);
-					if(strpos($sTxt, '.') !== false) $sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
-					else $sTxt = '`' . $sTxt . '`';
+					if(strpos($sTxt, '.') !== false) {
+						$sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
+						$sTxt = str_replace('.`*`', '.*', $sTxt);
+					} else $sTxt = '`' . $sTxt . '`';
 
 					$sQuery = substr_replace($sQuery, $sTxt, $iPos2, 2);
 					$iPos2 += strlen($sTxt);
@@ -137,13 +143,17 @@ class db extends mysqli
 				} else {
 					if(is_int($sValue) || is_float($sValue)) {
 						$sTxt = $sValue;
-					} elseif(is_string($sValue) && (strcmp($sValue, '#NULL#') == 0)) {
+					} elseif(is_null($sValue) || (is_string($sValue) && (strcmp($sValue, '#NULL#') == 0))) {
 						$sTxt = 'NULL';
 					} elseif(is_array($sValue)) {
-						$sTxt = '';
-						foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
-						$sTxt = '(' . substr($sTxt, 1) . ')';
-						if($sTxt == '()') $sTxt = '(0)';
+						if(isset($sValue['SQL'])) {
+							$sTxt = $sValue['SQL'];
+						} else {
+							$sTxt = '';
+							foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
+							$sTxt = '(' . substr($sTxt, 1) . ')';
+							if($sTxt == '()') $sTxt = '(0)';
+						}
 					} else {
 						$sTxt = '\'' . $this->escape($sValue) . '\'';
 					}
@@ -234,7 +244,7 @@ class db extends mysqli
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName)) {
+				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
 					if($try > 4) {
 						$this->_sqlerror('DB::query -> reconnect');
 						return false;
@@ -252,7 +262,7 @@ class db extends mysqli
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
 
-		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
+		$this->_iQueryId = @mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', false, 'SQL-Query = ' . $sQuery);
 			return false;
@@ -425,6 +435,34 @@ class db extends mysqli
 	}
 
 
+	/**
+	 * check if a utf8 string is valid
+	 *
+	 * @access public
+	 * @param string  $string the string to check
+	 * @return bool true if it is valid utf8, false otherwise
+	 */
+	private function check_utf8($str) {
+		$len = strlen($str);
+		for($i = 0; $i < $len; $i++){
+			$c = ord($str[$i]);
+			if ($c > 128) {
+				if (($c > 247)) return false;
+				elseif ($c > 239) $bytes = 4;
+				elseif ($c > 223) $bytes = 3;
+				elseif ($c > 191) $bytes = 2;
+				else return false;
+				if (($i + $bytes) > $len) return false;
+				while ($bytes > 1) {
+					$i++;
+					$b = ord($str[$i]);
+					if ($b < 128 || $b > 191) return false;
+					$bytes--;
+				}
+			}
+		}
+		return true;
+	} // end of check_utf8
 
 	/**
 	 * Escape a string for usage in a query
@@ -442,16 +480,16 @@ class db extends mysqli
 			$sString = '';
 		}
 
-		/*$cur_encoding = mb_detect_encoding($sString);
+		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_WARN);
+				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
-		} elseif(!PXBase::check_utf8($sString)) {
+		} elseif(!$this->check_utf8($sString)) {
 			$sString = utf8_encode($sString);
-		}*/
+		}
 
 		if($this->_iConnId) return mysqli_real_escape_string($this->_iConnId, $sString);
 		else return addslashes($sString);
@@ -467,6 +505,7 @@ class db extends mysqli
 
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
 		$mysql_errno = (is_object($this->_iConnId) ? mysqli_errno($this->_iConnId) : mysqli_connect_errno());
+		$this->errorMessage = $mysql_error;
 
 		//$sAddMsg .= getDebugBacktrace();
 
@@ -506,7 +545,27 @@ class db extends mysqli
 		}
 		return $out;
 	}
-
+	
+	public function insertFromArray($tablename, $data) {
+		if(!is_array($data)) return false;
+		
+		$k_query = '';
+		$v_query = '';
+		
+		$params = array($tablename);
+		$v_params = array();
+		
+		foreach($data as $key => $value) {
+			$k_query .= ($k_query != '' ? ', ' : '') . '??';
+			$v_query .= ($v_query != '' ? ', ' : '') . '?';
+			$params[] = $key;
+			$v_params[] = $value;
+		}
+		
+		$query = 'INSERT INTO ?? (' . $k_query . ') VALUES (' . $v_query . ')';
+		return $this->query($query, true, $params + $v_params);
+	}
+	
 	public function diffrec($record_old, $record_new) {
 		$diffrec_full = array();
 		$diff_num = 0;
@@ -550,7 +609,6 @@ class db extends mysqli
 		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
 		
-		$primary_field = $this->quote($primary_field);
 		$primary_id = intval($primary_id);
 
 		if($force_update == true) {
@@ -598,20 +656,27 @@ class db extends mysqli
 		if(is_array($insert_data)) {
 			$key_str = '';
 			$val_str = '';
+			$params = array($tablename);
+			$v_params = array();
 			foreach($insert_data as $key => $val) {
-				$key_str .= "`".$key ."`,";
-				$val_str .= "'".$this->escape($val)."',";
+				$key_str .= '??,';
+				$params[] = $key;
+				
+				$val_str .= '?,';
+				$v_params[] = $val;
 			}
 			$key_str = substr($key_str, 0, -1);
 			$val_str = substr($val_str, 0, -1);
 			$insert_data_str = '('.$key_str.') VALUES ('.$val_str.')';
+			$this->query("INSERT INTO ?? $insert_data_str", true, $params + $v_params);
 		} else {
+			/* TODO: deprecate this method! */
 			$insert_data_str = $insert_data;
+			$this->query("INSERT INTO ?? $insert_data_str", $tablename);
+			$app->log("deprecated use of passing values to datalogInsert() - table " . $tablename, 1);
 		}
-		/* TODO: reduce risk of insert_data_str! */
-
+		
 		$old_rec = array();
-		$this->query("INSERT INTO ?? $insert_data_str", $tablename);
 		$index_value = $this->insertID();
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
@@ -630,17 +695,24 @@ class db extends mysqli
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 
 		if(is_array($update_data)) {
+			$params = array($tablename);
 			$update_data_str = '';
 			foreach($update_data as $key => $val) {
-				$update_data_str .= "`".$key ."` = '".$this->escape($val)."',";
+				$update_data_str .= '?? = ?,';
+				$params[] = $key;
+				$params[] = $val;
 			}
+			$params[] = $index_field;
+			$params[] = $index_value;
 			$update_data_str = substr($update_data_str, 0, -1);
+			$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", true, $params);
 		} else {
+			/* TODO: deprecate this method! */
 			$update_data_str = $update_data;
+			$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", $tablename, $index_field, $index_value);
+			$app->log("deprecated use of passing values to datalogUpdate() - table " . $tablename, 1);
 		}
-		/* TODO: reduce risk of update_data_str */
 
-		$this->query("UPDATE ?? SET $update_data_str WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'UPDATE', $index_field, $index_value, $old_rec, $new_rec, $force_update);
 

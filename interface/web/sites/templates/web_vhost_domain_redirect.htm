@@ -1,4 +1,6 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <tmpl_if name="config_error_msg">
@@ -10,41 +12,35 @@
 </div>
 </tmpl_if>
 
-<div class="panel panel_web_domain">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="redirect_type">{tmpl_var name='redirect_type_txt'}</label>
-                <select name="redirect_type" id="redirect_type" class="selectInput formLengthHalf">
+        
+            <div class="form-group">
+                <label for="redirect_type" class="col-sm-3 control-label">{tmpl_var name='redirect_type_txt'}</label>
+                <div class="col-sm-9"><select name="redirect_type" id="redirect_type" class="form-control">
                     {tmpl_var name='redirect_type'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="redirect_path">{tmpl_var name='redirect_path_txt'}</label>
-                <input name="redirect_path" id="redirect_path" value="{tmpl_var name='redirect_path'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="seo_redirect">{tmpl_var name='seo_redirect_txt'}</label>
-                <select name="seo_redirect" id="seo_redirect" class="selectInput">
+            <div class="form-group">
+                <label for="redirect_path" class="col-sm-3 control-label">{tmpl_var name='redirect_path_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="redirect_path" id="redirect_path" value="{tmpl_var name='redirect_path'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="seo_redirect" class="col-sm-3 control-label">{tmpl_var name='seo_redirect_txt'}</label>
+                <div class="col-sm-9"><select name="seo_redirect" id="seo_redirect" class="form-control">
                     {tmpl_var name='seo_redirect'}
-                </select>
+                </select></div>
             </div>
-			<div class="ctrlHolder nginx">
-                <label for="rewrite_rules">{tmpl_var name='rewrite_rules_txt'}</label>
-                <textarea name="rewrite_rules" id="rewrite_rules" rows='10' cols='50' style="width:400px;">{tmpl_var name='rewrite_rules'}</textarea>&nbsp;<b>{tmpl_var name="allowed_rewrite_rule_directives_txt"}</b><br><br>&nbsp;break<br>&nbsp;if<br>&nbsp;return<br>&nbsp;rewrite<br>&nbsp;set<br><br>&nbsp;<a href="http://wiki.nginx.org/HttpRewriteModule" target="_blank">http://wiki.nginx.org/HttpRewriteModule</a>
+			<div class="form-group nginx">
+                <label for="rewrite_rules" class="col-sm-3 control-label">{tmpl_var name='rewrite_rules_txt'}</label>
+                <div class="col-sm-9"><textarea class="form-control" name="rewrite_rules" id="rewrite_rules" rows='10' cols='50'>{tmpl_var name='rewrite_rules'}</textarea></div>&nbsp;<b>{tmpl_var name="allowed_rewrite_rule_directives_txt"}</b><br><br>&nbsp;break<br>&nbsp;if<br>&nbsp;return<br>&nbsp;rewrite<br>&nbsp;set<br><br>&nbsp;<a href="http://wiki.nginx.org/HttpRewriteModule" target="_blank">http://wiki.nginx.org/HttpRewriteModule</a>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_vhost_domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/web_vhost_domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
 <script language="JavaScript" type="text/javascript">
     var webId = jQuery('input[name="id"]').val();
     var serverId;

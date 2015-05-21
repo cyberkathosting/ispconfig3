@@ -1801,6 +1801,36 @@ class system{
 		return $return_var == 0 ? true : false;
 	}
 
+	function mount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh'){
+		$mounted = true;
+		if ( 	is_file($mount_cmd) &&
+				is_executable($mount_cmd) &&
+				fileowner($mount_cmd) === 0
+		) {
+			if (!$this->is_mounted($backup_dir)){
+				exec($mount_cmd);
+				sleep(1);
+				if (!$this->is_mounted($backup_dir)) $mounted = false;
+			}
+		} else $mounted = false;
+
+		return $mounted;
+	}
+
+	function umount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_umount.sh'){
+		if ( 	is_file($mount_cmd) &&
+				is_executable($mount_cmd) &&
+				fileowner($mount_cmd) === 0
+		) {
+			if ($this->is_mounted($backup_dir)){
+				exec($mount_cmd);
+				sleep(1);
+			}
+		}
+
+        return $this->is_mounted($backup_dir) == 0 ? true : false;
+	}
+
 	function getinitcommand($servicename, $action, $init_script_directory = ''){
 		global $conf;
 		// upstart

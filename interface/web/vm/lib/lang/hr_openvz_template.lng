@@ -90,6 +90,8 @@ $wb['numiptent_error_empty'] = 'Numiptent polje je prazno.';
 $wb['swappages_error_empty'] = 'Swappages polje je prazno.';
 $wb['Template'] = 'Predložak';
 $wb['Advanced'] = 'Napredno';
+$wb['features_txt'] = 'Features';
+$wb["iptables_txt"] = "iptables";
 ?>
 
 

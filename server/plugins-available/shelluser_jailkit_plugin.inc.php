@@ -80,7 +80,7 @@ class shelluser_jailkit_plugin {
 		}
 		
 		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
@@ -159,7 +159,7 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['new']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
@@ -232,7 +232,7 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$data['old']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
 
 		if ($data['old']['chroot'] == "jailkit")
 		{
@@ -284,7 +284,7 @@ class shelluser_jailkit_plugin {
 
 			//add bash.bashrc script
 			//we need to collect the domain name to be used as the HOSTNAME in the bashrc script
-			$web = $this->app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ".intval($this->data['new']["parent_domain_id"]));
+			$web = $this->app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ?", $this->data['new']["parent_domain_id"]);
 
 			$this->app->load('tpl');
 
@@ -407,7 +407,7 @@ class shelluser_jailkit_plugin {
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
 		// Get the parent website of this shell user
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$this->data['new']['parent_domain_id']);
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->data['new']['parent_domain_id']);
 
 		//* If the security level is set to high
 		if($web_config['security_level'] == 20 && is_array($web)) {
@@ -431,11 +431,11 @@ class shelluser_jailkit_plugin {
 		global $app;
 		$this->app->log("ssh-rsa setup shelluser_jailkit", LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = '.intval($this->data['new']['parent_domain_id']));
-		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = '.intval($domain_data['sys_groupid']));
+		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
+		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = '.$id);
+		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -459,7 +459,7 @@ class shelluser_jailkit_plugin {
 			$userkey = $app->system->file_get_contents('/tmp/id_rsa.pub');
 
 			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote($app->system->file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote($userkey)."' WHERE client_id = ".$id);
+			$this->app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ? ssh_rsa = ? WHERE client_id = ?", $app->system->file_get_contents('/tmp/id_rsa'), $userkey, $id);
 
 			$app->system->unlink('/tmp/id_rsa');
 			$app->system->unlink('/tmp/id_rsa.pub');
@@ -532,10 +532,10 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 		
 		// check if we have to delete the dir
-				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = \'' . $app->db->quote($homedir) . '\'');
+				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = ?', $homedir);
 				
 				if(!$check && is_dir($homedir)) {
-					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($parent_domain_id));
+					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $parent_domain_id);
 					$app->system->web_folder_protection($web['document_root'], false);
 					
 					// delete dir

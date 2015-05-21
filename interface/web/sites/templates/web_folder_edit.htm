@@ -1,34 +1,30 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_web_folder">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>Folder</legend>
-            <div class="ctrlHolder">
-                <label for="parent_domain_id">{tmpl_var name='parent_domain_id_txt'}</label>
-                <select name="parent_domain_id" id="parent_domain_id" class="selectInput">
+        <legend>Folder</legend>
+            <div class="form-group">
+                <label for="parent_domain_id" class="col-sm-3 control-label">{tmpl_var name='parent_domain_id_txt'}</label>
+                <div class="col-sm-9"><select name="parent_domain_id" id="parent_domain_id" class="form-control">
                     {tmpl_var name='parent_domain_id'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="path">{tmpl_var name='path_txt'}</label>
-                <input name="path" id="path" value="{tmpl_var name='path'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label for="path" class="col-sm-3 control-label">{tmpl_var name='path_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="path" id="path" value="{tmpl_var name='path'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','sites/web_folder_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/web_folder_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_folder_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_folder_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

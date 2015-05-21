@@ -1,26 +1,23 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_support_message">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name='message_txt'}</legend>
-            <div class="ctrlHolder">
-                <label for="subject">{tmpl_var name='subject_txt'}</label>
+        <legend>{tmpl_var name='message_txt'}</legend>
+            <div class="form-group">
+                <label for="subject" class="col-sm-3 control-label">{tmpl_var name='subject_txt'}</label>
                 <p>{tmpl_var name='subject'}</p>
             </div>
-            <div class="ctrlHolder">
-                <label for="message">{tmpl_var name='message_txt'}</label>
+            <div class="form-group">
+                <label for="message" class="col-sm-3 control-label">{tmpl_var name='message_txt'}</label>
                 <p>{tmpl_var name='message'}</p>
             </div>
-			<div class="ctrlHolder">
-                <label for="message">{tmpl_var name='date_txt'}</label>
+			<div class="form-group">
+                <label for="message" class="col-sm-3 control-label">{tmpl_var name='date_txt'}</label>
                 <p>{tmpl_var name='date'}</p>
             </div>
-        </fieldset>
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='reply_txt'}" onclick="loadContent('help/support_message_edit.php?reply={tmpl_var name='id'}');"><span>{tmpl_var name='reply_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='reply_txt'}" data-load-content="help/support_message_edit.php?reply={tmpl_var name='id'}">{tmpl_var name='reply_txt'}</button>
+        </div></div>

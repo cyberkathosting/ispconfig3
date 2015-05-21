@@ -35,7 +35,7 @@ require_once '../../lib/app.inc.php';
 $app->auth->check_module_permissions('monitor');
 
 $syslog_id = $app->functions->intval($_GET['id']);
-$app->db->query("UPDATE sys_log SET loglevel = 0 WHERE syslog_id = '$syslog_id'");
+$app->db->query("UPDATE sys_log SET loglevel = 0 WHERE syslog_id = ?", $syslog_id);
 
 header('Location: log_list.php');
 exit;

@@ -182,7 +182,7 @@ $form["tabs"]['server'] = array(
 		'backup_dir_is_mount' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
-			'default' => 'n',
+			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'backup_mode' => array(
@@ -295,6 +295,12 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'maildir_format' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => '20',
+			'value' => array('maildir' => 'Maildir', 'mdbox' => 'mdbox')
+		),
 		'homedir_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -320,8 +326,8 @@ $form["tabs"]['mail'] = array(
 		'dkim_strength' => array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
-			'default' => '1024',
-			'value' => array('1024' => 'normal (1024)', '2048' => 'strong (2048)', '4096' => 'very strong (4096)')
+			'default' => '2048',
+			'value' => array('1024' => 'weak (1024)', '2048' => 'normal (2048)', '4096' => 'strong (4096)')
 		),
         'relayhost_password' => array(
             'datatype' => 'VARCHAR',
@@ -433,6 +439,12 @@ $form["tabs"]['mail'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'reject_sender_login_mismatch' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'mailbox_size_limit' => array(
 			'datatype' => 'INTEGER',
@@ -604,14 +616,12 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
-		/*
-'vhost_rewrite_v6' => array (
-'datatype' => 'VARCHAR',
-'formtype' => 'CHECKBOX',
-'default' => 'n',
-'value' => array(0 => 'n',1 => 'y')
-),
-*/
+		'vhost_rewrite_v6' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -993,7 +1003,7 @@ $form["tabs"]['web'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'fast-cgi',
-			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM'),
+			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
 		'nginx_cgi_socket' => array(
@@ -1020,6 +1030,15 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'enable_spdy' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'y',
+			'value' => array (
+				0 => 'n',
+				1 => 'y'
+			)
 		),
 		'apps_vhost_port' => array(
 			'datatype' => 'VARCHAR',
@@ -1308,6 +1327,86 @@ $form["tabs"]['fastcgi'] = array(
 	)
 );
 
+
+$form["tabs"]['xmpp'] = array(
+    'title' => "XMPP",
+    'width' => 80,
+    'template' => "templates/server_config_xmpp_edit.htm",
+    'fields' => array(
+        //#################################
+        // Begin Datatable fields
+        //#################################
+        'xmpp_use_ipv6' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value' => array(0 => 'n', 1 => 'y')
+        ),
+        'xmpp_bosh_max_inactivity' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '30',
+            'validators' => array(0 => array('type' => 'ISINT',
+                'errmsg' => 'ip_address_error_wrong'),
+                array('type'=>'RANGE', 'range'=>'15:360', 'errmsg' => 'xmpp_bosh_timeout_range_wrong')
+            ),
+            'value' => '',
+            'width' => '15'
+        ),
+
+        'xmpp_server_admins' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => 'admin@service.com, superuser@service.com',
+            'value' => '',
+            'width' => '15'
+        ),
+
+        'xmpp_modules_enabled' => array(
+            'datatype' => 'TEXT',
+            'formtype' => 'TEXT',
+            'default' => "saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons",
+            'value' => '',
+            'separator' => ","
+        ),
+
+        'xmpp_port_http' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5290',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5290',
+            'width' => '15'
+        ),
+        'xmpp_port_https' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5291',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5291',
+            'width' => '15'
+        ),
+        'xmpp_port_pastebin' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5292',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5292',
+            'width' => '15'
+        ),
+        'xmpp_port_bosh' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'TEXT',
+            'default' => '5280',
+            'validators' => array(0 => array('type' => 'ISINT')),
+            'value' => '5280',
+            'width' => '15'
+        ),
+        //#################################
+        // ENDE Datatable fields
+        //#################################
+    )
+);
 
 $form["tabs"]['jailkit'] = array(
 	'title' => "Jailkit",

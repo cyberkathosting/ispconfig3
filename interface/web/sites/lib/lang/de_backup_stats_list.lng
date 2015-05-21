@@ -1,0 +1,10 @@
+<?php
+$wb["list_head_txt"]       = 'Backup Statistiken';
+$wb["database_name_txt"]   = '';
+$wb['active_txt']          = 'Aktiv';
+$wb['domain_txt']          = 'Domain';
+$wb['backup_count_txt']    = 'Anz. Backups';
+$wb['backup_server_txt']   = 'Server';
+$wb['backup_interval_txt'] = 'Intervall / Anz.';
+$wb['backup_size_txt'] = 'Backupgrösse';
+?>

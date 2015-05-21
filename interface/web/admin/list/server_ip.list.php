@@ -45,11 +45,11 @@ $liste['auth']    = 'no';
 *****************************************************/
 
 $liste['item'][] = array( 'field'  => 'server_id',
-	'datatype' => 'VARCHAR',
+	'datatype' => 'INTEGER',
 	'formtype' => 'SELECT',
-	'op'  => 'like',
-	'prefix' => '%',
-	'suffix' => '%',
+	'op'  => '=',
+	'prefix' => '',
+	'suffix' => '',
 	'datasource' => array (  'type' => 'SQL',
 		'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} ORDER BY server_name',
 		'keyfield'=> 'server_id',
@@ -59,11 +59,11 @@ $liste['item'][] = array( 'field'  => 'server_id',
 	'value'  => '');
 
 $liste['item'][] = array( 'field'  => 'client_id',
-	'datatype' => 'VARCHAR',
+	'datatype' => 'INTEGER',
 	'formtype' => 'SELECT',
-	'op'  => 'like',
-	'prefix' => '%',
-	'suffix' => '%',
+	'op'  => '=',
+	'prefix' => '',
+	'suffix' => '',
 	'datasource' => array (  'type' => 'SQL',
 		'querystring' => 'SELECT client_id,contact_name FROM client WHERE {AUTHSQL} ORDER BY contact_name',
 		'keyfield'=> 'client_id',
@@ -95,7 +95,7 @@ $liste["item"][] = array( 'field'  => "virtualhost",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 $liste['item'][] = array( 'field'  => 'virtualhost_port',

@@ -97,11 +97,11 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if source Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["source"]))."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["source"]));
 		if($domain["domain"] != $app->functions->idn_encode($_POST["source"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 
 		// Check if the destination domain belongs to the user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["destination"]));
 		if($domain["domain"] != $app->functions->idn_encode($_POST["destination"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 
 		// Check the client limits, if user is not the admin
@@ -115,10 +115,11 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 
 		if($this->dataRecord["source"] == $this->dataRecord["destination"]) $app->tform->errorMessage .= $app->tform->wordbook["source_destination_identical_txt"];
-
+		
+		/* TODO: check if this quoting is correkt! */
 		// compose the source and destination field
-		$this->dataRecord["source"] = "@".$app->db->quote($this->dataRecord["source"]);
-		$this->dataRecord["destination"] = "@".$app->db->quote($this->dataRecord["destination"]);
+		$this->dataRecord["source"] = "@".$this->dataRecord["source"];
+		$this->dataRecord["destination"] = "@".$this->dataRecord["destination"];
 		// Set the server id of the mailbox = server ID of mail domain.
 		$this->dataRecord["server_id"] = $app->functions->intval($domain["server_id"]);
 
@@ -128,8 +129,8 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["destination"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("update mail_forwarding SET sys_groupid = ".$app->functions->intval($domain['sys_groupid'])." WHERE forwarding_id = ".$this->id);
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["destination"]));
+		$app->db->query("update mail_forwarding SET sys_groupid = ? WHERE forwarding_id = ?", $domain['sys_groupid'], $this->id);
 
 	}
 

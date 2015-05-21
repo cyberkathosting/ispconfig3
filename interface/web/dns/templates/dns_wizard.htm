@@ -1,115 +1,106 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <tmpl_if name="error">
-    <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+    <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
 </tmpl_if>
 
-<div class="panel panel_dns_wizard">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend><tmpl_var name="dns_zone_txt"></legend>
-            <div class="ctrlHolder">
-                <label for="template_id">{tmpl_var name='template_id_txt'}</label>
-                <select name="template_id" id="template_id" class="selectInput" onChange="submitForm('pageForm','dns/dns_wizard.php')">
+        <legend><tmpl_var name="dns_zone_txt"></legend>
+            <div class="form-group">
+                <label for="template_id" class="col-sm-3 control-label">{tmpl_var name='template_id_txt'}</label>
+                <div class="col-sm-9"><select name="template_id" id="template_id" class="form-control" onChange="ISPConfig.submitForm('pageForm','dns/dns_wizard.php')">
                     {tmpl_var name='template_id_option'}
-                </select>
+                </select></div>
             </div>
             <tmpl_if name="is_admin">
-                <div class="ctrlHolder">
-                    <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                    <select name="server_id" id="server_id" class="selectInput">
+                <div class="form-group">
+                    <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                    <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                         {tmpl_var name='server_id'}
-                    </select>
+                    </select></div>
                 </div>
                 <tmpl_unless name="domain_option">
-                    <div class="ctrlHolder">
-                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                    <div class="form-group">
+                        <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                        <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
-                        </select>
+                        </select></div>
                     </div>
                 </tmpl_unless>
             <tmpl_else>
                 <tmpl_if name="only_one_server">
                     <input type="hidden" id="server_id" name="server_id" value="{tmpl_var name='server_id_value'}" />
                 <tmpl_else>
-                    <div class="ctrlHolder">
-                        <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                        <select name="server_id" id="server_id" class="selectInput">
+                    <div class="form-group">
+                        <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                        <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                             {tmpl_var name='server_id'}
-                        </select>
+                        </select></div>
                     </div>
                 </tmpl_if>
             </tmpl_if>
             <tmpl_if name="is_reseller">
                 <tmpl_unless name="domain_option">
-                    <div class="ctrlHolder">
-                        <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                        <select name="client_group_id" id="client_group_id" class="selectInput">
+                    <div class="form-group">
+                        <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                        <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                             {tmpl_var name='client_group_id'}
-                        </select>
+                        </select></div>
                     </div>
                 </tmpl_unless>
             </tmpl_if>
             <tmpl_if name="DOMAIN_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="domain">{tmpl_var name='domain_txt'}</label>
+                <div class="form-group">
+                    <label for="domain" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}</label>
                     <tmpl_if name="domain_option">
-                        <select name="domain" id="domain" class="selectInput">
+                        <div class="col-sm-9"><select name="domain" id="domain" class="form-control">
                             {tmpl_var name='domain_option'}
-                        </select>
+                        </select></div>
                         <tmpl_else>
-                            <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
-                    </tmpl_if>
+                            <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
                 </div>
             </tmpl_if>
             <tmpl_if name="IP_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="ip">{tmpl_var name='ip_txt'}</label>
-                    <input name="ip" id="ip" value="{tmpl_var name='ip'}" size="30" maxlength="255" type="text" class="textInput" />
-                </div>
+                <div class="form-group">
+                    <label for="ip" class="col-sm-3 control-label">{tmpl_var name='ip_txt'}</label>
+                    <div class="col-sm-9"><input type="text" name="ip" id="ip" value="{tmpl_var name='ip'}" class="form-control" /></div></div>
             </tmpl_if>
             <tmpl_if name="IPV6_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="ipv6">{tmpl_var name='ipv6_txt'}</label>
-                    <input name="ipv6" id="ipv6" value="{tmpl_var name='ipv6'}" size="30" maxlength="255" type="text" class="textInput" />
-                </div>
+                <div class="form-group">
+                    <label for="ipv6" class="col-sm-3 control-label">{tmpl_var name='ipv6_txt'}</label>
+                    <div class="col-sm-9"><input type="text" name="ipv6" id="ipv6" value="{tmpl_var name='ipv6'}" class="form-control" /></div></div>
             </tmpl_if>
             <tmpl_if name="NS1_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="ns1">{tmpl_var name='ns1_txt'}</label>
-                    <input name="ns1" id="ns1" value="{tmpl_var name='ns1'}" size="30" maxlength="255" type="text" class="textInput" />
-                </div>
+                <div class="form-group">
+                    <label for="ns1" class="col-sm-3 control-label">{tmpl_var name='ns1_txt'}</label>
+                    <div class="col-sm-9"><input type="text" name="ns1" id="ns1" value="{tmpl_var name='ns1'}" class="form-control" /></div></div>
             </tmpl_if>
             <tmpl_if name="NS2_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="ns2">{tmpl_var name='ns2_txt'}</label>
-                    <input name="ns2" id="ns2" value="{tmpl_var name='ns2'}" size="30" maxlength="255" type="text" class="textInput" />
-                </div>
+                <div class="form-group">
+                    <label for="ns2" class="col-sm-3 control-label">{tmpl_var name='ns2_txt'}</label>
+                    <div class="col-sm-9"><input type="text" name="ns2" id="ns2" value="{tmpl_var name='ns2'}" class="form-control" /></div></div>
             </tmpl_if>
             <tmpl_if name="EMAIL_VISIBLE">
-                <div class="ctrlHolder">
-                    <label for="email">{tmpl_var name='email_txt'}</label>
-                    <input name="email" id="email" value="{tmpl_var name='email'}" size="30" maxlength="255" type="text" class="textInput" />
-                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">{tmpl_var name='email_txt'}</label>
+                    <div class="col-sm-9"><input type="text" name="email" id="email" value="{tmpl_var name='email'}" class="form-control" /></div></div>
             </tmpl_if>
             <tmpl_if name="DKIM_VISIBLE">
-		    <label for="dkim">{tmpl_var name='dkim_txt'}</label>
+		    <label for="dkim" class="col-sm-3 control-label">{tmpl_var name='dkim_txt'}</label>
                     <input name="dkim" type="hidden" maxlength="255" type="text"/>
             </tmpl_if>
 
-        </fieldset>
+        
             
         <input type="hidden" name="create" value="0" />
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" name="btn_create" onclick="document.pageForm.create.value=1; submitForm('pageForm','dns/dns_wizard.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('dns/dns_soa_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" name="btn_create" onclick="document.pageForm.create.value=1; ISPConfig.submitForm('pageForm','dns/dns_wizard.php');">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
 <script language="JavaScript" type="text/javascript">
     jQuery('#ip').ispconfigSearch({
         dataSrc: '/dns/ajax_get_json.php?type=get_ipv4',
@@ -122,7 +113,7 @@
         fillSearchField: true,
         fillSearchFieldWith: 'fill_text',
         searchFieldWatermark: '',
-        resultBoxPosition: 'e'
+        resultBoxPosition: ''
     });	
 </script>
 <script language="JavaScript" type="text/javascript">
@@ -137,6 +128,6 @@
         fillSearchField: true,
         fillSearchFieldWith: 'fill_text',
         searchFieldWatermark: '',
-        resultBoxPosition: 'e'
+        resultBoxPosition: ''
     });
 </script>

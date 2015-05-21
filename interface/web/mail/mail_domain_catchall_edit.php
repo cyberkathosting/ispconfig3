@@ -94,18 +94,18 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Check if Domain belongs to user
-		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
+		$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 		if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->wordbook["no_domain_perm"];
 
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailcatchall FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_mailcatchall FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			// Check if the user may add another catchall
 			if($this->id == 0 && $client["limit_mailcatchall"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = $client_group_id AND type = 'catchall'");
+				$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE sys_groupid = ? AND type = 'catchall'", $client_group_id);
 				if($tmp["number"] >= $client["limit_mailcatchall"]) {
 					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailcatchall_txt"]."<br>";
 				}
@@ -127,8 +127,8 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app;
 
-		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = '".$app->db->quote($app->functions->idn_encode($_POST["email_domain"]))."' AND ".$app->tform->getAuthSQL('r'));
-		$app->db->query("update mail_forwarding SET sys_groupid = ".$app->functions->intval($domain['sys_groupid'])." WHERE forwarding_id = ".$this->id);
+		$domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
+		$app->db->query("update mail_forwarding SET sys_groupid = ? WHERE forwarding_id = ?", $domain['sys_groupid'], $this->id);
 
 	}
 

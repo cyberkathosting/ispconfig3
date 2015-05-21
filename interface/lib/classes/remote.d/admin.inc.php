@@ -60,7 +60,7 @@ class remoting_admin extends remoting {
 			switch($key) {
 				case 'sys_userid':
 					// check if userid is valid
-					$check = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE userid = ' . $app->functions->intval($value));
+					$check = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE userid = ?', $app->functions->intval($value));
 					if(!$check || !$check['userid']) {
 						$this->server->fault('invalid parameters', $value . ' is no valid sys_userid.');
 						return false;
@@ -69,7 +69,7 @@ class remoting_admin extends remoting {
 					break;
 				case 'sys_groupid':
 					// check if groupid is valid
-					$check = $app->db->queryOneRecord('SELECT groupid FROM sys_group WHERE groupid = ' . $app->functions->intval($value));
+					$check = $app->db->queryOneRecord('SELECT groupid FROM sys_group WHERE groupid = ?', $app->functions->intval($value));
 					if(!$check || !$check['groupid']) {
 						$this->server->fault('invalid parameters', $value . ' is no valid sys_groupid.');
 						return false;

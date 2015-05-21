@@ -35,7 +35,6 @@ $liste["phpsort"] = array('used_sort', 'files');
 * Suchfelder
 *****************************************************/
 
-//$liste["item"][] = array( 'field'  => "domain",
 $liste["item"][] = array( 'field'  => "database_name",
 	'datatype' => "VARCHAR",
 	'filters'   => array( 0 => array( 'event' => 'SHOW',

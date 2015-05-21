@@ -165,8 +165,8 @@ class maildeliver_plugin {
 			$tpl->setVar('autoresponder_text', $data["new"]["autoresponder_text"]);
 
 			//* Set alias addresses for autoresponder
-			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = '".$app->db->quote($data["new"]["email"])."'";
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'alias' AND destination = ?";
+			$records = $app->db->queryAllRecords($sql, $data["new"]["email"]);
 
 			$addresses = array();
 			$addresses[] = $data["new"]["email"];
@@ -181,8 +181,8 @@ class maildeliver_plugin {
 			$alias_addresses = array();
 
 			$email_parts = explode('@', $data["new"]["email"]);
-			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = '@".$app->db->quote($email_parts[1])."'";
-			$records = $app->db->queryAllRecords($sql);
+			$sql = "SELECT * FROM mail_forwarding WHERE type = 'aliasdomain' AND destination = ?";
+			$records = $app->db->queryAllRecords($sql, '@'.$email_parts[1]);
 			if(is_array($records) && count($records) > 0) {
 				$app->log("Found " . count($records) . " records (aliasdomains).", LOGLEVEL_DEBUG);
 				foreach($records as $rec) {
@@ -216,18 +216,22 @@ class maildeliver_plugin {
 			if ( ! is_dir($data["new"]["maildir"].'/sieve/') ) {
 				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			}
-			file_put_contents($sieve_file, $tpl->grab());
-			exec('chown '.$mail_config['mailuser_name'].':'.$mail_config['mailuser_group'].' '.escapeshellcmd($sieve_file));
 
-			chown($sieve_file_isp,$mail_config['mailuser_name']);
-			chgrp($sieve_file_isp,$mail_config['mailuser_group']);
+			file_put_contents($sieve_file_isp, $tpl->grab()) or $app->log("Unable to write sieve filter file", LOGLEVEL_WARN);
+			if ( is_file($sieve_file_isp) ) {
+				$app->system->chown($sieve_file_isp,$mail_config['mailuser_name'],false);
+				$app->system->chgrp($sieve_file_isp,$mail_config['mailuser_group'],false);
+			}
 			chdir($data["new"]["maildir"]);
 			//* create symlink to activate sieve script
 			symlink("sieve/ispconfig.sieve", ".sieve")  or $app->log("Unable to create symlink to active sieve filter", LOGLEVEL_WARN);
 			if (is_link(".sieve")) {
-				lchown(".sieve",$mail_config['mailuser_name']);
-				lchgrp(".sieve",$mail_config['mailuser_group']);
+				$app->system->chown(".sieve",$mail_config['mailuser_name'],true);
+				$app->system->chgrp(".sieve",$mail_config['mailuser_group'],true);
 			}
+			$app->system->chown($sieve_file,$mail_config['mailuser_name'],true);
+			$app->system->chgrp($sieve_file,$mail_config['mailuser_group'],true);
+
 			unset($tpl);
 
 		}

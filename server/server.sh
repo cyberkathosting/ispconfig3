@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin
 
 . /etc/profile
@@ -14,7 +15,15 @@ if [ -f /usr/local/ispconfig/server/lib/php.ini ]; then
 fi
 
 cd /usr/local/ispconfig/server
-/usr/bin/php -q /usr/local/ispconfig/server/server.php
+/usr/bin/php -q \
+    -d disable_classes= \
+    -d disable_functions= \
+    -d open_basedir= \
+    /usr/local/ispconfig/server/server.php
 
 cd /usr/local/ispconfig/security
-/usr/bin/php -q /usr/local/ispconfig/security/check.php
+/usr/bin/php -q \
+    -d disable_classes= \
+    -d disable_functions= \
+    -d open_basedir= \
+    /usr/local/ispconfig/security/check.php

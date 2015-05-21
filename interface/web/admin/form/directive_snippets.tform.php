@@ -93,11 +93,28 @@ $form["tabs"]['directive_snippets'] = array (
 			'maxlength' => '255',
 			'searchable' => 2
 		),
+		'customer_viewable' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
+		),
+		'required_php_snippets' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOXARRAY',
+			'default' => '',
+			'datasource' => array (  'type' => 'SQL',
+				'querystring' => "SELECT directive_snippets_id,name FROM directive_snippets WHERE type = 'php' AND active = 'y'ORDER BY name",
+				'keyfield' => 'directive_snippets_id',
+				'valuefield' => 'name'
+			),
+			'separator' => ',',
 		),
 		//#################################
 		// ENDE Datatable fields

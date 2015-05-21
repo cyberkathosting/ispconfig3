@@ -53,11 +53,21 @@
 <tmpl_if name='ssl_enabled'>
 		SSLEngine on
 		SSLProtocol All -SSLv2 -SSLv3
+		SSLCipherSuite          ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
+		SSLHonorCipherOrder     on
+		<IfModule mod_headers.c>
+		Header always add Strict-Transport-Security "max-age=15768000"
+		</IfModule>
 		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
 		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
 <tmpl_if name='has_bundle_cert'>
 		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
 		SSLCertificateChainFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
+		</tmpl_if>
+		<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+		SSLUseStapling on
+		SSLStaplingResponderTimeout 5
+		SSLStaplingReturnResponderErrors off
 		</tmpl_if>
 </tmpl_if>
 </tmpl_if>
@@ -204,6 +214,9 @@
 <tmpl_if name='php' op='==' value='mod'>
 		# mod_php enabled
 		AddType application/x-httpd-php .php .php3 .php4 .php5
+		SetEnv TMP <tmpl_var name='document_root'>/tmp
+		SetEnv TMPDIR <tmpl_var name='document_root'>/tmp
+		SetEnv TEMP <tmpl_var name='document_root'>/tmp
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"
 		php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
 		php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
@@ -336,13 +349,13 @@
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
+                <IfModule mod_proxy_fcgi.c>
+			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
+                </IfModule>
 </tmpl_if>
 <tmpl_if name='use_socket'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
-		</IfModule>
-		<IfModule mod_proxy_fcgi.c>
-			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 		</IfModule>
 </tmpl_if>
 

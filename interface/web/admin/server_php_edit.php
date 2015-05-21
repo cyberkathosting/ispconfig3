@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) && isset($this->dataRecord["server_id"])) {
-			$rec = $app->db->queryOneRecord("SELECT server_id from server_php WHERE server_php_id = ".$app->functions->intval($this->id));
+			$rec = $app->db->queryOneRecord("SELECT server_id from server_php WHERE server_php_id = ?", $this->id);
 			if($rec['server_id'] != $this->dataRecord["server_id"]) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');

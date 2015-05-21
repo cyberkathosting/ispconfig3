@@ -48,3 +48,5 @@ MEMINFO="privvmpages:1"
 # SWAPPAGES="{tmpl_var name='swappages'}"
 
 CAPABILITY="{tmpl_var name='capability'}"
+FEATURES="{tmpl_var name='features'}"
+IPTABLES="{tmpl_var name='iptables'}"

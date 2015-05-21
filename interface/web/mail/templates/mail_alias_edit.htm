@@ -1,39 +1,41 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_mail_alias">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <p class="label"><em>*</em> {tmpl_var name='email_txt'}</p>
-                <div class="multiField">
-                    <label for="email_local_part" class="blockLabel">Alias<input type="text" id="email_local_part" name="email_local_part" size="20" value="{tmpl_var name='email_local_part'}" class="textInput" /></label>
-                    <label for="email_at" class="blockLabel email_at">&nbsp;<span id="email_at" name="email_at" />@</label>
-                    <label for="email_domain" class="blockLabel">{tmpl_var name='domain_txt'}<select name="email_domain" id="email_domain" class="selectInput">{tmpl_var name='email_domain'}</select></label>
+        
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><em>*</em> {tmpl_var name='email_txt'}</label>
+                <div class="col-sm-9">
+                    <label for="email_local_part" class="col-sm-3 control-label">Alias<div class="col-sm-9"><input type="text" id="email_local_part" name="email_local_part" value="{tmpl_var name='email_local_part'}" class="form-control" /></div></label>
+                    <label for="email_at" class="col-sm-3 control-label">&nbsp;<span id="email_at" name="email_at" />@</label>
+                    <label for="email_domain" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}<div class="col-sm-9"><select name="email_domain" id="email_domain" class="form-control">{tmpl_var name='email_domain'}</select></div></label>
                 </div>
             </div>
-            <div class="ctrlHolder">
-                <label for="destination">{tmpl_var name='destination_txt'}</label>
-                <select name="destination" id="destination" class="selectInput">
+            <div class="form-group">
+                <label for="destination" class="col-sm-3 control-label">{tmpl_var name='destination_txt'}</label>
+                <div class="col-sm-9"><select name="destination" id="destination" class="form-control">
                     {tmpl_var name='destination'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='greylisting_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='greylisting'}
+                </div>
+            </div>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input type="hidden" name="type" value="alias">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/mail_alias_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mail/mail_alias_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_alias_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_alias_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

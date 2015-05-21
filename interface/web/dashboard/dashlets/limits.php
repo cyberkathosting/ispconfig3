@@ -130,7 +130,7 @@ class dashlet_limits {
 
 		if($user_is_admin == false) {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT * FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT * FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 		}
 
 		$rows = array();
@@ -143,10 +143,15 @@ class dashlet_limits {
 			}
 			if($value != 0 || $value == $wb['unlimited_txt']) {
 				$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value;
+				$usage = $this->_get_limit_usage($limit);
+				$percentage = ($value == '-1' || $value == 0 ? 0 : round(100 * $usage / $value));
 				$rows[] = array('field' => $field,
 					'field_txt' => $wb[$field.'_txt'],
 					'value' => $value_formatted,
-					'usage' => $this->_get_limit_usage($limit));
+					'value_raw' => $value,
+					'usage' => $usage,
+					'usage_raw' => $usage,
+					'percentage' => $percentage);
 			}
 		}
 		$tpl->setLoop('rows', $rows);
@@ -159,10 +164,10 @@ class dashlet_limits {
 	function _get_limit_usage($limit) {
 		global $app;
 
-		$sql = "SELECT count(sys_userid) as number FROM ".$app->db->quote($limit['db_table'])." WHERE ";
+		$sql = "SELECT count(sys_userid) as number FROM ?? WHERE ";
 		if($limit['db_where'] != '') $sql .= $limit['db_where']." AND ";
 		$sql .= $app->tform->getAuthSQL('r');
-		$rec = $app->db->queryOneRecord($sql);
+		$rec = $app->db->queryOneRecord($sql, $limit['db_table']);
 		return $rec['number'];
 
 	}

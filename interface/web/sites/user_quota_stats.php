@@ -19,8 +19,6 @@ $app->uses('functions');
 
 $app->load('listform_actions');
 
-// $tmp_rec = $app->db->queryOneRecord("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
-// $monitor_data = unserialize($app->db->unquote($tmp_rec['data']));
 $tmp_rec =  $app->db->queryAllRecords("SELECT data from monitor_data WHERE type = 'harddisk_quota' ORDER BY created DESC");
 $monitor_data = array();
 if(is_array($tmp_rec)) {
@@ -43,11 +41,10 @@ class list_action extends listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 		$username = $rec['system_user'];
 
-		$server = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ".$rec['server_id']);
+		$server = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $rec['server_id']);
 		$rec['domain'] = $rec['domain'].($server['server_name'] != '' ? ' ('.$server['server_name'].')' : '');
 		
 		$rec['used'] = $monitor_data['user'][$username]['used'];
-		$rec['used_sort'] = $rec['used'];
 		$rec['soft'] = $monitor_data['user'][$username]['soft'];
 		$rec['hard'] = $monitor_data['user'][$username]['hard'];
 		$rec['files'] = $monitor_data['user'][$username]['files'];
@@ -59,6 +56,7 @@ class list_action extends listform_actions {
 				$rec['used'] = $rec['used'][1];
 			}
 		}
+		$rec['used_sort'] = $rec['used'];
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 		if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];

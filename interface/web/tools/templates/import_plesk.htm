@@ -1,74 +1,53 @@
 <h2><tmpl_var name="list_head_txt">Import plesk panel data</h2>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_language_import">
-  
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>Plesk data import</legend>
-            <div class="ctrlHolder">
-                <p class="label">Plesk database hostname</p>
-                <div class="multiField">
-                    <input id="dbhost" type="text" value="{tmpl_var name='dbhost'}" name="dbhost" />
-                </div>
+
+        <legend>Plesk data import</legend>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Plesk database hostname</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="dbhost" value="{tmpl_var name='dbhost'}" name="dbhost" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Plesk database name</p>
-                <div class="multiField">
-                    <input id="dbname" type="text" value="{tmpl_var name='dbname'}" name="dbname" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Plesk database name</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="dbname" value="{tmpl_var name='dbname'}" name="dbname" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Plesk database user</p>
-                <div class="multiField">
-                    <input id="dbuser" type="text" value="{tmpl_var name='dbuser'}" name="dbuser" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Plesk database user</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="dbuser" value="{tmpl_var name='dbuser'}" name="dbuser" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Plesk database password</p>
-                <div class="multiField">
-                    <input id="dbpassword" type="text" value="{tmpl_var name='dbpassword'}" name="dbpassword" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Plesk database password</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="dbpassword" value="{tmpl_var name='dbpassword'}" name="dbpassword" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Web content backup file (on this server, optional)</p>
-                <div class="multiField">
-                    <input id="webcontent" type="text" value="{tmpl_var name='webcontent'}" name="webcontent" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Web content backup file (on this server, optional)</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="webcontent" value="{tmpl_var name='webcontent'}" name="webcontent" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Maildir content backup file (on this server, optional)</p>
-                <div class="multiField">
-                    <input id="mailcontent" type="text" value="{tmpl_var name='mailcontent'}" name="mailcontent" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Maildir content backup file (on this server, optional)</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="mailcontent" value="{tmpl_var name='mailcontent'}" name="mailcontent" /></div>
             </div>
                 
-            <div class="ctrlHolder">
-                <p class="label">Import all data (that can be imported)</p>
-                <div class="multiField">
-                    <input id="start" type="checkbox" value="1" name="start" checked/>
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Import all data (that can be imported)</label>
+                <div class="col-sm-9"><input class="form-control" type="checkbox" id="start" value="1" name="start" checked/></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Import database contents (make sure the database user has the rights to do so)</p>
-                <div class="multiField">
-                    <input id="dbdata" type="checkbox" value="1" name="dbdata" checked/>
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Import database contents (make sure the database user has the rights to do so)</label>
+                <div class="col-sm-9"><input class="form-control" type="checkbox" id="dbdata" value="1" name="dbdata" checked/></div>
             </div>
-        </fieldset>
+        
 
         <tmpl_if name="msg">
             <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
         </tmpl_if>
         <tmpl_if name="error">
-            <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+            <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
         </tmpl_if>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/import_plesk.php');"><span>Start</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>Cancel</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="Import" data-submit-form="pageForm" data-form-action="tools/import_plesk.php">Start</button>
+            <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">Cancel</button>
+        </div></div>

@@ -31,15 +31,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 This Javascript is invoked by
 	* mail/templates/mail_domain_edit.htm to show and/or create the key-pair
 */
+
 var request = false;
 
-$('.subsectiontoggle').on('click', function(){
-	$(this).children().toggleClass('showing').end().next().slideToggle();
-});
-
-function setRequest(action) {
+//function setRequest(action) {
+function setRequest() {
 	if (window.XMLHttpRequest) {
-		request = new XMLHttpRequest();
+			request = new XMLHttpRequest();
 	} else if (window.ActiveXObject) {
 		try {
 			request = new ActiveXObject('Msxml2.XMLHTTP');
@@ -51,7 +49,6 @@ function setRequest(action) {
 			catch (e) {}
 		}
 	}
-
 	if (!request) {
 		alert("Error creating XMLHTTP-instance");
 		return false;
@@ -64,12 +61,20 @@ function setRequest(action) {
 		} else { 
 			var domain = jQuery('#domain').val();
 		}
+
+		// we nedd the client-id to get the dkim-strength of the right mail-server
+		try {
+			var clientid = document.getElementById("client_group_id").selectedIndex; // admin and reseller
+		}
+		catch (e) {
+			var clientid = jQuery('#client_id').val();; // user
+		}
+
 		var selector=jQuery('#dkim_selector').val();
 		var publickey=jQuery('#dkim_public').val();
-		var privatekey=encodeURIComponent(document.getElementById("dkim_private").value)
 		request.open('POST', 'mail/mail_domain_dkim_create.php', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		request.send('domain='+domain+'&action='+action+'&dkim_selector='+selector+'&dkim_public='+publickey+'&dkim_private='+privatekey);
+		request.send('domain='+domain+'&dkim_selector='+selector+'&dkim_public='+publickey+'&client_id='+clientid);
 		request.onreadystatechange = interpretRequest;
 	}
 }
@@ -86,10 +91,9 @@ function interpretRequest() {
 				document.getElementsByName('dns_record')[0].value = request.responseXML.getElementsByTagName('dns_record')[0].firstChild.nodeValue;
 			}
 		break;
-
 		default:
 		break;
 	}
 }
 
-setRequest('show');
+//setRequest('show');

@@ -92,7 +92,7 @@ class cron_plugin {
 		}
 
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ".intval($data["new"]["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
@@ -105,7 +105,7 @@ class cron_plugin {
 		}
 		
 		// Get the client ID
-		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["new"]["sys_groupid"]));
+		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["new"]["sys_groupid"]);
 		$client_id = intval($client["client_id"]);
 		unset($client);
 
@@ -161,14 +161,14 @@ class cron_plugin {
 		global $app, $conf;
 
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ".intval($data["old"]["parent_domain_id"]));
+		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ?", $data["old"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
 		}
 
 		// Get the client ID
-		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ".intval($data["old"]["sys_groupid"]));
+		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["old"]["sys_groupid"]);
 		$client_id = intval($client["client_id"]);
 		unset($client);
 
@@ -196,7 +196,7 @@ class cron_plugin {
 		$chr_cmd_count = 0;
 
 		//* read all active cron jobs from database and write them to file
-		$cron_jobs = $app->db->queryAllRecords("SELECT c.`run_min`, c.`run_hour`, c.`run_mday`, c.`run_month`, c.`run_wday`, c.`command`, c.`type`, c.`log`, `web_domain`.`domain` as `domain` FROM `cron` as c INNER JOIN `web_domain` ON `web_domain`.`domain_id` = c.`parent_domain_id` WHERE c.`parent_domain_id` = ".intval($this->parent_domain["domain_id"]) . " AND c.`active` = 'y'");
+		$cron_jobs = $app->db->queryAllRecords("SELECT c.`run_min`, c.`run_hour`, c.`run_mday`, c.`run_month`, c.`run_wday`, c.`command`, c.`type`, c.`log`, `web_domain`.`domain` as `domain` FROM `cron` as c INNER JOIN `web_domain` ON `web_domain`.`domain_id` = c.`parent_domain_id` WHERE c.`parent_domain_id` = ? AND c.`active` = 'y'", $this->parent_domain["domain_id"]);
 		if($cron_jobs && count($cron_jobs) > 0) {
 			foreach($cron_jobs as $job) {
 				if($job['run_month'] == '@reboot') {
@@ -210,7 +210,7 @@ class cron_plugin {
 				$log_root = '';
 				if($job['log'] == 'y') {
 					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'];
-					$log_root .= '/log';
+					$log_root .= '/private';
 					
 					$log_target = '>>' . $log_root . '/cron.log 2>>' . $log_root . '/cron_error.log';
 					$log_wget_target = $log_root . '/cron_wget.log';

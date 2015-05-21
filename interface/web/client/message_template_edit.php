@@ -56,12 +56,11 @@ class page_action extends tform_actions {
 		// Check for duplicates
 		if($this->dataRecord['template_type'] == 'welcome') {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$sql = "SELECT count(client_message_template_id) as number FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ".$client_group_id;
+			$sql = "SELECT count(client_message_template_id) as number FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
 			if($this->id > 0) {
-				$sql .= " AND client_message_template_id != ".$this->id;
+				$sql .= " AND client_message_template_id != ?";
 			}
-			
-			$tmp = $app->db->queryOneRecord($sql);
+			$tmp = $app->db->queryOneRecord($sql, $client_group_id, $this->id);
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng('duplicate_welcome_error');
 		}
 		

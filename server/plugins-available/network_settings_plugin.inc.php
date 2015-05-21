@@ -101,7 +101,7 @@ class network_settings_plugin {
 				$network_tpl->setVar('broadcast', $this->broadcast($server_config['ip_address'], $server_config['netmask']));
 				$network_tpl->setVar('network', $this->network($server_config['ip_address'], $server_config['netmask']));
 
-				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . ' ORDER BY server_ip_id ASC');
+				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ? ORDER BY server_ip_id ASC", $conf['server_id']);
 				$ip_records = array();
 				$additionl_ip_records = 0;
 				$n = 0;
@@ -179,7 +179,7 @@ class network_settings_plugin {
 				$network_tpl->setVar('gateway', $server_config['gateway']);
 				$network_tpl->setVar('broadcast', $this->broadcast($server_config['ip_address'], $server_config['netmask']));
 
-				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ".intval($conf['server_id']) . " order by ip_address");
+				$records = $app->db->queryAllRecords("SELECT ip_address FROM server_ip WHERE server_id = ? order by ip_address", $conf['server_id']);
 				$ip_records = array();
 				$additionl_ip_records = 0;
 				$n = 0;

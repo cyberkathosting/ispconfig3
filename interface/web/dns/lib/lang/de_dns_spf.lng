@@ -1,0 +1,25 @@
+<?php
+$wb['data_txt'] = 'SPF Record';
+$wb['spf_mechanism_txt'] = 'SPF Mechanismus';
+$wb['spf_mechanism_pass_txt'] = 'Pass - Mails von anderen Sendern zulassen';
+$wb['spf_mechanism_fail_txt'] = 'Fail - Mails von anderen Sendern abweisen';
+$wb['spf_mechanism_softfail_txt'] = 'SoftFail - Mails von anderen Sendern zulassen aber markieren';
+$wb['spf_mechanism_neutral_txt'] = 'Neutral - nichts unternehmen';
+$wb['spf_mx_txt'] = 'Von allen MX-Servern dürfen Mails für diese Domain verschicken';
+$wb['spf_a_txt'] = 'Von allen eingetragenen IP-Adressen dürfen Mails für diese Domain verschickt werden';
+$wb['spf_ip_txt'] = '(Zusätzliche) IP-Adressen im CIDR Format, die Mails für diese Domain verschicken dürfen';
+$wb['spf_ip_note_txt'] = '(mehrere IPs mit Leerzeichen trennen)';
+$wb['spf_invalid_ip_txt'] = 'Ungültige IP-Adresse';
+$wb['spf_hostname_txt'] = '(Zusätzliche) Hostnamen, die für diese Domain Mails verschicken dürfen oder als Relay arbeiten.';
+$wb['spf_hostname_note_txt'] = '(mehrere Hostnamen mit Leerzeichen trennen)';
+$wb['spf_invalid_hostname_txt'] = 'Ungültiger Hostname';
+$wb['spf_domain_txt'] = 'Zusätzliche Domains, die Mails verschicken dürfen oder als Relay arbeiten';
+$wb['spf_domain_note_txt'] = '(mehrerer Domains mit Leerzeichen trennen)';
+$wb['spf_invalid_domain_txt'] = 'Ungültiger Domainname';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktiv';
+$wb["record_exists_txt"] = 'DNS-Eintrag existiert bereits';
+$wb['ttl_range_error'] = 'Min. TTL time ist 60 Sekunden.';
+$wb['limit_dns_record_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
+$wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';
+?>

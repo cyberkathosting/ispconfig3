@@ -1,50 +1,45 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_mail_content_filter">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="server_id">{tmpl_var name='server_id_txt'}</label>
-                <select name="server_id" id="server_id" class="selectInput">
+        
+            <div class="form-group">
+                <label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+                <div class="col-sm-9"><select name="server_id" id="server_id" class="form-control">
                     {tmpl_var name='server_id'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="type">{tmpl_var name='type_txt'}</label>
-                <select name="type" id="type" class="selectInput">
+            <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">{tmpl_var name='type_txt'}</label>
+                <div class="col-sm-9"><select name="type" id="type" class="form-control">
                     {tmpl_var name='type'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="pattern">{tmpl_var name='pattern_txt'}</label>
-                <input name="pattern" id="pattern" value="{tmpl_var name='pattern'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="data">{tmpl_var name='data_txt'}</label>
-                <input name="data" id="data" value="{tmpl_var name='data'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-            <div class="ctrlHolder">
-                <label for="action">{tmpl_var name='action_txt'}</label>
-                <select name="action" id="action" class="selectInput">
+            <div class="form-group">
+                <label for="pattern" class="col-sm-3 control-label">{tmpl_var name='pattern_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="pattern" id="pattern" value="{tmpl_var name='pattern'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="data" class="col-sm-3 control-label">{tmpl_var name='data_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="data" id="data" value="{tmpl_var name='data'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="action" class="col-sm-3 control-label">{tmpl_var name='action_txt'}</label>
+                <div class="col-sm-9"><select name="action" id="action" class="form-control">
                     {tmpl_var name='action'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">{tmpl_var name='active_txt'}</p>
-                <div class="multiField">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','mail/mail_content_filter_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('mail/mail_content_filter_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_content_filter_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_content_filter_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

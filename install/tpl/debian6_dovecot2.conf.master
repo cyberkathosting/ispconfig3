@@ -7,9 +7,13 @@ mail_privileged_group = vmail
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
+mail_max_userip_connections = 100
 passdb {
   args = /etc/dovecot/dovecot-sql.conf
   driver = sql
+}
+userdb {
+  driver = prefetch
 }
 userdb {
   args = /etc/dovecot/dovecot-sql.conf
@@ -18,6 +22,7 @@ userdb {
 plugin {
   quota = dict:user::file:/var/vmail/%d/%n/.quotausage
   sieve=/var/vmail/%d/%n/.sieve
+  sieve_max_redirects = 25
 }
 service auth {
   unix_listener /var/spool/postfix/private/auth {
@@ -41,7 +46,7 @@ service lmtp {
 }
 service imap-login {
   client_limit = 1000
-  process_limit = 500
+  process_limit = 512
 }
 protocol imap {
   mail_plugins = quota imap_quota

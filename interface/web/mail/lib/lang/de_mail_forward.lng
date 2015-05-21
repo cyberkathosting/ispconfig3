@@ -6,4 +6,6 @@ $wb['limit_mailforward_txt'] = 'Die maximale Anzahl an E-Mail Weiterleitungen fÃ
 $wb['duplicate_mailbox_txt'] = 'Es existiert bereits ein E-Mail Konto mit dieser Adresse.';
 $wb['domain_txt'] = 'Domain';
 $wb['source_txt'] = 'Quell E-Mail Adresse';
+$wb['email_error_isemail'] = 'Bitte geben Sie eine gÃ¼ltige E-Mail Adresse an.';
+$wb['greylisting_txt'] = 'Aktiviere greylisting';
 ?>

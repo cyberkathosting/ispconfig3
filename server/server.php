@@ -43,14 +43,14 @@ $conf['server_id'] = intval($conf['server_id']);
  * Try to Load the server configuration from the master-db
  */
 if ($app->dbmaster->connect_error == NULL) {
-	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
+	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = ?", $conf['server_id']);
 
 	if(!is_array($server_db_record)) die('Unable to load the server configuration from database.');
 
 	//* Get the number of the last processed datalog_id, if the id of the local server
 	//* is > then the one of the remote system, then use the local ID as we might not have
 	//* reached the remote server during the last run then.
-	$local_server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = " . $conf['server_id']);
+	$local_server_db_record = $app->db->queryOneRecord("SELECT * FROM server WHERE server_id = ?", $conf['server_id']);
 	$conf['last_datalog_id'] = (int) max($server_db_record['updated'], $local_server_db_record['updated']);
 	unset($local_server_db_record);
 
@@ -73,7 +73,6 @@ if ($app->dbmaster->connect_error == NULL) {
 	unset($server_db_record);
 
 	// retrieve admin email address for notifications
-	//$sys_ini = $app->dbmaster->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
 	$sys_ini = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
 	$conf['sys_ini'] = $app->ini_parser->parse_ini_string(stripslashes($sys_ini['config']));
 	$conf['admin_mail'] = $conf['sys_ini']['mail']['admin_mail'];
@@ -156,9 +155,9 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 
 	// Check if there is anything to update
 	if ($conf['mirror_server_id'] > 0) {
-		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > " . $conf['last_datalog_id'] . " AND (server_id = " . $conf['server_id'] . " OR server_id = " . $conf['mirror_server_id'] . " OR server_id = 0)");
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ? AND (server_id = ? OR server_id = ? OR server_id = 0)", $conf['last_datalog_id'], $conf['server_id'], $conf['mirror_server_id']);
 	} else {
-		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > " . $conf['last_datalog_id'] . " AND (server_id = " . $conf['server_id'] . " OR server_id = 0)");
+		$tmp_rec = $app->dbmaster->queryOneRecord("SELECT count(server_id) as number from sys_datalog WHERE datalog_id > ? AND (server_id = ? OR server_id = 0)", $conf['last_datalog_id'], $conf['server_id']);
 	}
 
 	$tmp_num_records = $tmp_rec['number'];

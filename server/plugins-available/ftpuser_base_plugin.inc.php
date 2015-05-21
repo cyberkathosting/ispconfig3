@@ -74,7 +74,7 @@ class ftpuser_base_plugin {
 		if(!is_dir($data['new']['dir'])) {
 			$app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.", LOGLEVEL_DEBUG);
 
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 			//* Check if the resulting path is inside the docroot
 			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {
@@ -100,7 +100,7 @@ class ftpuser_base_plugin {
 		if(!is_dir($data['new']['dir'])) {
 			$app->log("FTP User directory '".$data['new']['dir']."' does not exist. Creating it now.", LOGLEVEL_DEBUG);
 
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 			//* Check if the resulting path is inside the docroot
 			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {

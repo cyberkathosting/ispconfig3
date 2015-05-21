@@ -247,13 +247,15 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	$finished = false;
 	do {
 		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname');
+		$tmp_mysql_server_port = $inst->free_query('MySQL master server port', $conf['mysql']['master_port'],'mysql_master_port');
 		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
 		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password');
 		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 		//* Initialize the MySQL server connection
-		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, (int)$tmp_mysql_server_port)) {
 			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+			$conf['mysql']['master_port'] = $tmp_mysql_server_port;
 			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
 			$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
 			$conf['mysql']['master_database'] = $tmp_mysql_server_database;
@@ -267,10 +269,8 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	// initialize the connection to the master database
 	$inst->dbmaster = new db();
 	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-	$inst->dbmaster->dbHost = $conf['mysql']["master_host"];
-	$inst->dbmaster->dbName = $conf['mysql']["master_database"];
-	$inst->dbmaster->dbUser = $conf['mysql']["master_admin_user"];
-	$inst->dbmaster->dbPass = $conf['mysql']["master_admin_password"];
+	$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
+	$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
 } else {
 	$inst->dbmaster = $inst->db;
 }
@@ -392,6 +392,11 @@ if($reconfigure_services_answer == 'yes') {
 		$inst->configure_apps_vhost();
 	}
 
+    if($conf['services']['xmpp']) {
+        //** Configure Metronome XMPP
+        $inst->configure_xmpp('dont-create-certs');
+    }
+
 
 	//* Configure DBServer
 	swriteln('Configuring Database');
@@ -494,6 +499,10 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
 	}
 
+    if($conf['services']['xmpp']) {
+        if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+    }
+
 	if($conf['services']['proxy']) {
 		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 		if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
@@ -503,6 +512,11 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['ufw']['init_script']))     system($conf['init_scripts'].'/'.$conf['ufw']['init_script'].' restart &> /dev/null');
 	}
 }
+
+//* Set default servers
+setDefaultServers();
+
+$inst->create_mount_script();
 
 //* Create md5 filelist
 $md5_filename = '/usr/local/ispconfig/security/data/file_checksums_'.date('Y-m-d_h-i').'.md5';

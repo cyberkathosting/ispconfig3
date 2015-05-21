@@ -1,33 +1,29 @@
-<h2><tmpl_var name="list_head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_support_message">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name='message_txt'}</legend>
-            <div class="ctrlHolder">
-                <label for="recipient_id">{tmpl_var name='recipient_id_txt'}</label>
-                <select name="recipient_id" id="recipient_id" class="selectInput">
+        <legend>{tmpl_var name='message_txt'}</legend>
+            <div class="form-group">
+                <label for="recipient_id" class="col-sm-3 control-label">{tmpl_var name='recipient_id_txt'}</label>
+                <div class="col-sm-9"><select name="recipient_id" id="recipient_id" class="form-control">
                     {tmpl_var name='recipient_id'}
-                </select>
+                </select></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="subject">{tmpl_var name='subject_txt'}</label>
-                <input name="subject" id="subject" value="{tmpl_var name='subject'}" size="30" maxlength="255" type="text" class="textInput" />
+            <div class="form-group">
+                <label for="subject" class="col-sm-3 control-label">{tmpl_var name='subject_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="subject" id="subject" value="{tmpl_var name='subject'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="message" class="col-sm-3 control-label">{tmpl_var name='message_txt'}</label>
+                <div class="col-sm-9"><textarea class="form-control" name="message" id="message" rows='10' cols='30'>{tmpl_var name='message'}</textarea></div>
             </div>
-            <div class="ctrlHolder">
-                <label for="message">{tmpl_var name='message_txt'}</label>
-                <textarea name="message" id="message" rows='10' cols='30'>{tmpl_var name='message'}</textarea>
-            </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input type="hidden" name="tstamp" value="{tmpl_var name='tstamp'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','help/support_message_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('help/support_message_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="help/support_message_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="help/support_message_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

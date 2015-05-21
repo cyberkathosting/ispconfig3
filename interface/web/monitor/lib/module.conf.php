@@ -8,6 +8,7 @@ $module["title"]   = "top_menu_monitor";
 $module["template"]  = "module.tpl.htm";
 $module["tab_width"]    = '';
 $module["startpage"]  = "monitor/show_sys_state.php?state=system";
+$module['order']    = '60';
 
 unset($items);
 $items[] = array( 'title'  => "Show Overview",
@@ -37,7 +38,7 @@ $module["nav"][] = array( 'title' => 'System State (All Servers)',
 
 $servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
 
-$dropDown = "<select id='server_id' onchange=\"loadContent('monitor/show_sys_state.php?state=server&server=' + document.getElementById('server_id').value);\">";
+$dropDown = "<select id='server_id' onchange=\"ISPConfig.loadContent('monitor/show_sys_state.php?state=server&server=' + document.getElementById('server_id').value);\">";
 foreach ($servers as $server)
 {
 	$dropDown .= "<option value='" . $server['server_id'] . "|" . $server['server_name'] . "'>" . $server['server_name'] . "</option>";

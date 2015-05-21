@@ -4,6 +4,10 @@
 export PHPRC="<tmpl_var name='php_ini_path'>"
 </tmpl_if>
 
+export TMP=<tmpl_var name='document_root'>/tmp
+export TMPDIR=<tmpl_var name='document_root'>/tmp
+export TEMP=<tmpl_var name='document_root'>/tmp
+
 exec <tmpl_var name='php_cgi_bin'> \
 -d open_basedir=<tmpl_var name='open_basedir'> \
 -d upload_tmp_dir=<tmpl_var name='document_root'>/tmp \

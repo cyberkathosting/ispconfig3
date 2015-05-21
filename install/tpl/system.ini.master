@@ -8,6 +8,9 @@
 
 [mail]
 enable_custom_login=n
+mailbox_show_autoresponder_tab=y
+mailbox_show_mail_filter_tab=y
+mailbox_show_custom_rules_tab=y
 mailboxlist_webmail_link=y
 webmail_url=/webmail
 dkim_path=/var/lib/amavis/dkim
@@ -23,8 +26,12 @@ webdavuser_prefix=[CLIENTNAME]
 dblist_phpmyadmin_link=y
 phpmyadmin_url=/phpmyadmin
 webftp_url=
+vhost_subdomains=n
+vhost_aliasdomains=n
 client_username_web_check_disabled=n
+backups_include_into_web_quota=n
 reseller_can_use_options=n
+
 
 [tools]
 

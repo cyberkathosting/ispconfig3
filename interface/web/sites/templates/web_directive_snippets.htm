@@ -1,0 +1,14 @@
+<div class="form-group">
+	<label for="directive_snippets_id" class="col-sm-3 control-label">
+		{tmpl_var name='directive_snippets_id_txt'}
+	</label>
+
+	<div class="col-sm-9"><select name="directive_snippets_id" id="directive_snippets_id" class="form-control">
+		<option value="0"></option>
+		<tmpl_loop name="records">
+		<option {tmpl_if name='is_selected' op='==' value='true'}selected="selected" {/tmpl_if}value="{tmpl_var name='directive_snippets_id'}">
+			{tmpl_var name='name'}
+		</option>
+		</tmpl_loop>
+	</select></div>
+</div>

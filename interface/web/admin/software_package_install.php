@@ -38,11 +38,11 @@ $app->auth->check_security_permissions('admin_allow_software_packages');
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
 
-$package_name = $app->db->quote($_REQUEST['package']);
+$package_name = $_REQUEST['package'];
 $install_server_id = $app->functions->intval($_REQUEST['server_id']);
-$install_key = $app->db->quote(trim($_REQUEST['install_key']));
+$install_key = trim($_REQUEST['install_key']);
 
-$package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = '$package_name'");
+$package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = ?", $package_name);
 
 $install_key_verified = false;
 $message_err = '';
@@ -51,7 +51,7 @@ $message_ok = '';
 //* verify the key
 if($package['package_installable'] == 'key' && $install_key != '') {
 
-	$repo = $app->db->queryOneRecord("SELECT * FROM software_repo WHERE software_repo_id = ".$app->db->quote($package['software_repo_id']));
+	$repo = $app->db->queryOneRecord("SELECT * FROM software_repo WHERE software_repo_id = ?", $package['software_repo_id']);
 
 	$client = new SoapClient(null, array('location' => $repo['repo_url'],
 			'uri'      => $repo['repo_url']));
@@ -63,7 +63,7 @@ if($package['package_installable'] == 'key' && $install_key != '') {
 		$message_err = 'Verification of the key failed.';
 	} else {
 		// Store the verified key into the database
-		$app->db->datalogUpdate('software_package', "package_key = '".$app->db->quote($install_key)."'", 'package_id', $package['package_id']);
+		$app->db->datalogUpdate('software_package', array("package_key" => $install_key), 'package_id', $package['package_id']);
 	}
 } else {
 	$message_ok = 'Please enter the software key for the package.';
@@ -71,8 +71,8 @@ if($package['package_installable'] == 'key' && $install_key != '') {
 
 //* Install packages, if all requirements are fullfilled.
 if($install_server_id > 0 && $package_name != '' && ($package['package_installable'] == 'yes' || $install_key_verified == true)) {
-	$sql = "SELECT software_update_id, package_name, update_title FROM software_update WHERE type = 'full' AND package_name = '".$app->db->quote($package_name)."' ORDER BY v1 DESC, v2 DESC, v3 DESC, v4 DESC LIMIT 0,1";
-	$tmp = $app->db->queryOneRecord($sql);
+	$sql = "SELECT software_update_id, package_name, update_title FROM software_update WHERE type = 'full' AND package_name = ? ORDER BY v1 DESC, v2 DESC, v3 DESC, v4 DESC LIMIT 0,1";
+	$tmp = $app->db->queryOneRecord($sql, $package_name);
 	$software_update_id = $tmp['software_update_id'];
 
 	//* if package requires a DB and there is no data for a db in config, then we create this data now
@@ -91,7 +91,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 				'database_host' => 'localhost');
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
 			$package['package_config'] = $package_config_str;
-			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id', $package['package_id']);
+			$app->db->datalogUpdate('software_package', array("package_config" => $package_config_str), 'package_id', $package['package_id']);
 		}
 	}
 
@@ -105,7 +105,7 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 		if(!isset($package_config_array['remote_api'])) {
 			$remote_user = 'ispapp'.$package['package_id'];
 			$remote_password = md5(mt_rand());
-			$remote_functions = $app->db->quote($package['package_remote_functions']);
+			$remote_functions = $package['package_remote_functions'];
 
 			$package_config_array['remote_api'] = array(
 				'remote_hostname' => $_SERVER['HTTP_HOST'],
@@ -116,21 +116,25 @@ if($install_server_id > 0 && $package_name != '' && ($package['package_installab
 			$package_config_str = $app->ini_parser->get_ini_string($package_config_array);
 			$package['package_config'] = $package_config_str;
 			$remote_password_md5 = md5($remote_password);
-			$app->db->datalogUpdate('software_package', "package_config = '".$app->db->quote($package_config_str)."'", 'package_id', $package['package_id']);
+			$app->db->datalogUpdate('software_package', array("package_config" => $package_config_str), 'package_id', $package['package_id']);
 
 			$sql = "INSERT INTO `remote_user` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `remote_username`, `remote_password`, `remote_functions`) VALUES
-					(1, 1, 'riud', 'riud', '', '".$app->db->quote($remote_user)."', '".$app->db->quote($remote_password_md5)."', '".$app->db->quote($remote_functions)."');";
-
-			$app->db->query($sql);
+					(1, 1, 'riud', 'riud', '', ?, ?, ?)";
+			$app->db->query($sql, $remote_user, $remote_password_md5, $remote_functions);
 
 		}
 
 	}
 
 	//* Add the record to start the install process
-	$insert_data = "(package_name, server_id, software_update_id, status) VALUES ('".$app->db->quote($package_name)."', '".$app->db->quote($install_server_id)."', '".$app->db->quote($software_update_id)."','installing')";
+	$insert_data = array(
+		"package_name" => $package_name,
+		"server_id" => $install_server_id,
+		"software_update_id" => $software_update_id,
+		"status" => 'installing'
+	);
 	$app->db->datalogInsert('software_update_inst', $insert_data, 'software_update_inst_id');
-	$message_ok = 'Starting package installation '."<a href=\"#\" onclick=\"submitForm('pageForm','admin/software_package_list.php');\">".$app->lng('next')."</a>";
+	$message_ok = 'Starting package installation '."<a href=\"#\" onclick=\"ISPConfig.submitForm('pageForm','admin/software_package_list.php');\">".$app->lng('next')."</a>";
 
 }
 

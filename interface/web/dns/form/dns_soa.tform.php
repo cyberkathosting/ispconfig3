@@ -197,7 +197,7 @@ $form["tabs"]['dns_soa'] = array (
 					'range' => '60:',
 					'errmsg'=> 'minimum_range_error'),
 			),
-			'default' => '86400',
+			'default' => '3600',
 			'value'  => '',
 			'width'  => '10',
 			'maxlength' => '10'

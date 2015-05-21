@@ -61,7 +61,7 @@ class mail_user_filter_plugin {
 	function mail_user_filter_edit($event_name, $page_form) {
 		global $app, $conf;
 
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$page_form->dataRecord["mailuser_id"]);
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n", $mailuser['custom_mailfilter']);
 		$out = '';
@@ -86,8 +86,7 @@ class mail_user_filter_plugin {
 			$out = $new_rule . $out;
 		}
 
-		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
+		$app->db->datalogUpdate('mail_user', array("custom_mailfilter" => $out), 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
 
 
 	}
@@ -95,7 +94,7 @@ class mail_user_filter_plugin {
 	function mail_user_filter_del($event_name, $page_form) {
 		global $app, $conf;
 
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$page_form->dataRecord["mailuser_id"]);
+		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$skip = false;
 		$lines = explode("\n", $mailuser['custom_mailfilter']);
 		$out = '';
@@ -111,8 +110,7 @@ class mail_user_filter_plugin {
 			}
 		}
 
-		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
+		$app->db->datalogUpdate('mail_user', array("custom_mailfilter" => $out), 'mailuser_id', $page_form->dataRecord["mailuser_id"]);
 	}
 
 
@@ -124,7 +122,7 @@ class mail_user_filter_plugin {
 		global $app, $conf;
 
 		$app->uses("getconf");
-		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ".$app->functions->intval($page_form->dataRecord["mailuser_id"]));
+		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$mail_config = $app->getconf->get_server_config($app->functions->intval($mailuser_rec["server_id"]), 'mail');
 
 		if($mail_config['mail_filter_syntax'] == 'sieve') {
@@ -137,41 +135,69 @@ class mail_user_filter_plugin {
 			$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
 
 			//$content .= 'require ["fileinto", "regex", "vacation"];'."\n";
+			
+			if($page_form->dataRecord["op"] == 'domain') {
+				$content .= 'if address :domain :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
+			} elseif ($page_form->dataRecord["op"] == 'localpart') {
+				$content .= 'if address :localpart :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
+			} elseif ($page_form->dataRecord["source"] == 'Size') {
+				if(substr(trim($page_form->dataRecord["searchterm"]),-1) == 'k' || substr(trim($page_form->dataRecord["searchterm"]),-1) == 'K') {
+					$unit = 'k';
+				} else {
+					$unit = 'm';
+				}
+				$content .= 'if size :over '.intval($page_form->dataRecord["searchterm"]).$unit.' {'."\n";
+			} else {
+			
+				if($page_form->dataRecord["source"] == 'Header') {
+					$parts = explode(':',trim($page_form->dataRecord["searchterm"]));
+					$page_form->dataRecord["source"] = trim($parts[0]);
+					unset($parts[0]);
+					$page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
+					unset($parts);
+				}
 
-			$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
+				$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 
-			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
-			$searchterm = str_replace(
-				array(
-					'"',
-					'\\[',
-					'\\]'
-				),
-				array(
-					'\\"',
-					'\\\\[',
-					'\\\\]'
-				), $searchterm);
+				$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
+				$searchterm = str_replace(
+					array(
+						'"',
+						'\\[',
+						'\\]'
+					),
+					array(
+						'\\"',
+						'\\\\[',
+						'\\\\]'
+					), $searchterm);
 
-			if($page_form->dataRecord["op"] == 'contains') {
-				$content .= ".*".$searchterm;
-			} elseif ($page_form->dataRecord["op"] == 'is') {
-				$content .= "^".$searchterm."$";
-			} elseif ($page_form->dataRecord["op"] == 'begins') {
-				$content .= "^".$searchterm.".*";
-			} elseif ($page_form->dataRecord["op"] == 'ends') {
-				$content .= ".*".$searchterm."$";
+				if($page_form->dataRecord["op"] == 'contains') {
+					$content .= ".*".$searchterm;
+				} elseif ($page_form->dataRecord["op"] == 'is') {
+					$content .= "^".$searchterm."$";
+				} elseif ($page_form->dataRecord["op"] == 'begins') {
+					$content .= " ".$searchterm."";
+				} elseif ($page_form->dataRecord["op"] == 'ends') {
+					$content .= ".*".$searchterm."$";
+				}
+
+				$content .= '"] {'."\n";
 			}
-
-			$content .= '"] {'."\n";
 
 			if($page_form->dataRecord["action"] == 'move') {
-				$content .= '    fileinto "'.$page_form->dataRecord["target"].'";' . "\n";
+				$content .= '    fileinto "'.$page_form->dataRecord["target"].'";' . "\n    stop;\n";
+			} elseif ($page_form->dataRecord["action"] == 'keep') {
+				$content .= "    keep;\n";
+			} elseif ($page_form->dataRecord["action"] == 'stop') {
+				$content .= "    stop;\n";
+			} elseif ($page_form->dataRecord["action"] == 'reject') {
+				$content .= '    reject "'.$page_form->dataRecord["target"].'";    stop;\n\n';
 			} else {
-				$content .= "    discard;\n";
+				$content .= "    discard;\n    stop;\n";
 			}
 
-			$content .= "    stop;\n}\n";
+			$content .= "}\n";
 
 			$content .= '### END FILTER_ID:'.$page_form->id."\n";
 

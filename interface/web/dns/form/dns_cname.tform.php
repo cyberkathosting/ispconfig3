@@ -86,7 +86,7 @@ $form["tabs"]['dns'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-9\.\-\*]{0,255}$/',
+					'regex' => '/^[a-zA-Z0-9\.\-\*\_]{0,255}$/',
 					'errmsg'=> 'name_error_regex'),
 			),
 			'default' => '',
@@ -140,7 +140,7 @@ $form["tabs"]['dns'] = array (
 					'range' => '60:',
 					'errmsg'=> 'ttl_range_error'),
 			),
-			'default' => '86400',
+			'default' => '3600',
 			'value'  => '',
 			'width'  => '10',
 			'maxlength' => '10'

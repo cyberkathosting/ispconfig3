@@ -143,7 +143,7 @@ function start_domain_import($mail_domain) {
 
 	//* Get the user and groupid for the new records
 	$sys_groupid = $app->functions->intval($_POST['client_group_id']);
-	$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = $sys_groupid");
+	$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $sys_groupid);
 	$sys_userid = $app->functions->intval($tmp['userid']);
 	unset($tmp);
 	if($sys_groupid == 0) $error .= 'Inavlid groupid<br />';
@@ -159,7 +159,7 @@ function start_domain_import($mail_domain) {
 	$mail_domain_rec = $client->mail_domain_get($remote_session_id, array('domain' => $mail_domain));
 	if(is_array($mail_domain_rec)) {
 		$mail_domain_rec = $mail_domain_rec[0];
-		$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE domain = '".$app->db->quote($mail_domain)."'");
+		$tmp = $app->db->queryOneRecord("SELECT count(domain_id) as number FROM mail_domain WHERE domain = ?", $mail_domain);
 		if($tmp['number'] > 0) $error .= 'Domain '.$mail_domain.' exists already in local database.<br />';
 		unset($tmp);
 
@@ -182,7 +182,7 @@ function start_domain_import($mail_domain) {
 			$mail_users = $client->mail_user_get($remote_session_id, array('email' => '%@'.$mail_domain));
 			if(is_array($mail_users)) {
 				foreach($mail_users as $mail_user) {
-					$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = '".$app->db->quote($mail_user['email'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE email = ?", $mail_user['email']);
 					if($tmp['number'] == 0) {
 
 						//* Prepare record
@@ -229,7 +229,7 @@ function start_domain_import($mail_domain) {
 			$mail_aliases = $client->mail_alias_get($remote_session_id, array('type' => 'alias', 'destination' => '%@'.$mail_domain));
 			if(is_array($mail_aliases)) {
 				foreach($mail_aliases as $mail_alias) {
-					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'alias' AND source = '".$app->db->quote($mail_alias['source'])."' AND destination = '".$app->db->quote($mail_alias['destination'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'alias' AND source = ? AND destination = ?", $mail_alias['source'], $mail_alias['destination']);
 					if($tmp['number'] == 0) {
 						$mail_alias['sys_userid'] = $sys_userid;
 						$mail_alias['sys_groupid'] = $sys_groupid;
@@ -250,7 +250,7 @@ function start_domain_import($mail_domain) {
 			$mail_aliases = $client->mail_alias_get($remote_session_id, array('type' => 'aliasdomain', 'destination' => '@'.$mail_domain));
 			if(is_array($mail_aliases)) {
 				foreach($mail_aliases as $mail_alias) {
-					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'aliasdomain' AND source = '".$app->db->quote($mail_alias['source'])."' AND destination = '".$app->db->quote($mail_alias['destination'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'aliasdomain' AND source = ? AND destination = ?", $mail_alias['source'], $mail_alias['destination']);
 					if($tmp['number'] == 0) {
 						$mail_alias['sys_userid'] = $sys_userid;
 						$mail_alias['sys_groupid'] = $sys_groupid;
@@ -271,7 +271,7 @@ function start_domain_import($mail_domain) {
 			$mail_forwards = $client->mail_forward_get($remote_session_id, array('type' => 'forward', 'source' => '%@'.$mail_domain));
 			if(is_array($mail_forwards)) {
 				foreach($mail_forwards as $mail_forward) {
-					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'forward' AND source = '".$app->db->quote($mail_forward['source'])."' AND destination = '".$app->db->quote($mail_forward['destination'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE `type` = 'forward' AND source = ? AND destination = ?", $mail_forward['source'], $mail_forward['destination']);
 					if($tmp['number'] == 0) {
 						$mail_forward['sys_userid'] = $sys_userid;
 						$mail_forward['sys_groupid'] = $sys_groupid;
@@ -292,7 +292,7 @@ function start_domain_import($mail_domain) {
 			$mail_spamfilters = $client->mail_spamfilter_user_get($remote_session_id, array('email' => '%@'.$mail_domain));
 			if(is_array($mail_spamfilters)) {
 				foreach($mail_spamfilters as $mail_spamfilter) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_users WHERE email = '".$app->db->quote($mail_spamfilter['email'])."'");
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_users WHERE email = ?", $mail_spamfilter['email']);
 					if($tmp['number'] == 0) {
 						$mail_spamfilter['sys_userid'] = $sys_userid;
 						$mail_spamfilter['sys_groupid'] = $sys_groupid;

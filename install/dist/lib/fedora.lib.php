@@ -143,6 +143,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_sender.cf
 		$this->process_postfix_config('mysql-virtual_sender.cf');
 
+		//* mysql-virtual_sender_login_maps.cf
+		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
+		
 		//* mysql-virtual_client.cf
 		$this->process_postfix_config('mysql-virtual_client.cf');
 
@@ -151,6 +154,9 @@ class installer_dist extends installer_base {
 
 		//* mysql-virtual_relayrecipientmaps.cf
 		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
+
+		//* mysql-virtual_policy_greylist.cf
+		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
@@ -179,7 +185,7 @@ class installer_dist extends installer_base {
 		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ".$conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ?", $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
@@ -192,15 +198,28 @@ class installer_dist extends installer_base {
 			}
 		}
 		unset($rbl_hosts);
+		
+		//* If Postgrey is installed, configure it
+		$greylisting = '';
+		if($conf['postgrey']['installed'] == true) {
+			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
+		}
+		
+		$reject_sender_login_mismatch = '';
+		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		}
 		unset($server_ini_array);
-
-		//* These postconf commands will be executed on installation and update
+		
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
 			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list);
-
+			'{rbl_list}' => $rbl_list,
+			'{greylisting}' => $greylisting,
+			'{reject_slm}' => $reject_sender_login_mismatch,
+		);
+		
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_postfix.conf.master', 'tpl/fedora_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
 		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
@@ -359,6 +378,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		wf("$config_dir/$configfile", $content);
 
 		exec("chmod 660 $config_dir/$configfile");
@@ -385,7 +405,7 @@ class installer_dist extends installer_base {
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
@@ -477,6 +497,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf("$config_dir/$configfile", $content);
 
@@ -503,6 +524,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
+		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 
 
 		// Adding the amavisd commands to the postfix configuration
@@ -633,6 +655,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf["mysql"]["host"], $content);
+		$content = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $content);
 		$content = str_replace('{server_id}', $conf["server_id"], $content);
 		wf($conf["mydns"]["config_dir"].'/'.$configfile, $content);
 		exec('chmod 600 '.$conf["mydns"]["config_dir"].'/'.$configfile);
@@ -659,7 +682,7 @@ class installer_dist extends installer_base {
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		exec('chown '.$conf['bind']['bind_user'].':'.$conf['bind']['bind_group'].' '.$content);
-		exec('chmod 770 '.$content);
+		exec('chmod 2770 '.$content);
 
 	}
 
@@ -694,7 +717,7 @@ class installer_dist extends installer_base {
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
-		$records = $this->db->queryAllRecords('SELECT * FROM '.$conf['mysql']['master_database'].'.server_ip WHERE server_id = '.$conf['server_id']." AND virtualhost = 'y'");
+		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
 		if(is_array($records) && count($records) > 0) {
@@ -780,7 +803,7 @@ class installer_dist extends installer_base {
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 	}
 
-	public function configure_firewall()
+	public function configure_bastille_firewall()
 	{
 		global $conf;
 
@@ -802,7 +825,7 @@ class installer_dist extends installer_base {
 		$tcp_public_services = '';
 		$udp_public_services = '';
 
-		$row = $this->db->queryOneRecord('SELECT * FROM '.$conf["mysql"]["database"].'.firewall WHERE server_id = '.intval($conf['server_id']));
+		$row = $this->db->queryOneRecord('SELECT * FROM ?? WHERE server_id = ?', $conf["mysql"]["database"] . '.firewall', $conf['server_id']);
 
 		if(trim($row["tcp_port"]) != '' || trim($row["udp_port"]) != ''){
 			$tcp_public_services = trim(str_replace(',', ' ', $row["tcp_port"]));
@@ -813,7 +836,7 @@ class installer_dist extends installer_base {
 		}
 		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
 			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']);
-			if($row["tcp_port"] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ',".intval($conf['apache']['vhost_port'])."' WHERE server_id = ".intval($conf['server_id']));
+			if($row["tcp_port"] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ? WHERE server_id = ?", ',' . intval($conf['apache']['vhost_port']), $conf['server_id']);
 		}
 
 		$content = str_replace("{TCP_PUBLIC_SERVICES}", $tcp_public_services, $content);
@@ -912,11 +935,13 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -937,11 +962,13 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 
 		$content = str_replace('{mysql_master_server_ispconfig_user}', $conf['mysql']['master_ispconfig_user'], $content);
 		$content = str_replace('{mysql_master_server_ispconfig_password}', $conf['mysql']['master_ispconfig_password'], $content);
 		$content = str_replace('{mysql_master_server_database}', $conf['mysql']['master_database'], $content);
 		$content = str_replace('{mysql_master_server_host}', $conf['mysql']['master_host'], $content);
+		$content = str_replace('{mysql_master_server_port}', $conf['mysql']['master_port'], $content);
 
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$content = str_replace('{ispconfig_log_priority}', $conf['ispconfig_log_priority'], $content);
@@ -1013,13 +1040,11 @@ class installer_dist extends installer_base {
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
 		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled' WHERE server_id = ".intval($conf['server_id']);
+		$sql = "UPDATE `server` SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ?, vserver_server = ? WHERE server_id = ?";
 
+		$this->db->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
-			$this->dbmaster->query($sql);
-			$this->db->query($sql);
-		} else {
-			$this->db->query($sql);
+			$this->dbmaster->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
 		}
 
 		// chown install dir to root and chmod 755
@@ -1309,7 +1334,12 @@ class installer_dist extends installer_base {
 		
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-
+		
+		// Change mode of a few files from amavisd
+		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
 	}
 }
 

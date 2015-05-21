@@ -109,12 +109,12 @@ class page_action extends tform_actions {
 
 				// Get the limits of the client
 				$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
-				$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+				$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 				// Fill the client select field
-				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
-				$clients = $app->db->queryAllRecords($sql);
-				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$client['client_id']);
+				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
+				$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
 				if(is_array($clients)) {
@@ -133,7 +133,7 @@ class page_action extends tform_actions {
 	if($_SESSION["s"]["user"]["typ"] != 'admin')
 	{
 		$client_group_id = $_SESSION["s"]["user"]["default_group"];
-		$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+		$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 		$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 
@@ -144,13 +144,13 @@ class page_action extends tform_actions {
 			$app->tpl->setVar('server_id_value', $client_dns['dns_servers_ids'][0]);
 		}
 
-		$sql = "SELECT server_id, server_name FROM server WHERE server_id IN (" . $client_dns['dns_servers'] . ");";
-		$dns_servers = $app->db->queryAllRecords($sql);
+		$sql = "SELECT server_id, server_name FROM server WHERE server_id IN ?";
+		$dns_servers = $app->db->queryAllRecords($sql, $client_dns['dns_servers_ids']);
 
 		$options_dns_servers = "";
 
 		foreach ($dns_servers as $dns_server) {
-			$options_dns_servers .= "<option value='$dns_server[server_id]'>$dns_server[server_name]</option>";
+			$options_dns_servers .= '<option value="'.$dns_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $dns_server['server_id'] ? ' selected="selected"' : '').'>'.$dns_server['server_name'].'</option>';
 		}
 
 		$app->tpl->setVar("client_server_id", $options_dns_servers);
@@ -219,7 +219,7 @@ function onSubmit() {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
-			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT limit_dns_zone, dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
 			$client['dns_servers_ids'] = explode(',', $client['dns_servers']);
 
@@ -231,27 +231,20 @@ function onSubmit() {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ".$app->functions->intval($this->id));
+				$tmp = $app->db->queryOneRecord("SELECT server_id FROM dns_soa WHERE id = ?", $this->id);
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				unset($tmp);
 				// When the record is inserted
 			} else {
 				// Check if the user may add another maildomain.
 				if($client["limit_dns_zone"] >= 0) {
-					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = $client_group_id");
+					$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_soa WHERE sys_groupid = ?", $client_group_id);
 					if($tmp["number"] >= $client["limit_dns_zone"]) {
 						$app->error($app->tform->wordbook["limit_dns_zone_txt"]);
 					}
 				}
 			}
 		}
-
-		/*
-			// Update the serial number of the SOA record
-			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_soa WHERE id = ".$this->id);
-			$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
-			*/
-
 
 		//* Check if soa, ns and mbox have a dot at the end
 		if(strlen($this->dataRecord["origin"]) > 0 && substr($this->dataRecord["origin"], -1, 1) != '.') $this->dataRecord["origin"] .= '.';
@@ -282,8 +275,12 @@ function onBeforeUpdate () {
 	// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 		//* We do not allow users to change a domain which has been created by the admin
-		$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ".$this->id);
-		if(isset($this->dataRecord["origin"]) && $rec['origin'] != $this->dataRecord["origin"] && $app->tform->checkPerm($this->id, 'u')) {
+		$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ?", $this->id);
+		$drOrigin = (isset($this->dataRecord['origin']))
+			? $app->functions->idn_encode($this->dataRecord['origin'])
+			: false;
+
+		if($rec['origin'] !== $drOrigin && $app->tform->checkPerm($this->id, 'u')) {
 			//* Add a error message and switch back to old server
 			$app->tform->errorMessage .= $app->lng('The Zone (soa) can not be changed. Please ask your Administrator if you want to change the Zone name.');
 			$this->dataRecord["origin"] = $rec['origin'];

@@ -85,7 +85,7 @@ class openvz_plugin {
 			return;
 		}
 
-		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ".$data['new']['ostemplate_id']);
+		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ?", $data['new']['ostemplate_id']);
 		$ostemplate = escapeshellcmd($tmp['template_file']);
 		unset($tmp);
 

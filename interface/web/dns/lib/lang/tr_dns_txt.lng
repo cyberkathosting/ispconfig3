@@ -13,4 +13,7 @@ $wb['name_error_regex'] = 'Hostname yanlış formatta.';
 $wb['data_error_empty'] = 'Metin boş';
 $wb['data_error_regex'] = 'Metin geçersiz formatta';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['invalid_type_dkim'] = 'DKIM is not allowed. Use the DKIM button';
+$wb['invalid_type_dmarc'] = 'DMARC is not allowed. Use the DMARC button';
+$wb['invalid_type_spf'] = 'SPF is not allowed. Use the SPF button.';
 ?>

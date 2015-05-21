@@ -39,6 +39,9 @@ class plugin_backuplist_mail extends plugin_base {
 
 	function onShow() {
 		global $app;
+		
+		$app->uses('functions');
+		
 		$listTpl = new tpl;
 		$listTpl->newTemplate('templates/mail_user_backup_list.htm');
 				
@@ -52,42 +55,15 @@ class plugin_backuplist_mail extends plugin_base {
 
 		if(isset($_GET['backup_action'])) {
 			$backup_id = $app->functions->intval($_GET['backup_id']);
-/*
-			if($_GET['backup_action'] == 'download' && $backup_id > 0) {
-				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_download' AND action_param = '$backup_id'";
-				$tmp = $app->db->queryOneRecord($sql);
-				if($tmp['number'] == 0) {
-					$message .= $wb['download_info_txt'];
-					$sql = 	"INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-					"VALUES (".
-						(int)$this->form->dataRecord['server_id'] . ", " .
-						time() . ", " .
-						"'backup_download', " .
-						"'".$backup_id."', " .
-						"'pending', " .
-						"''" .
-					")";
-					$app->db->query($sql);
-				} else {
-					$error .= $wb['download_pending_txt'];
-				}
-			}
-*/
-			if($_GET['backup_action'] == 'restore' && $backup_id > 0) {
-				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = '$backup_id'";
-				$tmp = $app->db->queryOneRecord($sql);
+
+			if($_GET['backup_action'] == 'restore_mail' && $backup_id > 0) {
+				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore_mail' AND action_param = ?";
+				$tmp = $app->db->queryOneRecord($sql, $backup_id);
 				if($tmp['number'] == 0) {
 					$message .= $wb['restore_info_txt'];
 					$sql = 	"INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-					"VALUES (".
-						(int)$this->form->dataRecord['server_id'] . ", " .
-						time() . ", " .
-						"'backup_restore', " .
-						"'".$backup_id."', " .
-						"'pending', " .
-						"''" .
-					")";
-					$app->db->query($sql);
+					"VALUES (?, ? 'backup_restore_mail', ?, 'pending','')";
+					$app->db->query($sql, $this->form->dataRecord['server_id'], time(), $backup_id);
 				} else {
 					$error .= $wb['restore_pending_txt'];
 				}
@@ -95,8 +71,8 @@ class plugin_backuplist_mail extends plugin_base {
 		}
 				
 		//* Get the data
-		$sql = "SELECT * FROM mail_backup WHERE mailuser_id = ".$this->form->id." ORDER BY tstamp DESC";
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT * FROM mail_backup WHERE mailuser_id = ? ORDER BY tstamp DESC";
+		$records = $app->db->queryAllRecords($sql, $this->form->id);
 		$bgcolor = "#FFFFFF";
 		if(is_array($records)) {
 			foreach($records as $rec) {
@@ -105,6 +81,7 @@ class plugin_backuplist_mail extends plugin_base {
 				$rec["bgcolor"] = $bgcolor;
 				$rec['date'] = date($app->lng('conf_format_datetime'),$rec['tstamp']);
 				$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+				$rec['filesize'] = $app->functions->formatBytes($rec['filesize']);
 				$records_new[] = $rec;
 			}
 		}

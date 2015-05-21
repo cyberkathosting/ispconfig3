@@ -6,8 +6,6 @@ $wb['customer_txt'] = 'Kund';
 $wb['status_txt'] = 'Status';
 $wb['install_location_txt'] = 'Installationsplats';
 $wb['pkg_delete_confirmation'] = 'Vill du verkligen radera denna installation?';
-$wb['pkg_reinstall_confirmation'] = 'Vill du verkligen installera om det här paketet med samma inställningar?';
 $wb['filter_txt'] = 'Sök';
 $wb['delete_txt'] = 'Radera';
-$wb['reinstall_txt'] = 'Ominstallera';
 ?>

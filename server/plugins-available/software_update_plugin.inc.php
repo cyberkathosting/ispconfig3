@@ -67,8 +67,8 @@ class software_update_plugin {
 	private function set_install_status($inst_id, $status) {
 		global $app;
 
-		$app->db->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
-		$app->dbmaster->query("UPDATE software_update_inst SET status = '{$status}' WHERE software_update_inst_id = '{$inst_id}'");
+		$app->db->query("UPDATE software_update_inst SET status = ? WHERE software_update_inst_id = ?", $status, $inst_id);
+		$app->dbmaster->query("UPDATE software_update_inst SET status = ? WHERE software_update_inst_id = ?", $status, $inst_id);
 	}
 
 	public function process($event_name, $data) {
@@ -76,8 +76,8 @@ class software_update_plugin {
 
 		//* Get the info of the package:
 		$software_update_id = intval($data["new"]["software_update_id"]);
-		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = '$software_update_id'");
-		$software_package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = '".$app->db->quote($software_update['package_name'])."'");
+		$software_update = $app->db->queryOneRecord("SELECT * FROM software_update WHERE software_update_id = ?", $software_update_id);
+		$software_package = $app->db->queryOneRecord("SELECT * FROM software_package WHERE package_name = ?", $software_update['package_name']);
 
 		if($software_package['package_type'] == 'ispconfig' && !$conf['software_updates_enabled'] == true) {
 			$app->log('Software Updates not enabled on this server. To enable updates, set $conf["software_updates_enabled"] = true; in config.inc.php', LOGLEVEL_WARN);

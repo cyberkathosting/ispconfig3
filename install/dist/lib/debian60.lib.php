@@ -38,7 +38,7 @@ class installer extends installer_base {
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
-			$tmp = $this->db->queryOneRecord("SELECT * FROM ".$conf["mysql"]["database"].".server WHERE server_id = ".$conf['server_id']);
+			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
 			
@@ -127,6 +127,7 @@ class installer extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($config_dir.'/'.$configfile, $content);
 

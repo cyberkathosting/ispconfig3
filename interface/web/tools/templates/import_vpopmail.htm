@@ -1,53 +1,45 @@
-<h2><tmpl_var name="head_txt"></h2>
+<div class='page-header'>
+	<h1><tmpl_var name="head_txt"></h1>
+</div>
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_import">
   
     <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name="legend_txt"}</legend>
-            <div class="ctrlHolder">
-                <p class="label">Database Hostname</p>
-                <div class="multiField">
-                    <input id="db_hostname" type="text" value="{tmpl_var name='db_hostname'}" name="db_hostname" />
-                </div>
+        <legend>{tmpl_var name="legend_txt"}</legend>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Database Hostname</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="db_hostname" value="{tmpl_var name='db_hostname'}" name="db_hostname" /></div>
             </div>
-			<div class="ctrlHolder">
-                <p class="label">Database Name</p>
-                <div class="multiField">
-                    <input id="db_name" type="text" value="{tmpl_var name='db_name'}" name="db_name" />
-                </div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">Database Name</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="db_name" value="{tmpl_var name='db_name'}" name="db_name" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Database User</p>
-                <div class="multiField">
-                    <input id="db_user" type="text" value="{tmpl_var name='db_user'}" name="db_user" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Database User</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="db_user" value="{tmpl_var name='db_user'}" name="db_user" /></div>
             </div>
-            <div class="ctrlHolder">
-                <p class="label">Database password</p>
-                <div class="multiField">
-                    <input id="db_password" type="text" value="{tmpl_var name='db_password'}" name="db_password" />
-                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Database password</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="db_password" value="{tmpl_var name='db_password'}" name="db_password" /></div>
             </div>
-			<div class="ctrlHolder">
-                <p class="label">Server ID of local mailserver</p>
-                <div class="multiField">
-                    <input id="local_server_id" type="text" value="{tmpl_var name='local_server_id'}" name="local_server_id" />
-                </div>
+			<div class="form-group">
+                <label class="col-sm-3 control-label">Server ID of local mailserver</label>
+                <div class="col-sm-9"><input class="form-control" type="text" id="local_server_id" value="{tmpl_var name='local_server_id'}" name="local_server_id" /></div>
             </div>
-        </fieldset>
+        
     </div>
 	 
     <tmpl_if name="msg">
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3>ERROR</h3><ol><tmpl_var name="error"></ol></div>
+        <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
     </tmpl_if>
 	
     <input type="hidden" name="remote_session_id" value="{tmpl_var name='remote_session_id'}">
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="Import" onClick="submitForm('pageForm','tools/import_vpopmail.php');"><span>{tmpl_var name="btn_start_txt"}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="Cancel" onClick="loadContent('tools/index.php');"><span>{tmpl_var name="btn_cancel_txt"}</span></button>
-        </div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="Import" data-submit-form="pageForm" data-form-action="tools/import_vpopmail.php">{tmpl_var name="btn_start_txt"}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">{tmpl_var name="btn_cancel_txt"}</button>
+        </div></div>
   </div>

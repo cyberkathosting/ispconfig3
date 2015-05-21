@@ -75,9 +75,9 @@ class mail_plugin_dkim {
 	 */
 	function get_amavis_config() {
 		$pos_config=array(
-			'/etc/amavisd.conf',
 			'/etc/amavisd.conf/50-user',
 			'/etc/amavis/conf.d/50-user',
+			'/etc/amavisd.conf',
 			'/etc/amavisd/amavisd.conf'
 		);
 		$amavis_configfile='';
@@ -143,7 +143,12 @@ class mail_plugin_dkim {
 					mkdir($mail_config['dkim_path'], 0755, true);
 					$app->log('No user amavis or vscan found - using root for '.$mail_config['dkim_path'], LOGLEVEL_WARNING);
 				}
-            }
+            } else {
+				if (!$app->system->checkpath($mail_config['dkim_path'])) {
+					$app->log('Unable to write DKIM settings - invalid DKIM-Path (symlink?)', LOGLEVEL_ERROR);
+					$check=false;
+				}
+			}
 
 			if (!is_writeable($mail_config['dkim_path'])) {
 				$app->log('DKIM Path '.$mail_config['dkim_path'].' not writeable.', LOGLEVEL_ERROR);
@@ -320,7 +325,7 @@ class mail_plugin_dkim {
 					$this->remove_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['domain']);
 				}
 			} else {
-				$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.', LOGLEVEL_ERROR);
+				$app->log('Error saving the DKIM Private-key for '.$data['new']['domain'].' - DKIM is not enabled for the domain.', LOGLEVEL_DEBUG);
 			}
 		}
 	}
@@ -364,44 +369,46 @@ class mail_plugin_dkim {
 	 */
 	function domain_dkim_update($event_name, $data) {
 		global $app;
-		if ($this->check_system($data)) {
-			/* maildomain disabled */
-			if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y' && $data['new']['dkim']=='y') {
-				$app->log('Maildomain '.$data['new']['domain'].' disabled - remove DKIM-settings', LOGLEVEL_DEBUG);
-				$this->remove_dkim($data['new']);
-			}
-			/* maildomain re-enabled */
-			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'n' && $data['new']['dkim']=='y') 
-				$this->add_dkim($data);
-
-			/* maildomain active - only dkim changes */
-			if ($data['new']['active'] == 'y' && $data['old']['active'] == 'y') {
-				/* dkim disabled */
-				if ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'n') {
+		if($data['new']['dkim'] == 'y' || $data['old']['dkim'] == 'y'){
+			if ($this->check_system($data)) {
+				/* maildomain disabled */
+				if ($data['new']['active'] == 'n' && $data['old']['active'] == 'y' && $data['new']['dkim']=='y') {
+					$app->log('Maildomain '.$data['new']['domain'].' disabled - remove DKIM-settings', LOGLEVEL_DEBUG);
 					$this->remove_dkim($data['new']);
 				}
-				/* dkim enabled */
-				elseif ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'y') {
+				/* maildomain re-enabled */
+				if ($data['new']['active'] == 'y' && $data['old']['active'] == 'n' && $data['new']['dkim']=='y') 
 					$this->add_dkim($data);
-				}
-				/* new private-key */
-				if ($data['new']['dkim_private'] != $data['old']['dkim_private'] && $data['new']['dkim'] == 'y') {
-					$this->add_dkim($data);
-				}
-				/* new selector */
-				if ($data['new']['dkim_selector'] != $data['old']['dkim_selector'] && $data['new']['dkim'] == 'y') {
-					$this->add_dkim($data);
-				}
-				/* new domain-name */
-				if ($data['new']['domain'] != $data['old']['domain']) {
-					$this->remove_dkim($data['old']);
-					$this->add_dkim($data);
-				}
-			}
 
-			/* resync */
-			if ($data['new']['active'] == 'y' && $data['new'] == $data['old']) {
-				$this->add_dkim($data);
+				/* maildomain active - only dkim changes */
+				if ($data['new']['active'] == 'y' && $data['old']['active'] == 'y') {
+					/* dkim disabled */
+					if ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'n') {
+						$this->remove_dkim($data['new']);
+					}
+					/* dkim enabled */
+					elseif ($data['new']['dkim'] != $data['old']['dkim'] && $data['new']['dkim'] == 'y') {
+						$this->add_dkim($data);
+					}
+					/* new private-key */
+					if ($data['new']['dkim_private'] != $data['old']['dkim_private'] && $data['new']['dkim'] == 'y') {
+						$this->add_dkim($data);
+					}
+					/* new selector */
+					if ($data['new']['dkim_selector'] != $data['old']['dkim_selector'] && $data['new']['dkim'] == 'y') {
+						$this->add_dkim($data);
+					}
+					/* new domain-name */
+					if ($data['new']['domain'] != $data['old']['domain']) {
+						$this->remove_dkim($data['old']);
+						$this->add_dkim($data);
+					}
+				}
+
+				/* resync */
+				if ($data['new']['active'] == 'y' && $data['new'] == $data['old'] && $data['new']['dkim']=='y') {
+					$this->add_dkim($data);
+				}
 			}
 		}
 	}

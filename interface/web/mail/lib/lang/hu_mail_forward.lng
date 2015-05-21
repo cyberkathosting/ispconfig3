@@ -6,4 +6,5 @@ $wb['limit_mailforward_txt'] = 'Nincs több email továbbítási lehetőség.';
 $wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
 $wb['domain_txt'] = 'Domain';
 $wb['source_txt'] = 'Source Email';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

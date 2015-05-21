@@ -90,4 +90,6 @@ $wb['numiptent_error_empty'] = 'Numiptent ist leer.';
 $wb['swappages_error_empty'] = 'Swappages ist leer.';
 $wb['Template'] = 'Template';
 $wb['Advanced'] = 'Erweitert';
+$wb['features_txt'] = 'Features';
+$wb["iptables_txt"] = "iptables";
 ?>

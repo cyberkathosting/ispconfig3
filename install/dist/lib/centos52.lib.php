@@ -123,6 +123,7 @@ class installer extends installer_dist {
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		$content = str_replace('/var/spool/amavisd/clamd.sock', '/tmp/clamd.socket', $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
+		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 
 
 		// Adding the amavisd commands to the postfix configuration

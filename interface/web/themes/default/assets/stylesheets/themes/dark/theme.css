@@ -1,0 +1,169 @@
+html, body {
+  -webkit-tap-highlight-color: black; }
+
+body {
+  background: #101a22;
+  color: #dfdfdf; }
+
+.green {
+  color: #3cb355; }
+
+.form-control:focus {
+  border-color: #f9f1c9; }
+
+.formbutton-default {
+  background: linear-gradient(to bottom, white, #b9bbbd);
+  color: #101a22; }
+  .formbutton-default:hover {
+    background: linear-gradient(to bottom, #f2f2f2, #acaeb1); }
+
+.formbutton-success {
+  background: linear-gradient(to bottom, #7bcc89, #6ab977);
+  border-color: #5aab68;
+  border-bottom-color: #5aab68;
+  color: #101a22; }
+  .formbutton-success:hover {
+    background: linear-gradient(to bottom, #69c579, #59b167); }
+  .formbutton-success:hover, .formbutton-success.active {
+    border-bottom-color: #509b5a;
+    color: #101a22; }
+
+.formbutton-danger {
+  background: linear-gradient(to bottom, #c70f19, #b60008);
+  border-color: #980b13;
+  border-bottom-color: #980b13;
+  color: white; }
+  .formbutton-danger:hover {
+    background: linear-gradient(to bottom, #c30b15, #b20004); }
+  .formbutton-danger:hover, .formbutton-danger.active {
+    border-bottom-color: #8f0209;
+    color: white; }
+
+#searchform button {
+  background: linear-gradient(to bottom, white, #b9bbbd); }
+  #searchform button:hover {
+    background: linear-gradient(to bottom, #f2f2f2, #acaeb1); }
+
+#logout-button {
+  background: #c70f19;
+  border-bottom-color: #980b13; }
+  #logout-button:hover {
+    background: #df111c;
+    border-bottom-color: #800a10; }
+
+#main-navigation a {
+  background: linear-gradient(to bottom, white, #b9bbbd);
+  border-bottom-color: #878787; }
+  #main-navigation a:hover {
+    background: linear-gradient(to bottom, #f2f2f2, #acaeb1); }
+  #main-navigation a:hover, #main-navigation a.active {
+    border-bottom-color: #6b6b6b;
+    color: #c70f19; }
+#main-navigation .icon {
+  text-shadow: 1px 1px 1px #101a22; }
+
+#sidebar {
+  border-color: #cedded;
+  background: #101a22; }
+  #sidebar header {
+    background: #00313d;
+    color: #f9f1c9; }
+  #sidebar li {
+    border-top-color: #cedded; }
+  #sidebar a {
+    color: inherit; }
+    #sidebar a:hover {
+      color: #f2eaca; }
+
+.page-header {
+  border-color: #878787; }
+
+.alert-notification {
+  background: #00313d;
+  border-color: #cedded;
+  color: #f9f1c9; }
+  .alert-notification a {
+    color: #e8d9a1; }
+    .alert-notification a:hover {
+      color: #f2eaca; }
+
+.alert-danger {
+  background: #f7dfdf;
+  border-color: #dcb2b3;
+  color: #af797d; }
+
+.modules li {
+  background: #101a22;
+  border-color: #d3d7da;
+  box-shadow: inset 1px 3px 8px -5px rgba(0, 0, 0, 0.2); }
+.modules .button {
+  background: linear-gradient(to bottom, white, #b9bbbd);
+  border-bottom-color: #878787; }
+  .modules .button:hover {
+    background: linear-gradient(to bottom, #f2f2f2, #acaeb1); }
+  .modules .button:hover, .modules .button.active {
+    border-bottom-color: #6b6b6b; }
+.modules a {
+  color: inherit; }
+
+.table-wrapper {
+  background: #101a22;
+  border-color: #d3d7da; }
+
+.table caption {
+  border-bottom-color: #d3d7da; }
+.table tbody tr {
+  border-top-color: #d3d7da; }
+  .table tbody tr:nth-child(odd) {
+    background: #101a22; }
+  .table tbody tr:nth-child(even) {
+    background: #101a22; }
+  .table tbody tr:hover {
+    background: #00313d; }
+
+.tfooter {
+  border-top-color: #d3d7da; }
+
+.content-tab-wrapper {
+  background: #101a22;
+  border-color: #d3d7da; }
+  .content-tab-wrapper .nav-tabs {
+    background: #243b55;
+    box-shadow: inset -1px -2px 6px -5px rgba(0, 0, 0, 0.2); }
+    .content-tab-wrapper .nav-tabs > li > a {
+      border-right-color: #d3d7da !important;
+      color: inherit; }
+      .content-tab-wrapper .nav-tabs > li > a:hover {
+        background: #1c2f43; }
+    .content-tab-wrapper .nav-tabs .active a {
+      background: #101a22 !important; }
+      .content-tab-wrapper .nav-tabs .active a:focus {
+        color: inherit; }
+
+thead.dark {
+  background: linear-gradient(to bottom, #2b556d, #1c394e) !important;
+  color: #dfdfdf; }
+
+thead.dark tr:nth-child(2) {
+  background: linear-gradient(to bottom, white, #b9bbbd) !important; }
+
+#footer {
+  border-top-color: #d3d7da; }
+
+.pushy {
+  background: #101a22; }
+  .pushy ul.subnavi li a:hover {
+    background: none; }
+  .pushy a:hover, .pushy a.active {
+    background: #101a22;
+    color: inherit; }
+
+@media screen and (max-width: 860px) {
+  #main-navigation a {
+    border-right-color: #d3d7da;
+    border-bottom-color: #d3d7da; }
+    #main-navigation a.active {
+      border-right-color: #d3d7da;
+      border-bottom-color: #d3d7da; }
+    #main-navigation a:hover {
+      border-bottom-color: #d3d7da; } }

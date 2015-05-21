@@ -51,33 +51,6 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
-	/*
-	//* Code moved to mailfilter plugin
-	function onAfterDelete() {
-		global $app, $conf;
-
-		$mailuser = $app->db->queryOneRecord("SELECT custom_mailfilter FROM mail_user WHERE mailuser_id = ".$this->dataRecord["mailuser_id"]);
-		$skip = false;
-		$lines = explode("\n",$mailuser['custom_mailfilter']);
-		$out = '';
-
-		foreach($lines as $line) {
-			$line = trim($line);
-			if($line == '### BEGIN FILTER_ID:'.$this->id) {
-				$skip = true;
-			}
-			if($skip == false && $line != '') $out .= $line ."\n";
-			if($line == '### END FILTER_ID:'.$this->id) {
-				$skip = false;
-			}
-		}
-
-		$out = $app->db->quote($out);
-		$app->db->datalogUpdate('mail_user', "custom_mailfilter = '$out'", 'mailuser_id', $this->dataRecord["mailuser_id"]);
-
-	}
-	*/
-
 }
 
 $page = new page_action;

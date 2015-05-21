@@ -1,20 +1,14 @@
-<div class="panel panel_support_message">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels"><legend>{tmpl_var name='faq_section_name_txt'}</legend>
-            <div class="ctrlHolder">
-                <label for="hfs_name">{tmpl_var name='faq_section_name_txt'}</label>
-                <input name="hfs_name" id="hfs_name" value="{tmpl_var name='hfs_name'}" size="30" maxlength="255" type="text" class="textInput" />
-            </div>
-        </fieldset>
+        <legend>{tmpl_var name='faq_section_name_txt'}</legend>
+            <div class="form-group">
+                <label for="hfs_name" class="col-sm-3 control-label">{tmpl_var name='faq_section_name_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="hfs_name" id="hfs_name" value="{tmpl_var name='hfs_name'}" class="form-control" /></div></div>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','help/faq_sections_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('help/faq_sections_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="help/faq_sections_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="help/faq_sections_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>
 

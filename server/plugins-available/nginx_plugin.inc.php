@@ -208,15 +208,15 @@ class nginx_plugin {
 			$app->system->chmod($key_file2, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
-			$ssl_request = $app->db->quote($app->system->file_get_contents($csr_file));
-			$ssl_cert = $app->db->quote($app->system->file_get_contents($crt_file));
-			$ssl_key2 = $app->db->quote($app->system->file_get_contents($key_file2));
+			$ssl_request = $app->system->file_get_contents($csr_file);
+			$ssl_cert = $app->system->file_get_contents($crt_file);
+			$ssl_key2 = $app->system->file_get_contents($key_file2);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
-			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->db->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '$ssl_request', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key2' WHERE domain = '".$data['new']['domain']."'");
-			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
 
 		//* Save a SSL certificate to disk
@@ -263,10 +263,10 @@ class nginx_plugin {
 				unset($crt_file_contents);
 			}
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			$app->log('Saving SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
 		}
 
@@ -286,11 +286,11 @@ class nginx_plugin {
 			$app->system->unlink($crt_file);
 			//$app->system->unlink($bundle_file);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = '".$data['new']['domain']."'");
-			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = '".$data['new']['domain']."'");
-			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			$app->log('Deleting SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
 		}
 
@@ -326,7 +326,7 @@ class nginx_plugin {
 
 			// If the parent_domain_id has been changed, we will have to update the old site as well.
 			if($this->action == 'update' && $data['new']['parent_domain_id'] != $data['old']['parent_domain_id']) {
-				$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$old_parent_domain_id." AND active = 'y'");
+				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $old_parent_domain_id);
 				$data['new'] = $tmp;
 				$data['old'] = $tmp;
 				$this->action = 'update';
@@ -334,7 +334,7 @@ class nginx_plugin {
 			}
 
 			// This is not a vhost, so we need to update the parent record instead.
-			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$new_parent_domain_id." AND active = 'y'");
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $new_parent_domain_id);
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
@@ -374,7 +374,7 @@ class nginx_plugin {
 		$old_log_folder = 'log';
 		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
 			// new one
-			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['new']['parent_domain_id']));
+			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['new']['parent_domain_id']);
 			$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['new']['domain']);
 			if($subdomain_host == '') $subdomain_host = 'web'.$data['new']['domain_id'];
 			$web_folder = $data['new']['web_folder'];
@@ -383,7 +383,7 @@ class nginx_plugin {
 			
 			if(isset($data['old']['parent_domain_id'])) {
 				// old one
-				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['old']['parent_domain_id']);
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
 				if($subdomain_host == '') $subdomain_host = 'web'.$data['old']['domain_id'];
 				$old_web_folder = $data['old']['web_folder'];
@@ -437,7 +437,7 @@ class nginx_plugin {
 		if($this->action == 'update' && $data['new']['document_root'] != $data['old']['document_root']) {
 
 			//* Get the old client ID
-			$old_client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['old']['sys_groupid']));
+			$old_client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = ?', $data['old']['sys_groupid']);
 			$old_client_id = intval($old_client['client_id']);
 			unset($old_client);
 
@@ -576,7 +576,7 @@ class nginx_plugin {
 		$app->system->web_folder_protection($data['new']['document_root'], true);
 
 		// Get the client ID
-		$client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['new']['sys_groupid']));
+		$client = $app->dbmaster->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = ?', $data['new']['sys_groupid']);
 		$client_id = intval($client['client_id']);
 		unset($client);
 
@@ -959,6 +959,7 @@ class nginx_plugin {
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
+		$pool_dir = trim($pool_dir);
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['new']['domain_id'];
 		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
@@ -1089,7 +1090,27 @@ class nginx_plugin {
 
 		// Custom nginx directives
 		$final_nginx_directives = array();
-		$nginx_directives = $data['new']['nginx_directives'];
+		if(intval($data['new']['directive_snippets_id']) > 0){
+			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", $data['new']['directive_snippets_id']);
+			if(isset($snippet['snippet'])){
+				$nginx_directives = $snippet['snippet'];
+			} else {
+				$nginx_directives = $data['new']['nginx_directives'];
+			}
+			if($data['new']['enable_pagespeed'] == 'y'){
+				// if PageSpeed is already enabled, don't add configuration again
+				if(stripos($nginx_directives, 'pagespeed') !== false){
+					$vhost_data['enable_pagespeed'] = false;
+				} else {
+					$vhost_data['enable_pagespeed'] = true;
+				}
+			} else {
+				$vhost_data['enable_pagespeed'] = false;
+			}
+		} else {
+			$nginx_directives = $data['new']['nginx_directives'];
+			$vhost_data['enable_pagespeed'] = false;
+		}
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
@@ -1327,7 +1348,7 @@ class nginx_plugin {
 		$auto_alias = $web_config['website_autoalias'];
 		if($auto_alias != '') {
 			// get the client username
-			$client = $app->db->queryOneRecord("SELECT `username` FROM `client` WHERE `client_id` = '" . intval($client_id) . "'");
+			$client = $app->db->queryOneRecord("SELECT `username` FROM `client` WHERE `client_id` = ?", $client_id);
 			$aa_search = array('[client_id]', '[website_id]', '[client_username]', '[website_domain]');
 			$aa_replace = array($client_id, $data['new']['domain_id'], $client['username'], $data['new']['domain']);
 			$auto_alias = str_replace($aa_search, $aa_replace, $auto_alias);
@@ -1347,7 +1368,7 @@ class nginx_plugin {
 		}
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND active = 'y' AND (type != 'vhostsubdomain' AND type != 'vhostalias')");
+		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ? AND active = 'y' AND (type != 'vhostsubdomain' AND type != 'vhostalias')", $data['new']['domain_id']);
 		$alias_seo_redirects = array();
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
@@ -1796,7 +1817,7 @@ class nginx_plugin {
 		$log_folder = 'log';
 		$web_folder = '';
 		if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
-			$tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = '.intval($data['old']['parent_domain_id']));
+			$tmp = $app->db->queryOneRecord('SELECT `domain`,`document_root` FROM web_domain WHERE domain_id = ?', $data['old']['parent_domain_id']);
 			if($tmp['domain'] != ''){
 				$subdomain_host = preg_replace('/^(.*)\.' . preg_quote($tmp['domain'], '/') . '$/', '$1', $data['old']['domain']);
 			} else {
@@ -1868,7 +1889,7 @@ class nginx_plugin {
 		if($data['old']['type'] != 'vhost' && $data['old']['type'] != 'vhostsubdomain' && $data['old']['type'] != 'vhostalias' && $data['old']['parent_domain_id'] > 0) {
 			//* This is a alias domain or subdomain, so we have to update the website instead
 			$parent_domain_id = intval($data['old']['parent_domain_id']);
-			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$parent_domain_id." AND active = 'y'");
+			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $parent_domain_id);
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
@@ -1922,7 +1943,7 @@ class nginx_plugin {
 						} else {
 							// read all vhost subdomains with same parent domain
 							$used_paths = array();
-							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ".intval($data['old']['parent_domain_id'])." AND domain_id != ".intval($data['old']['domain_id']));
+							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ? AND domain_id != ?", $data['old']['parent_domain_id'], $data['old']['domain_id']);
 							foreach($tmp as $tmprec) {
 								// we normalize the folder entries because we need to compare them
 								$tmp_folder = preg_replace('/[\/]{2,}/', '/', $tmprec['web_folder']); // replace / occuring multiple times
@@ -2005,7 +2026,7 @@ class nginx_plugin {
 				$app->log('Removing website: '.$docroot, LOGLEVEL_DEBUG);
 
 				// Delete the symlinks for the sites
-				$client = $app->db->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = '.intval($data['old']['sys_groupid']));
+				$client = $app->db->queryOneRecord('SELECT client_id FROM sys_group WHERE sys_group.groupid = ?', $data['old']['sys_groupid']);
 				$client_id = intval($client['client_id']);
 				unset($client);
 				$tmp_symlinks_array = explode(':', $web_config['website_symlinks']);
@@ -2046,6 +2067,28 @@ class nginx_plugin {
 				$this->awstats_delete($data, $web_config);
 			}
 
+			//* Delete the web-backups
+			if($data['old']['type'] == 'vhost') {
+				$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+				$backup_dir = $server_config['backup_dir'];
+				$mount_backup = true;
+				if($server_config['backup_dir'] != '' && $server_config['backup_delete'] == 'y') {
+					//* mount backup directory, if necessary
+					if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $mount_backup = false;
+					if($mount_backup){
+						$web_backup_dir = $backup_dir.'/web'.$data_old['domain_id'];
+						//** do not use rm -rf $web_backup_dir because database(s) may exits
+						exec(escapeshellcmd('rm -f '.$web_backup_dir.'/web'.$data_old['domain_id'].'_').'*');
+						//* cleanup database
+						$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename LIKE ?";
+						$app->db->query($sql, $conf['server_id'], $data_old['domain_id'], "web".$data_old['domain_id']."_%");
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $data_old['domain_id'], "web".$data_old['domain_id']."_%");
+
+						$app->log('Deleted the web backup files', LOGLEVEL_DEBUG);
+					}
+				}
+			}
+
 			$app->services->restartServiceDelayed('httpd', 'reload');
 
 		}
@@ -2071,8 +2114,8 @@ class nginx_plugin {
 			$folder_id = $data['new']['web_folder_id'];
 		}
 
-		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ".intval($folder_id));
-		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($folder['parent_domain_id']));
+		$folder = $app->db->queryOneRecord("SELECT * FROM web_folder WHERE web_folder_id = ?", $folder_id);
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $folder['parent_domain_id']);
 
 		if(!is_array($folder) or !is_array($website)) {
 			$app->log('Not able to retrieve folder or website record.', LOGLEVEL_DEBUG);
@@ -2108,19 +2151,6 @@ class nginx_plugin {
 			$app->log('Created file '.$folder_path.'.htpasswd', LOGLEVEL_DEBUG);
 		}
 
-		/*
-		$auth_users = $app->db->queryAllRecords("SELECT * FROM web_folder_user WHERE active = 'y' AND web_folder_id = ".intval($folder_id));
-		$htpasswd_content = '';
-		if(is_array($auth_users) && !empty($auth_users)){
-			foreach($auth_users as $auth_user){
-				$htpasswd_content .= $auth_user['username'].':'.$auth_user['password']."\n";
-			}
-		}
-		$htpasswd_content = trim($htpasswd_content);
-		@file_put_contents($folder_path.'.htpasswd', $htpasswd_content);
-		$app->log('Changed .htpasswd file: '.$folder_path.'.htpasswd',LOGLEVEL_DEBUG);
-		*/
-
 		if(($data['new']['username'] != $data['old']['username'] || $data['new']['active'] == 'n') && $data['old']['username'] != '') {
 			$app->system->removeLine($folder_path.'.htpasswd', $data['old']['username'].':');
 			$app->log('Removed user: '.$data['old']['username'], LOGLEVEL_DEBUG);
@@ -2149,7 +2179,7 @@ class nginx_plugin {
 		$folder_id = $data['old']['web_folder_id'];
 
 		$folder = $data['old'];
-		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($folder['parent_domain_id']));
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $folder['parent_domain_id']);
 
 		if(!is_array($folder) or !is_array($website)) {
 			$app->log('Not able to retrieve folder or website record.', LOGLEVEL_DEBUG);
@@ -2186,7 +2216,7 @@ class nginx_plugin {
 	function web_folder_update($event_name, $data) {
 		global $app, $conf;
 
-		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['new']['parent_domain_id']));
+		$website = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 		if(!is_array($website)) {
 			$app->log('Not able to retrieve folder or website record.', LOGLEVEL_DEBUG);
@@ -2255,7 +2285,7 @@ class nginx_plugin {
 		//$app->load('tpl');
 		//$tpl = new tpl();
 		//$tpl->newTemplate('nginx_http_authentication.auth.master');
-		$website_auth_locations = $app->db->queryAllRecords("SELECT * FROM web_folder WHERE active = 'y' AND parent_domain_id = ".intval($website['domain_id']));
+		$website_auth_locations = $app->db->queryAllRecords("SELECT * FROM web_folder WHERE active = 'y' AND parent_domain_id = ?", $website['domain_id']);
 		$basic_auth_locations = array();
 		if(is_array($website_auth_locations) && !empty($website_auth_locations)){
 			foreach($website_auth_locations as $website_auth_location){
@@ -2337,23 +2367,70 @@ class nginx_plugin {
 		} else {
 			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
 		}
+		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_monit.master')) {
+			$monit_content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_monit.master');
+		} else {
+			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
+		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm') {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || $data['new']['custom_php_ini'] != $data['old']['custom_php_ini']) {
+
+			// Custom php.ini settings
+			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+			if(intval($data['new']['directive_snippets_id']) > 0){
+				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+						foreach($required_php_snippets as $required_php_snippet){
+							$required_php_snippet = intval($required_php_snippet);
+							if($required_php_snippet > 0){
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet['snippet'] = trim($php_snippet['snippet']);
+								if($php_snippet['snippet'] != ''){
+									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
+								}
+							}
+						}
+					}
+				}
+			}
+			if($custom_php_ini_settings != ''){
+				// Make sure we only have Unix linebreaks
+				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
+				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
+				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
+			} else {
+				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			}
+		
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
-			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' start >/dev/null 2>&1');
+			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
+			
+			$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
+			file_put_contents('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'], $monit_content);
+			exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
-			unlink('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' >/dev/null 2>&1');
+			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
+			if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			
+			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
+				unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+				exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			}
 		}
 	}
 
 	//* Update the PHP-FPM pool configuration file
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
+		$pool_dir = trim($pool_dir);
 		/*
 		if(trim($data['new']['fastcgi_php_version']) != ''){
 			$default_php_fpm = false;
@@ -2443,6 +2520,26 @@ class nginx_plugin {
 		// Custom php.ini settings
 		$final_php_ini_settings = array();
 		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
+		
+		if(intval($data['new']['directive_snippets_id']) > 0){
+			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
+			if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
+				$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
+				if(is_array($required_php_snippets) && !empty($required_php_snippets)){
+					foreach($required_php_snippets as $required_php_snippet){
+						$required_php_snippet = intval($required_php_snippet);
+						if($required_php_snippet > 0){
+							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+							$php_snippet['snippet'] = trim($php_snippet['snippet']);
+							if($php_snippet['snippet'] != ''){
+								$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
@@ -2486,7 +2583,7 @@ class nginx_plugin {
 		unset($tpl);
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -2495,9 +2592,10 @@ class nginx_plugin {
 				$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}
-		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$conf["server_id"]);
+		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $conf["server_id"]);
 		if(is_array($php_versions) && !empty($php_versions)){
 			foreach($php_versions as $php_version){
+				$php_version['php_fpm_pool_dir'] = trim($php_version['php_fpm_pool_dir']);
 				if(substr($php_version['php_fpm_pool_dir'], -1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
 				if($php_version['php_fpm_pool_dir'] != $pool_dir){
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
@@ -2534,6 +2632,7 @@ class nginx_plugin {
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
+		$pool_dir = trim($pool_dir);
 
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['old']['domain_id'];
@@ -2544,7 +2643,7 @@ class nginx_plugin {
 		}
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -2553,9 +2652,10 @@ class nginx_plugin {
 				$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}
-		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ".$data['old']['server_id']);
+		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $data['old']['server_id']);
 		if(is_array($php_versions) && !empty($php_versions)){
 			foreach($php_versions as $php_version){
+				$php_version['php_fpm_pool_dir'] = trim($php_version['php_fpm_pool_dir']);
 				if(substr($php_version['php_fpm_pool_dir'], -1) != '/') $php_version['php_fpm_pool_dir'] .= '/';
 				if($php_version['php_fpm_pool_dir'] != $pool_dir){
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {

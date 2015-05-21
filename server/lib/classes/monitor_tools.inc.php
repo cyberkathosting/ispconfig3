@@ -62,6 +62,9 @@ class monitor_tools {
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
+				case "15.04":
+					$relname = "(Vivid Vervet)";
+					break;
 				case "14.10":
 					$relname = "(Utopic Unicorn)";
 					break;
@@ -147,6 +150,11 @@ class monitor_tools {
 			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 				$distname = 'Debian';
 				$distver = 'Wheezy/Sid';
+				$distid = 'debian60';
+				$distbaseid = 'debian';
+			} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+				$distname = 'Debian';
+				$distver = 'Jessie';
 				$distid = 'debian60';
 				$distbaseid = 'debian';
 			} else {
@@ -259,7 +267,7 @@ class monitor_tools {
 		$server_id = intval($conf['server_id']);
 
 		/**  get the "active" Services of the server from the DB */
-		$services = $app->db->queryOneRecord('SELECT * FROM server WHERE server_id = ' . $server_id);
+		$services = $app->db->queryOneRecord('SELECT * FROM server WHERE server_id = ?', $server_id);
 		/*
 		 * If the DB is down, we have to set the db to "yes".
 		 * If we don't do this, then the monitor will NOT monitor, that the db is down and so the
@@ -670,12 +678,12 @@ class monitor_tools {
 		 */
 		$sql = 'DELETE FROM monitor_data ' .
 			'WHERE ' .
-			'  type =' . "'" . $app->dbmaster->quote($type) . "' " .
+			'  type = ?' .
 			'AND ' .
-			'  created < ' . $old . ' ' .
+			'  created < ? ' .
 			'AND ' .
-			'  server_id = ' . $serverId;
-		$app->dbmaster->query($sql);
+			'  server_id = ?';
+		$app->dbmaster->query($sql, $type, $old, $serverId);
 	}
 
 	public function send_notification_email($template, $placeholders, $recipients) {

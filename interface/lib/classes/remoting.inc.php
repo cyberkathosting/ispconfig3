@@ -90,15 +90,12 @@ class remoting {
 		}
 
 		//* Delete old remoting sessions
-		$sql = "DELETE FROM remote_session WHERE tstamp < ".time();
+		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMSTAMP()";
 		$app->db->query($sql);
 
-		$username = $app->db->quote($username);
-		$password = $app->db->quote($password);
-
 		if($client_login == true) {
-			$sql = "SELECT * FROM sys_user WHERE USERNAME = '$username'";
-			$user = $app->db->queryOneRecord($sql);
+			$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
+			$user = $app->db->queryOneRecord($sql, $username);
 			if($user) {
 				$saved_password = stripslashes($user['passwort']);
 
@@ -127,7 +124,7 @@ class remoting {
 			}
 
 			// now we need the client data
-			$client = $app->db->queryOneRecord("SELECT client.can_use_api FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = " . $app->functions->intval($user['default_group']));
+			$client = $app->db->queryOneRecord("SELECT client.can_use_api FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $user['default_group']);
 			if(!$client || $client['can_use_api'] != 'y') {
 				throw new SoapFault('client_login_failed', 'The login failed. Client may not use api.');
 				return false;
@@ -140,13 +137,12 @@ class remoting {
 			$remote_functions = '';
 			$tstamp = time() + $this->session_timeout;
 			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,client_login,tstamp'
-				.') VALUES ('
-				." '$remote_session',$remote_userid,'$remote_functions',1,$tstamp)";
-			$app->db->query($sql);
+				.') VALUES (?, ?, ?, 1, $tstamp)';
+			$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 			return $remote_session;
 		} else {
-			$sql = "SELECT * FROM remote_user WHERE remote_username = '$username' and remote_password = md5('$password')";
-			$remote_user = $app->db->queryOneRecord($sql);
+			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
+			$remote_user = $app->db->queryOneRecord($sql, $username, $password);
 			if($remote_user['remote_userid'] > 0) {
 				//* Create a remote user session
 				//srand ((double)microtime()*1000000);
@@ -155,9 +151,8 @@ class remoting {
 				$remote_functions = $remote_user['remote_functions'];
 				$tstamp = time() + $this->session_timeout;
 				$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
-					.') VALUES ('
-					." '$remote_session',$remote_userid,'$remote_functions',$tstamp)";
-				$app->db->query($sql);
+					.') VALUES (?, ?, ?, ?)';
+				$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 				return $remote_session;
 			} else {
 				throw new SoapFault('login_failed', 'The login failed. Username or password wrong.');
@@ -177,10 +172,8 @@ class remoting {
 			return false;
 		}
 
-		$session_id = $app->db->quote($session_id);
-
-		$sql = "DELETE FROM remote_session WHERE remote_session = '$session_id'";
-		if($app->db->query($sql) != false) {
+		$sql = "DELETE FROM remote_session WHERE remote_session = ?";
+		if($app->db->query($sql, $session_id) != false) {
 			return true;
 		} else {
 			return false;
@@ -203,8 +196,8 @@ class remoting {
 		$sql = $app->remoting_lib->getSQL($params, 'INSERT', 0);
 
 		//* Check if no system user with that username exists
-		$username = $app->db->quote($params["username"]);
-		$tmp = $app->db->queryOneRecord("SELECT count(userid) as number FROM sys_user WHERE username = '$username'");
+		$username = $params["username"];
+		$tmp = $app->db->queryOneRecord("SELECT count(userid) as number FROM sys_user WHERE username = ?", $username);
 		if($tmp['number'] > 0) $app->remoting_lib->errorMessage .= "Duplicate username<br />";
 
 		//* Stop on error while preparing the sql query
@@ -238,7 +231,7 @@ class remoting {
 
 		/* copied from the client_edit php */
 		exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-		$app->db->query("UPDATE client SET created_at = ".time().", id_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa'))."', ssh_rsa = '".$app->db->quote(@file_get_contents('/tmp/id_rsa.pub'))."' WHERE client_id = ".$this->id);
+		$app->db->query("UPDATE client SET created_at = UNIX_TIMSTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents('/tmp/id_rsa'), @file_get_contents('/tmp/id_rsa.pub'), $this->id);
 		exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
 
 
@@ -251,10 +244,10 @@ class remoting {
 			$app->remoting_lib->ispconfig_sysuser_add($params, $insert_id);
 
 			if($reseller_id) {
-				$client_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ".$insert_id);
-				$reseller_user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = ".$reseller_id);
+				$client_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE client_id = ?", $insert_id);
+				$reseller_user = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE client_id = ?", $reseller_id);
 				$app->auth->add_group_to_user($reseller_user['userid'], $client_group['groupid']);
-				$app->db->query("UPDATE client SET parent_client_id = ".$reseller_id." WHERE client_id = ".$insert_id);
+				$app->db->query("UPDATE client SET parent_client_id = ? WHERE client_id = ?", $reseller_id, $insert_id);
 			}
 
 		}
@@ -347,6 +340,7 @@ class remoting {
 
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'UPDATE', $primary_id);
+		
 		// throw new SoapFault('debug', $sql);
 		if($app->remoting_lib->errorMessage != '') {
 			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
@@ -473,11 +467,8 @@ class remoting {
 			return false;
 		}
 
-		$session_id = $app->db->quote($session_id);
-
-		$now = time();
-		$sql = "SELECT * FROM remote_session WHERE remote_session = '$session_id' AND tstamp >= $now";
-		$session = $app->db->queryOneRecord($sql);
+		$sql = "SELECT * FROM remote_session WHERE remote_session = ? AND tstamp >= UNIX_TIMSTAMP()";
+		$session = $app->db->queryOneRecord($sql, $session_id);
 		if($session['remote_userid'] > 0) {
 			return $session;
 		} else {

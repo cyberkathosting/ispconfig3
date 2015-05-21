@@ -11,46 +11,39 @@
     <div id="errorMsg"><h3>ERROR</h3><ol>{tmpl_var name='error'}</ol></div>
 </tmpl_if>
 
-<div class="panel panel_install_package">
-    
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
+
+        
             <legend>{tmpl_var name='basic_settings_txt'}</legend>
-            <div class="ctrlHolder">
-                <label for="main_domain">{tmpl_var name='install_location_txt'}</label>
+            <div class="form-group">
+                <label for="main_domain" class="col-sm-3 control-label">{tmpl_var name='install_location_txt'}</label>
                 <div class="resetButton">http(s)://&nbsp;</div>DOMAIN_LIST_SPACE<div style="float:left;">&nbsp;/&nbsp;</div>
-                <input type="text" name="main_location" id="main_location" value="{tmpl_var name='inp_main_location'}" maxlength="255" class="textInput formLengthHalf" />
-            </div>
+                <div class="col-sm-9"><input type="text" name="main_location" id="main_location" value="{tmpl_var name='inp_main_location'}" class="form-control" /></div></div>
             <tmpl_if name='pkg_requirements_database' op='!=' value=''>
-                <div class="ctrlHolder">
-                    <label for="main_database_password">{tmpl_var name='new_database_password_txt'}</label>
-                    <input type="text" class="textInput" name="main_database_password" id="main_database_password" value="{tmpl_var name='inp_main_database_password'}" size="10" maxlength="255" />
-                </div>
+                <div class="form-group">
+                    <label for="main_database_password" class="col-sm-3 control-label">{tmpl_var name='new_database_password_txt'}</label>
+                    <div class="col-sm-9"><input type="text" class="form-control" name="main_database_password" id="main_database_password" value="{tmpl_var name='inp_main_database_password'}" /></div></div>
             </tmpl_if>
                 
             PKG_SETTINGS_SPACE
                 
             <legend>{tmpl_var name='license_txt'}</legend>
-            <div class="ctrlHolder">
-                <label for="license">{tmpl_var name='license_txt'}</label>
+            <div class="form-group">
+                <label for="license" class="col-sm-3 control-label">{tmpl_var name='license_txt'}</label>
                 <tmpl_if name='pkg_license_content' op='==' value=''>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
                 <tmpl_if name='pkg_license_type' op='==' value='url'>
                     <a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
                     <tmpl_elseif name='pkg_license_content'>
-                        <textarea rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea>
+                        <div class="col-sm-9"><textarea class="form-control" rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea></div>
                 </tmpl_if>
             </div>
-            <div class="ctrlHolder">
-                <label for="license">{tmpl_var name='acceptance_txt'}</label>
-                <input type="checkbox" name="license" id="license" <tmpl_if name='inp_license' op='==' value='true'>checked</tmpl_if> />&nbsp;&nbsp;{tmpl_var name='acceptance_text'}
+            <div class="form-group">
+                <label for="license" class="col-sm-3 control-label">{tmpl_var name='acceptance_txt'}</label>
+                <div class="col-sm-6"><input class="form-control" type="checkbox" name="license" id="license" <tmpl_if name='inp_license' op='==' value='true'></div><div class="col-sm-3 input-sm">checked</div></tmpl_if> />&nbsp;&nbsp;{tmpl_var name='acceptance_text'}
             </div>
-        </fieldset>
+        
             
         <input type="hidden" name="install" value="0" />
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');"><span>{tmpl_var name='btn_install_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('sites/aps_availablepackages_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-    
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; ISPConfig.submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

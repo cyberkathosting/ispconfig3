@@ -97,13 +97,13 @@ class page_action extends tform_actions {
 		} else {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
+			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 	
 			// Fill the client select field
-			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." ORDER BY client.company_name, client.contact_name, sys_group.name";
+			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 			//die($sql);
-			$records = $app->db->queryAllRecords($sql);
-			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ".$app->functions->intval($client['client_id']));
+			$records = $app->db->queryAllRecords($sql, $client['client_id']);
+			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
@@ -197,7 +197,7 @@ class page_action extends tform_actions {
 		// also make sure that the user can not delete domain created by a admin
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) || ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+			$app->db->query("UPDATE domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
 		}
 	}
 
@@ -206,23 +206,23 @@ class page_action extends tform_actions {
 
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id");
-			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ".$client['client_id']." AND sys_group.groupid = ".$this->dataRecord["client_group_id"]." ORDER BY client.company_name, client.contact_name, sys_group.name");
+			$client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+			$group = $app->db->queryOneRecord("SELECT sys_group.groupid FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? AND sys_group.groupid = ? ORDER BY client.company_name, client.contact_name, sys_group.name", $client['client_id'], $this->dataRecord["client_group_id"]);
 			$this->dataRecord["client_group_id"] = $group["groupid"];
-                }
+		}
 
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if(isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE domain SET sys_groupid = $client_group_id, sys_perm_group = 'ru' WHERE domain_id = ".$this->id);
+			$app->db->query("UPDATE domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
 
 			$data = new tform_actions();
 			$tform = $app->tform;
 			$app->tform = new tform();
 
 			$app->tform->loadFormDef("../dns/form/dns_soa.tform.php");
-			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin LIKE '".$this->dataRecord['domain'].".'");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE origin = ?", $this->dataRecord['domain'].".");
 			if ($data->oldDataRecord) {
 				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
 				$data->id = $data->dataRecord['id'];
@@ -230,7 +230,7 @@ class page_action extends tform_actions {
 			}
 
 			$app->tform->loadFormDef("../dns/form/dns_slave.tform.php");
-			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin LIKE '".$this->dataRecord['domain'].".'");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM dns_slave WHERE origin = ?", $this->dataRecord['domain'].".");
 			if ($data->oldDataRecord) {
 				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
 				$data->id = $data->dataRecord['id'];
@@ -238,7 +238,7 @@ class page_action extends tform_actions {
 			}
 
 			$app->tform->loadFormDef("../mail/form/mail_domain.tform.php");
-			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = '".$this->dataRecord['domain']."'");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $this->dataRecord['domain']);
 			if ($data->oldDataRecord) {
 				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
 				$data->id = $data->dataRecord['domain_id'];
@@ -246,7 +246,7 @@ class page_action extends tform_actions {
 			}
 
 			$app->tform->loadFormDef("../sites/form/web_vhost_domain.tform.php");
-			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = '".$this->dataRecord['domain']."'");
+			$data->oldDataRecord = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = ?", $this->dataRecord['domain']);
 			if ($data->oldDataRecord) {
 				$data->dataRecord = array_merge($data->oldDataRecord, array('client_group_id' => $this->dataRecord["client_group_id"]));
 				$data->id = $data->dataRecord['domain_id'];

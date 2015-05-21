@@ -184,12 +184,24 @@ CREATE TABLE `client` (
   `limit_spamfilter_wblist` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_user` int(11) NOT NULL DEFAULT '0',
   `limit_spamfilter_policy` int(11) NOT NULL DEFAULT '0',
+  `default_xmppserver` int(11) unsigned NOT NULL DEFAULT '1',
+  `xmpp_servers` blob,
+  `limit_xmpp_domain` int(11) NOT NULL DEFAULT '-1',
+  `limit_xmpp_user` int(11) NOT NULL DEFAULT '-1',
+  `limit_xmpp_muc` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_anon` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_auth_options` varchar(255) NOT NULL DEFAULT 'plain,hashed,isp',
+  `limit_xmpp_vjud` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_proxy` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_status` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_pastebin` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `limit_xmpp_httparchive` ENUM( 'n', 'y' ) NOT NULL default 'n',
   `default_webserver` int(11) unsigned NOT NULL DEFAULT '1',
   `web_servers` blob,
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL DEFAULT '-1',
   `limit_web_quota` int(11) NOT NULL DEFAULT '-1',
-  `web_php_options` varchar(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm',
+  `web_php_options` varchar(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm,hhvm',
   `limit_cgi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_ssi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_perl` enum('n','y') NOT NULL DEFAULT 'n',
@@ -429,6 +441,8 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `snippet` mediumtext,
+  `customer_viewable` ENUM('n','y') NOT NULL DEFAULT 'n',
+  `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`directive_snippets_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -452,7 +466,7 @@ CREATE TABLE `dns_rr` (
   `type` enum('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT') default NULL,
   `data` TEXT NOT NULL DEFAULT '',
   `aux` int(11) unsigned NOT NULL default '0',
-  `ttl` int(11) unsigned NOT NULL default '86400',
+  `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL default 'Y',
   `stamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `serial` int(10) unsigned default NULL,
@@ -504,8 +518,8 @@ CREATE TABLE `dns_soa` (
   `refresh` int(11) unsigned NOT NULL default '28800',
   `retry` int(11) unsigned NOT NULL default '7200',
   `expire` int(11) unsigned NOT NULL default '604800',
-  `minimum` int(11) unsigned NOT NULL default '86400',
-  `ttl` int(11) unsigned NOT NULL default '86400',
+  `minimum` int(11) unsigned NOT NULL default '3600',
+  `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL DEFAULT 'N',
   `xfer` varchar(255) NOT NULL DEFAULT '',
   `also_notify` varchar(255) default NULL,
@@ -702,7 +716,7 @@ CREATE TABLE `mail_backup` (
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL DEFAULT '',
-  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -901,6 +915,7 @@ CREATE TABLE `mail_user` (
   `uid` int(11) NOT NULL default '5000',
   `gid` int(11) NOT NULL default '5000',
   `maildir` varchar(255) NOT NULL default '',
+  `maildir_format` varchar(255) NOT NULL default 'maildir',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` varchar(255) NOT NULL default '',
   `sender_cc` varchar(255) NOT NULL default '',
@@ -984,7 +999,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ip` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT '0',
-  `ip_address` varchar(15) DEFAULT NULL,
+  `ip_address` varchar(39) DEFAULT NULL,
   `vm_id` int(11) NOT NULL DEFAULT '0',
   `reserved` varchar(255) NOT NULL DEFAULT 'n',
   PRIMARY KEY (`ip_address_id`)
@@ -1073,6 +1088,8 @@ CREATE TABLE IF NOT EXISTS `openvz_template` (
   `nameserver` varchar(255) DEFAULT NULL,
   `create_dns` varchar(1) NOT NULL DEFAULT 'n',
   `capability` varchar(255) DEFAULT NULL,
+  `features` varchar(255) DEFAULT NULL,
+  `iptables` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`template_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -1080,7 +1097,7 @@ CREATE TABLE IF NOT EXISTS `openvz_template` (
 -- Dumping data for table `openvz_template`
 --
 
-INSERT INTO `openvz_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `template_name`, `diskspace`, `traffic`, `bandwidth`, `ram`, `ram_burst`, `cpu_units`, `cpu_num`, `cpu_limit`, `io_priority`, `active`, `description`, `numproc`, `numtcpsock`, `numothersock`, `vmguarpages`, `kmemsize`, `tcpsndbuf`, `tcprcvbuf`, `othersockbuf`, `dgramrcvbuf`, `oomguarpages`, `privvmpages`, `lockedpages`, `shmpages`, `physpages`, `numfile`, `avnumproc`, `numflock`, `numpty`, `numsiginfo`, `dcachesize`, `numiptent`, `swappages`, `hostname`, `nameserver`, `create_dns`, `capability`) VALUES(1, 1, 1, 'riud', 'riud', '', 'small', 10, -1, -1, 256, 512, 1000, 4, 400, 4, 'y', '', '999999:999999', '7999992:7999992', '7999992:7999992', '65536:65536', '2147483646:2147483646', '214748160:396774400', '214748160:396774400', '214748160:396774400', '214748160:396774400', '65536:65536', '131072:131072', '999999:999999', '65536:65536', '0:2147483647', '23999976:23999976', '180:180', '999999:999999', '500000:500000', '999999:999999', '2147483646:2147483646', '999999:999999', '256000:256000', 'v{VEID}.test.tld', '8.8.8.8 8.8.4.4', 'n', '');
+INSERT INTO `openvz_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `template_name`, `diskspace`, `traffic`, `bandwidth`, `ram`, `ram_burst`, `cpu_units`, `cpu_num`, `cpu_limit`, `io_priority`, `active`, `description`, `numproc`, `numtcpsock`, `numothersock`, `vmguarpages`, `kmemsize`, `tcpsndbuf`, `tcprcvbuf`, `othersockbuf`, `dgramrcvbuf`, `oomguarpages`, `privvmpages`, `lockedpages`, `shmpages`, `physpages`, `numfile`, `avnumproc`, `numflock`, `numpty`, `numsiginfo`, `dcachesize`, `numiptent`, `swappages`, `hostname`, `nameserver`, `create_dns`, `capability`, `features`, `iptables`) VALUES(1, 1, 1, 'riud', 'riud', '', 'small', 10, -1, -1, 256, 512, 1000, 4, 400, 4, 'y', '', '999999:999999', '7999992:7999992', '7999992:7999992', '65536:65536', '2147483646:2147483646', '214748160:396774400', '214748160:396774400', '214748160:396774400', '214748160:396774400', '65536:65536', '131072:131072', '999999:999999', '65536:65536', '0:2147483647', '23999976:23999976', '180:180', '999999:999999', '500000:500000', '999999:999999', '2147483646:2147483646', '999999:999999', '256000:256000', 'v{VEID}.test.tld', '8.8.8.8 8.8.4.4', 'n', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1136,6 +1153,8 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `nameserver` varchar(255) NOT NULL DEFAULT '8.8.8.8 8.8.4.4',
   `create_dns` varchar(1) NOT NULL DEFAULT 'n',
   `capability` text,
+  `features` text,
+  `iptabless` text,
   `config` mediumtext,
   PRIMARY KEY (`vm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
@@ -1200,6 +1219,7 @@ CREATE TABLE `server` (
   `vserver_server` tinyint(1) NOT NULL default '0',
   `proxy_server` tinyint(1) NOT NULL default '0',
   `firewall_server` tinyint(1) NOT NULL default '0',
+  `xmpp_server` tinyint(1) NOT NULL default '0',
   `config` text,
   `updated` bigint(20) unsigned NOT NULL default '0',
   `mirror_server_id` int(11) unsigned NOT NULL default '0',
@@ -1607,6 +1627,8 @@ CREATE TABLE `sys_group` (
 CREATE TABLE `sys_ini` (
   `sysini_id` int(11) unsigned NOT NULL auto_increment,
   `config` longtext,
+  `default_logo` text NOT NULL,
+  `custom_logo` text NOT NULL,
   PRIMARY KEY  (`sysini_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1745,7 +1767,7 @@ CREATE TABLE `web_backup` (
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
   `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL DEFAULT '',
-  `filesize` VARCHAR(10) NOT NULL DEFAULT '',
+  `filesize` VARCHAR(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1876,10 +1898,12 @@ CREATE TABLE `web_domain` (
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
   `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
+  `enable_spdy` ENUM('y','n') NULL DEFAULT 'n',
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
+  `directive_snippets_id` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1946,6 +1970,89 @@ CREATE TABLE `web_traffic` (
   `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
   PRIMARY KEY  (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `xmpp_domain`
+--
+
+CREATE TABLE `xmpp_domain` (
+  `domain_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `domain` varchar(255) NOT NULL default '',
+
+  `management_method` ENUM( 'normal', 'maildomain' ) NOT NULL default 'normal',
+  `public_registration` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  `registration_url` varchar(255) NOT NULL DEFAULT '',
+  `registration_message` varchar(255) NOT NULL DEFAULT '',
+  `domain_admins` text,
+
+  `use_pubsub` enum('n','y') NOT NULL DEFAULT 'n',
+  `use_proxy` enum('n','y') NOT NULL DEFAULT 'n',
+  `use_anon_host` enum('n','y') NOT NULL DEFAULT 'n',
+
+  `use_vjud` enum('n','y') NOT NULL DEFAULT 'n',
+  `vjud_opt_mode` enum('in', 'out') NOT NULL DEFAULT 'in',
+
+  `use_muc_host` enum('n','y') NOT NULL DEFAULT 'n',
+  `muc_name` varchar(30) NOT NULL DEFAULT '',
+  `muc_restrict_room_creation` enum('n', 'y', 'm') NOT NULL DEFAULT 'm',
+  `muc_admins` text,
+  `use_pastebin` enum('n','y') NOT NULL DEFAULT 'n',
+  `pastebin_expire_after` int(3) NOT NULL DEFAULT 48,
+  `pastebin_trigger` varchar(10) NOT NULL DEFAULT '!paste',
+  `use_http_archive` enum('n','y') NOT NULL DEFAULT 'n',
+  `http_archive_show_join` enum('n', 'y') NOT NULL DEFAULT 'n',
+  `http_archive_show_status` enum('n', 'y') NOT NULL DEFAULT 'n',
+  `use_status_host` enum('n','y') NOT NULL DEFAULT 'n',
+
+  `ssl_state` varchar(255) NULL,
+  `ssl_locality` varchar(255) NULL,
+  `ssl_organisation` varchar(255) NULL,
+  `ssl_organisation_unit` varchar(255) NULL,
+  `ssl_country` varchar(255) NULL,
+  `ssl_email` varchar(255) NULL,
+  `ssl_request` mediumtext NULL,
+  `ssl_cert` mediumtext NULL,
+  `ssl_bundle` mediumtext NULL,
+  `ssl_key` mediumtext NULL,
+  `ssl_action` varchar(16) NULL,
+
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
+  PRIMARY KEY  (`domain_id`),
+  KEY `server_id` (`server_id`,`domain`),
+  KEY `domain_active` (`domain`,`active`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table  `xmpp_user`
+--
+
+CREATE TABLE `xmpp_user` (
+  `xmppuser_id` int(11) unsigned NOT NULL auto_increment,
+  `sys_userid` int(11) unsigned NOT NULL default '0',
+  `sys_groupid` int(11) unsigned NOT NULL default '0',
+  `sys_perm_user` varchar(5) NOT NULL default '',
+  `sys_perm_group` varchar(5) NOT NULL default '',
+  `sys_perm_other` varchar(5) NOT NULL default '',
+  `server_id` int(11) unsigned NOT NULL default '0',
+  `jid` varchar(255) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
+  `active` enum('n','y') NOT NULL DEFAULT 'n',
+  PRIMARY KEY  (`xmppuser_id`),
+  KEY `server_id` (`server_id`,`jid`),
+  KEY `jid_active` (`jid`,`active`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 -- --------------------------------------------------------
 -- --------------------------------------------------------
@@ -2215,7 +2322,8 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`, `eu`)
 -- Dumping data for table `dns_template`
 -- 
 
-INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=86400\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600', 'y');
+INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
+
 
 -- --------------------------------------------------------
 
@@ -2269,7 +2377,7 @@ INSERT INTO `sys_group` (`groupid`, `name`, `description`, `client_id`) VALUES (
 -- Dumping data for table `sys_ini`
 -- 
 
-INSERT INTO `sys_ini` (`sysini_id`, `config`) VALUES (1, '');
+INSERT INTO `sys_ini` (`sysini_id`, `config`, `default_logo`, `custom_logo`) VALUES (1, '', 'data:image/png;base64,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', '');
 
 -- --------------------------------------------------------
 

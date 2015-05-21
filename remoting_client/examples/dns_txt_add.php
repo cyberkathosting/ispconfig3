@@ -23,7 +23,7 @@ try {
 		'type' => 'txt',
 		'data' => 'any text can go here',
 		'aux' => '0',
-		'ttl' => '86400',
+		'ttl' => '3600',
 		'active' => 'y',
 		'stamp' => 'CURRENT_TIMESTAMP',
 		'serial' => '1',

@@ -74,19 +74,30 @@ class page_action extends tform_actions {
 		$rec = $app->tform->getDataRecord($this->id);
 		$email_parts = explode('@', $rec['email']);
 		$email_domain = $email_parts[1];
-		$domain = $app->db->queryOneRecord("SELECT sys_userid, sys_groupid, server_id FROM mail_domain WHERE domain = '".$app->db->quote($email_domain)."'");
+		$domain = $app->db->queryOneRecord("SELECT sys_userid, sys_groupid, server_id FROM mail_domain WHERE domain = ?", $email_domain);
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = '".$app->db->quote($rec["email"])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $rec["email"]);
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', "policy_id = $policy_id", 'id', $tmp_user["id"]);
+				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
 			} else {
 				// We create a new record
-				$insert_data = "(`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_id`, `priority`, `policy_id`, `email`, `fullname`, `local`)
-				        VALUES (".$app->functions->intval($domain["sys_userid"]).", ".$app->functions->intval($domain["sys_groupid"]).", 'riud', 'riud', '', ".$app->functions->intval($domain["server_id"]).", 10, ".$app->functions->intval($policy_id).", '".$app->db->quote($rec["email"])."', '".$app->db->quote($rec["email"])."', 'Y')";
+				$insert_data = array(
+					"sys_userid" => $domain["sys_userid"],
+					"sys_groupid" => $domain["sys_groupid"],
+					"sys_perm_user" => 'riud',
+					"sys_perm_group" => 'riud',
+					"sys_perm_other" => '',
+					"server_id" => $domain["server_id"],
+					"priority" => 10,
+					"policy_id" => $policy_id,
+					"email" => $rec["email"],
+					"fullname" => $rec["email"],
+					"local" => 'Y'
+				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 			}
 		}else {
@@ -104,7 +115,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("email", $rec['email']);
 
 		// Get the spamfilter policys for the user
-		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = '".$app->db->quote($rec['email'])."'");
+		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $rec['email']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";

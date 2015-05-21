@@ -1,32 +1,25 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
-<div class="panel panel_domain">
 
-    <div class="pnl_formsarea">
-        <fieldset class="inlineLabels">
-            <div class="ctrlHolder">
-                <label for="domain">{tmpl_var name='domain_txt'}</label>
+        
+            <div class="form-group">
+                <label for="domain" class="col-sm-3 control-label">{tmpl_var name='domain_txt'}</label>
                 <tmpl_if name="edit_disabled">
-                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" readonly="readonly" />
-                <tmpl_else>
-                <input name="domain" id="domain" value="{tmpl_var name='domain'}" size="30" maxlength="255" type="text" class="textInput" />
-                </tmpl_if>
+                <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" readonly="readonly" /></div><tmpl_else>
+                <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
             </div>
-            <div class="ctrlHolder">
-                <label for="client_group_id">{tmpl_var name='client_txt'}</label>
-                <select name="client_group_id" id="client_group_id" class="selectInput">
+            <div class="form-group">
+                <label for="client_group_id" class="col-sm-3 control-label">{tmpl_var name='client_txt'}</label>
+                <div class="col-sm-9"><select name="client_group_id" id="client_group_id" class="form-control">
                     {tmpl_var name='client_group_id'}
-                </select>
+                </select></div>
             </div>
-        </fieldset>
+        
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input type="hidden" name="type" value="local">
 
-        <div class="buttonHolder buttons">
-            <button class="positive iconstxt icoPositive" type="button" value="{tmpl_var name='btn_save_txt'}" onclick="submitForm('pageForm','client/domain_edit.php');"><span>{tmpl_var name='btn_save_txt'}</span></button>
-            <button class="negative iconstxt icoNegative" type="button" value="{tmpl_var name='btn_cancel_txt'}" onclick="loadContent('client/domain_list.php');"><span>{tmpl_var name='btn_cancel_txt'}</span></button>
-        </div>
-    </div>
-  
-</div>
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

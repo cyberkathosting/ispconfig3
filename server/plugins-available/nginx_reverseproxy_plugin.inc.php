@@ -70,7 +70,7 @@ class nginx_reverseproxy_plugin {
 
 			// If the parent_domain_id has been chenged, we will have to update the old site as well.
 			if($this->action == 'update' && $data['new']['parent_domain_id'] != $data['old']['parent_domain_id']) {
-				$tmp = $app->dbmaster->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$old_parent_domain_id." AND active = 'y'");
+				$tmp = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $old_parent_domain_id);
 				$data['new'] = $tmp;
 				$data['old'] = $tmp;
 				$this->action = 'update';
@@ -78,7 +78,7 @@ class nginx_reverseproxy_plugin {
 			}
 
 			// This is not a vhost, so we need to update the parent record instead.
-			$tmp = $app->dbmaster->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = '.$new_parent_domain_id." AND active = 'y'");
+			$tmp = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $new_parent_domain_id);
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
@@ -130,7 +130,7 @@ class nginx_reverseproxy_plugin {
 
 
 		// get alias domains (co-domains and subdomains)
-		$aliases = $app->dbmaster->queryAllRecords('SELECT * FROM web_domain WHERE parent_domain_id = '.$data['new']['domain_id']." AND (type != 'vhostsubdomain' OR type != 'vhostalias') AND active = 'y'");
+		$aliases = $app->dbmaster->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ? AND (type != 'vhostsubdomain' OR type != 'vhostalias') AND active = 'y'", $data['new']['domain_id']);
 		$server_alias = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
@@ -243,7 +243,7 @@ class nginx_reverseproxy_plugin {
 
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
-			$web = $app->masterdb->queryOneRecord("select wd.document_root, sp.ip_address from web_domain wd INNER JOIN server_ip sp USING(server_id) WHERE domain = '".$data['new']['domain']."'");
+			$web = $app->masterdb->queryOneRecord("select wd.document_root, sp.ip_address from web_domain wd INNER JOIN server_ip sp USING(server_id) WHERE domain = ?", $data['new']['domain']);
 
 			$src_ssl_dir = $web["document_root"]."/ssl";
 			//$domain = $data["new"]["ssl_domain"];

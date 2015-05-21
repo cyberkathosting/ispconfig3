@@ -87,7 +87,7 @@ $liste["item"][] = array(   'field'     => "autoresponder",
 	'prefix' => "",
 	'suffix' => "",
 	'width' => "",
-	'value' => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value' => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
 
 $liste["item"][] = array( 'field'  => "postfix",
 	'datatype' => "VARCHAR",
@@ -96,7 +96,7 @@ $liste["item"][] = array( 'field'  => "postfix",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
 
 $liste["item"][] = array( 'field'  => "disablesmtp",
 	'datatype' => "VARCHAR",
@@ -105,7 +105,7 @@ $liste["item"][] = array( 'field'  => "disablesmtp",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
 
 $liste["item"][] = array( 'field'  => "disableimap",
 	'datatype' => "VARCHAR",
@@ -114,7 +114,7 @@ $liste["item"][] = array( 'field'  => "disableimap",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
 
 $liste["item"][] = array( 'field'  => "disablepop3",
 	'datatype' => "VARCHAR",
@@ -123,6 +123,6 @@ $liste["item"][] = array( 'field'  => "disablepop3",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>"));
+	'value'  => array('n' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'y' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
 
 ?>

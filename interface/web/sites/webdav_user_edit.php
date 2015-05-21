@@ -102,7 +102,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		/* Get the record of the parent domain */
-		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ".$app->functions->intval(@$this->dataRecord["parent_domain_id"]) . " AND ".$app->tform->getAuthSQL('r'));
+		$parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), @$this->dataRecord["parent_domain_id"]);
 		if(!$parent_domain || $parent_domain['domain_id'] != @$this->dataRecord['parent_domain_id']) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 
 		/*
@@ -139,10 +139,13 @@ class page_action extends tform_actions {
 			$this->dataRecord['username'] = $webdavuser_prefix . $this->dataRecord['username'];
 
 			/*
-			 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
-			 */
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
+			*  Get the data of the domain, owning the webdav user
+			*/
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+			/* The server is the server of the domain */
+			$this->dataRecord["server_id"] = $web["server_id"];
+			/* The Webdav user shall be owned by the same group then the website */
+			$this->dataRecord["sys_groupid"] = $web['sys_groupid'];
 		}
 
 		parent::onBeforeInsert();
@@ -151,14 +154,20 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 		$server_id = $app->functions->intval($web["server_id"]);
 
 		// The webdav user shall be owned by the same group then the website
 		$sys_groupid = $app->functions->intval($web['sys_groupid']);
-
-		$sql = "UPDATE webdav_user SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE webdav_user_id = ".$this->id;
-		$app->db->query($sql);
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule needs
+		 */
+		$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+		$this->dataRecord["password"] = $hash;
+		
+		$sql = "UPDATE webdav_user SET server_id = ?, sys_groupid = ?, password = ? WHERE webdav_user_id = ?";
+		$app->db->query($sql, $server_id, $sys_groupid, $this->dataRecord["password"], $this->id);
 	}
 
 	function onBeforeUpdate() {
@@ -168,20 +177,11 @@ class page_action extends tform_actions {
 		 * we can not change the username and the dir, so get the "old" - data from the db
 		 * and set it
 		*/
-		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ".$app->functions->intval($this->id));
+		$data = $app->db->queryOneRecord("SELECT * FROM webdav_user WHERE webdav_user_id = ?", $this->id);
 		$this->dataRecord["username"] = $data['username'];
 		$this->dataRecord["dir"]      = $data['dir'];
 		$this->dataRecord['username_prefix'] = $data['username_prefix'];
-		$passwordOld = $data['password'];
-
-		/*
-		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
-		 * needs (only if the pwd is changed)
-		 */
-		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $passwordOld)) {
-			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
-			$this->dataRecord["password"] = $hash;
-		}
+		$this->dataRecord['passwordOld'] = $data['password'];
 
 		parent::onBeforeUpdate();
 	}
@@ -191,15 +191,26 @@ class page_action extends tform_actions {
 
 		//* When the site of the webdav user has been changed
 		if(isset($this->dataRecord['parent_domain_id']) && $this->oldDataRecord['parent_domain_id'] != $this->dataRecord['parent_domain_id']) {
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 			$server_id = $app->functions->intval($web["server_id"]);
 
 			// The webdav user shall be owned by the same group then the website
 			$sys_groupid = $app->functions->intval($web['sys_groupid']);
 
-			$sql = "UPDATE webdav_user SET server_id = $server_id, sys_groupid = '$sys_groupid' WHERE webdav_user_id = ".$this->id;
-			$app->db->query($sql);
+			$sql = "UPDATE webdav_user SET server_id = ?, sys_groupid = ? WHERE webdav_user_id = ?";
+			$app->db->query($sql, $server_id, $sys_groupid, $this->id);
 		}
+		
+		/*
+		 * We shall not save the pwd in plaintext, so we store it as the hash, the apache-moule
+		 * needs (only if the pwd is changed)
+		 */
+		if ((isset($this->dataRecord["password"])) && ($this->dataRecord["password"] != '') && ($this->dataRecord["password"] != $this->dataRecord['passwordOld'])) {
+			$hash = md5($this->dataRecord["username"] . ':' . $this->dataRecord["dir"] . ':' . $this->dataRecord["password"]);
+			$this->dataRecord["password"] = $hash;
+			$app->db->query("UPDATE webdav_user SET password = ? WHERE webdav_user_id = ?", $this->dataRecord["password"], $this->id);
+		}
+		
 	}
 
 }
