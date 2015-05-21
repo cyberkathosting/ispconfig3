@@ -680,6 +680,8 @@ class tform {
 			}
 			if($_csrf_valid !== true) {
 				$app->log('CSRF attempt blocked. Referer: ' . (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'unknown'), LOGLEVEL_WARN);
+				$errmsg = 'err_csrf_attempt_blocked';
+				$this->errorMessage .= ($api == true ? $errmsg : $this->wordbook[$errmsg]."<br />") . "\r\n";
 				unset($_POST);
 				unset($record);
 			}
