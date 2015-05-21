@@ -191,7 +191,7 @@ function _getServerState($serverId, $serverName) {
 	/*
      * Get all monitoring-data from the server and process then
 	*/
-	$records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . $serverId);
+	$records = $app->db->queryAllRecords("SELECT DISTINCT type, data FROM monitor_data WHERE server_id = " . intval($serverId));
 	$osData = null;
 	$veInfo = null;
 	$ispcData = null;
@@ -320,7 +320,7 @@ function _processDbState($type, $serverId, $serverState, $messages) {
     * state
 	*/
 	// get the State from the DB
-	$record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $type . "' and server_id = " . $serverId . " order by created desc");
+	$record = $app->db->queryOneRecord("SELECT state FROM monitor_data WHERE type = '" . $app->db->quote($type) . "' and server_id = " . intval($serverId) . " order by created desc");
 
 	// change the new state to the highest state
 	/*
