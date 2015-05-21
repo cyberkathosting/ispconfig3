@@ -253,7 +253,7 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 		//* Initialize the MySQL server connection
-		if(@mysql_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, (int)$tmp_mysql_server_port)) {
+		if(@mysql_connect($tmp_mysql_server_host . ':' . (int)$tmp_mysql_server_port, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
 			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
 			$conf['mysql']['master_port'] = $tmp_mysql_server_port;
 			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
