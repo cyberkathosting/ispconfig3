@@ -29,87 +29,22 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
-
-	public function configure_mailman($status = 'insert') {
-		global $conf;
-
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'mm_cfg.py';
-		//* Backup exiting file
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'mm_cfg.py~');
+	protected $mailman_group = 'mailman';
+	
+	public function __construct() {
+		//** check apache modules */
+		$mods = getapachemodules();
+		if(in_array('authz_compat', $mods, true)) {
+			swriteln($inst->lng('    WARNING! You are using mod_authz_compat.'));
+			swriteln($inst->lng('    Please make sure that your apache config uses the new auth syntax:'));
+			swriteln($inst->lng('    <Directory />'));
+			swriteln($inst->lng('    Options None'));
+			swriteln($inst->lng('    AllowOverride None'));
+			swriteln($inst->lng('    Require all denied'));
+			swriteln($inst->lng('    </Directory>'."\n"));
+			
+			swriteln($inst->lng('    If it uses the old syntax (deny from all) ISPConfig would fail to work.'));
 		}
-
-		// load files
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mm_cfg.py.master', 'tpl/mm_cfg.py.master');
-		$old_file = rf($full_file_name);
-
-		$old_options = array();
-		$lines = explode("\n", $old_file);
-		foreach ($lines as $line)
-		{
-			if (trim($line) != '' && substr($line, 0, 1) != '#')
-			{
-				@list($key, $value) = @explode("=", $line);
-				if (isset($value) && $value !== '')
-				{
-					$key = rtrim($key);
-					$old_options[$key] = trim($value);
-				}
-			}
-		}
-
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-
-		$virtual_domains = '';
-		if($status == 'update')
-		{
-			// create virtual_domains list
-			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
-
-			if(is_array($domainAll)) {
-				foreach($domainAll as $domain)
-				{
-					if ($domainAll[0]['domain'] == $domain['domain'])
-						$virtual_domains .= "'".$domain['domain']."'";
-					else
-						$virtual_domains .= ", '".$domain['domain']."'";
-				}
-			}
-		}
-		else
-			$virtual_domains = "' '";
-
-		$content = str_replace('{hostname}', $conf['hostname'], $content);
-		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
-		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
-		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-
-		wf($full_file_name, $content);
-
-		//* Write virtual_to_transport.sh script
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-
-		if(is_dir('/etc/mailman')) {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
-			} else {
-				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
-			}
-			chgrp($full_file_name, 'mailman');
-			chmod($full_file_name, 0750);
-		}
-
-		//* Create aliasaes
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
-
 	}
 
 	function configure_postfix($options = '')
@@ -358,9 +293,6 @@ class installer_dist extends installer_base {
 		wf("$pam/smtp", $content);
 		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
 		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
-		//exec("chmod 660 $pam/smtp");
-		//exec("chown root:root $pam/smtp");
-
 	}
 
 	public function configure_courier()
@@ -655,7 +587,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_host}', $conf["mysql"]["host"], $content);
-		$content = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $content);
+		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf["server_id"], $content);
 		wf($conf["mydns"]["config_dir"].'/'.$configfile, $content);
 		exec('chmod 600 '.$conf["mydns"]["config_dir"].'/'.$configfile);
@@ -867,7 +799,6 @@ class installer_dist extends installer_base {
 
 	}
 
-
 	public function install_ispconfig()
 	{
 		global $conf;
@@ -985,7 +916,6 @@ class installer_dist extends installer_base {
 			$content = '<?php' . "\n" . '$maxid_remote_action = 0;' . "\n" . '?>';
 			wf($install_dir.'/server/lib/remote_action.inc.php', $content);
 		}
-
 
 		//* Enable the server modules and plugins.
 		// TODO: Implement a selector which modules and plugins shall be enabled.
@@ -1143,11 +1073,6 @@ class installer_dist extends installer_base {
 		if($conf['nginx']['installed'] == true){
 			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-			//if(is_user('ispapps')){
-			// Allow the ispapps vhost access to /etc/squirrelmail
-			//$command = 'usermod -a -G '.$conf['apache']['group'].' ispapps';
-			//caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-			//}
 			if(is_group('ispapps')){
 				$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");

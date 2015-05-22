@@ -29,6 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
+	protected $mailman_group = 'mailman';
 	
 	public function __construct() {
 		//** check apache modules */
@@ -44,88 +45,6 @@ class installer_dist extends installer_base {
 			
 			swriteln($inst->lng('    If it uses the old syntax (deny from all) ISPConfig would fail to work.'));
 		}
-	}
-	
-	public function configure_mailman($status = 'insert') {
-		global $conf;
-
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'mm_cfg.py';
-		//* Backup exiting file
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'mm_cfg.py~');
-		}
-
-		// load files
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mm_cfg.py.master', 'tpl/mm_cfg.py.master');
-		$old_file = rf($full_file_name);
-
-		$old_options = array();
-		$lines = explode("\n", $old_file);
-		foreach ($lines as $line)
-		{
-			if (trim($line) != '' && substr($line, 0, 1) != '#')
-			{
-				@list($key, $value) = @explode("=", $line);
-				if (isset($value) && $value !== '')
-				{
-					$key = rtrim($key);
-					$old_options[$key] = trim($value);
-				}
-			}
-		}
-
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-
-		$virtual_domains = '';
-		if($status == 'update')
-		{
-			// create virtual_domains list
-			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
-
-			if(is_array($domainAll)) {
-				foreach($domainAll as $domain)
-				{
-					if ($domainAll[0]['domain'] == $domain['domain'])
-						$virtual_domains .= "'".$domain['domain']."'";
-					else
-						$virtual_domains .= ", '".$domain['domain']."'";
-				}
-			}
-		}
-		else
-			$virtual_domains = "' '";
-
-		$content = str_replace('{hostname}', $conf['hostname'], $content);
-		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE'])) $old_options['DEFAULT_SERVER_LANGUAGE'] = '';
-		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
-		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-
-		wf($full_file_name, $content);
-
-		//* Write virtual_to_transport.sh script
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-
-		if(is_dir('/etc/mailman')) {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
-			} else {
-				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
-			}
-			chgrp($full_file_name, 'mailman');
-			chmod($full_file_name, 0750);
-		}
-
-		//* Create aliasaes
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
-		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 	}
 
 	function configure_postfix($options = '')
@@ -354,35 +273,6 @@ class installer_dist extends installer_base {
 	public function configure_saslauthd() {
 		global $conf;
 
-		/*
-		$configfile = 'sasl_smtpd.conf';
-		if(is_file('/etc/sasl2/smtpd.conf')) copy('/etc/sasl2/smtpd.conf','/etc/sasl2/smtpd.conf~');
-		if(is_file('/etc/sasl2/smtpd.conf~')) exec('chmod 400 '.'/etc/sasl2/smtpd.conf~');
-		$content = rf("tpl/".$configfile.".master");
-		$content = str_replace('{mysql_server_ispconfig_user}',$conf['mysql']['ispconfig_user'],$content);
-		$content = str_replace('{mysql_server_ispconfig_password}',$conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}',$conf['mysql']['database'],$content);
-		$content = str_replace('{mysql_server_ip}',$conf['mysql']['ip'],$content);
-		wf('/etc/sasl2/smtpd.conf',$content);
-		*/
-
-		// TODO: Chmod and chown on the config file
-
-
-		/*
-		// Create the spool directory
-		exec('mkdir -p /var/spool/postfix/var/run/saslauthd');
-
-		// Edit the file /etc/default/saslauthd
-		$configfile = $conf["saslauthd"]["config"];
-		if(is_file($configfile)) copy($configfile,$configfile.'~');
-		if(is_file($configfile.'~')) exec('chmod 400 '.$configfile.'~');
-		$content = rf($configfile);
-		$content = str_replace('START=no','START=yes',$content);
-		$content = str_replace('OPTIONS="-c"','OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"',$content);
-		wf($configfile,$content);
-		*/
-
 		// Edit the file /etc/init.d/saslauthd
 		$configfile = $conf["init_scripts"].'/'.$conf["saslauthd"]["init_script"];
 		$content = rf($configfile);
@@ -391,8 +281,6 @@ class installer_dist extends installer_base {
 
 
 		if(is_file($configfile)) wf($configfile, $content);
-
-
 
 	}
 
@@ -413,9 +301,6 @@ class installer_dist extends installer_base {
 		wf("$pam/smtp", $content);
 		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
 		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
-		//exec("chmod 660 $pam/smtp");
-		//exec("chown root:root $pam/smtp");
-
 	}
 
 	public function configure_courier()
@@ -571,6 +456,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 
@@ -693,7 +579,7 @@ class installer_dist extends installer_base {
 	{
 		global $conf;
 
-		// configure pam for SMTP authentication agains the ispconfig database
+		// configure mydns
 		$configfile = 'mydns.conf';
 		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile)) copy($conf["mydns"]["config_dir"].'/'.$configfile, $conf["mydns"]["config_dir"].'/'.$configfile.'~');
 		if(is_file($conf["mydns"]["config_dir"].'/'.$configfile.'~')) exec('chmod 400 '.$conf["mydns"]["config_dir"].'/'.$configfile.'~');
@@ -772,7 +658,7 @@ class installer_dist extends installer_base {
 		}
 		
 		if(count($ip_addresses) > 0) $tpl->setLoop('ip_adresses',$ip_addresses);
-		
+
 		wf($vhost_conf_dir.'/ispconfig.conf', $tpl->grab());
 		unset($tpl);
 
@@ -908,7 +794,6 @@ class installer_dist extends installer_base {
 			$tcp_public_services = '21 22 25 53 80 110 443 3306 8080 10000';
 			$udp_public_services = '53';
 		}
-
 		if(!stristr($tcp_public_services, $conf['apache']['vhost_port'])) {
 			$tcp_public_services .= ' '.intval($conf['apache']['vhost_port']);
 			if($row["tcp_port"] != '') $this->db->query("UPDATE firewall SET tcp_port = tcp_port + ? WHERE server_id = ?", ',' . intval($conf['apache']['vhost_port']), $conf['server_id']);
@@ -1206,21 +1091,17 @@ class installer_dist extends installer_base {
 		// and must be fixed as this will allow the apache user to read the ispconfig files.
 		// Later this must run as own apache server or via suexec!
 		if($conf['apache']['installed'] == true){
-			//$command = 'groupmod --add-user '.$conf['apache']['user'].' ispconfig';
 			$command = 'usermod -a -G ispconfig '.$conf['apache']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			if(is_group('ispapps')){
-				//$command = 'groupmod --add-user '.$conf['apache']['user'].' ispapps';
 				$command = 'usermod -a -G ispapps '.$conf['apache']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			}
 		}
 		if($conf['nginx']['installed'] == true){
-			//$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispconfig';
-			 $command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
+			$command = 'usermod -a -G ispconfig '.$conf['nginx']['user'];
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			if(is_group('ispapps')){
-				//$command = 'groupmod --add-user '.$conf['nginx']['user'].' ispapps';
 				$command = 'usermod -a -G ispapps '.$conf['nginx']['user'];
 				caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			}
@@ -1232,7 +1113,6 @@ class installer_dist extends installer_base {
 		//* Make the shell scripts executable
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
@@ -1350,7 +1230,6 @@ class installer_dist extends installer_base {
 			if(!@file_exists('/usr/share/squirrelmail') && @is_dir('/srv/www/htdocs/squirrelmail')) symlink('/srv/www/htdocs/squirrelmail/', '/usr/share/squirrelmail');
 		}
 
-
 		// Make the Clamav log files readable by ISPConfig
 		//exec('chmod +r /var/log/clamav/clamav.log');
 		//exec('chmod +r /var/log/clamav/freshclam.log');
@@ -1414,7 +1293,6 @@ class installer_dist extends installer_base {
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
 	}
-
 }
 
 ?>

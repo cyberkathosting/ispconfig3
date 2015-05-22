@@ -36,6 +36,7 @@ class installer_base {
 	public $conf;
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
+	protected $mailman_group = 'list';
 
 
 	public function __construct() {
@@ -665,14 +666,15 @@ class installer_base {
 			} else {
 				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
 			}
-			chgrp($full_file_name, 'list');
+			chgrp($full_file_name, $this->mailman_group);
 			chmod($full_file_name, 0755);
 		}
 
 		//* Create aliasaes
 		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
-		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 
+		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
+		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 	}
 
 	public function configure_postfix($options = '') {
