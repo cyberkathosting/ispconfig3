@@ -240,7 +240,7 @@ class app {
 			}
 			$this->_language_inc = 1;
 		}
-		if(!empty($this->_wb[$text])) {
+		if(isset($this->_wb[$text]) && $this->wb[$text] !== '') {
 			$text = $this->_wb[$text];
 		} else {
 			if($this->_conf['debug_language']) {

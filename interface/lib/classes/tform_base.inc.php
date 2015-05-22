@@ -447,7 +447,7 @@ class tform_base {
 						if(is_array($field['value'])) {
 							foreach($field['value'] as $k => $v) {
 								$selected = ($k == $val)?' SELECTED':'';
-								if(!empty($this->wordbook[$v]))
+								if(isset($this->wordbook[$v]))
 									$v = $this->wordbook[$v];
 								$out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
 							}
@@ -881,7 +881,7 @@ class tform_base {
 				}
 				break;
 			case 'NOTEMPTY':
-				if(empty($field_value)) {
+				if(!isset($field_value) || $field_value === '') {
 					$errmsg = $validator['errmsg'];
 					if(isset($this->wordbook[$errmsg])) {
 						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";

@@ -115,7 +115,7 @@ class mailman_plugin {
 	function update_config() {
 		global $app, $conf;
 
-		copy($this->mailman_config_dir.'mm_cfg.py', $this->mailman_config_dir.'mm_cfg.py');
+		copy($this->mailman_config_dir.'mm_cfg.py', $this->mailman_config_dir.'mm_cfg.py~');
 
 		// load the server configuration options
 		$app->uses('getconf');
@@ -136,7 +136,7 @@ class mailman_plugin {
 			if (strlen($line) && substr($line, 0, 1) != '#')
 			{
 				list($key, $value) = explode("=", $line);
-				if (!empty($value))
+				if ($value && $value !== '')
 				{
 					$key = rtrim($key);
 					$old_options[$key] = trim($value);

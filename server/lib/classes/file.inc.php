@@ -190,7 +190,7 @@ class file{
 		// @ext_save : 1 for YES, 0 for NO - meaning it will filter out system files or not (such as .htaccess)
 
 		$dirname = realpath($dirname);
-		if (!$exts || empty($exts) || $exts == '') {
+		if (empty($exts)) {
 			$exts = array('jpg', 'gif', 'jpeg', 'png');
 		}
 		if ($handle = opendir($dirname)) {

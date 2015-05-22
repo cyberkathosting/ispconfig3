@@ -51,7 +51,7 @@ class installer_dist extends installer_base {
 			if (trim($line) != '' && substr($line, 0, 1) != '#')
 			{
 				@list($key, $value) = @explode("=", $line);
-				if (!empty($value))
+				if (isset($value) && $value !== '')
 				{
 					$key = rtrim($key);
 					$old_options[$key] = trim($value);

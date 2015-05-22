@@ -51,7 +51,7 @@ class installer extends installer_dist {
 			if (trim($line) != '' && substr($line, 0, 1) != '#')
 			{
 				@list($key, $value) = @explode("=", $line);
-				if (!empty($value))
+				if (isset($value) && $value !== '')
 				{
 					$key = rtrim($key);
 					$old_options[$key] = trim($value);
@@ -112,6 +112,7 @@ class installer extends installer_dist {
 
 		// amavisd user config file
 		$configfile = 'fedora_amavisd_conf';
+		if(!is_dir($conf["amavis"]["config_dir"])) mkdir($conf["amavis"]["config_dir"]);
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf')) copy($conf["amavis"]["config_dir"].'/amavisd.conf', $conf["amavis"]["config_dir"].'/amavisd.conf~');
 		if(is_file($conf["amavis"]["config_dir"].'/amavisd.conf~')) exec('chmod 400 '.$conf["amavis"]["config_dir"].'/amavisd.conf~');
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/".$configfile.".master");
