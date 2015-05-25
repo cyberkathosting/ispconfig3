@@ -1727,6 +1727,7 @@ CREATE TABLE `sys_user` (
   `client_id` int(11) unsigned NOT NULL default '0',
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
   `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
+  `lost_password_function` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1904,6 +1905,9 @@ CREATE TABLE `web_domain` (
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
   `directive_snippets_id` int(11) unsigned NOT NULL default '0',
+  `enable_pagespeed` ENUM('y','n') NULL DEFAULT 'n',
+  `http_port` int(11) unsigned NOT NULL DEFAULT '80',
+  `https_port` int(11) unsigned NOT NULL DEFAULT '443',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
