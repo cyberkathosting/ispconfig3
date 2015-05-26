@@ -97,8 +97,8 @@ if($logo['custom_logo'] != ''){
 }
 $tmp_base64 = explode(',', $base64_logo_txt, 2);
 $logo_dimensions = $app->functions->getimagesizefromstring(base64_decode($tmp_base64[1]));
-$app->tpl->setVar('base64_logo_width', $logo_dimensions[0]);
-$app->tpl->setVar('base64_logo_height', $logo_dimensions[1]);
+$app->tpl->setVar('base64_logo_width', $logo_dimensions[0].'px');
+$app->tpl->setVar('base64_logo_height', $logo_dimensions[1].'px');
 $app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 
 $app->tpl_defaults();
