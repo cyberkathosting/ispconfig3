@@ -666,7 +666,7 @@ class monitor_tools {
 
 		// $now = time();
 		// $old = $now - (4 * 60); // 4 minutes
-		$old = 'UNIX_TIMESTAMP() - 240';
+		$old = 240; //seconds
 
 		/*
 		 * ATTENTION if i do NOT pay attention of the server id, i delete all data (of the type)
@@ -680,7 +680,7 @@ class monitor_tools {
 			'WHERE ' .
 			'  type = ?' .
 			'AND ' .
-			'  created < ? ' .
+			'  created < UNIX_TIMESTAMP() - ?' . 
 			'AND ' .
 			'  server_id = ?';
 		$app->dbmaster->query($sql, $type, $old, $serverId);
