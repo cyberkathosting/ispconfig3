@@ -175,7 +175,6 @@ class auth {
 	}
 
 	public function get_random_password($minLength = 8, $special = false) {
-		$minLength = $minLength || 10;
 		if($minLength < 8) $minLength = 8;
 		$maxLength = $minLength + 5;
 		$length = mt_rand($minLength, $maxLength);
