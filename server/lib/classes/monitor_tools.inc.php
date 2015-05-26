@@ -676,13 +676,7 @@ class monitor_tools {
 		 * even though it is the NEWEST data of this server. To avoid this i HAVE to include
 		 * the server-id!
 		 */
-		$sql = 'DELETE FROM monitor_data ' .
-			'WHERE ' .
-			'  type = ?' .
-			'AND ' .
-			'  created < UNIX_TIMESTAMP() - ?' . 
-			'AND ' .
-			'  server_id = ?';
+		$sql = 'DELETE FROM `monitor_data` WHERE `type` = ? AND `created` < UNIX_TIMESTAMP() - ? AND `server_id` = ?';
 		$app->dbmaster->query($sql, $type, $old, $serverId);
 	}
 
