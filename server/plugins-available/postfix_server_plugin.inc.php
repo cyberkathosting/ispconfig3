@@ -85,27 +85,29 @@ class postfix_server_plugin {
 
 		copy('/etc/postfix/main.cf', '/etc/postfix/main.cf~');
 		
-		if($mail_config['relayhost'] != '') {
-			exec("postconf -e 'relayhost = ".$mail_config['relayhost']."'");
-			if($mail_config['relayhost_user'] != '' && $mail_config['relayhost_password'] != '') {
+		if ($mail_config['relayhost'].$mail_config['relayhost_user'].$mail_config['relayhost_password'] != $old_ini_data['mail']['relayhost'].$old_ini_data['mail']['relayhost_user'].$old_ini_data['mail']['relayhost_password']) {
+			$content = file_exists('/etc/postfix/sasl_passwd') ? file_get_contents('/etc/postfix/sasl_passwd') : '';
+			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost']).'\s+[^\n]*(:?\n|)/m','',$content);
+
+			if (!empty($mail_config['relayhost']) || !empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
+				$content .= "\n".$mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
+			}
+			
+			if (preg_replace('/^(#[^\n]*|\s+)(:?\n+|)/m','',$content) != '') {
 				exec("postconf -e 'smtp_sasl_auth_enable = yes'");
 			} else {
 				exec("postconf -e 'smtp_sasl_auth_enable = no'");
 			}
-			exec("postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'");
-			exec("postconf -e 'smtp_sasl_security_options ='");
-
-			// Store the sasl passwd
-			$content = $mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
+			
+			exec("postconf -e 'relayhost = ".$mail_config['relayhost']."'");
 			file_put_contents('/etc/postfix/sasl_passwd', $content);
 			chmod('/etc/postfix/sasl_passwd', 0600);
 			chown('/etc/postfix/sasl_passwd', 'root');
 			chgrp('/etc/postfix/sasl_passwd', 'root');
+			exec("postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'");
+			exec("postconf -e 'smtp_sasl_security_options ='");
 			exec('postmap /etc/postfix/sasl_passwd');
 			exec($conf['init_scripts'] . '/' . 'postfix restart');
-
-		} else {
-			exec("postconf -e 'relayhost ='");
 		}
 
 		if($mail_config['realtime_blackhole_list'] != $old_ini_data['mail']['realtime_blackhole_list']) {
