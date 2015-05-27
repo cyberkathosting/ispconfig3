@@ -227,7 +227,7 @@ class db extends mysqli
 
 		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
-			$this->_sqlerror('Falsche Anfrage / Wrong Query', false, 'SQL-Query = ' . $sQuery);
+			$this->_sqlerror('Falsche Anfrage / Wrong Query', 'SQL-Query = ' . $sQuery);
 			return false;
 		}
 

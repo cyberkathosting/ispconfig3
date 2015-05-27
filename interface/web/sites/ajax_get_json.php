@@ -56,7 +56,7 @@ if($type == 'getservertype'){
 
 if($type == 'getserverid'){
 	$json = '{"serverid":"';
-	$sql = "SELECT server_id FROM web_domain WHERE domain_id = ?? AND ".$app->tform->getAuthSQL('r');
+	$sql = "SELECT server_id FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r');
 	$server = $app->db->queryOneRecord($sql, $web_id);
 	$json .= $server['server_id'];
 	unset($server);
