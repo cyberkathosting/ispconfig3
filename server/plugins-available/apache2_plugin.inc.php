@@ -452,7 +452,7 @@ class apache2_plugin {
 			}
 
 			// This is not a vhost, so we need to update the parent record instead.
-			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ? AND active = ', $new_parent_domain_id, 'y');
+			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ? AND active = ?', $new_parent_domain_id, 'y');
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
