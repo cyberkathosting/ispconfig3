@@ -139,6 +139,7 @@ class postfix_server_plugin {
 				}
 			}
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+			exec('postfix reload');
 		}
 		
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
@@ -157,18 +158,21 @@ class postfix_server_plugin {
 				array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
 			}
 			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
+			exec('postfix reload');
 		}		
 		
 		if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 			// If dovecot switch to lmtp
 			if($app->system->is_installed('dovecot')) {
 				exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
+				exec('postfix reload');
 			}
 		}
 		else {
 			// If dovecot switch to dovecot
 			if($app->system->is_installed('dovecot')) {
 				exec("postconf -e 'virtual_transport = dovecot'");
+				exec('postfix reload');
 			}
 		}
 
