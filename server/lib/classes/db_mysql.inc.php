@@ -638,7 +638,7 @@ class db extends mysqli
 			$key_str = substr($key_str, 0, -1);
 			$val_str = substr($val_str, 0, -1);
 			$insert_data_str = '('.$key_str.') VALUES ('.$val_str.')';
-			$this->query("INSERT INTO ?? $insert_data_str", true, $params + $v_params);
+			$this->query("INSERT INTO ?? $insert_data_str", true, array_merge($params, $v_params));
 		} else {
 			/* TODO: deprecate this method! */
 			$insert_data_str = $insert_data;
