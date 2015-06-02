@@ -29,7 +29,7 @@ $wb['dmarc_rf_iodef_txt'] = 'Incident Object Description Exchange Format';
 $wb['dmarc_pct_txt'] = 'Apply Policy to this Percentage';
 $wb['dmarc_pct_note_txt'] = '% (100 default). Messages in percent from the domain you want ISPs to check.';
 $wb['dmarc_ri_txt'] = 'Reporting Interval';
-$wb['dmarc_ri_note_txt'] = 'Seconds (default=86400). The time in seconds that aggregate reports should be generate (86400 repersents 1 day).';
+$wb['dmarc_ri_note_txt'] = 'Seconds (default=86400). The time in seconds that aggregate reports should be generate (86400 represents 1 day).';
 $wb['dmarc_sp_txt'] = 'Subdomain Policy (Defaults to same as domain).';
 $wb['dmarc_sp_same_txt'] = 'same as domain';
 $wb['dmarc_sp_none_txt'] = 'none';
