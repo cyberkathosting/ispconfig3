@@ -1515,6 +1515,15 @@ class apache2_plugin {
 		$vhosts = array();
 
 		//* Add vhost for ipv4 IP
+
+		//* use ip-mapping for web-mirror
+		if($data['new']['ip_address'] != '*' && $conf['mirror_server_id'] > 0) {
+			$sql = "SELECT destination_ip FROM server_ip_map WHERE server_id = ? AND source_ip = ?";
+			$newip = $app->db->queryOneRecord($sql, $conf['server_id'], $data['new']['ip_address']);
+			$data['new']['ip_address'] = $newip['destination_ip'];
+			unset($newip);
+		}
+
 		$tmp_vhost_arr = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 0, 'port' => 80);
 		if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
 		if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);

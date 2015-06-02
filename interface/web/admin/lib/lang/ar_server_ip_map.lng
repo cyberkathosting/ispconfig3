@@ -1,0 +1,11 @@
+<?php
+$wb["server_id_txt"] = 'Rewrite on Server';
+$wb["source_txt"] = 'Source IP';
+$wb["destination_txt"] = 'Destination IP';
+$wb["active_txt"] = 'Active';
+$wb["ip_error_wrong"] = 'The Destination IP address is invalid';
+$wb["destination_ip_empty"] = 'The Destination IP is empty.';
+$wb["source_ip_empty"] = 'The Source IP is empty.';
+$wb["duplicate_mapping_error"] = "Mapping already exists.";
+$wb["duplicate_mapping_error"] = "Source IP can not be an IP of the Rewrite-Server";
+?>

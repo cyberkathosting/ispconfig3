@@ -902,7 +902,18 @@ class nginx_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('nginx_vhost.conf.master');
 
+		// IPv4
+
+		//* use ip-mapping for web-mirror
+		if($data['new']['ip_address'] != '*' && $conf['mirror_server_id'] > 0) {
+			$sql = "SELECT destination_ip FROM server_ip_map WHERE server_id = ? AND source_ip = ?";
+			$newip = $app->db->queryOneRecord($sql, $conf['server_id'], $data['new']['ip_address']);
+			$data['new']['ip_address'] = $newip['destination_ip'];
+			unset($newip);
+		}
+
 		$vhost_data = $data['new'];
+
 		//unset($vhost_data['ip_address']);
 		$vhost_data['web_document_root'] = $data['new']['document_root'].'/' . $web_folder;
 		$vhost_data['web_document_root_www'] = $web_config['website_basedir'].'/'.$data['new']['domain'].'/' . $web_folder;
