@@ -150,3 +150,18 @@ ALTER TABLE openvz_template ADD COLUMN `features` varchar(255) DEFAULT NULL AFTE
 ALTER TABLE openvz_vm ADD COLUMN `features` TEXT DEFAULT NULL AFTER `capability`;
 ALTER TABLE openvz_template ADD COLUMN `iptables` varchar(255) DEFAULT NULL AFTER `features`;
 ALTER TABLE openvz_vm ADD COLUMN `iptables` TEXT DEFAULT NULL AFTER `features`;
+
+CREATE TABLE `server_ip_map` (
+  `server_ip_map_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) DEFAULT NULL,
+  `sys_perm_group` varchar(5) DEFAULT NULL,
+  `sys_perm_other` varchar(5) DEFAULT NULL,
+  `server_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `source_ip` varchar(15) DEFAULT NULL,
+  `destination_ip` varchar(35) DEFAULT '',
+  `active` enum('n','y') NOT NULL DEFAULT 'y',
+  PRIMARY KEY (`server_ip_map_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+

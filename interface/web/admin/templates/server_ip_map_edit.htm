@@ -1,0 +1,44 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+<legend>IP Address Mapping</legend>
+<div class="form-group">
+	<label for="server_id" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>
+	<div class="col-sm-9">
+		<select name="server_id" id="server_id" class="form-control">
+			{tmpl_var name='server_id'}
+		</select>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="source_ip" class="col-sm-3 control-label">{tmpl_var name='source_txt'}</label>
+	<div class="col-sm-9">
+		<select name="source_ip" id="source_ip" class="form-control">
+			{tmpl_var name='source_ip'}
+		</select>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="destination_ip" class="col-sm-3 control-label">{tmpl_var name='destination_txt'}</label>
+	<div class="col-sm-9">
+		<input type="text" name="destination_ip" id=destination_ip" value="{tmpl_var name='destination_ip'}" class="form-control" />
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+	<div class="col-sm-9">
+		{tmpl_var name='active'}
+	</div>
+</div>
+
+<div class="form-group">
+	<input type="hidden" name="id" value="{tmpl_var name='id'}">
+ 	<div class="clear"><div class="right">
+		<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/server_ip_map_edit.php">{tmpl_var name='btn_save_txt'}</button>
+		<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_ip_map_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+	</div></div>
+</div>
