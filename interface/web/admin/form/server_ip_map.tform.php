@@ -51,15 +51,9 @@ $form["tabs"]['server_ip_map'] = array (
 	'template'  => "templates/server_ip_map_edit.htm",
 	'fields'  => array (
 		'server_id' => array (
-//			'datatype' => 'INTEGER',
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-//			'datasource' => array (  'type' => 'SQL',
-//				'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} AND mirror_server_id > 0 ORDER BY server_name',
-//				'keyfield'=> 'server_id',
-//				'valuefield'=> 'server_name'
-//			),
 			'value'  => ''
 		),
 		'source_ip' => array (
