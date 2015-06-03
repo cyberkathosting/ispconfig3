@@ -157,7 +157,6 @@ class tform {
 		return true;
 	}
 
-
 	/**
 	 * Converts the data in the array to human readable format
 	 * Datatype conversion e.g. to show the data in lists
@@ -384,7 +383,31 @@ class tform {
 
 		if(!is_array($this->formDef)) $app->error("No form definition found.");
 		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
-
+		
+		/* CSRF PROTECTION */
+		// generate csrf protection id and key
+		$_csrf_id = uniqid($this->formDef['name'] . '_');
+		$_csrf_value = sha1(uniqid(microtime(true), true));
+		if(!isset($_SESSION['_csrf'])) $_SESSION['_csrf'] = array();
+		if(!isset($_SESSION['_csrf_timeout'])) $_SESSION['_csrf_timeout'] = array();
+		$_SESSION['_csrf'][$_csrf_id] = $_csrf_value;
+		$_SESSION['_csrf_timeout'][$_csrf_id] = time() + 3600; // timeout hash in 1 hour
+		$this->formDef['tabs'][$tab]['fields']['_csrf_id'] = array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => $_csrf_id,
+			'value' => $_csrf_id
+		);
+		$this->formDef['tabs'][$tab]['fields']['_csrf_key'] = array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => $_csrf_value,
+			'value' => $_csrf_value
+		);
+		$record['_csrf_id'] = $_csrf_id;
+		$record['_csrf_key'] = $_csrf_value;
+		/* CSRF PROTECTION */
+		
 		$new_record = array();
 		if($action == 'EDIT') {
 			$record = $this->decode($record, $tab);
@@ -644,7 +667,46 @@ class tform {
 
 		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: $tab).");
 		//$this->errorMessage = '';
-
+		
+		/* CSRF PROTECTION */
+		if(isset($_POST) && is_array($_POST)) {
+			$_csrf_valid = false;
+			if(isset($_POST['_csrf_id']) && isset($_POST['_csrf_key'])) {
+				$_csrf_id = trim($_POST['_csrf_id']);
+				$_csrf_key = trim($_POST['_csrf_key']);
+				if(isset($_SESSION['_csrf']) && isset($_SESSION['_csrf'][$_csrf_id]) && isset($_SESSION['_csrf_timeout']) && isset($_SESSION['_csrf_timeout'][$_csrf_id])) {
+					if($_SESSION['_csrf'][$_csrf_id] === $_csrf_key && $_SESSION['_csrf_timeout'] >= time()) $_csrf_valid = true;
+				}
+			}
+			if($_csrf_valid !== true) {
+				$app->log('CSRF attempt blocked. Referer: ' . (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'unknown'), LOGLEVEL_WARN);
+				$errmsg = 'err_csrf_attempt_blocked';
+				$this->errorMessage .= ($api == true ? $errmsg : $this->wordbook[$errmsg]."<br />") . "\r\n";
+				unset($_POST);
+				unset($record);
+			}
+			$_SESSION['_csrf'][$_csrf_id] = null;
+			$_SESSION['_csrf_timeout'][$_csrf_id] = null;
+			unset($_SESSION['_csrf'][$_csrf_id]);
+			unset($_SESSION['_csrf_timeout'][$_csrf_id]);
+			
+			if(isset($_SESSION['_csrf_timeout']) && is_array($_SESSION['_csrf_timeout'])) {
+				$to_unset = array();
+				foreach($_SESSION['_csrf_timeout'] as $_csrf_id => $timeout) {
+					if($timeout < time()) $to_unset[] = $_csrf_id;
+				}
+				foreach($to_unset as $_csrf_id) {
+					$_SESSION['_csrf'][$_csrf_id] = null;
+					$_SESSION['_csrf_timeout'][$_csrf_id] = null;
+					unset($_SESSION['_csrf'][$_csrf_id]);
+					unset($_SESSION['_csrf_timeout'][$_csrf_id]);
+				}
+				unset($to_unset);
+			}
+		}
+		/* CSRF PROTECTION */
+		
+		$new_record = array();
 		if(is_array($record)) {
 			foreach($this->formDef['tabs'][$tab]['fields'] as $key => $field) {
 
