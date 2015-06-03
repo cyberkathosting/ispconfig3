@@ -386,12 +386,17 @@ class tform {
 		
 		/* CSRF PROTECTION */
 		// generate csrf protection id and key
-		$_csrf_id = uniqid($this->formDef['name'] . '_');
+		/*$_csrf_id = uniqid($this->formDef['name'] . '_');
 		$_csrf_value = sha1(uniqid(microtime(true), true));
 		if(!isset($_SESSION['_csrf'])) $_SESSION['_csrf'] = array();
 		if(!isset($_SESSION['_csrf_timeout'])) $_SESSION['_csrf_timeout'] = array();
 		$_SESSION['_csrf'][$_csrf_id] = $_csrf_value;
 		$_SESSION['_csrf_timeout'][$_csrf_id] = time() + 3600; // timeout hash in 1 hour
+		*/
+		$csrf_token = $app->auth->csrf_token_get($this->formDef['name']);
+		$_csrf_id = $csrf_token['csrf_id'];
+		$_csrf_value = $csrf_token['csrf_key'];
+		
 		$this->formDef['tabs'][$tab]['fields']['_csrf_id'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -669,6 +674,7 @@ class tform {
 		//$this->errorMessage = '';
 		
 		/* CSRF PROTECTION */
+		
 		if(isset($_POST) && is_array($_POST)) {
 			$_csrf_valid = false;
 			if(isset($_POST['_csrf_id']) && isset($_POST['_csrf_key'])) {

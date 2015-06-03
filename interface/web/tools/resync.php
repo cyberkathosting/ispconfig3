@@ -48,6 +48,11 @@ $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_resync.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
+if(isset($_POST) && count($_POST) > 1) {	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+}
+
 //* Resyncing websites
 if(isset($_POST['resync_sites']) && $_POST['resync_sites'] == 1) {
 	$db_table = 'web_domain';
@@ -216,6 +221,11 @@ if(isset($_POST['resync_client']) && $_POST['resync_client'] == 1) {
 
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('tools_resync');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

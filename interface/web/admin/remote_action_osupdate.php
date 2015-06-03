@@ -62,6 +62,10 @@ $msg = '';
  * If the user wants to do the action, write this to our db
 */
 if (isset($_POST['server_select'])) {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$server = $_POST['server_select'];
 	$servers = array();
 	if ($server == '*') {
@@ -90,6 +94,11 @@ if (isset($_POST['server_select'])) {
 }
 
 $app->tpl->setVar('msg', $msg);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('osupdate');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl->setVar($wb);
 

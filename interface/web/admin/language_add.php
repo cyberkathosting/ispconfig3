@@ -65,6 +65,10 @@ $app->tpl->setVar('language_option', $language_option);
 $app->tpl->setVar('error', $error);
 
 if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$lng_new = $_POST['lng_new'];
 	if(!preg_match("/^[a-z]{2}$/i", $lng_new)) die('unallowed characters in language name.');
 
@@ -93,6 +97,11 @@ if(isset($_POST['lng_new']) && strlen($_POST['lng_new']) == 2 && $error == '') {
 }
 
 $app->tpl->setVar('msg', $msg);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('language_add');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_add.lng';

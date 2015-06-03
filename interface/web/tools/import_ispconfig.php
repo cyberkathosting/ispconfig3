@@ -49,6 +49,10 @@ include $lng_file;
 $app->tpl->setVar($wb);
 
 if(isset($_POST['connected'])) {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$connected = $app->functions->intval($_POST['connected']);
 	if($connected == 0) {
 
@@ -132,6 +136,11 @@ $app->tpl->setVar('connected', $connected);
 $app->tpl->setVar('remote_session_id', $remote_session_id);
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('ispconfig_import');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

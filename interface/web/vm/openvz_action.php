@@ -17,6 +17,11 @@ $notify_msg = '';
 
 if($vm_id == 0) die('Invalid VM ID');
 
+if(isset($_POST) && count($_POST) > 1) {	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+}
+
 $vm = $app->db->queryOneRecord("SELECT server_id, veid FROM openvz_vm WHERE vm_id = $vm_id");
 $veid = $app->functions->intval($vm['veid']);
 $server_id = $app->functions->intval($vm['server_id']);
@@ -140,6 +145,11 @@ if($action == 'show') {
 
 $app->tpl->setVar($options);
 $app->tpl->setVar('error', $error_msg);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('openvz_action');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

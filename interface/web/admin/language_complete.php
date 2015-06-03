@@ -67,6 +67,9 @@ $app->tpl->setVar('error', $error);
 // Export the language file
 if(isset($_POST['lng_select']) && $error == '') {
 
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	// complete the global langauge file
 	merge_langfile(ISPC_LIB_PATH."/lang/".$selected_language.".lng", ISPC_LIB_PATH."/lang/en.lng");
 
@@ -156,6 +159,11 @@ function merge_langfile($langfile, $masterfile) {
 }
 
 $app->tpl->setVar('msg', $msg);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('language_merge');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_complete.lng';
