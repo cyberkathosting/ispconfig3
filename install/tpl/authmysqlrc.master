@@ -15,4 +15,5 @@ MYSQL_MAILDIR_FIELD maildir
 MYSQL_QUOTA_FIELD quota
 #MYSQL_QUOTA_FIELD concat(quota,'S')
 #MYSQL_WHERE_CLAUSE      access='y'
-MYSQL_AUXOPTIONS_FIELD concat('disableimap=',disableimap,',disablepop3=',disablepop3)
+#MYSQL_AUXOPTIONS_FIELD concat('disableimap=',disableimap,',disablepop3=',disablepop3)
+MYSQL_AUXOPTIONS_FIELD concat('disableimap=',(replace(disableimap,'y',1)),',','disablepop3=',(replace(disablepop3,'y',1)))
