@@ -129,7 +129,10 @@ if(is_array($fields)) {
 }
 
 if($_POST['create'] == 1) {
-
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$error = '';
 
 	// apply filters
@@ -286,6 +289,11 @@ if($_POST['create'] == 1) {
 
 
 $app->tpl->setVar("title", 'DNS Wizard');
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('dns_wizard');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng';
 include $lng_file;
