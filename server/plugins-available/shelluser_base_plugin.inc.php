@@ -402,6 +402,12 @@ class shelluser_base_plugin {
 		}
 		$sshrsa = trim($sshrsa);
 		$usrdir = escapeshellcmd($this->data['new']['dir']);
+		//* Home directory of the new shell user
+		if($this->data['new']['chroot'] == 'jailkit') {
+			$usrdir = escapeshellcmd($this->data['new']['dir']);
+		} else {
+			$usrdir = escapeshellcmd($this->data['new']['dir'].'/home/'.$data['new']['username']);
+		}
 		$sshdir = $usrdir.'/.ssh';
 		$sshkeys= $usrdir.'/.ssh/authorized_keys';
 
