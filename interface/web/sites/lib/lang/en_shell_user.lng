@@ -2,7 +2,7 @@
 $wb['puser_txt'] = "Web Username";
 $wb['pgroup_txt'] = "Web Group";
 $wb['shell_txt'] = "Shell";
-$wb['dir_txt'] = "Dir";
+$wb['dir_txt'] = "Base Dir";
 $wb['server_id_txt'] = "Server";
 $wb['parent_domain_id_txt'] = "Site";
 $wb['username_txt'] = "Username";
