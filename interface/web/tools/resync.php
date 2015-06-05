@@ -51,6 +51,14 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 
 	//* called during onShowEnd
+	/*
+	* @param array $server_rec
+	* @param string $server_type
+	* @param string or array $search
+	*
+	* @return array
+	*/
+
 	private function create_list($server_rec, $server_type, $search) {
 
 		$server_count = 0;
@@ -98,7 +106,7 @@ class page_action extends tform_actions {
         			'index_field' =>  'mailuser_id',
         			'server_type' => 'mail',
 					'server_id' => $server_id,
-    			),
+				),
 			);
 		}
 		if($type == 'mail_filter') {
@@ -116,6 +124,20 @@ class page_action extends tform_actions {
 					'index_field' => 'filter_id',
         			'server_type' => 'mail',
     			),
+				'spamfilter_policy' => array (
+					'index_field' => 'id',
+					'server_type' => 'mail',
+				),
+				'spamfilter_users' => array (
+					'index_field' => 'id',
+					'server_type' => 'mail',
+					'server_id' => $server_id,
+				),
+				'spamfilter_wblist' => array (
+					'index_field' => 'wblist_id',
+					'server_type' => 'mail',
+					'server_id' => $server_id,
+				),
 			);
 		}
 		if($type == 'web'  ) {
@@ -123,7 +145,6 @@ class page_action extends tform_actions {
     			'web_domain' => array (
         			'index_field' => 'domain_id',
         			'server_type' => 'web',
-					'server_id' => $server_id,
     			),
     			'shell_user' => array (
         			'index_field' => 'shell_user_id',
@@ -232,7 +253,7 @@ class page_action extends tform_actions {
 			}
 
 			//* mailfilter
-			$server_list = $this->create_list($mail_server_rec, 'mail_filter', array('mail_access', 'mail_content_filter', 'mail_user_filter'));
+			$server_list = $this->create_list($mail_server_rec, 'mail_filter', array('mail_access', 'mail_content_filter', 'mail_user_filter','spamfilter_users', 'spamfilter_wblist'));
 			$options_servers = $server_list[0];$server_count = $server_list[1];
 			unset($server_list);
 			if (isset($options_servers)) {	//* server with data found
@@ -242,16 +263,6 @@ class page_action extends tform_actions {
 				unset($options_servers);
 			}
 
-			//* mailinglist
-			$server_list = $this->create_list($mail_server_rec, 'mail', 'mail_mailinglist');
-			$options_servers = $server_list[0];$server_count = $server_list[1];
-			unset($server_list);
-			if (isset($options_servers)) {	//* server with data found
-				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_txt']."</option>" . $options_servers;
-				$app->tpl->setVar('mailinglist_server_id', $options_servers);
-				$app->tpl->setVar('mailinglist_found', 1);
-				unset($options_servers);
-			}
 		}
 
 		//* fetch web-server
@@ -382,15 +393,15 @@ class page_action extends tform_actions {
 				$temp_id .= $server['server_id'].',';
 				$server_name[$server['server_id']] = $server['server_name'];
 			}
+			if ( isset($temp_id) ) $server_id = rtrim($temp_id,',');
 		} else {
 			$temp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $server_id);
 			$server_name[$server_id] = $temp['server_name'];
 		}		
 		unset($temp);
 
-		if ( isset($temp_id) ) $server_id = rtrim($temp_id,',');
 		$sql = "SELECT * FROM ??";
-		if ($db_table != "mail_user_filter") $sql .= " WHERE server_id IN (".$server_id.") ";
+		if ($db_table != "mail_user_filter" && $db_table != "spamfilter_policy") $sql .= " WHERE server_id IN (".$server_id.") ";
 		$sql .= $opt;
 		if ($active) $sql .= " AND active = 'y'"; 
 		$records = $app->db->queryAllRecords($sql, $db_table);
@@ -475,6 +486,7 @@ class page_action extends tform_actions {
 		//* maildomains
 		if($this->dataRecord['resync_mail'] == 1) 
 			$msg .= $this->do_resync('mail_domain', 'domain_id', 'mail', $this->dataRecord['mail_server_id'], 'domain',  $app->tform->wordbook['do_mail_txt']);
+			$msg .= $this->do_resync('spamfilter_policy', 'id', 'mail', $this->dataRecord['mail_server_id'], '',  $app->tform->wordbook['do_mail_spamfilter_policy_txt'], false);
 
 		//* mailbox
 		if($this->dataRecord['resync_mailbox'] == 1) {
@@ -487,6 +499,9 @@ class page_action extends tform_actions {
 			$msg .= $this->do_resync('mail_access', 'access_id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_access_txt']);
 			$msg .= $this->do_resync('mail_content_filter', 'content_filter_id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_contentfilter_txt']);
 			$msg .= $this->do_resync('mail_user_filter', 'filter_id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_userfilter_txt'], false);
+			//* spam
+			$msg .= $this->do_resync('spamfilter_users', 'id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_spamfilter_txt'], false);
+			$msg .= $this->do_resync('spamfilter_wblist', 'wblist_id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_spamfilter_txt']) 	;
 		}
 
 		//* mailinglists
