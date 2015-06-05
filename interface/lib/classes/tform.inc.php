@@ -691,10 +691,6 @@ class tform {
 				unset($_POST);
 				unset($record);
 			}
-			$_SESSION['_csrf'][$_csrf_id] = null;
-			$_SESSION['_csrf_timeout'][$_csrf_id] = null;
-			unset($_SESSION['_csrf'][$_csrf_id]);
-			unset($_SESSION['_csrf_timeout'][$_csrf_id]);
 			
 			if(isset($_SESSION['_csrf_timeout']) && is_array($_SESSION['_csrf_timeout'])) {
 				$to_unset = array();

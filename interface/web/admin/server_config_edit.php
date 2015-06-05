@@ -92,11 +92,15 @@ class page_action extends tform_actions {
 					}
 				}
 			}
+			
+			if($app->tform->errorMessage == '') {
+				$server_config_array[$section] = $app->tform->encode($this->dataRecord, $section);
+				$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 
-			$server_config_array[$section] = $app->tform->encode($this->dataRecord, $section);
-			$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
-
-			$app->db->datalogUpdate('server', "config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
+				$app->db->datalogUpdate('server', "config = '".$app->db->quote($server_config_str)."'", 'server_id', $server_id);
+			} else {
+				$app->error('Security breach!');
+			}
 		}
 	}
 
