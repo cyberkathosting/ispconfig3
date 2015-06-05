@@ -43,6 +43,7 @@ $wb['top_menu_dashboard'] = 'Übersicht';
 $wb['latest_news_txt'] = 'Neuigkeiten';
 $wb['err_csrf_attempt_blocked'] = 'CSRF-Versuch blockiert.';
 $wb['top_menu_vm'] = 'vServer';
+$wb['err_csrf_attempt_blocked'] = 'CSRF-Versuch blockiert.';
 $wb['daynamesmin_su'] = 'So';
 $wb['daynamesmin_mo'] = 'Mo';
 $wb['daynamesmin_tu'] = 'Di';
