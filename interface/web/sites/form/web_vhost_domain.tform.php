@@ -400,6 +400,15 @@ $form["tabs"]['redirect'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'rewrite_to_https' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'n',
+			'value' => array (
+				0 => 'n',
+				1 => 'y'
+			)
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

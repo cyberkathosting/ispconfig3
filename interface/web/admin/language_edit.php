@@ -55,6 +55,10 @@ $msg = '';
 
 //* Save data
 if(isset($_POST['records']) && is_array($_POST['records'])) {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$file_content = "<?php\n";
 	foreach($_POST['records'] as $key => $val) {
 		$val = stripslashes($val);
@@ -92,6 +96,11 @@ if(isset($wb) && is_array($wb)) {
 	$app->tpl->setLoop('records', $keyword_list);
 	unset($wb);
 }
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('language_edit');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 
 //* load language file

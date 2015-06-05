@@ -51,7 +51,10 @@ $error = '';
 
 //* Save data
 if(isset($_POST) && count($_POST) > 1) {
-
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	//* Check values
 	if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i", $_POST['sender'])) $error .= $wb['sender_invalid_error'].'<br />';
 	if(empty($_POST['subject'])) $error .= $wb['subject_invalid_error'].'<br />';
@@ -160,6 +163,11 @@ if(!empty($field_names) && is_array($field_names)){
 	}
 }
 $app->tpl->setVar('message_variables', trim($message_variables));
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('client_message');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl->setVar('okmsg', $msg);
 $app->tpl->setVar('error', $error);

@@ -129,6 +129,10 @@ $error = '';
 
 // Export the language file
 if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
+	
 	$lines = file($_FILES['file']['tmp_name']);
 	// initial check
 	$parts = explode('|', $lines[0]);
@@ -182,6 +186,11 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
+
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('language_import');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 //* load language file
 $lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_import.lng';

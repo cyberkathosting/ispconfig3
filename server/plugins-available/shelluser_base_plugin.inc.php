@@ -237,7 +237,7 @@ class shelluser_base_plugin {
 							$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
 						}
 						$app->file->mkdirs(escapeshellcmd($homedir), '0750');
-						$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['username']));
+						$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
 						$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
 						$app->system->web_folder_protection($web['document_root'], true);
 					} else {
@@ -407,6 +407,12 @@ class shelluser_base_plugin {
 		}
 		$sshrsa = trim($sshrsa);
 		$usrdir = escapeshellcmd($this->data['new']['dir']);
+		//* Home directory of the new shell user
+		if($this->data['new']['chroot'] == 'jailkit') {
+			$usrdir = escapeshellcmd($this->data['new']['dir']);
+		} else {
+			$usrdir = escapeshellcmd($this->data['new']['dir'].'/home/'.$this->data['new']['username']);
+		}
 		$sshdir = $usrdir.'/.ssh';
 		$sshkeys= $usrdir.'/.ssh/authorized_keys';
 

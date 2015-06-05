@@ -379,6 +379,10 @@ class page_action extends tform_actions {
 			}
 		}
 
+		$csrf_token = $app->auth->csrf_token_get('tools_resync');
+		$app->tpl->setVar('_csrf_id', $csrf_token['csrf_id']);
+		$app->tpl->setVar('_csrf_key', $csrf_token['csrf_key']);
+
 		parent::onShowEnd();
 	}
 			
@@ -429,7 +433,12 @@ class page_action extends tform_actions {
 
     function onSubmit() {
         global $app;
-
+		
+		if(isset($_POST) && count($_POST) > 1) {
+			//* CSRF Check
+			$app->auth->csrf_token_check();
+		}
+		
 		//* all services
 		if($this->dataRecord['resync_all'] == 1) {
 			$this->dataRecord['resync_sites'] = 1;

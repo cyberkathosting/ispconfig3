@@ -79,7 +79,7 @@ class cronjob_webalizer extends cronjob {
 		}
 
 
-		$sql = "SELECT domain_id, domain, document_root, web_folder, type, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'webalizer' AND server_id = ?";
+		$sql = "SELECT domain_id, domain, document_root, web_folder, type, parent_domain_id, system_user, system_group FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'webalizer' AND server_id = ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 
 		foreach($records as $rec) {
@@ -122,7 +122,13 @@ class cronjob_webalizer extends cronjob {
 
 
 			if(!@is_dir($statsdir)) mkdir($statsdir);
+			$username = escapeshellcmd($rec['system_user']);
+			$groupname = escapeshellcmd($rec['system_group']);
+			chown($statsdir, $username);
+			chgrp($statsdir, $groupname);
 			exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -p -o $statsdir $logfile");
+			
+			exec('chown -R '.$username.':'.$groupname.' '.$statsdir);
 		}
 
 

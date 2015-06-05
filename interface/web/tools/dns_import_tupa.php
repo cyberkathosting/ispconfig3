@@ -45,6 +45,9 @@ $error = '';
 
 // Resyncing dns zones
 if(isset($_POST['start']) && $_POST['start'] == 1) {
+	
+	//* CSRF Check
+	$app->auth->csrf_token_check();
 
 	//* Set variable sin template
 	$app->tpl->setVar('dbhost', $_POST['dbhost']);
@@ -181,6 +184,10 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
 
+//* SET csrf token
+$csrf_token = $app->auth->csrf_token_get('dns_import');
+$app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

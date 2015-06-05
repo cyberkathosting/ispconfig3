@@ -144,7 +144,7 @@ ALTER TABLE `directive_snippets` ADD `required_php_snippets` VARCHAR(255) NOT NU
 ALTER TABLE `dns_rr` CHANGE `ttl` `ttl` INT(11) UNSIGNED NOT NULL DEFAULT '3600';
 ALTER TABLE `dns_soa` CHANGE `minimum` `minimum` INT(11) UNSIGNED NOT NULL DEFAULT '3600', CHANGE `ttl` `ttl` INT(11) UNSIGNED NOT NULL DEFAULT '3600';
 ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR(255) NOT NULL DEFAULT 'no,fast-cgi,cgi,mod,suphp,php-fpm,hhvm';
-ALTER TABLE `web_domain` ADD COLUMN `enable_pagespeed` ENUM('y','n') NULL DEFAULT 'n' AFTER `directive_snippets_id`;
+ALTER TABLE `web_domain` ADD COLUMN `enable_pagespeed` ENUM('y','n') NOT NULL DEFAULT 'n' AFTER `directive_snippets_id`;
 
 ALTER TABLE openvz_template ADD COLUMN `features` varchar(255) DEFAULT NULL AFTER `capability`;
 ALTER TABLE openvz_vm ADD COLUMN `features` TEXT DEFAULT NULL AFTER `capability`;
@@ -165,3 +165,4 @@ CREATE TABLE `server_ip_map` (
   PRIMARY KEY (`server_ip_map_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+ALTER TABLE `web_domain` ADD COLUMN `rewrite_to_https` ENUM('y','n') NOT NULL DEFAULT 'n' AFTER `seo_redirect`;

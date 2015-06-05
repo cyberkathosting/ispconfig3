@@ -416,12 +416,10 @@ class tform_base {
 
 		/* CSRF PROTECTION */
 		// generate csrf protection id and key
-		$_csrf_id = uniqid($this->formDef['name'] . '_');
-		$_csrf_value = sha1(uniqid(microtime(true), true));
-		if(!isset($_SESSION['_csrf'])) $_SESSION['_csrf'] = array();
-		if(!isset($_SESSION['_csrf_timeout'])) $_SESSION['_csrf_timeout'] = array();
-		$_SESSION['_csrf'][$_csrf_id] = $_csrf_value;
-		$_SESSION['_csrf_timeout'][$_csrf_id] = time() + 3600; // timeout hash in 1 hour
+		$csrf_token = $app->auth->csrf_token_get($this->formDef['name']);
+		$_csrf_id = $csrf_token['csrf_id'];
+		$_csrf_value = $csrf_token['csrf_key'];
+		
 		$this->formDef['tabs'][$tab]['fields']['_csrf_id'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -714,10 +712,6 @@ class tform_base {
 					unset($_POST);
 					unset($record);
 				}
-				$_SESSION['_csrf'][$_csrf_id] = null;
-				$_SESSION['_csrf_timeout'][$_csrf_id] = null;
-				unset($_SESSION['_csrf'][$_csrf_id]);
-				unset($_SESSION['_csrf_timeout'][$_csrf_id]);
 				
 				if(isset($_SESSION['_csrf_timeout']) && is_array($_SESSION['_csrf_timeout'])) {
 					$to_unset = array();
