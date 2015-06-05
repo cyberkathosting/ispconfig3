@@ -117,6 +117,10 @@ class cronjob_awstats extends cronjob {
 			}
 
 			if(!@is_dir($statsdir)) mkdir($statsdir);
+			$username = escapeshellcmd($rec['system_user']);
+			$groupname = escapeshellcmd($rec['system_group']);
+			chown($statsdir, $username);
+			chgrp($statsdir, $groupname);
 			if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 			symlink($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 
@@ -174,6 +178,7 @@ class cronjob_awstats extends cronjob {
 				chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
 			}
 
+			exec('chown -R '.$username.':'.$groupname.' '.$statsdir);
 		}
 
 

@@ -33,6 +33,13 @@ server {
             rewrite ^<tmpl_var name='local_redirect_exclude'>(.*)$ <tmpl_var name='local_redirect_target'>$2 <tmpl_var name='local_redirect_type'>;
         }
 </tmpl_loop>
+<tmpl_if name='ssl_enabled'>
+<tmpl_if name='rewrite_to_https' op='==' value='y'>
+        if ($scheme != "https") {
+            rewrite ^ https://$http_host$request_uri? permanent;
+        }
+</tmpl_if>
+</tmpl_if>
 
 <tmpl_loop name="own_redirects">
 <tmpl_if name='use_rewrite'>
