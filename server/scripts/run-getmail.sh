@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin
 set -e
 cd /etc/getmail
