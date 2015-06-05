@@ -145,6 +145,7 @@ class page_action extends tform_actions {
     			'web_domain' => array (
         			'index_field' => 'domain_id',
         			'server_type' => 'web',
+					'server_id' => $server_id,
     			),
     			'shell_user' => array (
         			'index_field' => 'shell_user_id',
@@ -260,6 +261,17 @@ class page_action extends tform_actions {
 				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_txt']."</option>" . $options_servers;
 				$app->tpl->setVar('mailfilter_server_id', $options_servers);
 				$app->tpl->setVar('mail_filter_found', 1);
+				unset($options_servers);
+			}
+
+			//* mailinglist
+			$server_list = $this->create_list($mail_server_rec, 'mail', 'mail_mailinglist');
+			$options_servers = $server_list[0];$server_count = $server_list[1];
+			unset($server_list);
+			if (isset($options_servers)) {	//* server with data found
+				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_txt']."</option>" . $options_servers;
+				$app->tpl->setVar('mailinglist_server_id', $options_servers);
+				$app->tpl->setVar('mailinglist_found', 1);
 				unset($options_servers);
 			}
 
