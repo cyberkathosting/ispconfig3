@@ -82,7 +82,7 @@ class cronjob_monitor_system_update extends cronjob {
 			 * Then test the upgrade.
 			 * if there is any output, then there is a needed update
 			 */
-			$aptData = shell_exec('apt-get -s -qq dist-upgrade');
+			$aptData = shell_exec('while fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do sleep 2; done; apt-get -s -qq dist-upgrade');
 			if ($aptData == '') {
 				/* There is nothing to update! */
 				$state = 'ok';
