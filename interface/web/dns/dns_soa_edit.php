@@ -273,16 +273,14 @@ function onBeforeUpdate () {
 
 	//* Check if the server has been changed
 	// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
-	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+	if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord['origin'])) {
 		//* We do not allow users to change a domain which has been created by the admin
 		$rec = $app->db->queryOneRecord("SELECT origin from dns_soa WHERE id = ?", $this->id);
-		$drOrigin = (isset($this->dataRecord['origin']))
-			? $app->functions->idn_encode($this->dataRecord['origin'])
-			: false;
+		$drOrigin = $app->functions->idn_encode($this->dataRecord['origin']);
 
 		if($rec['origin'] !== $drOrigin && $app->tform->checkPerm($this->id, 'u')) {
 			//* Add a error message and switch back to old server
-			$app->tform->errorMessage .= $app->lng('The Zone (soa) can not be changed. Please ask your Administrator if you want to change the Zone name.');
+			$app->tform->errorMessage .= $app->tform->wordbook["soa_cannot_be_changed_txt"];
 			$this->dataRecord["origin"] = $rec['origin'];
 		}
 		unset($rec);

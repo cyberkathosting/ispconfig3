@@ -63,7 +63,7 @@ $form["tabs"]['relay_recipient'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND mirror_servr_id = 0 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),

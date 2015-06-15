@@ -35,4 +35,5 @@ $wb['expire_range_error'] = 'Min. Expire ist 60 Sekunden.';
 $wb['minimum_range_error'] = 'Min. Minimum ist 60 Sekunden.';
 $wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
 $wb['xfer_error_regex'] = 'Zonentransfer: Verwenden Sie eine oder mehrere durch Komma getrennte IP Adressen oder das Wort: any.';
+$wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
 ?>

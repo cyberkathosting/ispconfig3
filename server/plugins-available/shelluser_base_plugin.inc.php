@@ -149,6 +149,12 @@ class shelluser_base_plugin {
 				$app->system->chown(escapeshellcmd($homedir).'/.bash_history', $data['new']['username']);
 				$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', $data['new']['pgroup']);
 
+				//* Create .profile file
+				$app->system->touch(escapeshellcmd($homedir).'/.profile');
+				$app->system->chmod(escapeshellcmd($homedir).'/.profile', 0644);
+				$app->system->chown(escapeshellcmd($homedir).'/.profile', $data['new']['username']);
+				$app->system->chgrp(escapeshellcmd($homedir).'/.profile', $data['new']['pgroup']);
+
 				//* Disable shell user temporarily if we use jailkit
 				if($data['new']['chroot'] == 'jailkit') {
 					$command = 'usermod -s /bin/false -L '.escapeshellcmd($data['new']['username']).' 2>/dev/null';
@@ -214,6 +220,9 @@ class shelluser_base_plugin {
 				
 				// Check if the user that we want to update exists, if not, we insert it
 				if($app->system->is_user($data['old']['username'])) {
+					//* Remove webfolder protection
+					$app->system->web_folder_protection($web['document_root'], false);
+					
 					/*
 					$command = 'usermod';
 					$command .= ' --home '.escapeshellcmd($data['new']['dir']);
@@ -270,7 +279,17 @@ class shelluser_base_plugin {
 						$app->system->chown(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['username']));
 						$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
 					}
+					
+					//* Create .profile file
+					if(!is_file($data['new']['dir']).'/.profile') {
+						$app->system->touch(escapeshellcmd($homedir).'/.profile');
+						$app->system->chmod(escapeshellcmd($homedir).'/.profile', 0644);
+						$app->system->chown(escapeshellcmd($homedir).'/.profile', escapeshellcmd($data['new']['username']));
+						$app->system->chgrp(escapeshellcmd($homedir).'/.profile', escapeshellcmd($data['new']['pgroup']));
+					}
 
+					//* Add webfolder protection again
+					$app->system->web_folder_protection($web['document_root'], true);
 				} else {
 					// The user does not exist, so we insert it now
 					$this->insert($event_name, $data);

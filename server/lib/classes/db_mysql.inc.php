@@ -447,7 +447,7 @@ class db extends mysqli
 		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				$app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
+				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}

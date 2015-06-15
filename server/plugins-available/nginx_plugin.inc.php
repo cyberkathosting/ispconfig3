@@ -950,7 +950,7 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		*/
-		if($data['new']['php'] != 'no'){
+		if($data['new']['php'] == 'php-fpm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -2424,9 +2424,12 @@ class nginx_plugin {
 			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
 			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
 			
-			$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
-			file_put_contents('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'], $monit_content);
-			exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			if(is_dir('/etc/monit/conf.d')){
+				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
+				file_put_contents('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'], $monit_content);
+				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])) unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+				exec('/etc/init.d/monit restart >/dev/null 2>&1');
+			}
 			
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
@@ -2434,8 +2437,13 @@ class nginx_plugin {
 			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 			if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			
-			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
-				unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
+				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
+					unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+				}
+				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
+					unlink('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user']);
+				}
 				exec('/etc/init.d/monit restart >/dev/null 2>&1');
 			}
 		}
@@ -2454,7 +2462,7 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		*/
-		if($data['new']['php'] != 'no'){
+		if($data['new']['php'] == 'php-fpm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -2475,7 +2483,7 @@ class nginx_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
-		if($data['new']['php'] == 'no'){
+		if($data['new']['php'] != 'php-fpm'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
 				$app->system->unlink($pool_dir.$pool_name.'.conf');
 				//$reload = true;
