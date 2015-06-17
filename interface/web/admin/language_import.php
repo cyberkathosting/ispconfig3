@@ -36,7 +36,7 @@ function normalize_string($string, $quote, $allow_special = false) {
 	$new_string = '';
 
 	for($c = 0; $c < mb_strlen($string); $c++) {
-		$char = $string{$c};
+		$char = mb_substr($string, $c, 1);
 
 		if($in_string === true && $escaped === false && $char === $quote) {
 			// this marks a string end (e.g. for concatenation)
