@@ -76,13 +76,13 @@ class cronjob_monitor_system_update extends cronjob {
 			/*
 			 * first update the "apt database"
 			 */
-			shell_exec('apt-get update');
+			shell_exec('while fuser /var/lib/apt/lists/lock >/dev/null 2>&1 ; do sleep 2; done; apt-get update');
 
 			/*
 			 * Then test the upgrade.
 			 * if there is any output, then there is a needed update
 			 */
-			$aptData = shell_exec('while fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do sleep 2; done; apt-get -s -qq dist-upgrade');
+			$aptData = shell_exec('while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock >/dev/null 2>&1 ; do sleep 2; done; apt-get -s -qq dist-upgrade');
 			if ($aptData == '') {
 				/* There is nothing to update! */
 				$state = 'ok';
