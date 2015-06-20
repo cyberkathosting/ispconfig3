@@ -89,6 +89,12 @@
                     <tmpl_else>
                         <div class="col-sm-9"><input type="text" name="domain" id="domain" value="{tmpl_var name='domain'}" class="form-control" /></div></tmpl_if>
             </div>
+			<tmpl_if name="edit_disabled">
+				<div class="form-group">
+					<label for="document_root" class="col-sm-3 control-label" readonly >{tmpl_var name='ip_address_txt'}</label>
+					<div class="col-sm-9">{tmpl_var name='document_root'}</div>
+				</div>
+			</tmpl_if>
             <div class="form-group">
                 <label for="hd_quota" class="col-sm-3 control-label">{tmpl_var name='hd_quota_txt'}</label>
                 <div class="col-sm-6"><input type="text" name="hd_quota" id="hd_quota" value="{tmpl_var name='hd_quota'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;MB
