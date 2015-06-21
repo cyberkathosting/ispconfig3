@@ -101,6 +101,10 @@ $app->tpl->setVar('base64_logo_width', $logo_dimensions[0].'px');
 $app->tpl->setVar('base64_logo_height', $logo_dimensions[1].'px');
 $app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 
+// Title
+$server_config = $app->getconf->get_server_config(1, 'server');
+$app->tpl->setVar('server_name', $server_config['hostname']);
+
 $app->tpl_defaults();
 $app->tpl->pparse();
 ?>
