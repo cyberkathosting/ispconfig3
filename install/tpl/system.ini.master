@@ -40,6 +40,7 @@ use_domain_module=n
 new_domain_html=Please contact our support to create a new domain for you.
 
 [misc]
+company_name=
 dashboard_atom_url_admin=http://www.ispconfig.org/atom
 dashboard_atom_url_reseller=http://www.ispconfig.org/atom
 dashboard_atom_url_client=http://www.ispconfig.org/atom

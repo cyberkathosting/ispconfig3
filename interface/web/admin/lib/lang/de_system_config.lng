@@ -72,4 +72,5 @@ $wb['session_allow_endless_txt'] = '&quot;Eingeloggt bleiben&quot; aktivieren';
 $wb['No'] = 'Nein';
 $wb['min_password_length_txt'] = 'Minimale Passwortlänge';
 $wb['min_password_strength_txt'] = 'Minimale Passwortstärke';
+$wb["company_name_txt"] = "Firmenname fuer den Seitentitel";
 ?>
