@@ -133,6 +133,7 @@ $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. E
 $wb['backup_excludes_error_regex'] = 'Izbačeni direktorij sadrži nedozvoljene znakove.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Neispravne php.ini postavke';
 $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
+$wb["document_root_txt"] = "Document Root";
 ?>
 
 

@@ -133,4 +133,5 @@ $wb['backup_excludes_txt'] = 'Directorios excluídos';
 $wb['backup_excludes_note_txt'] = '(Separa múltiples directorios con comas. Ejemplo: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Los directorios excluídos contienen caracteres no válidos.';
 $wb['invalid_custom_php_ini_settings_txt'] = 'Configuración personalizada de php.ini no válida';
+$wb["document_root_txt"] = "Document Root";
 ?>

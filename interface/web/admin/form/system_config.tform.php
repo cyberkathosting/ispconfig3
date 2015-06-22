@@ -460,6 +460,12 @@ $form["tabs"]['misc'] = array (
 		//#################################
 		// Begin Datatable fields
 		//#################################
+		'company_name' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => ''
+		),
 		'dashboard_atom_url_admin' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
