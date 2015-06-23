@@ -1,12 +1,12 @@
 <?php
-$wb['select_server_txt'] = 'Seleccionar servidor';
+$wb['select_server_txt'] = 'Seleccione un servidor';
 $wb['btn_do_txt'] = 'Ejecutar acción';
-$wb['do_osupdate_caption'] = 'Hacer OS-Update el servidor remoto';
-$wb['do_osupdate_desc'] = 'Esta acción hace un aptitude upgrade-y en su servidor seleccionado <strong> <br> USAR ESTE BAJO SU PROPIO RIESGO </strong>';
-$wb['do_ispcupdate_caption'] = 'Es ISPConfig 3 - Actualización en el servidor remoto';
-$wb['do_ispcupdate_desc'] = 'Esta acción hace una actualización de ISPConfig3 en su servidor seleccionado<strong><br>USAR ESTE BAJO SU PROPIO RIESGO</strong>';
-$wb['action_scheduled'] = 'La acción está prevista para su ejecución';
+$wb['do_osupdate_caption'] = 'Ejecutar actualización de SO al servidor remoto';
+$wb['do_osupdate_desc'] = 'Esta acción realizará un  al servidor seleccionado.<br><br><strong>USE ESTO BAJO SU PROPIO RIESGO!</strong>';
+$wb['do_ispcupdate_caption'] = 'Hacer actualización de ISPConfig 3 al servidor remoto';
+$wb['do_ispcupdate_desc'] = 'Esta acción realizará una actualización de ISPConfig 3 al servidor seleccionado.<br><br><strong>USE ESTO BAJO SU PROPIO RIESGO!</strong>';
+$wb['action_scheduled'] = 'La acción fue programada para su ejecución';
 $wb['select_all_server'] = 'Todos los servidores';
-$wb['ispconfig_update_title'] = 'Instrucciones para actualizar ISPConfig';
-$wb['ispconfig_update_text'] = 'Inicie sesión como usuario root en el terminal de su servidor y ejecutar el comando<br /><br /><strong>ispconfig_update.sh</strong><br /><br />para iniciar la actualización de ISPConfig.<a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank> Haga clic aquí para información detallada  para actualizar</a>';
+$wb['ispconfig_update_title'] = 'Instrucciones de actualización de ISPConfig';
+$wb['ispconfig_update_text'] = 'Inicie sesión como root en el shell de su servidor y ejecute el comando<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />para iniciar la actualización de ISPConfig.<br /><br /><a href= target=>Clic aquí para una descripción detallada de como actualizar</a>';
 ?>

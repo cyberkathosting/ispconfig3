@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Dominio de correo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
-$wb['add_new_record_txt'] = 'Añadir nuevo dominio';
-$wb['active_txt'] = 'Activar';
+$wb['add_new_record_txt'] = 'Añadir dominio';
+$wb['active_txt'] = 'Habilitado';
 ?>

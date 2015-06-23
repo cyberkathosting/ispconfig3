@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Cuota de disco Sitio web';
-$wb['domain_txt'] = 'Dominio';
+$wb['list_head_txt'] = 'Cuota de disco para sitio web';
+$wb['domain_txt'] = 'Dominio / Sitio web';
 $wb['system_user_txt'] = 'Usuario Linux';
 $wb['used_txt'] = 'Espacio usado';
-$wb['hard_txt'] = 'Limite máximo';
-$wb['soft_txt'] = 'Limite advertencia';
-$wb['files_txt'] = 'Single files';
+$wb['hard_txt'] = 'Límite impuesto';
+$wb['soft_txt'] = 'Límite permisivo';
+$wb['files_txt'] = 'Archivos individuales';
 ?>

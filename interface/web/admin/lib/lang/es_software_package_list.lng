@@ -1,13 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Paquetes de software';
+$wb['list_head_txt'] = 'Apps & paquetes adicionales';
 $wb['installed_txt'] = 'Estado';
 $wb['package_title_txt'] = 'Paquete';
 $wb['package_description_txt'] = 'Descripción';
 $wb['action_txt'] = 'Acción';
-$wb['toolsarea_head_txt'] = 'Packages';
-$wb['repoupdate_txt'] = 'Update package list';
-$wb['package_id_txt'] = 'local App-ID';
-$wb['no_packages_txt'] = 'No packages available';
-$wb['edit_txt'] = 'Edit';
-$wb['delete_txt'] = 'Delete';
+$wb['toolsarea_head_txt'] = 'Paquetes';
+$wb['repoupdate_txt'] = 'Actualizar lista de paquetes';
+$wb['package_id_txt'] = 'ID local de App';
+$wb['no_packages_txt'] = 'No hay paquetes disponibles';
+$wb['edit_txt'] = 'Editar';
+$wb['delete_txt'] = 'Borrar';
 ?>

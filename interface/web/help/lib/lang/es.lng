@@ -5,10 +5,10 @@ $wb['Send message'] = 'Enviar mensaje';
 $wb['View messages'] = 'Ver mensajes';
 $wb['Support'] = 'Soporte';
 $wb['About ISPConfig'] = 'Acerca de ISPConfig';
-$wb['Version'] = 'Version';
+$wb['Version'] = 'Versión';
 $wb['Frequently Asked Questions'] = 'Preguntas frecuentes';
-$wb['FAQ Sections'] = 'Secciones FAQ';
-$wb['Manage Sections'] = 'Gestionar las Secciones';
-$wb['Add a Question & Answer Pair'] = 'Añadir un par de preguntas y respuestas';
+$wb['FAQ Sections'] = 'Secciones del FAQ';
+$wb['Manage Sections'] = 'Administrar secciones';
+$wb['Add a Question & Answer Pair'] = 'Añadir una pregunta & respuesta pareada';
 $wb['Manage Questions'] = 'Administrar preguntas';
 ?>

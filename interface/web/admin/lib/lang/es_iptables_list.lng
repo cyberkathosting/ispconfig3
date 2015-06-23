@@ -1,15 +1,15 @@
 <?php
 $wb['list_head_txt'] = 'IPTables';
-$wb['add_new_rule_txt'] = 'Añadir reglas a IPTables';
+$wb['add_new_rule_txt'] = 'Añadir regla a IPTables';
 $wb['server_id_txt'] = 'Servidor';
-$wb['multiport_txt'] = 'Multi Port';
-$wb['singleport_txt'] = 'Single Port';
+$wb['multiport_txt'] = 'Multi-puerto';
+$wb['singleport_txt'] = 'Puerto individual';
 $wb['protocol_txt'] = 'Protocolo';
 $wb['table_txt'] = 'Tabla';
 $wb['target_txt'] = 'Objetivo';
 $wb['state_txt'] = 'Estado';
-$wb['destination_ip_txt'] = 'Dirección destino';
-$wb['source_ip_txt'] = 'Origen de la dirección';
-$wb['active_txt'] = 'Activar';
-$wb['iptables_error_unique'] = 'Ya existe un registro de servidor de seguridad de este servidor.';
+$wb['destination_ip_txt'] = 'Dirección de destino';
+$wb['source_ip_txt'] = 'Dirección de origen';
+$wb['active_txt'] = 'Habilitado';
+$wb['iptables_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
 ?>

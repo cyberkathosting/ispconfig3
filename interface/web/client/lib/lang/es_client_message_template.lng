@@ -1,11 +1,11 @@
 <?php
-$wb['template_type_txt'] = 'Email type';
-$wb['template_name_txt'] = 'Template name';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['Email template'] = 'Email template';
-$wb['Settings'] = 'Setting';
+$wb['template_type_txt'] = 'Tipo de correo';
+$wb['template_name_txt'] = 'Nombre de la plantilla';
+$wb['subject_txt'] = 'Asunto';
+$wb['message_txt'] = 'Mensaje';
+$wb['Email template'] = 'Plantilla de correo';
+$wb['Settings'] = 'Opciones';
 $wb['variables_txt'] = 'Variables';
-$wb['variables_description_txt'] = '(The username and password variables are only available in welcome emails.)';
-$wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
+$wb['variables_description_txt'] = '(Las variables de nombre de usuario y contraseña están solo disponibles para correos de bienvenida.)';
+$wb['duplicate_welcome_error'] = 'Sólo puede haber una plantilla predeterminada de correo de bienvenida. Por favor, modifique la plantilla existente en lugar de añadir una nueva.';
 ?>

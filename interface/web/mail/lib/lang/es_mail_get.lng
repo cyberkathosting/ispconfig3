@@ -1,19 +1,19 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['type_txt'] = 'Tipo';
-$wb['source_server_txt'] = 'Servidor POP3/IMAP';
-$wb['source_username_txt'] = 'Usuario';
+$wb['source_server_txt'] = 'Servidor Pop3/Imap';
+$wb['source_username_txt'] = 'Nombre de usuario';
 $wb['source_password_txt'] = 'Contraseña';
-$wb['source_delete_txt'] = 'Borrar los correos después de recibirlos';
+$wb['source_delete_txt'] = 'Borrar correos después de recuperarlos';
+$wb['source_read_all_txt'] = 'Recuperar todos los correos (incl. correos leídos)';
 $wb['destination_txt'] = 'Destino';
-$wb['active_txt'] = 'Activar';
-$wb['limit_fetchmail_txt'] = 'Se ha alcanzado el número máximo de registros Fetchmail de esta cuenta';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_fetchmail_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros de recuperación de correo.';
 $wb['source_server_error_isempty'] = 'El servidor está vacío.';
 $wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
 $wb['source_password_error_isempty'] = 'La contraseña está vacía.';
-$wb['destination_error_isemail'] = 'No se ha seleccionado el destino.';
-$wb['source_server_error_regex'] = 'Servidor POP3/IMAP no es un nombre de dominio válido.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \'Delete emails after retrieval\' = no together with \'Retrieve all emails\' = yes';
-$wb['source_delete_note_txt'] = 'Please check first if email retrieval works, before you activate this option.';
+$wb['destination_error_isemail'] = 'No ha seleccionado un destinatario.';
+$wb['source_server_error_regex'] = 'El servidor Pop3/Imap no es un nombre de dominio válido.';
+$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar \"Borrar correos después de recuperarlos\" = NO junto con \"Recuperar todos los correos\" = SI';
+$wb['source_delete_note_txt'] = 'Por favor, verifique que funcione la recuperación de correos antes de activar esta opción.';
 ?>

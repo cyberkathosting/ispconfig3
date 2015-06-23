@@ -1,10 +1,10 @@
 <?php
 $wb['list_head_txt'] = 'Zonas DNS';
-$wb['active_txt'] = 'Activa';
+$wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Correo';
-$wb['add_new_record_txt'] = 'Añadir una nueva zona DNS (SOA)';
-$wb['add_new_record_wizard_txt'] = 'Añadir una nueva zona DNS con Asistente';
+$wb['add_new_record_wizard_txt'] = 'Añadir una zona DNS mediante el ayudante';
+$wb['add_new_record_txt'] = 'Añadir una zona DNS manualmente';
 ?>

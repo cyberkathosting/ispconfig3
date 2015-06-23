@@ -1,15 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['list_head_txt'] = 'Respaldos existentes';
+$wb['date_txt'] = 'Fecha';
+$wb['backup_type_txt'] = 'Tipo';
+$wb['filename_txt'] = 'Archivo de respaldo';
+$wb['restore_backup_txt'] = 'Restaurar';
+$wb['download_backup_txt'] = 'Descargar';
+$wb['download_info_txt'] = 'El archivo de respaldo estará disponible para descargar desde la carpeta de respaldos del sitio web en unos minutos más.';
+$wb['restore_info_txt'] = 'La restauración del respaldo ha sido iniciada. Esta acción puede tomar varios minutos en ser completada.';
+$wb['restore_confirm_txt'] = 'La restauración sobreescribirá los archivos en el sitio web. Realmente desea restaurar este respaldo?';
+$wb['download_pending_txt'] = 'Ya existe un trabajo pendiente para descarga de respaldo.';
+$wb['restore_pending_txt'] = 'Ya existe un trabajo pendiente para restauración de respaldo.';
+$wb['backup_type_mysql'] = 'Base de datos MySQL';
+$wb['backup_type_web'] = 'Archivos del sitio web';
 ?>

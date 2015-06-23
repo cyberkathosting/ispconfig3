@@ -1,14 +1,14 @@
 <?php
+$wb['zone_file_import_txt'] = 'Importar archivo de zona';
 $wb['server_id_txt'] = 'Servidor';
 $wb['client_txt'] = 'Cliente';
-$wb['btn_save_txt'] = 'Import Zonefile';
+$wb['btn_save_txt'] = 'Importar archivo de zona';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['domain_txt'] = 'Dominio';
-$wb['zone_file_successfully_imported_txt'] = '¡El archivo de zona ha sido importado con éxito!';
-$wb['error_no_valid_zone_file_txt'] = '¡Esto parece que no hay archivo de zona válido!';
-$wb['zonefile_to_import_txt'] = 'Zona de archivo';
-$wb['domain_field_desc_txt'] = 'Se puede dejar vacío si el nombre de dominio es el nombre del archivo o el contenido de la zona de archivo.';
-$wb['title'] = 'Archivos de zona de importación';
-$wb['no_file_uploaded_error'] = 'No hay fichero en zona subida';
-$wb['zone_file_import_txt'] = 'Zone File Import';
+$wb['zone_file_successfully_imported_txt'] = 'El archivo de zona se ha importado correctamente!';
+$wb['error_no_valid_zone_file_txt'] = 'Al parecer este no es un archivo de zona válido!';
+$wb['zonefile_to_import_txt'] = 'Archivo de Zona';
+$wb['domain_field_desc_txt'] = 'Puede quedar en blanco si el nombre de dominio es el nombre del archivo o está en el contenido del archivo de zona.';
+$wb['title'] = 'Importar Archivos de Zona';
+$wb['no_file_uploaded_error'] = 'No hay archivo de zona cargado';
 ?>

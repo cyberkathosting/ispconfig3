@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Buzón';
-$wb['email_txt'] = 'Dirección de correo';
-$wb['autoresponder_txt'] = 'Autorespondedor';
-$wb['add_new_record_txt'] = 'Añadir nuevo buzón';
+$wb['email_txt'] = 'Correo';
+$wb['autoresponder_txt'] = 'Auto-respondedor';
+$wb['add_new_record_txt'] = 'Añadir buzón';
 $wb['name_txt'] = 'Nombre';
-$wb['login_txt'] = 'Iniciar sessión';
+$wb['login_txt'] = 'Entrar';
 ?>

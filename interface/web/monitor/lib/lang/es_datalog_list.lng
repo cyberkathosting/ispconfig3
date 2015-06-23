@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'Cola de trabajo';
 $wb['tstamp_txt'] = 'Fecha';
 $wb['server_id_txt'] = 'Servidor';
-$wb['dbtable_txt'] = 'Tabla BD';
+$wb['dbtable_txt'] = 'Tabla de la DB';
 $wb['action_txt'] = 'Acción';
 $wb['status_txt'] = 'Estado';
 ?>

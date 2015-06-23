@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Enrutar destinatarios';
-$wb['active_txt'] = 'Activa';
+$wb['list_head_txt'] = 'Recipientes de retransmisión';
+$wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Dirección destinatario';
-$wb['recipient_txt'] = 'Destinatario';
-$wb['add_new_record_txt'] = 'Añadir nuevo destinatario';
-$wb['access_txt'] = 'acceso';
+$wb['source_txt'] = 'Dirección del recipiente';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['add_new_record_txt'] = 'Añadir recipiente de retransmisión';
+$wb['access_txt'] = 'access';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Cuota de Correo';
+$wb['list_head_txt'] = 'Cuota de casilla';
 $wb['quota_txt'] = 'Cuota';
 $wb['name_txt'] = 'Nombre';
-$wb['email_txt'] = 'Correo';
-$wb['used_txt'] = 'Usado';
-$wb['percentage_txt'] = 'Used %';
+$wb['email_txt'] = 'Dirección de correo';
+$wb['used_txt'] = 'Espacio usado';
+$wb['percentage_txt'] = 'Usado %';
 ?>

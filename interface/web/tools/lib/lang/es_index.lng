@@ -1,4 +1,4 @@
 <?php
-$wb['page_head_txt'] = 'ISPConfig Tools';
-$wb['page_desc_txt'] = 'Change user settings';
+$wb['page_head_txt'] = 'Herramientas de ISPConfig';
+$wb['page_desc_txt'] = 'Cambiar opciones de usuario';
 ?>

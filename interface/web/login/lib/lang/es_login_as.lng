@@ -1,11 +1,11 @@
 <?php
-$wb['login_1_txt'] = 'Do you want to login as user';
-$wb['login_2_txt'] = 'If you do so, you can \\"go back\\" by clicking at logout.';
-$wb['btn_yes_txt'] = 'Yes, login as Client';
-$wb['btn_back_txt'] = 'No, back to list';
-$wb['udp_port_help_txt'] = 'Separated by comma';
-$wb['active_txt'] = 'Active';
-$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
-$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
-$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+$wb['login_1_txt'] = 'Desea iniciar sesión como usuario';
+$wb['login_2_txt'] = 'Si lo hace, puede \"volver\" haciendo clic en salir.';
+$wb['btn_yes_txt'] = 'Sí, iniciar sesión como cliente';
+$wb['btn_back_txt'] = 'No, volver a la lista';
+$wb['udp_port_help_txt'] = 'Separado por coma';
+$wb['active_txt'] = 'Habilitado';
+$wb['firewall_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
+$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \":\" y \",\".';
+$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \":\" y \",\".';
 ?>

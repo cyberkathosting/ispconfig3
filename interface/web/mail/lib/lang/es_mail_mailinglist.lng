@@ -1,22 +1,22 @@
 <?php
-$wb['limit_mailmailinglist_txt'] = 'Lìmite alcanzado';
+$wb['mailinglist_txt'] = 'Lista de correo';
+$wb['limit_mailmailinglist_txt'] = 'Límite alcanzado';
 $wb['domain_error_empty'] = 'El dominio está vacío.';
-$wb['listname_error_empty'] = 'Nombre de la lista está vacío.';
-$wb['domain_error_regex'] = 'Nombre de dominio no válido.';
-$wb['email_in_use_txt'] = 'El correo electrónico esta en uso';
-$wb['no_domain_perm'] = 'Usted no tiene permiso para este dominio.';
-$wb['password_strength_txt'] = 'Fortaleza de contraseña';
+$wb['listname_error_empty'] = 'Nombre de la lista vacío.';
+$wb['domain_error_regex'] = 'Nombre de dominio inválido.';
+$wb['email_in_use_txt'] = 'El correo está en uso';
+$wb['no_domain_perm'] = 'Usted no tiene permisos en este dominio.';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
 $wb['listname_txt'] = 'Nombre de la lista';
 $wb['client_txt'] = 'Cliente';
-$wb['email_txt'] = 'Ecorreo';
+$wb['email_txt'] = 'Correo';
 $wb['password_txt'] = 'Contraseña';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['mailinglist_txt'] = 'Mailing list';
+$wb['generate_password_txt'] = 'Generar contraseña';
+$wb['repeat_password_txt'] = 'Repetir contraseña';
+$wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
+$wb['password_match_txt'] = 'Las contraseñas coinciden.';
+$wb['listname_error_unique'] = 'Ya existe en el servidor un lista de correos con ese nombre. Por favor elija otro.';
+$wb['email_error_isemail'] = 'Dirección de correo inválida.';
 ?>

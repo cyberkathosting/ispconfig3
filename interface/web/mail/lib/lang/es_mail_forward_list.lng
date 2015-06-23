@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Reenvío de correo';
-$wb['active_txt'] = 'Activar';
+$wb['active_txt'] = 'Habilitado';
 $wb['source_txt'] = 'Origen';
 $wb['destination_txt'] = 'Destino';
 $wb['email_txt'] = 'Correo';
-$wb['add_new_record_txt'] = 'Añadir nuevo reenvío de correo';
+$wb['add_new_record_txt'] = 'Añadir reenvío de correo';
 ?>

@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre';
+$wb['name_txt'] = 'Zona';
 $wb['type_txt'] = 'tipo';
-$wb['data_txt'] = 'Nombre del servidor de nombres';
+$wb['data_txt'] = 'Nombre de servidor y host';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Activar';
-$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registro DNS de esta cuenta.';
-$wb['no_zone_perm'] = 'No tiene permisos para añadir registros a esta zona DNS.';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_dns_record_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros DNS.';
+$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona de DNS.';
 $wb['name_error_empty'] = 'La zona está vacía.';
-$wb['name_error_regex'] = 'El formato de la zona es incorrecto';
-$wb['data_error_empty'] = 'El servidor de nombres está vacío.';
-$wb['data_error_regex'] = 'El formato del servidor de nombres no es válido.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['name_error_regex'] = 'La zona contiene un formato inválido.';
+$wb['data_error_empty'] = 'Nombre del servidor y host vacío';
+$wb['data_error_regex'] = 'Formato incorrecto del nombre del servidor y host';
+$wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 ?>
