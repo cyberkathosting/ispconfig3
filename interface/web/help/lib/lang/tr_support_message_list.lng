@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Destek Mesajları';
-$wb['sender_id_txt'] = 'Gönderici';
+$wb['list_head_txt'] = 'Destek İletileri';
+$wb['sender_id_txt'] = 'Gönderen';
 $wb['subject_txt'] = 'Konu';
-$wb['add_new_record_txt'] = 'Yeni destek mesajı oluştur';
-$wb['date_txt'] = 'Date';
+$wb['add_new_record_txt'] = 'Destek İletisi Ekle';
+$wb['date_txt'] = 'Tarih';
 ?>

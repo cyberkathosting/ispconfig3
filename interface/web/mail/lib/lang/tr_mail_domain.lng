@@ -1,13 +1,13 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Domain';
-$wb['type_txt'] = 'Çeşit';
-$wb['active_txt'] = 'Aktif';
-$wb['domain_error_empty'] = 'Domain boş.';
-$wb['domain_error_unique'] = 'Domain Tekrarı.';
-$wb['domain_error_regex'] = 'Geçersiz domain ismi.';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['type_txt'] = 'Tip';
+$wb['active_txt'] = 'Etkin';
+$wb['domain_error_empty'] = 'Alan adı boş olamaz.';
+$wb['domain_error_unique'] = 'Bu alan adı zaten var.';
+$wb['domain_error_regex'] = 'Alan adı geçersiz.';
 $wb['client_txt'] = 'Müşteri';
-$wb['limit_maildomain_txt'] = 'Hesabınızdaki max. email domain sayısına ulaştınız.';
-$wb['policy_txt'] = 'Spam filtresi';
-$wb['no_policy'] = '- aktif değil -';
+$wb['limit_maildomain_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla alan adı sayısına ulaştınız.';
+$wb['policy_txt'] = 'Önemsiz Posta Süzgeci';
+$wb['no_policy'] = '- devre dışı -';
 ?>

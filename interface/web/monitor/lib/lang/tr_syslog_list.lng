@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'ISPConfig Kayıtları';
 $wb['tstamp_txt'] = 'Tarih';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['loglevel_txt'] = 'Kayıt düzeyi';
-$wb['message_txt'] = 'Mesaj';
+$wb['loglevel_txt'] = 'Günlükleme Düzeyi';
+$wb['message_txt'] = 'İleti';
 ?>

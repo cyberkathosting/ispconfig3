@@ -1,11 +1,13 @@
 <?php
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Alan Adı';
 $wb['destination_txt'] = 'Hedef';
-$wb['active_txt'] = 'Aktif';
-$wb['domain_error_unique'] = 'Bu domain için zaten Catchall kayıdı bulunmakta.';
-$wb['no_domain_perm'] = 'Bu domain için yetkiniz yok.';
-$wb['domain_error_regex'] = 'Geçersiz domain adı. Domain adı izin verilmeyen karakterler içermekte.';
-$wb['limit_mailcatchall_txt'] = 'Hesabınıdaki max. Catchall hesabı limitine ulaştınız..';
-$wb['source_txt'] = 'Source';
-$wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['active_txt'] = 'Etkin';
+$wb['domain_error_unique'] = 'Bu alan adı için zaten bir tümünü al kayıdı var.';
+$wb['no_domain_perm'] = 'Bu alan adı için izniniz yok.';
+$wb['domain_error_regex'] = 'Alan adı geçersiz ya da geçersiz karakterler içeriyor.';
+$wb['limit_mailcatchall_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla tümünü al hesabı sayısına ulaştınız.';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['source_txt'] = 'Kaynak';
+$wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
 ?>
+

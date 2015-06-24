@@ -1,8 +1,8 @@
 <?php
-$wb['mailquota_txt'] = 'Mailbox Quota';
-$wb['email_txt'] = 'Email Address';
-$wb['name_txt'] = 'Name';
-$wb['used_txt'] = 'Used Space';
-$wb['quota_txt'] = 'Quota';
-$wb['no_email_accounts_txt'] = 'No email accounts found.';
+$wb['mailquota_txt'] = 'Posta Kutusu Kotası';
+$wb['email_txt'] = 'E-posta Adresi';
+$wb['name_txt'] = 'Ad';
+$wb['used_txt'] = 'Kullanılan Alan';
+$wb['quota_txt'] = 'Kota';
+$wb['no_email_accounts_txt'] = 'Henüz bir e-posta hesabı yok.';
 ?>

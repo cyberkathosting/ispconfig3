@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['source_txt'] = 'Relay recipient';
+$wb['source_txt'] = 'Aktarılan Alıcı';
 $wb['recipient_txt'] = 'Alıcı';
-$wb['active_txt'] = 'Aktif';
-$wb['source_error_notempty'] = 'Adres boş.';
-$wb['type_txt'] = 'Çeşit';
-$wb['limit_mailfilter_txt'] = 'Hesabınıdaki max. email filtreleri limitine ulaştınız.';
+$wb['active_txt'] = 'Etkin';
+$wb['source_error_notempty'] = 'Adres boş olamaz.';
+$wb['type_txt'] = 'Tip';
+$wb['limit_mailfilter_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla e-posta süzgeci sayısına ulaştınız.';
 ?>

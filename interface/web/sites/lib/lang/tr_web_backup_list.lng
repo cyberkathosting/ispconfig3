@@ -1,15 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['list_head_txt'] = 'Alınmış Yedekler';
+$wb['date_txt'] = 'Tarih';
+$wb['backup_type_txt'] = 'Tip';
+$wb['filename_txt'] = 'Yedek Dosyası';
+$wb['restore_backup_txt'] = 'Geri Yükle';
+$wb['download_backup_txt'] = 'İndir';
+$wb['download_info_txt'] = 'Yedek dosyası bir kaç dakika içinde web sitesinin backup klasörü altında indirilmeye hazır olacak.';
+$wb['restore_info_txt'] = 'Yedeğin geri yüklenmesine başlandı. Bu işlemin tamamlanması bir kaç dakika sürebilir.';
+$wb['restore_confirm_txt'] = 'Geri yükleme işlemi web sitenizde bulunan dosyaların üzerine yazar. Bu yedeği geri yüklemek istediğinize emin misiniz?';
+$wb['download_pending_txt'] = 'Zaten bekleyen bir yedek indirme işlemi var.';
+$wb['restore_pending_txt'] = 'Zaten bekleyen bir yedek geri yükleme işlemi var.';
+$wb['backup_type_mysql'] = 'MySQL Veritabanı';
+$wb['backup_type_web'] = 'Web sitesi dosyaları';
+
 ?>

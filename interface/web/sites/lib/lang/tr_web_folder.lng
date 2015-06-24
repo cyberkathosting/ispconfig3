@@ -1,8 +1,8 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['path_txt'] = 'Path';
-$wb['active_txt'] = 'Active';
-$wb['path_error_regex'] = 'Invalid folder path.';
-$wb['error_folder_already_protected_txt'] = 'There is already a record for this folder.';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['parent_domain_id_txt'] = 'Web Sitesi';
+$wb['path_txt'] = 'Yol';
+$wb['active_txt'] = 'Etkin';
+$wb['path_error_regex'] = 'Klasör yolu geçersiz.';
+$wb['error_folder_already_protected_txt'] = 'Bu klasör için zaten bir kayıt var.';
 ?>

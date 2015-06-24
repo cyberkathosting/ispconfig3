@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Postfix Başlık ve İçerik Kontrolü';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Postfix Başlık ve İçerik Denetimi';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['pattern_txt'] = 'Desen';
-$wb['action_txt'] = 'Eylem';
-$wb['add_new_record_txt'] = 'Yeni İçerik Filtresi';
+$wb['action_txt'] = 'İşlem';
+$wb['add_new_record_txt'] = 'İçerik Süzgeci Ekle';
 ?>

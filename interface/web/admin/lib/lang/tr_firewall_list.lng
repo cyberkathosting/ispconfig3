@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Güvenlik Duvarı';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['tcp_port_txt'] = 'Açık TCP portları';
-$wb['udp_port_txt'] = 'Açık UDP portları';
-$wb['add_new_record_txt'] = 'Yeni Firewall Kaydı';
+$wb['tcp_port_txt'] = 'Açık TCP kapıları';
+$wb['udp_port_txt'] = 'Açık UDP kapıları';
+$wb['add_new_record_txt'] = 'Güvenlik Duvarı Kaydı Ekle';
 ?>

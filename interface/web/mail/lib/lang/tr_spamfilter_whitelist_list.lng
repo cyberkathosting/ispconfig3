@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Spamfiltre Beyaz listesi';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Önemsiz Posta Beyaz Listesi';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['priority_txt'] = 'Öncelik';
 $wb['rid_txt'] = 'Kullanıcı';
-$wb['email_txt'] = 'Beyaz liste Email';
-$wb['add_new_record_txt'] = 'Yeni Beyaz Liste';
+$wb['email_txt'] = 'Beyaz Listedeki E-posta';
+$wb['add_new_record_txt'] = 'Beyaz Liste Kaydı Ekle';
 ?>

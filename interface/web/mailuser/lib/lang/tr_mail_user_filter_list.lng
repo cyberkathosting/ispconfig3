@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Email filter rules';
-$wb['rulename_txt'] = 'Name';
-$wb['add_new_record_txt'] = 'Add new Filter';
-$wb['page_txt'] = 'Page';
-$wb['page_of_txt'] = 'of';
-$wb['delete_confirmation'] = 'Do you really want to delete the mailfilter?';
+$wb['list_head_txt'] = 'E-posta Süzgeci Kuralları';
+$wb['rulename_txt'] = 'Ad';
+$wb['add_new_record_txt'] = 'Süzgeç Ekle';
+$wb['page_txt'] = 'Sayfa';
+$wb['page_of_txt'] = '/';
+$wb['delete_confirmation'] = 'Posta süzgecini silmek istediğinize emin misiniz?';
 ?>

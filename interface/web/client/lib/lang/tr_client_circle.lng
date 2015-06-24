@@ -1,9 +1,9 @@
 <?php
-$wb['Client Circle'] = 'Client Circle';
-$wb['Circle'] = 'Circle';
-$wb['circle_txt'] = 'Circle';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['client_ids_txt'] = 'Clients/Resellers';
-$wb['description_txt'] = 'Description';
-$wb['active_txt'] = 'Active';
+$wb['Client Circle'] = 'Müşteri Grubu';
+$wb['Circle'] = 'Grup';
+$wb['circle_txt'] = 'Grup';
+$wb['circle_name_txt'] = 'Grup Adı';
+$wb['client_ids_txt'] = 'Müşteriler/Bayiler';
+$wb['description_txt'] = 'Açıklama';
+$wb['active_txt'] = 'Etkin';
 ?>

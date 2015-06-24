@@ -1,14 +1,15 @@
 <?php
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'E-posta';
 $wb['destination_txt'] = 'Hedef';
-$wb['active_txt'] = 'Aktif';
-$wb['email_error_isemail'] = 'Email adresi geçersiz.';
-$wb['email_error_unique'] = 'Email adresleri tekrar etmekte';
-$wb['no_domain_perm'] = 'Bu domain için yetkiniz yok.';
-$wb['destination_error_isemail'] = 'Hedef Email adresi geçersiz.';
-$wb['limit_mailalias_txt'] = 'Hesabınızdaki max. email alias sayısına ulaştınız.';
-$wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
-$wb['domain_txt'] = 'Domain';
-$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
-$wb['source_txt'] = 'Alias';
+$wb['active_txt'] = 'Etkin';
+$wb['email_error_isemail'] = 'E-posta adresi geçersiz.';
+$wb['email_error_unique'] = 'Bu e-posta adresi zaten var';
+$wb['no_domain_perm'] = 'Bu alan adı için izniniz yok.';
+$wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
+$wb['limit_mailalias_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla takma e-posta adresi sayısına ulaştınız.';
+$wb['duplicate_mailbox_txt'] = 'Bu e-posta adresini kullanan bir posta kutusu zaten var';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['duplicate_email_alias_txt'] = 'Bu takma e-posta adresi zaten var.';
+$wb['source_txt'] = 'Takma Ad';
 ?>
+

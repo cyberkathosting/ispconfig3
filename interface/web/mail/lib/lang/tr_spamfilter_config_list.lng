@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Sunucu Konfigurasyonu';
+$wb['list_head_txt'] = 'Sunucu Ayarları';
 $wb['server_name_txt'] = 'Sunucu';
-$wb['server_id_txt'] = 'sunucu_id';
+$wb['server_id_txt'] = 'sunucu_kodu';
 ?>

@@ -1,17 +1,17 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['spam_rewrite_score_int_txt'] = 'Skoru yeniden yaz';
-$wb['spam_redirect_score_int_txt'] = 'Skoru yönlendir';
-$wb['spam_delete_score_int_txt'] = 'Skoru sil';
+$wb['email_txt'] = 'E-posta';
+$wb['spam_rewrite_score_int_txt'] = 'Puanı yeniden yaz';
+$wb['spam_redirect_score_int_txt'] = 'Puanı yönlendir';
+$wb['spam_delete_score_int_txt'] = 'Puanı sil';
 $wb['spam_rewrite_subject_txt'] = 'Konuyu yeniden yaz';
-$wb['spam_redirect_maildir_txt'] = 'Mail kutusunu yönlendir';
-$wb['active_txt'] = 'Aktif';
-$wb['spam_rewrite_txt'] = 'Bu değerin üstünde olan email konusunu tekrar yaz.';
-$wb['spam_redirect_txt'] = 'Bu değerin üstünde olan emaili seçili mail kutusuna yönlendir.';
-$wb['spam_delete_txt'] = 'Bu değerin üstünde olan maili sil.';
-$wb['disable_txt'] = 'İpucu: Bir filtre seçeneğini devre dışı bırakmak isterseniz, skorunu 0.00 giriniz.';
-$wb['email_error_isemail'] = 'Email adresi geçersiz.';
-$wb['email_error_unique'] = 'Bu email adresi için spamfilter kaydı zaten mevcut.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Mail dizini temizleme';
-$wb['days_txt'] = 'Gün.';
+$wb['spam_redirect_maildir_txt'] = 'Mail kutusuna yönlendir';
+$wb['active_txt'] = 'Etkin';
+$wb['spam_rewrite_txt'] = 'Bu puanın üzerindeki e-posta konusunu yeniden yaz.';
+$wb['spam_redirect_txt'] = 'Bu puanın üzerindeki e-postayı seçilmiş posta kutusuna yönlendir.';
+$wb['spam_delete_txt'] = 'Bu puanın üzerindeki e-postayı sil.';
+$wb['disable_txt'] = 'İpucu: Bir süzgeç seçeneğini devre dışı bırakmak için, puanı 0.00 olarak yazın.';
+$wb['email_error_isemail'] = 'E-posta adresi geçersiz.';
+$wb['email_error_unique'] = 'Bu e-posta adresi için önemiz posta süzgeci kaydı zaten var.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Posta klasörü';
+$wb['days_txt'] = ' gün aralıklarla temizlensin.';
 ?>

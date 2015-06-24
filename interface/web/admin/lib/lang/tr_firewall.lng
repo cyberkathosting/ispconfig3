@@ -1,11 +1,12 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['tcp_port_txt'] = 'Açık TCP portları';
-$wb['udp_port_txt'] = 'Açık UDP portları';
-$wb['tcp_port_help_txt'] = 'Virgülle ayırınız';
-$wb['udp_port_help_txt'] = 'Virgülle ayırınız';
-$wb['active_txt'] = 'Aktif';
-$wb['firewall_error_unique'] = 'Bu sunucuda bir firewall kaydı zaten var.';
-$wb['tcp_ports_error_regex'] = 'TCP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , : ve ,.';
-$wb['udp_ports_error_regex'] = 'UDP port tanımlaması için izin verilmeyen karakterler. İzin verilen karakterler; sayılar , : ve ,.';
+$wb['tcp_port_txt'] = 'Açık TCP kapıları';
+$wb['udp_port_txt'] = 'Açık UDP kapıları';
+$wb['tcp_port_help_txt'] = 'Virgül ile ayırarak yazın';
+$wb['udp_port_help_txt'] = 'Virgül ile ayırarak yazın';
+$wb['active_txt'] = 'Etkin';
+$wb['firewall_error_unique'] = 'Bu sunucu için bir güvenlik duvarı kaydı zaten var.';
+$wb['active_txt'] = 'Etkin';
+$wb['tcp_ports_error_regex'] = 'TCP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
+$wb['udp_ports_error_regex'] = 'UDP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
 ?>

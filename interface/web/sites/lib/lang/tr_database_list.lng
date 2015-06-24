@@ -1,10 +1,10 @@
 <?php
 $wb['list_head_txt'] = 'Veritabanı';
-$wb['active_txt'] = 'Aktif';
+$wb['active_txt'] = 'Etkin';
 $wb['remote_access_txt'] = 'Uzaktan Erişim';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['database_name_txt'] = 'Veritabanı adı';
-$wb['add_new_record_txt'] = 'Yeni Veritabanı';
-$wb['database_user_txt'] = 'Database user';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['database_user_txt'] = 'Veritabanı Kullanıcısı';
+$wb['database_name_txt'] = 'Veritabanı Adı';
+$wb['add_new_record_txt'] = 'Veritabanı Ekle';
+$wb['parent_domain_id_txt'] = 'Web Sitesi';
 ?>

@@ -1,15 +1,16 @@
 <?php
-$wb['recipient_id_txt'] = 'Recipient ID';
-$wb['sender_id_txt'] = 'Sender ID';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['tstamp_txt'] = 'Timestamp';
-$wb['reply_txt'] = 'Reply';
-$wb['date_txt'] = 'Date';
-$wb['support_request_subject_txt'] = 'Support Request';
-$wb['support_request_txt'] = 'You have got a support request. Please don\'t reply to this email, but process the support request inside ISPConfig.';
-$wb['answer_to_support_request_txt'] = 'You have got a reply to your support request. Please don\'t reply to this email, but process the message inside ISPConfig.';
-$wb['answer_to_support_request_sent_txt'] = 'Your reply to the support request has been sent. Please don\'t reply to this email.';
-$wb['support_request_sent_txt'] = 'Your support request has been sent. Please don\'t reply to this email.';
-$wb['recipient_or_sender_email_address_not_valid_txt'] = 'The message could not be sent because the recipient and/or the sender email address is not valid.';
+$wb['recipient_id_txt'] = 'Alıcı Kodu';
+$wb['sender_id_txt'] = 'Gönderen Kodu';
+$wb['subject_txt'] = 'Konu';
+$wb['message_txt'] = 'İleti';
+$wb['tstamp_txt'] = 'Zaman damgası';
+$wb['reply_txt'] = 'Yanıt';
+$wb['date_txt'] = 'Tarih';
+$wb['support_request_subject_txt'] = 'Destek İsteği';
+$wb['support_request_txt'] = 'Bir destek isteğinde bulundunuz. Lütfen bu e-postay yanıtlamayın. Destek isteğinizi ISPConfig üzerinden izleyin.';
+$wb['answer_to_support_request_txt'] = 'Destek isteğiniz yanıtlandı. Lütfen bu e-postayı yanıtlamayın. Destek isteğinizi ISPConfig üzerinden izleyin.';
+$wb['answer_to_support_request_sent_txt'] = 'Destek isteğinize yazdığınız yanıt gönderildi. Lütfen bu e-potayı yanıtlamayın.';
+$wb['support_request_sent_txt'] = 'Destek isteğiniz gönderildi. Lütfen bu e-postayı yanıtlamayın.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'Gönderen ya da alıcı adresi geçersiz olduğundan bu ileti gönderilemedi.';
 ?>
+

@@ -1,11 +1,11 @@
 <?php
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_txt'] = 'Hedef';
-$wb['active_txt'] = 'Aktif';
-$wb['no_domain_perm'] = 'Bu domain için yetkiniz yok.';
-$wb['limit_mailaliasdomain_txt'] = 'Max. email alias domain sayısına ulaştınız.';
-$wb['source_destination_identical_txt'] = 'Kaynak ve Hedef Domain isimleri aynı.';
-$wb['source_error_empty'] = 'Kaynak Domain boş.';
-$wb['source_error_unique'] = 'Kaynak Domain tekrar ediyor.';
-$wb['source_error_regex'] = 'Geçersiz kaynak domain adı.';
+$wb['active_txt'] = 'Etkin';
+$wb['no_domain_perm'] = 'Bu alan adı için izniniz yok.';
+$wb['limit_mailaliasdomain_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla takma alan adı sayısına ulaştınız.';
+$wb['source_destination_identical_txt'] = 'Kaynak ve Hedef alan adları aynı.';
+$wb['source_error_empty'] = 'Kaynak alan adı boş olamaz.';
+$wb['source_error_unique'] = 'Bu kaynak alan adı zaten var.';
+$wb['source_error_regex'] = 'Kaynak alan adı geçersiz.';
 ?>

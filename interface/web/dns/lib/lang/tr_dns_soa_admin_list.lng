@@ -1,11 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'DNS-Zones';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Email';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
-$wb['add_new_record_txt'] = 'Add new DNS Zone manually';
-$wb['sys_groupid_txt'] = 'Client';
+$wb['list_head_txt'] = 'DNS Bölgeleri';
+$wb['active_txt'] = 'Etkin';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['origin_txt'] = 'Bölge';
+$wb['ns_txt'] = 'Ad Sunucusu';
+$wb['mbox_txt'] = 'E-posta';
+$wb['add_new_record_wizard_txt'] = 'Yardımcı ile DNS bölgesi ekle';
+$wb['add_new_record_txt'] = 'El ile DNS Bölgesi Ekle';
+$wb['sys_groupid_txt'] = 'Müşteri';
 ?>
+

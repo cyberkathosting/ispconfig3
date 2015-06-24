@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Email Catchall';
-$wb['active_txt'] = 'Aktif';
-$wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Hedef email adresi';
+$wb['list_head_txt'] = 'E-posta Tümünü Al Hesabı';
+$wb['active_txt'] = 'Etkin';
+$wb['source_txt'] = 'Kaynak';
+$wb['destination_txt'] = 'Hedef e-posta adresi';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Yeni Catchall';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['add_new_record_txt'] = 'Tümünü Al Hesabı Ekle';
 ?>

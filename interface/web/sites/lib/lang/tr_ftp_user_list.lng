@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'FTP Kullanıcısı';
-$wb['active_txt'] = 'Aktif';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['parent_domain_id_txt'] = 'Websitesi';
-$wb['username_txt'] = 'Kullanıcı adı';
-$wb['add_new_record_txt'] = 'Yeni FTP Kullanıcısı';
+$wb['parent_domain_id_txt'] = 'Web Sitesi';
+$wb['username_txt'] = 'Kullanıcı Adı';
+$wb['add_new_record_txt'] = 'FTP Kullanıcısı Ekle';
 ?>
