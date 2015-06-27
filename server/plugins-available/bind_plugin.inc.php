@@ -133,7 +133,11 @@ class bind_plugin {
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 			} else {
-				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_WARN);
+				if($dns_config['disable_bind_log'] === 'y') {
+					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_DEBUG);
+				} else {
+					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_WARN);
+				}
 				rename($filename, $filename.'.err');
 			}
 			unset($tpl);
