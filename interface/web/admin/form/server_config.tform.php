@@ -1204,6 +1204,12 @@ $form["tabs"]['dns'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'disable_bind_log' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

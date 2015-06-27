@@ -77,4 +77,5 @@ $wb['default_dnsserver_txt'] = 'Servidor DNS por defecto';
 $wb['default_slave_dnsserver_txt'] = 'Servidor DNS secundario por defecto';
 $wb['default_dbserver_txt'] = 'Servidor de bases de datos por defecto';
 $wb["company_name_txt"] = "Company Name for the page title";
+$wb["reseller_can_use_options_txt"] = "Reseller can use the option-tab for websites";
 ?>

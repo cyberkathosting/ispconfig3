@@ -280,4 +280,5 @@ $wb['xmpp_port_http_txt'] = 'HTTP';
 $wb['xmpp_port_https_txt'] = 'HTTPS';
 $wb['xmpp_port_pastebin_txt'] = 'Pastebin';
 $wb['xmpp_port_bosh_txt'] = 'BOSH';
+$wb["disable_bind_log_txt"] = "Disable bind9 messages for Loglevel WARN";
 ?>

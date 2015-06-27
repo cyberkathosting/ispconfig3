@@ -115,6 +115,7 @@ bind_group=bind
 bind_zonefiles_dir=/etc/bind
 named_conf_path=/etc/bind/named.conf
 named_conf_local_path=/etc/bind/named.conf.local
+disable_bind_log=n
 
 [fastcgi]
 fastcgi_starter_path=/var/www/php-fcgi-scripts/[system_user]/
