@@ -155,4 +155,5 @@ $wb['added_by_txt'] = 'Added by';
 $wb['added_date_txt'] = 'Added date';
 $wb['parent_client_id_txt'] = 'Client of reseller';
 $wb['none_txt'] = 'none';
+$wb["email_error_empty"] = "Email is empty";
 ?>
