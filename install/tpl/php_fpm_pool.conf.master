@@ -19,3 +19,6 @@ chdir = /
 ; php_admin_value[open_basedir] = /usr/local/ispconfig/interface:/usr/local/ispconfig/security:/usr/share:/var/lib/roundcube:/etc/roundcube:/usr/share/roundcube
 php_admin_value[session.save_path] = /usr/local/ispconfig/interface/temp
 php_admin_flag[magic_quotes_gpc] = off
+
+php_admin_value[memory_limit] = 4096M
+php_admin_value[max_execution_time] = 1200

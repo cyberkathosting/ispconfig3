@@ -475,7 +475,7 @@ class nginx_plugin {
 				}
 				
 				//* Unmount the old log directory bfore we move the log dir
-				exec('fuser -km '.escapeshellcmd($old_dir.'/log'));
+				//exec('fuser -km '.escapeshellcmd($old_dir.'/log'));
 				exec('umount '.escapeshellcmd($old_dir.'/log'));
 
 				//* Create new base directory, if it does not exist yet
@@ -558,7 +558,7 @@ class nginx_plugin {
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 
 			//* Unmount log directory
-			exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
+			//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
 			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
 		}
 
@@ -1882,12 +1882,12 @@ class nginx_plugin {
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
 					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
-					exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+					//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 					exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				}
 			} else {
 				//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
-				exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
 		}

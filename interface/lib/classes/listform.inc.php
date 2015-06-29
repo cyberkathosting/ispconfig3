@@ -124,6 +124,17 @@ class listform {
 				$this->errorMessage .= "Custom datasource class or function is empty<br />\r\n";
 			}
 		}
+		
+		if($api == false && isset($field['filters']) && is_array($field['filters'])) {
+			$new_values = array();
+			foreach($values as $index => $value) {
+				$new_index = $app->tform->filterField($index, $index, $field['filters'], 'SHOW');
+				$new_values[$new_index] = $app->tform->filterField($index, (isset($values[$index]))?$values[$index]:'', $field['filters'], 'SHOW');
+			}
+			$values = $new_values;
+			unset($new_values);
+			unset($new_index);
+		}
 		return $values;
 	}
 
