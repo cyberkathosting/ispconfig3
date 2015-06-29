@@ -155,4 +155,5 @@ $wb['added_by_txt'] = 'Tillagd av';
 $wb['added_date_txt'] = 'Tillagd datum';
 $wb['parent_client_id_txt'] = 'Kund till återförsäljare';
 $wb['none_txt'] = 'ingen';
+$wb["email_error_empty"] = "Email is empty";
 ?>

@@ -160,4 +160,7 @@ $wb['limit_domainmodule_error_notint'] = 'El límite de dominios debe ser un nú
 $wb['limit_domainmodule_txt'] = 'Número máximo de dominios';
 $wb['client_limits_txt'] = 'Límites de Clientes';
 $wb['err_msg_master_tpl_set'] = 'Todas los límites personalizados se ignoran si se selecciona una plantilla principal distinta de \"custom\".';
+$wb["btn_save_txt"] = "Save";
+$wb["btn_cancel_txt"] = "Cancel";
+$wb["email_error_empty"] = "Email is empty";
 ?>

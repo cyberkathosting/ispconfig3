@@ -197,4 +197,7 @@ $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Client Limits';
 $wb['err_msg_master_tpl_set'] = 'All custom limit settings are ignored if any master template other than "custom" is selected.';
 $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
+$wb["btn_save_txt"] = "Save";
+$wb["btn_cancel_txt"] = "Cancel";
+$wb["email_error_empty"] = "Email is empty";
 ?>

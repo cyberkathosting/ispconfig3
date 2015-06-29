@@ -177,4 +177,5 @@ $wb['reseller_txt'] = 'Reseller';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['invalid_vat_id'] = 'Die USt.-ID ist ungültig.';
+$wb["email_error_empty"] = "Email ist leer";
 ?>

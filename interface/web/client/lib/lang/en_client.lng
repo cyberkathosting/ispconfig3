@@ -199,4 +199,5 @@ $wb['reseller_txt'] = 'Reseller';
 $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Cancel";
 $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
+$wb["email_error_empty"] = "Email is empty";
 ?>
