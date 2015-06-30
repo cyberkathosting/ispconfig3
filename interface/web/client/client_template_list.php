@@ -41,7 +41,7 @@ $list_def_file = "list/client_template.list.php";
 
 //* Check permissions for module
 $app->auth->check_module_permissions('client');
-if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('Client-Templates are only for Admins.');
+if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) die('Client-Templates are for Admins and Resellers only.');
 
 $app->uses('listform_actions');
 $app->listform_actions->SQLOrderBy = 'ORDER BY client_template.template_name';
