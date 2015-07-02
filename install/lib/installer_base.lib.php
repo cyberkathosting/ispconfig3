@@ -181,6 +181,11 @@ class installer_base {
 	public function configure_database() {
 		global $conf;
 
+		//* check sql-mode
+		$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
+
+		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') die('Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION');
+
 		//** Create the database
 		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
 			$this->error('Unable to create MySQL database: '.$conf['mysql']['database'].'.');
