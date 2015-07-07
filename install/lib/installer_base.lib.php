@@ -157,7 +157,7 @@ class installer_base {
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['bastille']['installed'] = true;
 		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
-		if(is_installed('spamassassin')) $conf['spamassasin']['installed'] = true;
+		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
 		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		if(is_installed('cron')) $conf['cron']['installed'] = true;
 
