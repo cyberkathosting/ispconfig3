@@ -53,8 +53,8 @@ class cronjob_purge_mailboxes extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		$sql = "SELECT email FROM mail_user WHERE maildir_format = 'mdbox' AND server_id = ".$server_id;
-		$records = $app->db->queryAllRecords($sql);
+		$sql = "SELECT email FROM mail_user WHERE maildir_format = 'mdbox' AND server_id = ?";
+		$records = $app->db->queryAllRecords($sql, $server_id);
 		
 		if(is_array($records)) {
 			foreach($records as $rec){
