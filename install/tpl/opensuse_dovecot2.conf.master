@@ -1,5 +1,5 @@
 listen = *,[::]
-protocols = imap pop3 lmtp
+protocols = imap pop3
 auth_mechanisms = plain login
 disable_plaintext_auth = no
 log_timestamp = "%Y-%m-%d %H:%M:%S "

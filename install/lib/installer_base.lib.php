@@ -999,6 +999,8 @@ class installer_base {
 		global $conf;
 		
 		$virtual_transport = 'dovecot';
+
+		$configure_lmtp = false;
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
@@ -1008,6 +1010,7 @@ class installer_base {
 			
 			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+				$configure_lmtp = true;
 			}
 		}
 
@@ -1076,6 +1079,11 @@ class installer_base {
 			if(version_compare($dovecot_version, 2.1, '<')) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
 			}
+		}
+
+		//* dovecot-lmtpd
+		if($configure_lmtp) {
+			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);
 		}
 
 		//* dovecot-sql.conf
