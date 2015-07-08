@@ -166,6 +166,8 @@ class postfix_server_plugin {
 			if($app->system->is_installed('dovecot')) {
 				exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
 				exec('postfix reload');
+				$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3", "protocols = imap pop3 lmtp");
+				exec($conf['init_scripts'] . '/' . 'dovecot restart');
 			}
 		}
 		else {
@@ -173,8 +175,11 @@ class postfix_server_plugin {
 			if($app->system->is_installed('dovecot')) {
 				exec("postconf -e 'virtual_transport = dovecot'");
 				exec('postfix reload');
+				$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3 lmtp", "protocols = imap pop3");
+				exec($conf['init_scripts'] . '/' . 'dovecot restart');
 			}
 		}
+print_r($mail_config);
 
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
 		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");

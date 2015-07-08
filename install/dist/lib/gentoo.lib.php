@@ -255,6 +255,8 @@ class installer extends installer_base
 		global $conf;
 
 		$virtual_transport = 'dovecot';
+
+		$configure_lmtp = false;
 		
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
@@ -264,6 +266,7 @@ class installer extends installer_base
 			
 			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+				$configure_lmtp = true;
 			}
 		}
 
@@ -311,6 +314,11 @@ class installer extends installer_base
 		$configfile = $config_dir.'/dovecot.conf';
 		$content = $this->get_template_file('dovecot.conf', true);
 		$this->write_config_file($configfile, $content);
+
+		//* dovecot-lmtpd
+		if($configure_lmtp) {
+			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);
+		}
 
 		//* dovecot-sql.conf
 		$configfile = $config_dir.'/dovecot-sql.conf';
