@@ -179,7 +179,6 @@ class postfix_server_plugin {
 				exec($conf['init_scripts'] . '/' . 'dovecot restart');
 			}
 		}
-print_r($mail_config);
 
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
 		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
