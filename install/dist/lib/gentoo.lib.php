@@ -270,27 +270,30 @@ class installer extends installer_base
 			}
 		}
 
-		$config_dir = $conf['dovecot']['config_dir'];
-
-		$configfile = $conf['postfix']['config_dir'].'/master.cf';
-
-		if(is_file($configfile)) {
-			copy($configfile, $configfile.'~2');
-		}
-		if(is_file($configfile.'~2')) {
-			chmod($configfile.'~2', 0400);
-		}
-
+		$config_dir = $conf['postfix']['config_dir'];
 		//* Configure master.cf and add a line for deliver
-		$content = rf($configfile);
-
-		if(!stristr($content, 'dovecot/deliver')) {
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DROhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
-			af($conf['postfix']['config_dir'].'/master.cf', $deliver_content);
+		if ($this->postfix_master()) {
+			exec ("postconf -M dovecot.unix", $out, $ret);
+			$add_dovecot_service = @($out[0]=='')?true:false;
+		} else { //* fallback - postfix < 2.9
+			$content = rf($config_dir.'/master.cf');
+			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
 		}
-		unset($content);
-		unset($deliver_content);
-		unset($configfile);
+		if($add_dovecot_service) {
+			//* backup
+			if(is_file($config_dir.'/master.cf')){
+				copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+			}
+			if(is_file($config_dir.'/master.cf~')){
+				chmod($config_dir.'/master.cf~2', 0400);
+			}
+			//* Configure master.cf and add a line for deliver
+			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			af($conf[$config_dir.'/master.cf', $deliver_content);
+			unset($content);
+			unset($deliver_content);
+		}
 
 		//* Reconfigure postfix to use dovecot authentication
 		$postconf_commands = array (
@@ -310,6 +313,7 @@ class installer extends installer_base
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
+		$config_dir = $conf['dovecot']['config_dir'];
 		//* copy dovecot.conf
 		$configfile = $config_dir.'/dovecot.conf';
 		$content = $this->get_template_file('dovecot.conf', true);
@@ -387,27 +391,46 @@ class installer extends installer_base
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
-        // Append the configuration for amavisd to the master.cf file
-		$content = rf($conf['postfix']['config_dir'].'/master.cf');
-		// Only add the content if we had not addded it before
-		if(!preg_match('/^amavis\s+unix\s+/m', $content)) {
-			unset($content);
-			$content = $this->get_template_file('master_cf_amavis', true);
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
+		$config_dir = $conf['postfix']['config_dir'];
+
+		// Adding amavis-services to the master.cf file if the service does not already exists
+		if ($this->postfix_master()) {
+			exec ("postconf -M amavis.unix", $out, $ret);
+			$add_amavis = @($out[0]=='')?true:false;
+			unset($out);
+			exec ("postconf -M 127.0.0.1:10025.inet", $out, $ret);
+			$add_amavis_10025 = @($out[0]=='')?true:false;
+			unset($out);
+			exec ("postconf -M 127.0.0.1:10027.inet", $out, $ret);
+			$add_amavis_10027 = @($out[0]=='')?true:false;
+			unset($out);
+		} else { //* fallback - postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$add_amavis = @(!preg_match('/^amavis\s+unix\s+/m', $content))?true:false;
+			$add_amavis_10025 = @(!preg_match('/^127.0.0.1:10025\s+/m', $content))?true:false;
+			$add_amavis_10027 = @(!preg_match('/^127.0.0.1:10027\s+/m', $content))?true:false;
 		}
-		if(!preg_match('/^127.0.0.1:10025\s+/m', $content)) {
- 			unset($content);
-            $content = $this->get_template_file('master_cf_amavis10025', true);
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
-			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+
+		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
+			//* backup master.cf
+			if(is_file($config_dir.'/master.cf')) copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
+			// adjust amavis-config
+			if($add_amavis) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
+			if ($add_amavis_10025) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
+			if ($add_amavis_10027) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
 		}
-		if(!preg_match('/^127.0.0.1:10027\s+/m', $content)) {
-			unset($content);
-			$content = $this->get_template_file('master_cf_amavis10027', true);
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
-		}
-		unset($content);
 
 		//* Add the clamav user to the amavis group
 		exec('usermod -a -G amavis clamav');

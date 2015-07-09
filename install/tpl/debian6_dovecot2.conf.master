@@ -42,6 +42,9 @@ service lmtp {
    group = postfix
    mode = 0600
    user = postfix
+   # For higher volume sites, it may be desirable to increase the number of active listener processes. 
+   # A range of 5 to 20 is probably good for most sites
+#   process_min_avail = 5
   }
 }
 service imap-login {

@@ -50,24 +50,30 @@ class installer extends installer_base {
 			}
 		}
 
-		$config_dir = $conf['dovecot']['config_dir'];
-
+		$config_dir = $conf['postfix']['config_dir'];
 		//* Configure master.cf and add a line for deliver
-		if(is_file($config_dir.'/master.cf')){
-			copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+		if ($this->postfix_master()) {
+			exec ("postconf -M dovecot.unix", $out, $ret);
+ 			$add_dovecot_service = @($out[0]=='')?true:false;
+		} else { //* fallback - postfix < 2.9
+			$content = rf($config_dir.'/master.cf');
+			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
 		}
-		if(is_file($config_dir.'/master.cf~')){
-			chmod($config_dir.'/master.cf~2', 0400);
-		}
-		$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-		// Only add the content if we had not addded it before
-		if(!stristr($content, "dovecot/deliver")) {
+		if($add_dovecot_service) {
+			//* backup
+			if(is_file($config_dir.'/master.cf')){
+				copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
+			}
+			if(is_file($config_dir.'/master.cf~')){
+				chmod($config_dir.'/master.cf~2', 0400);
+			}
+			//* Configure master.cf and add a line for deliver
+			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
-			af($conf["postfix"]["config_dir"].'/master.cf', $deliver_content);
+			af($config_dir.'/master.cf', $deliver_content);
+			unset($content);
+			unset($deliver_content);
 		}
-		unset($content);
-		unset($deliver_content);
-
 
 		//* Reconfigure postfix to use dovecot authentication
 		// Adding the amavisd commands to the postfix configuration
@@ -88,6 +94,7 @@ class installer extends installer_base {
 		}
 
 		//* copy dovecot.conf
+		$config_dir = $conf['dovecot']['config_dir'];
 		$configfile = 'dovecot.conf';
 		if(is_file($config_dir.'/'.$configfile)){
 			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
