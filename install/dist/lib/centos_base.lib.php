@@ -67,28 +67,46 @@ class installer_centos extends installer_dist {
 			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
-		// Append the configuration for amavisd to the master.cf file
-		if(is_file($conf['postfix']['config_dir'].'/master.cf')) copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~');
-		$content = rf($conf['postfix']['config_dir'].'/master.cf');
-		// Only add the content if we had not addded it before
-		if(!preg_match('/^amavis\s+unix\s+/m', $content)) {
-			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
+		$config_dir = $conf['postfix']['config_dir'];
+
+		// Adding amavis-services to the master.cf file if the service does not already exists
+		if ($this->postfix_master()) {
+			exec ("postconf -M amavis.unix", $out, $ret);
+			$add_amavis = @($out[0]=='')?true:false;
+			unset($out);
+			exec ("postconf -M 127.0.0.1:10025.inet", $out, $ret);
+			$add_amavis_10025 = @($out[0]=='')?true:false;
+			unset($out);
+			exec ("postconf -M 127.0.0.1:10027.inet", $out, $ret);
+			$add_amavis_10027 = @($out[0]=='')?true:false;
+			unset($out);
+		} else { //* fallback - postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$add_amavis = @(!preg_match('/^amavis\s+unix\s+/m', $content))?true:false;
+			$add_amavis_10025 = @(!preg_match('/^127.0.0.1:10025\s+/m', $content))?true:false;
+			$add_amavis_10027 = @(!preg_match('/^127.0.0.1:10027\s+/m', $content))?true:false;
 		}
-		if(!preg_match('/^127.0.0.1:10025\s+/m', $content)) {
-			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
-			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+
+		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
+			//* backup master.cf
+			if(is_file($config_dir.'/master.cf')) copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
+			// adjust amavis-config
+			if($add_amavis) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
+			if ($add_amavis_10025) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
+			if ($add_amavis_10027) {
+				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
+				af($config_dir.'/master.cf', $content);
+				unset($content);
+			}
 		}
-		if(!preg_match('/^127.0.0.1:10027\s+/m', $content)) {
-			unset($content);
-			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
-			af($conf['postfix']['config_dir'].'/master.cf', $content);
-		}
-		unset($content);
 
 		removeLine('/etc/sysconfig/freshclam', 'FRESHCLAM_DELAY=disabled-warn   # REMOVE ME', 1);
 		replaceLine('/etc/freshclam.conf', 'Example', '# Example', 1);
