@@ -355,7 +355,7 @@ class installer_dist extends installer_base {
 			exec ("postconf -M dovecot.unix", $out, $ret);
 			$add_dovecot_service = @($out[0]=='')?true:false;
 		} else { //* fallback - postfix < 2.9
-			$content = rf($config_dir'/master.cf');
+			$content = rf($config_dir.'/master.cf');
 			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
 		}
 		if($add_dovecot_service) {
