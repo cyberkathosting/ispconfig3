@@ -290,7 +290,7 @@ class installer extends installer_base
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
 			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DROhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
-			af($conf[$config_dir.'/master.cf', $deliver_content);
+			af($configdir.'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
 		}
