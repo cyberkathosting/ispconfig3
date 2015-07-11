@@ -164,13 +164,14 @@ class installer_base {
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
 
-    public function force_configure_app($service) {
+    public function force_configure_app($service, $enable_force=true) {
 		$force = false;
         swriteln("[WARN] autodetect for $service failed");
-        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
-//			swriteln("Configure $service");
-            $force = true;
-		} else swriteln("Skipping $service\n");
+		if($enable_force) {
+	        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
+	            $force = true;
+			} else swriteln("Skipping $service\n");
+		}
 		return $force;
     }
 
