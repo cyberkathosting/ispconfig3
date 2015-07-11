@@ -38,5 +38,5 @@ $wb['template_nameserver_error_empty'] = 'Nameserver(s) is empty.';
 $wb['Virtual server'] = 'Virtual server';
 $wb['Advanced'] = 'Advanced';
 $wb['features_txt'] = 'Features';
-$wb["iptables_txt"] = "iptables";
+$wb["iptables_txt"] = "IP Tables";
 ?>
