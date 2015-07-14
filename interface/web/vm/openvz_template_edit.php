@@ -63,7 +63,7 @@ class page_action extends tform_actions {
 		$guar_ram = $app->functions->intval($this->dataRecord['ram']*256);
 		$burst_ram = $app->functions->intval($this->dataRecord['ram_burst']*256);
 		$sql = "UPDATE openvz_template SET shmpages = ?,vmguarpages = ?, oomguarpages = ?,privvmpages = ? WHERE template_id = ?";
-		$app->db->query($sql, $guar_ram . ':' . $guar_ram, $guar_ram . ':' . $guar_ram, $guar_ram . ':' . $guar_ram, $burst_ram . ':' . $burst_ram, $this->id);
+		$app->db->query($sql, $guar_ram . ':' . $guar_ram, $guar_ram . ':unlimited', $guar_ram . ':' . $guar_ram, $burst_ram . ':' . $burst_ram*1.0625, $this->id);
 	}
 
 }
