@@ -192,11 +192,16 @@ class cronjob_backup extends cronjob {
 							$web_user = $rec['system_user'];
 							$web_backup_dir = realpath($backup_dir.'/web'.$web_id);
 							if(is_dir($web_backup_dir)) {
-								exec('sudo -u '.escapeshellarg($web_user).' rm -f '.escapeshellarg($web_backup_dir.'/*'));
-								$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ?";
-								$app->db->query($sql, $conf['server_id'], $web_id);
-								if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id);
+								$dir_handle = opendir($web_backup_dir.'/');
+								while ($file = readdir($dir_handle)) {
+									if(!is_dir($file)) {
+										unlink ("$web_backup_dir/"."$file");
+									}
+								}
 							}
+							$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ?";
+							$app->db->query($sql, $conf['server_id'], $web_id);
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $web_id);
 						}
 					}
 				}
@@ -353,15 +358,7 @@ class cronjob_backup extends cronjob {
 				}
 				//* end run_backups
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
-			} else {
-				//* send email to admin that backup directory could not be mounted
-				$global_config = $app->getconf->get_global_config('mail');
-				if($global_config['admin_mail'] != ''){
-					$subject = 'Backup directory '.$backup_dir.' could not be mounted';
-					$message = "Backup directory ".$backup_dir." could not be mounted.\n\nThe command\n\n".$server_config['backup_dir_mount_cmd']."\n\nfailed.";
-					mail($global_config['admin_mail'], $subject, $message);
-				}
-			}
+			} 
 		}
 		
 		// delete files from backup download dir (/var/www/example.com/backup)
