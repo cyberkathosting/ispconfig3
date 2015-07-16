@@ -785,6 +785,7 @@ CREATE TABLE `mail_forwarding` (
   `destination` text,
   `type` enum('alias','aliasdomain','forward','catchall') NOT NULL default 'alias',
   `active` enum('n','y') NOT NULL DEFAULT 'n',
+  `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`),
   KEY `type` (`type`)
@@ -928,6 +929,7 @@ CREATE TABLE `mail_user` (
   `move_junk` enum('n','y') NOT NULL default 'n',
   `custom_mailfilter` mediumtext,
   `postfix` enum('n','y') NOT NULL default 'y',
+  `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',
   `access` enum('n','y') NOT NULL default 'y',
   `disableimap` enum('n','y') NOT NULL default 'n',
   `disablepop3` enum('n','y') NOT NULL default 'n',
