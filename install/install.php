@@ -248,11 +248,11 @@ if($install_mode == 'standard') {
 	$inst->add_database_server_record();
 
 	//* Configure Postgrey
-	$force = @($conf['postgrey']['installed']) ? true : $inst->force_configure_app('Postgrey');
+	$force = @($conf['postgrey']['installed']) ? true : $inst->force_configure_app('Postgrey', false);
 	if($force) swriteln('Configuring Postgrey');
 
 	//* Configure Postfix
-	$force = @($conf['postfix']['installed']) ? true : $inst->force_configure_app('Postfix');
+	$force = @($conf['postfix']['installed']) ? true : $inst->force_configure_app('Postfix', false);
 	if($force) {
 		swriteln('Configuring Postfix');
 		$inst->configure_postfix();
@@ -262,7 +262,7 @@ if($install_mode == 'standard') {
 	if($conf['services']['mail']) {
 
 		//* Configure Mailman
-		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman');
+		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman', false);
 		if($force) {
 			swriteln('Configuring Mailman');
 			$inst->configure_mailman();
@@ -270,8 +270,8 @@ if($install_mode == 'standard') {
 
 		//* Check for Dovecot and Courier
 		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
-			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot');
-			$conf['courier']['installed'] = $inst->force_configure_app('Courier');
+			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', false);
+			$conf['courier']['installed'] = $inst->force_configure_app('Courier', false);
 		}
 		//* Configure Mailserver - Dovecot or Courier
 		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
@@ -298,21 +298,21 @@ if($install_mode == 'standard') {
 		}
 
 		//* Configure Spamasassin
-		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin');
+		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin', false);
 		if($force) {
 			swriteln('Configuring Spamassassin');
 			$inst->configure_spamassassin();
 		}
     
 		//* Configure Amavis
-		$force = @($conf['amavis']['installed']) ? true : $inst->force_configure_app('Amavisd');
+		$force = @($conf['amavis']['installed']) ? true : $inst->force_configure_app('Amavisd', false);
 		if($force) {
 			swriteln('Configuring Amavisd');
 			$inst->configure_amavis();
 		}
 
 		//* Configure Getmail
-		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail');
+		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', false);
 		if($force) {
 			swriteln('Configuring Getmail');
 			$inst->configure_getmail();
@@ -322,9 +322,9 @@ if($install_mode == 'standard') {
 
 	//* Check for DNS
 	if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
-		$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS');
-		$conf['bind']['installed'] = $inst->force_configure_app('BIND');
-		$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS');
+		$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS', false);
+		$conf['bind']['installed'] = $inst->force_configure_app('BIND', false);
+		$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS', false);
 	}
 	//* Configure PowerDNS
 	if($conf['powerdns']['installed']) {
@@ -346,14 +346,14 @@ if($install_mode == 'standard') {
 	}
 
 	//* Configure Jailkit
-	$force = @($conf['jailkit']['installed']) ? true : $inst->force_configure_app('Jailkit');
+	$force = @($conf['jailkit']['installed']) ? true : $inst->force_configure_app('Jailkit', false);
 	if($force) {
 		swriteln('Configuring Jailkit');
 		$inst->configure_jailkit();
 	}
 
 	//* Configure Pureftpd
-	$force = @($conf['pureftpd']['installed']) ? true : $inst->force_configure_app('pureftpd');
+	$force = @($conf['pureftpd']['installed']) ? true : $inst->force_configure_app('pureftpd', false);
 	if($force) {
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
@@ -361,8 +361,8 @@ if($install_mode == 'standard') {
 
 	//* Check for Web-Server
 	if(!$conf['apache']['installed'] && !$conf['nginx']['installed']) {
-		$conf['apache']['installed'] = $inst->force_configure_app('Apache');
-		$conf['nginx']['installed'] = $inst->force_configure_app('nginx');
+		$conf['apache']['installed'] = $inst->force_configure_app('Apache', false);
+		$conf['nginx']['installed'] = $inst->force_configure_app('nginx', false);
 	}
 
 	//* Configure Webserver - Apache or nginx
@@ -382,7 +382,7 @@ if($install_mode == 'standard') {
 		$conf['services']['web'] = true;
 		$conf['services']['file'] = true;
 		//* Configure Vlogger
-		$force = @($conf['vlogger']['installed']) ? true : $inst->force_configure_app('vlogger');
+		$force = @($conf['vlogger']['installed']) ? true : $inst->force_configure_app('vlogger', false);
 		if($force) {
 			swriteln('Configuring vlogger');
 			$inst->configure_vlogger();
@@ -406,7 +406,7 @@ if($install_mode == 'standard') {
 	}
 
     //* Configure XMPP
-	$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server');
+	$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server', false);
 	if($force) {
         swriteln('Configuring Metronome XMPP Server');
         $inst->configure_xmpp();
@@ -415,8 +415,8 @@ if($install_mode == 'standard') {
 
 	//* Check for Firewall
 	if(!$conf['ufw']['installed'] && !$conf['firewall']['installed']) {
-		$conf['ufw']['installed'] = $inst->force_configure_app('Ubuntu Firewall');
-		$conf['firewall']['installed'] = $inst->force_configure_app('Bastille Firewall');
+		$conf['ufw']['installed'] = $inst->force_configure_app('Ubuntu Firewall', false);
+		$conf['firewall']['installed'] = $inst->force_configure_app('Bastille Firewall', false);
 	}
 	//* Configure Firewall - Ubuntu or Bastille
 	if($conf['ufw']['installed'] && $conf['firewall']['installed']) {
@@ -441,14 +441,14 @@ if($install_mode == 'standard') {
 	}
 
 	//* Configure Fail2ban
-	$force = @($conf['fail2ban']['installed']) ? true : $inst->force_configure_app('Fail2ban');
+	$force = @($conf['fail2ban']['installed']) ? true : $inst->force_configure_app('Fail2ban', false);
 	if($force) {
 		swriteln('Configuring Fail2ban');
 		$inst->configure_fail2ban();
 	}
 
 	//* Configure OpenVZ
-	$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ');
+	$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ', false);
 	if($force) {
 		$conf['services']['vserver'] = true;
 		swriteln('Configuring OpenVZ');

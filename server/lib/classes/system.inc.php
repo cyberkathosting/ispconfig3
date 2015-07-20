@@ -1802,6 +1802,8 @@ class system{
 	}
 
 	function mount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh'){
+		global $app, $conf;
+
 		$mounted = true;
 		if ( 	is_file($mount_cmd) &&
 				is_executable($mount_cmd) &&
@@ -1813,11 +1815,22 @@ class system{
 				if (!$this->is_mounted($backup_dir)) $mounted = false;
 			}
 		} else $mounted = false;
+		if (!$mounted) {
+			//* send email to admin that backup directory could not be mounted
+			$global_config = $app->getconf->get_global_config('mail');
+			if($global_config['admin_mail'] != ''){
+				$subject = 'Backup directory '.$backup_dir.' could not be mounted';
+				$message = "Backup directory ".$backup_dir." could not be mounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
+				mail($global_config['admin_mail'], $subject, $message);
+			}
+		}
 
 		return $mounted;
 	}
 
 	function umount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_umount.sh'){
+		global $app, $conf;
+
 		if ( 	is_file($mount_cmd) &&
 				is_executable($mount_cmd) &&
 				fileowner($mount_cmd) === 0
@@ -1828,7 +1841,19 @@ class system{
 			}
 		}
 
-        return $this->is_mounted($backup_dir) == 0 ? true : false;
+        $unmounted = $this->is_mounted($backup_dir) == 0 ? true : false;
+		if(!$unmounted) {
+			//* send email to admin that backup directory could not be unmounted
+			$global_config = $app->getconf->get_global_config('mail');
+			if($global_config['admin_mail'] != ''){
+				$subject = 'Backup directory '.$backup_dir.' could not be unmounted';
+				$message = "Backup directory ".$backup_dir." could not be unmounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
+				mail($global_config['admin_mail'], $subject, $message);
+			}
+		}
+
+		return $unmounted;
+
 	}
 
 	function getinitcommand($servicename, $action, $init_script_directory = ''){

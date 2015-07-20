@@ -66,7 +66,6 @@ class cronjob_backup_mail extends cronjob {
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 
 			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir != ''", intval($conf['server_id']));
-
 			if(is_array($records) && $run_backups) {
 				if(!is_dir($backup_dir)) {
 					mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
@@ -76,12 +75,13 @@ class cronjob_backup_mail extends cronjob {
 
 				foreach($records as $rec) {
 					//* Do the mailbox backup
+					$email = $rec['email'];
+					$temp = explode("@",$email);
+					$domain = $temp[1];
+					unset($temp);
+					$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
+
 					if($rec['backup_interval'] == 'daily' or ($rec['backup_interval'] == 'weekly' && date('w') == 0) or ($rec['backup_interval'] == 'monthly' && date('d') == '01')) {
-						$email = $rec['email'];
-						$temp = explode("@",$email);
-						$domain = $temp[1];
-						unset($temp);;
-						$domain_rec=$app->db->queryOneRecord("SELECT * FROM mail_domain WHERE domain = ?", $domain);
 						
 						$backupusername = 'root';
 						$backupgroup = 'root';
@@ -194,23 +194,29 @@ class cronjob_backup_mail extends cronjob {
 						unset($dir_handle);
 					}
 					/* Remove inactive backups */
-					if($rec['backup_interval'] == 'none') {
+					if($rec['backup_interval'] == 'none' || $rec['backup_interval'] == '') {
+
+						/* remove archives */
+						$mail_backup_dir = realpath($backup_dir.'/mail'.$domain_rec['domain_id']);
+						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
+						if(is_dir($mail_backup_dir)) {
+							$dir_handle = opendir($mail_backup_dir.'/');
+							while ($file = readdir($dir_handle)) {
+								if(!is_dir($file)) {
+									unlink ("$mail_backup_dir/"."$file");
+								}
+							}
+						}
 						/* remove backups from db */
 						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND mailuser_id = ?";
 						$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
-						/* remove archives */
-						$mail_backup_dir = $backup_dir.'/mail'.$rec['domain_id'];	
-						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
-						if(is_dir($mail_backup_dir)) {
-							foreach (glob($mail_backup_dir.'/'.$mail_backup_file) as $filename) {
-								unlink($filename);
-							}
-						}
+
 					}
 				}
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
-			} //* end run_backups
+				//* end run_backups
+			}
 		}
 
 		parent::onRunJob();

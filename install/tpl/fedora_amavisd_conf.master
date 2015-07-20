@@ -48,7 +48,7 @@ $nanny_details_level = 2;    # nanny verbosity: 1: traditional, 2: detailed
 
 @local_domains_maps = ( [".$mydomain"] );  # list of all local domains
 
-@mynetworks = qw( 00.0.0.0/8 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
+@mynetworks = qw( 0.0.0.0/8 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
                   10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 );
 
 $unix_socketname = "$MYHOME/amavisd.sock";  # amavisd-release or amavis-milter
