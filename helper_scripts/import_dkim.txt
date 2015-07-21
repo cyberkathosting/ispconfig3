@@ -1,0 +1,10 @@
+This scripts stores all dkim-keys from the amavis-config to the ispconfig-database
+
+Create a remote-user with at least rights for mail_domain and clients and adjust the settings for
+
+$username = 'admin';
+$password = 'admin';
+$soap_location = 'http://192.168.0.105:8080/remote/index.php';
+$soap_uri = 'http://192.168.0.105:8080/remote/';
+
+in import_dkim.php
