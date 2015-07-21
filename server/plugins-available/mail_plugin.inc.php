@@ -451,7 +451,7 @@ class mail_plugin {
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $mount_backup = false;
 			if($mount_backup){
 				$sql = "SELECT * FROM mail_domain WHERE domain = ?";
-				$domain_rec = $app->db->queryOneRecord($sql, explode("@",$data['old']['email'][1]));
+				$domain_rec = $app->db->queryOneRecord($sql, explode("@",$data['old']['email'])[1]);
 				if (is_array($domain_rec)) {
 					$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
 					$mail_backup_files = 'mail'.$data['old']['mailuser_id'];
