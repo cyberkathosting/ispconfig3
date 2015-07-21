@@ -114,10 +114,10 @@ class mysql_clientdb_plugin {
 			if($valid == false) continue;
 
 			if($action == 'GRANT') {
-				if(!$link->query("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON ".$link->escape_string($database_name).".* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
-				$app->log("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON ".$link->escape_string($database_name).".* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'; success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				if(!$link->query("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
+				$app->log("GRANT " . ($user_read_only ? "SELECT" : "ALL") . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'; success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 			} elseif($action == 'REVOKE') {
-				if(!$link->query("REVOKE ALL PRIVILEGES ON ".$link->escape_string($database_name).".* FROM '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
+				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
 			} elseif($action == 'DROP') {
 				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host';")) $success = false;
 			} elseif($action == 'RENAME') {
@@ -497,7 +497,7 @@ class mysql_clientdb_plugin {
 			}
 
 
-			if($link->query('DROP DATABASE '.$link->escape_string($data['old']['database_name']))) {
+			if($link->query('DROP DATABASE `'.$link->escape_string($data['old']['database_name'].'`'))) {
 				$app->log('Dropping MySQL database: '.$data['old']['database_name'], LOGLEVEL_DEBUG);
 			} else {
 				$app->log('Error while dropping MySQL database: '.$data['old']['database_name'].' '.$link->error, LOGLEVEL_WARNING);
