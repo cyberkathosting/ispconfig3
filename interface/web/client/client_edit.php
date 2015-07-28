@@ -249,7 +249,7 @@ class page_action extends tform_actions {
 		$modules = $conf['interface_modules_enabled'];
 		if(isset($this->dataRecord["limit_client"]) && $this->dataRecord["limit_client"] > 0) $modules .= ',client';
 		$startmodule = (stristr($modules, 'dashboard'))?'dashboard':'client';
-		$usertheme = $this->dataRecord["usertheme"];
+		$usertheme = (isset($this->dataRecord["usertheme"]) && $this->dataRecord["usertheme"] != ''? $this->dataRecord["usertheme"] : 'default');
 		$type = 'user';
 		$active = 1;
 		$language = $this->dataRecord["language"];
