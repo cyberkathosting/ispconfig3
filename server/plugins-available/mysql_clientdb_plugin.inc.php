@@ -253,7 +253,7 @@ class mysql_clientdb_plugin {
 			}
 
 			// get the users for this database
-			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_user_id']) . "'");
+			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_user_id']));
 			$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['old']['database_user_id']));
 
 			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_ro_user_id']));
