@@ -197,6 +197,20 @@ class listform {
 				$table = $i['table'];
 
 				$searchval = $_SESSION['search'][$list_name][$search_prefix.$field];
+				// IDN
+				if($searchval != ''){
+					foreach($i['filters'] as $searchval_filter) {
+						if($searchval_filter['event'] == 'SHOW') {
+							switch ($searchval_filter['type']) {
+							case 'IDNTOUTF8':
+								$searchval = $app->functions->idn_encode($searchval);
+								//echo $searchval;
+								break;
+							}
+						}
+					}
+				}
+		
 				// format user date format to MySQL date format 0000-00-00
 				if($i['datatype'] == 'DATE' && $this->lng('conf_format_dateshort') != 'Y-m-d'){
 					$dateformat = preg_replace("@[^Ymd]@", "", $this->lng('conf_format_dateshort'));
