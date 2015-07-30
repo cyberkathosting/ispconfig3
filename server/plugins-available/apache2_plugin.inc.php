@@ -283,7 +283,7 @@ class apache2_plugin {
         emailAddress           = webmaster@".$data['new']['domain']."
 
         [ req_attributes ]
-        challengePassword              = A challenge password";
+        ";//challengePassword              = A challenge password";
 
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
