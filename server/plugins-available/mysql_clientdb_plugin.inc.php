@@ -205,9 +205,8 @@ class mysql_clientdb_plugin {
 			if($data['new']['active'] == 'y') {
 
 				// get the users for this database
-				$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_user_id']));
-
-				$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?'", intval($data['new']['database_ro_user_id']));
+				$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
+				$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_ro_user_id']);
 
 				$host_list = '';
 				if($data['new']['remote_access'] == 'y') {
@@ -253,11 +252,11 @@ class mysql_clientdb_plugin {
 			}
 
 			// get the users for this database
-			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_user_id']));
-			$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['old']['database_user_id']));
+			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
+			$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_user_id']);
 
-			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['new']['database_ro_user_id']));
-			$old_db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['old']['database_ro_user_id']));
+			$db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_ro_user_id']);
+			$old_db_ro_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_ro_user_id']);
 
 			$host_list = '';
 			if($data['new']['remote_access'] == 'y') {
@@ -484,13 +483,13 @@ class mysql_clientdb_plugin {
 			$old_host_list .= 'localhost';
 
 			if($data['old']['database_user_id']) {
-				$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['old']['database_user_id']));
+				$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_user_id']);
 				$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_user_id'], $old_host_list);
 				if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
 				if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
 			}
 			if($data['old']['database_ro_user_id']) {
-				$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", intval($data['old']['database_ro_user_id']));
+				$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_ro_user_id']);
 				$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_ro_user_id'], $old_host_list);
 				if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
 				if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
