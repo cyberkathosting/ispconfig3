@@ -381,7 +381,12 @@ $form["tabs"]['address'] = array (
 					'class' => 'validate_client',
 					'function' => 'check_vat_id',
 					'errmsg'=> 'invalid_vat_id'),
-				),
+			),
+			'filters'   => array( 0 => array( 	'event' => 'SAVE',
+												'type' => 'TRIM'),
+								1 => array( 	'event' => 'SAVE',
+												'type' => 'TOUPPER')
+			),
 		),
 		'company_id' => array (
 			'datatype' => 'VARCHAR',
@@ -447,7 +452,12 @@ $form["tabs"]['address'] = array (
 			'width'  => '30',
 			'maxlength' => '255',
 			'rows'  => '',
-			'cols'  => ''
+			'cols'  => '',
+			'filters'   => array( 0 => array( 	'event' => 'SAVE',
+												'type' => 'TRIM'),
+								1 => array( 	'event' => 'SAVE',
+												'type' => 'TOUPPER')
+			),
 		),
 		'bank_account_swift' => array (
 			'datatype' => 'VARCHAR',
@@ -458,7 +468,12 @@ $form["tabs"]['address'] = array (
 			'width'  => '30',
 			'maxlength' => '255',
 			'rows'  => '',
-			'cols'  => ''
+			'cols'  => '',
+			'filters'   => array( 0 => array( 	'event' => 'SAVE',
+												'type' => 'TRIM'),
+								1 => array( 	'event' => 'SAVE',
+												'type' => 'TOUPPER')
+			),
 		),
 		'notes' => array (
 			'datatype' => 'TEXT',
