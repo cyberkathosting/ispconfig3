@@ -336,6 +336,14 @@ class remoting {
 		
 		//* get old record and merge with params, so only new values have to be set in $params
 		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
+		
+		foreach ($app->remoting_lib->formDef['fields'] as $fieldName => $fieldConf)
+        {
+            if ($fieldConf['formtype'] === 'PASSWORD' && empty($params[$fieldName])) {
+                unset($old_rec[$fieldName]);
+            }
+        }
+		
 		$params = $app->functions->array_merge($old_rec,$params);
 
 		//* Get the SQL query
