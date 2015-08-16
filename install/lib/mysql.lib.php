@@ -104,6 +104,7 @@ class db extends mysqli
 	
 	public function setDBName($name) {
 		$this->dbName = $name;
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
 			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
