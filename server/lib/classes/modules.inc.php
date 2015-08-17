@@ -152,12 +152,14 @@ class modules {
 						$app->db->errorNumber = 0;
 						$app->db->errorMessage = '';
 						$app->db->query($sql, true, $params);
-						unset($params);
 						if($app->db->errorNumber > 0) {
 							$replication_error = true;
 							$app->log("Replication failed. Error: (" . $d['dbtable'] . ") in MySQL server: (".$app->db->dbHost.") " . $app->db->errorMessage . " # SQL: " . $sql, LOGLEVEL_ERROR);
 						}
-						$app->log('Replicated from master: '.$sql, LOGLEVEL_DEBUG);
+						$log = $app->db->_build_query_string($sql, true, $params);
+						$app->log('Replicated from master: '.$log, LOGLEVEL_DEBUG);
+						unset($params);
+						unset($log);
 					}
 					
 					if($d['action'] == 'd') {
@@ -169,7 +171,9 @@ class modules {
 							$replication_error = true;
 							$app->log("Replication failed. Error: (" . $d[dbtable] . ") " . $app->db->errorMessage . " # SQL: " . $sql, LOGLEVEL_ERROR);
 						}
-						$app->log('Replicated from master: '.$sql, LOGLEVEL_DEBUG);
+						$log = $app->db->_build_query_string($sql, $d['dbtable'], $idx[0], $idx[1]);
+						$app->log('Replicated from master: '.$log, LOGLEVEL_DEBUG);
+						unset($log);
 					}
 
 
