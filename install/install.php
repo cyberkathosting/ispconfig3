@@ -755,8 +755,12 @@ if($install_mode == 'standard') {
 		}
 	}
 
-	if($conf['openvz']['installed'] = true && strtolower($inst->simple_query('Enable Openvz-Server', array('y', 'n'), 'y','configure_openvz')) == 'y')
-			$conf['services']['vserver'] = true;
+	//* Configure OpenVZ
+	$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ');
+	if($force) {
+		$conf['services']['vserver'] = true;
+		swriteln('Configuring OpenVZ');
+	}
 
 	if(strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
 		//* Check for Firewall
