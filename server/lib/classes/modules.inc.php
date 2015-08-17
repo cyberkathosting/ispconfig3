@@ -141,7 +141,7 @@ class modules {
 							$f_params[] = $fieldname;
 							$params[] = $val;
 						}
-						$params = $f_params + $params;
+						$params = array_merge($f_params, $params);
 						unset($f_params);
 						
 						$tmp_sql1 = substr($tmp_sql1, 0, -1);
