@@ -94,7 +94,10 @@ class vm_openvz_plugin {
 		}
 
 		// Set the IP address
-		if(isset($this->dataRecord['ip_address'])) $app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
+		if(isset($this->dataRecord['ip_address'])) {
+			$app->db->query("UPDATE openvz_ip SET vm_id = 0 WHERE vm_id = ?", $this->id);
+			$app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
+		}
 
 		// Create the OpenVZ config file and store it in config field
 		$this->makeOpenVZConfig();
