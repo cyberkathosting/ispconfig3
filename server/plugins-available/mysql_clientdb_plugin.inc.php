@@ -275,6 +275,123 @@ class mysql_clientdb_plugin {
 			if($old_host_list != '') $old_host_list .= ',';
 			$old_host_list .= 'localhost';
 
+			//* rename database
+			if ( $data['new']['database_name'] !=  $data['old']['database_name'] ) {
+				$old_name = $link->escape_string($data['old']['database_name']);
+				$new_name = $link->escape_string($data['new']['database_name']);
+				$timestamp = time();
+
+				$tables = $link->query("SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='".$old_name."' AND TABLE_TYPE='BASE TABLE'");
+				if ($tables->num_rows > 0) {
+					while ($row = $tables->fetch_assoc()) {
+						$tables_array[] = $row['TABLE_NAME'];
+					}
+
+					//* save triggers, routines and events
+					$triggers = $link->query("SHOW TRIGGERS FROM ".$old_name);
+					if ($triggers->num_rows > 0) {
+						while ($row = $triggers->fetch_assoc()) {
+							$triggers_array[] = $row;
+						}
+						$app->log('Dumping triggers from '.$old_name, LOGLEVEL_DEBUG);
+						$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$old_name." -d -t -R -E > ".$timestamp.$old_name.'.triggers';
+						exec($command, $out, $ret);
+						$app->system->chmod($timestamp.$old_name.'.triggers', 0600);
+						if ($ret != 0) {
+							unset($triggers_array);
+							$app->system->unlink($timestamp.$old_name.'.triggers');
+							$app->log('Unable to dump triggers from '.$old_name, LOGLEVEL_ERROR);
+						}
+						unset($out);
+					}
+
+					//* save views
+					$views = $link->query("SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='".$old_name."' and TABLE_TYPE='VIEW'");
+					if ($views->num_rows > 0) {
+						while ($row = $views->fetch_assoc()) {
+							$views_array[] = $row;
+						}
+						foreach ($views_array as $_views) {
+							$temp[] = $_views['TABLE_NAME'];
+						}
+						$app->log('Dumping views from '.$old_name, LOGLEVEL_DEBUG);
+						$temp_views = implode(' ', $temp);
+						$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$old_name." ".$temp_views." > ".$timestamp.$old_name.'.views';
+						exec($command, $out, $ret);
+						$app->system->chmod($timestamp.$old_name.'.views', 0600);
+						if ($ret != 0) {
+							unset($views_array);
+							$app->system->unlink($timestamp.$old_name.'.views');
+							$app->log('Unable to dump views from '.$old_name, LOGLEVEL_ERROR);
+						}
+						unset($out);
+						unset($temp);
+						unset($temp_views);
+					}
+
+					//* create new database
+					$this->db_insert($event_name, $data);
+
+					$link->query("show databases like '".$new_name."'");
+					if ($link) {
+						//* rename tables
+						foreach ($tables_array as $table) {
+							$table = $link->escape_string($table);
+							$sql = "RENAME TABLE ".$old_name.".".$table." TO ".$new_name.".".$table;
+							$link->query($sql);
+							$app->log($sql, LOGLEVEL_DEBUG);
+							if(!$link) {
+								$app->log($sql." failed", LOGLEVEL_ERROR);
+							}
+						}
+
+						//* drop old triggers
+						if (@is_array($triggers_array)) {
+							foreach($triggers_array as $trigger) {
+								$_trigger = $link->escape_string($trigger['Trigger']);
+								$sql = "DROP TRIGGER ".$old_name.".".$_trigger;
+								$link->query($sql);
+								$app->log($sql, LOGLEVEL_DEBUG);
+								unset($_trigger);
+							}
+							//* update triggers, routines and events
+							$command = "mysql -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$new_name." < ".$timestamp.$old_name.'.triggers';
+							exec($command, $out, $ret);
+							if ($ret != 0) {
+								$app->log('Unable to import triggers for '.$new_name, LOGLEVEL_ERROR);
+							} else {
+								$app->system->unlink($timestamp.$old_name.'.triggers');
+							}
+						}
+
+						//* loading views
+						if (@is_array($views_array)) {
+							$command = "mysql -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$new_name." < ".$timestamp.$old_name.'.views';
+							exec($command, $out, $ret);
+							if ($ret != 0) {
+								$app->log('Unable to import views for '.$new_name, LOGLEVEL_ERROR);
+							} else {
+								$app->system->unlink($timestamp.$old_name.'.views');
+							}
+						}
+
+						//* drop old database
+						$this->db_delete($event_name, $data);
+					} else {
+						$app->log('Connection to new databse '.$new_name.' failed', LOGLEVEL_ERROR);
+						if (@is_array($triggers_array)) {
+							$app->system->unlink($timestamp.$old_name.'.triggers');
+						}
+						if (@is_array($views_array)) {
+							$app->system->unlink($timestamp.$old_name.'.views');
+						}
+					}
+
+				} else { //* SELECT TABLE_NAME error
+					$app->log('Unable to rename database '.$old_name.' to '.$new_name, LOGLEVEL_ERROR);
+				}
+			}
+
 			// Create the database user if database was disabled before
 			if($data['new']['active'] == 'y') {
 				if($db_user) {
@@ -299,6 +416,7 @@ class mysql_clientdb_plugin {
 							//$this->process_host_list('DROP', $data['new']['database_name'], $db_user['database_user'], $db_user['database_password'], $old_host_list, $link);
 							//$this->process_host_list('REVOKE', $data['new']['database_name'], $db_user['database_user'], $db_user['database_password'], $old_host_list, $link);
 						}
+
 					}
 					if($old_db_ro_user && $data['old']['database_user_id'] != $data['old']['database_ro_user_id']) {
 						if($old_db_ro_user['database_user'] == 'root'){

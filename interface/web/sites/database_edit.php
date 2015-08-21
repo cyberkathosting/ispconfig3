@@ -154,7 +154,8 @@ class page_action extends tform_actions {
 
 		if($this->id > 0) {
 			//* we are editing a existing record
-			$app->tpl->setVar("edit_disabled", 1);
+			$edit_disabled = @($_SESSION["s"]["user"]["typ"] == 'admin')? 0 : 1; //* admin can change the database-name
+			$app->tpl->setVar("edit_disabled", $edit_disabled);
 			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
 			$app->tpl->setVar("database_charset_value", $this->dataRecord["database_charset"]);
 			$app->tpl->setVar("limit_database_quota", $this->dataRecord["database_quota"]);
@@ -300,8 +301,11 @@ class page_action extends tform_actions {
 		$dbname_prefix = $app->tools_sites->getPrefix($old_record['database_name_prefix'], $dbname_prefix);
 		$this->dataRecord['database_name_prefix'] = $dbname_prefix;
 
-		if($old_record["database_name"] != $dbname_prefix . $this->dataRecord["database_name"]) {
-			$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
+		//* Only admin can change the database name
+		if ($_SESSION["s"]["user"]["typ"] != 'admin') {
+			if($old_record["database_name"] != $dbname_prefix . $this->dataRecord["database_name"]) {
+				$app->tform->errorMessage .= $app->tform->wordbook["database_name_change_txt"].'<br />';
+			}
 		}
 		if($old_record["database_charset"] != $this->dataRecord["database_charset"]) {
 			$app->tform->errorMessage .= $app->tform->wordbook["database_charset_change_txt"].'<br />';
