@@ -252,7 +252,7 @@ class vm_openvz_plugin {
 					"server_id" => $server_id,
 					"zone" => $dns_soa_id,
 					"name" => $hostname,
-					"type" => 'A',
+					"type" => @(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $ip_address))?'A':'AAAA',
 					"data" => $ip_address,
 					"aux" => '0',
 					"ttl" => '3600',
