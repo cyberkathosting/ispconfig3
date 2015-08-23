@@ -44,7 +44,8 @@ class validate_database {
 				$cur_value = trim($cur_value);
 
 				$valid = true;
-				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $cur_value)) {
+//				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $cur_value)) {
+				if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $cur_value)) {
 					$groups = explode(".", $cur_value);
 					foreach($groups as $group){
 						if($group<0 or $group>255)
