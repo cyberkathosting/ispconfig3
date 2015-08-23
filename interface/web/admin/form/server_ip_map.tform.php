@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$form["title"]    = "IP Addresse mapping";
-$form["description"]  = "";
+$form["title"]    = "IPv4 Addresse mapping";
+$form["description"]  = "Form to map IPv4-addresses for Web-Server";
 $form["name"]    = "server_ip_map";
 $form["action"]   = "server_ip_map_edit.php";
 $form["db_table"]  = "server_ip_map";
