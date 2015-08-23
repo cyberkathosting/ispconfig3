@@ -42,7 +42,7 @@ $items[] = array(   'title'  => 'Server IP addresses',
 	'link' => 'admin/server_ip_list.php',
 	'html_id'   => 'server_ip_list');
 
-$items[] = array(   'title'  => 'Server IP mapping',
+$items[] = array(   'title'  => 'Server IPv4 mapping',
 	'target'  => 'content',
 	'link' => 'admin/server_ip_map_list.php',
 	'html_id'   => 'server_ip_map_list');

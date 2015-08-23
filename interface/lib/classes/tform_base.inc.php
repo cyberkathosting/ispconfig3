@@ -1058,11 +1058,10 @@ class tform_base {
 				}
 				break;
 
-
-
 			case 'ISIPV4':
 				$vip=1;
-				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+//				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+				if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $field_value)){
 					$groups=explode(".", $field_value);
 					foreach($groups as $group){
 						if($group<0 or $group>255)
@@ -1078,6 +1077,7 @@ class tform_base {
 					}
 				}
 				break;
+
 			case 'ISIP':
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'y' && $field_value == '') {
@@ -1107,7 +1107,8 @@ class tform_base {
 							if(preg_match("/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i", $field_value)){
 								$ip_ok = 1;
 							}
-							if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+//							if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
+							if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $field_value)){
 								$ip_ok = 1;
 							}
 							if($ip_ok == 0) {

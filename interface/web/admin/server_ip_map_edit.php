@@ -59,7 +59,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('server_id', $server_select);
 
 		// ip-list
-		$sql = "SELECT server_ip.server_ip_id, server_ip.ip_address AS ip_address, server.server_name, CONCAT(server_ip.ip_address,' :: [', server.server_name, ']') AS source FROM server_ip, server WHERE (server_ip.server_id = server.server_id AND server.web_server =1 AND mirror_server_id = 0 AND virtualhost = 'y')";
+		$sql = "SELECT server_ip.server_ip_id, server_ip.ip_address AS ip_address, server.server_name, CONCAT(server_ip.ip_address,' :: [', server.server_name, ']') AS source FROM server_ip, server WHERE (server_ip.server_id = server.server_id AND server.web_server =1 AND mirror_server_id = 0 AND virtualhost = 'y' AND IP_TYPE = 'IPv4')";
 		$ips = $app->db->queryAllRecords($sql);
 		$ip_select = "<option value=''></option>";
 		if(is_array($ips)) {
@@ -77,9 +77,11 @@ class page_action extends tform_actions {
 	function onBeforeInsert() {
 		global $app;
 
+		if($this->dataRecord['server_id']=='') $app->tform->errorMessage .= $app->tform->wordbook['server_empty_error'];
+
 		$sql = "SELECT * FROM server_ip WHERE server_id = ? and ip_address = ?";
 		$ip_check=$app->db->queryOneRecord($sql, $this->dataRecord['server_id'], $this->dataRecord['source_ip']);
-		if (is_array($ip_check)) $app->tform->errorMessage .= $app->tform->wordbook['duplicate_mapping_error'];
+		if (is_array($ip_check)) $app->tform->errorMessage .= $app->tform->wordbook['ip_mapping_error'];
 
 		$sql = 'SELECT count(*) as no FROM server_ip_map WHERE server_id = ? AND source_ip = ? AND destination_ip = ?';
 		$check = $app->db->queryOneRecord($sql, $this->dataRecord['server_id'], $this->dataRecord['source_ip'], $this->dataRecord['destination_ip']);
@@ -88,9 +90,12 @@ class page_action extends tform_actions {
 
 	function onBeforeUpdate() {
 		global $app;
+
+		if($this->dataRecord['server_id']=='') $app->tform->errorMessage .= $app->tform->wordbook['server_empty_error'];
+
 		$sql = "SELECT * FROM server_ip WHERE server_id = ? and ip_address = ?";
 		$ip_check=$app->db->queryOneRecord($sql, $this->dataRecord['server_id'], $this->dataRecord['source_ip']);
-		if (is_array($ip_check)) $app->tform->errorMessage .= $app->tform->wordbook['duplicate_mapping_error'];
+		if (is_array($ip_check)) $app->tform->errorMessage .= $app->tform->wordbook['ip_mapping_error'];
 
 		$this->oldDataRecord = $app->tform->getDataRecord($this->id);
 		if ($this->dataRecord['source_ip'] != $this->oldDataRecord['source_ip'] || $this->dataRecord['destination_ip'] != $this->oldDataRecord['destination_ip']) {
