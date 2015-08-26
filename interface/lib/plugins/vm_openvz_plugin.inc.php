@@ -60,6 +60,14 @@ class vm_openvz_plugin {
 		// Set the IP address
 		$app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
 
+		// Set additional IPs
+		if (isset($this->dataRecord['additional_ip'])) {
+			$app->db->query("UPDATE openvz_ip SET vm_id = 0, additional = 'n' WHERE vm_id = ? AND additional='y'", $this->id);
+			foreach ($this->dataRecord['additional_ip'] as $idx => $rec) {
+				$app->db->query("UPDATE openvz_ip SET vm_id = ?, additional = 'y' WHERE ip_address = ?", $this->id, $rec);
+			}
+		}
+
 		// Create the OpenVZ config file and store it in config field
 		$this->makeOpenVZConfig();
 
@@ -95,8 +103,16 @@ class vm_openvz_plugin {
 
 		// Set the IP address
 		if(isset($this->dataRecord['ip_address'])) {
-			$app->db->query("UPDATE openvz_ip SET vm_id = 0 WHERE vm_id = ?", $this->id);
-			$app->db->query("UPDATE openvz_ip SET vm_id = ? WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
+			$app->db->query("UPDATE openvz_ip SET vm_id = 0 WHERE vm_id = ? AND additional='n'", $this->id);
+			$app->db->query("UPDATE openvz_ip SET vm_id = ?, additional = 'n' WHERE ip_address = ?", $this->id, $this->dataRecord['ip_address']);
+		}
+
+		// Set additional IPs
+		if (isset($this->dataRecord['additional_ip'])) {
+			$app->db->query("UPDATE openvz_ip SET vm_id = 0, additional = 'n' WHERE (vm_id = ? AND additional='y')", $this->id);
+			foreach ($this->dataRecord['additional_ip'] as $idx => $rec) {
+				$app->db->query("UPDATE openvz_ip SET vm_id = ?, additional = 'y' WHERE ip_address = ?", $this->id, $rec);
+			}
 		}
 
 		// Create the OpenVZ config file and store it in config field
@@ -195,6 +211,17 @@ class vm_openvz_plugin {
 		$hostname = str_replace('{VEID}', $vm['veid'], $vm['hostname']);
 
 		$tpl->setVar('hostname', $hostname);
+
+		$additional_ips = $app->db->queryAllRecords("SELECT * FROM openvz_ip WHERE vm_id = ?",$this->id);
+		if (isset($additional_ips)) {
+			$vm['ip_address']='';
+			foreach ($additional_ips as $ip) {
+				$vm['ip_address'] .= " ".$ip['ip_address'];
+			}
+			$vm['ip_address'] = substr($vm['ip_address'],1);
+		}
+		$tpl->setVar('ip_address', $vm['ip_address']);
+
 		$tpl->setVar('ip_address', $vm['ip_address']);
 		$tpl->setVar('nameserver', $vm['nameserver']);
 		$tpl->setVar('capability', $vm['capability']);

@@ -327,6 +327,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			//#################################
 		)
 	);
+
+	$form["tabs"]['additional_ip'] = array (
+		'title'  => "Additional IP",
+		'width'  => 100,
+		'template'  => "templates/openvz_vm_additional_ip_edit.htm",
+	);
 }
 
 

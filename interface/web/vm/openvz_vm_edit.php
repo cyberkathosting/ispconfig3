@@ -178,6 +178,19 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("ip_address", $ip_select);
 		unset($tmp);
 		unset($ips);
+		
+		//* Additional IPs
+		$sql="SELECT * FROM openvz_ip WHERE reserved = 'n' AND ((vm_id = ? AND additional='y') OR vm_id = 0) AND server_id = ?";
+		$additional_ips = $app->db->queryAllRecords($sql, $this->id, $vm_server_id);
+		foreach ($additional_ips as $idx => $rec) {
+			$temp .= "<input type='hidden' id='id".$idx."' name='additional_ip[".$idx."]' name='additional_ip[".$idx."]'  value='0'>";
+			$used = @($rec['additional']=='y')?'CHECKED':'';
+			$temp .= "<input type='checkbox' value='".$rec['ip_address']."' id='id".$idx."' name='additional_ip[".$idx."]' ".$used.">   ".$rec['ip_address']."<br>";
+		}
+		$app->tpl->setVar("additional_ip", $temp);
+		unset($used);
+		unset($temp);
+		unset($additional_ips);
 
 		if($this->id > 0) {
 			//* we are editing a existing record
