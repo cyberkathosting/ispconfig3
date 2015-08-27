@@ -12,4 +12,5 @@
         -o strict_rfc821_envelopes=yes
         -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
         -o smtp_send_xforward_command=yes
+        -o disable_dns_lookups=yes
 

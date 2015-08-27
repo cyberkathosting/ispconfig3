@@ -1004,6 +1004,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ip` (
   `ip_address` varchar(39) DEFAULT NULL,
   `vm_id` int(11) NOT NULL DEFAULT '0',
   `reserved` varchar(255) NOT NULL DEFAULT 'n',
+  `additional` varchar(255) NOT NULL DEFAULT 'n',
   PRIMARY KEY (`ip_address_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
