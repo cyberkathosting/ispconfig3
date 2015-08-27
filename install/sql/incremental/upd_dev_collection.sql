@@ -166,3 +166,5 @@ CREATE TABLE `server_ip_map` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `web_domain` ADD COLUMN `rewrite_to_https` ENUM('y','n') NOT NULL DEFAULT 'n' AFTER `seo_redirect`;
+
+ALTER TABLE openvz_ip ADD COLUMN `additional` VARCHAR(255) NOT NULL DEFAULT 'n';
