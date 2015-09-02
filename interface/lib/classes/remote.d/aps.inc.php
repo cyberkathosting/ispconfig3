@@ -224,7 +224,9 @@ class remoting_aps extends remoting {
 			return false;
 		}
 		
-		$app->db->query("UPDATE aps_packages SET package_status = ".$params['package_status']." WHERE id = '".$app->functions->intval($primary_id)."';");
+		$sql  = "UPDATE aps_packages SET package_status = ? WHERE id = ?";
+		$app->db->query($sql, $params['package_status'], $app->functions->intval($primary_id));
+		
 		return true;
 	}
 	
