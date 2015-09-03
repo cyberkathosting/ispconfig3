@@ -54,7 +54,7 @@ $liste["item"][] = array( 'field'  => "server_id",
 	'prefix' => "",
 	'suffix' => "",
 	'datasource' => array (  'type' => 'SQL',
-		'querystring' => 'SELECT server_id, server_name FROM server WHERE vserver_server = 1 ORDER BY server_name',
+		'querystring' => 'SELECT server_id, server_name FROM server WHERE vserver_server = 1 AND mirror_server_id = 0 ORDER BY server_name',
 		'keyfield'=> 'server_id',
 		'valuefield'=> 'server_name'
 	),

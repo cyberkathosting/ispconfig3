@@ -50,7 +50,7 @@ class custom_datasource {
 			$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ?";
 		} else {
-			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name AND mirror_server_id = 0";
 		}
 		$records = $app->db->queryAllRecords($sql, $client['default_dnsserver']);
 		$records_new = array();
@@ -72,7 +72,7 @@ class custom_datasource {
 			$client = $app->db->queryOneRecord("SELECT default_slave_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ?";
 		} else {
-			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name";
+			$sql = "SELECT server_id,server_name FROM server WHERE dns_server = 1 ORDER BY server_name AND mirror_server_id = 0";
 		}
 		$records = $app->db->queryAllRecords($sql, $client['default_slave_dnsserver']);
 		$records_new = array();
@@ -99,7 +99,7 @@ class custom_datasource {
 		}
 		if(count($server_ids) == 0) return array();
 		$server_ids = implode(',', $server_ids);
-		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN ? AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain", $server_ids);
+		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (?) AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain", $server_ids);
 
 		$records_new = array();
 		if(is_array($records)) {
@@ -168,12 +168,12 @@ class custom_datasource {
 			} else {
 				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
 				$app->log('Unable to find default server for client in custom_datasource.inc.php', 1);
-				$sql = "SELECT server_id,server_name FROM server WHERE ?? = 1 ORDER BY server_name";
+				$sql = "SELECT server_id,server_name FROM server WHERE ?? = 1 AND mirror_server_id = 0 ORDER BY server_name";
 				$records = $app->db->queryAllRecords($sql, $field);
 			}
 		} else {
 			//* The logged in user is admin, so we show him all available servers of a specific type.
-			$sql = "SELECT server_id,server_name FROM server WHERE ?? = 1 ORDER BY server_name";
+			$sql = "SELECT server_id,server_name FROM server WHERE ?? = 1 AND mirror_server_id = 0 ORDER BY server_name";
 			$records = $app->db->queryAllRecords($sql, $field);
 		}
 
