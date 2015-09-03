@@ -101,13 +101,13 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 }
 
 $liste["item"][] = array( 'field'  => "server_id",
-	'datatype' => "VARCHAR",
+	'datatype' => "INTEGER",
 	'formtype' => "SELECT",
 	'op'  => "like",
 	'prefix' => "%",
 	'suffix' => "%",
 	'datasource' => array (  'type' => 'SQL',
-		'querystring' => 'SELECT server_id,server_name FROM server WHERE {AUTHSQL} AND db_server = 1 ORDER BY server_name',
+		'querystring' => 'SELECT a.server_id, a.server_name FROM server a, web_database b WHERE (a.server_id = b.server_id) AND ({AUTHSQL-B}) ORDER BY a.server_name',
 		'keyfield'=> 'server_id',
 		'valuefield'=> 'server_name'
 	),
