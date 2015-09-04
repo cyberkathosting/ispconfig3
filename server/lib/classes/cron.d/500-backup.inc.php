@@ -52,7 +52,7 @@ class cronjob_backup extends cronjob {
 
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		$global_config = $app->getconf->get_global_config('sites');
-		$backup_dir = $server_config['backup_dir'];
+		$backup_dir = trim($server_config['backup_dir']);
 		$backup_mode = $server_config['backup_mode'];
 		if($backup_mode == '') $backup_mode = 'userzip';
 
