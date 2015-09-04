@@ -54,7 +54,7 @@ class cronjob_backup_mail extends cronjob {
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		$global_config = $app->getconf->get_global_config('sites');
 		
-		$backup_dir = $server_config['backup_dir'];
+		$backup_dir = trim($server_config['backup_dir']);
 		$backup_dir_permissions =0750;
 
 		$backup_mode = $server_config['backup_mode'];

@@ -71,7 +71,9 @@ class backup_plugin {
 
 			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-			$backup_dir = $server_config['backup_dir'].'/web'.$web['domain_id'];
+			$backup_dir = trim($server_config['backup_dir']);
+			if($backup_dir == '') return;
+			$backup_dir .= '/web'.$web['domain_id'];
 			
 			$backup_dir_is_ready = true;
             //* mount backup directory, if necessary
@@ -178,7 +180,10 @@ class backup_plugin {
 			$app->uses('ini_parser,file,getconf');
 	
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-			$backup_dir = $server_config['backup_dir'];
+			$backup_dir = trim($server_config['backup_dir']);
+
+            if($backup_dir == '') return;
+
 			$backup_dir_is_ready = true;
 	
 			//* mount backup directory, if necessary
