@@ -39,13 +39,15 @@ class remoting_aps extends remoting {
 	{
 		global $app;
 	
-		if(!$this->checkPerm($session_id, 'sites_aps_update_package')) {
+		if(!$this->checkPerm($session_id, 'sites_aps_update_package_list')) {
 			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-	
+		
+		require_once '../../../lib/config.inc.php';
 		$app->load('aps_crawler');
-		$aps = new ApsCrawler($app, false); // true = Interface mode, false = Server mode
+		
+		$aps = new ApsCrawler($app, true); // true = Interface mode, false = Server mode
 		$aps->startCrawler();
 		$aps->parseFolderToDB();
 		$aps->fixURLs();
@@ -53,7 +55,7 @@ class remoting_aps extends remoting {
 		return true;
 	}
 	
-	public function sites_aps_available_packages_list($session_id, $params)
+	public function sites_aps_available_packages_list($session_id, $params = array())
 	{
 		global $app;
 	
@@ -196,6 +198,36 @@ class remoting_aps extends remoting {
 		array_walk_recursive($settings, function(&$item, &$key) { $item = utf8_encode($item); } );
 	
 		return $settings;
+	}
+	
+	public function sites_aps_change_package_status($session_id, $primary_id, $params)
+	{
+		global $app;
+	
+		if(!$this->checkPerm($session_id, 'sites_aps_change_package_status')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		$app->load('aps_base');
+		$app->load('aps_guicontroller');
+		$gui = new ApsGUIController($app);
+		
+		// Make sure an integer ID is given
+		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
+			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			return false;
+		}
+		
+		if(!isset($params['package_status']) || (($params['package_status'] != PACKAGE_ENABLED) && ($params['package_status'] != PACKAGE_LOCKED))) {
+			$this->server->fault('package_error', 'Wrong new status: '.$params['package_status']);
+			return false;
+		}
+		
+		$sql  = "UPDATE aps_packages SET package_status = ? WHERE id = ?";
+		$app->db->query($sql, $params['package_status'], $app->functions->intval($primary_id));
+		
+		return true;
 	}
 	
 	public function sites_aps_install_package($session_id, $primary_id, $params)
