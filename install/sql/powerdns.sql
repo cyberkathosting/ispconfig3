@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `records` (
   `domain_id` int(11) default NULL,
   `name` varchar(255) default NULL,
   `type` varchar(6) default NULL,
-  `content` varchar(255) default NULL,
+  `content` TEXT default NULL,
   `ttl` int(11) default NULL,
   `prio` int(11) default NULL,
   `change_date` int(11) default NULL,
