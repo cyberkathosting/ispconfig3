@@ -121,6 +121,11 @@ class openvz_plugin {
 		file_put_contents('/etc/vz/conf/'.$veid.'.conf', $data['new']['config']);
 		$app->log("Writing new configuration for $veid", LOGLEVEL_DEBUG);
 
+		//* new diskspace for ploop-containers requieres "vzctl set"
+		if($data['new']['diskspace'] != $data['old']['diskspace']) {
+			exec("vzctl set ".$veid." --diskspace ".$data['new']['diskspace']."G --save");
+		}
+
 		//* Apply config changes to the VM
 		if($data['new']['active'] == 'y' && $data['old']['active'] == 'y') {
 			exec("vzctl restart $veid");
