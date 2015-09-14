@@ -90,7 +90,7 @@ class remoting {
 		}
 
 		//* Delete old remoting sessions
-		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMSTAMP()";
+		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMESTAMP()";
 		$app->db->query($sql);
 
 		if($client_login == true) {
@@ -231,7 +231,7 @@ class remoting {
 
 		/* copied from the client_edit php */
 		exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-		$app->db->query("UPDATE client SET created_at = UNIX_TIMSTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents('/tmp/id_rsa'), @file_get_contents('/tmp/id_rsa.pub'), $this->id);
+		$app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents('/tmp/id_rsa'), @file_get_contents('/tmp/id_rsa.pub'), $this->id);
 		exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
 
 
@@ -475,7 +475,7 @@ class remoting {
 			return false;
 		}
 
-		$sql = "SELECT * FROM remote_session WHERE remote_session = ? AND tstamp >= UNIX_TIMSTAMP()";
+		$sql = "SELECT * FROM remote_session WHERE remote_session = ? AND tstamp >= UNIX_TIMESTAMP()";
 		$session = $app->db->queryOneRecord($sql, $session_id);
 		if($session['remote_userid'] > 0) {
 			return $session;
