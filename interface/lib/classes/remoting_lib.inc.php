@@ -243,9 +243,9 @@ class remoting_lib extends tform_base {
 				if($key == '#OFFSET#') $sql_offset = $app->functions->intval($val);
 				elseif($key == '#LIMIT#') $sql_limit = $app->functions->intval($val);
 				elseif(stristr($val, '%')) {
-					$sql_where .= "? like ? AND ";
+					$sql_where .= "?? like ? AND ";
 				} else {
-					$sql_where .= "? = ? AND ";
+					$sql_where .= "?? = ? AND ";
 				}
 				$params[] = $key;
 				$params[] = $val;
