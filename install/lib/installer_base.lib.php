@@ -175,6 +175,19 @@ class installer_base {
 		return $force;
     }
 
+	public function reconfigure_app($service, $reconfigure_services_answer) {
+		$reconfigure = false;
+		if ($reconfigure_services_answer != 'selected') {
+			$reconfigure = true;
+		} else {
+			if(strtolower($this->simple_query("Reconfigure $service", array('y', 'n'), 'y') ) == 'y') {
+				$reconfigure = true;
+			} else {
+				swriteln("Skip reconfigure $service\n");
+			}
+		}
+		return $reconfigure;
+	}
 
 	/** Create the database for ISPConfig */
 

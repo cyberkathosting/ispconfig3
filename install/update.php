@@ -300,30 +300,35 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 //}
 
 //** Shall the services be reconfigured during update
-$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no'), 'yes','reconfigure_services');
+$reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no', 'selected'), 'yes','reconfigure_services');
 
-if($reconfigure_services_answer == 'yes') {
+if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'selected') {
 
 	if($conf['services']['mail']) {
+
 		//** Configure postfix
-		swriteln('Configuring Postfix');
-		$inst->configure_postfix('dont-create-certs');
+		if($inst->reconfigure_app('Postfix', $reconfigure_services_answer)) {
+			swriteln('Configuring Postfix');
+			$inst->configure_postfix('dont-create-certs');
+		}
 
 		//** Configure mailman
-		if($conf['mailman']['installed'] == true) {
+		if($conf['mailman']['installed'] == true && $inst->reconfigure_app('Mailman', $reconfigure_services_answer)) {
 			swriteln('Configuring Mailman');
 			$inst->configure_mailman('update');
 		}
 
 		//* Configure Jailkit
-		swriteln('Configuring Jailkit');
-		$inst->configure_jailkit();
+		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
+			swriteln('Configuring Jailkit');
+			$inst->configure_jailkit();
+		}
 
-		if($conf['dovecot']['installed'] == true) {
+		if($conf['dovecot']['installed'] == true && $inst->reconfigure_app('Dovecot', $reconfigure_services_answer)) {
 			//* Configure dovecot
 			swriteln('Configuring Dovecot');
 			$inst->configure_dovecot();
-		} else {
+		} elseif ($conf['courier']['installed'] == true && $inst->reconfigure_app('Courier', $reconfigure_services_answer)) {
 			//** Configure saslauthd
 			swriteln('Configuring SASL');
 			$inst->configure_saslauthd();
@@ -338,27 +343,25 @@ if($reconfigure_services_answer == 'yes') {
 		}
 
 		//** Configure Spamasassin
-		swriteln('Configuring Spamassassin');
-		$inst->configure_spamassassin();
+		if($inst->reconfigure_app('Spamassassin', $reconfigure_services_answer)) {
+			swriteln('Configuring Spamassassin');
+			$inst->configure_spamassassin();
+		}
 
 		//** Configure Amavis
-		if($conf['amavis']['installed'] == true) {
+		if($conf['amavis']['installed'] == true && $inst->reconfigure_app('Amavisd', $reconfigure_services_answer)) {
 			swriteln('Configuring Amavisd');
 			$inst->configure_amavis();
 		}
 
 		//** Configure Getmail
-		swriteln('Configuring Getmail');
-		$inst->configure_getmail();
+		if ($inst->reconfigure_app('Getmail', $reconfigure_services_answer)) {
+			swriteln('Configuring Getmail');
+			$inst->configure_getmail();
+		}
 	}
 
-	if($conf['services']['web'] && $conf['pureftpd']['installed'] == true) {
-		//** Configure Pureftpd
-		swriteln('Configuring Pureftpd');
-		$inst->configure_pureftpd();
-	}
-
-	if($conf['services']['dns']) {
+	if($conf['services']['dns'] && $inst->reconfigure_app('DNS', $reconfigure_services_answer)) {
 		//* Configure DNS
 		if($conf['powerdns']['installed'] == true) {
 			swriteln('Configuring PowerDNS');
@@ -373,37 +376,40 @@ if($reconfigure_services_answer == 'yes') {
 	}
 
 	if($conf['services']['web']) {
-		if($conf['webserver']['server_type'] == 'apache'){
-			//** Configure Apache
-			swriteln('Configuring Apache');
-			$inst->configure_apache();
 
-			//** Configure vlogger
-			swriteln('Configuring vlogger');
-			$inst->configure_vlogger();
-		} else {
-			//** Configure nginx
-			swriteln('Configuring nginx');
-			$inst->configure_nginx();
+		if($conf['pureftpd']['installed'] == true && $inst->reconfigure_app('Pureftpd', $reconfigure_services_answer)) {
+			//** Configure Pureftpd
+			swriteln('Configuring Pureftpd');
+			$inst->configure_pureftpd();
 		}
 
-		//** Configure apps vhost
-		swriteln('Configuring Apps vhost');
-		$inst->configure_apps_vhost();
-	}
+		if($inst->reconfigure_app('Web-Server', $reconfigure_services_answer)) {
+			if($conf['webserver']['server_type'] == 'apache'){
+				//** Configure Apache
+				swriteln('Configuring Apache');
+				$inst->configure_apache();
 
-    if($conf['services']['xmpp']) {
+				//** Configure vlogger
+				swriteln('Configuring vlogger');
+				$inst->configure_vlogger();
+			} else {
+				//** Configure nginx
+				swriteln('Configuring nginx');
+				$inst->configure_nginx();
+			}
+
+			//** Configure apps vhost
+			swriteln('Configuring Apps vhost');
+			$inst->configure_apps_vhost();
+			}
+		}
+
+    if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
         //** Configure Metronome XMPP
         $inst->configure_xmpp('dont-create-certs');
     }
 
-
-	//* Configure DBServer
-	swriteln('Configuring Database');
-	$inst->configure_dbserver();
-
-
-	if($conf['services']['firewall']) {
+	if($conf['services']['firewall'] && $inst->reconfigure_app('Firewall', $reconfigure_services_answer)) {
 		if($conf['ufw']['installed'] == true) {
 			//* Configure Ubuntu Firewall
 			$conf['services']['firewall'] = true;
@@ -415,6 +421,10 @@ if($reconfigure_services_answer == 'yes') {
 			$inst->configure_bastille_firewall();
 		}
 	}
+
+	//* Configure DBServer
+	swriteln('Configuring Database');
+	$inst->configure_dbserver();
 
 	/*
 	if($conf['squid']['installed'] == true) {
