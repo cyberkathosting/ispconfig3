@@ -122,8 +122,8 @@ class mail_plugin_dkim {
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		if (	isset($mail_config['dkim_path']) && 
 				!empty($mail_config['dkim_path']) && 
-				isset($data['new']['dkim_private']) && 
-				!empty($data['new']['dkim_private']) &&
+//				isset($data['new']['dkim_private']) && 
+//				!empty($data['new']['dkim_private']) &&
 				$mail_config['dkim_path'] != '/' 
 		) {
             if (!is_dir($mail_config['dkim_path'])) {
@@ -199,6 +199,10 @@ class mail_plugin_dkim {
 	function write_dkim_key($key_file, $key_value, $key_domain) {
 		global $app, $mailconfig;
 		$success=false;
+		if ($key_file == '' || $key_value  == '' || $key_domain == '') {
+			$app->log('DKIM internal error for domain '.$key_domain, LOGLEVEL_ERROR);
+			return $success;
+		}
 		if ( $app->system->file_put_contents($key_file.'.private', $key_value) ) {
 			$app->log('Saved DKIM Private-key to '.$key_file.'.private', LOGLEVEL_DEBUG);
 			$success=true;
@@ -211,7 +215,7 @@ class mail_plugin_dkim {
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else {
-			$app->log('Unable to save DKIM Privte-key to '.$key_file.'.private', LOGLEVEL_ERROR);
+			$app->log('Unable to save DKIM Private-key to '.$key_file.'.private', LOGLEVEL_ERROR);
 		}
 		return $success;
 	}
