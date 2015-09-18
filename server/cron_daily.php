@@ -670,7 +670,7 @@ function send_notification_email($template, $placeholders, $recipients) {
 	$mailSubject = '';
 	$inHeader = true;
 	for($l = 0; $l < count($lines); $l++) {
-		if($lines[$l] == '') {
+		if(trim($lines[$l]) == '') {
 			$inHeader = false;
 			continue;
 		}
