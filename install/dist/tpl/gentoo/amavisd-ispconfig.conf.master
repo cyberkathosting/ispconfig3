@@ -94,16 +94,24 @@ $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 $log_level = 0;                # (defaults to 0)
 
 $inet_socket_port = [10024,10026];
-$forward_method = 'smtp:[127.0.0.1]:10025';
-$notify_method = 'smtp:[127.0.0.1]:10027';
+
+# *:* = send to IP/HOST:incoming Port + 1
+$forward_method = 'smtp:*:*';
+$notify_method = 'smtp:*:*';
+
 $interface_policy{'10026'} = 'ORIGINATING';
 $policy_bank{'ORIGINATING'} = {
   originating => 1,
   smtpd_discard_ehlo_keywords => ['8BITMIME'],
-  forward_method => 'smtp:[127.0.0.1]:10027',
 };
-@mynetworks = qw(0.0.0.0/8 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12
-192.168.0.0/16);
+
+# IP-Addresses for internal networks => load policy MYNETS
+# - requires -o smtp_send_xforward_command=yes in postfix master.cf
+@mynetworks = qw(0.0.0.0/8 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 [::1] [FE80::]/10 [FEC0::]/10);
+
+# Allow SMTP access from IPs in @inet_acl to amvisd SMTP Port
+@inet_acl = qw( 127.0.0.1 [::1] 192.168.0.0/16 );
+
 $signed_header_fields{'received'} = 0; # turn off signing of Received
 $enable_dkim_verification = 1;
 $enable_dkim_signing = 1;
