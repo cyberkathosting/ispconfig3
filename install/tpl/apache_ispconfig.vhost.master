@@ -68,7 +68,25 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
   <tmpl_var name="ssl_comment">SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
   <tmpl_var name="ssl_bundle_comment">SSLCACertificateFile /usr/local/ispconfig/interface/ssl/ispserver.bundle
 
+  <tmpl_var name="ssl_comment">SSLCipherSuite ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:E$
+  <tmpl_var name="ssl_comment">SSLHonorCipherOrder On
+
+  <IfModule mod_headers.c>
+    Header always add Strict-Transport-Security "max-age=15768000"
+  </IfModule>
+
+<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+  <tmpl_var name="ssl_comment">SSLUseStapling on
+  <tmpl_var name="ssl_comment">SSLStaplingResponderTimeout 5
+  <tmpl_var name="ssl_comment">SSLStaplingReturnResponderErrors off
+</tmpl_if>
 </VirtualHost>
+
+<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+<IfModule mod_ssl.c>
+  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
+</IfModule>
+</tmpl_if>
 
 <Directory /var/www/php-cgi-scripts>
     AllowOverride None
