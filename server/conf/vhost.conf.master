@@ -445,4 +445,13 @@
 
 <tmpl_var name='apache_directives'>
 </VirtualHost>
+
+<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+<tmpl_if name='ssl_enabled'>
+<IfModule mod_ssl.c>
+        SSLStaplingCache shmcb:/var/run/ocsp(128000)
+</IfModule>
+</tmpl_if>
+</tmpl_if>
+
 </tmpl_loop>
