@@ -228,6 +228,9 @@
             </div>
             <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-apps_vhost_settings" aria-expanded="false" aria-controls="toggle-apps_vhost_settings">{tmpl_var name='apps_vhost_settings_txt'}</button></div>
             <div id="toggle-apps_vhost_settings" class="collapse">
+				<div class="form-group">
+					<label for="apps_vhost_enabled" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_enabled_txt'}</label>
+					<div class="col-sm-9">{tmpl_var name='apps_vhost_enabled'}</div></div>
                 <div class="form-group">
                     <label for="apps_vhost_port" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_port_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="apps_vhost_port" id="apps_vhost_port" value="{tmpl_var name='apps_vhost_port'}" class="form-control" /></div></div>

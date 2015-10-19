@@ -1038,6 +1038,12 @@ $form["tabs"]['web'] = array(
 				1 => 'y'
 			)
 		),
+		'apps_vhost_enabled' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'y',
+			'value' => array (0 => 'n', 1 => 'y')
+		),
 		'apps_vhost_port' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

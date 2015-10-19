@@ -119,6 +119,16 @@ class apps_vhost_plugin {
 			/* end of backwards compatibility section */
 
 			$app->system->file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+
+			// enabled / disable apps-vhost
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/000-apps.vhost');
+			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
+				$app->system->unlink($vhost_symlink);
+			}
+			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost') && $web_config['apps_vhost_enabled'] == 'y') {
+				symlink($vhost_conf_dir.'/apps.vhost', $vhost_conf_enabled_dir.'/000-apps.vhost');
+			}
+
 			$app->services->restartServiceDelayed('httpd', 'restart');
 		}
 
@@ -185,6 +195,16 @@ class apps_vhost_plugin {
 			file_put_contents($web_config['php_fpm_pool_dir'].'/apps.conf', $fpm_content);
 
 			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
+
+			// enabled / disable apps-vhost
+			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/000-apps.vhost');
+			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
+				$app->system->unlink($vhost_symlink);
+			}
+			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost') && $web_config['apps_vhost_enabled'] == 'y') {
+				symlink($vhost_conf_dir.'/apps.vhost', $vhost_conf_enabled_dir.'/000-apps.vhost');
+			}
+
 			$app->services->restartServiceDelayed('httpd', 'reload');
 		}
 	}

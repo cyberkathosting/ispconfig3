@@ -253,4 +253,5 @@ $wb['crontab_dir_error_regex'] = 'Invalid crontab directory.';
 $wb['cron_wget_error_regex'] = 'Invalid cron wget path.';
 $wb['network_filesystem_txt'] = 'Network Filesystem';
 $wb["disable_bind_log_txt"] = "Disable bind9 messages for Loglevel WARN";
+$wb["apps_vhost_enabled_txt"] = "Apps-vhost enabled";
 ?>
