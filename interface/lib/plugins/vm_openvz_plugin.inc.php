@@ -130,10 +130,12 @@ class vm_openvz_plugin {
 		global $app, $conf;
 
 		//* Free the IP address
-		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
-		$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
+		$tmp_rec = $app->db->queryAllRecords("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
+		foreach ($tmp_rec as $tmp) {
+			$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
+		}
 		unset($tmp);
-
+		unset($tmp_rec);
 	}
 
 	private function applyTemplate() {
