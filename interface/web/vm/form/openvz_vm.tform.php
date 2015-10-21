@@ -322,6 +322,23 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'width'  => '30',
 				'maxlength' => '255'
 			),
+			'custom' => array (
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXTAREA',
+				'default' => '',
+				'value'  => '',
+				'separator' => '',
+				'width'  => '',
+				'maxlength' => '',
+				'rows'  => '10',
+				'cols'  => '30',
+				'searchable' => 2,
+				'validators'    => array (  0 => array ('type'  => 'CUSTOM',
+					'class' => 'validate_openvz',
+					'function' => 'check_custom',
+					'errmsg'=> 'custom_error'),
+				),
+			),
 			//#################################
 			// ENDE Datatable fields
 			//#################################

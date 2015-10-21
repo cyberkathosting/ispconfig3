@@ -168,3 +168,7 @@ CREATE TABLE `server_ip_map` (
 ALTER TABLE `web_domain` ADD COLUMN `rewrite_to_https` ENUM('y','n') NOT NULL DEFAULT 'n' AFTER `seo_redirect`;
 
 ALTER TABLE openvz_ip ADD COLUMN `additional` VARCHAR(255) NOT NULL DEFAULT 'n';
+
+ALTER TABLE openvz_template ADD COLUMN `custom` text;
+ALTER TABLE openvz_vm ADD COLUMN `custom` text;
+

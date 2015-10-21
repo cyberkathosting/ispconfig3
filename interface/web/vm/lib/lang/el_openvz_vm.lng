@@ -39,4 +39,5 @@ $wb['Virtual server'] = 'Εικονικός server';
 $wb['Advanced'] = 'Για προχωρημένους';
 $wb['features_txt'] = 'Features';
 $wb["iptables_txt"] = "IP Tables";
+$wb["custom_txt"] = "Custom settings";
 ?>
