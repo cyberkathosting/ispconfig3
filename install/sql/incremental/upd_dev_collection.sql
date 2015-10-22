@@ -170,5 +170,7 @@ ALTER TABLE `web_domain` ADD COLUMN `rewrite_to_https` ENUM('y','n') NOT NULL DE
 ALTER TABLE openvz_ip ADD COLUMN `additional` VARCHAR(255) NOT NULL DEFAULT 'n';
 
 ALTER TABLE openvz_template ADD COLUMN `custom` text;
-ALTER TABLE openvz_vm ADD COLUMN `custom` text;
 
+ALTER TABLE openvz_vm
+  ADD COLUMN `bootorder` INT(11) NOT NULL DEFAULT '1' AFTER `start_boot`,
+  ADD COLUMN `custom` text;

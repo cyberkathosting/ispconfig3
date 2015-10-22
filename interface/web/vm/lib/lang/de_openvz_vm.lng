@@ -39,4 +39,6 @@ $wb['Virtual server'] = 'Virtueller Server';
 $wb['Advanced'] = 'Erweitert';
 $wb["iptables_txt"] = "IP Tables";
 $wb["custom_txt"] = "Custom settings";
+$wb["bootorder_txt"] = "Boot order priority";
+$wb["bootorder_error_notpositive"] = "Only positive integers are allowed for Boot order priority";
 ?>

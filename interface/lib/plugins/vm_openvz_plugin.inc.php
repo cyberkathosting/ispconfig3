@@ -134,8 +134,6 @@ class vm_openvz_plugin {
 		foreach ($tmp_rec as $tmp) {
 			$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
 		}
-		unset($tmp);
-		unset($tmp_rec);
 	}
 
 	private function applyTemplate() {
@@ -177,6 +175,7 @@ class vm_openvz_plugin {
 		$onboot = ($vm['start_boot'] == 'y')?'yes':'no';
 		$tpl->setVar('onboot', $onboot);
 
+		$tpl->setVar('bootorder', $vm['bootorder']);
 		$tpl->setVar('kmemsize', $vm_template['kmemsize']);
 		$tpl->setVar('lockedpages', $vm_template['lockedpages']);
 		$tpl->setVar('privvmpages', $burst_ram.':'.$burst_ram);

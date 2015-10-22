@@ -150,6 +150,17 @@ $form["tabs"]['main'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'bootorder' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '3',
+			'maxlength' => '3',
+			'validators' => array (  0 => array ( 'type' => 'ISPOSITIVE',
+				'errmsg'=> 'limit_client_error_notint'),
+            ),
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

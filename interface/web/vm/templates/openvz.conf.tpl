@@ -4,6 +4,7 @@ VERSION="2"
 
 # Parameters
 ONBOOT="{tmpl_var name='onboot'}"
+BOOTORDER="{tmpl_var name='bootorder'}"
 KMEMSIZE="{tmpl_var name='kmemsize'}"
 LOCKEDPAGES="{tmpl_var name='lockedpages'}"
 PRIVVMPAGES="{tmpl_var name='privvmpages'}"

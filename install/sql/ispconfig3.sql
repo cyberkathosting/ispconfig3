@@ -1142,6 +1142,7 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `hostname` varchar(255) DEFAULT NULL,
   `vm_password` varchar(255) DEFAULT NULL,
   `start_boot` varchar(255) NOT NULL DEFAULT 'y',
+  `bootorder` int(11) NOT NULL DEFAULT '1',
   `active` varchar(255) NOT NULL DEFAULT 'y',
   `active_until_date` date NOT NULL DEFAULT '0000-00-00',
   `description` text,
