@@ -158,7 +158,7 @@ $form["tabs"]['main'] = array (
 			'width'  => '3',
 			'maxlength' => '3',
 			'validators' => array (  0 => array ( 'type' => 'ISPOSITIVE',
-				'errmsg'=> 'limit_client_error_notint'),
+				'errmsg'=> 'bootorder_error_notpositive'),
             ),
 		),
 		'active' => array (
