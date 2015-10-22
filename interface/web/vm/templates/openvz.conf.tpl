@@ -4,6 +4,7 @@ VERSION="2"
 
 # Parameters
 ONBOOT="{tmpl_var name='onboot'}"
+BOOTORDER="{tmpl_var name='bootorder'}"
 KMEMSIZE="{tmpl_var name='kmemsize'}"
 LOCKEDPAGES="{tmpl_var name='lockedpages'}"
 PRIVVMPAGES="{tmpl_var name='privvmpages'}"
@@ -50,3 +51,4 @@ MEMINFO="privvmpages:1"
 CAPABILITY="{tmpl_var name='capability'}"
 FEATURES="{tmpl_var name='features'}"
 IPTABLES="{tmpl_var name='iptables'}"
+{tmpl_var name='custom'}

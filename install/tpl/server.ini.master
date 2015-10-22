@@ -72,6 +72,7 @@ user=www-data
 group=www-data
 nginx_user=www-data
 nginx_group=www-data
+apps_vhost_enabled=y
 apps_vhost_port=8081
 apps_vhost_ip=_default_
 apps_vhost_servername=

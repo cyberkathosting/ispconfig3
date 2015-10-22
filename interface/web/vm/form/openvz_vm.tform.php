@@ -150,6 +150,17 @@ $form["tabs"]['main'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'bootorder' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '3',
+			'maxlength' => '3',
+			'validators' => array (  0 => array ( 'type' => 'ISPOSITIVE',
+				'errmsg'=> 'bootorder_error_notpositive'),
+            ),
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -321,6 +332,23 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'value'  => '',
 				'width'  => '30',
 				'maxlength' => '255'
+			),
+			'custom' => array (
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXTAREA',
+				'default' => '',
+				'value'  => '',
+				'separator' => '',
+				'width'  => '',
+				'maxlength' => '',
+				'rows'  => '10',
+				'cols'  => '30',
+				'searchable' => 2,
+				'validators'    => array (  0 => array ('type'  => 'CUSTOM',
+					'class' => 'validate_openvz',
+					'function' => 'check_custom',
+					'errmsg'=> 'custom_error'),
+				),
 			),
 			//#################################
 			// ENDE Datatable fields

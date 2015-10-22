@@ -130,10 +130,10 @@ class vm_openvz_plugin {
 		global $app, $conf;
 
 		//* Free the IP address
-		$tmp = $app->db->queryOneRecord("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
-		$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
-		unset($tmp);
-
+		$tmp_rec = $app->db->queryAllRecords("SELECT ip_address_id FROM openvz_ip WHERE vm_id = ?", $page_form->id);
+		foreach ($tmp_rec as $tmp) {
+			$app->db->datalogUpdate('openvz_ip', array('vm_id' => 0), 'ip_address_id', $tmp['ip_address_id']);
+		}
 	}
 
 	private function applyTemplate() {
@@ -154,8 +154,9 @@ class vm_openvz_plugin {
 		$sql .= "capability = ?, ";
 		$sql .= "features = ?, ";
 		$sql .= "iptables = ? ";
+		$sql .= "custom = ? ";
 		$sql .= "WHERE vm_id = ?";
-		$app->db->query($sql, $tpl['diskspace'], $tpl['ram'], $tpl['ram_burst'], $tpl['cpu_units'], $tpl['cpu_num'], $tpl['cpu_limit'], $tpl['io_priority'], $tpl['nameserver'], $tpl['create_dns'], $tpl['capability'], $tpl['features'], $tpl['iptables'], $this->id);
+		$app->db->query($sql, $tpl['diskspace'], $tpl['ram'], $tpl['ram_burst'], $tpl['cpu_units'], $tpl['cpu_num'], $tpl['cpu_limit'], $tpl['io_priority'], $tpl['nameserver'], $tpl['create_dns'], $tpl['capability'], $tpl['features'], $tpl['iptables'], $tpl['custom'], $this->id);
 
 	}
 
@@ -174,6 +175,7 @@ class vm_openvz_plugin {
 		$onboot = ($vm['start_boot'] == 'y')?'yes':'no';
 		$tpl->setVar('onboot', $onboot);
 
+		$tpl->setVar('bootorder', $vm['bootorder']);
 		$tpl->setVar('kmemsize', $vm_template['kmemsize']);
 		$tpl->setVar('lockedpages', $vm_template['lockedpages']);
 		$tpl->setVar('privvmpages', $burst_ram.':'.$burst_ram);
@@ -227,6 +229,8 @@ class vm_openvz_plugin {
 		$tpl->setVar('capability', $vm['capability']);
 		$tpl->setVar('features', $vm['features']);
 		$tpl->setVar('iptables', $vm['iptables']);
+
+		$tpl->setVar('custom', $vm['custom']);
 
 		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ?", $app->functions->intval($vm['ostemplate_id']));
 		$tpl->setVar('ostemplate', $tmp['template_file']);

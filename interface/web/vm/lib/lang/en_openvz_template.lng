@@ -92,4 +92,6 @@ $wb["Template"] = 'Template';
 $wb["Advanced"] = 'Advanced';
 $wb['features_txt'] = 'Features';
 $wb["iptables_txt"] = "IP Tables";
+$wb["custom_txt"] = "Custom settings";
+$wb["custom_error"] = "Not allowed in Custom settings: ";
 ?>
