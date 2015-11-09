@@ -1,8 +1,9 @@
 #!/bin/bash
 
 cd /tmp
-rm -rf ispconfig3-master*
+rm -f ispconfig3-dev.tar.gz
 wget -O ispconfig3-dev.tar.gz "http://git.ispconfig.org/ispconfig/ispconfig3/repository/archive.tar.gz?ref=master"
+rm -rf ispconfig3-master*
 tar xzf ispconfig3-dev.tar.gz
 cd ispconfig3-master*/install
 php -q \
