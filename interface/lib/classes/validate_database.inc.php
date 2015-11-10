@@ -42,19 +42,19 @@ class validate_database {
 			$values = explode(",", $field_value);
 			foreach($values as $cur_value) {
 				$cur_value = trim($cur_value);
-
 				$valid = true;
-//				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $cur_value)) {
-				if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $cur_value)) {
-					$groups = explode(".", $cur_value);
-					foreach($groups as $group){
-						if($group<0 or $group>255)
-							$valid=false;
+				if(function_exists('filter_var')) {
+					if(!filter_var($field_value, FILTER_VALIDATE_IP)) {
+						$valid = false;
 					}
 				} else {
-					$valid = false;
+					 if(
+						!preg_match("/^[0-9a-f]{1,4}:([0-9a-f]{0,4}:){1,6}[0-9a-f]{1,4}$/", $cur_value)
+						&&
+						!preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $cur_value)) {
+							$valid = false;
+					}
 				}
-
 				if($valid == false) {
 					$errmsg = $validator['errmsg'];
 					if(isset($app->tform->wordbook[$errmsg])) {
