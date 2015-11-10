@@ -83,12 +83,16 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 		}
 	} else {
 		//*  Loading Login Module
+		/*
 		include_once 'login/lib/module.conf.php';
 		$_SESSION['s']['module'] = $module;
 		$topnav[] = array( 'title'  => 'Login',
 			'active'  => 1);
 		$module = null;
 		unset($module);
+		*/
+		header('Location: /login/');
+		die();
 	}
 
 	//* Topnavigation

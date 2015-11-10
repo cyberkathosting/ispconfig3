@@ -11,7 +11,7 @@ var ISPConfig = {
 	
 	options: {
 		useLoadIndicator: false,
-		useComboBox: false,
+		useComboBox: false
 	},
 	
 	setOption: function(key, value) {
@@ -91,7 +91,7 @@ var ISPConfig = {
 				placeholder: '',
 				width: 'element',
 				selectOnBlur: true,
-				allowClear: true,
+				allowClear: true
 			});
 		}
 	},
@@ -143,7 +143,7 @@ var ISPConfig = {
 	},
 
 	/* THIS ONE SHOULD BE REMOVED AFTER CREATING THE STATIC LOGIN PAGE!!! */
-	submitLoginForm: function(formname) {
+	/*submitLoginForm: function(formname) {
 		//* Validate form. TODO: username and password with strip();
 		var frm = document.getElementById(formname);
 		var userNameObj = frm.username;
@@ -189,7 +189,7 @@ var ISPConfig = {
 				ISPConfig.reportError('Ajax Request was not successful.110');
 			}
 		});
-	},
+	},*/
 
 	submitForm: function(formname, target, confirmation) {
 		var successMessage = arguments[3];
@@ -209,6 +209,9 @@ var ISPConfig = {
 					if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
 						var parts = jqXHR.responseText.split(':');
 						ISPConfig.loadContent(parts[1]);
+					} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
+						// Go to the login page
+						document.location.href = '/index.php';
 					} else {
 						$('#pageContent').html(jqXHR.responseText);
 						ISPConfig.onAfterContentLoad(target, $('#'+formname).serialize());
@@ -354,8 +357,8 @@ var ISPConfig = {
 	loadInitContent: function() {
 		var pageContentObject = $.ajax({
 			type: "GET",
-			url: "content.php",
-			data: "s_mod=login&s_pg=index",
+			url: "dashboard/dashboard.php",
+			data: "",
 			dataType: "html",
 			beforeSend: function() {
 				ISPConfig.showLoadIndicator();
@@ -366,7 +369,7 @@ var ISPConfig = {
 					ISPConfig.loadContent(parts[1]);
 				} else {
 					$('#pageContent').html(jqXHR.responseText);
-					ISPConfig.onAfterContentLoad('content.php', "s_mod=login&s_pg=index");
+					ISPConfig.onAfterContentLoad('dashboard/dashboard.php', "");
 					ISPConfig.pageFormChanged = false;
 				}
 				ISPConfig.hideLoadIndicator();

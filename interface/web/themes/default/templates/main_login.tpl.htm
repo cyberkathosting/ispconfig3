@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+
+  <title><tmpl_var name="company_name"><tmpl_var name="app_title"></title>
+
+  <meta name='viewport' content='width=device-width, user-scalable=yes'>
+  <meta name='description' lang='en' content='' />
+  <meta name='keywords' lang='en' content='' />
+  <meta name='robots' content='index, follow' />
+
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/fonts.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/pushy.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap-datetimepicker.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/responsive.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/themes/default/theme.min.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/select2-bootstrap.css' />
+  <link rel='stylesheet' href='../themes/<tmpl_var name='current_theme'>/assets/stylesheets/login.css' />
+</head>
+
+<body>
+<div class="container" style="min-height: 100%; min-height: 100vh; display: flex;">
+  <div class="row" style="margin: auto; width:100%;">
+    	<div class="col-md-4 col-md-offset-4">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading" style="background: linear-gradient(to bottom, white, #eef0f2);">
+					<img src="{tmpl_var name='base64_logo_txt'}">
+			 	</div>
+			  	<div class="panel-body">
+			    	<tmpl_dyninclude name="content_tpl">
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/bootstrap.min.js'></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/bootstrap-datetimepicker.min.js'></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/ispconfig.min.js'></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/modernizr.custom.min.js'></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/pushy.min.js'></script>
+  <script src='../themes/<tmpl_var name='current_theme'>/assets/javascripts/responsive.min.js'></script>
+  <script src='../js/select2/select2.min.js'></script>
+  <script src='../js/scrigo.js.php'></script>
+  <script type="text/javascript" src="../js/jquery.ispconfigsearch.js"></script>
+  <script type="text/javascript" src="../js/jquery.tipsy.js"></script>
+  <tmpl_loop name="js_d_includes">
+	<script type="text/javascript" src="../js/js.d/<tmpl_var name='file'>"></script>
+  </tmpl_loop>
+</body>
+
+</html>

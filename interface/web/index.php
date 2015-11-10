@@ -31,7 +31,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once '../lib/config.inc.php';
 require_once '../lib/app.inc.php';
 
-if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 'login';
+// Check if we have an active users ession and redirect to login if thats not the case.
+if($_SESSION['s']['user']['active'] != 1) {
+	header('Location: /login/');
+	die();
+}
+
+if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 'dashboard';
 
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');

@@ -36,8 +36,8 @@ $module = $_REQUEST["s_mod"];
 $page = $_REQUEST["s_pg"];
 */
 
-$module = 'login';
-$page = 'index';
+$module = 'dashboard';
+$page = 'dashboard';
 
 if(!preg_match("/^[a-z]{2,20}$/i", $module)) die('module name contains unallowed chars.');
 if(!preg_match("/^[a-z]{2,20}$/i", $page)) die('page name contains unallowed chars.');
