@@ -312,6 +312,7 @@ if($error != ''){
 }
 
 $app->load('getconf');
+$sys_config = $app->getconf->get_global_config('misc');
 
 $security_config = $app->getconf->get_security_config('permissions');
 if($security_config['password_reset_allowed'] == 'yes') {
