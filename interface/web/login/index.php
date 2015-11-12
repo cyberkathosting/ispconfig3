@@ -351,6 +351,12 @@ $app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 // Title
 $app->tpl->setVar('company_name', $sys_config['company_name']. ' :: ');
 
+// Custom Login
+if ($sys_config['custom_login_text'] != '') {
+	 $custom_login = @($sys_config['custom_login_link'] != '')?'<a href="'.$sys_config['custom_login_link'].'" target="_blank">'.$sys_config['custom_login_text'].'</a>':$sys_config['custom_login_text'];
+}
+$app->tpl->setVar('custom_login', $custom_login);
+
 $app->tpl_defaults();
 
 $app->tpl->pparse();

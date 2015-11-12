@@ -76,4 +76,7 @@ $wb['min_password_length_txt'] = 'Minimum password length';
 $wb['min_password_strength_txt'] = 'Minimum password strength';
 $wb["company_name_txt"] = "Company Name for the page title";
 $wb["reseller_can_use_options_txt"] = "Reseller can use the option-tab for websites";
+$wb["custom_login_text_txt"] = "Custom Text on Login-Page";
+$wb["custom_login_link_txt"] = "Custom Link on Login-Page";
+$wb["login_link_error_regex"] = "Invalid Link for Custom Login";
 ?>
