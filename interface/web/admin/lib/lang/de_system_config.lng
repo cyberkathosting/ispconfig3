@@ -73,4 +73,7 @@ $wb['No'] = 'Nein';
 $wb['min_password_length_txt'] = 'Minimale Passwortlänge';
 $wb['min_password_strength_txt'] = 'Minimale Passwortstärke';
 $wb["company_name_txt"] = "Firmenname fuer den Seitentitel";
+$wb["custom_login_text_txt"] = "Custom Text on Login-Page";
+$wb["custom_login_link_txt"] = "Custom Link on Login-Page";
+$wb["login_link_error_regex"] = "Invalid Link for Custom Login";
 ?>

@@ -466,6 +466,22 @@ $form["tabs"]['misc'] = array (
 			'default' => '',
 			'value'  => ''
 		),
+		'custom_login_text' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => ''
+		),
+		'custom_login_link' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+				'regex' => '/^(http|https):\\/\\/.*|^$/',
+				'errmsg'=> 'login_link_error_regex'),
+			)
+		),
 		'dashboard_atom_url_admin' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
