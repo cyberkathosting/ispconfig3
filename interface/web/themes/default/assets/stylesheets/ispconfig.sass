@@ -291,3 +291,24 @@ thead.dark
   #logo
     background-image: url('../images/logo@2x.png')
     background-size: 200px 65px
+
+.input-group-field
+  display: table-cell
+  vertical-align: middle
+  border-radius: 4px
+  min-width: 1%
+  white-space: nowrap
+
+.input-group-field .form-control 
+  border-radius: inherit !important
+
+.input-group-field:not(:first-child):not(:last-child)
+  border-radius: 0
+
+.input-group-field:not(:first-child):not(:last-child) .form-control
+  border-left-width: 0
+  border-right-width: 0
+
+.input-group-field:last-child
+  border-top-left-radius: 0
+  border-bottom-left-radius: 0
