@@ -199,13 +199,15 @@ class listform {
 				$searchval = $_SESSION['search'][$list_name][$search_prefix.$field];
 				// IDN
 				if($searchval != ''){
-					foreach($i['filters'] as $searchval_filter) {
-						if($searchval_filter['event'] == 'SHOW') {
-							switch ($searchval_filter['type']) {
-							case 'IDNTOUTF8':
-								$searchval = $app->functions->idn_encode($searchval);
-								//echo $searchval;
-								break;
+					if(is_array($i['filters'])) {
+						foreach($i['filters'] as $searchval_filter) {
+							if($searchval_filter['event'] == 'SHOW') {
+								switch ($searchval_filter['type']) {
+								case 'IDNTOUTF8':
+									$searchval = $app->functions->idn_encode($searchval);
+									//echo $searchval;
+									break;
+								}
 							}
 						}
 					}
