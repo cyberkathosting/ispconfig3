@@ -287,6 +287,7 @@ class ApsGUIController extends ApsBase
 		//* Create the mysql database user if not existing
 		$tmp = $app->db->queryOneRecord("SELECT database_user_id FROM web_database_user WHERE database_user = ?", $settings['main_database_login']);
 		if(!$tmp) {
+			$tmppw = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", $settings['main_database_password']);
 			$insert_data = array("sys_userid" => $websrv['sys_userid'],
 								 "sys_groupid" => $websrv['sys_groupid'],
 								 "sys_perm_user" => 'riud',
@@ -295,7 +296,7 @@ class ApsGUIController extends ApsBase
 								 "server_id" => 0,
 								 "database_user" => $settings['main_database_login'],
 								 "database_user_prefix" => $dbuser_prefix,
-								 "database_password" => "PASSWORD('" . $settings['main_database_password'] . "')"
+								 "database_password" => $tmppw['crypted']
 								 );
 			$mysql_db_user_id = $app->db->datalogInsert('web_database_user', $insert_data, 'database_user_id');
 		}
