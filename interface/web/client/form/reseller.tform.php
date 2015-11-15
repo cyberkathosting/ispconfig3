@@ -584,6 +584,7 @@ $form["tabs"]['limits'] = array (
 		'mail_servers' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'MULTIPLE',
+			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
 				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
@@ -1116,6 +1117,7 @@ $form["tabs"]['limits'] = array (
 		'dns_servers' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'MULTIPLE',
+			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
 				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
@@ -1215,6 +1217,7 @@ $form["tabs"]['limits'] = array (
 		'db_servers' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'MULTIPLE',
+			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
 				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
