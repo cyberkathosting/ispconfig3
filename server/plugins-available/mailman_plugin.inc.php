@@ -73,7 +73,15 @@ class mailman_plugin {
 
 		$this->update_config();
 
-		exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
+		$pid = exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 & echo $!;");
+		// wait for /usr/lib/mailman/bin/newlist-call
+		$running = true;
+		do {
+			exec('ps -p '.intval($pid), $out);
+			if (count($out) ==1) $running=false; else sleep(1);
+			unset($out);
+		} while ($running);
+		unset($out);
 		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
