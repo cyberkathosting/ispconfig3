@@ -165,7 +165,7 @@ class postfix_server_plugin {
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$temp = exec("postconf -n virtual_transport", $out);
 				// If dovecot switch to lmtp
-				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp" {
+				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp") {
 					exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
 					exec('postfix reload');
 					$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3", "protocols = imap pop3 lmtp");
@@ -173,11 +173,12 @@ class postfix_server_plugin {
 				}
 			} else {
 				// If dovecot switch to dovecot
-				if($out[0] != "virtual_transport = dovecot" {
+				if($out[0] != "virtual_transport = dovecot") {
 					exec("postconf -e 'virtual_transport = dovecot'");
 					exec('postfix reload');
 					$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3 lmtp", "protocols = imap pop3");
 					exec($conf['init_scripts'] . '/' . 'dovecot restart');
+				}
 			}
 		}
 
