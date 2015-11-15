@@ -162,8 +162,8 @@ class postfix_server_plugin {
 		}		
 		
 		if($app->system->is_installed('dovecot')) {
+			$temp = exec("postconf -n virtual_transport", $out);
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
-				$temp = exec("postconf -n virtual_transport", $out);
 				// If dovecot switch to lmtp
 				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp") {
 					exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
