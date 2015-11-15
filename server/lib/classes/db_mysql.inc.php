@@ -648,7 +648,7 @@ class db extends mysqli
 		
 		$old_rec = array();
 		$index_value = $this->insertID();
-		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ? = ?", $tablename, $index_field, $index_value);
+		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 
 		return $index_value;
