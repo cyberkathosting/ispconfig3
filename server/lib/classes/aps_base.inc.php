@@ -65,7 +65,7 @@ class ApsBase
 		$this->log_prefix = $log_prefix;
 		$this->interface_mode = $interface_mode;
 		$this->fetch_url = 'apscatalog.com';
-		$this->aps_version = '1';
+		$this->aps_version = '1.2';
 		$this->packages_dir = ISPC_ROOT_PATH.'/aps_packages';
 		$this->interface_pkg_dir = ISPC_ROOT_PATH.'/web/sites/aps_meta_packages';
 	}
