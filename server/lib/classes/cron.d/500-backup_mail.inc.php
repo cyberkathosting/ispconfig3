@@ -198,13 +198,18 @@ class cronjob_backup_mail extends cronjob {
 
 						/* remove archives */
 						$mail_backup_dir = realpath($backup_dir.'/mail'.$domain_rec['domain_id']);
-						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
+						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_';
 						if(is_dir($mail_backup_dir)) {
 							$dir_handle = opendir($mail_backup_dir.'/');
 							while ($file = readdir($dir_handle)) {
 								if(!is_dir($file)) {
-									unlink ("$mail_backup_dir/"."$file");
+									if(substr($file,0,strlen($mail_backup_file)) == $mail_backup_file) {
+										unlink ($mail_backup_dir.'/'.$file);
+									}
 								}
+							}
+							if(count(glob($mail_backup_dir."/*", GLOB_NOSORT)) === 0) {
+								rmdir($mail_backup_dir);
 							}
 						}
 						/* remove backups from db */
