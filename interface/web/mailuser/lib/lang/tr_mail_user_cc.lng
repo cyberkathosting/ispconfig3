@@ -1,9 +1,9 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Send copy to email address';
-$wb['cc_txt'] = 'Send copy to';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['mailbox_cc_txt'] = 'Kopyanın gönderileceği e-posta adresi';
+$wb['cc_txt'] = 'Şuraya kopya gönder';
+$wb['email_txt'] = 'E-posta';
+$wb['cc_error_isemail'] = '-Şuraya kopya gönder- e-posta adresi geçersiz';
+$wb['email_is_cc_error'] = 'E-posta adresi ile kopyanın gönderileceği adres aynı olamaz.';
+$wb['name_optional_txt'] = '(İsteğe bağlı)';
+$wb['cc_note_txt'] = '(Birden çok e-posta adresini vürgül ile ayırarak yazın)';
 ?>

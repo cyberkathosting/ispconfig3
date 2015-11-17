@@ -1,3 +1,4 @@
 <?php
-$wb['faq_section_name_txt'] = 'Section Name';
+$wb['faq_section_name_txt'] = 'Bölüm Adı';
 ?>
+

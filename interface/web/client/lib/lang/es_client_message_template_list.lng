@@ -1,5 +1,5 @@
 <?php
 $wb['list_head_txt'] = 'Plantillas de correo';
 $wb['template_type_txt'] = 'Mensaje para';
-$wb['template_name_txt'] = 'Nombre de plantilla';
+$wb['template_name_txt'] = 'Nombre de la plantilla';
 ?>

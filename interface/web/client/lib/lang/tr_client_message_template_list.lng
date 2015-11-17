@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Email templates';
-$wb['template_type_txt'] = 'Message for';
-$wb['template_name_txt'] = 'Template name';
+$wb['list_head_txt'] = 'E-posta Kalıpları';
+$wb['template_type_txt'] = 'İleti grubu';
+$wb['template_name_txt'] = 'Kalıp adı';
 ?>

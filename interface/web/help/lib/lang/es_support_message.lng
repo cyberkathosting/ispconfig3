@@ -1,15 +1,15 @@
 <?php
-$wb['recipient_id_txt'] = 'ID Destinatario';
-$wb['sender_id_txt'] = 'ID Remitente';
+$wb['recipient_id_txt'] = 'ID del receptor';
+$wb['sender_id_txt'] = 'ID del remitente';
 $wb['subject_txt'] = 'Asunto';
 $wb['message_txt'] = 'Mensaje';
-$wb['tstamp_txt'] = 'Hora';
-$wb['reply_txt'] = 'Responder';
+$wb['tstamp_txt'] = 'Marca de tiempo';
+$wb['reply_txt'] = 'Respuesta';
 $wb['date_txt'] = 'Fecha';
-$wb['support_request_subject_txt'] = 'Petición de soporte';
-$wb['support_request_txt'] = 'Tienes una petición de soporte. Por favor no responda a este correo, procese la petición de soporte desde el panel de gestión.';
-$wb['answer_to_support_request_txt'] = 'Tienes una respuesta a tu petición de soporte. Por favor no responda a este correo, responda el correo desde el panel de gestión.';
-$wb['answer_to_support_request_sent_txt'] = 'Se ha enviado tu respuesta a la petición de soporte. Por favor no responda a este correo.';
-$wb['support_request_sent_txt'] = 'Se ha enviado tu petición de soporte. Por favor no responda a este correo.';
-$wb['recipient_or_sender_email_address_not_valid_txt'] = 'No se pudo enviar el mensaje porque el destinatario y/o remitente no es válido.';
+$wb['support_request_subject_txt'] = 'Solicitud de soporte';
+$wb['support_request_txt'] = 'Usted ha recibido una solicitud de soporte. Por favor no responda a este correo, pero procese la solicitud en el panel de control ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'Usted ha recibido una respuesta a su solicitud de soporte. Por favor no responda a este mensaje, pero procese la información en el panel de control ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'Su respuesta a la solicitud de soporte fue enviada. Por favor no responda a este mensaje.';
+$wb['support_request_sent_txt'] = 'Su solicitud de soporte fue enviada. Por favor no responda este mensaje.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'El mensaje no pudo ser enviado ya que el correo del remitente y/o el correo del destinatario no es correcto.';
 ?>

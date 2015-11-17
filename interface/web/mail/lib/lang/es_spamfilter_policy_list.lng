@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Política de filtrado de spam';
+$wb['list_head_txt'] = 'Directivas de filtro de spam';
 $wb['policy_name_txt'] = 'Nombre';
-$wb['virus_lover_txt'] = 'Quiere virus';
-$wb['spam_lover_txt'] = 'Quiere spam';
-$wb['banned_files_lover_txt'] = 'Quiere archivos prohibidos';
-$wb['bad_header_lover_txt'] = 'Quiere cabeceras malas';
-$wb['add_new_record_txt'] = 'Añadir nueva política de spam';
+$wb['virus_lover_txt'] = 'Acepta virus';
+$wb['spam_lover_txt'] = 'Acepta spam';
+$wb['banned_files_lover_txt'] = 'Acepta archivos bloqueados';
+$wb['bad_header_lover_txt'] = 'Acepta cabeceras incorrectas';
+$wb['add_new_record_txt'] = 'Añadir registro de directivas';
 ?>

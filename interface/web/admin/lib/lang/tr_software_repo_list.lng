@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Depo';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Depolar';
+$wb['active_txt'] = 'Etkin';
 $wb['repo_name_txt'] = 'Depo';
-$wb['repo_url_txt'] = 'URL';
+$wb['repo_url_txt'] = 'İnternet Adresi';
 ?>

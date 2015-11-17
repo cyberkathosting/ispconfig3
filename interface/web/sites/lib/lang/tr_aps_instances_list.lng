@@ -1,11 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
-$wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
+$wb['list_head_txt'] = 'Yüklü Paketler';
+$wb['name_txt'] = 'Ad';
+$wb['version_txt'] = 'Sürüm';
+$wb['customer_txt'] = 'Müşteri';
+$wb['status_txt'] = 'Durum';
+$wb['install_location_txt'] = 'Yükleme Konumu';
+$wb['pkg_delete_confirmation'] = 'Bu yüklemeyi silmek istediğinize emin misiniz?';
+$wb['pkg_reinstall_confirmation'] = 'Bu paketi aynı ayarlar ile yeniden yüklemek istediğinize emin misiniz?';
+$wb['filter_txt'] = 'Arama';
+$wb['delete_txt'] = 'Sil';
+$wb['reinstall_txt'] = 'Yeniden Yükle';
 ?>

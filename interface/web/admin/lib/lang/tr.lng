@@ -1,50 +1,60 @@
 <?php
-$wb['1001'] = 'Username or password is empty.';
-$wb['1002'] = 'Username or password is wrong.';
+$wb['1001'] = 'Kullanıcı adı ya da parola boş.';
+$wb['1002'] = 'Kullanıcı adı ya da parola hatalı.';
+
 $wb['Groups'] = 'Gruplar';
-$wb['groups_description'] = 'Sistem kullanıcılarını düzenleme formu.';
+$wb['groups_description'] = 'Sistem kullanıcısı gruplarını düzenleme formu.';
+
 $wb['Servers'] = 'Sunucular';
-$wb['Config'] = 'Config';
+$wb['Config'] = 'Ayarlar';
+
 $wb['Add user'] = 'Kullanıcı ekle';
-$wb['Edit user'] = 'Kullanıcı düzenle';
+$wb['Edit user'] = 'Kullanıcıyı düzenle';
 $wb['Add group'] = 'Grup ekle';
-$wb['Edit group'] = 'Grup düzenle';
-$wb['Edit server'] = 'Sunucu düzenle';
-$wb['Sync. Now'] = 'Sync. Now';
-$wb['DB Sync.'] = 'DB Sync.';
-$wb['User Management'] = 'User Management';
-$wb['CP Users'] = 'CP Kullanıcıları';
-$wb['Remote Users'] = 'Remote Users';
+$wb['Edit group'] = 'Grubu düzenle';
+$wb['Edit server'] = 'Sunucuyu düzenle';
+
+$wb['Sync. Now'] = 'Şimdi Eşleştir';
+$wb['DB Sync.'] = 'Veritabanı Eşleştirme';
+
+$wb['User Management'] = 'Kullanıcı Yönetimi';
+$wb['CP Users'] = 'Panel Kullanıcıları';
+$wb['Remote Users'] = 'Uzak Kullanıcılar';
+
 $wb['System'] = 'Sistem';
-$wb['Server Services'] = 'Server Services';
-$wb['Services'] = 'Servisler';
-$wb['Server Config'] = 'Sunucu Konfigurasyonu';
+$wb['Server Services'] = 'Sunucu Hizmetleri';
+$wb['Services'] = 'Hizmetler';
+$wb['Server Config'] = 'Sunucu Ayarları';
 $wb['Server'] = 'Sunucu';
-$wb['Mail'] = 'Mail';
+$wb['Mail'] = 'E-posta';
 $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Web';
 $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
-$wb['Rescue'] = 'Rescue';
-$wb['Server IP addresses'] = 'Sunucu IP düzenle';
-$wb['Additional PHP Versions'] = 'Additional PHP Versions';
-$wb['Firewall'] = 'Firewall';
-$wb['Interface'] = 'Interface';
-$wb['Interface Config'] = 'Main Config';
-$wb['Domains'] = 'Domains';
-$wb['Misc'] = 'Misc';
-$wb['Software'] = 'Yazılım';
+$wb['Rescue'] = 'Kurtarma';
+$wb['Server IP addresses'] = 'Sunucu IP Adresleri';
+$wb['Additional PHP Versions'] = 'Diğer PHP Sürümleri';
+$wb['Directive Snippets'] = 'Yönerge Parçacıkları';
+$wb['Firewall'] = 'Güvenlik Duvarı';
+
+$wb['Interface'] = 'Arayüz';
+$wb['Interface Config'] = 'Temel Ayarlar';
+$wb['Domains'] = 'Alan Adları';
+$wb['Misc'] = 'Çeşitli';
+
+$wb['Software'] = 'Uygulama ve Eklentiler';
 $wb['Repositories'] = 'Depolar';
-$wb['Packages'] = 'Packages';
-$wb['Updates'] = 'Updates';
-$wb['Language Editor'] = 'Dil Editörü';
-$wb['Languages'] = 'Diller';
-$wb['New Language'] = 'Yeni Dil';
-$wb['Merge'] = 'Merge';
-$wb['Export'] = 'Dışa aktar';
-$wb['Import'] = 'İçe aktar';
-$wb['Remote Actions'] = 'Remote Actions';
-$wb['Do OS-Update'] = 'Do OS-Update';
-$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
-$wb['Directive Snippets'] = 'Directive Snippets';
+$wb['Packages'] = 'Paketler';
+$wb['Updates'] = 'Güncellemeler';
+
+$wb['Language Editor'] = 'Dil İşlemleri';
+$wb['Languages'] = 'Dil Dosyaları';
+$wb['New Language'] = 'Dil Ekleme';
+$wb['Merge'] = 'Dil Birleştirme';
+$wb['Export'] = 'Dil İndirme';
+$wb['Import'] = 'Dil Yükleme';
+
+$wb['Remote Actions'] = 'Uzak İşlemler';
+$wb['Do OS-Update'] = 'İşletim Sistemi Güncelleme';
+$wb['Do ISPConfig-Update'] = 'ISPConfig Güncelleme';
 ?>

@@ -2,13 +2,13 @@
 $wb['web_folder_id_txt'] = 'Carpeta';
 $wb['username_txt'] = 'Nombre de usuario';
 $wb['password_txt'] = 'Contraseña';
-$wb['active_txt'] = 'Activar';
-$wb['folder_error_empty'] = 'Ninguna carpeta web selecionada.';
-$wb['password_strength_txt'] = 'Fortaleza de contraseña';
+$wb['active_txt'] = 'Habilitado';
+$wb['folder_error_empty'] = 'No ha seleccionado una carpeta web.';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 $wb['generate_password_txt'] = 'Generar contraseña';
 $wb['repeat_password_txt'] = 'Repetir contraseña';
 $wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
 $wb['password_match_txt'] = 'Las contraseñas coinciden.';
-$wb['no_folder_perm'] = 'No tienes permiso en esta carpeta.';
-$wb['error_user_exists_already_txt'] = 'Ya hay un registro para este usuario.';
+$wb['no_folder_perm'] = 'Usted no tiene permisos en esta carpeta.';
+$wb['error_user_exists_already_txt'] = 'Ya existe un registro para este usuario.';
 ?>

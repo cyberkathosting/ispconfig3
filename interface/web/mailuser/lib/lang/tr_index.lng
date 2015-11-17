@@ -1,12 +1,12 @@
 <?php
-$wb['page_head_txt'] = 'Mailbox settings';
-$wb['page_desc_txt'] = 'Here you can edit the settings for the email account.';
-$wb['email_txt'] = 'Email address';
-$wb['login_txt'] = 'Login';
-$wb['server_address_txt'] = 'Mailserver address';
-$wb['cc_txt'] = 'Send copy to (CC)';
-$wb['quota_txt'] = 'Mailbox size';
-$wb['unlimited_txt'] = 'Unlimited';
+$wb['page_head_txt'] = 'Posta Kutusu Ayarları';
+$wb['page_desc_txt'] = 'E-posta hesabı ayarları buradan yapılabilir.';
+$wb['email_txt'] = 'E-posta adresi';
+$wb['login_txt'] = 'Kullanıcı Adı';
+$wb['server_address_txt'] = 'Posta sunucusu adresi';
+$wb['cc_txt'] = 'Kopya adresi (CC)';
+$wb['quota_txt'] = 'Posta kutusu boyutu';
+$wb['unlimited_txt'] = 'Sınırsız';
 $wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'None';
+$wb['none_txt'] = 'Yok';
 ?>

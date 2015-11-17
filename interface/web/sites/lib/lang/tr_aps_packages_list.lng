@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Available packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['category_txt'] = 'Category';
-$wb['status_txt'] = 'Unlocked';
-$wb['filter_txt'] = 'Search';
+$wb['list_head_txt'] = 'Kullanılabilecek Paketler';
+$wb['name_txt'] = 'Ad';
+$wb['version_txt'] = 'Sürüm';
+$wb['category_txt'] = 'Kategori';
+$wb['status_txt'] = 'Kilitlenmemiş';
+$wb['filter_txt'] = 'Arama';
 ?>

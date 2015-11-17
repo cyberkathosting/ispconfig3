@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Yazılım güncelleştirmeleri';
-$wb['server_select_txt'] = 'Sunucu seç';
-$wb['installed_txt'] = 'Eylem';
+$wb['list_head_txt'] = 'Yazılım Güncellemeleri';
+$wb['server_select_txt'] = 'Sunucu seçin';
+$wb['installed_txt'] = 'İşlem';
 $wb['update_title_txt'] = 'Güncelleme';
-$wb['version_txt'] = 'Versiyon';
-$wb['action_txt'] = 'Eylem';
-$wb['no_updates_txt'] = 'No updates available';
+$wb['version_txt'] = 'Sürüm';
+$wb['action_txt'] = 'İşlem';
+$wb['no_updates_txt'] = 'Henüz bir güncelleme yok';
 ?>
+

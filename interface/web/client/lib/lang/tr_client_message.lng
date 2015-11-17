@@ -1,20 +1,21 @@
 <?php
-$wb['btn_send_txt'] = 'Send email';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['sender_txt'] = 'Sender email address';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['form_legend_client_txt'] = 'Send email message to all clients.';
-$wb['form_legend_admin_txt'] = 'Send email message to all clients and resellers.';
-$wb['sender_invalid_error'] = 'Sender email invalid.';
-$wb['subject_invalid_error'] = 'Subject is empty.';
-$wb['message_invalid_error'] = 'Message is empty.';
-$wb['email_sent_to_txt'] = 'Email sent to:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Recipient';
-$wb['all_clients_resellers_txt'] = 'All clients and resellers';
-$wb['all_clients_txt'] = 'All clients';
-$wb['variables_txt'] = 'Variables:';
-$wb['gender_m_txt'] = 'Mr.';
-$wb['gender_f_txt'] = 'Ms.';
+$wb['page_head_txt'] = 'Müşterilere Bilgi Gönderme';
+$wb['btn_send_txt'] = 'E-posta Gönder';
+$wb['btn_cancel_txt'] = 'Geri';
+$wb['sender_txt'] = 'Gönderen e-posta adresi';
+$wb['subject_txt'] = 'Konu';
+$wb['message_txt'] = 'İleti';
+$wb['form_legend_client_txt'] = 'Müşterilere e-posta gönderin.';
+$wb['form_legend_admin_txt'] = 'Müşteri ve bayilere e-posta gönderin.';
+$wb['sender_invalid_error'] = 'Gönderen e-posta adresi geçersiz.';
+$wb['subject_invalid_error'] = 'Konu boş olamaz.';
+$wb['message_invalid_error'] = 'İleti boş olamaz.';
+$wb['email_sent_to_txt'] = 'E-posta alıcıları:';
+$wb['recipient_txt'] = 'Alıcı';
+$wb['all_clients_resellers_txt'] = 'Tüm müşteri ve bayiler';
+$wb['all_clients_txt'] = 'Tüm müşteriler';
+$wb['variables_txt'] = 'Değişkenler:';
+$wb['gender_m_txt'] = 'Bay';
+$wb['gender_f_txt'] = 'Bayan';
 ?>
+

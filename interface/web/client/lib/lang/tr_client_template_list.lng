@@ -1,6 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Müşteri-Şablon';
-$wb['template_type_txt'] = 'Çeşit';
-$wb['template_name_txt'] = 'Şablon adı';
-$wb['template_id_txt'] = 'Template ID';
+$wb['list_head_txt'] = 'Müşteri ve Bayi Kalıpları';
+$wb['template_type_txt'] = 'Tip';
+$wb['template_name_txt'] = 'Kalıp adı';
+$wb['template_id_txt'] = 'Kalıp kodu';
 ?>
+

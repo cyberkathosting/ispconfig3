@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Domain alias';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Takma Alan Adı';
+$wb['active_txt'] = 'Etkin';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_txt'] = 'Hedef';
-$wb['add_new_record_txt'] = 'Yeni Domain alias ekle';
+$wb['source_txt'] = 'Kaynak';
+$wb['add_new_record_txt'] = 'Takma Alan Adı Ekle';
 ?>

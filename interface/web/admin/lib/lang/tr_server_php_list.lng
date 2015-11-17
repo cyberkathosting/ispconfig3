@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Additional PHP Versions';
-$wb['server_id_txt'] = 'Server';
-$wb['add_new_record_txt'] = 'Add new PHP version';
-$wb['client_id_txt'] = 'Client';
-$wb['name_txt'] = 'PHP Name';
+$wb['list_head_txt'] = 'Diğer PHP Sürümleri';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['add_new_record_txt'] = 'PHP Sürümü Ekle';
+$wb['client_id_txt'] = 'Müşteri';
+$wb['name_txt'] = 'PHP Adı';
 ?>
+

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Mail kutusu';
-$wb['email_txt'] = 'Email';
-$wb['autoresponder_txt'] = 'Otomatik cevaplayıcı';
-$wb['add_new_record_txt'] = 'Yeni Mail kutusu';
-$wb['name_txt'] = 'Gerçek ad';
-$wb['login_txt'] = 'Login';
+$wb['list_head_txt'] = 'Posta Kutusu';
+$wb['email_txt'] = 'E-posta';
+$wb['autoresponder_txt'] = 'Otomatik Yanıtlayıcı';
+$wb['add_new_record_txt'] = 'Posta Kutusu Ekle';
+$wb['name_txt'] = 'Gerçek Ad';
+$wb['login_txt'] = 'Oturum Aç';
 ?>

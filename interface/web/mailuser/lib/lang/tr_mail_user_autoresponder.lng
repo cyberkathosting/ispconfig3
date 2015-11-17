@@ -1,13 +1,14 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Autoresponder';
-$wb['autoresponder_subject'] = 'Out of office reply';
-$wb['autoresponder_text_txt'] = 'Text';
-$wb['autoresponder_txt'] = 'Active';
-$wb['autoresponder_start_date_txt'] = 'Start on';
-$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
-$wb['autoresponder_end_date_txt'] = 'End by';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
-$wb['now_txt'] = 'Now';
-$wb['autoresponder_subject_txt'] = 'Betreff';
+$wb['mailbox_autoresponder_txt'] = 'Otomatik Yanıtlayıcı';
+$wb['autoresponder_subject'] = 'Ofis dışında yanıtı';
+$wb['autoresponder_text_txt'] = 'Metin';
+$wb['autoresponder_txt'] = 'Etkin';
+$wb['autoresponder_start_date_txt'] = 'Başlangıç';
+$wb['autoresponder_start_date_isfuture'] = 'Başlangıç tarihi geçmiş zamanda olamaz.';
+$wb['autoresponder_end_date_txt'] = 'Bitiş';
+$wb['autoresponder_end_date_isgreater'] = 'Bitiş tarihi başlangıç tarihinden sonra olmalıdır.';
+$wb['autoresponder_active'] = 'Etkinleştir';
+$wb['now_txt'] = 'Şimdi';
+$wb['autoresponder_subject_txt'] = 'Otoyanıt';
 ?>
+

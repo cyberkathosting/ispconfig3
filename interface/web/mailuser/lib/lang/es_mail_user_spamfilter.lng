@@ -2,6 +2,6 @@
 $wb['mailbox_spamfilter_txt'] = 'Filtro de spam';
 $wb['spamfilter_txt'] = 'Filtro de spam';
 $wb['email_txt'] = 'Correo';
-$wb['no_policy'] = '- no activado -';
-$wb['policy_txt'] = 'Política';
+$wb['no_policy'] = '- no habilitado -';
+$wb['policy_txt'] = 'Directiva';
 ?>

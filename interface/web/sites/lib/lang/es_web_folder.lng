@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Sitio web';
 $wb['path_txt'] = 'Ruta';
-$wb['active_txt'] = 'Activar';
-$wb['path_error_regex'] = 'Ruta del archivo invalida.';
-$wb['error_folder_already_protected_txt'] = 'Ya hay un registro para esta carpeta.';
+$wb['active_txt'] = 'Habilitado';
+$wb['path_error_regex'] = 'La ruta a la carpeta en inválida.';
+$wb['error_folder_already_protected_txt'] = 'Ya existe un registro para esta carpeta.';
 ?>

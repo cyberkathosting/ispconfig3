@@ -1,9 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'DNS Secondary Zones';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['origin_txt'] = 'Zone';
-$wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Add new secondary DNS Zone';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['list_head_txt'] = 'İkincil DNS Bölgeleri';
+$wb['active_txt'] = 'Etkin';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['origin_txt'] = 'Bölge';
+$wb['ns_txt'] = 'Ad Sunucusu';
+$wb['add_new_record_txt'] = 'İkincil DNS Bölgesi Ekle';
+$wb['eg_domain_tld'] = 'Örnek: domain.tld.';
 ?>
+

@@ -1,12 +1,12 @@
 <?php
 $wb['page_head_txt'] = 'Configuración del buzón';
-$wb['page_desc_txt'] = 'Aquí puedes editar la configuración de tu cuenta de correo.';
+$wb['page_desc_txt'] = 'Aquí puede editar la configuración de la cuenta de correo.';
 $wb['email_txt'] = 'Dirección de correo';
-$wb['login_txt'] = 'Usuario';
-$wb['server_address_txt'] = 'Servidor de correo';
+$wb['login_txt'] = 'Iniciar sesión';
+$wb['server_address_txt'] = 'Dirección del servidor de correo';
 $wb['cc_txt'] = 'Enviar copia a (CC)';
-$wb['quota_txt'] = 'Espacio del buzón';
+$wb['quota_txt'] = 'Tamaño del buzón';
 $wb['unlimited_txt'] = 'Ilimitado';
 $wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'Ninguna';
+$wb['none_txt'] = 'Ninguno';
 ?>

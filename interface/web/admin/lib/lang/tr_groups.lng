@@ -1,5 +1,5 @@
 <?php
 $wb['description_txt'] = 'Açıklama';
 $wb['name_txt'] = 'Grup';
-$wb['name_err'] = 'Grup ismi 1-30 karakter arasında olmalı.';
+$wb['name_err'] = 'Grup 1-30 karakter arasında olmalı.';
 ?>

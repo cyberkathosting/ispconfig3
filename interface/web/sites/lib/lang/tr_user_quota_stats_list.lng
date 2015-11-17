@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Website harddisk quota';
-$wb['domain_txt'] = 'Domain / Website';
-$wb['system_user_txt'] = 'Linux user';
-$wb['used_txt'] = 'Used space';
-$wb['hard_txt'] = 'Hard limit';
-$wb['soft_txt'] = 'Soft limit';
-$wb['files_txt'] = 'Single files';
+$wb['list_head_txt'] = 'Web Sitesi Disk Kotası';
+$wb['domain_txt'] = 'Alan Adı / Web Sitesi';
+$wb['system_user_txt'] = 'Linux Kullanıcısı';
+$wb['used_txt'] = 'Kullanılan Alan';
+$wb['hard_txt'] = 'Donanım Sınırı';
+$wb['soft_txt'] = 'Yazılım Sınırı';
+$wb['files_txt'] = 'Dosya Sayısı';
 ?>

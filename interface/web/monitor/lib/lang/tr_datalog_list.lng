@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'İş Kuyruğu';
 $wb['tstamp_txt'] = 'Tarih';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['dbtable_txt'] = 'DB Tablo';
-$wb['action_txt'] = 'Eylem';
+$wb['dbtable_txt'] = 'Veritabanı Tablosu';
+$wb['action_txt'] = 'İşlem';
 $wb['status_txt'] = 'Durum';
 ?>

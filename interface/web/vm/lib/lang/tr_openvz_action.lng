@@ -1,16 +1,18 @@
 <?php
-$wb['head_txt'] = 'Virtual server actions for VM:';
-$wb['start_txt'] = 'Start virtual server';
-$wb['stop_txt'] = 'Stop virtual server';
-$wb['restart_txt'] = 'Restart virtual server';
-$wb['ostemplate_txt'] = 'Create OSTemplate';
-$wb['ostemplate_desc_txt'] = '(example: debian-6.0-i386-custom)';
-$wb['btn_save_txt'] = 'Execute selected action';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['start_exec_txt'] = 'Start command has been sent to the VM host server. It may take a minute until the VM is started.';
-$wb['stop_exec_txt'] = 'Stop command has been sent to the VM host server. It may take a minute until the VM is stopped.';
-$wb['restart_exec_txt'] = 'Restart command has been sent to the VM host server. It may take a minute until the VM is restarted.';
-$wb['ostemplate_name_error'] = 'The OSTemplate name conatains unallowed characters.';
-$wb['ostemplate_name_unique_error'] = 'There is already a OSTemplate with that name.';
-$wb['ostemplate_exec_txt'] = 'The command to create a OSTemplate has been sent to the host server. It will take several minutes until the OSTemplate has been created.';
+$wb['head_txt'] = 'VM Sanal Sunucu İşlemleri:';
+$wb['start_txt'] = 'Sanal sunucuyu başlat';
+$wb['stop_txt'] = 'Sanal sunucuyu durdur';
+$wb['restart_txt'] = 'Sanal sunucuyu yeniden başlat';
+$wb['ostemplate_txt'] = 'OS Kalıbı Oluştur';
+$wb['ostemplate_desc_txt'] = '(örnek: debian-6.0-i386-custom)';
+$wb['btn_save_txt'] = 'Seçilmiş işlemi yürüt';
+$wb['btn_cancel_txt'] = 'Geri';
+$wb['start_exec_txt'] = 'VM sunucusuna başlatma komutu gönderildi. VM başlatılana kadar bir dakika geçebilir.';
+$wb['stop_exec_txt'] = 'VM sunucusuna durdurma komutu gönderildi. VM durdurulana kadar bir dakika geçebilir.';
+$wb['restart_exec_txt'] = 'VM sunucusuna yeniden başlatma komutu gönderildi. VM yeniden başlatılana kadar bir dakika geçebilir.';
+$wb['ostemplate_name_error'] = 'OS kalıbı adında izin verilmeyen karakterler var.';
+$wb['ostemplate_name_unique_error'] = 'Aynı adlı bir işletim sistemi kalıbı zaten var.';
+$wb['ostemplate_exec_txt'] = 'VM sunucusuna işletim sistemi kalıbı oluşturma komutu gönderildi. İşletim sistemi kalıbının oluşturulması bir kaç dakika alabilir.';
+
 ?>
+

@@ -4,9 +4,9 @@ $wb['wb_txt'] = 'wb';
 $wb['rid_txt'] = 'Usuario';
 $wb['email_txt'] = 'Correo';
 $wb['priority_txt'] = 'Prioridad';
-$wb['active_txt'] = 'Activar';
-$wb['limit_spamfilter_wblist_txt'] = 'Se ha alcanzado el número máximo de registros de lista blanca o negra de su cuenta';
-$wb['10 - highest'] = '10 - máxima';
-$wb['5 - medium'] = '5 - media';
-$wb['1 - lowest'] = '1 - mínima';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_spamfilter_wblist_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros en lista blanca o negra .';
+$wb['10 - highest'] = '10 - más alto';
+$wb['5 - medium'] = '5 - mediano';
+$wb['1 - lowest'] = '1 - más bajo';
 ?>

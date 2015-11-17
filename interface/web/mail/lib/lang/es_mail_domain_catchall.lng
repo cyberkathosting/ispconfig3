@@ -1,11 +1,11 @@
 <?php
 $wb['domain_txt'] = 'Dominio';
-$wb['destination_txt'] = 'Destino';
-$wb['active_txt'] = 'Activar';
-$wb['domain_error_unique'] = 'Ya hay un registro recoge todo para este dominio';
-$wb['no_domain_perm'] = 'No tiene permiso para administrar este dominio';
-$wb['domain_error_regex'] = 'El nombre de dominio no es válido o contiene caracteres no válidos';
-$wb['limit_mailcatchall_txt'] = 'Se ha alcanzado el número máximo de cuentas recoge-todo de este dominio';
+$wb['destination_txt'] = 'Correo de destino';
+$wb['active_txt'] = 'Habilitado';
+$wb['domain_error_unique'] = 'Ya existe un receptor de correos huérfanos en este dominio.';
+$wb['no_domain_perm'] = 'Usted no tiene permisos en este dominio.';
+$wb['domain_error_regex'] = 'Nombre de dominio inválido o este contiene caracteres no permitidos.';
+$wb['limit_mailcatchall_txt'] = 'Ha alcanzado en su cuenta el número máx. de receptores de correos huérfanos.';
 $wb['source_txt'] = 'Origen';
-$wb['destination_error_isemail'] = 'Destino no es una dirección de correo electrónico válida.';
+$wb['destination_error_isemail'] = 'El destinatario no es una dirección de correo válida.';
 ?>

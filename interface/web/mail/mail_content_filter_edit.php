@@ -44,7 +44,7 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');
 
-if(!$_SESSION["s"]["user"]["typ"] == 'admin') die('These Filters are only for Admins.');
+if($_SESSION["s"]["user"]["typ"] != 'admin') die('These Filters are only for Admins.');
 
 
 // Loading classes

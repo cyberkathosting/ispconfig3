@@ -2,7 +2,7 @@
 $wb['mailquota_txt'] = 'Cuota de buzones';
 $wb['email_txt'] = 'Dirección de correo';
 $wb['name_txt'] = 'Nombre';
-$wb['used_txt'] = 'Espacio Usado';
+$wb['used_txt'] = 'Espacio usado';
 $wb['quota_txt'] = 'Cuota';
 $wb['no_email_accounts_txt'] = 'No se encontraron cuentas de correo.';
 ?>

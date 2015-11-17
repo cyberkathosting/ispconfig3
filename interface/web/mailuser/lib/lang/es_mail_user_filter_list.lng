@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Reglas de filtro de correo';
 $wb['rulename_txt'] = 'Nombre';
-$wb['add_new_record_txt'] = 'Añadir nuevo filtro';
+$wb['add_new_record_txt'] = 'Añadir filtro';
 $wb['page_txt'] = 'Página';
 $wb['page_of_txt'] = 'de';
-$wb['delete_confirmation'] = '¿Realmente quiere eliminar este filtro?';
+$wb['delete_confirmation'] = 'Realmente desea borrar el filtro de correo?';
 ?>

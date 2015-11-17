@@ -1,19 +1,19 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre de la máquina';
-$wb['type_txt'] = 'tipo';
+$wb['name_txt'] = 'Nombre del host';
+$wb['type_txt'] = 'Tipo';
 $wb['data_txt'] = 'Texto';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Activar';
-$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registro DNS de esta cuenta.';
-$wb['no_zone_perm'] = 'No tiene permiso para añadir registros a esta zona DNS.';
-$wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
-$wb['name_error_regex'] = 'El formato del nombre de la máquina es incorrecto.';
-$wb['data_error_empty'] = 'Texto vacío.';
-$wb['data_error_regex'] = 'Formato de texto no válido';
-$wb['ttl_range_error'] = 'TTL mínimo es 60 segundos';
 $wb['invalid_type_dkim'] = 'DKIM is not allowed. Use the DKIM button';
 $wb['invalid_type_dmarc'] = 'DMARC is not allowed. Use the DMARC button';
 $wb['invalid_type_spf'] = 'SPF is not allowed. Use the SPF button.';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_dns_record_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros DNS.';
+$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona de DNS.';
+$wb['name_error_empty'] = 'El nombre del host está vacío.';
+$wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
+$wb['data_error_empty'] = 'Texto vacío';
+$wb['data_error_regex'] = 'Formato incorrecto de texto.';
+$wb['ttl_range_error'] = 'El tiempo min. para TTL es de 60 segundos.';
 ?>

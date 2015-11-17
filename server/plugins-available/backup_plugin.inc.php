@@ -137,6 +137,7 @@ class backup_plugin {
 
 				//* Restore a web backup
 				if($action_name == 'backup_restore' && $backup['backup_type'] == 'web') {
+					$app->system->web_folder_protection($web['document_root'], false);
 					if($backup['backup_mode'] == 'userzip') {
 						if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 							if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename'].'.bak');
@@ -157,6 +158,7 @@ class backup_plugin {
 							$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 						}
 					}
+					$app->system->web_folder_protection($web['document_root'], true);
 				}
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {

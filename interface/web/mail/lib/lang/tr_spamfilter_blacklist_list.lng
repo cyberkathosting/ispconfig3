@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Spamfilter Blacklist';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Önemsiz Posta Kara Listesi';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['priority_txt'] = 'Öncelik';
 $wb['rid_txt'] = 'Kullanıcı';
-$wb['email_txt'] = 'Karalistedeki Emailler';
-$wb['add_new_record_txt'] = 'Yeni Karaliste Kaydı';
+$wb['email_txt'] = 'Kara Listedeki E-posta';
+$wb['add_new_record_txt'] = 'Kara Liste Kaydı Ekle';
 ?>

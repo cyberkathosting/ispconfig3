@@ -1,14 +1,14 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Import Zonefile';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['domain_txt'] = 'Domain';
-$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
-$wb['zonefile_to_import_txt'] = 'Zone File';
-$wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filename or the zone-file content.';
-$wb['title'] = 'Import Zone Files';
-$wb['no_file_uploaded_error'] = 'No zonefile uploaded';
-$wb['zone_file_import_txt'] = 'Zone File Import';
+$wb['zone_file_import_txt'] = 'Bölge Dosyası Alma';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['client_txt'] = 'Müşteri';
+$wb['btn_save_txt'] = 'Bölge Dosyasını Al';
+$wb['btn_cancel_txt'] = 'Geri';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['zone_file_successfully_imported_txt'] = 'Bölge dosyası alındı!';
+$wb['error_no_valid_zone_file_txt'] = 'Bu bölge dosyası geçersiz görünüyor!';
+$wb['zonefile_to_import_txt'] = 'Bölge Dosyası';
+$wb['domain_field_desc_txt'] = 'Alan adı dosya adında ya da bölge dosyasının içeriğinde bulunuyor ise boş bırakılabilir.';
+$wb['title'] = 'Bölge Dosyalarını Al';
+$wb['no_file_uploaded_error'] = 'Hiçbir bölge dosyası yüklenmedi';
 ?>

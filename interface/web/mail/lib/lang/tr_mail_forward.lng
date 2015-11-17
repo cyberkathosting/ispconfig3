@@ -1,10 +1,11 @@
 <?php
-$wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Hedef Email';
-$wb['active_txt'] = 'Aktif';
-$wb['limit_mailforward_txt'] = 'Hesabınızdaki max. email yönlendirme sayısına ulaştınız.';
-$wb['duplicate_mailbox_txt'] = 'Bu email adresiyle bir mail kutusu zaten bulunmakta';
-$wb['domain_txt'] = 'Domain';
-$wb['source_txt'] = 'Source Email';
 $wb['greylisting_txt'] = 'Enable greylisting';
+$wb['email_txt'] = 'E-posta';
+$wb['destination_txt'] = 'Hedef E-posta';
+$wb['active_txt'] = 'Etkin';
+$wb['limit_mailforward_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla e-posta yönlendirme sayısına ulaştınız.';
+$wb['duplicate_mailbox_txt'] = 'Bu e-posta adresini kullanan bir posta kutusu zaten var';
+$wb['domain_txt'] = 'Alan Adı';
+$wb['source_txt'] = 'Kaynak E-posta';
 ?>
+

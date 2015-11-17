@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Spam filtresi';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Önemsiz Posta Süzgeci';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['server_name_txt'] = 'sunucu adı';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Yeni Spam Filtresi';
+$wb['server_name_txt'] = 'server_name';
+$wb['email_txt'] = 'E-posta';
+$wb['add_new_record_txt'] = 'Önemsiz Posta Süzgeci Ekle';
 ?>
