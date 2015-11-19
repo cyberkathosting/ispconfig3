@@ -85,8 +85,8 @@ class plugin_backuplist extends plugin_base {
 				$server_id = $this->form->dataRecord['server_id'];
 				$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ?", $backup_id);
 				if($backup['server_id'] > 0) $server_id = $backup['server_id'];
-				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = '$backup_id'";
-				$tmp = $app->db->queryOneRecord($sql);
+				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_restore' AND action_param = ?";
+				$tmp = $app->db->queryOneRecord($sql, $backup_id);
 				if($tmp['number'] == 0) {
 					$message .= $wb['restore_info_txt'];
 					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
@@ -98,22 +98,15 @@ class plugin_backuplist extends plugin_base {
 			}
 			if($_GET['backup_action'] == 'delete' && $backup_id > 0) {
 				$server_id = $this->form->dataRecord['server_id'];
-				$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ".$backup_id);
+				$backup = $app->db->queryOneRecord("SELECT * FROM web_backup WHERE backup_id = ?", $backup_id);
 				if($backup['server_id'] > 0) $server_id = $backup['server_id'];
-				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_delete' AND action_param = '$backup_id'";
-				$tmp = $app->db->queryOneRecord($sql);
+				$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = 'backup_delete' AND action_param = ?";
+				$tmp = $app->db->queryOneRecord($sql, $backup_id);
 				if($tmp['number'] == 0) {
 					$message .= $wb['delete_info_txt'];
 					$sql =  "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-						"VALUES (".
-						(int)$server_id . ", " .
-						time() . ", " .
-						"'backup_delete', " .
-						"'".$backup_id."', " .
-						"'pending', " .
-						"''" .
-						")";
-					$app->db->query($sql);
+						"VALUES (?, UNIX_TIMESTAMP(), 'backup_delete', ?, 'pending', '')";
+					$app->db->query($sql, $server_id, $backup_id);
 				} else {
 					$error .= $wb['delete_pending_txt'];
 				}
