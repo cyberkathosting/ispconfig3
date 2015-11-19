@@ -10,6 +10,10 @@ $wb['restore_info_txt'] = 'Rozpoczęło się odtwarzanie z kopii plików strony.
 $wb['restore_confirm_txt'] = 'Przywrócenie danych z kopii zapasowej zastąpi wszystkie obecnie istniejące pliki. Czy na pewno chcesz to zrobić?';
 $wb['download_pending_txt'] = 'Trwa już jedno zadanie pobrania kopii.';
 $wb['restore_pending_txt'] = 'Trwa już jedno zadanie przywrócenia danych z kopii.';
+$wb['delete_backup_txt'] = 'Delete Backup';
+$wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
+$wb['delete_confirm_txt'] = 'Really delete this backup?';
+$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['backup_type_mysql'] = 'Baza MySQL';
 $wb['backup_type_web'] = 'Pliki strony';
 ?>

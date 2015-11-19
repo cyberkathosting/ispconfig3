@@ -32,6 +32,7 @@
                                     <tmpl_if name="download_available">
 										<button class="btn btn-default formbutton-default" type="button" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=download&backup_id={tmpl_var name='backup_id'}">{tmpl_var name="download_backup_txt"}</button>
 									</tmpl_if>
+									<button class="button iconstxt icoDelete" type="button" onclick="confirm_action('sites/web_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&backup_action=delete&backup_id={tmpl_var name='backup_id'}','{tmpl_var name='delete_confirm_txt'}');"><span>{tmpl_var name="delete_backup_txt"}</span></button>
                                 </div>
                             </td>
                         </tr>

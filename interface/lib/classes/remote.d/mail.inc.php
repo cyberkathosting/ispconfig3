@@ -357,7 +357,7 @@ class remoting_mail extends remoting {
 			return false;
 		}
 	
-		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail') {
+		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail' and $action_type != 'backup_delete_mail') {
 			$this->server->fault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
