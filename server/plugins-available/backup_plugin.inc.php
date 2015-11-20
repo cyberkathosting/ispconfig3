@@ -53,9 +53,10 @@ class backup_plugin {
 		//* Register for actions
 		$app->plugins->registerAction('backup_download', $this->plugin_name, 'backup_action');
 		$app->plugins->registerAction('backup_restore', $this->plugin_name, 'backup_action');
+		$app->plugins->registerAction('backup_delete', $this->plugin_name, 'backup_action');
 		//$app->plugins->registerAction('backup_download_mail', $this->plugin_name, 'backup_action_mail');
 		$app->plugins->registerAction('backup_restore_mail', $this->plugin_name, 'backup_action_mail');
-		
+		$app->plugins->registerAction('backup_delete_mail', $this->plugin_name, 'backup_action_mail');
 	}
 
 	//* Do a backup action
@@ -160,6 +161,18 @@ class backup_plugin {
 					}
 					$app->system->web_folder_protection($web['document_root'], true);
 				}
+				
+				if($action_name == 'backup_delete') {
+					if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
+						unlink($backup_dir.'/'.$backup['filename']);
+						
+						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+						$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						$app->log('unlink '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+					}
+				}
+
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
@@ -178,14 +191,11 @@ class backup_plugin {
 		$backup_id = intval($data);
 		$mail_backup = $app->dbmaster->queryOneRecord("SELECT * FROM mail_backup WHERE backup_id = ?", $backup_id);
 	
-		if (is_array($mail_backup) && $action_name == 'backup_restore_mail') {
+		if (is_array($mail_backup)) {
 			$app->uses('ini_parser,file,getconf');
 	
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-			$backup_dir = trim($server_config['backup_dir']);
-
-            if($backup_dir == '') return;
-
+			$backup_dir = $server_config['backup_dir'];
 			$backup_dir_is_ready = true;
 	
 			//* mount backup directory, if necessary
@@ -217,65 +227,78 @@ class backup_plugin {
 					chgrp($record['maildir'], $mail_config['mailuser_group']);
 				}
 			
-				if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir) && is_dir($record['maildir'])) {
-					if ($record['maildir_format'] == 'mdbox') {
-						$retval = -1;
-						// First unzip backupfile to local backup-folder
-						if($mail_backup['backup_mode'] == 'userzip') {
-							copy($mail_backup_file, $record['maildir'].'/'.$mail_backup['filename']);
-							chgrp($record['maildir'].'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
-							$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($record['maildir'].'/'.$mail_backup['filename']).' -d '.escapeshellarg($record['maildir']).' 2> /dev/null';
-							exec($command,$tmp_output, $retval);
-							unlink($record['maildir'].'/'.$mail_backup['filename']);
-						}
-						if($mail_backup['backup_mode'] == 'rootgz') {
-							$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($record['maildir']);
-							exec($command,$tmp_output, $retval);
-						}
-						
-						if($retval == 0) {
-							// Now import backup-mailbox into special backup-folder
-							$backupname = "backup-".date("Y-m-d", $mail_backup['tstamp']);
-							exec("doveadm mailbox create -u \"".$record["email"]."\" $backupname");
-							exec("doveadm import -u \"".$record["email"]."\" mdbox:".$record['maildir']."/backup $backupname all", $tmp_output, $retval);
-							exec("for f in `doveadm mailbox list -u \"".$record["email"]."\" $backupname*`; do doveadm mailbox subscribe -u \"".$record["email"]."\" \$f; done", $tmp_output, $retval);
-							exec('rm -rf '.$record['maildir'].'/backup');
-						}
-						
-						if($retval == 0){
-							$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
-						} else {
-							// cleanup
-							if (file_exists($record['maildir'].'/'.$mail_backup['filename'])) unlink($record['maildir'].'/'.$mail_backup['filename']);
-							if (file_exists($record['maildir']."/backup")) exec('rm -rf '.$record['maildir']."/backup");
+				if ($action_name == 'backup_restore_mail') {
+					if(file_exists($mail_backup_file) && $record['homedir'] != '' && $record['homedir'] != '/' && !stristr($mail_backup_file,'..') && !stristr($mail_backup_file,'etc') && $mail_config['homedir_path'] == $record['homedir'] && is_dir($domain_dir) && is_dir($record['maildir'])) {
+						if ($record['maildir_format'] == 'mdbox') {
+							$retval = -1;
+							// First unzip backupfile to local backup-folder
+							if($mail_backup['backup_mode'] == 'userzip') {
+								copy($mail_backup_file, $record['maildir'].'/'.$mail_backup['filename']);
+								chgrp($record['maildir'].'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
+								$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($record['maildir'].'/'.$mail_backup['filename']).' -d '.escapeshellarg($record['maildir']).' 2> /dev/null';
+								exec($command,$tmp_output, $retval);
+								unlink($record['maildir'].'/'.$mail_backup['filename']);
+							}
+							if($mail_backup['backup_mode'] == 'rootgz') {
+								$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($record['maildir']);
+								exec($command,$tmp_output, $retval);
+							}
 							
-							$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
-						}
-					}
-					else {
-						if($mail_backup['backup_mode'] == 'userzip') {
-							copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
-							chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
-							$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
-							exec($command,$tmp_output, $retval);
-							unlink($domain_dir.'/'.$mail_backup['filename']);
+							if($retval == 0) {
+								// Now import backup-mailbox into special backup-folder
+								$backupname = "backup-".date("Y-m-d", $mail_backup['tstamp']);
+								exec("doveadm mailbox create -u \"".$record["email"]."\" $backupname");
+								exec("doveadm import -u \"".$record["email"]."\" mdbox:".$record['maildir']."/backup $backupname all", $tmp_output, $retval);
+								exec("for f in `doveadm mailbox list -u \"".$record["email"]."\" $backupname*`; do doveadm mailbox subscribe -u \"".$record["email"]."\" \$f; done", $tmp_output, $retval);
+								exec('rm -rf '.$record['maildir'].'/backup');
+							}
+							
 							if($retval == 0){
 								$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
 							} else {
+								// cleanup
+								if (file_exists($record['maildir'].'/'.$mail_backup['filename'])) unlink($record['maildir'].'/'.$mail_backup['filename']);
+								if (file_exists($record['maildir']."/backup")) exec('rm -rf '.$record['maildir']."/backup");
+								
 								$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
 							}
 						}
-						if($mail_backup['backup_mode'] == 'rootgz') {
-							$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
-							exec($command,$tmp_output, $retval);
-							if($retval == 0){
-								$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
-							} else {
-								$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+						else {
+							if($mail_backup['backup_mode'] == 'userzip') {
+								copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
+								chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
+								$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
+								exec($command,$tmp_output, $retval);
+								unlink($domain_dir.'/'.$mail_backup['filename']);
+								if($retval == 0){
+									$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+								} else {
+									$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+								}
+							}
+							if($mail_backup['backup_mode'] == 'rootgz') {
+								$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
+								exec($command,$tmp_output, $retval);
+								if($retval == 0){
+									$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
+								} else {
+									$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
+								}
 							}
 						}
 					}
 				}
+				
+				if($action_name == 'backup_delete_mail') {
+					if(file_exists($mail_backup_file) && !stristr($mail_backup_file, '..') && !stristr($mail_backup_file, 'etc')) {
+						unlink($mail_backup_file);
+						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+						$app->db->query($sql, $conf['server_id'], $mail_backup['parent_domain_id'], $mail_backup['filename']);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						$app->log('unlink '.$backup_dir.'/'.$mail_backup['filename'], LOGLEVEL_DEBUG);
+					}
+				}
+				
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);

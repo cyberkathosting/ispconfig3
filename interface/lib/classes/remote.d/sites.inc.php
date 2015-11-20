@@ -931,7 +931,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 	
-		if ($action_type != 'backup_download' and $action_type != 'backup_restore') {
+		if ($action_type != 'backup_download' and $action_type != 'backup_restore' and $action_type != 'backup_delete') {
 			$this->server->fault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}

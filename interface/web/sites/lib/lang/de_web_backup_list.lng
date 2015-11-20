@@ -11,6 +11,10 @@ $wb['restore_confirm_txt'] = 'Die Wiederherstellung wird existierende Dateien in
 $wb['backup_type_mongodb'] = 'MongoDB Datenbank';
 $wb['download_pending_txt'] = 'Es liegt bereits ein Backup-Download-Job an.';
 $wb['restore_pending_txt'] = 'Es liegt bereits ein Backup-Wiederherstellungs-Job an.';
+$wb['delete_backup_txt'] = 'Backup löschen';
+$wb['delete_info_txt'] = 'Das Löschen des Backups hat begonnen. Diese Aktion kann bis zur Fertigstellung einige Minuten dauern.';
+$wb['delete_confirm_txt'] = 'Möchten Sie dieses Backup wirklich löschen?';
+$wb['delete_pending_txt'] = 'Es liegt bereits ein Backup-Lösch-Job an.';
 $wb['backup_type_mysql'] = 'MySQL-Datenbank';
 $wb['backup_type_web'] = 'Webseiten-Dateien';
 ?>
