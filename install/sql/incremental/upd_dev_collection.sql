@@ -10,6 +10,19 @@ ALTER TABLE `client_template` ADD `default_webserver` INT(11) NOT NULL DEFAULT 1
 ALTER TABLE `client_template` ADD `default_dnsserver` INT(11) NOT NULL DEFAULT 1;
 ALTER TABLE `client_template` ADD `default_slave_dnsserver` INT(11) NOT NULL DEFAULT 1;
 ALTER TABLE `client_template` ADD `default_dbserver` INT(11) NOT NULL DEFAULT 1;
+ALTER TABLE `client_template`
+  ADD COLUMN `default_xmppserver` int(11) unsigned NOT NULL DEFAULT '1',
+  ADD COLUMN `xmpp_servers` blob,
+  ADD COLUMN `limit_xmpp_domain` int(11) NOT NULL DEFAULT '-1',
+  ADD COLUMN `limit_xmpp_user` int(11) NOT NULL DEFAULT '-1',
+  ADD COLUMN `limit_xmpp_muc` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_anon` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_vjud` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_proxy` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_status` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_pastebin` ENUM( 'n', 'y' ) NOT NULL default 'n',
+  ADD COLUMN `limit_xmpp_httparchive` ENUM( 'n', 'y' ) NOT NULL default 'n';
+
 ALTER TABLE  `client` ADD  `contact_firstname` VARCHAR( 64 ) NOT NULL DEFAULT '' AFTER  `gender`;
 
 UPDATE `dns_template` SET `fields` = 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM' WHERE `dns_template`.`template_id` =1;
