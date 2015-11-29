@@ -295,6 +295,25 @@ class cronjob_monitor_raid extends cronjob {
 			}
 		}
 
+		/*
+		* Adaptec-RAID
+		*/
+		system('which arcconf', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('arcconf GETCONFIG 1 LD');
+			if(is_array($data['output'])) {
+				foreach ($data['output'] as $item) {
+					if (strpos($item, 'Logical device name                      : RAID') !== false) {
+						if (strpos($item, 'Optimal') !== false) {
+							$this->_tools->_setState($state, 'ok');
+						} else {
+							$this->_tools->_setState($state, 'critical');
+						}
+					}
+				}
+			}
+		}
 
 		$res = array();
 		$res['server_id'] = $server_id;
