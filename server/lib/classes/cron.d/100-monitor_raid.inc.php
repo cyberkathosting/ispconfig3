@@ -275,6 +275,27 @@ class cronjob_monitor_raid extends cronjob {
 			}
 		}
 
+		/*
+		* LSI MegaRaid
+		*/
+		system('which megacli', $retval);
+		system('which megacli64', $retval64);
+		if($retval === 0 || $retval64 === 0) {
+			$binary=@($retval === 0)?'megacli':'megacli64';
+			$state = 'ok';
+			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll');
+			if (strpos($data['output'], 'Optimal') !== false) {
+				$this->_tools->_setState($state, 'ok');
+			} else if (strpos($data['output'], 'Degraded') !== false) {
+				$this->_tools->_setState($state, 'critical');
+			} else if (strpos($data['output'], 'Offline') !== false) {
+				$this->_tools->_setState($state, 'critical');
+			} else {
+				$this->_tools->_setState($state, 'critical');
+			}
+		}
+
+
 		$res = array();
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;
