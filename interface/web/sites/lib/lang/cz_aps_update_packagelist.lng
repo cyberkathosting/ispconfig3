@@ -6,3 +6,4 @@ $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['legend_txt'] = 'Zde si můžete aktualizovat seznam dostupných balíčků. Vezměte prosím na vědomí, že aktualizace může trvat až několik minut. Po spuštění aktualizace můžete následně opustit tuto sekci. Tento proces bude pokračovat na pozadí.';
 ?>
 
+

@@ -21,7 +21,7 @@ $wb['numsiginfo_txt'] = 'Numsiginfo';
 $wb['dcachesize_txt'] = 'Dcachesize';
 $wb['numiptent_txt'] = 'Numiptent';
 $wb['swappages_txt'] = 'Swappages';
-$wb['hostname_txt'] = 'Hostname';
+$wb['hostname_txt'] = 'Název hostitele';
 $wb['nameserver_txt'] = 'Nameserver(s)';
 $wb['nameserver_desc_txt'] = '(separated by whitespace)';
 $wb['capability_txt'] = 'Capability';
@@ -91,4 +91,5 @@ $wb['swappages_error_empty'] = 'Swappages is empty.';
 $wb['Template'] = 'Šablona';
 $wb['Advanced'] = 'Pokročilý';
 ?>
+
 

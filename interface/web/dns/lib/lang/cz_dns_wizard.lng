@@ -9,6 +9,7 @@ $wb['email_txt'] = 'E-mail';
 $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'IP adresa';
+$wb['ipv6_txt'] = 'IPv6 adresa';
 $wb['error_origin_empty'] = 'Zdroj je prázdný.';
 $wb['error_ns_empty'] = 'NS je prázdný.';
 $wb['error_mbox_empty'] = 'Mbox je prázdný.';
@@ -19,6 +20,7 @@ $wb['error_minimum_empty'] = 'Minimum je prázdný.';
 $wb['error_ttl_empty'] = 'TTL je prázdný.';
 $wb['error_domain_empty'] = 'Doména je prázdná';
 $wb['error_ip_empty'] = 'IP adresa je prázdná.';
+$wb['error_ipv6_empty'] = 'IPv6 adresa je prázdná.';
 $wb['error_ns1_empty'] = 'NS1 je prázdný.';
 $wb['error_ns2_empty'] = 'NS2 je prázdný.';
 $wb['error_email_empty'] = 'E-mail je prázdný.';
@@ -35,5 +37,9 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
 $wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
+$wb['dkim_txt'] = 'DKIM enabled';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
+
 

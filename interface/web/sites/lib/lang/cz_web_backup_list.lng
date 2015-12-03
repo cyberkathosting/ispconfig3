@@ -14,3 +14,4 @@ $wb['backup_type_mysql'] = 'MySQL Databáze';
 $wb['backup_type_web'] = 'Soubory webových stránek';
 ?>
 
+

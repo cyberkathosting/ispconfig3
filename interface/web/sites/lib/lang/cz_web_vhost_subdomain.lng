@@ -18,7 +18,7 @@ $wb['ssl_action_txt'] = 'SSL akce';
 $wb['ssl_domain_txt'] = 'SSL Doména';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
-$wb['host_txt'] = 'Hostname';
+$wb['host_txt'] = 'Název hostitele';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
 $wb['type_txt'] = 'Verze';
 $wb['redirect_type_txt'] = 'Typ přesměrování';
@@ -125,4 +125,5 @@ $wb['backup_excludes_note_txt'] = '(Oddělte více adresářů čárkami. Vzor: 
 $wb['backup_excludes_error_regex'] = 'Vyloučené adresáře obsahují neplatné znaky.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 ?>
+
 

@@ -4,8 +4,9 @@ $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
 $wb['template_id_txt'] = 'Šablona';
-$wb['hostname_txt'] = 'Hostname';
+$wb['hostname_txt'] = 'Název hostitele';
 $wb['ip_address_txt'] = 'IP address';
 $wb['veid_txt'] = 'VEID';
 ?>
+
 

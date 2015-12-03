@@ -52,3 +52,4 @@ $wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělt
 $wb['disablesmtp_txt'] = 'Zakázat SMTP (pouze odesílání)';
 ?>
 
+

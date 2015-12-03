@@ -70,3 +70,4 @@ $wb['min_password_length_txt'] = 'Minimální délka hesla';
 $wb['min_password_strength_txt'] = 'Minimální síla hesla';
 ?>
 
+

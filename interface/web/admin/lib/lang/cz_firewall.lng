@@ -10,3 +10,4 @@ $wb['tcp_ports_error_regex'] = 'Znak není povole v definici TCP portu. Povolen�
 $wb['udp_ports_error_regex'] = 'Znak není povole v definici UDP portu. Povolené symboly jsou čísla, : a ,.';
 ?>
 
+

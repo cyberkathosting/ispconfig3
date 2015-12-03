@@ -7,3 +7,4 @@ $wb['username_txt'] = 'Uživatelské jméno';
 $wb['add_new_record_txt'] = 'Přidat FTP uživatele';
 ?>
 
+
