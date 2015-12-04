@@ -35,3 +35,4 @@ $wb['invalid_username_txt'] = 'Invalid Username';
 $wb['directory_error_notinweb'] = 'The directory has to be inside the web root.';
 ?>
 
+

@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zóna';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Název hostitele';
 $wb['type_txt'] = 'Typ';
 $wb['data_txt'] = 'Hostname e-mailového serveru';
 $wb['aux_txt'] = 'Priorita';
@@ -14,6 +14,7 @@ $wb['name_error_regex'] = 'Hostname má chybný formát.';
 $wb['data_error_empty'] = 'Hostname e-mailového serveru je prázdný';
 $wb['data_error_regex'] = 'Hostname e-mailového serveru má chybný formát';
 $wb['duplicate_mx_record_txt'] = 'Duplicitní MX záznam.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
+
 

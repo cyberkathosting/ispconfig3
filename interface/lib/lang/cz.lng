@@ -149,5 +149,7 @@ $wb['weak_password_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro 
 $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zásad pro tvorbu hesel. Heslo musí být alespoň {chars} znaků dlouhé.';
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
+$wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
 ?>
+
 

@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 $wb['list_head_txt'] = 'Alınmış Yedekler';
 $wb['date_txt'] = 'Tarih';
 $wb['backup_type_txt'] = 'Tip';

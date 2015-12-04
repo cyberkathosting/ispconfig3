@@ -26,3 +26,4 @@ $wb['email_error'] = 'E-mail obsahuje nepovolené znaky nebo má neplatný form�
 $wb['stay_logged_in_txt'] = 'Zapamatovat si přihlášení';
 ?>
 
+

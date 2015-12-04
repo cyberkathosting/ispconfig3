@@ -10,3 +10,4 @@ $wb['variables_description_txt'] = 'Proměnné uživatelské jméno a heslo jsou
 $wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
 ?>
 
+

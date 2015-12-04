@@ -14,3 +14,4 @@ $wb['page_of_txt'] = 'z';
 $wb['delete_confirmation'] = 'Skutečně chcete smazat tento záznam ?';
 ?>
 
+

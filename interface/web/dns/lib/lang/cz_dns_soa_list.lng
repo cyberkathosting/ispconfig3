@@ -9,3 +9,4 @@ $wb['add_new_record_txt'] = 'Přidat DNS zónu (SOA záznam)';
 $wb['add_new_record_wizard_txt'] = 'Přidat DNS zónu (dle šablony)';
 ?>
 
+

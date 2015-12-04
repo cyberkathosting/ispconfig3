@@ -19,6 +19,9 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Rodičovská webová stránka';
+$wb['host_txt'] = 'Název hostitele';
+$wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
+$wb['type_txt'] = 'Verze';
 $wb['redirect_type_txt'] = 'Typ přesměrování';
 $wb['redirect_path_txt'] = 'Cesta přesměrování';
 $wb['active_txt'] = 'Aktivní';
@@ -140,4 +143,5 @@ $wb['backup_excludes_error_regex'] = 'The excluded directories contain invalid c
 $wb['invalid_custom_php_ini_settings_txt'] = 'Invalid php.ini settings';
 $wb["document_root_txt"] = "Document Root";
 ?>
+
 

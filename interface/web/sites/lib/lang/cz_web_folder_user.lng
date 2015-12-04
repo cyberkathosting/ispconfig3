@@ -13,3 +13,4 @@ $wb['no_folder_perm'] = 'Nemáte oprávnění pro tuto složku.';
 $wb['error_user_exists_already_txt'] = 'There is already a record for this user.';
 ?>
 
+

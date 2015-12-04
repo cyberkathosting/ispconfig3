@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 $wb['list_head_txt'] = 'Respaldos existentes';
 $wb['date_txt'] = 'Fecha';
 $wb['backup_type_txt'] = 'Tipo';
