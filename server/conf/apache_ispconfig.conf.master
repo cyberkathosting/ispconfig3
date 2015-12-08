@@ -14,6 +14,13 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 	Order Deny,Allow
 	Deny from all
 	</tmpl_if>
+
+ <IfModule mod_headers.c>
+    <LocationMatch "/.well-known/acme-challenge/*">
+      Header set Content-Type "text/plain"
+    </LocationMatch>
+  </IfModule>
+
 </Directory>
 
 # Do not allow access to the root file system of the server for security reasons
