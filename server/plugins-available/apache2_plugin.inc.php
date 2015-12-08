@@ -1144,8 +1144,10 @@ class apache2_plugin {
 					$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
 					$app->system->chgrp($webroot . "/.well-known/acme-challenge/", $data['new']['system_group']);
 					$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
-
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth -a webroot --email postmaster@$domain --domains $lddomain --webroot-path $webroot");
+					
+					if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
+						$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator=webroot --server=https://acme-v01.api.letsencrypt.org/directory --rsa-key-size=4096 --webroot-path --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
+					}
 				};
 
 				//* check is been correctly created
