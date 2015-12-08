@@ -224,9 +224,8 @@ class cronjob_backup_mail extends cronjob {
 				$backups = $app->db->queryAllRecords("SELECT * FROM mail_backup WHERE server_id = ?", $conf['server_id']);
 				if(is_array($backups) && !empty($backups)){
 					foreach($backups as $backup){
-						$mail_backup_dir = $backup_dir.'/mail'.$rec['domain_id'];
-						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
-						if(!is_file($mail_backup_dir.'/'.$mail_backup_file)){
+						$mail_backup_dir = $backup_dir.'/mail'.$backup['parent_domain_id'];
+						if(!is_file($mail_backup_dir.'/'.$backup['filename'])){
 							$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
