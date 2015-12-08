@@ -142,4 +142,5 @@ $wb['load_client_data_txt'] = 'Kundendaten übernehmen';
 $wb['load_my_data_txt'] = 'Meine Kontaktdaten laden';
 $wb['reset_client_data_txt'] = 'Daten verwerfen';
 $wb["document_root_txt"] = "Document Root";
+$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt SSL';
 ?>

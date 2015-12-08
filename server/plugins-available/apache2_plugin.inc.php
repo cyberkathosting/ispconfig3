@@ -1097,6 +1097,7 @@ class apache2_plugin {
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = $data['new']['ssl_domain'];
+		if(!$domain) $domain = $data['new']['domain'];
 		$key_file = $ssl_dir.'/'.$domain.'.key';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
@@ -1152,6 +1153,7 @@ class apache2_plugin {
 					$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
 					
 					if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
+						print "/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator=webroot --server=https://acme-v01.api.letsencrypt.org/directory --rsa-key-size=4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot) . "\n";
 						$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator=webroot --server=https://acme-v01.api.letsencrypt.org/directory --rsa-key-size=4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
 					}
 				};

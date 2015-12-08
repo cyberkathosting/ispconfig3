@@ -1144,6 +1144,7 @@ class nginx_plugin {
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		if(!isset($data['new']['ssl_domain']) OR empty($data['new']['ssl_domain'])) { $data['new']['ssl_domain'] = $data['new']['domain']; }
 		$domain = $data['new']['ssl_domain'];
+		if(!$domain) $domain = $data['new']['domain'];
 		$tpl->setVar('ssl_domain', $domain);
 		$key_file = $ssl_dir.'/'.$domain.'.key';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
