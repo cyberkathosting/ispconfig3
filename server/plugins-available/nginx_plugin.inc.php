@@ -1153,6 +1153,15 @@ class nginx_plugin {
 		//* Generate Let's Encrypt SSL certificat
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			//* be sure to have good domain
+			if(substr($domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
+				$domain = substr($domain, 2);
+			}
+			
+			$data['new']['ssl_domain'] = $domain;
+			$vhost_data['ssl_domain'] = $domain;
+			
 			$lddomain = (string) "$domain";
 			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
 				$lddomain .= (string) " --domains www." . $domain;
@@ -1183,7 +1192,7 @@ class nginx_plugin {
 				$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
 				
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator=webroot --server=https://acme-v01.api.letsencrypt.org/directory --rsa-key-size=4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
 				}
 			};
 

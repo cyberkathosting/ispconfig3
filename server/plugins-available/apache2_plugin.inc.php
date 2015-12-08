@@ -1113,6 +1113,12 @@ class apache2_plugin {
 
 		//* Generate Let's Encrypt SSL certificat
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
+			if(substr($domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
+				$domain = substr($domain, 2);
+			}
+			
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
 
