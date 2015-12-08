@@ -27,7 +27,7 @@ $wb['traffic_quota_txt'] = 'Transfervolumenbeschränkung';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['ssl_txt'] = 'SSL';
-$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt';
+$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Kunde';
@@ -142,5 +142,4 @@ $wb['load_client_data_txt'] = 'Kundendaten übernehmen';
 $wb['load_my_data_txt'] = 'Meine Kontaktdaten laden';
 $wb['reset_client_data_txt'] = 'Daten verwerfen';
 $wb["document_root_txt"] = "Document Root";
-$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt SSL';
 ?>
