@@ -28,6 +28,7 @@ $wb['ssi_txt'] = 'SSI';
 $wb['errordocs_txt'] = 'Dokumen-Kesalahan Pribadi';
 $wb['subdomain_txt'] = 'Subdomain Otomatis';
 $wb['ssl_txt'] = 'SSL';
+$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Klien';

@@ -950,6 +950,92 @@ class apache2_plugin {
 		}
 		*/
 
+		//* Generate Let's Encrypt SSL certificat
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
+			$data['new']['ssl_domain'] = $domain;
+			$vhost_data['ssl_domain'] = $domain;
+
+			//* be sure to have good domain
+			$lddomain = (string) "$domain";
+			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+				$lddomain .= (string) " --domains www." . $domain;
+			}
+
+				$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
+				$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
+				$bundle_tmp_file = "/etc/letsencrypt/live/".$domain."/chain.pem";
+				$webroot = $data['new']['document_root']."/web";
+
+				//* check if we have already a Let's Encrypt cert
+				if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+					$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+
+					if(is_dir($webroot . "/.well-known/")) {
+						$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
+						$this->_exec("rm -rf " . $webroot . "/.well-known/");
+					}
+
+					$app->log("Create challenge directory", LOGLEVEL_DEBUG);
+					$app->system->mkdirpath($webroot . "/.well-known/");
+					$app->system->chown($webroot . "/.well-known/", $data['new']['system_user']);
+					$app->system->chgrp($webroot . "/.well-known/", $data['new']['system_group']);
+					$app->system->mkdirpath($webroot . "/.well-known/acme-challenge");
+					$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
+					$app->system->chgrp($webroot . "/.well-known/acme-challenge/", $data['new']['system_group']);
+					$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
+
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth -a webroot --email postmaster@$domain --domains $lddomain --webroot-path $webroot");
+				};
+
+				//* check is been correctly created
+				if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
+					$date = date("YmdHis");
+					if(is_file($key_file)) {
+						$app->system->copy($key_file, $key_file.'.old'.$date);
+						$app->system->chmod($key_file.'.old.'.$date, 0400);
+						$app->system->unlink($key_file);
+					}
+
+					if ($web_config["website_symlinks_rel"] == 'y') {
+						$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
+					} else {
+						exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
+					}
+
+					if(is_file($crt_file)) {
+						$app->system->copy($crt_file, $crt_file.'.old.'.$date);
+						$app->system->chmod($crt_file.'.old.'.$date, 0400);
+						$app->system->unlink($crt_file);
+					}
+
+					if($web_config["website_symlinks_rel"] == 'y') {
+						$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
+					} else {
+						exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
+					}
+
+					if(is_file($bundle_file)) {
+						$app->system->copy($bundle_file, $bundle_file.'.old.'.$date);
+						$app->system->chmod($bundle_file.'.old.'.$date, 0400);
+						$app->system->unlink($bundle_file);
+					}
+
+					if($web_config["website_symlinks_rel"] == 'y') {
+						$this->create_relative_link(escapeshellcmd($bundle_tmp_file), escapeshellcmd($bundle_file));
+					} else {
+						exec("ln -s ".escapeshellcmd($bundle_tmp_file)." ".escapeshellcmd($bundle_file));
+					}
+
+					/* we don't need to store it.
+					/* Update the DB of the (local) Server */
+					$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+					$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+					/* Update also the master-DB of the Server-Farm */
+					$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
+					$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+				}
+			};
+
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
 
 		//$vhost_data['document_root'] = $data['new']['document_root'].'/' . $web_folder;

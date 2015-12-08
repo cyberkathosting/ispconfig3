@@ -130,6 +130,12 @@
                 <div class="multiField">
                     {tmpl_var name='ssl'}
                 </div>
+                </div>
+                <div class="ctrlHolder">
+                <p class="label">{tmpl_var name='ssl_letsencrypt_txt'}</p>
+                <div class="multiField">
+                    {tmpl_var name='ssl_letsencrypt'}
+                </div>
             </div></tmpl_if>
             <div class="ctrlHolder">
                 <label for="php">{tmpl_var name='php_txt'}</label>
@@ -261,5 +267,11 @@
             submitForm('pageForm','sites/web_domain_edit.php');
         });
     </tmpl_if>
-			
+
+    jQuery('input#ssl_letsencrypt').bind('change', function() {
+        if(jQuery('input#ssl_letsencrypt').is(":checked")) jQuery('input#ssl').prop('checked', true);
+    });
+    jQuery('input#ssl').bind('change', function() {
+        if(jQuery('input#ssl_letsencrypt').is(":checked")) jQuery('input#ssl_letsencrypt').prop('checked', false);
+    });			
 </script>

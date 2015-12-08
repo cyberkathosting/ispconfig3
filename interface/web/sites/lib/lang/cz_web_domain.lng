@@ -27,6 +27,7 @@ $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['subdomain_txt'] = 'Automatická subdoména';
 $wb['ssl_txt'] = 'SSL';
+$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Klient';
