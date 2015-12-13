@@ -188,4 +188,4 @@ ALTER TABLE openvz_vm
   ADD COLUMN `bootorder` INT(11) NOT NULL DEFAULT '1' AFTER `start_boot`,
   ADD COLUMN `custom` text;
 
-ALTER TABLE `web_domain` ADD `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n';
+ALTER TABLE `web_domain` ADD `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n' AFETR `ssl`;

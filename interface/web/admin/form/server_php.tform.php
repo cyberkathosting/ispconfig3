@@ -100,7 +100,7 @@ $form["tabs"]['php_name'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => "SELECT client_id,CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as name FROM client WHERE {AUTHSQL} ORDER BY contact_name",
+				'querystring' => "(SELECT 0 AS client_id, '' AS name) UNION ALL (SELECT client_id,CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as name FROM client WHERE {AUTHSQL} ORDER BY contact_name)",
 				'keyfield'=> 'client_id',
 				'valuefield'=> 'name'
 			),
