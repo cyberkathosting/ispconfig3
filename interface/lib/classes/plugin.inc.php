@@ -50,7 +50,7 @@ class plugin {
 		if(is_dir(ISPC_WEB_PATH)) {
 			if($dh = opendir(ISPC_WEB_PATH)) {
 				while(($file = readdir($dh)) !== false) {
-					if($file !== '.' && $file !== '..' && is_dir($file) && is_dir(ISPC_WEB_PATH . '/' . $file . '/lib/plugin.d')) $plugin_dirs[] = ISPC_WEB_PATH . '/' . $file . '/lib/plugin.d';
+					if($file !== '.' && $file !== '..' && is_dir($file) && is_dir(ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d')) $plugin_dirs[] = ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d';
 				}
 				closedir($dh);
 			}
@@ -96,10 +96,10 @@ class plugin {
 	 for faster lookups without the need to load all plugins for every page.
 	*/
 
-	public function registerEvent($event_name, $plugin_name, $function_name) {
+	public function registerEvent($event_name, $plugin_name, $function_name, $module_name = '') {
 		global $app;
 
-		$_SESSION['s']['plugin_cache'][$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name);
+		$_SESSION['s']['plugin_cache'][$event_name][] = array('plugin' => $plugin_name, 'function' => $function_name, 'module' => $module_name);
 		if($this->debug) $app->log("Plugin '$plugin_name' has registered the function '$function_name' for the event '$event_name'", LOGLEVEL_DEBUG);
 	}
 
@@ -155,8 +155,16 @@ class plugin {
 			foreach($_SESSION['s']['plugin_cache'][$event_name] as $rec) {
 				$plugin_name = $rec['plugin'];
 				$function_name = $rec['function'];
-				$plugin_file = ISPC_LIB_PATH.FS_DIV.'plugins'.FS_DIV.$plugin_name.'.inc.php';
-
+				$module_name = $rec['function'];
+				if($module_name != '') {
+					if(strpos($module_name, '..') !== false || strpos($module_name, '/') !== false) {
+						if($this->debug) $app->log('Module name ' . $module_name . ' contains illegal characters.', LOGLEVEL_DEBUG);
+						continue;
+					}
+					$plugin_file = ISPC_WEB_PATH . FS_DIV . $module_name . FS_DIV . 'lib' . FS_DIV . 'plugin.d' . FS_DIV . $plugin_name . '.inc.php';
+				} else {
+					$plugin_file = ISPC_LIB_PATH . FS_DIV . 'plugins' . FS_DIV . $plugin_name . '.inc.php';
+				}
 
 				if(is_file($plugin_file)) {
 					if(!isset($app->loaded_plugins[$plugin_name])) {
