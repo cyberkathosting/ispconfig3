@@ -107,28 +107,33 @@ class plugin {
 		This function is called when a certian action occurs, e.g. a form gets saved or a user is logged in.
 	*/
 
-	public function raiseEvent($event_name, $data) {
+	public function raiseEvent($event_name, $data, $return_data = false) {
 		global $app;
 
 		if(!isset($_SESSION['s']['plugin_cache'])) {
 			$this->loadPluginCache();
 			if($this->debug) $app->log('Loaded the plugin cache.', LOGLEVEL_DEBUG);
 		}
-
-
+		
+		$result = '';
 		$sub_events = explode(':', $event_name);
 
 		if(is_array($sub_events)) {
 			if(count($sub_events) == 3) {
-				$tmp_event = $sub_events[2];
+				$mp_event = $sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
-				$this->callPluginEvent($tmp_event, $data);
+				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
+				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				
 				$tmp_event = $sub_events[0].':'.$sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
-				$this->callPluginEvent($tmp_event, $data);
+				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
+				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				
 				$tmp_event = $sub_events[0].':'.$sub_events[1].':'.$sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
-				$this->callPluginEvent($tmp_event, $data);
+				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
+				if($return_data == true && $tmpresult) $result .= $tmpresult;
 
 				/*$sub_events = array_reverse($sub_events);
 				$tmp_event = '';
@@ -140,15 +145,20 @@ class plugin {
 				*/
 			} else {
 				if($this->debug) $app->log("Called Event '$sub_events[0]'", LOGLEVEL_DEBUG);
-				$this->callPluginEvent($sub_events[0], $data);
+				$tmpresult = $this->callPluginEvent($sub_events[0], $data, $return_data);
+				if($return_data == true && $tmpresult) $result .= $tmpresult;
 			}
 		}
+		
+		if($return_data == true) return $result;
 
 	} // end function raiseEvent
 
 	//* Internal function to load the plugin and call the event function in the plugin.
-	private function callPluginEvent($event_name, $data) {
+	private function callPluginEvent($event_name, $data, $return_data = false) {
 		global $app;
+
+		$result = '';
 
 		//* execute the functions for the events
 		if(@is_array($_SESSION['s']['plugin_cache'][$event_name])) {
@@ -175,12 +185,15 @@ class plugin {
 					if($this->debug) $app->log("Called method: '$function_name' in plugin '$plugin_name' for event '$event_name'", LOGLEVEL_DEBUG);
 					// call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
 
-					call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $event_name, $data);
+					$tmpresult = call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $event_name, $data);
+					if($return_data == true && $tmpresult) $result .= $tmpresult;
 
 				}
 			}
 
 		}
+		
+		if($return_data == true) return $result;
 
 	} // end functiom callPluginEvent
 

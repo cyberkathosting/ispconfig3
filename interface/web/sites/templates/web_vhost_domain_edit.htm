@@ -13,7 +13,7 @@
 </tmpl_if>
 
 
-        
+        {tmpl_hook name="begin_form"}
 		<tmpl_if name="vhostdomain_type" value="domain">
             <tmpl_if name="is_admin">
                 <div class="form-group">
@@ -222,26 +222,32 @@
                     {tmpl_var name='php'}
                 </select></div>
             </div>
+            {tmpl_hook name="begin_field" value="fastcgi_php_version"}
             <div class="form-group fastcgi_php_version">
                 <label for="fastcgi_php_version" class="col-sm-3 control-label">{tmpl_var name='fastcgi_php_version_txt'}</label>
                 <div class="col-sm-9"><select name="fastcgi_php_version" id="fastcgi_php_version" class="form-control">
                     {tmpl_var name='fastcgi_php_version'}
                 </select></div>
             </div>
+            {tmpl_hook name="end_field" value="fastcgi_php_version"}
 			{tmpl_var name="directive_snippets_id"}
+			{tmpl_hook name="begin_field" value="enable_pagespeed"}
 			<div class="form-group nginx pagespeed">
 				<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>
 				<div class="col-sm-9">
 					{tmpl_var name="enable_pagespeed"}
 				</div>
 			</div>
+			{tmpl_hook name="end_field" value="enable_pagespeed"}
+			{tmpl_hook name="begin_field" value="active"}
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        
+            {tmpl_hook name="end_field" value="active"}
+			{tmpl_hook name="end_form"}
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
