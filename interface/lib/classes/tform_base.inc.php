@@ -126,7 +126,7 @@ class tform_base {
 	function loadFormDef($file, $module = '') {
 		global $app, $conf;
 
-		$app->plugin->raiseEvent('on_before_formdef', $module);
+		$app->plugin->raiseEvent('on_before_formdef', $this);
 		include $file;
 		$this->formDef = $form;
 
@@ -152,7 +152,7 @@ class tform_base {
 		}
 		if(isset($wb_global)) unset($wb_global);
 		
-		$app->plugin->raiseEvent('on_after_formdef', $module);
+		$app->plugin->raiseEvent('on_after_formdef', $this);
 
 		$this->wordbook = $wb;
 
