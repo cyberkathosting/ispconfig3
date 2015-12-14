@@ -155,7 +155,7 @@ class plugin {
 			foreach($_SESSION['s']['plugin_cache'][$event_name] as $rec) {
 				$plugin_name = $rec['plugin'];
 				$function_name = $rec['function'];
-				$module_name = $rec['function'];
+				$module_name = $rec['module'];
 				if($module_name != '') {
 					if(strpos($module_name, '..') !== false || strpos($module_name, '/') !== false) {
 						if($this->debug) $app->log('Module name ' . $module_name . ' contains illegal characters.', LOGLEVEL_DEBUG);
