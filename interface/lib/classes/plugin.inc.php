@@ -43,35 +43,50 @@ class plugin {
 
 
 		if(isset($_SESSION['s']['plugin_cache'])) unset($_SESSION['s']['plugin_cache']);
-
-		$plugins_dir = ISPC_LIB_PATH.FS_DIV.'plugins'.FS_DIV;
+		
+		$plugin_dirs = array();
+		$plugin_dirs[] = ISPC_LIB_PATH.FS_DIV.'plugins'.FS_DIV;
+		
+		if(is_dir(ISPC_WEB_PATH)) {
+			if($dh = opendir(ISPC_WEB_PATH)) {
+				while(($file = readdir($dh)) !== false) {
+					if($file !== '.' && $file !== '..' && is_dir($file) && is_dir(ISPC_WEB_PATH . '/' . $file . '/lib/plugin.d')) $plugin_dirs[] = ISPC_WEB_PATH . '/' . $file . '/lib/plugin.d';
+				}
+				closedir($dh);
+			}
+		}
+		
 		$_SESSION['s']['plugin_cache'] = array();
 		$tmp_plugins = array();
-
-		if (is_dir($plugins_dir)) {
-			if ($dh = opendir($plugins_dir)) {
-				//** Go trough all files in the plugin dir
-				while (($file = readdir($dh)) !== false) {
-					if($file != '.' && $file != '..' && substr($file, -8, 8) == '.inc.php') {
-						$plugin_name = substr($file, 0, -8);
-						$tmp_plugins[$plugin_name] = $file;
+		
+		for($d = 0; $d < count($plugin_dirs); $d++) {
+			$plugins_dir = $plugin_dirs[$d];
+			if (is_dir($plugins_dir)) {
+				if ($dh = opendir($plugins_dir)) {
+					//** Go trough all files in the plugin dir
+					while (($file = readdir($dh)) !== false) {
+						if($file !== '.' && $file !== '..' && substr($file, -8, 8) == '.inc.php') {
+							$plugin_name = substr($file, 0, -8);
+							$tmp_plugins[$plugin_name] = $file;
+						}
 					}
-				}
-				//** sort the plugins by name
-				ksort($tmp_plugins);
+					closedir($dh);
+					//** sort the plugins by name
+					ksort($tmp_plugins);
 
-				//** load the plugins
-				foreach($tmp_plugins as $plugin_name => $file) {
-					include_once $plugins_dir.$file;
-					if($this->debug) $app->log('Loading plugin: '.$plugin_name, LOGLEVEL_DEBUG);
-					$app->loaded_plugins[$plugin_name] = new $plugin_name;
-					$app->loaded_plugins[$plugin_name]->onLoad();
+					//** load the plugins
+					foreach($tmp_plugins as $plugin_name => $file) {
+						include_once $plugins_dir.$file;
+						if($this->debug) $app->log('Loading plugin: '.$plugin_name, LOGLEVEL_DEBUG);
+						$app->loaded_plugins[$plugin_name] = new $plugin_name;
+						$app->loaded_plugins[$plugin_name]->onLoad();
+					}
+				} else {
+					$app->log('Unable to open the plugins directory: '.$plugins_dir, LOGLEVEL_ERROR);
 				}
 			} else {
-				$app->log('Unable to open the plugins directory: '.$plugins_dir, LOGLEVEL_ERROR);
+				$app->log('Plugins directory missing: '.$plugins_dir, LOGLEVEL_ERROR);
 			}
-		} else {
-			$app->log('Plugins directory missing: '.$plugins_dir, LOGLEVEL_ERROR);
 		}
 
 	}

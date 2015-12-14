@@ -594,7 +594,7 @@ class tform_actions {
 				$app->load($plugin_class);
 				$this->plugins[$plugin_name] = new $plugin_class;
 				$this->plugins[$plugin_name]->setOptions($plugin_name, $plugin_settings['options']);
-				// Make the data of the form easily accessible for the plugib
+				// Make the data of the form easily accessible for the plugin
 				$this->plugins[$plugin_name]->form = $this;
 				$this->plugins[$plugin_name]->onLoad();
 			}
