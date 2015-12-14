@@ -1078,7 +1078,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			global $app;
 			
 			$module_name = '';
-			if(strpos($name, ':') !== false) list($name, $module_name) = explode(':', $name, 2);
+			if(strpos($name, ':') !== false) list($module_name, $name) = explode(':', $name, 2);
 			
 			$result = $app->plugin->raiseEvent('on_template_content_hook', array(
 				'type' => $type,
@@ -1086,6 +1086,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				'module' => $module_name
 			), true);
 			if(!$result) $result = '';
+			else $result = $this->_getData($result, false, true);
 			
 			return $result;
 		}

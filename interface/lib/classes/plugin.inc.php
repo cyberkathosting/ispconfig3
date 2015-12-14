@@ -45,12 +45,12 @@ class plugin {
 		if(isset($_SESSION['s']['plugin_cache'])) unset($_SESSION['s']['plugin_cache']);
 		
 		$plugin_dirs = array();
-		$plugin_dirs[] = ISPC_LIB_PATH.FS_DIV.'plugins'.FS_DIV;
+		$plugin_dirs[] = ISPC_LIB_PATH.FS_DIV.'plugins';
 		
 		if(is_dir(ISPC_WEB_PATH)) {
 			if($dh = opendir(ISPC_WEB_PATH)) {
 				while(($file = readdir($dh)) !== false) {
-					if($file !== '.' && $file !== '..' && is_dir($file) && is_dir(ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d')) $plugin_dirs[] = ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d';
+					if($file !== '.' && $file !== '..' && is_dir(ISPC_WEB_PATH . FS_DIV . $file) && is_dir(ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d')) $plugin_dirs[] = ISPC_WEB_PATH . FS_DIV . $file . FS_DIV . 'lib' . FS_DIV . 'plugin.d';
 				}
 				closedir($dh);
 			}
@@ -63,6 +63,7 @@ class plugin {
 			$plugins_dir = $plugin_dirs[$d];
 			if (is_dir($plugins_dir)) {
 				if ($dh = opendir($plugins_dir)) {
+					$tmp_plugins = array();
 					//** Go trough all files in the plugin dir
 					while (($file = readdir($dh)) !== false) {
 						if($file !== '.' && $file !== '..' && substr($file, -8, 8) == '.inc.php') {
@@ -76,7 +77,7 @@ class plugin {
 
 					//** load the plugins
 					foreach($tmp_plugins as $plugin_name => $file) {
-						include_once $plugins_dir.$file;
+						require $plugins_dir . FS_DIV . $file;
 						if($this->debug) $app->log('Loading plugin: '.$plugin_name, LOGLEVEL_DEBUG);
 						$app->loaded_plugins[$plugin_name] = new $plugin_name;
 						$app->loaded_plugins[$plugin_name]->onLoad();
@@ -187,7 +188,6 @@ class plugin {
 
 					$tmpresult = call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $event_name, $data);
 					if($return_data == true && $tmpresult) $result .= $tmpresult;
-
 				}
 			}
 
