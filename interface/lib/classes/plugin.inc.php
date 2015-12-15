@@ -121,7 +121,7 @@ class plugin {
 
 		if(is_array($sub_events)) {
 			if(count($sub_events) == 3) {
-				$mp_event = $sub_events[2];
+				$tmp_event = $sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
 				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
 				if($return_data == true && $tmpresult) $result .= $tmpresult;
