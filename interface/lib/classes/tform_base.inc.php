@@ -126,8 +126,8 @@ class tform_base {
 	function loadFormDef($file, $module = '') {
 		global $app, $conf;
 
-		$app->plugin->raiseEvent('on_before_formdef', $this);
 		include $file;
+		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$form['name'] . ':on_before_formdef', $this);
 		$this->formDef = $form;
 
 		$this->module = $module;
@@ -152,9 +152,9 @@ class tform_base {
 		}
 		if(isset($wb_global)) unset($wb_global);
 		
-		$app->plugin->raiseEvent('on_after_formdef', $this);
-
 		$this->wordbook = $wb;
+		
+		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'] . ':on_after_formdef', $this);
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
 		$this->datetimeformat = $app->lng('conf_format_datetime');

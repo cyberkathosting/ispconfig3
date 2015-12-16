@@ -73,7 +73,6 @@ class plugins {
 		} else {
 			$app->log('Plugins directory missing: '.$plugins_dir, LOGLEVEL_ERROR);
 		}
-
 	}
 
 	/*
@@ -138,12 +137,14 @@ class plugins {
 	}
 
 
-	function raiseAction($action_name, $data) {
+	function raiseAction($action_name, $data, $return_data = false) {
 		global $app;
 
 		//* Get the subscriptions for this action
 		$actions = (isset($this->subscribed_actions[$action_name]))?$this->subscribed_actions[$action_name]:'';
 		if($this->debug) $app->log('Raised action: '.$action_name, LOGLEVEL_DEBUG);
+
+		$result = '';
 
 		if(is_array($actions)) {
 			foreach($actions as $action) {
@@ -154,8 +155,13 @@ class plugins {
 				$app->log("Calling function '$function_name' from plugin '$plugin_name' raised by action '$action_name'.", LOGLEVEL_DEBUG);
 				$state = call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $action_name, $data);
 				//* ensure that we return the highest warning / error level if a error occured in one of the functions
-				if($state == 'warning' && $state_out != 'error') $state_out = 'warning';
-				if($state == 'error') $state_out = 'error';
+				if($return_data) {
+					if($state) $result .= $state;
+				} else {
+					if($state == 'warning' && $state_out != 'error') $state_out = 'warning';
+					elseif($state == 'error') $state_out = 'error';
+				}
+				
 				unset($plugin_name);
 				unset($function_name);
 			}
@@ -163,7 +169,8 @@ class plugins {
 		unset($action);
 		unset($actions);
 
-		return $state_out;
+		if($return_data == true) return $result;
+		else return $state_out;
 	}
 
 }

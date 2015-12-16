@@ -1073,20 +1073,37 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @param string $name
 		 * @return string hook data
 		 */
-		private function _parseHook ($type, $name)
+		private function _parseHook ($name)
 		{
 			global $app;
 			
-			$module_name = '';
-			if(strpos($name, ':') !== false) list($module_name, $name) = explode(':', $name, 2);
+			if(!$name) return false;
 			
-			$result = $app->plugin->raiseEvent('on_template_content_hook', array(
-				'type' => $type,
-				'name' => $name,
-				'module' => $module_name
-			), true);
-			if(!$result) $result = '';
-			else $result = $this->_getData($result, false, true);
+			$module = isset($_SESSION['s']['module']['name']) ? $_SESSION['s']['module']['name'] : '';
+			$form = isset($app->tform->formDef['name']) ? $app->tform->formDef['name'] : '';
+			
+			$events = array();
+			if($module) {
+				$events[] = $module . ':' . ($form ? $form : '') . ':' . $name;
+				$events[] = $module . ':' . ($form ? $form : '') . ':on_template_content';
+			} else {
+				$events[] = $name;
+				$events[] = 'on_template_content';
+			}
+			
+			$events = array_unique($events);
+			
+			for($e = 0; $e < count($events); $e++) {
+				$tmpresult = $app->plugin->raiseEvent($events[$e], array(
+					'name' => $name,
+					'module' => $module,
+					'form' => $form
+				), true);
+				if(!$tmpresult) $tmpresult = '';
+				else $tmpresult = $this->_getData($tmpresult, false, true);
+				
+				$result .= $tmpresult;
+			}
 			
 			return $result;
 		}
@@ -1285,7 +1302,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 				}
 			
 			case 'hook':
-				return $this->_parseHook(@$var, @$value);
+				return $this->_parseHook(@$var);
 			
 			case 'include':
 				return '<?php $this->_getData($this->_fileSearch(\''.$file.'\'), 1); ?>';
