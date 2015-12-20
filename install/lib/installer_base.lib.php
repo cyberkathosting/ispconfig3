@@ -36,6 +36,7 @@ class installer_base {
 	public $conf;
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
+	public $min_php = '5.3.3'; // minimal php-version for update / install
 	protected $mailman_group = 'list';
 
 
@@ -129,6 +130,11 @@ class installer_base {
 
 	}
 	*/
+
+	//** Detect PHP-Version
+	public function get_php_version() {
+		if(version_compare(PHP_VERSION, $this->min_php, '<')) return false; else return true;
+	}
 
 	//** Detect installed applications
 	public function find_installed_apps() {

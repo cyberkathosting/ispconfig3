@@ -139,6 +139,7 @@ include_once 'dist/conf/'.$dist['id'].'.conf.php';
 //** Installer Interface
 //****************************************************************************************************
 $inst = new installer();
+if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
@@ -156,6 +157,13 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 if(is_dir('/usr/local/ispconfig')) {
 	die('ISPConfig 3 installation found. Please use update.php instead if install.php to update the installation.');
 }
+
+//** Detect php-version
+$MIN_PHP='5.6';
+if (version_compare(PHP_VERSION, $MIN_PHP, '<')) {
+    echo 'ISPConfig requieres PHP '.$MIN_PHP.'. Installed version: ' . PHP_VERSION . "\n";
+}
+
 
 //** Detect the installed applications
 $inst->find_installed_apps();
