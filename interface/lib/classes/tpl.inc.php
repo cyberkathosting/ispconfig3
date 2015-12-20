@@ -839,28 +839,34 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * @access private
 		 * @return mixed data/string or boolean
 		 */
-		private function _getData ($tmplfile, $do_eval=false)
+		private function _getData ($tmplfile, $do_eval=false, $tmpl_from_string = false)
 		{
 			//* check the current file depth
 			if ($this->_includedepth > $this->OPTIONS['MAX_INCLUDES'] || $tmplfile == false) {
 				return;
 			} else {
 				if ($this->_debug){
-					array_push($this->_debugIncludedfiles, $tmplfile);
+					if($tmpl_from_string) array_push($this->_debugIncludedfiles, 'String: ' . substr($tmplfile, 0, 25) . '...');
+					else array_push($this->_debugIncludedfiles, $tmplfile);
 				}
 				if ($do_eval) {
-					array_push($this->_currentincludedir, dirname($tmplfile));
+					if($tmpl_from_string == true) array_push($this->_currentincludedir, end($this->_currentincludedir));
+					else array_push($this->_currentincludedir, dirname($tmplfile));
 					$this->_includedepth++;
 				}
 			}
 
 
-			if($this->_cache && $this->_checkCache($tmplfile)) { //* cache exists so lets use it
+			if($this->_cache && $this->_checkCache($tmplfile, $tmpl_from_string)) { //* cache exists so lets use it
 				$data = fread($fp = fopen($this->_cachefile, 'r'), filesize($this->_cachefile));
 				fclose($fp);
 			} else { //* no cache lets parse the file
-				$data = fread($fp = fopen($tmplfile, 'r'), filesize($tmplfile));
-				fclose($fp);
+				if($tmpl_from_string == true) {
+					$data = $tmplfile;
+				} else {
+					$data = fread($fp = fopen($tmplfile, 'r'), filesize($tmplfile));
+					fclose($fp);
+				}
 
 				$regex = '/(<|<\/|{|{\/|<!--|<!--\/){1}\s*';
 				$regex.= 'tmpl_([\w]+)\s*';
@@ -884,7 +890,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			}
 
 			//* now we must parse the $data and check for any <tmpl_include>'s
-			if ($this->_debug) $this->doDebugWarnings(file($tmplfile), $tmplfile);
+			if ($this->_debug && $tmpl_from_string == false) $this->doDebugWarnings(file($tmplfile), $tmplfile);
 
 			if ($do_eval) {
 				$success = @eval('?>'.$data.'<?php return 1;');
@@ -1061,6 +1067,46 @@ if (!defined('vlibTemplateClassLoaded')) {
 			}
 		}
 
+		/**
+		 * returns a string containing hook data
+		 * @param string $type
+		 * @param string $name
+		 * @return string hook data
+		 */
+		private function _parseHook ($name)
+		{
+			global $app;
+			
+			if(!$name) return false;
+			
+			$module = isset($_SESSION['s']['module']['name']) ? $_SESSION['s']['module']['name'] : '';
+			$form = isset($app->tform->formDef['name']) ? $app->tform->formDef['name'] : '';
+			
+			$events = array();
+			if($module) {
+				$events[] = $module . ':' . ($form ? $form : '') . ':' . $name;
+				$events[] = $module . ':' . ($form ? $form : '') . ':on_template_content';
+			} else {
+				$events[] = $name;
+				$events[] = 'on_template_content';
+			}
+			
+			$events = array_unique($events);
+			
+			for($e = 0; $e < count($events); $e++) {
+				$tmpresult = $app->plugin->raiseEvent($events[$e], array(
+					'name' => $name,
+					'module' => $module,
+					'form' => $form
+				), true);
+				if(!$tmpresult) $tmpresult = '';
+				else $tmpresult = $this->_getData($tmpresult, false, true);
+				
+				$result .= $tmpresult;
+			}
+			
+			return $result;
+		}
 
 		/**
 		 * returns a string used for parsing in tmpl_loop statements.
@@ -1254,7 +1300,10 @@ if (!defined('vlibTemplateClassLoaded')) {
 				if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
 					return '<?php include(\''.$file.'\'); ?>';
 				}
-
+			
+			case 'hook':
+				return $this->_parseHook(@$var);
+			
 			case 'include':
 				return '<?php $this->_getData($this->_fileSearch(\''.$file.'\'), 1); ?>';
 
