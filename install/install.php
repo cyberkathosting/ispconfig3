@@ -158,13 +158,6 @@ if(is_dir('/usr/local/ispconfig')) {
 	die('ISPConfig 3 installation found. Please use update.php instead if install.php to update the installation.');
 }
 
-//** Detect php-version
-$MIN_PHP='5.6';
-if (version_compare(PHP_VERSION, $MIN_PHP, '<')) {
-    echo 'ISPConfig requieres PHP '.$MIN_PHP.'. Installed version: ' . PHP_VERSION . "\n";
-}
-
-
 //** Detect the installed applications
 $inst->find_installed_apps();
 
