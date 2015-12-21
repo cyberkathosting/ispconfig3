@@ -1,11 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Alan Adı';
 $wb['destination_txt'] = 'Hedef';
-$wb['type_txt'] = 'Çeşit';
-$wb['mx_txt'] = 'No MX lookup';
-$wb['sort_order_txt'] = 'Sırala';
-$wb['active_txt'] = 'Aktif';
-$wb['limit_mailrouting_txt'] = 'Hesabınızdaki max. rota sayısına ulaştınız.';
-$wb['transport_txt'] = 'Transport';
+$wb['type_txt'] = 'Tip';
+$wb['mx_txt'] = 'MX taraması yok';
+$wb['sort_order_txt'] = 'Sıralama';
+$wb['active_txt'] = 'Etkin';
+$wb['limit_mailrouting_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla yöneltme sayısına ulaştınız.';
+$wb['transport_txt'] = 'Aktarım';
 ?>

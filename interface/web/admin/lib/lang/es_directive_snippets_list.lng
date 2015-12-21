@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Fragmentos de Directivas';
-$wb['active_txt'] = 'Activa';
-$wb['name_txt'] = 'Nombre';
+$wb['list_head_txt'] = 'Fragmentos de código';
+$wb['active_txt'] = 'Habilitado';
+$wb['name_txt'] = 'Nombre del fragmento';
 $wb['type_txt'] = 'Tipo';
-$wb['add_new_record_txt'] = 'Añadir Fragmento de Directivas';
+$wb['add_new_record_txt'] = 'Añadir fragmentos de códigos';
 ?>

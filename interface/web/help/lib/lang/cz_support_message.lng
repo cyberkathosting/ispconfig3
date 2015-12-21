@@ -14,3 +14,4 @@ $wb['support_request_sent_txt'] = 'Your support request has been sent. Please do
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Zprávu nelze odeslat, protože e-mailová adresa příjemce a/nebo odesílatele není platná.';
 ?>
 
+

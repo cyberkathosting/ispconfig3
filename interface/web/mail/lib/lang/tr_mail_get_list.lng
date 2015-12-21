@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Harici POP3 / IMAP Sunucuları';
-$wb['active_txt'] = 'Aktif';
+$wb['list_head_txt'] = 'Dış POP3/IMAP Sunucuları';
+$wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['source_server_txt'] = 'Dış Sunucu';
-$wb['source_username_txt'] = 'Kullanıcı adı';
+$wb['source_username_txt'] = 'Kullanıcı Adı';
 $wb['destination_txt'] = 'Hedef';
-$wb['add_new_record_txt'] = 'Yeni Hesap';
+$wb['add_new_record_txt'] = 'Hesap Ekle';
 ?>

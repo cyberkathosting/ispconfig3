@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Client Circles';
-$wb['circle_id_txt'] = 'Circle ID';
-$wb['circle_name_txt'] = 'Circle Name';
-$wb['description_txt'] = 'Description';
-$wb['add_new_record_txt'] = 'Add new circle';
-$wb['filter_txt'] = 'Filter';
-$wb['delete_txt'] = 'Delete';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Müşteri Grupları';
+$wb['circle_id_txt'] = 'Grup Kodu';
+$wb['circle_name_txt'] = 'Grup Adı';
+$wb['description_txt'] = 'Açıklama';
+$wb['add_new_record_txt'] = 'Grup Ekle';
+$wb['filter_txt'] = 'Süzgeç';
+$wb['delete_txt'] = 'Sil';
+$wb['active_txt'] = 'Etkin';
 ?>

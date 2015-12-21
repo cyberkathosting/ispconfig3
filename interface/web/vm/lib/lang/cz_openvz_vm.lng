@@ -13,7 +13,7 @@ $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
 $wb['template_id_txt'] = 'Šablona';
 $wb['ip_address_txt'] = 'IP address';
-$wb['hostname_txt'] = 'Hostname';
+$wb['hostname_txt'] = 'Název hostitele';
 $wb['vm_password_txt'] = 'VM Password';
 $wb['start_boot_txt'] = 'Start at boot';
 $wb['active_txt'] = 'Aktivní';
@@ -43,4 +43,5 @@ $wb["custom_txt"] = "Custom settings";
 $wb["bootorder_txt"] = "Boot order priority";
 $wb["bootorder_error_notpositive"] = "Only positive integers are allowed for Boot order priority";
 ?>
+
 

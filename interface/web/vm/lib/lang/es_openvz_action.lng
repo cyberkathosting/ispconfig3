@@ -1,16 +1,16 @@
 <?php
-$wb['head_txt'] = 'Las acciones del servidor virtual de VM:';
-$wb['start_txt'] = 'Inicio del servidor virtual';
+$wb['head_txt'] = 'Acciones de servidor virtual para VM:';
+$wb['start_txt'] = 'Iniciar servidor virtual';
 $wb['stop_txt'] = 'Detener servidor virtual';
-$wb['restart_txt'] = 'Reinicie el servidor virtual';
-$wb['ostemplate_txt'] = 'Crear OSTemplate';
-$wb['ostemplate_desc_txt'] = '(example: debian-6.0-i386-custom)';
-$wb['btn_save_txt'] = 'Ejecuta la acción seleccionada';
+$wb['restart_txt'] = 'Reiniciar servidor virtual';
+$wb['ostemplate_txt'] = 'Crear plantilla de SO';
+$wb['ostemplate_desc_txt'] = '(ejemplo: debian-6.0-i386-custom)';
+$wb['btn_save_txt'] = 'Ejecutar la acción seleccionada';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['start_exec_txt'] = 'Comando de arranque ha sido enviada al servidor host VM. Se puede tomar un minuto hasta que la máquina virtual se inicia.';
-$wb['stop_exec_txt'] = 'Un comando de paro ha sido enviada al servidor host VM. Se puede tomar un minuto hasta que la máquina virtual se detiene.';
-$wb['restart_exec_txt'] = 'Reinicie comando se ha enviado al servidor host VM. Se puede tomar un minuto hasta que la máquina virtual se reinicia.';
-$wb['ostemplate_name_error'] = 'El nombre OSTemplate conatains caracteres no permitidos.';
-$wb['ostemplate_name_unique_error'] = 'Ya existe un OSTemplate con ese nombre.';
-$wb['ostemplate_exec_txt'] = 'El comando para crear una OSTemplate ha sido enviada al servidor host. Tomará varios minutos hasta que el OSTemplate se ha creado.';
+$wb['start_exec_txt'] = 'El comando iniciar ha sido enviado al servidor host de VM. Puede tomar un minuto hasta que VM sea iniciado.';
+$wb['stop_exec_txt'] = 'El comando detener ha sido enviado al servidor host de VM. Puede tomar un minuto hasta que VM sea detenido.';
+$wb['restart_exec_txt'] = 'El comando reiniciar ha sido enviado al servidor host de VM. Puede tomar un minuto hasta que VM sea reiniciado.';
+$wb['ostemplate_name_error'] = 'La platilla de SO contiene caracteres no permitidos.';
+$wb['ostemplate_name_unique_error'] = 'Ya existe una plantilla de SO con ese nombre.';
+$wb['ostemplate_exec_txt'] = 'El comando para crear la plantilla de SO ha sido enviado al servidor host. Puede tomar varios minutos hasta que la plantilla de SO sea creada.';
 ?>

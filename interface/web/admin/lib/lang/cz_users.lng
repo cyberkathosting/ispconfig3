@@ -33,3 +33,4 @@ $wb['username_error_collision'] = 'Uživatelské jméno nesmí být web nebo web
 $wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 ?>
 
+

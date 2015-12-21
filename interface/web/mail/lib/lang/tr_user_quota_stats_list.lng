@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Mailbox quota';
-$wb['quota_txt'] = 'Quota';
-$wb['name_txt'] = 'Name';
-$wb['email_txt'] = 'Email Address';
-$wb['used_txt'] = 'Used space';
-$wb['percentage_txt'] = 'Used %';
+$wb['list_head_txt'] = 'Posta Kutusu Kotası';
+$wb['quota_txt'] = 'Kota';
+$wb['name_txt'] = 'Ad';
+$wb['email_txt'] = 'E-posta Adresi';
+$wb['used_txt'] = 'Kullanılan Alan';
+$wb['percentage_txt'] = 'Kullanılan %';
 ?>
+

@@ -1,17 +1,17 @@
 <?php
+$wb['page_head_txt'] = 'Enviar información al cliente';
 $wb['btn_send_txt'] = 'Enviar correo';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['sender_txt'] = 'Dirección del remitente';
+$wb['sender_txt'] = 'Dirección de correo del emisor';
 $wb['subject_txt'] = 'Asunto';
 $wb['message_txt'] = 'Mensaje';
-$wb['form_legend_client_txt'] = 'Enviar mensaje de correo para todos los clientes.';
-$wb['form_legend_admin_txt'] = 'Enviar mensaje de correo a todos los clientes y revendedores.';
-$wb['sender_invalid_error'] = 'El correo del remitente no es válido.';
+$wb['form_legend_client_txt'] = 'Enviar mensaje de correo a los clientes.';
+$wb['form_legend_admin_txt'] = 'Enviar mensaje de correo a clientes y revendedores.';
+$wb['sender_invalid_error'] = 'Dirección de emisor inválida.';
 $wb['subject_invalid_error'] = 'El asunto está vacío.';
 $wb['message_invalid_error'] = 'El mensaje está vacío.';
-$wb['email_sent_to_txt'] = 'Correo enviado a:';
-$wb['page_head_txt'] = 'Send customer information';
-$wb['recipient_txt'] = 'Destinatarios';
+$wb['email_sent_to_txt'] = 'Enviar correo a:';
+$wb['recipient_txt'] = 'Receptor';
 $wb['all_clients_resellers_txt'] = 'Todos los clientes y revendedores';
 $wb['all_clients_txt'] = 'Todos los clientes';
 $wb['variables_txt'] = 'Variables:';

@@ -1,7 +1,7 @@
 <?php
 $wb['confirm_action_txt'] = 'Confirmar acción';
-$wb['delete_explanation'] = 'Esta acción eliminara los siguientes registros asociados a este cliente';
-$wb['btn_save_txt'] = 'Eliminar cliente';
-$wb['btn_cancel_txt'] = 'Cancelar sin eliminar cliente';
-$wb['confirm_client_delete_txt'] = '¿Está seguro de que quiere eliminar este cliente?';
+$wb['delete_explanation'] = 'Esta acción eliminará el siguiente número de registros asociados con este cliente';
+$wb['btn_save_txt'] = 'Borrar el cliente';
+$wb['btn_cancel_txt'] = 'Cancelar sin borrar el cliente';
+$wb['confirm_client_delete_txt'] = 'Seguro que desea borrar el cliente?';
 ?>

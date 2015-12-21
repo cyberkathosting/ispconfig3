@@ -1,6 +1,6 @@
 <?php
-$wb['name_txt'] = 'İsim';
+$wb['name_txt'] = 'Ad';
 $wb['fields_txt'] = 'Alanlar';
-$wb['template_txt'] = 'Şablon';
+$wb['template_txt'] = 'Kalıp';
 $wb['visible_txt'] = 'Görünür';
 ?>

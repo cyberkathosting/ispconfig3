@@ -1,24 +1,24 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['parent_domain_id_txt'] = 'Sitio web padre';
-$wb['active_txt'] = 'Activar';
+$wb['parent_domain_id_txt'] = 'Sitio web principal';
+$wb['active_txt'] = 'Habilitado';
 $wb['client_txt'] = 'Cliente';
 $wb['run_min_txt'] = 'Minutos';
 $wb['run_hour_txt'] = 'Horas';
 $wb['run_mday_txt'] = 'Días del mes';
 $wb['run_month_txt'] = 'Meses';
 $wb['run_wday_txt'] = 'Días de la semana';
-$wb['command_txt'] = 'Comando a ejecutar (los comandos son ejecutados via sh y las URLs via wget)';
-$wb['limit_cron_txt'] = 'Se ha alcanzado el número máximo de tareas cron.';
-$wb['limit_cron_frequency_txt'] = 'La frecuencia de la tarea cron excede el límite permitido.';
-$wb['run_min_error_format'] = 'Formato no válido para los minutos.';
-$wb['run_hour_error_format'] = 'Formato no válido para las horas.';
-$wb['run_mday_error_format'] = 'Formato no válido para los días del mes.';
-$wb['run_month_error_format'] = 'Formato no válido para los meses.';
-$wb['run_wday_error_format'] = 'Formato no válido para los días de la semana.';
-$wb['command_error_format'] = 'Formato de comando no válido. En el caso de las llamadas a URLs sólo se permite http o https.';
+$wb['command_txt'] = 'Comando a ejecutar (los comandos son ejecutados mediante sh, y las url mediante wget)';
+$wb['limit_cron_txt'] = 'Ha alcanzado el número máximo de cron jobs permitidos.';
+$wb['limit_cron_frequency_txt'] = 'La frecuencia de cron job excede los límites permitidos.';
+$wb['run_min_error_format'] = 'Formato inválido para los minutos.';
+$wb['run_hour_error_format'] = 'Formato inválido para las horas.';
+$wb['run_mday_error_format'] = 'Formato inválido para los días del mes.';
+$wb['run_month_error_format'] = 'Formato inválido para los meses.';
+$wb['run_wday_error_format'] = 'Formato inválido para los días de la semana.';
+$wb['command_error_format'] = 'Formato inválido del comando. Por favor tenga presente que en caso de una url solo http/https está permitido.';
 $wb['unknown_fieldtype_error'] = 'Se ha usado un tipo de campo desconocido.';
-$wb['server_id_error_empty'] = 'El ID del servidor está vacío.';
-$wb['limit_cron_url_txt'] = 'Sólo se permiten tareas basadas en URL. Por favor introduce una URL que empiece por http:// como comando.';
+$wb['server_id_error_empty'] = 'La ID del servidor está vacía.';
+$wb['limit_cron_url_txt'] = 'Solo cron mediante URL. Por favor ingrese como comando para cron una URL precedida por http://.';
 $wb['command_error_empty'] = 'El comando está vacío.';
 ?>

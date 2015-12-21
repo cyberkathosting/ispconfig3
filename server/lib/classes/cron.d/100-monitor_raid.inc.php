@@ -229,6 +229,91 @@ class cronjob_monitor_raid extends cronjob {
 			}
 		}
 
+		/*
+		* HP Proliant
+		*/
+		system('which hpacucli', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('/usr/sbin/hpacucli ctrl all show config');
+			$tmp = explode("\n", $data['output']);
+			if(is_array($tmp)) {
+				foreach ($tmp as $item) {
+					if (strpos($item, 'logicaldrive') !== false) {
+						if (strpos($item, 'OK') !== false) {
+							$this->_tools->_setState($state = 'ok');
+						} elseif (strpos($item, 'Recovery Mode') !== false) {
+							$this->_tools->_setState($state = 'critical');
+							break;
+						} elseif (strpos($item, 'Failed') !== false) {
+							$this->_tools->_setState($state = 'error');
+							break;
+						} elseif (strpos($item, 'Recovering') !== false) {
+							$this->_tools->_setState($state = 'info');
+							break;
+						} else {
+							$this->_tools->_setState($state = 'critical');
+						}
+					}
+					if (strpos($item, 'physicaldrive') !== false) {
+						if (strpos($item, 'physicaldrive') !== false) {
+							if (strpos($item, 'OK') !== false) {
+								$this->_tools->_setState($state = 'ok');
+							} elseif (strpos($item, 'Failed') !== false) {
+								$this->_tools->_setState($state = 'critical');
+								break;
+							} elseif (strpos($item, 'Rebuilding') !== false) {
+								$this->_tools->_setState($state = 'info');
+								break;
+							} else {
+								$this->_tools->_setState($state = 'critical');
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/*
+		* LSI MegaRaid
+		*/
+		system('which megacli', $retval);
+		system('which megacli64', $retval64);
+		if($retval === 0 || $retval64 === 0) {
+			$binary=@($retval === 0)?'megacli':'megacli64';
+			$state = 'ok';
+			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll');
+			if (strpos($data['output'], 'Optimal') !== false) {
+				$this->_tools->_setState($state, 'ok');
+			} else if (strpos($data['output'], 'Degraded') !== false) {
+				$this->_tools->_setState($state, 'critical');
+			} else if (strpos($data['output'], 'Offline') !== false) {
+				$this->_tools->_setState($state, 'critical');
+			} else {
+				$this->_tools->_setState($state, 'critical');
+			}
+		}
+
+		/*
+		* Adaptec-RAID
+		*/
+		system('which arcconf', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('arcconf GETCONFIG 1 LD');
+			if(is_array($data['output'])) {
+				foreach ($data['output'] as $item) {
+					if (strpos($item, 'Logical device name                      : RAID') !== false) {
+						if (strpos($item, 'Optimal') !== false) {
+							$this->_tools->_setState($state, 'ok');
+						} else {
+							$this->_tools->_setState($state, 'critical');
+						}
+					}
+				}
+			}
+		}
 
 		$res = array();
 		$res['server_id'] = $server_id;

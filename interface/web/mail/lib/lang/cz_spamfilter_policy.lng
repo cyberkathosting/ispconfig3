@@ -1,14 +1,14 @@
 <?php
-$wb['policy_name_txt'] = 'Název politiky';
-$wb['virus_lover_txt'] = 'Viry';
+$wb['policy_name_txt'] = 'Název antispamové politiky';
+$wb['virus_lover_txt'] = 'Viry - označit e-mail, ale doručit';
 $wb['spam_lover_txt'] = 'SPAM';
-$wb['banned_files_lover_txt'] = 'Zabanované soubory';
+$wb['banned_files_lover_txt'] = 'Zabanovaný obsah - doručit (*.com, ...)';
 $wb['bad_header_lover_txt'] = 'Špatné hlavičky';
-$wb['bypass_virus_checks_txt'] = 'Obejít kontrolu virů';
-$wb['bypass_banned_checks_txt'] = 'Obejít kontrolu zabanovaných';
-$wb['bypass_header_checks_txt'] = 'Obejít kontrolu hlavičky';
+$wb['bypass_virus_checks_txt'] = 'Vypnout kontrolu na viry';
+$wb['bypass_banned_checks_txt'] = 'Vypnout kontrolu zabanovaných e-mailů';
+$wb['bypass_header_checks_txt'] = 'Vypnout kontrolu hlavičky e-mailu';
 $wb['virus_quarantine_to_txt'] = 'Předat virus na e-mail';
-$wb['spam_quarantine_to_txt'] = 'Předat spam na email';
+$wb['spam_quarantine_to_txt'] = 'Předat spam na e-mail';
 $wb['banned_quarantine_to_txt'] = 'Předat zabanované na e-mail';
 $wb['bad_header_quarantine_to_txt'] = 'Předat špatnou hlavičku na e-mail';
 $wb['clean_quarantine_to_txt'] = 'Předat čisté na e-mail';
@@ -25,15 +25,16 @@ $wb['addr_extension_virus_txt'] = 'Adr. rozšíření virus';
 $wb['addr_extension_spam_txt'] = 'Adr. rozšíření SPAM';
 $wb['addr_extension_banned_txt'] = 'Adr. rozšíření zabanované';
 $wb['addr_extension_bad_header_txt'] = 'Adr rozšíření špatná hlavička';
-$wb['warnvirusrecip_txt'] = 'Varovat adresáta viru';
-$wb['warnbannedrecip_txt'] = 'Varovat adresáta zabanovaného obsahu';
-$wb['warnbadhrecip_txt'] = 'Varovat při špatné hlavičce';
+$wb['warnvirusrecip_txt'] = 'VIRUS - varovat příjemce při pokusu o doručení zavirovaného e-mailu';
+$wb['warnbannedrecip_txt'] = 'ZABANOVANÝ OBSAH - varovat příjemce při pokusu o doručení zabanovaného obsahu e-mailu';
+$wb['warnbadhrecip_txt'] = 'ŠPATNÁ HLAVIČKA - varovat příjemce při pokusu o doručení e-mailu se špatnou hlavičkou';
 $wb['newvirus_admin_txt'] = 'Newvirus admin';
 $wb['virus_admin_txt'] = 'Virus admin';
 $wb['banned_admin_txt'] = 'Zabanované admin';
-$wb['bad_header_admin_txt'] = 'Špatná hlavičkar admin';
+$wb['bad_header_admin_txt'] = 'Špatná hlavička admin';
 $wb['spam_admin_txt'] = 'SPAM admin';
 $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 $wb['banned_rulenames_txt'] = 'Název pravidel zabanované';
 ?>
+
 

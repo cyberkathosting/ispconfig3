@@ -1133,7 +1133,11 @@ class nginx_plugin {
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
 		$nginx_directive_lines = explode("\n", $nginx_directives);
 		if(is_array($nginx_directive_lines) && !empty($nginx_directive_lines)){
-			$trans = array('{DOCROOT}' => $vhost_data['web_document_root_www'], '{FASTCGIPASS}' => 'fastcgi_pass '.($data['new']['php_fpm_use_socket'] == 'y'? 'unix:'.$fpm_socket : '127.0.0.1:'.$vhost_data['fpm_port']).';');
+			$trans = array(
+				'{DOCROOT}' => $vhost_data['web_document_root_www'],
+				'{DOCROOT_CLIENT}' => $vhost_data['web_document_root'],
+				'{FASTCGIPASS}' => 'fastcgi_pass '.($data['new']['php_fpm_use_socket'] == 'y'? 'unix:'.$fpm_socket : '127.0.0.1:'.$vhost_data['fpm_port']).';'
+			);
 			foreach($nginx_directive_lines as $nginx_directive_line){
 				$final_nginx_directives[] = array('nginx_directive' => strtr($nginx_directive_line, $trans));
 			}
@@ -1142,9 +1146,98 @@ class nginx_plugin {
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
+		if(!isset($data['new']['ssl_domain']) OR empty($data['new']['ssl_domain'])) { $data['new']['ssl_domain'] = $data['new']['domain']; }
 		$domain = $data['new']['ssl_domain'];
+		if(!$domain) $domain = $data['new']['domain'];
+		$tpl->setVar('ssl_domain', $domain);
 		$key_file = $ssl_dir.'/'.$domain.'.key';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+
+
+		$tpl->setVar('ssl_letsencrypt', "n");
+		//* Generate Let's Encrypt SSL certificat
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
+			//* be sure to have good domain
+			if(substr($domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
+				$domain = substr($domain, 2);
+			}
+			
+			$data['new']['ssl_domain'] = $domain;
+			$vhost_data['ssl_domain'] = $domain;
+			
+			$lddomain = (string) "$domain";
+			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+				$lddomain .= (string) " --domains www." . $domain;
+			}
+
+			$tpl->setVar('ssl_letsencrypt', "y");
+			//* TODO: check dns entry is correct
+			$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/fullchain.pem";
+			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
+			$webroot = $data['new']['document_root']."/web";
+
+			//* check if we have already a Let's Encrypt cert
+			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+
+				if(is_dir($webroot . "/.well-known/")) {
+					$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
+					$this->_exec("rm -rf " . $webroot . "/.well-known/");
+				}
+
+				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
+				$app->system->mkdirpath($webroot . "/.well-known/");
+				$app->system->chown($webroot . "/.well-known/", $$data['new']['system_user']);
+				$app->system->chgrp($webroot . "/.well-known/", $data['new']['system_group']);
+				$app->system->mkdirpath($webroot . "/.well-known/acme-challenge");
+				$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
+				$app->system->chgrp($webroot . "/.well-known/acme-challenge/", $data['new']['system_group']);
+				$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
+				
+				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
+				}
+			};
+
+			//* check is been correctly created
+			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
+					$date = date("YmdHis");
+//* TODO: check if is a symlink, if target same keep it, either remove it
+				if(is_file($key_file)) {
+					$app->system->copy($key_file, $key_file.'.old'.$date);
+					$app->system->chmod($key_file.'.old.'.$date, 0400);
+					$app->system->unlink($key_file);
+				}
+
+				if ($web_config["website_symlinks_rel"] == 'y') {
+					$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
+				} else {
+					exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
+				}
+
+				if(is_file($crt_file)) {
+					$app->system->copy($crt_file, $crt_file.'.old.'.$date);
+					$app->system->chmod($crt_file.'.old.'.$date, 0400);
+					$app->system->unlink($crt_file);
+				}
+
+				if($web_config["website_symlinks_rel"] == 'y') {
+					$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
+				} else {
+					exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
+				}
+
+				/* we don't need to store it.
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = '".$data['new']['domain']."'");
+				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+			}
+		};
 
 		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;

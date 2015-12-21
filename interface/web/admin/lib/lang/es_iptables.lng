@@ -1,13 +1,13 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['multiport_txt'] = 'Multi Puerto';
-$wb['singleport_txt'] = 'Puerto Único';
+$wb['multiport_txt'] = 'Multi-puerto';
+$wb['singleport_txt'] = 'Puerto individual';
 $wb['protocol_txt'] = 'Protocolo';
 $wb['table_txt'] = 'Tabla';
 $wb['target_txt'] = 'Destino';
 $wb['state_txt'] = 'Estado';
 $wb['destination_ip_txt'] = 'Dirección de destino';
 $wb['source_ip_txt'] = 'Dirección de origen';
-$wb['active_txt'] = 'Activar';
-$wb['iptables_error_unique'] = 'Ya existe un registro de servidor de seguridad de este servidor.';
+$wb['active_txt'] = 'Habilitado';
+$wb['iptables_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
 ?>

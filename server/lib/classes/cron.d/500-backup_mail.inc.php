@@ -198,13 +198,18 @@ class cronjob_backup_mail extends cronjob {
 
 						/* remove archives */
 						$mail_backup_dir = realpath($backup_dir.'/mail'.$domain_rec['domain_id']);
-						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_*';
+						$mail_backup_file = 'mail'.$rec['mailuser_id'].'_';
 						if(is_dir($mail_backup_dir)) {
 							$dir_handle = opendir($mail_backup_dir.'/');
 							while ($file = readdir($dir_handle)) {
 								if(!is_dir($file)) {
-									unlink ("$mail_backup_dir/"."$file");
+									if(substr($file,0,strlen($mail_backup_file)) == $mail_backup_file) {
+										unlink ($mail_backup_dir.'/'.$file);
+									}
 								}
+							}
+							if(count(glob($mail_backup_dir."/*", GLOB_NOSORT)) === 0) {
+								rmdir($mail_backup_dir);
 							}
 						}
 						/* remove backups from db */
@@ -212,6 +217,19 @@ class cronjob_backup_mail extends cronjob {
 						$app->db->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $domain_rec['domain_id'], $rec['mailuser_id']);
 
+					}
+				}
+
+				// remove non-existing backups from database
+				$backups = $app->db->queryAllRecords("SELECT * FROM mail_backup WHERE server_id = ?", $conf['server_id']);
+				if(is_array($backups) && !empty($backups)){
+					foreach($backups as $backup){
+						$mail_backup_dir = $backup_dir.'/mail'.$backup['parent_domain_id'];
+						if(!is_file($mail_backup_dir.'/'.$backup['filename'])){
+							$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						}
 					}
 				}
 				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);

@@ -1,7 +1,7 @@
 <?php
-$wb['mailbox_spamfilter_txt'] = 'Spamfilter';
-$wb['spamfilter_txt'] = 'Spamfilter';
-$wb['email_txt'] = 'Email';
-$wb['no_policy'] = '- not enabled -';
-$wb['policy_txt'] = 'Policy';
+$wb['mailbox_spamfilter_txt'] = 'Önemsiz Posta Süzgeci';
+$wb['spamfilter_txt'] = 'Önemsiz posta süzgeci';
+$wb['email_txt'] = 'E-posta';
+$wb['no_policy'] = '- devre dışı -';
+$wb['policy_txt'] = 'Kural';
 ?>

@@ -1,8 +1,10 @@
 <?php
-$wb['faq_section_name_txt'] = 'Section Name';
-$wb['faq_delete_txt'] = 'Delete';
-$wb['faq_edit_txt'] = 'Edit';
-$wb['faq_sections_txt'] = 'Sections';
-$wb['faq_faq_sections_txt'] = 'FAQ Sections';
-$wb['faq_new_section_txt'] = 'Add a new section';
+$wb['faq_section_name_txt'] = 'Bölüm Adı';
+$wb['faq_delete_txt'] = 'Sil';
+$wb['faq_edit_txt'] = 'Düzenle';
+$wb['faq_sections_txt'] = 'Bölümler';
+$wb['faq_faq_sections_txt'] = 'SSS Bölümleri';
+$wb['faq_new_section_txt'] = 'Bölüm Ekle';
 ?>
+
+

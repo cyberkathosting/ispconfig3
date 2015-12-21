@@ -3,7 +3,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zóna';
 $wb['name_txt'] = 'Název';
 $wb['type_txt'] = 'Typ';
-$wb['data_txt'] = 'Kanonický hostname';
+$wb['data_txt'] = 'Kanonický název hostitele';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivní';
 $wb['limit_dns_record_txt'] = 'Dosažen maximální počet DNS záznamů pro Váš účet.';
@@ -12,6 +12,7 @@ $wb['name_error_empty'] = 'Název je prázdný.';
 $wb['name_error_regex'] = 'Název má chybný formát.';
 $wb['data_error_empty'] = 'Kanonický hostname je prázdný';
 $wb['data_error_regex'] = 'Kanonického hostname má chybný formát';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
+
 

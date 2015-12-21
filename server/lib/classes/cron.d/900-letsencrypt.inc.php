@@ -1,6 +1,7 @@
 <?php
+
 /*
-Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
+Copyright (c) 2013, Marius Cramer, pixcept KG
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -27,49 +28,21 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+class cronjob_letsencrypt extends cronjob {
 
-/******************************************
-* Begin Form configuration
-******************************************/
+	// job schedule
+	protected $_schedule = '0 3 * * *';
 
-$list_def_file = "list/client_template.list.php";
-$tform_def_file = "form/client_template.tform.php";
+	public function onRunJob() {
+		global $app, $conf;
 
-/******************************************
-* End Form configuration
-******************************************/
-
-require_once '../../lib/config.inc.php';
-require_once '../../lib/app.inc.php';
-
-//* Check permissions for module
-$app->auth->check_module_permissions('client');
-if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) die('Client-Templates are for Admins and Resellers only.');
-
-$app->uses('tpl,tform');
-$app->load('tform_actions');
-
-class page_action extends tform_actions {
-	function onBeforeDelete() {
-		global $app;
-
-		// check new style
-		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client_template_assigned WHERE client_template_id = ?", $this->id);
-		if($rec['number'] > 0) {
-			$app->error($app->tform->lng('template_del_aborted_txt'));
+		if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt-renewer")) {
+			exec('/root/.local/share/letsencrypt/bin/letsencrypt-renewer');
 		}
-
-		// check old style
-		$rec = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE template_master = ? OR template_additional like ?", $this->id, '%/".$this->id."/%');
-		if($rec['number'] > 0) {
-			$app->error($app->tform->lng('template_del_aborted_txt'));
-		}
-
+		
+		parent::onRunJob();
 	}
 
 }
-
-$page = new page_action;
-$page->onDelete()
 
 ?>

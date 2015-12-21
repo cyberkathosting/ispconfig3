@@ -1,23 +1,24 @@
 <?php
-$wb['head_txt'] = 'Import email configuration from ISPConfig 3';
-$wb['legend_txt'] = 'Remote server connection details';
-$wb['legend2_txt'] = 'Import email domain';
-$wb['resync_sites_txt'] = 'Resync Websites';
-$wb['resync_ftp_txt'] = 'Resync FTP users';
-$wb['resync_shell_txt'] = 'Resync shell users';
-$wb['resync_cron_txt'] = 'Resync cronjobs';
-$wb['resync_db_txt'] = 'Resync clientdb config';
-$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
-$wb['resync_dns_txt'] = 'Resync DNS records';
-$wb['btn_start_txt'] = 'Start Import';
-$wb['btn_connect_txt'] = 'Connect to remote server';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['client_group_id_txt'] = 'Local client';
-$wb['mail_domain_txt'] = 'Remote email domain';
-$wb['import_mailbox_txt'] = 'Import mailbox';
-$wb['import_aliasdomain_txt'] = 'Import alias domain';
-$wb['import_alias_txt'] = 'Import email alias';
-$wb['import_forward_txt'] = 'Import forward';
-$wb['import_user_filter_txt'] = 'Import user filter';
-$wb['import_spamfilter_txt'] = 'Import spamfilter';
+$wb['head_txt'] = 'ISPConfig 3 E-posta Ayarları Alma';
+$wb['legend_txt'] = 'Uzak sunucu bağlantı bilgileri';
+$wb['legend2_txt'] = 'E-posta alan adı alınsın';
+$wb['resync_sites_txt'] = 'Web siteleri eşleştirilsin';
+$wb['resync_ftp_txt'] = 'FTP kullanıcıları eşleştirilsin';
+$wb['resync_shell_txt'] = 'Kabuk kullanıcıları eşleştirilsin';
+$wb['resync_cron_txt'] = 'Zamanlanmış görevler eşleştirilsin';
+$wb['resync_db_txt'] = 'Müşteri veritabanı ayarları eşleştirilsin';
+$wb['resync_mailbox_txt'] = 'Posta kutuları eşleştirilsin';
+$wb['resync_dns_txt'] = 'DNS kayıtları eşleştirilsin';
+$wb['btn_start_txt'] = 'Almayı Başlat';
+$wb['btn_connect_txt'] = 'Uzak Sunucuya Bağlan';
+$wb['btn_cancel_txt'] = 'Geri';
+$wb['client_group_id_txt'] = 'Yerel Müşteri';
+$wb['mail_domain_txt'] = 'Uzak e-posta alan adı';
+$wb['import_mailbox_txt'] = 'Posta kutusunu al';
+$wb['import_aliasdomain_txt'] = 'Takma alan adını al';
+$wb['import_alias_txt'] = 'Takma e-postayı al';
+$wb['import_forward_txt'] = 'Yönlendirmeyi al';
+$wb['import_user_filter_txt'] = 'Kullanıcı süzgecini al';
+$wb['import_spamfilter_txt'] = 'Önemsiz posta süzgecini al';
+
 ?>

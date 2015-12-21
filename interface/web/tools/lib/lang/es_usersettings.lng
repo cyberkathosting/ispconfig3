@@ -2,8 +2,8 @@
 $wb['passwort_txt'] = 'Contraseña';
 $wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 $wb['language_txt'] = 'Idioma';
-$wb['password_mismatch'] = 'La contraseña indicada en el segundo campo no coincide con la del primero.';
-$wb['Form to edit the user password and language.'] = 'Formulario para editar el usuario y la contraseña.';
+$wb['password_mismatch'] = 'La contraseña del primer y segundo campo no coinciden.';
+$wb['Form to edit the user password and language.'] = 'Formulario para modificar la contraseña e idioma del usuario.';
 $wb['Settings'] = 'Configuraciones';
 $wb['generate_password_txt'] = 'Generar contraseña';
 $wb['repeat_password_txt'] = 'Repetir contraseña';

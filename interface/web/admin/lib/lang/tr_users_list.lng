@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Kullanıcılar';
 $wb['username_txt'] = 'Kullanıcı adı';
-$wb['client_id_txt'] = 'Client ID';
-$wb['active_txt'] = 'Active';
-$wb['add_new_record_txt'] = 'Yeni Kullanıcı';
-$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any user settings here. Use the Client- and Reseller settings in the Client module instead. Modifying or changing Users or groups here may cause data loss!';
-$wb['groups_txt'] = 'Groups';
+$wb['client_id_txt'] = 'Müşteri Kodu';
+$wb['active_txt'] = 'Etkin';
+$wb['groups_txt'] = 'Gruplar';
+$wb['add_new_record_txt'] = 'Kullanıcı Ekle';
+$wb['warning_txt'] = '<b>UYARI:</b> Buradan herhangi bir kullanıcı ayarını değiştirmeyin. Bunun yerine Müşteri modülünden Müşteri ya da Bayi ayarlarını değiştirin. Kullanıcı ya da gruplar değiştirildiğinde veri kaybı oluşabilir!';
 ?>

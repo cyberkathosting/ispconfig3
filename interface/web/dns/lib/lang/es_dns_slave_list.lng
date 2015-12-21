@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Zonas Secundarias';
-$wb['active_txt'] = 'Activa';
+$wb['list_head_txt'] = 'Zona DNS secundaria';
+$wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
-$wb['add_new_record_txt'] = 'Añadir nueva zona DNS secundaria';
-$wb['eg_domain_tld'] = 'ej. domain.tld.';
+$wb['add_new_record_txt'] = 'Añadir zona DNS secundaria';
+$wb['eg_domain_tld'] = 'eje. dominio.tld.';
 ?>

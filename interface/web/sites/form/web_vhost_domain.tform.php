@@ -239,6 +239,12 @@ $form["tabs"]['domain'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'ssl_letsencrypt' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'php' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',

@@ -158,3 +158,4 @@ $wb['none_txt'] = 'Žádný';
 $wb["email_error_empty"] = "Email is empty";
 ?>
 
+

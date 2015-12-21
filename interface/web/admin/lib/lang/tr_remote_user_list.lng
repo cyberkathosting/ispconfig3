@@ -1,7 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Uzak Kullanıcılar';
 $wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'Yeni kullanıcı';
-$wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Kullanıcı adı';
+$wb['add_new_record_txt'] = 'Kullanıcı Ekle';
+$wb['parent_remote_userid_txt'] = 'Kod';
+$wb['username_txt'] = 'Kullanıcı Adı';
 ?>
+
+

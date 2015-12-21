@@ -8,16 +8,18 @@ $wb['domain_error_unique'] = 'Dupolikování domény.';
 $wb['domain_error_regex'] = 'Chybný název domény.';
 $wb['client_txt'] = 'Klient';
 $wb['limit_maildomain_txt'] = 'Dosažen maximální počet email domén pro Váš účet.';
-$wb["dkim_txt"] = 'enable DKIM';
-$wb["dkim_private_txt"] = 'DKIM Private-key';
-$wb["dkim_public_txt"] = 'DKIM Public-key\nfor information only';
-$wb["dkim_generate_txt"] = 'Generate DKIM Private-key';
-$wb["dkim_dns_txt"] = 'DNS-Record';
-$wb["dkim_private_key_error"] = 'Invalid DKIM-Private key';
-$wb["dkim_settings_txt"] = 'DomainKeys Identified Mail (DKIM)';
-$wb['dkim_selector_txt'] = 'DKIM-Selector';
-$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9) up to 63 chars';
+$wb['dkim_txt'] = 'DKIM Aktivní';
+$wb['dkim_private_txt'] = 'DKIM Soukromý klíč';
+$wb['dkim_public_txt'] = 'DKIM veřejný klíčpouze pro informaci';
+$wb['dkim_generate_txt'] = 'Generovat DKIM soukromý klíč';
+$wb['dkim_dns_txt'] = 'DNS Záznam';
+$wb['dkim_private_key_error'] = 'Neplatný DKIM soukromý klíč';
+$wb['dkim_settings_txt'] = 'Zvýšení důvěryhodnosti e-mailů (DKIM)';
+$wb['dkim_selector_txt'] = 'DKIM selektor';
+$wb['dkim_selector_error'] = 'Neplatný DKIM selektor. Používejte pouze malá písmena, alfanumerické znaky (a-z , 0-9) do 63 znaků';
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
+$wb['error_not_allowed_server_id'] = 'Chosen server is not allowed for this account.';
 ?>
+
 

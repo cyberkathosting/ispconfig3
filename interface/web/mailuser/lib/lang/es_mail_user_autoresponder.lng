@@ -1,13 +1,13 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Autoresponder';
-$wb['autoresponder_subject'] = 'Fuera de la oficina';
+$wb['mailbox_autoresponder_txt'] = 'Auto-respondedor';
+$wb['autoresponder_subject'] = 'En función de que estoy fuera de la oficina';
 $wb['autoresponder_text_txt'] = 'Texto';
-$wb['autoresponder_txt'] = 'Activar';
-$wb['autoresponder_start_date_txt'] = 'Comenzar en';
-$wb['autoresponder_start_date_isfuture'] = 'Fecha de inicio no puede ser una fecha pasada.';
-$wb['autoresponder_end_date_txt'] = 'Finalizar en';
-$wb['autoresponder_end_date_isgreater'] = 'Fecha de finalización se debe establecer y ser posterior a la fecha de inicio.';
-$wb['autoresponder_active'] = 'Habilitar la respuesta automática';
+$wb['autoresponder_txt'] = 'Habilitado';
+$wb['autoresponder_start_date_txt'] = 'Comienza el';
+$wb['autoresponder_start_date_isfuture'] = 'La fecha de inicio no puede estar en el pasado.';
+$wb['autoresponder_end_date_txt'] = 'Termina el';
+$wb['autoresponder_end_date_isgreater'] = 'Debe ingresar la fecha de término y esta debe ser mayor a la de inicio.';
+$wb['autoresponder_active'] = 'Habilitar el auto-respondedor';
 $wb['now_txt'] = 'Ahora';
 $wb['autoresponder_subject_txt'] = 'Asunto';
 ?>

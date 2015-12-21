@@ -4,8 +4,10 @@ $wb['name_txt'] = 'Nombre';
 $wb['version_txt'] = 'Versión';
 $wb['customer_txt'] = 'Cliente';
 $wb['status_txt'] = 'Estado';
-$wb['install_location_txt'] = 'Localización de instalación';
-$wb['pkg_delete_confirmation'] = '¿Realmente quieres eliminar esta instalación?';
+$wb['install_location_txt'] = 'Ubicación de la instalación';
+$wb['pkg_delete_confirmation'] = 'Realmente desea eliminar esta instalación?';
+$wb['pkg_reinstall_confirmation'] = 'Realmente desea Reinstalar este paquete con la misma configuración?';
 $wb['filter_txt'] = 'Buscar';
-$wb['delete_txt'] = 'Eliminar';
+$wb['delete_txt'] = 'Borrar';
+$wb['reinstall_txt'] = 'Reinstalar';
 ?>

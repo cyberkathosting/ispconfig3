@@ -1,6 +1,6 @@
 <?php
 $wb['domain_txt'] = 'Doména';
-$wb['destination_txt'] = 'Popis';
+$wb['destination_txt'] = 'Cíl';
 $wb['active_txt'] = 'Aktivní';
 $wb['domain_error_unique'] = 'Pro tuto doménu již existuje koš.';
 $wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu.';
@@ -9,4 +9,5 @@ $wb['limit_mailcatchall_txt'] = 'Dosažen maximální počet košů účtů pro 
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_error_isemail'] = 'Cílová e-mailová adresa není platná.';
 ?>
+
 

@@ -8,3 +8,4 @@ $wb['name_optional_txt'] = '(Volitelné)';
 $wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
 ?>
 
+

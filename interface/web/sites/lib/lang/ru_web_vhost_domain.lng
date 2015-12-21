@@ -25,6 +25,7 @@ $wb['traffic_quota_txt'] = 'Квота трафика';
 $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['ssl_txt'] = 'SSL';
+$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Клиент';

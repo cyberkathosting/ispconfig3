@@ -10,3 +10,4 @@ $wb['template_file_error_empty'] = 'Template filename is empty.';
 $wb['Template'] = 'Šablona';
 ?>
 
+

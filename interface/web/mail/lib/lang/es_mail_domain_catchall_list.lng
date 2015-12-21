@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Correo recoge-todo';
-$wb['active_txt'] = 'Activo';
+$wb['list_head_txt'] = 'Receptor de correos huérfanos';
+$wb['active_txt'] = 'Habilitado';
 $wb['source_txt'] = 'Origen';
-$wb['destination_txt'] = 'Correo de destino';
+$wb['destination_txt'] = 'Dirección de correo de destino';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
-$wb['add_new_record_txt'] = 'Añadir nuevo correo recoge-todo';
+$wb['add_new_record_txt'] = 'Añadir receptor de correos huérfanos';
 ?>

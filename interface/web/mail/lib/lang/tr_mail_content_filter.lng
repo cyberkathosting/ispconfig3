@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['type_txt'] = 'Filtre';
-$wb['pattern_txt'] = 'Regexp. Pattern';
+$wb['type_txt'] = 'Süzgeç';
+$wb['pattern_txt'] = 'Kurallı İfade Deseni';
 $wb['data_txt'] = 'Veri';
-$wb['action_txt'] = 'Eylem';
-$wb['active_txt'] = 'Aktif';
-$wb['pattern_error_empty'] = 'Desen boş.';
+$wb['action_txt'] = 'İşlem';
+$wb['active_txt'] = 'Etkin';
+$wb['pattern_error_empty'] = 'Desen boş olamaz.';
 ?>

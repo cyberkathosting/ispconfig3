@@ -129,7 +129,7 @@ class page_action extends tform_actions {
 
 		global $app;
 
-		$sql = "SELECT template_id,template_name FROM client_template WHERE template_type = 'a' ORDER BY template_name ASC";
+		$sql = "SELECT template_id,template_name FROM client_template WHERE template_type = 'a' and ".$app->tform->getAuthSQL('r')." ORDER BY template_name ASC";
 		$tpls = $app->db->queryAllRecords($sql);
 		$option = '';
 		$tpl = array();

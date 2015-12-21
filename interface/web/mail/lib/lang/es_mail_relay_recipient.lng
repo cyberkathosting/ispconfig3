@@ -1,9 +1,9 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Destinatario a enrutar';
-$wb['recipient_txt'] = 'Destinatario';
-$wb['active_txt'] = 'Activar';
-$wb['source_error_notempty'] = 'Destinatario está vacío.';
+$wb['source_txt'] = 'Recipiente de retransmisión';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['active_txt'] = 'Habilitado';
+$wb['source_error_notempty'] = 'La dirección está vacía.';
 $wb['type_txt'] = 'Tipo';
-$wb['limit_mailfilter_txt'] = 'Se ha alcanzado el número máximo de destinatarios para su cuenta.';
+$wb['limit_mailfilter_txt'] = 'Ha alcanzado en su cuenta el número máx. de filtros para correo.';
 ?>

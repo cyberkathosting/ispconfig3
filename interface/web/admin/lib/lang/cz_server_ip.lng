@@ -10,3 +10,4 @@ $wb['virtualhost_port_txt'] = 'HTTP Porty';
 $wb['error_port_syntax'] = 'Neplatné znaky ve volbě HTTP Portů. Prosím, zadejte pouze číselné hodnoty oddělené čárkami. Příklad: 80,443';
 ?>
 
+

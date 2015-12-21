@@ -1,17 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre de la máquina';
-$wb['type_txt'] = 'Tipo';
-$wb['data_txt'] = 'Nombre de la maquina de destino';
+$wb['name_txt'] = 'Nombre del host';
+$wb['type_txt'] = 'tipo';
+$wb['data_txt'] = 'Nombre del host de destino';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Activar';
-$wb['limit_dns_record_txt'] = 'Se ha alcanzado el número máximo de registros de esta zona DNS.';
-$wb['no_zone_perm'] = 'No tiene permisos para añadir registros a esta zona DNS.';
-$wb['name_error_empty'] = 'El nombre de la máquina está vacío.';
-$wb['name_error_regex'] = 'El nombre de la máquina tiene un registro incorrecto.';
-$wb['data_error_empty'] = 'El nombre de la máquina de destino está vacío.';
-$wb['data_error_regex'] = 'El nombre de la máquina de destino tiene un formato no válido.';
-$wb['data_error_duplicate'] = 'Duplicar el registro A o el registro CNAME';
-$wb['ttl_range_error'] = 'TTL mínimo es 60 segundos';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_dns_record_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros DNS.';
+$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona de DNS.';
+$wb['name_error_empty'] = 'El nombre del host está vacío.';
+$wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
+$wb['data_error_empty'] = 'El nombre del host de destino está vacío.';
+$wb['data_error_regex'] = 'El nombre del host de destino tiene un formato incorrecto.';
+$wb['data_error_duplicate'] = 'Registro A o registro CNAME duplicado.';
+$wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 ?>

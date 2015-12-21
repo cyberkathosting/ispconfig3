@@ -38,5 +38,8 @@ $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['list_head_txt'] = 'Průvodce vytvořením DNS zóny';
 $wb['list_desc_txt'] = 'Vytvoření DNS zóny pomocí průvodce';
 $wb['dkim_txt'] = 'DKIM enabled';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
+
 

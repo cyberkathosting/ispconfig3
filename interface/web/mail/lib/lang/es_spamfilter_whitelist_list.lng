@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Lista blanca de filtro de spam';
-$wb['active_txt'] = 'Activa';
+$wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
 $wb['priority_txt'] = 'Prioridad';
 $wb['rid_txt'] = 'Usuario';
-$wb['email_txt'] = 'Dirección de correo en la lista blanca';
-$wb['add_new_record_txt'] = 'Añadir nueva lista blanca';
+$wb['email_txt'] = 'Correo en lista blanca';
+$wb['add_new_record_txt'] = 'Añadir registro en lista blanca';
 ?>

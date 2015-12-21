@@ -1,17 +1,18 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona DNS';
-$wb['ns_txt'] = 'NS';
-$wb['active_txt'] = 'Activa';
-$wb['limit_dns_slave_zone_txt'] = 'El número máximo de zonas DNS secundarias para su cuenta ha sido alcanzado.';
+$wb['secondary_zone_txt'] = 'Zona DNS Secundaria';
+$wb['ns_txt'] = 'NS (Dirección IP)';
+$wb['active_txt'] = 'Habilitado';
+$wb['limit_dns_slave_zone_txt'] = 'Ha alcanzado en su cuenta el número máx. de Zonas DNS Secundarias.';
 $wb['client_txt'] = 'Cliente';
-$wb['xfer_txt'] = 'Permitir transferencia de zona hacia estas IPs (lista separada por comas)';
-$wb['server_id_error_empty'] = 'No se ha seleccionado servidor.';
+$wb['xfer_txt'] = 'Permitir transferencia de zonas a<br />estas IP (lista separada por comas)';
+$wb['server_id_error_empty'] = 'No hay seleccionado un servidor';
 $wb['origin_error_empty'] = 'Zona vacía.';
 $wb['origin_error_unique'] = 'Ya existe un registro para esta zona.';
-$wb['origin_error_regex'] = 'La zona tiene un formato inválido.';
-$wb['ns_error_regex'] = 'Registro NS tiene un formato inválido.';
-$wb['eg_domain_tld'] = 'e.g. domain.tld.';
-$wb['ipv4_form_txt'] = 'Formato IPv4 - e.g. 1.2.3.4';
 $wb['secondary_zone_txt'] = 'Zona DNS Secundaria';
+$wb['origin_error_regex'] = 'La zona contiene un formato inválido.';
+$wb['ns_error_regex'] = 'NS contiene un formato inválido.';
+$wb['eg_domain_tld'] = 'eje. dominio.tld.';
+$wb['ipv4_form_txt'] = 'Formato IPv4 - eje. 1.2.3.4';
 ?>

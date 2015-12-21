@@ -1,10 +1,10 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zóna';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Název hostitele';
 $wb['type_txt'] = 'Typ';
 $wb['target_txt'] = 'Cíl';
-$wb['weight_txt'] = 'Weight';
+$wb['weight_txt'] = 'Váha';
 $wb['port_txt'] = 'Port';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivní­';
@@ -16,6 +16,7 @@ $wb['data_error_empty'] = 'Záznam serveru je prázdný';
 $wb['data_error_regex'] = 'Záznam serveru má chybný formát';
 $wb['srv_error_regex'] = 'Neplatný formát záznamu serveru. Záznam serveru musí­ obsahovat 3 textové řetězce oddělené mezerami.';
 $wb['aux_txt'] = 'Priorita';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
+
 

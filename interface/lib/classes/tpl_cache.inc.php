@@ -101,8 +101,8 @@ class tplc extends tpl {
 	 * FUNCTION: _checkCache
 	 * checks if there's a cache, if there is then it will read the cache file as the template.
 	 */
-	function _checkCache ($tmplfile) {
-		$this->_cachefile = $this->_getFilename($tmplfile);
+	function _checkCache ($tmplfile, $tmpl_from_string = false) {
+		$this->_cachefile = $this->_getFilename($tmplfile, $tmpl_from_string);
 		if ($this->_clearcache) {
 			if (file_exists($this->_cachefile)) unlink($this->_cachefile);
 			return false;
@@ -133,8 +133,9 @@ class tplc extends tpl {
 	 * gets the full pathname for the cached file
 	 *
 	 */
-	function _getFilename($tmplfile) {
-		return $this->OPTIONS['CACHE_DIRECTORY'].'/'.md5('vlibCachestaR'.realpath($tmplfile)).'.'.$this->OPTIONS['CACHE_EXTENSION'];
+	function _getFilename($tmplfile, $tmpl_from_string = false) {
+		if($tmpl_from_string == true) return $this->OPTIONS['CACHE_DIRECTORY'].'/'.md5('vlibCachestaRSTRING'.$tmplfile).'.'.$this->OPTIONS['CACHE_EXTENSION'];
+		else return $this->OPTIONS['CACHE_DIRECTORY'].'/'.md5('vlibCachestaR'.realpath($tmplfile)).'.'.$this->OPTIONS['CACHE_EXTENSION'];
 	}
 
 

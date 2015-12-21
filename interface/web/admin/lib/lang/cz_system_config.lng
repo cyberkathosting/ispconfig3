@@ -78,3 +78,4 @@ $wb["custom_login_link_txt"] = "Custom Link on Login-Page";
 $wb["login_link_error_regex"] = "Invalid Link for Custom Login";
 ?>
 
+

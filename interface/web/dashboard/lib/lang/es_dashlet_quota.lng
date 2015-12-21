@@ -1,8 +1,8 @@
 <?php
-$wb['quota_txt'] = 'Cuota de Disco de Sitio Web';
-$wb['domain_txt'] = 'Dominio / Sitio Web';
-$wb['used_txt'] = 'Espacio Usado';
-$wb['hard_txt'] = 'Límite máximo';
-$wb['soft_txt'] = 'Límite de aviso';
+$wb['quota_txt'] = 'Cuota del disco para el sitio';
+$wb['domain_txt'] = 'Dominio / Sitio web';
+$wb['used_txt'] = 'Espacio usado';
+$wb['hard_txt'] = 'Límite impuesto';
+$wb['soft_txt'] = 'Límite permisivo';
 $wb['no_sites_txt'] = 'No se encontraron sitios web.';
 ?>

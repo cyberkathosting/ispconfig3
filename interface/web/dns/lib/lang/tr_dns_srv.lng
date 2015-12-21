@@ -1,20 +1,20 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'çeşit';
-$wb['target_txt'] = 'Target';
-$wb['weight_txt'] = 'Weight';
-$wb['port_txt'] = 'Port';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Aktif';
-$wb['limit_dns_record_txt'] = 'Hesabınıdaki max. DNS kaydı limitine ulaştınız.';
-$wb['no_zone_perm'] = 'Bu DNS Zone kaydını eklemek için yetkiniz yok.';
-$wb['name_error_empty'] = 'Hostname boş.';
-$wb['name_error_regex'] = 'Hostname yanlış formatta.';
-$wb['data_error_empty'] = 'Sunucu kaydı boş';
-$wb['data_error_regex'] = 'Sunucu kaydı geçersiz formatta';
-$wb['srv_error_regex'] = 'Geçersiz sunucu kaydı formatı. Sunucu kaydı boşluklarla ayrılmış 3 adet harf içermek zorundadır.';
-$wb['aux_txt'] = 'Priority';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['zone_txt'] = 'Bölge';
+$wb['name_txt'] = 'Sunucu Adı';
+$wb['type_txt'] = 'Tip';
+$wb['target_txt'] = 'Hedef';
+$wb['weight_txt'] = 'Ağırlık';
+$wb['port_txt'] = 'Kapı';
+$wb['ttl_txt'] = 'TTL Süresi';
+$wb['active_txt'] = 'Etkin';
+$wb['aux_txt'] = 'Öncelik';
+$wb['limit_dns_record_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla DNS kaydı sınırına ulaştınız.';
+$wb['no_zone_perm'] = 'Bu DNS Bölgesi kaydını ekleme izniniz yok.';
+$wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
+$wb['name_error_regex'] = 'Sunucu adı biçimi geçersiz.';
+$wb['data_error_empty'] = 'Sunucu kaydı boş olamaz';
+$wb['data_error_regex'] = 'Sunucu kaydı biçimi geçersiz';
+$wb['srv_error_regex'] = 'Sunucu kaydı biçimi geçersiz. Sunucu kaydında boşluk ile ayrılmış 3 adet harf bulunmalıdır.';
+$wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 ?>

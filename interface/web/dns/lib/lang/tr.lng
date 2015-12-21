@@ -1,6 +1,7 @@
 <?php
+
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Bölgeler';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -9,14 +10,14 @@ $wb['DNS mx'] = 'DNS mx';
 $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
-$wb['DNS Zone'] = 'DNS Zone';
-$wb['Records'] = 'Records';
+$wb['DNS Zone'] = 'DNS Bölgesi';
+$wb['Records'] = 'Kayıtlar';
 $wb['DNS SRV'] = 'DNS SRV';
-$wb['DNS TXT Record'] = 'DNS TXT Record';
+$wb['DNS TXT Record'] = 'DNS TXT Kaydı';
 $wb['DNS TXT'] = 'DNS TXT';
-$wb['DNS Wizard'] = 'DNS Sihirbazı';
-$wb['Add DNS Zone'] = 'DNS Zone Ekle';
-$wb['Templates'] = 'Şablonlar';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['DNS Wizard'] = 'DNS Yardımcısı';
+$wb['Add DNS Zone'] = 'DNS Bölgesi Ekle';
+$wb['Templates'] = 'Kalıplar';
+$wb['Secondary Zones'] = 'İkincil Bölgeler';
+$wb['Import Zone File'] = 'Bölge Dosyası Alma';
 ?>

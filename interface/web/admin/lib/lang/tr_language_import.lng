@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Dil dosyasını içe aktar';
-$wb['language_import_txt'] = 'Dil dosyası seç';
-$wb['btn_save_txt'] = 'Seçili dil dosyasını içe aktar';
-$wb['language_overwrite_txt'] = 'Eğer mevcutsa, üstüne yaz.';
+$wb['list_head_txt'] = 'Dil Paketi Yükleme';
+$wb['list_desc_txt'] = 'UYARI: Güvenilmeyen kaynaklardan aldığınız dil paketlerini yüklemeyin.';
+$wb['language_import_txt'] = 'Yüklenecek Dil Dosyası';
+$wb['btn_save_txt'] = 'Dil Paketini Yükle';
+$wb['language_overwrite_txt'] = 'Var olan dosyaları değiştir';
 $wb['btn_cancel_txt'] = 'Geri';
-$wb['ignore_version_txt'] = 'Skip ISPConfig version check';
-$wb['list_desc_txt'] = 'WARNING: Do not import language files from untrustworthy sources.';
+$wb['ignore_version_txt'] = 'ISPConfig sürümüne bakma';
 ?>

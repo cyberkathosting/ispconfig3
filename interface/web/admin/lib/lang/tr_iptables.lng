@@ -1,13 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['multiport_txt'] = 'Multi Port';
-$wb['singleport_txt'] = 'Single Port';
-$wb['protocol_txt'] = 'Protocol';
-$wb['table_txt'] = 'Table';
-$wb['target_txt'] = 'Target';
-$wb['state_txt'] = 'State';
-$wb['destination_ip_txt'] = 'Destination Address';
-$wb['source_ip_txt'] = 'Source Address';
-$wb['active_txt'] = 'Active';
-$wb['iptables_error_unique'] = 'There is already a firewall record for this server.';
+
+$wb['server_id_txt'] = 'Sunucu';
+$wb['multiport_txt'] = 'Çok Kapı';
+$wb['singleport_txt'] = 'Tek Kapı';
+$wb['protocol_txt'] = 'İletişim Kuralı';
+$wb['table_txt'] = 'Tablo';
+$wb['target_txt'] = 'Hedef';
+$wb['state_txt'] = 'Durum';
+$wb['destination_ip_txt'] = 'Hedef Adresi';
+$wb['source_ip_txt'] = 'Kaynak Adresi';
+$wb['active_txt'] = 'Etkin';
+$wb['iptables_error_unique'] = 'Bu sunucu için zaten bir güvenlik kaydı var.';
+
 ?>
+
