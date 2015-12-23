@@ -29,7 +29,7 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  @author Florian Schaal, info@schaal-24.de
- @copyrighth Florian Schaal, info@schaal-24.de
+ @copyright Florian Schaal, info@schaal-24.de
  */
 
 
