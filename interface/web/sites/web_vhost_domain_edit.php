@@ -218,7 +218,7 @@ class page_action extends tform_actions {
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, explode(',', $client['web_servers']), $_SESSION['s']['user']['client_id']);
-			$ip_select = "<option value=''></option>";
+			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {

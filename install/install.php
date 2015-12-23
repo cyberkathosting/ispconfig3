@@ -139,6 +139,7 @@ include_once 'dist/conf/'.$dist['id'].'.conf.php';
 //** Installer Interface
 //****************************************************************************************************
 $inst = new installer();
+if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
