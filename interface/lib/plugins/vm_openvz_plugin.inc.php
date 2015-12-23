@@ -178,11 +178,11 @@ class vm_openvz_plugin {
 		$tpl->setVar('bootorder', $vm['bootorder']);
 		$tpl->setVar('kmemsize', $vm_template['kmemsize']);
 		$tpl->setVar('lockedpages', $vm_template['lockedpages']);
-		$tpl->setVar('privvmpages', $burst_ram.':'.$burst_ram);
+		$tpl->setVar('privvmpages', $burst_ram.':'.$burst_ram*1.0625);
 		$tpl->setVar('shmpages', $guar_ram.':'.$guar_ram);
 		$tpl->setVar('numproc', $vm_template['numproc']);
 		$tpl->setVar('physpages', $vm_template['physpages']);
-		$tpl->setVar('vmguarpages', $guar_ram.':'.$guar_ram);
+		$tpl->setVar('vmguarpages', $guar_ram.':unlimited');
 		$tpl->setVar('oomguarpages', $guar_ram.':'.$guar_ram);
 		$tpl->setVar('numtcpsock', $vm_template['numtcpsock']);
 		$tpl->setVar('numflock', $vm_template['numflock']);
