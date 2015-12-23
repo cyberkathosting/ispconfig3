@@ -133,7 +133,8 @@ class installer_base {
 
 	//** Detect PHP-Version
 	public function get_php_version() {
-		if(version_compare(PHP_VERSION, $this->min_php, '<')) return false; else return true;
+		if(version_compare(PHP_VERSION, $this->min_php, '<')) return false;
+		else return true;
 	}
 
 	//** Detect installed applications
