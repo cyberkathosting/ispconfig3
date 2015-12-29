@@ -43,7 +43,17 @@ class ApsGUIController extends ApsBase
 		parent::__construct($app);
 	}
 
-
+	/**
+	 * Removes www from Domains name
+	 *
+	 * @param $filename the file to read
+	 * @return $sxe a SimpleXMLElement handle
+	 */
+	public function getMainDomain($domain) {
+		if (substr($domain, 0, 4) == 'www.') $domain = substr($domain, 4);
+		return $domain;
+	}
+	
 
 	/**
 	 * Reads in a package metadata file and registers it's namespaces
@@ -344,9 +354,9 @@ class ApsGUIController extends ApsBase
 		$app->uses('tools_sites');
 
 		$webserver_id = 0;
-		$websrv = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = ?", $settings['main_domain']);
+		$websrv = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain = ?", $this->getMainDomain($settings['main_domain']));
 		if(!empty($websrv)) $webserver_id = $websrv['server_id'];
-		$customerid = $this->getCustomerIDFromDomain($settings['main_domain']);
+		$customerid = $this->getCustomerIDFromDomain($this->getMainDomain($settings['main_domain']));
 
 		if(empty($settings) || empty($webserver_id)) return false;
 
@@ -565,13 +575,13 @@ class ApsGUIController extends ApsBase
 			if(in_array($postinput['main_domain'], $domains))
 			{
 				$docroot = $app->db->queryOneRecord("SELECT document_root FROM web_domain
-                    WHERE domain = ?", $postinput['main_domain']);
+                    WHERE domain = ?", $this->getMainDomain($postinput['main_domain']));
 				$new_path = $docroot['document_root'];
 				if(substr($new_path, -1) != '/') $new_path .= '/';
 				$new_path .= $main_location;
 
 				// Get the $customerid which belongs to the selected domain
-				$customerid = $this->getCustomerIDFromDomain($postinput['main_domain']);
+				$customerid = $this->getCustomerIDFromDomain($this->getMainDomain($postinput['main_domain']));
 
 				// First get all domains used for an install, then their loop them
 				// and get the corresponding document roots as well as the defined
