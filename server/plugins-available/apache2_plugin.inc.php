@@ -1233,6 +1233,7 @@ class apache2_plugin {
 
 		// Rewrite rules
 		$rewrite_rules = array();
+		$rewrite_wildcard_rules = array();
 		if($data['new']['redirect_type'] != '' && $data['new']['redirect_path'] != '') {
 			if(substr($data['new']['redirect_path'], -1) != '/' && !preg_match('/^(https?|\[scheme\]):\/\//', $data['new']['redirect_path'])) $data['new']['redirect_path'] .= '/';
 			if(substr($data['new']['redirect_path'], 0, 8) == '[scheme]'){
@@ -1264,7 +1265,7 @@ class apache2_plugin {
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
 				break;
 			case '*':
-				$rewrite_rules[] = array( 'rewrite_domain'  => '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
+				$rewrite_wildcard_rules[] = array( 'rewrite_domain'  => '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
 					'rewrite_target_ssl' => $rewrite_target_ssl,
@@ -1363,7 +1364,7 @@ class apache2_plugin {
 							'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
 						break;
 					case '*':
-						$rewrite_rules[] = array( 'rewrite_domain'  => '(^|\.)'.$this->_rewrite_quote($alias['domain']),
+						$rewrite_wildcard_rules[] = array( 'rewrite_domain'  => '(^|\.)'.$this->_rewrite_quote($alias['domain']),
 							'rewrite_type'   => ($alias['redirect_type'] == 'no')?'':'['.$alias['redirect_type'].']',
 							'rewrite_target'  => $rewrite_target,
 							'rewrite_target_ssl' => $rewrite_target_ssl,
@@ -1400,6 +1401,8 @@ class apache2_plugin {
 		} else {
 			$tpl->setVar('alias', '');
 		}
+		
+		if (count($rewrite_wildcard_rules) > 0) $rewrite_rules = array_merge($rewrite_rules, $rewrite_wildcard_rules); // Append wildcard rules to the end of rules
 
 		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0) {
 			$tpl->setVar('rewrite_enabled', 1);
