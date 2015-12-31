@@ -273,8 +273,15 @@ class remoting_aps extends remoting {
 			return false;
 		}
 	
-		$sql = "SELECT * FROM web_domain WHERE domain = ?";
-		$domain = $app->db->queryOneRecord($sql, $params['main_domain']);
+		if (substr($params['main_domain'], 0, 4) == 'www.') {
+			$domain = substr($params['main_domain'], 4);
+			$sql = "SELECT * FROM web_domain WHERE domain = ? AND subdomain=?";
+			$domain = $app->db->queryOneRecord($sql, $domain, 'www');
+		}
+		else {
+			$sql = "SELECT * FROM web_domain WHERE domain = ?";
+			$domain = $app->db->queryOneRecord($sql, $params['main_domain']);
+		}
 	
 		if (!$domain) {
 			$this->server->fault('invalid parameters', 'No valid domain given.');
