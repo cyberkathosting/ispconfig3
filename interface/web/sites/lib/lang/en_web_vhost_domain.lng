@@ -145,4 +145,5 @@ $wb['load_my_data_txt'] = 'Load my contact details';
 $wb['reset_client_data_txt'] = 'Reset data';
 $wb["document_root_txt"] = "Document Root";
 $wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt SSL';
+$wb['rewrite_to_https_txt'] = 'Rewrite HTTP to HTTPS';
 ?>
