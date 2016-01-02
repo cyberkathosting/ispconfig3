@@ -611,7 +611,7 @@ if ($backup_available) {
 	$form["tabs"]['backup'] = array (
 		'title'  => "Backup",
 		'width'  => 100,
-		'template'  => "templates/web_domain_backup.htm",
+		'template'  => "templates/web_vhost_domain_backup.htm",
 		'readonly' => false,
 		'fields'  => array (
 			//#################################
