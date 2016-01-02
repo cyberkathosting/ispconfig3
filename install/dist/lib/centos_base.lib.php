@@ -71,13 +71,13 @@ class installer_centos extends installer_dist {
 
 		// Adding amavis-services to the master.cf file if the service does not already exists
 		if ($this->postfix_master()) {
-			exec ("postconf -M amavis.unix", $out, $ret);
+			exec ("postconf -M amavis.unix &> /dev/null", $out, $ret);
 			$add_amavis = @($out[0]=='')?true:false;
 			unset($out);
-			exec ("postconf -M 127.0.0.1:10025.inet", $out, $ret);
+			exec ("postconf -M 127.0.0.1:10025.inet &> /dev/null", $out, $ret);
 			$add_amavis_10025 = @($out[0]=='')?true:false;
 			unset($out);
-			exec ("postconf -M 127.0.0.1:10027.inet", $out, $ret);
+			exec ("postconf -M 127.0.0.1:10027.inet &> /dev/null", $out, $ret);
 			$add_amavis_10027 = @($out[0]=='')?true:false;
 			unset($out);
 		} else { //* fallback - postfix < 2.9

@@ -229,7 +229,7 @@ class installer_dist extends installer_base {
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
 		$configfile = $config_dir.'/master.cf';
 		if ($this->postfix_master()) {
-			exec ("postconf -M maildrop.unix", $out, $ret);
+			exec ("postconf -M maildrop.unix &> /dev/null", $out, $ret);
 			$change_maildrop_flags = @(preg_match($regex, $out[0]) && $out[0] !='')?false:true;
 		} else { //* fallback - postfix < 2.9
 			$change_maildrop_flags = @(preg_match($regex, $configfile))?false:true;
@@ -367,7 +367,7 @@ class installer_dist extends installer_base {
 		$config_dir = $conf['postfix']['config_dir'];
 		//* Configure master.cf and add a line for deliver
 		if ($this->postfix_master()) {
-			exec ("postconf -M dovecot.unix", $out, $ret);
+			exec ("postconf -M dovecot.unix &> /dev/null", $out, $ret);
 			$add_dovecot_service = @($out[0]=='')?true:false;
 		} else { //* fallback - postfix < 2.9
 			$content = rf($config_dir.'/master.cf');
@@ -503,13 +503,13 @@ class installer_dist extends installer_base {
 
 		// Adding amavis-services to the master.cf file if the service does not already exists
 		if ($this->postfix_master()) {
-			exec ("postconf -M amavis.unix", $out, $ret);
+			exec ("postconf -M amavis.unix &> /dev/null", $out, $ret);
 			$add_amavis = @($out[0]=='')?true:false;
 			unset($out);
-			exec ("postconf -M 127.0.0.1:10025.inet", $out, $ret);
+			exec ("postconf -M 127.0.0.1:10025.inet &> /dev/null", $out, $ret);
 			$add_amavis_10025 = @($out[0]=='')?true:false;
 			unset($out);
-			exec ("postconf -M 127.0.0.1:10027.inet", $out, $ret);
+			exec ("postconf -M 127.0.0.1:10027.inet &> /dev/null", $out, $ret);
 			$add_amavis_10027 = @($out[0]=='')?true:false;
 			unset($out);
 		} else { //* fallback - postfix < 2.9
