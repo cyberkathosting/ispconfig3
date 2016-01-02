@@ -23,12 +23,12 @@
                 <div class="col-sm-9"><input type="text" name="added_by" id="added_by" value="{tmpl_var name='added_by'}" class="form-control" /></div></div>
 			<div class="form-group">
                 <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user_txt'}</label>
-                <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user'}</label>
+                <p class="value">&nbsp; &nbsp;{tmpl_var name='system_user'}</p>
                 <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />
             </div>
             <div class="form-group">
                 <label for="system_group" class="col-sm-3 control-label">{tmpl_var name='system_group_txt'}</label>
-                <label for="system_group" class="col-sm-3 control-label">{tmpl_var name='system_group'}</label>
+                <p class="value">&nbsp; &nbsp;{tmpl_var name='system_group'}</p>
                 <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
             </div>
             <div class="form-group apache">
@@ -75,19 +75,27 @@
                 <div class="col-sm-9"><input type="text" name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" class="form-control" /></div></div>
             <div class="form-group php">
                 <label for="custom_php_ini" class="col-sm-3 control-label">{tmpl_var name='custom_php_ini_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="custom_php_ini" id="custom_php_ini" rows='10' cols='50'>{tmpl_var name='custom_php_ini'}</textarea></div>&nbsp;<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
+                <div class="col-sm-9"><textarea class="form-control" name="custom_php_ini" id="custom_php_ini" rows='10' cols='50'>{tmpl_var name='custom_php_ini'}</textarea>
+				<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
+				</div>
             </div>
             <div class="form-group apache">
                 <label for="apache_directives" class="col-sm-3 control-label">{tmpl_var name='apache_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="apache_directives" id="apache_directives" rows='10' cols='50'>{tmpl_var name='apache_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>
-            </div>
+                <div class="col-sm-9"><textarea class="form-control" name="apache_directives" id="apache_directives" rows='10' cols='50'>{tmpl_var name='apache_directives'}</textarea>
+				<b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>
+				</div>
+			</div>
             <div class="form-group nginx">
                 <label for="nginx_directives" class="col-sm-3 control-label">{tmpl_var name='nginx_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="nginx_directives" id="nginx_directives" rows='10' cols='50'>{tmpl_var name='nginx_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>
-            </div>
+                <div class="col-sm-9"><textarea class="form-control" name="nginx_directives" id="nginx_directives" rows='10' cols='50'>{tmpl_var name='nginx_directives'}</textarea>
+				<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>
+				</div>
+			</div>
 			<div class="form-group proxy">
                 <label for="proxy_directives" class="col-sm-3 control-label">{tmpl_var name='proxy_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="proxy_directives" id="proxy_directives" rows='10'>{tmpl_var name='proxy_directives'}</textarea></div>&nbsp;<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+                <div class="col-sm-9"><textarea class="form-control" name="proxy_directives" id="proxy_directives" rows='10'>{tmpl_var name='proxy_directives'}</textarea>
+				<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+				</div>
             </div>
         
 
