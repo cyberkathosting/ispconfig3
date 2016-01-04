@@ -71,11 +71,11 @@ class list_action extends listform_actions {
 
 			if ($rec['used'] > 0) $rec['used'] = $app->functions->formatBytes($rec['used']);
 		} else {
-			$web_database = $app->db->queryOneRecord("SELECT * FROM web_database WHERE database_id = ".$rec[$this->idx_key]);
+			$web_database = $app->db->queryOneRecord("SELECT * FROM web_database WHERE database_id = ?", $rec[$this->idx_key]);
 			$rec['database'] = $rec['database_name'];
 			$rec['server_name'] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $web_database['server_id'])['server_name'];
-			$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ".$web_database['sys_groupid']);
-			$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ".$sys_group['client_id']);
+			$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", $web_database['sys_groupid']);
+			$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", $sys_group['client_id']);
 			$rec['client'] = $client['username'];
 			$rec['used'] = 'n/a';
 			$rec['quota'] = 'n/a';

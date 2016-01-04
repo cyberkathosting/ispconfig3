@@ -400,32 +400,32 @@ class installer_base {
 							"riud",
 							"riud",
 							"",
-							' . $conf['server_id'] . ',
+							?,
 							0,
-							"'.$ip_type.'",
-							"'.$line.'",
+							?,
+							?,
 							"y",
 							"80,443"
-						)');
+						)', $conf['server_id'], $ip_type, $line);
 						$server_ip_id = $this->dbmaster->insertID();
 						$this->db->query('INSERT INTO server_ip (
 							server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
 							sys_perm_other, server_id, client_id, ip_type, ip_address,
 							virtualhost, virtualhost_port
 						) VALUES (
-							'.$server_ip_id.',
+							?,
 							1,
 							1,
 							"riud",
 							"riud",
 							"",
-							' . $conf['server_id'] . ',
+							?,
 							0,
-							"'.$ip_type.'",
-							"'.$line.'",
+							?,
+							?,
 							"y",
 							"80,443"
-						)');
+						)', $server_ip_id, $conf['server_id'], $ip_type, $line);
 					} else {
 						$this->db->query('INSERT INTO server_ip (
 							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
@@ -437,13 +437,13 @@ class installer_base {
 							"riud",
 							"riud",
 							"",
-							' . $conf['server_id'] . ',
+							?,
 							0,
-							"'.$ip_type.'",
-							"'.$line.'",
+							?,
+							?,
 							"y",
 							"80,443"
-						)');
+						)', $conf['server_id'], $ip_type, $line);
 					}
 				}
 			}

@@ -53,7 +53,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($this->id > 0){
-			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ".intval($this->id));
+			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
 			if($record['master_directive_snippets_id'] > 0){
 				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
 			}
@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 		
 		if($this->id > 0){
-			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ".intval($this->id));
+			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
 			if($record['master_directive_snippets_id'] > 0){
 				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
 			}

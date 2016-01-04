@@ -683,39 +683,6 @@ class remoting_client extends remoting {
 		
 		return $returnval;
 	}
-	
-	public function client_activate($session_id, $params){
-		global $app;
-		/*
-		if (!$this->checkPerm($session_id, 'client_update')){
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		*/
-		
-		if(!is_file(ISPC_WEB_PATH.'/robot/lib/robot_config.inc.php')){
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		
-		$client = $app->db->queryOneRecord("SELECT * FROM client WHERE customer_no = '".$app->db->quote($params['customer_no'])."' AND email = '".$app->db->quote($params['email'])."' AND activation_code = '".$app->db->quote($params['activation_code'])."' AND validation_status = 'review'");
-		//file_put_contents('/tmp/test.txt', "SELECT * FROM client WHERE customer_no = '".$app->db->quote($params['customer_no'])."' AND email = '".$app->db->quote($params['email'])."' AND activation_code = '".$app->db->quote($params['activation_code'])."' AND validation_status = 'review'");
-		
-		if(is_array($client) && !empty($client)){
-			$client_id = intval($client['client_id']);
-			
-			$app->functions->client_activate($client_id);
-	
-			return true;
-		} else {
-			$client = $app->db->queryOneRecord("SELECT * FROM client WHERE email = '".$app->db->quote($params['email'])."' AND validation_status = 'review'");
-			if(is_array($client) && !empty($client)){
-				$app->functions->client_activation_failed($client);
-			}
-			return false;
-		}
-	}
-
 }
 
 ?>
