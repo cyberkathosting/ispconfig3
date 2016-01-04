@@ -608,7 +608,9 @@ $(document).on("change", function(event) {
 });
 
 $(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
-	//e.preventDefault();
+	e.preventDefault();
+	$('html, body').animate({scrollTop: $('#pageContent').offset().top}, 1000);
+	
 	var content_to_load = $(this).attr('data-load-content');
 	if(!content_to_load) return this;
 	
@@ -616,7 +618,9 @@ $(document).on('click', 'a[data-load-content],button[data-load-content]', functi
 });
 
 $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
-	//e.preventDefault();
+	e.preventDefault();
+	$('html, body').animate({scrollTop: $('#pageContent').offset().top}, 1000);
+	
 	var content_to_load = $(this).attr('data-capp');
 	if(!content_to_load) return this;
 	
@@ -624,7 +628,8 @@ $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 });
 
 $(document).on('click', 'a[data-submit-form],button[data-submit-form]', function(e) {
-	//e.preventDefault();
+	e.preventDefault();
+	$('html, body').animate({scrollTop: $('#pageContent').offset().top}, 1000);
 	
 	var $el = $(this);
 	var act = $el.attr('data-form-action');
