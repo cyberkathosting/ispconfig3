@@ -878,6 +878,9 @@ class tform_base {
 				case 'TRIM':
 					$returnval = trim($returnval);
 					break;
+				case 'NOWHITESPACE':
+					$returnval = preg_replace('/\s+/', '', $returnval);
+					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];
 					break;

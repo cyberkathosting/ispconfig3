@@ -74,7 +74,7 @@
                     {tmpl_var name='ip_address'}
                 </select></div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none">
                 <label for="ipv6_address" class="col-sm-3 control-label">{tmpl_var name='ipv6_address_txt'}</label>
                 <div class="col-sm-9"><select name="ipv6_address" id="ipv6_address" class="form-control">
                     {tmpl_var name='ipv6_address'}
@@ -229,7 +229,12 @@
                     {tmpl_var name='fastcgi_php_version'}
                 </select></div>
             </div>
-            {tmpl_var name="directive_snippets_id"}
+			<div class="form-group">
+				<label for="directive_snippets_id" class="col-sm-3 control-label">{tmpl_var name='directive_snippets_id_txt'}</label>
+				<div class="col-sm-9"><select name="directive_snippets_id" id="directive_snippets_id" class="form-control">
+					{tmpl_var name='directive_snippets_id'}
+				</select></div>
+			</div>
 			{tmpl_hook name="field_enable_pagespeed"}
 			<div class="form-group nginx pagespeed">
 				<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>
@@ -256,6 +261,7 @@
     var serverId;
     var clientGroupId = jQuery('#client_group_id').val();
     var serverIdDisabled = jQuery('#server_id_disabled').val();
+	var serverType;
     if(serverIdDisabled > 0){
         serverId = serverIdDisabled;
     } else {
@@ -270,15 +276,22 @@
     }
     adjustForm(true);
     reloadFastcgiPHPVersions(true);
-		
+	
     jQuery('#client_group_id').change(function(){
         clientGroupId = $(this).val();
         reloadWebIP();
 		reloadFastcgiPHPVersions();
     });
 		
-    if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm'){
+    if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm' || (jQuery('#php').val() == 'hhvm' && serverType == 'nginx')){
         jQuery('.fastcgi_php_version:hidden').show();
+		if(jQuery('#php').val() == 'hhvm'){
+			jQuery('#fastcgi_php_version_txt').hide();
+			jQuery('#fastcgi_php_fallback_version_txt').show();
+		} else {
+			jQuery('#fastcgi_php_version_txt').show();
+			jQuery('#fastcgi_php_fallback_version_txt').hide();
+		}
     } else {
         jQuery('.fastcgi_php_version:visible').hide();
     }
@@ -286,8 +299,15 @@
     
     jQuery('#php').change(function(){
         reloadFastcgiPHPVersions();
-        if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm'){
+        if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm' || (jQuery(this).val() == 'hhvm' && serverType == 'nginx')){	
             jQuery('.fastcgi_php_version:hidden').show();
+			if(jQuery(this).val() == 'hhvm'){
+				jQuery('#fastcgi_php_version_txt').hide();
+				jQuery('#fastcgi_php_fallback_version_txt').show();
+			} else {
+				jQuery('#fastcgi_php_version_txt').show();
+				jQuery('#fastcgi_php_fallback_version_txt').hide();
+			}
         } else {
             jQuery('.fastcgi_php_version:visible').hide();
         }
@@ -323,6 +343,7 @@
     function adjustForm(noFormChange){
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
             if(data.servertype == "nginx"){
+				serverType = 'nginx';
                 var selected = jQuery('#php').val();
                 jQuery('.apache').hide();
 				jQuery('.nginx').show();
@@ -346,6 +367,7 @@
                 jQuery('#php option[value="mod"]').hide();
                 jQuery('#php option[value="suphp"]').hide();
             } else {
+				serverType = 'apache';
 				jQuery('.nginx').hide();
                 jQuery('.apache').show();
                 jQuery('#php option[value="fast-cgi"]').show();
@@ -365,16 +387,30 @@
 	
 	function reloadDirectiveSnippets() {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getdirectivesnippet"}, function(data) {
-            var options = '<option value="0"></option>';
-			for (var i = 0, len = data.length; i < len; i++) {
+            var options = '<option value="0">-</option>';
+			options += "<optgroup label=\"{tmpl_var name='select_master_directive_snippet_txt'}\">";
+			for (var i = 0, len = data['m_snippets'].length; i < len; i++) {
 				var isSelected = '';
 
 				 if ($('#directive_snippets_id').val() == i + 1) {
 					 isSelected = 'selected="selected"';
 				 }
 
-				 options += '<option ' + isSelected + ' value="' + data[i]['directive_snippets_id'] + '">' + data[i]['name'] + '</option>';
+				 options += '<option ' + isSelected + ' value="' + data['m_snippets'][i]['directive_snippets_id'] + '">' + data['m_snippets'][i]['name'] + '</option>';
 			}
+			options += '</optgroup>';
+			
+			options += "<optgroup label=\"{tmpl_var name='select_directive_snippet_txt'}\">";
+			for (var i = 0, len = data['snippets'].length; i < len; i++) {
+				var isSelected = '';
+
+				 if ($('#directive_snippets_id').val() == i + 1) {
+					 isSelected = 'selected="selected"';
+				 }
+
+				 options += '<option ' + isSelected + ' value="' + data['snippets'][i]['directive_snippets_id'] + '">' + data['snippets'][i]['name'] + '</option>';
+			}
+			options += '</optgroup>';
 
 			$('#directive_snippets_id').html(options).change();
 		});
@@ -434,5 +470,22 @@
             ISPConfig.submitForm('pageForm','sites/web_vhost_domain_edit.php');
         });
     </tmpl_if>
+	
+	if($('#domain').val() == ''){
+		$('#web_folder_domain').text('[DOMAIN]');
+	} else {
+		$('#web_folder_domain').text($('#domain').val());
+	}
+	$('#domain').bind('change keyup', function(){
+		if($(this).val() == ''){
+			$('#web_folder_domain').text('[DOMAIN]');
+		} else {
+			$('#web_folder_domain').text($('#domain').val());
+		}
+	});
+	
+	$('#more_folder_directive_snippets').click(function(){
+		$('.folder_directive_snippets:hidden:first').removeClass('hidden');
+	});
 			
 </script>

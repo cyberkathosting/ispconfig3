@@ -47,7 +47,56 @@ $app->auth->check_module_permissions('admin');
 // Loading classes
 $app->uses('tpl,tform,tform_actions');
 
-// let tform_actions handle the page
-$app->tform_actions->onLoad();
+class page_action extends tform_actions {
+
+	function onShow() {
+		global $app, $conf;
+		
+		if($this->id > 0){
+			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
+			if($record['master_directive_snippets_id'] > 0){
+				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
+			}
+			unset($record);
+		}
+		
+		parent::onShow();
+	}
+	
+	function onShowEnd() {
+		global $app, $conf;
+		
+		$is_master = false;
+		if($this->id > 0){
+			if($this->dataRecord['master_directive_snippets_id'] > 0){
+				$is_master = true;
+				$app->tpl->setVar("name", $this->dataRecord['name']);
+				$app->tpl->setVar("type", $this->dataRecord['type']);
+				$app->tpl->setVar("snippet", $this->dataRecord['snippet']);
+			}
+		}
+		$app->tpl->setVar("is_master", $is_master);
+		
+		parent::onShowEnd();
+	}
+	
+	function onSubmit() {
+		global $app, $conf;
+		
+		if($this->id > 0){
+			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
+			if($record['master_directive_snippets_id'] > 0){
+				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
+			}
+			unset($record);
+		}
+		
+		parent::onSubmit();
+	}
+	
+}
+
+$page = new page_action;
+$page->onLoad();
 
 ?>

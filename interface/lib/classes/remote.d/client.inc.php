@@ -526,22 +526,24 @@ class remoting_client extends remoting {
 	 * @param int  client id
 	 * @param string new password
 	 * @return bool true if success
-	 * @author Julio Montoya <gugli100@gmail.com> BeezNest 2010
 	 *
 	 */
 	public function client_change_password($session_id, $client_id, $new_password) {
 		global $app;
 
+		$app->uses('auth');
+
 		if(!$this->checkPerm($session_id, 'client_change_password')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$client_id = $app->functions->intval($client_id);
+
 		$client = $app->db->queryOneRecord("SELECT client_id FROM client WHERE client_id = ?", $client_id);
 		if($client['client_id'] > 0) {
-			$sql = "UPDATE client SET password = md5(?) 	WHERE client_id = ?";
+			$new_password = $app->auth->crypt_password($new_password);
+			$sql = "UPDATE client SET password = ? 	WHERE client_id = ?";
 			$app->db->query($sql, $new_password, $client_id);
-			$sql = "UPDATE sys_user SET passwort = md5(?) 	WHERE client_id = ?";
+			$sql = "UPDATE sys_user SET passwort = ? 	WHERE client_id = ?";
 			$app->db->query($sql, $new_password, $client_id);
 			return true;
 		} else {
@@ -681,7 +683,6 @@ class remoting_client extends remoting {
 		
 		return $returnval;
 	}
-
 }
 
 ?>

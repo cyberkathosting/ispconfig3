@@ -257,10 +257,23 @@ class listform {
 						$searchval = $year.'-'.$month.'-'.$day;
 					}
 				}
+				
+				if($i['datatype'] == 'BOOLEAN' && $searchval != ''){
+					if (!function_exists('boolval')) {
+						$searchval = (bool) $searchval;
+						if($searchval === true){
+							$searchval = 'TRUE';
+						} else {
+							$searchval = 'FALSE';
+						}
+					} else {
+						$searchval = boolval($searchval)? 'TRUE' : 'FALSE';
+					}
+				}
 
 				// if($_REQUEST[$search_prefix.$field] != '') $sql_where .= " $field ".$i["op"]." '".$i["prefix"].$_REQUEST[$search_prefix.$field].$i["suffix"]."' and";
 				if(isset($searchval) && $searchval != ''){
-					$sql_where .= " ".($table != ''? $table.'.' : $this->listDef['table'].'.')."$field ".$i['op']." '".$app->db->quote($i['prefix'].$searchval.$i['suffix'])."' and";
+					$sql_where .= " ".($table != ''? $table.'.' : $this->listDef['table'].'.')."$field ".$i['op']." ".($i['datatype'] == 'BOOLEAN'? "" : "'").$app->db->quote($i['prefix'].$searchval.$i['suffix']).($i['datatype'] == 'BOOLEAN'? "" : "'")." and";
 				}
 			}
 		}
@@ -384,7 +397,7 @@ class listform {
 		if(isset($vars['show_page_back']) && $vars['show_page_back'] == 1){
 			$content .= '<li><a href="#" data-load-content="'.$vars['list_file'].'?page=0'.$vars['page_params'].'" aria-label="First">
 			<span aria-hidden="true">&laquo;</span></a></li>';
-			$content .= '<li><a href="#" data-load-content='.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'" aria-label="Previous">
+			$content .= '<li><a href="#" data-load-content="'.$vars['list_file'].'?page='.$vars['last_page'].$vars['page_params'].'" aria-label="Previous">
 			<span aria-hidden="true">&lsaquo;</span></a></li>';
 		}
 		$prev = -1;
@@ -501,6 +514,14 @@ class listform {
 					case 'CURRENCY':
 						$record[$key] = $app->functions->currency_format($record[$key]);
 						break;
+						
+					case 'BOOLEAN':
+						if (!function_exists('boolval')) {
+							$record[$key] = (bool) $record[$key];
+						} else {
+							$record[$key] = boolval($record[$key]);
+						}
+						break;
 
 					default:
 						$record[$key] = htmlentities(stripslashes($record[$key]), ENT_QUOTES, $conf["html_content_encoding"]);
@@ -563,6 +584,14 @@ class listform {
 
 				case 'CURRENCY':
 					$record[$key] = str_replace(',', '.', $record[$key]);
+					break;
+				
+				case 'BOOLEAN':
+					if (!function_exists('boolval')) {
+						$record[$key] = (bool) $record[$key];
+					} else {
+						$record[$key] = boolval($record[$key]);
+					}
 					break;
 				}
 			}

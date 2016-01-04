@@ -257,6 +257,9 @@ CREATE TABLE `client` (
   `customer_no_counter` int(11) NOT NULL DEFAULT '0',
   `added_date` date NOT NULL DEFAULT '0000-00-00',
   `added_by` varchar(255) DEFAULT NULL,
+  `validation_status` enum('accept','review','reject') NOT NULL DEFAULT 'accept',
+  `risk_score` int(10) unsigned NOT NULL DEFAULT '0',
+  `activation_code` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`client_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -455,6 +458,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `customer_viewable` ENUM('n','y') NOT NULL DEFAULT 'n',
   `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
+  `master_directive_snippets_id` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`directive_snippets_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -1946,6 +1950,7 @@ CREATE TABLE `web_domain` (
   `enable_pagespeed` ENUM('y','n') NOT NULL DEFAULT 'n',
   `http_port` int(11) unsigned NOT NULL DEFAULT '80',
   `https_port` int(11) unsigned NOT NULL DEFAULT '443',
+  `folder_directive_snippets` text NOT NULL,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

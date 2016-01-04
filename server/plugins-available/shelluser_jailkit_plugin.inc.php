@@ -301,7 +301,7 @@ class shelluser_jailkit_plugin {
 			file_put_contents($bashrc, $tpl->grab());
 			unset($tpl);
 
-			$this->app->log("Added bashrc script : ".$bashrc, LOGLEVEL_DEBUG);
+			$this->app->log("Added bashrc script: ".$bashrc, LOGLEVEL_DEBUG);
 
 			$tpl = new tpl();
 			$tpl->newTemplate("motd.master");
@@ -318,13 +318,21 @@ class shelluser_jailkit_plugin {
 
 	function _add_jailkit_programs()
 	{
-		//copy over further programs and its libraries
-		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
-		$command .= ' '.escapeshellcmd($this->data['new']['dir']);
-		$command .= ' \''.$this->jailkit_config['jailkit_chroot_app_programs'].'\'';
-		exec($command.' 2>/dev/null');
+		$jailkit_chroot_app_programs = preg_split("/[\s,]+/", $this->jailkit_config['jailkit_chroot_app_programs']);
+		if(is_array($jailkit_chroot_app_programs) && !empty($jailkit_chroot_app_programs)){
+			foreach($jailkit_chroot_app_programs as $jailkit_chroot_app_program){
+				$jailkit_chroot_app_program = trim($jailkit_chroot_app_program);
+				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){			
+					//copy over further programs and its libraries
+					$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
+					$command .= ' '.escapeshellcmd($this->data['new']['dir']);
+					$command .= ' '.$jailkit_chroot_app_program;
+					exec($command.' 2>/dev/null');
 
-		$this->app->log("Added programs to jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+					$this->app->log("Added programs to jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+				}
+			}
+		}
 	}
 
 	function _get_home_dir($username)

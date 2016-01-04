@@ -371,6 +371,84 @@ class installer_base {
 
 
 	}
+	
+	public function detect_ips(){
+		global $conf;
+
+		exec("ip addr show | awk '/global/ { print $2 }' | cut -d '/' -f 1", $output, $retval);
+		
+		if($retval == 0){
+			if(is_array($output) && !empty($output)){
+				foreach($output as $line){
+					$line = trim($line);
+					$ip_type = '';
+					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+						$ip_type = 'IPv4';
+					}
+					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+						$ip_type = 'IPv6';
+					}
+					if($ip_type == '') continue;
+					if($this->db->dbHost != $this->dbmaster->dbHost){
+						$this->dbmaster->query('INSERT INTO server_ip (
+							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+							sys_perm_other, server_id, client_id, ip_type, ip_address,
+							virtualhost, virtualhost_port
+						) VALUES (
+							1,
+							1,
+							"riud",
+							"riud",
+							"",
+							?,
+							0,
+							?,
+							?,
+							"y",
+							"80,443"
+						)', $conf['server_id'], $ip_type, $line);
+						$server_ip_id = $this->dbmaster->insertID();
+						$this->db->query('INSERT INTO server_ip (
+							server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+							sys_perm_other, server_id, client_id, ip_type, ip_address,
+							virtualhost, virtualhost_port
+						) VALUES (
+							?,
+							1,
+							1,
+							"riud",
+							"riud",
+							"",
+							?,
+							0,
+							?,
+							?,
+							"y",
+							"80,443"
+						)', $server_ip_id, $conf['server_id'], $ip_type, $line);
+					} else {
+						$this->db->query('INSERT INTO server_ip (
+							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+							sys_perm_other, server_id, client_id, ip_type, ip_address,
+							virtualhost, virtualhost_port
+						) VALUES (
+							1,
+							1,
+							"riud",
+							"riud",
+							"",
+							?,
+							0,
+							?,
+							?,
+							"y",
+							"80,443"
+						)', $conf['server_id'], $ip_type, $line);
+					}
+				}
+			}
+		}
+	}
 
 	public function grant_master_database_rights($verbose = false) {
 		global $conf;

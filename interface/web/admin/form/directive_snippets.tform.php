@@ -110,7 +110,7 @@ $form["tabs"]['directive_snippets'] = array (
 			'formtype' => 'CHECKBOXARRAY',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => "SELECT directive_snippets_id,name FROM directive_snippets WHERE type = 'php' AND active = 'y'ORDER BY name",
+				'querystring' => "SELECT directive_snippets_id,name FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name",
 				'keyfield' => 'directive_snippets_id',
 				'valuefield' => 'name'
 			),

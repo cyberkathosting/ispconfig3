@@ -34,6 +34,14 @@
             <div class="form-group apache">
                 <label for="allow_override" class="col-sm-3 control-label">{tmpl_var name='allow_override_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" /></div></div>
+			<div class="form-group nginx">
+                <label for="http_port" class="col-sm-3 control-label">{tmpl_var name='http_port_txt'}</label>
+                <div class="col-sm-9"><input name="http_port" id="http_port" value="{tmpl_var name='http_port'}" type="text" class="form-control" /></div>
+            </div>
+			<div class="form-group nginx">
+                <label for="https_port" class="col-sm-3 control-label">{tmpl_var name='https_port_txt'}</label>
+                <div class="col-sm-9"><input name="https_port" id="https_port" value="{tmpl_var name='https_port'}" type="text" class="form-control" /></div>
+            </div>	
             <div class="phpfpm">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_use_socket_txt'}</label>
@@ -88,7 +96,7 @@
             <div class="form-group nginx">
                 <label for="nginx_directives" class="col-sm-3 control-label">{tmpl_var name='nginx_directives_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="nginx_directives" id="nginx_directives" rows='10' cols='50'>{tmpl_var name='nginx_directives'}</textarea>
-				<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>
+				<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a>
 				</div>
 			</div>
 			<div class="form-group proxy">

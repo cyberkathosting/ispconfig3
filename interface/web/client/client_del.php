@@ -162,8 +162,8 @@ class page_action extends tform_actions {
 				}
 			}
 
-
-
+			$activation_letter_filename = ISPC_ROOT_PATH.'/pdf/activation_letters/c'.$client_id.'-'.$this->dataRecord['activation_code'].'.pdf';
+			if(is_file($activation_letter_filename)) unlink($activation_letter_filename);
 		}
 
 	}

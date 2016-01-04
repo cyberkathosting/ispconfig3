@@ -372,6 +372,19 @@ class nginx_plugin {
 		$log_folder = 'log';
 		$old_web_folder = 'web';
 		$old_log_folder = 'log';
+		if($data['new']['type'] == 'vhost'){
+			if($data['new']['web_folder'] != ''){
+				if(substr($data['new']['web_folder'],0,1) == '/') $data['new']['web_folder'] = substr($data['new']['web_folder'],1);
+				if(substr($data['new']['web_folder'],-1) == '/') $data['new']['web_folder'] = substr($data['new']['web_folder'],0,-1);
+			}
+			$web_folder .= '/'.$data['new']['web_folder'];
+			
+			if($data['old']['web_folder'] != ''){
+				if(substr($data['old']['web_folder'],0,1) == '/') $data['old']['web_folder'] = substr($data['old']['web_folder'],1);
+				if(substr($data['old']['web_folder'],-1) == '/') $data['old']['web_folder'] = substr($data['old']['web_folder'],0,-1);
+			}
+			$old_web_folder .= '/'.$data['old']['web_folder'];
+		}
 		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
 			// new one
 			$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['new']['parent_domain_id']);
@@ -475,8 +488,7 @@ class nginx_plugin {
 				}
 				
 				//* Unmount the old log directory bfore we move the log dir
-				//exec('fuser -km '.escapeshellcmd($old_dir.'/log'));
-				exec('umount '.escapeshellcmd($data['old']['document_root'].'/log'));
+				exec('umount '.escapeshellcmd($old_dir.'/log'));
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -729,7 +741,7 @@ class nginx_plugin {
 		if($data['new']['type'] == 'vhost' && $web_config['security_level'] == 20) $app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
 
 		//* If the security level is set to high
-		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost')) {
+		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost') or ($web_folder != $old_web_folder && $data['new']['type'] == 'vhost')) {
 
 			$app->system->web_folder_protection($data['new']['document_root'], false);
 
@@ -743,6 +755,7 @@ class nginx_plugin {
 				//$app->system->chmod($data['new']['document_root'].'/webdav',0710);
 				$app->system->chmod($data['new']['document_root'].'/private', 0710);
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
+				if($web_folder != 'web') $app->system->chmod($data['new']['document_root'].'/'.$web_folder, 0751);
 
 				// make tmp directory writable for nginx and the website users
 				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
@@ -794,6 +807,11 @@ class nginx_plugin {
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
 				$app->system->chgrp($data['new']['document_root'].'/private', $groupname);
+				
+				if($web_folder != 'web'){
+					$app->system->chown($data['new']['document_root'].'/'.$web_folder, $username);
+					$app->system->chgrp($data['new']['document_root'].'/'.$web_folder, $groupname);
+				}
 
 				// If the security Level is set to medium
 			} else {
@@ -803,6 +821,7 @@ class nginx_plugin {
 				//$app->system->chmod($data['new']['document_root'].'/webdav',0755);
 				$app->system->chmod($data['new']['document_root'].'/ssl', 0755);
 				$app->system->chmod($data['new']['document_root'].'/cgi-bin', 0755);
+				if($web_folder != 'web') $app->system->chmod($data['new']['document_root'].'/'.$web_folder, 0755);
 
 				// make temp directory writable for nginx and the website users
 				$app->system->chmod($data['new']['document_root'].'/tmp', 0770);
@@ -833,6 +852,11 @@ class nginx_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
 				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
+				
+				if($web_folder != 'web'){
+					$app->system->chown($data['new']['document_root'].'/'.$web_folder, $username);
+					$app->system->chgrp($data['new']['document_root'].'/'.$web_folder, $groupname);
+				}
 			}
 		} elseif((($data['new']['type'] == 'vhostsubdomain') || ($data['new']['type'] == 'vhostalias')) &&
 				 (($this->action == 'insert') || ($web_config['set_folder_permissions_on_update'] == 'y'))) {
@@ -953,7 +977,7 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		*/
-		if($data['new']['php'] == 'php-fpm'){
+		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -1128,6 +1152,58 @@ class nginx_plugin {
 			$nginx_directives = $data['new']['nginx_directives'];
 			$vhost_data['enable_pagespeed'] = false;
 		}
+		
+		// folder_directive_snippets
+		if(trim($data['new']['folder_directive_snippets']) != ''){
+			$data['new']['folder_directive_snippets'] = trim($data['new']['folder_directive_snippets']);
+			$data['new']['folder_directive_snippets'] = str_replace("\r\n", "\n", $data['new']['folder_directive_snippets']);
+			$data['new']['folder_directive_snippets'] = str_replace("\r", "\n", $data['new']['folder_directive_snippets']);
+			$folder_directive_snippets_lines = explode("\n", $data['new']['folder_directive_snippets']);
+			
+			if(is_array($folder_directive_snippets_lines) && !empty($folder_directive_snippets_lines)){
+				foreach($folder_directive_snippets_lines as $folder_directive_snippets_line){
+					list($folder_directive_snippets_folder, $folder_directive_snippets_snippets_id) = explode(':', $folder_directive_snippets_line);
+					
+					$folder_directive_snippets_folder = trim($folder_directive_snippets_folder);
+					$folder_directive_snippets_snippets_id = trim($folder_directive_snippets_snippets_id);
+					
+					if($folder_directive_snippets_folder  != '' && intval($folder_directive_snippets_snippets_id) > 0 && preg_match('@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@', $folder_directive_snippets_folder)){
+						if(substr($folder_directive_snippets_folder, -1) != '/') $folder_directive_snippets_folder .= '/';
+						if(substr($folder_directive_snippets_folder, 0, 1) == '/') $folder_directive_snippets_folder = substr($folder_directive_snippets_folder, 1);
+						
+						$master_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($folder_directive_snippets_snippets_id));
+						if(isset($master_snippet['snippet'])){
+							$folder_directive_snippets_trans = array('{FOLDER}' => $folder_directive_snippets_folder, '{FOLDERMD5}' => md5($folder_directive_snippets_folder));
+							$master_snippet['snippet'] = strtr($master_snippet['snippet'], $folder_directive_snippets_trans);
+							$nginx_directives .= "\n\n".$master_snippet['snippet'];
+							
+							// create folder it it does not exist
+							if(!is_dir($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder)){
+								$app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder);
+								$app->system->chown($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder, $username);
+								$app->system->chgrp($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder, $groupname);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// use vLib for template logic
+		$nginx_directives_new = '';
+		$ngx_conf_tpl = new tpl();
+		$ngx_conf_tpl_tmp_file = tempnam($conf['temppath'], "ngx");
+		file_put_contents($ngx_conf_tpl_tmp_file, $nginx_directives);
+		$ngx_conf_tpl->newTemplate($ngx_conf_tpl_tmp_file);
+		$ngx_conf_tpl->setVar('use_tcp', $use_tcp);
+		$ngx_conf_tpl->setVar('use_socket', $use_socket);
+		$ngx_conf_tpl->setVar('fpm_socket', $fpm_socket);
+		$ngx_conf_tpl->setVar($vhost_data);
+		$nginx_directives_new = $ngx_conf_tpl->grab();
+		if(is_file($ngx_conf_tpl_tmp_file)) unlink($ngx_conf_tpl_tmp_file);
+		if($nginx_directives_new != '') $nginx_directives = $nginx_directives_new;
+		unset($nginx_directives_new);
+		
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
@@ -1448,6 +1524,18 @@ class nginx_plugin {
 					'use_rewrite' => ($data['new']['redirect_type'] == 'proxy' ? false:true),
 					'use_proxy' => ($data['new']['redirect_type'] == 'proxy' ? true:false));
 			}
+		}
+		
+		// http2 or spdy?
+		$vhost_data['enable_http2']  = 'n';
+		if($vhost_data['enable_spdy'] == 'y'){
+			// check if nginx support http_v2; if so, use that instead of spdy
+			exec("2>&1 nginx -V | tr -- - '\n' | grep http_v2_module", $tmp_output, $tmp_retval);
+			if($tmp_retval == 0){
+				$vhost_data['enable_http2']  = 'y';
+				$vhost_data['enable_spdy'] = 'n';
+			}
+			unset($tmp_output, $tmp_retval);
 		}
 
 		$tpl->setVar($vhost_data);
@@ -2115,6 +2203,7 @@ class nginx_plugin {
 					$this->php_fpm_pool_delete($data, $web_config);
 				} elseif($data['old']['php'] == 'hhvm') {
 					$this->hhvm_update($data, $web_config);
+					$this->php_fpm_pool_delete($data, $web_config);
 				}
 
 				//remove the php cgi starter script if available
@@ -2485,7 +2574,7 @@ class nginx_plugin {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || $data['new']['custom_php_ini'] != $data['old']['custom_php_ini']) {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || (isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
 			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
@@ -2497,7 +2586,7 @@ class nginx_plugin {
 						foreach($required_php_snippets as $required_php_snippet){
 							$required_php_snippet = intval($required_php_snippet);
 							if($required_php_snippet > 0){
-								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 								$php_snippet['snippet'] = trim($php_snippet['snippet']);
 								if($php_snippet['snippet'] != ''){
 									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
@@ -2507,13 +2596,14 @@ class nginx_plugin {
 					}
 				}
 			}
+			
 			if($custom_php_ini_settings != ''){
 				// Make sure we only have Unix linebreaks
 				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
 				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
 				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
 			} else {
-				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
 		
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
@@ -2530,17 +2620,19 @@ class nginx_plugin {
 			}
 			
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
-			exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
-			exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
-			unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
-			if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			if($data['old']['system_user'] != ''){
+				exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
+				exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
+				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
+				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
+			}
 			
-			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
-					unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
+				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
+					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
 				}
-				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
-					unlink('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user']);
+				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
+					unlink('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user']);
 				}
 				exec('/etc/init.d/monit restart >/dev/null 2>&1');
 			}
@@ -2560,7 +2652,8 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		*/
-		if($data['new']['php'] == 'php-fpm'){
+		// HHVM => PHP-FPM-Fallback
+		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -2581,7 +2674,8 @@ class nginx_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
-		if($data['new']['php'] != 'php-fpm'){
+		// HHVM => PHP-FPM-Fallback
+		if($data['new']['php'] != 'php-fpm' && $data['new']['php'] != 'hhvm'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
 				$app->system->unlink($pool_dir.$pool_name.'.conf');
 				//$reload = true;
@@ -2649,7 +2743,7 @@ class nginx_plugin {
 					foreach($required_php_snippets as $required_php_snippet){
 						$required_php_snippet = intval($required_php_snippet);
 						if($required_php_snippet > 0){
-							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 							$php_snippet['snippet'] = trim($php_snippet['snippet']);
 							if($php_snippet['snippet'] != ''){
 								$custom_php_ini_settings .= "\n".$php_snippet['snippet'];

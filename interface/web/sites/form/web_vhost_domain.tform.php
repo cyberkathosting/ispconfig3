@@ -48,12 +48,12 @@ if(isset($_SESSION['s']['var']['vhostdomain_type'])) {
 		$vhostdomain_type = 'subdomain';
 		$form_title = "Subdomain";
 		$validator_function = 'sub_domain';
-		$first_tab_title = "Subomain";
+		$first_tab_title = "Subdomain";
 	} elseif($_SESSION['s']['var']['vhostdomain_type'] == 'aliasdomain') {
 		$vhostdomain_type = 'aliasdomain';
 		$form_title = "Aliasdomain";
 		$validator_function = 'alias_domain';
-		$first_tab_title = "Aliasomain";
+		$first_tab_title = "Aliasdomain";
 	}
 }
 
@@ -342,6 +342,18 @@ if($vhostdomain_type == 'domain') {
 			'errmsg'=> 'domain_error_autosub'
 		),
 	);
+	$form['tabs']['domain']['fields']['web_folder'] = array (
+		'datatype' => 'VARCHAR',
+		'validators' => array (  0 => array ( 'type' => 'REGEX',
+				'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
+				'errmsg'=> 'web_folder_error_regex'),
+		),
+		'formtype' => 'TEXT',
+		'default' => '',
+		'value'  => '',
+		'width'  => '30',
+		'maxlength' => '255'
+	);
 } else {
 	$form['tabs']['domain']['fields']['parent_domain_id']['datasource'] = array (
 		'type' => 'SQL',
@@ -352,7 +364,7 @@ if($vhostdomain_type == 'domain') {
 	$form['tabs']['domain']['fields']['web_folder'] = array (
 		'datatype' => 'VARCHAR',
 		'validators' => array (  0 => array ( 'type' => 'REGEX',
-				'regex' => '@^((?!.*\.\.)[\w/_\.\-]{1,100})$@',
+				'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
 				'errmsg'=> 'web_folder_error_regex'),
 		),
 		'formtype' => 'TEXT',

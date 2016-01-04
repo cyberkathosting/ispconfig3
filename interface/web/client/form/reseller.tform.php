@@ -334,6 +334,10 @@ $form["tabs"]['address'] = array (
 				1 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'email_error_empty'),
 			),
+			'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}$/i',
+					'errmsg'=> 'email_error_isemail'),
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -384,7 +388,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'company_id' => array (
@@ -455,7 +461,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'bank_account_swift' => array (
@@ -471,7 +479,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'notes' => array (

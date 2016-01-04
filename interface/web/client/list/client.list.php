@@ -114,5 +114,16 @@ $liste["item"][] = array(   'field'     => "country",
 	),
 	'width' => "",
 	'value' => "");
+	
+if(is_file(ISPC_WEB_PATH.'/robot/lib/robot_config.inc.php')){
+	$liste["item"][] = array( 'field'  => "validation_status",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('accept' => 'accept', 'review' => 'review', 'reject' => 'reject'));
+}
 
 ?>

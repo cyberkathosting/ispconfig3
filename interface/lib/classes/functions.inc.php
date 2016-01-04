@@ -390,7 +390,45 @@ class functions {
 			return getimagesizefromstring($string);
 		}		
 	}
+	
+	public function password($minLength = 10, $special = false){
+		global $app;
+	
+		$iteration = 0;
+		$password = "";
+		$maxLength = $minLength + 5;
+		$length = $this->getRandomInt($minLength, $maxLength);
 
+		while($iteration < $length){
+			$randomNumber = (floor(((mt_rand() / mt_getrandmax()) * 100)) % 94) + 33;
+			if(!$special){
+				if (($randomNumber >=33) && ($randomNumber <=47)) { continue; }
+				if (($randomNumber >=58) && ($randomNumber <=64)) { continue; }
+				if (($randomNumber >=91) && ($randomNumber <=96)) { continue; }
+				if (($randomNumber >=123) && ($randomNumber <=126)) { continue; }
+			}
+			$iteration++;
+			$password .= chr($randomNumber);
+		}
+		$app->uses('validate_password');
+		if($app->validate_password->password_check('', $password, '') !== false) $password = $this->password($minLength, $special);
+		return $password;
+	}
+
+	public function getRandomInt($min, $max){
+		return floor((mt_rand() / mt_getrandmax()) * ($max - $min + 1)) + $min;
+	}
+	
+	public function generate_customer_no(){
+		global $app;
+		// generate customer no.
+		$customer_no = mt_rand(100000, 999999);
+		while($app->db->queryOneRecord("SELECT client_id FROM client WHERE customer_no = ?", $customer_no)) {
+			$customer_no = mt_rand(100000, 999999);
+		}
+		
+		return $customer_no;
+	}
 }
 
 ?>
