@@ -33,6 +33,7 @@ class validate_password {
 	
 	private function _get_password_strength($password) {
 		$length = strlen($password);
+		
 		$points = 0;
 		if ($length < 5) {
 			return 1;
@@ -53,7 +54,7 @@ class validate_password {
 			$different += 1;
 		}
 
-		if (preg_match('/[`~!@#$%^&*()_+|\\=-\[\]}{\';:\/?.>,<" ]/', $password)) {
+		if (preg_match('/[`~!@#$%^&*()_+|\\=\-\[\]}{\';:\/?.>,<" ]/', $password)) {
 			$points += 1;
 			$different += 1;
 		}

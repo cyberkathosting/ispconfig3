@@ -23,6 +23,7 @@
                         <th data-column="username"><tmpl_var name="username_txt"></th>
                         <th data-column="city"><tmpl_var name="city_txt"></th>
                         <th data-column="country"><tmpl_var name="country_txt"></th>
+						<tmpl_if name="has_robot"><th data-column="validation_status"><tmpl_var name="validation_status_txt"></th></tmpl_if>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
@@ -33,6 +34,7 @@
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td><input class="form-control" type="text" name="search_city" value="{tmpl_var name='search_city'}" /></td>
                         <td><select class="form-control" name="search_country">{tmpl_var name='search_country'}</select></td>
+						<tmpl_if name="has_robot"><td><select class="form-control" name="search_validation_status">{tmpl_var name='search_validation_status'}</select></td></tmpl_if>
                         <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="client/client_list.php"><span class="icon icon-filter"></span></button>
                         </td>
@@ -48,7 +50,16 @@
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="city"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}"><span class="flags flag-{tmpl_var name="countryiso"}">{tmpl_var name="country"}</span></a></td>
+							<tmpl_if name="has_robot"><td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="validation_status"}</a></td></tmpl_if>
                             <td class="text-right">
+								<tmpl_if name="has_robot">
+									<a class="btn btn-default formbutton-default formbutton-narrow" href="#" data-load-content="client/client_action.php?id={tmpl_var name='id'}" title="{tmpl_var name='client_actions_txt'}" style="background: no-repeat center url('themes/default/assets/images/arrow.png');"><span class="icon">&nbsp;&nbsp;</span></a>
+									<tmpl_if name='activation_code' op='!=' value=''>
+										<tmpl_if name='validation_status' op='==' value='review'>
+											<a class="btn btn-default formbutton-default formbutton-narrow" href="client/client_get_activation_pdf.php?id={tmpl_var name='id'}" style="background: no-repeat center url('billing/lib/icon/pdficon_small.gif');" title="{tmpl_var name='show_pdf_txt'}"><span class="icon">&nbsp;&nbsp;</span></a>
+										</tmpl_if>
+									</tmpl_if>
+								</tmpl_if>
                                 <tmpl_if name="is_admin">
                                     <a class="btn btn-default formbutton-success formbutton-narrow" data-load-content="login/login_as.php?cid={tmpl_var name='id'}"><span class="icon icon-loginas"></span></a>
                                 <tmpl_elseif name="is_reseller">
@@ -59,14 +70,14 @@
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">
-                        <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td colspan="8">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                        <tr class="tbl_row_noresults tbl_row_{tmpl_if name='__EVEN__'}even{tmpl_else}uneven{/tmpl_if}">
+                            <td colspan="{tmpl_if name="has_robot"}9{tmpl_else}8{/tmpl_if}">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                         </tr>
                     </tmpl_unless>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="8"><tmpl_var name="paging"></td>
+                        <td colspan="{tmpl_if name="has_robot"}9{tmpl_else}8{/tmpl_if}"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>

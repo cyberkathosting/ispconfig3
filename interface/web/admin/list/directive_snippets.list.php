@@ -83,5 +83,14 @@ $liste["item"][] = array( 'field'  => "customer_viewable",
 	'suffix' => "",
 	'width'  => "",
 	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	
+$liste["item"][] = array( 'field'  => "master_directive_snippets_id",
+	'datatype' => "BOOLEAN",
+	'formtype' => "SELECT",
+	'op'  => "IS",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array(0 => $app->lng('select_directive_snippet_txt'), 1 => $app->lng('select_master_directive_snippet_txt')));
 
 ?>

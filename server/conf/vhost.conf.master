@@ -415,6 +415,7 @@
 	
 </tmpl_loop>
 <tmpl_if name='ssl_enabled'>
+<tmpl_else>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         RewriteCond %{HTTPS} off
         RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

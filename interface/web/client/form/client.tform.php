@@ -385,7 +385,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'company_id' => array (
@@ -456,7 +458,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'bank_account_swift' => array (
@@ -472,7 +476,9 @@ $form["tabs"]['address'] = array (
 			'filters'   => array( 0 => array( 	'event' => 'SAVE',
 												'type' => 'TRIM'),
 								1 => array( 	'event' => 'SAVE',
-												'type' => 'TOUPPER')
+												'type' => 'TOUPPER'),
+								2 => array( 	'event' => 'SAVE',
+												'type' => 'NOWHITESPACE')
 			),
 		),
 		'notes' => array (

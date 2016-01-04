@@ -35,7 +35,7 @@ do_start()
 		ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock ;
 	fi
 	
-	umask 017
+	umask 022
 	sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 	
 	BASEINIFILE=""

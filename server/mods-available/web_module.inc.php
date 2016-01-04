@@ -216,13 +216,31 @@ class web_module {
 		} else {
 			$cmd = $app->system->getinitcommand($daemon, 'reload');
 		}
+		
+		if($web_config['server_type'] == 'nginx'){
+			$app->log("Checking nginx configuration...", LOGLEVEL_DEBUG);
+			exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
+			if($retval['retval'] == 0){
+				$app->log("nginx configuration ok!", LOGLEVEL_DEBUG);
+			} else {
+				$app->log("nginx config test failed!", LOGLEVEL_DEBUG);
+				return $retval;
+			}
+		}
+		
 		exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
+		
+		// if restart failed despite successful syntax check => try again
+		if($web_config['server_type'] == 'nginx' && $retval['retval'] > 0){
+			sleep(2);
+			exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
+		}
 		$app->log("Restarting httpd: $cmd", LOGLEVEL_DEBUG);
 		
 		// nginx: do a syntax check because on some distributions, the init script always returns 0 - even if the syntax is not ok (how stupid is that?)
-		if($web_config['server_type'] == 'nginx' && $retval['retval'] == 0){
-			exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
-		}
+		//if($web_config['server_type'] == 'nginx' && $retval['retval'] == 0){
+			//exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
+		//}
 		return $retval;
 	}
 

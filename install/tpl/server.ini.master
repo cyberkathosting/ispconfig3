@@ -18,6 +18,7 @@ admin_notify_events=1
 backup_dir=/var/backup
 backup_dir_is_mount=n
 backup_mode=rootgz
+backup_time=0:00
 backup_delete=n
 monit_url=
 monit_user=
@@ -46,7 +47,7 @@ relayhost_password=
 mailbox_size_limit=0
 message_size_limit=0
 mailbox_quota_stats=y
-realtime_blackhole_list=
+realtime_blackhole_list=zen.spamhaus.org
 overquota_notify_admin=y
 overquota_notify_client=y
 overquota_notify_freq=7
@@ -78,7 +79,6 @@ apps_vhost_ip=_default_
 apps_vhost_servername=
 php_open_basedir=[website_path]/web:[website_path]/private:[website_path]/tmp:/var/www/[website_domain]/web:/srv/www/[website_domain]/web:/usr/share/php5:/usr/share/php:/tmp:/usr/share/phpmyadmin:/etc/phpmyadmin:/var/lib/phpmyadmin
 htaccess_allow_override=All
-enable_spdy=y
 awstats_conf_dir=/etc/awstats
 awstats_data_dir=/var/lib/awstats
 awstats_pl=/usr/lib/cgi-bin/awstats.pl
@@ -131,7 +131,7 @@ fastcgi_config_syntax=1
 [jailkit]
 jailkit_chroot_home=/home/[username]
 jailkit_chroot_app_sections=basicshell editors extendedshell netutils ssh sftp scp groups jk_lsh
-jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch
+jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch /usr/bin/which /usr/lib/x86_64-linux-gnu/libmemcached.so.11 /usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2 /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so.2 /opt/php-5.6.8/bin/php /opt/php-5.6.8/include /opt/php-5.6.8/lib
 jailkit_chroot_cron_programs=/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php
 
 [vlogger]

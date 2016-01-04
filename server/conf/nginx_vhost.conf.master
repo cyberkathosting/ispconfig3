@@ -1,14 +1,14 @@
 server {
-        listen <tmpl_var name='ip_address'>:80;
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='http_port'>;
 <tmpl_if name='ipv6_enabled'>
-        listen [<tmpl_var name='ipv6_address'>]:80;
+        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='http_port'>;
 </tmpl_if>
 		
 <tmpl_if name='ssl_enabled'>
-        listen <tmpl_var name='ip_address'>:443 ssl{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 <tmpl_if name='ipv6_enabled'>
-        listen [<tmpl_var name='ipv6_address'>]:443 ssl{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 </tmpl_if>
         ssl_certificate <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt;
         ssl_certificate_key <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key;
@@ -165,6 +165,22 @@ server {
 				try_files $uri =404;
 				include /etc/nginx/fastcgi_params;
 				fastcgi_pass unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock;
+				fastcgi_index index.php;
+				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+				#fastcgi_param PATH_INFO $fastcgi_script_name;
+				fastcgi_intercept_errors on;
+				error_page 500 501 502 503 = @phpfallback;
+			}
+			
+			location @phpfallback {
+				try_files $uri =404;
+				include /etc/nginx/fastcgi_params;
+<tmpl_if name='use_tcp'>
+				fastcgi_pass 127.0.0.1:<tmpl_var name='fpm_port'>;
+</tmpl_if>
+<tmpl_if name='use_socket'>
+				fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
+</tmpl_if>
 				fastcgi_index index.php;
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 				#fastcgi_param PATH_INFO $fastcgi_script_name;

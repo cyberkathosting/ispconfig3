@@ -246,6 +246,8 @@ $conf['services']['xmpp'] = false;
 
 if($install_mode == 'standard') {
 
+	$inst->dbmaster = $inst->db;
+	
 	//* Create the MySQL database
 	$inst->configure_database();
 
@@ -500,6 +502,9 @@ if($install_mode == 'standard') {
 		$inst->install_crontab();
 	} else swriteln('[ERROR] Cron not found');
 
+	swriteln('Detect IP addresses');
+	$inst->detect_ips();
+
 	swriteln('Restarting services ...');
 	if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 	if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
@@ -696,6 +701,9 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Pureftpd');
 		$inst->configure_pureftpd();
 	}
+	
+	swriteln('Detect IP addresses');
+	$inst->detect_ips();
 
 	//** Configure DNS
 	if(strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y','configure_dns')) == 'y') {
@@ -866,6 +874,9 @@ if($install_mode == 'standard') {
 		if($conf['nginx']['php_fpm_init_script'] != '') system($inst->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
 		if($conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'reload'));
 	}
+	
+	swriteln('Detect IP addresses');
+	$inst->detect_ips();
 
 
 

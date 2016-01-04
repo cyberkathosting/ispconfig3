@@ -90,7 +90,7 @@ $form["tabs"]['database'] = array (
 			'formtype' => 'SELECT',
 			'default' => 'mysql',
 			'value'  => array(
-				'mongo' => 'MongoDB',
+				/*'mongo' => 'MongoDB',*/
 				'mysql' => 'MySQL'
 			)
 		),
