@@ -975,16 +975,7 @@ class tform_base {
 							$this->errorMessage .= $errmsg."<br />\r\n";
 						}
 					}
-				} else {
-					if(!preg_match("/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i", $field_value)) {
-						$errmsg = $validator['errmsg'];
-						if(isset($this->wordbook[$errmsg])) {
-							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-						} else {
-							$this->errorMessage .= $errmsg."<br />\r\n";
-						}
-					}
-				}
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < 2147483647) {
@@ -996,9 +987,11 @@ class tform_base {
 							$this->errorMessage .= $errmsg."<br />\r\n";
 						}
 					}
-				} else {
-					$tmpval = $app->functions->intval($field_value);
-					if($tmpval === 0 and !empty($field_value)) {
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				break;
+			case 'ISPOSITIVE':
+				if(function_exists('filter_var')) {
+					if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>1))) === false) {
 						$errmsg = $validator['errmsg'];
 						if(isset($this->wordbook[$errmsg])) {
 							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -1006,21 +999,10 @@ class tform_base {
 							$this->errorMessage .= $errmsg."<br />\r\n";
 						}
 					}
-				}
-				break;
-			case 'ISPOSITIVE':
-				if(!is_numeric($field_value) || $field_value <= 0){
-					$errmsg = $validator['errmsg'];
-					if(isset($this->wordbook[$errmsg])) {
-						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-					} else {
-						$this->errorMessage .= $errmsg."<br />\r\n";
-					}
-				}
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				break;
 			case 'V6PREFIXEND':
 				$explode_field_value = explode(':',$field_value);
-//				if ($explode_field_value[count($explode_field_value)-1]=='' && $explode_field_value[count($explode_field_value)-2]=='' ){ }
 				if (!$explode_field_value[count($explode_field_value)-1]=='' && $explode_field_value[count($explode_field_value)-2]!='' ) {
 					$errmsg = $validator['errmsg'];
 					if(isset($this->wordbook[$errmsg])) {
@@ -1065,23 +1047,29 @@ class tform_base {
 				break;
 
 			case 'ISIPV4':
-				$vip=1;
-//				if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
-				if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $field_value)){
-					$groups=explode(".", $field_value);
-					foreach($groups as $group){
-						if($group<0 or $group>255)
-							$vip=0;
+				if(function_exists('filter_var')) {
+					if(!filter_var($field_value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+						$errmsg = $validator['errmsg'];
+						if(isset($this->wordbook[$errmsg])) {
+							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+						} else {
+							$this->errorMessage .= $errmsg."<br />\r\n";
+						}
 					}
-				}else{$vip=0;}
-				if($vip==0) {
-					$errmsg = $validator['errmsg'];
-					if(isset($this->wordbook[$errmsg])) {
-						$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-					} else {
-						$this->errorMessage .= $errmsg."<br />\r\n";
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				break;
+
+			case 'ISIPV6':
+				if(function_exists('filter_var')) {
+					if(!filter_var($field_value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+						$errmsg = $validator['errmsg'];
+						if(isset($this->wordbook[$errmsg])) {
+							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+						} else {
+							$this->errorMessage .= $errmsg."<br />\r\n";
+						}
 					}
-				}
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				break;
 
 			case 'ISIP':
@@ -1107,25 +1095,7 @@ class tform_base {
 									$this->errorMessage .= $errmsg."<br />\r\n";
 								}
 							}
-						} else {
-							//* Check content with regex, if we use php < 5.2
-							$ip_ok = 0;
-							if(preg_match("/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i", $field_value)){
-								$ip_ok = 1;
-							}
-//							if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
-							if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $field_value)){
-								$ip_ok = 1;
-							}
-							if($ip_ok == 0) {
-								$errmsg = $validator['errmsg'];
-								if(isset($this->wordbook[$errmsg])) {
-									$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
-								} else {
-									$this->errorMessage .= $errmsg."<br />\r\n";
-								}
-							}
-						}
+						} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 					}
 				}
 				break;
