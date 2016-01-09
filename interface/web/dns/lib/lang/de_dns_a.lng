@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser
 $wb['name_error_empty'] = 'Der Hostname ist leer.';
 $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'IPv4 Adresse ist leer';
-$wb['data_error_regex'] = 'IPv4 Adressen Format ist ungültig';
+$wb['ip_error_wrong'] = 'IPv4 Adressen Format ist ungültig';
 $wb['data_error_duplicate'] = 'Doppelter A oder CNAME Eintrag';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

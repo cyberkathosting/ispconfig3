@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Anda tidak memiliki hak untuk menambah record ke zona DNS
 $wb['name_error_empty'] = 'Nama Host kosong.';
 $wb['name_error_regex'] = 'Format Nama Host salah.';
 $wb['data_error_empty'] = 'Alamat IP kosong';
-$wb['data_error_regex'] = 'Format Alamat IP tidak valid';
+$wb['ip_error_wrong'] = 'Format Alamat IP tidak valid';
 $wb['data_error_duplicate'] = 'Record-A Ganda';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

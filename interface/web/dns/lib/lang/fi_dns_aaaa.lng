@@ -11,6 +11,6 @@ $wb['no_zone_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia lisätä tietueit
 $wb['name_error_empty'] = 'Verkkotunnus on tyhjä.';
 $wb['name_error_regex'] = 'Verkkotunnus on väärän muotoinen.';
 $wb['data_error_empty'] = 'Tekstikenttä on tyhjä';
-$wb['data_error_regex'] = 'Tekstikenttä on vääränlainen';
+$wb['ip_error_wrong'] = 'Tekstikenttä on vääränlainen';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

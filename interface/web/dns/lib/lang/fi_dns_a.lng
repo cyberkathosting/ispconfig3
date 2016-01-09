@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Käyttäjätunnuksella ei ole oikeuksia lisätä tietueit
 $wb['name_error_empty'] = 'Verkkotunnus on tyhjä.';
 $wb['name_error_regex'] = 'Verkkotunnus on vääränlainen.';
 $wb['data_error_empty'] = 'IP-osoite tyhjä';
-$wb['data_error_regex'] = 'IP-osoite on vääränlainen';
+$wb['ip_error_wrong'] = 'IP-osoite on vääränlainen';
 $wb['data_error_duplicate'] = 'A-tietue on jo olemassa';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

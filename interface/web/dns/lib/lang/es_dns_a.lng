@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta z
 $wb['name_error_empty'] = 'El nombre del host está vacío.';
 $wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
 $wb['data_error_empty'] = 'Dirección IP vacía';
-$wb['data_error_regex'] = 'Formato inválido de dirección IP';
+$wb['ip_error_wrong'] = 'Formato inválido de dirección IP';
 $wb['data_error_duplicate'] = 'Registro A o registro CNAME duplicado.';
 $wb['ttl_range_error'] = 'El tiempo min. para TTL es de 60 segundos.';
 ?>

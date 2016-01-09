@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Bu DNS bölgesi kaydını ekleme izniniz yok.';
 $wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
 $wb['name_error_regex'] = 'Sunucu adı biçimi geçersiz.';
 $wb['data_error_empty'] = 'IP Adresi boş olamaz';
-$wb['data_error_regex'] = 'IP Adresi biçimi geçersiz';
+$wb['ip_error_wrong'] = 'IP Adresi biçimi geçersiz';
 $wb['data_error_duplicate'] = 'Bu A DNS kaydı zaten var';
 $wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 ?>
