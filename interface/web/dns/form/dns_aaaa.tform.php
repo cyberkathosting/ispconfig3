@@ -106,6 +106,7 @@ $form["tabs"]['dns'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'default' => '',
 		/*
 		'aux' => array (
 			'datatype'	=> 'INTEGER',
