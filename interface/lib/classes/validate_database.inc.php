@@ -44,17 +44,11 @@ class validate_database {
 				$cur_value = trim($cur_value);
 				$valid = true;
 				if(function_exists('filter_var')) {
-					if(!filter_var($field_value, FILTER_VALIDATE_IP)) {
+					if(!filter_var($cur_value, FILTER_VALIDATE_IP)) {
 						$valid = false;
 					}
-				} else {
-					 if(
-						!preg_match("/^[0-9a-f]{1,4}:([0-9a-f]{0,4}:){1,6}[0-9a-f]{1,4}$/", $cur_value)
-						&&
-						!preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $cur_value)) {
-							$valid = false;
-					}
-				}
+				} else return "function filter_var missing <br />\r\n";
+
 				if($valid == false) {
 					$errmsg = $validator['errmsg'];
 					if(isset($app->tform->wordbook[$errmsg])) {

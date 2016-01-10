@@ -309,21 +309,7 @@ class validate_dns {
 						$errmsg = $validator['errmsg'];
 						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
 					}
-				} else {
-					//* Check content with regex, if we use php < 5.2
-					$ip_ok = 0;
-					if(preg_match("/^(\:\:([a-f0-9]{1,4}\:){0,6}?[a-f0-9]{0,4}|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){0,6}?\:\:|[a-f0-9]{1,4}(\:[a-f0-9]{1,4}){1,6}?\:\:([a-f0-9]{1,4}\:){1,6}?[a-f0-9]{1,4})(\/\d{1,3})?$/i", $field_value)){
-						$ip_ok = 1;
-					}
-//					if(preg_match("/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/", $field_value)){
-					if(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $field_value)){
-						$ip_ok = 1;
-					}
-					if($ip_ok == 0) {
-						$errmsg = $validator['errmsg'];
-						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
-					}
-				}
+				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 			}
 		}
 		return $errorMessage;

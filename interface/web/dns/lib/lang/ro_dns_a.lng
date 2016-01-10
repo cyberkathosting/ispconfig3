@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Nu aveti dreptul de a adauga inregistrari in aceasta zona
 $wb['name_error_empty'] = 'Hostname necompletat';
 $wb['name_error_regex'] = 'Hostname format gresit';
 $wb['data_error_empty'] = 'IP-Adresa vid';
-$wb['data_error_regex'] = 'IP-Adresa format invalid';
+$wb['ip_error_wrong'] = 'IP-Adresa format invalid';
 $wb['data_error_duplicate'] = 'Duplicate A-Record';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

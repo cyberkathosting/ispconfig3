@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Nemate dozvolu za dodavanja zapisa ovoj domeni.';
 $wb['name_error_empty'] = 'Naziv hosta nije upisan.';
 $wb['name_error_regex'] = 'Naziv hosta je u pogrešnom formatu.';
 $wb['data_error_empty'] = 'Polje IP adresa je prazno';
-$wb['data_error_regex'] = 'Neispravan format A zapisa';
+$wb['ip_error_wrong'] = 'Neispravan format A zapisa';
 $wb['data_error_duplicate'] = 'Već postoji ovaj A ili CNAME zapis';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>

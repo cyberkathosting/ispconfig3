@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistreme
 $wb['name_error_empty'] = 'Le nom d\'hôte est vide.';
 $wb['name_error_regex'] = 'Le format du nom d\'hôte est invalide.';
 $wb['data_error_empty'] = 'L\'adresse IP est vide.';
-$wb['data_error_regex'] = 'Le format de l\'adresse IP est invalide.';
+$wb['ip_error_wrong'] = 'Le format de l\'adresse IP est invalide.';
 $wb['data_error_duplicate'] = 'Enregistrement A ou CNAME en double';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>
