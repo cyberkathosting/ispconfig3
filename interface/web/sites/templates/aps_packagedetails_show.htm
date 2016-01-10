@@ -16,9 +16,9 @@
 <p>&nbsp;</p><p>&nbsp;</p>
 
 
-<div class="tabbox_tabs">
+<div class="content-tab-wrapper">
     <input type="hidden" name="next_tab" value="" />
-    <ul>
+    <ul class='nav nav-tabs'>
         <li<tmpl_if name='next_tab' op='==' value='details'> class="active"</tmpl_if>>
             <a href="#" onclick="return ISPConfig.changeTab('details', 'sites/aps_packagedetails_show.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='details_txt'}</a>
         </li>
@@ -35,7 +35,6 @@
         </li>
     </ul>
 </div>
-<p>&nbsp;</p>
 
 <div class="panel panel_list_packages">
     
