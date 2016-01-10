@@ -99,7 +99,7 @@ CREATE TABLE `xmpp_domain` (
   `vjud_opt_mode` enum('in', 'out') NOT NULL DEFAULT 'in',
 
   `use_muc_host` enum('n','y') NOT NULL DEFAULT 'n',
-  `muc_name` varchar(30) NOT NULL DEFAULT ''
+  `muc_name` varchar(30) NOT NULL DEFAULT '',
   `muc_restrict_room_creation` enum('n', 'y', 'm') NOT NULL DEFAULT 'm',
   `muc_admins` text,
   `use_pastebin` enum('n','y') NOT NULL DEFAULT 'n',
