@@ -129,7 +129,7 @@ $domains_tpl = '';
 if(!empty($domains))
 {
 	$set = array();
-	$set[] = '<select name="main_domain" id="main_domain" class="selectInput">';
+	$set[] = '<select name="main_domain" id="main_domain" class="form-control">';
 	foreach($domains as $domain)
 	{
 		$selected = '';
@@ -153,8 +153,8 @@ if(!empty($settings))
 	$set[] = '<legend>'.$app->lng('package_settings_txt').'</legend>';
 	foreach($settings as $setting)
 	{
-		$set[] = '<div class="ctrlHolder">';
-		$set[] = '<label for="'.$setting['SettingID'].'">'.$setting['SettingName'].'</label>';
+		$set[] = '<div class="form-group">';
+		$set[] = '<label for="'.$setting['SettingID'].'" class="col-sm-3 control-label">'.$setting['SettingName'].'</label>';
 		if($setting['SettingInputType'] == 'string' || $setting['SettingInputType'] == 'password')
 		{
 			$input_type = ($setting['SettingInputType'] == 'string') ? 'text' : 'password';
@@ -165,8 +165,8 @@ if(!empty($settings))
 				$input_value = $result['input'][$setting['SettingID']];
 			else $input_value = @$setting['SettingDefaultValue'];
 
-			$set[] = '<input type="'.$input_type.'" class="textInput" name="'.$setting['SettingID'].'" maxlength="'.$setting['SettingMaxLength'].'" id="'.$setting['SettingID'].'" value="'.$input_value.'" />
-                <p class="formHint">'.$setting['SettingDescription'].'</p>';
+			$set[] = '<div class="col-sm-9"><input type="'.$input_type.'" class="form-control" name="'.$setting['SettingID'].'" maxlength="'.$setting['SettingMaxLength'].'" id="'.$setting['SettingID'].'" value="'.$input_value.'" />
+                <p class="formHint">'.$setting['SettingDescription'].'</p></div>';
 		}
 		else if($setting['SettingInputType'] == 'checkbox')
 			{
@@ -177,12 +177,12 @@ if(!empty($settings))
 					$checked = 'checked ';
 				else if($setting['SettingDefaultValue'] == '1') $checked = 'checked ';
 
-					$set[] = '<input type="checkbox" id="'.$setting['SettingID'].'" name="'.$setting['SettingID'].'" '.$checked.'/>
-                <p class="formHint">'.$setting['SettingDescription'].'</p>';
+					$set[] = '<div class="col-sm-9"><input type="checkbox" id="'.$setting['SettingID'].'" name="'.$setting['SettingID'].'" '.$checked.'/>
+                <p class="formHint">'.$setting['SettingDescription'].'</p></div>';
 			}
 		else if($setting['SettingInputType'] == 'select')
 			{
-				$set[] =  '<select size="1" class="selectInput" name="'.$setting['SettingID'].'">';
+				$set[] =  '<div class="col-sm-9"><select size="1" class="form-control" name="'.$setting['SettingID'].'">';
 				foreach($setting['SettingChoices'] as $choice)
 				{
 					$selected = '';
@@ -197,7 +197,7 @@ if(!empty($settings))
 						$set[] = '<option value="'.$choice['EnumID'].'" '.$selected.'>'.$choice['EnumName'].'</option>';
 				}
 				$set[] = '</select>
-                <p class="formHint">'.$setting['SettingDescription'].'</p>';
+                <p class="formHint">'.$setting['SettingDescription'].'</p></div>';
 			}
 
 		$set[] = '</div>';
