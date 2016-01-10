@@ -13,11 +13,23 @@
             </div>
             <div class="form-group">
                 <label for="username" class="col-sm-3 control-label">{tmpl_var name='username_txt'}</label>
-                <div class="col-sm-2">{tmpl_var name='username_prefix'}</div>
-                <div class="col-sm-7"><input type="text" name="username" id="username" value="{tmpl_var name='username'}" class="form-control" /></div></div>
-            <div class="form-group">
+                <div class="col-sm-9">
+					<div class="input-group">
+						<span class="input-group-addon" id="username-desc">{tmpl_var name='username_prefix'}</span>
+						<input type="text" name="username" id="username" value="{tmpl_var name='username'}" class="form-control" aria-describedby="username-desc" />
+					</div>
+				</div>
+            </div>
+			<div class="form-group">
                 <label for="password" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
-                <div class="col-sm-6"><input type="password" name="password" id="password" value="{tmpl_var name='password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" /></div><div class="col-sm-3 input-sm">&nbsp;</div><a href="javascript:void(0);" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</a>
+                <div class="col-sm-9">
+				<div class="input-group">
+					<input type="password" name="password" id="password" value="{tmpl_var name='password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
+					</span>
+				</div>
+				</div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='password_strength_txt'}</label>
@@ -29,9 +41,9 @@
                 <div class="col-sm-9"><input type="password" name="repeat_password" id="repeat_password" value="" class="form-control" autocomplete="off" onkeyup="checkPassMatch('password','repeat_password');" /></div></div>
             <div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
             <div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
-            <div class="form-group">
+			<div class="form-group">
                 <label for="quota_size" class="col-sm-3 control-label">{tmpl_var name='quota_size_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" class="form-control" /></div><label class="col-sm-3 control-label">MB</label>
+                <div class="col-sm-9"><div class="input-group"><input type="text" name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" class="form-control" aria-describedby="quota_size-desc" /><span class="input-group-addon" id="quota_size-desc">MB</span></div></div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
