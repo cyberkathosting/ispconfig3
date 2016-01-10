@@ -61,20 +61,32 @@
             <div class="form-group">
                 <label for="origin" class="col-sm-3 control-label">{tmpl_var name='origin_txt'}</label>
                 <tmpl_if name="domain_option">
-                    <div class="col-sm-9"><select name="origin" id="origin" class="form-control">
+                    <div class="col-sm-9">
+						<select name="origin" id="origin" class="form-control">
                         {tmpl_var name='domain_option'}
-                    </select></div>
+						</select>
+						<p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
+					</div>
                     <tmpl_else>
-                        <div class="col-sm-9"><input type="text" name="origin" id="origin" value="{tmpl_var name='origin'}" class="form-control" /></div></tmpl_if>
-                <p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
+                        <div class="col-sm-9">
+							<input type="text" name="origin" id="origin" value="{tmpl_var name='origin'}" class="form-control" />
+							<p class="formHint">{tmpl_var name='eg_domain_tld'}</p>
+						</div>
+					</tmpl_if>
             </div>
             <div class="form-group">
                 <label for="ns" class="col-sm-3 control-label">{tmpl_var name='ns_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="ns" id="ns" value="{tmpl_var name='ns'}" class="form-control" /></div><p class="formHint">{tmpl_var name='eg_ns1_domain_tld'}</p>
+                <div class="col-sm-9">
+					<input type="text" name="ns" id="ns" value="{tmpl_var name='ns'}" class="form-control" />
+					<p class="formHint">{tmpl_var name='eg_ns1_domain_tld'}</p>
+				</div>
             </div>
             <div class="form-group">
                 <label for="mbox" class="col-sm-3 control-label">{tmpl_var name='mbox_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="mbox" id="mbox" value="{tmpl_var name='mbox'}" class="form-control" /></div><p class="formHint">{tmpl_var name='eg_webmaster_domain_tld'}</p>
+                <div class="col-sm-9">
+					<input type="text" name="mbox" id="mbox" value="{tmpl_var name='mbox'}" class="form-control" />
+					<p class="formHint">{tmpl_var name='eg_webmaster_domain_tld'}</p>
+				</div>
             </div>
             <div class="form-group">
                 <label for="refresh" class="col-sm-3 control-label">{tmpl_var name='refresh_txt'}</label>
