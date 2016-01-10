@@ -987,7 +987,8 @@ class tform_base {
 				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < 2147483647) {
-					if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>0))) === false) {
+					//if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>0))) === false) {
+					if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 						$errmsg = $validator['errmsg'];
 						if(isset($this->wordbook[$errmsg])) {
 							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
