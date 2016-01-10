@@ -115,4 +115,5 @@ $wb['limit_xmpp_anon_txt'] = 'Anonymous host available';
 $wb['limit_xmpp_vjud_txt'] = 'VJUD user directory available';
 $wb['limit_xmpp_proxy_txt'] = 'Bytestream proxy available';
 $wb['limit_xmpp_status_txt'] = 'Status host available';
+$wb["dns_servers_txt"] = 'DNS servers';
 ?>
