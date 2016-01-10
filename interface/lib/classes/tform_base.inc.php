@@ -98,7 +98,7 @@ class tform_base {
 	var $errorMessage = '';
 
 	var $dateformat = "d.m.Y";
-	var $datetimeformat = 'd.m.Y H:i';
+	var $datetimeformat = 'd.m.Y H:i'; // is set to the correct value in loadFormDef
 	var $formDef = array();
 	var $wordbook;
 	var $module;
@@ -803,8 +803,16 @@ class tform_base {
 						}
 					} else {*/
 						if($record[$key] != '' && $record[$key] != '0000-00-00 00:00:00') {
-							$tmp = strtotime($record[$key]);
-							$new_record[$key] = date($this->datetimeformat, $tmp);
+							//$tmp = strtotime($record[$key]);
+							//$new_record[$key] = date($this->datetimeformat, $tmp);
+							$parsed_date = date_parse_from_format($this->datetimeformat,$record[$key]);
+							if($parsed_date['error_count'] > 0 || ($parsed_date['year'] == 1899 && $parsed_date['month'] == 12 && $parsed_date['day'] == 31)) {
+								// There was an error, set the date to 0
+								$new_record[$key] = '0000-00-00 00:00:00';
+							} else {
+								// Date parsed successfully. Convert it to database format
+								$new_record[$key] = date( 'Y-m-d H:i:s', mktime($parsed_date['hour'], $parsed_date['minute'], $parsed_date['second'], $parsed_date['month'], $parsed_date['day'], $parsed_date['year']) );
+							}
 						} else {
 							$new_record[$key] = '0000-00-00 00:00:00';
 						}
@@ -1099,6 +1107,25 @@ class tform_base {
 					}
 				}
 				break;
+			
+			case 'ISDATETIME':
+				/* Checks a datetime value against the date format of the current language */
+				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+				if($validator['allowempty'] == 'y' && $field_value == '') {
+					//* Do nothing
+				} else {
+					$parsed_date = date_parse_from_format($this->datetimeformat,$field_value);
+					if($parsed_date['error_count'] > 0 || ($parsed_date['year'] == 1899 && $parsed_date['month'] == 12 && $parsed_date['day'] == 31)) {
+						$errmsg = $validator['errmsg'];
+						if(isset($this->wordbook[$errmsg])) {
+							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+						} else {
+							$this->errorMessage .= $errmsg."<br />\r\n";
+						}
+					}
+				}
+				break;
+			
 			case 'RANGE':
 				//* Checks if the value is within the given range or above / below a value
 				//* Range examples: < 10 = ":10", between 2 and 10 = "2:10", above 5 = "5:".
