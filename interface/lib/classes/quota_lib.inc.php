@@ -250,7 +250,7 @@ class quota_lib {
 				$databases[$i]['used'] = isset($monitor_data[$databasename]['size']) ? $monitor_data[$databasename]['size'] : 0;
 	
 				$databases[$i]['quota_raw'] = $databases[$i]['database_quota'];
-				$databases[$i]['used_raw'] = $databases[$i]['used'];
+				$databases[$i]['used_raw'] = $databases[$i]['used'] / 1024 / 1024; //* quota is stored as MB - calculated bytes
 				$databases[$i]['used_percentage'] = (($databases[$i]['database_quota'] > 0) && ($databases[$i]['used'] > 0)) ? round($databases[$i]['used'] * 100 / $databases[$i]['database_quota']) : 0;
 	
 				if ($readable) {
@@ -267,7 +267,7 @@ class quota_lib {
 					if($databases[$i]['database_quota'] == 0){
 						$databases[$i]['database_quota'] = $app->lng('unlimited');
 					} else {
-						$databases[$i]['database_quota'] = round($databases[$i]['database_quota'] / 1048576, 4).' MB';
+						$databases[$i]['database_quota'] = $databases[$i]['database_quota'] . ' MB';
 					}
 						
 						

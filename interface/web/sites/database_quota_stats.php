@@ -29,7 +29,7 @@ if(is_array($tmp_rec)) {
 		foreach($tmp_array as $database_name => $data) {
 			$db_name = $data['database_name'];
 
-			$temp = $app->db->queryOneRecord("SELECT client.username, web_database.database_quota FROM web_database, sys_group, client WHERE web_database.sys_groupid = sys_group.groupid AND sys_group.client_id = client.client_id AND web_database.database_name = ?", $db_name);
+			$temp = $app->db->queryOneRecord("SELECT client.username, web_database.database_quota FROM web_database, sys_group, client WHERE sys_group.client_id = client.client_id AND web_database.database_name = ?", $db_name);
 			if(is_array($temp) && !empty($temp)) {
 				$monitor_data[$server_id.'.'.$db_name]['database_name'] = $data['database_name'];
 				$monitor_data[$server_id.'.'.$db_name]['client'] = isset($temp['username']) ? $temp['username'] : '';
