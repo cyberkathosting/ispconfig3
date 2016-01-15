@@ -335,7 +335,7 @@ $form["tabs"]['address'] = array (
 					'errmsg'=> 'email_error_empty'),
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}$/i',
+					'regex' => '/^\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\w+\.[a-zA-Z0-9\-]{2,30}$/i',
 					'errmsg'=> 'email_error_isemail'),
 			),
 			'default' => '',

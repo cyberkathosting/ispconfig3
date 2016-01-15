@@ -2985,13 +2985,15 @@ class nginx_plugin {
 				} else {
 
 					if($islocation){
-						if(strpos($l, '{') !== false){
+						$openingbracketpos = strrpos($l, '{');
+						if($openingbracketpos !== false){
 							$level += 1;
 						}
-						if(strpos($l, '}') !== false && $level > 0){
+						$closingbracketpos = strrpos($l, '}');
+						if($closingbracketpos !== false && $level > 0 && $closingbracketpos >= intval($openingbracketpos)){
 							$level -= 1;
 							$locations[$location]['location'] .= $lines[$i]."\n";
-						} elseif(strpos($l, '}') !== false && $level == 0){
+						} elseif($closingbracketpos !== false && $level == 0 && $closingbracketpos >= intval($openingbracketpos)){
 							$islocation = false;
 						} else {
 							$locations[$location]['location'] .= $lines[$i]."\n";

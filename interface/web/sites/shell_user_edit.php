@@ -95,6 +95,12 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
+		
+		if($this->dataRecord['chroot'] == 'jailkit'){
+			$app->tpl->setVar("is_jailkit", true);
+		} else {
+			$app->tpl->setVar("is_jailkit", false);
+		}
 
 		parent::onShowEnd();
 	}
@@ -164,7 +170,11 @@ class page_action extends tform_actions {
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $this->dataRecord["parent_domain_id"]);
 
 		$server_id = $app->functions->intval($web["server_id"]);
-		$dir = $web["document_root"];
+		if($this->dataRecord['chroot'] == 'jailkit'){
+			$dir = $app->db->quote($web["document_root"]);
+		} else {
+			$dir = $app->db->quote($web["document_root"].'/home/'.$this->dataRecord['username']);
+		}
 		$uid = $web["system_user"];
 		$gid = $web["system_group"];
 		
@@ -218,7 +228,18 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		if(isset($this->dataRecord['chroot'])){
+			$shell_user = $app->db->queryOneRecord("SELECT * FROM shell_user WHERE shell_user_id = ".$this->id);
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".$app->functions->intval($this->dataRecord["parent_domain_id"]));
+			$dir = $shell_user['dir'];
+			if($this->dataRecord['chroot'] == 'jailkit'){
+				$dir = $app->db->quote($web["document_root"]);
+			} else {
+				if($this->oldDataRecord['chroot'] == 'jailkit') $dir = $app->db->quote($web["document_root"].'/home/'.$this->dataRecord['username']);
+			}
 
+			if($dir != $shell_user['dir']) $app->db->query("UPDATE shell_user SET dir = '$dir' WHERE shell_user_id = ".$this->id);
+		}
 	}
 
 }
