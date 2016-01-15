@@ -206,7 +206,10 @@ class mail_plugin {
 		}
 
 		//* Send the welcome email message
-		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
+		$domain = explode('@', $data["new"]["email"])[1];
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
 		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
