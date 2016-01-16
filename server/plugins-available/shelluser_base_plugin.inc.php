@@ -136,6 +136,10 @@ class shelluser_base_plugin {
 				exec($command);
 				$app->log("Executed command: ".$command, LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'], LOGLEVEL_DEBUG);
+				
+				$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
+				$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+				
 
 				// call the ssh-rsa update function
 				$app->uses("getconf");
