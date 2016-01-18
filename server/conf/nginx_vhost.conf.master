@@ -112,7 +112,7 @@ server {
         access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
 
         ## Disable .htaccess and other hidden files
-        location ~ /\. {
+        location ~ /\.(?!well-known/acme-challenge/) {
             deny all;
             access_log off;
             log_not_found off;
