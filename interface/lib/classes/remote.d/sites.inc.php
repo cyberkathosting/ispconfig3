@@ -980,6 +980,21 @@ class remoting_sites extends remoting {
 		return $app->quota_lib->get_trafficquota_data($client_id, $lastdays);
 	}
 	
+	public function ftptrafficquota_data($session_id, $client_id, $lastdays = 0)
+	{
+		global $app;
+		$app->uses('quota_lib');
+		
+		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if ($client_id != null)
+			$client_id = $app->functions->intval($client_id);
+		
+		return $app->quota_lib->get_ftptrafficquota_data($client_id, $lastdays);
+	}
+	
 	public function databasequota_get_by_user($session_id, $client_id)
 	{
 		global $app;
