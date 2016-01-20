@@ -640,6 +640,20 @@ CREATE TABLE `ftp_user` (
 
 -- --------------------------------------------------------
 
+-- 
+-- Table structure for table  `ftp_traffic`
+-- 
+
+CREATE TABLE `ftp_traffic` (
+  `hostname` varchar(255) NOT NULL,
+  `traffic_date` date NOT NULL,
+  `in_bytes` bigint(32) unsigned NOT NULL,
+  `out_bytes` bigint(32) unsigned NOT NULL,
+  PRIMARY KEY (`hostname`,`traffic_date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `help_faq`
 --
@@ -802,6 +816,7 @@ CREATE TABLE `mail_forwarding` (
   `destination` text,
   `type` enum('alias','aliasdomain','forward','catchall') NOT NULL default 'alias',
   `active` enum('n','y') NOT NULL DEFAULT 'n',
+  `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n',
   `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`),

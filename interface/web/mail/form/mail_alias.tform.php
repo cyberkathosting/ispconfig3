@@ -124,6 +124,12 @@ $form["tabs"]['alias'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'allow_send_as' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		'greylisting' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
