@@ -192,3 +192,14 @@ ALTER TABLE `web_domain` ADD `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n
 
 ALTER TABLE `openvz_template` CHANGE `vmguarpages` `vmguarpages` varchar(255) DEFAULT '65536:unlimited';
 ALTER TABLE `openvz_template` CHANGE `privvmpages` `privvmpages` varchar(255) DEFAULT '131072:139264';
+
+CREATE TABLE `ftp_traffic` (
+	`hostname` varchar(255) NOT NULL,
+	`traffic_date` date NOT NULL,
+	`in_bytes` bigint(32) unsigned NOT NULL,
+	`out_bytes` bigint(32) unsigned NOT NULL, 
+	PRIMARY KEY (`hostname`,`traffic_date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `mail_forwarding` ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
+UPDATE `mail_forwarding` SET `allow_send_as` = 'y' WHERE `type` = 'alias';
