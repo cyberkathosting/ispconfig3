@@ -192,3 +192,16 @@ ALTER TABLE `web_domain` ADD `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n
 
 ALTER TABLE `openvz_template` CHANGE `vmguarpages` `vmguarpages` varchar(255) DEFAULT '65536:unlimited';
 ALTER TABLE `openvz_template` CHANGE `privvmpages` `privvmpages` varchar(255) DEFAULT '131072:139264';
+
+
+
+
+-- Mail Security: Send As Permission by dark alex
+-- MS: alter table
+ALTER TABLE `mail_forwarding`
+	ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
+-- MS: apply defaults
+update mail_forwarding set allow_send_as='y' WHERE type = 'alias';
+
+
+

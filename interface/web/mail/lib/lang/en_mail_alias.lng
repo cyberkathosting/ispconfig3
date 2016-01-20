@@ -11,5 +11,7 @@ $wb["duplicate_mailbox_txt"] = 'There is already a mailbox with this email addre
 $wb['domain_txt'] = 'Domain';
 $wb["duplicate_email_alias_txt"] = 'This email alias does already exist.';
 $wb["source_txt"] = 'Alias';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 $wb['greylisting_txt'] = 'Enable greylisting';
 ?>

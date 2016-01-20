@@ -7,5 +7,7 @@ $wb['duplicate_mailbox_txt'] = 'Es existiert bereits ein E-Mail Konto mit dieser
 $wb['domain_txt'] = 'Domain';
 $wb['source_txt'] = 'Quell E-Mail Adresse';
 $wb['email_error_isemail'] = 'Bitte geben Sie eine gültige E-Mail Adresse an.';
+$wb['send_as_txt'] = 'Senden als';
+$wb['send_as_exp'] = 'Ziel erlauben, die Adresse als Absender zu nutzen (Nur, falls das Ziel intern ist)';
 $wb['greylisting_txt'] = 'Aktiviere greylisting';
 ?>
