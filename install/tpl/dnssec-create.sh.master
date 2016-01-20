@@ -7,9 +7,18 @@ if [ "$mysqlcheck" = 0 ];then
  echo "$0 could not connect to database"
  exit 0
 fi
+
+if [ `cat /proc/sys/kernel/random/entropy_avail` -lt 400 ] ; then
+	echo "ERROR: DNSSEC is not working as available entropy is below 400. Please consider installing package haveged. Skipping generation of keys as well as signing..."
+	cp $filespre$domain $filespre$domain.signed
+	mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; UPDATE dns_soa SET dnssec_info='Error during generation of keys. Please contact our support. Reason: Too less entropy available.', dnssec_initialized='N' WHERE origin='$domain.'"
+	exit 20
+fi
+
 mysqlcheck=`mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; select * from dns_soa where dnssec_initialized='Y' and origin='$domain.';" | wc -c`
 if [ "$mysqlcheck" -gt 1 ];then
- echo "$domain seems to be initialized. If that is wrong correct dnssec_initialized in dns_soa table"
+ echo "DNSSEC: $domain seems to be initialized. If that is wrong correct dnssec_initialized in dns_soa table"
+ exit 0
 fi
 cd $bindpath
 
