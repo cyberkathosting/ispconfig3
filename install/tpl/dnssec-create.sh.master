@@ -64,7 +64,6 @@ echo "">>/tmp/.dnssec-$domain
 echo "DNSKEY-Records:">>/tmp/.dnssec-$domain
 cat $bindpath/K$domain.+*.key>>/tmp/.dnssec-$domain
 
-#mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; insert into dnssec_domains set domain='$domain', active='1', serial='$serial', ds1id='$dnssecid', ds1alg='$dnssecalg', ds1htype='$dnssecdt', ds1hash='$dnssecd', ds2id='$dns2secid', ds2alg='$dns2secalg', ds2htype='$dns2secdt', ds2hash='$dns2secd', created=now() ; UPDATE dns_soa SET dnssec_initialized='Y' WHERE origin='$domain.'"
 mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; UPDATE dns_soa SET dnssec_info='`cat /tmp/.dnssec-$domain`', dnssec_initialized='Y' WHERE origin='$domain.'"
 rm /tmp/.dnssec-$domain
 
