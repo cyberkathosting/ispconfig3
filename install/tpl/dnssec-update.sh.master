@@ -2,10 +2,6 @@
 source {dnssec_conffile}
 pardomain="${1::-1}"
 
-echo "$0 $1 $2 $3 $4 results in domain: $pardomain" > /tmp/.last-call-to-dnssec-update
-
-
-
 if [ ! -d $backuppath ]; then mkdir -p $backuppath; fi
 #connect to database for testing
 mysqlcheck=`mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; show tables;" | wc -c`
@@ -13,6 +9,10 @@ if [ "$mysqlcheck" = 0 ];then
  echo "$0 could not connect to database"
  cd $curdir
  exit 0
+fi
+
+if [ ! -f .dsset-$pardomain ] ; then
+	{ispconfig_install_dir}/server/scripts/dnssec-create.sh $pardomain.
 fi
 
 mysqlcheck=`mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; select id,serial from dns_soa where active='Y' and origin='$pardomain.';" | awk {' print $1":"$2 '}`
