@@ -1517,7 +1517,7 @@ class installer_base {
 		$this->process_bind_file('dnssec-autopickup.sh', '/server/scripts/');
 		$this->process_bind_file('dnssec-autocreate.sh', '/server/scripts/');
 		$this->process_bind_file('dnssec-config.sh', '/server/scripts/');
-		$this->process_bind_file('named.conf.options', $conf['bind']['bind_zonefiles_dir']);
+		$this->process_bind_file('named.conf.options', '/etc/bind/', true); //TODO replace hardcoded path
 	}
 
 
