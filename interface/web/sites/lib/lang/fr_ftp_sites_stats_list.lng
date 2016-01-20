@@ -1,0 +1,10 @@
+<?php
+$wb["list_head_txt"] = 'FTP trafic';
+$wb["domain_txt"] = 'Domaine';
+$wb["this_month_txt"] = 'Mois en cours';
+$wb["last_month_txt"] = 'Mois précédent';
+$wb["this_year_txt"] = 'Année en cours';
+$wb["last_year_txt"] = 'Année précédente';
+$wb["sum_txt"] = 'Total (Download + Upload)';
+$wb["in_out_txt"] = 'DL/UL';
+?>
