@@ -203,3 +203,11 @@ CREATE TABLE `ftp_traffic` (
 
 ALTER TABLE `mail_forwarding` ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
 UPDATE `mail_forwarding` SET `allow_send_as` = 'y' WHERE `type` = 'alias';
+
+--- DNSSEC-Implementation by dark alex
+--- TODO: Review and resolve conflicts if more has been done in that column
+ALTER TABLE `dns_rr` CHANGE COLUMN `type` `type` ENUM('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+
+ALTER TABLE `dns_soa`
+	ADD COLUMN `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
+	ADD COLUMN `dnssec_info` TEXT NULL;

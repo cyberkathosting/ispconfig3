@@ -163,7 +163,14 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-		}
+ 			
+ 			//* DNSSEC-Implementation
+ 			if (strlen($data['old']['origin']) > 3) exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.$data['old']['origin']); //delete old keys
+ 			exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.$data['new']['origin']); //Create new keys for new origin
+ 		}
+ 		
+ 		//* DNSSEC-Implementation
+ 		exec('/usr/local/ispconfig/server/scripts/dnssec-update.sh '.$data['new']['origin']);
 
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
 		if($data['new']['update_acl'] != '') {
@@ -197,6 +204,9 @@ class bind_plugin {
 		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
+ 		//* DNSSEC-Implementation
+ 		exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.$data['old']['origin']); //delete keys
+ 		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
 
@@ -342,7 +352,7 @@ class bind_plugin {
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
 
-			$zone_file = $pri_zonefiles_path.str_replace("/", "_", substr($tmp['origin'], 0, -1));
+			$zone_file = $pri_zonefiles_path.str_replace("/", "_", substr($tmp['origin'], 0, -1)).'.signed'; //.signed is for DNSSEC-Implementation
 
 			$options = '';
 			if(trim($tmp['xfer']) != '') {

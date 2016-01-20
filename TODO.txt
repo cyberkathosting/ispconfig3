@@ -13,6 +13,10 @@ Installer
 --------------------------------------
 
 - Add a function to let a server join a existing installation.
+Change named.options.conf and add follwoing lines into options-brackets for DNSSEC-Implementation:
+		dnssec-enable yes;
+		dnssec-validation yes;
+		dnssec-lookaside auto;
 
 Uninstaller
 --------------------------------------
