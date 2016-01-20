@@ -192,3 +192,13 @@ ALTER TABLE `web_domain` ADD `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n
 
 ALTER TABLE `openvz_template` CHANGE `vmguarpages` `vmguarpages` varchar(255) DEFAULT '65536:unlimited';
 ALTER TABLE `openvz_template` CHANGE `privvmpages` `privvmpages` varchar(255) DEFAULT '131072:139264';
+
+
+--- DNSSEC-Implementation by dark alex
+--- TODO: Review and resolve conflicts if more has been done in that column
+ALTER TABLE `dns_rr` CHANGE COLUMN `type` `type` ENUM('A','AAAA','ALIAS','CNAME','HINFO','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+
+ALTER TABLE `dns_soa`
+	ADD COLUMN `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
+	ADD COLUMN `dnssec_info` TEXT NULL;
+

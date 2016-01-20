@@ -1469,6 +1469,27 @@ class installer_base {
 
 
 	}
+	
+	//** writes bind configuration files
+	public function process_bind_file($configfile, $target='/', $absolute=false) {
+		global $conf;
+
+		if ($absolute) $full_file_name = $target.$configfile;
+		else $full_file_name = $conf['ispconfig_install_dir'].$target.$configfile;
+		
+		//* Backup exiting file
+		if(is_file($full_file_name)) {
+			copy($full_file_name, $config_dir.$configfile.'~');
+		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_ispconfig_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+		$content = str_replace('{ispconfig_install_dir}', $conf['ispconfig_install_dir'], $content);
+		$content = str_replace('{dnssec_conffile}', $conf['ispconfig_install_dir'].'/server/scripts/dnssec-config.sh', $content);
+		wf($full_file_name, $content);
+	}
 
 	public function configure_bind() {
 		global $conf;
@@ -1487,6 +1508,15 @@ class installer_base {
 		chown($content, $conf['bind']['bind_user']);
 		chgrp($content, $conf['bind']['bind_group']);
 		chmod($content, 2770);
+		
+		//* Install scripts for dnssec implementation
+		$this->process_bind_file('dnssec-update.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-create.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-delete.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-autoupdate.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-autopickup.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-autocreate.sh', '/server/scripts/');
+		$this->process_bind_file('dnssec-config.sh', '/server/scripts/');
 
 	}
 
