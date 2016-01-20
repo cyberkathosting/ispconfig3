@@ -814,6 +814,7 @@ CREATE TABLE `mail_forwarding` (
   `destination` text,
   `type` enum('alias','aliasdomain','forward','catchall') NOT NULL default 'alias',
   `active` enum('n','y') NOT NULL DEFAULT 'n',
+  `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n',
   `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`forwarding_id`),
   KEY `server_id` (`server_id`,`source`),
