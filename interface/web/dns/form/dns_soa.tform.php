@@ -264,6 +264,12 @@ $form["tabs"]['dns_soa'] = array (
 			'default' => 'Y',
 			'value'  => array(0 => 'N', 1 => 'Y')
 		),
+		'dnssec_wanted' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'Y',
+			'value'  => array(0 => 'N', 1 => 'Y')
+		),
  		'dnssec_info' => array (
  			'datatype' => 'TEXT',
  			'formtype' => 'TEXTAREA',

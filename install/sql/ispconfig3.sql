@@ -540,6 +540,7 @@ CREATE TABLE `dns_soa` (
   `also_notify` varchar(255) default NULL,
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
+  `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
   `dnssec_info` TEXT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `origin` (`origin`),
