@@ -90,6 +90,7 @@ Remoting framework
 Interface
 --------------------------------------
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
+- DNS: Add Checkbox to switch dnssec_wanted between Y and N to templates and/or wizard. I recommend doing it in the wizard though.
 
 General tasks
 --------------------------------------
