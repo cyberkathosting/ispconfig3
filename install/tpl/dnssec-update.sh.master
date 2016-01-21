@@ -1,13 +1,14 @@
 #!/bin/bash
 source {dnssec_conffile}
 pardomain="${1::-1}"
+cd $bindpath
 
 if [ ! -d $backuppath ]; then mkdir -p $backuppath; fi
 #connect to database for testing
 mysqlcheck=`mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; show tables;" | wc -c`
 if [ "$mysqlcheck" = 0 ];then
  echo "$0 could not connect to database"
- cd $curdir
+ cd $curpath
  exit 0
 fi
 
@@ -33,8 +34,8 @@ mysqlcheck=`mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; sel
       fi
 
     /usr/sbin/dnssec-signzone -A -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o $domain -t $filespre$domain
-    mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; update dns_soa set serial='$fserial' where origin='$domain.'; update dns_rr set serial='$fserial' WHERE zone=$zoneid"
+    mysql -u $dbuser --password=$dbpass -h $dbhost -Bse "use $dbase; update dns_soa set serial='$fserial', dnssec_info='`cat /tmp/.dnssec-$domain`' where origin='$domain.'; update dns_rr set serial='$fserial' WHERE zone=$zoneid"
 
 echo "DNSSEC for $pardomain has been configured"
-cd $curdir
+cd $curpath
 exit 0

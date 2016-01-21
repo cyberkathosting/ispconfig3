@@ -151,9 +151,8 @@ class bind_plugin {
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.escapeshellcmd($data['old']['origin'])); //delete old keys
 			if ($data['new']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
 		}
-		if ($data['new']['dnssec_wanted'] == 'Y' AND $data['new']['dnssec_initialized'] == 'N') if ($data['new']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
-		else if ($data['old']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-update.sh '.escapeshellcmd($data['new']['origin']));
-		if($data['old']['dnssec_initialized'] == 'Y' && $data['new']['dnssec_wanted'] == 'N') {	//delete old signed file if dnssec is no longer wanted
+		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
+		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
 			//TODO : change this when distribution information has been integrated into server record
 			if (file_exists('/etc/gentoo-release')) {
 				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
@@ -162,7 +161,7 @@ class bind_plugin {
 				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			}
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
- 		}
+ 		} else if ($data['new']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-update.sh '.escapeshellcmd($data['new']['origin']));
 		// END DNSSEC
 		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
@@ -346,7 +345,7 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Only write the master file for the current server
-		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl, dnssec_initialized FROM dns_soa WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl, dnssec_wanted FROM dns_soa WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
 		$zones = array();
 
 		//* Check if the current zone that triggered this function has at least one NS record
@@ -364,9 +363,8 @@ class bind_plugin {
 
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
-
 			$zone_file = $pri_zonefiles_path.str_replace("/", "_", substr($tmp['origin'], 0, -1));
-			if ($tmp['dnssec_initialized'] == 'Y') $zone_file .= '.signed' //.signed is for DNSSEC-Implementation
+			if ($tmp['dnssec_wanted'] == 'Y') $zone_file .= '.signed'; //.signed is for DNSSEC-Implementation
 
 			$options = '';
 			if(trim($tmp['xfer']) != '') {
