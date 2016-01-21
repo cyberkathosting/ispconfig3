@@ -210,5 +210,6 @@ ALTER TABLE `dns_rr` CHANGE COLUMN `type` `type` ENUM('A','AAAA','ALIAS','CNAME'
 
 ALTER TABLE `dns_soa`
 	ADD COLUMN `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
+	ADD COLUMN `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
 	ADD COLUMN `dnssec_info` TEXT NULL;
 
