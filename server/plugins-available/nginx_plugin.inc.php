@@ -1231,22 +1231,54 @@ class nginx_plugin {
 
 
 		$tpl->setVar('ssl_letsencrypt', "n");
+		
 		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
+			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
+			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
+			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+		)) {
+
 			//* be sure to have good domain
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
 				$domain = substr($domain, 2);
 			}
-			
+
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
 			
-			$lddomain = (string) "$domain";
-			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
-				$lddomain .= (string) " --domains www." . $domain;
+			// default values
+			$temp_domains = array();
+			$lddomain = $domain;
+			$subdomains = null;
+
+ 			//* be sure to have good domain
+ 			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+				$temp_domains[] = "www." . $domain;
 			}
+
+			//* then, add subdomain if we have
+			$subdomains = $app->db->queryAllRecords('SELECT domain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'subdomain'");
+			if(is_array($subdomains)) {
+				foreach($subdomains as $subdomain) {
+					$temp_domains[] = $subdomain['domain'];
+				}
+ 			}
+ 
+			// prevent duplicate
+			$temp_domains = array_unique($temp_domains);
+
+			// generate cli format
+			foreach($temp_domains as $temp_domain) {
+				$lddomain .= (string) " --domains " . $temp_domain;
+			}
+
+			// useless data
+			unset($subdomains);
+			unset($temp_domains);
 
 			$tpl->setVar('ssl_letsencrypt', "y");
 			//* TODO: check dns entry is correct
@@ -1265,7 +1297,7 @@ class nginx_plugin {
 
 				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
 				$app->system->mkdirpath($webroot . "/.well-known/");
-				$app->system->chown($webroot . "/.well-known/", $$data['new']['system_user']);
+				$app->system->chown($webroot . "/.well-known/", $data['new']['system_user']);
 				$app->system->chgrp($webroot . "/.well-known/", $data['new']['system_group']);
 				$app->system->mkdirpath($webroot . "/.well-known/acme-challenge");
 				$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
