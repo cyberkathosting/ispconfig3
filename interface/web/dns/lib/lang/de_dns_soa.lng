@@ -13,6 +13,7 @@ $wb['xfer_txt'] = 'Zonentransfer zu diesen IP Adressen erlauben (mit Komma getre
 $wb['active_txt'] = 'Aktiv';
 $wb['dnssec_info_txt'] = 'DNSSEC DS-Daten für Registry';
 $wb['dnssec_wanted_txt'] = 'Zone signieren (DNSSEC)';
+$wb['dnssec_wanted_info'] = 'Wenn DNSSEC bereits aktiviert war und ein Key erstellt wurde, wird dieser durch deaktivieren nicht gelöscht. Die Zone wird dann jedoch nicht länger signiert ausgeliefert.';
 $wb['limit_dns_zone_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
 $wb['client_txt'] = 'Kunde';
 $wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';

@@ -17,6 +17,7 @@ if [ "$mysqlcheck" = 0 ];then
 fi
 
 rm $bindpath/K$pardomain.+*.key
+rm $bindpath/K$pardomain.+*.private
 rm "$bindpath/$filespre$pardomain.signed"
 rm "$bindpath/dsset-$pardomain."
 
