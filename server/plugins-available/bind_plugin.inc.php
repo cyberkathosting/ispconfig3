@@ -153,6 +153,17 @@ class bind_plugin {
 		}
 		if ($data['new']['dnssec_wanted'] == 'Y' AND $data['new']['dnssec_initialized'] == 'N') if ($data['new']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
 		else if ($data['old']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-update.sh '.escapeshellcmd($data['new']['origin']));
+		if($data['old']['dnssec_initialized'] == 'Y' && $data['new']['dnssec_wanted'] == 'N') {	//delete old signed file if dnssec is no longer wanted
+			//TODO : change this when distribution information has been integrated into server record
+			if (file_exists('/etc/gentoo-release')) {
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
+			}
+			else {
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
+			}
+			if(is_file($filename.'.signed')) unlink($filename.'.signed');
+ 		}
+		// END DNSSEC
 		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
 		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
