@@ -14,4 +14,3 @@ ALTER TABLE `sys_user` ADD `last_login_ip` VARCHAR(50) NULL AFTER `lost_password
 ALTER TABLE `sys_user` ADD `last_login_at` BIGINT(20) NULL AFTER `last_login_ip`;
 ALTER TABLE `dns_soa` ADD COLUMN `status` enum('OK','ERROR','PENDING') NOT NULL DEFAULT 'OK' AFTER `active`;
 ALTER TABLE `dns_soa` ADD COLUMN `status_txt` text AFTER `status`;
-
