@@ -249,4 +249,6 @@ UPDATE `sys_session` SET `last_updated` = NULL WHERE `last_updated` = '0000-00-0
 UPDATE `web_domain` SET `added_date` = NULL WHERE `added_date` = '0000-00-00';
 UPDATE `web_traffic` SET `traffic_date` = NULL WHERE `traffic_date` = '0000-00-00';
 
-
+-- DNS-Status (2 lines)
+ALTER TABLE `dns_soa` ADD COLUMN `status` enum('OK','ERROR','PENDING') NOT NULL DEFAULT 'OK' AFTER `active`;
+ALTER TABLE `dns_soa` ADD COLUMN `status_txt` text AFTER `status`;
