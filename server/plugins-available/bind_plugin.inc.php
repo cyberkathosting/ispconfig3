@@ -86,8 +86,11 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
-		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$domain)) return false;
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
 		
 		//* Check Entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 400) {
@@ -115,7 +118,7 @@ class bind_plugin {
 			$dnssecdata .= file_get_contents($keyfile)."\n\n";
 		}
 		
-		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\' WHERE id='.$data['new']['id']);
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\' WHERE id='.$data['new']['id']);
 	}
 	
 	function soa_dnssec_update($data, $new=false) {
@@ -123,14 +126,17 @@ class bind_plugin {
 
 		//* Load libraries
 		$app->uses("getconf,tpl");
-		
-		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
-		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$domain)) return false;
 
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//* Check Entropy
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		
+		//* Check for available entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
 			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
 			return false;
@@ -138,15 +144,15 @@ class bind_plugin {
 		
 		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) return $this->soa_dnssec_create($data);
 		
-		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
-		
 		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id='.$data['new']['id']);
-		$newserial = exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-						  '/usr/sbin/named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'');
+		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
+			 '/usr/sbin/named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
+		if ($retState != 0) {
+			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
+			return false;
+		}
 		
 		opendir($dns_config['bind_zonefiles_dir']);
-		$includeline=array();
 		$zonefile = file_get_contents(escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain));
 		$keycount=0;
 		foreach (glob('K'.$domain.'*.key') as $keyfile) {
@@ -157,8 +163,9 @@ class bind_plugin {
 		if ($keycount > 2) $app->log('DNSSEC Warning: There are more than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
 		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
 		
+		//Sign the zone and set it valid for max. 16 days
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 '/usr/sbin/dnssec-signzone -A -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+			 '/usr/sbin/dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
 	}
 
 	function soa_insert($event_name, $data) {
