@@ -57,7 +57,7 @@
             <tbody>
                 <tmpl_loop name="records">
                     <tr>
-                        <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
+                        <td style="{tmpl_var name="status"}"><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</td>
 						<td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sys_groupid"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='id'}">{tmpl_var name="origin"}</a></td>
