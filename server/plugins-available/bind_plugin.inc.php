@@ -99,7 +99,7 @@ class bind_plugin {
 		//* Verify that we do not already have keys (overwriting-protection)
 		//TODO : change this when distribution information has been integrated into server record
 		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$data['new']['origin'].'.')) {
-			return $this->soa_dnssec_update(&$data);
+			return $this->soa_dnssec_update($data);
 		}
 		
 		//Do some magic...
@@ -109,7 +109,7 @@ class bind_plugin {
 		
 		$dnssecdata = "DS-Records:\n\r".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$data['new']['origin'].'.');
 		opendir($dns_config['bind_zonefiles_dir']);
-		$dnssecdata .= "\n\r------------------------------------\n\r\n\rDNSKEY-Records:\n\r"
+		$dnssecdata .= "\n\r------------------------------------\n\r\n\rDNSKEY-Records:\n\r";
 		foreach (glob('K'.$data['new']['origin'].'*.key') as $keyfile) {
 			$dnssecdata .= file_get_contents($keyfile)."\n\r\n\r";
 		}
