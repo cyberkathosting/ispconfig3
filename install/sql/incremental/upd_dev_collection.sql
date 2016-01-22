@@ -203,3 +203,6 @@ CREATE TABLE `ftp_traffic` (
 
 ALTER TABLE `mail_forwarding` ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
 UPDATE `mail_forwarding` SET `allow_send_as` = 'y' WHERE `type` = 'alias';
+
+ALTER TABLE `dns_soa` ADD COLUMN `status` enum('OK','ERROR','PENDING') NOT NULL DEFAULT 'OK' AFTER `active`;
+ALTER TABLE `dns_soa` ADD COLUMN `status_txt` text AFTER `status`;
