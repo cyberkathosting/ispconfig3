@@ -268,7 +268,11 @@ class bind_plugin {
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			$out=array();
+<<<<<<< HEAD
 			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
+=======
+			exec('/usr/sbin/named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
+>>>>>>> Zone-Checking improved
 			$statustext='';
 			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
@@ -325,8 +329,8 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-			if(is_file($filename.'.signed')) unlink($filename.'.signed');
 			if(is_file($filename.'.pending')) unlink($filename.'.pending');
+			if(is_file($filename.'.signed')) unlink($filename.'.signed');
 		}
 
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
