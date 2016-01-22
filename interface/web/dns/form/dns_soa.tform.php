@@ -80,6 +80,20 @@ $form["tabs"]['dns_soa'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'status' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => 'PENDING',
+			'value'  => 'PENDING'
+		),
+		'status_txt' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXTAREA',
+ 			'default' => '',
+ 			'value'  => '',
+ 			'width'  => '30',
+ 			'maxlength' => '10000'
+		),
 		'origin' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
