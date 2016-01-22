@@ -273,14 +273,13 @@ class bind_plugin {
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			$out=array();
-			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
+			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename).' 2>&1', $out, $return_status);
 			$statustext='';
 			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 				$app->db->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
 				$app->dbmaster->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
-
 			} else {
 				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
 				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
@@ -340,7 +339,6 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-			if(is_file($filename.'.pending')) unlink($filename.'.pending');
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
 		}
 
