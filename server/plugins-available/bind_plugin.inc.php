@@ -76,6 +76,46 @@ class bind_plugin {
 
 	}
 
+	//* This creates DNSSEC-Keys but does NOT actually sign the zone.
+	function soa_dnssec_create(&$data) {
+		global $app, $conf;
+
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//* Check Entropy
+		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 400) {
+			if($dns_config['disable_bind_log'] === 'y') {
+				$app->log('DNSSEC ERROR: We are low on entropy. Not generating new Keys for '.$data['new']['origin'].'. Please consider installing package haveged.', LOGLEVEL_DEBUG);
+			} else {
+				$app->log('DNSSEC ERROR: We are low on entropy. Not generating new Keys for '.$data['new']['origin'].'. Please consider installing package haveged.', LOGLEVEL_WARN);
+			}
+			return false;
+		}
+		
+		//* Verify that we do not already have keys (overwriting-protection)
+		//TODO : change this when distribution information has been integrated into server record
+		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$data['new']['origin'].'.')) {
+			return $this->soa_dnssec_update(&$data);
+		}
+		
+		//Do some magic...
+		exec('cd '.escapeshellargs($dns_config['bind_zonefiles_dir']).';'.
+		'dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellargs($data['new']['origin']).';'.
+		'dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellargs($data['new']['origin']));
+		
+		$dnssecdata = "DS-Records:\n\r".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$data['new']['origin'].'.');
+		opendir($dns_config['bind_zonefiles_dir']);
+		$dnssecdata .= "\n\r------------------------------------\n\r\n\rDNSKEY-Records:\n\r"
+		foreach (glob('K'.$data['new']['origin'].'*.key') as $keyfile) {
+			$dnssecdata .= file_get_contents($keyfile)."\n\r\n\r";
+		}
+		
+		$app->db->datalogUpdate('dns_soa', array('dnssec_info' => $dnssecdata), 'id', $data['new']['id']);
+	}
 
 	function soa_insert($event_name, $data) {
 		global $app, $conf;
@@ -149,9 +189,9 @@ class bind_plugin {
 		//* DNSSEC-Implementation
 		if($data['old']['origin'] != $data['new']['origin']) {			
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.escapeshellcmd($data['old']['origin'])); //delete old keys
-			if ($data['new']['dnssec_wanted'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
 		}
-		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') exec('/usr/local/ispconfig/server/scripts/dnssec-create.sh '.escapeshellcmd($data['new']['origin'])); //Create new keys for new origin
+		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
 		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
 			//TODO : change this when distribution information has been integrated into server record
 			if (file_exists('/etc/gentoo-release')) {
