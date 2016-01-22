@@ -226,3 +226,5 @@ ALTER TABLE `web_database` ADD COLUMN `quota_exceeded` enum('n','y') NOT NULL DE
 ALTER TABLE `client` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '-1' after limit_database;
 ALTER TABLE `client_template` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '-1' after limit_database;
 	
+ALTER TABLE `dns_soa` ADD COLUMN `status` enum('OK','ERROR','PENDING') NOT NULL DEFAULT 'OK' AFTER `active`;
+ALTER TABLE `dns_soa` ADD COLUMN `status_txt` text AFTER `status`;
