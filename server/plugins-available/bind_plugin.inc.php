@@ -123,22 +123,28 @@ class bind_plugin {
 				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
 			}
 
-			file_put_contents($filename, $tpl->grab());
+			file_put_contents($filename.'.pending', $tpl->grab());
 			chown($filename, escapeshellcmd($dns_config['bind_user']));
 			chgrp($filename, escapeshellcmd($dns_config['bind_group']));
 
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename), $out, $return_status);
+			$out=array();
+			exec('/usr/sbin/named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
+			$statustext='';
+			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
+				$app->db->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
+				rename($filename.'.pending', $filename);
 			} else {
 				if($dns_config['disable_bind_log'] === 'y') {
 					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_DEBUG);
 				} else {
 					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_WARN);
 				}
-				rename($filename, $filename.'.err');
+				$app->db->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				rename($filename.'.pending', $filename.'.err');
 			}
 			unset($tpl);
 			unset($records);
@@ -163,6 +169,7 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
+			if(is_file($filename.'.pending')) unlink($filename.'.pending');
 		}
 
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it

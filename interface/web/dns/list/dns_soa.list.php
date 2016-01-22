@@ -61,7 +61,27 @@ $liste["item"][] = array( 'field'  => "active",
 	'width'  => "",
 	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
+	
+$liste["item"][] = array( 'field'  => "status",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('OK' => '', 'ERROR' => 'background-color:red', 'PENDING' => 'background-color:yellow'));
 
+	
+$liste["item"][] = array( 'field'  => "status_txt",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => '');
+
+	
 $liste["item"][] = array( 'field'  => "server_id",
 	'datatype' => "VARCHAR",
 	'formtype' => "SELECT",
