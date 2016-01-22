@@ -1166,13 +1166,15 @@ class apache2_plugin {
 			$bundle_tmp_file = "/etc/letsencrypt/live/".$domain."/chain.pem";
 			$webroot = $data['new']['document_root']."/web";
 
+			$wk_dir_existed = false;
+			if(is_dir($webroot . '/.well-known')) $wk_dir_existed = true;
 			//* check if we have already a Let's Encrypt cert
 			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 
-				if(is_dir($webroot . "/.well-known/")) {
+				if(is_dir($webroot . "/.well-known/acme-challenge/")) {
 					$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
-					$this->_exec("rm -rf " . $webroot . "/.well-known/");
+					$this->_exec("rm -rf " . $webroot . "/.well-known/acme-challenge/");
 				}
 
 				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
@@ -1187,7 +1189,12 @@ class apache2_plugin {
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
 					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
 				}
-			};
+			}
+			if($wk_dir_existed == false && is_dir($webroot . '/.well-known')) {
+				$this->_exec("rm -rf " . $webroot . "/.well-known");
+			} elseif(is_dir($webroot . "/.well-known/acme-challenge/")) {
+				$this->_exec("rm -rf " . $webroot . "/.well-known/acme-challenge/");
+			}
 
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
