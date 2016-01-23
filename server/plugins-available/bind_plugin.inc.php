@@ -77,7 +77,7 @@ class bind_plugin {
 	}
 
 	//* This creates DNSSEC-Keys and calls soa_dnssec_update.
-	function soa_dnssec_create($data) {
+	function soa_dnssec_create(&$data) {
 		global $app, $conf;
 
 		//* Load libraries
@@ -99,9 +99,17 @@ class bind_plugin {
 		}
 		
 		//* Verify that we do not already have keys (overwriting-protection)
-		//TODO : change this when distribution information has been integrated into server record
 		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
 			return $this->soa_dnssec_update($data);
+		} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
+			$keycount=0;
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+				$keycount++;
+			}
+			if ($keycount > 0) {
+				$this->soa_dnssec_sign($data);
+				return true;
+			}
 		}
 		
 		//Do some magic...
@@ -109,19 +117,50 @@ class bind_plugin {
 		'/usr/sbin/dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellcmd($domain).';'.
 		'/usr/sbin/dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellcmd($domain));
 
-		$this->soa_dnssec_update($data, true); //Now sign the zone
+		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
+		$data['new']['dnssec_initialized']='Y';
+	}
+	
+	function soa_dnssec_sign(&$data) {
+		global $app, $conf;
 		
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		
+		$zonefile = file_get_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
+		$keycount=0;
+		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+			$includeline = '$INCLUDE '.basename($keyfile);
+			if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+			$keycount++;
+		}
+		if ($keycount != 2) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
+		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
+		
+		//Sign the zone and set it valid for max. 16 days
+		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
+			 '/usr/sbin/dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+			 
+		//Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
-		opendir($dns_config['bind_zonefiles_dir']);
 		$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
-		foreach (glob('K'.$domain.'*.key') as $keyfile) {
+		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
 			$dnssecdata .= file_get_contents($keyfile)."\n\n";
 		}
 		
 		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\' WHERE id='.$data['new']['id']);
 	}
 	
-	function soa_dnssec_update($data, $new=false) {
+	function soa_dnssec_update(&$data, $new=false) {
 		global $app, $conf;
 
 		//* Load libraries
@@ -142,7 +181,7 @@ class bind_plugin {
 			return false;
 		}
 		
-		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) return $this->soa_dnssec_create($data);
+		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) $this->soa_dnssec_create($data);
 		
 		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id='.$data['new']['id']);
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
@@ -152,20 +191,28 @@ class bind_plugin {
 			return false;
 		}
 		
-		opendir($dns_config['bind_zonefiles_dir']);
-		$zonefile = file_get_contents(escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain));
-		$keycount=0;
-		foreach (glob('K'.$domain.'*.key') as $keyfile) {
-			$includeline = '$INCLUDE '.$keyfile;
-			if (!preg_match('/'.$line.'/', $zonefile)) $zonefile .= "\n".$includeline."\n";
-			$keycount++;
-		}
-		if ($keycount > 2) $app->log('DNSSEC Warning: There are more than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
-		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
+		$this->soa_dnssec_sign($data);
+	}
+	
+	function soa_dnssec_delete(&$data) {
+		global $app, $conf;
+
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//Sign the zone and set it valid for max. 16 days
-		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 '/usr/sbin/dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		
+		unlink($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+		unlink($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain.'.signed');
+		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
+		
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id='.$data['new']['id']);
 	}
 
 	function soa_insert($event_name, $data) {
@@ -239,7 +286,7 @@ class bind_plugin {
 		
 		//* DNSSEC-Implementation
 		if($data['old']['origin'] != $data['new']['origin']) {			
-			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.escapeshellcmd($data['old']['origin'])); //delete old keys
+			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
 			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
 		}
 		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
