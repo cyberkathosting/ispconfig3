@@ -274,6 +274,7 @@ class bind_plugin {
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			$out=array();
 			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename).' 2>&1', $out, $return_status);
+
 			$statustext='';
 			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
