@@ -157,7 +157,7 @@ class bind_plugin {
 			$dnssecdata .= file_get_contents($keyfile)."\n\n";
 		}
 		
-		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\' WHERE id='.$data['new']['id']);
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\', dnssec_last_signed=\''.time().'\' WHERE id='.$data['new']['id']);
 	}
 	
 	function soa_dnssec_update(&$data, $new=false) {
