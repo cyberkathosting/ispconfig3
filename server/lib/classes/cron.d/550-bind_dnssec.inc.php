@@ -48,11 +48,13 @@ class cronjob_bind_dnssec extends cronjob {
 		//TODO : change this when distribution information has been integrated into server record
 		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
 		
-		$soas = $app->db->queryAllRecords('SELECT * FROM dns_soa WHERE dnssec_wanted=\'Y\' AND dnssec_initialized=\'Y\' AND dnssec_last_signed < '.(time()-(3600*24*5-900))); //Resign zones every 5 days (expiry is 16 days so we have enough safety, 15 minutes tolerance)
+		$soas = $app->db->queryAllRecords('SELECT * FROM dns_soa WHERE dnssec_wanted=\'Y\' AND dnssec_initialized=\'Y\' AND dnssec_last_signed < '.(time()-(3600*24*5)+900)); //Resign zones every 5 days (expiry is 16 days so we have enough safety, 15 minutes tolerance)
 		
-		while ($data = next($soas)) {
+		foreach ($soas as $data) {
 			$domain = substr($data['origin'], 0, strlen($data['origin'])-1);
 			if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+			
+			$app->log('DNSSEC Auto-Resign: Resigning zone '.$domain, LOGLEVEL_INFO);
 			
 			$zonefile = file_get_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 			$keycount=0;
@@ -68,7 +70,7 @@ class cronjob_bind_dnssec extends cronjob {
 			exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
 				 '/usr/sbin/dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
 				 
-			//Write Data back ino DB
+			//Write Data back into DB
 			$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 			$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
 			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
@@ -76,6 +78,7 @@ class cronjob_bind_dnssec extends cronjob {
 			}
 			
 			$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\', dnssec_last_signed=\''.time().'\' WHERE id='.$data['id']);
+			$data = next($soas);
 		}
 		
 		parent::onRunJob();
