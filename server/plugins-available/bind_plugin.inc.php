@@ -268,11 +268,7 @@ class bind_plugin {
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			$out=array();
-<<<<<<< HEAD
 			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
-=======
-			exec('/usr/sbin/named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename.'.pending').' 2>&1', $out, $return_status);
->>>>>>> Zone-Checking improved
 			$statustext='';
 			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
