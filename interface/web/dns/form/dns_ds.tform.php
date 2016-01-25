@@ -102,13 +102,13 @@ $form["tabs"]['dns'] = array (
 			'width'  => '5',
 			'maxlength' => '5'
 		),
-		'data' => array ( //TODO Regex validation does not take place obviously
+		'data' => array ( //TODO Regex validation does not take place obviously - why ever...
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  
 				0 => array ( 
 					'type' => 'REGEX', 
-					'regex' => "/^\d{1,5}\s\d{1,2}\s\d{1,2}\s.+$/s", 
+					'regex' => "/^\d{1,5}\s\d{1,2}\s\d{1,2}\s.+$/", 
 					'errmsg'=> 'invalid_type_ds'
 				)
 			),

@@ -110,11 +110,12 @@ $form["tabs"]['dns'] = array (
 					'type' => 'NOTEMPTY', 
 					'errmsg'=> 'data_error_empty'
 				),
-				1 => array ( 
-					'type' => 'REGEX', 
-					'regex' => "/^(\d+\s)(\d+\s)?(\d+\s)?[NS]{1}\s(\d\s)(\d+\s)?(\d+\s)?[EW]{1}(\s\d+m?)(\s\d+m?)?(\s\d+m?)?(\s\d+m?)?$/s", 
-					'errmsg'=> 'invalid_type_dkim'
-				),
+			//TODO Regex check... I guess I had an error in this regex as I'm not used to RegEx. Further the check did never actually take place...
+			//	1 => array ( 
+			//		'type' => 'REGEX', 
+			//		'regex' => "/^(\d+\s)(\d+\s)?(\d+\s)?[NS]{1}\s(\d\s)(\d+\s)?(\d+\s)?[EW]{1}(\s\d+m?)(\s\d+m?)?(\s\d+m?)?(\s\d+m?)?$/s", 
+			//		'errmsg'=> 'invalid_type_dkim'
+			//	),
 			),
 			'default' => '',
 			'value'  => '',

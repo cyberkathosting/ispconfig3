@@ -114,8 +114,8 @@ class bind_plugin {
 		
 		//Do some magic...
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-		'/usr/sbin/dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellcmd($domain).';'.
-		'/usr/sbin/dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellcmd($domain));
+		'dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellcmd($domain).';'.
+		'dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellcmd($domain));
 
 		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
 		$data['new']['dnssec_initialized']='Y';
@@ -148,7 +148,7 @@ class bind_plugin {
 		
 		//Sign the zone and set it valid for max. 16 days
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 '/usr/sbin/dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+			 'dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
 			 
 		//Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
@@ -185,7 +185,7 @@ class bind_plugin {
 		
 		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id='.$data['new']['id']);
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 '/usr/sbin/named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
+			 'named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
 		if ($retState != 0) {
 			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
 			return false;
