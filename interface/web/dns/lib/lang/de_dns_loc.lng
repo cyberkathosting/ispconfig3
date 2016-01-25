@@ -13,5 +13,4 @@ $wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
 $wb['data_error_empty'] = 'Text ist leer';
 $wb['data_error_regex'] = 'Textformat ungültig';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['info_txt'] = 'Im Nameserver wird zusätzlich ein identischer TXT-Record angelegt. Ihnen wird jedoch nur der SPF-Record angezeigt und auch nur ein Record berechnet.';
 ?>

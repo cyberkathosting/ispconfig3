@@ -34,10 +34,10 @@
 */
 global $app;
 
-$form["title"]    = "DNS SPF Record";
+$form["title"]    = "DNS LOC Record";
 $form["description"]  = "";
-$form["name"]    = "dns_spf";
-$form["action"]   = "dns_spf_edit.php";
+$form["name"]    = "dns_loc";
+$form["action"]   = "dns_loc_edit.php";
 $form["db_table"]  = "dns_rr";
 $form["db_table_idx"] = "id";
 $form["db_history"]  = "yes";
@@ -52,9 +52,9 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['dns'] = array (
-	'title'  => "DNS SPF",
+	'title'  => "DNS LOC",
 	'width'  => 100,
-	'template'  => "templates/dns_spf_edit.htm",
+	'template'  => "templates/dns_loc_edit.htm",
 	'fields'  => array (
 		//#################################
 		// Begin Datatable fields
@@ -97,7 +97,7 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'default' => 'SPF',
+			'default' => 'LOC',
 			'value'  => '',
 			'width'  => '5',
 			'maxlength' => '5'
@@ -109,6 +109,11 @@ $form["tabs"]['dns'] = array (
 				0 => array ( 
 					'type' => 'NOTEMPTY', 
 					'errmsg'=> 'data_error_empty'
+				),
+				1 => array ( 
+					'type' => 'REGEX', 
+					'regex' => "/^(\d+\s)(\d+\s)?(\d+\s)?[NS]{1}\s(\d\s)(\d+\s)?(\d+\s)?[EW]{1}(\s\d+m?)(\s\d+m?)?(\s\d+m?)?(\s\d+m?)?$/s", 
+					'errmsg'=> 'invalid_type_dkim'
 				),
 			),
 			'default' => '',

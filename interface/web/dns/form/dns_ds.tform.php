@@ -34,10 +34,10 @@
 */
 global $app;
 
-$form["title"]    = "DNS SPF Record";
+$form["title"]    = "DNS DS Record";
 $form["description"]  = "";
-$form["name"]    = "dns_spf";
-$form["action"]   = "dns_spf_edit.php";
+$form["name"]    = "dns_ds";
+$form["action"]   = "dns_ds_edit.php";
 $form["db_table"]  = "dns_rr";
 $form["db_table_idx"] = "id";
 $form["db_history"]  = "yes";
@@ -52,9 +52,9 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['dns'] = array (
-	'title'  => "DNS SPF",
+	'title'  => "DNS DS",
 	'width'  => 100,
-	'template'  => "templates/dns_spf_edit.htm",
+	'template'  => "templates/dns_ds_edit.htm",
 	'fields'  => array (
 		//#################################
 		// Begin Datatable fields
@@ -97,19 +97,20 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'default' => 'SPF',
+			'default' => 'DS',
 			'value'  => '',
 			'width'  => '5',
 			'maxlength' => '5'
 		),
-		'data' => array (
+		'data' => array ( //TODO Regex validation does not take place obviously
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  
 				0 => array ( 
-					'type' => 'NOTEMPTY', 
-					'errmsg'=> 'data_error_empty'
-				),
+					'type' => 'REGEX', 
+					'regex' => "/^\d{1,5}\s\d{1,2}\s\d{1,2}\s.+$/s", 
+					'errmsg'=> 'invalid_type_ds'
+				)
 			),
 			'default' => '',
 			'value'  => '',

@@ -32,7 +32,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Begin Form configuration
 ******************************************/
 
-$tform_def_file = "form/dns_spf.tform.php";
+$tform_def_file = "form/dns_loc.tform.php";
 
 /******************************************
 * End Form configuration

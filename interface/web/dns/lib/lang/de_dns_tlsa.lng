@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Service-Descriptor';
 $wb['type_txt'] = 'Typ';
 $wb['data_txt'] = 'TLSA-Daten';
 $wb['ttl_txt'] = 'TTL';
@@ -11,6 +11,6 @@ $wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser
 $wb['name_error_empty'] = 'Der Hostname ist leer.';
 $wb['name_error_regex'] = 'Der Hostname hat das falsche Format. Korrekt: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
 $wb['data_error_empty'] = 'TLSA-Daten sind leer';
-$wb['data_error_regex'] = 'TLSA-Datenformat ist ungültig. Korrekt: n n n DATEN';
+$wb['data_error_regex'] = 'TLSA-Datenformat ist ungültig. Korrekt: n n n HASH';
 $wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
 ?>
