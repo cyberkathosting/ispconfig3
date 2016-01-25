@@ -105,17 +105,21 @@ $form["tabs"]['dns'] = array (
 		'data' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  
-				0 => array ( 
-					'type' => 'NOTEMPTY', 
-					'errmsg'=> 'data_error_empty'
-				),
-			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		/*
+		'aux' => array (
+			'datatype'	=> 'INTEGER',
+			'formtype'	=> 'TEXT',
+			'default'	=> '0',
+			'value'		=> '',
+			'width'		=> '10',
+			'maxlength'	=> '10'
+		),
+		*/
 		'ttl' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -132,7 +136,6 @@ $form["tabs"]['dns'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'Y',
-			'value'  => array(0 => 'N', 1 => 'Y')
 		),
 		'stamp' => array (
 			'datatype' => 'VARCHAR',
@@ -151,15 +154,11 @@ $form["tabs"]['dns'] = array (
 			'maxlength' => '10'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// End Datatable fields
 		//#################################
 	)
 );
 
-if($_SESSION["s"]["user"]["typ"] == 'admin') {
-	unset($form["tabs"]['dns']['fields']['data']['validators']);
-	$form["tabs"]['dns']['fields']['data']['validators'][0]['type'] = 'NOTEMPTY';
-	$form["tabs"]['dns']['fields']['data']['validators'][0]['errmsg'] = 'data_error_empty';
-	$form["tabs"]['dns']['fields']['data']['maxlength'] = 512;
-}
+
+
 ?>
