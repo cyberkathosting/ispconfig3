@@ -1481,12 +1481,12 @@ class installer_base {
 
 		//* Create the slave subdirectory
 		$content .= 'slave';
-		if(!@is_dir($content)) mkdir($content, 2770, true);
+		if(!@is_dir($content)) mkdir($content, 02770, true);
 
 		//* Chown the slave subdirectory to $conf['bind']['bind_user']
 		chown($content, $conf['bind']['bind_user']);
 		chgrp($content, $conf['bind']['bind_group']);
-		chmod($content, 2770);
+		chmod($content, 02770);
 
 	}
 
