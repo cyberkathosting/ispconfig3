@@ -1290,9 +1290,9 @@ class nginx_plugin {
 			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 
-				if(is_dir($webroot . "/.well-known/")) {
+				if(is_dir($webroot . "/.well-known/acme-challenge/")) {
 					$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
-					$this->_exec("rm -rf " . $webroot . "/.well-known/");
+					$this->_exec("rm -rf " . $webroot . "/.well-known/acme-challenge/");
 				}
 
 				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
