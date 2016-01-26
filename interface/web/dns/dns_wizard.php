@@ -314,6 +314,7 @@ if($_POST['create'] == 1) {
 	$tpl_rows = explode("\n", $tpl_content);
 	$section = '';
 	$vars = array();
+	$vars['xfer']='';
 	$dns_rr = array();
 	foreach($tpl_rows as $row) {
 		$row = trim($row);
