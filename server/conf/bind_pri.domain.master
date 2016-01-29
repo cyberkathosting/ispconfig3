@@ -23,8 +23,14 @@ $TTL        {tmpl_var name='ttl'}
 <tmpl_if name="type" op='==' value='CNAME'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      CNAME        {tmpl_var name='data'}
 </tmpl_if>
+<tmpl_if name="type" op='==' value='DS'>
+{tmpl_var name='name'} {tmpl_var name='ttl'}      DS        {tmpl_var name='data'}
+</tmpl_if>
 <tmpl_if name="type" op='==' value='HINFO'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      HINFO        {tmpl_var name='data'}
+</tmpl_if>
+<tmpl_if name="type" op='==' value='LOC'>
+{tmpl_var name='name'} {tmpl_var name='ttl'}      LOC        {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='MX'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      MX    {tmpl_var name='aux'}   {tmpl_var name='data'}
@@ -40,6 +46,9 @@ $TTL        {tmpl_var name='ttl'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='SRV'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      SRV        {tmpl_var name='aux'} {tmpl_var name='data'}
+</tmpl_if>
+<tmpl_if name="type" op='==' value='TLSA'>
+{tmpl_var name='name'} {tmpl_var name='ttl'}      TLSA       {tmpl_var name='data'}
 </tmpl_if>
 <tmpl_if name="type" op='==' value='TXT'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      TXT        "{tmpl_var name='data'}"
