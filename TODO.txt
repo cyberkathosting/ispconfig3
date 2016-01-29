@@ -26,13 +26,6 @@ Server
 Mail module
 --------------------------------------
 
-- Show mail statistics in the interface. The mail statistics are stored
-  in the database table mail_traffic and are collected by the file
-  server/cron_daily.php
--- For Courier this works but not Dovecot. Maybe the intention needs
-	reviewed as some clients think this should be the number of emails
-	and not the size of the emails.  (I agree that size is important)
-		lathama
 
 Administration module
 --------------------------------------
