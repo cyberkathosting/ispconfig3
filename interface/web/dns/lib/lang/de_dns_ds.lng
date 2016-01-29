@@ -1,0 +1,17 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'Typ';
+$wb['data_txt'] = 'Daten';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_dns_record_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
+$wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';
+$wb['name_error_empty'] = 'Der Hostname ist leer.';
+$wb['name_error_regex'] = 'Der Hostname hat das falsche Format.';
+$wb['data_error_empty'] = 'Text ist leer';
+$wb['data_error_regex'] = 'Textformat ungültig';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['invalid_type_ds'] = 'Der DS-Record hat das falsche Format.';
+?>

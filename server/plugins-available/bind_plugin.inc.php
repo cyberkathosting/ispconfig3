@@ -76,6 +76,144 @@ class bind_plugin {
 
 	}
 
+	//* This creates DNSSEC-Keys and calls soa_dnssec_update.
+	function soa_dnssec_create(&$data) {
+		global $app, $conf;
+
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		
+		//* Check Entropy
+		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 400) {
+			$app->log('DNSSEC ERROR: We are low on entropy. Not generating new Keys for '.$domain.'. Please consider installing package haveged.', LOGLEVEL_WARN);
+			return false;
+		}
+		
+		//* Verify that we do not already have keys (overwriting-protection)
+		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
+			return $this->soa_dnssec_update($data);
+		} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
+			$keycount=0;
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+				$keycount++;
+			}
+			if ($keycount > 0) {
+				$this->soa_dnssec_sign($data);
+				return true;
+			}
+		}
+		
+		//Do some magic...
+		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
+		'dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellcmd($domain).';'.
+		'dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellcmd($domain));
+
+		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
+		$data['new']['dnssec_initialized']='Y';
+	}
+	
+	function soa_dnssec_sign(&$data) {
+		global $app, $conf;
+		
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		
+		$zonefile = file_get_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
+		$keycount=0;
+		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+			$includeline = '$INCLUDE '.basename($keyfile);
+			if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+			$keycount++;
+		}
+		if ($keycount != 2) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
+		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
+		
+		//Sign the zone and set it valid for max. 16 days
+		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
+			 'dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+			 
+		//Write Data back ino DB
+		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
+		$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
+		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+			$dnssecdata .= file_get_contents($keyfile)."\n\n";
+		}
+		
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\', dnssec_last_signed=\''.time().'\' WHERE id='.$data['new']['id']);
+	}
+	
+	function soa_dnssec_update(&$data, $new=false) {
+		global $app, $conf;
+
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		
+		//* Check for available entropy
+		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
+			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
+			return false;
+		}
+		
+		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) $this->soa_dnssec_create($data);
+		
+		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id='.$data['new']['id']);
+		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
+			 'named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
+		if ($retState != 0) {
+			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
+			return false;
+		}
+		
+		$this->soa_dnssec_sign($data);
+	}
+	
+	function soa_dnssec_delete(&$data) {
+		global $app, $conf;
+
+		//* Load libraries
+		$app->uses("getconf,tpl");
+
+		//* load the server configuration options
+		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
+		
+		//TODO : change this when distribution information has been integrated into server record
+		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+		
+		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
+		
+		unlink($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+		unlink($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain.'.signed');
+		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
+		
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id='.$data['new']['id']);
+	}
 
 	function soa_insert($event_name, $data) {
 		global $app, $conf;
@@ -145,7 +283,25 @@ class bind_plugin {
 			unset($records_out);
 			unset($zone);
 		}
-
+		
+		//* DNSSEC-Implementation
+		if($data['old']['origin'] != $data['new']['origin']) {			
+			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
+		}
+		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
+		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
+			//TODO : change this when distribution information has been integrated into server record
+			if (file_exists('/etc/gentoo-release')) {
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
+			}
+			else {
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
+			}
+			if(is_file($filename.'.signed')) unlink($filename.'.signed');
+ 		} else if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_update($data);
+		// END DNSSEC
+		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
 		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
 		$this->write_named_conf($data, $dns_config);
@@ -163,8 +319,9 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-		}
-
+			if(is_file($filename.'.signed')) unlink($filename.'.signed');
+ 		}
+ 		
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
 		if($data['new']['update_acl'] != '') {
 			$app->services->restartServiceDelayed('bind', 'restart');
@@ -197,6 +354,9 @@ class bind_plugin {
 		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
+ 		//* DNSSEC-Implementation
+ 		if ($data['old']['dnssec_initialized'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.$data['old']['origin']); //delete keys
+ 		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
 
@@ -323,7 +483,7 @@ class bind_plugin {
 		global $app, $conf;
 
 		//* Only write the master file for the current server
-		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl FROM dns_soa WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
+		$tmps = $app->db->queryAllRecords("SELECT origin, xfer, also_notify, update_acl, dnssec_wanted FROM dns_soa WHERE active = 'Y' AND server_id=?", $conf["server_id"]);
 		$zones = array();
 
 		//* Check if the current zone that triggered this function has at least one NS record
@@ -341,8 +501,8 @@ class bind_plugin {
 
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
-
 			$zone_file = $pri_zonefiles_path.str_replace("/", "_", substr($tmp['origin'], 0, -1));
+			if ($tmp['dnssec_wanted'] == 'Y') $zone_file .= '.signed'; //.signed is for DNSSEC-Implementation
 
 			$options = '';
 			if(trim($tmp['xfer']) != '') {

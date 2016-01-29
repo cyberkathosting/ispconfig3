@@ -13,6 +13,9 @@ Installer
 --------------------------------------
 
 - Add a function to let a server join a existing installation.
+- Add Package haveged to requirements (at least if entropy is low) as it raises available entropy significantly which is very needed for DNSSEC Key-generation
+	If it is not installed and entropy is low generating dnssec-keys lasts minutes (and would time out the server thus is not done) and new signing keys are not generated.
+	If there are no keys the zones can not be signed and will only be availableas a unsigned copy.
 
 Uninstaller
 --------------------------------------
@@ -80,6 +83,7 @@ Remoting framework
 Interface
 --------------------------------------
 - Enhance the paging in lists (e.g. like this: [1 2 3 4 ... 10])
+- DNS: Add Checkbox to switch dnssec_wanted between Y and N to templates and/or wizard. I recommend doing it in the wizard though.
 
 General tasks
 --------------------------------------
