@@ -52,11 +52,14 @@ class mongo_clientdb_plugin {
 	function onInstall() {
 		global $conf;
 		
-		if($conf['services']['db'] == true && class_exists('MongoClient')) {
+		/*if($conf['services']['db'] == true && class_exists('MongoClient')) {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
+		
+		// Disable mongodb plugin in ISPConfig 3.1
+		return false;
 	}
 
 
