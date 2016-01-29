@@ -501,7 +501,7 @@ $form["tabs"]['address'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (
-				0 => array ( 'type' => 'ISEMAIL', 'errmsg'=> 'email_error_isemail'),
+				0 => array ( 'type' => 'ISEMAIL', 'allowempty' => 'y', 'errmsg'=> 'email_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',

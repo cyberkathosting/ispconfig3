@@ -499,7 +499,7 @@ $form["tabs"]['address'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (
-				0 => array ( 'type' => 'ISEMAIL', 'errmsg'=> 'paypal_email_error_isemail'),
+				0 => array ( 'type' => 'ISEMAIL', 'allowempty' => 'y', 'errmsg'=> 'paypal_email_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
