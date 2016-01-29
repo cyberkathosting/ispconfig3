@@ -32,12 +32,13 @@
 
 
 */
+
 global $app;
 
-$form["title"]    = "DNS CNAME";
+$form["title"]    = "DNS tlsa";
 $form["description"]  = "";
-$form["name"]    = "dns_cname";
-$form["action"]   = "dns_cname_edit.php";
+$form["name"]    = "dns_tlsa";
+$form["action"]   = "dns_tlsa_edit.php";
 $form["db_table"]  = "dns_rr";
 $form["db_table_idx"] = "id";
 $form["db_history"]  = "yes";
@@ -52,9 +53,9 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['dns'] = array (
-	'title'  => "DNS CNAME",
+	'title'  => "DNS tlsa",
 	'width'  => 100,
-	'template'  => "templates/dns_cname_edit.htm",
+	'template'  => "templates/dns_tlsa_edit.htm",
 	'fields'  => array (
 		//#################################
 		// Begin Datatable fields
@@ -79,15 +80,11 @@ $form["tabs"]['dns'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'filters'   => array( 0 => array( 'event' => 'SAVE',
-					'type' => 'IDNTOASCII'),
-				1 => array( 'event' => 'SHOW',
-					'type' => 'IDNTOUTF8'),
-				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-9\.\-\*\_]{0,255}$/',
-					'errmsg'=> 'name_error_regex'),
+					'regex' => '/^\_\d{1,5}\.\_(tcp|udp)\.[a-zA-Z0-9\.\-]{1,255}$/',
+					'errmsg'=> 'name_error_regex')
 			),
 			'default' => '',
 			'value'  => '',
@@ -97,42 +94,25 @@ $form["tabs"]['dns'] = array (
 		'type' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'default' => 'CNAME',
+			'default' => 'TLSA',
 			'value'  => '',
 			'width'  => '5',
 			'maxlength' => '5'
 		),
 		'data' => array (
-			'datatype' => 'VARCHAR',
+			'datatype' => 'TEXT',
 			'formtype' => 'TEXT',
-			'filters'   => array( 0 => array( 'event' => 'SAVE',
-					'type' => 'IDNTOASCII'),
-				1 => array( 'event' => 'SHOW',
-					'type' => 'IDNTOUTF8'),
-				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
-			),
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'data_error_empty'),
 				1 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-9\.\-\_]{1,255}$/',
-					'errmsg'=> 'data_error_regex'),
+					'regex' => '/^\d \d \d [a-zA-Z0-9]*$/',
+					'errmsg'=> 'data_error_regex')
 			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
 		),
-		/*
-		'aux' => array (
-			'datatype'	=> 'INTEGER',
-			'formtype'	=> 'TEXT',
-			'default'	=> '0',
-			'value'		=> '',
-			'width'		=> '10',
-			'maxlength'	=> '10'
-		),
-		*/
 		'ttl' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -140,7 +120,7 @@ $form["tabs"]['dns'] = array (
 					'range' => '60:',
 					'errmsg'=> 'ttl_range_error'),
 			),
-			'default' => '3600',
+			'default' => '7200',
 			'value'  => '',
 			'width'  => '10',
 			'maxlength' => '10'
