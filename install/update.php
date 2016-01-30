@@ -177,9 +177,6 @@ $inst = new installer();
 if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 $inst->is_update = true;
 
-//** Detect the installed applications
-$inst->find_installed_apps();
-
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
 //* Make a backup before we start the update
@@ -304,6 +301,18 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 }
 //}
 
+//** Detect the installed applications
+$inst->find_installed_apps();
+
+$conf['services']['mail'] = $conf['postfix']['installed'];
+if ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']) $conf['services']['dns'] = true;
+if ($conf['apache']['installed'] || $conf['nginx']['installed']) $conf['services']['web'] = true;
+$conf['services']['xmpp'] =  $conf['xmpp']['installed'];;
+if ($conf['ufw']['installed'] || $conf['firewall']['installed']) $conf['services']['firewall'] = true;
+$conf['services']['vserver'] = $conf['services']['vserver'];
+$conf['services']['db'] = true;
+
+
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no', 'selected'), 'yes','reconfigure_services');
 
@@ -321,12 +330,6 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		if($conf['mailman']['installed'] == true && $inst->reconfigure_app('Mailman', $reconfigure_services_answer)) {
 			swriteln('Configuring Mailman');
 			$inst->configure_mailman('update');
-		}
-
-		//* Configure Jailkit
-		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
-			swriteln('Configuring Jailkit');
-			$inst->configure_jailkit();
 		}
 
 		if($conf['dovecot']['installed'] == true && $inst->reconfigure_app('Dovecot', $reconfigure_services_answer)) {
@@ -407,6 +410,13 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 			swriteln('Configuring Apps vhost');
 			$inst->configure_apps_vhost();
 			}
+	
+			//* Configure Jailkit
+			if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
+				swriteln('Configuring Jailkit');
+				$inst->configure_jailkit();
+			}
+
 		}
 
     if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
