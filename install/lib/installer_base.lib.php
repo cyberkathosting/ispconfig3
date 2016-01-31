@@ -1672,6 +1672,11 @@ Email Address []:
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:80', '# NameVirtualHost *:80', 1);
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:443', '# NameVirtualHost *:443', 1);
 		}
+		
+		if(is_file('/etc/apache2/mods-available/fcgid.conf')) {
+			// add or modify the parameters for fcgid.conf
+			replaceLine('/etc/apache2/mods-available/fcgid.conf','MaxRequestLen','MaxRequestLen 15728640',1);
+		}
 
 		if(is_file('/etc/apache2/apache.conf')) {
 			if(hasLine('/etc/apache2/apache.conf', 'Include sites-enabled/', 1) == false) {
