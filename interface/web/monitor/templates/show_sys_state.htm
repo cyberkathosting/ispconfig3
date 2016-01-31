@@ -7,8 +7,7 @@
         <legend><tmpl_var name="monTransRefreshsq"></legend>
             
                 <div class="form-group">
-                    <label for="refreshinterval" class="col-sm-3 control-label">&nbsp;</label>
-                    <div class="col-sm-9"><select name="refreshinterval" id="refreshinterval" class="form-control" onChange="ISPConfig.loadContentRefresh('monitor/show_sys_state.php?state={tmpl_var name="state_type"}')">
+                    <div class="col-sm-12"><select name="refreshinterval" id="refreshinterval" class="form-control" onChange="ISPConfig.loadContentRefresh('monitor/show_sys_state.php?state={tmpl_var name="state_type"}')">
                         {tmpl_var name='refresh'}
                     </select></div>
                 
