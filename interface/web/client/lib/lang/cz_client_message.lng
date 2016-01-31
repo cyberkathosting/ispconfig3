@@ -18,5 +18,3 @@ $wb['variables_txt'] = 'Výběr (možnosti):';
 $wb['gender_m_txt'] = 'Pan';
 $wb['gender_f_txt'] = 'Paní';
 ?>
-
-

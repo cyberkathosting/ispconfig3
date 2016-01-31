@@ -18,7 +18,7 @@ $wb['parent_domain_id_txt'] = 'Glavna web stranica';
 $wb['redirect_type_txt'] = 'Vrsta redirekcije';
 $wb['redirect_path_txt'] = 'Redirect Path';
 $wb['active_txt'] = 'Aktivno';
-$wb['document_root_txt'] = 'Početni direktorij';
+$wb['document_root_txt'] = 'Document Root';
 $wb['system_user_txt'] = 'Linux korisnik';
 $wb['system_group_txt'] = 'Linux grupa';
 $wb['ip_address_txt'] = 'IP adresa';
@@ -132,9 +132,14 @@ $wb['host_txt'] = 'Hostname';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb['backup_excludes_note_txt'] = '(Separate multiple directories with commas. Example: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Izbačeni direktorij sadrži nedozvoljene znakove.';
-$wb['invalid_custom_php_ini_settings_txt'] = 'Neispravne php.ini postavke';
-$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
-$wb["document_root_txt"] = "Document Root";
+$wb['server_chosen_not_ok'] = 'The selected server is not allowed for this account.';
+$wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['enable_spdy_txt'] = 'Enable SPDY';
+$wb['load_client_data_txt'] = 'Load client details';
+$wb['load_my_data_txt'] = 'Load my contact details';
+$wb['reset_client_data_txt'] = 'Reset data';
+$wb['rewrite_to_https_txt'] = 'Rewrite HTTP to HTTPS';
+$wb['password_strength_txt'] = 'Password strength';
 ?>
-
-

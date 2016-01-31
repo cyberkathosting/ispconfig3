@@ -17,7 +17,6 @@ $wb['generate_password_txt'] = 'Generar contraseña';
 $wb['repeat_password_txt'] = 'Repetir contraseña';
 $wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
 $wb['password_match_txt'] = 'Las contraseñas coinciden.';
-$wb['mailinglist_txt'] = 'Lista de correo';
 $wb['listname_error_unique'] = 'Ya existe en el servidor un lista de correos con ese nombre. Por favor elija otro.';
 $wb['email_error_isemail'] = 'Dirección de correo inválida.';
 ?>

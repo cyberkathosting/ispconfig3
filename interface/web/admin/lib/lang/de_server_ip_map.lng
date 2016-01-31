@@ -1,12 +1,12 @@
 <?php
-$wb["server_id_txt"] = 'Rewrite auf Server';
-$wb["source_txt"] = 'eigentliche IP';
-$wb["destination_txt"] = 'neue IP';
-$wb["active_txt"] = 'Aktiv';
-$wb["ip_error_wrong"] = 'Die neue IP ist ungueltig';
-$wb["destination_ip_empty"] = 'Die neue IP ist leer.';
-$wb["source_ip_empty"] = 'Die eigentliche IP ist leer.';
-$wb["server_empty_error"] = 'Der Server ist leer.';
-$wb["duplicate_mapping_error"] = "Mapping existiert bereits.";
-$wb["ip_mapping_error"] = "Die eigentliche IP darf keine IP des Rewrite-Servers sein.";
+$wb['server_id_txt'] = 'Rewrite auf Server';
+$wb['source_txt'] = 'eigentliche IP';
+$wb['destination_txt'] = 'neue IP';
+$wb['active_txt'] = 'Aktiv';
+$wb['ip_error_wrong'] = 'Die neue IP ist ungueltig';
+$wb['destination_ip_empty'] = 'Die neue IP ist leer.';
+$wb['source_ip_empty'] = 'Die eigentliche IP ist leer.';
+$wb['server_empty_error'] = 'Der Server ist leer.';
+$wb['duplicate_mapping_error'] = 'Mapping existiert bereits.';
+$wb['ip_mapping_error'] = 'Die eigentliche IP darf keine IP des Rewrite-Servers sein.';
 ?>

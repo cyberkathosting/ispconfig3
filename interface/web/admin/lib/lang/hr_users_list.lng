@@ -7,5 +7,3 @@ $wb['add_new_record_txt'] = 'Dodaj klijenta';
 $wb['warning_txt'] = '<b>UPOZORENJE:</b> Ovdje nemojte mijenjati podatke klijenta. Koristite \\"Klijent\\" i \\"Preprodavač\\" postavke u Klijent modulu. Mijenjanjem postavki klijenata ili grupa može doći do gubitka podataka!';
 $wb['groups_txt'] = 'Groups';
 ?>
-
-

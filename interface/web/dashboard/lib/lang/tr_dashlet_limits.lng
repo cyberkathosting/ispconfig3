@@ -29,4 +29,3 @@ $wb['limit_client_txt'] = 'Müşteri Sayısı';
 $wb['limit_database_txt'] = 'Veritabanı Sayısı';
 $wb['limit_domain_txt'] = 'Alan Adı Sayısı';
 ?>
-

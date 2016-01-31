@@ -47,4 +47,6 @@ $wb['Import'] = 'Importieren';
 $wb['Remote Actions'] = 'Wartung';
 $wb['Do OS-Update'] = 'Betriebssystem Update';
 $wb['Do ISPConfig-Update'] = 'ISPConfig Update';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
 ?>

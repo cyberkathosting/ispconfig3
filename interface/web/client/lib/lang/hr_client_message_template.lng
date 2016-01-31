@@ -9,5 +9,3 @@ $wb['variables_txt'] = 'Variables';
 $wb['variables_description_txt'] = '(The username and password variables are only available in welcome emails.)';
 $wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
 ?>
-
-

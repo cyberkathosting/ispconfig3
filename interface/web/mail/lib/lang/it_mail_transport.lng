@@ -1,11 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['destination_txt'] = 'Destination';
+$wb['domain_txt'] = 'Dominio';
+$wb['destination_txt'] = 'Destinazione';
 $wb['type_txt'] = 'Type';
 $wb['mx_txt'] = 'No MX lookup';
-$wb['sort_order_txt'] = 'Sort by';
-$wb['active_txt'] = 'Active';
-$wb['limit_mailrouting_txt'] = 'The max. number of routes for your account is reached.';
+$wb['sort_order_txt'] = 'Ordina per';
+$wb['active_txt'] = 'Attivo';
+$wb['limit_mailrouting_txt'] = 'The max. number of routes raggiunto per il tuo account.';
 $wb['transport_txt'] = 'Transport';
 ?>

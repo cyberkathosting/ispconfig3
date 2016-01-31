@@ -1,6 +1,6 @@
 <?php
 $wb['Virtual Servers'] = 'Serveurs virtuels';
-$wb['OS Templates'] = 'Modèles de système d\'exploitation';
+$wb['OS Templates'] = 'Modèles de système d’exploitation';
 $wb['VM Templates'] = 'Modèles de machine virtuelle';
 $wb['IP addresses'] = 'Adresses IP';
 $wb['OpenVZ'] = 'OpenVZ';

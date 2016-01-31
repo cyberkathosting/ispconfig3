@@ -1,13 +1,13 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Autoresponder';
-$wb['autoresponder_subject'] = 'Out of office reply';
-$wb['autoresponder_text_txt'] = 'Text';
-$wb['autoresponder_txt'] = 'Active';
-$wb['autoresponder_start_date_txt'] = 'Start on';
-$wb['autoresponder_start_date_isfuture'] = 'Start date cannot be in the past.';
-$wb['autoresponder_end_date_txt'] = 'End by';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be set and be later than start date.';
-$wb['autoresponder_active'] = 'Enable the autoresponder';
-$wb['now_txt'] = 'Now';
-$wb['autoresponder_subject_txt'] = 'Betreff';
+$wb['mailbox_autoresponder_txt'] = 'Réponse automatique';
+$wb['autoresponder_subject'] = 'Absent du bureau';
+$wb['autoresponder_text_txt'] = 'Texte';
+$wb['autoresponder_txt'] = 'Actif';
+$wb['autoresponder_start_date_txt'] = 'Débute le';
+$wb['autoresponder_start_date_isfuture'] = 'La date de début ne pas être antérieure à la date du jour.';
+$wb['autoresponder_end_date_txt'] = 'Fini le';
+$wb['autoresponder_end_date_isgreater'] = 'La date de fin doit être définie et être après la date de début.';
+$wb['autoresponder_active'] = 'Activer la réponse automatique';
+$wb['now_txt'] = 'Maintenant';
+$wb['autoresponder_subject_txt'] = 'Cordialement.';
 ?>

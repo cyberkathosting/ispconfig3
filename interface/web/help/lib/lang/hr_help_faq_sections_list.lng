@@ -6,5 +6,3 @@ $wb['faq_sections_txt'] = 'Rubrike';
 $wb['faq_faq_sections_txt'] = 'FAQ rubrike';
 $wb['faq_new_section_txt'] = 'Dodaj novu rubriku';
 ?>
-
-

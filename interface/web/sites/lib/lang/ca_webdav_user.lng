@@ -1,0 +1,21 @@
+<?php
+$wb['dir_txt'] = 'Dossier';
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site web';
+$wb['username_txt'] = 'Nom d\'utilisateur';
+$wb['password_txt'] = 'Mot de passe';
+$wb['password_strength_txt'] = 'Force du mot de passe';
+$wb['active_txt'] = 'Actif';
+$wb['limit_webdav_user_txt'] = 'Le nombre maximal d\'utilisateurs WebDAV pour votre compte est atteint.';
+$wb['username_error_empty'] = 'Le nom d\'utilisateur est vide';
+$wb['username_error_unique'] = 'Le nom d\'utilisateur doit être unique';
+$wb['username_error_regex'] = 'Le nom d\'utilisateur contient des caractères non autorisés.';
+$wb['directory_error_empty'] = 'Dossier vide.';
+$wb['parent_domain_id_error_empty'] = 'Aucun site web sélectionné.';
+$wb['dir_dot_error'] = 'Les .. ne sont pas autorisés.';
+$wb['dir_slashdot_error'] = 'Les ./ ne sont pas autorisés.';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
+$wb['repeat_password_txt'] = 'Vérification du mot de passe';
+$wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
+$wb['password_match_txt'] = 'Les mots de passe correspondent.';
+?>

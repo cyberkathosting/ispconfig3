@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'Polje IPv6 adresa je prazno';
 $wb['ip_error_wrong'] = 'Neispravan format IPv6 adrese';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

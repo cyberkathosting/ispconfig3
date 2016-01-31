@@ -8,5 +8,3 @@ $wb['filter_txt'] = 'Filter';
 $wb['delete_txt'] = 'Obriši';
 $wb['active_txt'] = 'Aktivno';
 ?>
-
-

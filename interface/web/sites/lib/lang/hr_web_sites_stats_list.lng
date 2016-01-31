@@ -7,5 +7,3 @@ $wb['this_year_txt'] = 'Ovu godinu';
 $wb['last_year_txt'] = 'Prošlu godinu';
 $wb['sum_txt'] = 'Ukupno';
 ?>
-
-

@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Ayudante de Zona DNS';
-$wb['list_desc_txt'] = 'Cree una Zona DNS mediante el ayudante';
+$wb['list_head_txt'] = 'Asistente de Zona DNS';
+$wb['list_desc_txt'] = 'Crear una zona DNS con asistente';
 $wb['dns_zone_txt'] = 'Zona DNS';
 $wb['template_id_txt'] = 'Plantilla';
 $wb['server_id_txt'] = 'Servidor';
@@ -13,9 +13,6 @@ $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['ip_txt'] = 'Dirección IP';
 $wb['ipv6_txt'] = 'Dirección IPv6';
-$wb['list_head_txt'] = 'Asistente de Zona DNS';
-$wb['list_desc_txt'] = 'Crear una zona DNS con asistente';
-$wb['dns_zone_txt'] = 'Zona DNS';
 $wb['error_origin_empty'] = 'Origen está vacío.';
 $wb['error_ns_empty'] = 'NS está vacío.';
 $wb['error_mbox_empty'] = 'Mbox está vacío.';
@@ -40,4 +37,7 @@ $wb['globalsearch_noresults_limit_txt'] = '0 resultados';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Buscar';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugerencias';
 $wb['dkim_txt'] = 'DKIM activado';
+$wb['error_ipv6_empty'] = 'IPv6 empty.';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

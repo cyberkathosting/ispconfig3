@@ -1,0 +1,7 @@
+<?php
+$wb['interface_head_txt'] = 'Paramètres d\'interface';
+$wb['interface_desc_txt'] = 'Modifier votre interface';
+$wb['language_txt'] = 'Language';
+$wb['startmodule_txt'] = 'Page d\'accueil';
+$wb['app_theme_txt'] = 'Interface';
+?>

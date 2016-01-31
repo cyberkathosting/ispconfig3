@@ -1,0 +1,9 @@
+<?php
+$wb['mailbox_cc_txt'] = 'Send copy to courriel address';
+$wb['cc_txt'] = 'Envoyer une copie à';
+$wb['email_txt'] = 'Courriel';
+$wb['cc_error_isemail'] = 'Courriel invalide dans le champ - copie conforme -';
+$wb['email_is_cc_error'] = 'Coipe conforme invalide.';
+$wb['name_optional_txt'] = '(Optionnel)';
+$wb['cc_note_txt'] = '(Séparer chaque adresses par une virgule)';
+?>

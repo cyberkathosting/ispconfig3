@@ -5,5 +5,3 @@ $wb['language_select_txt'] = 'Izaberi jezik';
 $wb['btn_save_txt'] = 'Spoji jezike';
 $wb['btn_cancel_txt'] = 'Natrag';
 ?>
-
-

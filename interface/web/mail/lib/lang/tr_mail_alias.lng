@@ -12,5 +12,6 @@ $wb['duplicate_mailbox_txt'] = 'Bu e-posta adresini kullanan bir posta kutusu za
 $wb['domain_txt'] = 'Alan Adı';
 $wb['duplicate_email_alias_txt'] = 'Bu takma e-posta adresi zaten var.';
 $wb['source_txt'] = 'Takma Ad';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 ?>
-

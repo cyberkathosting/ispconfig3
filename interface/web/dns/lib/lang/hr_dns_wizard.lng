@@ -38,6 +38,6 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Traži';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugestija';
 $wb['list_head_txt'] = 'DNS čarobnjak';
 $wb['list_desc_txt'] = 'Kreiraj DNS zonu sa čarobnjakom';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
-
-

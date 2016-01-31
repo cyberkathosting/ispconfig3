@@ -9,5 +9,3 @@ $wb['firewall_error_unique'] = 'Već postoji firewall zapis za ovaj server.';
 $wb['tcp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji TCP porta. Dozvoljeni znakovi su znamenke, : i ,.';
 $wb['udp_ports_error_regex'] = 'Nedozvoljeni znak pri definiciji UDP porta. Dozvoljeni znakovi su znamenke, : i ,.';
 ?>
-
-

@@ -1,0 +1,8 @@
+<?php
+$wb['mailquota_txt'] = 'Quota de la boite mail';
+$wb['email_txt'] = 'Adresse courriel';
+$wb['name_txt'] = 'Nom';
+$wb['used_txt'] = 'Espace utilisé';
+$wb['quota_txt'] = 'Quota';
+$wb['no_email_accounts_txt'] = 'Aucun compte mail trouvé.';
+?>

@@ -1,0 +1,23 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['domain_txt'] = 'Domaine';
+$wb['type_txt'] = 'Type';
+$wb['active_txt'] = 'Actif';
+$wb['domain_error_empty'] = 'Le domaine est vide.';
+$wb['domain_error_unique'] = 'Dupliquer le domaine.';
+$wb['domain_error_regex'] = 'Le domaine est invalide.';
+$wb['client_txt'] = 'Client';
+$wb['limit_maildomain_txt'] = 'Le nombre maximal de domaines d\'email pour votre compte a été atteint.';
+$wb['policy_txt'] = 'Filtre antispam';
+$wb['no_policy'] = '- inactif -';
+$wb['dkim_txt'] = 'enable DKIM';
+$wb['dkim_private_txt'] = 'DKIM Private-key';
+$wb['dkim_public_txt'] = 'DKIM Public-key\nfor information only';
+$wb['dkim_generate_txt'] = 'Generate DKIM Private-key';
+$wb['dkim_dns_txt'] = 'DNS-Record';
+$wb['dkim_private_key_error'] = 'Invalid DKIM-Private key';
+$wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
+$wb['error_not_allowed_server_id'] = 'Chosen server is not allowed for this account.';
+$wb['dkim_selector_txt'] = 'DKIM-Selector';
+$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9) up to 63 chars';
+?>

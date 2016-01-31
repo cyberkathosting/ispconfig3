@@ -42,7 +42,7 @@ $wb['no_flag_txt'] = 'Sin flag';
 $wb['domain_error_wildcard'] = 'No se permiten subdominios comodín.';
 $wb['proxy_directives_txt'] = 'Directivas de Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Fragmentos de directivas de proxy disponibles:';
-$wb['error_proxy_requires_url'] = 'Tipo de redirección "proxy" necesita una URL como ruta de redirección.';
+$wb['error_proxy_requires_url'] = 'Tipo de redirección \"proxy\" necesita una URL como ruta de redirección.';
 $wb['backup_interval_txt'] = 'Intervalo de copia de seguridad';
 $wb['backup_copies_txt'] = 'Número de copias de seguridad';
 $wb['ssl_key_txt'] = 'Clave SSL';
@@ -98,15 +98,13 @@ $wb['pm_max_children_error_regex'] = 'PHP-FPM pm.max_children debe ser un valor 
 $wb['pm_start_servers_error_regex'] = 'PHP-FPM pm.start_servers debe ser un valor entero positivo.';
 $wb['pm_min_spare_servers_error_regex'] = 'PHP-FPM pm.min_spare_servers debe ser un valor entero positivo.';
 $wb['pm_max_spare_servers_error_regex'] = 'PHP-FPM pm.max_spare_servers debe ser un valor entero positivo.';
-$wb['hd_quota_error_regex'] = 'Cuota de disco no es válida.';
-$wb['traffic_quota_error_regex'] = 'Cuota de tráfico no es válida.';
 $wb['fastcgi_php_version_txt'] = 'Versión de PHP';
 $wb['pm_txt'] = 'PHP-FPM Gestor de Procesos';
 $wb['pm_process_idle_timeout_txt'] = 'PHP-FPM pm.process_idle_timeout';
 $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
 $wb['pm_process_idle_timeout_error_regex'] = 'PHP-FPM pm.process_idle_timeout debe ser un valor entero positivo.';
 $wb['pm_max_requests_error_regex'] = 'PHP-FPM pm.max_requests debe ser un valor entero >= 0.';
-$wb['pm_ondemand_hint_txt'] = 'Por favor ten en cuenta que debes tener una versión de PHP >= 5.3.9 para poder usar el gestor de procesos \"ondemand\". Si seleccionas \"ondemand\" para una versión de PHP anterior, ¡PHP dejará de funcionar!';
+$wb['pm_ondemand_hint_txt'] = 'Por favor ten en cuenta que debes tener una versión de PHP >= 5.3.9 para poder usar el gestor de procesos \\"ondemand\\". Si seleccionas \\"ondemand\\" para una versión de PHP anterior, ¡PHP dejará de funcionar!';
 $wb['generate_password_txt'] = 'Generar contraseña';
 $wb['repeat_password_txt'] = 'Repetir contraseña';
 $wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
@@ -115,5 +113,6 @@ $wb['available_php_directive_snippets_txt'] = 'Fragmentos de directivas de PHP d
 $wb['available_apache_directive_snippets_txt'] = 'Fragmentos de directivas de Apache disponibles:';
 $wb['available_nginx_directive_snippets_txt'] = 'Fragmentos de directivas de nginx disponibles:';
 $wb['Domain'] = 'Alias de dominio';
-
+$wb['hd_quota_error_empty'] = 'Harddisk quota is 0 or empty.';
+$wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
 ?>

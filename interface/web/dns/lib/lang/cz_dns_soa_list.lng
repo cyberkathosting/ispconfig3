@@ -7,6 +7,5 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_txt'] = 'Přidat DNS zónu (SOA záznam)';
 $wb['add_new_record_wizard_txt'] = 'Přidat DNS zónu (dle šablony)';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 ?>
-
-

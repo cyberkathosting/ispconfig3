@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Ψευδώνυμο domain';
+$wb['active_txt'] = 'Ενεργό';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Website';
+$wb['domain_txt'] = 'Ψευδώνυμο domain';
+$wb['add_new_record_txt'] = 'Νέο ψευδωνύμο domain';
+$wb['domain_error_empty'] = 'Το Domain δεν έχει οριστεί.';
+$wb['domain_error_unique'] = 'Το Domain πρέπει να είναι μοναδικό.';
+$wb['domain_error_regex'] = 'Το όνομα Domain δεν είναι έγκυρο.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
+?>

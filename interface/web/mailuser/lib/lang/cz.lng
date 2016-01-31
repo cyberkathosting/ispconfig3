@@ -7,5 +7,3 @@ $wb['Send copy'] = 'Poslat kopii na e-mail';
 $wb['Spamfilter'] = 'Spamový filtr';
 $wb['Email Filters'] = 'E-mailové filtry';
 ?>
-
-

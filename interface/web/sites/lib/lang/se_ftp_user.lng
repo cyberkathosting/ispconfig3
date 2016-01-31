@@ -31,6 +31,5 @@ $wb['generate_password_txt'] = 'Generera lösenord';
 $wb['repeat_password_txt'] = 'Upprepa lösenord';
 $wb['password_mismatch_txt'] = 'Lösenorden matchar inte';
 $wb['password_match_txt'] = 'Lösenorden matchar';
-$wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
-$wb['directory_error_regex'] = 'Invalid directory';
+$wb['expires_txt'] = 'Expire at';
 ?>

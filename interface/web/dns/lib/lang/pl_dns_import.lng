@@ -11,4 +11,6 @@ $wb['domain_field_desc_txt'] = 'Może być puste jeżeli nazwa domeny jest w naz
 $wb['title'] = 'Importuj pliki strefy';
 $wb['no_file_uploaded_error'] = 'Nie załadowany żaden plik';
 $wb['zone_file_import_txt'] = 'Import pliku strefy';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

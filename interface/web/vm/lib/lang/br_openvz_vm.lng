@@ -38,8 +38,8 @@ $wb['template_nameserver_error_empty'] = 'Nameserver(s) is empty.';
 $wb['Virtual server'] = 'Virtual server';
 $wb['Advanced'] = 'Advanced';
 $wb['features_txt'] = 'Features';
-$wb["iptables_txt"] = "IP Tables";
-$wb["custom_txt"] = "Custom settings";
-$wb["bootorder_txt"] = "Boot order priority";
-$wb["bootorder_error_notpositive"] = "Only positive integers are allowed for Boot order priority";
+$wb['iptables_txt'] = 'IP Tables';
+$wb['custom_txt'] = 'Custom settings';
+$wb['bootorder_txt'] = 'Boot order priority';
+$wb['bootorder_error_notpositive'] = 'Only positive integers are allowed for Boot order priority';
 ?>

@@ -16,6 +16,6 @@ $wb['delete_confirm_txt'] = 'Really delete this backup?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['backup_type_mysql'] = 'MySQL Databáze';
 $wb['backup_type_web'] = 'Soubory webových stránek';
+$wb['filesize_txt'] = 'Filesize';
+$wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>
-
-

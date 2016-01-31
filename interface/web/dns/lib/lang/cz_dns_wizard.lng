@@ -41,5 +41,3 @@ $wb['dkim_txt'] = 'DKIM enabled';
 $wb['error_no_server_id'] = 'No server provided.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
-
-

@@ -1,5 +1,4 @@
 <?php
-
 $wb['server_id_txt'] = 'Sunucu';
 $wb['multiport_txt'] = 'Çok Kapı';
 $wb['singleport_txt'] = 'Tek Kapı';
@@ -11,6 +10,4 @@ $wb['destination_ip_txt'] = 'Hedef Adresi';
 $wb['source_ip_txt'] = 'Kaynak Adresi';
 $wb['active_txt'] = 'Etkin';
 $wb['iptables_error_unique'] = 'Bu sunucu için zaten bir güvenlik kaydı var.';
-
 ?>
-

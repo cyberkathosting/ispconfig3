@@ -6,5 +6,3 @@ $wb['email_txt'] = 'Email adresa';
 $wb['used_txt'] = 'Prostor';
 $wb['percentage_txt'] = 'Koristi %';
 ?>
-
-

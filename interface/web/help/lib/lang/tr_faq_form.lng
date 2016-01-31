@@ -4,4 +4,3 @@ $wb['faq_question_txt'] = 'Soru';
 $wb['faq_answer_txt'] = 'Yanıt';
 $wb['faq_section_txt'] = 'Bölüm';
 ?>
-

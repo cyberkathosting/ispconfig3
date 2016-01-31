@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Domains';
+$wb['domain_id_txt'] = 'Domain ID';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Neue Domain hinzufügen';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Entête de Postfix';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['pattern_txt'] = 'Schéma';
+$wb['action_txt'] = 'Action';
+$wb['add_new_record_txt'] = 'Ajouter un nouveau filtre de contenu';
+?>

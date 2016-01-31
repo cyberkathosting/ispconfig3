@@ -5,5 +5,3 @@ $wb['add_new_record_txt'] = 'Add new PHP version';
 $wb['client_id_txt'] = 'Klijent';
 $wb['name_txt'] = 'PHP Name';
 ?>
-
-

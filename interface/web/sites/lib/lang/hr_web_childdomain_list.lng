@@ -4,14 +4,12 @@ $wb['active_txt'] = 'Aktivno';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Web stranica';
 $wb['domain_txt'] = 'Poddomena';
-$wb['add_new_record_txt'] = 'Dodaj novu poddomenu';
 $wb['domain_error_empty'] = 'Domena nije upisana.';
 $wb['domain_error_unique'] = 'Domena mora biti unikatna.';
 $wb['domain_error_regex'] = 'Nazive domene nije ispravan.';
 $wb['no_redirect_txt'] = 'Bez redirekcije';
 $wb['no_flag_txt'] = 'Bez označavanja';
 $wb['none_txt'] = 'Ništa';
-
+$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
 ?>
-
-

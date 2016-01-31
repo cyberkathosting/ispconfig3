@@ -14,4 +14,3 @@ $wb['php_fpm_init_script_txt'] = 'PHP-FPM Başlatma Betiğinin Yolu';
 $wb['php_fpm_ini_dir_txt'] = 'php.ini Klasörünün Yolu';
 $wb['php_fpm_pool_dir_txt'] = 'PHP-FPM Havuz Klasörünün Yolu';
 ?>
-

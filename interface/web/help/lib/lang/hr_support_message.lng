@@ -13,5 +13,3 @@ $wb['answer_to_support_request_sent_txt'] = 'Your reply to the support request h
 $wb['support_request_sent_txt'] = 'Your support request has been sent. Please don\'t reply to this email.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'The message could not be sent because the recipient and/or the sender email address is not valid.';
 ?>
-
-

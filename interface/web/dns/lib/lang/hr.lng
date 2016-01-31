@@ -20,5 +20,3 @@ $wb['Templates'] = 'Predlošci';
 $wb['Secondary Zones'] = 'Sekundarne zone';
 $wb['Import Zone File'] = 'Importiraj zonsku datoteku';
 ?>
-
-

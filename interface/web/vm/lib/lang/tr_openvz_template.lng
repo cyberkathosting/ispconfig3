@@ -44,7 +44,7 @@ $wb['tcpsndbuf_desc_txt'] = 'TCP gönderme arabelleğinin toplam boyutu.';
 $wb['tcprcvbuf_desc_txt'] = 'TCP alma arabelleğinin toplam boyutu.';
 $wb['othersockbuf_desc_txt'] = 'UNIX alan adı soket arabelleğinin toplam boyutu, UDP ve diğer datagram iletişim kuralları gönderme ara bellekleri.';
 $wb['dgramrcvbuf_desc_txt'] = 'UDP ve diğer datagram iletişim kuralları alma ara bellekleri.';
-$wb['oomguarpages_desc_txt'] = 'Bellek sayfası cinsinden, bellek taşması durumlarında garanti edilen bellek miktarı" (bellek bitti boşaltma garantisi).';
+$wb['oomguarpages_desc_txt'] = 'Bellek sayfası cinsinden, bellek taşması durumlarında garanti edilen bellek miktarı\" (bellek bitti boşaltma garantisi).';
 $wb['privvmpages_desc_txt'] = 'Bellek sayfası cinsinden ayrılacak bellek sınırı.';
 $wb['lockedpages_desc_txt'] = 'İşlem sayfaları takasına izin verilmez (mlock(2) ile kilitlenmiş sayfalar).';
 $wb['shmpages_desc_txt'] = 'Bellek sayfası cinsinden, paylaşılan belleğin toplam boyutu (IPC, paylaşılan anonim haritalama ve tmpfs nesneleri).';
@@ -90,4 +90,8 @@ $wb['numiptent_error_empty'] = 'Numiptent boş olamaz.';
 $wb['swappages_error_empty'] = 'Swappages boş olamaz.';
 $wb['Template'] = 'Kalıp';
 $wb['Advanced'] = 'Gelişmiş';
+$wb['features_txt'] = 'Features';
+$wb['iptables_txt'] = 'IP Tables';
+$wb['custom_txt'] = 'Custom settings';
+$wb['custom_error'] = 'Not allowed in Custom settings: ';
 ?>

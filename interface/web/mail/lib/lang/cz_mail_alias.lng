@@ -12,6 +12,6 @@ $wb['domain_txt'] = 'Doména';
 $wb['duplicate_email_alias_txt'] = 'Tento e-mail alias již existuje.';
 $wb['source_txt'] = 'Alias';
 $wb['greylisting_txt'] = 'Enable greylisting';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 ?>
-
-

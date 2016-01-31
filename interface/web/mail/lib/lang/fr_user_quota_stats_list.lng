@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Quota des boîtes email';
+$wb['list_head_txt'] = 'Quota des boîtes aux lettres';
 $wb['quota_txt'] = 'Quota';
 $wb['name_txt'] = 'Nom';
-$wb['email_txt'] = 'Adresse email';
+$wb['email_txt'] = 'Adresse e-mail';
 $wb['used_txt'] = 'Espace utilisé';
 $wb['percentage_txt'] = 'Used %';
 ?>

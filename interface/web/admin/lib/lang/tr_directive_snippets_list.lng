@@ -4,4 +4,5 @@ $wb['active_txt'] = 'Etkin';
 $wb['name_txt'] = 'Parçacık Adı';
 $wb['type_txt'] = 'Tip';
 $wb['add_new_record_txt'] = 'Yönerge Parçacığı Ekle';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>

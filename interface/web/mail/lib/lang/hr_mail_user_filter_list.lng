@@ -5,5 +5,3 @@ $wb['page_txt'] = 'Stranica';
 $wb['page_of_txt'] = 'od';
 $wb['delete_confirmation'] = 'Da li stvarno želite obrisati email filter?';
 ?>
-
-

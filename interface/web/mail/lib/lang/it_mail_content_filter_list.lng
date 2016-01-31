@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Postfix Header and Body Checks';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
 $wb['pattern_txt'] = 'Pattern';
 $wb['action_txt'] = 'Action';
-$wb['add_new_record_txt'] = 'Add new Content Filter';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo  Content Filter';
 ?>

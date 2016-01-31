@@ -15,5 +15,5 @@ $wb['source_username_error_isempty'] = 'Kullanıcı adı boş olamaz.';
 $wb['source_password_error_isempty'] = 'Parola boş olamaz.';
 $wb['destination_error_isemail'] = 'Hedef seçilmemiş.';
 $wb['source_server_error_regex'] = 'POP3/IMAP Sunucu alan adı geçersiz.';
-$wb['error_delete_read_all_combination'] = 'Seçenek kombinasyonu geçersiz. You can not use "E-postalar alındıktan sonra silinsin" = Hayır iken "Tüm e-postalar alınsın" = Evet olamaz';
+$wb['error_delete_read_all_combination'] = 'Seçenek kombinasyonu geçersiz. You can not use \"E-postalar alındıktan sonra silinsin\" = Hayır iken \"Tüm e-postalar alınsın\" = Evet olamaz';
 ?>

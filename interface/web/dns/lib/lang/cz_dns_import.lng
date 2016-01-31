@@ -11,6 +11,6 @@ $wb['domain_field_desc_txt'] = 'Může být ponechána nevyplněná, pokud je n�
 $wb['title'] = 'Importovat soubory zón';
 $wb['no_file_uploaded_error'] = 'Nelze odeslat DNS zonový soubor';
 $wb['zone_file_import_txt'] = 'Importovat vybraný DNS zonový soubor';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
-
-

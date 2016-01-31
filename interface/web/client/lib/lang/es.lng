@@ -5,7 +5,6 @@ $wb['Limits'] = 'Límites';
 $wb['Add Client'] = 'Añadir cliente';
 $wb['Edit Client'] = 'Editar cliente';
 $wb['Clients'] = 'Clientes';
-$wb['Email-Templates'] = 'Plantillas de correo';
 $wb['Add Reseller'] = 'Añadir revendedor';
 $wb['Edit Reseller'] = 'Editar revendedor';
 $wb['Resellers'] = 'Revendedores';
@@ -24,4 +23,6 @@ $wb['error_client_can_not_add_domain'] = 'No puede añadir un nuevo dominio';
 $wb['error_client_group_id_empty'] = 'Debe seleccionar un cliente<br>';
 $wb['Templates'] = 'Plantillas';
 $wb['Limit-Templates'] = 'Plantillas delimitadoras';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>

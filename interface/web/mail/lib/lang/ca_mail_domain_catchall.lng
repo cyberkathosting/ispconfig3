@@ -1,0 +1,11 @@
+<?php
+$wb['domain_txt'] = 'Domaine';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Actif';
+$wb['domain_error_unique'] = 'Il y a déja un enregistrement collecteur pour ce domaine.';
+$wb['no_domain_perm'] = 'Vous n\'avez pas de permission pour ce domaine.';
+$wb['domain_error_regex'] = 'Nom de domaine invalide, ou contient des caractères invalides.';
+$wb['limit_mailcatchall_txt'] = 'Le nombre maximal de comptes collecteurs pour votre compte a été atteint.';
+$wb['source_txt'] = 'Source';
+$wb['destination_error_isemail'] = 'La destination n\'est pas valide.';
+?>

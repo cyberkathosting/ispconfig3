@@ -7,4 +7,5 @@ $wb['active_txt'] = 'Habilitado';
 $wb['directive_snippets_name_empty'] = 'Por favor ingrese un nombre para el fragmento.';
 $wb['directive_snippets_name_error_unique'] = 'Ya existe un fragmento de código con ese nombre.';
 $wb['variables_txt'] = 'Variables';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>

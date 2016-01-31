@@ -8,4 +8,5 @@ $wb['database_name_txt'] = 'Nombre de la base de datos';
 $wb['add_new_record_txt'] = 'Añadir base de datos';
 $wb['sys_groupid_txt'] = 'Cliente';
 $wb['parent_domain_id_txt'] = 'Sitio web';
+$wb['type_txt'] = 'Type';
 ?>

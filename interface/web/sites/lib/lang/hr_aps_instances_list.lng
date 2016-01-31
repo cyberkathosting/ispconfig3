@@ -9,5 +9,3 @@ $wb['pkg_delete_confirmation'] = 'Da li stvarno želite obrisati ovu instalaciju
 $wb['filter_txt'] = 'Traži';
 $wb['delete_txt'] = 'Obriši';
 ?>
-
-

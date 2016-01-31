@@ -2,13 +2,12 @@
 $wb['username_txt'] = 'Nombre de usuario:';
 $wb['password_txt'] = 'Contraseña:';
 $wb['function_txt'] = 'Funciones:';
-$wb['Mail mailing list functions'] = 'Funciones de listas de correo';
+$wb['Mail mailing list functions'] = 'Funciones de correo para listas de correo';
 $wb['username_error_unique'] = 'En nombre de usuario debe ser único';
 $wb['username_error_empty'] = 'El nombre de usuario no puede esta vacío';
 $wb['password_error_empty'] = 'La contraseña no puede esta vacía';
 $wb['password_strength_txt'] = 'Fortaleza de contraseña:';
 $wb['Mail domain functions'] = 'Funciones de dominio para correo';
-$wb['Mail mailing list functions'] = 'Funciones de correo para listas de correo';
 $wb['Mail user functions'] = 'Funciones de correo para usuario';
 $wb['Mail alias functions'] = 'Funciones de correo para alias';
 $wb['Mail forward functions'] = 'Funciones de correo para reenviadores';

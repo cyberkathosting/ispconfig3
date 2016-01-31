@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Stratégie du filtre antispam';
+$wb['policy_name_txt'] = 'Nom';
+$wb['virus_lover_txt'] = 'Aime les virus';
+$wb['spam_lover_txt'] = 'Aime le spam';
+$wb['banned_files_lover_txt'] = 'Aime les fichiers bannis';
+$wb['bad_header_lover_txt'] = 'Aime les mauvaises entêtes';
+$wb['add_new_record_txt'] = 'Ajouter une entrée à la politique';
+?>

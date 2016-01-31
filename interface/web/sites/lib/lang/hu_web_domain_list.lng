@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Webhelyek';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Aktív';
+$wb['server_id_txt'] = 'Szerver';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Új Webhely';
+?>

@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Advanced Email Routing';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Email Routing Avanzato';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Dominio';
 $wb['transport_txt'] = 'Transport';
-$wb['sort_order_txt'] = 'Sort by';
-$wb['add_new_record_txt'] = 'Add new transport';
+$wb['sort_order_txt'] = 'Ordina per';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo  transport';
 ?>

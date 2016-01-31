@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Règles des filtres';
+$wb['rulename_txt'] = 'Nom';
+$wb['add_new_record_txt'] = 'Ajuter un nouveau filtre';
+$wb['page_txt'] = 'Page';
+$wb['page_of_txt'] = 'de';
+$wb['delete_confirmation'] = 'Voulez vous vraiment supprimer ce filtre?';
+?>

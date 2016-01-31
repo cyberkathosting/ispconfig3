@@ -12,4 +12,6 @@ $wb['domain_txt'] = 'Dominio';
 $wb['duplicate_email_alias_txt'] = 'Este alias de correo ya existe.';
 $wb['source_txt'] = 'Alias';
 $wb['greylisting_txt'] = 'Enable greylisting';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 ?>

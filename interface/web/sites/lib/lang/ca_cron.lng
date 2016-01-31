@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site Parent';
+$wb['active_txt'] = 'Actif';
+$wb['client_txt'] = 'Client';
+$wb['run_min_txt'] = 'Minutes';
+$wb['run_hour_txt'] = 'Heures';
+$wb['run_mday_txt'] = 'Jours du mois';
+$wb['run_month_txt'] = 'Mois';
+$wb['run_wday_txt'] = 'Jours de la semaine';
+$wb['command_txt'] = 'Commande à éxécuter (commandes via sh, URLs via wget)';
+$wb['limit_cron_txt'] = 'La nombre maximum de tâches cron autorisés a été atteint.';
+$wb['limit_cron_frequency_txt'] = 'La fréquence du cron excède la limite autorisée.';
+$wb['run_min_error_format'] = 'Format invalide pour les minutes.';
+$wb['run_hour_error_format'] = 'Format invalide pour les heures.';
+$wb['run_mday_error_format'] = 'Format invalide pour les jours du mois.';
+$wb['run_month_error_format'] = 'Format invalide pour les mois.';
+$wb['run_wday_error_format'] = 'Format invalide pour les jours du mois.';
+$wb['command_error_format'] = 'Format de la commande invalide.';
+$wb['unknown_fieldtype_error'] = 'Un champ inconnu a été utilisé';
+$wb['server_id_error_empty'] = 'ID serveur non renseigné';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command is empty.';
+$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
+$wb['log_output_txt'] = 'Log output';
+?>

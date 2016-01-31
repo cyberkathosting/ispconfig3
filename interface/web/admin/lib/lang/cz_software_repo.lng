@@ -6,5 +6,3 @@ $wb['repo_password_txt'] = 'Heslo (volitelné)';
 $wb['active_txt'] = 'Aktivní';
 $wb['Software Repository which may contain addons or updates'] = 'Softwarové zdroje, které mohou obsahovat addony nebo aktualizace';
 ?>
-
-

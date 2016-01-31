@@ -50,4 +50,15 @@ $wb['password_match_txt'] = 'Las contraseñas coinciden.';
 $wb['disablesmtp_txt'] = 'Deshabilitar SMTP (envío)';
 $wb['email_error_isascii'] = 'Por favor, no use caracteres unicode especiales en su contraseña. Esto puede conllevar a errores en su cliente de correo.';
 $wb['cc_note_txt'] = '(Separe múltiples cuentas de correo con una coma)';
+$wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autoresponder is enabled.';
+$wb['greylisting_txt'] = 'Enable greylisting';
+$wb['sender_cc_txt'] = 'Send outgoing copy to';
+$wb['sender_cc_error_isemail'] = 'The -Send outgoing copy to- field does not contain a valid email address';
+$wb['backup_interval_txt'] = 'Backup interval';
+$wb['backup_copies_txt'] = 'Number of backup copies';
+$wb['no_backup_txt'] = 'No backup';
+$wb['daily_backup_txt'] = 'Daily';
+$wb['weekly_backup_txt'] = 'Weekly';
+$wb['monthly_backup_txt'] = 'Monthly';
+$wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>

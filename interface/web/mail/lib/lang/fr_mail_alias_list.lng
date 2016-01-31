@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Alias d\'email';
+$wb['list_head_txt'] = 'Alias d’e-mail';
 $wb['active_txt'] = 'Actif';
 $wb['source_txt'] = 'source';
 $wb['destination_txt'] = 'Destination';
-$wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Ajouter un nouvel alias d\'email';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Ajouter un nouvel alias d’e-mail';
 ?>

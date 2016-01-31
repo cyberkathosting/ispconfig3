@@ -1,8 +1,8 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['parent_domain_id_txt'] = 'Sito Web';
 $wb['path_txt'] = 'Path';
-$wb['active_txt'] = 'Active';
-$wb['path_error_regex'] = 'Invalid folder path.';
-$wb['error_folder_already_protected_txt'] = 'There is already a record for this folder.';
+$wb['active_txt'] = 'Attivo';
+$wb['path_error_regex'] = 'Percorso cartella non valido.';
+$wb['error_folder_already_protected_txt'] = 'esiste già un record per questa cartella.';
 ?>

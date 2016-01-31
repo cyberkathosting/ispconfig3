@@ -8,4 +8,5 @@ $wb['database_name_txt'] = 'Nama Database';
 $wb['add_new_record_txt'] = 'Tambah Database Baru';
 $wb['sys_groupid_txt'] = 'Klien';
 $wb['parent_domain_id_txt'] = 'Website';
+$wb['type_txt'] = 'Type';
 ?>

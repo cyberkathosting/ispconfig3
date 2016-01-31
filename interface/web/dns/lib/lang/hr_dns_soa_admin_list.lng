@@ -9,5 +9,3 @@ $wb['add_new_record_wizard_txt'] = 'Dodaj novu DNS zonu sa čarobnjakom';
 $wb['add_new_record_txt'] = 'Dodaj novu DNS zonu ručno';
 $wb['sys_groupid_txt'] = 'Klijent';
 ?>
-
-

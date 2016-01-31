@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Packages installés';
+$wb['name_txt'] = 'Nom';
+$wb['version_txt'] = 'Version';
+$wb['customer_txt'] = 'Client';
+$wb['status_txt'] = 'Statut';
+$wb['install_location_txt'] = 'Chemin d\'installation';
+$wb['pkg_delete_confirmation'] = 'Etes-vous sûr de vouloir supprimer cette installation ?';
+$wb['filter_txt'] = 'Chercher';
+$wb['delete_txt'] = 'Supprimer';
+?>

@@ -1,7 +1,7 @@
 <?php
-$wb['Virtual Servers'] = 'Virtual Servers';
-$wb['OS Templates'] = 'OS Templates';
+$wb['OS Templates'] = 'Templates SO';
 $wb['VM Templates'] = 'VM Templates';
-$wb['IP addresses'] = 'IP addresses';
+$wb['IP addresses'] = 'Indirizzi IP';
 $wb['OpenVZ'] = 'OpenVZ';
+$wb['Virtual Servers'] = 'Virtual Servers';
 ?>

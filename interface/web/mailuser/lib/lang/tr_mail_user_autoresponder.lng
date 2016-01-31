@@ -11,4 +11,3 @@ $wb['autoresponder_active'] = 'Etkinleştir';
 $wb['now_txt'] = 'Şimdi';
 $wb['autoresponder_subject_txt'] = 'Otoyanıt';
 ?>
-

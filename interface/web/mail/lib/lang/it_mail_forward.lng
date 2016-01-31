@@ -1,10 +1,13 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['destination_txt'] = 'Destination Email';
-$wb['active_txt'] = 'Active';
-$wb['limit_mailforward_txt'] = 'The max. number of email forwarders for your account is reached.';
-$wb['duplicate_mailbox_txt'] = 'There is already a mailbox with this email address';
-$wb['domain_txt'] = 'Domain';
+$wb['destination_txt'] = 'Destinazione Email';
+$wb['active_txt'] = 'Attivo';
+$wb['limit_mailforward_txt'] = 'Raggiunto il numero massimo di forwarders per il tuo account.';
+$wb['duplicate_mailbox_txt'] = 'Esiste già una casella email per questo indirizzo';
+$wb['domain_txt'] = 'Dominio';
 $wb['source_txt'] = 'Source Email';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 $wb['greylisting_txt'] = 'Enable greylisting';
 ?>

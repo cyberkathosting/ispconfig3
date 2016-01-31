@@ -21,4 +21,6 @@ $wb['unknown_fieldtype_error'] = 'Se ha usado un tipo de campo desconocido.';
 $wb['server_id_error_empty'] = 'La ID del servidor está vacía.';
 $wb['limit_cron_url_txt'] = 'Solo cron mediante URL. Por favor ingrese como comando para cron una URL precedida por http://.';
 $wb['command_error_empty'] = 'El comando está vacío.';
+$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
+$wb['log_output_txt'] = 'Log output';
 ?>

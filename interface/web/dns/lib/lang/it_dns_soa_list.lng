@@ -1,10 +1,11 @@
 <?php
 $wb['list_head_txt'] = 'DNS Zones';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zone';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add new DNS Zone (SOA)';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo  DNS Zone (SOA)';
+$wb['add_new_record_wizard_txt'] = 'Aggiungi un nuova nuova Zona DNS con il configuratore automatico';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 ?>

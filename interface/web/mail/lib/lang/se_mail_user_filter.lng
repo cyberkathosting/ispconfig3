@@ -15,6 +15,14 @@ $wb['contains_txt'] = 'Innehåller';
 $wb['is_txt'] = 'Är';
 $wb['begins_with_txt'] = 'Börjar med';
 $wb['ends_with_txt'] = 'Slutar med';
-$wb['move_to_txt'] = 'Flytta till';
 $wb['delete_txt'] = 'Radera';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
 ?>

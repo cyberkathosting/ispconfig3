@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Routage d\'email avancé';
+$wb['list_head_txt'] = 'Routage d’e-mail avancé';
 $wb['active_txt'] = 'Actif';
 $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';

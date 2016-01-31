@@ -5,6 +5,8 @@ $wb['autoresponder_txt'] = 'Automatski odgovor';
 $wb['add_new_record_txt'] = 'Dodaj email sandučić';
 $wb['name_txt'] = 'Ime';
 $wb['login_txt'] = 'Prijava';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>
-
-

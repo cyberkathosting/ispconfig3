@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Editeur de fichier de langue';
+$wb['list_head_txt'] = 'Éditeur de fichier de langue';
 $wb['language_select_txt'] = 'Sélectionnez la langue';
 $wb['module_txt'] = 'Module';
 $wb['lang_file_txt'] = 'Fichier de langue';

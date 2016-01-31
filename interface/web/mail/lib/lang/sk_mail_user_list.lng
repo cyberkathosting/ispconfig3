@@ -5,4 +5,8 @@ $wb['autoresponder_txt'] = 'Automatická odpove?';
 $wb['add_new_record_txt'] = 'Pridať novú schránku';
 $wb['name_txt'] = 'Realname';
 $wb['login_txt'] = 'Login';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

@@ -1,0 +1,18 @@
+<?php
+$wb['invoices_txt'] = "Invoices";
+$wb['invoice_no_txt'] = "Invoice No.";
+$wb['amount_txt'] = "Amount";
+$wb['date_txt'] = "Date";
+$wb['invoice_status_txt'] = "Status";
+$wb['no_invoices_txt'] = "No Invoices available.";
+$wb['paid_txt'] = "Paid";
+$wb['unpaid_txt'] = "Unpaid";
+$wb['paynow_txt'] = "pay now";
+$wb['proforma_txt'] = "Proforma";
+$wb['refunded_txt'] = "Refunded";
+$wb['not_refunded_txt'] = "Not refunded";
+$wb['invoice_type_invoice_txt'] = "Invoice";
+$wb['invoice_type_proforma_txt'] = "Proforma";
+$wb['invoice_type_refund_txt'] = "Refund";
+$wb['invoice_type_reminder_txt'] = "Reminder";
+?>

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Folder';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Cartella';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Website';
+$wb['parent_domain_id_txt'] = 'Sito Web';
 $wb['path_txt'] = 'Path';
-$wb['add_new_record_txt'] = 'Add new Folder';
+$wb['add_new_record_txt'] = 'Aggiungi una nuova Cartella';
 ?>

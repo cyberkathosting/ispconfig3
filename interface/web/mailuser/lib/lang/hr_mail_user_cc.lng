@@ -7,5 +7,3 @@ $wb['email_is_cc_error'] = 'Email address and send copy to address can not be th
 $wb['name_optional_txt'] = '(Optional)';
 $wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>
-
-

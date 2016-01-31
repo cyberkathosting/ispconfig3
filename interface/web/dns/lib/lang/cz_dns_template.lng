@@ -4,5 +4,3 @@ $wb['fields_txt'] = 'Pole';
 $wb['template_txt'] = 'Šablona';
 $wb['visible_txt'] = 'Viditelný';
 ?>
-
-

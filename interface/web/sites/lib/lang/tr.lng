@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Kullanılabilecek Paketler';
 $wb['Installed packages'] = 'Yüklü Paketler';
 $wb['Update Packagelist'] = 'Güncelleme Paketi Listesi';
 $wb['Subdomain (Vhost)'] = 'Alt alan adı (SSunucu)';
-$wb['error_proxy_requires_url'] = '"Vekil Sunucu" yönlendirme tipi için, yönlendirilecek yolu gösteren bir İnternet adresi gereklidir.';
+$wb['error_proxy_requires_url'] = '\"Vekil Sunucu\" yönlendirme tipi için, yönlendirilecek yolu gösteren bir İnternet adresi gereklidir.';
 ?>

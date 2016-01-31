@@ -21,4 +21,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 sonuç';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Arama';
 $wb['globalsearch_suggestions_text_txt'] = 'Öneriler';
 ?>
-

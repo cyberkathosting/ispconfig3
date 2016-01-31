@@ -8,4 +8,5 @@ $wb['database_name_txt'] = 'Veritabanı adı';
 $wb['add_new_record_txt'] = 'Veritabanı ekle';
 $wb['sys_groupid_txt'] = 'Müşteri';
 $wb['parent_domain_id_txt'] = 'Web Sitesi';
+$wb['type_txt'] = 'Type';
 ?>

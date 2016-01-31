@@ -1,11 +1,11 @@
 <?php
 $wb['login_1_txt'] = 'Desea iniciar sesión como usuario';
-$wb['login_2_txt'] = 'Si lo hace, puede \"volver\" haciendo clic en salir.';
+$wb['login_2_txt'] = 'Si lo hace, puede \\"volver\\" haciendo clic en salir.';
 $wb['btn_yes_txt'] = 'Sí, iniciar sesión como cliente';
 $wb['btn_back_txt'] = 'No, volver a la lista';
 $wb['udp_port_help_txt'] = 'Separado por coma';
 $wb['active_txt'] = 'Habilitado';
 $wb['firewall_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
-$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \":\" y \",\".';
-$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \":\" y \",\".';
+$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
+$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
 ?>

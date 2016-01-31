@@ -21,7 +21,6 @@ $wb['Shell'] = 'Shell';
 $wb['Webdav'] = 'WebDAV';
 $wb['FTP'] = 'FTP';
 $wb['Options'] = 'Opcije';
-$wb['Domena'] = 'Domena';
 $wb['Redirect'] = 'Preusmjeravanje';
 $wb['SSL'] = 'SSL';
 $wb['Sites'] = 'Stranice';
@@ -32,6 +31,5 @@ $wb['Installed packages'] = 'Instalirani paketi';
 $wb['Update Packagelist'] = 'Osvježi listu paketa';
 $wb['Subdomain (Vhost)'] = 'Poddomena (Vhost)';
 $wb['error_proxy_requires_url'] = '\\"proxy\\" redirekcija zahtijeva URL za redirekcijsku putanju.';
+$wb['Domain'] = 'Domain';
 ?>
-
-

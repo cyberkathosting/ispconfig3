@@ -47,4 +47,6 @@ $wb['Directive Snippets'] = 'Zestawy dyrektyw';
 $wb['Interface'] = 'Interfejs';
 $wb['Domains'] = 'Domeny';
 $wb['Misc'] = 'Różne';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
 ?>

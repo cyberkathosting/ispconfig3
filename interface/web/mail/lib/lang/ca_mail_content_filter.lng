@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['type_txt'] = 'Filtre';
+$wb['pattern_txt'] = 'Schéma Regexp';
+$wb['data_txt'] = 'Données';
+$wb['action_txt'] = 'Action';
+$wb['active_txt'] = 'Actif';
+$wb['pattern_error_empty'] = 'Le schéma est vide.';
+?>

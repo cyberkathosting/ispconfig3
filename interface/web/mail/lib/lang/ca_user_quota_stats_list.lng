@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Quota des boîtes courriel';
+$wb['quota_txt'] = 'Quota';
+$wb['name_txt'] = 'Nom';
+$wb['email_txt'] = 'Adresse courriel';
+$wb['used_txt'] = 'Espace utilisé';
+$wb['percentage_txt'] = 'Utilisation %';
+?>

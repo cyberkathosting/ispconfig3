@@ -12,6 +12,5 @@ $wb['mirror_server_id_txt'] = 'je kopija servera';
 $wb['- None -'] = '- izaberi server -';
 $wb['proxy_server_txt'] = 'Proxy server';
 $wb['firewall_server_txt'] = 'Vatrozid server';
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>
-
-

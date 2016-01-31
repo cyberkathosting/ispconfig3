@@ -22,6 +22,7 @@ $wb['client_txt'] = 'Müşteri';
 $wb['error_domain_in mailuse'] = 'Bu alan adı e-posta alan adı olarak kullanıldığından silinemez';
 $wb['error_domain_in webuse'] = 'Bu alan adı web alan adı olarak kullanıldığından silinemez';
 $wb['error_client_can_not_add_domain'] = 'Yeni bir alan adı ekleyemezsiniz';
-$wb['domain_txt'] = 'Alan Adı';
 $wb['error_client_group_id_empty'] = 'Bir müşteri seçmelisiniz<br>';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>

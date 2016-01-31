@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Default Theme settings';
+$wb['list_desc_txt'] = 'Modify default-theme specific options';
+$wb['no_settings_txt'] = 'There are no settings for the default theme.';
+$wb['btn_start_txt'] = 'Sauvegarder';
+$wb['btn_cancel_txt'] = 'Retour';
+?>

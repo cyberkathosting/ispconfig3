@@ -5,5 +5,3 @@ $wb['btn_start_txt'] = 'Osvježi listu paketa';
 $wb['btn_cancel_txt'] = 'Odustani';
 $wb['legend_txt'] = 'Here you can update the list of available packages. Please note that this can take up to five minutes. You can leave this page if you like; the process will continue in the background.';
 ?>
-
-

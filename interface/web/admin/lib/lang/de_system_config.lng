@@ -72,8 +72,13 @@ $wb['session_allow_endless_txt'] = '&quot;Eingeloggt bleiben&quot; aktivieren';
 $wb['No'] = 'Nein';
 $wb['min_password_length_txt'] = 'Minimale Passwortlänge';
 $wb['min_password_strength_txt'] = 'Minimale Passwortstärke';
-$wb["company_name_txt"] = "Firmenname fuer den Seitentitel";
-$wb["custom_login_text_txt"] = "Custom Text on Login-Page";
-$wb["custom_login_link_txt"] = "Custom Link on Login-Page";
-$wb["login_link_error_regex"] = "Invalid Link for Custom Login";
+$wb['company_name_txt'] = 'Firmenname fuer den Seitentitel';
+$wb['custom_login_text_txt'] = 'Custom Text on Login-Page';
+$wb['custom_login_link_txt'] = 'Custom Link on Login-Page';
+$wb['login_link_error_regex'] = 'Invalid Link for Custom Login';
+$wb['default_mailserver_txt'] = 'Default Mailserver';
+$wb['default_webserver_txt'] = 'Default Webserver';
+$wb['default_dnsserver_txt'] = 'Default DNS Server';
+$wb['default_slave_dnsserver_txt'] = 'Default Secondary DNS Server';
+$wb['default_dbserver_txt'] = 'Default Database Server';
 ?>

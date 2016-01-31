@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Website harddisk quota';
+$wb['list_head_txt'] = 'Quota Spazio Disco Sito Web';
 $wb['domain_txt'] = 'Dominio / Sito web';
 $wb['system_user_txt'] = 'Utente linux';
 $wb['used_txt'] = 'Spazio usato';
 $wb['hard_txt'] = 'Limite rigido';
 $wb['soft_txt'] = 'Limite lasco';
-$wb['files_txt'] = 'Single files';
+$wb['files_txt'] = 'Files Singoli';
 ?>

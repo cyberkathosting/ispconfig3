@@ -5,5 +5,3 @@ $wb['no_settings_txt'] = 'Nejsou žádné nastavení pro výchozí motiv.';
 $wb['btn_start_txt'] = 'Uložit';
 $wb['btn_cancel_txt'] = 'Zpět';
 ?>
-
-

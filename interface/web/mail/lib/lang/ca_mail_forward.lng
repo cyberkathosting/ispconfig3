@@ -1,0 +1,13 @@
+<?php
+$wb['email_txt'] = 'Courriel';
+$wb['destination_txt'] = 'Courriel de destination';
+$wb['active_txt'] = 'Actif';
+$wb['limit_mailforward_txt'] = 'Le nombre maximal de transferts d\'email pour votre compte a été atteint.';
+$wb['duplicate_mailbox_txt'] = 'Il y a déja une boite courriel avec cette adresse courriel';
+$wb['domain_txt'] = 'Domaine';
+$wb['source_txt'] = 'Source courriel';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
+$wb['greylisting_txt'] = 'Enable greylisting';
+?>

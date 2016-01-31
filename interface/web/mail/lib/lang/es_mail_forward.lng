@@ -7,4 +7,7 @@ $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón con esta cuenta de correo.';
 $wb['domain_txt'] = 'Dominio';
 $wb['greylisting_txt'] = 'Enable greylisting';
 $wb['source_txt'] = 'Origen del correo';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>

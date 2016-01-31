@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Transfert de courriel';
+$wb['active_txt'] = 'Actif';
+$wb['source_txt'] = 'source';
+$wb['destination_txt'] = 'Destination';
+$wb['email_txt'] = 'Courriel';
+$wb['add_new_record_txt'] = 'Ajouter un nouveau transfert de courriel';
+?>

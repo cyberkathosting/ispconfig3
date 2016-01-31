@@ -10,5 +10,3 @@ $wb['repeat_password_txt'] = 'Ponovi šifru';
 $wb['password_mismatch_txt'] = 'Šifre nisu identične.';
 $wb['password_match_txt'] = 'Šifre su identične.';
 ?>
-
-

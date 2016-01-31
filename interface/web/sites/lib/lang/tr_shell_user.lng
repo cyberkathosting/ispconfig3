@@ -34,4 +34,3 @@ $wb['shell_error_regex'] = 'Kabuk geçersiz';
 $wb['invalid_username_txt'] = 'Kullanıcı adı geçersiz';
 $wb['directory_error_notinweb'] = 'Klasör web kök klasörünün altında bulunmalıdır.';
 ?>
-

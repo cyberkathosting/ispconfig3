@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Relayer les destinataires';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['source_txt'] = 'Adresse du destinataire';
+$wb['recipient_txt'] = 'Destinataire';
+$wb['add_new_record_txt'] = 'Ajouter un relai de destinataire';
+$wb['access_txt'] = 'accès';
+?>

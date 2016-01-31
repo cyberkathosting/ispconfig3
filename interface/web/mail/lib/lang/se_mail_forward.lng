@@ -7,4 +7,7 @@ $wb['duplicate_mailbox_txt'] = 'Det finns redan ett epostkonto med denna adress'
 $wb['domain_txt'] = 'Domän';
 $wb['source_txt'] = 'Källadress';
 $wb['greylisting_txt'] = 'Enable greylisting';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>

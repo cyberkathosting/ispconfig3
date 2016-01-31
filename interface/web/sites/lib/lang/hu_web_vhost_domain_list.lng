@@ -6,5 +6,4 @@ $wb['server_id_txt'] = 'Szerver';
 $wb['domain_txt'] = 'Domain';
 $wb['add_new_record_txt'] = 'Új Webhely';
 $wb['parent_domain_id_txt'] = 'Website';
-
 ?>

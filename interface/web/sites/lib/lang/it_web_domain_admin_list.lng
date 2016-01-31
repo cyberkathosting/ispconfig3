@@ -1,0 +1,9 @@
+<?php
+$wb['sys_groupid_txt'] = 'Cliente';
+$wb['list_head_txt'] = 'Siti Web';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Attivo';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Dominio';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo sito web';
+?>

@@ -7,4 +7,5 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['add_new_record_wizard_txt'] = 'Νέα ζώνη DNS με Οδηγό';
 $wb['add_new_record_txt'] = 'Νέα ζώνη DNS (χειροκίνητα)';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 ?>

@@ -1,26 +1,20 @@
 <?php
 $wb['1001'] = 'Kullanıcı adı ya da parola boş.';
 $wb['1002'] = 'Kullanıcı adı ya da parola hatalı.';
-
 $wb['Groups'] = 'Gruplar';
 $wb['groups_description'] = 'Sistem kullanıcısı gruplarını düzenleme formu.';
-
 $wb['Servers'] = 'Sunucular';
 $wb['Config'] = 'Ayarlar';
-
 $wb['Add user'] = 'Kullanıcı ekle';
 $wb['Edit user'] = 'Kullanıcıyı düzenle';
 $wb['Add group'] = 'Grup ekle';
 $wb['Edit group'] = 'Grubu düzenle';
 $wb['Edit server'] = 'Sunucuyu düzenle';
-
 $wb['Sync. Now'] = 'Şimdi Eşleştir';
 $wb['DB Sync.'] = 'Veritabanı Eşleştirme';
-
 $wb['User Management'] = 'Kullanıcı Yönetimi';
 $wb['CP Users'] = 'Panel Kullanıcıları';
 $wb['Remote Users'] = 'Uzak Kullanıcılar';
-
 $wb['System'] = 'Sistem';
 $wb['Server Services'] = 'Sunucu Hizmetleri';
 $wb['Services'] = 'Hizmetler';
@@ -36,25 +30,23 @@ $wb['Server IP addresses'] = 'Sunucu IP Adresleri';
 $wb['Additional PHP Versions'] = 'Diğer PHP Sürümleri';
 $wb['Directive Snippets'] = 'Yönerge Parçacıkları';
 $wb['Firewall'] = 'Güvenlik Duvarı';
-
 $wb['Interface'] = 'Arayüz';
 $wb['Interface Config'] = 'Temel Ayarlar';
 $wb['Domains'] = 'Alan Adları';
 $wb['Misc'] = 'Çeşitli';
-
 $wb['Software'] = 'Uygulama ve Eklentiler';
 $wb['Repositories'] = 'Depolar';
 $wb['Packages'] = 'Paketler';
 $wb['Updates'] = 'Güncellemeler';
-
 $wb['Language Editor'] = 'Dil İşlemleri';
 $wb['Languages'] = 'Dil Dosyaları';
 $wb['New Language'] = 'Dil Ekleme';
 $wb['Merge'] = 'Dil Birleştirme';
 $wb['Export'] = 'Dil İndirme';
 $wb['Import'] = 'Dil Yükleme';
-
 $wb['Remote Actions'] = 'Uzak İşlemler';
 $wb['Do OS-Update'] = 'İşletim Sistemi Güncelleme';
 $wb['Do ISPConfig-Update'] = 'ISPConfig Güncelleme';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
 ?>

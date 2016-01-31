@@ -6,7 +6,4 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domena';
 $wb['add_new_record_txt'] = 'Dodaj novu web stranicu';
 $wb['parent_domain_id_txt'] = 'Website';
-
 ?>
-
-

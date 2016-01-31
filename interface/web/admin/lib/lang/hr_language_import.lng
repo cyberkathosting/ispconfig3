@@ -7,5 +7,3 @@ $wb['btn_cancel_txt'] = 'Natrag';
 $wb['ignore_version_txt'] = 'Preskoči provjeru ISPConfig verzije';
 $wb['list_desc_txt'] = 'PAŽNJA: Nemojte importirati jezične datoteke preuzete sa nepoznatih web lokacija.';
 ?>
-
-

@@ -9,4 +9,3 @@ $wb['add_new_record_wizard_txt'] = 'Yardımcı ile DNS bölgesi ekle';
 $wb['add_new_record_txt'] = 'El ile DNS Bölgesi Ekle';
 $wb['sys_groupid_txt'] = 'Müşteri';
 ?>
-

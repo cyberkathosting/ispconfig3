@@ -7,4 +7,3 @@ $wb['version_txt'] = 'Sürüm';
 $wb['action_txt'] = 'İşlem';
 $wb['no_updates_txt'] = 'Henüz bir güncelleme yok';
 ?>
-

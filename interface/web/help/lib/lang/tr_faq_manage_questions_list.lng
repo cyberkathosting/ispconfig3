@@ -6,7 +6,4 @@ $wb['faq_edit_txt'] = 'Düzenle';
 $wb['faq_sections_txt'] = 'Bölüm';
 $wb['faq_faq_questions_txt'] = 'Sık Sorulan Sorular';
 $wb['faq_new_question_txt'] = 'Soru Yanıt Çifti Ekle';
-$wb['faq_new_question_txt'] = 'Soru Yanıt Çifti Ekle';
 ?>
-
-

@@ -15,6 +15,14 @@ $wb['contains_txt'] = 'Zawiera';
 $wb['is_txt'] = 'Jest';
 $wb['begins_with_txt'] = 'Zaczyna się od';
 $wb['ends_with_txt'] = 'Kończy się na';
-$wb['move_to_txt'] = 'Przenieś do';
 $wb['delete_txt'] = 'Usuń';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
 ?>

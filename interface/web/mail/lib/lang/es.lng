@@ -43,7 +43,6 @@ $wb['Postfix Blacklist'] = 'Lista negra de Postfix';
 $wb['Content Filter'] = 'Filtro de contenido';
 $wb['Global Filters'] = 'Filtros globales';
 $wb['Domain Alias'] = 'Alias de dominio';
-$wb['Mailing List'] = 'Listas de correo';
 $wb['Relay Recipients'] = 'Recipientes de retransmisión';
 $wb['Mailbox quota'] = 'Cuota de los buzones';
 ?>

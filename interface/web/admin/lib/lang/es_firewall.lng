@@ -6,6 +6,6 @@ $wb['tcp_port_help_txt'] = 'Separados por coma';
 $wb['udp_port_help_txt'] = 'Separados por coma';
 $wb['active_txt'] = 'Habilitado';
 $wb['firewall_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
-$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \":\" y \",\".';
-$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \":\" y \",\".';
+$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
+$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
 ?>

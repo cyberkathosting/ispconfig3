@@ -3,6 +3,6 @@ $wb['list_head_txt'] = 'Utente FTP';
 $wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Sito';
-$wb['username_txt'] = 'Username';
+$wb['username_txt'] = 'Nome Utente';
 $wb['add_new_record_txt'] = 'Aggiungi nuovo utente FTP';
 ?>

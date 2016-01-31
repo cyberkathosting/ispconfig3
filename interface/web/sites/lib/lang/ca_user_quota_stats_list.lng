@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Quota disque du site';
+$wb['domain_txt'] = 'Domaine / Site web';
+$wb['system_user_txt'] = 'Utilisateur Linux';
+$wb['used_txt'] = 'Espace utilisé';
+$wb['hard_txt'] = 'Limite dure';
+$wb['soft_txt'] = 'Limite douce';
+$wb['files_txt'] = 'Fichiers individuels';
+?>

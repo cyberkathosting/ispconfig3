@@ -117,7 +117,6 @@ $wb['monitor_serverstate_syslogerror_txt'] = 'Sistem günlüğünde hatalar var'
 $wb['monitor_serverstate_syslogunknown_txt'] = 'Sistem Günlüğü: ???';
 $wb['monitor_serverstate_updatesok_txt'] = 'Sistem güncel';
 $wb['monitor_serverstate_updatesneeded_txt'] = 'Bir ya da daha fazla bileşenin güncellenmesi gerekiyor';
-$wb['monitor_serxverstate_updatesunknown_txt'] = 'Sistem Güncelliği:???';
 $wb['monitor_serverstate_beancounterok_txt'] = 'Beancounter sorunsuz';
 $wb['monitor_serverstate_beancounterinfo_txt'] = 'Beancounter kayıtlarında az sayıda hata var';
 $wb['monitor_serverstate_beancounterwarning_txt'] = 'Beancounter kayıtlarında ortalama sayıda hata var';
@@ -152,5 +151,13 @@ $wb['no_permissions_to_view_monit_txt'] = 'Monit erişimi izniniz yok.';
 $wb['Show Munin'] = 'Munin Durumu';
 $wb['no_munin_url_defined_txt'] = 'Munin adresi belirtilmemiş.';
 $wb['no_permissions_to_view_munin_txt'] = 'Munin erişimi izniniz yok.';
+$wb['no_data_database_size_txt'] = 'No data about the database usage available at the moment. Please check again later.';
+$wb['Show MongoDB-Log'] = 'Show MongoDB-Log';
+$wb['monitor_database_name_txt'] = 'Database';
+$wb['monitor_database_size_txt'] = 'Size';
+$wb['monitor_database_client_txt'] = 'Client';
+$wb['monitor_database_domain_txt'] = 'Domain';
+$wb['monitor_serverstate_updatesunknown_txt'] = 'System Update: ???';
+$wb['monitor_services_mongodb_txt'] = 'MongoDB-Server:';
+$wb['monitor_title_mongodb_txt'] = 'MongoDB Log';
 ?>
-

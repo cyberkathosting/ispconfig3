@@ -10,5 +10,3 @@ $wb['unlimited_txt'] = 'Neograničeno';
 $wb['mb_txt'] = 'MB';
 $wb['none_txt'] = 'Ništa';
 ?>
-
-

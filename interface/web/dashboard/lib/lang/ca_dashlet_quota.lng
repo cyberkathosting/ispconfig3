@@ -1,0 +1,8 @@
+<?php
+$wb['quota_txt'] = 'Quota disque dur du site Web';
+$wb['domain_txt'] = 'Domaine / Site Web';
+$wb['used_txt'] = 'Espace utilisé';
+$wb['hard_txt'] = 'Limite Hard';
+$wb['soft_txt'] = 'Limite Soft';
+$wb['no_sites_txt'] = 'Aucun site Web trouvé.';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Utilisateur WebDAV';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site web';
+$wb['username_txt'] = 'Nom d\'utilisateur';
+$wb['add_new_record_txt'] = 'Ajouter un utilisateur WebDAV';
+?>

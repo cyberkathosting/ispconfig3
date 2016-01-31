@@ -1,0 +1,7 @@
+<?php
+$wb['head_txt'] = 'Update Packagelist';
+$wb['list_desc_txt'] = '';
+$wb['btn_start_txt'] = 'Update Packagelist';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['legend_txt'] = 'Here you can update the list of available packages. Please note that this can take up to five minutes. You can leave this page if you like; the process will continue in the background.';
+?>

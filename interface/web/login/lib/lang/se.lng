@@ -24,4 +24,5 @@ $wb['theme_not_compatible'] = 'The chosen theme is not compatible with the curre
 $wb['back_txt'] = 'Tillbaka';
 $wb['email_error'] = 'Epostadressen innehåller otillåtna tecken eller är felformatterad.';
 $wb['stay_logged_in_txt'] = 'Håll mig inloggad';
+$wb['lost_password_function_disabled_txt'] = 'The lost password function is not available for this user.';
 ?>

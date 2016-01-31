@@ -20,5 +20,4 @@ $wb['import_alias_txt'] = 'Takma e-postayı al';
 $wb['import_forward_txt'] = 'Yönlendirmeyi al';
 $wb['import_user_filter_txt'] = 'Kullanıcı süzgecini al';
 $wb['import_spamfilter_txt'] = 'Önemsiz posta süzgecini al';
-
 ?>

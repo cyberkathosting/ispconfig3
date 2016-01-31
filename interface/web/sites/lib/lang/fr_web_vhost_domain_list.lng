@@ -6,5 +6,4 @@ $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';
 $wb['add_new_record_txt'] = 'Nouveau site web';
 $wb['parent_domain_id_txt'] = 'Website';
-
 ?>

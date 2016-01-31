@@ -7,6 +7,7 @@ $wb['duplicate_mailbox_txt'] = 'Već postoji mailbox sa tom email adresom';
 $wb['domain_txt'] = 'Domena';
 $wb['source_txt'] = 'Izvorni email';
 $wb['greylisting_txt'] = 'Enable greylisting';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>
-
-

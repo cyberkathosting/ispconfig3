@@ -7,6 +7,5 @@ $wb['database_user_txt'] = 'Korisnik baze';
 $wb['database_name_txt'] = 'Naziv baze';
 $wb['add_new_record_txt'] = 'Dodaj bazu';
 $wb['parent_domain_id_txt'] = 'Web stranica';
+$wb['type_txt'] = 'Type';
 ?>
-
-

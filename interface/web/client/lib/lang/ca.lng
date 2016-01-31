@@ -1,0 +1,28 @@
+<?php
+$wb['Client'] = 'Client';
+$wb['Address'] = 'Adresse';
+$wb['Limits'] = 'Limites';
+$wb['Add Client'] = 'Ajouter un Client';
+$wb['Edit Client'] = 'Editer un Client';
+$wb['Clients'] = 'Clients';
+$wb['Add Reseller'] = 'Ajouter un Revendeur';
+$wb['Edit Reseller'] = 'Editer un Revendeur';
+$wb['Resellers'] = 'Revendeurs';
+$wb['error_has_clients'] = 'Ce revendeur a des clients. Effacez dabord les clients de ce revendeur.';
+$wb['add_additional_template_txt'] = 'Ajouter un modèle';
+$wb['delete_additional_template_txt'] = 'Supprimer un modèle';
+$wb['Messaging'] = 'Messagerie';
+$wb['Edit Client Circle'] = 'Editer les groupes clients';
+$wb['Domains'] = 'Domaines';
+$wb['domain_txt'] = 'Domaine';
+$wb['client_txt'] = 'Client';
+$wb['error_domain_in mailuse'] = 'Ce domaine ne peut pas être supprimé, il est utilisé par un compte courriel';
+$wb['error_domain_in webuse'] = 'Ce domaine ne peut pas être supprimé, il est utilisé par un site Web';
+$wb['error_client_can_not_add_domain'] = 'Vous ne pouvez pas ajouter de nouveau domaine';
+$wb['error_client_group_id_empty'] = 'Vous devez sélectionner un client<br>';
+$wb['Templates'] = 'Templates';
+$wb['Limit-Templates'] = 'Limit-Templates';
+$wb['Send email'] = 'Send Email';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
+?>

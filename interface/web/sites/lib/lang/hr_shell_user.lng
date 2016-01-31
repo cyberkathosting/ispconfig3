@@ -34,5 +34,3 @@ $wb['shell_error_regex'] = 'Neispravan shell';
 $wb['invalid_username_txt'] = 'Neispravno korisničko ime';
 $wb['directory_error_notinweb'] = 'Direktorij treba biti unutar web početne putanje (root).';
 ?>
-
-

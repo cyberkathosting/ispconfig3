@@ -80,7 +80,6 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Arama';
 $wb['globalsearch_suggestions_text_txt'] = 'Öneriler';
 $wb['global_tabchange_warning_txt'] = 'Bu sekmedeki değişiklikler Tamam düğmesine tıklandığında kaydedilir. İptal düğmesine tıklandığında yoksayılır.';
 $wb['global_tabchange_discard_txt'] = 'Bu sekmede kaydedilmemiş değişiklikler var. Devam ederseniz değişiklikler yoksayılacak.';
-
 $wb['datalog_changes_txt'] = 'Şu değişiklikler henüz tüm sunuculara dağıtılmadı:';
 $wb['datalog_changes_end_txt'] = 'Güncellemelerin kaydedilmesi bir dakika kadar sürecek. Lütfen bekleyin.';
 $wb['datalog_status_i_web_database'] = 'Veritabanı ekle';
@@ -147,7 +146,7 @@ $wb['strength_2'] = 'Yeterli';
 $wb['strength_3'] = 'İyi';
 $wb['strength_4'] = 'Güçlü';
 $wb['strength_5'] = 'Çok Güçlü';
-$wb['weak_password_txt'] = 'Yazdığınız parola güvenlik ilkesine uygun değil. Parola en az {chars} karakter uzunluğunda ve "{strength}" güçlüğünde olmalı.';
+$wb['weak_password_txt'] = 'Yazdığınız parola güvenlik ilkesine uygun değil. Parola en az {chars} karakter uzunluğunda ve \"{strength}\" güçlüğünde olmalı.';
 $wb['weak_password_length_txt'] = 'Yazdığınız parola güvenlik ilkesine uygun değil. Parola en az {chars} karakter uzunluğunda olmalı.';
 $wb['security_check1_txt'] = 'Güvenlik iznini denetle:';
 $wb['security_check2_txt'] = 'başarısız.';

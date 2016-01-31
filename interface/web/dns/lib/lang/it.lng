@@ -1,6 +1,6 @@
 <?php
 $wb['DNS'] = 'DNS';
-$wb['Zones'] = 'Zones';
+$wb['Zones'] = 'Zone';
 $wb['DNS A'] = 'DNS A';
 $wb['DNS ALIAS'] = 'DNS ALIAS';
 $wb['DNS CNAME'] = 'DNS CNAME';
@@ -9,14 +9,14 @@ $wb['DNS mx'] = 'DNS mx';
 $wb['DNS ns'] = 'DNS ns';
 $wb['DNS ptr'] = 'DNS ptr';
 $wb['DNS RP'] = 'DNS RP';
-$wb['DNS Zone'] = 'DNS Zone';
+$wb['DNS Zone'] = 'Zona DNS';
 $wb['Records'] = 'Records';
 $wb['DNS SRV'] = 'DNS SRV';
 $wb['DNS TXT Record'] = 'DNS TXT Record';
 $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS Wizard';
-$wb['Add DNS Zone'] = 'Add DNS Zone';
-$wb['Templates'] = 'Templates';
-$wb['Secondary Zones'] = 'Secondary Zones';
-$wb['Import Zone File'] = 'Import Zone File';
+$wb['Add DNS Zone'] = 'Aggiungi Zona DNS';
+$wb['Templates'] = 'Modelli';
+$wb['Secondary Zones'] = 'Zone Secondarie';
+$wb['Import Zone File'] = 'Importa file di Zona';
 ?>

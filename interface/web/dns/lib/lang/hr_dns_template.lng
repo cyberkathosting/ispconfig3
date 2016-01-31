@@ -4,5 +4,3 @@ $wb['fields_txt'] = 'Polja';
 $wb['template_txt'] = 'Predložak';
 $wb['visible_txt'] = 'Vidljivo';
 ?>
-
-

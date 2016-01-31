@@ -4,6 +4,5 @@ $wb['active_txt'] = 'Aktivno';
 $wb['name_txt'] = 'Naziv predloška';
 $wb['type_txt'] = 'Vrsta';
 $wb['add_new_record_txt'] = 'Dodaj direktivu';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>
-
-

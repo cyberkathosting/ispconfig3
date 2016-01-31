@@ -1,5 +1,3 @@
-
-
 <?php
 $wb['data_txt'] = 'SPF Record';
 $wb['spf_mechanism_txt'] = 'SPF Mechanismus';
@@ -20,9 +18,8 @@ $wb['spf_domain_note_txt'] = '(mehrerer Domains mit Leerzeichen trennen)';
 $wb['spf_invalid_domain_txt'] = 'Ungültiger Domainname';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktiv';
-$wb["record_exists_txt"] = 'DNS-Eintrag existiert bereits';
+$wb['record_exists_txt'] = 'DNS-Eintrag existiert bereits';
 $wb['ttl_range_error'] = 'Min. TTL time ist 60 Sekunden.';
 $wb['limit_dns_record_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
 $wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';
 ?>
-

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Underdomäner';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webbsida';
+$wb['domain_txt'] = 'Underdomän';
+$wb['add_new_record_txt'] = 'Lägg till ny underdomän';
+?>

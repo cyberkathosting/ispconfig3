@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Liste blanche de l\'anti-spam';
+$wb['list_head_txt'] = 'Liste blanche de l’anti-spam';
 $wb['active_txt'] = 'Actif';
 $wb['server_id_txt'] = 'Serveur';
 $wb['priority_txt'] = 'Priorité';

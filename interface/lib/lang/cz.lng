@@ -151,5 +151,3 @@ $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 $wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
 ?>
-
-

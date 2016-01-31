@@ -1,0 +1,19 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['type_txt'] = 'Type';
+$wb['source_server_txt'] = 'Serveur POP3 / IMAP';
+$wb['source_username_txt'] = 'Utilisateur';
+$wb['source_password_txt'] = 'Mot de passe';
+$wb['source_delete_txt'] = 'Supprimer les courriels après récupération';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Actif';
+$wb['limit_fetchmail_txt'] = 'Le nombre maximal d\'enregistrements récupérateur courriel pour votre compte a été atteint.';
+$wb['source_server_error_isempty'] = 'Le serveur est vide.';
+$wb['source_username_error_isempty'] = 'l\'utilisateur est vide.';
+$wb['source_password_error_isempty'] = 'Le mot de passe est vide.';
+$wb['destination_error_isemail'] = 'Pas de destination sélectionnée.';
+$wb['source_server_error_regex'] = 'Le serveur POP3 / IMAP n\'est pas un nom de domaine valide.';
+$wb['source_read_all_txt'] = 'Récupérer tous les courriels (incl. les courriels lus)';
+$wb['error_delete_read_all_combination'] = 'Combinaison d\'options non autorisée. Vous ne pouvez pas utiliser \\"Supprimer les courriels après récupération\\" = non avec \\"Récupérer tous les courriels\\" = oui';
+$wb['source_delete_note_txt'] = 'Please check first if courriel retrieval works, before you activate this option.';
+?>

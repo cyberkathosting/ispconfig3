@@ -6,8 +6,6 @@ $wb['customer_txt'] = 'Müşteri';
 $wb['status_txt'] = 'Durum';
 $wb['install_location_txt'] = 'Yükleme Konumu';
 $wb['pkg_delete_confirmation'] = 'Bu yüklemeyi silmek istediğinize emin misiniz?';
-$wb['pkg_reinstall_confirmation'] = 'Bu paketi aynı ayarlar ile yeniden yüklemek istediğinize emin misiniz?';
 $wb['filter_txt'] = 'Arama';
 $wb['delete_txt'] = 'Sil';
-$wb['reinstall_txt'] = 'Yeniden Yükle';
 ?>

@@ -5,5 +5,3 @@ $wb['add_new_record_txt'] = 'Kullanıcı Ekle';
 $wb['parent_remote_userid_txt'] = 'Kod';
 $wb['username_txt'] = 'Kullanıcı Adı';
 ?>
-
-

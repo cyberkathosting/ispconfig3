@@ -5,7 +5,6 @@ $wb['Blacklist'] = 'Blacklista';
 $wb['Mail Content Filter'] = 'Sadržaj mail filtera';
 $wb['Filter'] = 'Filter';
 $wb['Mail Domain'] = 'Mail domena';
-$wb['Domena'] = 'Domena';
 $wb['Email Catchall'] = 'Email catchall';
 $wb['Email Forward'] = 'Email proslijeđivanje';
 $wb['Get Email'] = 'Primi poštu';
@@ -45,6 +44,5 @@ $wb['Global Filters'] = 'Globalni filter';
 $wb['Domain Alias'] = 'Alias domena';
 $wb['Relay Recipients'] = 'Relay primatelji';
 $wb['Mailbox quota'] = 'Mailbox quota';
+$wb['Domain'] = 'Domain';
 ?>
-
-

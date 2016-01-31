@@ -7,4 +7,5 @@ $wb['active_txt'] = 'Aktywne';
 $wb['directive_snippets_name_empty'] = 'Wybierz nazwę dla zestawu dyrektyw';
 $wb['directive_snippets_name_error_unique'] = 'Istnieje już zestaw dyrektyw o podanej nazwie';
 $wb['variables_txt'] = 'Variables';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>

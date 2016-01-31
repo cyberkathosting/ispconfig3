@@ -7,4 +7,5 @@ $wb['database_user_txt'] = 'Usuario de base de la datos';
 $wb['database_name_txt'] = 'Nombre de base de la datos';
 $wb['add_new_record_txt'] = 'Añadir base de datos';
 $wb['parent_domain_id_txt'] = 'Sitio web';
+$wb['type_txt'] = 'Type';
 ?>

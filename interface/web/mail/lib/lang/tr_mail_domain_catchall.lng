@@ -6,8 +6,6 @@ $wb['domain_error_unique'] = 'Bu alan adı için zaten bir tümünü al kayıdı
 $wb['no_domain_perm'] = 'Bu alan adı için izniniz yok.';
 $wb['domain_error_regex'] = 'Alan adı geçersiz ya da geçersiz karakterler içeriyor.';
 $wb['limit_mailcatchall_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla tümünü al hesabı sayısına ulaştınız.';
-$wb['domain_txt'] = 'Alan Adı';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
 ?>
-

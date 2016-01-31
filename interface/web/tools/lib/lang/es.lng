@@ -1,9 +1,8 @@
 <?php
-$wb['Interface'] = 'Interfaz';
+$wb['Interface'] = 'Interfase';
 $wb['User Settings'] = 'Opciones de usuario';
 $wb['Settings'] = 'Opciones';
 $wb['ISPConfig Tools'] = 'Herramientas de ISPConfig';
-$wb['Interface'] = 'Interfase';
 $wb['Password and Language'] = 'Contraseña e idioma';
 $wb['ispconfig_tools_note'] = 'Este módulo le permite cambiar la contraseña, el idioma y permite iniciar una resincronización de los registros DNS.';
 $wb['Sync Tools'] = 'Opciones de sincronización';

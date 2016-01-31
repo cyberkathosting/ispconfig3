@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Websites';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Ενεργό';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domain';
+$wb['add_new_record_txt'] = 'Νέο website';
+?>

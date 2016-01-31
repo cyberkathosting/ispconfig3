@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Folder User';
-$wb['active_txt'] = 'Active';
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['add_new_record_txt'] = 'Add new Folder User';
+$wb['list_head_txt'] = 'Utente Cartella';
+$wb['active_txt'] = 'Attivo';
+$wb['web_folder_id_txt'] = 'Cartella';
+$wb['username_txt'] = 'Nome Utente';
+$wb['add_new_record_txt'] = 'Aggiungi nuovo utente cartella';
 ?>

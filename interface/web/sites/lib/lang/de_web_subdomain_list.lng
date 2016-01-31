@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Subdomains';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webseite';
+$wb['domain_txt'] = 'Subdomain';
+$wb['add_new_record_txt'] = 'Neue Subdomain hinzufügen';
+?>

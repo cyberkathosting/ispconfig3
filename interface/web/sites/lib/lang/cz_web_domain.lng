@@ -27,7 +27,6 @@ $wb['cgi_txt'] = 'CGI';
 $wb['ssi_txt'] = 'SSI';
 $wb['subdomain_txt'] = 'Automatická subdoména';
 $wb['ssl_txt'] = 'SSL';
-$wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Klient';
@@ -131,5 +130,3 @@ $wb['invalid_custom_php_ini_settings_txt'] = 'Neplatné nastavení php.ini';
 $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 $wb['apache_directive_blocked_error'] = 'Apache directive blocked by security settings:';
 ?>
-
-

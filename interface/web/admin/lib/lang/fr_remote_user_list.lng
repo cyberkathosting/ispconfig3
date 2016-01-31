@@ -2,6 +2,6 @@
 $wb['list_head_txt'] = 'Utilisateurs distants';
 $wb['list_desc_txt'] = '';
 $wb['add_new_record_txt'] = 'Ajouter un utilisateur';
-$wb['parent_remote_userid_txt'] = 'ID';
+$wb['parent_remote_userid_txt'] = 'Id';
 $wb['username_txt'] = 'Identifiant';
 ?>

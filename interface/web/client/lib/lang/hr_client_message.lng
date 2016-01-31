@@ -18,5 +18,3 @@ $wb['variables_txt'] = 'Varijable:';
 $wb['gender_m_txt'] = 'g.';
 $wb['gender_f_txt'] = 'gđa.';
 ?>
-
-

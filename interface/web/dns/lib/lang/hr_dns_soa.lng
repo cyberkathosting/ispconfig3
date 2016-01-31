@@ -35,6 +35,9 @@ $wb['expire_range_error'] = 'Minimalno vrijeme isteka je 60 sekundi.';
 $wb['minimum_range_error'] = 'Minimalno vrijeme minimuma je 60 sekundi.';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 $wb['xfer_error_regex'] = 'Također obavijesti: Koristite IP adresu.';
+$wb['dnssec_info_txt'] = 'DNSSEC DS-Data for registry';
+$wb['dnssec_wanted_txt'] = 'Sign zone (DNSSEC)';
+$wb['dnssec_wanted_info'] = 'When disabling DNSSEC keys are not going to be deleted if DNSSEC was enabled before and keys already have been generated but the zone will no longer be delievered in signed format afterwards.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
 ?>
-
-

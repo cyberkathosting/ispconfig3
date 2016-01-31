@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Spamfilter';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
 $wb['server_name_txt'] = 'server_name';
 $wb['email_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Add new Spamfilter record';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo  Spamfilter record';
 ?>

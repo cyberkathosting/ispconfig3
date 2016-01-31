@@ -149,4 +149,5 @@ $wb['weak_password_txt'] = 'The chosen password does not match the security guid
 $wb['weak_password_length_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length.';
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
+$wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
 ?>

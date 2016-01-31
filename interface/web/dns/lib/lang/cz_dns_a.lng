@@ -15,5 +15,3 @@ $wb['ip_error_wrong'] = 'IP adresa má chybný formát';
 $wb['data_error_duplicate'] = 'Duplikace A záznamu';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
-
-

@@ -42,7 +42,7 @@ $wb['no_flag_txt'] = 'No flag';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
-$wb['error_proxy_requires_url'] = 'Redirect Type \"proxy\" requires a URL as the redirect path.';
+$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 $wb['backup_interval_txt'] = 'Backup interval';
 $wb['backup_copies_txt'] = 'Number of backup copies';
 $wb['ssl_key_txt'] = 'SSL Key';
@@ -115,5 +115,4 @@ $wb['available_php_directive_snippets_txt'] = 'Available PHP Directive Snippets:
 $wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Snippets:';
 $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 $wb['Domain'] = 'Aliasdomain';
-
 ?>

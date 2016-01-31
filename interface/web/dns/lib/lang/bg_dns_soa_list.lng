@@ -7,4 +7,5 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Email';
 $wb['add_new_record_txt'] = 'Добави нова зона (SOA)';
 $wb['add_new_record_wizard_txt'] = 'Добави нова зона с помощник';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 ?>

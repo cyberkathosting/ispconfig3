@@ -4,12 +4,12 @@ $wb['active_txt'] = 'Attivo';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Sito';
 $wb['domain_txt'] = 'Sottodominio';
-$wb['add_new_record_txt'] = 'Aggiungi nuovo sottodominio';
 $wb['domain_error_empty'] = 'Domain is empty.';
 $wb['domain_error_unique'] = 'Domain must be unique.';
 $wb['domain_error_regex'] = 'Domain name invalid.';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
 $wb['none_txt'] = 'None';
-
+$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
 ?>

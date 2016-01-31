@@ -1,17 +1,17 @@
 <?php
 $wb['email_txt'] = 'Email';
-$wb['spam_rewrite_score_int_txt'] = 'Rewrite score';
-$wb['spam_redirect_score_int_txt'] = 'Redirect score';
-$wb['spam_delete_score_int_txt'] = 'Delete score';
-$wb['spam_rewrite_subject_txt'] = 'Rewrite subject';
-$wb['spam_redirect_maildir_txt'] = 'Redirect mailbox';
-$wb['active_txt'] = 'Active';
-$wb['spam_rewrite_txt'] = 'Rewrite email subject above this score.';
-$wb['spam_redirect_txt'] = 'Redirect email above this score to the selected mailbox.';
-$wb['spam_delete_txt'] = 'Delete email above this score.';
-$wb['disable_txt'] = 'Hint: To disable a filtering option, set the score to 0.00.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
-$wb['email_error_unique'] = 'There is already an spamfilter record for this email address.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Purge Maildir after';
-$wb['days_txt'] = 'Days.';
+$wb['spam_rewrite_score_int_txt'] = 'Riscrivi punteggio';
+$wb['spam_redirect_score_int_txt'] = 'Reindirizza punteggio';
+$wb['spam_delete_score_int_txt'] = 'Elimina punteggio';
+$wb['spam_rewrite_subject_txt'] = 'RIscrivi oggetto';
+$wb['spam_redirect_maildir_txt'] = 'Reinderizza casella di posta';
+$wb['active_txt'] = 'Attivo';
+$wb['spam_rewrite_txt'] = 'Riscrivi oggetto email sopra questo punteggio';
+$wb['spam_redirect_txt'] = 'Reinderizza email sopra questo punteggioto alla seguente casella di posta.';
+$wb['spam_delete_txt'] = 'Elimina con punteggio superiore a questo';
+$wb['disable_txt'] = 'Suggerimento: Per disabilitare l opzione filtro, impostare a 0.00 il punteggio.';
+$wb['email_error_isemail'] = 'Indirizzo Email non valido.';
+$wb['email_error_unique'] = 'Esiste gia un record nel filtro spam per questo indirizzo email.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Svuota Maildir dopo';
+$wb['days_txt'] = 'giorni.';
 ?>

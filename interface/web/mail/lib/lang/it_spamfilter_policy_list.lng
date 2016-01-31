@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Spamfilter Policy';
-$wb['policy_name_txt'] = 'Name';
+$wb['policy_name_txt'] = 'Nome';
 $wb['virus_lover_txt'] = 'Virus lover';
 $wb['spam_lover_txt'] = 'Spam lover';
 $wb['banned_files_lover_txt'] = 'Banned Files lover';

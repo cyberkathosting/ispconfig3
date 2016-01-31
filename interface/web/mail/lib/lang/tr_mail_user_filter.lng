@@ -15,7 +15,14 @@ $wb['contains_txt'] = 'Şunu içeren';
 $wb['is_txt'] = 'Şununla aynı';
 $wb['begins_with_txt'] = 'Şununla başlayan';
 $wb['ends_with_txt'] = 'Şununla biten';
-$wb['move_to_txt'] = 'Şuraya taşı';
 $wb['delete_txt'] = 'Sil';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
 ?>
-

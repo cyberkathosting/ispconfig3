@@ -1,0 +1,15 @@
+<?php
+$wb['recipient_id_txt'] = 'ID Destinataire';
+$wb['sender_id_txt'] = 'ID Expéditeur';
+$wb['subject_txt'] = 'Sujet';
+$wb['message_txt'] = 'Message';
+$wb['tstamp_txt'] = 'Timestamp';
+$wb['reply_txt'] = 'Répondre';
+$wb['date_txt'] = 'Date';
+$wb['support_request_subject_txt'] = 'Demande d\'assistance';
+$wb['support_request_txt'] = 'Vous avez une demande d\'assistance. Merci de ne pas répondre directement à cet courriel, mais de gérer la demande d\'assistance dans ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'Vous avez une réponse à votre demande d\'assistance. Merci de ne pas répondre directement à cet courriel, mais de gérer la demande d\'assistance dans ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'VOtre message à été envoyé au support.';
+$wb['support_request_sent_txt'] = 'Votre réponse à la demande d\'assistance a été envoyée. Merci de ne pas répondre à cet courriel.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'Le message n\'a pas pu être envoyé parce que l\'adresse courriel du destinataire et/ou de l\'émetteur est invalide.';
+?>
