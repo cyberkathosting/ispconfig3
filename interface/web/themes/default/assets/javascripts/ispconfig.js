@@ -237,29 +237,38 @@ var ISPConfig = {
 			} catch(e) {
 				response = responseStr;
 			}
+			var $response = $('<div></div>').html(response);
 			var msg = '';
-			var okmsg = $('#OKMsg',response).html();
+			var okmsg = $response.find('#OKMsg').html();
 			if(okmsg){
 				msg = '<div id="OKMsg">'+okmsg+'</div>';
 			}
-			var errormsg = $('#errorMsg',response).html();
+			var errormsg = $response.find('#errorMsg').html();
 			if(errormsg){
 				msg = msg+'<div id="errorMsg">'+errormsg+'</div>';
 			}
+			
+			var csrf_key = $response.find('input[name="_csrf_key"]').val();
+			var csrf_id = $response.find('input[name="_csrf_id"]').val();
+			
+			msg = msg + '<input type="hidden" name="_csrf_id" value="' + csrf_id + '" /><input type="hidden" name="_csrf_key" value="' + csrf_key + '" />';
+			
 			return msg;
 
 		};
 
 		var frame_id = 'ajaxUploader-iframe-' + Math.round(new Date().getTime() / 1000);
-		$('body').after('<iframe width="0" height="0" style="display:none;" name="'+frame_id+'" id="'+frame_id+'"/>');
-		$('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
+		$('body').append('<iframe width="0" height="0" style="display:none;" name="'+frame_id+'" id="'+frame_id+'"/>');
 		$('#'+frame_id).load(function() {
 			var msg = handleResponse(this);
 			$('#errorMsg').remove();
 			$('#OKMsg').remove();
+			$('input[name="_csrf_key"]').remove();
+			$('input[name="_csrf_id"]').remove();
 			$('input[name="id"]').before(msg);
 			$(this).remove();
 		  });
+		$('input[type="file"]').closest("form").attr({target: frame_id, action: target}).submit();
 	},
 
 	capp: function(module, redirect) {
