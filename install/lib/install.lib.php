@@ -86,6 +86,9 @@ function get_distname() {
 			$mainver = array_filter($mainver);
 			$mainver = current($mainver).'.'.next($mainver);
 			switch ($mainver){
+			case "15.10":
+				$relname = "(Wily Werewolf)";
+				break;
 			case "15.04":
 				$relname = "(Vivid Vervet)";
 				break;
