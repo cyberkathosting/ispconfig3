@@ -3,13 +3,25 @@
 </div>
 <p><tmpl_var name="list_desc_txt"></p>
 
-
-        
-            <div class="form-group">
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingWeb">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWeb" aria-expanded="true" aria-controls="collapseWeb">
+          {tmpl_var name='web_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseWeb" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWeb">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	  <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='server_type_txt'}</label>
-                <div class="col-sm-9"><select name="server_type" id="server_type" class="form-control">
+                <div class="col-sm-9">
+					<select name="server_type" id="server_type" class="form-control">
                         {tmpl_var name='server_type'}
-                    </select></div>
+                    </select>
+				</div>
             </div>
             <div class="form-group">
                 <label for="website_basedir" class="col-sm-3 control-label">{tmpl_var name='website_basedir_txt'}</label>
@@ -136,9 +148,22 @@
                     {tmpl_var name='overquota_notify_onok'}
                 </div>
             </div>
-            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-ssl-settings" aria-expanded="false" aria-controls="toggle-ssl-settings">{tmpl_var name='ssl_settings_txt'}</button></div>
-            <div id="toggle-ssl-settings" class="collapse">
-                <div class="form-group">
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSSL">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSSL" aria-expanded="false" aria-controls="collapseSSL">
+          {tmpl_var name='ssl_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSSL" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSSL">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	                  <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='enable_sni_txt'}</label>
                     <div class="col-sm-9">
                         {tmpl_var name='enable_sni'}
@@ -158,10 +183,22 @@
                 <div class="form-group">
                     <label for="CA_pass" class="col-sm-3 control-label">{tmpl_var name='CA_pass_txt'}</label>
                     <div class="col-sm-9"><input type="password" name="CA_pass" id="CA_pass" value="{tmpl_var name='CA_pass'}" autocomplete="off" class="form-control" /></div></div>
-            </div>
-            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-permissions" aria-expanded="false" aria-controls="toggle-permissions">{tmpl_var name='permissions_txt'}</button></div>
-            <div id="toggle-permissions" class="collapse">
-                <div class="form-group">
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingPerms">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePerms" aria-expanded="false" aria-controls="collapsePerms">
+          {tmpl_var name='permissions_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapsePerms" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPerms">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	  <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='set_folder_permissions_on_update_txt'}</label>
                     <div class="col-sm-9">
                         {tmpl_var name='set_folder_permissions_on_update'}
@@ -188,10 +225,23 @@
                 <div class="form-group">
                     <label for="connect_userid_to_webid_start" class="col-sm-3 control-label">{tmpl_var name='connect_userid_to_webid_start_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="connect_userid_to_webid_start" id="connect_userid_to_webid_start" value="{tmpl_var name='connect_userid_to_webid_start'}" class="form-control" /></div></div>
-            </div>
-            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-php_settings" aria-expanded="false" aria-controls="toggle-php_settings">{tmpl_var name='php_settings_txt'}</button></div>
-            <div id="toggle-php_settings" class="collapse">
-                <div class="form-group apache">
+            
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingPHP">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePHP" aria-expanded="false" aria-controls="collapsePHP">
+          {tmpl_var name='php_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapsePHP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPHP">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	  <div class="form-group apache">
                     <label for="php_ini_path_apache" class="col-sm-3 control-label">{tmpl_var name='php_ini_path_apache_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="php_ini_path_apache" id="php_ini_path_apache" value="{tmpl_var name='php_ini_path_apache'}" class="form-control" /></div></div>
                 <div class="form-group apache">
@@ -225,10 +275,22 @@
                             {tmpl_var name='php_handler'}
                         </select></div>
                 </div>
-            </div>
-            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-apps_vhost_settings" aria-expanded="false" aria-controls="toggle-apps_vhost_settings">{tmpl_var name='apps_vhost_settings_txt'}</button></div>
-            <div id="toggle-apps_vhost_settings" class="collapse">
-				<div class="form-group">
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingApps">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseApps" aria-expanded="false" aria-controls="collapseApps">
+          {tmpl_var name='apps_vhost_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseApps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingApps">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	  				<div class="form-group">
 					<label for="apps_vhost_enabled" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_enabled_txt'}</label>
 					<div class="col-sm-9">{tmpl_var name='apps_vhost_enabled'}</div></div>
                 <div class="form-group">
@@ -240,10 +302,23 @@
                 <div class="form-group">
                     <label for="apps_vhost_servername" class="col-sm-3 control-label">{tmpl_var name='apps_vhost_servername_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="apps_vhost_servername" id="apps_vhost_servername" value="{tmpl_var name='apps_vhost_servername'}" class="form-control" /></div></div>
-            </div>
-            <div class="col-sm-3"></div><div class="col-sm-9"><button class="btn btn-default formbutton-default" type="button" data-toggle="collapse" data-target="#toggle-awstats_settings" aria-expanded="false" aria-controls="toggle-awstats_settings">{tmpl_var name='awstats_settings_txt'}</button></div>
-            <div id="toggle-awstats_settings" class="collapse">
-                <div class="form-group">
+            
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingAWStats">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAWStats" aria-expanded="false" aria-controls="collapseAWStats">
+          {tmpl_var name='awstats_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseAWStats" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAWStats">
+      <div class="panel-body">
+	  <!-- Begin content -->
+	  <div class="form-group">
                     <label for="awstats_conf_dir" class="col-sm-3 control-label">{tmpl_var name='awstats_conf_dir_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="awstats_conf_dir" id="awstats_conf_dir" value="{tmpl_var name='awstats_conf_dir'}" class="form-control" /></div></div>
                 <div class="form-group">
@@ -255,9 +330,13 @@
                 <div class="form-group">
                     <label for="awstats_buildstaticpages_pl" class="col-sm-3 control-label">{tmpl_var name='awstats_buildstaticpages_pl_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="awstats_buildstaticpages_pl" id="awstats_buildstaticpages_pl" value="{tmpl_var name='awstats_buildstaticpages_pl'}" class="form-control" /></div></div>
-            </div>
-        
             
+	  <!-- End content -->
+	  </div>
+	</div>
+  </div>
+</div>
+			
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
         <div class="clear"><div class="right">
@@ -266,7 +345,7 @@
         </div></div>
 <script language="JavaScript" type="text/javascript">
     var serverType = jQuery('#server_type').val();
-    jQuery('#server_type').replaceWith('<label for="server_Type" class="col-sm-3 control-label">'+serverType+'</label><input type="hidden" name="server_type" value="'+serverType+'">');
+    jQuery('#server_type').replaceWith('<p>'+serverType+'</p><input type="hidden" name="server_type" value="'+serverType+'">');
     adjustForm();
     jQuery('#server_type').change(function(){
         serverType = $(this).val();
