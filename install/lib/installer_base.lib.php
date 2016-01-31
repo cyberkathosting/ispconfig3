@@ -68,6 +68,12 @@ class installer_base {
 				} else {
 					$input = $autoinstall[$name];
 				}
+			} elseif($name != '' && $autoupdate[$name] != '') {
+				if($autoupdate[$name] == 'default') {
+					$input = $default;
+				} else {
+					$input = $autoupdate[$name];
+				}
 			} else {
 				$answers_str = implode(',', $answers);
 				swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
@@ -104,6 +110,12 @@ class installer_base {
 				$input = $default;
 			} else {
 				$input = $autoinstall[$name];
+			}
+		} elseif($name != '' && $autoupdate[$name] != '') {
+			if($autoupdate[$name] == 'default') {
+				$input = $default;
+			} else {
+				$input = $autoupdate[$name];
 			}
 		} else {
 			swrite($this->lng($query).' ['.$default.']: ');
