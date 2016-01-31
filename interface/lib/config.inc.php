@@ -34,6 +34,7 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	header("Pragma: no-cache");
 	header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
 	header("Content-Type: text/html; charset=utf-8");
+	header('X-Content-Type-Options: nosniff');
 
 	ini_set('register_globals', 0);
 }
