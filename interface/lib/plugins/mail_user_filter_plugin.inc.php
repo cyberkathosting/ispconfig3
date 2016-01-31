@@ -252,6 +252,7 @@ if ( ".'$RETURNCODE'." != 1 )
 
 			if($page_form->dataRecord["action"] == 'move') {
 				$content .= 'ID' . "$page_form->id" . 'EndFolder = "$DEFAULT/.' . $page_form->dataRecord['target'] . '/"' . "\n";
+				$content .= "xfilter \"/usr/bin/formail -A \\\"X-User-Mail-Filter-ID"."$page_form->id".": Yes\\\"\"" . "\n";
 				$content .= "to ". '$ID' . "$page_form->id" . 'EndFolder' . "\n";
 			} else {
 				$content .= "to /dev/null\n";
