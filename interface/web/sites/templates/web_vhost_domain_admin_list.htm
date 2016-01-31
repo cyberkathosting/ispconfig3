@@ -46,6 +46,7 @@
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="domain"}</a></td>
                         <td class="text-right">
 							<a href="http://{tmpl_var name="domain"}" target="_blank" class="btn btn-default formbutton-default formbutton-narrow"><span class="icon icon-link"></span></a>
+							<a href="http://{tmpl_var name="domain"}/stats/" target="_blank" class="btn btn-default formbutton-default formbutton-narrow"><span class="glyphicon glyphicon-signal"></span></a>
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('sites/web_vhost_domain_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
                         </td>
                     </tr>

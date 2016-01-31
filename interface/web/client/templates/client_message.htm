@@ -25,7 +25,8 @@
                 <div class="col-sm-9"><input type="text" name="subject" id="subject" value="{tmpl_var name='subject'}" class="form-control" /></div></div>
             <div class="form-group">
                 <label for="message" class="col-sm-3 control-label">{tmpl_var name='message_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="message" id="message">{tmpl_var name='message'}</textarea></div>&nbsp;{tmpl_var name="variables_txt"}&nbsp;{tmpl_var name="message_variables"}
+                <div class="col-sm-9"><textarea class="form-control" name="message" id="message" rows="10">{tmpl_var name='message'}</textarea></div>
+				<div class="col-sm-3 col-text"></div><div class="col-sm-9 col-text">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}</div>
             </div>
         
         <div class="clear"><div class="right">

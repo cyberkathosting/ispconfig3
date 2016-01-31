@@ -68,6 +68,12 @@ class installer_base {
 				} else {
 					$input = $autoinstall[$name];
 				}
+			} elseif($name != '' && $autoupdate[$name] != '') {
+				if($autoupdate[$name] == 'default') {
+					$input = $default;
+				} else {
+					$input = $autoupdate[$name];
+				}
 			} else {
 				$answers_str = implode(',', $answers);
 				swrite($this->lng($query).' ('.$answers_str.') ['.$default.']: ');
@@ -104,6 +110,12 @@ class installer_base {
 				$input = $default;
 			} else {
 				$input = $autoinstall[$name];
+			}
+		} elseif($name != '' && $autoupdate[$name] != '') {
+			if($autoupdate[$name] == 'default') {
+				$input = $default;
+			} else {
+				$input = $autoupdate[$name];
 			}
 		} else {
 			swrite($this->lng($query).' ['.$default.']: ');
@@ -1659,6 +1671,11 @@ Email Address []:
 			// Comment out the namevirtualhost lines, as they were added by ispconfig in ispconfig.conf file again
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:80', '# NameVirtualHost *:80', 1);
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:443', '# NameVirtualHost *:443', 1);
+		}
+		
+		if(is_file('/etc/apache2/mods-available/fcgid.conf')) {
+			// add or modify the parameters for fcgid.conf
+			replaceLine('/etc/apache2/mods-available/fcgid.conf','MaxRequestLen','MaxRequestLen 15728640',1);
 		}
 
 		if(is_file('/etc/apache2/apache.conf')) {
