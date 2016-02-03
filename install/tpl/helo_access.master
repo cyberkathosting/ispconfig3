@@ -1,0 +1,19 @@
+# helo_access - before permit_sasl
+# be sure to list your own hostname(s), domain(s) and IP address(es) here
+
+# Reject others identifying with this machine's hostnames and IP addresses
+{myhostname}  REJECT
+#/^((smtp|mx|mail)\.domain1\.com$/	REJECT
+#/^mail\.domain2\.com$/		REJECT
+
+# TODO: this server's ip addr loop here
+#/^\[?1\.2\.3\.4\]?$/	REJECT
+#/^\[?12\.34\.56\.78\]?$/	REJECT
+#/^\[?123\.234\.123\.234\]?$/	REJECT
+
+# Reject others identifying as domains we host
+# TODO: this server's hosted mail domains loop here
+#/^domain1\.com$/	REJECT
+#/^domain2\.com$/	REJECT
+#/^domain3\.net$/	REJECT
+
