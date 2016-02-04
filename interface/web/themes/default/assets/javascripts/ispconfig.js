@@ -747,4 +747,35 @@ $(document).on('ready', function () {
 			e.preventDefault();
 		}
 	});
+	
+	$.fn.setCursorPosition = function(pos) {
+		var self = $(this).get(0);
+		if(self.setSelectionRange) {
+			self.setSelectionRange(pos, pos);
+		} else if(self.createTextRange) {
+			var range = self.createTextRange();
+			range.collapse(true);
+			if(pos < 0) {
+				pos = $(this).val().length + pos;
+			}
+			range.moveEnd('character', pos);
+			range.moveStart('character', pos);
+			range.select();
+		}
+	};
+	
+	$.fn.getCursorPosition = function() {
+		var iCaretPos = 0;
+		var self = $(this).get(0);
+		
+		if(typeof self.selectionStart === 'number') {
+			iCaretPos = self.selectionDirection == 'backward' ? self.selectionStart : self.selectionEnd;
+		} else if(document.selection) {
+			this.focus();
+			var oSel = document.selection.createRange();
+			oSel.moveStart('character', -self.value.length);
+			iCaretPos = oSel.text.length;
+		}
+		return iCaretPos;
+	};
 });

@@ -55,7 +55,7 @@ class page_action extends tform_actions {
 		$old_record = $app->tform->getDataRecord($this->id);
 
 		/* we cannot use datalogDelete here, as we need to set server_id to 0 */
-		$app->db->query("DELETE FROM `web_database_user` WHERE ?? = ?", $index_field, $index_value);
+		$app->db->query("DELETE FROM `web_database_user` WHERE `database_user_id` = ?", $this->id);
 		$new_rec = array();
 		$old_record['server_id'] = 0;
 		$app->db->datalogSave('web_database_user', 'DELETE', 'database_user_id', $this->id, $old_record, $new_rec);

@@ -204,6 +204,12 @@ function generatePassword(passwordFieldID, repeatPasswordFieldID){
 	var pword = password(<?php echo $min_password_length; ?>, false, 1);
 	jQuery('#'+repeatPasswordFieldID).val(pword);
 	newPWField.attr('id', passwordFieldID).val(pword).trigger('keyup').select();
+	newPWField.unbind('keyup').on('keyup', function(e) {
+		if($(this).val() != pword) {
+			var pos = $(this).getCursorPosition();
+			$(this).attr('type', 'password').unbind('keyup').setCursorPosition(pos);
+		}
+	});
 }
 
 var funcDisableClick = function(e) { e.preventDefault(); return false; };
