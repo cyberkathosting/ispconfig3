@@ -7,5 +7,7 @@ $wb['limit_mailforward_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla e-posta
 $wb['duplicate_mailbox_txt'] = 'Bu e-posta adresini kullanan bir posta kutusu zaten var';
 $wb['domain_txt'] = 'Alan Adı';
 $wb['source_txt'] = 'Kaynak E-posta';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>
-

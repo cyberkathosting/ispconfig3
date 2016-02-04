@@ -50,11 +50,15 @@ $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['email_error_isascii'] = 'Bitte verwenden Sie keine Umlaute im Passwort. Dies kann zu Problemen mit Ihrem E-Mail-Programm führen.';
-$wb["backup_interval_txt"] = 'Backup interval';
-$wb["backup_copies_txt"] = 'Anzahl der Backups';
+$wb['backup_interval_txt'] = 'Backup interval';
+$wb['backup_copies_txt'] = 'Anzahl der Backups';
 $wb['no_backup_txt'] = 'inaktiv';
 $wb['daily_backup_txt'] = 'taeglich';
 $wb['weekly_backup_txt'] = 'woechentlich';
 $wb['monthly_backup_txt'] = 'monatlich';
 $wb['cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
+$wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autoresponder is enabled.';
+$wb['sender_cc_txt'] = 'Send outgoing copy to';
+$wb['sender_cc_error_isemail'] = 'The -Send outgoing copy to- field does not contain a valid email address';
+$wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
 ?>

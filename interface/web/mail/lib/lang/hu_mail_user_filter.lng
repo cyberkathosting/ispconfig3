@@ -13,8 +13,16 @@ $wb['contains_txt'] = 'Tartalmazza';
 $wb['is_txt'] = 'Is';
 $wb['begins_with_txt'] = 'Begins with';
 $wb['ends_with_txt'] = 'Ends with';
-$wb['move_to_txt'] = 'Áthelyezés';
 $wb['target_error_regex'] = 'The target may only contain these characters: a-z, 0-9, -, ., _, and {space}';
 $wb['limit_mailfilter_txt'] = 'The max. number of mailfilters is reached.';
 $wb['delete_txt'] = 'Delete';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
 ?>

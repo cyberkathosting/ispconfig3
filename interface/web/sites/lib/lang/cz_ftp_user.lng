@@ -31,8 +31,5 @@ $wb['generate_password_txt'] = 'Generovat heslo';
 $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
-$wb['invalid_system_user_or_group_txt'] = 'Neplatný systémový uživatel nebo skupina';
-$wb['directory_error_regex'] = 'Neplatný adresář';
+$wb['expires_txt'] = 'Expire at';
 ?>
-
-

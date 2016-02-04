@@ -21,4 +21,6 @@ $wb['unknown_fieldtype_error'] = 'Bilinmeyen bir alan tipi kullanılmış.';
 $wb['server_id_error_empty'] = 'Sunucu kodu boş olamaz.';
 $wb['limit_cron_url_txt'] = 'Yalnız İnternet adresli zamanlanmış görev kullanılabilir. Lütfen zamanlanmış görev komutu olarak http:// ile başlayan bir İnternet adresi yazın.';
 $wb['command_error_empty'] = 'Komut boş olamaz.';
+$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
+$wb['log_output_txt'] = 'Log output';
 ?>

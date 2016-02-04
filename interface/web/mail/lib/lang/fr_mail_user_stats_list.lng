@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Trafic email';
-$wb['email_txt'] = 'Email';
+$wb['list_head_txt'] = 'Trafic e-mail';
+$wb['email_txt'] = 'E-mail';
 $wb['this_month_txt'] = 'Le mois en cours';
 $wb['last_month_txt'] = 'Le mois dernier';
-$wb['this_year_txt'] = 'L\'année en cours';
-$wb['last_year_txt'] = 'L\'année dernière';
+$wb['this_year_txt'] = 'L’année en cours';
+$wb['last_year_txt'] = 'L’année dernière';
 ?>

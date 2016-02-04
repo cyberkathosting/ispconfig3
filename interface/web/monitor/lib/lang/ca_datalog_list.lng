@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Processus en attente';
+$wb['tstamp_txt'] = 'Date';
+$wb['server_id_txt'] = 'Serveur';
+$wb['dbtable_txt'] = 'Table DB';
+$wb['action_txt'] = 'Action';
+$wb['status_txt'] = 'Statut';
+?>

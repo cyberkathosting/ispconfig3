@@ -1,0 +1,4 @@
+<?php
+$wb['page_head_txt'] = 'Outils ISPConfig';
+$wb['page_desc_txt'] = 'Changer les paramètres utilisateur';
+?>

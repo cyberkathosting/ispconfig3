@@ -1,0 +1,23 @@
+<?php
+$wb['head_txt'] = 'Import courriel configuration from ISPConfig 3';
+$wb['legend_txt'] = 'Remote server connection details';
+$wb['legend2_txt'] = 'Import courriel domain';
+$wb['resync_sites_txt'] = 'Resync Websites';
+$wb['resync_ftp_txt'] = 'Resync FTP users';
+$wb['resync_shell_txt'] = 'Resync shell users';
+$wb['resync_cron_txt'] = 'Resync cronjobs';
+$wb['resync_db_txt'] = 'Resync clientdb config';
+$wb['resync_mailbox_txt'] = 'Resync Mailboxes';
+$wb['resync_dns_txt'] = 'Resync DNS records';
+$wb['btn_start_txt'] = 'Start Import';
+$wb['btn_connect_txt'] = 'Connect to remote server';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['client_group_id_txt'] = 'Local client';
+$wb['mail_domain_txt'] = 'Remote courriel domain';
+$wb['import_mailbox_txt'] = 'Import mailbox';
+$wb['import_aliasdomain_txt'] = 'Import alias domain';
+$wb['import_alias_txt'] = 'Import courriel alias';
+$wb['import_forward_txt'] = 'Import forward';
+$wb['import_user_filter_txt'] = 'Import user filter';
+$wb['import_spamfilter_txt'] = 'Import spamfilter';
+?>

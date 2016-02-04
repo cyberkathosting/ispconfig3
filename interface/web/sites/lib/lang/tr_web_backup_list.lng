@@ -16,4 +16,6 @@ $wb['delete_info_txt'] = 'Delete of the backup has been started. This action tak
 $wb['delete_confirm_txt'] = 'Really delete this backup?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['backup_type_web'] = 'Web sitesi dosyaları';
+$wb['filesize_txt'] = 'Filesize';
+$wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>

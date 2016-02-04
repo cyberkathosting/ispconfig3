@@ -20,5 +20,3 @@ $wb['listname_error_unique'] = 'There is already a mailinlist with name on the s
 $wb['email_error_isemail'] = 'Email adresa je neispravna.';
 $wb['mailinglist_txt'] = 'Email lista';
 ?>
-
-

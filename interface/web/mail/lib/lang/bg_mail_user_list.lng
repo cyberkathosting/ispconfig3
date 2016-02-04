@@ -5,4 +5,8 @@ $wb['autoresponder_txt'] = 'Авто отговор';
 $wb['add_new_record_txt'] = 'Добави нова Пощенска кутия';
 $wb['name_txt'] = 'Истинско име';
 $wb['login_txt'] = 'Вход';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

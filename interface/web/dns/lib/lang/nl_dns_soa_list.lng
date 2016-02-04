@@ -7,4 +7,5 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_wizard_txt'] = 'Toevoegen nieuw DNS Zone met wizard';
 $wb['add_new_record_txt'] = 'Toevoegen nieuwe DNS Zone (handmatig)';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 ?>

@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Aliasverkkotunnus';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['parent_domain_id_txt'] = 'Sivusto';
+$wb['domain_txt'] = 'Aliasverkkotunnus';
+$wb['add_new_record_txt'] = 'Lisää uusi aliasverkkotunnus';
+$wb['domain_error_empty'] = 'Aliasverkkotunnus on tyhjä.';
+$wb['domain_error_unique'] = 'Tämä aliasverkkotunnus on jo olemassa.';
+$wb['domain_error_regex'] = 'Aliasverkkotunnus on vääränlainen.';
+$wb['no_redirect_txt'] = 'No redirect';
+$wb['no_flag_txt'] = 'No flag';
+$wb['none_txt'] = 'None';
+?>

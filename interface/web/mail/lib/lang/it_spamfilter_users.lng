@@ -1,13 +1,13 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['priority_txt'] = 'Priority';
+$wb['priority_txt'] = 'Priorita';
 $wb['policy_id_txt'] = 'Policy';
 $wb['email_txt'] = 'Email (Pattern)';
-$wb['fullname_txt'] = 'Name';
+$wb['fullname_txt'] = 'Nome';
 $wb['local_txt'] = 'Local';
-$wb['email_error_notempty'] = 'The email address must not be empty.';
-$wb['fullname_error_notempty'] = 'The name must not be empty.';
-$wb['10 - highest'] = '10 - highest';
-$wb['5 - medium'] = '5 - medium';
-$wb['1 - lowest'] = '1 - lowest';
+$wb['email_error_notempty'] = 'The email address must not be vuoto.';
+$wb['fullname_error_notempty'] = 'The name must not be vuoto.';
+$wb['10 - highest'] = '10 - elevata';
+$wb['5 - medium'] = '5 - media';
+$wb['1 - lowest'] = '1 - minima';
 ?>

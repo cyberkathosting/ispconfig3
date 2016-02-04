@@ -4,12 +4,12 @@ $wb['active_txt'] = 'Aktív';
 $wb['server_id_txt'] = 'Szerver';
 $wb['parent_domain_id_txt'] = 'Weboldal';
 $wb['domain_txt'] = 'aldomain';
-$wb['add_new_record_txt'] = 'Új Aldomain';
 $wb['domain_error_empty'] = 'Domain üres';
 $wb['domain_error_unique'] = 'Domain már foglalt.';
 $wb['domain_error_regex'] = 'Domain név hibás.';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
 $wb['none_txt'] = 'None';
-
+$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
 ?>

@@ -13,5 +13,3 @@ $wb['page_txt'] = 'Stranica';
 $wb['page_of_txt'] = 'od';
 $wb['delete_confirmation'] = 'Sigurno želite obrisati ovaj zapis?';
 ?>
-
-

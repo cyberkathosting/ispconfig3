@@ -24,4 +24,5 @@ $wb['back_txt'] = 'Geri';
 $wb['error_maintenance_mode'] = 'ISPConfig bakımda. Kısa bir süre sonra yeniden çalışıyor olacak, sabrınız için teşekkürler.';
 $wb['theme_not_compatible'] = 'Seçilmiş tema geçerli ISPConfig sürümü ile uyumlu değil. Lütfen temanın yeni sürümünü araştırın.<br />Varsayılan tema etkinleştirildi.';
 $wb['stay_logged_in_txt'] = 'Oturumum açık kalsın';
+$wb['lost_password_function_disabled_txt'] = 'The lost password function is not available for this user.';
 ?>

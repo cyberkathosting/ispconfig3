@@ -7,4 +7,5 @@ $wb['database_name_txt'] = 'Databasnamn';
 $wb['add_new_record_txt'] = 'Lägg till ny databas';
 $wb['database_user_txt'] = 'Databasanvändare';
 $wb['parent_domain_id_txt'] = 'Webbsida';
+$wb['type_txt'] = 'Type';
 ?>

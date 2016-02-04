@@ -21,6 +21,6 @@ $wb['unknown_fieldtype_error'] = 'Koristi se nepoznata vrsta polja.';
 $wb['server_id_error_empty'] = 'ID servera je preazan.';
 $wb['limit_cron_url_txt'] = 'Samo za URL cron. Unesite URL koji počinje sa http:// kao cron naredba.';
 $wb['command_error_empty'] = 'Naredba je prazna.';
+$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
+$wb['log_output_txt'] = 'Log output';
 ?>
-
-

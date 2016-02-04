@@ -9,5 +9,3 @@ $wb['source_error_empty'] = 'Izvorna domena je prazna.';
 $wb['source_error_unique'] = 'Duplicirana izvorna domena.';
 $wb['source_error_regex'] = 'Neispravan naziv izvorne domene.';
 ?>
-
-

@@ -5,4 +5,8 @@ $wb['autoresponder_txt'] = 'Otomatik Yanıtlayıcı';
 $wb['add_new_record_txt'] = 'Posta Kutusu Ekle';
 $wb['name_txt'] = 'Gerçek Ad';
 $wb['login_txt'] = 'Oturum Aç';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

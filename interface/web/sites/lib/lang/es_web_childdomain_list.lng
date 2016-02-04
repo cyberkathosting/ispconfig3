@@ -4,12 +4,12 @@ $wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Sitio web';
 $wb['domain_txt'] = 'Alias de dominio';
-$wb['add_new_record_txt'] = 'Añadir alias de dominio';
 $wb['domain_error_empty'] = 'El dominio está vacío.';
 $wb['domain_error_unique'] = 'El dominio debe ser único.';
 $wb['domain_error_regex'] = 'Nombre de dominio inválido.';
 $wb['no_redirect_txt'] = 'No redireccionar';
 $wb['no_flag_txt'] = 'Sin marcador';
 $wb['none_txt'] = 'Ninguno';
-
+$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
 ?>

@@ -1,0 +1,18 @@
+<?php
+$wb['invoices_txt'] = 'Rechnungen';
+$wb['invoice_no_txt'] = 'RE Nr.';
+$wb['amount_txt'] = 'Summe';
+$wb['date_txt'] = 'Datum';
+$wb['invoice_status_txt'] = 'Status';
+$wb['no_invoices_txt'] = 'Keine Rechnungen vorhanden.';
+$wb['paid_txt'] = 'Bezahlt';
+$wb['unpaid_txt'] = 'Unbezahlt';
+$wb['paynow_txt'] = 'Bezahlen';
+$wb['proforma_txt'] = 'Proforma';
+$wb['refunded_txt'] = 'Erstattet';
+$wb['not_refunded_txt'] = 'Nicht erstattet';
+$wb['invoice_type_invoice_txt'] = 'Rechnung';
+$wb['invoice_type_proforma_txt'] = 'Proforma';
+$wb['invoice_type_refund_txt'] = 'Gutschrift';
+$wb['invoice_type_reminder_txt'] = 'Mahnung';
+?>

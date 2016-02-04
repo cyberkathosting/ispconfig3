@@ -9,5 +9,3 @@ $wb['active_txt'] = 'Aktivno';
 $wb['limit_mailrouting_txt'] = 'Iskorišten je maksimalan broj ruta.';
 $wb['transport_txt'] = 'Transport';
 ?>
-
-

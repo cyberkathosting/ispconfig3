@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'Courriel';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Actif';
+$wb['email_error_isemail'] = 'L\'adresse courriel est invalide.';
+$wb['email_error_unique'] = 'Dupliquer l\'adresse courriel.';
+$wb['no_domain_perm'] = 'Vous n\'avez pas de permission pour ce domaine.';
+$wb['destination_error_isemail'] = 'L\'adresse courriel de destination est invalide.';
+$wb['limit_mailalias_txt'] = 'Le nombre maximal d\'alias de courriel pour votre compte a été atteint.';
+$wb['duplicate_mailbox_txt'] = 'Il y a déja une boîte courriel avec cette adresse';
+$wb['domain_txt'] = 'Domaine';
+$wb['duplicate_email_alias_txt'] = 'L\'alias existe déjà';
+$wb['source_txt'] = 'Alias';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
+$wb['greylisting_txt'] = 'Enable greylisting';
+?>

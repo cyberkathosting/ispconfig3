@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'Nedostaju informacije o hostu';
 $wb['data_error_regex'] = 'Informacije o hostu su u neispravanom formatu';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

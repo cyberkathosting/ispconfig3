@@ -7,5 +7,3 @@ $wb['client_ids_txt'] = 'Klijenti/Preprodavači';
 $wb['description_txt'] = 'Opis';
 $wb['active_txt'] = 'Aktivno';
 ?>
-
-

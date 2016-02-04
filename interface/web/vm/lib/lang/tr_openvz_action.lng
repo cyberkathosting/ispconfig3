@@ -13,6 +13,4 @@ $wb['restart_exec_txt'] = 'VM sunucusuna yeniden başlatma komutu gönderildi. V
 $wb['ostemplate_name_error'] = 'OS kalıbı adında izin verilmeyen karakterler var.';
 $wb['ostemplate_name_unique_error'] = 'Aynı adlı bir işletim sistemi kalıbı zaten var.';
 $wb['ostemplate_exec_txt'] = 'VM sunucusuna işletim sistemi kalıbı oluşturma komutu gönderildi. İşletim sistemi kalıbının oluşturulması bir kaç dakika alabilir.';
-
 ?>
-

@@ -17,5 +17,3 @@ $wb['source_read_all_txt'] = 'Načíst všechny e-maily (včetně již přečten
 $wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 $wb['source_delete_note_txt'] = 'Prosím, zkontrolujte nejprve, zda příjímaní e-mailů funguje, než aktivujete tuto možnost.';
 ?>
-
-

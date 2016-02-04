@@ -15,8 +15,14 @@ $wb['contains_txt'] = 'Obsahuje';
 $wb['is_txt'] = 'Je';
 $wb['begins_with_txt'] = 'Začíná na';
 $wb['ends_with_txt'] = 'Končí na';
-$wb['move_to_txt'] = 'Přesunout do';
 $wb['delete_txt'] = 'Smazat';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
 ?>
-
-

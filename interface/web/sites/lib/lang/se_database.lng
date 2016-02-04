@@ -43,4 +43,7 @@ $wb['select_dbuser_txt'] = 'Välj databasanvändare';
 $wb['no_dbuser_txt'] = 'Ingen';
 $wb['database_client_differs_txt'] = 'The client of the parent web and the database do not match.';
 $wb['database_user_missing_txt'] = 'Vänligen välj en databasanvändare för den här databasen.';
+$wb['limit_database_quota_txt'] = 'Database quota';
+$wb['limit_database_quota_error_notint'] = 'The database quota limit must be a number.';
+$wb['limit_database_quota_free_txt'] = 'Max. available DB quota ';
 ?>

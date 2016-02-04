@@ -1,8 +1,8 @@
 <?php
-$wb["database_txt"] = 'Datenbank';
-$wb["server_name_txt"] = 'Server';
-$wb["client_txt"] = 'Kunde';
-$wb["used_txt"] = 'Verwendeter Speicherplatz';
-$wb["quota_txt"] = 'Quota';
-$wb["percentage_txt"] = 'Verbraucht in %';
+$wb['database_txt'] = 'Datenbank';
+$wb['server_name_txt'] = 'Server';
+$wb['client_txt'] = 'Kunde';
+$wb['used_txt'] = 'Verwendeter Speicherplatz';
+$wb['quota_txt'] = 'Quota';
+$wb['percentage_txt'] = 'Verbraucht in %';
 ?>

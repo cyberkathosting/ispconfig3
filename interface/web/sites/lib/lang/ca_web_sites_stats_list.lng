@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Trafic Web';
+$wb['domain_txt'] = 'Domaine';
+$wb['this_month_txt'] = 'Le mois en cours';
+$wb['last_month_txt'] = 'Le mois précédent';
+$wb['this_year_txt'] = 'L\'année en cours';
+$wb['last_year_txt'] = 'L\'année précédente';
+$wb['sum_txt'] = 'Sum';
+?>

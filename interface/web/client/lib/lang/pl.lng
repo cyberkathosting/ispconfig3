@@ -23,4 +23,6 @@ $wb['error_domain_in mailuse'] = 'Ta domena nie może zostać usunięta poniewa�
 $wb['error_domain_in webuse'] = 'Ta domena nie może zostać usunięta ponieważ jest używana jako domena dla strony www.';
 $wb['error_client_can_not_add_domain'] = 'Nie możesz dodać nowej domeny';
 $wb['error_client_group_id_empty'] = 'Musisz wybrać klienta<br>';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>

@@ -56,5 +56,3 @@ $wb['btn_install_txt'] = 'Instaliraj';
 $wb['btn_cancel_txt'] = 'Odustani';
 $wb['limit_aps_txt'] = 'Iskoristili ste maksimalan broj APS instanci za vaš račun.';
 ?>
-
-

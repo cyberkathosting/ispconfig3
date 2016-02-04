@@ -1,0 +1,4 @@
+<?php
+$wb['invoice_client_settings_txt'] = 'Abrechnungseinstellungen';
+$wb['edit_txt'] = 'Bearbeiten';
+?>

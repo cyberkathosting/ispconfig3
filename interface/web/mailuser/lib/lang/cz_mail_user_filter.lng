@@ -18,5 +18,3 @@ $wb['ends_with_txt'] = 'Končí na';
 $wb['move_to_txt'] = 'Přesunout do';
 $wb['delete_txt'] = 'Smazat';
 ?>
-
-

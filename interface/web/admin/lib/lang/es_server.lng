@@ -7,11 +7,10 @@ $wb['dns_server_txt'] = 'Servidor DNS';
 $wb['file_server_txt'] = 'Servidor de archivos';
 $wb['db_server_txt'] = 'Servidor de DB';
 $wb['vserver_server_txt'] = 'Servidor VServer';
-$wb['proxy_server_txt'] = 'Servidor Proxy';
-$wb['firewall_server_txt'] = 'Servidor corta fuego';
+$wb['proxy_server_txt'] = 'Proxy';
+$wb['firewall_server_txt'] = 'Cortafuegos';
 $wb['active_txt'] = 'Habilitado';
 $wb['mirror_server_id_txt'] = 'Es el espejo del servidor';
 $wb['- None -'] = '- Ninguno -';
-$wb['proxy_server_txt'] = 'Proxy';
-$wb['firewall_server_txt'] = 'Cortafuegos';
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>

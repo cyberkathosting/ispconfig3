@@ -157,4 +157,7 @@ $wb['no_permissions_to_view_monit_txt'] = 'Usted no tiene permisos para acceder 
 $wb['Show Munin'] = 'Mostrar Munin';
 $wb['no_munin_url_defined_txt'] = 'No se ha definido la URL a Munin.';
 $wb['no_permissions_to_view_munin_txt'] = 'Usted no tiene permisos para acceder a Munin.';
+$wb['Show MongoDB-Log'] = 'Show MongoDB-Log';
+$wb['monitor_services_mongodb_txt'] = 'MongoDB-Server:';
+$wb['monitor_title_mongodb_txt'] = 'MongoDB Log';
 ?>

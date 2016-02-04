@@ -1,9 +1,9 @@
 <?php
-$wb['faq_question_txt'] = 'Question';
-$wb['faq_section_name_txt'] = 'Section';
-$wb['faq_delete_txt'] = 'Delete';
-$wb['faq_edit_txt'] = 'Edit';
-$wb['faq_sections_txt'] = 'Section';
+$wb['faq_question_txt'] = 'Domande';
+$wb['faq_section_name_txt'] = 'Sezione';
+$wb['faq_delete_txt'] = 'Elimina';
+$wb['faq_edit_txt'] = 'Modifica';
+$wb['faq_sections_txt'] = 'Sezione';
 $wb['faq_faq_questions_txt'] = 'Frequently Asked Questions';
-$wb['faq_new_question_txt'] = 'Add a new question & answer pair';
+$wb['faq_new_question_txt'] = 'Aggiungi nuova domanda & rispondi';
 ?>

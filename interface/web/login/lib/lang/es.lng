@@ -24,4 +24,5 @@ $wb['theme_not_compatible'] = 'El tema elegido no es compatible con la versión 
 $wb['back_txt'] = 'Volver';
 $wb['email_error'] = 'La dirección de correo contiene caracteres no permitidos o no es válida.';
 $wb['stay_logged_in_txt'] = 'Permanecer conectado';
+$wb['lost_password_function_disabled_txt'] = 'The lost password function is not available for this user.';
 ?>

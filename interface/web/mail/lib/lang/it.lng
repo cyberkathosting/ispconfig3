@@ -12,7 +12,7 @@ $wb['Get Email'] = 'Scarica email';
 $wb['Spamfilter'] = 'Spamfilter';
 $wb['Email Routing'] = 'Routing email';
 $wb['Email transport'] = 'Email transport';
-$wb['Mailbox'] = 'Mailbox';
+$wb['Mailbox'] = 'Casella di posta';
 $wb['Autoresponder'] = 'Autorisponditore';
 $wb['Mail Filter'] = 'Filtro posta';
 $wb['Custom Rules'] = 'Regole personalizzate';
@@ -44,5 +44,5 @@ $wb['Content Filter'] = 'Filtri contenuti';
 $wb['Global Filters'] = 'Filtri globali';
 $wb['Domain Alias'] = 'Alias dominio';
 $wb['Relay Recipients'] = 'Destinatari inoltro';
-$wb['Mailbox quota'] = 'Mailbox quota';
+$wb['Mailbox quota'] = 'Quota Casella di Posta';
 ?>

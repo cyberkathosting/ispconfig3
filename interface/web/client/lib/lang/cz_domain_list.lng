@@ -4,5 +4,3 @@ $wb['add_new_record_txt'] = 'Přidat novou doménu';
 $wb['domain_txt'] = 'Doména';
 $wb['user_txt'] = 'Klient';
 ?>
-
-

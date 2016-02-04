@@ -1,12 +1,12 @@
 <?php
 $wb['select_server_txt'] = 'Sélectionner un serveur';
-$wb['btn_do_txt'] = 'Exécuter laction';
+$wb['btn_do_txt'] = 'Exécuter l’action';
 $wb['do_osupdate_caption'] = 'Mettre à jour lOS du serveur distant';
-$wb['do_osupdate_desc'] = 'Cette action effectue aptitude -y upgrade sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['do_osupdate_desc'] = 'Cette action effectue aptitude -y upgrade sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
 $wb['do_ispcupdate_caption'] = 'Mettre à jour ISPConfig 3 sur le serveur distant';
-$wb['do_ispcupdate_desc'] = 'Cette action met à jour ISPConfig3 sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
-$wb['action_scheduled'] = 'Laction est marquée pour exécution';
+$wb['do_ispcupdate_desc'] = 'Cette action met à jour ISPConfig3 sur le serveur sélectionné.<br/><br/><strong>UTILISEZ A VOS RISQUES ET PERILS !</strong>';
+$wb['action_scheduled'] = 'L’action est marquée pour exécution';
 $wb['select_all_server'] = 'Tout serveur';
 $wb['ispconfig_update_title'] = 'ISPConfig update instructions';
-$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Click here for detailed update instructions</a>';
+$wb['ispconfig_update_text'] = 'Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href=\"http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\" target=\"_blank\">Click here for detailed update instructions</a>';
 ?>

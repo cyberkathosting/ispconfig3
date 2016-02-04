@@ -4,12 +4,12 @@ $wb['active_txt'] = 'Active';
 $wb['server_id_txt'] = 'Server';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['domain_txt'] = 'Subdomeniu';
-$wb['add_new_record_txt'] = 'Adauga un nou  subdomeniu';
 $wb['domain_error_empty'] = 'Domain necompletat';
 $wb['domain_error_unique'] = 'Domain trebuie sa fie unic';
 $wb['domain_error_regex'] = 'Domain nume invalid.';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
 $wb['none_txt'] = 'None';
-
+$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
 ?>

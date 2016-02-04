@@ -1,9 +1,9 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Send copy to email address';
-$wb['cc_txt'] = 'Send copy to';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['mailbox_cc_txt'] = 'Envoyer une copie à l’adresse e-mail';
+$wb['cc_txt'] = 'Envoyer une copie à';
+$wb['email_txt'] = 'E-mail';
+$wb['cc_error_isemail'] = 'Adresse e-mail invalide dans le champ - Envoyer une copie à -';
+$wb['email_is_cc_error'] = 'L’adresse e-mail principale et l’addresse de copie ne peuvent pas être identiques.';
+$wb['name_optional_txt'] = '(Optionel)';
+$wb['cc_note_txt'] = '(Séparer les addresses e-mail multiples avec une virgule)';
 ?>

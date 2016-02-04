@@ -7,4 +7,5 @@ $wb['active_txt'] = 'Etkin';
 $wb['directive_snippets_name_empty'] = 'Parçacık adı boş olamaz.';
 $wb['directive_snippets_name_error_unique'] = 'Aynı adlı bir yönerge parçacığı zaten var.';
 $wb['variables_txt'] = 'Değişkenler';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>

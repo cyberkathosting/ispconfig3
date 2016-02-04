@@ -5,5 +5,3 @@ $wb['subject_txt'] = 'Naslov poruke';
 $wb['add_new_record_txt'] = 'Pošalji novu poruku';
 $wb['date_txt'] = 'Date';
 ?>
-
-

@@ -4,5 +4,3 @@ $wb['visible_txt'] = 'Vidljivo';
 $wb['name_txt'] = 'Naziv';
 $wb['add_new_record_txt'] = 'Dodaj novi';
 ?>
-
-

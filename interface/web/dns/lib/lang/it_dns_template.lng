@@ -1,5 +1,5 @@
 <?php
-$wb['name_txt'] = 'Name';
+$wb['name_txt'] = 'Nome';
 $wb['fields_txt'] = 'Fields';
 $wb['template_txt'] = 'Template';
 $wb['visible_txt'] = 'Visible';

@@ -2,4 +2,3 @@
 $wb['welcome_user_txt'] = 'Merhaba %s';
 $wb['available_modules_txt'] = 'Kullanılabilecek Modüller';
 ?>
-

@@ -47,4 +47,6 @@ $wb['Remote Actions'] = 'Ações Remotas';
 $wb['Do OS-Update'] = 'Fazer Atualização do SO';
 $wb['Do ISPConfig-Update'] = 'Fazer Atualização do ISPConfig';
 $wb['Directive Snippets'] = 'Directive Snippets';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
 ?>

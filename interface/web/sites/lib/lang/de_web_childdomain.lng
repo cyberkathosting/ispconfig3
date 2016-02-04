@@ -42,7 +42,7 @@ $wb['no_redirect_txt'] = 'Kein Redirect';
 $wb['no_flag_txt'] = 'Kein Flag';
 $wb['proxy_directives_txt'] = 'Proxy-Direktiven';
 $wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
-$wb['error_proxy_requires_url'] = 'Weiterleitungstyp \"proxy\" erfordert eine URL als Weiterleitungspfad.';
+$wb['error_proxy_requires_url'] = 'Weiterleitungstyp \\"proxy\\" erfordert eine URL als Weiterleitungspfad.';
 $wb['backup_interval_txt'] = 'Backup-Intervall';
 $wb['backup_copies_txt'] = 'Anzahl der Backups';
 $wb['ssl_key_txt'] = 'SSL-Schlüssel';
@@ -115,5 +115,4 @@ $wb['available_php_directive_snippets_txt'] = 'Verfügbare PHP-Direktiven-Schnip
 $wb['available_apache_directive_snippets_txt'] = 'Verfügbare Apache-Direktiven-Schnipsel:';
 $wb['available_nginx_directive_snippets_txt'] = 'Verfügbare nginx-Direktiven-Schnipsel:';
 $wb['Domain'] = 'Aliasdomain';
-
 ?>

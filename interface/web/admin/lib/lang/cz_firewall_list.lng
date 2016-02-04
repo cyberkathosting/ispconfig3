@@ -6,5 +6,3 @@ $wb['tcp_port_txt'] = 'Otevřené TCP porty';
 $wb['udp_port_txt'] = 'Otevřené UDP porty';
 $wb['add_new_record_txt'] = 'Přidat záznam';
 ?>
-
-

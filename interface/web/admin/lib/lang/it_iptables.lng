@@ -8,6 +8,6 @@ $wb['target_txt'] = 'Target';
 $wb['state_txt'] = 'State';
 $wb['destination_ip_txt'] = 'Destination Address';
 $wb['source_ip_txt'] = 'Source Address';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Attivo';
 $wb['iptables_error_unique'] = 'There is already a firewall record for this server.';
 ?>

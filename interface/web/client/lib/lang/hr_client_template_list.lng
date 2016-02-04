@@ -4,5 +4,3 @@ $wb['template_type_txt'] = 'Vrsta';
 $wb['template_name_txt'] = 'Naziv predloška';
 $wb['template_id_txt'] = 'Template ID';
 ?>
-
-

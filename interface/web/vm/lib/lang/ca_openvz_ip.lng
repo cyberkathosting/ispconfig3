@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Hostserver';
+$wb['ip_address_txt'] = 'Adresse IP';
+$wb['vm_id_txt'] = 'Serveur virtuel';
+$wb['reserved_txt'] = 'Reservé';
+$wb['ip_error_wrong'] = 'Renseignez une adresse IPv4 valide.';
+$wb['ip_error_unique'] = 'L\'adresse IP existe déjà.';
+$wb['IP address'] = 'Adresse IP';
+?>

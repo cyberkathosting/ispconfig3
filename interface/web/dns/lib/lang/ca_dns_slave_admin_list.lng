@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Zone DNS secondaire';
+$wb['active_txt'] = 'Active';
+$wb['server_id_txt'] = 'Serveur';
+$wb['origin_txt'] = 'Zone';
+$wb['ns_txt'] = 'NS';
+$wb['add_new_record_txt'] = 'Ajouté une zone DNS secondaire';
+$wb['eg_domain_tld'] = 'e.g. domain.tld.';
+$wb['sys_groupid_txt'] = 'Client';
+?>

@@ -16,5 +16,3 @@ $wb['data_error_regex'] = 'Neispravan format naziva mail host zapisa';
 $wb['duplicate_mx_record_txt'] = 'Duplicirani MX zapis.';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

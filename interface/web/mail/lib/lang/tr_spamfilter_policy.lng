@@ -36,4 +36,3 @@ $wb['spam_admin_txt'] = 'Önemsiz posta yönetici';
 $wb['message_size_limit_txt'] = 'İleti boyutu sınırı';
 $wb['banned_rulenames_txt'] = 'Yasak kural adları';
 ?>
-

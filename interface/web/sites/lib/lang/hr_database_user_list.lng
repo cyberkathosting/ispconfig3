@@ -3,5 +3,3 @@ $wb['list_head_txt'] = 'Korisnik baze';
 $wb['database_user_txt'] = 'Korisnik baze';
 $wb['add_new_record_txt'] = 'Dodaj novog korisnika';
 ?>
-
-

@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Revendeurs';
+$wb['client_id_txt'] = 'ID';
+$wb['company_name_txt'] = 'Nom de l\'entreprise';
+$wb['contact_name_txt'] = 'Nom du contact';
+$wb['city_txt'] = 'Ville';
+$wb['country_txt'] = 'Pays';
+$wb['add_new_record_txt'] = 'Ajouter un nouveau revendeur';
+$wb['customer_no_txt'] = 'Revendeur No.';
+$wb['username_txt'] = 'Nom d\'utilisateur';
+?>

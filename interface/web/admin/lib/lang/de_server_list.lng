@@ -10,4 +10,5 @@ $wb['vserver_server_txt'] = 'vServer';
 $wb['add_new_record_txt'] = 'Neuen Server hinzufügen';
 $wb['proxy_server_txt'] = 'Proxyserver';
 $wb['firewall_server_txt'] = 'Firewallserver';
+$wb['xmpp_server_txt'] = 'XMPP';
 ?>

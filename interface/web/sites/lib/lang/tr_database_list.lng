@@ -7,4 +7,5 @@ $wb['database_user_txt'] = 'Veritabanı Kullanıcısı';
 $wb['database_name_txt'] = 'Veritabanı Adı';
 $wb['add_new_record_txt'] = 'Veritabanı Ekle';
 $wb['parent_domain_id_txt'] = 'Web Sitesi';
+$wb['type_txt'] = 'Type';
 ?>

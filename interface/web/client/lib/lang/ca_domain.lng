@@ -1,0 +1,6 @@
+<?php
+$wb['domain_error_empty'] = 'Le nom de domaine est vide';
+$wb['domain_error_unique'] = 'Ce nom de domaine existe déjà';
+$wb['domain_error_regex'] = 'Ce nom de domaine n\'est pas autorisé';
+$wb['Domain'] = 'Domaine';
+?>

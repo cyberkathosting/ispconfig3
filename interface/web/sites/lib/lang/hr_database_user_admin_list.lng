@@ -4,5 +4,3 @@ $wb['database_user_txt'] = 'Korisnik';
 $wb['add_new_record_txt'] = 'Dodaj';
 $wb['sys_groupid_txt'] = 'Klijent';
 ?>
-
-

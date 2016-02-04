@@ -1,0 +1,20 @@
+<?php
+$wb['btn_send_txt'] = 'Envoyer';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['sender_txt'] = 'Adresse courriel de l\'expéditeur';
+$wb['subject_txt'] = 'Objet';
+$wb['message_txt'] = 'Message';
+$wb['form_legend_client_txt'] = 'Envoyer l\'email à tous les clients';
+$wb['form_legend_admin_txt'] = 'Envoyer l\'email à tous les clients et revendeurs';
+$wb['sender_invalid_error'] = 'Adresse d\'expédition invalide.';
+$wb['subject_invalid_error'] = 'L\'objet est vide.';
+$wb['message_invalid_error'] = 'Le message est vide.';
+$wb['email_sent_to_txt'] = 'Email envoyé à :';
+$wb['page_head_txt'] = 'Envoyer les informations client';
+$wb['recipient_txt'] = 'Destinataire';
+$wb['all_clients_resellers_txt'] = 'Tous les clients et revendeurs';
+$wb['all_clients_txt'] = 'Tous les clients';
+$wb['variables_txt'] = 'Variables :';
+$wb['gender_m_txt'] = 'Mr';
+$wb['gender_f_txt'] = 'Mme';
+?>

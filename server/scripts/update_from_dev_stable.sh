@@ -14,8 +14,8 @@ wget -O ispconfig3-dev.tar.gz "http://git.ispconfig.org/ispconfig/ispconfig3/rep
 tar xzf ispconfig3-dev.tar.gz
 
 echo -n "Latest git version:  "
-ls -1d ispconfig3-master*
-cd ispconfig3-master*/install
+ls -1d ispconfig3-stable*
+cd ispconfig3-stable*/install
 
 php -q \
     -d disable_classes= \

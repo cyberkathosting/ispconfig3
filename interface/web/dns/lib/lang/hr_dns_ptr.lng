@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'Polje Canonical naziv hosta je prazno';
 $wb['data_error_regex'] = 'Neispravan format Canonical host zapisa';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

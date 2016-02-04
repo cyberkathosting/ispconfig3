@@ -11,4 +11,6 @@ $wb['zonefile_to_import_txt'] = 'Bölge Dosyası';
 $wb['domain_field_desc_txt'] = 'Alan adı dosya adında ya da bölge dosyasının içeriğinde bulunuyor ise boş bırakılabilir.';
 $wb['title'] = 'Bölge Dosyalarını Al';
 $wb['no_file_uploaded_error'] = 'Hiçbir bölge dosyası yüklenmedi';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

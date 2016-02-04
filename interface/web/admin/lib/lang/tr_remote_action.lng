@@ -2,12 +2,11 @@
 $wb['select_server_txt'] = 'Sunucu Seçin';
 $wb['btn_do_txt'] = 'İşlemi Başlatın';
 $wb['do_osupdate_caption'] = 'Uzak sunucudaki işletim sistemini güncelleyin';
-$wb['do_osupdate_desc'] = 'Bu işlem seçilmiş sunucuda "aptitude -y upgrade" komutunu yürütür.<br><br><strong>OLUŞABİLECEK RİSKLER SİZE AİTTİR!</strong>';
+$wb['do_osupdate_desc'] = 'Bu işlem seçilmiş sunucuda \"aptitude -y upgrade\" komutunu yürütür.<br><br><strong>OLUŞABİLECEK RİSKLER SİZE AİTTİR!</strong>';
 $wb['do_ispcupdate_caption'] = 'Uzak sunucudaki ISPConfig 3 - sürümünü güncelleyin';
 $wb['do_ispcupdate_desc'] = 'Bu işlem seçilmiş sunucuda ISPConfig3 güncellemesini yürütür.<br><br><strong>OLUŞABİLECEK RİSKLER SÜZE AİTTİR!</strong>';
 $wb['action_scheduled'] = 'İşlem yürütülmek üzere zamanlandı';
 $wb['select_all_server'] = 'Tüm Sunucularda';
 $wb['ispconfig_update_title'] = 'ISPConfig güncelleme yönergeleri';
-$wb['ispconfig_update_text'] = 'Sunucunuzda root kullanıcısı ile bir kabuk oturumu açın ve ISPConfig güncellemesini başlatmak için<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />komutunu yürütün.<br /><br /><a href="http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/" target="_blank">Ayrıntılı güncelleme bilgilerine bakmak için buraya tıklayın</a>';
+$wb['ispconfig_update_text'] = 'Sunucunuzda root kullanıcısı ile bir kabuk oturumu açın ve ISPConfig güncellemesini başlatmak için<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />komutunu yürütün.<br /><br /><a href=\"http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\" target=\"_blank\">Ayrıntılı güncelleme bilgilerine bakmak için buraya tıklayın</a>';
 ?>
-

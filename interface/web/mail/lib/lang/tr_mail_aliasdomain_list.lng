@@ -3,6 +3,5 @@ $wb['list_head_txt'] = 'Takma Alan Adı';
 $wb['active_txt'] = 'Etkin';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_txt'] = 'Hedef';
-$wb['source_txt'] = 'Kaynak';
 $wb['add_new_record_txt'] = 'Takma Alan Adı Ekle';
 ?>

@@ -21,5 +21,3 @@ $wb['globalsearch_noresults_limit_txt'] = '0 rezultata';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Traži';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugestija';
 ?>
-
-

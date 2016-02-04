@@ -7,4 +7,3 @@ $wb['ns_txt'] = 'Ad Sunucusu';
 $wb['add_new_record_txt'] = 'İkincil DNS Bölgesi Ekle';
 $wb['eg_domain_tld'] = 'Örnek: domain.tld.';
 ?>
-

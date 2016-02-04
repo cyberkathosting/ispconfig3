@@ -42,8 +42,8 @@ $wb['do_clients_txt'] = 'Resynced clients and reseller';
 $wb['no_results_txt'] = 'Nothing found';
 $wb['btn_start_txt'] = 'Start';
 $wb['btn_cancel_txt'] = 'Cancel';
-$wb["do_mail_spamfilter_policy_txt"] = "Resynced Spamfilter Policies";
-$wb["do_mail_spamfilter_txt"] = "Resynced Spamfilter";
-$wb["do_mailget_txt"] = "Resynced Fetchmail";
-$wb["resync_mailget_txt"] = "Fetchmail";
+$wb['do_mail_spamfilter_policy_txt'] = 'Resynced Spamfilter Policies';
+$wb['do_mail_spamfilter_txt'] = 'Resynced Spamfilter';
+$wb['do_mailget_txt'] = 'Resynced Fetchmail';
+$wb['resync_mailget_txt'] = 'Fetchmail';
 ?>

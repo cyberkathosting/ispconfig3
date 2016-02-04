@@ -21,5 +21,3 @@ $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 $wb['error_not_allowed_server_id'] = 'Chosen server is not allowed for this account.';
 ?>
-
-

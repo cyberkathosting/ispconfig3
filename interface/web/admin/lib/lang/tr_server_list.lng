@@ -10,4 +10,5 @@ $wb['vserver_server_txt'] = 'SSunucu';
 $wb['proxy_server_txt'] = 'Vekil Sunucu';
 $wb['firewall_server_txt'] = 'Güvenlik Duvarı';
 $wb['add_new_record_txt'] = 'Sunucu Ekle';
+$wb['xmpp_server_txt'] = 'XMPP';
 ?>

@@ -14,5 +14,3 @@ $wb['data_error_empty'] = 'IP adresa je prázdná';
 $wb['ip_error_wrong'] = 'IP adresa má chybný formát';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
-
-

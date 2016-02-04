@@ -1,5 +1,4 @@
 <?php
-
 $wb['limits_txt'] = 'Límites de la cuenta';
 $wb['of_txt'] = 'de';
 $wb['unlimited_txt'] = 'Ilimitado';

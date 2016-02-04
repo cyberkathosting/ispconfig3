@@ -1,0 +1,12 @@
+<?php
+$wb['page_head_txt'] = 'Mailbox settings';
+$wb['page_desc_txt'] = 'Here you can edit the settings for the courriel account.';
+$wb['email_txt'] = 'Adresse courriel';
+$wb['login_txt'] = 'Connexion';
+$wb['server_address_txt'] = 'Mailserver address';
+$wb['cc_txt'] = 'Send copy to (CC)';
+$wb['quota_txt'] = 'Mailbox size';
+$wb['unlimited_txt'] = 'Illimité';
+$wb['mb_txt'] = 'MB';
+$wb['none_txt'] = 'None';
+?>

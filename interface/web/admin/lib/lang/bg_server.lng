@@ -12,4 +12,5 @@ $wb['mirror_server_id_txt'] = 'Is mirror of Server';
 $wb['- None -'] = '- Нищо -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>

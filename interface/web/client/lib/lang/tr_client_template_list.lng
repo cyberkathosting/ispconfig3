@@ -4,4 +4,3 @@ $wb['template_type_txt'] = 'Tip';
 $wb['template_name_txt'] = 'Kalıp adı';
 $wb['template_id_txt'] = 'Kalıp kodu';
 ?>
-

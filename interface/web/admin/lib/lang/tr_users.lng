@@ -29,7 +29,7 @@ $wb['generate_password_txt'] = 'Parola Oluştur';
 $wb['repeat_password_txt'] = 'Parola Onayı';
 $wb['password_mismatch_txt'] = 'Parola ile onayı aynı değil.';
 $wb['password_match_txt'] = 'Parola ile onayı aynı.';
-$wb['username_error_collision'] = 'Kullanıcı adı -web- ya da -web- sözcüğünü izleyen bir sayı ile başlayamaz."';
+$wb['username_error_collision'] = 'Kullanıcı adı -web- ya da -web- sözcüğünü izleyen bir sayı ile başlayamaz.\"';
 $wb['client_not_admin_err'] = 'Bir müşteriye ait bir kullanıcının tipi admin olarak atanamaz';
+$wb['lost_password_function_txt'] = 'Forgot password function is available';
 ?>
-

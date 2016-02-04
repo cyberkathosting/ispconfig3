@@ -31,6 +31,5 @@ $wb['password_mismatch_txt'] = 'Šifre nisu identične.';
 $wb['password_match_txt'] = 'Šifre su identične.';
 $wb['username_error_collision'] = 'Korisničko ime ne može biti web ili web sa brojem.\\"';
 $wb['client_not_admin_err'] = 'Korisnik koji je u grupi klijenti ne može biti admin';
+$wb['lost_password_function_txt'] = 'Forgot password function is available';
 ?>
-
-

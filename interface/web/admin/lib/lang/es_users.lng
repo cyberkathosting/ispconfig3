@@ -31,4 +31,5 @@ $wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
 $wb['password_match_txt'] = 'Las contraseñas coinciden.';
 $wb['username_error_collision'] = 'El nombre de usuario no puede ser el del web o el del web más un número.';
 $wb['client_not_admin_err'] = 'Un usuario que pertenece a un cliente no puede ser del tipo: admin';
+$wb['lost_password_function_txt'] = 'Forgot password function is available';
 ?>

@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Web traffic';
-$wb['domain_txt'] = 'Domain';
-$wb['this_month_txt'] = 'This month';
-$wb['last_month_txt'] = 'Last month';
-$wb['this_year_txt'] = 'This year';
-$wb['last_year_txt'] = 'Last year';
-$wb['sum_txt'] = 'Sum';
+$wb['list_head_txt'] = 'Traffico Web';
+$wb['domain_txt'] = 'Dominio';
+$wb['this_month_txt'] = 'Questo mese';
+$wb['last_month_txt'] = 'Mese precedente';
+$wb['this_year_txt'] = 'Anno in corso';
+$wb['last_year_txt'] = 'Anno precedente';
+$wb['sum_txt'] = 'Somma';
 ?>

@@ -11,6 +11,6 @@ $wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filen
 $wb['title'] = 'Importiraj zonske datoteka';
 $wb['no_file_uploaded_error'] = 'Nije prenešena zonska datoteka';
 $wb['zone_file_import_txt'] = 'Importiraj zonsku datoteku';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
-
-

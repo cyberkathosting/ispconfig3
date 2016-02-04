@@ -15,5 +15,3 @@ $wb['ip_error_wrong'] = 'Neispravan format A zapisa';
 $wb['data_error_duplicate'] = 'Već postoji ovaj A ili CNAME zapis';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

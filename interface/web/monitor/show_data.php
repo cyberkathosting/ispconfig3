@@ -53,6 +53,7 @@ case 'server_load':
 	$time = $app->tools_monitor->getDataTime('server_load');
 	$title = $app->lng("Server Load").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'disk_usage':
 	$template = 'templates/show_data.htm';
@@ -95,6 +96,7 @@ case 'openvz_beancounter':
 	$time = $app->tools_monitor->getDataTime('openvz_beancounter');
 	$title = $app->lng("monitor_title_beancounter_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'system_update':
 	$template = 'templates/show_data.htm';
@@ -102,6 +104,7 @@ case 'system_update':
 	$time = $app->tools_monitor->getDataTime('system_update');
 	$title = $app->lng("monitor_title_updatestate_txt"). ' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'mailq':
 	$template = 'templates/show_data.htm';
@@ -109,6 +112,7 @@ case 'mailq':
 	$time = $app->tools_monitor->getDataTime('mailq');
 	$title = $app->lng("monitor_title_mailq_txt"). ' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'raid_state':
 	$template = 'templates/show_data.htm';
@@ -116,6 +120,7 @@ case 'raid_state':
 	$time = $app->tools_monitor->getDataTime('raid_state');
 	$title = $app->lng("monitor_title_raidstate_txt"). ' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'rkhunter':
 	$template = 'templates/show_data.htm';
@@ -123,6 +128,7 @@ case 'rkhunter':
 	$time = $app->tools_monitor->getDataTime('rkhunter');
 	$title = $app->lng("monitor_title_rkhunterlog_txt"). ' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'fail2ban':
 	$template = 'templates/show_data.htm';
@@ -130,6 +136,7 @@ case 'fail2ban':
 	$time = $app->tools_monitor->getDataTime('log_fail2ban');
 	$title = $app->lng("monitor_title_fail2ban_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 case 'mongodb':
 	$template = 'templates/show_data.htm';
@@ -144,10 +151,15 @@ case 'iptables':
 	$time = $app->tools_monitor->getDataTime('iptables_rules');
 	$title = $app->lng("monitor_title_iptables_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
+	$add_padding = true;
 	break;
 default:
 	$template = '';
 	break;
+}
+
+if($add_padding == true) {
+$output = '<div style="padding:20px;">'.$output.'</div>';
 }
 
 

@@ -4,5 +4,9 @@ $wb['email_txt'] = 'Email';
 $wb['autoresponder_txt'] = 'Autorisponditore';
 $wb['add_new_record_txt'] = 'Nuova casella email';
 $wb['name_txt'] = 'Nome reale';
-$wb['login_txt'] = 'Login';
+$wb['login_txt'] = 'Accedi';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

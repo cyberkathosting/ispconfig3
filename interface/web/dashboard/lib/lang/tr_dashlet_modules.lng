@@ -1,4 +1,3 @@
 <?php
 $wb['available_modules_txt'] = 'Kullanılabilecek Modüller';
 ?>
-

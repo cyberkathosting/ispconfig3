@@ -11,4 +11,6 @@ $wb['zonefile_to_import_txt'] = 'Datei auswählen';
 $wb['domain_field_desc_txt'] = 'Kann freigelassen werden, falls der Dateiname oder der Dateiinhalt die Domain enthält.';
 $wb['title'] = 'Zonen Datei importieren';
 $wb['no_file_uploaded_error'] = 'Keine Datei hochgeladen';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

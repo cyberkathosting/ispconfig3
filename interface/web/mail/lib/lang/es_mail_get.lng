@@ -14,6 +14,6 @@ $wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
 $wb['source_password_error_isempty'] = 'La contraseña está vacía.';
 $wb['destination_error_isemail'] = 'No ha seleccionado un destinatario.';
 $wb['source_server_error_regex'] = 'El servidor Pop3/Imap no es un nombre de dominio válido.';
-$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar \"Borrar correos después de recuperarlos\" = NO junto con \"Recuperar todos los correos\" = SI';
+$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar \\"Borrar correos después de recuperarlos\\" = NO junto con \\"Recuperar todos los correos\\" = SI';
 $wb['source_delete_note_txt'] = 'Por favor, verifique que funcione la recuperación de correos antes de activar esta opción.';
 ?>

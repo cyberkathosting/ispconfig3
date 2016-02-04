@@ -24,6 +24,5 @@ $wb['theme_not_compatible'] = 'Zvolené téma není kompatibilní s aktuální v
 $wb['back_txt'] = 'Zpět';
 $wb['email_error'] = 'E-mail obsahuje nepovolené znaky nebo má neplatný formát.';
 $wb['stay_logged_in_txt'] = 'Zapamatovat si přihlášení';
+$wb['lost_password_function_disabled_txt'] = 'The lost password function is not available for this user.';
 ?>
-
-

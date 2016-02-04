@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Serveur';
+$wb['client_txt'] = 'Client';
+$wb['btn_save_txt'] = 'Importer un fichier de Zone';
+$wb['btn_cancel_txt'] = 'Annuler';
+$wb['domain_txt'] = 'Domaine';
+$wb['zone_file_successfully_imported_txt'] = 'Le fichier de Zone a été importé avec succès !';
+$wb['error_no_valid_zone_file_txt'] = 'Le fichier de Zone semble être invalide !';
+$wb['zonefile_to_import_txt'] = 'Fichier de Zone';
+$wb['domain_field_desc_txt'] = 'Peut-être laissé vide si le nom de domaine est dans le nom de fichier ou dans le contenu du fichier de Zone.';
+$wb['title'] = 'Importer des fichiers de Zone';
+$wb['no_file_uploaded_error'] = 'Aucun fichier de Zone téléchargé';
+$wb['zone_file_import_txt'] = 'Importer un fichier de Zone';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+?>

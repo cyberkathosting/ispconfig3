@@ -1,0 +1,28 @@
+<?php
+$wb['rulename_txt'] = 'Nom';
+$wb['action_txt'] = 'Action';
+$wb['target_txt'] = 'Répertoire';
+$wb['active_txt'] = 'Actif';
+$wb['rulename_error_empty'] = 'Le nom est vide.';
+$wb['searchterm_is_empty'] = 'Le terme recherché est vide.';
+$wb['source_txt'] = 'Source';
+$wb['target_error_regex'] = 'La cible ne peut contenir que ces caractères : a-z, 0-9, -, ., _, et {espace}';
+$wb['limit_mailfilter_txt'] = 'Le nombre max de filtres courriel est atteint.';
+$wb['subject_txt'] = 'Sujet';
+$wb['from_txt'] = 'De';
+$wb['to_txt'] = 'Pour';
+$wb['contains_txt'] = 'Contient';
+$wb['is_txt'] = 'Est';
+$wb['begins_with_txt'] = 'Commence par';
+$wb['ends_with_txt'] = 'Fini par';
+$wb['delete_txt'] = 'Supprimer';
+$wb['move_stop_txt'] = 'Move to';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
+$wb['localpart_txt'] = 'Localpart';
+$wb['domain_txt'] = 'Domain';
+$wb['keep_txt'] = 'Keep';
+$wb['reject_txt'] = 'Reject';
+$wb['stop_txt'] = 'Stop';
+?>

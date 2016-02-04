@@ -1,0 +1,6 @@
+<?php
+$wb['faq_faq_txt'] = 'Foire Aux Questions';
+$wb['faq_question_txt'] = 'Question';
+$wb['faq_answer_txt'] = 'Réponse';
+$wb['faq_section_txt'] = 'Section';
+?>

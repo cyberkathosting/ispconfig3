@@ -11,4 +11,3 @@ $wb['no_packages_txt'] = 'Henüz kullanılabilecek bir paket yok';
 $wb['edit_txt'] = 'Düzenle';
 $wb['delete_txt'] = 'Sil';
 ?>
-

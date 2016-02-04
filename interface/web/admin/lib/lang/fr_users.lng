@@ -1,6 +1,6 @@
 <?php
-$wb['username_txt'] = 'Nom d\'utilisateur';
-$wb['username_err'] = 'Le nom d\'utilisateur est trop long ou contient des caractères invalides.';
+$wb['username_txt'] = 'Nom d’utilisateur';
+$wb['username_err'] = 'Le nom d’utilisateur est trop long ou contient des caractères invalides.';
 $wb['passwort_txt'] = 'Mot de passe';
 $wb['modules_txt'] = 'Module';
 $wb['startmodule_txt'] = 'Module de démarrage';
@@ -15,20 +15,21 @@ $wb['strasse_txt'] = 'Rue';
 $wb['ort_txt'] = 'Ville';
 $wb['plz_txt'] = 'Code Postal';
 $wb['land_txt'] = 'Pays';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'E-mail';
 $wb['url_txt'] = 'Url';
 $wb['telefon_txt'] = 'Télephone';
 $wb['fax_txt'] = 'Fax';
 $wb['groups_txt'] = 'Groupes';
 $wb['default_group_txt'] = 'Groupe par Défaut';
-$wb['username_empty'] = 'Le nom d\'utilisateur est vide.';
-$wb['username_unique'] = 'Le nom d\'utilisateur entré existe déja.';
+$wb['username_empty'] = 'Le nom d’utilisateur est vide.';
+$wb['username_unique'] = 'Le nom d’utilisateur entré existe déja.';
 $wb['password_strength_txt'] = 'Force du mot de passe';
 $wb['startmodule_err'] = 'Le module de départ nexiste pas.';
-$wb['generate_password_txt'] = 'Generate Password';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
 $wb['username_error_collision'] = 'The username may not be web or web plus a number.\\"';
 $wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
+$wb['lost_password_function_txt'] = 'Forgot password function is available';
 ?>

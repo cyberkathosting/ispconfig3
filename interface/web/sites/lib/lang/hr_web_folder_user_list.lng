@@ -5,5 +5,3 @@ $wb['web_folder_id_txt'] = 'Web direkotrij';
 $wb['username_txt'] = 'Korisničko ime';
 $wb['add_new_record_txt'] = 'Dodaj novog korisnika web direktorija';
 ?>
-
-

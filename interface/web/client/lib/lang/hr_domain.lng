@@ -2,7 +2,5 @@
 $wb['domain_error_empty'] = 'Ime domene je prazno';
 $wb['domain_error_unique'] = 'Domena već postoji';
 $wb['domain_error_regex'] = 'Ovo ime domene ne možete upotrijebiti';
-$wb['Domena'] = 'Domena';
+$wb['Domain'] = 'Domain';
 ?>
-
-

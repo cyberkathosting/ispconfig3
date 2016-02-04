@@ -6,10 +6,11 @@ $wb['dns_server_txt'] = 'Serveur DNS';
 $wb['file_server_txt'] = 'Serveur de fichier';
 $wb['active_txt'] = 'Actif';
 $wb['config_txt'] = 'Config';
-$wb['db_server_txt'] = 'Serveur BDD';
+$wb['db_server_txt'] = 'Serveur BDd';
 $wb['vserver_server_txt'] = 'Serveur VServer';
 $wb['mirror_server_id_txt'] = 'Est miroir du serveur';
 $wb['- None -'] = '- Aucun -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>

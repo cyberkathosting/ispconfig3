@@ -1,0 +1,11 @@
+<?php
+$wb["public_key_txt"] = 'Public-Key';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["record_exists_txt"] = 'DNS-Record already exists';
+$wb["dkim_disabled_txt"] = 'DKIM disabled for this mail-domain';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['selector_txt'] = 'DKIM-Selector';
+?>

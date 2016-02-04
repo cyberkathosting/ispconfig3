@@ -5,4 +5,8 @@ $wb['autoresponder_txt'] = 'Autoresponder';
 $wb['add_new_record_txt'] = 'Toevoegen mailbox';
 $wb['name_txt'] = 'Echte naam';
 $wb['login_txt'] = 'Login';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

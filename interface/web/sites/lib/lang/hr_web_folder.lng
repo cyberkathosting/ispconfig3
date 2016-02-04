@@ -6,5 +6,3 @@ $wb['active_txt'] = 'Aktivno';
 $wb['path_error_regex'] = 'Neispravna putanja direktorija.';
 $wb['error_folder_already_protected_txt'] = 'Već postoji zapis za ovaj direktorij.';
 ?>
-
-

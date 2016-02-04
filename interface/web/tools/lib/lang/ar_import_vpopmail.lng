@@ -1,0 +1,7 @@
+<?php
+$wb['head_txt'] = 'Import email configuration from Vpopmail';
+$wb['legend_txt'] = 'Remote database server connection details';
+$wb['btn_start_txt'] = 'Start Import';
+$wb['btn_connect_txt'] = 'Connect to remote server';
+$wb['btn_cancel_txt'] = 'Cancel';
+?>

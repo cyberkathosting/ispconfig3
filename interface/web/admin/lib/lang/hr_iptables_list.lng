@@ -13,5 +13,3 @@ $wb['source_ip_txt'] = 'Adresa izvora';
 $wb['active_txt'] = 'Aktivno';
 $wb['iptables_error_unique'] = 'Već postoji firewall zapis za ovaj server.';
 ?>
-
-

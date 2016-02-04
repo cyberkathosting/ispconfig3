@@ -1,0 +1,14 @@
+<?php
+$wb['web_folder_id_txt'] = 'Dossier';
+$wb['username_txt'] = 'Nom de \'utilisateur';
+$wb['password_txt'] = 'Mot de passe';
+$wb['active_txt'] = 'Actif';
+$wb['folder_error_empty'] = 'Aucun dossier web sélectionné.';
+$wb['password_strength_txt'] = 'Force du mot de passe';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
+$wb['repeat_password_txt'] = 'Vérification du mot de passe';
+$wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
+$wb['password_match_txt'] = 'Les mots de passe correspondent.';
+$wb['no_folder_perm'] = 'Vous n\'avez pas les permissions pour ce dossier.';
+$wb['error_user_exists_already_txt'] = 'There is already a record for this user.';
+?>

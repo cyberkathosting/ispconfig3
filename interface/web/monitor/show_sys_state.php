@@ -223,45 +223,76 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a VE inside a OpenVz-Host
 	*/
+	
+	$alert_class = 'alert-info';
+	if($serverState == 'ok') $alert_class = 'alert-success';
+	if($serverState == 'warning') $alert_class = 'alert-warning';
+	if($serverState == 'critical' || $serverState == 'error') $alert_class = 'alert-danger';
+	
 	//$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve os-' . $osData['name'] . '">';
-	$html_ve  = '<div class="systemmonitor state-' . $serverState . ' os-' . $osData['name'] . '">';
+	//$html_ve  = '<div class="systemmonitor state-' . $serverState . ' os-' . $osData['name'] . '">';
+	$html_server = '<div class="alert '.$alert_class.'" role="alert">';
 	if ($osData != null) {
 		$html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
 	}
 	else {
 		$html_ve .= '<div class="icoDevice"><p class="status"></p></div>';
 	}
-	$html_ve .= '<div class="statusDevice"><p>' . $serverName;
+	$html_ve .= '<div class="statusDevice"><h3>' . $serverName;
 	if ($osData != null) {
 		$html_ve .= ' (' . $osData['name'] . ' ' . $osData['version'] . ') ';
 	}
 	if ($ispcData != null) {
-		$html_ve .= $ispcData['name'] . ' ' . $ispcData['version'] . '</p>';
+		$html_ve .= $ispcData['name'] . ' ' . $ispcData['version'] . '</h3>';
 	}
 	else {
-		$html_ve .= '</p>';
+		$html_ve .= '</h3>';
 	}
 	$html_ve .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '</p>';
 
 	/*
 	 * Info of a "normal" Server or a OpenVz-Host
 	*/
-	$html_server = '<div class="systemmonitor-server state-' . $serverState . ' os-' . $osData['name'] . '">';
+	//$html_server = '<div class="systemmonitor-server state-' . $serverState . ' os-' . $osData['name'] . '">';
+	
+	/*
+	switch ($oldState) {
+	case 'no_state': $oldInt = 0;
+		break;
+	case 'ok': $oldInt = 1;
+		break;
+	case 'unknown': $oldInt = 2;
+		break;
+	case 'info': $oldInt = 3;
+		break;
+	case 'warning': $oldInt = 4;
+		break;
+	case 'critical': $oldInt = 5;
+		break;
+	case 'error': $oldInt = 6;
+		break;
+	*/
+	$alert_class = 'alert-info';
+	if($serverState == 'ok') $alert_class = 'alert-success';
+	if($serverState == 'warning') $alert_class = 'alert-warning';
+	if($serverState == 'critical' || $serverState == 'error') $alert_class = 'alert-danger';
+	
+	$html_server = '<div class="alert '.$alert_class.'" role="alert">';
 	if ($osData != null) {
-		$html_server .= '<div class="icoDevice"><p class="status"></p></div>';
+		//$html_server .= '<div class="icoDevice"><p class="status"></p></div>';
 	}
 	else {
 		$html_server .= '<div class="icoDevice"><p class="status"></p></div>';
 	}
-	$html_server .= '<div class="statusDevice"><p>' . $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
+	$html_server .= '<div class="statusDevice"><h3>' . $app->lng("monitor_serverstate_server_txt") . ': ' . $serverName;
 	if ($osData != null) {
 		$html_server .= ' (' . $osData['name'] . ' ' . $osData['version'] . ') ';
 	}
 	if ($ispcData != null) {
-		$html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '</p>';
+		$html_server .= $ispcData['name'] . ' ' . $ispcData['version'] . '</h3>';
 	}
 	else {
-		$html_server .= '</p>';
+		$html_server .= '</h3>';
 	}
 
 	$html_server .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
@@ -277,7 +308,7 @@ function _getServerState($serverId, $serverName) {
 	*/
 	$html_verbose = $html_server;
 	foreach($messages as $key => $state) {
-		$html_verbose .= $key . ':<br />';
+		$html_verbose .= '<strong>'.ucfirst($key) . '</strong><br />';
 		foreach ($state as $msg) {
 			$html_verbose .= $msg . '<br />';
 		}

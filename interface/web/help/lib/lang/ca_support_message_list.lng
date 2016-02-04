@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Messages de support';
+$wb['sender_id_txt'] = 'Expéditeur';
+$wb['subject_txt'] = 'Sujet';
+$wb['add_new_record_txt'] = 'Créer un nouveau message de support';
+$wb['date_txt'] = 'Date';
+?>

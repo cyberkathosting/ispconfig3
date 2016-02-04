@@ -152,6 +152,12 @@ $wb['no_permissions_to_view_monit_txt'] = 'Nemate dozvolu za pristup Monit-u.';
 $wb['Show Munin'] = 'Prikaži Munin';
 $wb['no_munin_url_defined_txt'] = 'No Munin URL defined.';
 $wb['no_permissions_to_view_munin_txt'] = 'Nemate dozvolu za pristup Munin-u.';
+$wb['no_data_database_size_txt'] = 'No data about the database usage available at the moment. Please check again later.';
+$wb['Show MongoDB-Log'] = 'Show MongoDB-Log';
+$wb['monitor_database_name_txt'] = 'Database';
+$wb['monitor_database_size_txt'] = 'Size';
+$wb['monitor_database_client_txt'] = 'Client';
+$wb['monitor_database_domain_txt'] = 'Domain';
+$wb['monitor_services_mongodb_txt'] = 'MongoDB-Server:';
+$wb['monitor_title_mongodb_txt'] = 'MongoDB Log';
 ?>
-
-

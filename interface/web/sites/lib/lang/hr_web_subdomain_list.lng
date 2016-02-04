@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Poddomene';
+$wb['active_txt'] = 'Aktivno';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Web stranica';
+$wb['domain_txt'] = 'Poddomena';
+$wb['add_new_record_txt'] = 'Dodaj novu poddomenu';
+?>

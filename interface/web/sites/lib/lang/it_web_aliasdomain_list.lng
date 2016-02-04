@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Domini Alias';
+$wb['active_txt'] = 'Attivo';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Sito Web';
+$wb['domain_txt'] = 'Domini Alias';
+$wb['add_new_record_txt'] = 'Aggiungi un nuovo dominio alias';
+$wb['domain_error_empty'] = 'Domain  vuoto.';
+$wb['domain_error_unique'] = 'Nome DOminio deve essere unico.';
+$wb['domain_error_regex'] = 'Nome Dominio non valido.';
+$wb['no_redirect_txt'] = 'Nessun reinderizzamento';
+$wb['no_flag_txt'] = 'Nessun flag';
+$wb['none_txt'] = 'Nessuno';
+?>

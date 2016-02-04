@@ -21,7 +21,6 @@ $wb['username_error_unique'] = 'Bu kullanıcı adı zaten var.';
 $wb['username_error_regex'] = 'Kullanıcı adında izin verilmeyen karakterler var.';
 $wb['quota_size_error_empty'] = 'Kota boş olamaz.';
 $wb['uid_error_empty'] = 'UID boş olamaz.';
-$wb['gid_error_empty'] = 'GID boş olamaz.';
 $wb['directory_error_empty'] = 'Klasör boş olamaz.';
 $wb['directory_error_notinweb'] = 'Klasör web kök klasörünün altında bulunmalıdır.';
 $wb['parent_domain_id_error_empty'] = 'Bir web sitesi seçmelisiniz.';
@@ -32,7 +31,5 @@ $wb['generate_password_txt'] = 'Parola Oluştur';
 $wb['repeat_password_txt'] = 'Parola Onayı';
 $wb['password_mismatch_txt'] = 'Parola ile onayı aynı değil.';
 $wb['password_match_txt'] = 'Parola ile onayı aynı.';
-$wb['invalid_system_user_or_group_txt'] = 'Sistem kullanıcısı ya da grubu geçersiz';
-$wb['directory_error_regex'] = 'Klasör geçersiz';
+$wb['expires_txt'] = 'Expire at';
 ?>
-

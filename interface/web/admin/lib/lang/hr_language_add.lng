@@ -6,5 +6,3 @@ $wb['language_new_hint_txt'] = '2 znaka ISO 639-1 jezičnog-koda (Pogledaj http:
 $wb['btn_save_txt'] = 'Kreiraj novu jezičnu datoteku';
 $wb['btn_cancel_txt'] = 'Natrag';
 ?>
-
-

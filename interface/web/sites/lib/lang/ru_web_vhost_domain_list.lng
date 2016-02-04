@@ -6,5 +6,4 @@ $wb['domain_txt'] = 'Домен';
 $wb['add_new_record_txt'] = 'Добавить новый вебсайт';
 $wb['domain_id_txt'] = 'ID';
 $wb['parent_domain_id_txt'] = 'Website';
-
 ?>

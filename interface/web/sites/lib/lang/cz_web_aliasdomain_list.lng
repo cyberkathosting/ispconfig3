@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Alias domény pro webové stránky';
+$wb['active_txt'] = 'Aktivní';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webové stránky';
+$wb['domain_txt'] = 'Alias doména';
+$wb['add_new_record_txt'] = 'Přidat alias doménu';
+$wb['domain_error_empty'] = 'Doména je prázdná.';
+$wb['domain_error_unique'] = 'Doména musí být unkátní.';
+$wb['domain_error_regex'] = 'Doménové jméno je chybné.';
+$wb['no_redirect_txt'] = 'Žádné přesměrování';
+$wb['no_flag_txt'] = 'Žádný příznak';
+$wb['none_txt'] = 'Žádná';
+?>

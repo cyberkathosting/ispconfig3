@@ -12,5 +12,3 @@ $wb['password_match_txt'] = 'Šifre su identične.';
 $wb['no_folder_perm'] = 'Nemate potrebne dozvole za ovaj direktorij.';
 $wb['error_user_exists_already_txt'] = 'Već postoji zapis za ovog korisnika.';
 ?>
-
-

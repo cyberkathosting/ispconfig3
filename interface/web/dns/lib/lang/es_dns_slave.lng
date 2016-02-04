@@ -10,7 +10,6 @@ $wb['xfer_txt'] = 'Permitir transferencia de zonas a<br />estas IP (lista separa
 $wb['server_id_error_empty'] = 'No hay seleccionado un servidor';
 $wb['origin_error_empty'] = 'Zona vacía.';
 $wb['origin_error_unique'] = 'Ya existe un registro para esta zona.';
-$wb['secondary_zone_txt'] = 'Zona DNS Secundaria';
 $wb['origin_error_regex'] = 'La zona contiene un formato inválido.';
 $wb['ns_error_regex'] = 'NS contiene un formato inválido.';
 $wb['eg_domain_tld'] = 'eje. dominio.tld.';

@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'Collecteur Email';
 $wb['active_txt'] = 'Actif';
 $wb['source_txt'] = 'source';
-$wb['destination_txt'] = 'Adresse email de destination';
+$wb['destination_txt'] = 'Adresse e-mail de destination';
 $wb['server_id_txt'] = 'Serveur';
 $wb['domain_txt'] = 'Domaine';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau collecteur';

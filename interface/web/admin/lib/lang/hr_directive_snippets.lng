@@ -7,6 +7,5 @@ $wb['active_txt'] = 'Aktivno';
 $wb['directive_snippets_name_empty'] = 'Molimo vas specificirajte naziv direktive.';
 $wb['directive_snippets_name_error_unique'] = 'Već postoji direktiva sa tim imenom.';
 $wb['variables_txt'] = 'Varijable';
+$wb['customer_viewable_txt'] = 'Customer viewable';
 ?>
-
-

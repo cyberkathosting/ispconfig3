@@ -1,0 +1,9 @@
+<?php
+$wb['products_txt'] = 'Moje usługi';
+$wb['name_txt'] = 'Nazwa';
+$wb['price_txt'] = 'Cena brutto';
+$wb['next_payment_date_txt'] = 'Następna faktura';
+$wb['no_products_txt'] = 'Pusta lista usług';
+$wb['edit_txt'] = 'Edycja';
+$wb['cancellation_date_txt'] = 'Data wygaśnięcia';
+?>

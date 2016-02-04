@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Webstránky';
+$wb['domain_id_txt'] = 'ID';
+$wb['active_txt'] = 'Aktívne';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Doména';
+$wb['add_new_record_txt'] = 'Pridať novú doménu';
+?>

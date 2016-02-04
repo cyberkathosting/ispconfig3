@@ -14,5 +14,3 @@ $wb['ostemplate_name_error'] = 'OS predložak sadrži nedozvoljene znakove.';
 $wb['ostemplate_name_unique_error'] = 'Već postoji OS predložak sa tim nazivom.';
 $wb['ostemplate_exec_txt'] = 'Komanda za kreiranje OS predloška je poslana host serveru. Treba pričekati minutu, dvije dok se OS predložak ne kreira';
 ?>
-
-

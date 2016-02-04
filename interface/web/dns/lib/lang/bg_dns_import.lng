@@ -11,4 +11,6 @@ $wb['domain_field_desc_txt'] = 'Може да се остави празно, а
 $wb['title'] = 'Въвеждане на файл с зона';
 $wb['no_file_uploaded_error'] = 'Не е качен файла с зоната';
 $wb['zone_file_import_txt'] = 'Zone File Import';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>

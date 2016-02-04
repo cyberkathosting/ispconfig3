@@ -15,5 +15,3 @@ $wb['data_error_regex'] = 'Neispravan format odredišnog host zapisa';
 $wb['data_error_duplicate'] = 'Duplicirani A zapis ili CNAME zapis';
 $wb['ttl_range_error'] = 'Minimalno TTL vrijeme je 60 sekundi.';
 ?>
-
-

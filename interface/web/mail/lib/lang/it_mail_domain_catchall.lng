@@ -1,11 +1,11 @@
 <?php
-$wb['domain_txt'] = 'Domain';
-$wb['destination_txt'] = 'Destination';
-$wb['active_txt'] = 'Active';
+$wb['domain_txt'] = 'Dominio';
+$wb['destination_txt'] = 'Destinazione';
+$wb['active_txt'] = 'Attivo';
 $wb['domain_error_unique'] = 'There is already a Catchall record for this domain.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['domain_error_regex'] = 'Invalid domain name od domain contains invalid characters.';
-$wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts for your account is reached.';
+$wb['no_domain_perm'] = 'Non hai i diritti per  this domain.';
+$wb['domain_error_regex'] = 'Invalid domain name od domain contiene caratteri non validi.';
+$wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts raggiunto per il tuo account.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
 ?>

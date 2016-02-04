@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Alias domena';
+$wb['active_txt'] = 'Aktivno';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Web stranica';
+$wb['domain_txt'] = 'Alias domena';
+$wb['add_new_record_txt'] = 'Dodaj novu alias domenu';
+$wb['domain_error_empty'] = 'Domena nije upisana.';
+$wb['domain_error_unique'] = 'Domena mora biti unikatna.';
+$wb['domain_error_regex'] = 'Nazive domene nije ispravan.';
+$wb['no_redirect_txt'] = 'Bez redirekcije';
+$wb['no_flag_txt'] = 'Bez označavanja';
+$wb['none_txt'] = 'Ništa';
+?>

@@ -6,4 +6,3 @@ $wb['email_txt'] = 'E-posta Adresi';
 $wb['used_txt'] = 'Kullanılan Alan';
 $wb['percentage_txt'] = 'Kullanılan %';
 ?>
-

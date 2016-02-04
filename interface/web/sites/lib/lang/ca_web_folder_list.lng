@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Dossier';
+$wb['active_txt'] = 'Actif';
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site web';
+$wb['path_txt'] = 'Chemin';
+$wb['add_new_record_txt'] = 'Add new Folder';
+?>

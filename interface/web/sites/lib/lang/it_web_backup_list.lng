@@ -1,19 +1,21 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
+$wb['list_head_txt'] = 'Backups esistenti';
+$wb['date_txt'] = 'Data';
+$wb['backup_type_txt'] = 'Tipo';
 $wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore backup';
-$wb['download_backup_txt'] = 'Download backup';
-$wb['download_info_txt'] = 'The backup file will be available for download in the backup folder of the website in a few minutes.';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring will overwrite existing files in your website. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
+$wb['restore_backup_txt'] = 'Ripristino da backup';
+$wb['download_backup_txt'] = 'Scarica il backup';
+$wb['download_info_txt'] = 'Il file di backup sarà disponibile per il download nella cartella di backup del sito tra alcuni minuti.';
+$wb['restore_info_txt'] = 'Il ripristino da backup ha avuto inizio. Questa operazione dura diversi minuti.';
+$wb['restore_confirm_txt'] = 'Il ripristino sovvrascriverà tutti i files nel tuo sito. Sei sicuro di voler eseguire questo ripristino da backup?';
+$wb['download_pending_txt'] = 'Esiste già un operazione di download di backup in attesa.';
+$wb['restore_pending_txt'] = 'Esiste già un operazione di ripristino da backup in attesa.';
+$wb['backup_type_mysql'] = 'Database MySQL';
+$wb['backup_type_web'] = 'Files del Sito Web';
+$wb['filesize_txt'] = 'Filesize';
 $wb['delete_backup_txt'] = 'Delete Backup';
 $wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
 $wb['delete_confirm_txt'] = 'Really delete this backup?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
-$wb['backup_type_mysql'] = 'MySQL Database';
-$wb['backup_type_web'] = 'Website files';
+$wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>

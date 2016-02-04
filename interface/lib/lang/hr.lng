@@ -149,6 +149,5 @@ $wb['weak_password_txt'] = 'Unešena šifra nije dobra. Mora biti dugačka barem
 $wb['weak_password_length_txt'] = 'Unešena šifra nije dobra. Mora biti dugačka barem {chars} znakova.';
 $wb['security_check1_txt'] = 'Provjerite sigurnosne dozvole:';
 $wb['security_check2_txt'] = 'greška.';
+$wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
 ?>
-
-

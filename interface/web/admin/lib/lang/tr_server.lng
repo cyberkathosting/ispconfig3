@@ -12,4 +12,5 @@ $wb['firewall_server_txt'] = 'Güvenlik Duvarı Sunucusu';
 $wb['active_txt'] = 'Etkin';
 $wb['mirror_server_id_txt'] = 'Sunucunun Yansısı';
 $wb['- None -'] = '- Hiçbiri -';
+$wb['xmpp_server_txt'] = 'XMPP Server';
 ?>

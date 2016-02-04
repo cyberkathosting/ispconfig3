@@ -27,4 +27,5 @@ $wb['limit_webdav_user_txt'] = 'Antal WebDAV-användare';
 $wb['limit_client_txt'] = 'Antal kunder';
 $wb['limit_database_txt'] = 'Antal databaser';
 $wb['limit_mailmailinglist_txt'] = 'Antal mailinglistor';
+$wb['limit_domain_txt'] = 'Number of Domains';
 ?>

@@ -1,0 +1,35 @@
+<?php
+$wb['uid_txt'] = 'UID';
+$wb['gid_txt'] = 'GID';
+$wb['dir_txt'] = 'Répertoire';
+$wb['quota_files_txt'] = 'Quota de fichiers';
+$wb['ul_ratio_txt'] = 'Ratio upload';
+$wb['dl_ratio_txt'] = 'Ratio download';
+$wb['ul_bandwidth_txt'] = 'Bande passante upload';
+$wb['dl_bandwidth_txt'] = 'Bande passante download';
+$wb['server_id_txt'] = 'Serveur';
+$wb['parent_domain_id_txt'] = 'Site web';
+$wb['username_txt'] = 'Nom d\'utilisateur';
+$wb['password_txt'] = 'Mot de passe';
+$wb['password_strength_txt'] = 'Force du mot de passe';
+$wb['quota_size_txt'] = 'Quota disque';
+$wb['active_txt'] = 'Actif';
+$wb['limit_ftp_user_txt'] = 'Le nombre maximum d\'utilisateurs FTP a été atteint.';
+$wb['username_error_empty'] = 'Le nom d\'utilisateur est vide.';
+$wb['username_error_unique'] = 'Le nom d\'utilisateur doit être unique.';
+$wb['username_error_regex'] = 'Le nom d\'utilisateur contient des caractères invalides.';
+$wb['quota_size_error_empty'] = 'Le quota est vide.';
+$wb['uid_error_empty'] = 'Le GID est vide.';
+$wb['directory_error_empty'] = 'Le répertoire est vide.';
+$wb['quota_files_unity_txt'] = 'Fichiers';
+$wb['directory_error_notinweb'] = 'Le répertoire nest pas dans la racine web.';
+$wb['parent_domain_id_error_empty'] = 'Pas de site web sélectionné.';
+$wb['quota_size_error_regex'] = 'Quota: entrez -1 pour illimité ou un nombre > 0';
+$wb['dir_dot_error'] = 'Les .. sont interdits.';
+$wb['dir_slashdot_error'] = 'Les ./ sont interdits.';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
+$wb['repeat_password_txt'] = 'Vérification du mot de passe';
+$wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
+$wb['password_match_txt'] = 'Les mots de passe correspondent.';
+$wb['expires_txt'] = 'Expire at';
+?>

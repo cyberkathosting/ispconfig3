@@ -47,4 +47,6 @@ $wb['Do OS-Update'] = 'Actualizar el SO';
 $wb['Do ISPConfig-Update'] = 'Actualizar ISPConfig';
 $wb['1001'] = 'El nombre de usuario o contraseña están vacíos.';
 $wb['1002'] = 'El nombre de usuario o contraseña son incorrectos.';
+$wb['Sites'] = 'Sites';
+$wb['DNS'] = 'DNS';
 ?>

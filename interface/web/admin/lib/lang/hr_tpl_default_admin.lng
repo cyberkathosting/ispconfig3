@@ -16,5 +16,3 @@ $wb['php_fpm_init_script_txt'] = 'Putanja do PHP-FPM init skripte';
 $wb['php_fpm_ini_dir_txt'] = 'Putanja do php.ini direktorija';
 $wb['php_fpm_pool_dir_txt'] = 'Putanja do PHP-FPM pool direktorija';
 ?>
-
-

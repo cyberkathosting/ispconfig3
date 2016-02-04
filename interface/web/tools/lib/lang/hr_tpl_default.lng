@@ -5,5 +5,3 @@ $wb['no_settings_txt'] = 'Nema opcija za standardnu temu.';
 $wb['btn_start_txt'] = 'Spremi';
 $wb['btn_cancel_txt'] = 'Natrag';
 ?>
-
-

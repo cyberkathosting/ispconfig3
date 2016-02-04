@@ -23,4 +23,6 @@ $wb['error_domain_in mailuse'] = 'Den här domänen kan inte tas bort då den an
 $wb['error_domain_in webuse'] = 'Den här domänen kan inte tas bort då den används som webbsidesdomän';
 $wb['error_client_can_not_add_domain'] = 'Du kan inte lägga till en ny domän';
 $wb['error_client_group_id_empty'] = 'Du måste välja en kund<br>';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>

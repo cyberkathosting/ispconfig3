@@ -17,4 +17,5 @@ $wb['delete_confirm_txt'] = 'Möchten Sie dieses Backup wirklich löschen?';
 $wb['delete_pending_txt'] = 'Es liegt bereits ein Backup-Lösch-Job an.';
 $wb['backup_type_mysql'] = 'MySQL-Datenbank';
 $wb['backup_type_web'] = 'Webseiten-Dateien';
+$wb['filesize_txt'] = 'Filesize';
 ?>

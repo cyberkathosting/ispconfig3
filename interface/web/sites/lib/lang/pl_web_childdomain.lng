@@ -115,5 +115,4 @@ $wb['available_php_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw PHP:';
 $wb['available_apache_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw Apache:';
 $wb['available_nginx_directive_snippets_txt'] = 'Dostępne zestawy dyrektyw nginx:';
 $wb['Domain'] = 'Alias domeny';
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-$wb['Klijent'] = 'Klijenti';
 $wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limiti';
 $wb['Add Client'] = 'Dodaj klijenta';
@@ -23,6 +22,7 @@ $wb['error_domain_in mailuse'] = 'Ova domena ne može biti obrisana jer se koris
 $wb['error_domain_in webuse'] = 'Ova domena ne može biti obrisana jer se koristi kao web domena';
 $wb['error_client_can_not_add_domain'] = 'Ne možete dodati novu domenu';
 $wb['error_client_group_id_empty'] = 'Morate izabrati klijenta<br>';
+$wb['Client'] = 'Client';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>
-
-

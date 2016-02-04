@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Aliverkkotunnukset';
+$wb['active_txt'] = 'Käytössä';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['parent_domain_id_txt'] = 'Pääverkkotunnus';
+$wb['domain_txt'] = 'Aliverkkotunnus';
+$wb['add_new_record_txt'] = 'Lisää uusi aliverkkotunnus';
+?>

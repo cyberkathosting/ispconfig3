@@ -1,15 +1,17 @@
 <?php
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'E-mail';
 $wb['destination_txt'] = 'Destination';
 $wb['active_txt'] = 'Actif';
-$wb['email_error_isemail'] = 'L\'adresse email est invalide.';
-$wb['email_error_unique'] = 'Dupliquer l\'adresse email.';
-$wb['no_domain_perm'] = 'Vous n\'avez pas de permission pour ce domaine.';
-$wb['destination_error_isemail'] = 'L\'adresse email de destination est invalide.';
-$wb['limit_mailalias_txt'] = 'Le nombre maximal d\'alias d\'email pour votre compte a été atteint.';
-$wb['duplicate_mailbox_txt'] = 'Il y a déja une boîte mail avec cette adresse email';
+$wb['email_error_isemail'] = 'L’adresse e-mail est invalide.';
+$wb['email_error_unique'] = 'Dupliquer l’adresse e-mail.';
+$wb['no_domain_perm'] = 'Vous n’avez pas de permission pour ce domaine.';
+$wb['destination_error_isemail'] = 'L’adresse e-mail de destination est invalide.';
+$wb['limit_mailalias_txt'] = 'Le nombre maximal d’alias d’e-mail pour votre compte a été atteint.';
+$wb['duplicate_mailbox_txt'] = 'Il y a déja une boîte mail avec cette adresse e-mail';
 $wb['domain_txt'] = 'Domaine';
-$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
+$wb['duplicate_email_alias_txt'] = 'This e-mail alias does already exist.';
 $wb['source_txt'] = 'Alias';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 $wb['greylisting_txt'] = 'Enable greylisting';
 ?>

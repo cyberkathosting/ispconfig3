@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Utilisateurs de l\'anti-spam';
+$wb['local_txt'] = 'Local';
+$wb['server_id_txt'] = 'Serveur';
+$wb['priority_txt'] = 'Priorité';
+$wb['policy_id_txt'] = 'Politique';
+$wb['fullname_txt'] = 'Nom';
+$wb['email_txt'] = 'Courriel';
+$wb['add_new_record_txt'] = 'Ajouter un utilisateur de l\'anti-spam';
+?>
