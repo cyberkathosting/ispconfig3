@@ -711,7 +711,10 @@ class monitor_tools {
 			}
 			if($inHeader == true) {
 				$parts = explode(':', $lines[$l], 2);
-				if(strtolower($parts[0]) == 'subject') $mailSubject = trim($parts[1]);
+				if(strtolower($parts[0]) == 'subject') {
+					$mailSubject = trim($parts[1]);
+					continue;
+				}
 				unset($parts);
 				$mailHeaders .= trim($lines[$l]) . "\n";
 			} else {
