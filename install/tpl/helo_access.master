@@ -2,7 +2,7 @@
 # be sure to list your own hostname(s), domain(s) and IP address(es) here
 
 # Reject others identifying with this machine's hostnames and IP addresses
-{myhostname}  REJECT
+/^{myhostname}$/  REJECT
 #/^((smtp|mx|mail)\.domain1\.com$/	REJECT
 #/^mail\.domain2\.com$/		REJECT
 
