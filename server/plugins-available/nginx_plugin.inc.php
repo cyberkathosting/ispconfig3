@@ -156,10 +156,10 @@ class nginx_plugin {
 
         [ req_distinguished_name ]
         C                      = ".trim($data['new']['ssl_country'])."
-        ST                     = ".trim($data['new']['ssl_state'])."
-        L                      = ".trim($data['new']['ssl_locality'])."
-        O                      = ".trim($data['new']['ssl_organisation'])."
-        OU                     = ".trim($data['new']['ssl_organisation_unit'])."
+        " . (trim($data['new']['ssl_state']) == '' ? '' : "ST                     = ".trim($data['new']['ssl_state'])) . "
+        " . (trim($data['new']['ssl_locality']) == '' ? '' : "L                      = ".trim($data['new']['ssl_locality']))."
+        " . (trim($data['new']['ssl_organisation']) == '' ? '' : "O                      = ".trim($data['new']['ssl_organisation']))."
+        " . (trim($data['new']['ssl_organisation_unit']) == '' ? '' : "OU                     = ".trim($data['new']['ssl_organisation_unit']))."
         CN                     = $domain
         emailAddress           = webmaster@".$data['new']['domain']."
 
