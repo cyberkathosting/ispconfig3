@@ -207,7 +207,14 @@ class mail_plugin {
 
 		//* Send the welcome email message
 		$domain = explode('@', $data["new"]["email"])[1];
-		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
+		$html = False;
+		if (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
+			$html = True;
+		} elseif (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
+			$html = True;
+		} elseif (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
 		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
@@ -236,8 +243,13 @@ class mail_plugin {
 		unset($tmp);
 
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
-		$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
-		$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+		if ($html){
+			$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
+		} else {
+			$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+		}
 		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
 		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
 		$mailTarget       = $data["new"]["email"];
