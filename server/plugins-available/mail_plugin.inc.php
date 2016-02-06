@@ -247,7 +247,7 @@ class mail_plugin {
 			$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
 			$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
 		} else {
-			$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Type: text/plain; charset=utf-8" . "\n";
 			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
 		}
 		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
