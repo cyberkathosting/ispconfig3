@@ -207,14 +207,14 @@ class mail_plugin {
 
 		//* Send the welcome email message
 		$domain = explode('@', $data["new"]["email"])[1];
-		$html = False;
-		if (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
+		$html = false;
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
-			$html = True;
-		} elseif (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
+			$html = true;
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
-			$html = True;
-		} elseif (file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
+			$html = true;
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
 		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
@@ -243,7 +243,7 @@ class mail_plugin {
 		unset($tmp);
 
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
-		if ($html){
+		if($html) {
 			$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
 			$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
 		} else {
