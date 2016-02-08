@@ -1,0 +1,74 @@
+# blacklist_helo - after permit_sasl, used to stop common spammers/misconfigurations
+#
+# This file can be used to block hostnames used in smtp HELO command which are known bad.
+# Occasionally you will run into legitimate mail servers which are misconfigured and end
+# up blocked here, so this is not enabled by default, but it is useful if you are prepared
+# to address those cases.  .local is particularly problematic, and commented out by default.
+#
+# Note that any server hitting this check is misconfigured, all of the names below are bogus
+# and not allowed per RFC 2821.
+#
+# If your own users are blocked by this, they are not authenticating to your server when
+# sending (this check is after permit_sasl, which permits authenticated senders).
+#
+# Instructions:
+#
+# Copy this file to /usr/local/ispconfig/server/conf-custom/install/blacklist_helo.master,
+# as well as /etc/postfix/blacklist_helo, so your changes are not overwritten with ispconfig
+# updates.
+
+# probably just put REJECT lines in here,
+# as OK lines will bypass a lot of other checks you may want done
+# (use DUNNO instead of OK)
+#
+
+# common for spammers (check https://data.iana.org/TLD/tlds-alpha-by-domain.txt and remove valid tld's occasionally)
+/.*\.administrator$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.admin$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.adsl$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.arpa$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.bac$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.coma$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dhcp$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dlink$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dns$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.domain$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dynamic$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dyndns\.org$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.dyn$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.firewall$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.gateway$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.home$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.internal$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.intern$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.janak$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.kornet$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.lab$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.lan$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.localdomain$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.localhost$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+
+# .local is used by spammers a lot, but too many otherwise legit servers hit it
+# (instead of REJECT, should send to greylisting)
+#/.*\.local$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+
+/.*\.loc$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.lokal$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.mail$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.nat$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.netzwerk$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.pc$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.privat$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.private$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.router$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.setup$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+
+/.*\.119$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.beeline$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.cici$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.gt_3g$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.gt-3g$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.hananet$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.skbroadband$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+/.*\.tbroad$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+
