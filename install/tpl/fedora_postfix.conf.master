@@ -25,6 +25,7 @@ smtpd_helo_required = yes
 smtpd_helo_restrictions = permit_sasl_authenticated, permit_mynetworks, check_helo_access regexp:{config_dir}/helo_access, reject_non_fqdn_helo_hostname, reject_invalid_helo_hostname, reject_unknown_helo_hostname, check_helo_access regexp:{config_dir}/blacklist_helo
 smtpd_sender_restrictions = check_sender_access regexp:{config_dir}/tag_as_originating.re {reject_slm}, permit_mynetworks, permit_sasl_authenticated, check_sender_access mysql:{config_dir}/mysql-virtual_sender.cf, check_sender_access regexp:{config_dir}/tag_as_foreign.re
 smtpd_client_restrictions = check_client_access mysql:{config_dir}/mysql-virtual_client.cf
+smtpd_data_restrictions = reject_unauth_pipelining, reject_multi_recipient_bounce, permit
 smtpd_client_message_rate_limit = 100
 maildrop_destination_concurrency_limit = 1
 maildrop_destination_recipient_limit   = 1
