@@ -71,6 +71,13 @@ class app {
 			$this->uses('session');
 			$sess_timeout = $this->conf('interface', 'session_timeout');
 			$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
+			
+			// Workaround for Nginx servers
+			if($cookie_domain == '_') {
+				$tmp = explode(':',$_SERVER["HTTP_HOST"]);
+				$cookie_domain = $tmp[0];
+				unset($tmp);
+			}
 			$cookie_secure = ($_SERVER["HTTPS"] == 'on')?true:false;
 			if($sess_timeout) {
 				/* check if user wants to stay logged in */

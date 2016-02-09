@@ -556,19 +556,19 @@ class db extends mysqli
 		global $app;
 		include 'lib/mysql_clientdb.conf';
 		/* Connect to the database */
-		$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+		$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 		if (!$link) {
-			$app->log('Unable to connect to the database'.mysql_error($link), LOGLEVEL_DEBUG);
+			$app->log('Unable to connect to the database'.mysqli_error($link), LOGLEVEL_DEBUG);
 			return;
 		}
 		/* Get database-size from information_schema */
-		$result=mysql_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".mysql_real_escape_string($database_name)."';", $link);
+		$result=mysqli_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".mysqli_real_escape_string($database_name)."';", $link);
 		$this->close;
 		if (!$result) {
-			$app->log('Unable to get the database-size'.mysql_error($link), LOGLEVEL_DEBUG);
+			$app->log('Unable to get the database-size'.mysqli_error($link), LOGLEVEL_DEBUG);
 			return;
 		}
-		$database_size = mysql_fetch_row($result);
+		$database_size = mysqli_fetch_row($result);
 		return $database_size[0];
 	}
 

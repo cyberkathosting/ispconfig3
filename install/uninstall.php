@@ -60,16 +60,16 @@ if($do_uninstall == 'yes') {
 
 	echo "\n\n>> Uninstalling ISPConfig 3... \n\n";
 
-	$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+	$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 	if (!$link) {
 		echo "Unable to connect to the database'.mysql_error($link)";
 	} else {
-		$result=mysql_query("DROP DATABASE ".$conf['db_database']."';", $link);
-		if (!$result) echo "Unable to remove the ispconfig-database ".$conf['db_database']." ".mysql_error($link)."\n";
-		$result=mysql_query("DROP USER '".$conf['db_user'] ."';");
-	        if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysql_error($link)."\n";
+		$result=mysqli_query($link,"DROP DATABASE ".$conf['db_database']."';");
+		if (!$result) echo "Unable to remove the ispconfig-database ".$conf['db_database']." ".mysqli_error($link)."\n";
+		$result=mysqli_query($link,"DROP USER '".$conf['db_user'] ."';");
+	        if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysqli_error($link)."\n";
 	}
-	mysql_close($link);
+	mysqli_close($link);
 	
 	// Deleting the symlink in /var/www
 	// Apache
