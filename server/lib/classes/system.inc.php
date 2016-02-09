@@ -44,7 +44,7 @@ class system{
 	 */
 
 
-	public function system(){
+	public function __construct(){
 		//global $go_info;
 		//$this->server_id = $go_info['isp']['server_id'];
 		//$this->server_conf = $go_info['isp']['server_conf'];

@@ -246,29 +246,29 @@ class software_update_plugin {
 			}
 
 			//* Connect to the database
-			$link = mysql_connect($clientdb_host, $clientdb_user, $clientdb_password);
+			$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
-				$app->log('Unable to connect to the database'.mysql_error($link), LOGLEVEL_ERROR);
+				$app->log('Unable to connect to the database'.mysqli_error($link), LOGLEVEL_ERROR);
 				return;
 			}
 
 			$query_charset_table = '';
 
 			//* Create the new database
-			if (mysql_query('CREATE DATABASE '.mysql_real_escape_string($db_config['database_name']).$query_charset_table, $link)) {
+			if (mysqli_query($link,'CREATE DATABASE '.mysqli_real_escape_string($link, $db_config['database_name']).$query_charset_table, $link)) {
 				$app->log('Created MySQL database: '.$db_config['database_name'], LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Unable to connect to the database'.mysql_error($link), LOGLEVEL_ERROR);
+				$app->log('Unable to connect to the database'.mysqli_error($link), LOGLEVEL_ERROR);
 			}
 
-			if(mysql_query("GRANT ALL ON ".mysql_real_escape_string($db_config['database_name'], $link).".* TO '".mysql_real_escape_string($db_config['database_user'], $link)."'@'".$db_config['database_host']."' IDENTIFIED BY '".mysql_real_escape_string($db_config['database_password'], $link)."';", $link)) {
+			if(mysqli_query("GRANT ALL ON ".mysqli_real_escape_string($link, $db_config['database_name']).".* TO '".mysqli_real_escape_string($link, $db_config['database_user'])."'@'".$db_config['database_host']."' IDENTIFIED BY '".mysqli_real_escape_string($link, $db_config['database_password'])."';", $link)) {
 				$app->log('Created MySQL user: '.$db_config['database_user'], LOGLEVEL_DEBUG);
 			} else {
-				$app->log('Unable to create database user'.$db_config['database_user'].' '.mysql_error($link), LOGLEVEL_ERROR);
+				$app->log('Unable to create database user'.$db_config['database_user'].' '.mysqli_error($link), LOGLEVEL_ERROR);
 			}
 
-			mysql_query("FLUSH PRIVILEGES;", $link);
-			mysql_close($link);
+			mysqli_query($link, "FLUSH PRIVILEGES;");
+			mysqli_close($link);
 
 		}
 
