@@ -774,7 +774,11 @@ class installer extends installer_base
 			//$content = str_replace('{fpm_port}', ($conf['nginx']['php_fpm_start_port']+1), $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
-
+			
+			// SSL in apps vhost is off by default. Might change later.
+			$content = str_replace('{ssl_on}', 'off', $content);
+			$content = str_replace('{ssl_comment}', '#', $content);
+			
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 
 			// PHP-FPM
