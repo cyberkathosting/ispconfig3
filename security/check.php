@@ -53,18 +53,20 @@ if($security_config['warn_new_admin'] == 'yes') {
 	$data_file = $data_dir.'/admincount';
 	//get number of admins
 	$tmp = $app->db->queryOneRecord("SELECT count(userid) AS number FROM sys_user WHERE typ = 'admin'");
-	$admin_user_count_new = intval($tmp['number']);
-	
-	if(is_file($data_file)) {
-		$admin_user_count_old = intval(file_get_contents($data_file));
-		if($admin_user_count_new != $admin_user_count_old) {
-			$alert .= "The number of ISPConfig administrator users has changed. Old: $admin_user_count_old New: $admin_user_count_new \n";
+	if($tmp) {
+		$admin_user_count_new = intval($tmp['number']);
+		
+		if(is_file($data_file)) {
+			$admin_user_count_old = intval(file_get_contents($data_file));
+			if($admin_user_count_new != $admin_user_count_old) {
+				$alert .= "The number of ISPConfig administrator users has changed. Old: $admin_user_count_old New: $admin_user_count_new \n";
+				file_put_contents($data_file,$admin_user_count_new);
+			}
+		} else {
+			// first run, so we save the current count
 			file_put_contents($data_file,$admin_user_count_new);
+			chmod($data_file,0700);
 		}
-	} else {
-		// first run, so we save the current count
-		file_put_contents($data_file,$admin_user_count_new);
-		chmod($data_file,0700);
 	}
 }
 
