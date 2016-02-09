@@ -1,0 +1,22 @@
+# blacklist_helo - after permit_sasl, used to stop common spammers/misconfigurations
+#
+# This file can be used to block hostnames used in smtp HELO command which are known bad.
+# Occasionally you will run into legitimate mail servers which are misconfigured and end
+# up blocked here, so this is not enabled by default, but it is useful if you are prepared
+# to address those cases.
+#
+# See docs/extras/blacklist_helo.master from ispconfig source for a more complete example list.
+#
+# If you make changes here, also copy them to /usr/local/ispconfig/server/conf-custom/install/blacklist_helo.master,
+# so your changes are not overwritten with ispconfig updates.
+
+
+#/.*\.administrator$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.admin$/    REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.adsl$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.arpa$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.dhcp$/ REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.dns$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.domain$/   REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+#/.*\.dynamic$/  REJECT HELO hostname is using a top level domain that does not exist.  See RFC 2821 section 3.6.
+
