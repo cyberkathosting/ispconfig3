@@ -53,8 +53,9 @@ class installer extends installer_base {
 		$config_dir = $conf['postfix']['config_dir'];
 		//* Configure master.cf and add a line for deliver
 		if ($this->postfix_master()) {
-			exec ("postconf -M dovecot.unix &> /dev/null", $out, $ret);
- 			$add_dovecot_service = @($out[0]=='')?true:false;
+			exec ("postconf -M dovecot.unix", $out, $ret); //* Postfix 2.9
+			if (!isset($out[0])) exec ("postconf -M dovecot/unix", $out, $ret); //* Postfix >= 2.11
+			$add_dovecot_service = @($out[0]=='')?true:false;
 		} else { //* fallback - postfix < 2.9
 			$content = rf($config_dir.'/master.cf');
 			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
