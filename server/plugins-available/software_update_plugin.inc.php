@@ -248,7 +248,7 @@ class software_update_plugin {
 			//* Connect to the database
 			$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 			if (!$link) {
-				$app->log('Unable to connect to the database'.mysqli_error($link), LOGLEVEL_ERROR);
+				$app->log('Unable to connect to the database'.mysqli_connect_error(), LOGLEVEL_ERROR);
 				return;
 			}
 

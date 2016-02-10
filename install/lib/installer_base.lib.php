@@ -2075,6 +2075,10 @@ Email Address []:
 			}
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
+			
+			// SSL in apps vhost is off by default. Might change later.
+			$content = str_replace('{ssl_on}', 'off', $content);
+			$content = str_replace('{ssl_comment}', '#', $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 
