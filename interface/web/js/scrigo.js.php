@@ -153,9 +153,9 @@ function password(minLength, special, num_special){
 	var maxLength = minLength + 5;
 	var length = getRandomInt(minLength, maxLength);
 	
-	var alphachars = "abcdefghijklmnopqrstuvwxyz";
-	var upperchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    var numchars = "1234567890";
+	var alphachars = "abcdefghijkmnopqrstuvwxyz";
+	var upperchars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    var numchars = "23456789";
     var specialchars = "!@#_";
 	
 	if(num_special == undefined) num_special = 0;

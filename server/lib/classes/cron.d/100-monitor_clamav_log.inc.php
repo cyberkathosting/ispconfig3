@@ -129,7 +129,7 @@ class cronjob_monitor_clamav_log extends cronjob {
 		$clamav_outdated_warning = false;
 		$clamav_bytecode_updated = false;
 		foreach ($lastLog as $line) {
-			if (stristr($line,'outdated')) {
+			if (stristr($line,"Can't download daily.cvd from")) {
 				$clamav_outdated_warning = true;
 			}
 			if(stristr($line,'main.cld is up to date')) {

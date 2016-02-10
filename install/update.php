@@ -226,10 +226,10 @@ $clientdb_password  = '';
 //** Test mysql root connection
 $finished = false;
 do {
-	if(@mysql_connect($conf["mysql"]["host"], $conf["mysql"]["admin_user"], $conf["mysql"]["admin_password"])) {
+	if(@mysqli_connect($conf["mysql"]["host"], $conf["mysql"]["admin_user"], $conf["mysql"]["admin_password"])) {
 		$finished = true;
 	} else {
-		swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+		swriteln($inst->lng('Unable to connect to mysql server').' '.mysqli_connect_error());
 		$conf["mysql"]["admin_password"] = $inst->free_query('MySQL root password', $conf['mysql']['admin_password'],'mysql_root_password');
 	}
 } while ($finished == false);
@@ -255,7 +255,7 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 		//* Initialize the MySQL server connection
-		if(@mysql_connect($tmp_mysql_server_host . ':' . (int)$tmp_mysql_server_port, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+		if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
 			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
 			$conf['mysql']['master_port'] = $tmp_mysql_server_port;
 			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
@@ -263,7 +263,7 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 			$conf['mysql']['master_database'] = $tmp_mysql_server_database;
 			$finished = true;
 		} else {
-			swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+			swriteln($inst->lng('Unable to connect to mysql server').' '.mysqli_connect_error());
 		}
 	} while ($finished == false);
 	unset($finished);

@@ -188,7 +188,7 @@ do {
 } while (!$check);
 
 // Check if the mysql functions are loaded in PHP
-if(!function_exists('mysql_connect')) die('No PHP MySQL functions available. Please ensure that the PHP MySQL module is loaded.');
+if(!function_exists('mysqli_connect')) die('No PHP MySQLi functions available. Please ensure that the PHP MySQL module is loaded.');
 
 //** Get MySQL root credentials
 $finished = false;
@@ -208,7 +208,7 @@ do {
 	}
 
 	//* Initialize the MySQL server connection
-	if(@mysql_connect($tmp_mysql_server_host . ':' . (int)$tmp_mysql_server_port, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+	if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
 		$conf['mysql']['host'] = $tmp_mysql_server_host;
 		$conf['mysql']['port'] = $tmp_mysql_server_port;
 		$conf['mysql']['admin_user'] = $tmp_mysql_server_admin_user;
@@ -217,7 +217,7 @@ do {
 		$conf['mysql']['charset'] = $tmp_mysql_server_charset;
 		$finished = true;
 	} else {
-		swriteln($inst->lng('Unable to connect to the specified MySQL server').' '.mysql_error());
+		swriteln($inst->lng('Unable to connect to the specified MySQL server').' '.mysqli_connect_error());
 	}
 } while ($finished == false);
 unset($finished);
@@ -553,7 +553,7 @@ if($install_mode == 'standard') {
 			$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
 			//* Initialize the MySQL server connection
-			if(@mysql_connect($tmp_mysql_server_host . ':' . (int)$tmp_mysql_server_port, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password)) {
+			if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
 				$conf['mysql']['master_host'] = $tmp_mysql_server_host;
 				$conf['mysql']['master_port'] = $tmp_mysql_server_port;
 				$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
@@ -561,7 +561,7 @@ if($install_mode == 'standard') {
 				$conf['mysql']['master_database'] = $tmp_mysql_server_database;
 				$finished = true;
 			} else {
-				swriteln($inst->lng('Unable to connect to mysql server').' '.mysql_error());
+				swriteln($inst->lng('Unable to connect to mysql server').' '.mysqli_connect_error());
 			}
 		} while ($finished == false);
 		unset($finished);
