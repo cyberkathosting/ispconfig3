@@ -558,7 +558,7 @@ class db extends mysqli
 		/* Connect to the database */
 		$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 		if (!$link) {
-			$app->log('Unable to connect to the database'.mysqli_error($link), LOGLEVEL_DEBUG);
+			$app->log('Unable to connect to the database'.mysqli_connect_error(), LOGLEVEL_DEBUG);
 			return;
 		}
 		/* Get database-size from information_schema */
