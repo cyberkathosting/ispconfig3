@@ -122,9 +122,6 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
 <Directory /usr/local/ispconfig/interface/acme/.well-known/acme-challenge>
 		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted
-		RewriteEngine on
-		RewriteCond %{REQUEST_FILENAME} ^/\.well-known/acme-challenge
-		RewriteRule ^ - [END]
 		<tmpl_else>
         Order allow,deny
         Allow from all
