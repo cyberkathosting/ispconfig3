@@ -126,6 +126,9 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
         Order allow,deny
         Allow from all
 		</tmpl_if>
+		RewriteEngine on
+		RewriteCond %{REQUEST_FILENAME} ^/\.well-known/acme-challenge
+		RewriteRule ^.*$ - [END]
 </Directory>
 
 NameVirtualHost *:80
