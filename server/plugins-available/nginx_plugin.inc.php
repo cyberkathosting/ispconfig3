@@ -1238,6 +1238,7 @@ class nginx_plugin {
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
 			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on alias domain
 		)) {
 
 			//* be sure to have good domain
@@ -1254,6 +1255,7 @@ class nginx_plugin {
 			$temp_domains = array();
 			$lddomain = $domain;
 			$subdomains = null;
+			$aliasdomains = null;
 
  			//* be sure to have good domain
  			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
@@ -1267,7 +1269,18 @@ class nginx_plugin {
 					$temp_domains[] = $subdomain['domain'];
 				}
  			}
- 
+
+			//* then, add alias domain if we have
+			$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
+			if(is_array($aliasdomains)) {
+				foreach($aliasdomains as $aliasdomain) {
+					$temp_domains[] = $aliasdomain['domain'];
+					if(isset($aliasdomain['subdomain']) && ! empty($aliasdomain['subdomain'])) {
+						$temp_domains[] = $aliasdomain['subdomain'] . "." . $aliasdomain['domain'];
+					}
+				}
+			}
+
 			// prevent duplicate
 			$temp_domains = array_unique($temp_domains);
 
@@ -1311,10 +1324,10 @@ class nginx_plugin {
 
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
-					$date = date("YmdHis");
-//* TODO: check if is a symlink, if target same keep it, either remove it
+				$date = date("YmdHis");
+				//* TODO: check if is a symlink, if target same keep it, either remove it
 				if(is_file($key_file)) {
-					$app->system->copy($key_file, $key_file.'.old'.$date);
+					$app->system->copy($key_file, $key_file.'.old.'.$date);
 					$app->system->chmod($key_file.'.old.'.$date, 0400);
 					$app->system->unlink($key_file);
 				}
