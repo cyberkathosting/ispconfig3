@@ -1183,22 +1183,8 @@ class apache2_plugin {
 			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 
-				if(is_dir($webroot . "/.well-known/acme-challenge/")) {
-					$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
-					$this->_exec("rm -rf " . $webroot . "/.well-known/acme-challenge/");
-				}
-
-				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
-				$app->system->mkdirpath($webroot . "/.well-known/");
-				$app->system->chown($webroot . "/.well-known/", $data['new']['system_user']);
-				$app->system->chgrp($webroot . "/.well-known/", $data['new']['system_group']);
-				$app->system->mkdirpath($webroot . "/.well-known/acme-challenge");
-				$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
-				$app->system->chgrp($webroot . "/.well-known/acme-challenge/", $data['new']['system_group']);
-				$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
-				
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme-challenge");
 				}
 			};
 
