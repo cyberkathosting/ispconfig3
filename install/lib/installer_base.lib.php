@@ -967,6 +967,11 @@ class installer_base {
 			$this->error("The postfix configuration directory '$config_dir' does not exist.");
 		}
 
+		//* Get postfix version
+		exec('postfix -d mail_version 2>&1', $out);
+		$postfix_version = preg_replace('/.*=\s*/', '', $out[0]);
+		unset($out);
+
 		//* mysql-virtual_domains.cf
 		$this->process_postfix_config('mysql-virtual_domains.cf');
 
@@ -1092,6 +1097,26 @@ class installer_base {
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
 		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
+
+		//* Merge version-specific postfix config
+		if(version_compare($postfix_version , '2.5', '>=')) {
+		    $configfile = 'postfix_2-5.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
+		if(version_compare($postfix_version , '2.10', '>=')) {
+		    $configfile = 'postfix_2-10.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
+		if(version_compare($postfix_version , '3.0', '>=')) {
+		    $configfile = 'postfix_3-0.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
 
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
