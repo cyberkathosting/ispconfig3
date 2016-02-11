@@ -968,7 +968,7 @@ class installer_base {
 		}
 
 		//* Get postfix version
-		exec('postfix -d mail_version 2>&1', $out);
+		exec('postconf -d mail_version 2>&1', $out);
 		$postfix_version = preg_replace('/.*=\s*/', '', $out[0]);
 		unset($out);
 
