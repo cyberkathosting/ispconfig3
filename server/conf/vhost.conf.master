@@ -395,6 +395,11 @@
 
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
+<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		RewriteEngine on
+		RewriteCond %{REQUEST_URI} ^/\.well-known/acme-challenge/
+		RewriteRule ^ - [END]
+</tmpl_if>
 <tmpl_if name='seo_redirect_enabled'>
 		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
 		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
