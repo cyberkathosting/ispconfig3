@@ -264,7 +264,7 @@ server {
 </tmpl_if>
 
 location /\.well-known/acme-challenge {
-	   root /usr/local/ispconfig/interface/acme-challenge;
+	   root /usr/local/ispconfig/interface/acme/.well-known/acme-challenge;
 	   index index.html index.htm;
 	   try_files $uri =404;
 }
