@@ -397,14 +397,17 @@
 		RewriteEngine on
 <tmpl_if name='seo_redirect_enabled'>
 		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='seo_redirect_target_domain'>$1 [R=301,NE,L]
 </tmpl_if>
 <tmpl_loop name="alias_seo_redirects">
 		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_redirect_operator'>^<tmpl_var name='alias_seo_redirect_origin_domain'>$ [NC]
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='alias_seo_redirect_target_domain'>$1 [R=301,NE,L]
 </tmpl_loop>
 <tmpl_loop name="redirects">
 		RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
 <tmpl_if name="rewrite_is_url" op="==" value="n">
 		RewriteCond %{REQUEST_URI} !^/webdav/
 		RewriteCond %{REQUEST_URI} !^/php5-fcgi/
@@ -418,6 +421,7 @@
 <tmpl_else>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         RewriteCond %{HTTPS} off
+        <tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
         RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </tmpl_if>
 </tmpl_if>
