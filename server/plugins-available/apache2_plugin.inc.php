@@ -1184,7 +1184,7 @@ class apache2_plugin {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme-challenge");
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 			};
 
