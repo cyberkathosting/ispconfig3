@@ -1021,7 +1021,7 @@ class page_action extends tform_actions {
 			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = 'n';
 			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = 'n';
 			if($client['limit_ssl_letsencrypt'] != 'y') $this->dataRecord['ssl_letsencrypt'] = 'n';
-			if($client['limit_directive_snippets'] != 'y') $this->dataRecord['directive_snippets_id'] = 0
+			if($client['limit_directive_snippets'] != 'y') $this->dataRecord['directive_snippets_id'] = 0;
 
 			// only generate quota and traffic warnings if value has changed
 			if($this->id > 0) {
