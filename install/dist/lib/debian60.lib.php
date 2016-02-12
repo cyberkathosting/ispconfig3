@@ -51,15 +51,7 @@ class installer extends installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
-		//* Configure master.cf and add a line for deliver
-		if ($this->postfix_master()) {
-			exec ("postconf -M dovecot.unix &> /dev/null", $out, $ret);
- 			$add_dovecot_service = @($out[0]=='')?true:false;
-		} else { //* fallback - postfix < 2.9
-			$content = rf($config_dir.'/master.cf');
-			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
-		}
-		if($add_dovecot_service) {
+		if(!$this->get_postfix_service('dovecot', 'unix')) {
 			//* backup
 			if(is_file($config_dir.'/master.cf')){
 				copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
@@ -69,7 +61,7 @@ class installer extends installer_base {
 			}
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
