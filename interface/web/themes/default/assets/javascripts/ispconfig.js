@@ -655,9 +655,9 @@ $(document).bind("keypress", function(event) {
 		$("#pageForm .table #Filter").trigger('click');
 	}
 	//Use $ submit with keypress Enter in forms
-	if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
+	if (event.which == '13' && $(".tab-content button.formbutton-success").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
 		event.preventDefault();
-		$(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
+		$(".tab-content button.formbutton-success").not("[disabled='disabled']").trigger('click');
 	}
 });
 
