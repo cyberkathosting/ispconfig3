@@ -70,22 +70,9 @@ class installer_centos extends installer_dist {
 		$config_dir = $conf['postfix']['config_dir'];
 
 		// Adding amavis-services to the master.cf file if the service does not already exists
-		if ($this->postfix_master()) {
-			exec ("postconf -M amavis.unix &> /dev/null", $out, $ret);
-			$add_amavis = @($out[0]=='')?true:false;
-			unset($out);
-			exec ("postconf -M 127.0.0.1:10025.inet &> /dev/null", $out, $ret);
-			$add_amavis_10025 = @($out[0]=='')?true:false;
-			unset($out);
-			exec ("postconf -M 127.0.0.1:10027.inet &> /dev/null", $out, $ret);
-			$add_amavis_10027 = @($out[0]=='')?true:false;
-			unset($out);
-		} else { //* fallback - postfix < 2.9
-			$content = rf($conf['postfix']['config_dir'].'/master.cf');
-			$add_amavis = @(!preg_match('/^amavis\s+unix\s+/m', $content))?true:false;
-			$add_amavis_10025 = @(!preg_match('/^127.0.0.1:10025\s+/m', $content))?true:false;
-			$add_amavis_10027 = @(!preg_match('/^127.0.0.1:10027\s+/m', $content))?true:false;
-		}
+		$add_amavis = !$this->get_postfix_service('amavis','unix');
+		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
+		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
 
 		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
 			//* backup master.cf
