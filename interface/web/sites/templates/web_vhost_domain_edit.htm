@@ -206,14 +206,14 @@
             </div>
             <tmpl_if name="limit_ssl" op="==" value="y"><div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='ssl_txt'}</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9" data-uncheck-fields="ssl_letsencrypt">
                     {tmpl_var name='ssl'}
                 </div>
             </div>
             <tmpl_if name="limit_ssl_letsencrypt" op="==" value="y">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='ssl_letsencrypt_txt'}</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9" data-check-fields="ssl">
                     {tmpl_var name='ssl_letsencrypt'}
                 </div>
             </div></tmpl_if>

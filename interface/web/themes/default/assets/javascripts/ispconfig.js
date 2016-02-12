@@ -702,6 +702,29 @@ $(document).on("click", ".addPlaceholderContent", function(){
 	template2.insertAtCaret(placeholderContentText);
 });
 
+$(document).on("click", "[data-check-fields] > input[type='checkbox']", function() {
+	if($(this).is(':checked')) {
+		var flds = $(this).parent().attr('data-check-fields');
+		var tmp = flds.split(/,/);
+		for(var i = 0; i < tmp.length; i++) {
+			var fname = tmp[i];
+			$('input[type="checkbox"][name="' + fname + '"]').prop('checked', true);
+		}
+	}
+});
+
+$(document).on("click", "[data-uncheck-fields] > input[type='checkbox']", function() {
+	if($(this).is(':checked') == false) {
+		var flds = $(this).parent().attr('data-uncheck-fields');
+		var tmp = flds.split(/,/);
+		for(var i = 0; i < tmp.length; i++) {
+			var fname = tmp[i];
+			$('input[type="checkbox"][name="' + fname + '"]').prop('checked', false);
+		}
+	}
+});
+
+
 $(document).on('ready', function () {
 	$.fn.extend({
 		insertAtCaret: function(myValue){
