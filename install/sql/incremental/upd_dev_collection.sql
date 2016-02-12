@@ -214,3 +214,5 @@ ALTER TABLE `dns_soa`
 
 ALTER TABLE `client` ADD COLUMN `limit_ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n' AFTER `limit_ssl`;
 ALTER TABLE `client_template` ADD COLUMN `limit_ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n' AFTER `limit_ssl`;
+ALTER TABLE `client` ADD COLUMN `limit_directive_snippets` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `limit_backup`;
+ALTER TABLE `client_template` ADD COLUMN `limit_directive_snippets` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `limit_backup`;
