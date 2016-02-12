@@ -110,6 +110,7 @@ $wb["force_suexec_txt"] = "SuEXEC forced";
 $wb["limit_hterror_txt"] = "Custom error docs available";
 $wb["limit_wildcard_txt"] = "Wildcard subdomain available";
 $wb["limit_ssl_txt"] = "SSL available";
+$wb["limit_ssl_letsencrypt_txt"] = "Let\'s Encrypt available";
 $wb["limit_client_error"] = 'The max. number of clients is reached.';
 $wb["limit_web_quota_txt"] = 'Web Quota';
 $wb["limit_traffic_quota_txt"] = 'Traffic Quota';
@@ -200,4 +201,5 @@ $wb['btn_save_txt'] = "Save";
 $wb['btn_cancel_txt'] = "Cancel";
 $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
 $wb["email_error_empty"] = "Email is empty";
+$wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 ?>

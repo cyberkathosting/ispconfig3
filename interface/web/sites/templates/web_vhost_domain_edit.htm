@@ -210,12 +210,14 @@
                     {tmpl_var name='ssl'}
                 </div>
             </div>
+            <tmpl_if name="limit_ssl_letsencrypt" op="==" value="y">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='ssl_letsencrypt_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='ssl_letsencrypt'}
                 </div>
             </div></tmpl_if>
+            </tmpl_if>
             <div class="form-group">
                 <label for="php" class="col-sm-3 control-label">{tmpl_var name='php_txt'}</label>
                 <div class="col-sm-9"><select name="php" id="php" class="form-control">
@@ -229,12 +231,12 @@
                     {tmpl_var name='fastcgi_php_version'}
                 </select></div>
             </div>
-			<div class="form-group">
+            <tmpl_if name="limit_directive_snippets" op="==" value="y"><div class="form-group">
 				<label for="directive_snippets_id" class="col-sm-3 control-label">{tmpl_var name='directive_snippets_id_txt'}</label>
 				<div class="col-sm-9"><select name="directive_snippets_id" id="directive_snippets_id" class="form-control">
 					{tmpl_var name='directive_snippets_id'}
 				</select></div>
-			</div>
+			</div></tmpl_if>
 			{tmpl_hook name="field_enable_pagespeed"}
 			<div class="form-group nginx pagespeed">
 				<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>

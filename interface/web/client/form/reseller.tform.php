@@ -1019,6 +1019,12 @@ $form["tabs"]['limits'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'limit_ssl_letsencrypt' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'limit_web_aliasdomain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -1103,6 +1109,12 @@ $form["tabs"]['limits'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
+		'limit_directive_snippets' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'default_dnsserver' => array (

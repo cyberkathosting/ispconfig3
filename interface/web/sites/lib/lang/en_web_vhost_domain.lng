@@ -147,4 +147,5 @@ $wb["document_root_txt"] = "Document Root";
 $wb['ssl_letsencrypt_txt'] = 'Let\'s Encrypt SSL';
 $wb['rewrite_to_https_txt'] = 'Rewrite HTTP to HTTPS';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['directive_snippets_id_txt'] = 'Web server config';
 ?>

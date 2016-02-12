@@ -85,6 +85,7 @@ $wb["force_suexec_txt"] = "SuEXEC forced";
 $wb["limit_hterror_txt"] = "Custom error docs available";
 $wb["limit_wildcard_txt"] = "Wildcard subdomain available";
 $wb["limit_ssl_txt"] = "SSL available";
+$wb["limit_ssl_letsencrypt_txt"] = "Let\'s Encrypt available";
 $wb["web_limits_txt"] = 'Web Limits';
 $wb["email_limits_txt"] = 'Email Limits';
 $wb["database_limits_txt"] = 'Database Limits';
@@ -116,4 +117,5 @@ $wb['limit_xmpp_vjud_txt'] = 'VJUD user directory available';
 $wb['limit_xmpp_proxy_txt'] = 'Bytestream proxy available';
 $wb['limit_xmpp_status_txt'] = 'Status host available';
 $wb["dns_servers_txt"] = 'DNS servers';
+$wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 ?>
