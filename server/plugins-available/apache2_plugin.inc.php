@@ -1121,6 +1121,7 @@ class apache2_plugin {
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
 			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
 		)) {
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
@@ -1135,6 +1136,7 @@ class apache2_plugin {
 			$temp_domains = array();
 			$lddomain = $domain;
 			$subdomains = null;
+			$aliasdomains = null;
 
 			//* be sure to have good domain
 			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
@@ -1146,6 +1148,17 @@ class apache2_plugin {
 			if(is_array($subdomains)) {
 				foreach($subdomains as $subdomain) {
 					$temp_domains[] = $subdomain['domain'];
+				}
+			}
+			
+			//* then, add alias domain if we have
+			$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
+			if(is_array($aliasdomains)) {
+				foreach($aliasdomains as $aliasdomain) {
+					$temp_domains[] = $aliasdomain['domain'];
+					if(isset($aliasdomain['subdomain']) && ! empty($aliasdomain['subdomain'])) {
+						$temp_domains[] = $aliasdomain['subdomain'] . "." . $aliasdomain['domain'];
+					}
 				}
 			}
 
@@ -1170,22 +1183,8 @@ class apache2_plugin {
 			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 
-				if(is_dir($webroot . "/.well-known/acme-challenge/")) {
-					$app->log("Remove old challenge directory", LOGLEVEL_DEBUG);
-					$this->_exec("rm -rf " . $webroot . "/.well-known/acme-challenge/");
-				}
-
-				$app->log("Create challenge directory", LOGLEVEL_DEBUG);
-				$app->system->mkdirpath($webroot . "/.well-known/");
-				$app->system->chown($webroot . "/.well-known/", $data['new']['system_user']);
-				$app->system->chgrp($webroot . "/.well-known/", $data['new']['system_group']);
-				$app->system->mkdirpath($webroot . "/.well-known/acme-challenge");
-				$app->system->chown($webroot . "/.well-known/acme-challenge/", $data['new']['system_user']);
-				$app->system->chgrp($webroot . "/.well-known/acme-challenge/", $data['new']['system_group']);
-				$app->system->chmod($webroot . "/.well-known/acme-challenge", "g+s");
-				
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path " . escapeshellarg($webroot));
+					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 			};
 

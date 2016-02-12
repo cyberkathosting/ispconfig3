@@ -118,6 +118,16 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 Alias /awstats-icon "/usr/share/awstats/icon"
 </tmpl_if>
 
+Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-known/acme-challenge
+<Directory /usr/local/ispconfig/interface/acme/.well-known/acme-challenge>
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+        Order allow,deny
+        Allow from all
+		</tmpl_if>
+</Directory>
+
 NameVirtualHost *:80
 NameVirtualHost *:443
 <tmpl_loop name="ip_adresses">

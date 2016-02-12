@@ -263,6 +263,13 @@ server {
         }
 </tmpl_if>
 
+location /\.well-known/acme-challenge {
+	   root /usr/local/ispconfig/interface/acme/.well-known/acme-challenge;
+	   index index.html index.htm;
+	   try_files $uri =404;
+}
+
+
 <tmpl_loop name="basic_auth_locations">
         location <tmpl_var name='htpasswd_location'> { ##merge##
                 auth_basic "Members Only";
@@ -293,6 +300,13 @@ server {
 </tmpl_if>
         
         server_name <tmpl_var name='rewrite_domain'>;
+
+location /\.well-known/acme-challenge {
+	   root /usr/local/ispconfig/interface/acme-challenge;
+	   index index.html index.htm;
+	   try_files $uri =404;
+}
+
 <tmpl_if name='alias_seo_redirects2'>
 <tmpl_loop name="alias_seo_redirects2">
         if ($http_host <tmpl_var name='alias_seo_redirect_operator'> "<tmpl_var name='alias_seo_redirect_origin_domain'>") {

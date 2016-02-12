@@ -655,9 +655,9 @@ $(document).bind("keypress", function(event) {
 		$("#pageForm .table #Filter").trigger('click');
 	}
 	//Use $ submit with keypress Enter in forms
-	if (event.which == '13' && $(".pnl_formsarea button.positive").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
+	if (event.which == '13' && $(".tab-content button.formbutton-success").length > 0 && event.target.localName != 'textarea' && $(event.target).is(':input')) {
 		event.preventDefault();
-		$(".pnl_formsarea button.positive:first").not("[disabled='disabled']").trigger('click');
+		$(".tab-content button.formbutton-success").not("[disabled='disabled']").trigger('click');
 	}
 });
 
@@ -701,6 +701,29 @@ $(document).on("click", ".addPlaceholderContent", function(){
 	var template2 = $(this).siblings(':input');
 	template2.insertAtCaret(placeholderContentText);
 });
+
+$(document).on("click", "[data-check-fields] > input[type='checkbox']", function() {
+	if($(this).is(':checked')) {
+		var flds = $(this).parent().attr('data-check-fields');
+		var tmp = flds.split(/,/);
+		for(var i = 0; i < tmp.length; i++) {
+			var fname = tmp[i];
+			$('input[type="checkbox"][name="' + fname + '"]').prop('checked', true);
+		}
+	}
+});
+
+$(document).on("click", "[data-uncheck-fields] > input[type='checkbox']", function() {
+	if($(this).is(':checked') == false) {
+		var flds = $(this).parent().attr('data-uncheck-fields');
+		var tmp = flds.split(/,/);
+		for(var i = 0; i < tmp.length; i++) {
+			var fname = tmp[i];
+			$('input[type="checkbox"][name="' + fname + '"]').prop('checked', false);
+		}
+	}
+});
+
 
 $(document).on('ready', function () {
 	$.fn.extend({
