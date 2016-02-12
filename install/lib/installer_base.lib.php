@@ -793,10 +793,25 @@ class installer_base {
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 	}
 
-	//* with postfix >= 2.9 we can detect configured services with postconf
-	public function postfix_master() {
-    	exec("postconf -M", $out, $ret);
-		return $ret===0?true:false;
+	public function get_postfix_service($service, $type) {
+		global $conf;
+
+		exec("postconf -M", $out, $ret);
+
+		if ($ret === 0) { //* with postfix >= 2.9 we can detect configured services with postconf
+			unset($out);
+			exec ("postconf -M $service/$type 2> /dev/null", $out, $ret); //* Postfix >= 2.11
+			if (!isset($out[0])) { //* try Postfix 2.9
+				exec ("postconf -M $service.$type 2> /dev/null", $out, $ret);
+			}
+			$postfix_service = @($out[0]=='')?false:true;
+        } else { //* fallback - Postfix < 2.9
+			rf($conf['postfix']['config_dir'].'/master.cf');
+			$regex = '/[^#]'.$service.'.*.'.$type.'.*/';
+			$postfix_service = @(!preg_match($regex, $content))?true:false;
+		}
+
+		return $postfix_service;
 	}
 
 	public function configure_postfix($options = '') {
@@ -988,10 +1003,10 @@ class installer_base {
 		//* Check maildrop service in posfix master.cf
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
 		$configfile = $config_dir.'/master.cf';
-		if ($this->postfix_master()) {
+		if($this->get_postfix_service('maildrop', 'unix')) {
 			exec ("postconf -M maildrop.unix &> /dev/null", $out, $ret);
 			$change_maildrop_flags = @(preg_match($regex, $out[0]) && $out[0] !='')?false:true;
-		} else { //* fallback - postfix < 2.9
+		} else {
 			$change_maildrop_flags = @(preg_match($regex, $configfile))?false:true;
 		}
 		if ($change_maildrop_flags) {
@@ -1167,16 +1182,9 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
+
 		//* Configure master.cf and add a line for deliver
-		if ($this->postfix_master()) {
-			exec ("postconf -M dovecot.unix", $out, $ret); //* Postfix 2.9
-			if (!isset($out[0])) exec ("postconf -M dovecot/unix", $out, $ret); //* Postfix >= 2.11
-			$add_dovecot_service = @($out[0]=='')?true:false;
- 		} else { //* fallback - postfix < 2.9
-			$content = rf($config_dir.'/master.cf');
-			$add_dovecot_service = @(!stristr($content, "dovecot/deliver"))?true:false;
- 		}
-		if($add_dovecot_service) {
+		if(!$this->get_postfix_service('dovecot', 'unix')) {
  			//* backup
 			if(is_file($config_dir.'/master.cf')){
 				copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
@@ -1186,7 +1194,7 @@ class installer_base {
 			}
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}';
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
@@ -1308,25 +1316,12 @@ class installer_base {
 			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
-		$config_dir = $conf['postfix'];
+		$config_dir = $conf['postfix']['config_dir'];
 
 		// Adding amavis-services to the master.cf file if the service does not already exists
-		if ($this->postfix_master()) {
-		    exec ("postconf -M amavis.unix &> /dev/null", $out, $ret);
-		    $add_amavis = @($out[0]=='')?true:false;
-		    unset($out);
-		    exec ("postconf -M 127.0.0.1:10025.inet &> /dev/null", $out, $ret);
-		    $add_amavis_10025 = @($out[0]=='')?true:false;
-		    unset($out);
-		    exec ("postconf -M 127.0.0.1:10027.inet &> /dev/null", $out, $ret);
-		    $add_amavis_10027 = @($out[0]=='')?true:false;
-		    unset($out);
-		} else { //* fallback - postfix < 2.9
-		    $content = rf($conf['postfix']['config_dir'].'/master.cf');
-		    $add_amavis = @(!preg_match('/^amavis\s+unix\s+/m', $content))?true:false;
-    		$add_amavis_10025 = @(!preg_match('/^127.0.0.1:10025\s+/m', $content))?true:false;
-    		$add_amavis_10027 = @(!preg_match('/^127.0.0.1:10027\s+/m', $content))?true:false;
-		}
+		$add_amavis = !$this->get_postfix_service('amavis','unix');
+		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
+		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
 
 		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
 			//* backup master.cf
