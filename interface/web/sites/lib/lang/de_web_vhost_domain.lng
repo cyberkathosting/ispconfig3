@@ -142,4 +142,5 @@ $wb['server_chosen_not_ok'] = 'The selected server is not allowed for this accou
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 $wb['rewrite_to_https_txt'] = 'Rewrite HTTP to HTTPS';
 $wb['password_strength_txt'] = 'Password strength';
+$wb['directive_snippets_id_txt'] = 'Webserver-Konfiguration';
 ?>

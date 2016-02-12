@@ -139,7 +139,7 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
-		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
+		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl', 'limit_ssl_letsencrypt', 'limit_directive_snippets');
 
 		if($this->_vhostdomain_type != 'domain') $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ?", @$this->dataRecord["parent_domain_id"]);
 		
@@ -953,7 +953,7 @@ class page_action extends tform_actions {
 			$this->parent_domain_record = $parent_domain;
 		}
 
-		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl');
+		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl', 'limit_ssl_letsencrypt', 'limit_directive_snippets');
 
 		/* check if the domain module is used - and check if the selected domain can be used! */
 		if($app->tform->getCurrentTab() == 'domain') {
@@ -1020,6 +1020,8 @@ class page_action extends tform_actions {
 			if($client['limit_hterror'] != 'y') $this->dataRecord['errordocs'] = 'n';
 			if($client['limit_wildcard'] != 'y' && $this->dataRecord['subdomain'] == '*') $this->dataRecord['subdomain'] = 'n';
 			if($client['limit_ssl'] != 'y') $this->dataRecord['ssl'] = 'n';
+			if($client['limit_ssl_letsencrypt'] != 'y') $this->dataRecord['ssl_letsencrypt'] = 'n';
+			if($client['limit_directive_snippets'] != 'y') $this->dataRecord['directive_snippets_id'] = 0
 
 			// only generate quota and traffic warnings if value has changed
 			if($this->id > 0) {
