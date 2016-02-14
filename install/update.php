@@ -321,33 +321,34 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 	if($conf['services']['mail']) {
 
 		//** Configure postfix
-		if($inst->reconfigure_app('Postfix', $reconfigure_services_answer)) {
+		if($inst->reconfigure_app('Postfix and IMAP/POP3', $reconfigure_services_answer)) {
 			swriteln('Configuring Postfix');
 			$inst->configure_postfix('dont-create-certs');
+
+			if($conf['dovecot']['installed'] == true) {
+			//* Configure dovecot
+			swriteln('Configuring Dovecot');
+			$inst->configure_dovecot();
+			} elseif ($conf['courier']['installed'] == true) {
+				//** Configure saslauthd
+				swriteln('Configuring SASL');
+				$inst->configure_saslauthd();
+
+				//** Configure PAM
+				swriteln('Configuring PAM');
+				$inst->configure_pam();
+
+				//* Configure courier
+				swriteln('Configuring Courier');
+				$inst->configure_courier();
+			}
+
 		}
 
 		//** Configure mailman
 		if($conf['mailman']['installed'] == true && $inst->reconfigure_app('Mailman', $reconfigure_services_answer)) {
 			swriteln('Configuring Mailman');
 			$inst->configure_mailman('update');
-		}
-
-		if($conf['dovecot']['installed'] == true && $inst->reconfigure_app('Dovecot', $reconfigure_services_answer)) {
-			//* Configure dovecot
-			swriteln('Configuring Dovecot');
-			$inst->configure_dovecot();
-		} elseif ($conf['courier']['installed'] == true && $inst->reconfigure_app('Courier', $reconfigure_services_answer)) {
-			//** Configure saslauthd
-			swriteln('Configuring SASL');
-			$inst->configure_saslauthd();
-
-			//** Configure PAM
-			swriteln('Configuring PAM');
-			$inst->configure_pam();
-
-			//* Configure courier
-			swriteln('Configuring Courier');
-			$inst->configure_courier();
 		}
 
 		//** Configure Spamasassin
