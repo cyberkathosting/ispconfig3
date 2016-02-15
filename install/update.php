@@ -326,9 +326,9 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 			$inst->configure_postfix('dont-create-certs');
 
 			if($conf['dovecot']['installed'] == true) {
-			//* Configure dovecot
-			swriteln('Configuring Dovecot');
-			$inst->configure_dovecot();
+				//* Configure dovecot
+				swriteln('Configuring Dovecot');
+				$inst->configure_dovecot();
 			} elseif ($conf['courier']['installed'] == true) {
 				//** Configure saslauthd
 				swriteln('Configuring SASL');
