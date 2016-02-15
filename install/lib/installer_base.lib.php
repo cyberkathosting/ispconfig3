@@ -263,7 +263,7 @@ class installer_base {
 		}
 
 		// Delete ISPConfig user in the local database, in case that it exists
-		$this->db->query("DROP USER ?'@'? ", $conf['mysql']['ispconfig_user'], $from_host);
+		$this->db->query("DROP USER ?@?", $conf['mysql']['ispconfig_user'], $from_host);
 		$this->db->query("DROP DATABASE IF EXISTS ?", $conf['mysql']['database']);
 
 		//* Create the ISPConfig database user in the local database
