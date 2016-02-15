@@ -263,18 +263,14 @@ class installer_base {
 		}
 
 		// Delete ISPConfig user in the local database, in case that it exists
-		$this->db->query("DELETE FROM mysql.user WHERE User = ? AND Host = ?", $conf['mysql']['ispconfig_user'], $from_host);
-		$this->db->query("DELETE FROM mysql.db WHERE Db = ? AND Host = ?", $conf['mysql']['database'], $from_host);
-		$this->db->query('FLUSH PRIVILEGES');
+		$this->db->query("DROP USER ?'@'? ", $conf['mysql']['ispconfig_user'], $from_host);
+		$this->db->query("DROP DATABASE IF EXISTS ?", $conf['mysql']['database']);
 
 		//* Create the ISPConfig database user in the local database
 		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
 		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host, $conf['mysql']['ispconfig_password'])) {
 			$this->error('Unable to create database user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
-
-		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
 
 		//* Set the database name in the DB library
 		$this->db->setDBName($conf['mysql']['database']);
@@ -655,10 +651,6 @@ class installer_base {
 				}
 			}
 
-			/*
-		 * It is all done. Relod the rights...
-		 */
-			$this->dbmaster->query('FLUSH PRIVILEGES');
 		}
 
 	}
@@ -1471,9 +1463,6 @@ class installer_base {
 		if(!$this->db->query($query, $conf['powerdns']['database'] . '.*', $conf['mysql']['ispconfig_user'])) {
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
-
-		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES');
 
 		//* load the powerdns databse dump
 		if($conf['mysql']['admin_password'] == '') {

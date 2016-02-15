@@ -228,7 +228,6 @@ class mysql_clientdb_plugin {
 
 			}
 
-			$link->query('FLUSH PRIVILEGES;');
 			$link->close();
 		}
 	}
@@ -433,7 +432,6 @@ class mysql_clientdb_plugin {
 						}
 					}
 					// Database is not active, so stop processing here
-					$link->query('FLUSH PRIVILEGES;');
 					$link->close();
 					return;
 				}
@@ -570,8 +568,6 @@ class mysql_clientdb_plugin {
 				}
 			}
 
-
-			$link->query('FLUSH PRIVILEGES;');
 			$link->close();
 		}
 
@@ -621,7 +617,6 @@ class mysql_clientdb_plugin {
 				$app->log('Error while dropping MySQL database: '.$data['old']['database_name'].' '.$link->error, LOGLEVEL_WARNING);
 			}
 
-			$link->query('FLUSH PRIVILEGES;');
 			$link->close();
 		}
 
@@ -685,7 +680,6 @@ class mysql_clientdb_plugin {
 			}
 		}
 
-		$link->query('FLUSH PRIVILEGES;');
 		$link->close();
 
 	}
@@ -721,7 +715,6 @@ class mysql_clientdb_plugin {
 			}
 		}
 
-		$link->query('FLUSH PRIVILEGES;');
 		$link->close();
 	}
 
