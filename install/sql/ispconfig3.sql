@@ -1791,6 +1791,8 @@ CREATE TABLE `sys_user` (
   `id_rsa` VARCHAR( 2000 ) NOT NULL default '',
   `ssh_rsa` VARCHAR( 600 ) NOT NULL default '',
   `lost_password_function` tinyint(1) NOT NULL default '1',
+  `lost_password_hash` VARCHAR(50) NOT NULL default '',
+  `lost_password_reqtime` DATETIME NULL default NULL,
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
