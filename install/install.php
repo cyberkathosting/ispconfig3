@@ -208,7 +208,7 @@ do {
 	}
 
 	//* Initialize the MySQL server connection
-	if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
+	if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, '', (int)$tmp_mysql_server_port)) {
 		$conf['mysql']['host'] = $tmp_mysql_server_host;
 		$conf['mysql']['port'] = $tmp_mysql_server_port;
 		$conf['mysql']['admin_user'] = $tmp_mysql_server_admin_user;

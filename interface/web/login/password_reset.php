@@ -48,12 +48,11 @@ $app->tpl->setVar($wb);
 $continue = true;
 
 if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '' && $_POST['username'] != 'admin') {
-
 	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) {
 		$app->tpl->setVar("error", $wb['user_regex_error']);
 		$continue = false;
 	}
-	if(!preg_match("/^\w+[\w.-]*\w+@\w+[\w.-]*\w+\.[a-z]{2,10}$/i", $_POST['email'])) {
+	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 		$app->tpl->setVar("error", $wb['email_error']);
 		$continue = false;
 	}
@@ -61,10 +60,65 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$username = $_POST['username'];
 	$email = $_POST['email'];
 
-	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
+	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function, sys_user.lost_password_hash, IF(sys_user.lost_password_reqtime IS NOT NULL AND DATE_SUB(NOW(), INTERVAL 15 MINUTE) < sys_user.lost_password_reqtime, 1, 0) as `lost_password_wait` FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
 
 	if($client['lost_password_function'] == 0) {
 		$app->tpl->setVar("error", $wb['lost_password_function_disabled_txt']);
+	} elseif($client['lost_password_wait'] == 1) {
+		$app->tpl->setVar("error", $wb['lost_password_function_wait_txt']);
+	} elseif ($continue) {
+		if($client['client_id'] > 0) {
+			$username = $client['username'];
+			$password_hash = sha1(uniqid('ispc_pw'));
+			$app->db->query("UPDATE sys_user SET lost_password_reqtime = NOW(), lost_password_hash = ? WHERE username = ?", $password_hash, $username);
+			$app->tpl->setVar("message", $wb['pw_reset_act']);
+			
+			$server_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
+			if($server_domain == '_') {
+				$tmp = explode(':',$_SERVER["HTTP_HOST"]);
+				$server_domain = $tmp[0];
+				unset($tmp);
+			}
+			if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') $server_domain = 'http://' . $server_domain;
+			else $server_domain = 'https://' . $server_domain;
+			
+			if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != '443') $server_domain .= ':' . $_SERVER['SERVER_PORT'];
+			
+			$app->uses('getconf,ispcmail');
+			$mail_config = $server_config_array['mail'];
+			if($mail_config['smtp_enabled'] == 'y') {
+				$mail_config['use_smtp'] = true;
+				$app->ispcmail->setOptions($mail_config);
+			}
+			$app->ispcmail->setSender($mail_config['admin_mail'], $mail_config['admin_name']);
+			$app->ispcmail->setSubject($wb['pw_reset_act_mail_title']);
+			$app->ispcmail->setMailText($wb['pw_reset_act_mail_msg'].$server_domain . '/login/password_reset.php?username=' . urlencode($username) . '&hash=' . urlencode($password_hash));
+			$app->ispcmail->send(array($client['contact_name'] => $client['email']));
+			$app->ispcmail->finish();
+
+			$app->tpl->setVar("msg", $wb['pw_reset_act']);
+		} else {
+			$app->tpl->setVar("error", $wb['pw_error']);
+		}
+	}
+} elseif(isset($_GET['username']) && $_GET['username'] != '' && $_GET['hash'] != '') {
+
+	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_GET['username'])) {
+		$app->tpl->setVar("error", $wb['user_regex_error']);
+		$continue = false;
+	}
+	
+	$username = $_GET['username'];
+	$hash = $_GET['hash'];
+
+	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function, sys_user.lost_password_hash, IF(sys_user.lost_password_reqtime IS NULL OR DATE_SUB(NOW(), INTERVAL 1 DAY) > sys_user.lost_password_reqtime, 1, 0) as `lost_password_expired` FROM client,sys_user WHERE client.username = ? AND client.client_id = sys_user.client_id", $username);
+
+	if($client['lost_password_function'] == 0) {
+		$app->tpl->setVar("error", $wb['lost_password_function_disabled_txt']);
+	} elseif($client['lost_password_expired'] == 1) {
+		$app->tpl->setVar("error", $wb['lost_password_function_expired_txt']);
+	} elseif($client['lost_password_hash'] != $hash) {
+		$app->tpl->setVar("error", $wb['lost_password_function_denied_txt']);
 	} elseif ($continue) {
 		if($client['client_id'] > 0) {
 			$server_config_array = $app->getconf->get_global_config();
@@ -75,7 +129,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$new_password_encrypted = $app->auth->crypt_password($new_password);
 
 			$username = $client['username'];
-			$app->db->query("UPDATE sys_user SET passwort = ? WHERE username = ?", $new_password_encrypted, $username);
+			$app->db->query("UPDATE sys_user SET passwort = ?, lost_password_hash = '', lost_password_reqtime = NULL WHERE username = ?", $new_password_encrypted, $username);
 			$app->db->query("UPDATE client SET password = ? WHERE username = ?", $new_password_encrypted, $username);
 			$app->tpl->setVar("message", $wb['pw_reset']);
 

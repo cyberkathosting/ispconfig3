@@ -1052,6 +1052,10 @@ class apache2_plugin {
 								}
 							}
 						}
+
+						foreach($sub_prefixes as $s) {
+							$temp_domains[] = $s . $aliasdomain['domain'];
+						}
 					}
 				}
 			}
@@ -1137,6 +1141,7 @@ class apache2_plugin {
 			$lddomain = $domain;
 			$subdomains = null;
 			$aliasdomains = null;
+			$sub_prefixes = array();
 
 			//* be sure to have good domain
 			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
@@ -1148,6 +1153,7 @@ class apache2_plugin {
 			if(is_array($subdomains)) {
 				foreach($subdomains as $subdomain) {
 					$temp_domains[] = $subdomain['domain'];
+					$sub_prefixes[] = str_replace($domain, "", $subdomain['domain']);
 				}
 			}
 			

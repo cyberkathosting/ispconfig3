@@ -267,7 +267,6 @@ class software_update_plugin {
 				$app->log('Unable to create database user'.$db_config['database_user'].' '.mysqli_error($link), LOGLEVEL_ERROR);
 			}
 
-			mysqli_query($link, "FLUSH PRIVILEGES;");
 			mysqli_close($link);
 
 		}

@@ -472,9 +472,6 @@ class installer extends installer_base
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
 
-		//* Reload database privelages
-		$this->db->query('FLUSH PRIVILEGES;');
-
 		//* load the powerdns databse dump
 		if($conf['mysql']['admin_password'] == '') {
 			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null",
