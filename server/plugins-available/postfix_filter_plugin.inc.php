@@ -80,7 +80,7 @@ class postfix_filter_plugin {
 
 		$type = $data["new"]["type"];
 		if($type != '') {
-			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ? AND type = ?' AND active = 'y'";
+			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ? AND type = ? AND active = 'y'";
 			$rules = $app->db->queryAllRecords($sql, $conf["server_id"], $type);
 			$content = '';
 			foreach($rules as $rule) {
