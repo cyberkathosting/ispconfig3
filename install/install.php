@@ -702,9 +702,6 @@ if($install_mode == 'standard') {
 		$inst->configure_pureftpd();
 	}
 	
-	swriteln('Detect IP addresses');
-	$inst->detect_ips();
-
 	//** Configure DNS
 	if(strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y','configure_dns')) == 'y') {
 		$conf['services']['dns'] = true;
