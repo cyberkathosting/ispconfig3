@@ -92,6 +92,9 @@ class mysql_clientdb_plugin {
 						$result->free();
 				}
 		}
+		
+		$app->log("Calling $action for $database_name with access $user_access_mode and hosts " . implode(', ', $host_list), LOGLEVEL_DEBUG);
+		
 		// loop through hostlist
 		foreach($host_list as $db_host) {
 			$db_host = trim($db_host);
@@ -112,23 +115,32 @@ class mysql_clientdb_plugin {
 				$valid = false;
 			}
 
-			if($valid == false) continue;
+			if($valid == false) {
+				$app->log("Invalid host " . $db_host . " for GRANT to " . $database_name, LOGLEVEL_DEBUG);
+				continue;
+			}
 			
-			$grants = 'ALL';
+			$grants = 'ALL PRIVILEGES';
 			if($user_access_mode == 'r') $grants = 'SELECT';
 			elseif($user_access_mode == 'rd') $grants = 'SELECT, DELETE, ALTER, DROP';
 			
 			if($action == 'GRANT') {
-				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
-				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'; success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				if($user_access_mode == 'r' || $user_access_mode == 'rd') {
+					if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+					$app->log("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+					$success = true;
+				}
+				
+				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'")) $success = false;
+				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 			} elseif($action == 'REVOKE') {
-				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
+				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'DROP') {
-				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host';")) $success = false;
+				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'RENAME') {
 				if(!$link->query("RENAME USER '".$link->escape_string($database_user)."'@'$db_host' TO '".$link->escape_string($database_rename_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'PASSWORD') {
-				if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."';")) $success = false;
+				if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
 			}
 		}
 
@@ -254,7 +266,7 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to connect to the database: '.$link->connect_error, LOGLEVEL_ERROR);
 				return;
 			}
-
+			
 			// get the users for this database
 			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
 			$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_user_id']);
@@ -406,32 +418,32 @@ class mysql_clientdb_plugin {
 					if($db_ro_user['database_user'] == 'root') $app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
 					else $this->process_host_list('GRANT', $data['new']['database_name'], $db_ro_user['database_user'], $db_ro_user['database_password'], $host_list, $link, '', 'r');
 				}
-			} else if($data['new']['active'] == 'n' && $data['old']['active'] == 'y') { // revoke database user, if inactive
-					if($old_db_user) {
-						if($old_db_user['database_user'] == 'root'){
-							$app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
-						} else {
-							// Find out users to drop and users to revoke
-							$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_user_id'], $old_host_list);
-							if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
-							if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
-						}
+			} elseif($data['new']['active'] == 'n' && $data['old']['active'] == 'y') { // revoke database user, if inactive
+				if($old_db_user) {
+					if($old_db_user['database_user'] == 'root'){
+						$app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
+					} else {
+						// Find out users to drop and users to revoke
+						$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_user_id'], $old_host_list);
+						if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
+						if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_user['database_user'], $old_db_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
+					}
 
-					}
-					if($old_db_ro_user && $data['old']['database_user_id'] != $data['old']['database_ro_user_id']) {
-						if($old_db_ro_user['database_user'] == 'root'){
-							$app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
-						} else {
-							// Find out users to drop and users to revoke
-							$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_ro_user_id'], $old_host_list);
-							if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_ro_user['database_user'], $old_db_ro_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
-							if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_ro_user['database_user'], $old_db_ro_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
-						}
-					}
-					// Database is not active, so stop processing here
-					$link->close();
-					return;
 				}
+				if($old_db_ro_user && $data['old']['database_user_id'] != $data['old']['database_ro_user_id']) {
+					if($old_db_ro_user['database_user'] == 'root'){
+						$app->log('User root not allowed for Client databases', LOGLEVEL_WARNING);
+					} else {
+						// Find out users to drop and users to revoke
+						$drop_or_revoke_user = $this->drop_or_revoke_user($data['old']['database_id'], $data['old']['database_ro_user_id'], $old_host_list);
+						if($drop_or_revoke_user['drop_hosts'] != '') $this->process_host_list('DROP', $data['old']['database_name'], $old_db_ro_user['database_user'], $old_db_ro_user['database_password'], $drop_or_revoke_user['drop_hosts'], $link);
+						if($drop_or_revoke_user['revoke_hosts'] != '') $this->process_host_list('REVOKE', $data['old']['database_name'], $old_db_ro_user['database_user'], $old_db_ro_user['database_password'], $drop_or_revoke_user['revoke_hosts'], $link);
+					}
+				}
+				// Database is not active, so stop processing here
+				$link->close();
+				return;
+			}
 
 			//* selected Users have changed
 			if($data['new']['database_user_id'] != $data['old']['database_user_id']) {
