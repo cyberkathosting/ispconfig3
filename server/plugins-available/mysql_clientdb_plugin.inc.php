@@ -120,21 +120,27 @@ class mysql_clientdb_plugin {
 				continue;
 			}
 			
-			$grants = 'ALL';
+			$grants = 'ALL PRIVILEGES';
 			if($user_access_mode == 'r') $grants = 'SELECT';
 			elseif($user_access_mode == 'rd') $grants = 'SELECT, DELETE, ALTER, DROP';
 			
 			if($action == 'GRANT') {
-				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
-				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'; success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				if($user_access_mode == 'r' || $user_access_mode == 'rd') {
+					if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+					$app->log("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+					$success = true;
+				}
+				
+				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'")) $success = false;
+				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 			} elseif($action == 'REVOKE') {
-				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."';")) $success = false;
+				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'DROP') {
-				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host';")) $success = false;
+				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'RENAME') {
 				if(!$link->query("RENAME USER '".$link->escape_string($database_user)."'@'$db_host' TO '".$link->escape_string($database_rename_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'PASSWORD') {
-				if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."';")) $success = false;
+				if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
 			}
 		}
 
