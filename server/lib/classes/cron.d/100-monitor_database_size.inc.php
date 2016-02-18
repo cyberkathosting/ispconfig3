@@ -92,14 +92,16 @@ class cronjob_monitor_database_size extends cronjob {
 				$data[$i]['sys_groupid'] = $rec['sys_groupid'];
 
 				$quota = $rec['database_quota'] * 1024 * 1024;
-				if (!is_numeric($quota)) continue;
+				if(!is_numeric($quota)) continue;
 				
-				if($quota < 0 || $quota > $data[$i]['size']) {
+				if($quota < 1 || $quota > $data[$i]['size']) {
+					print $rec['database_name'] . ' does not exceed quota qize: ' . $quota . ' > ' . $data[$i]['size'] . "\n";
 					if($rec['quota_exceeded'] == 'y') {
 						$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'n'), 'database_id', $rec['database_id']);
 					}
 				} elseif($rec['quota_exceeded'] == 'n') {
-						$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'y'), 'database_id', $rec['database_id']);
+					print $rec['database_name'] . ' exceeds quota qize: ' . $quota . ' < ' . $data[$i]['size'] . "\n";
+					$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'y'), 'database_id', $rec['database_id']);
 				}
 			}
 
