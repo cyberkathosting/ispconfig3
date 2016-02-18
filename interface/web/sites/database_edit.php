@@ -262,7 +262,6 @@ class page_action extends tform_actions {
 					}
 					unset($tmp);
 				}
-
 			}
 		} else {
 			// check if client of database parent domain is client of db user!

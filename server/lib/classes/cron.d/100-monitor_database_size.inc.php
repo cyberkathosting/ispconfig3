@@ -78,16 +78,29 @@ class cronjob_monitor_database_size extends cronjob {
 		$state = 'ok';
 
 		/** Fetch the data of all databases into an array */
-		$databases = $app->db->queryAllRecords("SELECT database_name, sys_groupid FROM web_database WHERE server_id = ? GROUP BY sys_groupid, database_name ASC", $server_id);
+		$databases = $app->db->queryAllRecords("SELECT database_id, database_name, sys_groupid, database_quota, quota_exceeded FROM web_database WHERE server_id = ? GROUP BY sys_groupid, database_name ASC", $server_id);
 
 		if(is_array($databases) && !empty($databases)) {
 
 			$data = array();
 
 			for ($i = 0; $i < sizeof($databases); $i++) {
-				$data[$i]['database_name']= $databases[$i]['database_name'];
-				$data[$i]['size'] = $app->db->getDatabaseSize($databases[$i]['database_name']);
-				$data[$i]['sys_groupid'] = $databases[$i]['sys_groupid'];
+				$rec = $databases[$i];
+				
+				$data[$i]['database_name']= $rec['database_name'];
+				$data[$i]['size'] = $app->db->getDatabaseSize($rec['database_name']);
+				$data[$i]['sys_groupid'] = $rec['sys_groupid'];
+
+				$quota = $rec['database_quota'] * 1024 * 1024;
+				if (!is_numeric($quota)) continue;
+				
+				if($quota < 0 || $quota > $data[$i]['size']) {
+					if($rec['quota_exceeded'] == 'y') {
+						$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'n'), 'database_id', $rec['database_id']);
+					}
+				} elseif($rec['quota_exceeded'] == 'n') {
+						$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'y'), 'database_id', $rec['database_id']);
+				}
 			}
 
 			$res = array();

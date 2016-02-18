@@ -220,3 +220,5 @@ ALTER TABLE `client_template` ADD COLUMN `limit_directive_snippets` ENUM( 'n', '
 ALTER TABLE `sys_user`
 	ADD COLUMN `lost_password_hash` VARCHAR(50) NOT NULL DEFAULT '',
 	ADD COLUMN `lost_password_reqtime` DATETIME NULL default NULL;
+
+ALTER TABLE `web_database` ADD COLUMN `quota_exceeded` enum('n','y') NOT NULL DEFAULT 'n' AFTER `database_quota`;

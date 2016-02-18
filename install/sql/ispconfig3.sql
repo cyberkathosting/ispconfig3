@@ -1856,6 +1856,7 @@ CREATE TABLE `web_database` (
   `database_name` varchar(64) DEFAULT NULL,
   `database_name_prefix` varchar(50) NOT NULL default '',
   `database_quota` int(11) unsigned DEFAULT NULL,
+  `quota_exceeded` enum('n','y') NOT NULL DEFAULT 'n',
   `last_quota_notification` date NULL default NULL,
   `database_user_id` int(11) unsigned DEFAULT NULL,
   `database_ro_user_id` int(11) unsigned DEFAULT NULL,
