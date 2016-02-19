@@ -1356,11 +1356,10 @@ class page_action extends tform_actions {
 			$php_open_basedir = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
 			$php_open_basedir = str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir);
 			$htaccess_allow_override = $web_config["htaccess_allow_override"];
-			$added_date = date($app->lng('conf_format_dateshort'));
 			$added_by = $_SESSION['s']['user']['username'];
 
-			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = ?, added_by = ?  WHERE domain_id = ?";
-			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_date, $added_by, $this->id);
+			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?  WHERE domain_id = ?";
+			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
 		} else  {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $this->parent_domain_record['system_user'];
@@ -1371,11 +1370,10 @@ class page_action extends tform_actions {
 			$php_open_basedir = str_replace("[website_path]", $document_root, $php_open_basedir);
 			$php_open_basedir = str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir);
 			$htaccess_allow_override = $this->parent_domain_record['allow_override'];
-			$added_date = date($app->lng('conf_format_dateshort'));
 			$added_by = $_SESSION['s']['user']['username'];
 			
-			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = ?, added_by = ?  WHERE domain_id = ?";
-			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_date, $added_by, $this->id);
+			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?  WHERE domain_id = ?";
+			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
 	}
