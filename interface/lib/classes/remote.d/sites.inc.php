@@ -127,9 +127,9 @@ class remoting_sites extends remoting {
 
 			$this->id = 0;
 			$this->dataRecord = $params;
-			$app->sites_database_plugin->processDatabaseInsert($this);
 
 			$retval = $this->insertQueryExecute($sql, $params);
+			$app->sites_database_plugin->processDatabaseInsert($this);
 			
 			// set correct values for backup_interval and backup_copies
 			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
