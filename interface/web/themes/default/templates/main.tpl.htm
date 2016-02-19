@@ -40,7 +40,7 @@
           <div id='headerbar' class='clear'>
             <!-- logout button -->
             <tmpl_if name="cpuser">
-				<button type='button' id='logout-button' class='btn btn-sm btn-danger' data-load-content="login/logout.php"><tmpl_var format="strtoupper" name="logout_txt"> <tmpl_var format="strtoupper" name="cpuser"></button>
+				<button type='button' id='logout-button' class='btn btn-sm btn-danger text-uppercase' data-load-content="login/logout.php"><tmpl_var name="logout_txt"> <tmpl_var name="cpuser"></button>
 				<tmpl_if name='usertype' op='==' value='normaluser'>
 					<!-- search field -->
 					<form action='#' method='get' id='searchform' role='form'>
