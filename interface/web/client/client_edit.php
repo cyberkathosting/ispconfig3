@@ -408,13 +408,7 @@ class page_action extends tform_actions {
 		// password changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $this->dataRecord["password"];
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0, 63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($password), $salt);
+			$password = $app->auth->crypt_password($password);
 			$client_id = $this->id;
 			$sql = "UPDATE sys_user SET passwort = ? WHERE client_id = ?";
 			$app->db->query($sql, $password, $client_id);
