@@ -101,8 +101,6 @@ class client_templates {
 	function apply_client_templates($clientId) {
 		global $app;
 
-		include '../client/form/client.tform.php';
-
 		/*
          * Get the master-template for the client
          */
@@ -110,6 +108,8 @@ class client_templates {
 		$record = $app->db->queryOneRecord($sql, $clientId);
 		$masterTemplateId = $record['template_master'];
 		$is_reseller = ($record['limit_client'] != 0)?true:false;
+
+		include '../client/form/' . ($is_reseller ? 'reseller' : 'client') . '.tform.php';
 
 		if($record['template_additional'] != '') {
 			// we have to call the update_client_templates function
@@ -124,6 +124,8 @@ class client_templates {
 		if ($masterTemplateId > 0){
 			$sql = "SELECT * FROM client_template WHERE template_id = ?";
 			$limits = $app->db->queryOneRecord($sql, $masterTemplateId);
+			if($is_reseller == true && $limits['limit_client'] == 0) $limits['limit_client'] = -1;
+			elseif($is_reseller == false && $limits['limit_client'] != 0) $limits['limit_client'] = 0;
 		} else {
 			// if there is no master template it makes NO SENSE adding sub templates.
 			// adding subtemplates are stored in client limits, so they would add up
@@ -132,7 +134,7 @@ class client_templates {
 		}
 
 		/*
-         * Process the additional tempaltes here (add them to the limits
+         * Process the additional templates here (add them to the limits
          * if != -1)
          */
 		$addTpl = explode('/', $additionalTemplateStr);
@@ -145,6 +147,11 @@ class client_templates {
 			/* maybe the template is deleted in the meantime */
 			if (is_array($addLimits)){
 				foreach($addLimits as $k => $v){
+					if($k == 'limit_client') {
+						if($is_reseller == true && $v == 0) continue;
+						elseif($is_reseller == false && $v != 0) continue;
+					}
+					
 					/* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
 					if (strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
 						$app->log('Template processing key ' . $k . ' for client ' . $clientId, LOGLEVEL_DEBUG);
