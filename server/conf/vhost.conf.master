@@ -286,7 +286,7 @@
 				ProcessLifeTime 3600
 				# MaxProcessCount 1000
 				DefaultMinClassProcessCount 0
-				DefaultMaxClassProcessCount 100
+				DefaultMaxClassProcessCount 10
 				IPCConnectTimeout 3
 				IPCCommTimeout 600
 				BusyTimeout 3600
