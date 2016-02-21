@@ -42,6 +42,7 @@ $wb["limit_domain_txt"] = 'limit_domain';
 $wb["limit_subdomain_txt"] = 'limit_subdomain';
 $wb["limit_webquota_txt"] = 'limit_webquota';
 $wb["limit_database_txt"] = 'limit_database';
+$wb["limit_database_user_txt"] = "Max. Database users";
 $wb["limit_cron_txt"] = 'Max. number of cron jobs';
 $wb["limit_cron_type_txt"] = 'Max. type of cron jobs (chrooted and full implies url)';
 $wb["limit_cron_frequency_txt"] = 'Min. delay between executions';
@@ -203,4 +204,8 @@ $wb["btn_cancel_txt"] = "Cancel";
 $wb["email_error_empty"] = "Email is empty";
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 
+$wb['limit_database_user_txt'] = 'Max. Database users';
+$wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
+$wb['limit_database_quota_txt'] = 'Database quota';
+$wb['limit_database_quota_error_notint'] = 'The database quota limit must be a number.';
 ?>

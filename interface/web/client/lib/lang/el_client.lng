@@ -194,4 +194,6 @@ $wb['reseller_txt'] = 'Reseller';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
+$wb['limit_database_user_txt'] = 'Max. Database users';
+$wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
 ?>

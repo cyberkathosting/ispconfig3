@@ -196,4 +196,6 @@ $wb['limit_xmpp_vjud_txt'] = 'VJUD user directory available';
 $wb['limit_xmpp_proxy_txt'] = 'Bytestream proxy available';
 $wb['limit_xmpp_status_txt'] = 'Status host available';
 $wb['limit_directive_snippets_txt'] = 'Webserver-Konfigurationsauswahl sichtbar';
+$wb['limit_database_user_txt'] = 'Max. Database users';
+$wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
 ?>
