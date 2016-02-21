@@ -20,4 +20,5 @@ $wb['globalsearch_noresults_text_txt'] = 'Sin resultados.';
 $wb['globalsearch_noresults_limit_txt'] = '0 resultados';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Buscar';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugerencias';
+$wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
 ?>
