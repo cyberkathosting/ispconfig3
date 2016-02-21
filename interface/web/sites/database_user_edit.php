@@ -55,10 +55,10 @@ class page_action extends tform_actions {
 
 		// we will check only users, not admins
 		if($_SESSION['s']['user']['typ'] == 'user') {
-			if(!$app->tform->checkClientLimit('limit_database_users')) {
+			if(!$app->tform->checkClientLimit('limit_database_user')) {
 				$app->error($app->tform->wordbook["limit_database_user_txt"]);
 			}
-			if(!$app->tform->checkResellerLimit('limit_database_users')) {
+			if(!$app->tform->checkResellerLimit('limit_database_user')) {
 				$app->error('Reseller: '.$app->tform->wordbook["limit_database_user_txt"]);
 			}
 		}
