@@ -20,4 +20,5 @@ $wb['globalsearch_noresults_text_txt'] = 'Sonuç yok.';
 $wb['globalsearch_noresults_limit_txt'] = '0 sonuç';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Arama';
 $wb['globalsearch_suggestions_text_txt'] = 'Öneriler';
+$wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
 ?>

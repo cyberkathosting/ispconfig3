@@ -50,6 +50,22 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onShowNew() {
+		global $app;
+
+		// we will check only users, not admins
+		if($_SESSION['s']['user']['typ'] == 'user') {
+			if(!$app->tform->checkClientLimit('limit_database_users')) {
+				$app->error($app->tform->wordbook["limit_database_user_txt"]);
+			}
+			if(!$app->tform->checkResellerLimit('limit_database_users')) {
+				$app->error('Reseller: '.$app->tform->wordbook["limit_database_user_txt"]);
+			}
+		}
+
+		parent::onShowNew();
+	}
+
 	function onShowEnd() {
 		global $app, $conf, $interfaceConf;
 
