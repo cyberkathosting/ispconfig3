@@ -46,11 +46,11 @@ class validate_server {
 	 * Validator function for server-ip
 	*/
 	function check_server_ip($field_name, $field_value, $validator) {
-		if($_POST['ip_type'] == 'IPv41') {
+		if($_POST['ip_type'] == 'IPv4') {
 			if(!filter_var($field_value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 				return $this->get_error($validator['errmsg']);
 			}
-		} elseif ($_POST['ip_type'] == 'IPv61') {
+		} elseif ($_POST['ip_type'] == 'IPv6') {
 			if(!filter_var($field_value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
 				return $this->get_error($validator['errmsg']);
 			}
