@@ -110,7 +110,7 @@ class network_settings_plugin {
 						/*
 						 * don't insert the main-ip again!
 						 */
-						if ($rec['ip_address'] != $server_config['ip_address'])
+						if ($rec['ip_address'] != $server_config['ip_address'] && filter_var($rec['ip_address'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
 						{
 							$ip_records[$n] = array(
 								'id' => $n,
@@ -188,7 +188,7 @@ class network_settings_plugin {
 						/*
 						 * don't insert the main-ip again!
 						 */
-						if ($rec['ip_address'] != $server_config['ip_address'])
+						if ($rec['ip_address'] != $server_config['ip_address'] && filter_var($rec['ip_address'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
 						{
 							$ip_records[$n] = array(
 								'id' => $n,
