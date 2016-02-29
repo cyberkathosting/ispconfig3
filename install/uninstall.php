@@ -36,7 +36,7 @@ error_reporting(E_ALL|E_STRICT);
 
 require_once "/usr/local/ispconfig/server/lib/config.inc.php";
 require_once "/usr/local/ispconfig/server/lib/app.inc.php";
-require "/usr/local/ispconfig/server/mysql_clientdb.conf";
+require "/usr/local/ispconfig/server/lib/mysql_clientdb.conf";
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
@@ -51,7 +51,7 @@ echo " _____ ___________   _____              __ _         ____
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Uninstall  \n\n";
 
-echo "Are you sure you want to uninsatll ISPConfig? [no]";
+echo "Are you sure you want to uninstall ISPConfig? [no]";
 $input = fgets(STDIN);
 $do_uninstall = rtrim($input);
 
@@ -62,11 +62,11 @@ if($do_uninstall == 'yes') {
 
 	$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
 	if (!$link) {
-		echo "Unable to connect to the database'.mysql_error($link)";
+		echo "Unable to connect to the database. mysql_error($link)";
 	} else {
-		$result=mysqli_query($link,"DROP DATABASE ".$conf['db_database']."';");
+		$result=mysqli_query($link,"DROP DATABASE ".$conf['db_database'].";");
 		if (!$result) echo "Unable to remove the ispconfig-database ".$conf['db_database']." ".mysqli_error($link)."\n";
-		$result=mysqli_query($link,"DROP USER '".$conf['db_user'] ."';");
+		$result=mysqli_query($link,"DROP USER '".$conf['db_user']."'@'".$conf['db_host']."';");
 	        if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysqli_error($link)."\n";
 	}
 	mysqli_close($link);
