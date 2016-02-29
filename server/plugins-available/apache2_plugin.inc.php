@@ -1119,14 +1119,7 @@ class apache2_plugin {
 		}
 		*/
 
-		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
-			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
-			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
-			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
-		)) {
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
@@ -1135,7 +1128,16 @@ class apache2_plugin {
 			
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
+		}
 
+		//* Generate Let's Encrypt SSL certificat
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
+			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
+			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
+			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
+		)) {
 			// default values
 			$temp_domains = array();
 			$lddomain = $domain;
