@@ -1709,7 +1709,7 @@ class apache2_plugin {
 					$data['new']['ipv6_address'] = implode(':', $explode_v6);
 				}
 			}
-
+			if($data['new']['ipv6_address'] == '*') $data['new']['ipv6_address'] = '::';
 			$tmp_vhost_arr = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80);
 			if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
 			if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
