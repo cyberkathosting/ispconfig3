@@ -1119,14 +1119,7 @@ class apache2_plugin {
 		}
 		*/
 
-		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
-			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
-			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
-			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
-		)) {
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
@@ -1135,7 +1128,16 @@ class apache2_plugin {
 			
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
+		}
 
+		//* Generate Let's Encrypt SSL certificat
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
+			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
+			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
+			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
+		)) {
 			// default values
 			$temp_domains = array();
 			$lddomain = $domain;
@@ -1709,7 +1711,7 @@ class apache2_plugin {
 					$data['new']['ipv6_address'] = implode(':', $explode_v6);
 				}
 			}
-
+			if($data['new']['ipv6_address'] == '*') $data['new']['ipv6_address'] = '::';
 			$tmp_vhost_arr = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 0, 'port' => 80);
 			if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
 			if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);

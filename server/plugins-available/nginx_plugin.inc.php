@@ -1232,15 +1232,7 @@ class nginx_plugin {
 
 		$tpl->setVar('ssl_letsencrypt', "n");
 		
-		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
-			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
-			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
-			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on alias domain
-		)) {
-
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			//* be sure to have good domain
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
@@ -1250,7 +1242,16 @@ class nginx_plugin {
 
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
-			
+		}
+		
+		//* Generate Let's Encrypt SSL certificat
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
+			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
+			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
+			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
+			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on alias domain
+		)) {
 			// default values
 			$temp_domains = array();
 			$lddomain     = $domain;

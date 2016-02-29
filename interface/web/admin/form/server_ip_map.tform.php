@@ -69,7 +69,7 @@ $form["tabs"]['server_ip_map'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  
-				0 => array ( 'type' => 'ISIP', 'errmsg'=> 'ip_error_wrong'),
+				0 => array ( 'type' => 'ISIPV4', 'errmsg'=> 'ip_error_wrong'),
 				1 => array ( 'type' => 'NOTEMPTY', 'errmsg'=> 'destination_ip_empty'),
             ),
 			'default' => '',

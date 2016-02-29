@@ -121,7 +121,7 @@ $form["tabs"]['server_ip'] = array (
 		'ip_address' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  0 => array ( 'type' => 'ISIP',
+			'validators' => array (  0 => array ( 'type' => 'CUSTOM', 'class' => 'validate_server', 'function' => 'check_server_ip',
 					'errmsg'=> 'ip_error_wrong'),
 				1 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'ip_error_unique'),

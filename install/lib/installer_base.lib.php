@@ -217,7 +217,12 @@ class installer_base {
 		//* check sql-mode
 		$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
 
-		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') die('Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION');
+		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
+			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
+			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
+			echo"to the mysqld-section in /etc/mysql/my.cnf and restart mysqld afterwards\n";
+			die();
+		}
 
 		//** Create the database
 		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
