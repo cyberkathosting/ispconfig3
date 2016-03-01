@@ -1,4 +1,4 @@
-Some guidelines for web development with php.
+# Some guidelines for web development with php.
 -----------------------------------------------------
 * Unix Line Breaks Only, NO windows breaks please.
 * Tabs set at 4 spaces either as tabs or spaces.
@@ -17,7 +17,7 @@ please mark any section that need review or work on with
 * Add documentation about access levels (public, private, protected).
 * Make function / var names on the following way, first word lower, next word(s) first letter upper like. getFirstResult();
 
-Pear coding guidelines
+# Pear coding guidelines
 
 //*****************************************************************************
 // Commenting style
