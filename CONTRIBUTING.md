@@ -1,4 +1,4 @@
-Some guidelines for web development with PHP.
+# Some guidelines for web development with php.
 -----------------------------------------------------
 * Unix Line Breaks Only, NO windows breaks please.
 * Tabs to indent lines, NO spaces
