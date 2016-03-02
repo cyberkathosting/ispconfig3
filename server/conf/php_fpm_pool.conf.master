@@ -34,7 +34,7 @@ env[TEMP] = <tmpl_var name='document_root'>/tmp
 
 <tmpl_if name='security_level' op='==' value='20'>
 <tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>
-php_admin_value[session.save_path] = <tmpl_var name='document_root'>/tmp
+<tmpl_if name='custom_session_save_path' op='!=' value='y'>php_admin_value[session.save_path] = <tmpl_var name='document_root'>/tmp</tmpl_if>
 php_admin_value[upload_tmp_dir] = <tmpl_var name='document_root'>/tmp
 php_admin_value[sendmail_path] = "/usr/sbin/sendmail -t -i -f webmaster@<tmpl_var name='domain'>"
 </tmpl_if>

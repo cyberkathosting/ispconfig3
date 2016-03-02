@@ -91,8 +91,52 @@ class apache2_plugin {
 		$app->plugins->registerAction('php_ini_changed', $this->plugin_name, 'php_ini_changed');
 	}
 
-	// check for php.ini changes
-
+	private function get_master_php_ini_content($web_data) {
+		global $app, $conf;
+		
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
+		
+		$php_ini_content = '';
+		$master_php_ini_path = '';
+		
+		if($web_data['php'] == 'mod') {
+			$master_php_ini_path = $web_config['php_ini_path_apache'];
+		} else {
+			// check for custom php
+			if($web_data['fastcgi_php_version'] != '') {
+				$tmp = explode(':', $web_data['fastcgi_php_version']);
+				if(isset($tmp[2])) {
+					$tmppath = $tmp[2];
+					if(substr($tmppath, -7) != 'php.ini') {
+						if(substr($tmppath, -1) != '/') $tmppath .= '/';
+						$tmppath .= 'php.ini';
+					}
+					if(file_exists($tmppath)) {
+						$master_php_ini_path = $tmppath;
+					}
+					unset($tmppath);
+				}
+				unset($tmp);
+			}
+			
+			if(!$master_php_ini_path) {
+				if($web_data['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
+					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
+				} elseif($web_data['php'] == 'php-fpm' && file_exists($web_config['php_fpm_ini_path'])) {
+					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
+				} else {
+					$master_php_ini_path = $web_config['php_ini_path_cgi'];
+				}
+			}
+		}
+		if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
+			$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
+		}
+		
+		return $php_ini_content;
+	}
 
 	// Handle php.ini changes
 	function php_ini_changed($event_name, $data) {
@@ -145,22 +189,10 @@ class apache2_plugin {
 				$custom_php_ini_dir .= '_' . $web_folder;
 			}
 			if(!is_dir($web_config['website_basedir'].'/conf')) $app->system->mkdir($web_config['website_basedir'].'/conf');
-
-
+			
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdir($custom_php_ini_dir);
-			$php_ini_content = '';
-			if($web_data['php'] == 'mod') {
-				$master_php_ini_path = $web_config['php_ini_path_apache'];
-			} else {
-				if($web_data['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
-					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
-				} else {
-					$master_php_ini_path = $web_config['php_ini_path_cgi'];
-				}
-			}
-			if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
-				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
-			}
+			
+			$php_ini_content = $this->get_master_php_ini_content($web_data);
 			
 			if(intval($web_data['directive_snippets_id']) > 0){
 				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($web_data['directive_snippets_id']));
@@ -1009,32 +1041,8 @@ class apache2_plugin {
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
-			$php_ini_content = '';
-			if($data['new']['php'] == 'mod') {
-				$master_php_ini_path = $web_config['php_ini_path_apache'];
-			} else {
-				if($data["new"]['php'] == 'fast-cgi') {
-					if(trim($data['new']['fastcgi_php_version']) != '' && file_exists($custom_fastcgi_php_ini_dir)){
-						$master_php_ini_path = $custom_fastcgi_php_ini_dir;
-					} elseif(file_exists($fastcgi_config["fastcgi_phpini_path"])){
-						$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
-					} else {
-						$master_php_ini_path = $web_config['php_ini_path_cgi'];
-					}
-				} else {
-					$master_php_ini_path = $web_config['php_ini_path_cgi'];
-				}
-			}
-
-			//* Add php.ini to the path in case that the master_php_ini_path is a directory
-			if($master_php_ini_path != '' && is_dir($master_php_ini_path) && is_file($master_php_ini_path.'/php.ini')) {
-				if(substr($master_php_ini_path, -1) == '/') $master_php_ini_path = substr($master_php_ini_path, 0, -1);
-				$master_php_ini_path .= '/php.ini';
-			}
-
-			if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
-				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
-			}
+			
+			$php_ini_content = $this->get_master_php_ini_content($data['new']);
 			$php_ini_content .= str_replace("\r", '', trim($data['new']['custom_php_ini']));
 			
 			if(intval($data['new']['directive_snippets_id']) > 0){
@@ -3138,6 +3146,7 @@ class apache2_plugin {
 			}
 		}
 		
+		$custom_session_save_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
@@ -3153,6 +3162,7 @@ class apache2_plugin {
 					$value = trim($value);
 					if($value != ''){
 						$key = trim($key);
+						if($key == 'session.save_path') $custom_session_save_path = true;
 						switch (strtolower($value)) {
 						case '0':
 							// PHP-FPM might complain about invalid boolean value if you use 0
@@ -3173,7 +3183,9 @@ class apache2_plugin {
 				}
 			}
 		}
-
+		
+		$tpl->setVar('custom_session_save_path', ($custom_session_save_path ? 'y' : 'n'));
+		
 		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 
 		$app->system->file_put_contents($pool_dir.$pool_name.'.conf', $tpl->grab());
