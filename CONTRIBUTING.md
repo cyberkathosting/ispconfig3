@@ -16,6 +16,7 @@
 * please mark any section that need review or work on with /* TODO: short description */
 * Make function / var names on the following way, first word lower, next word(s) first letter upper like. getFirstResult();
 * always a space but NO newline before opening braces, e. g.
+```
 class abc {
 	public function cde() {
 		if($a == $b) {
@@ -23,24 +24,28 @@ class abc {
 		}
 	}
 }
+```
 * no spaces after function/method or control names, e. g.
+```
 function abc($x, $y) {
 	if($condition == true) {
 		$x = 2;
 	}
 }
+```
 and NOT
+```
 function abc ($x, $y) {
 	if ( $condition == true ) {
 	
 	}
 }
+```
 
-//*****************************************************************************
-// Commenting style
-//*****************************************************************************
+# Commenting style
 
 The comments break down into the following types
+```
 // is uses for removing lines and debug dev etc
 /* 
 	is used to comment out blocks
@@ -50,56 +55,56 @@ The comments break down into the following types
  * thats over 
  * lines
  */
-
+```
 If you need to block out a section then use
+```
 /*
 function redundant_code(){
 	something here
 }
 */
-
+```
 To block out single lines use // and all // are assumed to be redundant test code and NOT comments
 
 // print_r($foo);
 
 Do not use the phpdoc on every function, eg 
-
+```
 /**
 * Login a user
 * @param string user  username
 * @param string password of user
 */
->>
 function login($user, $pass){
 	
 }
-<<
+```
 as this function is self-explaining, the following clean code will suffice
->>
+```
 function login($user, $pass){
 	
 }
+```
 
+# Where to store custom settings
 
-//*****************************************************************************
-// Where to store custom settings
-//*****************************************************************************
-
--- Interface settings
+## Interface settings
 
 The recommended place to store global interface settings is the ini style global config system 
 (see system.ini.master file in install/tpl/ to set defaults). The settings file 
 gets stored inside the ispconfig database. Settings can be accessed with the function:
 
+```
 $app->uses('ini_parser,getconf');
 $interface_settings = $app->getconf->get_global_config('modulename');
+```
 
 where modulename corresponds to the config section in the system.ini.master file.
 To make the settings editable under System > interface config, add the new configuration
 fields to the file interface/web/admin/form/system_config.tform.php and the corresponding
 tempalte file in the templates subfolder of the admin module.
 
--- Server settings
+## Server settings
 
 Server settings are stored in the ini style server config system (see server.ini.master template file)
 The settings file gets stored inside the ispconfig database in the server table. Settings can be 
@@ -107,13 +112,11 @@ accessed with the function $app->getconf->get_server_config(....)
 
 Example to access the web configuration:
 
+```
 $app->uses('ini_parser,getconf');
 $web_config = $app->getconf->get_server_config($server_id,'web');
+```
 
-
-//*****************************************************************************
-// Learn about the form validators
-//*****************************************************************************
+# Learn about the form validators
 There are form validators in interface/lib/classes/tform.inc.php to make validating forms easier.
 Read about: REGEX,UNIQUE,NOTEMPTY,ISEMAIL,ISINT,ISPOSITIVE,ISIPV4,CUSTOM
-
