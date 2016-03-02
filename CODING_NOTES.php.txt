@@ -1,12 +1,13 @@
-Some guidelines for web development with php.
+Some guidelines for web development with PHP.
 -----------------------------------------------------
 * Unix Line Breaks Only, NO windows breaks please.
 * Tabs to indent lines, NO spaces
 * no accidental _<?php space before, within or after a file
-* every php file starts and end with <?php ?> no spaces before or after
-* error_reporting(E_ALL|E_STRICT), yep php5
+* every PHP file starts and end with <?php ?> no spaces before or after
+* error_reporting(E_ALL|E_STRICT), yep PHP 5
 * Magic quotes is gone, get used to it now. config = magic_quotes_gpc() Everything must be quoted
-* Don't use ereg, split and other old function -> gone in php 5.4
+* Don't use ereg, split and other old function -> gone in PHP 5.4
+* Don't use features that are not supported in PHP 5.3, for compatibility with LTS OS releases, ISPConfig must support PHP 5.3+
 * Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always usw <?php
 * Don't use namespaces
 * Column names in database tables and database table names are in lowercase
