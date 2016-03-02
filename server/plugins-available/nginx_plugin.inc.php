@@ -889,42 +889,7 @@ class nginx_plugin {
 			$app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 			$app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 		}
-
-		// Change the ownership of the error log to the owner of the website
-		/*
-		if(!@is_file($data['new']['document_root'].'/log/error.log')) exec('touch '.escapeshellcmd($data['new']['document_root']).'/log/error.log');
-		$app->system->chown($data['new']['document_root'].'/log/error.log',$username);
-		$app->system->chgrp($data['new']['document_root'].'/log/error.log',$groupname);
-		*/
-
-
-		/*
-		//* Write the custom php.ini file, if custom_php_ini filed is not empty
-		$custom_php_ini_dir = $web_config['website_basedir'].'/conf/'.$data['new']['system_user'];
-		if(!is_dir($web_config['website_basedir'].'/conf')) mkdir($web_config['website_basedir'].'/conf');
-		if(trim($data['new']['custom_php_ini']) != '') {
-			$has_custom_php_ini = true;
-			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
-			$php_ini_content = '';
-			if($data['new']['php'] == 'mod') {
-				$master_php_ini_path = $web_config['php_ini_path_apache'];
-			} else {
-				if($data["new"]['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
-					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
-				} else {
-					$master_php_ini_path = $web_config['php_ini_path_cgi'];
-				}
-			}
-			if($master_php_ini_path != '' && substr($master_php_ini_path,-7) == 'php.ini' && is_file($master_php_ini_path)) {
-				$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
-			}
-			$php_ini_content .= str_replace("\r",'',trim($data['new']['custom_php_ini']));
-			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini',$php_ini_content);
-		} else {
-			$has_custom_php_ini = false;
-			if(is_file($custom_php_ini_dir.'/php.ini')) $app->system->unlink($custom_php_ini_dir.'/php.ini');
-		}
-		*/
+		
 
 		//* Create the vhost config file
 		$app->load('tpl');
