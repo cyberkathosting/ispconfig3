@@ -8,6 +8,7 @@ Some guidelines for web development with php.
 * Magic quotes is gone, get used to it now. config = magic_quotes_gpc() Everything must be quoted
 * Don't use ereg, split and other old function -> gone in php 5.4
 * Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always usw <?php
+* Don't use namespaces
 * Column names in database tables and database table names are in lowercase
 * Classes for the interface are located in interface/lib/classes/ and loaded with $app->uses() or $app->load() functions.
 * Classes for the server are located in server/lib/classes/ and loaded with $app->uses() or $app->load() functions.
