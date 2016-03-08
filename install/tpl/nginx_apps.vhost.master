@@ -1,5 +1,5 @@
 server {
-        listen {apps_vhost_ip};
+        listen {apps_vhost_port};
         listen [::]:{apps_vhost_port};
         ssl {ssl_on};
         {ssl_comment}ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
