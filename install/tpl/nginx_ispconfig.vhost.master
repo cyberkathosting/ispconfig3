@@ -1,6 +1,6 @@
 server {
         listen {vhost_port};
-        listen [::]:{vhost_port};
+        listen [::]:{vhost_port} ipv6only=on;
 		ssl {ssl_on};
 		{ssl_comment}ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         {ssl_comment}ssl_certificate /usr/local/ispconfig/interface/ssl/ispserver.crt;
