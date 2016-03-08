@@ -106,7 +106,7 @@ server {
         location /phpMyAdmin {
                rewrite ^/* /phpmyadmin last;
         }
-		
+
         location /squirrelmail {
                root /usr/share/;
                index index.php index.html index.htm;
@@ -164,7 +164,6 @@ server {
                fastcgi_param   CONTENT_TYPE            $content_type;
                fastcgi_param   CONTENT_LENGTH          $content_length;
 
-               fastcgi_param   SCRIPT_FILENAME         $request_filename;
                fastcgi_param   SCRIPT_NAME             $fastcgi_script_name;
                fastcgi_param   REQUEST_URI             $request_uri;
                fastcgi_param   DOCUMENT_URI            $document_uri;
