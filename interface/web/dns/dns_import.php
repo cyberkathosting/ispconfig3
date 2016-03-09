@@ -215,9 +215,22 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	foreach($lines as $line){
 		$line = trim($line);
 		if ($line != '' && substr($line, 0, 1) != ';'){
-			if(strpos($line, ";") !== FALSE) $line = substr($line, 0, strpos($line, ";"));
-			if(strpos($line, "(") !== FALSE) $line = substr($line, 0, strpos($line, "("));
-			if(strpos($line, ")") !== FALSE) $line = substr($line, 0, strpos($line, ")"));
+			if(strpos($line, ";") !== FALSE) {
+				if (!preg_match("/v=DKIM|v=DMARC/",$line)) {
+					$line = substr($line, 0, strpos($line, ";"));
+				}
+			}
+			if(strpos($line, "(") !== FALSE ) {
+				if (!preg_match("/v=DKIM/",$line)) {
+					$line = substr($line, 0, strpos($line, "("));
+				}
+			}
+			if(strpos($line, ")") !== FALSE ) {
+				if (!preg_match("/v=DKIM/",$line)) {
+					$line = substr($line, 0, strpos($line, ")"));
+				}
+			}
+			
 			$line = trim($line);
 			if ($line != ''){
 				$sPattern = '/\s+/m';
@@ -253,10 +266,17 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 
 		$parts = explode(' ', $line);
 
-		// make all elements lowercase
+		// make elements lowercase
+		$dkim=@($parts[3]=='"v=DKIM1;')?true:false;
+		$dmarc=@($parts[3]=='"v=DMARC1;')?true:false;
+
 		$new_parts = array();
 		foreach($parts as $part){
-			$new_parts[] = strtolower($part);
+			if(!$dkim && !$dmarc) {
+				$new_parts[] = strtolower($part);
+			} else {
+				$new_parts[] = $part;
+			}
 		}
 		unset($parts);
 		$parts = $new_parts;
@@ -556,130 +576,6 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		}
 		$i++;
 	}
-
-	/*
-	$i = 0;
-	$r = 0;
-	$s = 0;
-	$dns_rr = array();
-	foreach ($lines as $line)
-	{
-		$line = trim($line);
-		if ($line != '' && substr($line,0,1) != ';' && substr($line,0,1) != '$')
-		{
-			$line = str_replace("\n",NULL,$line);
-			$i++;
-
-			// TODO - Find a better way to parse the SOA record. Lazy checking.
-			if ($i <= 7)
-			{
-				if ($i > 1)
-				{
-					$s++;
-					$line = str_replace("\t",NULL,$line);
-					if (!empty($line))
-					{
-						print(strpos(";",$line));
-						$line = substr($line,0,strpos($line,";"));
-						if ($s == 1)
-							$soa['serial'] = $line;
-						else if ($s == 2)
-							$soa['refresh'] = $line;
-						else if ($s == 3)
-							$soa['retry'] = $line;
-						else if ($s == 4)
-							$soa['expire'] = $line;
-						else if ($s == 5)
-							$soa['minimum'] = $line;
-
-					}
-				}
-				else
-				{
-					$line = str_replace("\t",",",$line);
-					$line = str_replace(" ",",",$line);
-					$recs = explode(",",$line);
-
-					foreach ($recs as $key => $rec)
-					{
-						$rec = trim($rec);
-						if($rec == '') continue;
-						//name	type	data	aux	ttl	active
-						if ($key == 0)
-						{
-							if ($rec == '@')
-							{
-								$rec = $name;
-							}
-
-							$soa['name'] = $rec;
-						}
-
-						if ($key != 0 && strtolower($rec) == 'soa')
-						{
-							$typekeys[$s] = $key;
-						}
-						else if ($key > $typekey[$r])
-						{
-							if ($rec != "" && $rec != "(")
-							{
-								$rec = explode(" ",$rec);
-
-								$soa['ns'] = $servers[0]['server_name'];
-								$soa['mbox'] = $rec[1];
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				$line = str_replace("\n","",trim($line));
-
-				if (!empty($line))
-				{
-
-					preg_match_all('/(.*?)\s*IN\s*(A|CNAME|MX|TXT|NS|AAAA)\s*(.*)/',$line, $recs);
-
-					if ($recs[1][0] == '@' || trim($recs[1][0]) == "")
-					{
-						$recs[1][0] = $name;
-					}
-					$dns_rr[$r]['name'] = $recs[1][0];
-					$dns_rr[$r]['type'] = $recs[2][0];
-					if (strtolower($dns_rr[$r]['type'])=='mx')
-					{
-						$recs[3][0] = str_replace(" ","\t",$recs[3][0]);
-						$mx[$r] = explode("\t",$recs[3][0]);
-						for ($m=1;$m<count($mx[$r]);$m++)
-						{
-							if (!empty($mx[$r][$m]))
-								$dns_rr[$r]['data'] = $mx[$r][$m];
-						}
-
-						$dns_rr[$r]['aux'] = $mx[$r][0];
-					}
-					else if (strtolower($dns_rr[$r]['type'])=='txt')
-					{
-						$dns_rr[$r]['data'] = substr($recs[3][0],1,(strlen($recs[3][0])-2));
-					}
-					else
-					{
-						$dns_rr[$r]['data'] = $recs[3][0];
-					}
-
-					if (strtolower($dns_rr[$r]['type'])=='ns' && strtolower($dns_rr[$r]['name'])==$name)
-					{
-						unset($dns_rr[$r]);
-					}
-
-					$r++;
-				}
-			}
-
-		}
-	}
-	*/
 
 	foreach ($servers as $server){
 		$dns_rr[$r]['name'] = $soa['name'];
