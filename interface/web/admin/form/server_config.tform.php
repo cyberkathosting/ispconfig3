@@ -170,7 +170,7 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'TEXT',
 			'default' => '/var/backup',
 			'validators' => array(	0 => array ( 	'type' => 'REGEX',
-										'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
+										'regex' => "/(|^\\/{1,2}(?:[\\w-]+[.]?\\/?){5,128})$/";
 										'errmsg'=> 'backup_dir_error_regex'),
 			),
 			'value' => '',
