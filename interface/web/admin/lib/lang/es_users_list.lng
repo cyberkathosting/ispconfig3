@@ -1,9 +1,9 @@
 <?php
+$wb['active_txt'] = 'Habilitado';
+$wb['add_new_record_txt'] = 'Añadir usuario';
+$wb['client_id_txt'] = 'ID de usuario';
+$wb['groups_txt'] = 'Grupos';
 $wb['list_head_txt'] = 'Usuarios';
 $wb['username_txt'] = 'Nombre de usuario';
-$wb['client_id_txt'] = 'ID de usuario';
-$wb['active_txt'] = 'Habilitado';
-$wb['groups_txt'] = 'Grupos';
-$wb['add_new_record_txt'] = 'Añadir usuario';
 $wb['warning_txt'] = '<b>CUIDADO:</b> No edite o modifique aquí las opciones de usuario. Utilice las opciones de Cliente y Revendedores en el módulo de Clientes instalado. Modificar o cambiar usuarios o grupos aquí puede provocar perdida de información!';
 ?>

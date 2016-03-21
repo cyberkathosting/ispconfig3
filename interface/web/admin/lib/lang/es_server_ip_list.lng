@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Direcciones IP';
-$wb['server_id_txt'] = 'Servidor';
+$wb['add_new_record_txt'] = 'Añadir nueva dirección IP';
 $wb['client_id_txt'] = 'Cliente';
 $wb['ip_address_txt'] = 'Dirección IP';
-$wb['add_new_record_txt'] = 'Añadir nueva dirección IP';
-$wb['virtualhost_txt'] = 'Host virtual HTTP';
-$wb['virtualhost_port_txt'] = 'Puertos HTTP';
 $wb['ip_type_txt'] = 'Tipo';
+$wb['list_head_txt'] = 'Direcciones IP';
+$wb['server_id_txt'] = 'Servidor';
+$wb['virtualhost_port_txt'] = 'Puertos HTTP';
+$wb['virtualhost_txt'] = 'Host virtual HTTP';
 ?>

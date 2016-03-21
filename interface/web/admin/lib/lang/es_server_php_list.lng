@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Versiones adicionales de PHP';
-$wb['server_id_txt'] = 'Servidor';
 $wb['add_new_record_txt'] = 'Añadir versión de PHP';
 $wb['client_id_txt'] = 'Cliente';
+$wb['list_head_txt'] = 'Versiones adicionales de PHP';
 $wb['name_txt'] = 'Versión de PHP';
+$wb['server_id_txt'] = 'Servidor';
 ?>

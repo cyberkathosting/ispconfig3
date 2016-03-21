@@ -1,12 +1,12 @@
 <?php
-$wb['select_server_txt'] = 'Seleccione un servidor';
+$wb['action_scheduled'] = 'La acción ha sido programada para su ejecución';
 $wb['btn_do_txt'] = 'Ejecutar acción';
-$wb['do_osupdate_caption'] = 'Ejecutar actualización de S.O. al servidor remoto';
-$wb['do_osupdate_desc'] = 'Esta acción realizará un \'aptitude -y upgrade\' en el servidor seleccionado.<br><br><strong>¡USE ESTO BAJO SU PROPIA RESPONSABILIDAD!</strong>';
 $wb['do_ispcupdate_caption'] = 'Realizar actualización de ISPConfig 3 en el servidor remoto';
 $wb['do_ispcupdate_desc'] = 'Esta acción realizará una actualización de ISPConfig 3 en el servidor seleccionado.<br><br><strong>¡USE ESTO BAJO SU PROPIA RESPONSABILIDAD!</strong>';
-$wb['action_scheduled'] = 'La acción ha sido programada para su ejecución';
-$wb['select_all_server'] = 'Todos los servidores';
-$wb['ispconfig_update_title'] = 'Instrucciones de actualización de ISPConfig';
+$wb['do_osupdate_caption'] = 'Ejecutar actualización de S.O. al servidor remoto';
+$wb['do_osupdate_desc'] = 'Esta acción realizará un \'aptitude -y upgrade\' en el servidor seleccionado.<br><br><strong>¡USE ESTO BAJO SU PROPIA RESPONSABILIDAD!</strong>';
 $wb['ispconfig_update_text'] = 'Inicie sesión como root en el shell de su servidor y ejecute el comando<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />para iniciar la actualización de ISPConfig.<br /><br /><a href= target=>Pulse aquí para ver una descripción detallada de cómo actualizar</a>';
+$wb['ispconfig_update_title'] = 'Instrucciones de actualización de ISPConfig';
+$wb['select_all_server'] = 'Todos los servidores';
+$wb['select_server_txt'] = 'Seleccione un servidor';
 ?>

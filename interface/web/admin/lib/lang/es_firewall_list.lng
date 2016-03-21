@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Cortafuegos';
 $wb['active_txt'] = 'Habilitado';
+$wb['add_new_record_txt'] = 'Añadir registro al cortafuegos';
+$wb['list_head_txt'] = 'Cortafuegos';
 $wb['server_id_txt'] = 'Servidor';
 $wb['tcp_port_txt'] = 'Puerto TCP abiertos';
 $wb['udp_port_txt'] = 'Puertos UDP abiertos';
-$wb['add_new_record_txt'] = 'Añadir registro al cortafuegos';
 ?>

@@ -1,11 +1,11 @@
 <?php
-$wb['Directive Snippets'] = 'Fragmentos de código';
-$wb['name_txt'] = 'Nombre del fragmento';
-$wb['type_txt'] = 'Tipo';
-$wb['snippet_txt'] = 'Fragmento';
 $wb['active_txt'] = 'Habilitado';
+$wb['customer_viewable_txt'] = 'Visible por los clientes';
+$wb['Directive Snippets'] = 'Fragmentos de código';
 $wb['directive_snippets_name_empty'] = 'Por favor ingrese un nombre para el fragmento.';
 $wb['directive_snippets_name_error_unique'] = 'Ya existe un fragmento de código con ese nombre.';
+$wb['name_txt'] = 'Nombre del fragmento';
+$wb['snippet_txt'] = 'Fragmento';
+$wb['type_txt'] = 'Tipo';
 $wb['variables_txt'] = 'Variables';
-$wb['customer_viewable_txt'] = 'Visible por los clientes';
 ?>

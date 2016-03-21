@@ -1,16 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['client_id_txt'] = 'Cliente';
-$wb['name_txt'] = 'Versión de PHP';
-$wb['Name'] = 'Nombre';
-$wb['FastCGI Settings'] = 'Opciones de FastCGI';
-$wb['PHP-FPM Settings'] = 'Opciones de PHP-FPM';
 $wb['Additional PHP Versions'] = 'Versiones adicionales de PHP';
+$wb['client_id_txt'] = 'Cliente';
+$wb['FastCGI Settings'] = 'Opciones de FastCGI';
 $wb['Form to edit additional PHP versions'] = 'Formulario para editar versiones adicionales de PHP';
-$wb['server_php_name_error_empty'] = 'El campo Nombre no puede estar vacío.';
+$wb['Name'] = 'Nombre';
+$wb['name_txt'] = 'Versión de PHP';
+$wb['PHP-FPM Settings'] = 'Opciones de PHP-FPM';
 $wb['php_fastcgi_binary_txt'] = 'Ruta a los binarios de PHP FastCGI';
 $wb['php_fastcgi_ini_dir_txt'] = 'Ruta al directorio de php.ini';
-$wb['php_fpm_init_script_txt'] = 'Ruta al archivo de arranque de PHP-FPM';
 $wb['php_fpm_ini_dir_txt'] = 'Ruta al directorio de php.ini';
+$wb['php_fpm_init_script_txt'] = 'Ruta al archivo de arranque de PHP-FPM';
 $wb['php_fpm_pool_dir_txt'] = 'Ruta al directorio de procesos de PHP-FPM';
+$wb['server_id_txt'] = 'Servidor';
+$wb['server_php_name_error_empty'] = 'El campo Nombre no puede estar vacío.';
 ?>

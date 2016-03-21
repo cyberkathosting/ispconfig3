@@ -1,6 +1,6 @@
 <?php
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['btn_save_txt'] = 'Iniciar instalación';
 $wb['head_txt'] = 'Instalar paquete de aplicación';
 $wb['install_key_txt'] = 'Ingrese la clave de instalación';
-$wb['btn_save_txt'] = 'Iniciar instalación';
-$wb['btn_cancel_txt'] = 'Cancelar';
 ?>
