@@ -4,5 +4,5 @@ $wb['active_txt'] = 'Habilitado';
 $wb['name_txt'] = 'Nombre del fragmento';
 $wb['type_txt'] = 'Tipo';
 $wb['add_new_record_txt'] = 'Añadir fragmentos de códigos';
-$wb['customer_viewable_txt'] = 'Customer viewable';
+$wb['customer_viewable_txt'] = ''Visible por los clientes';
 ?>
