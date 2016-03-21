@@ -12,5 +12,5 @@ $wb['firewall_server_txt'] = 'Cortafuegos';
 $wb['active_txt'] = 'Habilitado';
 $wb['mirror_server_id_txt'] = 'Es el espejo del servidor';
 $wb['- None -'] = '- Ninguno -';
-$wb['xmpp_server_txt'] = 'XMPP Server';
+$wb['xmpp_server_txt'] = 'Servidor XMPP';
 ?>

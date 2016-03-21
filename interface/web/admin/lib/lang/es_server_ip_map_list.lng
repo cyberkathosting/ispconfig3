@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'IP Mappings';
-$wb['server_id_txt'] = 'Server';
-$wb['source_ip_txt'] = 'Source IP';
-$wb['destination_ip_txt'] = 'Destination IP';
-$wb['active_txt'] = 'Active';
+$wb['list_head_txt'] = 'Mapeos IP';
+$wb['server_id_txt'] = 'Servidor';
+$wb['source_ip_txt'] = 'IP de origen';
+$wb['destination_ip_txt'] = 'IP de destino';
+$wb['active_txt'] = 'Activo';
 ?>

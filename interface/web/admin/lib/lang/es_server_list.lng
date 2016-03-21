@@ -8,7 +8,7 @@ $wb['file_server_txt'] = 'Archivo';
 $wb['db_server_txt'] = 'DB';
 $wb['vserver_server_txt'] = 'VServer';
 $wb['proxy_server_txt'] = 'Proxy';
-$wb['firewall_server_txt'] = 'Corta fuego';
+$wb['firewall_server_txt'] = 'Cortafuegos';
 $wb['add_new_record_txt'] = 'Añadir servidor';
 $wb['xmpp_server_txt'] = 'XMPP';
 ?>
