@@ -172,9 +172,9 @@ class installer_base {
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
 		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
+		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['firewall']['installed'] = true;
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
-		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['bastille']['installed'] = true;
 		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
 		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
