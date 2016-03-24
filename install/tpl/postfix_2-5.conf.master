@@ -1,11 +1,13 @@
 # Postfix configuration for version 2.5 and up
-in_flow_delay = ${stress?3}${stress:1}s
-smtp_connect_timeout = ${stress?10}${stress:30}s
-smtp_helo_timeout = ${stress?10}${stress:60}s
-smtp_mail_timeout = ${stress?10}${stress:60}s
-smtpd_error_sleep_time = ${stress?1}${stress:2}s
-smtpd_hard_error_limit = ${stress?1}${stress:10}
-smtpd_recipient_overshoot_limit = ${stress?60}${stress:600}
-smtpd_soft_error_limit = ${stress?2}${stress:5}
-smtpd_timeout = ${stress?10}${stress:60}s
+
+# These will make postfix adapt more to load spikes
+#in_flow_delay = ${stress?3}${stress:1}s
+#smtp_connect_timeout = ${stress?10}${stress:30}s
+#smtp_helo_timeout = ${stress?10}${stress:60}s
+#smtp_mail_timeout = ${stress?10}${stress:60}s
+#smtpd_error_sleep_time = ${stress?1}${stress:2}s
+#smtpd_hard_error_limit = ${stress?1}${stress:10}
+#smtpd_recipient_overshoot_limit = ${stress?60}${stress:600}
+#smtpd_soft_error_limit = ${stress?2}${stress:5}
+#smtpd_timeout = ${stress?10}${stress:60}s
 
