@@ -69,7 +69,11 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 						$web_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE web_server = 1 AND active = 1");
 						if($web_servers['cnt'] == 0) continue;
 					}
-					
+					if($mt == 'vm'){
+						$vm_servers = $app->db->queryOneRecord("SELECT COUNT(*) AS cnt FROM server WHERE vserver_server = 1 AND active = 1");
+						if($vm_servers['cnt'] == 0) continue;
+					}
+
 					include_once $mt.'/lib/module.conf.php';
 					$language = (isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language'];
 					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
