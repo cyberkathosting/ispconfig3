@@ -445,6 +445,7 @@ if($install_mode == 'standard') {
 		swriteln('Configuring Bastille Firewall');
 		$inst->configure_bastille_firewall();
 		$conf['services']['firewall'] = true;
+		$conf['bastille']['installed'] = true;
 	}
 
 	//* Configure Fail2ban
