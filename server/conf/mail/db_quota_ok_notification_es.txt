@@ -1,0 +1,13 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Cuota de base de datos correcta
+
+La base de datos {database_name} ya no esta cerca o ha superado su cuota.
+
+Base de datos:		{database_name}
+Espacio usado:		{used}
+Cuota:				{quota}
+Razón de uso:		{ratio}
