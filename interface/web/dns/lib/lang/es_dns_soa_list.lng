@@ -1,11 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Zonas DNS';
 $wb['active_txt'] = 'Habilitado';
-$wb['server_id_txt'] = 'Servidor';
-$wb['origin_txt'] = 'Zona';
-$wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Correo';
-$wb['import_zone_file_txt'] = 'Importar archivo de zona';
-$wb['add_new_record_wizard_txt'] = 'Añadir una zona DNS mediante el ayudante';
 $wb['add_new_record_txt'] = 'Añadir una zona DNS manualmente';
+$wb['add_new_record_wizard_txt'] = 'Añadir nueva Zona DNS usando el asistente';
+$wb['import_zone_file_txt'] = 'Importar archivo de zona';
+$wb['list_head_txt'] = 'Zonas DNS';
+$wb['mbox_txt'] = 'Correo';
+$wb['ns_txt'] = 'NS';
+$wb['origin_txt'] = 'Zona';
+$wb['server_id_txt'] = 'Servidor';
 ?>
