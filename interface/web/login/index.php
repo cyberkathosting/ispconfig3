@@ -157,9 +157,8 @@ if(count($_POST) > 0) {
 					$user = false;
 					if($mailuser) {
 						$saved_password = stripslashes($mailuser['password']);
-						$salt = '$1$'.substr($saved_password, 3, 8).'$';
 						//* Check if mailuser password is correct
-						if(crypt(stripslashes($password), $salt) == $saved_password) {
+						if(crypt(stripslashes($password), $saved_password) == $saved_password) {
 							//* we build a fake user here which has access to the mailuser module only and userid 0
 							$user = array();
 							$user['userid'] = 0;
@@ -182,22 +181,15 @@ if(count($_POST) > 0) {
 					$user = $app->db->queryOneRecord($sql, $username);
 					if($user) {
 						$saved_password = stripslashes($user['passwort']);
-						if(substr($saved_password, 0, 3) == '$1$') {
-							//* The password is crypt-md5 encrypted
-							$salt = '$1$'.substr($saved_password, 3, 8).'$';
-								if(crypt(stripslashes($password), $salt) != $saved_password) {
-								$user = false;
-							}
-						} elseif(substr($saved_password, 0, 3) == '$5$') {
-							//* The password is crypt-sha256 encrypted
-							$salt = '$5$'.substr($saved_password, 3, 16).'$';
-								if(crypt(stripslashes($password), $salt) != $saved_password) {
+						if(substr($saved_password, 0, 1) == '$') {
+							//* The password is encrypted with crypt
+							if(crypt(stripslashes($password), $saved_password) != $saved_password) {
 								$user = false;
 							}
 						} else {
-								//* The password is md5 encrypted
+							//* The password is md5 encrypted
 							if(md5($password) != $saved_password) {
-									$user = false;
+								$user = false;
 							}
 						}
 					} else {
