@@ -1,18 +1,18 @@
 <?php
-$wb['invoices_txt'] = 'Invoices';
-$wb['invoice_no_txt'] = 'Invoice No.';
-$wb['amount_txt'] = 'Amount';
-$wb['date_txt'] = 'Date';
-$wb['invoice_status_txt'] = 'Status';
-$wb['no_invoices_txt'] = 'No Invoices available.';
-$wb['paid_txt'] = 'Paid';
-$wb['unpaid_txt'] = 'Unpaid';
-$wb['paynow_txt'] = 'pay now';
-$wb['proforma_txt'] = 'Proforma';
-$wb['refunded_txt'] = 'Refunded';
-$wb['not_refunded_txt'] = 'Not refunded';
-$wb['invoice_type_invoice_txt'] = 'Invoice';
+$wb['amount_txt'] = 'Cantidad';
+$wb['date_txt'] = 'Fecha';
+$wb['invoice_no_txt'] = 'Nº de Factura';
+$wb['invoice_status_txt'] = 'Estado';
+$wb['invoice_type_invoice_txt'] = 'Factura';
 $wb['invoice_type_proforma_txt'] = 'Proforma';
-$wb['invoice_type_refund_txt'] = 'Refund';
-$wb['invoice_type_reminder_txt'] = 'Reminder';
+$wb['invoice_type_refund_txt'] = 'Devoluciones';
+$wb['invoice_type_reminder_txt'] = 'Recordatorio';
+$wb['invoices_txt'] = 'Facturas';
+$wb['no_invoices_txt'] = 'Nº de facturas disponible.';
+$wb['not_refunded_txt'] = 'No devuelta';
+$wb['paid_txt'] = 'Pagada';
+$wb['paynow_txt'] = 'pagar ahora';
+$wb['proforma_txt'] = 'Proforma';
+$wb['refunded_txt'] = 'Devuelta';
+$wb['unpaid_txt'] = 'Sin pagar';
 ?>

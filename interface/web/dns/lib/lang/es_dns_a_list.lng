@@ -1,15 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'Registro A';
 $wb['active_txt'] = 'Habilitado';
-$wb['server_id_txt'] = 'Servidor';
-$wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre';
-$wb['data_txt'] = 'Dato';
+$wb['add_new_record_txt'] = 'Añadir registro DNS A';
 $wb['aux_txt'] = 'Prioridad';
+$wb['data_txt'] = 'Dato';
+$wb['delete_confirmation'] = 'Realmente desea borrar este registro?';
+$wb['list_head_txt'] = 'Registro A';
+$wb['name_txt'] = 'Nombre';
+$wb['page_of_txt'] = 'de';
+$wb['page_txt'] = 'Página';
+$wb['server_id_txt'] = 'Servidor';
 $wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'Tipo';
-$wb['add_new_record_txt'] = 'Añadir registro A de DNS';
-$wb['page_txt'] = 'Página';
-$wb['page_of_txt'] = 'de';
-$wb['delete_confirmation'] = 'Realmente desea borrar este registro?';
+$wb['zone_txt'] = 'Zona';
 ?>

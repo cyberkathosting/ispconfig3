@@ -1,8 +1,8 @@
 <?php
-$wb['mailquota_txt'] = 'Cuota de buzones';
 $wb['email_txt'] = 'Dirección de correo';
+$wb['mailquota_txt'] = 'Cuota de buzones';
 $wb['name_txt'] = 'Nombre';
-$wb['used_txt'] = 'Espacio usado';
-$wb['quota_txt'] = 'Cuota';
 $wb['no_email_accounts_txt'] = 'No se encontraron cuentas de correo.';
+$wb['quota_txt'] = 'Cuota';
+$wb['used_txt'] = 'Espacio utilizado';
 ?>

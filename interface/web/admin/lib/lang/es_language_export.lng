@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Exportar archivos de idioma';
-$wb['language_select_txt'] = 'Seleccione un idioma';
-$wb['btn_save_txt'] = 'Exportar el conjunto de idioma seleccionado';
 $wb['btn_cancel_txt'] = 'Volver';
+$wb['btn_save_txt'] = 'Exportar el conjunto de idioma seleccionado';
+$wb['language_select_txt'] = 'Seleccione un idioma';
+$wb['list_head_txt'] = 'Exportar archivos de idioma';
 ?>

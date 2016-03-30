@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Combinar idioma';
-$wb['list_desc_txt'] = 'Combinar el archivo de idioma seleccionado con el archivo de idioma principal en inglés. <br />Esto añade cadenas faltantes de los archivos de idioma maestro en inglés al idioma seleccionado.';
-$wb['language_select_txt'] = 'Seleccione un idioma';
-$wb['btn_save_txt'] = 'Combinar los archivos ahora';
 $wb['btn_cancel_txt'] = 'Volver';
+$wb['btn_save_txt'] = 'Combinar los archivos ahora';
+$wb['language_select_txt'] = 'Seleccione un idioma';
+$wb['list_desc_txt'] = 'Combinar el archivo de idioma seleccionado con el archivo de idioma principal en inglés. <br />Esto añade cadenas que falten de los archivos de idioma maestro en inglés al idioma seleccionado.';
+$wb['list_head_txt'] = 'Combinar idioma';
 ?>

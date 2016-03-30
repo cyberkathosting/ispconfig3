@@ -1,11 +1,11 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['tcp_port_txt'] = 'Puertos TCP abiertos';
-$wb['udp_port_txt'] = 'Puertos UDP abiertos';
-$wb['tcp_port_help_txt'] = 'Separados por coma';
-$wb['udp_port_help_txt'] = 'Separados por coma';
 $wb['active_txt'] = 'Habilitado';
-$wb['firewall_error_unique'] = 'Ya existe un registro de corta fuego para este servidor.';
-$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
-$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son números, \\":\\" y \\",\\".';
+$wb['firewall_error_unique'] = 'Ya existe un registro de cortafuegos para este servidor.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['tcp_port_help_txt'] = 'Separados por coma';
+$wb['tcp_port_txt'] = 'Puertos TCP abiertos';
+$wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son: números, \\":\\" y \\",\\".';
+$wb['udp_port_help_txt'] = 'Separados por coma';
+$wb['udp_port_txt'] = 'Puertos UDP abiertos';
+$wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son: números, \\":\\" y \\",\\".';
 ?>
