@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Cuota de bandeja de correo correcta
+
+La bandeja de correo de {email} ya no esta cerca o ha superado su cuota.
+
+Bandeja de correo:	{email}
+Nombre:				{name}
+Espacio usado:		{used}
+Cuota:				{quota}
+Razón de uso:		{ratio}

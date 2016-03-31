@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Notificación de cuota de sitio web
+
+El sitio {domain} esta cerca o ha superado su cuota.
+
+Dominio: 		{domain}
+Espacio usado:		{used}
+Límite suave:		{soft}
+Limite duro:		{hard}
+Razón de uso:		{ratio}

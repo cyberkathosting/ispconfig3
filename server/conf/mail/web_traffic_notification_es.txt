@@ -1,0 +1,8 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Notificación de tráfico de sitio web
+
+El sitio {domain} está por encima de su trafico permitido y a sido deshabilitado.

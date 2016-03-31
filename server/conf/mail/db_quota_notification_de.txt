@@ -1,4 +1,4 @@
-ME-Version: 1.0
+MIME-Version: 1.0
 Content-type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 From: {admin_mail}
