@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Backup Stats';
-$wb['active_txt'] = 'Active';
+$wb['active_txt'] = 'Habilitado';
+$wb['backup_count_txt'] = 'Cantidad de copias de seguridad';
+$wb['backup_interval_txt'] = 'Intervalo / cnt.';
+$wb['backup_server_txt'] = 'Servidor';
+$wb['backup_size_txt'] = 'Tamaño de la copia de seguridad';
 $wb['domain_txt'] = 'Email';
-$wb['backup_count_txt'] = 'Backup count';
-$wb['backup_server_txt'] = 'Server';
-$wb['backup_interval_txt'] = 'Interval / cnt.';
-$wb['backup_size_txt'] = 'Backupsize';
+$wb['list_head_txt'] = 'Estadísiticas de copia de seguridad';
 ?>

@@ -1,8 +1,8 @@
 <?php
+$wb['category_txt'] = 'Categoría';
+$wb['filter_txt'] = 'Buscar';
 $wb['list_head_txt'] = 'Paquetes disponibles';
 $wb['name_txt'] = 'Nombre';
-$wb['version_txt'] = 'Versión';
-$wb['category_txt'] = 'Categoría';
 $wb['status_txt'] = 'Desbloqueado';
-$wb['filter_txt'] = 'Buscar';
+$wb['version_txt'] = 'Versión';
 ?>

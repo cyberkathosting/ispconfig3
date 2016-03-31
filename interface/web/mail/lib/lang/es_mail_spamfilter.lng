@@ -1,17 +1,17 @@
 <?php
-$wb['email_txt'] = 'Correo';
-$wb['spam_rewrite_score_int_txt'] = 'Puntuación para reescribir';
-$wb['spam_redirect_score_int_txt'] = 'Puntuación para redireccionar';
-$wb['spam_delete_score_int_txt'] = 'Puntuación para borrar';
-$wb['spam_rewrite_subject_txt'] = 'Asunto al redireccionar';
-$wb['spam_redirect_maildir_txt'] = 'Buzón de redirección';
 $wb['active_txt'] = 'Habilitado';
-$wb['spam_rewrite_txt'] = 'Sobre esta puntuación, reescribir asunto del correo.';
-$wb['spam_redirect_txt'] = 'Sobre esta puntuación, reenviar al buzón seleccionado.';
-$wb['spam_delete_txt'] = 'Sobre esta puntuación, borrar el correo.';
+$wb['days_txt'] = 'Días.';
 $wb['disable_txt'] = 'Nota: Para desactivar el filtrado, ingrese una puntuación de 0.00.';
 $wb['email_error_isemail'] = 'Dirección de correo inválida.';
 $wb['email_error_unique'] = 'Ya existe un registro de filtro de spam para esta dirección.';
+$wb['email_txt'] = 'Correo';
+$wb['spam_delete_score_int_txt'] = 'Puntuación para borrar';
+$wb['spam_delete_txt'] = 'Si supera esta puntuación, borrar el correo.';
 $wb['spam_redirect_maildir_purge_txt'] = 'Limpiar buzón después de';
-$wb['days_txt'] = 'Días.';
+$wb['spam_redirect_maildir_txt'] = 'Buzón de redirección';
+$wb['spam_redirect_score_int_txt'] = 'Puntuación para redireccionar';
+$wb['spam_redirect_txt'] = 'Si supera esta puntuación, reenviar al buzón seleccionado.';
+$wb['spam_rewrite_score_int_txt'] = 'Puntuación para reescribir';
+$wb['spam_rewrite_subject_txt'] = 'Asunto al redireccionar';
+$wb['spam_rewrite_txt'] = 'Si supera esta puntuación, reescribir el asunto del correo.';
 ?>

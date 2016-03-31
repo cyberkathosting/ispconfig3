@@ -1,16 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring may overwrite existing files in your mailbox. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['delete_backup_txt'] = 'Delete Backup';
-$wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
-$wb['delete_confirm_txt'] = 'Really delete this backup?';
-$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
-$wb['filesize_txt'] = 'Filesize';
+$wb['backup_type_txt'] = 'Tipo';
+$wb['date_txt'] = 'Fecha';
+$wb['delete_backup_txt'] = 'Borrar Copia de Seguridad';
+$wb['delete_confirm_txt'] = '¿Realmente desea borrar esta copia de seguridad?';
+$wb['delete_info_txt'] = 'El borrado de la copia de seguridad ha comenzado. Esta acción tardará varios minutos en completarse.';
+$wb['delete_pending_txt'] = 'Ya hay pendiente un borrado de copia de seguridad.';
+$wb['download_pending_txt'] = 'Ya hay pendiente una descarga de copia de seguridad.';
+$wb['filename_txt'] = 'Archivo de copia de seguridad';
+$wb['filesize_txt'] = 'Tamaño del archivo';
+$wb['list_head_txt'] = 'Copias de seguridad';
+$wb['restore_backup_txt'] = 'Restaurar';
+$wb['restore_confirm_txt'] = 'Restaurar puede sobreescribir archivos existentes en su cuenta de correo. ¿Realmente desea restaurar esta copia de seguridad?';
+$wb['restore_info_txt'] = 'La restauración de la copia de seguridad ha comenzado. Esta acción tardará varios minutos en completarse.';
+$wb['restore_pending_txt'] = 'Ya hay pendiente una restauración de copias de seguridad.';
 ?>

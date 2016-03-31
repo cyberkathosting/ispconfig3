@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Enrutador avanzado de correo';
 $wb['active_txt'] = 'Habilitado';
-$wb['server_id_txt'] = 'Servidor';
+$wb['add_new_record_txt'] = 'Añadir transporte';
 $wb['domain_txt'] = 'Dominio';
-$wb['transport_txt'] = 'Transportador';
+$wb['list_head_txt'] = 'Enrutador avanzado de correo';
+$wb['server_id_txt'] = 'Servidor';
 $wb['sort_order_txt'] = 'Ordenar por';
-$wb['add_new_record_txt'] = 'Añadir transportador';
+$wb['transport_txt'] = 'Transporte';
 ?>
