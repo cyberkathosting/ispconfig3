@@ -1,19 +1,19 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['type_txt'] = 'Tipo';
-$wb['source_server_txt'] = 'Servidor Pop3/Imap';
-$wb['source_username_txt'] = 'Nombre de usuario';
-$wb['source_password_txt'] = 'Contraseña';
-$wb['source_delete_txt'] = 'Borrar correos después de recuperarlos';
-$wb['source_read_all_txt'] = 'Recuperar todos los correos (incl. correos leídos)';
-$wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Habilitado';
-$wb['limit_fetchmail_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros de recuperación de correo.';
-$wb['source_server_error_isempty'] = 'El servidor está vacío.';
-$wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
-$wb['source_password_error_isempty'] = 'La contraseña está vacía.';
 $wb['destination_error_isemail'] = 'No ha seleccionado un destinatario.';
-$wb['source_server_error_regex'] = 'El servidor Pop3/Imap no es un nombre de dominio válido.';
-$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar \\"Borrar correos después de recuperarlos\\" = NO junto con \\"Recuperar todos los correos\\" = SI';
+$wb['destination_txt'] = 'Destino';
+$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar "Borrar correos después de recuperarlos" = NO al mismo tiempo que "Recuperar todos los correos" = SI';
+$wb['limit_fetchmail_txt'] = 'Ha alcanzado el número máx. de registros de recuperación de correo permitidos para su cuenta.';
+$wb['server_id_txt'] = 'Servidor';
 $wb['source_delete_note_txt'] = 'Por favor, verifique que funcione la recuperación de correos antes de activar esta opción.';
+$wb['source_delete_txt'] = 'Borrar correos después de recuperarlos';
+$wb['source_password_error_isempty'] = 'La contraseña está vacía.';
+$wb['source_password_txt'] = 'Contraseña';
+$wb['source_read_all_txt'] = 'Recuperar todos los correos (incluyendo los correos leídos)';
+$wb['source_server_error_isempty'] = 'El servidor está vacío.';
+$wb['source_server_error_regex'] = 'El servidor Pop3/Imap no es un nombre de dominio válido.';
+$wb['source_server_txt'] = 'Servidor Pop3/Imap';
+$wb['source_username_error_isempty'] = 'El nombre de usuario está vacío.';
+$wb['source_username_txt'] = 'Nombre de usuario';
+$wb['type_txt'] = 'Tipo';
 ?>

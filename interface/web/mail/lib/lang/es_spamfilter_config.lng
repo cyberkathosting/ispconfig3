@@ -1,20 +1,20 @@
 <?php
-$wb['getmail_config_dir_txt'] = 'Ruta de configuración de Getmail';
-$wb['ip_address_txt'] = 'Dirección IP';
-$wb['netmask_txt'] = 'Máscara de red';
 $wb['gateway_txt'] = 'Puerta de enlace';
-$wb['hostname_txt'] = 'Nombre del host';
-$wb['nameservers_txt'] = 'Servidores de nombres';
-$wb['module_txt'] = 'Módulo de servidor';
-$wb['maildir_path_txt'] = 'Ruta al directorio de correo';
+$wb['getmail_config_dir_txt'] = 'Ruta de configuración de Getmail';
 $wb['homedir_path_txt'] = 'Ruta al directorio de inicio';
-$wb['mailuser_uid_txt'] = 'UID del usuario de correo';
-$wb['mailuser_gid_txt'] = 'GID del usuario de correo';
-$wb['mailuser_name_txt'] = 'Nombre del usuario de correo';
+$wb['hostname_txt'] = 'Nombre del host';
+$wb['ip_address_txt'] = 'Dirección IP';
+$wb['mailbox_size_limit_txt'] = 'Tamaño máximo de buzón';
+$wb['maildir_path_txt'] = 'Ruta al directorio de correo';
+$wb['mailuser_gid_txt'] = 'ID del grupo del usuario de correo (GID)';
 $wb['mailuser_group_txt'] = 'Grupo del usuario de correo';
+$wb['mailuser_name_txt'] = 'Nombre del usuario de correo';
+$wb['mailuser_uid_txt'] = 'ID del usuario de correo (UID)';
+$wb['message_size_limit_txt'] = 'Tamaño máximo por mensaje';
+$wb['module_txt'] = 'Módulo de servidor';
+$wb['nameservers_txt'] = 'Servidores de nombres';
+$wb['netmask_txt'] = 'Máscara de red';
+$wb['relayhost_password_txt'] = 'Contraseña del servidor de retransmisión';
 $wb['relayhost_txt'] = 'Servidor de retransmisión';
 $wb['relayhost_user_txt'] = 'Usuario del servidor de retransmisión';
-$wb['relayhost_password_txt'] = 'Contraseña del servidor de retransmisión';
-$wb['mailbox_size_limit_txt'] = 'Tamaño límite de buzón';
-$wb['message_size_limit_txt'] = 'Tamaño límite de mensaje';
 ?>

@@ -1,13 +1,13 @@
 <?php
-$wb['email_txt'] = 'Correo';
-$wb['destination_txt'] = 'Destino del correo';
 $wb['active_txt'] = 'Habilitado';
-$wb['limit_mailforward_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros de reenvío de correos.';
-$wb['duplicate_mailbox_txt'] = 'Ya existe un buzón con esta cuenta de correo.';
+$wb['destination_txt'] = 'Destino del correo';
 $wb['domain_txt'] = 'Dominio';
-$wb['greylisting_txt'] = 'Enable greylisting';
+$wb['duplicate_mailbox_txt'] = 'Ya existe un buzón con esta cuenta de correo.';
+$wb['email_error_isemail'] = 'Por favor, introduzca una dirección de correo válida.';
+$wb['email_txt'] = 'Correo';
+$wb['greylisting_txt'] = 'Habilitar Lista Gris';
+$wb['limit_mailforward_txt'] = 'Ha alcanzado el número máx. de reenvíos de correos permitidos para su cuenta.';
+$wb['send_as_exp'] = 'Permitir al destino enviar correo usando esta dirección como origen (si el destino es interno)';
+$wb['send_as_txt'] = 'Enviar como';
 $wb['source_txt'] = 'Origen del correo';
-$wb['email_error_isemail'] = 'Please enter a valid email address.';
-$wb['send_as_txt'] = 'Send as';
-$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>

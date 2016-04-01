@@ -2,9 +2,9 @@
 $wb['list_head_txt'] = 'Lista negra de correos';
 $wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Direcciones en lista negra';
+$wb['source_txt'] = 'Direcciones en la lista negra';
 $wb['type_txt'] = 'Tipo';
 $wb['recipient_txt'] = 'Recipiente';
-$wb['add_new_record_txt'] = 'Añadir registro en lista negra';
-$wb['access_txt'] = 'access';
+$wb['add_new_record_txt'] = 'Añadir registro a la lista negra';
+$wb['access_txt'] = 'acceso';
 ?>

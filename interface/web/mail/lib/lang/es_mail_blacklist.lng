@@ -1,9 +1,9 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Dirección  en lista negra';
-$wb['recipient_txt'] = 'Recipiente';
 $wb['active_txt'] = 'Habilitado';
+$wb['limit_mailfilter_txt'] = 'Ha alcanzado el número máx. de filtros de correo permitidos para su cuenta.';
+$wb['recipient_txt'] = 'Recipiente';
+$wb['server_id_txt'] = 'Servidor';
 $wb['source_error_notempty'] = 'La dirección está vacía.';
+$wb['source_txt'] = 'Dirección en la lista negra';
 $wb['type_txt'] = 'Tipo';
-$wb['limit_mailfilter_txt'] = 'Ha alcanzado en su cuenta el número máx. de filtros de correo.';
 ?>

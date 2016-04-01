@@ -1,15 +1,15 @@
 <?php
-$wb["list_head_txt"] = 'XMPP User Accounts';
-$wb["jid_txt"] = 'Jabber ID';
-$wb["active_txt"] = 'Active';
-$wb["cryptpwd_txt"] = 'Password';
-$wb["password_strength_txt"] = 'Password strength';
-$wb["error_no_pwd"] = 'Password is empty.';
-$wb["password_txt"] = 'Password';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb["no_domain_perm"] = 'You have no permission for this domain.';
-$wb["limit_xmpp_user_txt"] = 'The max. number of xmpp accounts for your account is reached.';
+$wb['active_txt'] = 'Habilitado';
+$wb['cryptpwd_txt'] = 'Contraseña';
+$wb['error_no_pwd'] = 'La contraseña está vacía.';
+$wb['generate_password_txt'] = 'Generar Contraseña';
+$wb['jid_txt'] = 'ID de Jabber';
+$wb['limit_xmpp_user_txt'] = 'Se ha alcanzado el número máximo de cuentas xmpp permitidas para tu cuenta.';
+$wb['list_head_txt'] = 'Cuentas de usuario XMPP';
+$wb['no_domain_perm'] = 'No tiene permiso para gestionar este dominio.';
+$wb['password_match_txt'] = 'Las contraseñas coinciden.';
+$wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
+$wb['password_strength_txt'] = 'Seguridad de la contraseña';
+$wb['password_txt'] = 'Contraseña';
+$wb['repeat_password_txt'] = 'Repita la Contraseña';
 ?>
