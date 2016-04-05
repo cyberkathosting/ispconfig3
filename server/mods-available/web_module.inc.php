@@ -265,7 +265,8 @@ class web_module {
 				// @see: https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
 				if(file_exists('/etc/os-release')) {
 					$tmp = file_get_contents('/etc/os-release');
-					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
+					//if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
+					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp) && stristr(phpversion(), 'deb.sury.org') === false) {
 						$initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
 					}
 					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
