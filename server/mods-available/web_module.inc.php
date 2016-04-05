@@ -269,13 +269,15 @@ class web_module {
 						$initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
 					}
 					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
+                                        /*
 					if(preg_match('/^ID=centos/m', $tmp) && preg_match('/^VERSION_ID="7"/m', $tmp)) {
 						$initcommand = 'systemctl restart php-fpm.service';
 					}
+                                        */
 					unset($tmp);
 				}	
 			}
-			
+			/*
 			if($action == 'reload') {
 				// And the next workaround, php-fpm reloads in centos 7 downt work as well.
 				if(file_exists('/etc/os-release')) {
@@ -287,6 +289,7 @@ class web_module {
 					unset($tmp);
 				}
 			}
+                        */
 		}
 
 		$retval = array('output' => '', 'retval' => 0);
