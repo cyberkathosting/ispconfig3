@@ -46,7 +46,8 @@ class tform_actions {
 		$app->tpl->newTemplate("tabbed_form.tpl.htm");
 
 		// Load table definition from file
-		$app->tform->loadFormDef($tform_def_file, (isset($_SESSION['s']['module']['name']) ? $_SESSION['s']['module']['name'] : ''));
+		//$app->tform->loadFormDef($tform_def_file, (isset($_SESSION['s']['module']['name']) ? $_SESSION['s']['module']['name'] : ''));
+		$app->tform->loadFormDef($tform_def_file);
 
 		// Importing ID
 		$this->id = (isset($_REQUEST["id"]))?$app->functions->intval($_REQUEST["id"]):0;

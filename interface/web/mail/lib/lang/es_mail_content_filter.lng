@@ -1,9 +1,9 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['type_txt'] = 'Filtro';
-$wb['pattern_txt'] = 'Patrón de expresión regular.';
-$wb['data_txt'] = 'Dato';
 $wb['action_txt'] = 'Acción';
 $wb['active_txt'] = 'Habilitado';
+$wb['data_txt'] = 'Dato';
 $wb['pattern_error_empty'] = 'La expresión regular está vacía.';
+$wb['pattern_txt'] = 'Patrón de expresión regular.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['type_txt'] = 'Filtro';
 ?>

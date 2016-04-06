@@ -1,11 +1,11 @@
 <?php
+$wb['customer_txt'] = 'Cliente';
+$wb['delete_txt'] = 'Borrar';
+$wb['filter_txt'] = 'Buscar';
+$wb['install_location_txt'] = 'Ubicación de la instalación';
 $wb['list_head_txt'] = 'Paquetes instalados';
 $wb['name_txt'] = 'Nombre';
-$wb['version_txt'] = 'Versión';
-$wb['customer_txt'] = 'Cliente';
+$wb['pkg_delete_confirmation'] = '¿Realmente desea eliminar esta instalación?';
 $wb['status_txt'] = 'Estado';
-$wb['install_location_txt'] = 'Ubicación de la instalación';
-$wb['pkg_delete_confirmation'] = 'Realmente desea eliminar esta instalación?';
-$wb['filter_txt'] = 'Buscar';
-$wb['delete_txt'] = 'Borrar';
+$wb['version_txt'] = 'Versión';
 ?>

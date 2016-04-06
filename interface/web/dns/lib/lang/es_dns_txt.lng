@@ -1,19 +1,19 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
-$wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Nombre del host';
-$wb['type_txt'] = 'Tipo';
-$wb['data_txt'] = 'Texto';
-$wb['ttl_txt'] = 'TTL';
-$wb['invalid_type_dkim'] = 'DKIM is not allowed. Use the DKIM button';
-$wb['invalid_type_dmarc'] = 'DMARC is not allowed. Use the DMARC button';
-$wb['invalid_type_spf'] = 'SPF is not allowed. Use the SPF button.';
 $wb['active_txt'] = 'Habilitado';
+$wb['data_error_empty'] = 'El texto está vacío';
+$wb['data_error_regex'] = 'El texto tiene un formato incorrecto';
+$wb['data_txt'] = 'Texto';
+$wb['invalid_type_dkim'] = 'No está permitido DKIM. Use el botón DKIM.';
+$wb['invalid_type_dmarc'] = 'No está permitido DMARC. Use el botón DMARC.';
+$wb['invalid_type_spf'] = 'No está permitido SPF. Use el botón SPF.';
 $wb['limit_dns_record_txt'] = 'Ha alcanzado en su cuenta el número máx. de registros DNS.';
-$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona de DNS.';
 $wb['name_error_empty'] = 'El nombre del host está vacío.';
 $wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
-$wb['data_error_empty'] = 'Texto vacío';
-$wb['data_error_regex'] = 'Formato incorrecto de texto.';
-$wb['ttl_range_error'] = 'El tiempo min. para TTL es de 60 segundos.';
+$wb['name_txt'] = 'Nombre del host';
+$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona DNS.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
+$wb['ttl_txt'] = 'TTL';
+$wb['type_txt'] = 'Tipo';
+$wb['zone_txt'] = 'Zona';
 ?>

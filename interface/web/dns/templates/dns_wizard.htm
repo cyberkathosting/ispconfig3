@@ -90,7 +90,7 @@
             </tmpl_if>
             <tmpl_if name="DKIM_VISIBLE">
 		    <label for="dkim" class="col-sm-3 control-label">{tmpl_var name='dkim_txt'}</label>
-                    <input name="dkim" type="hidden" maxlength="255" type="text"/>
+                    &nbsp;&nbsp;<input type="checkbox" disabled readonly checked><input name="dkim" type="hidden" maxlength="255" type="text"/>
             </tmpl_if>
 
         

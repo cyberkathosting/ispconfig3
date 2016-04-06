@@ -1,16 +1,16 @@
 <?php
-$wb['zone_file_import_txt'] = 'Importar archivo de zona';
-$wb['server_id_txt'] = 'Servidor';
-$wb['client_txt'] = 'Cliente';
-$wb['btn_save_txt'] = 'Importar archivo de zona';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['domain_txt'] = 'Dominio';
-$wb['zone_file_successfully_imported_txt'] = 'El archivo de zona se ha importado correctamente!';
-$wb['error_no_valid_zone_file_txt'] = 'Al parecer este no es un archivo de zona válido!';
-$wb['zonefile_to_import_txt'] = 'Archivo de Zona';
+$wb['btn_save_txt'] = 'Importar archivo de zona';
+$wb['client_txt'] = 'Cliente';
 $wb['domain_field_desc_txt'] = 'Puede quedar en blanco si el nombre de dominio es el nombre del archivo o está en el contenido del archivo de zona.';
-$wb['title'] = 'Importar Archivos de Zona';
-$wb['no_file_uploaded_error'] = 'No hay archivo de zona cargado';
-$wb['error_no_server_id'] = 'No server provided.';
-$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['domain_txt'] = 'Dominio';
+$wb['error_no_server_id'] = 'No se ha propocionado un servidor.';
+$wb['error_no_valid_zone_file_txt'] = 'Al parecer este no es un archivo de zona válido';
+$wb['error_not_allowed_server_id'] = 'El servidor seleccionado no está permitido para esta cuenta.';
+$wb['no_file_uploaded_error'] = 'No se ha subido un archivo de zona';
+$wb['server_id_txt'] = 'Servidor';
+$wb['title'] = 'Importar Archivo de Zona';
+$wb['zone_file_import_txt'] = 'Importar archivo de zona';
+$wb['zone_file_successfully_imported_txt'] = 'El archivo de zona se ha importado correctamente!';
+$wb['zonefile_to_import_txt'] = 'Archivo de Zona';
 ?>

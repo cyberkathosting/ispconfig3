@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Lista negra de filtro de spam';
 $wb['active_txt'] = 'Habilitado';
-$wb['server_id_txt'] = 'Servidor';
+$wb['add_new_record_txt'] = 'Añadir registro a la lista negra';
+$wb['email_txt'] = 'Correo en la lista negra';
+$wb['list_head_txt'] = 'Lista negra de filtros de spam';
 $wb['priority_txt'] = 'Prioridad';
 $wb['rid_txt'] = 'Usuario';
-$wb['email_txt'] = 'Correo en lista negra';
-$wb['add_new_record_txt'] = 'Añadir registro en lista negra';
+$wb['server_id_txt'] = 'Servidor';
 ?>

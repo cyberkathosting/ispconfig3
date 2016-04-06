@@ -1,4 +1,4 @@
 <?php
-$wb['customerdata_txt'] = 'My Data';
-$wb['edit_txt'] = 'Edit';
+$wb['customerdata_txt'] = 'Mis Datos';
+$wb['edit_txt'] = 'Editar';
 ?>

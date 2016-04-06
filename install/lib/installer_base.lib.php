@@ -185,7 +185,11 @@ class installer_base {
 
     public function force_configure_app($service, $enable_force=true) {
 		$force = false;
-        swriteln("[WARN] autodetect for $service failed");
+		if($enable_force == true) {
+			swriteln("[WARN] autodetect for $service failed");
+		} else {
+			swriteln("[INFO] service $service not detected");
+		}
 		if($enable_force) {
 	        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
 	            $force = true;
