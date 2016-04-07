@@ -25,7 +25,7 @@ ALTER TABLE `client_template`
 
 ALTER TABLE  `client` ADD  `contact_firstname` VARCHAR( 64 ) NOT NULL DEFAULT '' AFTER  `gender`;
 
-UPDATE `dns_template` SET `fields` = 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM' WHERE `dns_template`.`template_id` =1;
+UPDATE `dns_template` SET `fields` = 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM,DNSSEC' WHERE `dns_template`.`template_id` =1;
 UPDATE `dns_template` SET `template` = '[ZONE]
 origin={DOMAIN}.
 ns={NS1}.
