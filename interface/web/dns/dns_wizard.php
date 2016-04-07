@@ -300,6 +300,7 @@ if($_POST['create'] == 1) {
 	if($_POST['ns1'] != '') $tpl_content = str_replace('{NS1}', $_POST['ns1'], $tpl_content);
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);
+	$enable_dnssec = (($_POST['dnssec'] == 'Y') ? 'Y' : 'N');
 	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,30}[\.]{0,1}$/', $_POST['domain'])) {
 		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
 		$public_key = $sql['dkim_public'];
@@ -395,7 +396,8 @@ if($_POST['create'] == 1) {
 			"active" => 'Y',
 			"xfer" => $xfer,
 			"also_notify" => $also_notify,
-			"update_acl" => $update_acl
+			"update_acl" => $update_acl,
+			"dnssec_wanted" => $enable_dnssec
 		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 
