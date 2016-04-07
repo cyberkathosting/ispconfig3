@@ -34,8 +34,7 @@ DNSSEC-Implementation by Alexander Täffner aka dark alex
 class cronjob_bind_dnssec extends cronjob {
 
 	// job schedule
-	//protected $_schedule = '30 3 * * *'; //daily at 3:30 a.m.
-	protected $_schedule = '* * * * *'; //temp 4 test
+	protected $_schedule = '30 3 * * *'; //daily at 3:30 a.m.
 	
 	private function increase_serial($serial){
 		global $app, $conf;
