@@ -138,7 +138,7 @@ class maildeliver_plugin {
 			$tpl->setVar('move_junk', $data["new"]["move_junk"]);
 
 			// Check autoresponder dates
-			if($data["new"]["autoresponder_start_date"] == '0000-00-00 00:00:00' && $data["new"]["autoresponder_end_date"] == '0000-00-00 00:00:00') {
+			if((!$data['new']['autoresponder_start_date'] || $data["new"]["autoresponder_start_date"] == '0000-00-00 00:00:00') && (!$data['new']['autoresponder_end_date'] || $data["new"]["autoresponder_end_date"] == '0000-00-00 00:00:00')) {
 				$tpl->setVar('autoresponder_date_limit', 0);
 			} else {
 				$tpl->setVar('autoresponder_date_limit', 1);

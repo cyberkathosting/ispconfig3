@@ -227,3 +227,26 @@ ALTER TABLE `client` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '
 ALTER TABLE `client_template` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '-1' after limit_database;
 ALTER TABLE `client` CHANGE `customer_no_template` `customer_no_template` VARCHAR(255) NULL DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]';
 	
+ALTER TABLE `client` CHANGE `added_date` `added_date` DATE NULL DEFAULT NULL;
+ALTER TABLE `ftp_user` CHANGE `expires` `expires` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `mail_user` CHANGE `autoresponder_start_date` `autoresponder_start_date` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `mail_user` CHANGE `autoresponder_end_date` `autoresponder_end_date` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `openvz_traffic` CHANGE `traffic_date` `traffic_date` DATE NULL DEFAULT NULL;
+ALTER TABLE `openvz_vm` CHANGE `active_until_date` `active_until_date` DATE NULL DEFAULT NULL;
+ALTER TABLE `sys_session` CHANGE `date_created` `date_created` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `sys_session` CHANGE `last_updated` `last_updated` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `web_domain` CHANGE `added_date` `added_date` DATE NULL DEFAULT NULL;
+ALTER TABLE `web_traffic` CHANGE `traffic_date` `traffic_date` DATE NULL DEFAULT NULL;
+
+UPDATE `client` SET `added_date` = NULL WHERE `added_date` = '0000-00-00';
+UPDATE `ftp_user` SET `expires` = NULL WHERE `expires` = '0000-00-00 00:00:00';
+UPDATE `mail_user` SET `autoresponder_start_date` = NULL WHERE `autoresponder_start_date` = '0000-00-00 00:00:00';
+UPDATE `mail_user` SET `autoresponder_end_date` = NULL WHERE `autoresponder_end_date` = '0000-00-00 00:00:00';
+UPDATE `openvz_traffic` SET `traffic_date` = NULL WHERE `traffic_date` = '0000-00-00';
+UPDATE `openvz_vm` SET `active_until_date` = NULL WHERE `active_until_date` = '0000-00-00';
+UPDATE `sys_session` SET `date_created` = NULL WHERE `date_created` = '0000-00-00 00:00:00';
+UPDATE `sys_session` SET `last_updated` = NULL WHERE `last_updated` = '0000-00-00 00:00:00';
+UPDATE `web_domain` SET `added_date` = NULL WHERE `added_date` = '0000-00-00';
+UPDATE `web_traffic` SET `traffic_date` = NULL WHERE `traffic_date` = '0000-00-00';
+
+

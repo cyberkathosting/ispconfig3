@@ -258,7 +258,7 @@ CREATE TABLE `client` (
   `customer_no_template` varchar(255) DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]',
   `customer_no_start` int(11) NOT NULL DEFAULT '1',
   `customer_no_counter` int(11) NOT NULL DEFAULT '0',
-  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_date` date NULL DEFAULT NULL,
   `added_by` varchar(255) DEFAULT NULL,
   `validation_status` enum('accept','review','reject') NOT NULL DEFAULT 'accept',
   `risk_score` int(10) unsigned NOT NULL DEFAULT '0',
@@ -638,7 +638,7 @@ CREATE TABLE `ftp_user` (
   `dl_ratio` int(11) NOT NULL default '-1',
   `ul_bandwidth` int(11) NOT NULL default '-1',
   `dl_bandwidth` int(11) NOT NULL default '-1',
-  `expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expires` datetime NULL DEFAULT NULL,
   PRIMARY KEY  (`ftp_user_id`),
   KEY `active` (`active`),
   KEY `server_id` (`server_id`),
@@ -962,8 +962,8 @@ CREATE TABLE `mail_user` (
   `sender_cc` varchar(255) NOT NULL default '',
   `homedir` varchar(255) NOT NULL default '',
   `autoresponder` enum('n','y') NOT NULL default 'n',
-  `autoresponder_start_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `autoresponder_end_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `autoresponder_start_date` datetime NULL default NULL,
+  `autoresponder_end_date` datetime NULL default NULL,
   `autoresponder_subject` varchar(255) NOT NULL default 'Out of office reply',
   `autoresponder_text` mediumtext NULL,
   `move_junk` enum('n','y') NOT NULL default 'n',
@@ -1151,7 +1151,7 @@ INSERT INTO `openvz_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_
 
 CREATE TABLE IF NOT EXISTS `openvz_traffic` (
   `veid` int(11) NOT NULL DEFAULT '0',
-  `traffic_date` date NOT NULL DEFAULT '0000-00-00',
+  `traffic_date` date NULL DEFAULT NULL,
   `traffic_bytes` bigint(32) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`veid`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1184,7 +1184,7 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `start_boot` varchar(255) NOT NULL DEFAULT 'y',
   `bootorder` int(11) NOT NULL DEFAULT '1',
   `active` varchar(255) NOT NULL DEFAULT 'y',
-  `active_until_date` date NOT NULL DEFAULT '0000-00-00',
+  `active_until_date` date NULL DEFAULT NULL,
   `description` text,
   `diskspace` int(11) NOT NULL DEFAULT '0',
   `traffic` int(11) NOT NULL DEFAULT '-1',
@@ -1739,8 +1739,8 @@ CREATE TABLE `sys_remoteaction` (
 
 CREATE TABLE `sys_session` (
   `session_id` varchar(64) NOT NULL DEFAULT '',
-  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_created` datetime NULL DEFAULT NULL,
+  `last_updated` datetime NULL DEFAULT NULL,
   `permanent` enum('n','y') NOT NULL DEFAULT 'n',
   `session_data` longtext,
   PRIMARY KEY (`session_id`),
@@ -1972,7 +1972,7 @@ CREATE TABLE `web_domain` (
   `enable_spdy` ENUM('y','n') NULL DEFAULT 'n',
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
-  `added_date` date NOT NULL DEFAULT '0000-00-00',
+  `added_date` date NULL DEFAULT NULL,
   `added_by` varchar(255) DEFAULT NULL,
   `directive_snippets_id` int(11) unsigned NOT NULL default '0',
   `enable_pagespeed` ENUM('y','n') NOT NULL DEFAULT 'n',
@@ -2041,7 +2041,7 @@ CREATE TABLE IF NOT EXISTS `web_folder_user` (
 
 CREATE TABLE `web_traffic` (
   `hostname` varchar(255) NOT NULL DEFAULT '',
-  `traffic_date` date NOT NULL DEFAULT '0000-00-00',
+  `traffic_date` date NULL DEFAULT NULL,
   `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
   PRIMARY KEY  (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;

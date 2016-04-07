@@ -563,7 +563,7 @@ class listform {
 					break;
 
 				case 'DATE':
-					if($record[$key] != '' && $record[$key] != '0000-00-00') {
+					if($record[$key] != '' && !is_null($record[$key]) && $record[$key] != '0000-00-00') {
 						$record[$key] = $record[$key];
 					}
 					break;

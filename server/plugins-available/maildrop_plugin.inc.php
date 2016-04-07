@@ -144,7 +144,7 @@ class maildrop_plugin {
 				}
 				$tpl = str_replace('{vmail_mailbox_base}', $mail_config["homedir_path"], $tpl);
 
-				if ($data["new"]["autoresponder_start_date"] != '0000-00-00 00:00:00') { // Dates have been set
+				if ($data['new']['autoresponder_start_date'] && $data["new"]["autoresponder_start_date"] != '0000-00-00 00:00:00') { // Dates have been set
 					$tpl = str_replace('{start_date}', strtotime($data["new"]["autoresponder_start_date"]), $tpl);
 					$tpl = str_replace('{end_date}', strtotime($data["new"]["autoresponder_end_date"]), $tpl);
 				} else {
