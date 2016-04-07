@@ -84,7 +84,12 @@ class validate_domain {
 		global $app;
 		if(empty($field_value) || $field_name != 'subdomain') return; // none set
 
-		$check_domain = $_POST['domain'];
+		if(isset($app->remoting_lib->primary_id)) {
+			$check_domain = $app->remoting_lib->dataRecord['domain'];
+		} else {
+			$check_domain = $_POST['domain'];
+		}
+		
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
