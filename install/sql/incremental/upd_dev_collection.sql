@@ -225,4 +225,5 @@ ALTER TABLE `web_database` ADD COLUMN `quota_exceeded` enum('n','y') NOT NULL DE
 
 ALTER TABLE `client` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '-1' after limit_database;
 ALTER TABLE `client_template` ADD COLUMN `limit_database_user` int(11) NOT NULL DEFAULT '-1' after limit_database;
+ALTER TABLE `client` CHANGE `customer_no_template` `customer_no_template` VARCHAR(255) NULL DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]';
 	
