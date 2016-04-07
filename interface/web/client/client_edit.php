@@ -206,7 +206,7 @@ class page_action extends tform_actions {
 				if($reseller['customer_no_template'] != '') {
 					//* Set customer no default
 					$customer_no = $app->functions->intval($reseller['customer_no_start']+$reseller['customer_no_counter']);
-					$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$reseller['customer_no_template']);
+					$customer_no_string = str_replace(array('[CUSTOMER_NO]','[CLIENTID]'),array($customer_no, $reseller['client_id']),$reseller['customer_no_template']);
 					$app->tpl->setVar('customer_no',$customer_no_string);
 				}
 			}
