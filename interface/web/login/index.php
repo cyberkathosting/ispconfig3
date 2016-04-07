@@ -60,7 +60,7 @@ if(count($_POST) > 0) {
 
 	//** Check variables
 	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
-	if(!preg_match("/^.{1,64}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
+	if(!preg_match("/^.{1,256}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
 
 	//** importing variables
 	$ip    = ip2long($_SERVER['REMOTE_ADDR']);
