@@ -327,6 +327,7 @@ class bind_plugin {
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			if(is_file($filename.'.pending')) unlink($filename.'.pending');
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
+		}
 
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
 		if($data['new']['update_acl'] != '') {
