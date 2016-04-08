@@ -279,6 +279,7 @@ class bind_plugin {
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 				$app->db->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
+				$app->dbmaster->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
 			} else {
 				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
 				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
@@ -295,6 +296,8 @@ class bind_plugin {
 					rename($filename, $filename.'.err');
 				}
 				$app->db->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				$app->dbmaster->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				rename($filename.'.pending', $filename.'.err');
 			}
 			unset($tpl);
 			unset($records);
