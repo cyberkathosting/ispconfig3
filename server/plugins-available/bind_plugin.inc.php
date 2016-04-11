@@ -158,8 +158,8 @@ class bind_plugin {
 			$dnssecdata .= file_get_contents($keyfile)."\n\n";
 		}
 		
-		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, time(), $data['new']['id']);
-		$app->db->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, time(), $data['new']['id']);
+		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, intval(time()), intval($data['new']['id']));
+		$app->db->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, intval(time()), intval($data['new']['id']));
 	}
 	
 	function soa_dnssec_update(&$data, $new=false) {
@@ -186,7 +186,7 @@ class bind_plugin {
 		
 		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) $this->soa_dnssec_create($data);
 		
-		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id=?', $data['new']['id']);
+		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id=?', intval($data['new']['id']));
 		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
 			 'named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
 		if ($retState != 0) {
@@ -215,8 +215,8 @@ class bind_plugin {
 		unlink($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain.'.signed');
 		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		
-		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', $data['new']['id']);
-		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', $data['new']['id']);
+		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', intval($data['new']['id']));
+		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', intval($data['new']['id']));
 	}
 
 	function soa_insert($event_name, $data) {
@@ -244,7 +244,7 @@ class bind_plugin {
 			$zone = $data['new'];
 			$tpl->setVar($zone);
 
-			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $zone['id']);
+			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ?? AND active = 'Y'", $zone['id']);
 			if(is_array($records) && !empty($records)){
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
