@@ -244,7 +244,7 @@ class bind_plugin {
 			$zone = $data['new'];
 			$tpl->setVar($zone);
 
-			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ?? AND active = 'Y'", $zone['id']);
+			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $zone['id']);
 			if(is_array($records) && !empty($records)){
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
