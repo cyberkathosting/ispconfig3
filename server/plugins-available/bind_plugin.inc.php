@@ -157,6 +157,7 @@ class bind_plugin {
 			$dnssecdata .= file_get_contents($keyfile)."\n\n";
 		}
 		
+		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\', dnssec_last_signed=\''.time().'\' WHERE id='.$data['new']['id']);
 		$app->db->query('UPDATE dns_soa SET dnssec_info=\''.$dnssecdata.'\', dnssec_initialized=\'Y\', dnssec_last_signed=\''.time().'\' WHERE id='.$data['new']['id']);
 	}
 	
@@ -212,6 +213,7 @@ class bind_plugin {
 		unlink($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain.'.signed');
 		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		
+		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id='.$data['new']['id']);
 		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id='.$data['new']['id']);
 	}
 
