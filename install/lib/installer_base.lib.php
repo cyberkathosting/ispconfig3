@@ -659,7 +659,7 @@ class installer_base {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 				
-				$query = "GRANT SELECT, UPDATE ON ?? TO ?@?";
+				$query = "GRANT SELECT, UPDATE(`dnssec_initialized`, `dnssec_info`, `dnssec_last_signed`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
