@@ -14,3 +14,4 @@ $wb['zone_file_import_txt'] = 'Importovat vybraný DNS zonový soubor';
 $wb['error_no_server_id'] = 'No server provided.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
+

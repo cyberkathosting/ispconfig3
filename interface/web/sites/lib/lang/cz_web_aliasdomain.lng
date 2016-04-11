@@ -1,11 +1,11 @@
 <?php
-$wb['domain_txt'] = 'Alias domény pro webové stránky';
+$wb['domain_txt'] = 'Přezdívky domén webové stránky';
 $wb['backup_interval_txt'] = 'Interval zálohování';
 $wb['backup_copies_txt'] = 'Počet kopií zálohy';
-$wb['ssl_state_txt'] = 'State';
-$wb['ssl_locality_txt'] = 'Locality';
-$wb['ssl_organisation_txt'] = 'Organisation';
-$wb['ssl_organisation_unit_txt'] = 'Organisation Unit';
+$wb['ssl_state_txt'] = 'Stát (např. Czech Republic)';
+$wb['ssl_locality_txt'] = 'Název města';
+$wb['ssl_organisation_txt'] = 'Organizace (společnost)';
+$wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
 $wb['ssl_country_txt'] = 'Country';
 $wb['ssl_key_txt'] = 'SSL Key';
 $wb['ssl_request_txt'] = 'SSL Request';
@@ -15,7 +15,7 @@ $wb['ssl_action_txt'] = 'SSL Action';
 $wb['ssl_domain_txt'] = 'SSL Domain';
 $wb['server_id_txt'] = 'Server';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
-$wb['type_txt'] = 'Type';
+$wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Rodičovské webové stránky';
 $wb['redirect_type_txt'] = 'Typ přesměrování';
 $wb['redirect_path_txt'] = 'Cesta přesměrování';
@@ -56,9 +56,9 @@ $wb['client_group_id_txt'] = 'Klient';
 $wb['stats_password_txt'] = 'Set Webstatistics password';
 $wb['allow_override_txt'] = 'Apache AllowOverride';
 $wb['limit_web_quota_free_txt'] = 'Max. available Harddisk Quota';
-$wb['ssl_state_error_regex'] = 'Invalid SSL State. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_locality_error_regex'] = 'Invalid SSL Locality. Valid characters are: a-z, 0-9 and .,-_';
-$wb['ssl_organisation_error_regex'] = 'Invalid SSL Organisation. Valid characters are: a-z, 0-9 and .,-_';
+$wb['ssl_state_error_regex'] = 'Neplatný SSL řádek - Stát. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
+$wb['ssl_locality_error_regex'] = 'Neplatný SSL řádek - Název města. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
+$wb['ssl_organisation_error_regex'] = 'Neplatný SSL řádek - Organizace. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
 $wb['ssl_organistaion_unit_error_regex'] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_';
 $wb['ssl_country_error_regex'] = 'Invalid SSL Country. Valid characters are: A-Z';
 $wb['limit_traffic_quota_free_txt'] = 'Max. available Traffic Quota';
@@ -111,5 +111,6 @@ $wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Sni
 $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
-$wb['Domain'] = 'Alias domény pro webové stránky';
+$wb['Domain'] = 'Přezdívky domén webové stránky';
 ?>
+

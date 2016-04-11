@@ -5,5 +5,6 @@ $wb['email_txt'] = 'E-mail';
 $wb['cc_error_isemail'] = 'Vyplněná e-mailová adresa neplatná';
 $wb['email_is_cc_error'] = 'Vyplněná e-mailová adresa a poslat kopii na e-mail adresu, nemůžou být stejné.';
 $wb['name_optional_txt'] = '(Volitelné)';
-$wb['cc_note_txt'] = '(Při přeposílání na více e-mailových adres, oddělte čárkami.)';
+$wb['cc_note_txt'] = '(Při posílání kopií na více e-mailových adres, oddělte čárkami.)';
 ?>
+

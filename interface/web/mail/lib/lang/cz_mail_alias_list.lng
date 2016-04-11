@@ -1,8 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'E-mailové aliasy';
+$wb['list_head_txt'] = 'E-mailové přezdívky';
 $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cíl';
 $wb['email_txt'] = 'E-mail';
-$wb['add_new_record_txt'] = 'Přidat nový e-mailový alias';
+$wb['add_new_record_txt'] = 'Vytvořit novou e-mailovou přezdívku';
 ?>
+

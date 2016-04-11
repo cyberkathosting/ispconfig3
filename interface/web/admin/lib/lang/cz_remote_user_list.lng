@@ -1,7 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Vzdálený uživatel';
 $wb['list_desc_txt'] = '';
-$wb['add_new_record_txt'] = 'Přidat uživatele';
+$wb['add_new_record_txt'] = 'Vytvořit uživatele';
 $wb['parent_remote_userid_txt'] = 'ID';
 $wb['username_txt'] = 'Uživatel';
 ?>
+
