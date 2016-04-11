@@ -69,7 +69,7 @@ class cronjob_bind_dnssec extends cronjob {
 		//TODO : change this when distribution information has been integrated into server record
 		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
 		
-		$soas = $app->db->queryAllRecords('SELECT * FROM dns_soa WHERE dnssec_wanted=\'Y\' AND dnssec_initialized=\'Y\' AND dnssec_last_signed < '.(time()-(3600*24*5)+900)); //Resign zones every 5 days (expiry is 16 days so we have enough safety, 15 minutes tolerance)
+		$soas = $app->db->queryAllRecords('SELECT * FROM dns_soa WHERE dnssec_wanted=\'Y\' AND dnssec_initialized=\'Y\' AND (dnssec_last_signed < '.(time()-(3600*24*5)+900)).' OR dnssec_last_signed > '.(time()+900).')'; //Resign zones every 5 days (expiry is 16 days so we have enough safety, 15 minutes tolerance)
 		
 		foreach ($soas as $data) {
 			$domain = substr($data['origin'], 0, strlen($data['origin'])-1);
