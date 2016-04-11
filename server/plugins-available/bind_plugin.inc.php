@@ -273,7 +273,8 @@ class bind_plugin {
 			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
-				$app->dbmaster->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
+				if ($app->dbmaster) $app->dbmaster->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
+				$app->db->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
 				rename($filename.'.pending', $filename);
 			} else {
 				if($dns_config['disable_bind_log'] === 'y') {
@@ -281,7 +282,8 @@ class bind_plugin {
 				} else {
 					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_WARN);
 				}
-				$app->dbmaster->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				if ($app->dbmaster) $app->dbmaster->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				$app->db->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
 				rename($filename.'.pending', $filename.'.err');
 			}
 			unset($tpl);
