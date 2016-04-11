@@ -180,7 +180,7 @@ class bind_plugin {
 		//* Check for available entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
 			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
-			echo "DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.\n"
+			echo "DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.\n";
 			return false;
 		}
 		
