@@ -123,18 +123,37 @@ class cron_plugin {
 			exec("useradd -d ".escapeshellcmd($parent_domain["document_root"])." -g $groupname $username -s /bin/false");
 			$app->log("Adding the user: $username", LOGLEVEL_DEBUG);
 		}
+        
+        // Set the quota for the user
+        if($username != '' && $app->system->is_user($username)) {
+           if($parent_domain['hd_quota'] > 0) {
+              $blocks_soft = $parent_domain['hd_quota'] * 1024;
+              $mb_soft = $parent_domain['hd_quota'];
+              $blocks_hard = $blocks_soft + 1024;
+              $mb_hard = $mb_soft + 1;
+            } else {
+              $mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
+            }
 
-		// Set the quota for the user
-		if($username != '' && $app->system->is_user($username)) {
-			if($parent_domain["hd_quota"] > 0){
-				$blocks_soft = $parent_domain["hd_quota"] * 1024;
-				$blocks_hard = $blocks_soft + 1024;
-			} else {
-				$blocks_soft = $blocks_hard = 0;
-			}
-			exec("setquota -u $username $blocks_soft $blocks_hard 0 0 -a &> /dev/null");
-			exec("setquota -T -u $username 604800 604800 -a &> /dev/null");
-		}
+            // get the primitive folder for document_root and the filesystem, will need it later.
+            $df_output=exec("df -T $document_root|awk 'END{print \$2,\$NF}'");
+            $file_system = explode(" ", $df_output)[0];
+            $primitive_root = explode(" ", $df_output)[1];
+
+            if ( $file_system , array('ext2','ext3','ext4') ) {
+              exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+              exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+            } elseif ($file_system == 'xfs') {
+                
+              exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+
+              // xfs only supports timers globally, not per user.
+              exec("xfs_quota -x -c 'timer -bir -i 604800'");
+
+              unset($project_uid, $username_position, $xfs_projects);
+              unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+            }
+        }
 
 		//TODO : change this when distribution information has been integrated into server record
 		//* Gentoo requires a user to be part of the crontab group.
