@@ -248,5 +248,6 @@ UPDATE `sys_session` SET `date_created` = NULL WHERE `date_created` = '0000-00-0
 UPDATE `sys_session` SET `last_updated` = NULL WHERE `last_updated` = '0000-00-00 00:00:00';
 UPDATE `web_domain` SET `added_date` = NULL WHERE `added_date` = '0000-00-00';
 UPDATE `web_traffic` SET `traffic_date` = NULL WHERE `traffic_date` = '0000-00-00';
+ALTER TABLE `web_domain` ADD `http_port` INT NOT NULL DEFAULT '80' , ADD `https_port` INT NOT NULL DEFAULT '443' ;
 
 

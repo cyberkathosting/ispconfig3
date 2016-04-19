@@ -8,9 +8,10 @@ $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivní';
 $wb['limit_dns_record_txt'] = 'Dosažen maximální počet DNS záznamů pro Váš účet.';
 $wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny.';
-$wb['name_error_empty'] = 'Hostname je prázdný.';
-$wb['name_error_regex'] = 'Hostname má chybný formát.';
+$wb['name_error_empty'] = 'Název hostitele je prázdný.';
+$wb['name_error_regex'] = 'Název hostitele má chybný formát.';
 $wb['data_error_empty'] = 'IP adresa je prázdná';
-$wb['ip_error_wrong'] = 'IP adresa má chybný formát';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
+$wb['ip_error_wrong'] = 'IP-Address format invalid';
 ?>
+

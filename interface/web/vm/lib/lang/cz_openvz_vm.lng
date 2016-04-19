@@ -13,7 +13,6 @@ $wb['server_id_txt'] = 'Hostserver';
 $wb['ostemplate_id_txt'] = 'OSTemplate';
 $wb['template_id_txt'] = 'Šablona';
 $wb['ip_address_txt'] = 'IP address';
-$wb['hostname_txt'] = 'Název hostitele';
 $wb['vm_password_txt'] = 'VM Password';
 $wb['start_boot_txt'] = 'Start at boot';
 $wb['active_txt'] = 'Aktivní';
@@ -23,7 +22,6 @@ $wb['veid_txt'] = 'VEID';
 $wb['create_dns_txt'] = 'Create DNS for hostname';
 $wb['active_until_date_txt'] = 'Active until date';
 $wb['ip_address_error_empty'] = 'IP address is empty.';
-$wb['hostname_error_empty'] = 'Hostname is empty.';
 $wb['vm_password_error_empty'] = 'VM Password is empty.';
 $wb['veid_error_empty'] = 'VEID is empty.';
 $wb['veid_error_unique'] = 'VEID does already exist.';
@@ -42,4 +40,7 @@ $wb['iptables_txt'] = 'IP Tables';
 $wb['custom_txt'] = 'Custom settings';
 $wb['bootorder_txt'] = 'Boot order priority';
 $wb['bootorder_error_notpositive'] = 'Only positive integers are allowed for Boot order priority';
+$wb['hostname_txt'] = 'Hostname';
+$wb['hostname_error_empty'] = 'Hostname is empty.';
 ?>
+

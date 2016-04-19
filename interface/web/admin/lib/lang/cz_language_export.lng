@@ -2,5 +2,6 @@
 $wb['list_head_txt'] = 'Exportovat jazykové soubory';
 $wb['language_select_txt'] = 'Vybrat jazykovou sadu';
 $wb['btn_save_txt'] = 'Uložit vybranou jazykovou sadu do souboru';
-$wb['btn_cancel_txt'] = 'Zpět';
+$wb['btn_cancel_txt'] = 'Zrušit';
 ?>
+

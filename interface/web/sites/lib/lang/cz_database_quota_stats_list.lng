@@ -1,8 +1,9 @@
 <?php
-$wb['database_txt'] = 'Database';
+$wb['database_txt'] = 'Databáze';
 $wb['server_name_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['used_txt'] = 'Used space';
-$wb['quota_txt'] = 'Quota';
-$wb['percentage_txt'] = 'Used in %';
+$wb['client_txt'] = 'Klient';
+$wb['used_txt'] = 'Využité místo';
+$wb['quota_txt'] = 'Kvóta';
+$wb['percentage_txt'] = 'Využito v %';
 ?>
+

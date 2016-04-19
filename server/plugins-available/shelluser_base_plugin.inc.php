@@ -113,16 +113,20 @@ class shelluser_base_plugin {
 					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
 				}
 				
+				// Create home base directory if it does not exist
 				if(!is_dir($data['new']['dir'].'/home')){
-					$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
-					$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
-					$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
+					$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0755');
 				}
+				
+				// Change ownership of home base dir to root user
+				$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),'root');
+				$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),'root');
+				$app->system->chmod(escapeshellcmd($data['new']['dir'].'/home'),0755);
 				
 				if(!is_dir($homedir)){
 					$app->file->mkdirs(escapeshellcmd($homedir), '0750');
-					$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
-					$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
+					$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']),false);
+					$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']),false);
 				}
 				$command = 'useradd';
 				$command .= ' -d '.escapeshellcmd($homedir);
@@ -137,8 +141,8 @@ class shelluser_base_plugin {
 				$app->log("Executed command: ".$command, LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'], LOGLEVEL_DEBUG);
 				
-				$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']));
-				$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']));
+				$app->system->chown(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['username']),false);
+				$app->system->chgrp(escapeshellcmd($data['new']['dir']),escapeshellcmd($data['new']['pgroup']),false);
 				
 
 				// call the ssh-rsa update function
@@ -149,7 +153,7 @@ class shelluser_base_plugin {
 
 				//* Create .bash_history file
 				$app->system->touch(escapeshellcmd($homedir).'/.bash_history');
-				$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0755);
+				$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0750);
 				$app->system->chown(escapeshellcmd($homedir).'/.bash_history', $data['new']['username']);
 				$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', $data['new']['pgroup']);
 
@@ -249,17 +253,17 @@ class shelluser_base_plugin {
 							$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
 							$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
 						}
-						$app->file->mkdirs(escapeshellcmd($homedir), '0750');
-						$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
-						$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
+						$app->file->mkdirs(escapeshellcmd($homedir), '0755');
+						$app->system->chown(escapeshellcmd($homedir),'root');
+						$app->system->chgrp(escapeshellcmd($homedir),'root');
 						$app->system->web_folder_protection($web['document_root'], true);
 					} else {
 						if(!is_dir($homedir)){
 							$app->system->web_folder_protection($web['document_root'], false);
 							if(!is_dir($data['new']['dir'].'/home')){
-								$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
-								$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
-								$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
+								$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0755');
+								$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),'root');
+								$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),'root');
 							}
 							$app->file->mkdirs(escapeshellcmd($homedir), '0750');
 							$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
@@ -279,7 +283,7 @@ class shelluser_base_plugin {
 					//* Create .bash_history file
 					if(!is_file($data['new']['dir']).'/.bash_history') {
 						$app->system->touch(escapeshellcmd($homedir).'/.bash_history');
-						$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0755);
+						$app->system->chmod(escapeshellcmd($homedir).'/.bash_history', 0750);
 						$app->system->chown(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['username']));
 						$app->system->chgrp(escapeshellcmd($homedir).'/.bash_history', escapeshellcmd($data['new']['pgroup']));
 					}

@@ -23,9 +23,9 @@ $wb['page_next_txt'] = 'Další';
 $wb['page_back_txt'] = 'Zpět';
 $wb['delete_txt'] = 'Smazat';
 $wb['filter_txt'] = 'Filtrovat';
-$wb['add_new_record_txt'] = 'Přidat záznam';
+$wb['add_new_record_txt'] = 'Vytvořit záznam';
 $wb['btn_save_txt'] = 'Uložit';
-$wb['btn_cancel_txt'] = 'Zpět';
+$wb['btn_cancel_txt'] = 'Zrušit';
 $wb['top_menu_system'] = 'Systém';
 $wb['top_menu_client'] = 'Klienti';
 $wb['top_menu_email'] = 'E-mail';
@@ -71,7 +71,7 @@ $wb['datepicker_prevText'] = 'Předchozí';
 $wb['logout_txt'] = 'Odhlášení';
 $wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 $wb['submit_confirmation'] = 'Opravdu chcete provést tuto akci ?';
-$wb['top_menu_mailuser'] = 'E-mailový uživatel';
+$wb['top_menu_mailuser'] = 'E-mail. uživ.';
 $wb['globalsearch_resultslimit_of_txt'] = 'z';
 $wb['globalsearch_resultslimit_results_txt'] = 'výsledky';
 $wb['globalsearch_noresults_text_txt'] = 'Žádné výsledky.';
@@ -151,3 +151,4 @@ $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 $wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
 ?>
+

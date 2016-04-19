@@ -3,9 +3,9 @@ $wb['limits_txt'] = 'Limity účtu';
 $wb['of_txt'] = 'z';
 $wb['unlimited_txt'] = 'neomezeno';
 $wb['limit_maildomain_txt'] = 'Počet e-mailových domén';
-$wb['limit_mailbox_txt'] = 'Počet mailboxů';
-$wb['limit_mailalias_txt'] = 'Počet e-mailových aliasů';
-$wb['limit_mailaliasdomain_txt'] = 'Počet e-mailových doménových aliasů';
+$wb['limit_mailbox_txt'] = 'Počet e-mailových schránek';
+$wb['limit_mailalias_txt'] = 'Počet e-mailových přezdívek';
+$wb['limit_mailaliasdomain_txt'] = 'Počet e-mailových doménových přezdívek';
 $wb['limit_mailforward_txt'] = 'Počet e-mailových přesměrování';
 $wb['limit_mailcatchall_txt'] = 'Počet externě získávaných e-mailů';
 $wb['limit_mailrouting_txt'] = 'Počet e-mailových směrování';
@@ -16,7 +16,7 @@ $wb['limit_spamfilter_user_txt'] = 'Počet uživatelů se spamfiltrem';
 $wb['limit_spamfilter_policy_txt'] = 'Počet spamových politik';
 $wb['limit_cron_txt'] = 'Počet cron úloh';
 $wb['limit_web_domain_txt'] = 'Počet webových stránek';
-$wb['limit_web_aliasdomain_txt'] = 'Počet webových doménových aliasů';
+$wb['limit_web_aliasdomain_txt'] = 'Počet webových doménových přezdívek';
 $wb['limit_web_subdomain_txt'] = 'Počet webových subdomén';
 $wb['limit_ftp_user_txt'] = 'Počet FTP uživatelů';
 $wb['limit_dns_zone_txt'] = 'Počet DNS primárních zón';
@@ -29,3 +29,4 @@ $wb['limit_database_txt'] = 'Počet databází';
 $wb['limit_mailmailinglist_txt'] = 'Počet e-mailových konferencí';
 $wb['limit_domain_txt'] = 'Počet domén';
 ?>
+

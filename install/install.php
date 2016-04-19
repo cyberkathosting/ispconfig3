@@ -328,17 +328,20 @@ if($install_mode == 'standard') {
 	} else swriteln('[ERROR] Postfix not installed - skipping Mail');
 
 	//* Check for DNS
-	if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
-		$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS', false);
+//	if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
+	if(!$conf['bind']['installed'] && !$conf['mydns']['installed']) {
+//		$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS', false);
 		$conf['bind']['installed'] = $inst->force_configure_app('BIND', false);
 		$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS', false);
 	}
 	//* Configure PowerDNS
+/*
 	if($conf['powerdns']['installed']) {
 		swriteln('Configuring PowerDNS');
 		$inst->configure_powerdns();
 		$conf['services']['dns'] = true;
 	}
+*/
 	//* Configure Bind
 	if($conf['bind']['installed']) {
 		swriteln('Configuring BIND');

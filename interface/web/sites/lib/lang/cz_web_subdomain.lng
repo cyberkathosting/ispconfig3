@@ -1,8 +1,8 @@
 <?php
-$wb['ssl_state_txt'] = 'Stát';
-$wb['ssl_locality_txt'] = 'Lokalita';
-$wb['ssl_organisation_txt'] = 'Organizace';
-$wb['ssl_organisation_unit_txt'] = 'Organizační jednotka';
+$wb['ssl_state_txt'] = 'Stát (např. Czech Republic)';
+$wb['ssl_locality_txt'] = 'Název města';
+$wb['ssl_organisation_txt'] = 'Organizace (společnost)';
+$wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
 $wb['ssl_country_txt'] = 'Země';
 $wb['ssl_request_txt'] = 'SSL požadavek';
 $wb['ssl_cert_txt'] = 'SSL certifikát';
@@ -44,3 +44,4 @@ $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 $wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 ?>
+
