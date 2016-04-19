@@ -1979,8 +1979,6 @@ CREATE TABLE `web_domain` (
   `http_port` int(11) unsigned NOT NULL DEFAULT '80',
   `https_port` int(11) unsigned NOT NULL DEFAULT '443',
   `folder_directive_snippets` text NOT NULL,
-  `http_port` INT NOT NULL DEFAULT '80',
-  `https_port` INT NOT NULL DEFAULT '443',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
