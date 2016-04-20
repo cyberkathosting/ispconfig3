@@ -32,6 +32,7 @@ monitor_system_updates=y
 module=postfix_mysql
 maildir_path=/var/vmail/[domain]/[localpart]
 homedir_path=/var/vmail
+maildir_format=maildir
 dkim_path=/var/lib/amavis/dkim
 dkim_strength=1024
 pop3_imap_daemon=courier
