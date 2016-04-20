@@ -37,7 +37,7 @@ $sql_select_policy =
 
 
 $sql_select_white_black_list = 'SELECT wb FROM spamfilter_wblist'.
-    ' WHERE (spamfilter_wblist.rid=?) AND (spamfilter_wblist.email IN (%k))' .
+    ' WHERE (spamfilter_wblist.rid=?) AND (spamfilter_wblist.email IN (%k)) AND (spamfilter_wblist.active="y")' .
     ' ORDER BY spamfilter_wblist.priority DESC';
 
 #
