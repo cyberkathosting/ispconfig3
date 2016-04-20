@@ -1,7 +1,7 @@
 <?php
 $wb['active_txt'] = 'Habilitado';
 $wb['add_new_record_txt'] = 'Añadir fragmentos de códigos';
-$wb['customer_viewable_txt'] = ''Visible por los clientes';
+$wb['customer_viewable_txt'] = 'Visible por los clientes';
 $wb['list_head_txt'] = 'Fragmentos de código';
 $wb['name_txt'] = 'Nombre del fragmento';
 $wb['type_txt'] = 'Tipo';

@@ -6,4 +6,6 @@ $wb['active_txt'] = 'Aktív';
 $wb['server_id_txt'] = 'Szerver';
 $wb['domain_txt'] = 'Domain';
 $wb['add_new_record_txt'] = 'Új webhely';
+$wb['add_new_subdomain_txt'] = 'Add new subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
 ?>

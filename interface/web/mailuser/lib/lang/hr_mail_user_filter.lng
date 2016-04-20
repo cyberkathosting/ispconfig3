@@ -17,4 +17,5 @@ $wb['begins_with_txt'] = 'Počinje sa';
 $wb['ends_with_txt'] = 'Završava sa';
 $wb['move_to_txt'] = 'Prebaci u ';
 $wb['delete_txt'] = 'Obriši';
+$wb['mailbox_filter_txt'] = 'Mailbox filter';
 ?>

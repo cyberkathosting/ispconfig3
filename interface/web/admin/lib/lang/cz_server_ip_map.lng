@@ -10,4 +10,3 @@ $wb['server_empty_error'] = 'The Server is empty.';
 $wb['duplicate_mapping_error'] = 'Mapping already exists.';
 $wb['ip_mapping_error'] = 'Source IP can not be an IP of the Rewrite-Server';
 ?>
-

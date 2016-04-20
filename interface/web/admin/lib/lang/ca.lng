@@ -1,0 +1,64 @@
+<?php
+//Errors
+$wb[1001] = "Username or password is empty.";
+$wb[1002] = "Username or password is wrong.";
+
+$wb['Groups'] = 'Groups';
+$wb['groups_description'] = 'Form to edit systemuser groups.';
+
+$wb['Servers'] = 'Servers';
+$wb['Config'] = 'Config';
+
+$wb['Add user'] = 'Add user';
+$wb['Edit user'] = 'Edit user';
+$wb['Add group'] = 'Add group';
+$wb['Edit group'] = 'Edit group';
+$wb['Edit server'] = 'Edit server';
+
+$wb['Sync. Now'] = 'Sync. Now';
+$wb['DB Sync.'] = 'DB Sync.';
+
+// subnav
+$wb['User Management'] = 'User Management';
+$wb['CP Users'] = 'CP Users';
+$wb['Remote Users'] = 'Remote Users';
+
+$wb['System'] = 'System';
+$wb['Server Services'] = 'Server Services';
+    $wb['Services'] = 'Services';
+$wb['Server Config'] = 'Server Config';
+    $wb['Server'] = 'Server';
+    $wb['Mail'] = 'Mail';
+    $wb['Getmail'] = 'Getmail';
+    $wb['Web'] = 'Web';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Rescue';
+$wb['Server IP addresses'] = 'Server IP addresses';
+$wb['Additional PHP Versions'] = 'Additional PHP Versions';
+$wb['Directive Snippets'] = 'Directive Snippets';
+$wb['Firewall'] = 'Firewall';
+
+$wb['Interface'] = 'Interface';
+$wb['Interface Config'] = 'Main Config';
+    $wb['Sites'] = 'Sites';
+    $wb['DNS'] = 'DNS';
+    $wb['Domains'] = 'Domains';
+    $wb['Misc'] = 'Misc';
+
+$wb['Software'] = 'Apps & Addons';
+$wb['Repositories'] = 'Repositories';
+$wb['Packages'] = 'Packages';
+$wb['Updates'] = 'Updates';
+
+$wb['Language Editor'] = 'Language Editor';
+$wb['Languages'] = 'Languages';
+$wb['New Language'] = 'New Language';
+$wb['Merge'] = 'Merge';
+$wb['Export'] = 'Export';
+$wb['Import'] = 'Import';
+
+$wb['Remote Actions'] = 'Remote Actions';
+$wb['Do OS-Update'] = 'Do OS-Update';
+$wb['Do ISPConfig-Update'] = 'Do ISPConfig-Update';
+?>

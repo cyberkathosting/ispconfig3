@@ -129,4 +129,8 @@ $wb['backup_excludes_error_regex'] = 'Caractères invalide dans le dossier exclu
 $wb['invalid_custom_php_ini_settings_txt'] = 'Paraètre invalide dans les paramètres PHP';
 $wb['invalid_system_user_or_group_txt'] = 'Utilisateur et groupe invalide';
 $wb['apache_directive_blocked_error'] = 'Apache directive blocked by security settings:';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

@@ -6,4 +6,6 @@ $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['domain_txt'] = 'Alan Adı';
 $wb['add_new_record_txt'] = 'Web Sitesi Ekle';
+$wb['add_new_subdomain_txt'] = 'Add new subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
 ?>

@@ -47,4 +47,3 @@ $wb['do_mail_spamfilter_txt'] = 'Resynced Spamfilter';
 $wb['do_mailget_txt'] = 'Resynced Fetchmail';
 $wb['resync_mailget_txt'] = 'Fetchmail';
 ?>
-

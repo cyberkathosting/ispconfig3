@@ -25,4 +25,5 @@ $wb['domain_txt'] = 'Domain';
 $wb['keep_txt'] = 'Keep';
 $wb['reject_txt'] = 'Reject';
 $wb['stop_txt'] = 'Stop';
+$wb['move_to_txt'] = 'Move to';
 ?>

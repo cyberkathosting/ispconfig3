@@ -43,4 +43,8 @@ $wb['domain_error_wildcard'] = 'Subdomeny typu wildcard nie są dozwolone';
 $wb['proxy_directives_txt'] = 'Dyrektywy Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Dostępne konfiguracje dodatkowe Proxy';
 $wb['error_proxy_requires_url'] = 'Rodzaj przekierowania ';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

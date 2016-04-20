@@ -1,0 +1,15 @@
+<?php
+$wb["list_head_txt"] = 'Server';
+$wb["server_name_txt"] = 'Name';
+$wb["mail_server_txt"] = 'Mail';
+$wb["web_server_txt"] = 'Web';
+$wb["dns_server_txt"] = 'DNS';
+$wb["file_server_txt"] = 'File';
+$wb["db_server_txt"] = 'DB';
+$wb["vserver_server_txt"] = 'VServer';
+$wb["proxy_server_txt"] = 'Proxy';
+$wb["firewall_server_txt"] = 'Firewall';
+$wb["add_new_record_txt"] = 'Add new Server';
+// New for XMPP
+$wb['xmpp_server_txt'] = 'XMPP';
+?>

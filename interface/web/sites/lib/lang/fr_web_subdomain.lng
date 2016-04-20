@@ -43,4 +43,8 @@ $wb['domain_error_wildcard'] = 'Les sous-domaines joker ne sont pas autorisés.'
 $wb['proxy_directives_txt'] = 'Directives pour les Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Directives pour les Proxy Snippets disponibles :';
 $wb['error_proxy_requires_url'] = 'Les redirections de type \\"proxy\\" nécessitent une URL comme chemin de redirection.';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>
