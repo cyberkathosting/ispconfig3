@@ -260,7 +260,7 @@ if(count($_POST) > 0) {
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
-							header('Location: /index.php');
+							header('Location: ../index.php');
 							die();
 						}
 					}
