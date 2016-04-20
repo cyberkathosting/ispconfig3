@@ -21,8 +21,9 @@ $wb['header_txt'] = 'Header';
 $wb['size_over_txt'] = 'Email size over (KB)';
 $wb['size_under_txt'] = 'Email size under (KB)';
 $wb['localpart_txt'] = 'Localpart';
-$wb['domain_txt'] = 'Domain';
+$wb['domain_txt'] = 'Doména';
 $wb['keep_txt'] = 'Keep';
 $wb['reject_txt'] = 'Reject';
 $wb['stop_txt'] = 'Stop';
 ?>
+

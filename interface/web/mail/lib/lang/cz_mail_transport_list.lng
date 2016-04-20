@@ -3,7 +3,8 @@ $wb['list_head_txt'] = 'Pokročilé e-mailové směrování';
 $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
-$wb['transport_txt'] = 'Transport';
+$wb['transport_txt'] = 'E-mailové směrování';
 $wb['sort_order_txt'] = 'Třídit podle';
-$wb['add_new_record_txt'] = 'Přidat transport';
+$wb['add_new_record_txt'] = 'Vytvořit e-mailové směrování';
 ?>
+

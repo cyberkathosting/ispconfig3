@@ -2,16 +2,16 @@
 $wb['Client'] = 'Klient';
 $wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
-$wb['Add Client'] = 'Přidat klienta';
+$wb['Add Client'] = 'Vytvořit klienta';
 $wb['Edit Client'] = 'Upravit klienta';
 $wb['Clients'] = 'Klienti';
 $wb['Templates'] = 'Šablony';
 $wb['Limit-Templates'] = 'Klientské šablony (Limity)';
-$wb['Add Reseller'] = 'Přidat distributora';
+$wb['Add Reseller'] = 'Vytvořit distributora';
 $wb['Edit Reseller'] = 'Upravit distributora';
 $wb['Resellers'] = 'Distributoři (prodejci)';
 $wb['error_has_clients'] = 'Distributor má klienty. Nejdříve smažte tyto klienty.';
-$wb['add_additional_template_txt'] = 'Přidat dodatečnou šablonu';
+$wb['add_additional_template_txt'] = 'Vytvořit dodatečnou šablonu';
 $wb['delete_additional_template_txt'] = 'Smazat dodatečnou šablonu';
 $wb['Messaging'] = 'Odesílání zpráv';
 $wb['Send email'] = 'Odeslat e-mail';
@@ -26,3 +26,4 @@ $wb['error_client_group_id_empty'] = 'Musíte vybrat zákazníka<br>';
 $wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
 $wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 ?>
+

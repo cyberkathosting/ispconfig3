@@ -56,7 +56,7 @@ class cronjob_openvz extends cronjob {
 
 		if ($app->dbmaster == $app->db) {
 			//* Check which virtual machines have to be deactivated
-			$sql = "SELECT * FROM openvz_vm WHERE active = 'y' AND active_until_date != '0000-00-00' AND active_until_date < CURDATE()";
+			$sql = "SELECT * FROM openvz_vm WHERE active = 'y' AND active_until_date IS NOT NULL AND active_until_date < CURDATE()";
 			$records = $app->db->queryAllRecords($sql);
 			if(is_array($records)) {
 				foreach($records as $rec) {

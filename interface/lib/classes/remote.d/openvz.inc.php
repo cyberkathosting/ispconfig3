@@ -307,7 +307,7 @@ class remoting_openvz extends remoting {
 		$params['vm_password'] = (isset($override_params['vm_password']))?$override_params['vm_password']:$app->auth->get_random_password(10);
 		$params['start_boot'] = (isset($override_params['start_boot']))?$override_params['start_boot']:'y';
 		$params['active'] = (isset($override_params['active']))?$override_params['active']:'y';
-		$params['active_until_date'] = (isset($override_params['active_until_date']))?$override_params['active_until_date']:'0000-00-00';
+		$params['active_until_date'] = (isset($override_params['active_until_date']))?$override_params['active_until_date']:null;
 		$params['description'] = (isset($override_params['description']))?$override_params['description']:'';
 
 		//* The next params get filled with pseudo values, as the get replaced

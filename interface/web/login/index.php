@@ -60,7 +60,7 @@ if(count($_POST) > 0) {
 
 	//** Check variables
 	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
-	if(!preg_match("/^.{1,64}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
+	if(!preg_match("/^.{1,256}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
 
 	//** importing variables
 	$ip    = ip2long($_SERVER['REMOTE_ADDR']);
@@ -217,8 +217,8 @@ if(count($_POST) > 0) {
 						$_SESSION['s']['language'] = $user['language'];
 						$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 						
-						if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
-							include_once $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
+						if(is_file(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
+							include_once ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
 							$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
 								if (is_dir($menu_dir)) {
 								if ($dh = opendir($menu_dir)) {
@@ -260,7 +260,7 @@ if(count($_POST) > 0) {
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
-							header('Location: /index.php?phpsessid='.session_id());
+							header('Location: /index.php');
 							die();
 						}
 					}

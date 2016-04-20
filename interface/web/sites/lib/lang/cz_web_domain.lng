@@ -1,8 +1,8 @@
 <?php
-$wb['ssl_state_txt'] = 'Stát';
-$wb['ssl_locality_txt'] = 'Lokalita';
-$wb['ssl_organisation_txt'] = 'Organizace';
-$wb['ssl_organisation_unit_txt'] = 'Organizační jednotka';
+$wb['ssl_state_txt'] = 'Stát (např. Czech Republic)';
+$wb['ssl_locality_txt'] = 'Název města';
+$wb['ssl_organisation_txt'] = 'Organizace (společnost)';
+$wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
 $wb['ssl_country_txt'] = 'Země';
 $wb['ssl_request_txt'] = 'SSL požadavek';
 $wb['ssl_cert_txt'] = 'SSL certifikát';
@@ -48,9 +48,9 @@ $wb['client_group_id_txt'] = 'Klient';
 $wb['stats_password_txt'] = 'Heslo k webovým statistikám';
 $wb['allow_override_txt'] = 'Povolit přepis (Allow Override)';
 $wb['limit_web_quota_free_txt'] = 'Max. dostupná disková kvóta';
-$wb['ssl_state_error_regex'] = 'Neplatný SSL stav. Platné znaky jsou: a-z, 0-9 a .,-_';
-$wb['ssl_locality_error_regex'] = 'Neplatná SSL lokalita. Platné znaky jsou: a-z, 0-9 a .,-_';
-$wb['ssl_organisation_error_regex'] = 'Neplatná SSL organizace. Platné znaky jsou: a-z, 0-9 a .,-_';
+$wb['ssl_state_error_regex'] = 'Neplatný SSL řádek - Stát. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
+$wb['ssl_locality_error_regex'] = 'Neplatný SSL řádek - Název města. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
+$wb['ssl_organisation_error_regex'] = 'Neplatný SSL řádek - Organizace. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
 $wb['ssl_organistaion_unit_error_regex'] = 'Neplatná SSL organizační jednotka. Platné znaky jsou: a-z, 0-9 a .,-_';
 $wb['ssl_country_error_regex'] = 'Neplatná SSL země. Platné znaky jsou: A-Z';
 $wb['limit_traffic_quota_free_txt'] = 'Max. dostupná přenosová kvóta';
@@ -61,8 +61,8 @@ $wb['backup_interval_txt'] = 'Interval zálohování';
 $wb['backup_copies_txt'] = 'Počet kopií zálohy';
 $wb['errordocs_txt'] = 'Vlastní Error (chybové) dokumenty';
 $wb['ruby_txt'] = 'Ruby';
-$wb['stats_user_txt'] = 'Webové statistiky: uživatelské jméno';
-$wb['stats_type_txt'] = 'Webové statistiky: program';
+$wb['stats_user_txt'] = 'Webové statistiky - uživatelské jméno';
+$wb['stats_type_txt'] = 'Webové statistiky - výběr aplikace';
 $wb['custom_php_ini_txt'] = 'Vlastní nastavení php.ini';
 $wb['none_txt'] = 'Žádná';
 $wb['disabled_txt'] = 'Zakázáno';
@@ -130,3 +130,4 @@ $wb['invalid_custom_php_ini_settings_txt'] = 'Neplatné nastavení php.ini';
 $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 $wb['apache_directive_blocked_error'] = 'Apache directive blocked by security settings:';
 ?>
+

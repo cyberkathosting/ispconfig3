@@ -364,9 +364,11 @@ var ISPConfig = {
 	},
 
 	loadInitContent: function() {
+		var startpage = $('#pageContent').attr('data-startpage');
+		if(!startpage) startpage = 'dashboard/dashboard.php';
 		var pageContentObject = $.ajax({
 			type: "GET",
-			url: "dashboard/dashboard.php",
+			url: startpage,
 			data: "",
 			dataType: "html",
 			beforeSend: function() {

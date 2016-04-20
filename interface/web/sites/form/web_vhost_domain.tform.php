@@ -894,6 +894,30 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'rows'  => '',
 				'cols'  => ''
 			),
+			'http_port' => array (
+				'datatype' => 'INTEGER',
+				'formtype' => 'TEXT',
+				'validators' => array (  0 => array ( 'type' => 'REGEX',
+						'regex' => '/^([0-9]{1,5})$/',
+						'errmsg'=> 'http_port_error_regex'),
+				),
+				'default' => '0',
+				'value'  => '',
+				'width'  => '3',
+				'maxlength' => '6'
+			),
+			'https_port' => array (
+				'datatype' => 'INTEGER',
+				'formtype' => 'TEXT',
+				'validators' => array (  0 => array ( 'type' => 'REGEX',
+						'regex' => '/^([0-9]{1,5})$/',
+						'errmsg'=> 'https_port_error_regex'),
+				),
+				'default' => '0',
+				'value'  => '',
+				'width'  => '3',
+				'maxlength' => '6'
+			)
 			//#################################
 			// ENDE Datatable fields
 			//#################################

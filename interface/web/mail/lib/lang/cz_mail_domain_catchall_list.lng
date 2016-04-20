@@ -5,5 +5,6 @@ $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cílová e-mailová adresa';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'E-malová doména';
-$wb['add_new_record_txt'] = 'Přidat e-mailový koš';
+$wb['add_new_record_txt'] = 'Vytvořit e-mailový koš';
 ?>
+

@@ -3,5 +3,6 @@ $wb['list_head_txt'] = 'Výchozí nastavení motivu';
 $wb['list_desc_txt'] = 'Upravit výchozí téma - specifické volby';
 $wb['no_settings_txt'] = 'Nejsou žádné nastavení pro výchozí motiv.';
 $wb['btn_start_txt'] = 'Uložit';
-$wb['btn_cancel_txt'] = 'Zpět';
+$wb['btn_cancel_txt'] = 'Zrušit';
 ?>
+

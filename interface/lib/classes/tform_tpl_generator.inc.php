@@ -273,7 +273,7 @@ class tform_tpl_generator {
 					case 'DATE':
 						$type = 'date';
 						$typevalue = '';
-						$defaultValue = ($field["default"] != '')?$field["default"]:'0000-00-00';
+						$defaultValue = ($field["default"] != '')?$field["default"]:null;
 						break;
 					}
 
@@ -311,6 +311,8 @@ class tform_tpl_generator {
 			$fp = fopen($lng_file, "w");
 			fwrite($fp, "<?php\n");
 			foreach($wb_out as $key => $val) {
+				$val = str_replace("'", "\\'",$val);
+				$key = str_replace("'", "\\'",$key);
 				$new_line = '$wb["'.$key.'"] = '."'$val';\n";
 				fwrite($fp, $new_line);
 

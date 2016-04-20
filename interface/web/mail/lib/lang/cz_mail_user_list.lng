@@ -2,11 +2,12 @@
 $wb['list_head_txt'] = 'E-mailové schránky';
 $wb['email_txt'] = 'E-mail';
 $wb['autoresponder_txt'] = 'Automatická odpověď';
-$wb['add_new_record_txt'] = 'Přidat e-mailovou schránku';
+$wb['add_new_record_txt'] = 'Vytvořit e-mailovou schránku';
 $wb['name_txt'] = 'Skutečný název';
 $wb['login_txt'] = 'Přihlášení';
-$wb['postfix_txt'] = 'Receiving';
-$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['postfix_txt'] = 'Příjem';
+$wb['disablesmtp_txt'] = 'SMTP (odesílání)';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>
+

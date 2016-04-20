@@ -1,7 +1,8 @@
 <?php
-$wb['database_txt'] = 'Database Name';
-$wb['used_txt'] = 'Used Space';
-$wb['quota_txt'] = 'Quota';
-$wb['no_database_accounts_txt'] = 'No databases found.';
-$wb['databasequota_txt'] = 'Database Quota';
+$wb['database_txt'] = 'Název databáze';
+$wb['used_txt'] = 'Využité místo';
+$wb['quota_txt'] = 'Kvóta';
+$wb['no_database_accounts_txt'] = 'Nebyla nalezena žádná databáze.';
+$wb['databasequota_txt'] = 'Kvóty databází';
 ?>
+

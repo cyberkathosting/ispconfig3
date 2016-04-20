@@ -1,5 +1,5 @@
 <?php
-$wb['Email Alias'] = 'E-mailové aliasy';
+$wb['Email Alias'] = 'E-mailové přezdívky';
 $wb['Email Blacklist'] = 'E-mailová černá listina';
 $wb['Blacklist'] = 'Černá listina';
 $wb['Mail Content Filter'] = 'Obsahový filtr';
@@ -12,7 +12,7 @@ $wb['Get Email'] = 'Získat externí e-maily';
 $wb['Spamfilter'] = 'Spamový filtr';
 $wb['Email Routing'] = 'Pokročilé e-mailové směrování';
 $wb['Email transport'] = 'Transport';
-$wb['Mailbox'] = 'Mailbox';
+$wb['Mailbox'] = 'E-mailová schránka';
 $wb['Autoresponder'] = 'Automatická odpověď';
 $wb['Mail Filter'] = 'E-mailové filtry';
 $wb['Custom Rules'] = 'Vlastní pravidla';
@@ -41,8 +41,9 @@ $wb['Postfix Whitelist'] = 'Postfix bílá listina';
 $wb['Postfix Blacklist'] = 'Postfix černá listina';
 $wb['Content Filter'] = 'Obsahový filtr';
 $wb['Global Filters'] = 'Globální filtry';
-$wb['Domain Alias'] = 'Aliasy e-mailových domén';
+$wb['Domain Alias'] = 'Přezdívky e-mailových domén';
 $wb['Relay Recipients'] = 'Relay adresáti';
 $wb['Statistics'] = 'Statistiky';
 $wb['Mailbox quota'] = 'Kvóty pro e-mailové schránky';
 ?>
+

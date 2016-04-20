@@ -206,7 +206,7 @@ class tform_base {
 					break;
 
 				case 'DATE':
-					if($record[$key] != '' && $record[$key] != '0000-00-00') {
+					if($record[$key] != '' && !is_null($record[$key]) && $record[$key] != '0000-00-00') {
 						$tmp = explode('-', $record[$key]);
 						$new_record[$key] = date($this->dateformat, mktime(0, 0, 0, $tmp[1]  , $tmp[2], $tmp[0]));
 					}
@@ -770,7 +770,7 @@ class tform_base {
 					}
 					break;
 				case 'DATE':
-					if($record[$key] != '' && $record[$key] != '0000-00-00') {
+					if($record[$key] != '' && !is_null($record[$key]) && $record[$key] != '0000-00-00') {
 						if(function_exists('date_parse_from_format')) {
 							$date_parts = date_parse_from_format($this->dateformat, $record[$key]);
 							$new_record[$key] = $date_parts['year'].'-'.str_pad($date_parts['month'], 2, "0", STR_PAD_LEFT).'-'.str_pad($date_parts['day'], 2, "0", STR_PAD_LEFT);
@@ -779,7 +779,7 @@ class tform_base {
 							$new_record[$key] = date('Y-m-d', $tmp);
 						}
 					} else {
-						$new_record[$key] = '0000-00-00';
+						$new_record[$key] = null;
 					}
 					break;
 				case 'INTEGER':
@@ -802,19 +802,19 @@ class tform_base {
 							$new_record[$key] = date( 'Y-m-d H:i:s', mktime($_dt_hour, $_dt_minute, $_dt_second, $_dt_month, $_dt_day, $_dt_year) );
 						}
 					} else {*/
-						if($record[$key] != '' && $record[$key] != '0000-00-00 00:00:00') {
+						if($record[$key] != '' && !is_null($record[$key]) && $record[$key] != '0000-00-00 00:00:00') {
 							//$tmp = strtotime($record[$key]);
 							//$new_record[$key] = date($this->datetimeformat, $tmp);
 							$parsed_date = date_parse_from_format($this->datetimeformat,$record[$key]);
 							if($parsed_date['error_count'] > 0 || ($parsed_date['year'] == 1899 && $parsed_date['month'] == 12 && $parsed_date['day'] == 31)) {
 								// There was an error, set the date to 0
-								$new_record[$key] = '0000-00-00 00:00:00';
+								$new_record[$key] = null;
 							} else {
 								// Date parsed successfully. Convert it to database format
 								$new_record[$key] = date( 'Y-m-d H:i:s', mktime($parsed_date['hour'], $parsed_date['minute'], $parsed_date['second'], $parsed_date['month'], $parsed_date['day'], $parsed_date['year']) );
 							}
 						} else {
-							$new_record[$key] = '0000-00-00 00:00:00';
+							$new_record[$key] = null;
 						}
 					/*}*/
 					break;

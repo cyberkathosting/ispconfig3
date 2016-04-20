@@ -5,5 +5,6 @@ $wb['server_id_txt'] = 'Server';
 $wb['source_server_txt'] = 'Externí server';
 $wb['source_username_txt'] = 'Uživatelské jméno';
 $wb['destination_txt'] = 'Cíl';
-$wb['add_new_record_txt'] = 'Přidat účet';
+$wb['add_new_record_txt'] = 'Vytvořit účet';
 ?>
+
