@@ -60,7 +60,7 @@ class validate_autoresponder extends validate_datetime
 		$end_date_tstamp = mktime($end_date_array['hour'], $end_date_array['minute'], $end_date_array['second'], $end_date_array['month'], $end_date_array['day'], $end_date_array['year']);
 		
 		// End date has to be > start date
-		if($end_date_tstamp <= $start_date_tstamp) {
+		if($end_date_tstamp <= $start_date_tstamp && ($start_date || $field_value)) {
 			return $app->tform->lng($validator['errmsg']).'<br />';
 		}
 	}
