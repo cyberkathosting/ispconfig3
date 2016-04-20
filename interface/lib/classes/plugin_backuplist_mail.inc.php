@@ -75,7 +75,7 @@ class plugin_backuplist_mail extends plugin_base {
 				if($tmp['number'] == 0) {
 					$message .= $wb['delete_info_txt'];
 					$sql = 	"INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) " .
-					"VALUES (?, ?, 'backup_delete_mail, ?, 'pending', '')";
+					"VALUES (?, ?, 'backup_delete_mail', ?, 'pending', '')";
 					$app->db->query($sql, $this->form->dataRecord['server_id'], time(), $backup_id);
 				} else {
 					$error .= $wb['delete_pending_txt'];
