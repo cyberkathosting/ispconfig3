@@ -858,14 +858,12 @@ if (!defined('vlibTemplateClassLoaded')) {
 
 
 			if($this->_cache && $this->_checkCache($tmplfile, $tmpl_from_string)) { //* cache exists so lets use it
-				$data = fread($fp = fopen($this->_cachefile, 'r'), filesize($this->_cachefile));
-				fclose($fp);
+				$data = file_get_contents($this->_cachefile);
 			} else { //* no cache lets parse the file
 				if($tmpl_from_string == true) {
 					$data = $tmplfile;
 				} else {
-					$data = fread($fp = fopen($tmplfile, 'r'), filesize($tmplfile));
-					fclose($fp);
+					$data = file_get_contents($tmplfile);
 				}
 
 				$regex = '/(<|<\/|{|{\/|<!--|<!--\/){1}\s*';
