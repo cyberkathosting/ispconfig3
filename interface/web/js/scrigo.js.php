@@ -133,7 +133,7 @@ function pass_result(points, message) {
 	} else {
 		width = points*20;
 	}
-	document.getElementById("passBar").innerHTML = '<div style="float:left; height: 10px; padding:0px; background-color: ' + pass_messages[points]['color'] + '; width: ' + width + 'px;" />';
+	document.getElementById("passBar").innerHTML = '<div style="background-color: ' + pass_messages[points]['color'] + '; width: ' + width + 'px;" />';
 	document.getElementById("passText").innerHTML = pass_messages[points]['text'];
 }
 function pass_contains(pass, check) {

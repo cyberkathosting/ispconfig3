@@ -219,6 +219,22 @@ class nginx_plugin {
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
 
+		//* Check that the SSL key is not password protected
+		if($data["new"]["ssl_action"] == 'save') {
+			if(stristr($data["new"]["ssl_key"],'Proc-Type: 4,ENCRYPTED')) {
+				$data["new"]["ssl_action"] = '';
+			
+				$app->log('SSL Certificate not saved. The SSL key is encrypted.', LOGLEVEL_WARN);
+				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL key is encrypted.');
+			
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			}
+		}
+		
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$this->ssl_certificate_changed = true;
@@ -1155,19 +1171,21 @@ class nginx_plugin {
 		}
 		
 		// use vLib for template logic
-		$nginx_directives_new = '';
-		$ngx_conf_tpl = new tpl();
-		$ngx_conf_tpl_tmp_file = tempnam($conf['temppath'], "ngx");
-		file_put_contents($ngx_conf_tpl_tmp_file, $nginx_directives);
-		$ngx_conf_tpl->newTemplate($ngx_conf_tpl_tmp_file);
-		$ngx_conf_tpl->setVar('use_tcp', $use_tcp);
-		$ngx_conf_tpl->setVar('use_socket', $use_socket);
-		$ngx_conf_tpl->setVar('fpm_socket', $fpm_socket);
-		$ngx_conf_tpl->setVar($vhost_data);
-		$nginx_directives_new = $ngx_conf_tpl->grab();
-		if(is_file($ngx_conf_tpl_tmp_file)) unlink($ngx_conf_tpl_tmp_file);
-		if($nginx_directives_new != '') $nginx_directives = $nginx_directives_new;
-		unset($nginx_directives_new);
+		if(trim($nginx_directives) != '') {
+			$nginx_directives_new = '';
+			$ngx_conf_tpl = new tpl();
+			$ngx_conf_tpl_tmp_file = tempnam($conf['temppath'], "ngx");
+			file_put_contents($ngx_conf_tpl_tmp_file, $nginx_directives);
+			$ngx_conf_tpl->newTemplate($ngx_conf_tpl_tmp_file);
+			$ngx_conf_tpl->setVar('use_tcp', $use_tcp);
+			$ngx_conf_tpl->setVar('use_socket', $use_socket);
+			$ngx_conf_tpl->setVar('fpm_socket', $fpm_socket);
+			$ngx_conf_tpl->setVar($vhost_data);
+			$nginx_directives_new = $ngx_conf_tpl->grab();
+			if(is_file($ngx_conf_tpl_tmp_file)) unlink($ngx_conf_tpl_tmp_file);
+			if($nginx_directives_new != '') $nginx_directives = $nginx_directives_new;
+			unset($nginx_directives_new);
+		}
 		
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);

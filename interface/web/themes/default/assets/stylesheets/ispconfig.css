@@ -119,6 +119,18 @@ body {
 #content {
   width: 78%; }
 
+#passBar, #passText {
+  display: inline-block;
+  vertical-align: middle; }
+
+#passBar {
+  height: 11px;
+  padding: 0; }
+
+#passBar > div {
+  height: 100%;
+  padding: 0; }
+
 #sidebar {
   margin-top: 27px;
   width: 18%;
