@@ -209,7 +209,7 @@ class page_action extends tform_actions {
 
 		// Set Maildir format
 		if ($this->id == 0) {
-			$this->dataRecord['maildir_format'] = $sys_config['maildir_format'];
+			$this->dataRecord['maildir_format'] = $mail_config['maildir_format'];
 		}
 		else {
 			// restore Maildir format
