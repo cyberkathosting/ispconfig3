@@ -62,7 +62,7 @@
 .icon-help:before {
 	content: "\e607";
 }
-.icon-mail:before {
+.icon-mail:before, .icon-mailuser:before {
 	content: "\e608";
 }
 .icon-dns:before {
