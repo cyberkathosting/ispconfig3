@@ -217,8 +217,8 @@ if(count($_POST) > 0) {
 						$_SESSION['s']['language'] = $user['language'];
 						$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 						
-						if(is_file($_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
-							include_once $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
+						if(is_file(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
+							include_once ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
 							$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
 								if (is_dir($menu_dir)) {
 								if ($dh = opendir($menu_dir)) {
@@ -260,7 +260,7 @@ if(count($_POST) > 0) {
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
-							header('Location: /index.php?phpsessid='.session_id());
+							header('Location: /index.php');
 							die();
 						}
 					}
