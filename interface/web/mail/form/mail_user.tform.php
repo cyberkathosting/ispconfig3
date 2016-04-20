@@ -203,6 +203,14 @@ $form["tabs"]['mailuser'] = array(
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'maildir_format' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value'  => '',
+			'width'  => '30',
+			'maxlength' => '255'
+		),
 		'homedir' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
