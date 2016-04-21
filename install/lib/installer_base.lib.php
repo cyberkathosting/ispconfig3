@@ -1630,7 +1630,7 @@ class installer_base {
         caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
         caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
-        exec($this->getinitcommand('xmpp', 'restart'));
+        exec($this->getinitcommand('metronome', 'restart'));
 
 /*
 writing new private key to 'smtpd.key'
