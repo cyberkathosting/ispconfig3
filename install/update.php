@@ -526,7 +526,9 @@ if($reconfigure_services_answer == 'yes') {
 	}
 
     if($conf['services']['xmpp']) {
-        if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+        //if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+		// There is no metronome systemd unit at the moment, so we always use the init script.
+		if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system('/etc/init.d/metronome restart &> /dev/null');
     }
 
 	if($conf['services']['proxy']) {
