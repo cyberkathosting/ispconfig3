@@ -109,7 +109,9 @@ $app->tpl->setVar('base64_logo_height', $logo_dimensions[1].'px');
 $app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 
 // Title
-$app->tpl->setVar('company_name', $sys_config['company_name']. ' :: ');
+if (!empty($sys_config['company_name'])) {
+	$app->tpl->setVar('company_name', $sys_config['company_name']. ' :: ');
+}
 
 $app->tpl_defaults();
 $app->tpl->pparse();
