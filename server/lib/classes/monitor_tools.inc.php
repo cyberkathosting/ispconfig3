@@ -366,14 +366,16 @@ class monitor_tools {
 				$state = 'error'; // because service is down
 			}
 		}
+/*
 		$data['mongodbserver'] = -1;
 		if ($this->_checkTcp('localhost', 27017)) {
 			$data['mongodbserver'] = 1;
 		} else {
 			$data['mongodbserver'] = 0;
+*/
 			//$state = 'error'; // because service is down
 			/* TODO!!! check if this is a mongodbserver at all, otherwise it will always throw an error state!!! */
-		}
+//		}
 
 		/*
 		 * Return the Result
