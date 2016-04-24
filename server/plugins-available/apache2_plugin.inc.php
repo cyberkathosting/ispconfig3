@@ -876,11 +876,29 @@ class apache2_plugin {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
+                $mb_hard = $mb_soft + 1;
 			} else {
-				$blocks_soft = $blocks_hard = 0;
+				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
 			}
-			exec("setquota -u $username $blocks_soft $blocks_hard 0 0 -a &> /dev/null");
-			exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+            
+          // get the primitive folder for document_root and the filesystem, will need it later.
+          $df_output=exec("df -T $document_root|awk 'END{print \$2,\$NF}'");
+          $file_system = explode(" ", $df_output)[0];
+          $primitive_root = explode(" ", $df_output)[1];
+
+          if ( $file_system , array('ext2','ext3','ext4') ) {
+            exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+            exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+          } elseif ($file_system == 'xfs') {
+
+            exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+
+            // xfs only supports timers globally, not per user.
+            exec("xfs_quota -x -c 'timer -bir -i 604800'");
+
+            unset($project_uid, $username_position, $xfs_projects);
+            unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+          }
 		}
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
