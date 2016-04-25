@@ -81,7 +81,7 @@ $wb['limit_ssl_txt'] = 'SSL autorisé';
 $wb['web_limits_txt'] = 'Limite Web';
 $wb['email_limits_txt'] = 'Limite d’e-mails';
 $wb['database_limits_txt'] = 'Limite de bases de données';
-$wb['cron_job_limits_txt'] = 'Limite de tâches CROn';
+$wb['cron_job_limits_txt'] = 'Limite de tâches Cron';
 $wb['dns_limits_txt'] = 'Limite DNS';
 $wb['virtualization_limits_txt'] = 'Limite de virtualisations';
 $wb['aps_limits_txt'] = 'Limite d’installeurs APS';
@@ -114,6 +114,7 @@ $wb['limit_xmpp_vjud_txt'] = 'VJUD user directory available';
 $wb['limit_xmpp_proxy_txt'] = 'Bytestream proxy available';
 $wb['limit_xmpp_status_txt'] = 'Status host available';
 $wb['dns_servers_txt'] = 'DNS servers';
-$wb['limit_ssl_letsencrypt_txt'] = 'Let\\'s Encrypt available';
+$wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
+$wb['limit_database_user_txt'] = 'Max. Database users';
 ?>
