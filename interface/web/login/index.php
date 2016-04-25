@@ -209,7 +209,8 @@ if(count($_POST) > 0) {
 						$user = $app->db->toLower($user);
 						
 						if ($loginAs) $oldSession = $_SESSION['s'];
-						if (!$loginAs) session_regenerate_id(true);
+						// Session regenerate causes login problems on some systems, have to find a better way. see Issue #3827
+						//if (!$loginAs) session_regenerate_id(true);
 						$_SESSION = array();
 						if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 						$_SESSION['s']['user'] = $user;
