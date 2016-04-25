@@ -378,6 +378,9 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		} elseif($conf['bind']['installed'] == true) {
 			swriteln('Configuring BIND');
 			$inst->configure_bind();
+			if(!$inst->find_installed_apps('haveged')) {
+				swriteln("[INFO] haveged not detected - DNSSEC can fail");
+			}
 		} else {
 			swriteln('Configuring MyDNS');
 			$inst->configure_mydns();
