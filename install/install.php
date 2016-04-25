@@ -140,6 +140,8 @@ include_once 'dist/conf/'.$dist['id'].'.conf.php';
 //****************************************************************************************************
 $inst = new installer();
 if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
+$retval=shell_exec("which which");
+if (empty($retval)) die ("ISPConfig requieres which \n");
 
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
@@ -347,6 +349,9 @@ if($install_mode == 'standard') {
 		swriteln('Configuring BIND');
 		$inst->configure_bind();
 		$conf['services']['dns'] = true;
+		if(!$inst->find_installed_apps('haveged')) {
+			swriteln("[INFO] haveged not detected - DNSSEC can fail");
+		}
 	}
 	//* Configure MyDNS
 	if($conf['mydns']['installed']) {
@@ -727,6 +732,9 @@ if($install_mode == 'standard') {
 			swriteln('Configuring BIND');
 			$inst->configure_bind();
 			$conf['services']['dns'] = true;
+			if(!$inst->find_installed_apps('haveged')) {
+				swriteln("[INFO] haveged not detected - DNSSEC can fail");
+			}
 		}
 		//* Configure MyDNS
 		if($conf['mydns']['installed']) {
