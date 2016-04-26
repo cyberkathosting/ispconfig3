@@ -973,13 +973,22 @@ class tform_base {
 						$this->errorMessage .= $errmsg."<br />\r\n";
 					}
 				}
+				break;
 			case 'ISEMAIL':
+				$error = false;
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'y' && $field_value == '') {
 					//* Do nothing
 				} else {
 					if(function_exists('filter_var')) {
 						if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$error = true;
+						} else {
+							if (!preg_match("/^[^\\+]+$/", $field_value)) { // * disallow + in local-part
+								$error = true;
+							}
+						}
+						if ($error) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
 								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -987,8 +996,10 @@ class tform_base {
 								$this->errorMessage .= $errmsg."<br />\r\n";
 							}
 						}
+
 					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				}
+				unset($error);
 				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < 2147483647) {
