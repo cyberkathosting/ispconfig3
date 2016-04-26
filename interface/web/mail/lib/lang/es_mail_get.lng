@@ -2,7 +2,7 @@
 $wb['active_txt'] = 'Habilitado';
 $wb['destination_error_isemail'] = 'No ha seleccionado un destinatario.';
 $wb['destination_txt'] = 'Destino';
-$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar "Borrar correos después de recuperarlos" = NO al mismo tiempo que "Recuperar todos los correos" = SI';
+$wb['error_delete_read_all_combination'] = 'Combinación incorrecta de opciones. No puede usar \"Borrar correos después de recuperarlos\" = NO al mismo tiempo que \"Recuperar todos los correos\" = SI';
 $wb['limit_fetchmail_txt'] = 'Ha alcanzado el número máx. de registros de recuperación de correo permitidos para su cuenta.';
 $wb['server_id_txt'] = 'Servidor';
 $wb['source_delete_note_txt'] = 'Por favor, verifique que funcione la recuperación de correos antes de activar esta opción.';

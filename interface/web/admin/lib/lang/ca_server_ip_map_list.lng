@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'IP Mappings';
+$wb["server_id_txt"] = 'Server';
+$wb["source_ip_txt"] = 'Source IP';
+$wb["destination_ip_txt"] = 'Destination IP';
+$wb["active_txt"] = 'Active';
+?>

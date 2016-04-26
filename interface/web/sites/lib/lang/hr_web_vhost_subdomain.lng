@@ -124,4 +124,8 @@ $wb['backup_excludes_txt'] = 'Isključeni direktoriji';
 $wb['backup_excludes_note_txt'] = '(Odvojite više direktorija sa zarezom. Primjer: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Isključeni direktoriji sadrže nedozvoljene znakove.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

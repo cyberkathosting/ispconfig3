@@ -14,4 +14,3 @@ $wb['delete_confirm_txt'] = 'Really delete this backup?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['filesize_txt'] = 'Velikost souboru';
 ?>
-

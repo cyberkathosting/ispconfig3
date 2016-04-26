@@ -139,7 +139,7 @@ $wb['email_error_isemail'] = 'Lütfen geçerli bir e-posta adresi yazın.';
 $wb['customer_no_error_unique'] = 'Müşteri numarası eşsiz (ya da boş) olmalıdır.';
 $wb['paypal_email_error_isemail'] = 'Lütfen geçerli bir PayPal e-posta adresi yazın.';
 $wb['paypal_email_txt'] = 'PayPal E-posta Adresi';
-$wb['err_msg_master_tpl_set'] = '\"Özel\" kalıptan başka bir ana kalıp seçilirse, tüm özel sınırlama ayarları yoksayılır.';
+$wb['err_msg_master_tpl_set'] = '\\"Özel\\" kalıptan başka bir ana kalıp seçilirse, tüm özel sınırlama ayarları yoksayılır.';
 $wb['aps_limits_txt'] = 'APS Yükleyici Sınırları';
 $wb['limit_aps_txt'] = 'En Fazla APS Kopyası Sayısı';
 $wb['limit_aps_error_notint'] = 'APS kopya sayısı sınırı bir sayı olmalıdır.';
@@ -196,4 +196,6 @@ $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
 $wb['email_error_empty'] = 'Email is empty';
 $wb['limit_database_user_txt'] = 'Max. Database users';
 $wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
+$wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
+$wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 ?>

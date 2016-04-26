@@ -86,6 +86,10 @@ function get_distname() {
 			$mainver = array_filter($mainver);
 			$mainver = current($mainver).'.'.next($mainver);
 			switch ($mainver){
+			case "16.04":
+				$relname = "(Xenial Xerus)";
+				$distid = 'ubuntu1604';
+				break;
 			case "15.10":
 				$relname = "(Wily Werewolf)";
 				break;

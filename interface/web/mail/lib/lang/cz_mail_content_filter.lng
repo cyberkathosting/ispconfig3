@@ -7,4 +7,3 @@ $wb['action_txt'] = 'Akce';
 $wb['active_txt'] = 'Aktivní';
 $wb['pattern_error_empty'] = 'Vzor je prázdný.';
 ?>
-

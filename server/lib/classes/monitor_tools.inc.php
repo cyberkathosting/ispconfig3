@@ -62,6 +62,10 @@ class monitor_tools {
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
 				switch ($mainver){
+				case "16.04":
+					$relname = "(Xenial Xerus)";
+					$distid = 'ubuntu1604';
+					break;
 				case "15.10":
 					$relname = "(Wily Werewolf)";
 					break;
@@ -366,14 +370,16 @@ class monitor_tools {
 				$state = 'error'; // because service is down
 			}
 		}
+/*
 		$data['mongodbserver'] = -1;
 		if ($this->_checkTcp('localhost', 27017)) {
 			$data['mongodbserver'] = 1;
 		} else {
 			$data['mongodbserver'] = 0;
+*/
 			//$state = 'error'; // because service is down
 			/* TODO!!! check if this is a mongodbserver at all, otherwise it will always throw an error state!!! */
-		}
+//		}
 
 		/*
 		 * Return the Result

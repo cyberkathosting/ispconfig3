@@ -1,0 +1,35 @@
+<?php
+/*
+templates/iptables_list.htm:<h2><tmpl_var name="list_head_txt"></h2>
+templates/iptables_list.htm:          <span>{tmpl_var name="add_new_rule_txt"}</span>
+templates/iptables_list.htm:    <fieldset><legend><tmpl_var name="list_head_txt"></legend>
+templates/iptables_list.htm:            <th class="tbl_col_active" scope="col"><tmpl_var name="active_txt"></th>
+templates/iptables_list.htm:            <th class="tbl_col_server_id" scope="col"><tmpl_var name="server_id_txt"></th>
+templates/iptables_list.htm:            <!-- th class="tbl_col_source_ip" scope="col"><tmpl_var name="source_ip_txt"></th>
+templates/iptables_list.htm:            <th class="tbl_col_destination_ip" scope="col"><tmpl_var name="destination_ip_txt"></th -->
+templates/iptables_list.htm:            <th class="tbl_col_port" scope="col"><tmpl_var name="singleport_txt"></th>
+templates/iptables_list.htm:            <th class="tbl_col_port" scope="col"><tmpl_var name="multiport_txt"></th>
+templates/iptables_list.htm:            <th class="tbl_col_protocol" scope="col"><tmpl_var name="protocol_txt"></th>
+templates/iptables_list.htm:                    <th class="tbl_col_table" scope="col"><tmpl_var name="table_txt"></th>
+templates/iptables_list.htm:                <th class="tbl_col_target" scope="col"><tmpl_var name="target_txt"></th>
+templates/iptables_list.htm:                <th class="tbl_col_state" scope="col"><tmpl_var name="state_txt"></th>
+templates/iptables_list.htm:                            <button type="button" class="icons16 icoFilter" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="submitForm('pageForm','admin/iptables_list.php');">
+templates/iptables_list.htm:                            <span>{tmpl_var name="filter_txt"}filter_txt</span></button></div>
+templates/iptables_list.htm:                                    <span>{tmpl_var name='delete_txt'}</span></a>
+*/
+
+$wb["list_head_txt"] = 'IPTables';
+$wb["add_new_rule_txt"] = 'Add IPTables Rule';
+$wb["server_id_txt"] = 'Server';
+$wb["multiport_txt"] = 'Multi Port';
+$wb["singleport_txt"] = 'Single Port';
+$wb["protocol_txt"] = 'Protocol';
+$wb["table_txt"] = 'Table';
+$wb["target_txt"] = 'Target';
+$wb["state_txt"] = 'State';
+$wb["destination_ip_txt"] = 'Destination Address';
+$wb["source_ip_txt"] = 'Source Address';
+$wb["active_txt"] = 'Active';
+$wb["iptables_error_unique"] = 'There is already a firewall record for this server.';
+
+?>

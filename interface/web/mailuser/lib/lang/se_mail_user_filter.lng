@@ -17,4 +17,5 @@ $wb['begins_with_txt'] = 'Börjar med';
 $wb['ends_with_txt'] = 'Slutar med';
 $wb['move_to_txt'] = 'Flytta till';
 $wb['delete_txt'] = 'Radera';
+$wb['mailbox_filter_txt'] = 'Mailbox filter';
 ?>

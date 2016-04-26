@@ -82,4 +82,3 @@ $wb['custom_login_text_txt'] = 'Vlastní text na přihlašovací stránce';
 $wb['custom_login_link_txt'] = 'Vlastní odkaz (URL) na přihlašovací stránce (vlastní text)';
 $wb['login_link_error_regex'] = 'Neplatný formát URL pro vlastní odkaz na přihlašovací stránce';
 ?>
-

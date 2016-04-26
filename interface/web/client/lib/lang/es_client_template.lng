@@ -114,4 +114,7 @@ $wb['xmpp_limits_txt'] = 'Límites XMPP';
 $wb['xmpp_servers_placeholder'] = 'Seleccionar servidores XMPP';
 $wb['xmpp_servers_txt'] = 'Servidores XMPP';
 $wb['xmpp_servers_used'] = 'El servidor que está intentando borrar de este cliente está siendo utilizado como servidor XMPP. Por favor asegúrese de que este servidor no esté siendo utilizado por este cliente antes de borrarlo.';
+$wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
+$wb['limit_directive_snippets_txt'] = 'Show web server config selection';
+$wb['limit_database_user_txt'] = 'Max. Database users';
 ?>

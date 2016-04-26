@@ -1,0 +1,12 @@
+<?php
+$wb['select_server_txt'] = 'Select Server';
+$wb['btn_do_txt'] = 'Execute action';
+$wb['do_osupdate_caption'] = 'Do OS-Update at remote server';
+$wb['do_osupdate_desc'] = "This Action does a 'aptitude -y upgrade' at your selected server.<br><br><strong>USE THIS AT YOUR OWN RISK!</strong>";
+$wb['do_ispcupdate_caption'] = 'Do ISPConfig 3 - Update at remote server';
+$wb['do_ispcupdate_desc'] = "This action does a ISPConfig3 update at your selected server.<br><br><strong>USE THIS AT YOUR OWN RISK!</strong>";
+$wb['action_scheduled'] = "The action is scheduled for execution";
+$wb['select_all_server'] = "All servers";
+$wb['ispconfig_update_title'] = "ISPConfig update instructions";
+$wb['ispconfig_update_text'] = "Login as root user on the shell of your server and execute the command<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />to start the ISPConfig update.<br /><br /><a href='http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/' target='_blank'>Click here for detailed update instructions</a>";
+?>

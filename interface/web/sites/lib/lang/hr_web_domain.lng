@@ -129,4 +129,8 @@ $wb['backup_excludes_error_regex'] = 'Izbačeni direktorij sadrži nedozvoljene 
 $wb['invalid_custom_php_ini_settings_txt'] = 'Neispravne php.ini postavke';
 $wb['invalid_system_user_or_group_txt'] = 'Invalid system user or group';
 $wb['apache_directive_blocked_error'] = 'Apache directive blocked by security settings:';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

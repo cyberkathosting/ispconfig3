@@ -129,4 +129,8 @@ $wb['backup_excludes_error_regex'] = 'Le cartelle escluse contengono caratteri n
 $wb['invalid_custom_php_ini_settings_txt'] = 'Impsotazioni  php.ini non valide';
 $wb['invalid_system_user_or_group_txt'] = 'Utente di sistema o Gruppo non valido';
 $wb['apache_directive_blocked_error'] = 'Direttive di Apache bloccate da impostazioni di sicurezza:';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

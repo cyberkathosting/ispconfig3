@@ -43,4 +43,8 @@ $wb['no_flag_txt'] = 'Kein Flag';
 $wb['proxy_directives_txt'] = 'Proxy-Direktiven';
 $wb['available_proxy_directive_snippets_txt'] = 'Verfügbare Proxy Direktiven Schnipsel:';
 $wb['error_proxy_requires_url'] = 'Weiterleitungstyp \\"proxy\\" erfordert eine URL als Weiterleitungspfad.';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

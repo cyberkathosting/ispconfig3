@@ -9,4 +9,3 @@ $wb['add_new_record_txt'] = 'Vytvořit DNS zónu (SOA záznam)';
 $wb['add_new_record_wizard_txt'] = 'Vytvořit DNS zónu (dle šablony)';
 $wb['import_zone_file_txt'] = 'Import Zone File';
 ?>
-

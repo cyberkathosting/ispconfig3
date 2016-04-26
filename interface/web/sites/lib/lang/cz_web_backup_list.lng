@@ -19,4 +19,3 @@ $wb['delete_confirm_txt'] = 'Really delete this backup?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>
-

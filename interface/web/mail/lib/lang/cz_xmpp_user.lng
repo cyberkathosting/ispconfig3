@@ -13,4 +13,3 @@ $wb['password_match_txt'] = 'The passwords do match.';
 $wb['no_domain_perm'] = 'You have no permission for this domain.';
 $wb['limit_xmpp_user_txt'] = 'The max. number of xmpp accounts for your account is reached.';
 ?>
-

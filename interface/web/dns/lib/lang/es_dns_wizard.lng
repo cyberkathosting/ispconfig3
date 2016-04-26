@@ -40,4 +40,5 @@ $wb['ns1_txt'] = 'NS 1';
 $wb['ns2_txt'] = 'NS 2';
 $wb['server_id_txt'] = 'Servidor';
 $wb['template_id_txt'] = 'Plantilla';
+$wb['dnssec_txt'] = 'Sign zone (DNSSEC)';
 ?>

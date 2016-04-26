@@ -19,7 +19,7 @@
                 <label for="stats_password" class="col-sm-3 control-label">{tmpl_var name='stats_password_txt'}</label>
                 <div class="col-sm-9">
 				<div class="input-group">
-					<input type="password" name="stats_password" id="stats_password" value="{tmpl_var name='stats_password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />
+					<input type="password" name="stats_password" id="stats_password" value="{tmpl_var name='stats_password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('stats_password','repeat_password');" />
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button" onclick="generatePassword('stats_password','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
 					</span>

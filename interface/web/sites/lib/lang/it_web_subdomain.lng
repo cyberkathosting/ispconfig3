@@ -43,4 +43,8 @@ $wb['domain_error_wildcard'] = 'Non sono ammessi caratteri jolly per i sottodomi
 $wb['proxy_directives_txt'] = 'Direttive Proxy';
 $wb['available_proxy_directive_snippets_txt'] = 'Snippets Direttive Proxy disponibili:';
 $wb['error_proxy_requires_url'] = 'Tipo reinderizzamento \\"proxy\\" richiede una URL come percorso di reinderizzamento.';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

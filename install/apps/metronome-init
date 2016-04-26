@@ -35,12 +35,12 @@ stop()
 
 reload()
 {
-    &METRONOME reload >> /dev/null
+    $METRONOME reload >> /dev/null
 }
 
 restart()
 {
-    &METRONOME restart >> /dev/null
+    $METRONOME restart >> /dev/null
 }
 
 case "$1" in

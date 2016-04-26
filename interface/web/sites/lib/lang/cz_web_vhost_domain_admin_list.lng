@@ -6,5 +6,6 @@ $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Vytvořit webové stránky';
+$wb['add_new_subdomain_txt'] = 'Add new subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
 ?>
-

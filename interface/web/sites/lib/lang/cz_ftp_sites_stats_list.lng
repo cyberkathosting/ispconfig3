@@ -8,4 +8,3 @@ $wb['last_year_txt'] = 'Last year';
 $wb['sum_txt'] = 'Sum (Download + Upload)';
 $wb['in_out_txt'] = 'DL/UL';
 ?>
-

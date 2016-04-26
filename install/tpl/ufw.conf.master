@@ -2,7 +2,7 @@
 # 
 
 # set to yes to start on boot
-ENABLED=yes
+ENABLED=no
 
 # set to one of 'off', 'low', 'medium', 'high'
 LOGLEVEL=low

@@ -6,4 +6,6 @@ $wb['active_txt'] = 'Habilitado';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Dominio';
 $wb['add_new_record_txt'] = 'Añadir sitio web';
+$wb['add_new_subdomain_txt'] = 'Add new subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
 ?>

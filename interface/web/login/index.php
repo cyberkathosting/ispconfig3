@@ -209,7 +209,8 @@ if(count($_POST) > 0) {
 						$user = $app->db->toLower($user);
 						
 						if ($loginAs) $oldSession = $_SESSION['s'];
-						if (!$loginAs) session_regenerate_id(true);
+						// Session regenerate causes login problems on some systems, have to find a better way. see Issue #3827
+						//if (!$loginAs) session_regenerate_id(true);
 						$_SESSION = array();
 						if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 						$_SESSION['s']['user'] = $user;
@@ -260,7 +261,7 @@ if(count($_POST) > 0) {
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
-							header('Location: /index.php');
+							header('Location: ../index.php');
 							die();
 						}
 					}
@@ -341,7 +342,9 @@ $app->tpl->setVar('base64_logo_height', $logo_dimensions[1].'px');
 $app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
 
 // Title
-$app->tpl->setVar('company_name', $sys_config['company_name']. ' :: ');
+if (!empty($sys_config['company_name'])) {
+	$app->tpl->setVar('company_name', $sys_config['company_name']. ' :: ');
+}
 
 // Custom Login
 if ($sys_config['custom_login_text'] != '') {

@@ -1,0 +1,8 @@
+<?php
+$wb["list_head_txt"] = 'Directive Snippets';
+$wb["active_txt"] = 'Active';
+$wb["name_txt"] = 'Name of Snippet';
+$wb["type_txt"] = 'Type';
+$wb["add_new_record_txt"] = 'Add Directive Snippet';
+$wb['customer_viewable_txt'] = 'Customer viewable';
+?>

@@ -124,4 +124,8 @@ $wb['backup_excludes_txt'] = 'Auszuschließende Verzeichnisse';
 $wb['backup_excludes_note_txt'] = '(Mehrere Verzeichnisse mit Kommas trennen. Beispiel: web/cache/*,web/backup)';
 $wb['backup_excludes_error_regex'] = 'Die auszuschließenden Verzeichnisse enthalten ungültige Zeichen.';
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
+$wb['http_port_txt'] = 'HTTP Port';
+$wb['https_port_txt'] = 'HTTPS Port';
+$wb['http_port_error_regex'] = 'HTTP Port invalid.';
+$wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>

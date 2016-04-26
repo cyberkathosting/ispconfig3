@@ -6,4 +6,6 @@ $wb['active_txt'] = 'Aktif';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domain';
 $wb['add_new_record_txt'] = 'Tambah Situs Web Baru';
+$wb['add_new_subdomain_txt'] = 'Add new subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
 ?>

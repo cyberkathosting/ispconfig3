@@ -206,8 +206,7 @@ class page_action extends tform_actions {
 			$data = file_get_contents($path);
 			$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 			$app->db->query("UPDATE sys_ini SET custom_logo = ? WHERE sysini_id = ?", $base64, $this->id);
-		}
-		*/
+		}*/
 
 		// Maintenance mode
 		if($server_config_array['misc']['maintenance_mode'] == 'y'){

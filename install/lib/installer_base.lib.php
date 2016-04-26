@@ -1630,7 +1630,7 @@ class installer_base {
         caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
         caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
-        exec($this->getinitcommand('xmpp', 'restart'));
+        exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
 
 /*
 writing new private key to 'smtpd.key'
@@ -1842,12 +1842,14 @@ Email Address []:
 
 	public function configure_ufw_firewall()
 	{
-		$configfile = 'ufw.conf';
-		if(is_file('/etc/ufw/ufw.conf')) copy('/etc/ufw/ufw.conf', '/etc/ufw/ufw.conf~');
-		$content = rf("tpl/".$configfile.".master");
-		wf('/etc/ufw/ufw.conf', $content);
-		exec('chmod 600 /etc/ufw/ufw.conf');
-		exec('chown root:root /etc/ufw/ufw.conf');
+		if($this->is_update == false) {
+			$configfile = 'ufw.conf';
+			if(is_file('/etc/ufw/ufw.conf')) copy('/etc/ufw/ufw.conf', '/etc/ufw/ufw.conf~');
+			$content = rf("tpl/".$configfile.".master");
+			wf('/etc/ufw/ufw.conf', $content);
+			exec('chmod 600 /etc/ufw/ufw.conf');
+			exec('chown root:root /etc/ufw/ufw.conf');
+		}
 	}
 
 	public function configure_bastille_firewall() {
