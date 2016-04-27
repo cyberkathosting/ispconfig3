@@ -1232,11 +1232,22 @@ class apache2_plugin {
 			//* check if we have already a Let's Encrypt cert
 			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-
+				
+				$success = false;
 				if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-					$this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec("/root/.local/share/letsencrypt/bin/letsencrypt auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
-			};
+				if(!$success) {
+					// error issuing cert
+					$app->log('Let\'s Encrypt SSL Cert for: ' . $domain . ' could not be issued.', LOGLEVEL_WARN);
+					$data['new']['ssl_letsencrypt'] = 'n';
+					if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
+					/* Update the DB of the (local) Server */
+					$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
+					/* Update also the master-DB of the Server-Farm */
+					$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
+				}
+			}
 
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
@@ -1279,11 +1290,11 @@ class apache2_plugin {
 
 				/* we don't need to store it.
 				/* Update the DB of the (local) Server */
-				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
-				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 				/* Update also the master-DB of the Server-Farm */
-				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '$ssl_cert', ssl_key = '$ssl_key' WHERE domain = '".$data['new']['domain']."'");
-				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = '".$data['new']['domain']."'");
+				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
 
@@ -3363,8 +3374,12 @@ class apache2_plugin {
 	//* Wrapper for exec function for easier debugging
 	private function _exec($command) {
 		global $app;
+		$out = array();
+		$ret = 0;
 		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
-		exec($command);
+		exec($command, $out, $ret);
+		if($ret != 0) return false;
+		else return true;
 	}
 
 	private function _checkTcp ($host, $port) {
