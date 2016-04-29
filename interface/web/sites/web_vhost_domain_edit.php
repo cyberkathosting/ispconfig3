@@ -757,6 +757,7 @@ class page_action extends tform_actions {
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
 		 */
+		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
 			/*
 			 * The domain-module is in use.

@@ -137,7 +137,7 @@ $form["tabs"]['dns_soa'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'mbox_error_empty'),
 				1 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-9\.\-\_]{0,255}\.$/',
+					'regex' => '/^[a-zA-Z0-9\.\-\_\+]{0,255}\.$/',
 					'errmsg'=> 'mbox_error_regex'),
 			),
 			'default' => '',
