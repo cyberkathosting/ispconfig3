@@ -6,13 +6,13 @@
 <tmpl_if name="list_desc_txt"><p><tmpl_var name="list_desc_txt"></p></tmpl_if>
 
             <div class="form-group">
-                <div style="float:left;width:100%">
-                    <p class="label" style="width:270px">{tmpl_var name='use_domain_module_txt'}</p>
-                    <div class="col-sm-9">
-                        {tmpl_var name='use_domain_module'}
-                    </div>
+                <div class="col-sm-3 text-right">
+                    {tmpl_var name='use_domain_module'}
                 </div>
-                <div style="float:left;width:500px;margin-top:20px">{tmpl_var name='use_domain_module_hint'}</div>
+                <div class="col-sm-9">
+                    <p><strong>{tmpl_var name='use_domain_module_txt'}</strong></p>
+                    <p>{tmpl_var name='use_domain_module_hint'}</p>
+                </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='new_domain_txt'}</label>

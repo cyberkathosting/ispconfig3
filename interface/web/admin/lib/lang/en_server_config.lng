@@ -101,6 +101,7 @@ $wb["fastcgi_config_syntax_txt"] = 'FastCGI config syntax';
 $wb["backup_mode_txt"] = 'Backup mode';
 $wb["backup_mode_userzip"] = 'Backup web files owned by web user as zip';
 $wb["backup_mode_rootgz"] = 'Backup all files in web directory as root user';
+$wb["backup_time_txt"] = 'Backup time';
 $wb["server_type_txt"] = 'Server Type';
 $wb["nginx_vhost_conf_dir_txt"] = 'Nginx Vhost config dir';
 $wb["nginx_vhost_conf_enabled_dir_txt"] = 'Nginx Vhost config enabled dir';

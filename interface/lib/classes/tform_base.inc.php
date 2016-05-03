@@ -1039,7 +1039,7 @@ class tform_base {
 				break;
 			case 'V6PREFIXLENGTH':
 				// find shortes ipv6 subnet can`t be longer
-				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' ORDER BY CHAR_LENGTH(ip_address) ASC LIMIT 0,1;");
+				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' ORDER BY CHAR_LENGTH(ip_address) ASC LIMIT 0,1");
 				$sql_v6_explode=explode(':',$sql_v6['ip_address']);
 				$explode_field_value = explode(':',$field_value);
 				if (count($sql_v6_explode) < count($explode_field_value) && isset($sql_v6['ip_address'])) {
