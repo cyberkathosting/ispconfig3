@@ -831,7 +831,7 @@ class tform_base {
 				}
 
 				//* Add slashes to all records, when we encode data which shall be inserted into mysql.
-				if($dbencode == true) $new_record[$key] = $app->db->quote($new_record[$key]);
+				if($dbencode == true && !is_null($new_record[$key])) $new_record[$key] = $app->db->quote($new_record[$key]);
 			}
 		}
 		return $new_record;
@@ -1244,7 +1244,7 @@ class tform_base {
 							}
 						} else {
 							$sql_insert_key .= "`$key`, ";
-							$sql_insert_val .= "'".$record[$key]."', ";
+							$sql_insert_val .= (is_null($record[$key]) ? 'NULL' : "'".$record[$key]."'") . ", ";
 						}
 					} else {
 						if($field['formtype'] == 'PASSWORD') {
@@ -1271,7 +1271,7 @@ class tform_base {
 								$sql_update .= "`$key` = '".$record[$key]."', ";
 							}
 						} else {
-							$sql_update .= "`$key` = '".$record[$key]."', ";
+							$sql_update .= "`$key` = " . (is_null($record[$key]) ? 'NULL' : "'".$record[$key]."'") . ", ";
 						}
 					}
 				} else {

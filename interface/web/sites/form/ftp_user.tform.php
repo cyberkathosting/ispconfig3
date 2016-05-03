@@ -296,8 +296,7 @@ if($app->auth->is_admin()) {
 
 $form['tabs']['advanced']['fields']['expires'] = array(
 	'datatype' => 'DATETIME',
-	'formtype' => 'DATETIME',
-	'default' => null
+	'formtype' => 'DATETIME'
 );
 
 
