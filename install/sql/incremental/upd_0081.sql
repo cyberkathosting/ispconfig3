@@ -198,7 +198,7 @@ CREATE TABLE `ftp_traffic` (
 	`traffic_date` date NOT NULL,
 	`in_bytes` bigint(32) unsigned NOT NULL,
 	`out_bytes` bigint(32) unsigned NOT NULL, 
-	PRIMARY KEY (`hostname`,`traffic_date`)
+	UNIQUE KEY (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `mail_forwarding` ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
