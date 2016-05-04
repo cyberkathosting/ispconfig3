@@ -593,9 +593,7 @@ $form["tabs"]['limits'] = array (
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
-			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-					'errmsg'=> 'no_mail_server_error'),
-				1 => array ( 'type' => 'CUSTOM',
+			'validators'    => array (  0 => array ( 'type' => 'CUSTOM',
 					'class' => 'validate_client',
 					'function' => 'check_used_servers',
 					'errmsg'=> 'mail_servers_used'),
@@ -918,9 +916,7 @@ $form["tabs"]['limits'] = array (
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
-			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-					'errmsg'=> 'no_web_server_error'),
-				1 => array ( 'type' => 'CUSTOM',
+			'validators'    => array (  0 => array ( 'type' => 'CUSTOM',
 					'class' => 'validate_client',
 					'function' => 'check_used_servers',
 					'errmsg'=> 'web_servers_used'),
@@ -1138,9 +1134,7 @@ $form["tabs"]['limits'] = array (
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
-			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-					'errmsg'=> 'no_dns_server_error'),
-				1 => array ( 'type' => 'CUSTOM',
+			'validators'    => array (  0 => array ( 'type' => 'CUSTOM',
 					'class' => 'validate_client',
 					'function' => 'check_used_servers',
 					'errmsg'=> 'dns_servers_used'),
@@ -1238,9 +1232,7 @@ $form["tabs"]['limits'] = array (
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
-			'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
-					'errmsg'=> 'no_db_server_error'),
-				1 => array ( 'type' => 'CUSTOM',
+			'validators'    => array (  0 => array ( 'type' => 'CUSTOM',
 					'class' => 'validate_client',
 					'function' => 'check_used_servers',
 					'errmsg'=> 'db_servers_used'),
