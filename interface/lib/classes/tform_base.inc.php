@@ -831,7 +831,7 @@ class tform_base {
 				}
 
 				//* Add slashes to all records, when we encode data which shall be inserted into mysql.
-				if($dbencode == true) $new_record[$key] = $app->db->quote($new_record[$key]);
+				if($dbencode == true && !is_null($new_record[$key])) $new_record[$key] = $app->db->quote($new_record[$key]);
 			}
 		}
 		return $new_record;
@@ -973,13 +973,22 @@ class tform_base {
 						$this->errorMessage .= $errmsg."<br />\r\n";
 					}
 				}
+				break;
 			case 'ISEMAIL':
+				$error = false;
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'y' && $field_value == '') {
 					//* Do nothing
 				} else {
 					if(function_exists('filter_var')) {
 						if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$error = true;
+						} else {
+							if (!preg_match("/^[^\\+]+$/", $field_value)) { // * disallow + in local-part
+								$error = true;
+							}
+						}
+						if ($error) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {
 								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
@@ -987,8 +996,10 @@ class tform_base {
 								$this->errorMessage .= $errmsg."<br />\r\n";
 							}
 						}
+
 					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				}
+				unset($error);
 				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < 2147483647) {
@@ -1028,7 +1039,7 @@ class tform_base {
 				break;
 			case 'V6PREFIXLENGTH':
 				// find shortes ipv6 subnet can`t be longer
-				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' ORDER BY CHAR_LENGTH(ip_address) ASC LIMIT 0,1;");
+				$sql_v6 = $app->db->queryOneRecord("SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' ORDER BY CHAR_LENGTH(ip_address) ASC LIMIT 0,1");
 				$sql_v6_explode=explode(':',$sql_v6['ip_address']);
 				$explode_field_value = explode(':',$field_value);
 				if (count($sql_v6_explode) < count($explode_field_value) && isset($sql_v6['ip_address'])) {
@@ -1233,7 +1244,7 @@ class tform_base {
 							}
 						} else {
 							$sql_insert_key .= "`$key`, ";
-							$sql_insert_val .= "'".$record[$key]."', ";
+							$sql_insert_val .= (is_null($record[$key]) ? 'NULL' : "'".$record[$key]."'") . ", ";
 						}
 					} else {
 						if($field['formtype'] == 'PASSWORD') {
@@ -1260,7 +1271,7 @@ class tform_base {
 								$sql_update .= "`$key` = '".$record[$key]."', ";
 							}
 						} else {
-							$sql_update .= "`$key` = '".$record[$key]."', ";
+							$sql_update .= "`$key` = " . (is_null($record[$key]) ? 'NULL' : "'".$record[$key]."'") . ", ";
 						}
 					}
 				} else {

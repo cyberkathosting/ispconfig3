@@ -173,6 +173,7 @@ $wb['awstats_settings_txt'] = 'AWStats Einstellungen';
 $wb['backup_mode_txt'] = 'Backupmodus';
 $wb['backup_mode_userzip'] = 'Backup Dateien gehören dem Web Benutzer (.zip Datei)';
 $wb['backup_mode_rootgz'] = 'Backup aller Dateien des Webverzeichnisses als Root Benutzer';
+$wb['backup_time_txt'] = 'Backupzeit';
 $wb['firewall_txt'] = 'Firewall';
 $wb['mailbox_quota_stats_txt'] = 'E-Mailkonto Beschränkung Statistiken';
 $wb['enable_ip_wildcard_txt'] = 'IP Adressen Wildcard (*) aktivieren';

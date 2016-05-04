@@ -263,8 +263,8 @@ server {
         }
 </tmpl_if>
 
-location /\.well-known/acme-challenge {
-	   root /usr/local/ispconfig/interface/acme/.well-known/acme-challenge;
+location ~ /\.well-known/acme-challenge/ {
+	   root /usr/local/ispconfig/interface/acme/;
 	   index index.html index.htm;
 	   try_files $uri =404;
 }
@@ -301,8 +301,8 @@ server {
         
         server_name <tmpl_var name='rewrite_domain'>;
 
-location /\.well-known/acme-challenge {
-	   root /usr/local/ispconfig/interface/acme-challenge;
+location ~ /\.well-known/acme-challenge/ {
+	   root /usr/local/ispconfig/interface/acme/;
 	   index index.html index.htm;
 	   try_files $uri =404;
 }

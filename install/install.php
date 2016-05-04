@@ -344,12 +344,13 @@ if($install_mode == 'standard') {
 		$conf['services']['dns'] = true;
 	}
 */
+
 	//* Configure Bind
 	if($conf['bind']['installed']) {
 		swriteln('Configuring BIND');
 		$inst->configure_bind();
 		$conf['services']['dns'] = true;
-		if(!$inst->find_installed_apps('haveged')) {
+		if(!is_installed('haveged')) {
 			swriteln("[INFO] haveged not detected - DNSSEC can fail");
 		}
 	}
@@ -732,7 +733,7 @@ if($install_mode == 'standard') {
 			swriteln('Configuring BIND');
 			$inst->configure_bind();
 			$conf['services']['dns'] = true;
-			if(!$inst->find_installed_apps('haveged')) {
+			if(!is_installed('haveged')) {
 				swriteln("[INFO] haveged not detected - DNSSEC can fail");
 			}
 		}

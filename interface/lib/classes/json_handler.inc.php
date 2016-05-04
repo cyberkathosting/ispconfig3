@@ -91,7 +91,7 @@ class ISPConfigJSONHandler {
 
 		if(is_array($_POST)) {
 			foreach($_POST as $key => $val) {
-				$tmp = json_decode($val);
+				$tmp = json_decode($val, true);
 				if(!$tmp) $params[] = $val;
 				else $params[] = (array)$tmp;
 			}
