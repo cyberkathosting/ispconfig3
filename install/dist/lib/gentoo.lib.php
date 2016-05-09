@@ -135,6 +135,26 @@ class installer extends installer_base
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
 
+		//* Create auxillary postfix conf files
+		$configfile = 'helo_access';
+		if(is_file($config_dir.'/'.$configfile)) {
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+			chmod($config_dir.'/'.$configfile.'~', 0400);
+		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		$content = strtr($content, $postconf_placeholders);
+		# todo: look up this server's ip addrs and loop through each
+		# todo: look up domains hosted on this server and loop through each
+		wf($config_dir.'/'.$configfile, $content);
+
+		$configfile = 'blacklist_helo';
+		if(is_file($config_dir.'/'.$configfile)) {
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+			chmod($config_dir.'/'.$configfile.'~', 0400);
+		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		$content = strtr($content, $postconf_placeholders);
+		wf($config_dir.'/'.$configfile, $content);
 
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
