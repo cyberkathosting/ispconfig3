@@ -37,7 +37,8 @@ class cronjob_letsencrypt extends cronjob {
 		global $app, $conf;
 
 		if(file_exists("/root/.local/share/letsencrypt/bin/letsencrypt")) {
-			exec('/root/.local/share/letsencrypt/bin/letsencrypt renew');
+			exec('/root/.local/share/letsencrypt/bin/letsencrypt -n renew');
+			$app->services->restartServiceDelayed('httpd', 'reload');
 		}
 		
 		parent::onRunJob();
