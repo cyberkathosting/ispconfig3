@@ -163,7 +163,7 @@ class page_action extends tform_actions {
 		}
 		$spf_ip = trim($this->dataRecord['spf_ip']);
 		if (!empty($spf_ip)) {
-			$rec = split(' ', $spf_ip);
+			$rec = explode(' ', $spf_ip);
 			foreach ($rec as $ip) {
 				$temp_ip = explode('/', $ip);
 				if (filter_var($temp_ip[0], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -187,7 +187,7 @@ class page_action extends tform_actions {
 		}
 		$spf_hostname = trim($this->dataRecord['spf_hostname']);
 		if (!empty($spf_hostname)) {
-			$rec = split(' ', $spf_hostname);
+			$rec = explode(' ', $spf_hostname);
 			foreach ($rec as $hostname) { 
 				if (preg_match('/^[a-zA-Z0-9\\.\\-\\*]{0,64}$/', $hostname)) 
 					$spf_record[] = 'a:' . $hostname;
@@ -200,7 +200,7 @@ class page_action extends tform_actions {
 		}
 		$spf_domain = trim($this->dataRecord['spf_domain']);
 		if (!empty($spf_domain)) {
-			$rec = split(' ', $spf_domain);
+			$rec = explode(' ', $spf_domain);
 			foreach ($rec as $domain) {
 				if (preg_match('/^[_a-zA-Z0-9\\.\\-\\*]{0,64}$/', $domain))
 					$spf_record[] = 'include:' . $domain;
