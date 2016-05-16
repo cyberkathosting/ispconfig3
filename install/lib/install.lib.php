@@ -280,6 +280,12 @@ function get_distname() {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 6 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos72';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 7.2\n");
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
