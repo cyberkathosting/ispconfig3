@@ -231,6 +231,9 @@ body {
     transition: background ease 500ms; }
     .table tbody tr:last-child {
       border-radius: 4px; }
+    .table tbody tr td {
+      text-overflow: ellipsis;
+      overflow-x: hidden; }
 
 .tfooter {
   margin-top: -1px;
