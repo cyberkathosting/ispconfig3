@@ -66,8 +66,28 @@ function get_distname() {
 	$distid = '';
 	$distbaseid = '';
 
-	//** Debian or Ubuntu
-	if(file_exists('/etc/debian_version')) {
+    //** Debian or Ubuntu
+    if (is_file('/etc/os-release') && stristr(file_get_contents('/etc/os-release'), 'Ubuntu')) {
+        $os_release = file_get_contents('/etc/os-release');
+        if (strstr(trim($os_release), 'LTS')) {
+            $lts = " LTS";
+        } else {
+            $lts = "";
+        }
+
+        preg_match("/.*VERSION=\"(.*)\".*/ui", $os_release, $ver);
+        $ver = str_replace("LTS", "", $ver[1]);
+        $ver = explode(" ", $ver, 2);
+        $relname = end($ver);
+        $relname = "(" . trim(trim($relname), "()") . ")";
+        $distname = 'Ubuntu';
+        $ver = reset($ver);
+        $distid = 'debian40';
+        $distbaseid = 'debian';
+        $distver = $ver . $lts . " " . $relname;
+        swriteln("Operating System: " . $distver . "\n");
+    } //** Debian / Ubuntu
+    elseif(file_exists('/etc/debian_version')) {
 		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
 			if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
 				$lts=" LTS";
