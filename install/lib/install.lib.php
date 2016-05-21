@@ -82,7 +82,11 @@ function get_distname() {
         $relname = "(" . trim(trim($relname), "()") . ")";
         $distname = 'Ubuntu';
         $ver = reset($ver);
-        $distid = 'debian40';
+        if($ver == "16.04") {
+            $distid = 'ubuntu1604';
+        } else {
+            $distid = 'debian40';
+        }
         $distbaseid = 'debian';
         $distver = $ver . $lts . " " . $relname;
         swriteln("Operating System: " . $distver . "\n");
