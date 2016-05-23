@@ -88,15 +88,11 @@ class ISPConfigJSONHandler {
 		$keys = array_keys($_GET);
 		$method = reset($keys);
 		$params = array();
-
-		if(is_array($_POST)) {
-			foreach($_POST as $key => $val) {
-				$tmp = json_decode($val, true);
-				if(!$tmp) $params[] = $val;
-				else $params[] = (array)$tmp;
-			}
-		}
-
+		
+		$raw = file_get_contents("php://input");
+		$json = json_decode($raw, true);
+		if(!is_array($json)) $this->_return_json('invalid_data', 'The JSON data sent to the api is invalid');
+		
 		if(array_key_exists($method, $this->methods) == false) {
 			$this->_return_json('invalid_method', 'Method ' . $method . ' does not exist');
 		}
@@ -109,7 +105,14 @@ class ISPConfigJSONHandler {
 		if(method_exists($this->classes[$class_name], $method) == false) {
 			$this->_return_json('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
 		}
-
+		
+		$methObj = new ReflectionMethod($this->classes[$class_name], $method);
+		foreach($methObj->getParameters() as $param) {
+			$pname = $param->name;
+			if(isset($json[$pname])) $params[] = $json[$pname];
+			else $params[] = null;
+		}
+		
 		try {
 			$this->_return_json('ok', '', call_user_func_array(array($this->classes[$class_name], $method), $params));
 		} catch(SoapFault $e) {
