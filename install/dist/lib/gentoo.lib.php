@@ -341,6 +341,10 @@ class installer extends installer_base
 		//* dovecot-sql.conf
 		$configfile = $config_dir.'/dovecot-sql.conf';
 		$content = $this->get_template_file('debian_dovecot-sql.conf', true, true);
+		# enable iteratq_query for dovecot2
+		if(version_compare($dovecot_version,2, '>=')) {
+			$content = str_replace('# iterate_query', 'iterate_query', $content);
+		}
 		$this->write_config_file($configfile, $content);
 	}
 

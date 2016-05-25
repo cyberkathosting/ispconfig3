@@ -461,6 +461,10 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
 		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
+		# enable iteratq_query for dovecot2
+		if(version_compare($dovecot_version,2, '>=')) {
+			$content = str_replace('# iterate_query', 'iterate_query', $content);
+		}
 		wf("$config_dir/$configfile", $content);
 
 		exec("chmod 600 $config_dir/$configfile");
