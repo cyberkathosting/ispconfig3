@@ -63,3 +63,4 @@ protocol lmtp {
   postmaster_address = webmaster@localhost
   mail_plugins = quota sieve
 }
+mail_plugins = $mail_plugins quota
