@@ -73,7 +73,7 @@ class page_action extends tform_actions {
 			}
 			$confirmation_message .= "\n\n".$app->tform->lng('message_txt').": \"".$this->dataRecord['message']."\"";
 			$confirmation_message .= "\n\nISPConfig: ".($_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://').$_SERVER['HTTP_HOST'];
-			$app->functions->mail($sender_email, $subject, $confirmation_message, $recipient_email);
+			if ($this->dataRecord['subject'] != '' && $this->dataRecord['message'] != '') $app->functions->mail($sender_email, $subject, $confirmation_message, $recipient_email);
 		} else {
 			$app->tform->errorMessage .= $app->tform->lng("recipient_or_sender_email_address_not_valid_txt")."<br />";
 		}
