@@ -1,0 +1,20 @@
+<tmpl_if name="list_head_txt">
+<div class='page-header'>
+        <h1><tmpl_var name="list_head_txt"></h1>
+</div>
+</tmpl_if>
+<tmpl_if name="list_desc_txt"><p><tmpl_var name="list_desc_txt"></p></tmpl_if>
+
+<div class="form-group">
+	<label for="default_dnsserver" class="col-sm-3 control-label">{tmpl_var name='default_dnsserver_txt'}</label>
+	<div class="col-sm-9"><select name="default_dnsserver" id="default_dnsserver" class="form-control">
+		{tmpl_var name='default_dnsserver'}
+	</select></div>
+</div>
+            
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+            
+<div class="clear"><div class="right">
+    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/system_config_edit.php">{tmpl_var name='btn_save_txt'}</button>
+    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/users_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div></div>
