@@ -136,9 +136,9 @@ class cron_plugin {
             }
 
             // get the primitive folder for document_root and the filesystem, will need it later.
-            $df_output=exec("df -T $document_root|awk 'END{print \$2,\$NF}'");
-            $file_system = explode(" ", $df_output)[0];
-            $primitive_root = explode(" ", $df_output)[1];
+            $df_output=explode(" ", exec("df -T $document_root|awk 'END{print \$2,\$NF}'"));
+            $file_system = $df_output[0];
+            $primitive_root = $df_output[1];
 
             if ( in_array($file_system , array('ext2','ext3','ext4'),true) ) {
               exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');

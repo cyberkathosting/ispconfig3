@@ -206,7 +206,9 @@ class mail_plugin {
 		}
 
 		//* Send the welcome email message
-		$domain = explode('@', $data["new"]["email"])[1];
+		$tmp = explode('@', $data["new"]["email"]);
+		$domain = $tmp[1];
+		unset($tmp);
 		$html = false;
 		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
 			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
@@ -466,7 +468,9 @@ class mail_plugin {
 			if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $mount_backup = false;
 			if($mount_backup){
 				$sql = "SELECT * FROM mail_domain WHERE domain = ?";
-				$domain_rec = $app->db->queryOneRecord($sql, explode("@",$data['old']['email'])[1]);
+				$tmp = explode("@",$data['old']['email']);
+				$domain_rec = $app->db->queryOneRecord($sql,$tmp[1]);
+				unset($tmp);
 				if (is_array($domain_rec)) {
 					$mail_backup_dir = $backup_dir.'/mail'.$domain_rec['domain_id'];
 					$mail_backup_files = 'mail'.$data['old']['mailuser_id'];
