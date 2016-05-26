@@ -19,4 +19,4 @@ user_query = SELECT email as user, maildir as home, CONCAT( maildir_format, ':',
 
 # The iterate_query is required for the doveadm command only and works only on dovecot 2 servers.
 # Do not enable it on Dovecot 1.x servers
-# iterate_query = SELECT email as user FROM mail_user
+# iterate_query = SELECT email as user FROM mail_user WHERE server_id = '{server_id}'

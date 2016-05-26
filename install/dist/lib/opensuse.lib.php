@@ -197,6 +197,27 @@ class installer_dist extends installer_base {
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 
+		//* Create auxillary postfix conf files
+		$configfile = 'helo_access';
+		if(is_file($config_dir.'/'.$configfile)) {
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+			chmod($config_dir.'/'.$configfile.'~', 0400);
+		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		$content = strtr($content, $postconf_placeholders);
+		# todo: look up this server's ip addrs and loop through each
+		# todo: look up domains hosted on this server and loop through each
+		wf($config_dir.'/'.$configfile, $content);
+
+		$configfile = 'blacklist_helo';
+		if(is_file($config_dir.'/'.$configfile)) {
+			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
+			chmod($config_dir.'/'.$configfile.'~', 0400);
+		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		$content = strtr($content, $postconf_placeholders);
+		wf($config_dir.'/'.$configfile, $content);
+
 		//* Make a backup copy of the main.cf file
 		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
 
@@ -450,6 +471,10 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
 		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
+		# enable iterate_query for dovecot2
+		if(version_compare($dovecot_version,2, '>=')) {
+			$content = str_replace('# iterate_query', 'iterate_query', $content);
+		}
 		wf("$config_dir/$configfile", $content);
 
 		exec("chmod 600 $config_dir/$configfile");

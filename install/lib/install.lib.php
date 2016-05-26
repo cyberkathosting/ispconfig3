@@ -27,29 +27,6 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
-/*
-	This function returns a string that describes the installed
-	Linux distribution. e.g. debian40 for Debian GNU/Linux 4.0
-*/
-
-
-
-/*
-Comments to completion forever ;-)
-commandline arguments
-$argv[1]
-
-
-<?
-echo "Total argument passed are : $argc \n";
-for( $i = 0 ; $i <= $argc -1 ;$i++)
-{
-echo "Argument $i : $argv[$i] \n";
-}
-?>
-
-*/
 error_reporting(E_ALL|E_STRICT);
 
 
@@ -59,6 +36,10 @@ $FILE = realpath('../install.php');
 //** IMPORTANT!
 //   This is the same code as in server/lib/classes/monitor_tools.inc.php
 //   So if you change it here, you also have to change it in there!
+//
+//	This function returns a string that describes the installed
+//	Linux distribution. e.g. debian40 for Debian GNU/Linux 4.0
+
 function get_distname() {
 
 	$distname = '';
@@ -68,27 +49,52 @@ function get_distname() {
 
 	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
-		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
-			if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
-				$lts=" LTS";
-			} else {
-				$lts="";
-			}
+		
+		// Check if this is Ubuntu and not Debian
+		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu') || (is_file('/etc/os-release') && stristr(file_get_contents('/etc/os-release'), 'Ubuntu'))) {
+			
+			$issue = file_get_contents('/etc/issue');
+			
+			// Use content of /etc/issue file
+			if(strstr($issue,'Ubuntu')) {
+				if (strstr(trim($issue), 'LTS')) {
+					$lts=" LTS";
+				} else {
+					$lts="";
+				}
 
-			$issue=file_get_contents('/etc/issue');
-			$distname = 'Ubuntu';
-			$distid = 'debian40';
-			$distbaseid = 'debian';
-			$ver = explode(' ', $issue);
-			$ver = array_filter($ver);
-			$ver = next($ver);
-			$mainver = explode('.', $ver);
-			$mainver = array_filter($mainver);
-			$mainver = current($mainver).'.'.next($mainver);
+				$distname = 'Ubuntu';
+				$distid = 'debian40';
+				$distbaseid = 'debian';
+				$ver = explode(' ', $issue);
+				$ver = array_filter($ver);
+				$ver = next($ver);
+				$mainver = explode('.', $ver);
+				$mainver = array_filter($mainver);
+				$mainver = current($mainver).'.'.next($mainver);
+			// Use content of /etc/os-release file
+			} else {
+				$os_release = file_get_contents('/etc/os-release');
+				if (strstr(trim($os_release), 'LTS')) {
+					$lts = " LTS";
+				} else {
+					$lts = "";
+				}
+				
+				$distname = 'Ubuntu';
+				$distid = 'debian40';
+				$distbaseid = 'debian';
+
+				preg_match("/.*VERSION=\"(.*)\".*/ui", $os_release, $ver);
+				$ver = str_replace("LTS", "", $ver[1]);
+				$ver = explode(" ", $ver, 2);
+				$ver = reset($ver);
+				$mainver = $ver;
+			}
 			switch ($mainver){
 			case "16.04":
 				$relname = "(Xenial Xerus)";
-				$distid = 'ubuntu1604';
+				$distconfid = 'ubuntu1604';
 				break;
 			case "15.10":
 				$relname = "(Wily Werewolf)";
@@ -163,7 +169,7 @@ function get_distname() {
 				$relname = "UNKNOWN";
 			}
 			$distver = $ver.$lts." ".$relname;
-			swriteln("Operating System: ".$distver."\n");
+			swriteln("Operating System: ".$distname.' '.$distver."\n");
 		} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 			$distname = 'Debian';
 			$distver = '4.0';
@@ -280,6 +286,13 @@ function get_distname() {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 6 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos70';
+			$distconfid = 'centos72';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 7.2\n");
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
@@ -310,8 +323,11 @@ function get_distname() {
 	} else {
 		die('Unrecognized GNU/Linux distribution');
 	}
+	
+	// Set $distconfid to distid, if no different id for the config is defined
+	if(!isset($distconfid)) $distconfid = $distid;
 
-	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
+	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'confid' => $distconfid, 'baseid' => $distbaseid);
 }
 
 function sread() {

@@ -133,7 +133,7 @@ if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
 //** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
-include_once 'dist/conf/'.$dist['id'].'.conf.php';
+include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 
 //****************************************************************************************************
 //** Installer Interface

@@ -657,7 +657,7 @@ CREATE TABLE `ftp_traffic` (
   `traffic_date` date NOT NULL,
   `in_bytes` bigint(32) unsigned NOT NULL,
   `out_bytes` bigint(32) unsigned NOT NULL,
-  PRIMARY KEY (`hostname`,`traffic_date`)
+  UNIQUE KEY (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1153,7 +1153,7 @@ CREATE TABLE IF NOT EXISTS `openvz_traffic` (
   `veid` int(11) NOT NULL DEFAULT '0',
   `traffic_date` date NULL DEFAULT NULL,
   `traffic_bytes` bigint(32) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`veid`,`traffic_date`)
+  UNIQUE KEY (`veid`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2043,7 +2043,7 @@ CREATE TABLE `web_traffic` (
   `hostname` varchar(255) NOT NULL DEFAULT '',
   `traffic_date` date NULL DEFAULT NULL,
   `traffic_bytes` bigint(32) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`hostname`,`traffic_date`)
+  UNIQUE KEY  (`hostname`,`traffic_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------

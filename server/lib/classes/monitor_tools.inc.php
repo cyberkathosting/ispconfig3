@@ -35,23 +35,29 @@ class monitor_tools {
 	//   This is the same code as in install/lib/install.lib.php
 	//   So if you change it here, you also have to change it in there!
 	//   Please do not forget to remove the swriteln(); - lines here at this file
-	public function get_distname() {
+	function get_distname() {
 
-		$distname = '';
-		$distver = '';
-		$distid = '';
-		$distbaseid = '';
+	$distname = '';
+	$distver = '';
+	$distid = '';
+	$distbaseid = '';
 
-		//** Debian or Ubuntu
-		if (file_exists('/etc/debian_version')) {
-			if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu')) {
-				if (strstr(trim(file_get_contents('/etc/issue')), 'LTS')) {
+	//** Debian or Ubuntu
+	if(file_exists('/etc/debian_version')) {
+		
+		// Check if this is Ubuntu and not Debian
+		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu') || (is_file('/etc/os-release') && stristr(file_get_contents('/etc/os-release'), 'Ubuntu'))) {
+			
+			$issue = file_get_contents('/etc/issue');
+			
+			// Use content of /etc/issue file
+			if(strstr($issue,'Ubuntu')) {
+				if (strstr(trim($issue), 'LTS')) {
 					$lts=" LTS";
 				} else {
 					$lts="";
 				}
 
-				$issue=file_get_contents('/etc/issue');
 				$distname = 'Ubuntu';
 				$distid = 'debian40';
 				$distbaseid = 'debian';
@@ -61,206 +67,262 @@ class monitor_tools {
 				$mainver = explode('.', $ver);
 				$mainver = array_filter($mainver);
 				$mainver = current($mainver).'.'.next($mainver);
-				switch ($mainver){
-				case "16.04":
-					$relname = "(Xenial Xerus)";
-					$distid = 'ubuntu1604';
-					break;
-				case "15.10":
-					$relname = "(Wily Werewolf)";
-					break;
-				case "15.04":
-					$relname = "(Vivid Vervet)";
-					break;
-				case "14.10":
-					$relname = "(Utopic Unicorn)";
-					break;
-				case "14.04":
-					$relname = "(Trusty Tahr)";
-					break;
-				case "13.10":
-					$relname = "(Saucy Salamander)";
-					break;
-				case "13.04":
-					$relname = "(Raring Ringtail)";
-					break;
-				case "12.10":
-					$relname = "(Quantal Quetzal)";
-					break;
-				case "12.04":
-					$relname = "(Precise Pangolin)";
-					break;
-				case "11.10":
-					$relname = "(Oneiric Ocelot)";
-					break;
-				case "11.14":
-					$relname = "(Natty Narwhal)";
-					break;
-				case "10.10":
-					$relname = "(Maverick Meerkat)";
-					break;
-				case "10.04":
-					$relname = "(Lucid Lynx)";
-					break;
-				case "9.10":
-					$relname = "(Karmic Koala)";
-					break;
-				case "9.04":
-					$relname = "(Jaunty Jackpole)";
-					break;
-				case "8.10":
-					$relname = "(Intrepid Ibex)";
-					break;
-				case "8.04":
-					$relname = "(Hardy Heron)";
-					break;
-				case "7.10":
-					$relname = "(Gutsy Gibbon)";
-					break;
-				case "7.04":
-					$relname = "(Feisty Fawn)";
-					break;
-				case "6.10":
-					$relname = "(Edgy Eft)";
-					break;
-				case "6.06":
-					$relname = "(Dapper Drake)";
-					break;
-				case "5.10":
-					$relname = "(Breezy Badger)";
-					break;
-				case "5.04":
-					$relname = "(Hoary Hedgehog)";
-					break;
-				case "4.10":
-					$relname = "(Warty Warthog)";
-					break;
-				default:
-					$relname = "UNKNOWN";
+			// Use content of /etc/os-release file
+			} else {
+				$os_release = file_get_contents('/etc/os-release');
+				if (strstr(trim($os_release), 'LTS')) {
+					$lts = " LTS";
+				} else {
+					$lts = "";
 				}
-				$distver = $ver.$lts." ".$relname;
-			} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
-				$distname = 'Debian';
-				$distver = '4.0';
+				
+				$distname = 'Ubuntu';
 				$distid = 'debian40';
 				$distbaseid = 'debian';
-			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '5.0')) {
-				$distname = 'Debian';
-				$distver = 'Lenny';
-				$distid = 'debian40';
-				$distbaseid = 'debian';
-			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
-				$distname = 'Debian';
-				$distver = 'Squeeze/Sid';
-				$distid = 'debian60';
-				$distbaseid = 'debian';
-			} elseif (strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
-				$distname = 'Debian';
-				$distver = 'Wheezy/Sid';
-				$distid = 'debian60';
-				$distbaseid = 'debian';
-			} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
-				$distname = 'Debian';
-				$distver = 'Jessie';
-				$distid = 'debian60';
-				$distbaseid = 'debian';
-			} else {
-				$distname = 'Debian';
-				$distver = 'Unknown';
-				$distid = 'debian40';
-				$distbaseid = 'debian';
+
+				preg_match("/.*VERSION=\"(.*)\".*/ui", $os_release, $ver);
+				$ver = str_replace("LTS", "", $ver[1]);
+				$ver = explode(" ", $ver, 2);
+				$ver = reset($ver);
+				$mainver = $ver;
 			}
-		}
-
-		//** OpenSuSE
-		elseif (file_exists('/etc/SuSE-release')) {
-			if (stristr(file_get_contents('/etc/SuSE-release'), '11.0')) {
-				$distname = 'openSUSE';
-				$distver = '11.0';
-				$distid = 'opensuse110';
-				$distbaseid = 'opensuse';
-			} elseif (stristr(file_get_contents('/etc/SuSE-release'), '11.1')) {
-				$distname = 'openSUSE';
-				$distver = '11.1';
-				$distid = 'opensuse110';
-				$distbaseid = 'opensuse';
-			} elseif (stristr(file_get_contents('/etc/SuSE-release'), '11.2')) {
-				$distname = 'openSUSE';
-				$distver = '11.1';
-				$distid = 'opensuse110';
-				$distbaseid = 'opensuse';
-			} else {
-				$distname = 'openSUSE';
-				$distver = 'Unknown';
-				$distid = 'opensuse110';
-				$distbaseid = 'opensuse';
+			switch ($mainver){
+			case "16.04":
+				$relname = "(Xenial Xerus)";
+				$distconfid = 'ubuntu1604';
+				break;
+			case "15.10":
+				$relname = "(Wily Werewolf)";
+				break;
+			case "15.04":
+				$relname = "(Vivid Vervet)";
+				break;
+			case "14.10":
+				$relname = "(Utopic Unicorn)";
+				break;
+			case "14.04":
+				$relname = "(Trusty Tahr)";
+				break;
+			case "13.10":
+				$relname = "(Saucy Salamander)";
+				break;
+			case "13.04":
+				$relname = "(Raring Ringtail)";
+				break;
+			case "12.10":
+				$relname = "(Quantal Quetzal)";
+				break;
+			case "12.04":
+				$relname = "(Precise Pangolin)";
+				break;
+			case "11.10":
+				$relname = "(Oneiric Ocelot)";
+				break;
+			case "11.14":
+				$relname = "(Natty Narwhal)";
+				break;
+			case "10.10":
+				$relname = "(Maverick Meerkat)";
+				break;
+			case "10.04":
+				$relname = "(Lucid Lynx)";
+				break;
+			case "9.10":
+				$relname = "(Karmic Koala)";
+				break;
+			case "9.04":
+				$relname = "(Jaunty Jackpole)";
+				break;
+			case "8.10":
+				$relname = "(Intrepid Ibex)";
+				break;
+			case "8.04":
+				$relname = "(Hardy Heron)";
+				break;
+			case "7.10":
+				$relname = "(Gutsy Gibbon)";
+				break;
+			case "7.04":
+				$relname = "(Feisty Fawn)";
+				break;
+			case "6.10":
+				$relname = "(Edgy Eft)";
+				break;
+			case "6.06":
+				$relname = "(Dapper Drake)";
+				break;
+			case "5.10":
+				$relname = "(Breezy Badger)";
+				break;
+			case "5.04":
+				$relname = "(Hoary Hedgehog)";
+				break;
+			case "4.10":
+				$relname = "(Warty Warthog)";
+				break;
+			default:
+				$relname = "UNKNOWN";
 			}
-		}
-
-
-		//** Redhat
-		elseif (file_exists('/etc/redhat-release')) {
-
-			$content = file_get_contents('/etc/redhat-release');
-
-			if (stristr($content, 'Fedora release 9 (Sulphur)')) {
-				$distname = 'Fedora';
-				$distver = '9';
-				$distid = 'fedora9';
-				$distbaseid = 'fedora';
-			} elseif (stristr($content, 'Fedora release 10 (Cambridge)')) {
-				$distname = 'Fedora';
-				$distver = '10';
-				$distid = 'fedora9';
-				$distbaseid = 'fedora';
-			} elseif (stristr($content, 'Fedora release 10')) {
-				$distname = 'Fedora';
-				$distver = '11';
-				$distid = 'fedora9';
-				$distbaseid = 'fedora';
-			} elseif (stristr($content, 'CentOS release 5.2 (Final)')) {
-				$distname = 'CentOS';
-				$distver = '5.2';
-				$distid = 'centos52';
-				$distbaseid = 'fedora';
-			} elseif (stristr($content, 'CentOS release 5.3 (Final)')) {
-				$distname = 'CentOS';
-				$distver = '5.3';
-				$distid = 'centos53';
-				$distbaseid = 'fedora';
-			} elseif(stristr($content, 'CentOS Linux release 6')) {
-				$distname = 'CentOS';
-				$distver = 'Unknown';
-				$distid = 'centos53';
-				$distbaseid = 'fedora';
-			} elseif(stristr($content, 'CentOS Linux release 7')) {
-				$distname = 'CentOS';
-				$distver = 'Unknown';
-				$distid = 'centos53';
-				$distbaseid = 'fedora';
-			} else {
-				$distname = 'Redhat';
-				$distver = 'Unknown';
-				$distid = 'fedora9';
-				$distbaseid = 'fedora';
-			}
-		}
-
-		//** Gentoo
-		elseif (file_exists('/etc/gentoo-release')) {
-
-			$content = file_get_contents('/etc/gentoo-release');
-
-			preg_match_all('/([0-9]{1,2})/', $content, $version);
-			$distname = 'Gentoo';
-			$distver = $version[0][0] . $version[0][1];
-			$distid = 'gentoo';
-			$distbaseid = 'gentoo';
+			$distver = $ver.$lts." ".$relname;
+			swriteln("Operating System: ".$distname.' '.$distver."\n");
+		} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
+			$distname = 'Debian';
+			$distver = '4.0';
+			$distid = 'debian40';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 4.0 or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '5.0')) {
+			$distname = 'Debian';
+			$distver = 'Lenny';
+			$distid = 'debian40';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian Lenny or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
+			$distname = 'Debian';
+			$distver = 'Squeeze/Sid';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
+			$distname = 'Debian';
+			$distver = 'Wheezy/Sid';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 7.0 (Wheezy/Sid) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+			$distname = 'Debian';
+			$distver = 'Jessie';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
 		} else {
-			die('Unrecognized GNU/Linux distribution');
+			$distname = 'Debian';
+			$distver = 'Unknown';
+			$distid = 'debian40';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
+	}
 
-		return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'baseid' => $distbaseid);
+	//** OpenSuSE
+	elseif(file_exists('/etc/SuSE-release')) {
+		if(stristr(file_get_contents('/etc/SuSE-release'), '11.0')) {
+			$distname = 'openSUSE';
+			$distver = '11.0';
+			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE 11.0 or compatible\n");
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.1')) {
+			$distname = 'openSUSE';
+			$distver = '11.1';
+			$distid = 'opensuse110';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE 11.1 or compatible\n");
+		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.2')) {
+			$distname = 'openSUSE';
+			$distver = '11.2';
+			$distid = 'opensuse112';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE 11.2 or compatible\n");
+		}  else {
+			$distname = 'openSUSE';
+			$distver = 'Unknown';
+			$distid = 'opensuse112';
+			$distbaseid = 'opensuse';
+			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
+		}
+	}
+
+
+	//** Redhat
+	elseif(file_exists('/etc/redhat-release')) {
+
+		$content = file_get_contents('/etc/redhat-release');
+
+		if(stristr($content, 'Fedora release 9 (Sulphur)')) {
+			$distname = 'Fedora';
+			$distver = '9';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 9 or compatible\n");
+		} elseif(stristr($content, 'Fedora release 10 (Cambridge)')) {
+			$distname = 'Fedora';
+			$distver = '10';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 10 or compatible\n");
+		} elseif(stristr($content, 'Fedora release 10')) {
+			$distname = 'Fedora';
+			$distver = '11';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 11 or compatible\n");
+		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
+			$distname = 'CentOS';
+			$distver = '5.2';
+			$distid = 'centos52';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 5.2 or compatible\n");
+		} elseif(stristr($content, 'CentOS release 5.3 (Final)')) {
+			$distname = 'CentOS';
+			$distver = '5.3';
+			$distid = 'centos53';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 5.3 or compatible\n");
+		} elseif(stristr($content, 'CentOS release 5')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos53';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 5 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 6')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos53';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 6 or compatible\n");
+		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos70';
+			$distconfid = 'centos72';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 7.2\n");
+		} elseif(stristr($content, 'CentOS Linux release 7')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distid = 'centos70';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: CentOS 7 or compatible\n");
+		} else {
+			$distname = 'Redhat';
+			$distver = 'Unknown';
+			$distid = 'fedora9';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Redhat or compatible, unknown version.\n");
+		}
+	}
+
+	//** Gentoo
+	elseif(file_exists('/etc/gentoo-release')) {
+
+		$content = file_get_contents('/etc/gentoo-release');
+
+		preg_match_all('/([0-9]{1,2})/', $content, $version);
+		$distname = 'Gentoo';
+		$distver = $version[0][0].$version[0][1];
+		$distid = 'gentoo';
+		$distbaseid = 'gentoo';
+		swriteln("Operating System: Gentoo $distver or compatible\n");
+
+	} else {
+		die('Unrecognized GNU/Linux distribution');
+	}
+	
+	// Set $distconfid to distid, if no different id for the config is defined
+	if(!isset($distconfid)) $distconfid = $distid;
+
+	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'confid' => $distconfid, 'baseid' => $distbaseid);
 	}
 
 	// this function remains in the tools class, because it is used by cron AND rescue
