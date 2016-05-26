@@ -195,6 +195,13 @@ class monitor_tools {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
+			$distname = 'Debian';
+			$distver = 'Testing';
+			$distid = 'debian60';
+			$distconfid = 'debiantesting';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian Testing\n");
 		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
