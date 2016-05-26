@@ -50,6 +50,7 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	var $_vhostdomain_type = 'domain';
+	var $_letsencrypt_on_insert = false;
 
 	//* Returna a "3/2/1" path hash from a numeric id '123'
 	function id_hash($id, $levels) {
@@ -1333,6 +1334,18 @@ class page_action extends tform_actions {
 		
 		parent::onSubmit();
 	}
+	
+	function onBeforeInsert() {
+		global $app, $conf;
+		
+		// Letsencrypt can not be activated before the website has been created
+		// So we deactivate it here and add a datalog update in onAfterInsert
+		if(isset($this->dataRecord['ssl_letsencrypt']) && $this->dataRecord['ssl_letsencrypt'] == 'y') {
+			$this->dataRecord['ssl_letsencrypt'] = 'n';
+			$this->_letsencrypt_on_insert = true;
+		}
+	}
+	
 
 	function onAfterInsert() {
 		global $app, $conf;
@@ -1403,6 +1416,15 @@ class page_action extends tform_actions {
 			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
+		
+		// Add a datalog update with letsencrypt enabled (see also onBeforeInsert)
+		if($this->_letsencrypt_on_insert == true) {
+			$tmp = $web_rec;
+			$tmp['ssl_letsencrypt'] = 'y';
+			$app->db->datalogUpdate('web_domain', $tmp, 'domain_id', $this->id);
+			unset($tmp);
+		}
+	
 	}
 
 	function onBeforeUpdate () {
