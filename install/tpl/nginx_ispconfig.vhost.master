@@ -1,4 +1,11 @@
 server {
+	location ~ /\.well-known/acme-challenge/ {
+		root /usr/local/ispconfig/interface/acme/;
+		index index.html index.htm;
+		try_files $uri =404;
+	}
+}
+server {
         listen {vhost_port};
         listen [::]:{vhost_port} ipv6only=on;
 		ssl {ssl_on};
