@@ -932,6 +932,7 @@ class nginx_plugin {
 		$tpl->newTemplate('nginx_vhost.conf.master');
 
 		// IPv4
+		if($data['new']['ip_address'] == '') $data['new']['ip_address'] = '*';
 
 		//* use ip-mapping for web-mirror
 		if($data['new']['ip_address'] != '*' && $conf['mirror_server_id'] > 0) {
