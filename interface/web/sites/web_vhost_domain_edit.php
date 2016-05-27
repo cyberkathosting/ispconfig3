@@ -1340,8 +1340,9 @@ class page_action extends tform_actions {
 		
 		// Letsencrypt can not be activated before the website has been created
 		// So we deactivate it here and add a datalog update in onAfterInsert
-		if(isset($this->dataRecord['ssl_letsencrypt']) && $this->dataRecord['ssl_letsencrypt'] == 'y') {
+		if(isset($this->dataRecord['ssl_letsencrypt']) && $this->dataRecord['ssl_letsencrypt'] == 'y' && isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y') {
 			$this->dataRecord['ssl_letsencrypt'] = 'n';
+			$this->dataRecord['ssl'] = 'n';
 			$this->_letsencrypt_on_insert = true;
 		}
 	}
@@ -1421,6 +1422,7 @@ class page_action extends tform_actions {
 		if($this->_letsencrypt_on_insert == true) {
 			$tmp = $web_rec;
 			$tmp['ssl_letsencrypt'] = 'y';
+			$tmp['ssl'] = 'y';
 			$app->db->datalogUpdate('web_domain', $tmp, 'domain_id', $this->id);
 			unset($tmp);
 		}
