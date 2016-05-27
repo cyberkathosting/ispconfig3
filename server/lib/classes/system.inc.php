@@ -1856,23 +1856,46 @@ class system{
 
 	}
 
-	function getinitcommand($servicename, $action, $init_script_directory = ''){
+	function _getinitcommand($servicename, $action, $init_script_directory = '', $check_service) {
 		global $conf;
 		// upstart
 		if(is_executable('/sbin/initctl')){
 			exec('/sbin/initctl version 2>/dev/null | /bin/grep -q upstart', $retval['output'], $retval['retval']);
 			if(intval($retval['retval']) == 0) return 'service '.$servicename.' '.$action;
 		}
+
 		// systemd
 		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
-			return 'systemctl '.$action.' '.$servicename.'.service';
+			if ($check_service) {
+				exec("systemctl is-enabled ".$servicename." 2>&1", $out, $ret_val);
+			}
+			if ($ret_val == 0 || !$check_service) {
+				return 'systemctl '.$action.' '.$servicename.'.service';
+			}
 		}
+
 		// sysvinit
 		if($init_script_directory == '') $init_script_directory = $conf['init_scripts'];
 		if(substr($init_script_directory, -1) === '/') $init_script_directory = substr($init_script_directory, 0, -1);
-		return $init_script_directory.'/'.$servicename.' '.$action;
+		if($check_service && is_executable($init_script_directory.'/'.$servicename)) {
+			return $init_script_directory.'/'.$servicename.' '.$action;
+		}
+		if (!$check_service) {
+			return $init_script_directory.'/'.$servicename.' '.$action;
+		}
 	}
-	
+
+	function getinitcommand($servicename, $action, $init_script_directory = '', $check_service=false) {
+		if (is_array($servicename)) {
+			foreach($servicename as $service) {
+				$out = $this->_getinitcommand($service, $action, $init_script_directory, true);
+				if ($out != '') return $out;
+			}
+		} else {
+			return $this->_getinitcommand($servicename, $action, $init_script_directory, $check_service);
+		}
+	}
+
 	function getapacheversion($get_minor = false) {
 		global $app;
 		

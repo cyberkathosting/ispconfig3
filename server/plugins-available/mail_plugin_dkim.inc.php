@@ -171,22 +171,11 @@ class mail_plugin_dkim {
 	 * This function restarts amavis
 	 */
     function restart_amavis() {
-        global $app, $conf;
-        $pos_init=array(
-            $conf['init_scripts'].'/amavis',
-            $conf['init_scripts'].'/amavisd'
-        );
-        $initfile='';
-        foreach($pos_init as $init) {
-            if (is_executable($init)) {
-                $initfile=$init;
-                break;
-                }
-        }
-		if ( $initfile == '' ) $initfile = 'service amavis';
-        $app->log('Restarting amavis: '.$initfile.'.', LOGLEVEL_DEBUG);
-        exec(escapeshellarg($initfile).' restart', $output);
-        foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
+        global $app;
+		$initcommand = $app->system->getinitcommand(array('amavis', 'amavisd'), 'restart');
+		$app->log('Restarting amavis: '.$initcommand.'.', LOGLEVEL_DEBUG);
+		exec($initcommand, $output);
+		foreach($output as $logline) $app->log($logline, LOGLEVEL_DEBUG);
     }
 
 	/**
