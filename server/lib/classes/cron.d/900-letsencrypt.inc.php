@@ -38,8 +38,26 @@ class cronjob_letsencrypt extends cronjob {
 
 		$letsencrypt = array_shift( explode("\n", `which letsencrypt /root/.local/share/letsencrypt/bin/letsencrypt`) );
 		if(is_executable($letsencrypt)) {
-			exec($letsencrypt . ' -n renew');
-			$app->services->restartServiceDelayed('httpd', 'reload');
+			$version = trim(exec($letsencrypt . ' --version 2>/dev/null'));
+			if(preg_match('/^(\S+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
+				$type = strtolower($matches[1]);
+				$version = $matches[2];
+				if($type != 'letsencrypt' || version_compare($version, '0.7.0', '<')) {
+					exec($letsencrypt . ' -n renew');
+					$app->services->restartServiceDelayed('httpd', 'reload');
+				} else {
+					$marker_file = '/usr/local/ispconfig/server/le.restart';
+					$cmd = "echo '1' > " . $marker_file;
+					exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
+					if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
+						unlink($marker_file);
+						$app->services->restartServiceDelayed('httpd', 'reload');
+					}
+				}
+			} else {
+				exec($letsencrypt . ' -n renew');
+				$app->services->restartServiceDelayed('httpd', 'reload');
+			}
 		}
 		
 		parent::onRunJob();
