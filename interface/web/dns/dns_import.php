@@ -216,7 +216,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		$line = trim($line);
 		if ($line != '' && substr($line, 0, 1) != ';'){
 			if(strpos($line, ";") !== FALSE) {
-				if (!preg_match("/v=DKIM|v=DMARC/",$line)) {
+				if(!preg_match("/\"[^\"]+;[^\"]*\"/", $line)) {
 					$line = substr($line, 0, strpos($line, ";"));
 				}
 			}
@@ -267,12 +267,13 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		$parts = explode(' ', $line);
 
 		// make elements lowercase
-		$dkim=@($parts[3]=='"v=DKIM1;')?true:false;
-		$dmarc=@($parts[3]=='"v=DMARC1;')?true:false;
-
 		$new_parts = array();
 		foreach($parts as $part){
-			if(!$dkim && !$dmarc) {
+		if(
+			(strpos($part, ';') === false) &&
+			(!preg_match("/^\"/", $part)) &&
+			(!preg_match("/\"$/", $part))
+		) {
 				$new_parts[] = strtolower($part);
 			} else {
 				$new_parts[] = $part;
