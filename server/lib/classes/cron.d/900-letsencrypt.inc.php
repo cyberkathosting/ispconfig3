@@ -36,13 +36,13 @@ class cronjob_letsencrypt extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		$letsencrypt = array_shift( explode("\n", `which letsencrypt /root/.local/share/letsencrypt/bin/letsencrypt`) );
+		$letsencrypt = array_shift( explode("\n", $this->_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
 		if(is_executable($letsencrypt)) {
 			$version = trim(exec($letsencrypt . ' --version 2>/dev/null'));
 			if(preg_match('/^(\S+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
 				$type = strtolower($matches[1]);
 				$version = $matches[2];
-				if($type != 'letsencrypt' || version_compare($version, '0.7.0', '<')) {
+				if(($type != 'letsencrypt' && $type != 'certbot') || version_compare($version, '0.7.0', '<')) {
 					exec($letsencrypt . ' -n renew');
 					$app->services->restartServiceDelayed('httpd', 'reload');
 				} else {
