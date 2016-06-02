@@ -1236,7 +1236,7 @@ class apache2_plugin {
 				$success = false;
 				$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
