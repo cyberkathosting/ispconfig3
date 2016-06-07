@@ -57,7 +57,9 @@ class list_action extends listform_actions {
 		if(!empty($monitor_data[$rec['server_id'].'.'.$database_name])){
 			$rec['database'] = $monitor_data[$rec['server_id'].'.'.$database_name]['database_name'];
 			$rec['client'] = $monitor_data[$rec['server_id'].'.'.$database_name]['client'];
-			$rec['server_name'] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $rec['server_id'])['server_name'];
+			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $rec['server_id']);
+			$rec['server_name'] = $tmp['server_name'];
+			unset($tmp);
 			$rec['used'] = $monitor_data[$rec['server_id'].'.'.$database_name]['used'];
 			$rec['quota'] = $monitor_data[$rec['server_id'].'.'.$database_name]['quota'];
 

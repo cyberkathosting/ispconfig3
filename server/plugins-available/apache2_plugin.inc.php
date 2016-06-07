@@ -882,9 +882,9 @@ class apache2_plugin {
 			}
             
           // get the primitive folder for document_root and the filesystem, will need it later.
-          $df_output=exec("df -T $document_root|awk 'END{print \$2,\$NF}'");
-          $file_system = explode(" ", $df_output)[0];
-          $primitive_root = explode(" ", $df_output)[1];
+          $df_output=explode(" ", exec("df -T $document_root|awk 'END{print \$2,\$NF}'"));
+          $file_system = $df_output[0];
+          $primitive_root = $df_output[1];
 
 		  if ( in_array($file_system , array('ext2','ext3','ext4'), true) ) {
             exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
@@ -1234,9 +1234,9 @@ class apache2_plugin {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				
 				$success = false;
-				$letsencrypt = array_shift( split("\n", `which letsencrypt /root/.local/share/letsencrypt/bin/letsencrypt`) );
+				$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " auth --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
@@ -3149,7 +3149,7 @@ class apache2_plugin {
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
-		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('fpm_group', $web_config['group']);
 		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);

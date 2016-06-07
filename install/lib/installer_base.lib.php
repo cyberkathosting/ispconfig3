@@ -224,7 +224,7 @@ class installer_base {
 		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
 			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
 			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
-			echo"to the mysqld-section in /etc/mysql/my.cnf and restart mysqld afterwards\n";
+			echo"to the mysqld-section in your mysql-config and restart mysqld afterwards\n";
 			die();
 		}
 
@@ -296,6 +296,7 @@ class installer_base {
 		$tpl_ini_array['fastcgi']['fastcgi_bin'] = $conf['fastcgi']['fastcgi_bin'];
 		$tpl_ini_array['server']['hostname'] = $conf['hostname'];
 		$tpl_ini_array['server']['ip_address'] = @gethostbyname($conf['hostname']);
+		$tpl_ini_array['server']['firewall'] = ($conf['ufw']['installed'] == true)?'ufw':'bastille';
 		$tpl_ini_array['web']['website_basedir'] = $conf['web']['website_basedir'];
 		$tpl_ini_array['web']['website_path'] = $conf['web']['website_path'];
 		$tpl_ini_array['web']['website_symlinks'] = $conf['web']['website_symlinks'];

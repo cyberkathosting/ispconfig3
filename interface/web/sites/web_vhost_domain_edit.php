@@ -50,6 +50,7 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	var $_vhostdomain_type = 'domain';
+	var $_letsencrypt_on_insert = false;
 
 	//* Returna a "3/2/1" path hash from a numeric id '123'
 	function id_hash($id, $levels) {
@@ -218,8 +219,9 @@ class page_action extends tform_actions {
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id IN ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, explode(',', $client['web_servers']), $_SESSION['s']['user']['client_id']);
-			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
+			//$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
+			$ip_select = "<option value=''></option>";
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
@@ -1333,6 +1335,23 @@ class page_action extends tform_actions {
 		
 		parent::onSubmit();
 	}
+	
+	function onBeforeInsert() {
+		global $app, $conf;
+		
+		// Letsencrypt can not be activated before the website has been created
+		// So we deactivate it here and add a datalog update in onAfterInsert
+		if(isset($this->dataRecord['ssl_letsencrypt']) && $this->dataRecord['ssl_letsencrypt'] == 'y' && isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y') {
+			// Disable letsencrypt and ssl temporarily
+			$this->dataRecord['ssl_letsencrypt'] = 'n';
+			$this->dataRecord['ssl'] = 'n';
+			// Prevent that the datalog history gets written
+			$app->tform->formDef['db_history'] = 'no';
+			// Set variable that we check in onAfterInsert
+			$this->_letsencrypt_on_insert = true;
+		}
+	}
+	
 
 	function onAfterInsert() {
 		global $app, $conf;
@@ -1403,6 +1422,16 @@ class page_action extends tform_actions {
 			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
+		
+		// Add a datalog insert without letsencrypt and then an update with letsencrypt enabled (see also onBeforeInsert)
+		if($this->_letsencrypt_on_insert == true) {
+			$new_data_record = $app->tform->getDataRecord($this->id);
+			$app->tform->datalogSave('INSERT', $this->id, array(), $new_data_record);
+			$new_data_record['ssl_letsencrypt'] = 'y';
+			$new_data_record['ssl'] = 'y';
+			$app->db->datalogUpdate('web_domain', $new_data_record, 'domain_id', $this->id);
+		}
+	
 	}
 
 	function onBeforeUpdate () {

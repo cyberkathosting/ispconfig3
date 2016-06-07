@@ -164,43 +164,42 @@ class monitor_tools {
 				$relname = "UNKNOWN";
 			}
 			$distver = $ver.$lts." ".$relname;
-			swriteln("Operating System: ".$distname.' '.$distver."\n");
 		} elseif(trim(file_get_contents('/etc/debian_version')) == '4.0') {
 			$distname = 'Debian';
 			$distver = '4.0';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 4.0 or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '5.0')) {
 			$distname = 'Debian';
 			$distver = 'Lenny';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian Lenny or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '6.0') || trim(file_get_contents('/etc/debian_version')) == 'squeeze/sid') {
 			$distname = 'Debian';
 			$distver = 'Squeeze/Sid';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 6.0 (Squeeze/Sid) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '7.0') || substr(trim(file_get_contents('/etc/debian_version')),0,2) == '7.' || trim(file_get_contents('/etc/debian_version')) == 'wheezy/sid') {
 			$distname = 'Debian';
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 7.0 (Wheezy/Sid) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
 			$distname = 'Debian';
 			$distver = 'Jessie';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
+			$distname = 'Debian';
+			$distver = 'Testing';
+			$distid = 'debian60';
+			$distconfid = 'debiantesting';
+			$distbaseid = 'debian';
 		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
 			$distid = 'debian40';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
 	}
 
@@ -211,25 +210,21 @@ class monitor_tools {
 			$distver = '11.0';
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
-			swriteln("Operating System: openSUSE 11.0 or compatible\n");
 		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.1')) {
 			$distname = 'openSUSE';
 			$distver = '11.1';
 			$distid = 'opensuse110';
 			$distbaseid = 'opensuse';
-			swriteln("Operating System: openSUSE 11.1 or compatible\n");
 		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.2')) {
 			$distname = 'openSUSE';
 			$distver = '11.2';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
-			swriteln("Operating System: openSUSE 11.2 or compatible\n");
 		}  else {
 			$distname = 'openSUSE';
 			$distver = 'Unknown';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
-			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
 		}
 	}
 
@@ -244,62 +239,52 @@ class monitor_tools {
 			$distver = '9';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: Fedora 9 or compatible\n");
 		} elseif(stristr($content, 'Fedora release 10 (Cambridge)')) {
 			$distname = 'Fedora';
 			$distver = '10';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: Fedora 10 or compatible\n");
 		} elseif(stristr($content, 'Fedora release 10')) {
 			$distname = 'Fedora';
 			$distver = '11';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: Fedora 11 or compatible\n");
 		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
 			$distid = 'centos52';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 5.2 or compatible\n");
 		} elseif(stristr($content, 'CentOS release 5.3 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.3';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 5.3 or compatible\n");
 		} elseif(stristr($content, 'CentOS release 5')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 5 or compatible\n");
 		} elseif(stristr($content, 'CentOS Linux release 6')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 6 or compatible\n");
 		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos70';
 			$distconfid = 'centos72';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7.2\n");
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos70';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7 or compatible\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: Redhat or compatible, unknown version.\n");
 		}
 	}
 
@@ -313,7 +298,6 @@ class monitor_tools {
 		$distver = $version[0][0].$version[0][1];
 		$distid = 'gentoo';
 		$distbaseid = 'gentoo';
-		swriteln("Operating System: Gentoo $distver or compatible\n");
 
 	} else {
 		die('Unrecognized GNU/Linux distribution');

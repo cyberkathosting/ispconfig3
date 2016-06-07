@@ -34,7 +34,7 @@
                 <label for="database_password" class="col-sm-3 control-label">{tmpl_var name='database_password_txt'}</label>
                 <div class="col-sm-9">
 				<div class="input-group">
-					<input type="database_password" name="database_password" id="database_password" value="{tmpl_var name='database_password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('database_password','repeat_password');" />
+					<input type="password" name="database_password" id="database_password" value="{tmpl_var name='database_password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('database_password','repeat_password');" />
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button" onclick="generatePassword('database_password','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
 					</span>

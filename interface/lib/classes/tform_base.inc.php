@@ -1002,7 +1002,7 @@ class tform_base {
 				unset($error);
 				break;
 			case 'ISINT':
-				if(function_exists('filter_var') && $field_value < 2147483647) {
+				if(function_exists('filter_var') && $field_value < PHP_INT_MAX) {
 					//if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>0))) === false) {
 					if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT) === false) {
 						$errmsg = $validator['errmsg'];
