@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Password';
+$wb['password_txt'] = 'Password';
 $wb['password_strength_txt'] = 'Password strength';
 $wb['language_txt'] = 'Limba';
 $wb['password_mismatch'] = 'Parola in al doilea camp nu coincide cu primul.';

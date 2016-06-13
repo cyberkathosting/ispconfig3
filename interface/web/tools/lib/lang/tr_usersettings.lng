@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Parola';
+$wb['password_txt'] = 'Parola';
 $wb['password_strength_txt'] = 'Parola Güçlüğü';
 $wb['language_txt'] = 'Dil';
 $wb['password_mismatch'] = 'Parola ile onayı aynı değil.';
