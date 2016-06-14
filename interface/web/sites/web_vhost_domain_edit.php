@@ -305,6 +305,17 @@ class page_action extends tform_actions {
 
 			$app->tpl->setVar("server_id", $options_web_servers);
 			unset($options_web_servers);
+			
+			if($this->id > 0) {
+				if(!isset($this->dataRecord["server_id"])){
+					$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ?", $this->id);
+					$this->dataRecord["server_id"] = $tmp["server_id"];
+					unset($tmp);
+				}
+				$server_id = intval(@$this->dataRecord["server_id"]);
+			} else {
+				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]) : 0;
+			}
 
 			if ($settings['use_domain_module'] != 'y') {
 				// Fill the client select field
