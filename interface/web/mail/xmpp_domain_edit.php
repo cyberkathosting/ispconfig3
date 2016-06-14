@@ -402,7 +402,7 @@ class page_action extends tform_actions {
         //    $this->desyncMailusers($this->dataRecord['domain']);
         // Update DNS Records
         // TODO: Update gets only triggered from main form. WHY?
-        $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
+        $soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other FROM dns_soa WHERE active = 'Y' AND  = ?", $this->dataRecord['domain'].'.');
         if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
 	}
 
