@@ -237,8 +237,13 @@ class page_action extends tform_actions {
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 			
 			// Will be overwritten by mail_plugin
-			$this->dataRecord['uid'] = -1;
-			$this->dataRecord['gid'] = -1;
+			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
+				$this->dataRecord['uid'] = -1;
+				$this->dataRecord['gid'] = -1;
+			} else {
+				$this->dataRecord['uid'] = intval($mail_config["mailuser_uid"]);
+				$this->dataRecord['gid'] = intval($mail_config["mailuser_gid"]);
+			}
 				
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = ?", $this->dataRecord["email"]);
