@@ -80,7 +80,8 @@ class list_action extends listform_actions {
 			$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", $sys_group['client_id']);
 			$rec['client'] = $client['username'];
 			$rec['used'] = 'n/a';
-			$rec['quota'] = 'n/a';
+			if (empty($rec['database_quota'])) $rec['database_quota'] = 0;
+			$rec['quota'] = $rec['database_quota'];
 		}
 		$rec['id'] = $rec[$this->idx_key];
 

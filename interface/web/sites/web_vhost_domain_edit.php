@@ -1460,9 +1460,13 @@ class page_action extends tform_actions {
 					$this->dataRecord["domain"] = $rec['domain'];
 				}
 				if(isset($this->dataRecord["ip_address"]) && $rec['ip_address'] != $this->dataRecord["ip_address"] && $rec['sys_perm_group'] != 'riud') {
+					//* Add a error message and switch back to old server
+					$app->tform->errorMessage .= $app->lng('The IP can not be changed. Please ask your Administrator if you want to change the IPv4-Address.');
 					$this->dataRecord["ip_address"] = $rec['ip_address'];
 				}
 				if(isset($this->dataRecord["ipv6_address"]) && $rec['ipv6_address'] != $this->dataRecord["ipv6_address"] && $rec['sys_perm_group'] != 'riud') {
+					//* Add a error message and switch back to old server
+					$app->tform->errorMessage .= $app->lng('The IP can not be changed. Please ask your Administrator if you want to change the IPv6-Address.');
 					$this->dataRecord["ipv6_address"] = $rec['ipv6_address'];
 				}
 				unset($rec);

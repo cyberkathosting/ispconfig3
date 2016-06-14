@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Salasana';
+$wb['password_txt'] = 'Salasana';
 $wb['language_txt'] = 'Kieli';
 $wb['password_mismatch'] = 'Salasanat eivät täsmää.';
 $wb['password_strength_txt'] = 'Salasanan vahvuus';
