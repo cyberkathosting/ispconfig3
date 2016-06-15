@@ -41,4 +41,5 @@ $wb['globalsearch_searchfield_watermark_txt'] = "Search";
 $wb['globalsearch_suggestions_text_txt'] = "Suggestions";
 $wb['error_no_server_id'] = 'No server provided.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb["limit_dns_zone_txt"] = 'The max. number of DNS zones for your account is reached.';
 ?>

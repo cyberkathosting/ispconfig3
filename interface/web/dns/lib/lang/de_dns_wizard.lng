@@ -40,5 +40,6 @@ $wb['globalsearch_noresults_limit_txt'] = '0 Treffer';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Suche';
 $wb['globalsearch_suggestions_text_txt'] = 'Vorschläge';
 $wb['error_no_server_id'] = 'No server provided.';
-$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['error_not_allowed_server_id'] = 'Der ausgewählte Server ist in diesem Konto nicht verfügbar.';
+$wb['limit_dns_zone_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
 ?>
