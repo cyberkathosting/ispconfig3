@@ -188,7 +188,7 @@ class page_action extends tform_actions {
 				}
 				$server_id = intval(@$this->dataRecord["server_id"]);
 			} else {
-				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]) : 1;
+				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]['server_id']) : 1;
 			}
 			
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
@@ -314,7 +314,7 @@ class page_action extends tform_actions {
 				}
 				$server_id = intval(@$this->dataRecord["server_id"]);
 			} else {
-				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]) : 1;
+				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]['server_id']) : 1;
 			}
 
 			if ($settings['use_domain_module'] != 'y') {
