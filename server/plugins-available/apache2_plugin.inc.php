@@ -1494,7 +1494,7 @@ class apache2_plugin {
 		
 		if (count($rewrite_wildcard_rules) > 0) $rewrite_rules = array_merge($rewrite_rules, $rewrite_wildcard_rules); // Append wildcard rules to the end of rules
 
-		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0) {
+		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0 || $data['new']['rewrite_to_https'] == 'y') {
 			$tpl->setVar('rewrite_enabled', 1);
 		} else {
 			$tpl->setVar('rewrite_enabled', 0);
