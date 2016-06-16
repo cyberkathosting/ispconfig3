@@ -1,0 +1,10 @@
+ALTER TABLE `client` CHANGE `web_servers` `web_servers` TEXT NULL DEFAULT NULL;
+ALTER TABLE `client` CHANGE `mail_servers` `mail_servers` TEXT NULL DEFAULT NULL;
+ALTER TABLE `client` CHANGE `xmpp_servers` `xmpp_servers` TEXT NULL DEFAULT NULL;
+ALTER TABLE `client` CHANGE `db_servers` `db_servers` TEXT NULL DEFAULT NULL;
+ALTER TABLE `client` CHANGE `dns_servers` `dns_servers` TEXT NULL DEFAULT NULL;
+UPDATE client SET web_servers = default_webserver WHERE (web_servers = '' OR web_servers IS NULL);
+UPDATE client SET mail_servers = default_mailserver WHERE (mail_servers = '' OR mail_servers IS NULL);
+UPDATE client SET xmpp_servers = default_xmppserver WHERE (xmpp_servers = '' OR xmpp_servers IS NULL);
+UPDATE client SET db_servers = default_dbserver WHERE (db_servers = '' OR db_servers IS NULL);
+UPDATE client SET dns_servers = default_dnsserver WHERE (dns_servers = '' OR dns_servers IS NULL);
