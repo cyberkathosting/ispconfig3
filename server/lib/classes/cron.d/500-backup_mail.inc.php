@@ -176,7 +176,7 @@ class cronjob_backup_mail extends cronjob {
 						$dir_handle = dir($mail_backup_dir);
 						$files = array();
 						while (false !== ($entry = $dir_handle->read())) {
-							if($entry != '.' && $entry != '..' && substr($entry,0,4+strlen($rec['mailuser_id'])) == 'mail'.$rec['mailuser_id'] && is_file($mail_backup_dir.'/'.$entry)) {
+							if($entry != '.' && $entry != '..' && substr($entry,0,5+strlen($rec['mailuser_id'])) == 'mail'.$rec['mailuser_id'].'_' && is_file($mail_backup_dir.'/'.$entry)) {
 								$files[] = $entry;
 							}
 						}
