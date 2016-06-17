@@ -59,7 +59,7 @@ $liste["item"][] = array( 'field'  => "active",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('Yes')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('No')."</span></div>"));
+	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
 
 
 if($_SESSION['s']['user']['typ'] == 'admin') {
