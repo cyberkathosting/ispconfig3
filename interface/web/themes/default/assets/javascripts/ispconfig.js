@@ -618,9 +618,12 @@ $(document).on("change", function(event) {
 	}
 });
 
+var $page = $('html, body');
+
 $(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-load-content');
 	if(!content_to_load) return this;
@@ -630,7 +633,8 @@ $(document).on('click', 'a[data-load-content],button[data-load-content]', functi
 
 $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-capp');
 	if(!content_to_load) return this;
@@ -640,7 +644,8 @@ $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 
 $(document).on('click', 'a[data-submit-form],button[data-submit-form]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var $el = $(this);
 	var act = $el.attr('data-form-action');
