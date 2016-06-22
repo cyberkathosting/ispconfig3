@@ -485,6 +485,8 @@ class apache2_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
+		$update_letsencrypt = false;
+
 		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['type'] != 'vhostalias' && $data['new']['parent_domain_id'] > 0) {
 
 			$old_parent_domain_id = intval($data['old']['parent_domain_id']);
@@ -504,6 +506,7 @@ class apache2_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$update_letsencrypt = true;
 		}
 
 		// load the server configuration options
@@ -1177,8 +1180,7 @@ class apache2_plugin {
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
+			|| $update_letsencrypt == true
 		)) {
 			// default values
 			$temp_domains = array();
@@ -1230,13 +1232,14 @@ class apache2_plugin {
 			$webroot = $data['new']['document_root']."/web";
 
 			//* check if we have already a Let's Encrypt cert
-			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				
 				$success = false;
 				$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme <<< '1'");
 				}
 				if(!$success) {
 					// error issuing cert
@@ -1248,7 +1251,7 @@ class apache2_plugin {
 					/* Update also the master-DB of the Server-Farm */
 					$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 				}
-			}
+			//}
 
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
@@ -2102,6 +2105,19 @@ class apache2_plugin {
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
+			
+			// remove letsencrypt if it exists (renew will always fail otherwise)
+			
+			$domain = $data['old']['ssl_domain'];
+			if(!$domain) $domain = $data['old']['domain'];
+			if(substr($domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$domain = substr($domain, 2);
+			}
+			//$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
+			//$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
+			$le_conf_file = '/etc/letsencrypt/renewal/' . $domain . '.conf';
+			@rename('/etc/letsencrypt/renewal/' . $domain . '.conf', '/etc/letsencrypt/renewal/' . $domain . '.conf~backup');
 		}
 
 		//* remove mountpoint from fstab
