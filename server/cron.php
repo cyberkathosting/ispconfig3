@@ -105,6 +105,10 @@ foreach($files as $f) {
 }
 unset($files);
 
+// Remove lock
+@unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');
+$app->log('Remove Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', LOGLEVEL_DEBUG);
+
 die("finished.\n");
 
 ?>
