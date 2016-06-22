@@ -1803,7 +1803,9 @@ class system{
 
 	function mount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh'){
 		global $app, $conf;
-
+		
+		if($this->is_mounted($backup_dir)) return true;
+		
 		$mounted = true;
 		if ( 	is_file($mount_cmd) &&
 				is_executable($mount_cmd) &&
