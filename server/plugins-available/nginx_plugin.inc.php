@@ -36,6 +36,7 @@ class nginx_plugin {
 	// private variables
 	var $action = '';
 	var $ssl_certificate_changed = false;
+	var $update_letsencrypt = false;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -333,8 +334,6 @@ class nginx_plugin {
 			return 0;
 		}
 
-		$update_letsencrypt = false;
-
 		if($this->action != 'insert') $this->action = 'update';
 
 		if($data['new']['type'] != 'vhost' && $data['new']['type'] != 'vhostsubdomain' && $data['new']['type'] != 'vhostalias' && $data['new']['parent_domain_id'] > 0) {
@@ -356,7 +355,7 @@ class nginx_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
-			$update_letsencrypt = true;
+			$this->update_letsencrypt = true;
 		}
 
 		// load the server configuration options
@@ -1254,7 +1253,7 @@ class nginx_plugin {
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| $update_letsencrypt == true
+			|| $this->update_letsencrypt == true
 		)) {
 			// default values
 			$temp_domains = array();
@@ -2160,6 +2159,7 @@ class nginx_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$this->update_letsencrypt = true;
 			// just run the update function
 			$this->update($event_name, $data);
 
