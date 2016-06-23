@@ -33,7 +33,7 @@ class installer_centos extends installer_dist {
 	protected $clamav_socket = '/tmp/clamd.socket';
 	
 	public function configure_amavis() {
-		global $conf;
+		global $conf, $dist;
 
 		// amavisd user config file
 		$configfile = 'fedora_amavisd_conf';
@@ -50,6 +50,12 @@ class installer_centos extends installer_dist {
 		$content = str_replace('/var/spool/amavisd/clamd.sock', $this->clamav_socket, $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		
+		// for CentOS 7.2 only
+		if($dist['confid'] == 'centos72') {
+			chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0750);
+			chgrp($conf['amavis']['config_dir'].'/amavisd.conf', 'amavis');
+		}
 
 
 		// Adding the amavisd commands to the postfix configuration
