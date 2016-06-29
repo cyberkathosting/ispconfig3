@@ -562,6 +562,18 @@ class tform_base {
 						$new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
 						break;
 
+					case 'DATE':
+						if (strtotime($val) !== false) {
+							$dt_value = $val;
+						} elseif ( isset($field['default']) && (strtotime($field['default']) !== false) ) {
+							$dt_value = $field['default'];
+						} else {
+							$dt_value = 0;
+						}
+
+						$new_record[$key] = $this->_getDateHTML($key, $dt_value);
+						break;
+					
 					default:
 						if(isset($record[$key])) {
 							$new_record[$key] = htmlspecialchars($record[$key]);
@@ -671,6 +683,12 @@ class tform_base {
 					$display_seconds = (isset($field['display_seconds']) && $field['display_seconds'] == true) ? true : false;
 
 					$new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
+					break;
+				
+				case 'DATE':
+					$dt_value = (isset($field['default'])) ? $field['default'] : 0;
+
+					$new_record[$key] = $this->_getDateHTML($key, $dt_value);
 					break;
 
 				default:
