@@ -132,7 +132,7 @@ class maildeliver_plugin {
 
 			// Custom filters
 			if($data["new"]["custom_mailfilter"] == 'NULL') $data["new"]["custom_mailfilter"] = '';
-			$tpl->setVar('custom_mailfilter', $data["new"]["custom_mailfilter"]);
+			$tpl->setVar('custom_mailfilter', str_replace("\r\n","\n",$data["new"]["custom_mailfilter"]));
 
 			// Move junk
 			$tpl->setVar('move_junk', $data["new"]["move_junk"]);
