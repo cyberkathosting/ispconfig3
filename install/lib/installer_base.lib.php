@@ -1691,7 +1691,7 @@ Email Address []:
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
 		if(is_file('/etc/suphp/suphp.conf')) {
-			replaceLine('/etc/suphp/suphp.conf', 'php=php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
+			replaceLine('/etc/suphp/suphp.conf', 'php="php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
 			//replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
 			replaceLine('/etc/suphp/suphp.conf', 'umask=0077', 'umask=0022', 0);
 		}
