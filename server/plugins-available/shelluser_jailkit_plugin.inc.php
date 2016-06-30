@@ -251,6 +251,9 @@ class shelluser_jailkit_plugin {
 			$command .= 'userdel -f '.escapeshellcmd($data['old']['username']).' &> /dev/null';
 			exec($command);
 			
+			// Remove the jailed user from passwd and shadow file inside the jail
+			$app->system->removeLine($data['old']['dir'].'/etc/passwd', $data['old']['username']);
+			$app->system->removeLine($data['old']['dir'].'/etc/shadow', $data['old']['username']);
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
 				$this->_delete_homedir($data['old']['dir'].$jailkit_chroot_userhome,$userid,$data['old']['parent_domain_id']);
