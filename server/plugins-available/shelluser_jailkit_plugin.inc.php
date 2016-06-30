@@ -245,13 +245,14 @@ class shelluser_jailkit_plugin {
 			//exec('rm -rf '.$data['old']['dir'].$jailkit_chroot_userhome);
 
 			$app->system->web_folder_protection($web['document_root'], false);
+			
+			$userid = intval($app->system->getuid($data['old']['username']));
+			$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; ';
+			$command .= 'userdel -f '.escapeshellcmd($data['old']['username']).' &> /dev/null';
+			exec($command);
+			
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
-				$userid = intval($app->system->getuid($data['old']['username']));
-				$command = 'killall -u '.escapeshellcmd($data['old']['username']).' ; userdel -f';
-				$command .= ' '.escapeshellcmd($data['old']['username']).' &> /dev/null';
-				exec($command);
-				
 				$this->_delete_homedir($data['old']['dir'].$jailkit_chroot_userhome,$userid,$data['old']['parent_domain_id']);
 				
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
