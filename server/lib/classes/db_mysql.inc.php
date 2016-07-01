@@ -87,12 +87,12 @@ class db extends mysqli
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
 			$this->_iConnId = null;
-			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!');
+			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true);
 			return false;
 		}
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
-			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
+			$this->_sqlerror('Datenbank nicht gefunden / Database not found', '', true);
 			return false;
 		}
 
@@ -210,7 +210,7 @@ class db extends mysqli
 					}
 
 					if($try > 9) {
-						$this->_sqlerror('DB::query -> reconnect');
+						$this->_sqlerror('DB::query -> reconnect', '', true);
 						return false;
 					} else {
 						sleep(($try > 7 ? 5 : 1));
@@ -464,7 +464,7 @@ class db extends mysqli
 	 *
 	 * @access private
 	 */
-	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '') {
+	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '', $bNoLog = false) {
 		global $app, $conf;
 
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
@@ -475,9 +475,11 @@ class db extends mysqli
 
 		if($this->show_error_messages && $conf['demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
-		} else if(is_object($app) && method_exists($app, 'log')) {
-				$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
-			}
+		} elseif(is_object($app) && method_exists($app, 'log') && $bNoLog == false) {
+			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
+		} elseif(php_sapi_name() == 'cli') {
+			echo $sErrormsg . $sAddMsg;
+		}
 	}
 
 	public function affectedRows() {

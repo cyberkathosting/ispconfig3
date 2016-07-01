@@ -89,6 +89,9 @@ class installer_dist extends installer_base {
 
 		//* mysql-virtual_relayrecipientmaps.cf
 		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
+		
+		//* mysql-virtual_outgoing_bcc.cf
+		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
 
 		//* mysql-virtual_policy_greylist.cf
 		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
@@ -179,6 +182,7 @@ class installer_dist extends installer_base {
 		//if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
 		if(is_file('/var/lib/mailman/data/aliases')) unlink('/var/lib/mailman/data/aliases');
 		if(!is_link('/var/lib/mailman/data/aliases')) symlink('/etc/mailman/aliases', '/var/lib/mailman/data/aliases');
+		if(!is_file('/etc/mailman/aliases')) touch('/etc/mailman/aliases');
 		exec('postalias /var/lib/mailman/data/aliases');
 		if(!is_file('/etc/mailman/virtual-mailman')) touch('/etc/mailman/virtual-mailman');
 		exec('postmap /etc/mailman/virtual-mailman');
@@ -476,7 +480,7 @@ class installer_dist extends installer_base {
 	}
 
 	public function configure_amavis() {
-		global $conf;
+		global $conf, $dist;
 
 		// amavisd user config file
 		$configfile = 'fedora_amavisd_conf';
@@ -491,6 +495,12 @@ class installer_dist extends installer_base {
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		
+		// for CentOS 7.2 only
+		if($dist['confid'] == 'centos72') {
+			chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0750);
+			chgrp($conf['amavis']['config_dir'].'/amavisd.conf', 'amavis');
+		}
 
 
 		// Adding the amavisd commands to the postfix configuration

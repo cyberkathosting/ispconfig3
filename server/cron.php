@@ -30,6 +30,26 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
 require SCRIPT_PATH."/lib/config.inc.php";
+
+// Check whether another instance of this script is already running
+if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock')) {
+	clearstatcache();
+	$pid = trim(file_get_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock'));
+	if(preg_match('/^[0-9]+$/', $pid)) {
+		if(file_exists('/proc/' . $pid)) {
+			print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
+			exit;
+		}
+	}
+	print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
+}
+
+// Set Lockfile
+@file_put_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', getmypid());
+
+if($conf['log_priority'] <= LOGLEVEL_DEBUG) print 'Set Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock' . "\n";
+
+
 require SCRIPT_PATH."/lib/app.inc.php";
 
 set_time_limit(0);
@@ -84,6 +104,10 @@ foreach($files as $f) {
 	}
 }
 unset($files);
+
+// Remove lock
+@unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');
+$app->log('Remove Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', LOGLEVEL_DEBUG);
 
 die("finished.\n");
 

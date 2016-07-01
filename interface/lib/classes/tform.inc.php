@@ -235,6 +235,24 @@ class tform extends tform_base {
 		return $diffrec;
 
 	}
+	
+	/**
+	 * Generate HTML for DATE fields.
+	 *
+	 * @access private
+	 * @param string $form_element Name of the form element.
+	 * @param string $default_value Selected value for fields.
+	 * @return string HTML
+	 */
+	function _getDateHTML($form_element, $default_value)
+	{
+		$_date = ($default_value && $default_value != '0000-00-00' ? strtotime($default_value) : false);
+		$_showdate = ($_date === false) ? false : true;
+		
+		$tmp_dt = strtr($this->dateformat,array('d' => 'dd', 'm' => 'mm', 'Y' => 'yyyy', 'y' => 'yy'));
+		
+		return '<input type="text" class="form-control" name="' . $form_element . '" value="' . ($_showdate ? date($this->dateformat, $_date) : '') . '"  data-input-element="date" data-date-format="' . $tmp_dt . '" />'; 
+	}
 
 
 	/**

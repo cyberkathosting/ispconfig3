@@ -350,15 +350,20 @@
                 Action php5-fcgi /php5-fcgi virtual
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
-                <IfModule mod_proxy_fcgi.c>
-			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
-                </IfModule>
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization             
 </tmpl_if>
 <tmpl_if name='use_socket'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
 		</IfModule>
+		<IfModule mod_proxy_fcgi.c>
+<tmpl_if name='use_tcp'>
+			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
+</tmpl_if>
+<tmpl_if name='use_socket'>
+			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
+</tmpl_if>
+			</IfModule>
 </tmpl_if>
 
 <tmpl_if name='php' op='==' value='hhvm'>
@@ -396,7 +401,6 @@
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
 <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-		RewriteEngine on
 		RewriteCond %{REQUEST_URI} ^/\.well-known/acme-challenge/
 		RewriteRule ^ - [END]
 </tmpl_if>

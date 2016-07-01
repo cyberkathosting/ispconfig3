@@ -129,7 +129,7 @@ $domains_tpl = '';
 if(!empty($domains))
 {
 	$set = array();
-	$set[] = '<select name="main_domain" id="main_domain" class="form-control">';
+	$set[] = '<select name="main_domain" id="main_domain" class="form-control" style="width:100%; height:100%; min-width:170px;">';
 	foreach($domains as $domain)
 	{
 		$selected = '';

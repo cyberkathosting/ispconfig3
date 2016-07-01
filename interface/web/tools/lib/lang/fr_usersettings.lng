@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Mot de passe';
+$wb['password_txt'] = 'Mot de passe';
 $wb['password_strength_txt'] = 'Force du mot de passe';
 $wb['language_txt'] = 'Langue';
 $wb['password_mismatch'] = 'Le mot de passe de confirmation ne correspond avec le premier.';

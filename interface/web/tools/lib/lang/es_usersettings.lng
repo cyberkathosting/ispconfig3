@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Contraseña';
+$wb['password_txt'] = 'Contraseña';
 $wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 $wb['language_txt'] = 'Idioma';
 $wb['password_mismatch'] = 'La contraseña del primer y segundo campo no coinciden.';

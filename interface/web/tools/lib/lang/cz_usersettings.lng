@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Heslo';
+$wb['password_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
 $wb['language_txt'] = 'Jazyk';
 $wb['password_mismatch'] = 'Hesla se neshodují.';

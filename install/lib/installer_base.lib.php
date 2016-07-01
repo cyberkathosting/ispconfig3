@@ -171,14 +171,19 @@ class installer_base {
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
-		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
-		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['firewall']['installed'] = true;
+		if(is_installed('iptables') && is_installed('ufw')) {
+			$conf['ufw']['installed'] = true;
+		} elseif(is_installed('iptables')) {
+			$conf['firewall']['installed'] = true;
+		}
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
-		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
-		if(is_installed('cron')) $conf['cron']['installed'] = true;
+		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
+		// ISPConfig ships with vlogger, so it is always installed.
+		$conf['vlogger']['installed'] = true;
+		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
 
 		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
 	}
@@ -1686,7 +1691,7 @@ Email Address []:
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
 		if(is_file('/etc/suphp/suphp.conf')) {
-			replaceLine('/etc/suphp/suphp.conf', 'php=php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
+			replaceLine('/etc/suphp/suphp.conf', 'php="php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
 			//replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
 			replaceLine('/etc/suphp/suphp.conf', 'umask=0077', 'umask=0022', 0);
 		}

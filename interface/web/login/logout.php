@@ -56,8 +56,8 @@ if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin' 
 		<input type="hidden" name="s_pg" value="index" />
 		<input type="hidden" name="login_as" value="1" />
 	    <div class="wf_actions buttons">
-	      <button class="positive iconstxt icoPositive" type="button" value="Yes, re-login as ' . $utype . '" data-submit-form="pageForm" data-form-action="/login/index.php"><span>Yes, re-login as ' . $utype . '</span></button>
-	      <button class="negative iconstxt icoNegative" type="button" value="No, logout" data-load-content="login/logout.php?l=1"><span>No, logout</span></button>
+	      <button class="btn btn-default formbutton-success" type="button" value="Yes, re-login as ' . $utype . '" data-submit-form="pageForm" data-form-action="/login/index.php"><span>Yes, re-login as ' . $utype . '</span></button>
+	      <button class="btn btn-default formbutton-default" type="button" value="No, logout" data-load-content="login/logout.php?l=1"><span>No, logout</span></button>
 	    </div>
 	';
 	exit;

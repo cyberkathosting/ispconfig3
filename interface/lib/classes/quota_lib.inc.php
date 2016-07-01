@@ -312,13 +312,13 @@ class quota_lib {
 	
 				$databases[$i]['quota_raw'] = $databases[$i]['database_quota'];
 				$databases[$i]['used_raw'] = $databases[$i]['used'] / 1024 / 1024; //* quota is stored as MB - calculated bytes
-				$databases[$i]['used_percentage'] = (($databases[$i]['database_quota'] > 0) && ($databases[$i]['used'] > 0)) ? round($databases[$i]['used'] * 100 / $databases[$i]['database_quota']) : 0;
+				$databases[$i]['used_percentage'] = (($databases[$i]['database_quota'] > 0) && ($databases[$i]['used'] > 0)) ? round($databases[$i]['used_raw'] * 100 / $databases[$i]['database_quota']) : 0;
 	
 				if ($readable) {
 					// colours
 					$databases[$i]['display_colour'] = '#000000';
 					if($databases[$i]['database_quota'] > 0){
-						$used_ratio = $databases[$i]['used']/$databases[$i]['database_quota'];
+						$used_ratio = $databases[$i]['used'] / $databases[$i]['database_quota'];
 					} else {
 						$used_ratio = 0;
 					}

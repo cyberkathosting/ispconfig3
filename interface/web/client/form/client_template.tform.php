@@ -114,7 +114,7 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
-		),
+		),/*
 		'default_mailserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -125,7 +125,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_mailserver'
-		),
+		),*/
 		'limit_maildomain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -321,7 +321,7 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
-		),
+		),/*
         'default_xmppserver' => array (
             'datatype' => 'INTEGER',
             'formtype' => 'SELECT',
@@ -332,7 +332,7 @@ $form["tabs"]['limits'] = array (
             ),
             'value'  => '',
             'name'  => 'default_xmppserver'
-        ),
+        ),*/
         'xmpp_servers' => array (
             'datatype' => 'VARCHAR',
             'formtype' => 'MULTIPLE',
@@ -420,7 +420,7 @@ $form["tabs"]['limits'] = array (
             'formtype' => 'CHECKBOX',
             'default' => 'n',
             'value'  => array(0 => 'n', 1 => 'y')
-        ),
+        ),/*
 		'default_webserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -431,7 +431,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_webserver'
-		),
+		),*/
 		'limit_web_domain' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -623,7 +623,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
-		),
+		),/*
 		'default_dnsserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -634,7 +634,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_dnsserver'
-		),
+		),*/
 		'limit_dns_zone' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -704,6 +704,7 @@ $form["tabs"]['limits'] = array (
 			'cols'		=> ''
 		),
 		*/
+		/*
 		'default_dbserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -714,7 +715,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_dbserver'
-		),
+		),*/
 		'limit_database' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',

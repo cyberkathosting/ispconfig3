@@ -38,10 +38,22 @@ $msg = '';
 $error = '';
 
 // Loading the template
-$app->uses('tpl,validate_dns');
+$app->uses('tform,tpl,validate_dns');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/dns_import.htm');
 $app->load_language_file('/web/dns/lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng');
+
+// Check if dns record limit has been reached. We will check only users, not admins
+if($_SESSION["s"]["user"]["typ"] == 'user') {
+	$app->tform->formDef['db_table_idx'] = 'id';
+	$app->tform->formDef['db_table'] = 'dns_soa';
+	if(!$app->tform->checkClientLimit('limit_dns_zone')) {
+		$app->error($app->lng('limit_dns_zone_txt'));
+	}
+	if(!$app->tform->checkResellerLimit('limit_dns_zone')) {
+		$app->error('Reseller: '.$app->lng('limit_dns_zone_txt'));
+	}
+}
 
 // import variables
 $template_id = (isset($_POST['template_id']))?$app->functions->intval($_POST['template_id']):0;

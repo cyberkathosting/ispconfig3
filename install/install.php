@@ -246,41 +246,99 @@ $conf['services']['firewall'] = false;
 $conf['services']['proxy'] = false;
 $conf['services']['xmpp'] = false;
 
-if($install_mode == 'standard') {
+//** Get Server ID
+// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
+// Server ID is an autoInc value of the mysql database now
+if($install_mode == 'expert' && strtolower($inst->simple_query('Shall this server join an existing ISPConfig multiserver setup', array('y', 'n'), 'n','join_multiserver_setup')) == 'y') {
+	$conf['mysql']['master_slave_setup'] = 'y';
 
+	//** Get MySQL root credentials
+	$finished = false;
+	do {
+		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname'); 
+		$tmp_mysql_server_port = $inst->free_query('MySQL master server port', $conf['mysql']['master_port'],'mysql_master_port');
+		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
+		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password'); 
+		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
+
+		//* Initialize the MySQL server connection
+		if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
+			$conf['mysql']['master_host'] = $tmp_mysql_server_host;
+			$conf['mysql']['master_port'] = $tmp_mysql_server_port;
+			$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
+			$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
+			$conf['mysql']['master_database'] = $tmp_mysql_server_database;
+			$finished = true;
+		} else {
+			swriteln($inst->lng('Unable to connect to mysql server').' '.mysqli_connect_error());
+		}
+	} while ($finished == false);
+	unset($finished);
+
+	// initialize the connection to the master database
+	$inst->dbmaster = new db();
+	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
+	$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
+	$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
+
+} else {
+	// the master DB is the same then the slave DB
 	$inst->dbmaster = $inst->db;
-	
-	//* Create the MySQL database
-	$inst->configure_database();
+}
 
-	//* Insert the Server record into the database
-	$inst->add_database_server_record();
+//* Create the mysql database
+$inst->configure_database();
+
+//* Check for Web-Server
+if(!$conf['apache']['installed'] && !$conf['nginx']['installed']) {
+	$conf['apache']['installed'] = $inst->force_configure_app('Apache', ($install_mode == 'expert'));
+	$conf['nginx']['installed'] = $inst->force_configure_app('nginx', ($install_mode == 'expert'));
+}
+
+//* Configure Webserver - Apache or nginx
+if($conf['apache']['installed'] == true && $conf['nginx']['installed'] == true) {
+	$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache','http_server');
+	if($http_server_to_use == 'apache'){
+		$conf['nginx']['installed'] = false;
+		$conf['services']['file'] = true;
+	} else {
+		$conf['apache']['installed'] = false;
+	}
+}
+
+//* Insert the Server record into the database
+if($install_mode == 'expert') {
+	swriteln('Adding ISPConfig server record to database.');
+	swriteln('');
+}
+$inst->add_database_server_record();
+
+if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail', array('y', 'n') , 'y','configure_mail') ) == 'y') {
 
 	//* Configure Postgrey
-	$force = @($conf['postgrey']['installed']) ? true : $inst->force_configure_app('Postgrey', false);
+	$force = @($conf['postgrey']['installed']) ? true : $inst->force_configure_app('Postgrey', ($install_mode == 'expert'));
 	if($force) swriteln('Configuring Postgrey');
 
 	//* Configure Postfix
-	$force = @($conf['postfix']['installed']) ? true : $inst->force_configure_app('Postfix', false);
+	$force = @($conf['postfix']['installed']) ? true : $inst->force_configure_app('Postfix', ($install_mode == 'expert'));
 	if($force) {
 		swriteln('Configuring Postfix');
-		$inst->configure_postfix();
 		$conf['services']['mail'] = true;
+		$inst->configure_postfix();
 	}
 
 	if($conf['services']['mail']) {
-
 		//* Configure Mailman
-		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman', false);
+		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Mailman');
 			$inst->configure_mailman();
-		} 
+		}
 
 		//* Check for Dovecot and Courier
 		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
-			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', false);
-			$conf['courier']['installed'] = $inst->force_configure_app('Courier', false);
+			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', ($install_mode == 'expert'));
+			$conf['courier']['installed'] = $inst->force_configure_app('Courier', ($install_mode == 'expert'));
 		}
 		//* Configure Mailserver - Dovecot or Courier
 		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
@@ -307,44 +365,58 @@ if($install_mode == 'standard') {
 		}
 
 		//* Configure Spamasassin
-		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin', false);
+		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Spamassassin');
 			$inst->configure_spamassassin();
 		}
-    
+
 		//* Configure Amavis
-		$force = @($conf['amavis']['installed']) ? true : $inst->force_configure_app('Amavisd', false);
+		$force = @($conf['amavis']['installed']) ? true : $inst->force_configure_app('Amavisd', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Amavisd');
 			$inst->configure_amavis();
 		}
 
 		//* Configure Getmail
-		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', false);
+		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Getmail');
 			$inst->configure_getmail();
 		}
+	} else {
+		swriteln('[ERROR] Postfix not installed - skipping Mail');
+	}
+}
 
-	} else swriteln('[ERROR] Postfix not installed - skipping Mail');
+//* Configure Jailkit
+$force = @($conf['jailkit']['installed']) ? true : $inst->force_configure_app('Jailkit', ($install_mode == 'expert'));
+if($force) {
+	swriteln('Configuring Jailkit');
+	$inst->configure_jailkit();
+}
 
+//* Configure Pureftpd
+$force = @($conf['pureftpd']['installed']) ? true : $inst->force_configure_app('pureftpd', ($install_mode == 'expert'));
+if($force) {
+	swriteln('Configuring Pureftpd');
+	$inst->configure_pureftpd();
+}
+
+//** Configure DNS
+if($install_mode == 'standard' || strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y','configure_dns')) == 'y') {
 	//* Check for DNS
-//	if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
-	if(!$conf['bind']['installed'] && !$conf['mydns']['installed']) {
-//		$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS', false);
-		$conf['bind']['installed'] = $inst->force_configure_app('BIND', false);
-		$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS', false);
+	if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
+		if($install_mode == 'expert') $conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS', ($install_mode == 'expert'));
+		$conf['bind']['installed'] = $inst->force_configure_app('BIND', ($install_mode == 'expert'));
+		$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS', ($install_mode == 'expert'));
 	}
 	//* Configure PowerDNS
-/*
-	if($conf['powerdns']['installed']) {
+	if($install_mode == 'expert' && $conf['powerdns']['installed']) {
 		swriteln('Configuring PowerDNS');
 		$inst->configure_powerdns();
 		$conf['services']['dns'] = true;
 	}
-*/
-
 	//* Configure Bind
 	if($conf['bind']['installed']) {
 		swriteln('Configuring BIND');
@@ -361,36 +433,9 @@ if($install_mode == 'standard') {
 		$conf['services']['dns'] = true;
 	}
 
-	//* Configure Jailkit
-	$force = @($conf['jailkit']['installed']) ? true : $inst->force_configure_app('Jailkit', false);
-	if($force) {
-		swriteln('Configuring Jailkit');
-		$inst->configure_jailkit();
-	}
+}
 
-	//* Configure Pureftpd
-	$force = @($conf['pureftpd']['installed']) ? true : $inst->force_configure_app('pureftpd', false);
-	if($force) {
-		swriteln('Configuring Pureftpd');
-		$inst->configure_pureftpd();
-	}
-
-	//* Check for Web-Server
-	if(!$conf['apache']['installed'] && !$conf['nginx']['installed']) {
-		$conf['apache']['installed'] = $inst->force_configure_app('Apache', false);
-		$conf['nginx']['installed'] = $inst->force_configure_app('nginx', false);
-	}
-
-	//* Configure Webserver - Apache or nginx
-	if($conf['apache']['installed'] && $conf['nginx']['installed']) {
-		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache','http_server');
-		if($http_server_to_use == 'apache'){
-			$conf['nginx']['installed'] = false;
-		} else {
-			$conf['apache']['installed'] = false;
-		}
-	}
-
+if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web Server', array('y', 'n'), 'y','configure_webserver')) == 'y') {
 	//* Configure Apache
 	if($conf['apache']['installed']){
 		swriteln('Configuring Apache');
@@ -398,41 +443,42 @@ if($install_mode == 'standard') {
 		$conf['services']['web'] = true;
 		$conf['services']['file'] = true;
 		//* Configure Vlogger
-		$force = @($conf['vlogger']['installed']) ? true : $inst->force_configure_app('vlogger', false);
+		$force = @($conf['vlogger']['installed']) ? true : $inst->force_configure_app('vlogger', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring vlogger');
 			$inst->configure_vlogger();
 		}
 		//* Configure squid
 /*
-		$force = @($conf['squid']['installed']) ? true : $inst->force_configure_app('squid');
+		$force = @($conf['squid']['installed']) ? true : $inst->force_configure_app('squid', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Squid');
 			$inst->configure_squid();
 			$conf['services']['proxy'] = true;
+			if($conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 		}
 */
 	}
-
 	//* Configure nginx
 	if($conf['nginx']['installed']){
 		swriteln('Configuring nginx');
 		$inst->configure_nginx();
 		$conf['services']['web'] = true;
 	}
+}
 
-    //* Configure XMPP
-	$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server', false);
-	if($force) {
-        swriteln('Configuring Metronome XMPP Server');
-        $inst->configure_xmpp();
-	    $conf['services']['xmpp'] = true;
-	}
+//* Configure OpenVZ
+$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ', ($install_mode == 'expert'));
+if($force) {
+	$conf['services']['vserver'] = true;
+	swriteln('Configuring OpenVZ');
+}
 
+if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
 	//* Check for Firewall
 	if(!$conf['ufw']['installed'] && !$conf['firewall']['installed']) {
-		$conf['ufw']['installed'] = $inst->force_configure_app('Ubuntu Firewall', false);
-		$conf['firewall']['installed'] = $inst->force_configure_app('Bastille Firewall', false);
+		$conf['ufw']['installed'] = $inst->force_configure_app('Ubuntu Firewall', ($install_mode == 'expert'));
+		$conf['firewall']['installed'] = $inst->force_configure_app('Bastille Firewall', ($install_mode == 'expert'));
 	}
 	//* Configure Firewall - Ubuntu or Bastille
 	if($conf['ufw']['installed'] && $conf['firewall']['installed']) {
@@ -456,29 +502,49 @@ if($install_mode == 'standard') {
 		$conf['services']['firewall'] = true;
 		$conf['bastille']['installed'] = true;
 	}
+}
 
-	//* Configure Fail2ban
-	$force = @($conf['fail2ban']['installed']) ? true : $inst->force_configure_app('Fail2ban', false);
-	if($force) {
-		swriteln('Configuring Fail2ban');
-		$inst->configure_fail2ban();
-	}
+//* Configure XMPP
+$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server', ($install_mode == 'expert'));
+if($force) {
+	swriteln('Configuring Metronome XMPP Server');
+	$inst->configure_xmpp();
+	$conf['services']['xmpp'] = true;
+}
 
-	//* Configure OpenVZ
-	$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ', false);
-	if($force) {
-		$conf['services']['vserver'] = true;
-		swriteln('Configuring OpenVZ');
-	}
+//* Configure Fail2ban
+$force = @($conf['fail2ban']['installed']) ? true : $inst->force_configure_app('Fail2ban', ($install_mode == 'expert'));
+if($force) {
+	swriteln('Configuring Fail2ban');
+	$inst->configure_fail2ban();
+}
 
+if($conf['services']['web'] == true) {
 	//** Configure apps vhost
 	swriteln('Configuring Apps vhost');
 	$inst->configure_apps_vhost();
+}
 
-	//* Configure ISPConfig
+//** Configure ISPConfig :-)
+$install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
+if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
 	swriteln('Installing ISPConfig');
 
-	//** Customize the port ISPConfig runs on
+	//** We want to check if the server is a module or cgi based php enabled server
+	//** TODO: Don't always ask for this somehow ?
+	/*
+	$fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
+
+	if($fast_cgi == 'yes') {
+		$alias = $inst->free_query('Script Alias', '/php/');
+		$path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
+		$conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
+	} else {
+		$conf['apache']['vhost_cgi_alias'] = "";
+	}
+	*/
+
+	//** Customise the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 	$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
 	if($conf['interface_password'] != 'admin') {
@@ -499,398 +565,58 @@ if($install_mode == 'standard') {
 	if(strtolower($inst->simple_query('Do you want a secure (SSL) connection to the ISPConfig web interface', array('y', 'n'), 'y','ispconfig_use_ssl')) == 'y') {	 
 		$inst->make_ispconfig_ssl_cert();
 	}
+	$inst->install_ispconfig_interface = true;
 
-	$inst->install_ispconfig();
+} else {
+	$inst->install_ispconfig_interface = false;
+}
 
-	//* Configure DBServer
-	swriteln('Configuring DBServer');
-	$inst->configure_dbserver();
+$inst->install_ispconfig();
 
-	//* Configure ISPConfig
-	if($conf['cron']['installed']) {
-		swriteln('Installing ISPConfig crontab');
-		$inst->install_crontab();
-	} else swriteln('[ERROR] Cron not found');
+//* Configure DBServer
+swriteln('Configuring DBServer');
+$inst->configure_dbserver();
 
-	swriteln('Detect IP addresses');
-	$inst->detect_ips();
-
-	swriteln('Restarting services ...');
-	if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
-	if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
-	if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
-	if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
-	if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
-	if($conf['courier']['installed'] == true){
-		if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
-		if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
-		if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
-		if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
-		if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
-	}
-	if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-	if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
-	if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
-	//* Reload is enough for nginx
-	if($conf['nginx']['installed'] == true){
-		if($conf['nginx']['php_fpm_init_script'] != '') system($inst->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
-		if($conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'reload'));
-	}
-	if($conf['pureftpd']['installed'] == true && $conf['pureftpd']['init_script'] != '') system($inst->getinitcommand($conf['pureftpd']['init_script'], 'restart'));
-	if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '') system($inst->getinitcommand($conf['mydns']['init_script'], 'restart').' &> /dev/null');
-	if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '') system($inst->getinitcommand($conf['powerdns']['init_script'], 'restart').' &> /dev/null');
-	if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
-	//if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
-	if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
-	if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
-    if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
-
-} else { //* expert mode
-
-	//** Get Server ID
-	// $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
-	// Server ID is an autoInc value of the mysql database now
-	if(strtolower($inst->simple_query('Shall this server join an existing ISPConfig multiserver setup', array('y', 'n'), 'n','join_multiserver_setup')) == 'y') {
-		$conf['mysql']['master_slave_setup'] = 'y';
-
-		//** Get MySQL root credentials
-		$finished = false;
-		do {
-			$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname'); 
-			$tmp_mysql_server_port = $inst->free_query('MySQL master server port', $conf['mysql']['master_port'],'mysql_master_port');
-			$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
-			$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password'); 
-			$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
-
-			//* Initialize the MySQL server connection
-			if(@mysqli_connect($tmp_mysql_server_host, $tmp_mysql_server_admin_user, $tmp_mysql_server_admin_password, $tmp_mysql_server_database, (int)$tmp_mysql_server_port)) {
-				$conf['mysql']['master_host'] = $tmp_mysql_server_host;
-				$conf['mysql']['master_port'] = $tmp_mysql_server_port;
-				$conf['mysql']['master_admin_user'] = $tmp_mysql_server_admin_user;
-				$conf['mysql']['master_admin_password'] = $tmp_mysql_server_admin_password;
-				$conf['mysql']['master_database'] = $tmp_mysql_server_database;
-				$finished = true;
-			} else {
-				swriteln($inst->lng('Unable to connect to mysql server').' '.mysqli_connect_error());
-			}
-		} while ($finished == false);
-		unset($finished);
-
-		// initialize the connection to the master database
-		$inst->dbmaster = new db();
-		if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-		$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
-		$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
-
-	} else {
-		// the master DB is the same then the slave DB
-		$inst->dbmaster = $inst->db;
-	}
-
-	//* Create the mysql database
-	$inst->configure_database();
-
-	//* Check for Web-Server
-	if($conf['apache']['installed'] != true && $conf['nginx']['installed'] != true) {
-		$conf['apache']['installed'] = $inst->force_configure_app('Apache');
-		$conf['nginx']['installed'] = $inst->force_configure_app('nginx');
-	}
-	//* Configure Webserver - Apache or nginx
-	if($conf['apache']['installed'] == true && $conf['nginx']['installed'] == true) {
-		$http_server_to_use = $inst->simple_query('Apache and nginx detected. Select server to use for ISPConfig:', array('apache', 'nginx'), 'apache','http_server');
-		if($http_server_to_use == 'apache'){
-			$conf['nginx']['installed'] = false;
-			$conf['services']['file'] = true;
-		} else {
-			$conf['apache']['installed'] = false;
-		}
-	}
-
-	//* Insert the Server record into the database
-	swriteln('Adding ISPConfig server record to database.');
-	swriteln('');
-	$inst->add_database_server_record();
-
-	if(strtolower($inst->simple_query('Configure Mail', array('y', 'n') , 'y','configure_mail') ) == 'y') {
-
-		$conf['services']['mail'] = true;
-
-		//* Configure Postgrey
-		$force = @($conf['postgrey']['installed']) ? true : $inst->force_configure_app('Postgrey');
-		if($force) swriteln('Configuring Postgrey');
-
-		//* Configure Postfix
-		$force = @($conf['postfix']['installed']) ? true : $inst->force_configure_app('Postfix');
-		if($force) {
-			swriteln('Configuring Postfix');
-			$inst->configure_postfix();
-		}
-
-		//* Configure Mailman
-		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman');
-		if($force) {
-			swriteln('Configuring Mailman');
-			$inst->configure_mailman();
-		}
-
-		//* Check for Dovecot and Courier
-		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
-			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot');
-			$conf['courier']['installed'] = $inst->force_configure_app('Courier');
-		}
-		//* Configure Mailserver - Dovecot or Courier
-		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
-			$mail_server_to_use = $inst->simple_query('Dovecot and Courier detected. Select server to use with ISPConfig:', array('dovecot', 'courier'), 'dovecot','mail_server');
-			if($mail_server_to_use == 'dovecot'){
-				$conf['courier']['installed'] = false;
-			} else {
-				$conf['dovecot']['installed'] = false;
-			}
-		}
-		//* Configure Dovecot
-		if($conf['dovecot']['installed']) {
-			swriteln('Configuring Dovecot');
-			$inst->configure_dovecot();
-		}
-		//* Configure Courier
-		if($conf['courier']['installed']) {
-			swriteln('Configuring Courier');
-			$inst->configure_courier();
-			swriteln('Configuring SASL');
-			$inst->configure_saslauthd();
-			swriteln('Configuring PAM');
-			$inst->configure_pam();
-		}
-
-		//* Configure Spamasassin
-		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin');
-		if($force) {
-			swriteln('Configuring Spamassassin');
-			$inst->configure_spamassassin();
-		}
-    
-		//* Configure Amavis
-		$force = @($conf['amavis']['installed']) ? true : $inst->force_configure_app('Amavisd');
-		if($force) {
-			swriteln('Configuring Amavisd');
-			$inst->configure_amavis();
-		}
-
-		//* Configure Getmail
-		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail');
-		if($force) {
-			swriteln('Configuring Getmail');
-			$inst->configure_getmail();
-		}
-
-		if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
-		if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
-		if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
-		if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
-		if($conf['courier']['installed'] == true){
-			if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
-			if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
-			if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
-			if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
-			if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
-		}
-		if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-		if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
-	}
-
-	//* Configure Jailkit
-	$force = @($conf['jailkit']['installed']) ? true : $inst->force_configure_app('Jailkit');
-	if($force) {
-		swriteln('Configuring Jailkit');
-		$inst->configure_jailkit();
-	}
-
-	//* Configure Pureftpd
-	$force = @($conf['pureftpd']['installed']) ? true : $inst->force_configure_app('pureftpd');
-	if($force) {
-		swriteln('Configuring Pureftpd');
-		$inst->configure_pureftpd();
-	}
-	
-	//** Configure DNS
-	if(strtolower($inst->simple_query('Configure DNS Server', array('y', 'n'), 'y','configure_dns')) == 'y') {
-		$conf['services']['dns'] = true;
-
-		//* Check for DNS
-		if(!$conf['powerdns']['installed'] && !$conf['bind']['installed'] && !$conf['mydns']['installed']) {
-			$conf['powerdns']['installed'] = $inst->force_configure_app('PowerDNS');
-			$conf['bind']['installed'] = $inst->force_configure_app('BIND');
-			$conf['mydns']['installed'] = $inst->force_configure_app('MyDNS');
-		}
-		//* Configure PowerDNS
-		if($conf['powerdns']['installed']) {
-			swriteln('Configuring PowerDNS');
-			$inst->configure_powerdns();
-			$conf['services']['dns'] = true;
-		}
-		//* Configure Bind
-		if($conf['bind']['installed']) {
-			swriteln('Configuring BIND');
-			$inst->configure_bind();
-			$conf['services']['dns'] = true;
-			if(!is_installed('haveged')) {
-				swriteln("[INFO] haveged not detected - DNSSEC can fail");
-			}
-		}
-		//* Configure MyDNS
-		if($conf['mydns']['installed']) {
-			swriteln('Configuring MyDNS');
-			$inst->configure_mydns();
-			$conf['services']['dns'] = true;
-		}
-
-	}
-
-	if(strtolower($inst->simple_query('Configure Web Server', array('y', 'n'), 'y','configure_webserver')) == 'y') {
-		$conf['services']['web'] = true;
-
-		//* Configure Apache
-		if($conf['apache']['installed']){
-			swriteln('Configuring Apache');
-			$inst->configure_apache();
-			$conf['services']['file'] = true;
-			//* Configure Vlogger
-			$force = @($conf['vlogger']['installed']) ? true : $inst->force_configure_app('vlogger');
-			if($force) {
-				swriteln('Configuring vlogger');
-				$inst->configure_vlogger();
-			}
-			//* Configure squid
-/*
-			$force = @($conf['squid']['installed']) ? true : $inst->force_configure_app('squid');
-			if($force) {
-				swriteln('Configuring Squid');
-				$inst->configure_squid();
-				$conf['services']['proxy'] = true;
-				if($conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
-			}
-*/
-		}
-		//* Configure nginx
-		if($conf['nginx']['installed']){
-			swriteln('Configuring nginx');
-			$inst->configure_nginx();
-		}
-	}
-
-	//* Configure OpenVZ
-	$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ');
-	if($force) {
-		$conf['services']['vserver'] = true;
-		swriteln('Configuring OpenVZ');
-	}
-
-	if(strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
-		//* Check for Firewall
-		if(!$conf['ufw']['installed'] && !$conf['firewall']['installed']) {
-			$conf['ufw']['installed'] = $inst->force_configure_app('Ubuntu Firewall');
-			$conf['firewall']['installed'] = $inst->force_configure_app('Bastille Firewall');
-		}
-		//* Configure Firewall - Ubuntu or Bastille
-		if($conf['ufw']['installed'] && $conf['firewall']['installed']) {
-			$firewall_to_use = $inst->simple_query('Ubuntu and Bastille Firewall detected. Select firewall to use with ISPConfig:', array('bastille', 'ubuntu'), 'bastille','firewall_server');
-			if($firewall_to_use == 'bastille'){
-				$conf['ufw']['installed'] = false;
-			} else {
-				$conf['firewall']['installed'] = false;
-			}
-		}
-		//* Configure Ubuntu Firewall
-		if($conf['ufw']['installed']){
-			swriteln('Configuring Ubuntu Firewall');
-			$inst->configure_ufw_firewall();
-			$conf['services']['firewall'] = true;
-		}
-		//* Configure Bastille Firewall
-		if($conf['firewall']['installed']){
-			swriteln('Configuring Bastille Firewall');
-			$inst->configure_bastille_firewall();
-			$conf['services']['firewall'] = true;
-		}
-	}
-
-    //* Configure XMPP
-	$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server');
-	if($force) {
-        swriteln('Configuring Metronome XMPP Server');
-        $inst->configure_xmpp();
-	    $conf['services']['xmpp'] = true;
-	}
-
-	//** Configure ISPConfig :-)
-	$install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
-	if(strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
-		swriteln('Installing ISPConfig');
-
-		//** We want to check if the server is a module or cgi based php enabled server
-		//** TODO: Don't always ask for this somehow ?
-		/*
-		$fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
-
-		if($fast_cgi == 'yes') {
-	 		$alias = $inst->free_query('Script Alias', '/php/');
-	 		$path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
-	 		$conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
-		} else {
-	 		$conf['apache']['vhost_cgi_alias'] = "";
-		}
-		*/
-
-		//** Customise the port ISPConfig runs on
-		$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
-		$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
-		if($conf['interface_password'] != 'admin') {
-			$check = false;
-			do {
-				unset($temp_password);
-				$temp_password = $inst->free_query('Re-enter admin password', '');
-				$check = @($temp_password == $conf['interface_password'])?true:false;
-				if(!$check) swriteln('Passwords do not match.');
-			} while (!$check);
-		}
-		unset($check);
-		unset($temp_password);
-		if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
-		if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
-		unset($ispconfig_vhost_port);
-
-		if(strtolower($inst->simple_query('Enable SSL for the ISPConfig web interface', array('y', 'n'), 'y','ispconfig_use_ssl')) == 'y') {
-			$inst->make_ispconfig_ssl_cert();
-		}
-
-		$inst->install_ispconfig_interface = true;
-
-	} else {
-		$inst->install_ispconfig_interface = false;
-	}
-
-	$inst->install_ispconfig();
-
-	//* Configure DBServer
-	swriteln('Configuring DBServer');
-	$inst->configure_dbserver();
-
-	//* Configure ISPConfig
+//* Configure ISPConfig
+swriteln('Installing ISPConfig crontab');
+if($conf['cron']['installed']) {
 	swriteln('Installing ISPConfig crontab');
 	$inst->install_crontab();
-	if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
-	//* Reload is enough for nginx
-	if($conf['nginx']['installed'] == true){
-		if($conf['nginx']['php_fpm_init_script'] != '') system($inst->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
-		if($conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'reload'));
-	}
-	
-	swriteln('Detect IP addresses');
-	$inst->detect_ips();
+} else swriteln('[ERROR] Cron not found');
 
+swriteln('Detect IP addresses');
+$inst->detect_ips();
 
+swriteln('Restarting services ...');
+if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
+if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
+if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
+if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
+if($conf['courier']['installed'] == true){
+	if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
+	if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
+	if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
+	if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
+	if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
+}
+if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
+if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
+if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
+//* Reload is enough for nginx
+if($conf['nginx']['installed'] == true){
+	if($conf['nginx']['php_fpm_init_script'] != '') system($inst->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
+	if($conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'reload'));
+}
+if($conf['pureftpd']['installed'] == true && $conf['pureftpd']['init_script'] != '') system($inst->getinitcommand($conf['pureftpd']['init_script'], 'restart'));
+if($conf['mydns']['installed'] == true && $conf['mydns']['init_script'] != '') system($inst->getinitcommand($conf['mydns']['init_script'], 'restart').' &> /dev/null');
+if($conf['powerdns']['installed'] == true && $conf['powerdns']['init_script'] != '') system($inst->getinitcommand($conf['powerdns']['init_script'], 'restart').' &> /dev/null');
+if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
+//if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
+if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
+if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
+if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
 
-} //* << $install_mode / 'Standard' or Genius
 
 $inst->create_mount_script();
 

@@ -23,11 +23,7 @@ var ISPConfig = {
 	},
 	
 	reportError: function(request) {
-		/* Error reporting is disabled by default as some browsers like safari
-		   sometimes throw errors when a ajax request is delayed even if the
-		   ajax request worked. */
-
-		/*alert(request);*/
+		
 	},
 	
 	registerHook: function(name, callback) {
@@ -141,55 +137,6 @@ var ISPConfig = {
 		
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
-
-	/* THIS ONE SHOULD BE REMOVED AFTER CREATING THE STATIC LOGIN PAGE!!! */
-	/*submitLoginForm: function(formname) {
-		//* Validate form. TODO: username and password with strip();
-		var frm = document.getElementById(formname);
-		var userNameObj = frm.username;
-		if(userNameObj.value == ''){
-			userNameObj.focus();
-			return;
-		}
-		var passwordObj = frm.passwort;
-		if(passwordObj.value == ''){
-			passwordObj.focus();
-			return;
-		}
-
-		$('#dummy_username').val(userNameObj.value);
-		$('#dummy_passwort').val(passwordObj.value);
-		$('#dummy_login_form').submit();
-
-		var submitFormObj = $.ajax({
-			type: "POST",
-			url: "content.php",
-			data: $('#'+formname).serialize(),
-			dataType: "html",
-			beforeSend: function() {
-				ISPConfig.showLoadIndicator();
-			},
-			success: function(data, textStatus, jqXHR) {
-				if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-					var parts = jqXHR.responseText.split(':');
-					ISPConfig.loadContent(parts[1]);
-				} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
-					// Go to the login page
-					document.location.href = 'index.php';
-				} else {
-					$('#pageContent').html(jqXHR.responseText);
-					ISPConfig.onAfterContentLoad('content.php', $('#'+formname).serialize());
-					ISPConfig.pageFormChanged = false;
-				}
-				ISPConfig.loadMenus();
-				ISPConfig.hideLoadIndicator();
-			},
-			error: function() {
-				ISPConfig.hideLoadIndicator();
-				ISPConfig.reportError('Ajax Request was not successful.110');
-			}
-		});
-	},*/
 
 	submitForm: function(formname, target, confirmation) {
 		var successMessage = arguments[3];
@@ -320,11 +267,6 @@ var ISPConfig = {
 					var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
 					document.location.href = newUrl;
 				} else {
-					//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
-					//var reponse = $(jqXHR.responseText);
-					//var reponseScript = reponse.filter("script");
-					//$.each(reponseScript, function(idx, val) { eval(val.text); } );
-
 					$('#pageContent').html(jqXHR.responseText);
 					ISPConfig.onAfterContentLoad(pagename, (params ? params : null));
 					ISPConfig.pageFormChanged = false;
@@ -444,7 +386,10 @@ var ISPConfig = {
 	},
 
 	changeTab: function(tab, target, force) {
-		if(ISPConfig.requestsRunning > 0) return false;
+		if(ISPConfig.requestsRunning > 0) {
+			console.log('tab change interrupted, request still running.');
+			return false;
+		}
 	
 		document.pageForm.next_tab.value = tab;
 
@@ -618,9 +563,17 @@ $(document).on("change", function(event) {
 	}
 });
 
+var $page = $('html, body');
+
 $(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-load-content');
 	if(!content_to_load) return this;
@@ -630,7 +583,13 @@ $(document).on('click', 'a[data-load-content],button[data-load-content]', functi
 
 $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-capp');
 	if(!content_to_load) return this;
@@ -640,7 +599,13 @@ $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 
 $(document).on('click', 'a[data-submit-form],button[data-submit-form]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var $el = $(this);
 	var act = $el.attr('data-form-action');

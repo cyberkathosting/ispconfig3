@@ -217,6 +217,7 @@ if(count($_POST) > 0) {
 						$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
 						$_SESSION['s']['language'] = $user['language'];
 						$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
+						if ($loginAs) $_SESSION['s']['plugin_cache'] = $_SESSION['s_old']['plugin_cache'];
 						
 						if(is_file(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 							include_once ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
