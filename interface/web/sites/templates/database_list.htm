@@ -60,9 +60,9 @@
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="remote_access"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="type"}</a></td>
-                            <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
-							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="parent_domain_id"}</a></td>
-                            <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_user_id"}</a></td>
+                            <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='server_id'}">{tmpl_var name="server_id"}</a></td>
+							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='parent_domain_id'}">{tmpl_var name="parent_domain_id"}</a></td>
+                            <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='database_user_id'}">{tmpl_var name="database_user_id"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="database_name"}</a></td>
                             <td class="text-right">
                                 <tmpl_if name="dblist_phpmyadmin_link">
@@ -86,5 +86,3 @@
                 </tfoot>
             </table>
 </div>
-        
-    
