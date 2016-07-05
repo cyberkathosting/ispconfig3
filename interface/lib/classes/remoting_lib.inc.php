@@ -98,6 +98,7 @@ class remoting_lib extends tform_base {
 		unset($form);
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
+		$this->datetimeformat = $app->lng('conf_format_datetime');
 
 		return true;
 	}
