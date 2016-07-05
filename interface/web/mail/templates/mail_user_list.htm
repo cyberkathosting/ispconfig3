@@ -59,7 +59,7 @@
                 <tbody>
                 <tmpl_loop name="records">
                     <tr>
-                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="email"}</a></td>
+                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='email'}">{tmpl_var name="email"}</a></td>
                         <tmpl_if name="enable_custom_login">
                             <td>
                                 <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="login"}</a>
@@ -92,5 +92,8 @@
                 </tfoot>
             </table>
 </div>
-        
-    
+ <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script> 

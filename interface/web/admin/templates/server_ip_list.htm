@@ -38,10 +38,10 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
-                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
+                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='server_id'}">{tmpl_var name="server_id"}</a></td>
+                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='client_id'}">{tmpl_var name="client_id"}</a></td>
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ip_type"}</a></td>
-                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ip_address"}</a></td>
+                            <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='ip_address'}">{tmpl_var name="ip_address"}</a></td>
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="virtualhost"}</a></td>
                             <td><a href="#" data-load-content="admin/server_ip_edit.php?id={tmpl_var name='id'}">{tmpl_var name="virtualhost_port"}</a></td>
                             <td class="text-right">
@@ -62,5 +62,8 @@
                 </tfoot>
             </table>
 </div>
-        
-    
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
