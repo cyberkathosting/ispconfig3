@@ -563,7 +563,7 @@ class db extends mysqli
 		}
 		
 		$query = 'INSERT INTO ?? (' . $k_query . ') VALUES (' . $v_query . ')';
-		return $this->query($query, true, $params + $v_params);
+		return $this->query($query, true, array_merge($params, $v_params));
 	}
 	
 	public function diffrec($record_old, $record_new) {
