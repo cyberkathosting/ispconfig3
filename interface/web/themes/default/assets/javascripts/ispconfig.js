@@ -134,6 +134,8 @@ var ISPConfig = {
 			'fontAwesome': true,
 			'autoclose': true
 		});
+		$('[data-toggle="tooltip"]').tooltip({
+		});
 		
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
