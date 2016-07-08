@@ -77,9 +77,9 @@ $log_level = 0;                # (defaults to 0)
 
 $inet_socket_port = [10024,10026];
 
-# *:* = send to IP/HOST:incoming Port + 1
-$forward_method = 'smtp:*:*';
-$notify_method = 'smtp:*:*';
+# :* = send to incoming Port + 1
+$forward_method = 'smtp:127.0.0.1:*';
+$notify_method = 'smtp:127.0.0.1:*';
 $interface_policy{'10026'} = 'ORIGINATING';
 $policy_bank{'ORIGINATING'} = {
   originating => 1,
