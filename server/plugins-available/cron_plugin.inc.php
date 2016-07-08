@@ -136,7 +136,7 @@ class cron_plugin {
             }
 
             // get the primitive folder for document_root and the filesystem, will need it later.
-            $df_output=explode(" ", exec("df -T " . $parent_domain["document_root"] . "|awk 'END{print \$2,\$NF}'"));
+            $df_output=explode(" ", exec("df -T " . escapeshellarg($parent_domain["document_root"]) . "|awk 'END{print \$2,\$NF}'"));
             $file_system = $df_output[0];
             $primitive_root = $df_output[1];
 
