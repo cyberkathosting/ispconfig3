@@ -1,11 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'Installed packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['customer_txt'] = 'Client';
+$wb['list_head_txt'] = 'Geïnstalleerde pakketten';
+$wb['name_txt'] = 'Naam';
+$wb['version_txt'] = 'Versie';
+$wb['customer_txt'] = 'Klant';
 $wb['status_txt'] = 'Status';
-$wb['install_location_txt'] = 'Install location';
-$wb['pkg_delete_confirmation'] = 'Do you really want to delete this installation?';
-$wb['filter_txt'] = 'Search';
-$wb['delete_txt'] = 'Delete';
+$wb['install_location_txt'] = 'Installatie pad';
+$wb['pkg_delete_confirmation'] = 'Weet je zeker dat je deze installatie wilt verwijderen ?';
+$wb['filter_txt'] = 'Zoeken';
+$wb['delete_txt'] = 'Verwijderen';
 ?>
