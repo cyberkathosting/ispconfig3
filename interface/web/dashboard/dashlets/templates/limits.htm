@@ -14,7 +14,7 @@
 				<td>{tmpl_var name='usage'} {tmpl_var name='of_txt'} {tmpl_var name='value'}</td>
 				<td>
 				<div class='progress'>
-					<div class='progress-bar progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{tmpl_var name="percentage"}' style='width:{tmpl_var name="percentage"}%'>
+					<div class='progress-bar progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{tmpl_var name="percentage"}' style='width:{tmpl_var name="percentage"}%' data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='percentage'}%">
 					<span class='sr-only'>{tmpl_var name='usage'} {tmpl_var name='of_txt'} {tmpl_var name='value'}</span>
 					</div>
 				</div>
