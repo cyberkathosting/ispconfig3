@@ -1,6 +1,6 @@
 <?php
-$wb['quota_txt'] = 'Website Harddisk Quota';
-$wb['domain_txt'] = 'Domeinn / Website';
+$wb['quota_txt'] = 'Website harddisk Quota';
+$wb['domain_txt'] = 'Domein / Website';
 $wb['used_txt'] = 'Gebruikte ruimte';
 $wb['hard_txt'] = 'Harde limiet';
 $wb['soft_txt'] = 'Zachte limiet';
