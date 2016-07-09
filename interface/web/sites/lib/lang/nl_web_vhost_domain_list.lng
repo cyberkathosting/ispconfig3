@@ -6,6 +6,6 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domein';
 $wb['add_new_record_txt'] = 'Toevoegen nieuwe website';
 $wb['parent_domain_id_txt'] = 'Website';
-$wb['add_new_subdomain_txt'] = 'Add new subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
+$wb['add_new_subdomain_txt'] = 'Toevoegen nieuw subdomain';
+$wb['add_new_aliasdomain_txt'] = 'Toevoegen nieuw aliasdomain';
 ?>
