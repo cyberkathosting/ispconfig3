@@ -1,5 +1,5 @@
 <?php
-$wb['error_user_password_empty'] = 'Gebruikersnaam of wachtwoord is niet ingvuld.';
+$wb['error_user_password_empty'] = 'Gebruikersnaam of wachtwoord is niet ingevuld.';
 $wb['error_user_password_incorrect'] = 'Gebruikersnaam of wachtwoord onjuist.';
 $wb['error_user_blocked'] = 'Gebruiker is geblokkeerd.';
 $wb['error_user_too_many_logins'] = 'Teveel onjuiste login pogingen, Probeer het nogmaals na 15 minutes';
@@ -13,12 +13,12 @@ $wb['user_regex_error'] = 'Gebruikersnaam bevat karakters die niet zijn toegesta
 $wb['pw_error_length'] = 'De lengte van het wachtwoord is > 256 karakters.';
 $wb['username_txt'] = 'Gebruikersnaam';
 $wb['password_txt'] = 'Wachtwoord';
-$wb['login_button_txt'] = 'Login';
-$wb['pw_lost_txt'] = 'Password lost';
+$wb['login_button_txt'] = 'Inloggen';
+$wb['pw_lost_txt'] = 'Wachtwoord vergeten';
 $wb['error_maintenance_mode'] = 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.';
-$wb['login_txt'] = 'Login';
-$wb['pw_reset_txt'] = 'Password reset';
-$wb['pw_button_txt'] = 'Resend password';
+$wb['login_txt'] = 'Inloggen';
+$wb['pw_reset_txt'] = 'Wachtwoord herstellen';
+$wb['pw_button_txt'] = 'Wachtwoord versturen';
 $wb['email_txt'] = 'Email';
 $wb['theme_not_compatible'] = 'The chosen theme is not compatible with the current ISPConfig version. Please check for a new version of the theme.<br />The default theme as been activated automatically.';
 $wb['back_txt'] = 'Back';

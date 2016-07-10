@@ -145,8 +145,8 @@ $defang_by_ccat{+CC_BADH.",6"} = 1;  # header field syntax error
 
 $myhostname = 'linux-jfp8.site';
 
-$notify_method  = 'smtp:*:*';
-$forward_method = 'smtp:*:*';  # set to undef with milter!
+$notify_method  = 'smtp:127.0.0.1:*';
+$forward_method = 'smtp:127.0.0.1:*';  # set to undef with milter!
 
 # $final_virus_destiny      = D_DISCARD;
 # $final_banned_destiny     = D_BOUNCE;

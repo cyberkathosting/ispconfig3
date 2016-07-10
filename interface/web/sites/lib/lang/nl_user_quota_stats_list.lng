@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Website harddisk quota';
-$wb['domain_txt'] = 'Domain / Website';
+$wb['domain_txt'] = 'Domein / Website';
 $wb['system_user_txt'] = 'Linux gebruiker';
 $wb['used_txt'] = 'Gebruikte ruimte';
 $wb['hard_txt'] = 'Harde limiet';
 $wb['soft_txt'] = 'Zachte limiet';
-$wb['files_txt'] = 'Single files';
+$wb['files_txt'] = 'Aantal bestanden';
 ?>

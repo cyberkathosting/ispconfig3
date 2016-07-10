@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Available packages';
-$wb['name_txt'] = 'Name';
-$wb['version_txt'] = 'Version';
-$wb['category_txt'] = 'Category';
-$wb['status_txt'] = 'Unlocked';
-$wb['filter_txt'] = 'Search';
+$wb['list_head_txt'] = 'Beschikbare pakketten';
+$wb['name_txt'] = 'Naam';
+$wb['version_txt'] = 'Versie';
+$wb['category_txt'] = 'Categorie';
+$wb['status_txt'] = 'Beschikbaar';
+$wb['filter_txt'] = 'Zoeken';
 ?>
