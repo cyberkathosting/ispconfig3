@@ -992,6 +992,26 @@ class tform_base {
 					}
 				}
 				break;
+			case 'ISDOMAIN':
+				$error = false;
+				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+				if($validator['allowempty'] == 'y' && $field_value == '') {
+					//* Do nothing
+				} else {
+					if(function_exists('filter_var')) {
+						if(filter_var('check@'.$field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$errmsg = $validator['errmsg'];
+							if(isset($this->wordbook[$errmsg])) {
+								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+							} else {
+								$this->errorMessage .= $errmsg."<br />\r\n";
+							}
+						}
+
+					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				}
+				unset($error);
+				break;
 			case 'ISEMAIL':
 				$error = false;
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
