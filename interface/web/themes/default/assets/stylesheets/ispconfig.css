@@ -695,3 +695,16 @@ span.flag-zw {background-position:0 -5435px}
     border-top-left-radius:0;
     border-bottom-left-radius:0;
 }
+
+#ajaxloader {
+    position: absolute;
+    width: 325px;
+    height: 150px;
+    background: #ffffff url('../images/ajax-loader.gif') no-repeat center center;
+    border: solid 2px #e1e1e1;
+    border-radius: 10px;
+    /*background: rgba(255, 255, 255, 0.85);*/
+    padding: 20px;
+    text-align:center;
+    z-index: 100;
+}
