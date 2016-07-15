@@ -434,7 +434,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_vhost_domain:on_after_insert');
 		if ($readonly === true)
 			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ?", $domain_id);
 		return $domain_id;
