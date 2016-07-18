@@ -17,6 +17,7 @@ $wb['contact_firstname_txt'] = 'Contact firstname';
 $wb['contact_name_txt'] = 'Contactpersoon';
 $wb['username_txt'] = 'Gebruikersnaam';
 $wb['password_txt'] = 'Wachtwoord';
+$wb['password_click_to_set_txt'] = 'Klik om in te stellen';
 $wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['language_txt'] = 'Taal';
 $wb['usertheme_txt'] = 'Thema';

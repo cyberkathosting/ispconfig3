@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'Wielkość skrzynki pocztowej musi być liczbą.';
 $wb['quota_txt'] = 'Limit';
 $wb['server_id_txt'] = 'Serwer_id';
 $wb['password_txt'] = 'Hasło';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Zezwól na odbiór poczty';
 $wb['greylisting_txt'] = 'Enable greylisting';

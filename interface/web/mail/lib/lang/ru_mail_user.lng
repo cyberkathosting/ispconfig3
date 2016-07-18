@@ -13,6 +13,7 @@ $wb['quota_error_isint'] = 'Размер должен быть цифрой.';
 $wb['quota_txt'] = 'квота in MB';
 $wb['server_id_txt'] = 'server_id';
 $wb['password_txt'] = 'пароль';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'maildir';
 $wb['postfix_txt'] = 'Разрешить получение';
 $wb['greylisting_txt'] = 'Enable greylisting';
