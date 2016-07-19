@@ -128,7 +128,7 @@ $form["tabs"]['mailuser'] = array(
 					'errmsg' => 'weak_password_txt'
 				)
 			),
-			'encryption'=> 'CRYPT',
+			'encryption'=> 'CRYPTMAIL',
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
