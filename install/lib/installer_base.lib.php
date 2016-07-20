@@ -1366,21 +1366,25 @@ class installer_base {
 
 		// Add the clamav user to the amavis group
 		exec('adduser clamav amavis');
-
-		// Create the director for DKIM-Keys
-		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750, true);
-		// get shell-user for amavis
-		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
-		if(!empty($amavis_user)) {
-			$amavis_user=rtrim($amavis_user, ":");
-			exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
-		}
 		// get shell-group for amavis
 		$amavis_group=exec('grep -o "^amavis:\|^vscan:" /etc/group');
 		if(!empty($amavis_group)) {
 			$amavis_group=rtrim($amavis_group, ":");
-			exec('chgrp '.$amavis_group.' /var/lib/amavis/dkim');
 		}
+		// get shell-user for amavis
+		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
+		if(!empty($amavis_user)) {
+			$amavis_user=rtrim($amavis_user, ":");
+		}
+
+		// Create the director for DKIM-Keys
+		if(!is_dir('/var/lib/amavis')) mkdir('/var/lib/amavis', 0750, true);
+		if(!empty($amavis_user)) exec('chown '.$amavis_user.' /var/lib/amavis');
+		if(!empty($amavis_group)) exec('chgrp '.$amavis_group.' /var/lib/amavis');
+		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750);
+		if(!empty($amavis_user)) exec('chown -R '.$amavis_user.' /var/lib/amavis/dkim');
+		if(!empty($amavis_group)) exec('chgrp -R '.$amavis_group.' /var/lib/amavis/dkim');
+
 	}
 
 	public function configure_spamassassin() {
