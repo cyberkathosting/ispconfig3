@@ -159,6 +159,9 @@ if(count($_POST) > 0) {
 						$saved_password = stripslashes($mailuser['password']);
 						//* Check if mailuser password is correct
 						if(crypt(stripslashes($password), $saved_password) == $saved_password) {
+							//* Get the sys_user language of the client of the mailuser
+							$sys_user_lang = $app->db->queryOneRecord("SELECT language FROM sys_user WHERE default_group = ?", $mailuser['sys_groupid'] );
+							
 							//* we build a fake user here which has access to the mailuser module only and userid 0
 							$user = array();
 							$user['userid'] = 0;
@@ -168,7 +171,11 @@ if(count($_POST) > 0) {
 							$user['typ'] = 'user';
 							$user['email'] = $mailuser['email'];
 							$user['username'] = $username;
-							$user['language'] = $conf['language'];
+							if(is_array($sys_user_lang) && $sys_user_lang['language'] != '') {
+								$user['language'] = $sys_user_lang['language'];
+							} else {
+								$user['language'] = $conf['language'];
+							}
 							$user['theme'] = $conf['theme'];
 							$user['app_theme'] = $conf['theme'];
 							$user['mailuser_id'] = $mailuser['mailuser_id'];
