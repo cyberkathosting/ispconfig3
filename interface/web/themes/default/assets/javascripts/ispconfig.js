@@ -550,7 +550,12 @@ var ISPConfig = {
 	}
 };
 
-
+function removeReadOnly(password) {
+	password.removeAttribute('readonly');
+	password.removeAttribute('data-original-title');
+	password.removeAttribute('data-toggle');
+	password.removeAttribute('data-placement');
+}
 $(document).on("change", function(event) {
 	var elName = event.target.localName;
 	if ($("#pageForm .table #Filter").length > 0 && elName == 'select') {
