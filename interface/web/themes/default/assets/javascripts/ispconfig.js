@@ -136,6 +136,15 @@ var ISPConfig = {
 		});
 		$('[data-toggle="tooltip"]').tooltip({
 		});
+		// grab all password fields and set the readonly prop to prevent password managers to fill in new password
+		$('input[type="password"]').each(function() {
+			$(this).prop('readonly', true)
+			.tooltip({title: "Click to set", placement: "left"});
+		});
+		$('input[type="password"]').on('click focus', function() { 
+			$(this).prop('readonly', false);
+			$(this).tooltip('destroy');
+		});
 		
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
@@ -549,7 +558,6 @@ var ISPConfig = {
 	  }
 	}
 };
-
 
 $(document).on("change", function(event) {
 	var elName = event.target.localName;

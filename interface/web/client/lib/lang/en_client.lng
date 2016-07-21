@@ -19,6 +19,7 @@ $wb["contact_firstname_txt"] = 'Contact firstname';
 $wb["contact_name_txt"] = 'Contact name';
 $wb["username_txt"] = 'Username';
 $wb["password_txt"] = 'Password';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb["password_strength_txt"] = 'Password strength';
 $wb["language_txt"] = 'Language';
 $wb["usertheme_txt"] = 'Theme';

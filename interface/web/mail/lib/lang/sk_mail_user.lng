@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'Veľkosť schránky, musí byť číslo.';
 $wb['quota_txt'] = 'Kvóta';
 $wb['server_id_txt'] = 'Server_id';
 $wb['password_txt'] = 'Heslo';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Mailová záložka';
 $wb['postfix_txt'] = 'Povoliť príjem';
 $wb['greylisting_txt'] = 'Enable greylisting';
