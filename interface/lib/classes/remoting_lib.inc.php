@@ -284,7 +284,7 @@ class remoting_lib extends tform_base {
 				$startmodule=$_modules[0];
 			}
 		}
-		$usertheme = $params["usertheme"];
+		$usertheme = (isset($params["usertheme"]) && $params["usertheme"] != '')?$params["usertheme"]:'default';
 		$type = 'user';
 		$active = 1;
 		$insert_id = $app->functions->intval($insert_id);
