@@ -183,7 +183,7 @@ class page_action extends tform_actions {
 		 * (only the first time!)
 		 */
 		if (($section == 'domains') &&
-			($_SESSION['use_domain_module_old_value'] == '') &&
+			($_SESSION['use_domain_module_old_value'] == '' || $_SESSION['use_domain_module_old_value'] == 'n') &&
 			($server_config_array['domains']['use_domain_module'] == 'y')){
 			$sql = "REPLACE INTO domain (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain ) " .
 				"SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain " .
