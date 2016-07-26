@@ -126,11 +126,10 @@ class cronjob_mailbox_stats extends cronjob {
 				return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
 			}
 
-			function add_mailbox_traffic(&$traffic_array, $address, $traffic) {
-				global $mail_boxes, $mail_rewrites;
-
+			function add_mailbox_traffic(&$traffic_array, $address, $traffic,$mail_boxes, $mail_rewrites) {
+				//global $mail_boxes, $mail_rewrites;
+				//echo '##'.print_r($mail_boxes).'##';
 				$address = strtolower($address);
-
 				if(in_array($address, $mail_boxes) == true) {
 					if(!isset($traffic_array[$address])) $traffic_array[$address] = 0;
 					$traffic_array[$address] += $traffic;
@@ -193,12 +192,11 @@ class cronjob_mailbox_stats extends cronjob {
 							continue;
 						}
 					}
-
-					$this->add_mailbox_traffic($cur_line['from'], $cur_line['size']);
+					$this->add_mailbox_traffic($cur_line['from'], $cur_line['size'],$mail_boxes, $mail_rewrites);
 					//echo "1\n";
 					//print_r($this->mailbox_traffic);
 					foreach($cur_line['to'] as $to) {
-						$this->add_mailbox_traffic($to, $cur_line['size']);
+						$this->add_mailbox_traffic($to, $cur_line['size'],$mail_boxes, $mail_rewrites);
 						//echo "2\n";
 						//print_r($this->mailbox_traffic);
 					}
@@ -227,9 +225,9 @@ class cronjob_mailbox_stats extends cronjob {
 						}
 					}
 
-					add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size']);
+					add_mailbox_traffic($mailbox_traffic, $cur_line['from'], $cur_line['size'],$mail_boxes, $mail_rewrites);
 					foreach($cur_line['to'] as $to) {
-						add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size']);
+						add_mailbox_traffic($mailbox_traffic, $to, $cur_line['size'],$mail_boxes, $mail_rewrites);
 					}
 				}
 				fclose($fp);
