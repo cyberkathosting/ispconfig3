@@ -812,7 +812,7 @@ class installer_base {
 	public function get_postfix_service($service, $type) {
 		global $conf;
 
-		exec("postconf -M", $out, $ret);
+		exec("postconf -M 2> /dev/null", $out, $ret);
 
 		if ($ret === 0) { //* with postfix >= 2.9 we can detect configured services with postconf
 			unset($out);
