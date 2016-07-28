@@ -823,8 +823,8 @@ class installer_base {
 			$postfix_service = @($out[0]=='')?false:true;
         } else { //* fallback - Postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
-			$regex = '/[^#]'.$service.'.*.'.$type.'.*/';
-			$postfix_service = @(!preg_match($regex, $content))?true:false;
+			$regex = "/^((?!#)".$service.".*".$type.".*)$/m"; 
+			$postfix_service = @(preg_match($regex, $content))?true:false;
 		}
 
 		return $postfix_service;
