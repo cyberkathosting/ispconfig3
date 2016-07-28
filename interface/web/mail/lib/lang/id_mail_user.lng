@@ -18,6 +18,7 @@ $wb['quota_error_isint'] = 'Ukuran Mailbox harus berupa angka.';
 $wb['quota_txt'] = 'Kuota';
 $wb['server_id_txt'] = 'id_server';
 $wb['password_txt'] = 'Kata Sandi';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Dapat Menerima';
 $wb['greylisting_txt'] = 'Enable greylisting';

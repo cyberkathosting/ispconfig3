@@ -901,6 +901,9 @@ class tform_base {
 				case 'IDNTOUTF8':
 					$returnval = $app->functions->idn_decode($returnval);
 					break;
+				case 'TOLATIN1':
+					$returnval = mb_convert_encoding($returnval, 'ISO-8859-1', 'UTF-8');
+					break;
 				case 'TRIM':
 					$returnval = trim($returnval);
 					break;
@@ -991,6 +994,26 @@ class tform_base {
 						$this->errorMessage .= $errmsg."<br />\r\n";
 					}
 				}
+				break;
+			case 'ISDOMAIN':
+				$error = false;
+				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+				if($validator['allowempty'] == 'y' && $field_value == '') {
+					//* Do nothing
+				} else {
+					if(function_exists('filter_var')) {
+						if(filter_var('check@'.$field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$errmsg = $validator['errmsg'];
+							if(isset($this->wordbook[$errmsg])) {
+								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+							} else {
+								$this->errorMessage .= $errmsg."<br />\r\n";
+							}
+						}
+
+					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				}
+				unset($error);
 				break;
 			case 'ISEMAIL':
 				$error = false;
@@ -1243,6 +1266,10 @@ class tform_base {
 							} elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
+							} elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPTMAIL') {
+								// The password for the mail system needs to be converted to latin1 before it is hashed.
+								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
+								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
 								$record[$key] = $tmp['crypted'];
@@ -1270,6 +1297,10 @@ class tform_base {
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPT') {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]));
+								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
+							} elseif(isset($field['encryption']) && $field['encryption'] == 'CRYPTMAIL') {
+								// The password for the mail system needs to be converted to latin1 before it is hashed.
+								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
 								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));

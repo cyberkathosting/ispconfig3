@@ -7,6 +7,7 @@ server {
 <tmpl_if name='ssl_enabled'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+		ssl_ciphers EECDH+AESGCM:EDH+AESGCM:EECDH:EDH:!MD5:!RC4:!LOW:!MEDIUM:!CAMELLIA:!ECDSA:!DES:!DSS:!3DES:!NULL;
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 </tmpl_if>

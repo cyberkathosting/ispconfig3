@@ -159,6 +159,9 @@ if(count($_POST) > 0) {
 						$saved_password = stripslashes($mailuser['password']);
 						//* Check if mailuser password is correct
 						if(crypt(stripslashes($password), $saved_password) == $saved_password) {
+							//* Get the sys_user language of the client of the mailuser
+							$sys_user_lang = $app->db->queryOneRecord("SELECT language FROM sys_user WHERE default_group = ?", $mailuser['sys_groupid'] );
+							
 							//* we build a fake user here which has access to the mailuser module only and userid 0
 							$user = array();
 							$user['userid'] = 0;
@@ -168,7 +171,11 @@ if(count($_POST) > 0) {
 							$user['typ'] = 'user';
 							$user['email'] = $mailuser['email'];
 							$user['username'] = $username;
-							$user['language'] = $conf['language'];
+							if(is_array($sys_user_lang) && $sys_user_lang['language'] != '') {
+								$user['language'] = $sys_user_lang['language'];
+							} else {
+								$user['language'] = $conf['language'];
+							}
 							$user['theme'] = $conf['theme'];
 							$user['app_theme'] = $conf['theme'];
 							$user['mailuser_id'] = $mailuser['mailuser_id'];
@@ -209,8 +216,15 @@ if(count($_POST) > 0) {
 						$user = $app->db->toLower($user);
 						
 						if ($loginAs) $oldSession = $_SESSION['s'];
-						// Session regenerate causes login problems on some systems, have to find a better way. see Issue #3827
-						//if (!$loginAs) session_regenerate_id(true);
+						
+						// Session regenerate causes login problems on some systems, see Issue #3827
+						// Set session_regenerate_id to no in security settings, it you encounter
+						// this problem.
+						$app->uses('getconf');
+						$security_config = $app->getconf->get_security_config('permissions');
+						if(isset($security_config['session_regenerate_id']) && $security_config['session_regenerate_id'] == 'yes') {
+							if (!$loginAs) session_regenerate_id(true);
+						}
 						$_SESSION = array();
 						if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 						$_SESSION['s']['user'] = $user;

@@ -36,6 +36,7 @@ server {
                fastcgi_busy_buffers_size 256k;
                fastcgi_temp_file_write_size 256k;
                fastcgi_read_timeout 1200;
+			   fastcgi_param HTTP_PROXY "";
         }
 
         location ~ /\. {

@@ -305,6 +305,7 @@ class app {
 		//print_r($_SESSION);
 		if(isset($_SESSION['s']['module']['name'])) {
 			$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
+			$this->tpl->setVar('session_module', $_SESSION['s']['module']['name']);
 		}
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
 			$this->tpl->setVar('is_admin', 1);

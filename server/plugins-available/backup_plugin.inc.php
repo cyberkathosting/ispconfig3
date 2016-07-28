@@ -167,7 +167,7 @@ class backup_plugin {
 					if(file_exists($backup_dir.'/'.$backup['filename']) && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 						unlink($backup_dir.'/'.$backup['filename']);
 						
-						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
+						$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 						$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
 						$app->log('unlink '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);

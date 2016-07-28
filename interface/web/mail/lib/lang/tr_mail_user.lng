@@ -15,6 +15,7 @@ $wb['quota_error_isint'] = 'Posta kutusunun boyutu bir sayı olmalıdır.';
 $wb['quota_txt'] = 'Kota (sınırsız için 0 yazın)';
 $wb['server_id_txt'] = 'Sunucu kodu';
 $wb['password_txt'] = 'Parola';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Posta Klasörü';
 $wb['postfix_txt'] = 'Alım Etkin';
 $wb['greylisting_txt'] = 'Enable greylisting';

@@ -82,6 +82,7 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
 
   <IfModule mod_headers.c>
     Header always add Strict-Transport-Security "max-age=15768000"
+	RequestHeader unset Proxy early
   </IfModule>
 
   <tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>

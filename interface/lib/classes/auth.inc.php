@@ -213,7 +213,10 @@ class auth {
 		return str_shuffle($password);
 	}
 
-	public function crypt_password($cleartext_password) {
+	public function crypt_password($cleartext_password, $charset = 'UTF-8') {
+		if($charset != 'UTF-8') {
+			$cleartext_password = mb_convert_encoding($cleartext_password, $charset, 'UTF-8');
+		}
 		$salt="$1$";
 		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 		for ($n=0;$n<8;$n++) {

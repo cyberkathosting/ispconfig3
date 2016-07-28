@@ -143,7 +143,6 @@ class page_action extends tform_actions {
 			if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		}
 
-
 		//* if its an insert, check that the password is not empty
 		if($this->id == 0 && $_POST["password"] == '') {
 			$app->tform->errorMessage .= $app->tform->lng("error_no_pwd")."<br>";

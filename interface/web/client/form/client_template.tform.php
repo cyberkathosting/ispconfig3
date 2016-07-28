@@ -635,6 +635,23 @@ $form["tabs"]['limits'] = array (
 			'value'  => array(''),
 			'name'  => 'default_dnsserver'
 		),*/
+		'dns_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'validators'    => array (  0 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_client',
+					'function' => 'check_used_servers',
+					'errmsg'=> 'dns_servers_used'),
+			),
+			'value'  => '',
+			'name'  => 'dns_servers'
+		),
 		'limit_dns_zone' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -838,6 +855,20 @@ $form["tabs"]['limits'] = array (
 					'errmsg'=> 'limit_aps_error_notint'),
 			),
 			'default' => '-1',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
+		'limit_domainmodule' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+					'errmsg'=> 'limit_domainmodule_error_notint'),
+			),
+			'default' => '0',
 			'value'  => '',
 			'separator' => '',
 			'width'  => '10',

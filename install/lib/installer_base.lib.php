@@ -812,7 +812,7 @@ class installer_base {
 	public function get_postfix_service($service, $type) {
 		global $conf;
 
-		exec("postconf -M", $out, $ret);
+		exec("postconf -M 2> /dev/null", $out, $ret);
 
 		if ($ret === 0) { //* with postfix >= 2.9 we can detect configured services with postconf
 			unset($out);
@@ -822,9 +822,9 @@ class installer_base {
 			}
 			$postfix_service = @($out[0]=='')?false:true;
         } else { //* fallback - Postfix < 2.9
-			rf($conf['postfix']['config_dir'].'/master.cf');
-			$regex = '/[^#]'.$service.'.*.'.$type.'.*/';
-			$postfix_service = @(!preg_match($regex, $content))?true:false;
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$regex = "/^((?!#)".$service.".*".$type.".*)$/m"; 
+			$postfix_service = @(preg_match($regex, $content))?true:false;
 		}
 
 		return $postfix_service;
@@ -1366,21 +1366,25 @@ class installer_base {
 
 		// Add the clamav user to the amavis group
 		exec('adduser clamav amavis');
-
-		// Create the director for DKIM-Keys
-		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750, true);
-		// get shell-user for amavis
-		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
-		if(!empty($amavis_user)) {
-			$amavis_user=rtrim($amavis_user, ":");
-			exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
-		}
 		// get shell-group for amavis
 		$amavis_group=exec('grep -o "^amavis:\|^vscan:" /etc/group');
 		if(!empty($amavis_group)) {
 			$amavis_group=rtrim($amavis_group, ":");
-			exec('chgrp '.$amavis_group.' /var/lib/amavis/dkim');
 		}
+		// get shell-user for amavis
+		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
+		if(!empty($amavis_user)) {
+			$amavis_user=rtrim($amavis_user, ":");
+		}
+
+		// Create the director for DKIM-Keys
+		if(!is_dir('/var/lib/amavis')) mkdir('/var/lib/amavis', 0750, true);
+		if(!empty($amavis_user)) exec('chown '.$amavis_user.' /var/lib/amavis');
+		if(!empty($amavis_group)) exec('chgrp '.$amavis_group.' /var/lib/amavis');
+		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750);
+		if(!empty($amavis_user)) exec('chown -R '.$amavis_user.' /var/lib/amavis/dkim');
+		if(!empty($amavis_group)) exec('chgrp -R '.$amavis_group.' /var/lib/amavis/dkim');
+
 	}
 
 	public function configure_spamassassin() {
@@ -1693,7 +1697,7 @@ Email Address []:
 		if(is_file('/etc/suphp/suphp.conf')) {
 			replaceLine('/etc/suphp/suphp.conf', 'php="php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
 			//replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
-			replaceLine('/etc/suphp/suphp.conf', 'umask=0077', 'umask=0022', 0);
+			replaceLine('/etc/suphp/suphp.conf', 'umask=00', 'umask=0022', 0);
 		}
 
 		if(is_file('/etc/apache2/sites-enabled/000-default')) {

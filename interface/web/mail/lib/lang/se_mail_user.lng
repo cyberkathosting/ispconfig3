@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'Epostkontots kvot måste vara en siffra.';
 $wb['quota_txt'] = 'kvot i MB';
 $wb['server_id_txt'] = 'server-id';
 $wb['password_txt'] = 'lösenord';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'maildir';
 $wb['postfix_txt'] = 'Aktivera mottagning';
 $wb['greylisting_txt'] = 'Enable greylisting';

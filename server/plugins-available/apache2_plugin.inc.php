@@ -888,7 +888,7 @@ class apache2_plugin {
           $file_system = $df_output[0];
           $primitive_root = $df_output[1];
 
-		  if ( in_array($file_system , array('ext2','ext3','ext4'), true) ) {
+		  if ( in_array($file_system , array('ext2','ext3','ext4','simfs','reiserfs'), true) ) {
             exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
             exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
           } elseif ($file_system == 'xfs') {
@@ -1189,7 +1189,7 @@ class apache2_plugin {
 			$sub_prefixes = array();
 
 			//* be sure to have good domain
-			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
 				$temp_domains[] = "www." . $domain;
 			}
 
@@ -1207,7 +1207,7 @@ class apache2_plugin {
 			if(is_array($aliasdomains)) {
 				foreach($aliasdomains as $aliasdomain) {
 					$temp_domains[] = $aliasdomain['domain'];
-					if(isset($aliasdomain['subdomain']) && ($aliasdomain['subdomain'] != "none")) {
+					if(isset($aliasdomain['subdomain']) && substr($aliasdomain['domain'],0,4) != 'www.' && ($aliasdomain['subdomain'] == "www" OR $aliasdomain['subdomain'] == "*")) {
 						$temp_domains[] = "www." . $aliasdomain['domain'];
 					}
 				}
@@ -1234,6 +1234,7 @@ class apache2_plugin {
 			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+				$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
 				
 				$success = false;
 				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
