@@ -131,8 +131,10 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("domain_option", $domain_select);
 			if($this->_childdomain_type == 'subdomain') {
-				$this->dataRecord['domain'] = substr($this->dataRecord["domain"], 0, strlen($this->dataRecord['domain']) - strlen($selected_domain) - 1);
+				//$this->dataRecord['domain'] = substr($this->dataRecord["domain"], 0, strlen($this->dataRecord['domain']) - strlen($selected_domain) - 1);
+				$this->dataRecord["domain"] = str_replace('.'.$selected_domain, '', $this->dataRecord["domain"]);
 			}
+			
 		} else {
 			if($this->_childdomain_type == 'subdomain') {
 				// Get the record of the parent domain
