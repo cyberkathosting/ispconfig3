@@ -149,7 +149,7 @@ class page_action extends tform_actions {
 				if (trim($item['client_template_id']) != ''){
 					if ($text != '') $text .= '';
 					$text .= '<li rel="' . $item['assigned_template_id'] . '">' . $tpl[$item['client_template_id']];
-					$text .= '<a href="#" class="button icons16 icoDelete"></a>';
+					$text .= '&nbsp;<a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></a>';
 					$tmp = new stdClass();
 					$tmp->id = $item['assigned_template_id'];
 					$tmp->data = '';
@@ -173,7 +173,7 @@ class page_action extends tform_actions {
 			foreach($tplAdd as $item){
 				if (trim($item) != ''){
 					if ($text != '') $text .= '';
-					$text .= '<li>' . $tpl[$item]. '<a href="#" class="button icons16 icoDelete"></a></li>';
+					$text .= '<li>' . $tpl[$item]. '&nbsp;<a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></a></li>';
 				}
 			}
 		}

@@ -502,12 +502,12 @@ var ISPConfig = {
 		if(addTplId > 0) {
 			var newVal = tpl_add.split('/');
 			ISPConfig.new_tpl_add_id += 1;
-			var delbtn = $('<a href="#"></a>').attr('class', 'button icons16 icoDelete').click(function(e) {
+			var delbtn = $('&nbsp;<a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>').attr('class', 'btn btn-danger btn-xs').click(function(e) {
 				e.preventDefault();
 				ISPConfig.delAdditionalTemplate($(this).parent().attr('rel'));
 			});
 			newVal[newVal.length] = 'n' + ISPConfig.new_tpl_add_id + ':' + addTplId;
-			$('<li>' + addTplText + '</li>').attr('rel', 'n' + new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
+			$('<li>' + addTplText + '</li>').attr('rel', 'n' + ISPConfig.new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
 			$('#template_additional').val(newVal.join('/'));
 			alert('additional template ' + addTplText + ' added to customer');
 		} else {
