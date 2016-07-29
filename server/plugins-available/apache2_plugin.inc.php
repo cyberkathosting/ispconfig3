@@ -878,6 +878,7 @@ class apache2_plugin {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
+				$mb_soft = $data['new']['hd_quota'];
                 $mb_hard = $mb_soft + 1;
 			} else {
 				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
