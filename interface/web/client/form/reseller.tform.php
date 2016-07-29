@@ -584,7 +584,7 @@ $form["tabs"]['limits'] = array (
 			'value'  => ''
 		),
 		'mail_servers' => array (
-			'datatype' => 'INTEGER',
+			'datatype' => 'VARCHAR',
 			'formtype' => 'MULTIPLE',
 			'separator' => ',',
 			'default' => '1',
@@ -1125,7 +1125,7 @@ $form["tabs"]['limits'] = array (
 			'value'  => ''
 		),
 		'dns_servers' => array (
-			'datatype' => 'INTEGER',
+			'datatype' => 'VARCHAR',
 			'formtype' => 'MULTIPLE',
 			'separator' => ',',
 			'default' => '1',
@@ -1223,7 +1223,7 @@ $form["tabs"]['limits'] = array (
 			'value'  => ''
 		),
 		'db_servers' => array (
-			'datatype' => 'INTEGER',
+			'datatype' => 'VARCHAR',
 			'formtype' => 'MULTIPLE',
 			'separator' => ',',
 			'default' => '1',
