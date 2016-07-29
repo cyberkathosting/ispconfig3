@@ -157,7 +157,7 @@ class tools_sites {
 				$field = "domain";
 				$select = $field;
 			}
-			$sql .= " domain NOT IN (SELECT $select FROM ?? WHERE $field = ?) AND";
+			$sql .= " domain NOT IN (SELECT $select FROM ?? WHERE $field != ?) AND";
 		}
 		if ($_SESSION["s"]["user"]["typ"] == 'admin') {
 			$sql .= " 1";
