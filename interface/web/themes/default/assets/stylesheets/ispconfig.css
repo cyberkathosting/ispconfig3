@@ -717,3 +717,6 @@ span.flag-zw {background-position:0 -5435px}
     text-align:center;
     z-index: 100;
 }
+input[type="password"].form-control[readonly] {
+	cursor: text;
+}
