@@ -217,23 +217,32 @@ body {
 
 .table {
   table-layout: fixed;
-  margin-bottom: 1px; }
-  .table caption {
-    padding: 5px 10px;
-    text-align: left;
-    font-weight: bold;
-    font-size: 18px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px; }
-  .table tbody tr {
-    border-top-style: solid;
-    border-top-width: 1px;
-    transition: background ease 500ms; }
-    .table tbody tr:last-child {
-      border-radius: 4px; }
-    .table tbody tr td {
-      text-overflow: ellipsis;
-      overflow-x: hidden; }
+  margin-bottom: 1px;
+  }
+.table caption {
+	padding: 5px 10px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 18px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	}
+.table tbody tr {
+	border-top-style: solid;
+	border-top-width: 1px;
+	transition: background ease 500ms;
+	}
+.table tbody tr:last-child {
+	border-radius: 4px;
+	}
+.table tbody tr td {
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	}
+
+.table-auto {
+	table-layout: auto;
+}
 
 .tfooter {
   margin-top: -1px;
