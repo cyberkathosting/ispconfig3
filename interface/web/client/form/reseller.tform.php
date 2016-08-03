@@ -577,7 +577,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'SELECT',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -589,7 +589,7 @@ $form["tabs"]['limits'] = array (
 			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mail_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -900,7 +900,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'SELECT',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -912,7 +912,7 @@ $form["tabs"]['limits'] = array (
 			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE web_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1118,7 +1118,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'SELECT',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1130,7 +1130,7 @@ $form["tabs"]['limits'] = array (
 			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1160,7 +1160,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'SELECT',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE dns_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1216,7 +1216,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'SELECT',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1228,7 +1228,7 @@ $form["tabs"]['limits'] = array (
 			'separator' => ',',
 			'default' => '1',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE db_server = 1 AND mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -1258,6 +1258,20 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'ISINT',
 					'errmsg'=> 'limit_database_user_error_notint'),
+			),
+			'default' => '-1',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
+		'limit_database_quota' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+				'errmsg'=> 'limit_database_quota_error_notint'),
 			),
 			'default' => '-1',
 			'value'  => '',
