@@ -17,9 +17,9 @@ NAME=hhvm
 do_start()
 {
 	if [ ! -d /var/run/hhvm ]; then
-		mkdir -p -m0777 /var/run/hhvm
+		mkdir -p -m1777 /var/run/hhvm
 	else
-		chmod 777 /var/run/hhvm
+		chmod 1777 /var/run/hhvm
 	fi
 	
 	if [[ -e "/var/run/hhvm/hhvm_{SYSTEM_USER}.pid" ]] ; then
@@ -35,7 +35,7 @@ do_start()
 		ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock ;
 	fi
 	
-	umask 022
+	umask 027
 	sudo -u {SYSTEM_USER} touch /var/run/hhvm/hhvm_{SYSTEM_USER}.pid
 	
 	BASEINIFILE=""
