@@ -61,4 +61,5 @@ $wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autor
 $wb['sender_cc_txt'] = 'Send outgoing copy to';
 $wb['sender_cc_error_isemail'] = 'The -Send outgoing copy to- field does not contain a valid email address';
 $wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['password_click_to_set_txt'] = 'Click to set';
 ?>

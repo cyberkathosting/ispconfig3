@@ -280,4 +280,5 @@ $wb['xmpp_ports_txt'] = 'Puertos de componentes';
 $wb['xmpp_server_admins_txt'] = 'Administradores del Servidor (JIDs)';
 $wb['xmpp_server_txt'] = 'Servidor XMPP';
 $wb['xmpp_use_ipv6_txt'] = 'Usar IPv6';
+$wb['backup_time_txt'] = 'Backup time';
 ?>

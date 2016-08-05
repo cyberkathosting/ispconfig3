@@ -280,4 +280,5 @@ $wb['apps_vhost_enabled_txt'] = 'Apps-vhost enabled';
 $wb['hostname_txt'] = 'Hostname';
 $wb['hostname_error_empty'] = 'Hostname is empty.';
 $wb['hostname_error_regex'] = 'Invalid Hostname.';
+$wb['backup_time_txt'] = 'Backup time';
 ?>
