@@ -117,4 +117,9 @@ $wb['limit_xmpp_status_txt'] = 'Status host available';
 $wb['dns_servers_txt'] = 'DNS servers';
 $wb['limit_directive_snippets_txt'] = 'Webserver-Konfigurationsauswahl sichtbar';
 $wb['limit_database_user_txt'] = 'Max. Database users';
+$wb["web_servers_txt"] = 'Web-Server';
+$wb["dns_servers_txt"] = 'DNS-Servers';
+$wb["xmpp_servers_txt"] = 'XMPP-Server';
+$wb["db_servers_txt"] = 'Datenbank-Server';
+$wb["mail_servers_txt"] = 'Mail-Server';
 ?>
