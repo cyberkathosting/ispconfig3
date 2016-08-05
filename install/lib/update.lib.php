@@ -205,7 +205,11 @@ function updateDbAndIni() {
 					$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename;
 				}
 				
-				if(in_array($next_db_version,explode(',',$silent_update_versions))) $cmd .= ' > /dev/null 2> /dev/null';
+				if(in_array($next_db_version,explode(',',$silent_update_versions))) {
+					$cmd .= ' > /dev/null 2> /dev/null';
+				} else {
+					$cmd .= ' > /var/log/ispconfig_install.log 2> /var/log/ispconfig_install.log';
+				}
 				system($cmd);
 				
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
