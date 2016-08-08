@@ -1488,8 +1488,10 @@ class tform_base {
 		$app->tpl->setVar('form_hint', $form_hint);
 
 		// Set Wordbook for this form
-
-		$app->tpl->setVar($this->wordbook);
+		foreach($this->wordbook as $key => $val) {
+			if(strstr($val,'\'')) $val = stripslashes($val);
+			$app->tpl->setVar($key,$val);
+		}
 	}
 
 	function getDataRecord($primary_id) {

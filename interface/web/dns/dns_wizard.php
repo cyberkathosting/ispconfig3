@@ -167,13 +167,22 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 
 }
 
+//* TODO: store dnssec-keys in the database - see below for non-admin-users
+//* hide dnssec if we found dns-mirror-servers
+$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id > 0 and dns_server = 1";
+$rec=$app->db->queryOneRecord($sql);
+
 $template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = ?", $template_id);
 $fields = explode(',', $template_record['fields']);
 if(is_array($fields)) {
 	foreach($fields as $field) {
-		$app->tpl->setVar($field."_VISIBLE", 1);
-		$field = strtolower($field);
-		$app->tpl->setVar($field, $_POST[$field]);
+		if($field == 'DNSSEC' && $rec['count'] > 0) {
+			//hide dnssec
+		} else {
+			$app->tpl->setVar($field."_VISIBLE", 1);
+			$field = strtolower($field);
+			$app->tpl->setVar($field, $_POST[$field]);
+		}
 	}
 }
 

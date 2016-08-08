@@ -85,6 +85,18 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
+		//* TODO: store dnssec-keys in the database - see below for non-admin-users
+		//* hide dnssec if we found dns-mirror-servers
+		if($this->id > 0) {
+			$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id = ?";
+			$rec=$app->db->queryOneRecord($sql, $this->dataRecord['server_id']);
+		} else {
+			$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id > 0 and dns_server = 1";
+			$rec=$app->db->queryOneRecord($sql);
+		}
+		$show_dnssec=@($rec['count'] > 0)?0:1;
+		$app->tpl->setVar('show_dnssec', $show_dnssec);
+
 		/*
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
@@ -134,6 +146,20 @@ class page_action extends tform_actions {
 	{
 		$client_group_id = $_SESSION["s"]["user"]["default_group"];
 		$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+
+		//* TODO: store dnssec-keys in the database
+		//* hide dnssec if we found dns-mirror-servers
+		$temp_rec=explode(",", $client_dns['dns_servers']);
+		$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id = ?";
+		foreach($temp_rec as $temp) {
+			$rec=$app->db->queryOneRecord($sql, $temp);
+			if ($rec['count'] > 0) {
+				break;
+			}
+		}
+		$show_dnssec=@($rec['count'] > 0)?0:1;
+		$app->tpl->setVar('show_dnssec', $show_dnssec);
+
 
 		$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 

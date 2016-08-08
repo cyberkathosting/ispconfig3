@@ -19,7 +19,6 @@ class client_templates {
 		global $app, $conf;
 
 		if(!is_array($templates)) return false;
-
 		$new_tpl = array();
 		$used_assigned = array();
 		$needed_types = array();
@@ -155,7 +154,6 @@ class client_templates {
 					/* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
 					if (strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
 						$app->log('Template processing key ' . $k . ' for client ' . $clientId, LOGLEVEL_DEBUG);
-
 						/* process the numerical limits */
 						if (is_numeric($v)){
 							/* switch for special cases */
@@ -191,6 +189,24 @@ class client_templates {
 						elseif (is_string($v)){
 							switch ($form["tabs"]["limits"]["fields"][$k]['formtype']){
 							case 'CHECKBOXARRAY':
+								if (!isset($limits[$k])){
+									$limits[$k] = array();
+								}
+
+								$limits_values = $limits[$k];
+								if (is_string($limits[$k])){
+									$limits_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"], $limits[$k]);
+								}
+								$additional_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"], $v);
+								$app->log('Template processing key ' . $k . ' type CHECKBOXARRAY, lim / add: ' . implode(',', $limits_values) . ' / ' . implode(',', $additional_values) . ' for client ' . $clientId, LOGLEVEL_DEBUG);
+								/* unification of limits_values (master template) and additional_values (additional template) */
+								$limits_unified = array();
+								foreach($form["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
+									if (in_array($key, $limits_values) || in_array($key, $additional_values)) $limits_unified[] = $key;
+								}
+								$limits[$k] = implode($form["tabs"]["limits"]["fields"][$k]["separator"], $limits_unified);
+								break;
+							case 'MULTIPLE':
 								if (!isset($limits[$k])){
 									$limits[$k] = array();
 								}
@@ -245,7 +261,7 @@ class client_templates {
 			if (strpos($k, 'default') !== false and $v == 0) {
 				continue; // template doesn't define default server, client's default musn't be changed
 			}
-			if ((strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec') && !is_array($v)){
+			if ((strpos($k, 'limit') !== false or strpos($k, 'default') !== false or strpos($k, '_servers') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec') && !is_array($v)){
 				if ($update != '') $update .= ', ';
 				$update .= '?? = ?';
 				$update_values[] = $k;

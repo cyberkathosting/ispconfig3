@@ -202,4 +202,5 @@ $wb['xmpp_servers_used'] = 'El servidor que está intentando borrar de este clie
 $wb['zip_txt'] = 'Código postal';
 $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
+$wb['password_click_to_set_txt'] = 'Click to set';
 ?>

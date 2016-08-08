@@ -41,4 +41,5 @@ $wb['dkim_txt'] = 'DKIM ingeschakeld';
 $wb['error_no_server_id'] = 'Geen server opgegeven.';
 $wb['error_not_allowed_server_id'] = 'De geselecteerde server mag niet voor dit account gebruikt worden.';
 $wb['dnssec_txt'] = 'Zone signeren (DNSSEC)';
+$wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
 ?>

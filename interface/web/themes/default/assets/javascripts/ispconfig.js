@@ -502,7 +502,7 @@ var ISPConfig = {
 		if(addTplId > 0) {
 			var newVal = tpl_add.split('/');
 			ISPConfig.new_tpl_add_id += 1;
-			var delbtn = $('&nbsp;<a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>').attr('class', 'btn btn-danger btn-xs').click(function(e) {
+			var delbtn = $('<a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>').attr('class', 'btn btn-danger btn-xs').click(function(e) {
 				e.preventDefault();
 				ISPConfig.delAdditionalTemplate($(this).parent().attr('rel'));
 			});

@@ -9,9 +9,16 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
 <VirtualHost _default_:<tmpl_var name="vhost_port">>
   ServerAdmin webmaster@localhost
 
-  <FilesMatch "\.ph(p3?|tml)$">
-    SetHandler None
-  </FilesMatch>
+  <Directory /var/www/ispconfig/>
+    <FilesMatch "\.ph(p3?|tml)$">
+      SetHandler None
+    </FilesMatch>
+  </Directory>
+  <Directory /usr/local/ispconfig/interface/web/>
+    <FilesMatch "\.ph(p3?|tml)$">
+      SetHandler None
+    </FilesMatch>
+  </Directory>
 
   <IfModule mod_fcgid.c>
     DocumentRoot /var/www/ispconfig/

@@ -61,4 +61,5 @@ $wb['daily_backup_txt'] = 'Denní';
 $wb['weekly_backup_txt'] = 'Týdenní';
 $wb['monthly_backup_txt'] = 'Měsíční';
 $wb['sender_cc_note_txt'] = '(Při posílání kopií na více e-mailových adres, oddělte čárkami.) ';
+$wb['password_click_to_set_txt'] = 'Click to set';
 ?>

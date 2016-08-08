@@ -117,4 +117,7 @@ $wb['dns_servers_txt'] = 'DNS servers';
 $wb['limit_ssl_letsencrypt_txt'] = 'Let';
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 $wb['limit_database_user_txt'] = 'Max. Database users';
+$wb['web_servers_txt'] = 'Webservers';
+$wb['db_servers_txt'] = 'Database servers';
+$wb['mail_servers_txt'] = 'Mailservers';
 ?>

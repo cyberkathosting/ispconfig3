@@ -19,10 +19,10 @@
                 <tr>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
                     <td><input class="form-control" type="text" name="search_system_user" value="{tmpl_var name='search_system_user'}" /></td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td class="used">&nbsp;</td>
+                    <td class="soft">&nbsp;</td>
+                    <td class="hard">&nbsp;</td>
+                    <td class="files">&nbsp;</td>
                     <td class="text-right">
                         <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/user_quota_stats.php"><span class="icon icon-filter"></span></button>
                     </td>
@@ -31,12 +31,12 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="system_user"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="soft"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="files"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="domain"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="system_user"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="soft"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>
+                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="files"}</a></td>
                             <td class="text-right"></td>
                         </tr>
                     </tmpl_loop>

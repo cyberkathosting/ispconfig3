@@ -18,6 +18,12 @@
     <div id="collapseWeb" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWeb">
       <div class="panel-body">
                 <div class="form-group">
+                    <label for="web_servers" class="col-sm-3 control-label">{tmpl_var name='web_servers_txt'}</label>
+                    <div class="col-sm-9"><select data-placeholder="{tmpl_var name='web_servers_placeholder'}" multiple name="web_servers[]" id="web_servers" class="form-control">
+                        {tmpl_var name='web_servers'}
+                    </select></div>
+                </div>
+				<div class="form-group">
                     <label for="limit_web_domain" class="col-sm-3 control-label">{tmpl_var name='limit_web_domain_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_web_domain" id="limit_web_domain" value="{tmpl_var name='limit_web_domain'}" class="form-control" /></div></div>
                 <div class="form-group">
@@ -141,6 +147,13 @@
     <div id="collapseMail" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingMail">
       <div class="panel-body">
                 <div class="form-group">
+                    <label for="mail_servers" class="col-sm-3 control-label">{tmpl_var name='mail_servers_txt'}</label>
+                    <div class="col-sm-9">
+						<select data-placeholder="{tmpl_var name='mail_servers_placeholder'}" multiple name="mail_servers[]" id="mail_servers" class="form-control">
+                        {tmpl_var name='mail_servers'}
+                    </select></div>
+                </div>
+				<div class="form-group">
                     <label for="limit_maildomain" class="col-sm-3 control-label">{tmpl_var name='limit_maildomain_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_maildomain" id="limit_maildomain" value="{tmpl_var name='limit_maildomain'}" class="form-control" /></div></div>
                 <div class="form-group">
@@ -197,6 +210,12 @@
     <div id="collapseXMPP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingXMPP">
       <div class="panel-body">
                 <div class="form-group">
+                    <label for="xmpp_servers" class="col-sm-3 control-label">{tmpl_var name='xmpp_servers_txt'}</label>
+                    <div class="col-sm-9"><select data-placeholder="{tmpl_var name='xmpp_servers_placeholder'}" multiple name="xmpp_servers[]" id="xmpp_servers" class="form-control">
+                        {tmpl_var name='xmpp_servers'}
+                    </select></div>
+                </div>
+				<div class="form-group">
                     <label for="limit_xmpp_domain" class="col-sm-3 control-label">{tmpl_var name='limit_xmpp_domain_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_xmpp_domain" id="limit_xmpp_domain" value="{tmpl_var name='limit_xmpp_domain'}" class="form-control" /></div></div>
                 <div class="form-group">
@@ -264,6 +283,12 @@
     <div id="collapseDB" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDB">
       <div class="panel-body">
                 <div class="form-group">
+                    <label for="db_servers" class="col-sm-3 control-label">{tmpl_var name='db_servers_txt'}</label>
+                    <div class="col-sm-9"><select data-placeholder="{tmpl_var name='db_servers_placeholder'}" multiple name="db_servers[]" id="db_servers" class="form-control">
+                        {tmpl_var name='db_servers'}
+                    </select></div>
+                </div>
+				<div class="form-group">
                     <label for="limit_database" class="col-sm-3 control-label">{tmpl_var name='limit_database_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="limit_database" id="limit_database" value="{tmpl_var name='limit_database'}" class="form-control" /></div></div>
                 <div class="form-group">
