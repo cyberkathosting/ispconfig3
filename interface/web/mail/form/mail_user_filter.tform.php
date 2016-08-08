@@ -106,7 +106,7 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt')
+			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt', 'read'=>'mark_read_txt')
 		),
 		'target' => array (
 			'datatype' => 'VARCHAR',
