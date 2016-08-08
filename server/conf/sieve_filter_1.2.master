@@ -27,7 +27,6 @@ keep;
 
 # Move spam to spam folder
 if header :contains "X-Spam-Flag" "YES" {
-  fileinto "Junk";
   # Stop here so that we do not reply on spams
   stop;
 }
