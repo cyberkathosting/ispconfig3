@@ -208,7 +208,7 @@ function updateDbAndIni() {
 				if(in_array($next_db_version,explode(',',$silent_update_versions))) {
 					$cmd .= ' > /dev/null 2> /dev/null';
 				} else {
-					$cmd .= ' > /var/log/ispconfig_install.log 2> /var/log/ispconfig_install.log';
+					$cmd .= ' >> /var/log/ispconfig_install.log 2>> /var/log/ispconfig_install.log';
 				}
 				system($cmd);
 				
