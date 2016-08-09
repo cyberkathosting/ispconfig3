@@ -193,6 +193,8 @@ class mail_user_filter_plugin {
 				$content .= "    stop;\n";
 			} elseif ($page_form->dataRecord["action"] == 'reject') {
 				$content .= '    reject "'.$page_form->dataRecord["target"].'";    stop;\n\n';
+			} elseif ($page_form->dataRecord["action"] == 'read') {
+				$content .= '    setflag "\\\\Seen";\n    stop;\n';
 			} else {
 				$content .= "    discard;\n    stop;\n";
 			}
@@ -254,6 +256,8 @@ if ( ".'$RETURNCODE'." != 1 )
 				$content .= 'ID' . "$page_form->id" . 'EndFolder = "$DEFAULT/.' . $page_form->dataRecord['target'] . '/"' . "\n";
 				$content .= "xfilter \"/usr/bin/formail -A \\\"X-User-Mail-Filter-ID"."$page_form->id".": Yes\\\"\"" . "\n";
 				$content .= "to ". '$ID' . "$page_form->id" . 'EndFolder' . "\n";
+			} elseif ($page_form->dataRecord["action"] == 'read') {
+				$content .= ''; // mark as read currently not supported for Maildrop
 			} else {
 				$content .= "to /dev/null\n";
 			}

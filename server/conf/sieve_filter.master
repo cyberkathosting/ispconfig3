@@ -1,4 +1,4 @@
-require ["fileinto", "regex", "vacation"];
+require ["fileinto", "regex", "vacation", "imap4flags"];
 
 <tmpl_if name="cc">
 # Send a copy of email to
