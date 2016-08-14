@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Лоигн:';
-$wb['password_txt'] = 'Пароль:';
-$wb['function_txt'] = 'Функции:';
+$wb['username_txt'] = 'Лоигн';
+$wb['password_txt'] = 'Пароль';
+$wb['function_txt'] = 'Функции';
 $wb['username_error_unique'] = 'Логин должен быть уникальным';
 $wb['username_error_empty'] = 'Логин не должен быть пустым';
 $wb['password_error_empty'] = 'Пароль не должен быть пустым';
-$wb['password_strength_txt'] = 'Стойкость пароля:';
+$wb['password_strength_txt'] = 'Стойкость пароля';
 $wb['Mail domain functions'] = 'Функции почтового домена';
 $wb['Mail user functions'] = 'Функции почтовых пользователей';
 $wb['Mail alias functions'] = 'Функции почтовых алиасов';

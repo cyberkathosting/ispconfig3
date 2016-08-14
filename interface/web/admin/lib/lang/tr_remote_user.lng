@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Kullanıcı adı:';
-$wb['password_txt'] = 'Parola:';
-$wb['function_txt'] = 'İşlevler:';
+$wb['username_txt'] = 'Kullanıcı adı';
+$wb['password_txt'] = 'Parola';
+$wb['function_txt'] = 'İşlevler';
 $wb['username_error_unique'] = 'Bu kullanıcı adı zaten var';
 $wb['username_error_empty'] = 'Kullanıcı adı boş olamaz';
 $wb['password_error_empty'] = 'Parola boş olamaz';
-$wb['password_strength_txt'] = 'Parola Güçlüğü:';
+$wb['password_strength_txt'] = 'Parola Güçlüğü';
 $wb['Mail domain functions'] = 'Posta alan adı işlevleri';
 $wb['Mail mailing list functions'] = 'Posta posta listesi işlevleri';
 $wb['Mail user functions'] = 'Posta kullanıcı işlevleri';

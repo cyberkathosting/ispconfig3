@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Korisničko ime:';
-$wb['password_txt'] = 'Šifra:';
-$wb['function_txt'] = 'Funkcije:';
+$wb['username_txt'] = 'Korisničko ime';
+$wb['password_txt'] = 'Šifra';
+$wb['function_txt'] = 'Funkcije';
 $wb['username_error_unique'] = 'Korisničko ime mora biti jedinstveno';
 $wb['username_error_empty'] = 'Korisničko ime ne može biti prazno';
 $wb['password_error_empty'] = 'Šifra ne može biti prazna';
-$wb['password_strength_txt'] = 'Jačina šifre:';
+$wb['password_strength_txt'] = 'Jačina šifre';
 $wb['Mail domain functions'] = 'Funkcije mail domena';
 $wb['Mail user functions'] = 'Mail user funkcije';
 $wb['Mail alias functions'] = 'Mail alias funkcije';
