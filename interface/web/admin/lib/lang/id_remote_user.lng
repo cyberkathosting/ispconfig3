@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Nama pengguna:';
-$wb['password_txt'] = 'Kata Sandi:';
-$wb['function_txt'] = 'Fungsi:';
+$wb['username_txt'] = 'Nama pengguna';
+$wb['password_txt'] = 'Kata Sandi';
+$wb['function_txt'] = 'Fungsi';
 $wb['username_error_unique'] = 'Nama pengguna harus unik';
 $wb['username_error_empty'] = 'Nama pengguna tidak boleh kosong';
 $wb['password_error_empty'] = 'Kata sandi tidak boleh kosong';
-$wb['password_strength_txt'] = 'Kekuatan Sandi:';
+$wb['password_strength_txt'] = 'Kekuatan Sandi';
 $wb['Mail domain functions'] = 'Fungsi-fungsi domain Mail';
 $wb['Mail user functions'] = 'Fungsi-fungsi pengguna Mail';
 $wb['Mail alias functions'] = 'Fungsi-fungsi alias Mail';

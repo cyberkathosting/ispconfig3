@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Användarnamn:';
-$wb['password_txt'] = 'Lösenord:';
-$wb['function_txt'] = 'Funktioner:';
+$wb['username_txt'] = 'Användarnamn';
+$wb['password_txt'] = 'Lösenord';
+$wb['function_txt'] = 'Funktioner';
 $wb['username_error_unique'] = 'Användarnamnet måste vara unikt';
 $wb['username_error_empty'] = 'Användarnamnet kan inte vara tomt';
 $wb['password_error_empty'] = 'Löenordet kan inte vara tomt';
-$wb['password_strength_txt'] = 'Lösenordsstyrka:';
+$wb['password_strength_txt'] = 'Lösenordsstyrka';
 $wb['Mail domain functions'] = 'Epostdomänfunktioner';
 $wb['Mail user functions'] = 'Mail user functions';
 $wb['Mail alias functions'] = 'Mail alias functions';

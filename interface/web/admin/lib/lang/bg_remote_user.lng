@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Потребителско име:';
-$wb['password_txt'] = 'Парола:';
-$wb['function_txt'] = 'Функции:';
+$wb['username_txt'] = 'Потребителско име';
+$wb['password_txt'] = 'Парола';
+$wb['function_txt'] = 'Функции';
 $wb['username_error_unique'] = 'Потребителско име трябва да е уникално';
 $wb['username_error_empty'] = 'Потребителско име неможе да е празно';
 $wb['password_error_empty'] = 'Парола неможе да е празна';
-$wb['password_strength_txt'] = 'Сила на паролата:';
+$wb['password_strength_txt'] = 'Сила на паролата';
 $wb['Mail domain functions'] = 'Mail домейн функции';
 $wb['Mail user functions'] = 'Mail потребителски функции';
 $wb['Mail alias functions'] = 'Mail псевдоним функции';

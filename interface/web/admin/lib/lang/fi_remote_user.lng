@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Käyttäjätunnus:';
-$wb['password_txt'] = 'Salasana:';
-$wb['function_txt'] = 'Toiminnot:';
+$wb['username_txt'] = 'Käyttäjätunnus';
+$wb['password_txt'] = 'Salasana';
+$wb['function_txt'] = 'Toiminnot';
 $wb['username_error_unique'] = 'Käyttäjätunnusen pitää olla yksilöllinen';
 $wb['username_error_empty'] = 'Käyttäjätunnus ei voi olla tyhjä';
 $wb['password_error_empty'] = 'Salasana ei voi olla tyhjä';
-$wb['password_strength_txt'] = 'Salasanan vahvuus:';
+$wb['password_strength_txt'] = 'Salasanan vahvuus';
 $wb['Mail domain functions'] = 'Postiverkkotunnuksen toiminnot';
 $wb['Mail user functions'] = 'Postin käyttäjän toiminnot';
 $wb['Mail alias functions'] = 'Postin alias-toiminnot';
