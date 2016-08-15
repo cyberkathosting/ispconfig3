@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Mappe Bruger';
+$wb['active_txt'] = 'Aktiv';
+$wb['web_folder_id_txt'] = 'Mappe';
+$wb['username_txt'] = 'Brugernavn';
+$wb['add_new_record_txt'] = 'Tilføj ny Mappe Bruger';
+?>

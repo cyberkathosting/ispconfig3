@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Arkiv';
+$wb['active_txt'] = 'Aktiv';
+$wb['repo_name_txt'] = 'Arkiv';
+$wb['repo_url_txt'] = 'URL';
+?>

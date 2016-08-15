@@ -1,0 +1,13 @@
+<?php
+$wb['mailbox_autoresponder_txt'] = 'Autosvarer';
+$wb['autoresponder_subject'] = 'Ude af kontoret, svar';
+$wb['autoresponder_text_txt'] = 'Tekst';
+$wb['autoresponder_txt'] = 'Aktiv';
+$wb['autoresponder_start_date_txt'] = 'Start d.';
+$wb['autoresponder_start_date_isfuture'] = 'Start dato kan ikke være i fortid.';
+$wb['autoresponder_end_date_txt'] = 'Slut d.';
+$wb['autoresponder_end_date_isgreater'] = 'Slut dato skal indtastes og være senere end start dato.';
+$wb['autoresponder_active'] = 'Aktiver autosvarer';
+$wb['now_txt'] = 'Nu';
+$wb['autoresponder_subject_txt'] = 'Emne';
+?>

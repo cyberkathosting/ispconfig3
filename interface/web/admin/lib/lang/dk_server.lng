@@ -1,0 +1,16 @@
+<?php
+$wb['config_txt'] = 'config';
+$wb['server_name_txt'] = 'Servernavn';
+$wb['mail_server_txt'] = 'Mailserver';
+$wb['web_server_txt'] = 'Webserver';
+$wb['dns_server_txt'] = 'DNS-Server';
+$wb['file_server_txt'] = 'Fileserver';
+$wb['db_server_txt'] = 'DB-Server';
+$wb['vserver_server_txt'] = 'VServer-Server';
+$wb['proxy_server_txt'] = 'Proxy-Server';
+$wb['firewall_server_txt'] = 'Firewall-Server';
+$wb['active_txt'] = 'Aktiv';
+$wb['mirror_server_id_txt'] = 'Er spejl af Server';
+$wb['- None -'] = '- Ingen -';
+$wb['xmpp_server_txt'] = 'XMPP Server';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Importer sprog filer';
+$wb['list_desc_txt'] = 'ADVARSEL: Importere ikke sprogfiler fra utroværdige kilder.';
+$wb['language_import_txt'] = 'Vælg sprog fil';
+$wb['btn_save_txt'] = 'Importer den valgte sprog fil';
+$wb['language_overwrite_txt'] = 'Overskriv fil, hvis den allerede findes.';
+$wb['btn_cancel_txt'] = 'Tilbage';
+$wb['ignore_version_txt'] = 'Skip ISPConfig versions check';
+?>

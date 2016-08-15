@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Sub-domæner';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['domain_txt'] = 'Sub-domæne';
+$wb['add_new_record_txt'] = 'Tilføj nyt sub-domæne';
+?>

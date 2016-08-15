@@ -1,0 +1,11 @@
+<?php
+$wb['template_name_txt'] = 'Skabelon navn';
+$wb['template_file_txt'] = 'Skabelon filnavn';
+$wb['server_id_txt'] = 'Server';
+$wb['allservers_txt'] = 'Findes på alle servere';
+$wb['active_txt'] = 'Aktiv';
+$wb['description_txt'] = 'Beskrivelse';
+$wb['template_name_error_empty'] = 'Skabelon navn er tomt.';
+$wb['template_file_error_empty'] = 'Skabelon filnavn er tomt.';
+$wb['Template'] = 'Skabelon';
+?>

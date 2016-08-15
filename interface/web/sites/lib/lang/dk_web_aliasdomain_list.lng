@@ -1,0 +1,14 @@
+<?php
+$wb['list_head_txt'] = 'Alias-domæne';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['domain_txt'] = 'Alias-domæne';
+$wb['add_new_record_txt'] = 'Tilføj nyt aliasdomain';
+$wb['domain_error_empty'] = 'Domæne er er tom.';
+$wb['domain_error_unique'] = 'Domæne skal være unikke.';
+$wb['domain_error_regex'] = 'Domæne name ugyldigt.';
+$wb['no_redirect_txt'] = 'Ingen redirect';
+$wb['no_flag_txt'] = 'Ingen flag';
+$wb['none_txt'] = 'Ingen';
+?>

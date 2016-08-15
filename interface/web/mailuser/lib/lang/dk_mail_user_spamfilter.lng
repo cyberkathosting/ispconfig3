@@ -1,0 +1,7 @@
+<?php
+$wb['mailbox_spamfilter_txt'] = 'Spamfilter';
+$wb['spamfilter_txt'] = 'Spamfilter';
+$wb['email_txt'] = 'E-mail';
+$wb['no_policy'] = '- ikke aktiveret -';
+$wb['policy_txt'] = 'Politik';
+?>

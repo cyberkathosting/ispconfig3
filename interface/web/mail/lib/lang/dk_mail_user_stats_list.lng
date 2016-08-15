@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Mail trafik';
+$wb['email_txt'] = 'E-mail';
+$wb['this_month_txt'] = 'Denne måned';
+$wb['last_month_txt'] = 'Forrige måned';
+$wb['this_year_txt'] = 'Dette år';
+$wb['last_year_txt'] = 'Forrige år';
+?>

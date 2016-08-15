@@ -1,0 +1,20 @@
+<?php
+$wb['page_head_txt'] = 'Send kundeoplysninger';
+$wb['btn_send_txt'] = 'Send e-mail';
+$wb['btn_cancel_txt'] = 'Annullere';
+$wb['sender_txt'] = 'Afsender e-mail adresse';
+$wb['subject_txt'] = 'Emne';
+$wb['message_txt'] = 'Meddelelse';
+$wb['form_legend_client_txt'] = 'Send e-mail meddelelse til kunder.';
+$wb['form_legend_admin_txt'] = 'Send e-mail meddelelse til kunder og forhandler.';
+$wb['sender_invalid_error'] = 'Afsender e-mail ugyldigt.';
+$wb['subject_invalid_error'] = 'Emne er tomt.';
+$wb['message_invalid_error'] = 'Meddelelse er tom.';
+$wb['email_sent_to_txt'] = 'E-mail sendt til:';
+$wb['recipient_txt'] = 'Modtager';
+$wb['all_clients_resellers_txt'] = 'Alle kunder og forhandler';
+$wb['all_clients_txt'] = 'Alle kunder';
+$wb['variables_txt'] = 'Variabler:';
+$wb['gender_m_txt'] = 'Hr.';
+$wb['gender_f_txt'] = 'Fr.';
+?>

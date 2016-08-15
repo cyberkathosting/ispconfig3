@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'E-mail Catchall';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_txt'] = 'kilde';
+$wb['destination_txt'] = 'Destination email adresse';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domæne';
+$wb['add_new_record_txt'] = 'Tilføj ny Catchall';
+?>

@@ -1,0 +1,23 @@
+<?php
+$wb['head_txt'] = 'Importer e-mail konfiguration fra ISPConfig 3';
+$wb['legend_txt'] = 'Fjernserver tilslutnings detaljer';
+$wb['legend2_txt'] = 'Importer e-mail domæne';
+$wb['resync_sites_txt'] = 'Resync Websider';
+$wb['resync_ftp_txt'] = 'Resync FTP brugere';
+$wb['resync_shell_txt'] = 'Resync Shell brugere';
+$wb['resync_cron_txt'] = 'Resync cronjobs';
+$wb['resync_db_txt'] = 'Resync clientdb config';
+$wb['resync_mailbox_txt'] = 'Resync Postbokse';
+$wb['resync_dns_txt'] = 'Resync DNS-poster';
+$wb['btn_start_txt'] = 'Start Import';
+$wb['btn_connect_txt'] = 'Tilslut til fjern-server';
+$wb['btn_cancel_txt'] = 'Annullere';
+$wb['client_group_id_txt'] = 'Lokal klient';
+$wb['mail_domain_txt'] = 'Remote e-mail domæne';
+$wb['import_mailbox_txt'] = 'Importer mailboks';
+$wb['import_aliasdomain_txt'] = 'Importer alias domæne';
+$wb['import_alias_txt'] = 'Importer e-mail alias';
+$wb['import_forward_txt'] = 'Importer forward';
+$wb['import_user_filter_txt'] = 'Importer bruger filter';
+$wb['import_spamfilter_txt'] = 'Importer spamfilter';
+?>

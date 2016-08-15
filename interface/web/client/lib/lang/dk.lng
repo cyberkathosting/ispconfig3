@@ -1,0 +1,28 @@
+<?php
+$wb['Client'] = 'Kunde';
+$wb['Address'] = 'Adresse';
+$wb['Limits'] = 'Begrænsninger';
+$wb['Add Client'] = 'Tilføj Kunde';
+$wb['Edit Client'] = 'Rediger Kunder';
+$wb['Clients'] = 'Kunder';
+$wb['Templates'] = 'Skabeloner';
+$wb['Limit-Templates'] = 'Pakke-Skabeloner';
+$wb['Add Reseller'] = 'Tilføj Forhandler';
+$wb['Edit Reseller'] = 'Rediger Forhandler';
+$wb['Resellers'] = 'Forhandlere';
+$wb['error_has_clients'] = 'Denne forhandler har kunder. Slet kunder hos forhandleren først.';
+$wb['add_additional_template_txt'] = 'Tilføj ekstra skabelon';
+$wb['delete_additional_template_txt'] = 'Slet ekstra skabelon';
+$wb['Messaging'] = 'Meddelelser';
+$wb['Send email'] = 'Send E-mail';
+$wb['Edit Client Circle'] = 'Rediger Kunde Cirkel';
+$wb['Domains'] = 'Domæner';
+$wb['domain_txt'] = 'Domæne';
+$wb['client_txt'] = 'Kunde';
+$wb['error_domain_in mailuse'] = 'Dette domæne kan ikke slettes, da det er i brug som mail-domæne';
+$wb['error_domain_in webuse'] = 'Dette domæne kan ikke slettes, da det er i brug som web-domæne';
+$wb['error_client_can_not_add_domain'] = 'Du kan ikke tilføj et nyt domæne';
+$wb['error_client_group_id_empty'] = 'Du skal vælge en kunde<br>';
+$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
+$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
+?>

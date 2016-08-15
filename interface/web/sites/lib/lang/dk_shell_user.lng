@@ -1,0 +1,36 @@
+<?php
+$wb['puser_txt'] = 'Web Brugernavn';
+$wb['pgroup_txt'] = 'Web Gruppe';
+$wb['shell_txt'] = 'Shell';
+$wb['dir_txt'] = 'Base Dir';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Side';
+$wb['username_txt'] = 'Brugernavn';
+$wb['password_txt'] = 'Adgangskode';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['chroot_txt'] = 'Chroot Shell';
+$wb['quota_size_txt'] = 'Kvote';
+$wb['active_txt'] = 'Aktiv';
+$wb['username_error_empty'] = 'Brugernavn er er tom.';
+$wb['username_error_unique'] = 'Brugernavne skal være unikke.';
+$wb['username_error_regex'] = 'Brugernavne contains characters that are not allowed.';
+$wb['quota_size_error_empty'] = 'Kvote er er tom.';
+$wb['uid_error_empty'] = 'GID er tom.';
+$wb['directory_error_empty'] = 'Mappe er tom.';
+$wb['limit_shell_user_txt'] = 'Max antal of shell brugere is reached.';
+$wb['parent_domain_id_error_empty'] = 'Ingen website selected.';
+$wb['ssh_rsa_txt'] = 'SSH-RSA Public Key (for key-based logins)';
+$wb['dir_dot_error'] = 'Ingen .. in path allowed.';
+$wb['dir_slashdot_error'] = 'Ingen ./ in path allowed.';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['username_must_not_exceed_32_chars_txt'] = 'Brugernavne must not exceed 32 characters.';
+$wb['username_not_allowed_txt'] = 'Brugernavne is not allowed.';
+$wb['invalid_system_user_or_group_txt'] = 'Ugyldigt system bruger eller gruppe';
+$wb['directory_error_regex'] = 'Ugyldigt mappe';
+$wb['shell_error_regex'] = 'Ugyldigt shell';
+$wb['invalid_username_txt'] = 'Ugyldigt Brugernavn';
+$wb['directory_error_notinweb'] = 'The mappe has til be inside the web root.';
+?>

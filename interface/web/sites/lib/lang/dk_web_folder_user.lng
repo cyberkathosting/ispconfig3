@@ -1,0 +1,14 @@
+<?php
+$wb['web_folder_id_txt'] = 'Mappe';
+$wb['username_txt'] = 'Brugernavn';
+$wb['password_txt'] = 'Adgangskode';
+$wb['active_txt'] = 'Aktiv';
+$wb['folder_error_empty'] = 'Ingen web folder selected.';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['no_folder_perm'] = 'You have no permission for this folder.';
+$wb['error_user_exists_already_txt'] = 'There is already a post for this bruger.';
+?>

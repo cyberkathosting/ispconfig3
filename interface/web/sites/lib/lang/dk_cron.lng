@@ -1,0 +1,26 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Parent website';
+$wb['active_txt'] = 'Aktiv';
+$wb['client_txt'] = 'Kunde';
+$wb['run_min_txt'] = 'Minutes';
+$wb['run_hour_txt'] = 'Hours';
+$wb['run_mday_txt'] = 'Days of month';
+$wb['run_month_txt'] = 'Months';
+$wb['run_wday_txt'] = 'Days of week';
+$wb['command_txt'] = 'Command til run (commands are executed via sh, urls via wget)';
+$wb['limit_cron_txt'] = 'Maximum antal of allowed cron jobs was reached.';
+$wb['limit_cron_frequency_txt'] = 'Cron job frekvensen overskrider den tilladte grænse.';
+$wb['run_min_error_format'] = 'Ugyldigt format for minutes.';
+$wb['run_hour_error_format'] = 'Ugyldigt format for hours.';
+$wb['run_mday_error_format'] = 'Ugyldigt format for days of month.';
+$wb['run_month_error_format'] = 'Ugyldigt format for months.';
+$wb['run_wday_error_format'] = 'Ugyldigt format for days of the week.';
+$wb['command_error_format'] = 'Ugyldigt command format. Please note that in case of an url call only http/https is allowed.';
+$wb['unknown_fieldtype_error'] = 'An unknown field type has been used.';
+$wb['server_id_error_empty'] = 'The server ID er tomt.';
+$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
+$wb['command_error_empty'] = 'Command er tom.';
+$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
+$wb['log_output_txt'] = 'Log output';
+?>

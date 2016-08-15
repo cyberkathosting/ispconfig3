@@ -1,0 +1,29 @@
+<?php
+$wb['rulename_txt'] = 'Navn';
+$wb['action_txt'] = 'Handling';
+$wb['target_txt'] = 'Mappe';
+$wb['active_txt'] = 'Aktiv';
+$wb['rulename_error_empty'] = 'Navn er tomt.';
+$wb['searchterm_is_empty'] = 'Søgetermer er tomme.';
+$wb['source_txt'] = 'Kilde';
+$wb['target_error_regex'] = 'Målet må kun indeholde disse tegn: a-z, 0-9, -, ., _, og {space}';
+$wb['limit_mailfilter_txt'] = 'Max. antal af mailfiltere er nået.';
+$wb['subject_txt'] = 'Emne';
+$wb['from_txt'] = 'Fra';
+$wb['to_txt'] = 'Til';
+$wb['contains_txt'] = 'Indeholder';
+$wb['is_txt'] = 'Er';
+$wb['begins_with_txt'] = 'Begynder med';
+$wb['ends_with_txt'] = 'Slutter med';
+$wb['move_stop_txt'] = 'Flyt til';
+$wb['delete_txt'] = 'Slet';
+$wb['header_txt'] = 'Hoved';
+$wb['size_over_txt'] = 'E-mail størrelse over (KB)';
+$wb['size_under_txt'] = 'E-mail størrelse under (KB)';
+$wb['localpart_txt'] = 'Lokale del';
+$wb['domain_txt'] = 'Domæne';
+$wb['keep_txt'] = 'Behold';
+$wb['reject_txt'] = 'Afvis';
+$wb['stop_txt'] = 'Stop';
+$wb['move_to_txt'] = 'Move to';
+?>

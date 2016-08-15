@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'DNS-Guide Skabelon';
+$wb['visible_txt'] = 'Synlig';
+$wb['name_txt'] = 'Navn';
+$wb['add_new_record_txt'] = 'Tilføj ny post';
+?>

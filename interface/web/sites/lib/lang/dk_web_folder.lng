@@ -1,0 +1,8 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['path_txt'] = 'Path';
+$wb['active_txt'] = 'Aktiv';
+$wb['path_error_regex'] = 'Ugyldigt folder path.';
+$wb['error_folder_already_protected_txt'] = 'There is already a post for this folder.';
+?>

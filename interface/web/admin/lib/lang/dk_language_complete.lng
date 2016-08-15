@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Flet sprog';
+$wb['list_desc_txt'] = 'Flet den valgte sprog fil med den engelske master sprog fil. <br />Dette tilføjer manglende strenge fra engelske master sprog fil til det valgte sprog.';
+$wb['language_select_txt'] = 'Vælg sprog';
+$wb['btn_save_txt'] = 'Flet filer nu';
+$wb['btn_cancel_txt'] = 'Tilbage';
+?>

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Jobkø';
+$wb['tstamp_txt'] = 'Dato';
+$wb['server_id_txt'] = 'Server';
+$wb['dbtable_txt'] = 'DB Table';
+$wb['action_txt'] = 'Handling';
+$wb['status_txt'] = 'Status';
+?>

@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Webside harddisk kvote';
+$wb['domain_txt'] = 'Domæne/Webside';
+$wb['system_user_txt'] = 'Linux bruger';
+$wb['used_txt'] = 'Brugt plads';
+$wb['hard_txt'] = 'Hard grænse';
+$wb['soft_txt'] = 'Soft grænse';
+$wb['files_txt'] = 'Enkelte filer';
+?>

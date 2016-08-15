@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Værtsserver';
+$wb['ip_address_txt'] = 'IP adresse';
+$wb['vm_id_txt'] = 'Virtuel server';
+$wb['reserved_txt'] = 'Reserveret';
+$wb['ip_error_wrong'] = 'Udfyld venligst et gyldigt IPv4 adresse.';
+$wb['ip_error_unique'] = 'Denne IP adresse findes allerede.';
+$wb['IP address'] = 'IP adresse';
+?>

@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Exporter sprog filer';
+$wb['language_select_txt'] = 'Vælg sprog';
+$wb['btn_save_txt'] = 'Exporter det valgte sprog fil-sæt';
+$wb['btn_cancel_txt'] = 'Tilbage';
+?>

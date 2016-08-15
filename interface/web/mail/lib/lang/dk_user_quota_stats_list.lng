@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Postboks kvote';
+$wb['quota_txt'] = 'Kvote';
+$wb['name_txt'] = 'Navn';
+$wb['email_txt'] = 'E-mail Adresse';
+$wb['used_txt'] = 'Brugt plads';
+$wb['percentage_txt'] = 'Brugt %';
+?>
