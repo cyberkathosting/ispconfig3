@@ -44,13 +44,13 @@ $wb['domain_error_unique'] = 'Webová stránka nebo sub / alias doména s tímto
 $wb['domain_error_regex'] = 'Neplatné doménové jméno.';
 $wb['host_txt'] = 'Host';
 $wb['redirect_error_regex'] = 'Neplatná cesta přesměrování. Platné přesměrování je například: /test/ nebo http://www.domain.tld/test/';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
+$wb['no_redirect_txt'] = 'Žádné přesměrování';
+$wb['no_flag_txt'] = 'Žádný příznak';
 $wb['domain_error_wildcard'] = 'Wildcard subdomains are not allowed.';
 $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 $wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
-$wb['ipv6_address_txt'] = 'IPv6-Address';
+$wb['ipv6_address_txt'] = 'IPv6 adresa';
 $wb['domain_error_autosub'] = 'There is already a subdomain with these settings.';
 $wb['hd_quota_error_empty'] = 'Harddisk quota is 0 or empty.';
 $wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
@@ -76,7 +76,7 @@ $wb['ruby_txt'] = 'Ruby';
 $wb['stats_user_txt'] = 'Webstatistics username';
 $wb['stats_type_txt'] = 'Webstatistics program';
 $wb['custom_php_ini_txt'] = 'Custom php.ini settings';
-$wb['none_txt'] = 'None';
+$wb['none_txt'] = 'Žádný';
 $wb['disabled_txt'] = 'Vypnuto';
 $wb['save_certificate_txt'] = 'Save certificate';
 $wb['create_certificate_txt'] = 'Create certificate';
@@ -107,12 +107,15 @@ $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
 $wb['pm_process_idle_timeout_error_regex'] = 'PHP-FPM pm.process_idle_timeout must be a positive integer value.';
 $wb['pm_max_requests_error_regex'] = 'PHP-FPM pm.max_requests must be an integer value >= 0.';
 $wb['pm_ondemand_hint_txt'] = 'Please note that you must have PHP version >= 5.3.9 in order to use the ondemand process manager. If you select ondemand for an older PHP version, PHP will not start anymore!';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['available_php_directive_snippets_txt'] = 'Available PHP Directive Snippets:';
 $wb['available_apache_directive_snippets_txt'] = 'Available Apache Directive Snippets:';
 $wb['available_nginx_directive_snippets_txt'] = 'Available nginx Directive Snippets:';
 $wb['Domain'] = 'Přezdívky domén webové stránky';
 ?>
+
+
+

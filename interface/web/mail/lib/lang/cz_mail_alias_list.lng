@@ -4,5 +4,8 @@ $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cíl';
 $wb['email_txt'] = 'E-mail';
-$wb['add_new_record_txt'] = 'Vytvořit novou e-mailovou přezdívku';
+$wb['add_new_record_txt'] = 'Vytvořit e-mailovou přezdívku';
 ?>
+
+
+

@@ -13,3 +13,6 @@ $wb['none_txt'] = 'Žádná';
 $wb['add_new_subdomain_txt'] = 'Vytvořit subdoménu';
 $wb['add_new_aliasdomain_txt'] = 'Vytvořit přezdívku domény';
 ?>
+
+
+

@@ -27,7 +27,7 @@ $wb['install_package_txt'] = 'Nainstalujte tento balíček';
 $wb['installation_txt'] = 'Instalace';
 $wb['install_location_txt'] = 'Umístění instalace';
 $wb['acceptance_txt'] = 'Souhlas';
-$wb['acceptance_text_txt'] = 'Yes, i\'ve read the license and agree.';
+$wb['acceptance_text_txt'] = 'Ano, četl jsem licenci a souhlasím.';
 $wb['install_language_txt'] = 'Jazyk rozhraní';
 $wb['new_database_password_txt'] = 'Nové databázové heslo';
 $wb['basic_settings_txt'] = 'Základní nastavení';
@@ -51,8 +51,11 @@ $wb['installation_task_txt'] = 'Instalace plánované';
 $wb['installation_error_txt'] = 'Chyba instalace';
 $wb['installation_success_txt'] = 'Nainstalované';
 $wb['installation_remove_txt'] = 'Odstranění plánu';
-$wb['packagelist_update_finished_txt'] = 'APS aktualizace seznamu balíčků dokončena.';
+$wb['packagelist_update_finished_txt'] = 'APS aktualizace seznamu balíčků byla dokončena.';
 $wb['btn_install_txt'] = 'Instalovat';
 $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['limit_aps_txt'] = 'Max. počet APS  instancí u vašeho účtu je dosaženo.';
 ?>
+
+
+

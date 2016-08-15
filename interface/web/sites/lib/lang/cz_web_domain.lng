@@ -72,7 +72,7 @@ $wb['save_certificate_txt'] = 'Uložit certifikát';
 $wb['create_certificate_txt'] = 'Vytvořit certifikát';
 $wb['delete_certificate_txt'] = 'Smazat certifikát';
 $wb['error_ssl_cert_empty'] = 'SSL Certificate field is empty';
-$wb['ipv6_address_txt'] = 'IPv6-Address';
+$wb['ipv6_address_txt'] = 'IPv6 adresa';
 $wb['nginx_directives_txt'] = 'nginx Directives';
 $wb['seo_redirect_txt'] = 'SEO přesměrování';
 $wb['non_www_to_www_txt'] = 'Non-www -&gt; www';
@@ -93,7 +93,7 @@ $wb['hd_quota_error_regex'] = 'Kvóta pevného disku je neplatná.';
 $wb['traffic_quota_error_regex'] = 'Traffik kvóta je neplatná.';
 $wb['ssl_key_txt'] = 'SSL klíč';
 $wb['perl_txt'] = 'Perl';
-$wb['fastcgi_php_version_txt'] = 'PHP verze';
+$wb['fastcgi_php_version_txt'] = 'Výběr PHP verze';
 $wb['pm_txt'] = 'PHP-FPM Process Manager';
 $wb['pm_process_idle_timeout_txt'] = 'PHP-FPM pm.process_idle_timeout';
 $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
@@ -134,3 +134,6 @@ $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>
+
+
+

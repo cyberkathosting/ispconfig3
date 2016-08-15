@@ -12,7 +12,7 @@ $wb['registration_message_txt'] = 'Registration Message';
 $wb['domain_admins_txt'] = 'Domain Admins (JIDs)';
 $wb['use_pubsub_txt'] = 'Enable Pubsub';
 $wb['use_proxy_txt'] = 'Enable Bytestream Proxy';
-$wb['use_anon_host_txt'] = 'Enable Anonymous Host';
+$wb['use_anon_host_txt'] = 'Povolit anonymní hostitele';
 $wb['use_vjud_txt'] = 'Enable VJUD User Directory';
 $wb['vjud_opt_mode_txt'] = 'VJUD Opt Mode';
 $wb['use_muc_host_txt'] = 'Enable Multi User Chatrooms';
@@ -53,10 +53,13 @@ $wb['ssl_locality_error_regex'] = 'Neplatný SSL řádek - Název města. Platn�
 $wb['ssl_organisation_error_regex'] = 'Neplatný SSL řádek - Organizace. Platné znaky jsou: a-z, 0-9 a .,-_ (žádná diakritika)';
 $wb['ssl_organistaion_unit_error_regex'] = 'Invalid SSL Organisation Unit. Valid characters are: a-z, 0-9 and .,-_&äöüÄÖÜ';
 $wb['ssl_country_error_regex'] = 'Invalid SSL Country. Valid characters are: A-Z';
-$wb['none_txt'] = 'None';
+$wb['none_txt'] = 'Žádný';
 $wb['save_certificate_txt'] = 'Save certificate';
 $wb['create_certificate_txt'] = 'Create certificate';
 $wb['delete_certificate_txt'] = 'Delete certificate';
 $wb['ssl_error_isemail'] = 'Please enter a valid email adress for generation of the SSL certificate';
 $wb['limit_xmppdomain_txt'] = 'The max. number of XMPP domains for your account is reached.';
 ?>
+
+
+

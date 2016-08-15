@@ -15,3 +15,6 @@ $wb['send_as_txt'] = 'Odeslat jako';
 $wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 $wb['greylisting_txt'] = 'Povolit greylisting';
 ?>
+
+
+

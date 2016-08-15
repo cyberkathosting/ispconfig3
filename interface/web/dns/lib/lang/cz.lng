@@ -18,5 +18,8 @@ $wb['DNS Wizard'] = 'DNS průvodce';
 $wb['Add DNS Zone'] = 'Vytvořit DNS zónu';
 $wb['Templates'] = 'Šablony DNS';
 $wb['Secondary Zones'] = 'Sekundární DNS zóny';
-$wb['Import Zone File'] = 'Importovat vybraný DNS zonový soubor';
+$wb['Import Zone File'] = 'Importovat DNS zonový soubor';
 ?>
+
+
+
