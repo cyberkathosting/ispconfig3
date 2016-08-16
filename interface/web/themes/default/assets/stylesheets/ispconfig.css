@@ -722,7 +722,6 @@ input[type="password"].form-control[readonly] {
 }
 .tooltip-inner {
     max-width: 100%;
-<<<<<<< HEAD
 }
 .notification {
     width: 35px;
@@ -760,6 +759,4 @@ span.notification_text {
     margin-bottom: auto;
     font-family: inherit;
     color: white;
-=======
->>>>>>> 89391e179a7677045efd1f15df091696b5f55e7e
 }
