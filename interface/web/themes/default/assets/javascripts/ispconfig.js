@@ -346,6 +346,7 @@ var ISPConfig = {
 		
 		ISPConfig.loadMenus();
 		ISPConfig.keepalive();
+		ISPConfig.datalognotification();
 		setTimeout(function() {
 			try {
 				$('form#pageForm').find('input[name="username"]').focus();
@@ -493,7 +494,34 @@ var ISPConfig = {
 			}
 		});
 	},
-	
+	datalognotification: function() {
+	    var notificationContent = $.ajax({
+			type: "GET",
+			url: "datalogstatus.php",
+			dataType: "json",
+			success: function(data, textStatus, jqXHR) {
+				var dataLogItems = [];
+				$.each( data['entries'], function( key, val ) {
+						dataLogItems.push('<li><strong>' + val['text'] + ':</strong> ' + val['count'] + '</li>');
+				});
+				if(data['count'] > 0) {
+					$('.modal-body').html(dataLogItems.join(""));
+					$('.notification_text').text(data['count']);
+					$('.notification').css('display','');
+					setTimeout( function() { ISPConfig.datalognotification(); }, 2000 );
+				} else {
+					$('.notification').css('display','none');
+					$('.modal-body').html('');
+					setTimeout( function() { ISPConfig.datalognotification(); }, 5000 );
+				}
+			},
+			error: function() {
+				ISPConfig.reportError('Notification not loading, aborting.');
+				$('.notification').css('display','none');
+			}
+		});
+	},
+
 	addAdditionalTemplate: function(){
 		var tpl_add = $('#template_additional').val();
 		var addTemplate = $('#tpl_add_select').val().split('|',2);
@@ -701,7 +729,6 @@ $(document).on("click", "[data-uncheck-fields] > input[type='checkbox']", functi
 	}
 });
 
-
 $(document).on('ready', function () {
 	$.fn.extend({
 		insertAtCaret: function(myValue){
@@ -779,3 +806,4 @@ $(document).on('ready', function () {
 		return iCaretPos;
 	};
 });
+
