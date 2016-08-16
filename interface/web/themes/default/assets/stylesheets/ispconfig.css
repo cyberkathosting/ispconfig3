@@ -723,3 +723,40 @@ input[type="password"].form-control[readonly] {
 .tooltip-inner {
     max-width: 100%;
 }
+.notification {
+    width: 35px;
+    height: 35px;
+    background: #c70f19;
+    border-radius: 50%;
+    display: inline-flex;
+    margin-right: 15px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+.notification {
+	animation: pulse 2s infinite;
+}
+@keyframes pulse {
+	0% {
+		background: #ff000e;
+	}
+	50% {
+		background: #c70f19;
+	}
+	100% {
+		background: #ff000e;
+	}
+}
+.systemmonitor-state.state-info {
+    display: none;
+}
+
+span.notification_text {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: inherit;
+    color: white;
+}
