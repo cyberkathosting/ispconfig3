@@ -140,7 +140,7 @@ body {
   #sidebar header {
     margin: 1px;
     padding: 0 10px;
-    height: 40px;
+    min-height: 40px;
     line-height: 40px;
     font-weight: bold;
     border-top-left-radius: 2px;
