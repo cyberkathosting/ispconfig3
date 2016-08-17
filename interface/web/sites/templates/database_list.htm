@@ -34,7 +34,9 @@
                     <tr>
                         <th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
                         <th class="tiny-col" data-column="remote_access"><tmpl_var name="remote_access_txt"></th>
+<!--
                         <th data-column="type"><tmpl_var name="type_txt"></th>
+-->
                         <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
 						<th data-column="parent_domain_id"><tmpl_var name="parent_domain_id_txt"></th>
                         <th data-column="database_user"><tmpl_var name="database_user_txt"></th>
@@ -44,7 +46,9 @@
                     <tr>
                         <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_remote_access">{tmpl_var name='search_remote_access'}</select></td>
+<!--
                         <td><select class="form-control" name="search_type">{tmpl_var name='search_type'}</select></td>
+-->
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 						<td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td>
                         <td><select class="form-control" name="search_database_user_id">{tmpl_var name='search_database_user_id'}</select></td>
@@ -59,7 +63,9 @@
                         <tr>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="remote_access"}</a></td>
+<!--
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="type"}</a></td>
+-->
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='server_id'}">{tmpl_var name="server_id"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='parent_domain_id'}">{tmpl_var name="parent_domain_id"}</a></td>
                             <td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='database_user_id'}">{tmpl_var name="database_user_id"}</a></td>
@@ -81,7 +87,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="8"><tmpl_var name="paging"></td>
+                        <td colspan="7"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
