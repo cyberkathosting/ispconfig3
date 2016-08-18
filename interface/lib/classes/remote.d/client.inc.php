@@ -171,7 +171,7 @@ class remoting_client extends remoting {
 			// check if this one is reseller
 			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
-				throw new SoapFault('Invalid reseller', 'Selected client is not a reseller. REMOVING PARENT_CLIENT_ID!!!');
+				// Selected client is not a reseller. REMOVING PARENT_CLIENT_ID!!!
 				$params['parent_client_id'] = 0;
 			} elseif(isset($params['limit_client']) && $params['limit_client'] != 0) {
 				throw new SoapFault('Invalid reseller', 'Reseller cannot be client of another reseller.');
