@@ -208,6 +208,20 @@ class remoting_server extends remoting {
 		}
 	}
 
+	public function server_get_app_version($session_id)
+    {
+		global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if (!empty($session_id)) {
+			$ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
+			return $ispc_app_version;
+		} else {
+			return false;
+		}
+	}
 }
 
 ?>
