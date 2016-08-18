@@ -8,6 +8,7 @@ var ISPConfig = {
 	indicatorCompleted: false,
 	registeredHooks: new Array(),
 	new_tpl_add_id: 0,
+	dataLogTimer: 0,
 	
 	options: {
 		useLoadIndicator: false,
@@ -175,6 +176,8 @@ var ISPConfig = {
 						ISPConfig.onAfterContentLoad(target, $('#'+formname).serialize());
 						ISPConfig.pageFormChanged = false;
 					}
+					clearTimeout(dataLogTimer);
+					ISPConfig.dataLogNotification();
 					ISPConfig.hideLoadIndicator();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -282,6 +285,8 @@ var ISPConfig = {
 					ISPConfig.onAfterContentLoad(pagename, (params ? params : null));
 					ISPConfig.pageFormChanged = false;
 				}
+				clearTimeout(dataLogTimer); // clear running dataLogTimer
+				ISPConfig.dataLogNotification();
 				ISPConfig.hideLoadIndicator();
 			},
 			error: function() {
@@ -346,7 +351,7 @@ var ISPConfig = {
 		
 		ISPConfig.loadMenus();
 		ISPConfig.keepalive();
-		ISPConfig.datalognotification();
+		ISPConfig.dataLogNotification();
 		setTimeout(function() {
 			try {
 				$('form#pageForm').find('input[name="username"]').focus();
@@ -494,7 +499,8 @@ var ISPConfig = {
 			}
 		});
 	},
-	datalognotification: function() {
+	dataLogNotification: function() {
+		console.log(ISPConfig.options);
 	    var notificationContent = $.ajax({
 			type: "GET",
 			url: "datalogstatus.php",
@@ -502,17 +508,18 @@ var ISPConfig = {
 			success: function(data, textStatus, jqXHR) {
 				var dataLogItems = [];
 				$.each( data['entries'], function( key, val ) {
-						dataLogItems.push('<li><strong>' + val['text'] + ':</strong> ' + val['count'] + '</li>');
+					dataLogItems.push('<li><strong>' + val['text'] + ':</strong> ' + val['count'] + '</li>');
 				});
 				if(data['count'] > 0) {
 					$('.modal-body').html(dataLogItems.join(""));
 					$('.notification_text').text(data['count']);
 					$('.notification').css('display','');
-					setTimeout( function() { ISPConfig.datalognotification(); }, 2000 );
+					dataLogTimer = setTimeout( function() { ISPConfig.dataLogNotification(); }, 2000 );
 				} else {
 					$('.notification').css('display','none');
 					$('.modal-body').html('');
-					setTimeout( function() { ISPConfig.datalognotification(); }, 5000 );
+					$('#datalogModal').modal('hide');
+					dataLogTimer = setTimeout( function() { ISPConfig.dataLogNotification(); }, 5000 );
 				}
 			},
 			error: function() {

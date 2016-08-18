@@ -724,17 +724,25 @@ input[type="password"].form-control[readonly] {
     max-width: 100%;
 }
 .notification {
-    width: 35px;
-    height: 35px;
-    background: #c70f19;
-    border-radius: 50%;
-    display: inline-flex;
-    margin-right: 15px;
-    margin-top: 15px;
-    cursor: pointer;
+	width: 35px;
+	height: 35px;
+	background: #c70f19;
+	border-radius: 50%;
+	display: flex;
+	position: absolute;
+	margin-top: 15px;
+	cursor: pointer;
+	margin-right: 15px;
 }
 .notification {
 	animation: pulse 2s infinite;
+}
+@media (max-width: 600px) {
+	.notification {
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-left: 230px;
+	}
 }
 @keyframes pulse {
 	0% {
