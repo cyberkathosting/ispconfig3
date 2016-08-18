@@ -316,7 +316,7 @@ class remoting_mail extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -339,7 +339,7 @@ class remoting_mail extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -353,19 +353,19 @@ class remoting_mail extends remoting {
 	
 		//* Basic validation of variables
 		if ($server_id <= 0) {
-			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
 	
 		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail' and $action_type != 'backup_delete_mail') {
-			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
 	
 		//* Validate instance
 		$instance_record        =       $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`=? and `action_type`=? and `action_state`='pending'", $primary_id, $action_type);
 		if ($instance_record['action_id'] >= 1) {
-			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
 	
@@ -600,7 +600,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_relay_get')) {
-				$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+				throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 				return false;
 		}
 		$app->uses('remoting_lib');
@@ -614,7 +614,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_add'))
 		{
-			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_relay_recipient.tform.php', $client_id, $params);
@@ -626,7 +626,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_update'))
 		{
-			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_relay_recipient.tform.php', $client_id, $primary_id, $params);
@@ -638,7 +638,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_delete'))
 		{
-			$this->server->fault('permission_denied','You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_relay_recipient.tform.php', $primary_id);
@@ -1097,7 +1097,7 @@ class remoting_mail extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'mailquota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
