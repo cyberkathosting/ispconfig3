@@ -69,7 +69,7 @@ if($app->auth->get_client_limit($userid, 'mailrouting') != 0)
 		'html_id' => 'mail_transport_list');
 }
 
-if(count($items))
+if(count($items) && $app->system->has_service($userid, 'mail'))
 {
 	$module['nav'][] = array( 'title' => 'Email Accounts',
 		'open'  => 1,
@@ -87,7 +87,7 @@ if($app->auth->get_client_limit($userid, 'mailmailinglist') != 0)
 		'html_id' => 'mail_mailinglist_list');
 }
 
-if(count($items))
+if(count($items) && $app->system->has_service($userid, 'mail'))
 {
 	$module['nav'][] = array( 'title' => 'Mailing List',
 		'open'  => 1,
@@ -168,7 +168,7 @@ if($app->auth->get_client_limit($userid, 'xmpp_user') != 0)
         'html_id' => 'xmpp_user_list');
 }
 
-if(count($items))
+if(count($items) && $app->system->has_service($userid, 'xmpp'))
     $module['nav'][] = array( 'title' => 'Jabber / XMPP',
         'open'  => 1,
         'items' => $items);
