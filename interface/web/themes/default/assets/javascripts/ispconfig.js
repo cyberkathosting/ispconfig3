@@ -492,7 +492,6 @@ var ISPConfig = {
 			url: "keepalive.php",
 			dataType: "html",
 			success: function(data, textStatus, jqXHR) {
-				//alert(textStatus);
 				setTimeout( function() { ISPConfig.keepalive(); }, 1000000 );
 			},
 			error: function() {
