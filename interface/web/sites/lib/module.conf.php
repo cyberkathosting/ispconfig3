@@ -64,7 +64,7 @@ if(count($items))
 }
 
 // Databases menu
-if($app->auth->get_client_limit($userid, 'database') != 0)
+if($app->auth->get_client_limit($userid, 'database') != 0 && $app->system->has_service($userid, 'db'))
 {
 	$items=array();
 
