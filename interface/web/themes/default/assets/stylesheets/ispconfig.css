@@ -73,7 +73,8 @@ body {
     height: 100%; }
 
 #headerbar {
-  float: right; }
+  float: right;
+  }
 
 #searchform {
   float: right;
@@ -733,6 +734,7 @@ input[type="password"].form-control[readonly] {
 	margin-top: 15px;
 	cursor: pointer;
 	margin-right: 15px;
+	float: right;
 }
 .notification {
 	animation: pulse 2s infinite;
@@ -742,6 +744,7 @@ input[type="password"].form-control[readonly] {
 		margin-top: 0px;
 		margin-right: 0px;
 		margin-left: 230px;
+		position: relative;
 	}
 }
 @keyframes pulse {
@@ -755,7 +758,7 @@ input[type="password"].form-control[readonly] {
 		background: #ff000e;
 	}
 }
-.systemmonitor-state.state-info {
+.systemmonitor-state.state-info .statusMsg {
     display: none;
 }
 
