@@ -194,7 +194,7 @@ if ($domains_settings['use_domain_module'] == 'y') {
 	/*
 	 * The domain-module is in use.
 	*/
-	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa", 'domain');
 	$domain_select = '';
 	if(is_array($domains) && sizeof($domains) > 0) {
 		/* We have domains in the list, so create the drop-down-list */
