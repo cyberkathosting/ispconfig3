@@ -73,7 +73,8 @@ body {
     height: 100%; }
 
 #headerbar {
-  float: right; }
+  float: right;
+  }
 
 #searchform {
   float: right;
@@ -724,17 +725,26 @@ input[type="password"].form-control[readonly] {
     max-width: 100%;
 }
 .notification {
-    width: 35px;
+	width: 35px;
     height: 35px;
     background: #c70f19;
     border-radius: 50%;
-    display: inline-flex;
-    margin-right: 15px;
+    display: flex;
     margin-top: 15px;
     cursor: pointer;
+    margin-right: 5px;
+    float: right;
 }
 .notification {
 	animation: pulse 2s infinite;
+}
+@media (max-width: 600px) {
+	.notification {
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-left: 230px;
+		position: relative;
+	}
 }
 @keyframes pulse {
 	0% {
@@ -747,7 +757,7 @@ input[type="password"].form-control[readonly] {
 		background: #ff000e;
 	}
 }
-.systemmonitor-state.state-info {
+.systemmonitor-state.state-info .statusMsg {
     display: none;
 }
 
