@@ -40,7 +40,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_update_package_list')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -60,7 +60,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_available_packages_list')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -82,7 +82,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_get_package_details')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -98,14 +98,14 @@ class remoting_aps extends remoting {
 	
 		// Make sure an integer ID is given
 		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
-			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			throw new SoapFault('package_error', 'The given Package ID is not valid.');
 			return false;
 		}
 	
 		// Get package details
 		$details = $gui->getPackageDetails($primary_id);
 		if (isset($details['error'])) {
-			$this->server->fault('package_error', $details['error']);
+			throw new SoapFault('package_error', $details['error']);
 			return false;
 		}
 	
@@ -121,7 +121,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_get_package_file')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -137,14 +137,14 @@ class remoting_aps extends remoting {
 	
 		// Make sure an integer ID is given
 		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
-			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			throw new SoapFault('package_error', 'The given Package ID is not valid.');
 			return false;
 		}
 	
 		// Get package details
 		$details = $gui->getPackageDetails($primary_id);
 		if (isset($details['error'])) {
-			$this->server->fault('package_error', $details['error']);
+			throw new SoapFault('package_error', $details['error']);
 			return false;
 		}
 	
@@ -155,7 +155,7 @@ class remoting_aps extends remoting {
 		foreach ($details['Screenshots'] as $screen) { if (basename($screen['ScreenPath']) == $filename) { $found = true; break; } }
 	
 		if (!$found) {
-			$this->server->fault('package_error', 'File not found in package.');
+			throw new SoapFault('package_error', 'File not found in package.');
 			return false;
 		}
 	
@@ -167,7 +167,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_get_package_details')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -183,14 +183,14 @@ class remoting_aps extends remoting {
 	
 		// Make sure an integer ID is given
 		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
-			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			throw new SoapFault('package_error', 'The given Package ID is not valid.');
 			return false;
 		}
 	
 		// Get package settings
 		$settings = $gui->getPackageSettings($primary_id);
 		if (isset($settings['error'])) {
-			$this->server->fault('package_error', $settings['error']);
+			throw new SoapFault('package_error', $settings['error']);
 			return false;
 		}
 	
@@ -205,7 +205,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_change_package_status')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -215,12 +215,12 @@ class remoting_aps extends remoting {
 		
 		// Make sure an integer ID is given
 		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
-			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			throw new SoapFault('package_error', 'The given Package ID is not valid.');
 			return false;
 		}
 		
 		if(!isset($params['package_status']) || (($params['package_status'] != PACKAGE_ENABLED) && ($params['package_status'] != PACKAGE_LOCKED))) {
-			$this->server->fault('package_error', 'Wrong new status: '.$params['package_status']);
+			throw new SoapFault('package_error', 'Wrong new status: '.$params['package_status']);
 			return false;
 		}
 		
@@ -235,7 +235,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_install_package')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -251,25 +251,25 @@ class remoting_aps extends remoting {
 	
 		// Make sure an integer ID is given
 		if (!isset($primary_id) || !$gui->isValidPackageID($primary_id, true)) {// always adminflag
-			$this->server->fault('package_error', 'The given Package ID is not valid.');
+			throw new SoapFault('package_error', 'The given Package ID is not valid.');
 			return false;
 		}
 	
 		// Get package details
 		$details = $gui->getPackageDetails($primary_id);
 		if (isset($details['error'])) {
-			$this->server->fault('package_error', $details['error']);
+			throw new SoapFault('package_error', $details['error']);
 			return false;
 		}
 		$settings = $gui->getPackageSettings($primary_id);
 		if (isset($settings['error'])) {
-			$this->server->fault('package_error', $settings['error']);
+			throw new SoapFault('package_error', $settings['error']);
 			return false;
 		}
 	
 		// Check given Site/VHostDomain
 		if (!isset($params['main_domain'])) {
-			$this->server->fault('invalid parameters', 'No valid domain given.');
+			throw new SoapFault('invalid parameters', 'No valid domain given.');
 			return false;
 		}
 	
@@ -284,7 +284,7 @@ class remoting_aps extends remoting {
 		}
 	
 		if (!$domain) {
-			$this->server->fault('invalid parameters', 'No valid domain given.');
+			throw new SoapFault('invalid parameters', 'No valid domain given.');
 			return false;
 		}
 	
@@ -295,7 +295,7 @@ class remoting_aps extends remoting {
 			return $gui->createPackageInstance($result['input'], $primary_id);
 		}
 		
-		$this->server->fault('invalid parameters', implode('<br />', $result['error']));
+		throw new SoapFault('invalid parameters', implode('<br />', $result['error']));
 		return false;
 	}
 	
@@ -304,7 +304,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_instance_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -318,7 +318,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_instance_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -332,7 +332,7 @@ class remoting_aps extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_aps_instance_delete')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -344,7 +344,7 @@ class remoting_aps extends remoting {
 		$result = $app->db->queryOneRecord($sql, $primary_id);
 	
 		if (!$result) {
-			$this->server->fault('instance_error', 'No valid instance id given.');
+			throw new SoapFault('instance_error', 'No valid instance id given.');
 			return false;
 		}
 	

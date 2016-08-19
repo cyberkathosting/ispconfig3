@@ -899,7 +899,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -913,7 +913,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -927,19 +927,19 @@ class remoting_sites extends remoting {
 	
 		//* Basic validation of variables
 		if ($server_id <= 0) {
-			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
 	
 		if ($action_type != 'backup_download' and $action_type != 'backup_restore' and $action_type != 'backup_delete') {
-			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
 	
 		//* Validate instance
 		$instance_record = $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`= ? and `action_type`= ? and `action_state`= ?", $primary_id, $action_type, 'pending');
 		if ($instance_record['action_id'] >= 1) {
-			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
 	
@@ -958,7 +958,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -971,7 +971,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -986,7 +986,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -1001,7 +1001,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'databasequota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	

@@ -52,7 +52,7 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'admin_record_permissions')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -62,7 +62,7 @@ class remoting_admin extends remoting {
 					// check if userid is valid
 					$check = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE userid = ?', $app->functions->intval($value));
 					if(!$check || !$check['userid']) {
-						$this->server->fault('invalid parameters', $value . ' is no valid sys_userid.');
+						throw new SoapFault('invalid parameters', $value . ' is no valid sys_userid.');
 						return false;
 					}
 					$permissions[$key] = $app->functions->intval($value);
@@ -71,7 +71,7 @@ class remoting_admin extends remoting {
 					// check if groupid is valid
 					$check = $app->db->queryOneRecord('SELECT groupid FROM sys_group WHERE groupid = ?', $app->functions->intval($value));
 					if(!$check || !$check['groupid']) {
-						$this->server->fault('invalid parameters', $value . ' is no valid sys_groupid.');
+						throw new SoapFault('invalid parameters', $value . ' is no valid sys_groupid.');
 						return false;
 					}
 					$permissions[$key] = $app->functions->intval($value);
@@ -81,7 +81,7 @@ class remoting_admin extends remoting {
 					// check if permissions are valid
 					$value = strtolower($value);
 					if(!preg_match('/^[riud]+$/', $value)) {
-						$this->server->fault('invalid parameters', $value . ' is no valid permission string.');
+						throw new SoapFault('invalid parameters', $value . ' is no valid permission string.');
 						return false;
 					}
 					
@@ -95,7 +95,7 @@ class remoting_admin extends remoting {
 					
 					break;
 				default:
-					$this->server->fault('invalid parameters', 'Only sys_userid, sys_groupid, sys_perm_user and sys_perm_group parameters can be changed with this function.');
+					throw new SoapFault('invalid parameters', 'Only sys_userid, sys_groupid, sys_perm_user and sys_perm_group parameters can be changed with this function.');
 					break;
 			}
 		}

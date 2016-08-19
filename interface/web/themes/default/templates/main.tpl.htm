@@ -12,7 +12,7 @@
 
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/fonts.min.css' />
-  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.min.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/pushy.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap-datetimepicker.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/responsive.min.css' />
@@ -60,32 +60,32 @@
 				</tmpl_if>
             </tmpl_if>
           </div>
+                    <div class="notification" data-toggle="modal" data-target="#datalogModal" style="display: none;">
+	            <span class="notification_text">{tmpl_var name="datalog_changes_count"}</span>
+            </div>
+			<!-- Datalogstatus Modal -->
+			<div id="datalogModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">{tmpl_var name="datalog_changes_txt"}</h4>
+			      </div>
+			      <div class="modal-body">
+			        <ul>
+				    <tmpl_loop name="datalog_changes">
+				        <li><strong>{tmpl_var name="text"}:</strong> {tmpl_var name="count"}</li>
+				    </tmpl_loop>
+				    </ul>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!-- END Datalogstatus Modal -->
         </div>
-		<div class="notification" data-toggle="modal" data-target="#myModal" style="display: none;">
-			<span class="notification_text">{tmpl_var name="datalog_changes_count"}</span>
-		</div>
-		<!-- Datalogstatus Modal -->
-		<div id="myModal" class="modal fade" role="dialog">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">{tmpl_var name="datalog_changes_txt"}</h4>
-		      </div>
-		      <div class="modal-body">
-		        <ul>
-			    <tmpl_loop name="datalog_changes">
-			        <li><strong>{tmpl_var name="text"}:</strong> {tmpl_var name="count"}</li>
-			    </tmpl_loop>
-			    </ul>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- END Datalogstatus Modal -->
 		<tmpl_if name='logged_in' value='y'><div id='topnav-container'>
 		</div></tmpl_if>
 		<div class='clear'>
