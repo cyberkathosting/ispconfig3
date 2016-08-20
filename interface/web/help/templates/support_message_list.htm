@@ -16,13 +16,13 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th data-column="sender_id"><tmpl_var name="sender_id_txt"></th>
+                        <tmpl_if name="is_admin"><th data-column="sender_id"><tmpl_var name="sender_id_txt"></th></tmpl_if>
                         <th data-column="subject"><tmpl_var name="subject_txt"></th>
 						<th data-column="date"><tmpl_var name="date_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
-                        <td><select class="form-control" name="search_sender_id">{tmpl_var name='search_sender_id'}</select></td>
+                        <tmpl_if name="is_admin"><td><select class="form-control" name="search_sender_id">{tmpl_var name='search_sender_id'}</select></td></tmpl_if>
                         <td><input class="form-control" type="text" name="search_subject" value="{tmpl_var name='search_subject'}" /></td>
 						<td>&nbsp;</td>
                         <td class="text-right">
@@ -33,7 +33,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
-                            <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sender_id"}</a></td>
+                            <tmpl_if name="is_admin"><td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="sender_id"}</a></td></tmpl_if>
                             <td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="subject"}</a></td>
 							<td><a href="#" data-load-content="help/support_message_edit.php?id={tmpl_var name='id'}">{tmpl_var name="tstamp"}</a></td>
                             <td class="text-right">
@@ -43,13 +43,13 @@
                     </tmpl_loop>
                     <tmpl_unless name="records">
                         <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td colspan="4">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+							<tmpl_if name="is_admin"><td colspan="4"><tmpl_else><td colspan="3"></tmpl_if>{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                         </tr>
                     </tmpl_unless>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4"><tmpl_var name="paging"></td>
+                        <tmpl_if name="is_admin"><td colspan="4"><tmpl_else><td colspan="3"></tmpl_if><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
