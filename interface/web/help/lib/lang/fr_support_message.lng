@@ -12,4 +12,5 @@ $wb['answer_to_support_request_txt'] = 'Vous avez une réponse à votre demande 
 $wb['answer_to_support_request_sent_txt'] = 'Your reply to the support request has been sent. Please don’t reply to this e-mail.';
 $wb['support_request_sent_txt'] = 'Votre réponse à la demande d’assistance a été envoyée. Merci de ne pas répondre à cet e-mail.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Le message n’a pas pu être envoyé parce que l’adresse e-mail du destinataire et/ou de l’émetteur est invalide.';
+$wb['subject_is_empty'] = 'The subject can not be empty.';
 ?>
