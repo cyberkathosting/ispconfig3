@@ -276,7 +276,7 @@ class bind_plugin {
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 			} else {
-				$loglevel = @($dns_config['disable_bind_log'] === 'y')?:'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
+				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
 				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
 				if(is_array($out) && !empty($out)){
 					$app->log('Reason for Bind restart failure: '.implode("\n", $out), $loglevel);
