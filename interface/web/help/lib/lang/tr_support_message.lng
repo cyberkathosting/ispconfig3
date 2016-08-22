@@ -12,4 +12,5 @@ $wb['answer_to_support_request_txt'] = 'Destek isteğiniz yanıtlandı. Lütfen 
 $wb['answer_to_support_request_sent_txt'] = 'Destek isteğinize yazdığınız yanıt gönderildi. Lütfen bu e-potayı yanıtlamayın.';
 $wb['support_request_sent_txt'] = 'Destek isteğiniz gönderildi. Lütfen bu e-postayı yanıtlamayın.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Gönderen ya da alıcı adresi geçersiz olduğundan bu ileti gönderilemedi.';
+$wb['subject_is_empty'] = 'The subject can not be empty.';
 ?>

@@ -12,4 +12,5 @@ $wb['support_request_sent_txt'] = 'Su petición de soporte ha sido enviada. Por 
 $wb['support_request_subject_txt'] = 'Petición de soporte';
 $wb['support_request_txt'] = 'Usted ha recibido una petición de soporte. Por favor no responda a este correo, puede comprobar la petición en el panel de control ISPConfig.';
 $wb['tstamp_txt'] = 'Marca de tiempo';
+$wb['subject_is_empty'] = 'The subject can not be empty.';
 ?>
