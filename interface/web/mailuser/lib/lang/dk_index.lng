@@ -1,0 +1,12 @@
+<?php
+$wb['page_head_txt'] = 'Postboks indstillinger';
+$wb['page_desc_txt'] = 'Her kan du redigere indstillingerne for e-mail kontoen.';
+$wb['email_txt'] = 'E-mail adresse';
+$wb['login_txt'] = 'Log ind';
+$wb['server_address_txt'] = 'Postserver adresse';
+$wb['cc_txt'] = 'Send kopi til (CC)';
+$wb['quota_txt'] = 'Postboks størrelse';
+$wb['unlimited_txt'] = 'Ubegrænset';
+$wb['mb_txt'] = 'MB';
+$wb['none_txt'] = 'Ingen';
+?>

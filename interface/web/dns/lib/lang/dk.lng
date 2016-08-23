@@ -1,0 +1,22 @@
+<?php
+$wb['DNS'] = 'DNS';
+$wb['Zones'] = 'Zoner';
+$wb['DNS A'] = 'DNS A';
+$wb['DNS ALIAS'] = 'DNS ALIAS';
+$wb['DNS CNAME'] = 'DNS CNAME';
+$wb['DNS hinfo'] = 'DNS hinfo';
+$wb['DNS mx'] = 'DNS mx';
+$wb['DNS ns'] = 'DNS ns';
+$wb['DNS ptr'] = 'DNS ptr';
+$wb['DNS RP'] = 'DNS RP';
+$wb['DNS Zone'] = 'DNS Zone';
+$wb['Records'] = 'Poster';
+$wb['DNS SRV'] = 'DNS SRV';
+$wb['DNS TXT Record'] = 'DNS TXT Post';
+$wb['DNS TXT'] = 'DNS TXT';
+$wb['DNS Wizard'] = 'DNS-Guide';
+$wb['Add DNS Zone'] = 'Tilføj DNS-Zone';
+$wb['Templates'] = 'Skabeloner';
+$wb['Secondary Zones'] = 'Sekundær DNS-Zoner';
+$wb['Import Zone File'] = 'Zone-Fil Import';
+?>

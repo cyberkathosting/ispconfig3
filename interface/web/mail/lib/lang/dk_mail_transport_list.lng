@@ -1,0 +1,9 @@
+<?php
+$wb['list_head_txt'] = 'Avanceret E-mail Routing';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domæne';
+$wb['transport_txt'] = 'Transport';
+$wb['sort_order_txt'] = 'Sorter efter';
+$wb['add_new_record_txt'] = 'Tilføj ny transport';
+?>

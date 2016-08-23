@@ -1,0 +1,8 @@
+<?php
+$wb['faq_section_name_txt'] = 'Sektion Navn';
+$wb['faq_delete_txt'] = 'Slet';
+$wb['faq_edit_txt'] = 'Rediger';
+$wb['faq_sections_txt'] = 'Sektioner';
+$wb['faq_faq_sections_txt'] = 'OSS Sektioner';
+$wb['faq_new_section_txt'] = 'Tilføj et nyt afsnit';
+?>

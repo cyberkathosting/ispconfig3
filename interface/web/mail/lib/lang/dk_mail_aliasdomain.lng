@@ -1,0 +1,11 @@
+<?php
+$wb['source_txt'] = 'Kilde';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Aktiv';
+$wb['no_domain_perm'] = 'Du har ikke tilladelse til dette domæne.';
+$wb['limit_mailaliasdomain_txt'] = 'Max. antal af email alias domæner for din konto er nået.';
+$wb['source_destination_identical_txt'] = 'Kilde og mål Domæne er det samme.';
+$wb['source_error_empty'] = 'Kilde Domæne er tomt.';
+$wb['source_error_unique'] = 'Dupliker kilde Domæne.';
+$wb['source_error_regex'] = 'Ugyldigt kilde domæne navn.';
+?>

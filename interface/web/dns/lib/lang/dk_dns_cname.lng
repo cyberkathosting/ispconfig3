@@ -1,0 +1,17 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Værtsnavn';
+$wb['type_txt'] = 'type';
+$wb['data_txt'] = 'Mål Værtsnavn';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_dns_record_txt'] = 'Max. antal DNS-poster for din konto er nået.';
+$wb['no_zone_perm'] = 'Du har ikke tilladelse til at tilføje en post til denne DNS zone.';
+$wb['name_error_empty'] = 'Værtsnavnet er tomt.';
+$wb['name_error_regex'] = 'Værtsnavnet har et forkert format.';
+$wb['data_error_empty'] = 'Mål-værtsnavn er tom';
+$wb['data_error_regex'] = 'Mål-værtsnavn format er ugyldigt';
+$wb['data_error_duplicate'] = 'Duplikere A-Record eller CNAME-Record';
+$wb['ttl_range_error'] = 'Min. TTL tid er 60 sekunder.';
+?>

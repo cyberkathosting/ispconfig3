@@ -1,0 +1,9 @@
+<?php
+$wb['faq_question_txt'] = 'Spørgsmål';
+$wb['faq_section_name_txt'] = 'Sektion';
+$wb['faq_delete_txt'] = 'Slet';
+$wb['faq_edit_txt'] = 'Rediger';
+$wb['faq_sections_txt'] = 'Sektion';
+$wb['faq_faq_questions_txt'] = 'Ofte Stillede Spørgsmål';
+$wb['faq_new_question_txt'] = 'Tilføj et nyt spørgsmål & svar par';
+?>

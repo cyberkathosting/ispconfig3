@@ -33,3 +33,6 @@ $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['expires_txt'] = 'Expire at';
 ?>
+
+
+

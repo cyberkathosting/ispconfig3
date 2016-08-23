@@ -1,5 +1,4 @@
 <?php
-$wb['password_txt'] = 'Parola';
 $wb['password_strength_txt'] = 'Parola Güçlüğü';
 $wb['language_txt'] = 'Dil';
 $wb['password_mismatch'] = 'Parola ile onayı aynı değil.';
@@ -9,4 +8,5 @@ $wb['generate_password_txt'] = 'Parola Oluştur';
 $wb['repeat_password_txt'] = 'Parola Onayı';
 $wb['password_mismatch_txt'] = 'Parola ile onayı aynı değil.';
 $wb['password_match_txt'] = 'Parola ile onayı aynı.';
+$wb['password_txt'] = 'Password';
 ?>

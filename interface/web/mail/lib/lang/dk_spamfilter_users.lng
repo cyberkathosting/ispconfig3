@@ -1,0 +1,13 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['priority_txt'] = 'Prioritet';
+$wb['policy_id_txt'] = 'Politik';
+$wb['email_txt'] = 'E-mail (Mønster)';
+$wb['fullname_txt'] = 'Navn';
+$wb['local_txt'] = 'Lokal';
+$wb['email_error_notempty'] = 'E-mail adressen må ikke være tom.';
+$wb['fullname_error_notempty'] = 'Navn må ikke være tomt.';
+$wb['10 - highest'] = '10 - højeste';
+$wb['5 - medium'] = '5 - medium';
+$wb['1 - lowest'] = '1 - laveste';
+?>

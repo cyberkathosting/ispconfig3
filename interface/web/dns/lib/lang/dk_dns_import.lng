@@ -1,0 +1,16 @@
+<?php
+$wb['zone_file_import_txt'] = 'Zone Fil Import';
+$wb['server_id_txt'] = 'Server';
+$wb['client_txt'] = 'Kunde';
+$wb['btn_save_txt'] = 'Importer Zone fil';
+$wb['btn_cancel_txt'] = 'Annullere';
+$wb['domain_txt'] = 'Domæne';
+$wb['zone_file_successfully_imported_txt'] = 'Zone filen er med succes blevet importeret!';
+$wb['error_no_valid_zone_file_txt'] = 'Dette er tilsyneladende ikke en gyldig zone fil!';
+$wb['zonefile_to_import_txt'] = 'Zone Fil';
+$wb['domain_field_desc_txt'] = 'Kan være tomt, hvis domænenavnet er i filnavnet eller indholdet af zone-filen.';
+$wb['title'] = 'Importer Zone Filer';
+$wb['no_file_uploaded_error'] = 'Ingen zone-fil overført';
+$wb['error_no_server_id'] = 'No server provided.';
+$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+?>

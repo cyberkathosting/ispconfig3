@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Gebruikersnaam:';
-$wb['password_txt'] = 'Wachtwoord:';
-$wb['function_txt'] = 'Funties:';
+$wb['username_txt'] = 'Gebruikersnaam';
+$wb['password_txt'] = 'Wachtwoord';
+$wb['function_txt'] = 'Funties';
 $wb['username_error_unique'] = 'Gebruikersnaam moet uniek zijn';
 $wb['username_error_empty'] = 'Gebruikersnaam moet ingevuld zijn';
 $wb['password_error_empty'] = 'Wachtwoord moet ingevuld zijn';
-$wb['password_strength_txt'] = 'Wachtwoord sterkte:';
+$wb['password_strength_txt'] = 'Wachtwoord sterkte';
 $wb['Mail domain functions'] = 'Mail domein functies';
 $wb['Mail user functions'] = 'Mail gebruiker functies';
 $wb['Mail alias functions'] = 'Mail alias functies';

@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'Apps & Tilføjelses pakker';
+$wb['installed_txt'] = 'Status';
+$wb['package_title_txt'] = 'Pakke';
+$wb['package_description_txt'] = 'Beskrivelse';
+$wb['action_txt'] = 'Handling';
+$wb['toolsarea_head_txt'] = 'Pakker';
+$wb['repoupdate_txt'] = 'Opdater pakke listen';
+$wb['package_id_txt'] = 'lokal App-ID';
+$wb['no_packages_txt'] = 'Ingen pakker tilgængelig';
+$wb['edit_txt'] = 'Rediger';
+$wb['delete_txt'] = 'Slet';
+?>

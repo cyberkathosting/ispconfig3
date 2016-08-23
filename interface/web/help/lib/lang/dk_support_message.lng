@@ -1,0 +1,16 @@
+<?php
+$wb['recipient_id_txt'] = 'Modtager ID';
+$wb['sender_id_txt'] = 'Afsender ID';
+$wb['subject_txt'] = 'Emne';
+$wb['message_txt'] = 'Meddelelse';
+$wb['tstamp_txt'] = 'Tidsstempel';
+$wb['reply_txt'] = 'Svar';
+$wb['date_txt'] = 'Dato';
+$wb['support_request_subject_txt'] = 'Support Anmodning';
+$wb['support_request_txt'] = 'Du har fået en anmodning om support. Venligst, besvare ikke denne e-mail, men behandle support anmodningen fra ISPConfig Kontrol Panelet.';
+$wb['answer_to_support_request_txt'] = 'Du har fået et svar på din support anmodning. Venligst, besvare ikke denne e-mail, men behandle support anmodningen fra ISPConfig Kontrol Panelet.';
+$wb['answer_to_support_request_sent_txt'] = 'Dit svar på support anmodningen er blevet sendt. Venligst, besvare ikke denne e-mail.';
+$wb['support_request_sent_txt'] = 'Din support anmodning er blevet sendt. Venligst, besvare ikke denne e-mail.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'Meddelelsen kunne ikke sendes, fordi modtageren og/eller afsenderens e-mail adresse ikke er gyldig.';
+$wb['subject_is_empty'] = 'The subject can not be empty.';
+?>

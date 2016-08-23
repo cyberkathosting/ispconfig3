@@ -1,0 +1,7 @@
+<?php
+$wb['confirm_action_txt'] = 'Bekræft handling';
+$wb['delete_explanation'] = 'Denne handling vil slette følgende antal poster forbundet med denne kunde';
+$wb['btn_save_txt'] = 'Slet kunden';
+$wb['btn_cancel_txt'] = 'Annullere uden at slette kunden';
+$wb['confirm_client_delete_txt'] = 'Er du sikker på at du vil slette denne kunde?';
+?>

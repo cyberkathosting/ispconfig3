@@ -740,7 +740,8 @@ class db extends mysqli
 		global $app;
 
 		$return = array('count' => 0, 'entries' => array());
-		if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
+		//if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
+		// removed in favor of new non intrusive datalogstatus notification header
 
 		if($login == '' && isset($_SESSION['s']['user'])) {
 			$login = $_SESSION['s']['user']['username'];

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Postfix Header og Body Checks';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['pattern_txt'] = 'Mønster';
+$wb['action_txt'] = 'Handling';
+$wb['add_new_record_txt'] = 'Tilføj nyt Indholds Filter';
+?>

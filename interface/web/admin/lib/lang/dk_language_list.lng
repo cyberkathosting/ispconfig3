@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Sprog fil editor';
+$wb['language_select_txt'] = 'Vælg sprog';
+$wb['module_txt'] = 'Modul';
+$wb['lang_file_txt'] = 'Sprog fil';
+$wb['lang_file_date_txt'] = 'Seneste redigering';
+?>

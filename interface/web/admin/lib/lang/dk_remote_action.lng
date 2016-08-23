@@ -1,0 +1,12 @@
+<?php
+$wb['select_server_txt'] = 'Vælg Server(e)';
+$wb['btn_do_txt'] = 'Udfør handling';
+$wb['do_osupdate_caption'] = 'Udfør OS-Opdatering på fjern server';
+$wb['do_osupdate_desc'] = 'Denne Handling udfør en \'aptitude -y upgrade\' på den valgte server.<br><br><strong>BRUG DETTE PÅ EGEN RISIKO!</strong>';
+$wb['do_ispcupdate_caption'] = 'Udfør ISPConfig 3 - Opdatering på fjern-server';
+$wb['do_ispcupdate_desc'] = 'Denne Handling udfør en ISPConfig 3 opdatering på den valgte server.<br><br><strong>BRUG DETTE PÅ EGEN RISIKO!</strong>';
+$wb['action_scheduled'] = 'Handlingen er planlagt til udførelse';
+$wb['select_all_server'] = 'Alle servere';
+$wb['ispconfig_update_title'] = 'ISPConfig opdateringsinstruktioner';
+$wb['ispconfig_update_text'] = 'Log ind som root-bruger på Shell af din server og udføre kommandoen<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />for at starte ISPConfig opdateringen.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Klik her for detaljerede opdateringsinstruktioner</a>';
+?>

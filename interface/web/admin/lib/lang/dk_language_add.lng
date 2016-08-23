@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Tilføj nyt sprog';
+$wb['language_select_txt'] = 'Vælg basis sprog';
+$wb['language_new_txt'] = 'Nyt sprog';
+$wb['language_new_hint_txt'] = '2 karakters ISO 639-1 sprog-kode (See http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['btn_save_txt'] = 'Opret nyt sprog fil-sæt';
+$wb['btn_cancel_txt'] = 'Tilbage';
+?>

@@ -1,0 +1,13 @@
+<?php
+$wb['email_txt'] = 'E-mail';
+$wb['destination_txt'] = 'Destination E-mail';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_mailforward_txt'] = 'Max. antal af e-mail forwarders for din konto er nået.';
+$wb['duplicate_mailbox_txt'] = 'Der er allerede en mailboks med denne e-mail adresse';
+$wb['domain_txt'] = 'Domæne';
+$wb['source_txt'] = 'Kilde E-mail';
+$wb['email_error_isemail'] = 'Please enter a valid email address.';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
+$wb['greylisting_txt'] = 'Enable greylisting';
+?>

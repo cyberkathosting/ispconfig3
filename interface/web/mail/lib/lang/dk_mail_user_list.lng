@@ -1,0 +1,12 @@
+<?php
+$wb['list_head_txt'] = 'Postboks';
+$wb['email_txt'] = 'E-mail';
+$wb['autoresponder_txt'] = 'Autosvarer';
+$wb['add_new_record_txt'] = 'Tilføj ny Postboks';
+$wb['name_txt'] = 'Navn';
+$wb['login_txt'] = 'Log ind';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
+?>

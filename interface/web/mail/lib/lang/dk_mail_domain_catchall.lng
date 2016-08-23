@@ -1,0 +1,11 @@
+<?php
+$wb['domain_txt'] = 'Domæne';
+$wb['destination_txt'] = 'Destination E-mail';
+$wb['active_txt'] = 'Aktiv';
+$wb['domain_error_unique'] = 'Der er allerede en catchall post for dette domæne.';
+$wb['no_domain_perm'] = 'Du har ikke tilladelse til dette domæne.';
+$wb['domain_error_regex'] = 'Ugyldigt domæne navn eller domæne, indeholder ugyldigt karaktere.';
+$wb['limit_mailcatchall_txt'] = 'Max. antal af e-mail catchall konti for din konto er nået.';
+$wb['source_txt'] = 'Kilde';
+$wb['destination_error_isemail'] = 'Destinationen er ikke en gyldig e-mail adresse.';
+?>

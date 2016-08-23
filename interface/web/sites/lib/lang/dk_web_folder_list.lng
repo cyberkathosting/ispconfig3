@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Mappe';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['path_txt'] = 'Path';
+$wb['add_new_record_txt'] = 'Tilføj ny Mappe';
+?>

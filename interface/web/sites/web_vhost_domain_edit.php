@@ -775,7 +775,7 @@ class page_action extends tform_actions {
 			/*
 			 * The domain-module is in use.
 			*/
-			$domains = $app->tools_sites->getDomainModuleDomains($this->_vhostdomain_type == 'subdomain' ? null : "web_domain", $this->dataRecord["domain"]);
+			$domains = $app->tools_sites->getDomainModuleDomains($this->_vhostdomain_type == 'subdomain' ? null : "web_domain");
 			$domain_select = '';
 			$selected_domain = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
@@ -835,6 +835,7 @@ class page_action extends tform_actions {
 			$tmp_sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", intval($tmp_web['sys_groupid']));
 			if(intval($tmp_sys_group['client_id']) > 0) $tmp_client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", intval($tmp_sys_group['client_id']));
 			if(is_array($tmp_client) && !empty($tmp_client) && trim($this->dataRecord['ssl_organisation']) == '' && trim($this->dataRecord['ssl_locality']) == '' && trim($this->dataRecord['ssl_state']) == '' && trim($this->dataRecord['ssl_organisation_unit']) == '') $app->tpl->setVar("show_helper_links", true);
+			$app->tpl->setVar('is_ssl_enabled', $tmp_web['ssl']);
 		}
 
 		$sys_config = $app->getconf->get_global_config('misc');

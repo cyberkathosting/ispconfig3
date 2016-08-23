@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Tilgængelig pakker';
+$wb['name_txt'] = 'Navn';
+$wb['version_txt'] = 'Version';
+$wb['category_txt'] = 'Kategori';
+$wb['status_txt'] = 'Unlocked';
+$wb['filter_txt'] = 'Søg';
+?>

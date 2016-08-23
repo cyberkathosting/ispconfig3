@@ -1,0 +1,18 @@
+<?php
+$wb['tpl_default_admin_head_txt'] = 'Global Standard-Tema Indstillinger';
+$wb['tpl_default_admin_desc_txt'] = '?';
+$wb['server_id_txt'] = 'Server';
+$wb['client_id_txt'] = 'Kunde';
+$wb['name_txt'] = 'PHP Navn';
+$wb['Name'] = 'Navn';
+$wb['FastCGI Settings'] = 'FastCGI Indstillinger';
+$wb['PHP-FPM Settings'] = 'PHP-FPM Indstillinger';
+$wb['Additional PHP Versions'] = 'Yderligere PHP Versioner';
+$wb['Form to edit additional PHP versions'] = 'Formular for at redigere yderligere PHP-versioner';
+$wb['server_php_name_error_empty'] = 'Navne-feltet må ikke være tomt.';
+$wb['php_fastcgi_binary_txt'] = 'Sti til PHP FastCGI binary';
+$wb['php_fastcgi_ini_dir_txt'] = 'Sti til php.ini mappe';
+$wb['php_fpm_init_script_txt'] = 'Sti til PHP-FPM init script';
+$wb['php_fpm_ini_dir_txt'] = 'Sti til php.ini mappe';
+$wb['php_fpm_pool_dir_txt'] = 'Sti til PHP-FPM pool mappe';
+?>

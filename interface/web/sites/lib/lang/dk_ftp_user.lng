@@ -1,0 +1,35 @@
+<?php
+$wb['uid_txt'] = 'Bruger identifier (UID)';
+$wb['gid_txt'] = 'Gruppe identifier (GID)';
+$wb['dir_txt'] = 'Mappe';
+$wb['quota_files_txt'] = 'Filekvote';
+$wb['quota_files_unity_txt'] = 'Files';
+$wb['ul_ratio_txt'] = 'Uploadratio';
+$wb['dl_ratio_txt'] = 'Downloadratio';
+$wb['ul_bandwidth_txt'] = 'Uploadbandwidth';
+$wb['dl_bandwidth_txt'] = 'Downloadbandwidth';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['username_txt'] = 'Brugernavn';
+$wb['password_txt'] = 'Adgangskode';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['quota_size_txt'] = 'Harddisk-Kvote';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_ftp_user_txt'] = 'Max. antal of FTP brugere for din konto er nået.';
+$wb['username_error_empty'] = 'Brugernavn er tomt.';
+$wb['username_error_unique'] = 'Brugernavne skal være unikke.';
+$wb['username_error_regex'] = 'Brugernavne contains charachters that are not allowed.';
+$wb['quota_size_error_empty'] = 'Kvote er tomt.';
+$wb['uid_error_empty'] = 'GID er tom.';
+$wb['directory_error_empty'] = 'Mappe er tom.';
+$wb['directory_error_notinweb'] = 'Mappe not inside of web root mappe.';
+$wb['parent_domain_id_error_empty'] = 'Ingen website selected.';
+$wb['quota_size_error_regex'] = 'Kvote: indtast -1 for ubegrænset eller et tal > 0';
+$wb['dir_dot_error'] = 'Ingen .. in path allowed.';
+$wb['dir_slashdot_error'] = 'Ingen ./ i stien er tilladt.';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['expires_txt'] = 'Expire at';
+?>

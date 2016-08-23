@@ -14,8 +14,11 @@ $wb['backup_type_mysql'] = 'MySQL Databáze';
 $wb['backup_type_web'] = 'Soubory webových stránek';
 $wb['filesize_txt'] = 'Velikost souboru';
 $wb['delete_backup_txt'] = 'Smazat zálohu';
-$wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
-$wb['delete_confirm_txt'] = 'Really delete this backup?';
+$wb['delete_info_txt'] = 'Bylo zahájeno odstranění zálohy. Tato akce může trvat několik minut než bude dokončena.';
+$wb['delete_confirm_txt'] = 'Opravdu chcete smazat tuto zálohu ?';
 $wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
 $wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>
+
+
+

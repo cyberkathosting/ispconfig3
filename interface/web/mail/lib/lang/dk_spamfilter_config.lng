@@ -1,0 +1,20 @@
+<?php
+$wb['getmail_config_dir_txt'] = 'Getmail Config Path';
+$wb['ip_address_txt'] = 'IP-Adresse';
+$wb['netmask_txt'] = 'Netmask';
+$wb['gateway_txt'] = 'Gateway';
+$wb['hostname_txt'] = 'Værtsnavn';
+$wb['nameservers_txt'] = 'Navneservere';
+$wb['module_txt'] = 'Server Modul';
+$wb['maildir_path_txt'] = 'Maildir Path';
+$wb['homedir_path_txt'] = 'Homedir Path';
+$wb['mailuser_uid_txt'] = 'Mailuser UID';
+$wb['mailuser_gid_txt'] = 'Mailbruger GID';
+$wb['mailuser_name_txt'] = 'Mailbruger Navn';
+$wb['mailuser_group_txt'] = 'Mailbruger Gruppe';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost Bruger';
+$wb['relayhost_password_txt'] = 'Relayhost Adgangskode';
+$wb['mailbox_size_limit_txt'] = 'Postboks Størrelse Begrænsninger';
+$wb['message_size_limit_txt'] = 'Meddelelse Størrelse Begrænsninger';
+?>

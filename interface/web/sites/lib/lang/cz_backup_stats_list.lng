@@ -8,3 +8,6 @@ $wb['backup_server_txt'] = 'Server';
 $wb['backup_interval_txt'] = 'Interval / cnt.';
 $wb['backup_size_txt'] = 'Velikost zálohy';
 ?>
+
+
+

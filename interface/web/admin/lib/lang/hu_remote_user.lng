@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Felhasználónév:';
-$wb['password_txt'] = 'Jelszó:';
-$wb['function_txt'] = 'Funkciók:';
+$wb['username_txt'] = 'Felhasználónév';
+$wb['password_txt'] = 'Jelszó';
+$wb['function_txt'] = 'Funkciók';
 $wb['username_error_unique'] = 'A Felhasználónévnek egyedinek kell lennie';
 $wb['username_error_empty'] = 'A Felhasználónév nem lehet üres';
 $wb['password_error_empty'] = 'A Jelszó nem lehet üres';
-$wb['password_strength_txt'] = 'Jelszó erőssége:';
+$wb['password_strength_txt'] = 'Jelszó erőssége';
 $wb['Mail domain functions'] = 'Mail domain funkciók';
 $wb['Mail user functions'] = 'Mail user funkciók';
 $wb['Mail alias functions'] = 'Mail alias funkciók';

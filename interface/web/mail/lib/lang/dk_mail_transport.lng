@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domæne';
+$wb['destination_txt'] = 'Destination';
+$wb['type_txt'] = 'Type';
+$wb['mx_txt'] = 'Ingen MX lookup';
+$wb['sort_order_txt'] = 'Sort by';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_mailrouting_txt'] = 'Max. antal af ruter for din konto er nået.';
+$wb['transport_txt'] = 'Transport';
+?>

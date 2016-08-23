@@ -36,7 +36,8 @@ class cronjob_letsencrypt extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
+		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+		$letsencrypt = reset($letsencrypt);
 		if(is_executable($letsencrypt)) {
 			$version = trim(exec($letsencrypt . ' --version 2>/dev/null'));
 			if(preg_match('/^(\S+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {

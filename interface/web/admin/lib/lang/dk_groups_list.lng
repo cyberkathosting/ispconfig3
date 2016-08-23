@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Systembruger grupper';
+$wb['description_txt'] = 'Beskrivelse';
+$wb['name_txt'] = 'Gruppe';
+$wb['add_new_record_txt'] = 'Tilføj ny Gruppe';
+$wb['warning_txt'] = '<b>ADVARSEL:</b> Du må ikke redigere eller ændre brugerindstillinger her. Brug indstillingerne Kunde og Forhandlere i Kunde-modulet i stedet. Ændring eller at skifte brugere eller grupper her kan forårsage tab af data!';
+?>

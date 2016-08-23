@@ -171,12 +171,10 @@ class remoting_client extends remoting {
 			// check if this one is reseller
 			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
-				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
-				return false;
-			}
-
-			if(isset($params['limit_client']) && $params['limit_client'] != 0) {
-				$this->server->fault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				// Selected client is not a reseller. REMOVING PARENT_CLIENT_ID!!!
+				$params['parent_client_id'] = 0;
+			} elseif(isset($params['limit_client']) && $params['limit_client'] != 0) {
+				throw new SoapFault('Invalid reseller', 'Reseller cannot be client of another reseller.');
 				return false;
 			}
 		}
@@ -210,12 +208,12 @@ class remoting_client extends remoting {
 			// check if this one is reseller
 			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
-				$this->server->fault('Invalid reseller', 'Selected client is not a reseller.');
+				throw new SoapFault('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
 			}
 
 			if(isset($params['limit_client']) && $params['limit_client'] != 0) {
-				$this->server->fault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				throw new SoapFault('Invalid reseller', 'Reseller cannot be client of another reseller.');
 				return false;
 			}
 		}
@@ -253,7 +251,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -261,7 +259,7 @@ class remoting_client extends remoting {
 			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ?";
 			return $app->db->queryOneRecord($sql, $client_id);
 		} else {
-			$this->server->fault('The ID must be an integer.');
+			throw new SoapFault('The ID must be an integer.');
 			return array();
 		}
 	}
@@ -291,7 +289,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_update')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -299,13 +297,13 @@ class remoting_client extends remoting {
 			// check if client exists
 			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
-				$this->server->fault('Invalid client');
+				throw new SoapFault('Invalid client');
 				return false;
 			}
 			// check if template exists
 			$check = $app->db->queryOneRecord('SELECT `template_id` FROM `client_template` WHERE `template_id` = ?', $template_id);
 			if(!$check) {
-				$this->server->fault('Invalid template');
+				throw new SoapFault('Invalid template');
 				return false;
 			}
 
@@ -320,7 +318,7 @@ class remoting_client extends remoting {
 
 			return $insert_id;
 		} else {
-			$this->server->fault('The IDs must be of type integer.');
+			throw new SoapFault('The IDs must be of type integer.');
 			return false;
 		}
 	}
@@ -329,7 +327,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_update')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -337,13 +335,13 @@ class remoting_client extends remoting {
 			// check if client exists
 			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
-				$this->server->fault('Invalid client');
+				throw new SoapFault('Invalid client');
 				return false;
 			}
 			// check if template exists
 			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `assigned_template_id` = ?', $assigned_template_id);
 			if(!$check) {
-				$this->server->fault('Invalid template');
+				throw new SoapFault('Invalid template');
 				return false;
 			}
 
@@ -358,7 +356,7 @@ class remoting_client extends remoting {
 
 			return $affected_rows;
 		} else {
-			$this->server->fault('The IDs must be of type integer.');
+			throw new SoapFault('The IDs must be of type integer.');
 			return false;
 		}
 	}

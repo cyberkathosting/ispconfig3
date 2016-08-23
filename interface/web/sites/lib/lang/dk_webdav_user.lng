@@ -1,0 +1,21 @@
+<?php
+$wb['dir_txt'] = 'Mappe';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['username_txt'] = 'Brugernavn';
+$wb['password_txt'] = 'Adgangskode';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_webdav_user_txt'] = 'Max. antal af webdav brugere for din konto er nået.';
+$wb['username_error_empty'] = 'Brugernavn er tom.';
+$wb['username_error_unique'] = 'Brugernavne skal være unikke.';
+$wb['username_error_regex'] = 'Brugernavne indeholder tegn, der ikke er tilladt.';
+$wb['directory_error_empty'] = 'Mappe er tom.';
+$wb['parent_domain_id_error_empty'] = 'Ingen webside er valgt.';
+$wb['dir_dot_error'] = 'Ingen .. i stien er tilladt.';
+$wb['dir_slashdot_error'] = 'Ingen ./ i stien er tilladt.';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+?>

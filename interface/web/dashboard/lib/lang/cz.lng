@@ -2,3 +2,6 @@
 $wb['welcome_user_txt'] = 'Vítejte %s';
 $wb['available_modules_txt'] = 'Dostupné moduly';
 ?>
+
+
+

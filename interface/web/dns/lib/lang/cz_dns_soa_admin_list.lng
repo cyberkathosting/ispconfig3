@@ -5,7 +5,10 @@ $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'Zóna';
 $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
-$wb['add_new_record_wizard_txt'] = 'Vytvořit novou DNS zónu pomocí průvodce';
-$wb['add_new_record_txt'] = 'Vytvořit novou DNS zónu manuálně';
+$wb['add_new_record_wizard_txt'] = 'Vytvořit DNS zónu pomocí průvodce';
+$wb['add_new_record_txt'] = 'Vytvořit DNS zónu manuálně';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
+
+
+

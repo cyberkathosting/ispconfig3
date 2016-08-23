@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Fjern-Brugere';
+$wb['list_desc_txt'] = '?';
+$wb['add_new_record_txt'] = 'Tilføj ny bruger';
+$wb['parent_remote_userid_txt'] = 'Bruger ID';
+$wb['username_txt'] = 'Brugernavn';
+?>
