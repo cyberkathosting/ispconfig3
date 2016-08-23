@@ -25,7 +25,8 @@ $wb['domain_txt'] = 'Doména';
 $wb['keep_txt'] = 'Keep';
 $wb['reject_txt'] = 'Reject';
 $wb['stop_txt'] = 'Stop';
-$wb['move_to_txt'] = 'Přesunout';
+$wb['move_to_txt'] = 'Move to';
+$wb['mark_read_txt'] = 'Mark as read';
 ?>
 
 

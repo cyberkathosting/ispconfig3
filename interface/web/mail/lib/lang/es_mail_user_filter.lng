@@ -26,4 +26,5 @@ $wb['target_error_regex'] = 'El destino solo puede contener los siguientes carac
 $wb['target_txt'] = 'Carpeta';
 $wb['to_txt'] = 'Para';
 $wb['move_to_txt'] = 'Move to';
+$wb['mark_read_txt'] = 'Mark as read';
 ?>
