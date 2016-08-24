@@ -429,7 +429,7 @@ class cronjob_quota_notify extends cronjob {
 
 					foreach ($monitor_data as $cid) {
 
-						foreach($cid_data as $monitor) {
+						foreach($cid as $monitor) {
 
 							if ($monitor['database_name'] == $database) {
 								//* get the client
