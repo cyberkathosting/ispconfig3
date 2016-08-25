@@ -51,8 +51,8 @@ $app->tpl_defaults();
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	$name = $_SESSION['s']['user']['username'];
 } else {
-	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
-	$name = $tmp['contact_name'];
+	$tmp = $app->db->queryOneRecord("SELECT contact_firstname, contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
+	$name = @(!empty($tmp['contact_firstname']))?$tmp['contact_firstname'].' '.$tmp['contact_name']:$tmp['contact_name'];
 }
 
 $welcome = sprintf($wb['welcome_user_txt'], htmlentities($name, ENT_QUOTES, 'UTF-8'));
