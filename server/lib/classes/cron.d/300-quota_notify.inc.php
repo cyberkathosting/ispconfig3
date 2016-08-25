@@ -55,6 +55,8 @@ class cronjob_quota_notify extends cronjob {
 		$this->_tools = new monitor_tools();
 		/* end global section for monitor cronjobs */
 
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+
 		//######################################################################################################
 		// enforce traffic quota (run only on the "master-server")
 		//######################################################################################################
@@ -429,7 +431,7 @@ class cronjob_quota_notify extends cronjob {
 
 					foreach ($monitor_data as $cid) {
 
-						foreach($cid_data as $monitor) {
+						foreach($cid as $monitor) {
 
 							if ($monitor['database_name'] == $database) {
 								//* get the client
@@ -471,36 +473,37 @@ class cronjob_quota_notify extends cronjob {
 
 									}
 
-								}
+								} else {
 
-								//* could a notification be sent?
-								$send_notification = false;
-								if(!$rec['last_quota_notification']) $send_notification = true; //* not yet notified
-								elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
+									//* could a notification be sent?
+									$send_notification = false;
+									if(!$rec['last_quota_notification']) $send_notification = true; //* not yet notified
+									elseif($web_config['overquota_notify_freq'] > 0 && $rec['notified_before'] >= $web_config['overquota_notify_freq']) $send_notification = true;
 
-								//* Send quota notifications
-								if(($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y') && $send_notification == true) {
-									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
-									$placeholders = array(
-										'{database_name}' => $rec['database_name'],
-										'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
-										'{used}' => $app->functions->formatBytes($monitor['size']),
-										'{quota}' => $quota.' MB',
-										'{ratio}' => number_format($used_ratio * 100, 2, '.', '').'%'
-									);
+									//* Send quota notifications
+									if(($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y') && $send_notification == true) {
+										$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
+										$placeholders = array(
+											'{database_name}' => $rec['database_name'],
+											'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
+											'{used}' => $app->functions->formatBytes($monitor['size']),
+											'{quota}' => $quota.' MB',
+											'{ratio}' => number_format($used_ratio * 100, 2, '.', '').'%'
+										);
 
-									$recipients = array();
+										$recipients = array();
 
-									//* send email to admin
-									if($global_config['admin_mail'] != '' && $web_config['overquota_db_notify_admin'] == 'y')
-										$recipients[] = $global_config['admin_mail'];
+										//* send email to admin
+										if($global_config['admin_mail'] != '' && $web_config['overquota_db_notify_admin'] == 'y')
+											$recipients[] = $global_config['admin_mail'];
 
-									//* Send email to client
-									if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '')
-										$recipients[] = $client['email'];
+										//* Send email to client
+										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '')
+											$recipients[] = $client['email'];
 
-									$this->_tools->send_notification_email('db_quota_notification', $placeholders, $recipients);
+										$this->_tools->send_notification_email('db_quota_notification', $placeholders, $recipients);
 
+									}
 								}
 
 							}
