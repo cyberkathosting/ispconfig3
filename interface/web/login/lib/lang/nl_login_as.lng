@@ -8,4 +8,5 @@ $wb['active_txt'] = 'Active';
 $wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
 $wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
 $wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
+$wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
 ?>
