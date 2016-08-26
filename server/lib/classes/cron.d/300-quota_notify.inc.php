@@ -469,7 +469,7 @@ class cronjob_quota_notify extends cronjob {
 										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '') 
 											$recipients[] = $client['email'];
 
-										$this->_tools->send_notification_email('db_quota_ok_notification', $placeholders, $recipients);
+										$this->_tools->send_notification_email('db_quota_notification', $placeholders, $recipients);
 
 									}
 
@@ -501,7 +501,7 @@ class cronjob_quota_notify extends cronjob {
 										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '')
 											$recipients[] = $client['email'];
 
-										$this->_tools->send_notification_email('db_quota_notification', $placeholders, $recipients);
+										$this->_tools->send_notification_email('db_quota_ok_notification', $placeholders, $recipients);
 
 									}
 								}
