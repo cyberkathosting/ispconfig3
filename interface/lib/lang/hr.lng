@@ -150,4 +150,6 @@ $wb['weak_password_length_txt'] = 'Unešena šifra nije dobra. Mora biti dugačk
 $wb['security_check1_txt'] = 'Provjerite sigurnosne dozvole:';
 $wb['security_check2_txt'] = 'greška.';
 $wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
+$wb['select_directive_snippet_txt'] = 'Directive Snippets';
+$wb['select_master_directive_snippet_txt'] = 'Master Directive Snippets';
 ?>
