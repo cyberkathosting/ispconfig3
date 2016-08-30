@@ -37,7 +37,7 @@ Copyright (c) Tri-Plex technology
 class remoting {
 
 	//* remote session timeout in seconds
-	private $session_timeout = 600;
+	private $session_timeout = 1800;
 
 	public $oldDataRecord;
 	public $dataRecord;
