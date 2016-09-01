@@ -418,4 +418,31 @@ function setDefaultServers(){
 	
 }
 
+
+
+/** Checks if a detected service differs from db setup and asks the user what to do
+ *	@param $servicename string the name of the Database-Field in "servers" for this service
+ *	@param $detected_value boolean The result of service detection
+ */
+function check_service_config_state($servicename, $detected_value) {
+	global $current_svc_config, $inst;
+	
+	if ($current_svc_config[$servicename] == 1) $current_state = true;
+	else $current_state = false;
+	
+	if ($detected_value != $current_state) {
+		if ($detected_value) {
+			$svcdetect_state1 = 'has been';
+			$svcdetect_state2 = 'configure';
+			$svcdetect_defaultanswer = 'no';
+		} else {
+			$svcdetect_state1 = 'has not been';
+			$svcdetect_state2 = '(strongly recommended) disable';
+			$svcdetect_defaultanswer = 'yes';
+		}
+		if ($inst->simple_query('Service \''.$servicename.'\' '.$svcdetect_state1.' detected do you want to '.$svcdetect_state2.' it? ', array('yes', 'no'), $svcdetect_defaultanswer, 'svc_detect_change_'.$servicename) == 'yes') return $detected_value;
+		else return $current_state;
+	} else return $current_state;
+}
+
 ?>
