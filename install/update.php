@@ -305,7 +305,8 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 $inst->find_installed_apps();
 
 //** Check for current service config state and compare to our results
-$current_svc_config = $inst->dbmaster->queryOneRecord("SELECT * FROM `server` WHERE server_id=?", $conf['server_id']);
+if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
+else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 $conf['postfix']['installed'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
 $conf['services']['dns'] = check_service_config_state('dns_server', ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']));
 $conf['services']['web'] = check_service_config_state('web_server', ($conf['apache']['installed'] || $conf['nginx']['installed']));
@@ -314,6 +315,7 @@ $conf['services']['firewall'] = check_service_config_state('firewall_server', ($
 $conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
 //** vv is this intended??? If you want to check adapt the lines above... vv
 $conf['services']['db'] = true;
+unset($current_svc_config);
 
 
 //** Shall the services be reconfigured during update

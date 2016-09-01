@@ -425,22 +425,13 @@ function setDefaultServers(){
  *	@param $detected_value boolean The result of service detection
  */
 function check_service_config_state($servicename, $detected_value) {
-	global $current_svc_config, $inst;
+	global $current_svc_config, $inst, $conf;
 	
-	if ($current_svc_config[$servicename] == 1) $current_state = true;
-	else $current_state = false;
+	if ($current_svc_config[$servicename] == 1) $current_state = 1;
+	else $current_state = 0;
 	
 	if ($detected_value != $current_state) {
-		if ($detected_value) {
-			$svcdetect_state1 = 'has been';
-			$svcdetect_state2 = 'configure';
-			$svcdetect_defaultanswer = 'no';
-		} else {
-			$svcdetect_state1 = 'has not been';
-			$svcdetect_state2 = '(strongly recommended) disable';
-			$svcdetect_defaultanswer = 'yes';
-		}
-		if ($inst->simple_query('Service \''.$servicename.'\' '.$svcdetect_state1.' detected do you want to '.$svcdetect_state2.' it? ', array('yes', 'no'), $svcdetect_defaultanswer, 'svc_detect_change_'.$servicename) == 'yes') return $detected_value;
+		if ($inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename) == 'yes') return $detected_value;
 		else return $current_state;
 	} else return $current_state;
 }
