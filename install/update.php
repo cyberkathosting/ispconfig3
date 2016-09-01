@@ -351,6 +351,12 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 			$inst->configure_mailman('update');
 		}
 
+		//* Configure mlmmj
+		if($conf['mlmmj']['installed'] == true && $inst->reconfigure_app('Mlmmj', $reconfigure_services_answer)) ) {
+			swriteln('Configuring Mlmmj');
+			$inst->configure_mlmmj(/*update*/);
+		}
+
 		//** Configure Spamasassin
 		if($inst->reconfigure_app('Spamassassin', $reconfigure_services_answer)) {
 			swriteln('Configuring Spamassassin');
