@@ -608,6 +608,12 @@ $form["tabs"]['mail'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'mailinglist' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => '20',
+			'value' => array('mlmmj' => 'Mlmmj', 'mailman' => 'Mailman')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

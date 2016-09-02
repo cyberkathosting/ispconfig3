@@ -1,0 +1,5 @@
+# Path of the skeleton for mailing lists
+skel_dir = /usr/share/mlmmj/text.skel
+
+# Where to store ML data and archive
+spool_dir = /var/spool/mlmmj

@@ -120,6 +120,10 @@ $conf['mailman']['installed'] = false; // will be detected automatically during 
 $conf['mailman']['config_dir'] = '/etc/mailman';
 $conf['mailman']['init_script'] = 'mailman';
 
+//* mlmmj
+$conf['mlmmj']['installed'] = false; // will be detected automatically during installation
+$conf['mlmmj']['config_dir'] = '/etc/mlmmj';
+
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';
