@@ -49,4 +49,14 @@ $autoupdate['reconfigure_services'] = 'yes'; // yes (default), no
 $autoupdate['ispconfig_port'] = '8080'; // default: 8080
 $autoupdate['create_new_ispconfig_ssl_cert'] = 'no'; // no (default), yes
 $autoupdate['reconfigure_crontab'] = 'yes'; // yes (default), no
+
+/* These are for service-detection (defaulting to old behaviour where alle changes were automatically accepted) */
+$autoupdate['svc_detect_change_mail_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_web_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_dns_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_xmpp_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_firewall_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_vserver_server'] = 'yes'; // yes (default), no
+$autoupdate['svc_detect_change_db_server'] = 'yes'; // yes (default), no
+
 ?>
