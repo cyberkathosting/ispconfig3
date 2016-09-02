@@ -65,9 +65,9 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 				$nagios_url .= $pathparts[0].'/check_mk/login.py?_login=1&_password='.rawurlencode($nagios_password).'&_username='.rawurlencode($nagios_user);
 				if (strlen(@$pathparts[1]) > 0) {
 					if (substr($pathparts[1], 0, 1) == '/') $pathparts[1] = substr($pathparts[1], 1, strlen($pathparts[1])-1);
-					$nagios_url .= '&_origtarget='.rawurlencode(str_replace('&', '%3D', str_replace('?', '%3F', $pathparts[1])));
+					$nagios_url .= '&_origtarget='.rawurlencode($pathparts[1]);
 				}
-				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.$nagios_url_parts['query'];
+				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.rawurlencode($nagios_url_parts['query']);
 				
 			} else {
 				$nagios_url = $nagios_url_parts['scheme'].'://'.$auth_string.$nagios_url_parts['host'].(isset($nagios_url_parts['port']) ? ':' . $nagios_url_parts['port'] : '');
@@ -75,9 +75,9 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 				$nagios_url .= $pathparts[0].'/check_mk/login.py';
 				if (strlen(@$pathparts[1]) > 0) {
 					if (substr($pathparts[1], 0, 1) == '/') $pathparts[1] = substr($pathparts[1], 1, strlen($pathparts[1])-1);
-					$nagios_url .= '?_origtarget='.rawurlencode(str_replace('&', '%3D', str_replace('?', '%3F', $pathparts[1])));
+					$nagios_url .= '?_origtarget='.rawurlencode($pathparts[1]);
 				}
-				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.$nagios_url_parts['query'];
+				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.rawurlencode($nagios_url_parts['query']);
 			}
 
 		} else {
