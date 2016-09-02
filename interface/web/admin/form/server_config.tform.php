@@ -357,6 +357,34 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'nagios_url' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array ( 0 => array ( 'type' => 'REGEX',
+					'regex' => '/^((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))$/',
+					'errmsg'=> 'nagios_url_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'nagios_user' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'nagios_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'monitor_system_updates' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
