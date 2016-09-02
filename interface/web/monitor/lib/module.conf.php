@@ -135,7 +135,7 @@ $items[] = array( 'title'  => "Show OpenVz VE BeanCounter",
 $items[] = array( 'title'  => "Show Munin",
 	'target'  => 'content',
 	'link' => 'monitor/show_munin.php',
-	'html_id' => 'monit');
+	'html_id' => 'munin');
 
 $module["nav"][] = array( 'title' => 'Server State',
 	'open'  => 1,
