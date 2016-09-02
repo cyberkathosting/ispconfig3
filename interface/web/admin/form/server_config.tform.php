@@ -362,7 +362,7 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators' => array ( 0 => array ( 'type' => 'REGEX',
-					'regex' => '/^((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))$/',
+					'regex' => '/(^$)|(^((?:http|https)(?::\\/{2}[\\w]+)(?:[\\/|\\.]?)(?:[^\\s"]*))$)/',
 					'errmsg'=> 'nagios_url_error_regex'),
 			),
 			'value' => '',

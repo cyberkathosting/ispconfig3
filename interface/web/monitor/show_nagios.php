@@ -56,18 +56,42 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'){
 		$nagios_url = str_replace('[SERVERNAME]', $_SESSION['monitor']['server_name'], $nagios_url);
 		$nagios_user = trim($server_config['nagios_user']);
 		$nagios_password = trim($server_config['nagios_password']);
-		$auth_string = '';
-		if($nagios_user != ''){
-			$auth_string = rawurlencode($nagios_user);
-		}
-		if($nagios_user != '' && $nagios_password != ''){
-			$auth_string .= ':'.rawurlencode($nagios_password);
-		}
-		if($auth_string != '') $auth_string .= '@';
-
 		$nagios_url_parts = parse_url($nagios_url);
+		if (strpos($nagios_url, '/check_mk') !== false) {
+			//** Check_MK
+			if($nagios_user != ''){
+				$nagios_url = $nagios_url_parts['scheme'].'://'.$auth_string.$nagios_url_parts['host'].(isset($nagios_url_parts['port']) ? ':' . $nagios_url_parts['port'] : '');
+				$pathparts = explode('/check_mk', $nagios_url_parts['path'], 2);
+				$nagios_url .= $pathparts[0].'/check_mk/login.py?_login=1&_password='.rawurlencode($nagios_password).'&_username='.rawurlencode($nagios_user);
+				if (strlen(@$pathparts[1]) > 0) {
+					if (substr($pathparts[1], 0, 1) == '/') $pathparts[1] = substr($pathparts[1], 1, strlen($pathparts[1])-1);
+					$nagios_url .= '&_origtarget='.rawurlencode(str_replace('&', '%3D', str_replace('?', '%3F', $pathparts[1])));
+				}
+				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.$nagios_url_parts['query'];
+				
+			} else {
+				$nagios_url = $nagios_url_parts['scheme'].'://'.$auth_string.$nagios_url_parts['host'].(isset($nagios_url_parts['port']) ? ':' . $nagios_url_parts['port'] : '');
+				$pathparts = explode('/check_mk', $nagios_url_parts['path'], 2);
+				$nagios_url .= $pathparts[0].'/check_mk/login.py';
+				if (strlen(@$pathparts[1]) > 0) {
+					if (substr($pathparts[1], 0, 1) == '/') $pathparts[1] = substr($pathparts[1], 1, strlen($pathparts[1])-1);
+					$nagios_url .= '?_origtarget='.rawurlencode(str_replace('&', '%3D', str_replace('?', '%3F', $pathparts[1])));
+				}
+				if (isset($nagios_url_parts['query'])) $nagios_url .= '?'.$nagios_url_parts['query'];
+			}
 
-		$nagios_url = $nagios_url_parts['scheme'].'://'.$auth_string.$nagios_url_parts['host'].(isset($nagios_url_parts['port']) ? ':' . $nagios_url_parts['port'] : '').(isset($nagios_url_parts['path']) ? $nagios_url_parts['path'] : '').(isset($nagios_url_parts['query']) ? '?' . $nagios_url_parts['query'] : '').(isset($nagios_url_parts['fragment']) ? '#' . $nagios_url_parts['fragment'] : '');
+		} else {
+			//** Nagios
+			$auth_string = '';
+			if($nagios_user != ''){
+				$auth_string = rawurlencode($nagios_user);
+			}
+			if($nagios_user != '' && $nagios_password != ''){
+				$auth_string .= ':'.rawurlencode($nagios_password);
+			}
+			if($auth_string != '') $auth_string .= '@';
+			$nagios_url = $nagios_url_parts['scheme'].'://'.$auth_string.$nagios_url_parts['host'].(isset($nagios_url_parts['port']) ? ':' . $nagios_url_parts['port'] : '').(isset($nagios_url_parts['path']) ? $nagios_url_parts['path'] : '').(isset($nagios_url_parts['query']) ? '?' . $nagios_url_parts['query'] : '').(isset($nagios_url_parts['fragment']) ? '#' . $nagios_url_parts['fragment'] : '');
+		}
 
 		$app->tpl->setVar("nagios_url", $nagios_url);
 	} else {
