@@ -121,6 +121,11 @@ $items[] = array( 'title'  => "Show Services",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=services',
 	'html_id' => 'services');
+	
+$items[] = array( 'title'  => "Show Nagios/Check_MK",
+	'target'  => 'content',
+	'link' => 'monitor/show_nagios.php',
+	'html_id' => 'nagios');
 
 $items[] = array( 'title'  => "Show Monit",
 	'target'  => 'content',
