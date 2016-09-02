@@ -96,6 +96,16 @@
                 <label for="munin_password" class="col-sm-3 control-label">{tmpl_var name='munin_password_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="munin_password" id="munin_password" value="{tmpl_var name='munin_password'}" class="form-control" /></div></div>
 			<div class="form-group">
+                <label for="nagios_url" class="col-sm-3 control-label">{tmpl_var name='nagios_url_txt'}</label>
+                <div class="col-sm-6"><input type="text" name="nagios_url" id="nagios_url" value="{tmpl_var name='nagios_url'}" class="form-control" />&nbsp;{tmpl_var name='nagios_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a></div>
+            </div>
+			<div class="form-group">
+                <label for="nagios_user" class="col-sm-3 control-label">{tmpl_var name='nagios_user_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="nagios_user" id="nagios_user" value="{tmpl_var name='nagios_user'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="nagios_password" class="col-sm-3 control-label">{tmpl_var name='nagios_password_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="nagios_password" id="nagios_password" value="{tmpl_var name='nagios_password'}" class="form-control" /></div></div>
+			<div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='monitor_system_updates_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='monitor_system_updates'}
