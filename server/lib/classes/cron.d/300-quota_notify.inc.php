@@ -442,7 +442,7 @@ class cronjob_quota_notify extends cronjob {
 								else $used_ratio = 0;
 
 								//* send notifications only if 90% or more of the quota are used
-								if($used_ratio > 0.9 && $user_ratio != 0) {
+								if($used_ratio > 0.9 && $used_ratio != 0) {
 
 									//* could a notification be sent?
 									$send_notification = false;
