@@ -730,7 +730,6 @@ input[type="password"].form-control[readonly] {
 	background: #c70f19;
 	border-radius: 50%;
 	display: flex;
-	position: absolute;
 	margin-top: 15px;
 	cursor: pointer;
 	margin-right: 15px;
