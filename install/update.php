@@ -313,8 +313,7 @@ $conf['services']['web'] = check_service_config_state('web_server', ($conf['apac
 $conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['xmpp']['installed']);
 $conf['services']['firewall'] = check_service_config_state('firewall_server', ($conf['ufw']['installed'] || $conf['firewall']['installed']));
 $conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
-//** vv is this intended??? If you want to check adapt the lines above... vv
-$conf['services']['db'] = true;
+$conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
 
 
