@@ -316,6 +316,13 @@ $conf['services']['vserver'] = check_service_config_state('vserver_server', $con
 $conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
 
+//** Is the ISPConfg Panel installed on this host? This might partially override user's preferences later.
+if($conf['apache']['installed'] == true){
+	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
+if($conf['nginx']['installed'] == true){
+	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
 
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no', 'selected'), 'yes','reconfigure_services');
@@ -391,7 +398,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		}
 	}
 
-	if($conf['services']['web']) {
+	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
 
 		if($conf['pureftpd']['installed'] == true && $inst->reconfigure_app('Pureftpd', $reconfigure_services_answer)) {
 			//** Configure Pureftpd
@@ -462,14 +469,8 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
-if($conf['apache']['installed'] == true){
-	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
-}
-if($conf['nginx']['installed'] == true){
-	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
-}
 
-if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
+if ($inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
 	if($autoupdate['ispconfig_port'] == 'default') $autoupdate['ispconfig_port'] = $ispconfig_port_number;

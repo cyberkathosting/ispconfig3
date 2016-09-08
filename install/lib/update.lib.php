@@ -431,8 +431,12 @@ function check_service_config_state($servicename, $detected_value) {
 	else $current_state = 0;
 	
 	if ($detected_value != $current_state) {
-		if ($inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename) == 'yes') return $detected_value;
-		else return $current_state;
+		$answer = $inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename)
+		if ($answer == 'yes') return $detected_value;
+		else {
+			if ($servicename == 'web_server') echo "If ISPConfig-Panel is installed on this Server we will configure the Web Server anyways but will not enable it in ISPConfig.\n";
+			return $current_state;
+		}
 	} else return $current_state;
 }
 
