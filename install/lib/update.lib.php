@@ -434,7 +434,7 @@ function check_service_config_state($servicename, $detected_value) {
 		$answer = $inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename);
 		if ($answer == 'yes') return $detected_value;
 		else {
-			if ($servicename == 'web_server') echo "\033[0;33mWARNING: If ISPConfig-Panel is installed on this Server we will configure the Web Server anyways but will not enable it in ISPConfig.\033[0m\n\n";
+			if ($servicename == 'web_server') echo "\033[0;33mWARNING: If ISPConfig-Interface (Webfrontend) is installed on this Server we will configure the Web Server anyways but will not enable it in ISPConfig.\033[0m\n\n";
 			return $current_state;
 		}
 	} else return $current_state;
