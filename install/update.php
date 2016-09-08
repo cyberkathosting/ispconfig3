@@ -307,7 +307,7 @@ $inst->find_installed_apps();
 //** Check for current service config state and compare to our results
 if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
 else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
-$conf['postfix']['installed'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
+$conf['services']['mail'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
 $conf['services']['dns'] = check_service_config_state('dns_server', ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']));
 $conf['services']['web'] = check_service_config_state('web_server', ($conf['apache']['installed'] || $conf['nginx']['installed']));
 $conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['xmpp']['installed']);
@@ -315,6 +315,13 @@ $conf['services']['firewall'] = check_service_config_state('firewall_server', ($
 $conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
 $conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
+
+//** Write new decisions into DB
+$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', vserver_server = '{$conf['services']['vserver']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
+$inst->db->query($sql, $conf['mysql']['database'].'.server', $conf['server_id']);
+if($conf['mysql']['master_slave_setup'] == 'y') {
+	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', $conf['server_id']);
+}
 
 //** Is the ISPConfg Panel installed on this host? This might partially override user's preferences later.
 if($conf['apache']['installed'] == true){
