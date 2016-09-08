@@ -44,7 +44,7 @@ class db extends mysqli
 	private $dbClientFlags = 0; // MySQL Client falgs
 	/**#@-*/
 
-	public $show_error_messages = false; // false in server, true in interface
+	public $show_error_messages = true; // false in server, true in interface
 
 
 	/* old things - unused now ////

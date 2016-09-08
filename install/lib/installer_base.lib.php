@@ -2335,7 +2335,7 @@ Email Address []:
 		$xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 		
 		$sql = "UPDATE ?? SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ?, vserver_server = ?, proxy_server = ?, firewall_server = ?, xmpp_server = ? WHERE server_id = ?";
-		$this->db->query($sql, $conf['mysql']['database'].'server', $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $proxy_server_enabled, $firewall_server_enabled, $xmpp_server_enabled, $conf['server_id']);
+		$this->db->query($sql, 'server', $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $proxy_server_enabled, $firewall_server_enabled, $xmpp_server_enabled, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 			$this->dbmaster->query($sql, $conf['mysql']['master_database'].'server', $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $proxy_server_enabled, $firewall_server_enabled, $xmpp_server_enabled, $conf['server_id']);
 		}
