@@ -429,6 +429,9 @@ function check_service_config_state($servicename, $detected_value) {
 	
 	if ($current_svc_config[$servicename] == 1) $current_state = 1;
 	else $current_state = 0;
+
+	if ($detected_value) $detected_value = 1;
+	else $detected_value = 0;
 	
 	if ($detected_value != $current_state) {
 		$answer = $inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename);
