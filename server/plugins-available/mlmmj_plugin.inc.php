@@ -111,7 +111,7 @@ class mlmmj_plugin {
 			touch("$listDir/control/noarchive");
 			file_put_contents("$listDir/control/owner", $owner);
 			file_put_contents("$listDir/control/listaddress", "$listName@$listDomain");
-			file_put_contents("$listDir/control/prefix", $listName);
+			file_put_contents("$listDir/control/prefix", "[$listName]");
 
 			// Copying language translations
 			if(!is_dir("/usr/share/mlmmj/text.skel/$lang")) $lang = 'en';
@@ -204,6 +204,16 @@ class mlmmj_plugin {
 
 			if($rec['subject_prefix'])
 				file_put_contents("$controlDir/prefix", $rec['subject_prefix']);
+			else @unlink("$controlDir/prefix");
+
+			if($rec['mail_footer'])
+				file_put_contents("$controlDir/footer", $rec['mail_footer']);
+			else @unlink("$controlDir/footer");
+
+			if($rec['archive'] == 'y')
+				@unlink("$controlDir/noarchive");
+			else
+				touch("$controlDir/noarchive");
 
 			$this->changeOwnership("$controlDir/*");
 		}
