@@ -38,6 +38,9 @@
 
 */
 
+$app->uses('getconf');
+$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
+
 $form["title"]    = "Mailing List";
 $form["description"]  = "";
 $form["name"]    = "mail_mailinglist";
@@ -151,4 +154,149 @@ $form["tabs"]['mailinglist'] = array (
 		//#################################
 	)
 );
+
+if($mlManager == 'mlmmj') {
+	$form["tabs"]['options'] = array (
+		'title'  => "Options",
+		'width'  => 100,
+		'template'  => "templates/mail_mailinglist_options.htm",
+		'fields'  => array (
+			//#################################
+			// Begin Datatable fields
+			//#################################
+			'admins' => array (
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXTAREA',
+				'cols'  => '30',
+				'rows'  => '5'
+			),
+			'subject_prefix' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value'  => '',
+				'width'  => '30',
+				'maxlength' => '255',
+			),
+			'mail_footer' => array (
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXTAREA',
+				'cols'  => '30',
+				'rows'  => '5'
+			),
+			'archive' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'n',
+				'value'  => array(0 => 'n', 1 => 'y')
+			),
+		)
+	);
+
+		$form["tabs"]['membership'] = array (
+		'title'  => "Membership",
+		'width'  => 100,
+		'template'  => "templates/mail_mailinglist_membership.htm",
+		'fields'  => array (
+			//#################################
+			// Begin Datatable fields
+			//#################################
+// 			'membership' => array (
+// 				'datatype' => 'TEXT',
+// 				'formtype' => 'TEXTAREA',
+// 				'cols'  => '30',
+// 				'rows'  => '5'
+// 			),
+		)
+	);
+
+
+	$form["tabs"]['privacy'] = array (
+		'title'  => "Privacy",
+		'width'  => 100,
+		'template'  => "templates/mail_mailinglist_privacy.htm",
+		'fields'  => array (
+			//#################################
+			// Begin Datatable fields
+			//#################################
+			'list_type' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'RADIO',
+				'regex'  => '',
+				'errmsg' => '',
+				'default' => 'user',
+				'value'  => array ('open' => 'Open', 'closed' => 'Closed'),
+				'separator' => '',
+				'width'  => '30',
+				'maxlength' => '255',
+				'rows'  => '',
+				'cols'  => ''
+			),
+			'subscribe_policy' => array (
+				'datatype'      => 'VARCHAR',
+				'formtype'      => 'SELECT',
+				'default'       => 'confirm',
+				'value'         => array(
+					'disabled' => 'sub_disabled_txt',
+					'confirm' => 'sub_confirm_txt',
+					'approval' => 'sub_approval_txt',
+					'both' => 'sub_both_txt',
+					'none' => 'sub_none_txt'),
+			),
+			'posting_policy' => array (
+				'datatype'      => 'VARCHAR',
+				'formtype'      => 'SELECT',
+				'default'       => 'confirm',
+				'value'         => array(
+					'closed' => 'post_closed_txt',
+					'moderated' => 'post_moderated_txt',
+					'free' => 'post_free_txt'),
+			),
+		)
+	);
+
+	$form["tabs"]['digest'] = array (
+		'title'  => "Digest",
+		'width'  => 100,
+		'template'  => "templates/mail_mailinglist_digest.htm",
+		'fields'  => array (
+			//#################################
+			// Begin Datatable fields
+			//#################################
+			'digesttext' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'n',
+				'value'  => array(0 => 'n', 1 => 'y')
+			),
+			'digestsub' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'n',
+				'value'  => array(0 => 'n', 1 => 'y')
+			),
+			'digestinterval' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '7',
+			'validators' => array(0 => array('type' => 'ISINT'),
+				array('type'=>'RANGE', 'range'=>'1:60')
+			),
+			'value' => '',
+        'width' => '15'
+		),
+			'digestmaxmails' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '50',
+			'validators' => array(0 => array('type' => 'ISINT'),
+				array('type'=>'RANGE', 'range'=>'10:100')
+			),
+			'value' => '',
+        'width' => '15'
+		),
+		)
+	);
+
+}
 ?>

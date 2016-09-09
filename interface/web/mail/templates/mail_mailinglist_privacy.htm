@@ -1,0 +1,44 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+<legend>Privacy</legend>
+
+<div class="form-group">
+	<label class="col-sm-3 control-label">{tmpl_var name='list_type_txt'}</label>
+	<div class="col-sm-9">
+		{tmpl_var name='list_type'}
+	</div>
+</div>
+
+<div class="form-group open_list">
+	<label for="subscribe_policy" class="col-sm-3 control-label">{tmpl_var name='subscribe_policy_txt'}</label>
+	<div class="col-sm-9"><select name="subscribe_policy" id="subscribe_policy" class="form-control">
+		{tmpl_var name='subscribe_policy'}
+	</select></div>
+</div>
+
+<div class="form-group open_list">
+	<label for="posting_policy" class="col-sm-3 control-label">{tmpl_var name='posting_policy_txt'}</label>
+	<div class="col-sm-9"><select name="posting_policy" id="posting_policy" class="form-control">
+		{tmpl_var name='posting_policy'}
+	</select></div>
+</div>
+
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+<div class="clear"><div class="right">
+		<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_mailinglist_edit.php">{tmpl_var name='btn_save_txt'}</button>
+		<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_mailinglist_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+	$("input[type=radio][name='list_type[]']").change(function() {
+		if(this.value == 'open')
+			$('.open_list:hidden').show();
+		else $('.open_list:visible').hide();
+	});
+
+	if($("input[type=radio][name='list_type[]'][value=closed]").attr("checked"))
+		$('.open_list:visible').hide();
+</script>

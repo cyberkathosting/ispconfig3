@@ -1,0 +1,38 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+<legend>General Options</legend>
+<div class="form-group" title="{tmpl_var name='admins_desc_txt'}">
+	<label class="col-sm-3 control-label">{tmpl_var name='admins_txt'}</label>
+	<div class="col-sm-9">
+		<textarea class="form-control" name="admins" id="admins" rows='5' cols='30'>{tmpl_var name='admins'}</textarea>
+	</div>
+</div>
+<div class="form-group" title="{tmpl_var name='prefix_desc_txt'}">
+	<label class="col-sm-3 control-label">{tmpl_var name='prefix_txt'}</label>
+	<div class="col-sm-9">
+		<input type="text" name="subject_prefix" id="subject_prefix" value="{tmpl_var name='subject_prefix'}" class="form-control" />
+	</div>
+</div>
+<div class="form-group" title="{tmpl_var name='mail_footer_desc_txt'}">
+	<label class="col-sm-3 control-label">{tmpl_var name='mail_footer_txt'}</label>
+	<div class="col-sm-9">
+		<textarea class="form-control" name="mail_footer" id="mail_footer" rows='5' cols='30'>{tmpl_var name='mail_footer'}</textarea>
+	</div>
+</div>
+<div class="form-group" title="{tmpl_var name='archive_desc_txt'}">
+	<label for="archive" class="col-sm-3 control-label">{tmpl_var name='archive_txt'}</label>
+	<div class="col-sm-9">
+		{tmpl_var name='archive'}
+	</div>
+</div>
+
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+<div class="clear"><div class="right">
+	<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_mailinglist_edit.php">{tmpl_var name='btn_save_txt'}</button>
+	<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_mailinglist_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div></div>
+
