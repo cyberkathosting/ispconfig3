@@ -314,7 +314,7 @@ class installer_base {
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
 		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
 		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
-		$tpl_ini_array['mail']['mailinglist'] = ($conf['mlmmj']['installed'] == true)?'mlmmj':'mailman';
+		$tpl_ini_array['mail']['mailinglist_manager'] = ($conf['mlmmj']['installed'] == true)?'mlmmj':'mailman';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -888,32 +888,6 @@ class installer_base {
 		exec("nohup /usr/sbin/postmap $configDir/virtual >/dev/null 2>&1");
 		touch("$configDir/transport");
 		exec("nohup /usr/sbin/postmap $configDir/transport >/dev/null 2>&1");
-
-		// ALTER TABLE `mail_mailinglist` ADD `closedlist` enum('n','y') NOT NULL DEFAULT 'y'
-		// ALTER TABLE `mail_mailinglist` ADD `closedlistsub` enum('n','y') NOT NULL DEFAULT 'y'
-		// ALTER TABLE `mail_mailinglist` ADD `moderated` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `tocc` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `subonlypost` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `modonlypost` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `modnonsubposts` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `addtohdr` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `notifysub` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `notifymod` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `noarchive` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nosubconfirm` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `noget` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `notoccdenymails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `noaccessdenymails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nosubonlydenymails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nomodonlydenymails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nosubmodmails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nodigesttext` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nodigestsub` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nonomailsub` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nomaxmailsizedenymails` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `nolistsubsemail` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `ifmodsendonlymodmoderate` enum('n','y') NOT NULL DEFAULT 'n'
-		// ALTER TABLE `mail_mailinglist` ADD `notmetoo` enum('n','y') NOT NULL DEFAULT 'n'
 	}
 
 	public function get_postfix_service($service, $type) {
