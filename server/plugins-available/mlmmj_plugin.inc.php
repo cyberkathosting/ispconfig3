@@ -43,9 +43,10 @@ mail_mailinglist_del.php
 */
 
 class mlmmj_plugin {
-	const ML_ALIAS     = 0;
-	const ML_TRANSPORT = 1;
-	const ML_VIRTUAL   = 2;
+	const ML_ALIAS       = 0;
+	const ML_TRANSPORT   = 1;
+	const ML_VIRTUAL     = 2;
+	const SECONDS_IN_DAY = 86400;
 
 	private $plugin_name = 'mlmmj_plugin';
 	private $class_name = 'mlmmj_plugin';
@@ -73,123 +74,158 @@ class mlmmj_plugin {
 	}
 
 	function insert($event_name, $data) {
-		global $app;
+		global $app, $conf;
 
-		/*[new] => Array
-        (
-            [mailinglist_id] => 8
-            [sys_userid] => 1
-            [sys_groupid] => 26
-            [sys_perm_user] => riud
-            [sys_perm_group] => ru
-            [sys_perm_other] =>
-            [server_id] => 0
-            [domain] => 10100.to
-            [listname] => merda
-            [email] => michele@10100.to
-            [password] => vbhXvWMK!1
-        )*/
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
 
-		$mlConf = $this->getMlConfig();
-		$listDomain     = $data['new']['domain'];
-		$listName = $data['new']['listname'];
-		$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
-		$lang     = 'en';
-		$owner    = $data['new']['email'];
+		if($mlManager == 'mlmmj') {
+			$mlConf = $this->getMlConfig();
+			$rec = $data['new'];
+			$listDomain     = $rec['domain'];
+			$listName = $rec['listname'];
+			$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+			$lang     = 'en';
+			$owner    = $rec['email'];
 
-		// Creating ML directories structure
-		mkdir("$listDir/incoming", 0755, true);
-		mkdir("$listDir/queue/discarded", 0755, true);
-		mkdir("$listDir/archive", 0755, true);
-		mkdir("$listDir/text", 0755, true);
-		mkdir("$listDir/subconf", 0755, true);
-		mkdir("$listDir/unsubconf", 0755, true);
-		mkdir("$listDir/bounce", 0755, true);
-		mkdir("$listDir/control", 0755, true);
-		mkdir("$listDir/moderation", 0755, true);
-		mkdir("$listDir/subscribers.d", 0755, true);
-		mkdir("$listDir/digesters.d", 0755, true);
-		mkdir("$listDir/requeue", 0755, true);
-		mkdir("$listDir/nomailsubs.d", 0755, true);
+			// Creating ML directories structure
+			mkdir("$listDir/incoming", 0755, true);
+			mkdir("$listDir/queue/discarded", 0755, true);
+			mkdir("$listDir/archive", 0755, true);
+			mkdir("$listDir/text", 0755, true);
+			mkdir("$listDir/subconf", 0755, true);
+			mkdir("$listDir/unsubconf", 0755, true);
+			mkdir("$listDir/bounce", 0755, true);
+			mkdir("$listDir/control", 0755, true);
+			mkdir("$listDir/moderation", 0755, true);
+			mkdir("$listDir/subscribers.d", 0755, true);
+			mkdir("$listDir/digesters.d", 0755, true);
+			mkdir("$listDir/requeue", 0755, true);
+			mkdir("$listDir/nomailsubs.d", 0755, true);
 
-		// Creating ML index file
-		touch("$listDir/index");
+			// Creating ML index file
+			touch("$listDir/index");
 
-		// Saving ML base data
-		file_put_contents("$listDir/control/owner", $owner);
-		file_put_contents("$listDir/control/listaddress", "$listName@$listDomain");
+			// Creating default control files
+			// WARNING: Edit this section if default DB values will be modified!
+			touch("$listDir/control/nodigestsub");
+			touch("$listDir/control/noarchive");
 
-		// Copying language translations
-		if(!is_dir("/usr/share/mlmmj/text.skel/$lang")) $lang = 'en';
-		foreach (glob("/usr/share/mlmmj/text.skel/$lang/*") as $filename)
-			copy($filename, "$listDir/text/".basename($filename));
+			// Saving ML base data
+			file_put_contents("$listDir/control/owner", $owner);
+			file_put_contents("$listDir/control/listaddress", "$listName@$listDomain");
 
-		// The mailinglist directory have to be owned by the user running the mailserver
-		$this->chmodR($listDir);
+			// Copying language translations
+			if(!is_dir("/usr/share/mlmmj/text.skel/$lang")) $lang = 'en';
+			foreach (glob("/usr/share/mlmmj/text.skel/$lang/*") as $filename)
+				copy($filename, "$listDir/text/".basename($filename));
 
-		// Creating alias entry
-		$this->addMapEntry("$listName:  \"|/usr/bin/mlmmj-recieve -L $listDir/\"", self::ML_ALIAS);
+			// The mailinglist directory have to be owned by the user running the mailserver
+			$this->changeOwnership($listDir);
 
-		// Creating transport entry
-		$this->addMapEntry("$listDomain--$listName@localhost.mlmmj   mlmmj:$listDomain/$listName", self::ML_TRANSPORT);
+			// Creating alias entry
+			$this->addMapEntry("$listName:  \"|/usr/bin/mlmmj-recieve -L $listDir/\"", self::ML_ALIAS);
 
-		// Creating virtual entry
-		$this->addMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
+			// Creating transport entry
+			$this->addMapEntry("$listDomain--$listName@localhost.mlmmj   mlmmj:$listDomain/$listName", self::ML_TRANSPORT);
 
-		$mlmmjmaintd='/usr/bin/mlmmj-maintd';
-// CRONENTRY="0 */2 * * * \"$MLMMJMAINTD -F -L $SPOOLDIR/$FQDN/$LISTNAME/\""
+			// Creating virtual entry
+			$this->addMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
 
-// 		/usr/sbin/postfix reload
-		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
+			$mlmmjmaintd='/usr/bin/mlmmj-maintd';
+	// CRONENTRY="0 */2 * * * \"$MLMMJMAINTD -F -L $SPOOLDIR/$FQDN/$LISTNAME/\""
+
+	// 		/usr/sbin/postfix reload
+			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($rec['mailinglist_id']));
+		}
 	}
 
 	// The purpose of this plugin is to rewrite the main.cf file
 	function update($event_name, $data) {
 		global $app, $conf;
 
-// 		$this->update_config();
-//
-// 		if($data["new"]["password"] != $data["old"]["password"] && $data["new"]["password"] != '') {
-// 			exec("nohup /usr/lib/mailman/bin/change_pw -l ".escapeshellcmd($data["new"]["listname"])." -p ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
-// 			exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
-// 			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($data["new"]['mailinglist_id']));
-// 		}
-//
-// 		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
-// 		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
+
+		if($mlManager == 'mlmmj') {
+			$rec = $data['new'];
+			$mlConf = $this->getMlConfig();
+
+			$controlDir  = "{$mlConf['spool_dir']}/{$rec['domain']}/{$rec['listname']}/control";
+
+
+			// Does'nt matter if list is open or close, members can ALWAYS unsubscribe
+			if($rec['list_type'] == 'open') {
+				switch($rec['subscribe_policy']) {
+					case 'disabled':
+						touch("$controlDir/closedlistsub");
+						@unlink("$controlDir/submod");
+						@unlink("$controlDir/nosubconfirm");
+						break;
+					case 'both':
+						touch("$controlDir/submod");
+					case 'approval':
+						touch("$controlDir/nosubconfirm");
+						@unlink("$controlDir/closedlistsub");
+						break;
+					case 'none':
+						touch("$controlDir/nosubconfirm");
+						@unlink("$controlDir/closedlistsub");
+						break;
+					case 'confirm':
+						@unlink("$controlDir/nosubconfirm");
+						@unlink("$controlDir/closedlistsub");
+						@unlink("$controlDir/submod");
+						break;
+				}
+
+				switch($rec['posting_policy']) {
+					case 'closed':
+						touch("$controlDir/subonlypost");
+						break;
+					case 'moderated':
+						touch("$controlDir/modnonsubposts");
+						break;
+					case 'free':
+						@unlink("$controlDir/modnonsubposts");
+						@unlink("$controlDir/subonlypost");
+						break;
+				}
+			} elseif($rec['list_type'] == 'closed') {
+				touch("$controlDir/closedlistsub");
+				touch("$controlDir/subonlypost");
+				@unlink("$controlDir/modnonsubposts");
+				@unlink("$controlDir/submod");
+				@unlink("$controlDir/nosubconfirm");
+			}
+
+			if($rec['digestsub'] == 'y') {
+				@unlink("$controlDir/nodigestsub");
+				if($rec['digesttext'] == 'y') @unlink("$controlDir/nodigesttext");
+				else touch("$controlDir/nodigesttext");
+				file_put_contents("$controlDir/digestinterval", $rec['digestinterval']*self::SECONDS_IN_DAY);
+				file_put_contents("$controlDir/digestmaxmails", $rec['digestmaxmails']);
+			} else {
+				touch("$controlDir/nodigestsub");
+				@unlink("$controlDir/nodigesttext");
+				@unlink("$controlDir/digestinterval");
+				@unlink("$controlDir/digestmaxmails");
+			}
+
+			$this->changeOwnership("$controlDir/*");
+		}
 	}
 
 	function delete($event_name, $data) {
-		global $app;
+		global $app, $conf;
 
-		$mlConf = $this->getMlConfig();
-		$listDomain     = $data['old']['domain'];
-		$listName = $data['old']['listname'];
-		$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
-		$lang     = 'en';
-		$owner    = $data['old']['email'];
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
 
-		// Removing alias entry
-		$this->delMapEntry("$listName:  \"|/usr/bin/mlmmj-recieve -L $listDir/\"", self::ML_ALIAS);
-
-		// Removing transport entry
-		$this->delMapEntry("$listDomain--$listName@localhost.mlmmj   mlmmj:$listDomain/$listName", self::ML_TRANSPORT);
-
-		// Removing virtual entry
-		$this->delMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
-
-
-		$this->rmdirR($listDir);
-
-		// Remove parent folder if is empty (means there aren't other ML for the domain)
-		@rmdir($mlConf['spool_dir']."/$listDomain");
-
-		$mlmmjmaintd='/usr/bin/mlmmj-maintd';
-// CRONENTRY="0 */2 * * * \"$MLMMJMAINTD -F -L $SPOOLDIR/$FQDN/$LISTNAME/\""
+		if($mlManager == 'mlmmj') {
+			$a=0;
+		}
 	}
 
 	private function getMlConfig() {
-		$mlConfig = parse_ini_file($this->mlmmj_config_dir.'mlmmj.conf');
+		$mlConfig = @parse_ini_file($this->mlmmj_config_dir.'mlmmj.conf');
 
 		// Force PHP7 to use # to mark comments
 		if(PHP_MAJOR_VERSION >= 7)
@@ -198,16 +234,20 @@ class mlmmj_plugin {
 		return $mlConfig;
 	}
 
-	private function chmodR($dir) {
-		if($objs = glob($dir."/*")) {
-			foreach($objs as $obj) {
-				chown($obj, 'mlmmj');
-				chgrp($obj, 'mlmmj');
-				if(is_dir($obj)) $this->chmodR($obj);
+	private function changeOwnership($path, $recursive=true) {
+		if(basename($path) == '*') $path = dirname($path);
+
+		if(is_dir($path)) {
+			if($objs = glob($path."/*")) {
+				foreach($objs as $obj) {
+					chown($obj, 'mlmmj');
+					chgrp($obj, 'mlmmj');
+					if(is_dir($obj) && $recursive) $this->changeOwnership($obj);
+				}
 			}
 		}
 
-		return chown($dir, 'mlmmj') && chgrp($dir, 'mlmmj');
+		return chown($path, 'mlmmj') && chgrp($path, 'mlmmj');
 	}
 
 	private function rmdirR($path) {
