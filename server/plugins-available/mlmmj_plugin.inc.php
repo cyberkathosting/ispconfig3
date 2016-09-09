@@ -76,7 +76,7 @@ class mlmmj_plugin {
 	function insert($event_name, $data) {
 		global $app, $conf;
 
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
 
 		if($mlManager == 'mlmmj') {
 			$mlConf = $this->getMlConfig();
@@ -143,7 +143,7 @@ class mlmmj_plugin {
 	function update($event_name, $data) {
 		global $app, $conf;
 
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
 
 		if($mlManager == 'mlmmj') {
 			$rec = $data['new'];
@@ -217,7 +217,7 @@ class mlmmj_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist'];
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
 
 		if($mlManager == 'mlmmj') {
 			$a=0;
