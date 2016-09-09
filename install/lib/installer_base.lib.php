@@ -891,7 +891,7 @@ class installer_base {
 		exec("nohup /usr/sbin/postmap $configDir/transport >/dev/null 2>&1");
 
 		//* Create/update cron entry
-		$cronEntry = 'find /var/'.$mlConfig['spool_dir'].'/ -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;'
+		$cronEntry = 'find /var/'.$mlConfig['spool_dir'].'/ -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;';
 		file_put_contents('/etc/cron.d/mlmmj', $cronEntry);
 	}
 
