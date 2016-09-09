@@ -877,7 +877,7 @@ class installer_base {
 			copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~mlmmj');
 			$content .= "\n# mlmmj mailing lists\n";
 			$content .= "mlmmj   unix  -       n       n       -       -       pipe\n";
-			$content .= "  flags=ORhu user=mlmmj argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/\$nexthop\n\n";
+			$content .= "  flags=ORhu user=mlmmj argv=/usr/bin/mlmmj-receive -F -L /var/spool/mlmmj/\$nexthop\n\n";
 			wf($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 
