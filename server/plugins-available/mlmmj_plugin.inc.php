@@ -109,10 +109,9 @@ class mlmmj_plugin {
 			// WARNING: Edit this section if default DB values will be modified!
 			touch("$listDir/control/nodigestsub");
 			touch("$listDir/control/noarchive");
-
-			// Saving ML base data
 			file_put_contents("$listDir/control/owner", $owner);
 			file_put_contents("$listDir/control/listaddress", "$listName@$listDomain");
+			file_put_contents("$listDir/control/prefix", $listName);
 
 			// Copying language translations
 			if(!is_dir("/usr/share/mlmmj/text.skel/$lang")) $lang = 'en';
@@ -130,12 +129,6 @@ class mlmmj_plugin {
 
 			// Creating virtual entry
 			$this->addMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
-
-			$mlmmjmaintd='/usr/bin/mlmmj-maintd';
-	// CRONENTRY="0 */2 * * * \"$MLMMJMAINTD -F -L $SPOOLDIR/$FQDN/$LISTNAME/\""
-
-	// 		/usr/sbin/postfix reload
-			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ".$app->db->quote($rec['mailinglist_id']));
 		}
 	}
 
@@ -151,8 +144,7 @@ class mlmmj_plugin {
 
 			$controlDir  = "{$mlConf['spool_dir']}/{$rec['domain']}/{$rec['listname']}/control";
 
-
-			// Does'nt matter if list is open or close, members can ALWAYS unsubscribe
+			// Doesn't matter if the list is open or close, members can ALWAYS unsubscribe
 			if($rec['list_type'] == 'open') {
 				switch($rec['subscribe_policy']) {
 					case 'disabled':
@@ -209,6 +201,9 @@ class mlmmj_plugin {
 				@unlink("$controlDir/digestinterval");
 				@unlink("$controlDir/digestmaxmails");
 			}
+
+			if($rec['subject_prefix'])
+				file_put_contents("$controlDir/prefix", $rec['subject_prefix']);
 
 			$this->changeOwnership("$controlDir/*");
 		}
