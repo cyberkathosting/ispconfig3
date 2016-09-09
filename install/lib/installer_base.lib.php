@@ -877,7 +877,8 @@ class installer_base {
 			copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~mlmmj');
 			$content .= "\n# mlmmj mailing lists\n";
 			$content .= "mlmmj   unix  -       n       n       -       -       pipe\n";
-			$content .= "  flags=ORhu user=mlmmj argv=/usr/bin/mlmmj-receive -F -L /var/spool/mlmmj/\$nexthop\n\n";
+			$content .= "  flags=ORhu user=mlmmj argv=/usr/bin/mlmmj-receive -F -L /var/";
+			$content .= $mlConfig['spool_dir']."/\$nexthop\n\n";
 			wf($conf['postfix']['config_dir'].'/master.cf', $content);
 		}
 
@@ -888,6 +889,10 @@ class installer_base {
 		exec("nohup /usr/sbin/postmap $configDir/virtual >/dev/null 2>&1");
 		touch("$configDir/transport");
 		exec("nohup /usr/sbin/postmap $configDir/transport >/dev/null 2>&1");
+
+		//* Create/update cron entry
+		$cronEntry = 'find /var/'.$mlConfig['spool_dir'].'/ -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;'
+		file_put_contents('/etc/cron.d/mlmmj', $cronEntry);
 	}
 
 	public function get_postfix_service($service, $type) {
