@@ -37,7 +37,7 @@ class system {
 
 		if(!preg_match('/^[a-z]+$/', $service)) $app->error('Invalid service '.$service);
 
-		if($userid == 1) return true; //* We do not check admin-users
+		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') return true; //* We do not check admin-users
 
 		// simple query cache
 		if($this->client_service===null)
