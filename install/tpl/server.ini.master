@@ -54,7 +54,7 @@ overquota_notify_client=y
 overquota_notify_freq=7
 overquota_notify_onok=n
 sendmail_path=/usr/sbin/sendmail
-mailinglist=mlmmj
+mailinglist_manager=mlmmj
 
 [getmail]
 getmail_config_dir=/etc/getmail

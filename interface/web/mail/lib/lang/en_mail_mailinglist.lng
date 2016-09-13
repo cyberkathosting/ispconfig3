@@ -1,4 +1,74 @@
 <?php
+$wb['heading_general_txt'] = 'General';
+
+/** MLMMJ **/
+$wb['heading_subscription_txt'] = 'Subscription';
+$wb['heading_removal_txt'] = 'Removal';
+$wb['admins_txt'] = 'Admin\'s email';
+$wb['admins_desc_txt'] = 'The additional email addresses that get mails to list name+admin@listdomain.ltd';
+
+$wb['subscribers_txt'] = 'Membership';
+$wb['subscribers_desc_txt'] = 'The email addresses subscribed to the list';
+
+$wb['prefix_txt'] = 'Subject prefix';
+$wb['prefix_desc_txt'] = 'This will alter the Subject: line, and add a prefix if it\'s not present elsewhere';
+
+$wb['mail_footer_txt'] = 'Footer text';
+$wb['mail_footer_desc_txt'] = 'This content is appended to mail sent to the list';
+
+$wb['subscribe_policy_txt'] = 'Subscribe policy';
+$wb['sub_disabled_txt'] = 'Disabled';
+$wb['sub_confirm_txt'] = 'Confirm';
+$wb['sub_approval_txt'] = 'Require approval';
+$wb['sub_both_txt'] = 'Confirm and approve';
+$wb['sub_none_txt'] = 'Limitless';
+
+$wb['posting_policy_txt'] = 'posting policy';
+$wb['post_free_txt'] = 'Free';
+$wb['post_closed_txt'] = 'Closed';
+$wb['post_moderated_txt'] = 'Moderated';
+
+$wb['list_type_txt'] = 'List type';
+$wb['type_open_txt'] = 'Open';
+$wb['type_closed_txt'] = 'Closed';
+
+$wb['digestinterval_txt'] = 'Interval';
+$wb['digestinterval_desc_txt'] = 'Specifies how many days will pass before the next digest is sent. Defaults is 7 days';
+$wb['digestmaxmails_txt'] = 'Max mails';
+$wb['digestmaxmails_desc_txt'] = 'Specifies how many mails can accumulate before digest sending is triggered. Defaults to 50 mails, meaning that if 50 mails arrive to the list before digestinterval have passed, the digest is delivered';
+$wb['_txt'] = '';
+
+$wb['closedlist_txt'] = 'Closed list';
+$wb['closedlistsub_txt'] = 'Closed for subscription';
+$wb['moderated_txt'] = 'Moderated list';
+$wb['tocc_txt'] = 'To/Cc optional';
+$wb['subonlypost_txt'] = 'Closed posting';
+$wb['subonlypost_desc_txt'] = 'Only people who are subscribed to the list, are allowed to post to it';
+
+$wb['modonlypost_txt'] = 'modonlypost';
+$wb['modnonsubposts_txt'] = 'modnonsubposts';
+$wb['addtohdr_txt'] = 'addtohdr';
+$wb['notifysub_txt'] = 'notifysub';
+$wb['notifymod_txt'] = 'notifymod';
+$wb['archive_txt'] = 'Archive';
+$wb['archive_desc_txt'] = 'If checked, the mail will be saved in the archive and not simply deleted';
+
+
+$wb['nosubconfirm_txt'] = 'nosubconfirm';
+$wb['noget_txt'] = 'noget';
+$wb['notoccdenymails_txt'] = 'notoccdenymails';
+$wb['noaccessdenymails_txt'] = 'noaccessdenymails';
+$wb['nosubonlydenymails_txt'] = 'nosubonlydenymails';
+$wb['nomodonlydenymails_txt'] = 'nomodonlydenymails';
+$wb['nosubmodmails_txt'] = 'nosubmodmails';
+$wb['digestsub_txt'] = 'Enable';
+$wb['digesttext_txt'] = 'Thread summary';
+$wb['nonomailsub_txt'] = 'nonomailsub';
+$wb['nomaxmailsizedenymails_txt'] = 'nomaxmailsizedenymails';
+$wb['nolistsubsemail_txt'] = 'nolistsubsemail';
+$wb['ifmodsendonlymodmoderate_txt'] = 'ifmodsendonlymodmoderate';
+$wb['notmetoo_txt'] = 'notmetoo';
+
 $wb["mailinglist_txt"] = 'Mailing list';
 $wb["limit_mailmailinglist_txt"] = 'Limit reached';
 $wb["domain_error_empty"] = 'Domain is empty.';
@@ -17,6 +87,6 @@ $wb['generate_password_txt'] = 'Generate Password';
 $wb['repeat_password_txt'] = 'Repeat Password';
 $wb['password_mismatch_txt'] = 'The passwords do not match.';
 $wb['password_match_txt'] = 'The passwords do match.';
-$wb["listname_error_unique"] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
+$wb["listname_error_unique"] = 'There is already a mailinglist with name on the server. Please choose a different listname.';
 $wb["email_error_isemail"] = 'Email address is invalid.';
 ?>
