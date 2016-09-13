@@ -431,15 +431,15 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 			//** Configure apps vhost
 			swriteln('Configuring Apps vhost');
 			$inst->configure_apps_vhost();
-			}
-	
-			//* Configure Jailkit
-			if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
-				swriteln('Configuring Jailkit');
-				$inst->configure_jailkit();
-			}
-
 		}
+	
+		//* Configure Jailkit
+		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
+			swriteln('Configuring Jailkit');
+			$inst->configure_jailkit();
+		}
+
+	}
 
     if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
         //** Configure Metronome XMPP
