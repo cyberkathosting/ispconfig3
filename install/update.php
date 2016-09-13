@@ -287,6 +287,11 @@ checkDbHealth();
  */
 updateDbAndIni();
 
+//** read server config from db into $conf['server_config']
+$tmp = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+$conf['server_config'] = ini_to_array(stripslashes($tmp['config']));
+unset($tmp);
+
 /*
  * Reconfigure the permisson if needed
  * (if this is done at client side, only this client is updated.
@@ -428,18 +433,20 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 				$inst->configure_nginx();
 			}
 
-			//** Configure apps vhost
-			swriteln('Configuring Apps vhost');
-			$inst->configure_apps_vhost();
-			}
-	
-			//* Configure Jailkit
-			if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
-				swriteln('Configuring Jailkit');
-				$inst->configure_jailkit();
-			}
-
+			if ($conf['server_config']['web']['apps_vhost_enabled'] == 'y') {
+				//** Configure apps vhost
+				swriteln('Configuring Apps vhost');
+				$inst->configure_apps_vhost();
+			} else swriteln('Skipping config of Apps vhost');
 		}
+	
+		//* Configure Jailkit
+		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
+			swriteln('Configuring Jailkit');
+			$inst->configure_jailkit();
+		}
+
+	}
 
     if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
         //** Configure Metronome XMPP
