@@ -428,9 +428,11 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 				$inst->configure_nginx();
 			}
 
-			//** Configure apps vhost
-			swriteln('Configuring Apps vhost');
-			$inst->configure_apps_vhost();
+			if ($conf['web']['apps_vhost_enabled'] == 'y') {
+				//** Configure apps vhost
+				swriteln('Configuring Apps vhost');
+				$inst->configure_apps_vhost();
+			} else swriteln('Skipping config of Apps vhost');
 		}
 	
 		//* Configure Jailkit
