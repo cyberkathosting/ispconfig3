@@ -146,7 +146,7 @@ class tools_monitor {
 				$line['client'] = $tmp['username'];
 
 				//* get the domain
-				$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name=?", $line['database_name']);
+				$tmp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id=(SELECT parent_domain_id FROM web_database WHERE database_name=?)", $line['database_name']);
 				$line['domain'] = $tmp['domain'];
 
 				//* remove the sys_groupid from output
