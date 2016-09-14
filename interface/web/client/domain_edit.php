@@ -85,10 +85,10 @@ class page_action extends tform_actions {
 			$clients = $app->db->queryAllRecords($sql);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
-			$tmp_data_record = $app->tform->getDataRecord($this->id);
+			if($this->id > 0) $tmp_data_record = $app->tform->getDataRecord($this->id); else $tmp_data_record = $this->dataRecord;
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
-					$selected = ($client["groupid"] == $tmp_data_record["sys_groupid"])?'SELECTED':'';
+					$selected = ($client["groupid"] == $tmp_data_record["sys_groupid"] || $client["groupid"] == $tmp_data_record["client_group_id"])?'SELECTED':'';
 					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
 				}
 			}
