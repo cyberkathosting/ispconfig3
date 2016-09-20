@@ -30,6 +30,9 @@ body {
   .control-label:after {
     content: ":"; }
 
+.control-label-plain:after {
+    content: ""; }
+
 .formbutton-default {
   padding: 6px 10px;
   border-bottom-style: solid;
