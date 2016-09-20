@@ -92,7 +92,7 @@ if(!$app->auth->is_admin()) {
 
 	if($client['limit_wildcard'] != 'y') $wildcard_available = false;
 	if($client['limit_ssl'] != 'y') $ssl_available = false;
-	if($client['limit_ssl_letsencrypt'] == 'y') $ssl_available = false;
+	//if($client['limit_ssl_letsencrypt'] == 'y') $ssl_available = false;
 	if($client['limit_backup'] != 'y') $backup_available = false;
 }
 
