@@ -287,6 +287,11 @@ checkDbHealth();
  */
 updateDbAndIni();
 
+//** read server config from db into $conf['server_config']
+$tmp = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+$conf['server_config'] = ini_to_array(stripslashes($tmp['config']));
+unset($tmp);
+
 /*
  * Reconfigure the permisson if needed
  * (if this is done at client side, only this client is updated.
@@ -307,16 +312,29 @@ $inst->find_installed_apps();
 //** Check for current service config state and compare to our results
 if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
 else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
-$conf['postfix']['installed'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
+$conf['services']['mail'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
 $conf['services']['dns'] = check_service_config_state('dns_server', ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']));
 $conf['services']['web'] = check_service_config_state('web_server', ($conf['apache']['installed'] || $conf['nginx']['installed']));
 $conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['xmpp']['installed']);
 $conf['services']['firewall'] = check_service_config_state('firewall_server', ($conf['ufw']['installed'] || $conf['firewall']['installed']));
 $conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
-//** vv is this intended??? If you want to check adapt the lines above... vv
-$conf['services']['db'] = true;
+$conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
 
+//** Write new decisions into DB
+$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', vserver_server = '{$conf['services']['vserver']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
+$inst->db->query($sql, $conf['mysql']['database'].'.server', $conf['server_id']);
+if($conf['mysql']['master_slave_setup'] == 'y') {
+	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', $conf['server_id']);
+}
+
+//** Is the ISPConfg Panel installed on this host? This might partially override user's preferences later.
+if($conf['apache']['installed'] == true){
+	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
+if($conf['nginx']['installed'] == true){
+	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
 
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no', 'selected'), 'yes','reconfigure_services');
@@ -398,7 +416,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		}
 	}
 
-	if($conf['services']['web']) {
+	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
 
 		if($conf['pureftpd']['installed'] == true && $inst->reconfigure_app('Pureftpd', $reconfigure_services_answer)) {
 			//** Configure Pureftpd
@@ -421,18 +439,20 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 				$inst->configure_nginx();
 			}
 
-			//** Configure apps vhost
-			swriteln('Configuring Apps vhost');
-			$inst->configure_apps_vhost();
-			}
-	
-			//* Configure Jailkit
-			if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
-				swriteln('Configuring Jailkit');
-				$inst->configure_jailkit();
-			}
-
+			if ($conf['server_config']['web']['apps_vhost_enabled'] == 'y') {
+				//** Configure apps vhost
+				swriteln('Configuring Apps vhost');
+				$inst->configure_apps_vhost();
+			} else swriteln('Skipping config of Apps vhost');
 		}
+	
+		//* Configure Jailkit
+		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
+			swriteln('Configuring Jailkit');
+			$inst->configure_jailkit();
+		}
+
+	}
 
     if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
         //** Configure Metronome XMPP
@@ -469,14 +489,8 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
-if($conf['apache']['installed'] == true){
-	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
-}
-if($conf['nginx']['installed'] == true){
-	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
-}
 
-if ($conf['services']['web'] && $inst->install_ispconfig_interface) {
+if ($inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
 	if($autoupdate['ispconfig_port'] == 'default') $autoupdate['ispconfig_port'] = $ispconfig_port_number;
@@ -524,7 +538,7 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
 		if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 	}
-	if($conf['services']['web']) {
+	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
 		if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
 		//* Reload is enough for nginx
 		if($conf['webserver']['server_type'] == 'nginx'){

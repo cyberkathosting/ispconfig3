@@ -457,7 +457,7 @@ class cronjob_quota_notify extends cronjob {
 											'{database_name}' => $rec['database_name'],
 											'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
 											'{used}' => $app->functions->formatBytes($monitor['size']),
-											'{quota}' => $quota.' MB',
+											'{quota}' => $app->functions->formatBytes($quota),
 											'{ratio}' => number_format($used_ratio * 100, 2, '.', '').'%'
 										);
 
@@ -479,15 +479,13 @@ class cronjob_quota_notify extends cronjob {
 									//* reset notification date
 									if($rec['last_quota_notification']) $app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => null), 'database_id', $rec['database_id']);
 
-									$app->dbmaster->datalogUpdate('web_database', array("last_quota_notification" => array("SQL" => "CURDATE()")), 'database_id', $rec['database_id']);
-
 									// send notification - everything ok again
 									if($rec['last_quota_notification'] && $web_config['overquota_notify_onok'] == 'y' && ($web_config['overquota_db_notify_admin'] == 'y' || $web_config['overquota_db_notify_client'] == 'y')) {
 										$placeholders = array(
 											'{database_name}' => $rec['database_name'],
 											'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
 											'{used}' => $app->functions->formatBytes($monitor['size']),
-											'{quota}' => $quota.' MB',
+											'{quota}' => $app->functions->formatBytes($quota),
 											'{ratio}' => number_format($used_ratio * 100, 2, '.', '').'%'
 										);
 

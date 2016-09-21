@@ -186,7 +186,7 @@ class installer_base {
 		$conf['vlogger']['installed'] = true;
 		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
 
-		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
+		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
 
     public function force_configure_app($service, $enable_force=true) {
@@ -2418,9 +2418,9 @@ Email Address []:
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
-        $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
+		$xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ?";
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
 
 		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {

@@ -31,10 +31,10 @@
                 <tmpl_loop name="records">
                     <tr>
                         <td><a target="_blank" href="http://{tmpl_var name="domain"}/stats">{tmpl_var name="domain"}</a></td>
-                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_month"}</a></td>
-                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"}</a></td>
-                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"}</a></td>
-                        <td><a href="#" data-load-content="sites/web_<tmpl_if name='type' op='==' value='vhostsubdomain'>vhost_sub</tmpl_if><tmpl_if name='type' op='==' value='vhostalias'>vhost_alias</tmpl_if>domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_month"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"}</a></td>
+                        <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"}</a></td>
                         <td class="text-right"></td>
                     </tr>
                 </tmpl_loop>

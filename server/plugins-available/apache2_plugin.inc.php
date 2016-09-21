@@ -889,18 +889,19 @@ class apache2_plugin {
           $file_system = $df_output[0];
           $primitive_root = $df_output[1];
 
-		  if ( in_array($file_system , array('ext2','ext3','ext4','simfs','reiserfs'), true) ) {
-            exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-            exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
-          } elseif ($file_system == 'xfs') {
-
-            exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+		  if($file_system == 'xfs') {
+			exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
 
             // xfs only supports timers globally, not per user.
             exec("xfs_quota -x -c 'timer -bir -i 604800'");
 
             unset($project_uid, $username_position, $xfs_projects);
             unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+		  } else {
+            if($app->system->is_installed('setquota')) {
+				exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+				exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+			}
           }
 		}
 

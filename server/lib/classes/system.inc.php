@@ -1905,7 +1905,7 @@ class system{
 		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
 		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -v';
 		else {
-			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
+			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_DEBUG);
 			return '2.2';
 		}
 		

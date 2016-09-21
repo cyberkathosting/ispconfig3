@@ -204,9 +204,12 @@ class page_action extends tform_actions {
 				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
 				
 				if($reseller['customer_no_template'] != '') {
-					//* Set customer no default
-					$customer_no = $app->functions->intval($reseller['customer_no_start']+$reseller['customer_no_counter']);
-					$customer_no_string = str_replace(array('[CUSTOMER_NO]','[CLIENTID]'),array($customer_no, $reseller['client_id']),$reseller['customer_no_template']);
+					if(isset($this->dataRecord['customer_no'])&& $this->dataRecord['customer_no']!='') $customer_no_string = $this->dataRecord['customer_no'];
+					else {
+						//* Set customer no default
+						$customer_no = $app->functions->intval($reseller['customer_no_start']+$reseller['customer_no_counter']);
+						$customer_no_string = str_replace(array('[CUSTOMER_NO]','[CLIENTID]'),array($customer_no, $reseller['client_id']),$reseller['customer_no_template']);
+					}
 					$app->tpl->setVar('customer_no',$customer_no_string);
 				}
 			}
