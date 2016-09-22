@@ -238,6 +238,12 @@ $form["tabs"]['mail'] = array (
 			'default'  => 'y',
 			'value'    => array(0 => 'n', 1 => 'y')
 		),
+        'mailbox_show_backup_tab' => array (
+                'datatype' => 'VARCHAR',
+                'formtype' => 'CHECKBOX',
+                'default'  => 'y',
+                'value'    => array(0 => 'n', 1 => 'y')
+        ),
 		'mailboxlist_webmail_link' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

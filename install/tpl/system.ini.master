@@ -11,6 +11,7 @@ enable_custom_login=n
 mailbox_show_autoresponder_tab=y
 mailbox_show_mail_filter_tab=y
 mailbox_show_custom_rules_tab=y
+mailbox_show_backup_tab=y
 mailboxlist_webmail_link=y
 webmail_url=/webmail
 dkim_path=/var/lib/amavis/dkim
