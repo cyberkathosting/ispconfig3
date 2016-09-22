@@ -142,8 +142,10 @@ class mysql_clientdb_plugin {
 			} elseif($action == 'PASSWORD') {
 				//if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
 				// SET PASSWORD for already hashed passwords is not supported by latest MySQL 5.7 anymore, so we set it directly
-				if(!$link->query("UPDATE mysql.user SET `Password` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
-				if($success == true) $link->query("FLUSH PRIVILEGES");
+				if(trim($database_password) != '') {
+					if(!$link->query("UPDATE mysql.user SET `Password` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
+					if($success == true) $link->query("FLUSH PRIVILEGES");
+				}
 			}
 		}
 
