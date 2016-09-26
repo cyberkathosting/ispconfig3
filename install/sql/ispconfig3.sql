@@ -644,6 +644,8 @@ CREATE TABLE `ftp_user` (
   `ul_bandwidth` int(11) NOT NULL default '-1',
   `dl_bandwidth` int(11) NOT NULL default '-1',
   `expires` datetime NULL DEFAULT NULL,
+  `user_type` set('user','system') NOT NULL DEFAULT 'user',
+  `user_config` text,
   PRIMARY KEY  (`ftp_user_id`),
   KEY `active` (`active`),
   KEY `server_id` (`server_id`),
