@@ -43,6 +43,3 @@ $wb['bootorder_error_notpositive'] = 'Only positive integers are allowed for Boo
 $wb['hostname_txt'] = 'Název hostitele';
 $wb['hostname_error_empty'] = 'Název hostitele je prázdný';
 ?>
-
-
-

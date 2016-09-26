@@ -33,6 +33,19 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('dashboard');
 
+//* Hide modules
+if(isset($_GET['hide'])) {
+	if($_GET['hide'] == 'donate') {
+		$timeout = time()+31536000;
+		$tmp = $app->db->queryOneRecord("SELECT value FROM sys_config WHERE group = 'interface' AND name = 'hide_donation_dashlet'");
+		if(is_array($tmp)) {
+			$app->db->query("UPDATE sys_config SET value = ? WHERE group = 'interface' AND name = 'hide_donation_dashlet')",$timeout);
+		} else {
+			$app->db->query("INSERT INTO `sys_config` (`group`,`name`,`value`) VALUES ('interface','hide_donation_dashlet',?)",$timeout);
+		}
+	}
+}
+
 //* Loading Template
 $app->uses('tpl');
 $app->tpl->newTemplate("templates/dashboard.htm");
@@ -188,6 +201,14 @@ if($dashlets_config[$role.'_dashlets_right'] != ''){
 	$rightcol_dashlets = $default_rightcol_dashlets;
 }
 /******************************************************************************/
+
+/* Donation dashlet */
+if($app->auth->is_admin()) {
+	$tmp = $app->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = 'interface' AND `name` = 'hide_donation_dashlet'");
+	if(!is_array($tmp) || $tmp['value'] < time()) {
+		array_unshift($leftcol_dashlets,'donate');
+	}
+}
 
 
 /* Fill the left column */

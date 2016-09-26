@@ -9,6 +9,3 @@ $wb['no_zone_perm'] = 'Nemáte povolení k přidat záznam do této zóny DNS.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 $wb['selector_txt'] = 'DKIM selektor';
 ?>
-
-
-

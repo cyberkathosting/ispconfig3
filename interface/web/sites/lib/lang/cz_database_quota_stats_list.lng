@@ -6,6 +6,3 @@ $wb['used_txt'] = 'Využité místo';
 $wb['quota_txt'] = 'Kvóta';
 $wb['percentage_txt'] = 'Využito v %';
 ?>
-
-
-

@@ -9,6 +9,3 @@ $wb['add_new_record_wizard_txt'] = 'Vytvořit DNS zónu pomocí průvodce';
 $wb['add_new_record_txt'] = 'Vytvořit DNS zónu manuálně';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
-
-
-

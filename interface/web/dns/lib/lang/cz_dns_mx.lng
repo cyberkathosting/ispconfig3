@@ -16,6 +16,3 @@ $wb['data_error_regex'] = 'Název hostitele e-mailového serveru má chybný for
 $wb['duplicate_mx_record_txt'] = 'Duplicitní MX záznam.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
-
-
-

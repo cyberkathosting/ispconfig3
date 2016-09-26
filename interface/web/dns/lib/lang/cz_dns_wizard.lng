@@ -43,6 +43,3 @@ $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for thi
 $wb['dnssec_txt'] = 'Podepsat zónu (DNSSEC)';
 $wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
 ?>
-
-
-

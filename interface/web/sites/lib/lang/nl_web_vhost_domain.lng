@@ -147,4 +147,5 @@ $wb['http_port_txt'] = 'HTTP Poort';
 $wb['https_port_txt'] = 'HTTPS Poort';
 $wb['http_port_error_regex'] = 'HTTP Poort niet correct.';
 $wb['https_port_error_regex'] = 'HTTPS Poort niet correct.';
+$wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
 ?>

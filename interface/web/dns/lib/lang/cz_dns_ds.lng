@@ -15,6 +15,3 @@ $wb['data_error_regex'] = 'Text format invalid';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 $wb['invalid_type_ds'] = 'DS-Record has a wrong format.';
 ?>
-
-
-

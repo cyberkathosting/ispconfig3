@@ -22,6 +22,3 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
 ?>
-
-
-

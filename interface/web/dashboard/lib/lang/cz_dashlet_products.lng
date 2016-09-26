@@ -7,6 +7,3 @@ $wb['no_products_txt'] = 'No products found.';
 $wb['edit_txt'] = 'Editovat';
 $wb['cancellation_date_txt'] = 'Cancelled by';
 ?>
-
-
-
