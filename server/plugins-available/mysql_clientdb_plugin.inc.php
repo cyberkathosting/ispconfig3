@@ -105,6 +105,8 @@ class mysql_clientdb_plugin {
 			$valid = true;
 			if($db_host == '%' || $db_host == 'localhost') {
 				$valid = true;
+			} elseif(function_exists('filter_var')) {
+				if(!filter_var($db_host, FILTER_VALIDATE_IP)) $valid=false;
 			} elseif(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $db_host)) {
 				$groups = explode('.', $db_host);
 				foreach($groups as $group){
