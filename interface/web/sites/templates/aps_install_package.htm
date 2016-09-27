@@ -1,11 +1,11 @@
-<h2>
+<h1>
     {tmpl_var name='installation_txt'}: {tmpl_var name='pkg_name'} {tmpl_var name='pkg_version'}-{tmpl_var name='pkg_release'}
     <span style="float:right">
         <tmpl_if name='pkg_icon' op='!=' value=''>
             <img src="{tmpl_var name='pkg_icon'}" height="32" width="32" alt="{tmpl_var name='pkg_name'}" style="vertical-align:text-bottom;" /> 
         </tmpl_if>
     </span>
-</h2>
+</h1>
     
 <tmpl_if name='error'>
     <div id="errorMsg"><h3>ERROR</h3><ol>{tmpl_var name='error'}</ol></div>
