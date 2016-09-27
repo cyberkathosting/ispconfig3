@@ -182,6 +182,9 @@ class page_action extends tform_actions {
 
 		//* Database username shall not be empty
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
+		
+		//* Database password shall not be empty
+		if($this->dataRecord['database_password'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_password_error_empty"].'<br />';
 
 		//* Get the database name and database user prefix
 		$app->uses('getconf,tools_sites');
