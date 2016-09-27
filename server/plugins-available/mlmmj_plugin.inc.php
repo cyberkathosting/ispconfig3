@@ -225,7 +225,24 @@ class mlmmj_plugin {
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
 
 		if($mlManager == 'mlmmj') {
-			$a=0;
+			$mlConf = $this->getMlConfig();
+			$rec = $data['old'];
+			$listDomain     = $rec['domain'];
+			$listName = $rec['listname'];
+			$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+
+			// Remove ML directory structure
+			$this->rmdirR($listDir);
+			@rmdir($mlConf['spool_dir']."/$listDomain");
+			
+			// Removing alias entry
+			$this->delMapEntry("$listName:  \"|/usr/bin/mlmmj-recieve -L $listDir/\"", self::ML_ALIAS);
+
+			// Removing transport entry
+			$this->delMapEntry("$listDomain--$listName@localhost.mlmmj   mlmmj:$listDomain/$listName", self::ML_TRANSPORT);
+
+			// Removing virtual entry
+			$this->delMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
 		}
 	}
 
@@ -233,7 +250,7 @@ class mlmmj_plugin {
 		$mlConfig = @parse_ini_file($this->mlmmj_config_dir.'mlmmj.conf');
 
 		// Force PHP7 to use # to mark comments
-		if(PHP_MAJOR_VERSION >= 7)
+		if(PHP_MAJOR_VERSION >= 7 && is_array($mlConfig))
 			$mlConfig = array_filter($mlConfig, function($v){return(substr($v,0,1)!=='#');}, ARRAY_FILTER_USE_KEY);
 
 		return $mlConfig;
