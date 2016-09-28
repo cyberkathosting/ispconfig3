@@ -198,5 +198,6 @@ $wb['limit_ssl_letsencrypt_txt'] = 'Let';
 $wb['limit_directive_snippets_txt'] = 'Výběr configurace webového serveru - dostupná volba pro klienta';
 $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
-$wb['password_click_to_set_txt'] = 'Click to set';
+$wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
 ?>
+

@@ -20,6 +20,7 @@ $wb['globalsearch_noresults_text_txt'] = 'Žádné výsledky.';
 $wb['globalsearch_noresults_limit_txt'] = '0 výsledků';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
-$wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
-$wb['database_password_error_empty'] = 'Database password is empty.';
+$wb['limit_database_user_txt'] = 'Byl dosažen maximální počet uživatelů databáze.';
+$wb['database_password_error_empty'] = 'Databázové heslo je prázdné.';
 ?>
+

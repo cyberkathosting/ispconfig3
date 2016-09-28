@@ -10,3 +10,4 @@ $wb['variables_txt'] = 'Proměnné';
 $wb['customer_viewable_txt'] = 'Customer viewable';
 $wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
 ?>
+

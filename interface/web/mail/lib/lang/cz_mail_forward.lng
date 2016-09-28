@@ -2,7 +2,7 @@
 $wb['email_txt'] = 'E-mail';
 $wb['destination_txt'] = 'Cílový e-mail';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_mailforward_txt'] = 'Dosažen maximální počet email předávání pro Váš účet.';
+$wb['limit_mailforward_txt'] = 'Byl dosažen maximální počet e-mail předávání pro Váš účet.';
 $wb['duplicate_mailbox_txt'] = 'Mailbox s touto adresou již existuje';
 $wb['domain_txt'] = 'Doména';
 $wb['source_txt'] = 'Zdrojový e-mail';
@@ -11,3 +11,4 @@ $wb['send_as_txt'] = 'Odeslat jako';
 $wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 $wb['greylisting_txt'] = 'Povolit greylisting';
 ?>
+

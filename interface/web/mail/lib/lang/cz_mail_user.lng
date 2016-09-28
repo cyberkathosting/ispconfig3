@@ -23,7 +23,7 @@ $wb['postfix_txt'] = 'Povolit příjem';
 $wb['access_txt'] = 'Povolit přístup';
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
-$wb['limit_mailbox_txt'] = 'Dosažen maximální počet mailboxů pro Váš účet.';
+$wb['limit_mailbox_txt'] = 'Byl dosažen maximální počet mailboxů pro Váš účet.';
 $wb['limit_mailquota_txt'] = 'Dosažen maximální prostor pro mailboxy. Max. dostupné místo v MB je';
 $wb['disableimap_txt'] = 'Zakázat IMAP';
 $wb['disablepop3_txt'] = 'Zakázat POP3';
@@ -61,5 +61,6 @@ $wb['daily_backup_txt'] = 'Denní';
 $wb['weekly_backup_txt'] = 'Týdenní';
 $wb['monthly_backup_txt'] = 'Měsíční';
 $wb['sender_cc_note_txt'] = '(Při posílání kopií na více e-mailových adres, oddělte čárkami.) ';
-$wb['password_click_to_set_txt'] = 'Click to set';
+$wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
 ?>
+

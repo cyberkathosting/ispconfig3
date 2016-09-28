@@ -7,7 +7,7 @@ $wb['domain_error_empty'] = 'Doména je prázdná.';
 $wb['domain_error_unique'] = 'E-mailová doména s tímto doménovým jménem na serveru již existuje.';
 $wb['domain_error_regex'] = 'Chybný název domény.';
 $wb['client_txt'] = 'Klient';
-$wb['limit_maildomain_txt'] = 'Dosažen maximální počet e-mailových domén pro Váš účet.';
+$wb['limit_maildomain_txt'] = 'Byl dosažen maximální počet e-mailových domén pro Váš účet.';
 $wb['dkim_txt'] = 'DKIM aktivní';
 $wb['dkim_private_txt'] = 'DKIM soukromý klíč';
 $wb['dkim_public_txt'] = 'DKIM veřejný klíč pouze pro informaci';
@@ -21,3 +21,4 @@ $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 $wb['error_not_allowed_server_id'] = 'Zvolený server není povolen pro tento účet.';
 ?>
+

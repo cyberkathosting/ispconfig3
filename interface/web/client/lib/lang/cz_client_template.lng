@@ -121,3 +121,4 @@ $wb['web_servers_txt'] = 'Webové servery';
 $wb['db_servers_txt'] = 'Databázové servery';
 $wb['mail_servers_txt'] = 'E-mailové servery';
 ?>
+

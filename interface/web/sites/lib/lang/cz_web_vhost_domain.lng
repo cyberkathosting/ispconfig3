@@ -1,6 +1,6 @@
 <?php
 $wb['parent_domain_id_txt'] = 'Rodičovská webová stránka';
-$wb['web_folder_txt'] = 'Web folder';
+$wb['web_folder_txt'] = 'Webové složky';
 $wb['web_folder_invalid_txt'] = 'The web folder is invalid, please choose a different one.';
 $wb['web_folder_unique_txt'] = 'The web folder is already used, please choose a different one.';
 $wb['backup_interval_txt'] = 'Interval zálohování';
@@ -10,7 +10,7 @@ $wb['ssl_locality_txt'] = 'Název města';
 $wb['ssl_organisation_txt'] = 'Organizace (společnost)';
 $wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
 $wb['ssl_country_txt'] = 'Země';
-$wb['ssl_request_txt'] = 'SSL požadavek';
+$wb['ssl_request_txt'] = 'SSL žádost';
 $wb['ssl_cert_txt'] = 'SSL certifikát';
 $wb['ssl_bundle_txt'] = 'SSL bundle';
 $wb['ssl_action_txt'] = 'SSL akce';
@@ -37,9 +37,9 @@ $wb['ssl_txt'] = 'SSL';
 $wb['suexec_txt'] = 'SuEXEC';
 $wb['php_txt'] = 'PHP';
 $wb['client_txt'] = 'Klient';
-$wb['limit_web_domain_txt'] = 'Dosažen maximální počet web domén pro Váš účet.';
-$wb['limit_web_aliasdomain_txt'] = 'Dosažen maximální počet alias domén pro Váš účet.';
-$wb['limit_web_subdomain_txt'] = 'Dosažen maximální počet subdomén pro Váš účet.';
+$wb['limit_web_domain_txt'] = 'Byl dosažen maximální počet web domén pro Váš účet.';
+$wb['limit_web_aliasdomain_txt'] = 'Byl dosažen maximální počet alias domén pro Váš účet.';
+$wb['limit_web_subdomain_txt'] = 'Byl dosažen maximální počet subdomén pro Váš účet.';
 $wb['apache_directives_txt'] = 'Apache direktivy';
 $wb['domain_error_empty'] = 'Doména je prázdná.';
 $wb['domain_error_unique'] = 'Webová stránka nebo sub / alias doména s tímto doménovým jménem již existuje.';
@@ -149,3 +149,4 @@ $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
 ?>
+

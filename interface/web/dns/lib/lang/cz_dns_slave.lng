@@ -3,7 +3,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['origin_txt'] = 'DNS Zóna';
 $wb['ns_txt'] = 'NS';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_dns_slave_zone_txt'] = 'Byl dosažen maximální počet sekundárních DNS zón pro Váš účet.';
+$wb['limit_dns_slave_zone_txt'] = 'Byl Byl dosažen maximální počet sekundárních DNS zón pro Váš účet.';
 $wb['client_txt'] = 'Klient';
 $wb['xfer_txt'] = 'Povolit přesun zóny<br />těmto IP adresám<br />(oddělte čárkou)';
 $wb['server_id_error_empty'] = 'Není zvolen žádný server';
@@ -15,3 +15,4 @@ $wb['eg_domain_tld'] = 'např. domena.cz';
 $wb['ipv4_form_txt'] = 'IPV4 formát, např. 1.2.3.4';
 $wb['secondary_zone_txt'] = 'Sekundární DNS zóna';
 ?>
+
