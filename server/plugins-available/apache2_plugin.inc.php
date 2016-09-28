@@ -3062,7 +3062,7 @@ class apache2_plugin {
 				// Make sure we only have Unix linebreaks
 				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
 				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
+				if(@is_dir('/etc/hhvm')) file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
 			} else {
 				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
