@@ -396,7 +396,7 @@ function updateDbAndIni() {
 	unset($new_ini);
 
 	// Truncate sys_session
-	$inst->db->query("TRUNCATE sys_session");
+	$inst->db->query('TRUNCATE ??', $conf['mysql']['database'].'sys_session');
 }
 
 
