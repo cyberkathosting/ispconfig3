@@ -60,5 +60,5 @@ $wb['digestinterval_desc_txt'] = 'Specifica quanti giorni dovranno passare prima
 $wb['digestmaxmails_txt'] = 'Mail massime';
 $wb['digestmaxmails_desc_txt'] = 'Specifica quante mail si possono accumulare prima che l\'invio della raccolta venga attivato. Il valore predefinito è 50 mail, che siginifica che se 50 mail arrivano alla lista prima che l\'intervallo della raccolta sia passato, questa viene inviata';
 
-$wb['archive_txt'] = 'Archive';
+$wb['archive_txt'] = 'Archivia';
 $wb['archive_desc_txt'] = 'If checked, the mail will be saved in the archive and not simply deleted';
