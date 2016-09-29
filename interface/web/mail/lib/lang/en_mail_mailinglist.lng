@@ -62,3 +62,9 @@ $wb['digestmaxmails_desc_txt'] = 'Specifies how many mails can accumulate before
 
 $wb['archive_txt'] = 'Archive';
 $wb['archive_desc_txt'] = 'If checked, the mail will be saved in the archive and not simply deleted';
+
+$wb['welcomeMsg_txt'] = 'Welcome message';
+$wb['goodbyeMsg_txt'] = 'Goodbye message';
+
+$wb['open_list_txt'] = 'Open';
+$wb['closed_list_txt'] = 'Closed';

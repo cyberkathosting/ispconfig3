@@ -23,6 +23,10 @@ $wb['mailinglist_txt'] = 'Mailing list';
 $wb['heading_general_txt'] = 'General';
 
 /** MLMMJ **/
+$wb['Options'] = 'Opzioni';
+$wb['Membership'] = 'Membri';
+$wb['Digest'] = 'Raccolta';
+
 $wb['heading_subscription_txt'] = 'Sottoscrizione';
 $wb['heading_removal_txt'] = 'Rimozione';
 $wb['admins_txt'] = 'Email amministratori';
@@ -62,3 +66,9 @@ $wb['digestmaxmails_desc_txt'] = 'Specifica quante mail si possono accumulare pr
 
 $wb['archive_txt'] = 'Archivia';
 $wb['archive_desc_txt'] = 'If checked, the mail will be saved in the archive and not simply deleted';
+
+$wb['welcomeMsg_txt'] = 'Messaggio di benvenuto';
+$wb['goodbyeMsg_txt'] = 'Messaggio di addio';
+
+$wb['open_list_txt'] = 'Aperta';
+$wb['closed_list_txt'] = 'Chiusa';
