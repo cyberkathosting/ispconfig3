@@ -17,7 +17,7 @@ $wb['database_name_error_regex'] = 'Chybný název databáze. Název může obsa
 $wb['database_user_error_empty'] = 'Uživatel databáze je prázdný.';
 $wb['database_user_error_unique'] = 'Uživatel s tímto jménem již existuje. Pro unikátnost jména použijte jako předponu název domény.';
 $wb['database_user_error_regex'] = 'Chybné jméno uživatele. Jméno uživatele může obsahovat tyto znaky: a-z, A-Z, 0-9 a podtržítko. Délka: 2 - 16 znaků.';
-$wb['limit_database_txt'] = 'Dosažen maximální počet databází.';
+$wb['limit_database_txt'] = 'Byl dosažen maximální počet databází.';
 $wb['database_name_change_txt'] = 'Jméno databáze nemůže být změněno';
 $wb['database_charset_change_txt'] = 'Znaková sada databáze nemůže být změněna';
 $wb['database_name_error_len'] = 'Název databáze - {db} - je příliš dlouhý. Maximální délka včetně prefixu je 64 znaků.';
@@ -47,6 +47,4 @@ $wb['limit_database_quota_txt'] = 'Kvóta databáze';
 $wb['limit_database_quota_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['limit_database_quota_free_txt'] = 'Max. available DB quota ';
 ?>
-
-
 

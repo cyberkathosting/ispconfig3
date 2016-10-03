@@ -11,5 +11,3 @@ $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>
 
-
-

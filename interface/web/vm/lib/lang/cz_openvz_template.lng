@@ -96,5 +96,3 @@ $wb['custom_error'] = 'Not allowed in Custom settings: ';
 $wb['hostname_txt'] = 'Název hostitele';
 ?>
 
-
-

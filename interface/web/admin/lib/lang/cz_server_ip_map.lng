@@ -11,5 +11,3 @@ $wb['duplicate_mapping_error'] = 'Mapování již existuje.';
 $wb['ip_mapping_error'] = 'Source IP can not be an IP of the Rewrite-Server';
 ?>
 
-
-

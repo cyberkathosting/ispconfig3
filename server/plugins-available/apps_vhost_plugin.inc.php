@@ -169,7 +169,7 @@ class apps_vhost_plugin {
 			//$content = str_replace('{fpm_port}', $web_config['php_fpm_start_port']+1, $content);
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
-			if(file_exists('/var/run/php5-fpm.sock')){
+			if(file_exists('/var/run/php5-fpm.sock') || file_exists('/var/run/php/php7.0-fpm.sock')){
 				$use_tcp = '#';
 				$use_socket = '';
 			} else {

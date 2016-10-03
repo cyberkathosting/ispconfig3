@@ -6,13 +6,13 @@ $wb['ssl_state_txt'] = 'Stát (např. Czech Republic)';
 $wb['ssl_locality_txt'] = 'Název města';
 $wb['ssl_organisation_txt'] = 'Organizace (společnost)';
 $wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
-$wb['ssl_country_txt'] = 'Country';
-$wb['ssl_key_txt'] = 'SSL Key';
-$wb['ssl_request_txt'] = 'SSL Request';
-$wb['ssl_cert_txt'] = 'SSL Certificate';
+$wb['ssl_country_txt'] = 'Země';
+$wb['ssl_key_txt'] = 'SSL klíč';
+$wb['ssl_request_txt'] = 'SSL žádost';
+$wb['ssl_cert_txt'] = 'SSL certifikát';
 $wb['ssl_bundle_txt'] = 'SSL Bundle';
-$wb['ssl_action_txt'] = 'SSL Action';
-$wb['ssl_domain_txt'] = 'SSL Domain';
+$wb['ssl_action_txt'] = 'SSL akce';
+$wb['ssl_domain_txt'] = 'Doména';
 $wb['server_id_txt'] = 'Server';
 $wb['web_folder_error_regex'] = 'Invalid folder entered. Please do not enter a slash.';
 $wb['type_txt'] = 'Typ';
@@ -113,6 +113,4 @@ $wb['proxy_directives_txt'] = 'Proxy Directives';
 $wb['available_proxy_directive_snippets_txt'] = 'Available Proxy Directive Snippets:';
 $wb['Domain'] = 'Přezdívky domén webové stránky';
 ?>
-
-
 

@@ -38,7 +38,7 @@ class dns_dns_soa_plugin {
 			//** When the client group has changed, change also the owner of the record if the owner is not the admin user
 			if($page_form->oldDataRecord["client_group_id"] != $page_form->dataRecord["client_group_id"] && $page_form->dataRecord["sys_userid"] != 1) {
 				$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
-				$tmp = $app->db->queryOneREcord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
+				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
 				if($tmp["userid"] > 0) {
 					$app->db->query("UPDATE dns_soa SET sys_userid = ? WHERE id = ?", $tmp["userid"], $page_form->id);
 					$app->db->query("UPDATE dns_rr SET sys_userid = ? WHERE zone = ?", $tmp["userid"], $page_form->id);

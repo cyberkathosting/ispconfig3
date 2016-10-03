@@ -8,4 +8,7 @@ $wb['domain_txt'] = 'Domaine';
 $wb['add_new_record_txt'] = 'Ajouter un nouveau site';
 $wb['add_new_subdomain_txt'] = 'Add new subdomain';
 $wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
+$wb['domain_list_head_txt'] = 'Websites';
+$wb['aliasdomain_list_head_txt'] = 'Aliasdomains (Vhost)';
+$wb['subdomain_list_head_txt'] = 'Subdomains (Vhost)';
 ?>

@@ -30,5 +30,3 @@ $wb['limit_mailmailinglist_txt'] = 'Počet e-mailových konferencí';
 $wb['limit_domain_txt'] = 'Počet domén';
 ?>
 
-
-

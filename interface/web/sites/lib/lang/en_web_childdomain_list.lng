@@ -12,5 +12,7 @@ $wb['domain_error_regex'] = 'Domain name invalid.';
 $wb['no_redirect_txt'] = 'No redirect';
 $wb['no_flag_txt'] = 'No flag';
 $wb['none_txt'] = 'None';
+$wb['aliasdomain_list_head_txt'] = 'Aliasdomains';
+$wb['subdomain_list_head_txt'] = 'Subdomains';
 ?>
 

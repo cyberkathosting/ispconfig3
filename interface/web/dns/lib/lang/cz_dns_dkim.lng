@@ -10,5 +10,3 @@ $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 $wb['selector_txt'] = 'DKIM selektor';
 ?>
 
-
-

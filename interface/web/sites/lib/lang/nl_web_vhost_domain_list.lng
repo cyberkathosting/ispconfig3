@@ -8,4 +8,7 @@ $wb['add_new_record_txt'] = 'Toevoegen nieuwe website';
 $wb['parent_domain_id_txt'] = 'Website';
 $wb['add_new_subdomain_txt'] = 'Toevoegen nieuw subdomain';
 $wb['add_new_aliasdomain_txt'] = 'Toevoegen nieuw aliasdomain';
+$wb['domain_list_head_txt'] = 'Websites';
+$wb['aliasdomain_list_head_txt'] = 'Aliasdomains (Vhost)';
+$wb['subdomain_list_head_txt'] = 'Subdomains (Vhost)';
 ?>

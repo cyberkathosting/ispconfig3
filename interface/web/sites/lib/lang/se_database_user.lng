@@ -21,4 +21,5 @@ $wb['globalsearch_noresults_limit_txt'] = '0 resultat';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Sök';
 $wb['globalsearch_suggestions_text_txt'] = 'Förslag';
 $wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
+$wb['database_password_error_empty'] = 'Database password is empty.';
 ?>

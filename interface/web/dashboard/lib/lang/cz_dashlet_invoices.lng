@@ -17,5 +17,3 @@ $wb['invoice_type_refund_txt'] = 'Refund';
 $wb['invoice_type_reminder_txt'] = 'Reminder';
 ?>
 
-
-

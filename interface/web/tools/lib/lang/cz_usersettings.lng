@@ -11,5 +11,3 @@ $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['password_txt'] = 'Heslo';
 ?>
 
-
-

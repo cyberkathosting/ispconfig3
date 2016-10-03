@@ -209,7 +209,7 @@ class cronjob_backup extends cronjob {
 				$records = $app->db->queryAllRecords("SELECT * FROM web_database WHERE server_id = ? AND backup_interval != 'none' AND backup_interval != ''", $conf['server_id']);
 				if(is_array($records)) {
 
-					include 'lib/mysql_clientdb.conf';
+					include '/usr/local/ispconfig/server/lib/mysql_clientdb.conf';
 
 					foreach($records as $rec) {
 

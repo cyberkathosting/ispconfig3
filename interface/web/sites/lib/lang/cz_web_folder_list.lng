@@ -7,5 +7,3 @@ $wb['path_txt'] = 'Cesta';
 $wb['add_new_record_txt'] = 'Vytvořit složku';
 ?>
 
-
-

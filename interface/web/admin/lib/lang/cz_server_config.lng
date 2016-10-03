@@ -283,5 +283,3 @@ $wb['hostname_error_regex'] = 'Neplatný název hostitele.';
 $wb['backup_time_txt'] = 'Spustit zálohovaní v';
 ?>
 
-
-
