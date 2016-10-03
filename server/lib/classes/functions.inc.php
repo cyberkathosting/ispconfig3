@@ -354,7 +354,11 @@ class functions {
 
 		if($encode == true) {
 			if(function_exists('idn_to_ascii')) {
-				$domain = idn_to_ascii($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				if(defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46') && constant('IDNA_NONTRANSITIONAL_TO_ASCII')) {
+					$domain = idn_to_ascii($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				} else {
+					$domain = idn_to_ascii($domain);
+				}
 			} elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
 				/* use idna class:
                  * @author  Matthias Sommerfeld <mso@phlylabs.de>
@@ -371,7 +375,11 @@ class functions {
 			}
 		} else {
 			if(function_exists('idn_to_utf8')) {
-				$domain = idn_to_utf8($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				if(defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46') && constant('IDNA_NONTRANSITIONAL_TO_ASCII')) {
+					$domain = idn_to_utf8($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+				} else {
+					$domain = idn_to_utf8($domain);
+				}
 			} elseif(file_exists(ISPC_CLASS_PATH.'/idn/idna_convert.class.php')) {
 				/* use idna class:
                  * @author  Matthias Sommerfeld <mso@phlylabs.de>
