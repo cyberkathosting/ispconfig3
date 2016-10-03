@@ -19,5 +19,3 @@ $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 $wb['hostname_txt'] = 'Název hostitele';
 ?>
 
-
-

@@ -48,5 +48,3 @@ $wb['do_mailget_txt'] = 'Proběhla resynchronizace externího získávání e-ma
 $wb['resync_mailget_txt'] = 'Externí získávání e-mailů';
 ?>
 
-
-

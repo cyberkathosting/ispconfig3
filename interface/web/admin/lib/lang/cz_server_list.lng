@@ -13,5 +13,3 @@ $wb['firewall_server_txt'] = 'Firewall';
 $wb['xmpp_server_txt'] = 'XMPP';
 ?>
 
-
-

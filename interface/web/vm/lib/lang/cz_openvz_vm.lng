@@ -44,5 +44,3 @@ $wb['hostname_txt'] = 'Název hostitele';
 $wb['hostname_error_empty'] = 'Název hostitele je prázdný';
 ?>
 
-
-

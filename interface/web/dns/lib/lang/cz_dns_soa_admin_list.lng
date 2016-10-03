@@ -10,5 +10,3 @@ $wb['add_new_record_txt'] = 'Vytvořit DNS zónu manuálně';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
 
-
-

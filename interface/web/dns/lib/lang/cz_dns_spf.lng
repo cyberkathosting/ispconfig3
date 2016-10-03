@@ -24,5 +24,3 @@ $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DN
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
 
-
-

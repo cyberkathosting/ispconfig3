@@ -5,5 +5,3 @@ $wb['add_new_record_txt'] = 'Vytvořit uživatele databáze';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>
 
-
-

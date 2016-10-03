@@ -6,9 +6,10 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Vytvořit webovou stránku';
 $wb['parent_domain_id_txt'] = 'Webové stránky';
-$wb['add_new_subdomain_txt'] = 'Add new subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
+$wb['add_new_subdomain_txt'] = 'Přidat subdoménu';
+$wb['add_new_aliasdomain_txt'] = 'Přidat přezdívku domény';
+$wb['domain_list_head_txt'] = 'Webové stránky';
+$wb['aliasdomain_list_head_txt'] = 'Přezdívky domén (Vhost)';
+$wb['subdomain_list_head_txt'] = 'Subdomény (Vhost)';
 ?>
-
-
 

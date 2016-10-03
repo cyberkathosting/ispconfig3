@@ -11,7 +11,7 @@ $wb['ssl_organisation_txt'] = 'Organizace (společnost)';
 $wb['ssl_organisation_unit_txt'] = 'Organizační jednotka (pobočka,oddělení)';
 $wb['ssl_country_txt'] = 'Země';
 $wb['ssl_key_txt'] = 'SSL klíč';
-$wb['ssl_request_txt'] = 'SSL požadavek';
+$wb['ssl_request_txt'] = 'SSL žádost';
 $wb['ssl_cert_txt'] = 'SSL certifikát';
 $wb['ssl_bundle_txt'] = 'SSL Bundle';
 $wb['ssl_action_txt'] = 'SSL akce';
@@ -129,6 +129,4 @@ $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 ?>
-
-
 

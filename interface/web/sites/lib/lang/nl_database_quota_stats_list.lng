@@ -5,4 +5,5 @@ $wb['client_txt'] = 'Klant';
 $wb['used_txt'] = 'Gebruikte ruimte';
 $wb['quota_txt'] = 'Quota';
 $wb['percentage_txt'] = 'Gebruikt in %';
+$wb['list_head_txt'] = 'Database Quota';
 ?>

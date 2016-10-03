@@ -87,6 +87,7 @@ class backup_plugin {
 					if(file_exists($backup_dir.'/'.$backup['filename']) && file_exists($web['document_root'].'/backup/') && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
 						copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
 						chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
+						chown($web['document_root'].'/backup/'.$backup['filename'], $web['system_user']);
 						chmod($web['document_root'].'/backup/'.$backup['filename'],0600);
 						$app->log('cp '.$backup_dir.'/'.$backup['filename'].' '.$web['document_root'].'/backup/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}

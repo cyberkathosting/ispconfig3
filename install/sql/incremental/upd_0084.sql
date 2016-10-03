@@ -1,0 +1,2 @@
+UPDATE `sys_user` SET `app_theme` = 'default' WHERE 1;
+ALTER TABLE `ftp_user` ADD `user_type` SET('user','system') NOT NULL DEFAULT 'user' AFTER `expires`, ADD `user_config` TEXT NULL AFTER `user_type`;

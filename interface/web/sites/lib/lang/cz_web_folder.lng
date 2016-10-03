@@ -7,5 +7,3 @@ $wb['path_error_regex'] = 'Neplatná cesta ke složce.';
 $wb['error_folder_already_protected_txt'] = 'Záznam pro tuto složku již existuje';
 ?>
 
-
-

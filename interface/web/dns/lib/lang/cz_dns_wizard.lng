@@ -44,5 +44,3 @@ $wb['dnssec_txt'] = 'Podepsat zónu (DNSSEC)';
 $wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
 ?>
 
-
-

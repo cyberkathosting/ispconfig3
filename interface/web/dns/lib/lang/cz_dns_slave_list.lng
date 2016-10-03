@@ -8,5 +8,3 @@ $wb['add_new_record_txt'] = 'Vytvořit sekundární DNS zónu';
 $wb['eg_domain_tld'] = 'např. domena.cz';
 ?>
 
-
-

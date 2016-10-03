@@ -21,5 +21,3 @@ $wb['Secondary Zones'] = 'Sekundární DNS zóny';
 $wb['Import Zone File'] = 'Importovat DNS zonový soubor';
 ?>
 
-
-

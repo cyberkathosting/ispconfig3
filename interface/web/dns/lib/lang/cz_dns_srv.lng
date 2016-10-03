@@ -19,5 +19,3 @@ $wb['aux_txt'] = 'Priorita';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>
 
-
-

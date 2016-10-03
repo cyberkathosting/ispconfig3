@@ -202,8 +202,6 @@ $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['limit_database_user_error_notint'] = 'The database user limit must be a number.';
 $wb['limit_database_quota_txt'] = 'Databázové kvóty';
 $wb['limit_database_quota_error_notint'] = 'Limit databázové kvóty musí být číslo.';
-$wb['password_click_to_set_txt'] = 'Click to set';
+$wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
 ?>
-
-
 
