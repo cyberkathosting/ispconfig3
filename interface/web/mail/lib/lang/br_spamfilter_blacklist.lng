@@ -2,11 +2,11 @@
 $wb['server_id_txt'] = 'Servidor';
 $wb['wb_txt'] = 'wb';
 $wb['rid_txt'] = 'Usuário';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Endereço de e-mail';
 $wb['priority_txt'] = 'Prioridade';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_spamfilter_wblist_txt'] = 'O número máximo de registros de lista negra /  branca foi atingido para esta conta.';
-$wb['10 - highest'] = '10 - highest';
-$wb['5 - medium'] = '5 - medium';
-$wb['1 - lowest'] = '1 - lowest';
+$wb['limit_spamfilter_wblist_txt'] = 'O limite de registros na lista branca/negra para esta conta foi alcançado.';
+$wb['10 - highest'] = '10 - alta';
+$wb['5 - medium'] = '5 - média';
+$wb['1 - lowest'] = '1 - baixa';
 ?>

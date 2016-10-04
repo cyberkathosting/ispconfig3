@@ -3,9 +3,9 @@ $wb['list_head_txt'] = 'Bancos de Dados';
 $wb['active_txt'] = 'Ativo';
 $wb['remote_access_txt'] = 'Acesso Remoto';
 $wb['server_id_txt'] = 'Servidor';
-$wb['database_user_txt'] = 'Usuário do Banco';
-$wb['database_name_txt'] = 'Nome do banco';
-$wb['add_new_record_txt'] = 'Adcionar um novo banco';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['type_txt'] = 'Type';
+$wb['database_user_txt'] = 'Usuário do banco de dados';
+$wb['database_name_txt'] = 'Nome do banco de dados';
+$wb['add_new_record_txt'] = 'Adicionar um novo banco de dados';
+$wb['parent_domain_id_txt'] = 'Site';
+$wb['type_txt'] = 'Tipo';
 ?>

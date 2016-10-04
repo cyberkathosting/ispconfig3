@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Zona';
-$wb['type_txt'] = 'tipo';
-$wb['data_txt'] = 'Hostname Servidor de Nomes';
+$wb['name_txt'] = 'Hospedeiro';
+$wb['type_txt'] = 'Tipo';
+$wb['data_txt'] = 'Servidor de nomes';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_dns_record_txt'] = 'O número máximo de zonas DNS para sua conta foi atingido.';
-$wb['no_zone_perm'] = 'Você não tem permição para adcionar registros a está zona DNS.';
-$wb['name_error_empty'] = 'A zona está em branco.';
-$wb['name_error_regex'] = 'A zona está com formato inválido.';
-$wb['data_error_empty'] = 'Servidor de nomes em branco';
-$wb['data_error_regex'] = 'Servidor de nomes com formato inválido';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['limit_dns_record_txt'] = 'O limite de zonas dns para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
+$wb['name_error_empty'] = 'Zona em branco.';
+$wb['name_error_regex'] = 'Zona inválida.';
+$wb['data_error_empty'] = 'Servidor de nomes em branco.';
+$wb['data_error_regex'] = 'Servidor de nomes inválido.';
+$wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 ?>

@@ -1,18 +1,18 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'tipo';
-$wb['data_txt'] = 'Hostname do servidor de correio';
+$wb['name_txt'] = 'Hospedeiro';
+$wb['type_txt'] = 'Tipo';
+$wb['data_txt'] = 'Hospedeiro do servidor de e-mails';
 $wb['aux_txt'] = 'Prioridade';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_dns_record_txt'] = 'O número máximo de zonas DNS para sua conta foi atingido.';
-$wb['no_zone_perm'] = 'Você não tem permição para adcionar registros a está zona DNS.';
-$wb['name_error_empty'] = 'Hostname em branco.';
-$wb['name_error_regex'] = 'Hostname tem um formato inválido.';
-$wb['data_error_empty'] = 'Hostname do servidor de correio em branco';
-$wb['data_error_regex'] = 'Hostname do servidor de correio formato inválido';
-$wb['duplicate_mx_record_txt'] = 'Duplicate MX record.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['limit_dns_record_txt'] = 'O limite de zonas dns para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
+$wb['name_error_empty'] = 'Hospedeiro em branco.';
+$wb['name_error_regex'] = 'Hospedeiro inválido.';
+$wb['data_error_empty'] = 'Hospedeiro do servidor de e-mails em branco.';
+$wb['data_error_regex'] = 'Hospedeiro do servidor de e-mails inválido.';
+$wb['duplicate_mx_record_txt'] = 'Registro MX duplicado.';
+$wb['ttl_range_error'] = 'O ttl minímo são 60 segundos.';
 ?>

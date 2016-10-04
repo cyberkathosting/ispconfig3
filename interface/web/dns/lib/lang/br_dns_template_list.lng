@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Assistente de Gabaritos DNS';
+$wb['list_head_txt'] = 'Assistente de gabaritos dns';
 $wb['visible_txt'] = 'Visível';
 $wb['name_txt'] = 'Nome';
-$wb['add_new_record_txt'] = 'Adcionar novo registro';
+$wb['add_new_record_txt'] = 'Adicionar novo gabarito';
 ?>

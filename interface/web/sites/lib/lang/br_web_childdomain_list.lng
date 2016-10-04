@@ -1,17 +1,17 @@
 <?php
-$wb['list_head_txt'] = 'Sub-domínios';
+$wb['list_head_txt'] = 'Subdomínios';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['domain_txt'] = 'Sub-domínio';
+$wb['parent_domain_id_txt'] = 'Site';
+$wb['domain_txt'] = 'Subdomínio';
 $wb['domain_error_empty'] = 'Domínio em branco.';
-$wb['domain_error_unique'] = 'O domínio deve ser único.';
-$wb['domain_error_regex'] = 'Nome de domínio inválido.';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
-$wb['none_txt'] = 'Em Branco';
-$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
-$wb['aliasdomain_list_head_txt'] = 'Aliasdomains';
-$wb['subdomain_list_head_txt'] = 'Subdomains';
+$wb['domain_error_unique'] = 'O nome do domínio deve ser exclusivo.';
+$wb['domain_error_regex'] = 'Nome do domínio inválido.';
+$wb['no_redirect_txt'] = 'Sem redirecionamento';
+$wb['no_flag_txt'] = 'Sem marcas';
+$wb['none_txt'] = 'Nenhum';
+$wb['add_new_subdomain_txt'] = 'Adicionar novo subdomínio';
+$wb['add_new_aliasdomain_txt'] = 'Adicionar novo apelido';
+$wb['aliasdomain_list_head_txt'] = 'Apelidos de domínios';
+$wb['subdomain_list_head_txt'] = 'Subdomínios';
 ?>

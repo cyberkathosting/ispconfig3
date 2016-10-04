@@ -1,11 +1,11 @@
 <?php
-$wb['template_type_txt'] = 'Email type';
-$wb['template_name_txt'] = 'Template name';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['Email template'] = 'Email template';
-$wb['Settings'] = 'Setting';
-$wb['variables_txt'] = 'Variables';
-$wb['variables_description_txt'] = '(The username and password variables are only available in welcome emails.)';
-$wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
+$wb['template_type_txt'] = 'Tipo de e-mail';
+$wb['template_name_txt'] = 'Nome do gabarito';
+$wb['subject_txt'] = 'Assunto';
+$wb['message_txt'] = 'Mensagem';
+$wb['Email template'] = 'Gabarito do e-mail';
+$wb['Settings'] = 'Configuração';
+$wb['variables_txt'] = 'Variáveis';
+$wb['variables_description_txt'] = '(As variáveis usuário e senha estão disponíveis apenas em e-mails de boas vindas.)';
+$wb['duplicate_welcome_error'] = 'Disponível apenas para o gabarito padrão de e-mail de boas vindas. Por favor edite o gabarito existente ou adicione um novo gabarito.';
 ?>

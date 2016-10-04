@@ -4,5 +4,5 @@ $wb['faq_delete_txt'] = 'Remover';
 $wb['faq_edit_txt'] = 'Editar';
 $wb['faq_sections_txt'] = 'Sessões';
 $wb['faq_faq_sections_txt'] = 'Sessões FAQ';
-$wb['faq_new_section_txt'] = 'Adcionar uma nova sessão';
+$wb['faq_new_section_txt'] = 'Adicionar nova sessão';
 ?>

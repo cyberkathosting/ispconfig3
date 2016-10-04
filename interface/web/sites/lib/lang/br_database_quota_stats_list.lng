@@ -1,9 +1,9 @@
 <?php
-$wb['database_txt'] = 'Database';
-$wb['server_name_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['used_txt'] = 'Used space';
-$wb['quota_txt'] = 'Quota';
-$wb['percentage_txt'] = 'Used in %';
-$wb['list_head_txt'] = 'Database Quota';
+$wb['database_txt'] = 'Banco de dados';
+$wb['server_name_txt'] = 'Servidor';
+$wb['client_txt'] = 'Cliente';
+$wb['used_txt'] = 'Espaço utilizado';
+$wb['quota_txt'] = 'Cota';
+$wb['percentage_txt'] = 'Espaço utilizado em %';
+$wb['list_head_txt'] = 'Cota para banco de dados';
 ?>

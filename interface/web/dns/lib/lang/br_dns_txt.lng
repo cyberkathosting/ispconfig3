@@ -1,19 +1,19 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'tipo';
+$wb['name_txt'] = 'Hospedeiro';
+$wb['type_txt'] = 'Tipo';
 $wb['data_txt'] = 'Text';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_dns_record_txt'] = 'O número máximo de zonas DNS para sua conta foi atingido.';
-$wb['no_zone_perm'] = 'Você não tem permição para adcionar registros a está zona DNS.';
-$wb['name_error_empty'] = 'Hostname em branco.';
-$wb['name_error_regex'] = 'Hostname tem um formato inválido.';
-$wb['data_error_empty'] = 'Endereço IP em branco';
-$wb['data_error_regex'] = 'Endereço IP formato inválido';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
-$wb['invalid_type_dkim'] = 'DKIM is not allowed. Use the DKIM button';
-$wb['invalid_type_dmarc'] = 'DMARC is not allowed. Use the DMARC button';
-$wb['invalid_type_spf'] = 'SPF is not allowed. Use the SPF button.';
+$wb['limit_dns_record_txt'] = 'O limite de zonas dns para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
+$wb['name_error_empty'] = 'Hospedeiro em branco.';
+$wb['name_error_regex'] = 'Hospedeiro inválido.';
+$wb['data_error_empty'] = 'Endereço IP em branco.';
+$wb['data_error_regex'] = 'Endereço IP inválido.';
+$wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
+$wb['invalid_type_dkim'] = 'DKIM não permitido. Use o botão DKIM.';
+$wb['invalid_type_dmarc'] = 'DMARC não permitido. Use o botão DMARC.';
+$wb['invalid_type_spf'] = 'SPF não permitido. Use o botão SPF.';
 ?>

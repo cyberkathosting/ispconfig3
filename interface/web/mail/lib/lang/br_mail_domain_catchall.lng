@@ -2,10 +2,10 @@
 $wb['domain_txt'] = 'Domínio';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Ativo';
-$wb['domain_error_unique'] = 'Já existe um registro de Catchall para este domínio.';
+$wb['domain_error_unique'] = 'Já existe uma conta cata tudo para este domínio.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
-$wb['domain_error_regex'] = 'O nome do domínio contém caracteres inválidos';
-$wb['limit_mailcatchall_txt'] = 'O número máximo de catchall para este domínio foi atingido.';
-$wb['source_txt'] = 'Source';
-$wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['domain_error_regex'] = 'O domínio contém caracteres inválidos';
+$wb['limit_mailcatchall_txt'] = 'O limite de contas cata tudo para este domínio foi alcançado.';
+$wb['source_txt'] = 'Origem';
+$wb['destination_error_isemail'] = 'Destino não é um e-mail válido.';
 ?>

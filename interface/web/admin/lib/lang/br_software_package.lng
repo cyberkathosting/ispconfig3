@@ -1,6 +1,6 @@
 <?php
-$wb['package_title_txt'] = 'Package Title';
-$wb['package_key_txt'] = 'Package Key';
-$wb['Software Package'] = 'Software Package';
-$wb['Modify software package details'] = 'Modify software package details';
+$wb['package_title_txt'] = 'Título do pacote';
+$wb['package_key_txt'] = 'Chave do pacote';
+$wb['Software Package'] = 'Pacote de software';
+$wb['Modify software package details'] = 'Alterar detalhes do pacote de software';
 ?>
