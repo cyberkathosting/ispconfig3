@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007 - 2013, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007 - 2016, Till Brehm, projektfarm Gmbh
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -196,6 +196,26 @@ class remoting_dns extends remoting {
 		$app->remoting_lib->loadFormDef('../dns/form/dns_soa.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
+	
+	//* Add a slave zone
+    public function dns_slave_add($session_id, $client_id, $params)
+    {
+    if(!$this->checkPerm($session_id, 'dns_zone_add')) {
+    throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+    return false;
+    }
+    return $this->insertQuery('../dns/form/dns_slave.tform.php', $client_id, $params);
+    }
+
+    //* Delete a slave zone
+    public function dns_slave_delete($session_id, $primary_id)
+    {
+    if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
+    throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+    return false;
+    }
+    return $this->deleteQuery('../dns/form/dns_slave.tform.php', $primary_id);
+    } 
 
 	//* Get record id by origin
 	public function dns_zone_get_id($session_id, $origin)
