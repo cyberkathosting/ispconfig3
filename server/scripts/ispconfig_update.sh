@@ -15,11 +15,25 @@ _UPD=1
 {
 if [ -n "${_UPD}" ]
 then
-    exec php -q \
-        -d disable_classes= \
-        -d disable_functions= \
-        -d open_basedir= \
-        /usr/local/ispconfig/server/scripts/ispconfig_update.php
+    n=$(readlink -f ${0})
+    if [ "$(basename ${0})" == "ispconfig_update.sh" ]
+    then
+        cp -p ${n} ${n}.exec
+        chmod +x ${n}.exec
+        exec ${n}.exec
+    else
+        # clean up tmp .exec file
+        if [ "$(basename ${0})" == "ispconfig_update.sh.exec" ]; then
+            rm -f ${0}
+        fi
+
+        exec php -q \
+            -d disable_classes= \
+            -d disable_functions= \
+            -d open_basedir= \
+            /usr/local/ispconfig/server/scripts/ispconfig_update.php
+
+    fi
 fi
 }
 
