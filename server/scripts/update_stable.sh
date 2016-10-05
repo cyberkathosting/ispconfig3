@@ -1,5 +1,5 @@
 #!/bin/bash
-
+{
 {
     umask 0077 \
     && tmpdir=`mktemp -dt "$(basename $0).XXXXXXXXXX"` \
@@ -28,3 +28,4 @@ else
 fi
 
 exit 0
+}
