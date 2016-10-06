@@ -879,30 +879,30 @@ class apache2_plugin {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
 				$mb_soft = $data['new']['hd_quota'];
-                $mb_hard = $mb_soft + 1;
+				$mb_hard = $mb_soft + 1;
 			} else {
 				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
 			}
-            
-          // get the primitive folder for document_root and the filesystem, will need it later.
-          $df_output=explode(" ", exec("df -T " . escapeshellarg($data['new']['document_root']) . "|awk 'END{print \$2,\$NF}'"));
-          $file_system = $df_output[0];
-          $primitive_root = $df_output[1];
 
-		  if($file_system == 'xfs') {
-			exec("xfs_quota -x -c 'limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+			// get the primitive folder for document_root and the filesystem, will need it later.
+			$df_output=explode(" ", exec("df -T " . escapeshellarg($data['new']['document_root']) . "|awk 'END{print \$2,\$NF}'"));
+			$file_system = $df_output[0];
+			$primitive_root = $df_output[1];
 
-            // xfs only supports timers globally, not per user.
-            exec("xfs_quota -x -c 'timer -bir -i 604800' $primitive_root");
+			if($file_system == 'xfs') {
+				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $data['new']['system_group']) . " " . escapeshellarg($primitive_root));
 
-            unset($project_uid, $username_position, $xfs_projects);
-            unset($primitive_root, $df_output, $mb_hard, $mb_soft);
-		  } else {
-            if($app->system->is_installed('setquota')) {
-				exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-				exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+				// xfs only supports timers globally, not per user.
+				exec("xfs_quota -x -c 'timer -bir -i 604800' " . escapeshellarg($primitive_root));
+
+				unset($project_uid, $username_position, $xfs_projects);
+				unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+			} else {
+				if($app->system->is_installed('setquota')) {
+					exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+					exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+				}
 			}
-          }
 		}
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
