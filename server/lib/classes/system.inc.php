@@ -1840,17 +1840,17 @@ class system{
 			if ($this->is_mounted($backup_dir)){
 				exec($mount_cmd);
 				sleep(1);
-			}
-		}
 
-        $unmounted = $this->is_mounted($backup_dir) == 0 ? true : false;
-		if(!$unmounted) {
-			//* send email to admin that backup directory could not be unmounted
-			$global_config = $app->getconf->get_global_config('mail');
-			if($global_config['admin_mail'] != ''){
-				$subject = 'Backup directory '.$backup_dir.' could not be unmounted';
-				$message = "Backup directory ".$backup_dir." could not be unmounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
-				mail($global_config['admin_mail'], $subject, $message);
+		        $unmounted = $this->is_mounted($backup_dir) == 0 ? true : false;
+				if(!$unmounted) {
+					//* send email to admin that backup directory could not be unmounted
+					$global_config = $app->getconf->get_global_config('mail');
+					if($global_config['admin_mail'] != ''){
+						$subject = 'Backup directory '.$backup_dir.' could not be unmounted';
+						$message = "Backup directory ".$backup_dir." could not be unmounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
+						mail($global_config['admin_mail'], $subject, $message);
+					}
+				}
 			}
 		}
 
