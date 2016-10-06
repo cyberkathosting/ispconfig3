@@ -748,7 +748,7 @@ class nginx_plugin {
 			$primitive_root = $df_output[1];
 
 			if($file_system == 'xfs') {
-				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $data['new']['system_group']) . " " . escapeshellarg($primitive_root));
+				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $username) . " " . escapeshellarg($primitive_root));
 
 				// xfs only supports timers globally, not per user.
 				exec("xfs_quota -x -c 'timer -bir -i 604800' " . escapeshellarg($primitive_root));
