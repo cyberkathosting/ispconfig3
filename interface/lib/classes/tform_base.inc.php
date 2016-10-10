@@ -1053,7 +1053,17 @@ class tform_base {
 							$this->errorMessage .= $errmsg."<br />\r\n";
 						}
 					}
-				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				} else {
+					$tmpval = $app->functions->intval($field_value);
+					if($tmpval === 0 and !empty($field_value)) {
+						$errmsg = $validator['errmsg'];
+						if(isset($this->wordbook[$errmsg])) {
+							$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+						} else {
+							$this->errorMessage .= $errmsg."<br />\r\n";
+						}
+					}
+				}
 				break;
 			case 'ISPOSITIVE':
 				if(function_exists('filter_var')) {
