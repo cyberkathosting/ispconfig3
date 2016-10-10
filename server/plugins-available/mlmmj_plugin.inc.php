@@ -68,12 +68,17 @@ class mlmmj_plugin {
 		global $app;
 
 		// Register for the events
-		$app->plugins->registerEvent('mail_mailinglist_insert', 'mlmmj_plugin', 'insert');
-		$app->plugins->registerEvent('mail_mailinglist_update', 'mlmmj_plugin', 'update');
-		$app->plugins->registerEvent('mail_mailinglist_delete', 'mlmmj_plugin', 'delete');
+		$app->plugins->registerEvent('mail_mailinglist_insert', $this->plugin_name, 'list_insert');
+		$app->plugins->registerEvent('mail_mailinglist_update', $this->plugin_name, 'list_update');
+		$app->plugins->registerEvent('mail_mailinglist_delete', $this->plugin_name, 'list_delete');
+
+		$app->plugins->registerEvent('mail_ml_member_insert', $this->plugin_name, 'member_insert');
+		$app->plugins->registerEvent('mail_ml_member_update', $this->plugin_name, 'member_update');
+		$app->plugins->registerEvent('mail_ml_member_delete', $this->plugin_name, 'member_delete');
+
 	}
 
-	function insert($event_name, $data) {
+	function list_insert($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
@@ -133,7 +138,7 @@ class mlmmj_plugin {
 	}
 
 	// The purpose of this plugin is to rewrite the main.cf file
-	function update($event_name, $data) {
+	function list_update($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
@@ -219,7 +224,7 @@ class mlmmj_plugin {
 		}
 	}
 
-	function delete($event_name, $data) {
+	function list_delete($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
@@ -243,6 +248,61 @@ class mlmmj_plugin {
 
 			// Removing virtual entry
 			$this->delMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
+		}
+	}
+
+	function member_insert($event_name, $data) {
+		global $app, $conf;
+
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
+
+		if($mlManager == 'mlmmj') {
+			$mlConf = $this->getMlConfig();
+
+			$rec = $data['new'];
+
+			$sql = "SELECT * FROM mail_mailinglist WHERE mailinglist_id = ?";
+			$ml = $app->db->queryOneRecord($sql, $rec['mailinglist_id']);
+			if($ml['mailinglist_id']) {
+				$listDomain     = $ml['domain'];
+				$listName = $ml['listname'];
+				$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+			}
+
+			$welcome = ($rec['welcome_msg'] == 'y')?'-c':'';
+			$command = "/usr/bin/mlmmj-sub -q -s -L $listDir $welcome -a ".$rec['email'];
+			exec("nohup $command>/dev/null 2>&1");
+		}
+// 		file_put_contents('/tmp/figa',"$command\n");
+// 		file_put_contents('/tmp/figa',print_r($rec, true), FILE_APPEND);
+// 		file_put_contents('/tmp/figa',"/usr/bin/mlmmj-sub -L $listDir -a ".$rec['email'], FILE_APPEND);
+	}
+
+	function member_update($event_name, $data) {
+		//TODO: Implement something usefull on update event (e.g. change to digest subscription)
+	}
+
+	function member_delete($event_name, $data) {
+		global $app, $conf;
+
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
+
+		if($mlManager == 'mlmmj') {
+			$mlConf = $this->getMlConfig();
+
+			$rec = $data['old'];
+
+			$sql = "SELECT * FROM mail_mailinglist WHERE mailinglist_id = ?";
+			$ml = $app->db->queryOneRecord($sql, $rec['mailinglist_id']);
+			if($ml['mailinglist_id']) {
+				$listDomain     = $ml['domain'];
+				$listName = $ml['listname'];
+				$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+			}
+
+			$goodbye = ($rec['goodbye_msg'] == 'y')?'-c':'';
+			$command = "/usr/bin/mlmmj-unsub -q -s -L $listDir $goodbye -a ".$rec['email'];
+			exec("nohup $command>/dev/null 2>&1");
 		}
 	}
 

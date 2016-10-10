@@ -1,0 +1,5 @@
+<?php
+$wb["list_head_txt"] = 'imail_ml_membership';
+$wb["listname_txt"] = 'listname';
+$wb["domain_txt"] = 'domain';
+?>

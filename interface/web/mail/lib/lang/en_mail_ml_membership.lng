@@ -1,0 +1,10 @@
+<?php
+$wb['heading_subscription_txt'] = 'Subscription';
+$wb['heading_removal_txt'] = 'Removal';
+
+$wb['subscribers_txt'] = 'Members';
+$wb['subscribers_desc_txt'] = 'The email addresses subscribed to the list';
+$wb['unsubscribers_desc_txt'] = 'The email addresses unsubscribed from the list';
+
+$wb['welcomeMsg_txt'] = 'Welcome message';
+$wb['goodbyeMsg_txt'] = 'Goodbye message';
