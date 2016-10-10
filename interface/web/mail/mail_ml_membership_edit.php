@@ -93,7 +93,6 @@ class page_action extends tform_actions {
 		// Set the server id of the mailinglist members = server ID of mail domain.
 		$domain = $app->db->queryOneRecord("SELECT server_id FROM mail_mailinglist WHERE mailinglist_id = ?", $this->dataRecord["mailinglist_id"]);
 
-		file_put_contents('/tmp/vaso', "SELECT server_id FROM mail_mailinglist WHERE mailinglist_id = ". $this->dataRecord["mailinglist_id"]);
 		$this->dataRecord["server_id"] = $domain['server_id'];
 	}
 

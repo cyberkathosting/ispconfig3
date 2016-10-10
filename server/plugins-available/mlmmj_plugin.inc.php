@@ -273,9 +273,6 @@ class mlmmj_plugin {
 			$command = "/usr/bin/mlmmj-sub -q -s -L $listDir $welcome -a ".$rec['email'];
 			exec("nohup $command>/dev/null 2>&1");
 		}
-// 		file_put_contents('/tmp/figa',"$command\n");
-// 		file_put_contents('/tmp/figa',print_r($rec, true), FILE_APPEND);
-// 		file_put_contents('/tmp/figa',"/usr/bin/mlmmj-sub -L $listDir -a ".$rec['email'], FILE_APPEND);
 	}
 
 	function member_update($event_name, $data) {
