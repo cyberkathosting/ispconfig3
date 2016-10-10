@@ -1765,7 +1765,7 @@ class apache2_plugin {
 					$explode_v6prefix=explode(':', $web_config['serverconfig']['server']['v6_prefix']);
 					$explode_v6=explode(':', $data['new']['ipv6_address']);
 
-					for ( $i = 0; $i <= count($explode_v6prefix)-3; $i++ ) {
+					for ( $i = 0; $i <= count($explode_v6prefix)-1; $i++ ) {
 						$explode_v6[$i] = $explode_v6prefix[$i];
 					}
 					$data['new']['ipv6_address'] = implode(':', $explode_v6);
