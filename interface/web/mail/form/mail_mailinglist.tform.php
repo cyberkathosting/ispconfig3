@@ -167,6 +167,12 @@ if($mlManager == 'mlmmj') {
 			'admins' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'validators' => array (
+					0 => array ( 'type' => 'ISEMAIL',
+						'allowempty' => 'y',
+						'separator' => "\n",
+						'errmsg'=> 'email_error_isemail'),
+				),
 				'cols'  => '30',
 				'rows'  => '5'
 			),
@@ -193,24 +199,6 @@ if($mlManager == 'mlmmj') {
 		)
 	);
 
-		$form["tabs"]['membership'] = array (
-		'title'  => "Membership",
-		'width'  => 100,
-		'template'  => "templates/mail_mailinglist_membership.htm",
-		'fields'  => array (
-			//#################################
-			// Begin Datatable fields
-			//#################################
-// 			'membership' => array (
-// 				'datatype' => 'TEXT',
-// 				'formtype' => 'TEXTAREA',
-// 				'cols'  => '30',
-// 				'rows'  => '5'
-// 			),
-		)
-	);
-
-
 	$form["tabs"]['privacy'] = array (
 		'title'  => "Privacy",
 		'width'  => 100,
@@ -225,8 +213,7 @@ if($mlManager == 'mlmmj') {
 				'regex'  => '',
 				'errmsg' => '',
 				'default' => 'user',
-				'value'  => array ('open' => 'Open', 'closed' => 'Closed'),
-				'separator' => '',
+				'value'  => array ('open' => 'open_list_txt', 'closed' => 'closed_list_txt'),
 				'width'  => '30',
 				'maxlength' => '255',
 				'rows'  => '',

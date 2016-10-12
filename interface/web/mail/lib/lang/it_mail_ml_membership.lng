@@ -1,0 +1,8 @@
+<?php
+$wb['listname_txt'] = 'Lista';
+$wb['email_txt'] = 'Email';
+$wb['name_txt'] = 'Nome vero';
+$wb['name_optional_txt'] = '(Opzionale)';
+
+$wb['welcomeMsg_txt'] = 'Messaggio di benvenuto';
+$wb['goodbyeMsg_txt'] = 'Messaggio di addio';

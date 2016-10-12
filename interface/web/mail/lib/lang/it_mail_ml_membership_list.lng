@@ -1,0 +1,16 @@
+<?php
+$wb['heading_subscription_txt'] = 'Sottoscrizione';
+$wb['heading_removal_txt'] = 'Rimozione';
+$wb['list_head_txt'] = 'Membri di lista';
+
+$wb['listname_txt'] = 'Lista';
+$wb['subscriber_email_txt'] = 'Email sottoscrittore';
+$wb['subscriber_name_txt'] = 'Nome sottoscrittore';
+
+$wb['add_new_member_txt'] = 'Aggiungi nuovo membro';
+
+$wb['subscribers_desc_txt'] = 'Gli indirizzi email da iscrivere alla lista';
+$wb['unsubscribers_desc_txt'] = 'Gli indirizzi email da rimuovere dalla lista';
+
+$wb['welcomeMsg_txt'] = 'Messaggio di benvenuto';
+$wb['goodbyeMsg_txt'] = 'Notifica';

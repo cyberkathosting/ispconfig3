@@ -541,7 +541,7 @@ class tform_base {
 							foreach($field['value'] as $k => $v) {
 								$checked = ($k == $val)?' CHECKED':'';
 								//$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
-								$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> $v </label>\r\n";
+								$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> ".$this->wordbook[$v]." </label>\r\n";
 								$elementNo++;
 							}
 						}
@@ -671,7 +671,7 @@ class tform_base {
 						foreach($field['value'] as $k => $v) {
 							$checked = ($k == $field["default"])?' CHECKED':'';
 							//$out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
-							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> $v</label>\r\n";
+							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"radio\" $checked/> ".$this->wordbook[$v]."</label>\r\n";
 							$elementNo++;
 						}
 					}
@@ -1022,13 +1022,22 @@ class tform_base {
 					//* Do nothing
 				} else {
 					if(function_exists('filter_var')) {
-						if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
-							$error = true;
-						} else {
-							if (!preg_match("/^[^\\+]+$/", $field_value)) { // * disallow + in local-part
+
+						//* When the field may contain several email addresses, split them by the char defined as separator
+						if(isset($validator['separator']) && $validator['separator'] != '')
+							$field_value_array = explode($validator['separator'], $field_value);
+						else $field_value_array[] = $field_value;
+
+						foreach($field_value_array AS $field_value) {
+							//* FIXME: Maybe it it's no good to alter the field value, but with multiline field we get adresses with carriege-return at the end
+							$field_value = trim($field_value);
+							if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+								$error = true;
+							} elseif (!preg_match("/^[^\\+]+$/", $field_value)) { // * disallow + in local-part
 								$error = true;
 							}
 						}
+
 						if ($error) {
 							$errmsg = $validator['errmsg'];
 							if(isset($this->wordbook[$errmsg])) {

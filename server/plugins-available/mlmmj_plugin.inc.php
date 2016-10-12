@@ -68,12 +68,17 @@ class mlmmj_plugin {
 		global $app;
 
 		// Register for the events
-		$app->plugins->registerEvent('mail_mailinglist_insert', 'mlmmj_plugin', 'insert');
-		$app->plugins->registerEvent('mail_mailinglist_update', 'mlmmj_plugin', 'update');
-		$app->plugins->registerEvent('mail_mailinglist_delete', 'mlmmj_plugin', 'delete');
+		$app->plugins->registerEvent('mail_mailinglist_insert', $this->plugin_name, 'list_insert');
+		$app->plugins->registerEvent('mail_mailinglist_update', $this->plugin_name, 'list_update');
+		$app->plugins->registerEvent('mail_mailinglist_delete', $this->plugin_name, 'list_delete');
+
+		$app->plugins->registerEvent('mail_ml_member_insert', $this->plugin_name, 'member_insert');
+		$app->plugins->registerEvent('mail_ml_member_update', $this->plugin_name, 'member_update');
+		$app->plugins->registerEvent('mail_ml_member_delete', $this->plugin_name, 'member_delete');
+
 	}
 
-	function insert($event_name, $data) {
+	function list_insert($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
@@ -133,7 +138,7 @@ class mlmmj_plugin {
 	}
 
 	// The purpose of this plugin is to rewrite the main.cf file
-	function update($event_name, $data) {
+	function list_update($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
@@ -219,13 +224,82 @@ class mlmmj_plugin {
 		}
 	}
 
-	function delete($event_name, $data) {
+	function list_delete($event_name, $data) {
 		global $app, $conf;
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
 
 		if($mlManager == 'mlmmj') {
-			$a=0;
+			$mlConf = $this->getMlConfig();
+			$rec = $data['old'];
+			$listDomain     = $rec['domain'];
+			$listName = $rec['listname'];
+			$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+
+			// Remove ML directory structure
+			$this->rmdirR($listDir);
+			@rmdir($mlConf['spool_dir']."/$listDomain");
+			
+			// Removing alias entry
+			$this->delMapEntry("$listName:  \"|/usr/bin/mlmmj-recieve -L $listDir/\"", self::ML_ALIAS);
+
+			// Removing transport entry
+			$this->delMapEntry("$listDomain--$listName@localhost.mlmmj   mlmmj:$listDomain/$listName", self::ML_TRANSPORT);
+
+			// Removing virtual entry
+			$this->delMapEntry("$listName@$listDomain    $listDomain--$listName@localhost.mlmmj", self::ML_VIRTUAL);
+		}
+	}
+
+	function member_insert($event_name, $data) {
+		global $app, $conf;
+
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
+
+		if($mlManager == 'mlmmj') {
+			$mlConf = $this->getMlConfig();
+
+			$rec = $data['new'];
+
+			$sql = "SELECT * FROM mail_mailinglist WHERE mailinglist_id = ?";
+			$ml = $app->db->queryOneRecord($sql, $rec['mailinglist_id']);
+			if($ml['mailinglist_id']) {
+				$listDomain     = $ml['domain'];
+				$listName = $ml['listname'];
+				$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+			}
+
+			$welcome = ($rec['welcome_msg'] == 'y')?'-c':'';
+			$command = "/usr/bin/mlmmj-sub -q -s -L $listDir $welcome -a ".$rec['email'];
+			exec("nohup $command>/dev/null 2>&1");
+		}
+	}
+
+	function member_update($event_name, $data) {
+		//TODO: Implement something usefull on update event (e.g. change to digest subscription)
+	}
+
+	function member_delete($event_name, $data) {
+		global $app, $conf;
+
+		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
+
+		if($mlManager == 'mlmmj') {
+			$mlConf = $this->getMlConfig();
+
+			$rec = $data['old'];
+
+			$sql = "SELECT * FROM mail_mailinglist WHERE mailinglist_id = ?";
+			$ml = $app->db->queryOneRecord($sql, $rec['mailinglist_id']);
+			if($ml['mailinglist_id']) {
+				$listDomain     = $ml['domain'];
+				$listName = $ml['listname'];
+				$listDir  = $mlConf['spool_dir']."/$listDomain/$listName";
+			}
+
+			$goodbye = ($rec['goodbye_msg'] == 'y')?'-c':'';
+			$command = "/usr/bin/mlmmj-unsub -q -s -L $listDir $goodbye -a ".$rec['email'];
+			exec("nohup $command>/dev/null 2>&1");
 		}
 	}
 
@@ -233,7 +307,7 @@ class mlmmj_plugin {
 		$mlConfig = @parse_ini_file($this->mlmmj_config_dir.'mlmmj.conf');
 
 		// Force PHP7 to use # to mark comments
-		if(PHP_MAJOR_VERSION >= 7)
+		if(PHP_MAJOR_VERSION >= 7 && is_array($mlConfig))
 			$mlConfig = array_filter($mlConfig, function($v){return(substr($v,0,1)!=='#');}, ARRAY_FILTER_USE_KEY);
 
 		return $mlConfig;
