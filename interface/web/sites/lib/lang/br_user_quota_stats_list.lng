@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Cota de Disco';
+$wb['list_head_txt'] = 'Cota do Disco';
 $wb['domain_txt'] = 'Domínio';
 $wb['system_user_txt'] = 'Usuário Linux';
-$wb['used_txt'] = 'Espaço usado';
-$wb['hard_txt'] = 'Limite hard';
-$wb['soft_txt'] = 'Limite soft';
-$wb['files_txt'] = 'Single files';
+$wb['used_txt'] = 'Espaço utilizado';
+$wb['hard_txt'] = 'Limite';
+$wb['soft_txt'] = 'Limite para alerta';
+$wb['files_txt'] = 'Arquivos simples';
 ?>

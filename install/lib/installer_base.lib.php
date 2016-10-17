@@ -1683,6 +1683,7 @@ class installer_base {
         // Copy isp libs
         if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
         caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+        caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
         // Process db config
         $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
         $content = rf($full_file_name);
@@ -1695,13 +1696,14 @@ class installer_base {
 
         if(!stristr($options, 'dont-create-certs')){
             // Create SSL Certificate for localhost
-            echo "writing new private key to 'localhost.key'\n-----\n";
-            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
+            // Ensure no line is left blank
+			echo "writing new private key to 'localhost.key'\n-----\n";
+			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name');
             $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure');
             $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
-            $ssl_email = $this->free_query('Email Address', '');
+            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname']);
 
             $tpl = new tpl('metronome_conf_ssl.master');
             $tpl->setVar('ssl_country',$ssl_country);
@@ -1718,6 +1720,14 @@ class installer_base {
             exec("(cd /etc/metronome/certs && make localhost.cert)");
             exec('chmod 0400 /etc/metronome/certs/localhost.key');
             exec('chown metronome /etc/metronome/certs/localhost.key');
+
+			echo "IMPORTANT:\n";
+			echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/metronome/certs\n";
+			echo "In order to work with all clients, the server must have a trusted certificate, so use the Csr\n";
+			echo "to get a trusted certificate from your CA or replace Key and Cert with already signed files for\n";
+			echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
+			echo "\n";
+
         }else{
             echo "-----\n";
             echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
@@ -1731,45 +1741,6 @@ class installer_base {
         caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
         exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
-
-/*
-writing new private key to 'smtpd.key'
------
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [AU]:
-State or Province Name (full name) [Some-State]:
-Locality Name (eg, city) []:
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:
-Organizational Unit Name (eg, section) []:
-Common Name (e.g. server FQDN or YOUR name) []:
-Email Address []:
- * */
-
-        /*// Dont just copy over the virtualhost template but add some custom settings
-        $tpl = new tpl('apache_apps.vhost.master');
-
-        $tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
-        $tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
-        $tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
-        $tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
-        $tpl->setVar('apache_version',getapacheversion());
-
-
-        // comment out the listen directive if port is 80 or 443
-        if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
-            $tpl->setVar('vhost_port_listen','#');
-        } else {
-            $tpl->setVar('vhost_port_listen','');
-        }
-
-        wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
-        unset($tpl);*/
     }
 
 
@@ -2649,8 +2620,8 @@ Email Address []:
 		if(is_file('/usr/local/bin/ispconfig_update_from_dev.sh')) unlink('/usr/local/bin/ispconfig_update_from_dev.sh');
 		chown($install_dir.'/server/scripts/update_from_dev.sh', 'root');
 		chmod($install_dir.'/server/scripts/update_from_dev.sh', 0700);
-		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
-		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
+//		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
+//		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
 		chown($install_dir.'/server/scripts/ispconfig_update.sh', 'root');
 		chmod($install_dir.'/server/scripts/ispconfig_update.sh', 0700);
 		if(!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_dev.sh');

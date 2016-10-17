@@ -411,6 +411,9 @@ class page_action extends tform_actions {
     private function update_dns($dataRecord, $new_rr) {
         global $app, $conf;
 
+        $sql = "SELECT server_name from server WHERE server_id = " . intval($dataRecord['server_id']);
+        $xmpp_server = $app->db->queryOneRecord($sql);
+
         $rec = $app->db->queryOneRecord("SELECT use_pubsub, use_proxy, use_anon_host, use_vjud, use_muc_host from xmpp_domain WHERE domain_id = ?", $this->id);
         $required_hosts = array('xmpp');
         if($rec['use_pubsub']=='y')
@@ -437,7 +440,7 @@ class page_action extends tform_actions {
             $rr = $new_rr;
             $rr['name'] = $h;
             $rr['type'] = 'CNAME';
-            $rr['data'] = 'jalapeno.spicyweb.de.';
+            $rr['data'] = $xmpp_server['server_name'] . '.';
             $rr['aux'] = 0;
             $rr['active'] = 'Y';
             $rr['stamp'] = date('Y-m-d H:i:s');
@@ -449,7 +452,7 @@ class page_action extends tform_actions {
         $rr = $new_rr;
         $rr['name'] = '_xmpp-client._tcp.'.$dataRecord['domain'].'.';
         $rr['type'] = 'SRV';
-        $rr['data'] = '5 5222 jalapeno.spicyweb.de.';
+        $rr['data'] = '5 5222 ' . $xmpp_server['server_name'] . '.';
         $rr['aux'] = 0;
         $rr['active'] = 'Y';
         $rr['stamp'] = date('Y-m-d H:i:s');
@@ -458,7 +461,7 @@ class page_action extends tform_actions {
         $rr = $new_rr;
         $rr['name'] = '_xmpp-server._tcp.'.$dataRecord['domain'].'.';
         $rr['type'] = 'SRV';
-        $rr['data'] = '5 5269 jalapeno.spicyweb.de.';
+        $rr['data'] = '5 5269 ' . $xmpp_server['server_name'] . '.';
         $rr['aux'] = 0;
         $rr['active'] = 'Y';
         $rr['stamp'] = date('Y-m-d H:i:s');

@@ -15,8 +15,14 @@ try{
 
     // check for existing user
     $dbmail = $db->real_escape_string($arg_email);
-    $result = $db->query("SELECT jid, password FROM xmpp_user WHERE jid LIKE ? AND active='y' AND server_id=?", $dbmail, $isp_server_id);
-    result_false($result->num_rows != 1);
+    $query = $db->prepare("SELECT count(*) AS usercount FROM xmpp_user WHERE jid LIKE ? AND active='y' AND server_id=?");
+    $query->bind_param('si', $arg_email, $isp_server_id);
+    $query->execute();
+    $query->bind_result($usercount);
+    $query->fetch();
+    $query->close();
+
+    result_false($usercount != 1);
     result_true();
 
 }catch(Exception $ex){

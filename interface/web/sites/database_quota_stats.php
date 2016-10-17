@@ -31,8 +31,8 @@ if(is_array($tmp_rec)) {
 
 			//$temp = $app->db->queryOneRecord("SELECT client.username, web_database.database_quota FROM web_database, sys_group, client WHERE sys_group.groupid = web_database.sys_groupid AND sys_group.client_id = client.client_id AND web_database.database_name = ?", $db_name);
 			$temp = $app->db->queryOneRecord("SELECT sys_groupid, database_quota FROM web_database WHERE web_database.database_name = ?", $db_name);
-			if($tmp['sys_groupid'] > 0) {
-				$client = $app->db->queryOneRecord("SELECT client.username FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ?", $tmp['sys_groupid']);
+			if($temp['sys_groupid'] > 0) {
+				$client = $app->db->queryOneRecord("SELECT client.username FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ?", $temp['sys_groupid']);
 				$temp['username'] = $client['username'];
 			} else {
 				$temp['username'] = 'admin';

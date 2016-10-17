@@ -1,16 +1,16 @@
 <?php
-$wb['head_txt'] = 'Virtual server actions for VM:';
-$wb['start_txt'] = 'Start virtual server';
-$wb['stop_txt'] = 'Stop virtual server';
-$wb['restart_txt'] = 'Restart virtual server';
-$wb['ostemplate_txt'] = 'Create OSTemplate';
-$wb['ostemplate_desc_txt'] = '(example: debian-6.0-i386-custom)';
-$wb['btn_save_txt'] = 'Execute selected action';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['start_exec_txt'] = 'Start command has been sent to the VM host server. It may take a minute until the VM is started.';
-$wb['stop_exec_txt'] = 'Stop command has been sent to the VM host server. It may take a minute until the VM is stopped.';
-$wb['restart_exec_txt'] = 'Restart command has been sent to the VM host server. It may take a minute until the VM is restarted.';
-$wb['ostemplate_name_error'] = 'The OSTemplate name conatains unallowed characters.';
-$wb['ostemplate_name_unique_error'] = 'There is already a OSTemplate with that name.';
-$wb['ostemplate_exec_txt'] = 'The command to create a OSTemplate has been sent to the host server. It will take several minutes until the OSTemplate has been created.';
+$wb['head_txt'] = 'Ações do servidor virtual para máquinas virtuais:';
+$wb['start_txt'] = 'Iniciar máquina virtual';
+$wb['stop_txt'] = 'Parar máquina virtual';
+$wb['restart_txt'] = 'Reiniciar máquina virtual';
+$wb['ostemplate_txt'] = 'Adicionar gabarito de SO';
+$wb['ostemplate_desc_txt'] = '(exemplo: debian-6.0-i386-custom)';
+$wb['btn_save_txt'] = 'Executar ação selecionada';
+$wb['btn_cancel_txt'] = 'Cancelar';
+$wb['start_exec_txt'] = 'O comando -iniciar- foi enviado ao servidor hospedeiro de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja iniciada.';
+$wb['stop_exec_txt'] = 'O comando -parar- foi enviado ao servidor hospedeiro de máquinas virtuais. Espere alguns minutos até que a máquina virtual pare.';
+$wb['restart_exec_txt'] = 'O comando -reiniciar- foi enviado ao servidor hospedeiro de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja reiniciada.';
+$wb['ostemplate_name_error'] = 'O gabarito de SO contém caracteres não permitidos.';
+$wb['ostemplate_name_unique_error'] = 'Já existe um gabarito de SO com este nome.';
+$wb['ostemplate_exec_txt'] = 'O comando -criar máquina virtual - foi enviado ao servidor hospedeiro de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja criada.';
 ?>

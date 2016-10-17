@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Políticas de Spam';
+$wb['list_head_txt'] = 'Políticas antispam';
 $wb['policy_name_txt'] = 'Nome';
-$wb['virus_lover_txt'] = 'Permitir Virus';
-$wb['spam_lover_txt'] = 'Permitir Spam';
-$wb['banned_files_lover_txt'] = 'Permitir Arquivos Banidos';
-$wb['bad_header_lover_txt'] = 'Permitir Bad Header';
-$wb['add_new_record_txt'] = 'Adcionar Registro';
+$wb['virus_lover_txt'] = 'Permitir vírus';
+$wb['spam_lover_txt'] = 'Permitir spam';
+$wb['banned_files_lover_txt'] = 'Permitir arquivos banidos';
+$wb['bad_header_lover_txt'] = 'Permitir cabeçalho inválido';
+$wb['add_new_record_txt'] = 'Adicionar registro';
 ?>

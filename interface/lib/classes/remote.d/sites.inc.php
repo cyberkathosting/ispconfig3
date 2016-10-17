@@ -261,7 +261,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 
-		$app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
+		//$app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
 		$affected_rows = $this->deleteQuery('../sites/form/database_user.tform.php', $primary_id);
 
 		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = ?", $primary_id);

@@ -1,6 +1,6 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['parent_domain_id_txt'] = 'Site Web Parente';
+$wb['server_id_txt'] = 'Servidor';
+$wb['parent_domain_id_txt'] = 'Site pai';
 $wb['active_txt'] = 'Ativo';
 $wb['client_txt'] = 'Cliente';
 $wb['run_min_txt'] = 'Minutos';
@@ -9,18 +9,18 @@ $wb['run_mday_txt'] = 'Dias do mês';
 $wb['run_month_txt'] = 'Meses';
 $wb['run_wday_txt'] = 'Dias da semana';
 $wb['command_txt'] = 'Comando a executar (os comandos serão executados via sh ou urls via wget)';
-$wb['limit_cron_txt'] = 'O número máximo de tarefas no cron foi atingido.';
+$wb['limit_cron_txt'] = 'O limite de tarefas no cron foi alcançado.';
 $wb['limit_cron_frequency_txt'] = 'A frequência das tarefas no cron ultrapassou o limite permitido.';
 $wb['run_min_error_format'] = 'Formato dos minutos inválido.';
-$wb['run_hour_error_format'] = 'Formato dos horas inválido.';
+$wb['run_hour_error_format'] = 'Formato das horas inválido.';
 $wb['run_mday_error_format'] = 'Formato dos dias do mês inválido.';
 $wb['run_month_error_format'] = 'Formato dos meses inválido.';
 $wb['run_wday_error_format'] = 'Formato dos dias da semana inválido.';
 $wb['command_error_format'] = 'Formato de comando inválido. Somente endereços url http/https são permitidos.';
 $wb['unknown_fieldtype_error'] = 'Um tipo desconhecido de campo foi usado.';
-$wb['server_id_error_empty'] = 'The server ID is empty.';
-$wb['limit_cron_url_txt'] = 'URL cron only. Please enter a URL starting with http:// as cron command.';
-$wb['command_error_empty'] = 'Command is empty.';
-$wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
-$wb['log_output_txt'] = 'Log output';
+$wb['server_id_error_empty'] = 'O ID do servidor em branco.';
+$wb['limit_cron_url_txt'] = 'Somente url do cron. Por favor, insira uma url iniciando com \"http://\" e um comando do cron.';
+$wb['command_error_empty'] = 'Comando em branco.';
+$wb['command_hint_txt'] = 'Você poderá usar, por exemplo: \"/var/www/clients/clientX/webY/meu_script.sh\" ou \"\http://www.dominio.com/path/script.php\" e também a palavra reservada \"[web_root]\" substituído por \"/var/www/clients/clientX/webY/web\".';
+$wb['log_output_txt'] = 'Saída do Log';
 ?>

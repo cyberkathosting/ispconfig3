@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'OpenVZ Virtual Machine Template';
-$wb['active_txt'] = 'Active';
-$wb['template_name_txt'] = 'Template name';
+$wb['list_head_txt'] = 'Gabarito de máquina virtual OpenVZ';
+$wb['active_txt'] = 'Ativo';
+$wb['template_name_txt'] = 'Nome do Gabarito';
 ?>
