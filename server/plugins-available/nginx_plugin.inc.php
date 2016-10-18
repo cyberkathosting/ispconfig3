@@ -684,31 +684,34 @@ class nginx_plugin {
 				}
 				exec('chmod -R a+r '.$error_page_path);
 			}
+			
+			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
+			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
+					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
 
-			if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-				if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
-
-				if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
-				//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				//}
-			} else {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
+					//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					//}
 				} else {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
-					if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					} else {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 					}
-					if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-					}
-					//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 				}
 			}
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
