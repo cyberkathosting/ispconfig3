@@ -121,7 +121,7 @@ class apache2_plugin {
 				}
 				unset($tmp);
 			}
-			
+
 			if(!$master_php_ini_path) {
 				if($web_data['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
 					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
@@ -132,6 +132,13 @@ class apache2_plugin {
 				}
 			}
 		}
+		
+		// Resolve inconsistant path settings
+		if($master_php_ini_path != '' && is_dir($master_php_ini_path) && is_file($master_php_ini_path.'/php.ini')) {
+			$master_php_ini_path .= '/php.ini';
+		}
+
+		// Load the custom php.ini content
 		if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
 			$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 		}
