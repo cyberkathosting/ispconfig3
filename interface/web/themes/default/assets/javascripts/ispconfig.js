@@ -544,7 +544,7 @@ var ISPConfig = {
 			newVal[newVal.length] = 'n' + ISPConfig.new_tpl_add_id + ':' + addTplId;
 			$('<li>' + addTplText + '</li>').attr('rel', 'n' + ISPConfig.new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
 			$('#template_additional').val(newVal.join('/'));
-			alert('additional template ' + addTplText + ' added to customer');
+			//alert('additional template ' + addTplText + ' added to customer');
 		} else {
 			alert('no additional template selcted');
 		}
@@ -566,7 +566,7 @@ var ISPConfig = {
 				newVal[newVal.length] = oldVal[i];
 			}
 			$('#template_additional').val(newVal.join('/'));
-			alert('additional template ' + addTplText + ' deleted from customer');
+			//alert('additional template ' + addTplText + ' deleted from customer');
 		} else if(tpl_add != '') {
 			// old style
 			var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
@@ -587,7 +587,7 @@ var ISPConfig = {
 			newVal = newVal.replace(repl, '');
 			newVal = newVal.replace('//', '/');
 			$('#template_additional').val(newVal);
-			alert('additional template ' + addTplText + ' deleted from customer');
+			//alert('additional template ' + addTplText + ' deleted from customer');
 	  } else {
 		alert('no additional template selcted');
 	  }
