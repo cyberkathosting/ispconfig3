@@ -1906,33 +1906,9 @@ class apache2_plugin {
 				} else {
 					// if no output is given, check again
 					$webserver_binary = '';
-					exec('which apache2ctl', $webserver_check_output, $webserver_check_retval);
+					exec('which apache2ctl apache2 httpd2 httpd apache 2>/dev/null', $webserver_check_output, $webserver_check_retval);
 					if($webserver_check_retval == 0){
-						$webserver_binary = 'apache2ctl';
-					} else {
-						unset($webserver_check_output, $webserver_check_retval);
-						exec('which apache2', $webserver_check_output, $webserver_check_retval);
-						if($webserver_check_retval == 0){
-							$webserver_binary = 'apache2';
-						} else {
-							unset($webserver_check_output, $webserver_check_retval);
-							exec('which httpd2', $webserver_check_output, $webserver_check_retval);
-							if($webserver_check_retval == 0){
-								$webserver_binary = 'httpd2';
-							} else {
-								unset($webserver_check_output, $webserver_check_retval);
-								exec('which httpd', $webserver_check_output, $webserver_check_retval);
-								if($webserver_check_retval == 0){
-									$webserver_binary = 'httpd';
-								} else {
-									unset($webserver_check_output, $webserver_check_retval);
-									exec('which apache', $webserver_check_output, $webserver_check_retval);
-									if($webserver_check_retval == 0){
-										$webserver_binary = 'apache';
-									}
-								}
-							}
-						}
+						$webserver_binary = reset($webserver_check_output);
 					}
 					if($webserver_binary != ''){
 						exec($webserver_binary.' -t 2>&1', $tmp_output, $tmp_retval);
