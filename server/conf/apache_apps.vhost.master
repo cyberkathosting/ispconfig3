@@ -14,6 +14,10 @@
   <FilesMatch "\.ph(p3?|tml)$">
     SetHandler None
   </FilesMatch>
+  
+  <IfModule mod_headers.c>
+	RequestHeader unset Proxy early
+  </IfModule>
 
   {tmpl_if name="enable_spdy" op="==" value="y"}
   <IfModule spdy_module>

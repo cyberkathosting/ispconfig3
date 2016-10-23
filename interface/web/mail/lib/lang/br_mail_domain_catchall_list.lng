@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Catchall de Correio';
+$wb['list_head_txt'] = 'Contas cata tudo';
 $wb['active_txt'] = 'Ativo';
-$wb['source_txt'] = 'origem';
+$wb['source_txt'] = 'Origem';
 $wb['destination_txt'] = 'Endereço de destino';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Domínio';
-$wb['add_new_record_txt'] = 'Adcionar novo Catchall';
+$wb['add_new_record_txt'] = 'Adicionar nova conta';
 ?>

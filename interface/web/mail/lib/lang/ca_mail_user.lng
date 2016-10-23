@@ -61,4 +61,5 @@ $wb['daily_backup_txt'] = 'Daily';
 $wb['weekly_backup_txt'] = 'Weekly';
 $wb['monthly_backup_txt'] = 'Monthly';
 $wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['password_click_to_set_txt'] = 'Click to set';
 ?>

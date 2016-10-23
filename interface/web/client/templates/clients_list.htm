@@ -47,7 +47,7 @@
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="company_name"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="contact_name"}</a></td>
 							<td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="customer_no"}</a></td>
-                            <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="username"}</a></td>
+                            <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='username'}">{tmpl_var name="username"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="city"}</a></td>
                             <td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}"><span class="flags flag-{tmpl_var name="countryiso"}">{tmpl_var name="country"}</span></a></td>
 							<tmpl_if name="has_robot"><td><a href="#" data-load-content="client/client_edit.php?id={tmpl_var name='id'}">{tmpl_var name="validation_status"}</a></td></tmpl_if>
@@ -82,5 +82,3 @@
                 </tfoot>
             </table>
 </div>
-        
-    

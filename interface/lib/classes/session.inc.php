@@ -93,8 +93,8 @@ class session {
 
 
 		if (@$this->session_array['session_id'] == '') {
-			$sql = "REPLACE INTO sys_session (session_id,date_created,last_updated,session_data,permanent) VALUES (?,NOW(),NOW(),'$session_data',?)";
-			$this->db->query($sql, $session_id, ($this->permanent ? 'y' : 'n'));
+			$sql = "REPLACE INTO sys_session (session_id,date_created,last_updated,session_data,permanent) VALUES (?,NOW(),NOW(),?,?)";
+			$this->db->query($sql, $session_id, $session_data, ($this->permanent ? 'y' : 'n'));
 
 		} else {
 			$sql = "UPDATE sys_session SET last_updated = NOW(), session_data = ?" . ($this->permanent ? ", `permanent` = 'y'" : "") . " WHERE session_id = ?";

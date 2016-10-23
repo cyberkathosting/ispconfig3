@@ -1,0 +1,17 @@
+<?php
+$wb['email_txt'] = 'E-mail';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Aktiv';
+$wb['email_error_isemail'] = 'E-mail adresse er ugyldigt.';
+$wb['email_error_unique'] = 'Dupliker E-mailadresse.';
+$wb['no_domain_perm'] = 'Du har ikke tilladelse til dette domæne.';
+$wb['destination_error_isemail'] = 'Bestemmelsessteds E-mail adresse er ugyldigt.';
+$wb['limit_mailalias_txt'] = 'Max. antallet af e-mail aliasser for din konto er nået.';
+$wb['duplicate_mailbox_txt'] = 'Der er allerede en mailboks med denne e-mail adresse.';
+$wb['domain_txt'] = 'Domæne';
+$wb['duplicate_email_alias_txt'] = 'Dette e-mail alias findes allerede.';
+$wb['source_txt'] = 'Alias';
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
+$wb['greylisting_txt'] = 'Enable greylisting';
+?>

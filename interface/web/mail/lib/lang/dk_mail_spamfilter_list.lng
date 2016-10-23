@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Spamfilter';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['server_name_txt'] = 'server_navn';
+$wb['email_txt'] = 'E-mail';
+$wb['add_new_record_txt'] = 'Tilføj ny Spamfilter post';
+?>

@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'Il valore per la dimensione della casella di posta d
 $wb['quota_txt'] = 'quota in MB';
 $wb['server_id_txt'] = 'server_id';
 $wb['password_txt'] = 'password';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'maildir';
 $wb['postfix_txt'] = 'Abilita ricezione';
 $wb['access_txt'] = 'Abilita indirizzo';

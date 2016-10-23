@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Sekundær DNS-Zoner';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['origin_txt'] = 'Zone';
+$wb['ns_txt'] = 'NS';
+$wb['add_new_record_txt'] = 'Tilføj ny Sekundær DNS-Zone';
+$wb['eg_domain_tld'] = 'f.eks. domæne.tld.';
+$wb['sys_groupid_txt'] = 'Kunde';
+?>

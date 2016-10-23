@@ -38,7 +38,7 @@ $module["nav"][] = array( 'title' => 'System State (All Servers)',
 
 $servers = $app->db->queryAllRecords("SELECT server_id, server_name FROM server order by server_name");
 
-$dropDown = "<select id='server_id' onchange=\"ISPConfig.loadContent('monitor/show_sys_state.php?state=server&server=' + document.getElementById('server_id').value);\">";
+$dropDown = "<select id='server_id' onchange=\"ISPConfig.loadContent('monitor/show_sys_state.php?state=server&server=' + document.getElementById('server_id').value);\" class='form-control'>";
 foreach ($servers as $server)
 {
 	$dropDown .= "<option value='" . $server['server_id'] . "|" . $server['server_name'] . "'>" . $server['server_name'] . "</option>";
@@ -135,7 +135,7 @@ $items[] = array( 'title'  => "Show OpenVz VE BeanCounter",
 $items[] = array( 'title'  => "Show Munin",
 	'target'  => 'content',
 	'link' => 'monitor/show_munin.php',
-	'html_id' => 'monit');
+	'html_id' => 'munin');
 
 $module["nav"][] = array( 'title' => 'Server State',
 	'open'  => 1,

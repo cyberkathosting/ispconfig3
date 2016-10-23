@@ -105,6 +105,8 @@ class mysql_clientdb_plugin {
 			$valid = true;
 			if($db_host == '%' || $db_host == 'localhost') {
 				$valid = true;
+			} elseif(function_exists('filter_var')) {
+				if(!filter_var($db_host, FILTER_VALIDATE_IP)) $valid=false;
 			} elseif(preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/", $db_host)) {
 				$groups = explode('.', $db_host);
 				foreach($groups as $group){
@@ -140,7 +142,12 @@ class mysql_clientdb_plugin {
 			} elseif($action == 'RENAME') {
 				if(!$link->query("RENAME USER '".$link->escape_string($database_user)."'@'$db_host' TO '".$link->escape_string($database_rename_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'PASSWORD') {
-				if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
+				//if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
+				// SET PASSWORD for already hashed passwords is not supported by latest MySQL 5.7 anymore, so we set it directly
+				if(trim($database_password) != '') {
+					if(!$link->query("UPDATE mysql.user SET `Password` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
+					if($success == true) $link->query("FLUSH PRIVILEGES");
+				}
 			}
 		}
 

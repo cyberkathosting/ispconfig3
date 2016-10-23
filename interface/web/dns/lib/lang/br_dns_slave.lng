@@ -1,17 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['origin_txt'] = 'Zona DNS';
+$wb['origin_txt'] = 'Zona dns';
 $wb['ns_txt'] = 'NS';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_dns_slave_zone_txt'] = 'O número máximo de zonas DNS secundárias foi atingido.';
+$wb['limit_dns_slave_zone_txt'] = 'O limite de zonas dns secundárias para esta conta foi alcançado.';
 $wb['client_txt'] = 'Cliente';
-$wb['xfer_txt'] = 'Permitir transferência da zona para<br />estes IPs (IPs separados por vírgulas)';
-$wb['server_id_error_empty'] = 'Nenhum servidor selecionado';
-$wb['origin_error_empty'] = 'Zona vazia';
-$wb['origin_error_unique'] = 'Já existe um registro para esta zona.';
-$wb['origin_error_regex'] = 'Formato inválido para esta zona.';
-$wb['ns_error_regex'] = 'Formato inválido para este NS.';
-$wb['eg_domain_tld'] = 'e.x. dominio.ext.';
-$wb['ipv4_form_txt'] = 'Formato IPv4 - e.x. 1.2.3.4';
-$wb['secondary_zone_txt'] = 'Secondary DNS Zone';
+$wb['xfer_txt'] = 'Permitir transferência da zona para estes IPs (IPs separados por vírgulas)';
+$wb['server_id_error_empty'] = 'Nenhum servidor selecionado.';
+$wb['origin_error_empty'] = 'Zona em branco.';
+$wb['origin_error_unique'] = 'Já existe um registro igual para esta zona.';
+$wb['origin_error_regex'] = 'Zona inválida.';
+$wb['ns_error_regex'] = 'Registro NS inválido.';
+$wb['eg_domain_tld'] = 'ex.: dominio.com.';
+$wb['ipv4_form_txt'] = 'Formato IPv4 - ex.: 1.2.3.4';
+$wb['secondary_zone_txt'] = 'Zona dns secundária';
 ?>

@@ -1,0 +1,8 @@
+<?php
+$wb['mailquota_txt'] = 'Postkasse Kvote';
+$wb['email_txt'] = 'E-mail Adresse';
+$wb['name_txt'] = 'Navn';
+$wb['used_txt'] = 'Brugt Plads';
+$wb['quota_txt'] = 'Kvote';
+$wb['no_email_accounts_txt'] = 'Ingen e-mail konti fundet.';
+?>

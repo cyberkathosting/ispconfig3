@@ -1,0 +1,11 @@
+<?php
+$wb['template_type_txt'] = 'E-mail type';
+$wb['template_name_txt'] = 'Skabelon navn';
+$wb['subject_txt'] = 'Emne';
+$wb['message_txt'] = 'Meddelelse';
+$wb['Email template'] = 'E-mail skabelon';
+$wb['Settings'] = 'Indstillinger';
+$wb['variables_txt'] = 'Variabler';
+$wb['variables_description_txt'] = '(Brugernavn og adgangskode variabler er kun tilgængelig i velkomst e-mails.)';
+$wb['duplicate_welcome_error'] = 'Der kan kun være én standard velkomstmail skabelon. Rediger den eksisterende skabelon i stedet for at tilføje en ny.';
+?>

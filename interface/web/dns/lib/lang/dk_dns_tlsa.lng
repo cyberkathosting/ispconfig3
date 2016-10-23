@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Service-Descriptor';
+$wb['type_txt'] = 'type';
+$wb['data_txt'] = 'TLSA-Data';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Active';
+$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
+$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['name_error_empty'] = 'The hostname is empty.';
+$wb['name_error_regex'] = 'The hostname has the wrong format. Correct: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
+$wb['data_error_empty'] = 'TLSA-Data empty';
+$wb['data_error_regex'] = 'TLSA dataformat is wrong. Correct: n n n HASH';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+?>

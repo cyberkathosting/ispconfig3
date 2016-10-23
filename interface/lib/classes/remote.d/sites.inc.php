@@ -261,7 +261,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 
-		$app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
+		//$app->db->datalogDelete('web_database_user', 'database_user_id', $primary_id);
 		$affected_rows = $this->deleteQuery('../sites/form/database_user.tform.php', $primary_id);
 
 		$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE database_user_id = ?", $primary_id);
@@ -434,7 +434,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_domain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_vhost_domain:on_after_insert');
 		if ($readonly === true)
 			$app->db->query("UPDATE web_domain SET `sys_userid` = '1' WHERE domain_id = ?", $domain_id);
 		return $domain_id;
@@ -481,7 +481,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_aliasdomain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -505,7 +505,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_vhost_aliasdomain.tform.php', $client_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
 		return $domain_id;
 	}
 
@@ -523,7 +523,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$affected_rows = $this->updateQuery('../sites/form/web_vhost_aliasdomain.tform.php', $client_id, $primary_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
+		$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $primary_id, $params, 'sites:web_vhost_aliasdomain:on_after_insert');
 		return $affected_rows;
 	}
 
@@ -534,7 +534,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_aliasdomain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -550,7 +550,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_subdomain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -574,7 +574,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$domain_id = $this->insertQuery('../sites/form/web_vhost_subdomain.tform.php', $client_id, $params, 'sites:web_vhost_subdomain:on_after_insert');
+		$domain_id = $this->insertQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $params, 'sites:web_vhost_subdomain:on_after_insert');
 		return $domain_id;
 	}
 
@@ -592,7 +592,7 @@ class remoting_sites extends remoting {
 		if($params['pm_min_spare_servers'] == '') $params['pm_min_spare_servers'] = 1;
 		if($params['pm_max_spare_servers'] == '') $params['pm_max_spare_servers'] = 1;
 
-		$affected_rows = $this->updateQuery('../sites/form/web_vhost_subdomain.tform.php', $client_id, $primary_id, $params, 'sites:web_vhost_subdomain:on_after_insert');
+		$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', $client_id, $primary_id, $params, 'sites:web_vhost_subdomain:on_after_insert');
 		return $affected_rows;
 	}
 
@@ -603,7 +603,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_subdomain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -619,7 +619,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_aliasdomain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_childdomain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -630,7 +630,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../sites/form/web_aliasdomain.tform.php', $client_id, $params);
+		return $this->insertQuery('../sites/form/web_childdomain.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
@@ -640,7 +640,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../sites/form/web_aliasdomain.tform.php', $client_id, $primary_id, $params);
+		$affected_rows = $this->updateQuery('../sites/form/web_childdomain.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
 
@@ -651,7 +651,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_aliasdomain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_childdomain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -667,7 +667,7 @@ class remoting_sites extends remoting {
 			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../sites/form/web_subdomain.tform.php');
+		$app->remoting_lib->loadFormDef('../sites/form/web_childdomain.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
@@ -678,7 +678,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->insertQuery('../sites/form/web_subdomain.tform.php', $client_id, $params);
+		return $this->insertQuery('../sites/form/web_childdomain.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
@@ -688,7 +688,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../sites/form/web_subdomain.tform.php', $client_id, $primary_id, $params);
+		$affected_rows = $this->updateQuery('../sites/form/web_childdomain.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
 
@@ -699,7 +699,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->deleteQuery('../sites/form/web_subdomain.tform.php', $primary_id);
+		$affected_rows = $this->deleteQuery('../sites/form/web_childdomain.tform.php', $primary_id);
 		return $affected_rows;
 	}
 
@@ -899,7 +899,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -913,7 +913,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -927,19 +927,19 @@ class remoting_sites extends remoting {
 	
 		//* Basic validation of variables
 		if ($server_id <= 0) {
-			$this->server->fault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
 	
 		if ($action_type != 'backup_download' and $action_type != 'backup_restore' and $action_type != 'backup_delete') {
-			$this->server->fault('invalid_action', "Invalid action_type $action_type");
+			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
 	
 		//* Validate instance
 		$instance_record = $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`= ? and `action_type`= ? and `action_state`= ?", $primary_id, $action_type, 'pending');
 		if ($instance_record['action_id'] >= 1) {
-			$this->server->fault('duplicate_action', "There is already a pending $action_type action");
+			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
 	
@@ -958,7 +958,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -971,7 +971,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -986,7 +986,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -1001,7 +1001,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'databasequota_get_by_user')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	

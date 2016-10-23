@@ -1,0 +1,8 @@
+<?php
+$wb['quota_txt'] = 'Webside Harddisk Kvote';
+$wb['domain_txt'] = 'Domæne/Webside';
+$wb['used_txt'] = 'Brugt plads';
+$wb['hard_txt'] = 'Hard limit';
+$wb['soft_txt'] = 'Soft limit';
+$wb['no_sites_txt'] = 'Ingen web sider fundet.';
+?>

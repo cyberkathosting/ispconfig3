@@ -55,16 +55,16 @@
 <tmpl_if name='ssl_enabled'>
 		SSLEngine on
 		SSLProtocol All -SSLv2 -SSLv3
-		SSLCipherSuite          ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
+		# SSLCipherSuite          ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
 		SSLHonorCipherOrder     on
 		# <IfModule mod_headers.c>
 		# Header always add Strict-Transport-Security "max-age=15768000"
 		# </IfModule>
-		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
-		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
+		SSLCertificateFile <tmpl_var name='ssl_crt_file'>
+		SSLCertificateKeyFile <tmpl_var name='ssl_key_file'>
 <tmpl_if name='has_bundle_cert'>
 		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
-		SSLCertificateChainFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
+		SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
 		</tmpl_if>
 		<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
 		SSLUseStapling on
@@ -350,15 +350,30 @@
                 Action php5-fcgi /php5-fcgi virtual
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization
-                <IfModule mod_proxy_fcgi.c>
-			ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
-                </IfModule>
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization             
 </tmpl_if>
 <tmpl_if name='use_socket'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
 </tmpl_if>
 		</IfModule>
+		<IfModule mod_proxy_fcgi.c>
+<tmpl_if name='use_tcp'>
+			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
+			<Directory {tmpl_var name='web_document_root'}>
+				<FilesMatch "\.php[345]?$">
+						SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+				</FilesMatch>
+			</Directory>
+</tmpl_if>
+<tmpl_if name='use_socket'>
+			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
+			<Directory {tmpl_var name='web_document_root'}>
+				<FilesMatch "\.php[345]?$">
+						SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+				</FilesMatch>
+			</Directory>
+</tmpl_if>
+			</IfModule>
 </tmpl_if>
 
 <tmpl_if name='php' op='==' value='hhvm'>
@@ -396,23 +411,28 @@
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
 <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-		RewriteEngine on
 		RewriteCond %{REQUEST_URI} ^/\.well-known/acme-challenge/
 		RewriteRule ^ - [END]
 </tmpl_if>
 <tmpl_if name='seo_redirect_enabled'>
 		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
+		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+		</tmpl_if>
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='seo_redirect_target_domain'>$1 [R=301,NE,L]
 </tmpl_if>
 <tmpl_loop name="alias_seo_redirects">
 		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_redirect_operator'>^<tmpl_var name='alias_seo_redirect_origin_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
+		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+		</tmpl_if>
 		RewriteRule ^(.*)$ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='alias_seo_redirect_target_domain'>$1 [R=301,NE,L]
 </tmpl_loop>
 <tmpl_loop name="redirects">
 		RewriteCond %{HTTP_HOST}   <tmpl_var name='rewrite_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
+		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
+		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+		</tmpl_if>
 <tmpl_if name="rewrite_is_url" op="==" value="n">
 		RewriteCond %{REQUEST_URI} !^/webdav/
 		RewriteCond %{REQUEST_URI} !^/php5-fcgi/
@@ -426,7 +446,8 @@
 <tmpl_else>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         RewriteCond %{HTTPS} off
-        <tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/</tmpl_if>
+        <tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+</tmpl_if>
         RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </tmpl_if>
 </tmpl_if>

@@ -28,7 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-DNSSEC-Implementation by Alexander Täffner aka dark alex
+DNSSEC-Implementation by Alexander TÃ¤ffner aka dark alex
 */
 
 class cronjob_bind_dnssec extends cronjob {
@@ -59,6 +59,9 @@ class cronjob_bind_dnssec extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
+		
+		//* job should only run on ispc master
+		if($app->db->dbHost != $app->dbmaster->dbHost) return;
 
 		//* Load libraries
 		$app->uses("getconf,tpl");

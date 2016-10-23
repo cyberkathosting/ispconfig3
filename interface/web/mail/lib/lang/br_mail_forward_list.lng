@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Encaminhamento de Correio';
+$wb['list_head_txt'] = 'Encaminhamento de e-mail';
 $wb['active_txt'] = 'Ativo';
-$wb['source_txt'] = 'origem';
+$wb['source_txt'] = 'Origem';
 $wb['destination_txt'] = 'Destino';
-$wb['email_txt'] = 'Correio';
-$wb['add_new_record_txt'] = 'Adcionar novo encaminhamento';
+$wb['email_txt'] = 'e-mail';
+$wb['add_new_record_txt'] = 'Adicionar novo encaminhamento';
 ?>

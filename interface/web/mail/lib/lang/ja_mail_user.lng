@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'メールボックスの最大数は数字で指定�
 $wb['quota_txt'] = 'メールボックスの容量';
 $wb['server_id_txt'] = 'Aerver_id';
 $wb['password_txt'] = 'パスワード';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'メールディレクトリ';
 $wb['postfix_txt'] = 'メールを受信する';
 $wb['greylisting_txt'] = 'Enable greylisting';

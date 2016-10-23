@@ -92,6 +92,10 @@ function get_distname() {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "16.10":
+				$relname = "(Yakkety Yak)";
+				$distconfid = 'ubuntu1604';
+				break;
 			case "16.04":
 				$relname = "(Xenial Xerus)";
 				$distconfid = 'ubuntu1604';
@@ -296,7 +300,7 @@ function get_distname() {
 		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
-			$distid = 'centos70';
+			$distid = 'centos72';
 			$distconfid = 'centos72';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 7.2\n");

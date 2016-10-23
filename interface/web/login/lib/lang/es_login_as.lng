@@ -8,4 +8,5 @@ $wb['login_2_txt'] = 'Si lo hace, puede \\"volver\\" haciendo clic en salir.';
 $wb['tcp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos tcp. Los caracteres permitidos son: números, \\":\\" y \\",\\".';
 $wb['udp_port_help_txt'] = 'Separado por comas';
 $wb['udp_ports_error_regex'] = 'Caracteres no permitidos en la definición de puertos udp. Los caracteres permitidos son: números, \\":\\" y \\",\\".';
+$wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
 ?>

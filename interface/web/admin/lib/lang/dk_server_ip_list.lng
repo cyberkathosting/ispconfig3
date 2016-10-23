@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'IP Adresser';
+$wb['server_id_txt'] = 'Server';
+$wb['client_id_txt'] = 'Kunde';
+$wb['ip_address_txt'] = 'IP Adresse';
+$wb['add_new_record_txt'] = 'Tilføj ny IP Adresse';
+$wb['virtualhost_txt'] = 'HTTP Vhost';
+$wb['virtualhost_port_txt'] = 'HTTP Porte';
+$wb['ip_type_txt'] = 'Type';
+?>

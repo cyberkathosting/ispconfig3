@@ -13,3 +13,4 @@ $wb['source_ip_txt'] = 'Zdrojové adresy';
 $wb['active_txt'] = 'Aktivní';
 $wb['iptables_error_unique'] = 'Stejný záznam pro firewall je již na tomto serveru použit.';
 ?>
+

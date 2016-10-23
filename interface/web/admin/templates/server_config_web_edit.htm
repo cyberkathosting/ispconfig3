@@ -46,9 +46,9 @@
             </div>
             <div class="form-group">
                 <label for="website_autoalias" class="col-sm-3 control-label">{tmpl_var name='website_autoalias_txt'}</label>
-                <div class="col-sm-6"><input type="text" name="website_autoalias" id="website_autoalias" value="{tmpl_var name='website_autoalias'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='website_autoalias_note_txt'} </div><a href="javascript:void(0);" class="addPlaceholder">[client_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[client_username]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_domain]</a>
+                <div class="col-sm-6"><input type="text" name="website_autoalias" id="website_autoalias" value="{tmpl_var name='website_autoalias'}" class="form-control" /> &nbsp;{tmpl_var name='website_autoalias_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[client_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[client_username]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_id]</a>, <a href="javascript:void(0);" class="addPlaceholder">[website_domain]</a></div>
             </div>
-		<div class="form-group apache">
+		<div class="form-group">
 			<label for="vhost_rewrite_v6" class="col-sm-3 control-label">{tmpl_var name='vhost_rewrite_v6_txt'}</label>
 			<div class="col-sm-9">
 				{tmpl_var name='vhost_rewrite_v6'}
@@ -179,10 +179,10 @@
 				</div>
                 <div class="form-group">
                     <label for="CA_path" class="col-sm-3 control-label">{tmpl_var name='CA_path_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="CA_path" id="CA_path" value="{tmpl_var name='CA_path'}" autocomplete="off" class="form-control" /></div></div>
+                    <div class="col-sm-9"><input type="text" name="CA_path" id="CA_path" value="{tmpl_var name='CA_path'}" autocomplete="new-password" class="form-control" /></div></div>
                 <div class="form-group">
                     <label for="CA_pass" class="col-sm-3 control-label">{tmpl_var name='CA_pass_txt'}</label>
-                    <div class="col-sm-9"><input type="password" name="CA_pass" id="CA_pass" value="{tmpl_var name='CA_pass'}" autocomplete="off" class="form-control" /></div></div>
+                    <div class="col-sm-9"><input type="password" name="CA_pass" id="CA_pass" value="{tmpl_var name='CA_pass'}" autocomplete="new-password" class="form-control" /></div></div>
 	  <!-- End content -->
 	  </div>
 	</div>

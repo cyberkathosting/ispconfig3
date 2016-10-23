@@ -1,5 +1,4 @@
 <?php
-$wb['greylisting_txt'] = 'Enable greylisting';
 $wb['email_txt'] = 'E-posta';
 $wb['destination_txt'] = 'Hedef E-posta';
 $wb['active_txt'] = 'Etkin';
@@ -10,4 +9,5 @@ $wb['source_txt'] = 'Kaynak E-posta';
 $wb['email_error_isemail'] = 'Please enter a valid email address.';
 $wb['send_as_txt'] = 'Send as';
 $wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

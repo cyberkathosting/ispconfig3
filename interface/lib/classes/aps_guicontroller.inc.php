@@ -574,9 +574,13 @@ class ApsGUIController extends ApsBase
 			// Find out document_root and make sure no apps are installed twice to one location
 			if(in_array($postinput['main_domain'], $domains))
 			{
-				$docroot = $app->db->queryOneRecord("SELECT document_root FROM web_domain
+				$docroot = $app->db->queryOneRecord("SELECT document_root, web_folder FROM web_domain
                     WHERE domain = ?", $this->getMainDomain($postinput['main_domain']));
-				$new_path = $docroot['document_root'];
+				if(trim($docroot['web_folder']) == '') {
+					$new_path = $docroot['document_root'];
+				} else {
+					$new_path = $docroot['document_root'] . '/' . $docroot['web_folder'];
+				}
 				if(substr($new_path, -1) != '/') $new_path .= '/';
 				$new_path .= $main_location;
 

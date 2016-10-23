@@ -48,3 +48,12 @@ reconfigure_services=yes
 ispconfig_port=8080
 create_new_ispconfig_ssl_cert=no
 reconfigure_crontab=yes
+
+; These are for service-detection (defaulting to old behaviour where alle changes were automatically accepted)
+svc_detect_change_mail_server=yes
+svc_detect_change_web_server=yes
+svc_detect_change_dns_server=yes
+svc_detect_change_xmpp_server=yes
+svc_detect_change_firewall_server=yes
+svc_detect_change_vserver_server=yes
+svc_detect_change_db_server=yes

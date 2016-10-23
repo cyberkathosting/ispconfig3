@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Password';
+$wb['password_txt'] = 'Password';
 $wb['language_txt'] = 'Lingua';
 $wb['password_mismatch'] = 'Il secondo campo password non corrisponde con il primo.';
 $wb['Form to edit the user password and language.'] = 'Form per modificare la password e la lingua dellutente.';

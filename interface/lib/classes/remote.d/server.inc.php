@@ -66,7 +66,7 @@ class remoting_server extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'server_ip_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -118,7 +118,7 @@ class remoting_server extends remoting {
 	public function server_get($session_id, $server_id = null, $section ='') {
 			global $app;
 			if(!$this->checkPerm($session_id, 'server_get')) {
-					$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+					throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 					return false;
 			}
 			if (!empty($session_id)) {
@@ -152,7 +152,7 @@ class remoting_server extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($session_id)) {
@@ -174,7 +174,7 @@ class remoting_server extends remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
 		if (!empty($session_id) && !empty($server_name)) {
@@ -196,7 +196,7 @@ class remoting_server extends remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
 		if (!empty($session_id) && !empty($server_id)) { 
@@ -208,6 +208,52 @@ class remoting_server extends remoting {
 		}
 	}
 
+	public function server_get_app_version($session_id)
+    {
+		global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if (!empty($session_id)) {
+			$ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
+			return $ispc_app_version;
+		} else {
+			return false;
+		}
+	}
+
+	public function server_get_php_versions($session_id, $server_id, $php)
+	{
+		global $app;
+		if(!$this->checkPerm($session_id, 'server_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+		}
+		if (!empty($session_id) && !empty($server_id) && !empty($php)) {
+			$php_versions = array();
+
+			$web_config[$server_id] = $app->getconf->get_server_config($server_id, 'web');
+			$server_type = !empty($web_config[$server_id]['server_type']) ? $web_config[$server_id]['server_type'] : 'apache';
+
+			if ($php === 'php-fpm' || ($php === 'hhvm' && $server_type === 'nginx')) {
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0)", $server_id);
+				foreach ($php_records as $php_record) {
+					$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+					$php_versions[] = $php_version;
+				}
+			}
+			if ($php === 'fast-cgi') {
+				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0)", $server_id);
+				foreach ($php_records as $php_record) {
+					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+					$php_versions[] = $php_version;
+				}
+			}
+			return $php_versions;
+		} else {
+			return false;
+		}
+	}
 }
 
 ?>

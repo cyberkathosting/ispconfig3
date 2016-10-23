@@ -15,6 +15,10 @@
     SetHandler None
   </FilesMatch>
   
+  <IfModule mod_headers.c>
+	RequestHeader unset Proxy early
+  </IfModule>
+  
   <IfModule mod_php5.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     AddType application/x-httpd-php .php

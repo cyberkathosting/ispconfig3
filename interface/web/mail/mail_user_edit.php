@@ -93,6 +93,7 @@ class page_action extends tform_actions {
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
+		if (isset($_POST['policy'])) $tmp_user['policy_id'] = intval($_POST['policy']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
 		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
@@ -142,7 +143,6 @@ class page_action extends tform_actions {
 			$domain = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 			if($domain["domain"] != $app->functions->idn_encode($_POST["email_domain"])) $app->tform->errorMessage .= $app->tform->lng("no_domain_perm");
 		}
-
 
 		//* if its an insert, check that the password is not empty
 		if($this->id == 0 && $_POST["password"] == '') {
@@ -237,8 +237,13 @@ class page_action extends tform_actions {
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
 			
 			// Will be overwritten by mail_plugin
-			$this->dataRecord['uid'] = -1;
-			$this->dataRecord['gid'] = -1;
+			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
+				$this->dataRecord['uid'] = -1;
+				$this->dataRecord['gid'] = -1;
+			} else {
+				$this->dataRecord['uid'] = intval($mail_config["mailuser_uid"]);
+				$this->dataRecord['gid'] = intval($mail_config["mailuser_gid"]);
+			}
 				
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = ?", $this->dataRecord["email"]);

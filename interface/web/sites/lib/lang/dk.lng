@@ -1,0 +1,35 @@
+<?php
+$wb['Websites'] = 'Websider';
+$wb['Website'] = 'Webside';
+$wb['Subdomain'] = 'Sub-domæne for webside';
+$wb['Aliasdomain'] = 'Alias-domæne for webside';
+$wb['Database'] = 'Databaser';
+$wb['Database User'] = 'Database Brugere';
+$wb['Web Access'] = 'Web Adgang';
+$wb['FTP-User'] = 'FTP-Konti';
+$wb['Webdav-User'] = 'WebDAV-Brugere';
+$wb['Folder'] = 'Beskyttede mapper';
+$wb['Folder users'] = 'Beskyttede mappe Brugere';
+$wb['Command Line'] = 'Command Line';
+$wb['Shell-User'] = 'Shell-Bruger';
+$wb['Cron Jobs'] = 'Cron Jobs';
+$wb['Statistics'] = 'Statistik';
+$wb['Web traffic'] = 'Web trafik';
+$wb['Website quota (Harddisk)'] = 'Webside kvote (Harddisk)';
+$wb['Cron'] = 'Cron';
+$wb['Stats'] = 'Statistik';
+$wb['Shell'] = 'Shell';
+$wb['Webdav'] = 'WebDAV';
+$wb['FTP'] = 'FTP';
+$wb['Options'] = 'Indstillinger';
+$wb['Domain'] = 'Domæne';
+$wb['Redirect'] = 'Omdiriger';
+$wb['SSL'] = 'SSL';
+$wb['Sites'] = 'Sider';
+$wb['APS Installer'] = 'APS Installer';
+$wb['Available packages'] = 'Tilgængelig pakker';
+$wb['Installed packages'] = 'Installeret pakker';
+$wb['Update Packagelist'] = 'Opdater Pakkeliste';
+$wb['Subdomain (Vhost)'] = 'Sub-domæne (Vhost)';
+$wb['error_proxy_requires_url'] = 'Omdiriger Type \\"proxy\\" requires a URL as the redirect path.';
+?>

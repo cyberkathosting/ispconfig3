@@ -136,7 +136,7 @@ class cron_plugin {
             }
 
             // get the primitive folder for document_root and the filesystem, will need it later.
-            $df_output=explode(" ", exec("df -T $document_root|awk 'END{print \$2,\$NF}'"));
+            $df_output=explode(" ", exec("df -T " . escapeshellarg($parent_domain["document_root"]) . "|awk 'END{print \$2,\$NF}'"));
             $file_system = $df_output[0];
             $primitive_root = $df_output[1];
 
@@ -145,10 +145,10 @@ class cron_plugin {
               exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
             } elseif ($file_system == 'xfs') {
                 
-              exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+              exec("xfs_quota -x -c 'limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
 
               // xfs only supports timers globally, not per user.
-              exec("xfs_quota -x -c 'timer -bir -i 604800'");
+              exec("xfs_quota -x -c 'timer -bir -i 604800' $primitive_root");
 
               unset($project_uid, $username_position, $xfs_projects);
               unset($primitive_root, $df_output, $mb_hard, $mb_soft);
@@ -237,7 +237,7 @@ class cron_plugin {
 				
 				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
+					$command .= "\t{$cron_config['wget']} --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					$web_root = '';
 					if($job['type'] == 'chrooted') {

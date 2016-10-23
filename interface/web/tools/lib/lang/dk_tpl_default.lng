@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Standard tema-indstillinger';
+$wb['list_desc_txt'] = 'Ændre standard-tema specifikke indstillinger';
+$wb['no_settings_txt'] = 'Der er ingen indstillinger til standard temaet.';
+$wb['btn_start_txt'] = 'Gem';
+$wb['btn_cancel_txt'] = 'Tilbage';
+?>

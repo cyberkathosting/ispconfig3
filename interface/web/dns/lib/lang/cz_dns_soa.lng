@@ -11,7 +11,7 @@ $wb['minimum_txt'] = 'Minimum';
 $wb['ttl_txt'] = 'TTL';
 $wb['xfer_txt'] = 'Povolot přenos zóny do <br />těchto IP adres (položky oddělené čárkami)';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_dns_zone_txt'] = 'Dosažen maximální počet DNS záznamů pro Váš účet.';
+$wb['limit_dns_zone_txt'] = 'Byl dosažen maximální počet DNS záznamů pro Váš účet.';
 $wb['client_txt'] = 'Klient';
 $wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny.';
 $wb['server_id_error_empty'] = 'Není vybrán server';
@@ -40,4 +40,6 @@ $wb['dnssec_wanted_txt'] = 'Podepsat zónu (DNSSEC)';
 $wb['dnssec_wanted_info'] = 'When disabling DNSSEC keys are not going to be deleted if DNSSEC was enabled before and keys already have been generated but the zone will no longer be delievered in signed format afterwards.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 $wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
+$wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
 ?>
+

@@ -1,0 +1,9 @@
+<?php
+$wb['mailbox_cc_txt'] = 'Send kopi til e-mail adresse';
+$wb['cc_txt'] = 'Send kopi til';
+$wb['email_txt'] = 'E-mail';
+$wb['cc_error_isemail'] = 'E-mail adresse ugyldig i -Send kopi til- feltet';
+$wb['email_is_cc_error'] = 'E-mail adresse og send kopi til adressen kan ikke være det samme.';
+$wb['name_optional_txt'] = '(Valgfri)';
+$wb['cc_note_txt'] = '(Adskil flere e-mail adresser med kommaer)';
+?>

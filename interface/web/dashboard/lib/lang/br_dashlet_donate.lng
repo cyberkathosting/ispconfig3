@@ -1,0 +1,7 @@
+<?php
+$wb['donate_txt'] = 'O Painel de Controle de Hosting ISPConfig é um software livre. Você deve estar ciente que muito tempo e esforços estão envolvidos para desenvolver, manter e suportar um projeto desta complexidade. Caso você deseje apoiar o desenvolvimento do ISPConfig, por favor considere realizar uma doação. Como bônus você receberá uma cópia do manual do ISPConfig.';
+$wb['donate2_txt'] = 'O valor da doação pode ser 5 EUR ou mais, o qual é escolhido durante o pagamento. O método de pagamento é através do PayPal. Você receberá um recibo, em PDF, da ISPConfig UG.';
+$wb['hide_btn_txt'] = 'Ocultar';
+$wb['donate_btn_txt'] = 'Doar para ISPConfig e receber o manual';
+$wb['more_btn_txt'] = 'Mais';
+?>

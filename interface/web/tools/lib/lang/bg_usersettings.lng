@@ -1,5 +1,5 @@
 <?php
-$wb['passwort_txt'] = 'Парола';
+$wb['password_txt'] = 'Парола';
 $wb['password_strength_txt'] = 'Сила на паролата';
 $wb['language_txt'] = 'Език';
 $wb['password_mismatch'] = 'Паролите в двете полета не съвпадат.';

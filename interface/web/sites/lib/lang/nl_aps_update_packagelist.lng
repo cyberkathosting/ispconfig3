@@ -1,7 +1,7 @@
 <?php
-$wb['head_txt'] = 'Update Packagelist';
+$wb['head_txt'] = 'Pakketten bijwerken';
 $wb['list_desc_txt'] = '';
-$wb['btn_start_txt'] = 'Update Packagelist';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['legend_txt'] = 'Here you can update the list of available packages. Please note that this can take up to five minutes. You can leave this page if you like; the process will continue in the background.';
+$wb['btn_start_txt'] = 'Pakketten bijwerken';
+$wb['btn_cancel_txt'] = 'Annuleren';
+$wb['legend_txt'] = 'Via deze pagina is het mogelijk om de pakkettenlijst bij te werken. Let op dat het bijwerken meer dan 5 minuten kan duren. Je kunt deze pagina verlaten, op de achtergrond zal het bijwerken dan afgerond worden.';
 ?>

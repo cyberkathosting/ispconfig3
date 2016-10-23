@@ -80,8 +80,8 @@ class sites_web_vhost_domain_plugin {
 				$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $app->functions->intval(@$page_form->dataRecord["client_group_id"]));
 				$client_id = $app->functions->intval($client["client_id"]);
 			} else {
-				$client_group_id = $page_form->dataRecord["client_group_id"];
-				$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $app->functions->intval($page_form->dataRecord["client_group_id"]));
+				$tmp = $app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE domain_id = ?',$page_form->id);
+				$client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $app->functions->intval($tmp['sys_groupid']));
 				$client_id = $app->functions->intval($client["client_id"]);
 			}
 
@@ -198,6 +198,13 @@ class sites_web_vhost_domain_plugin {
 
 				//* If the domain name has been changed, we will have to change all subdomains + APS instances
 				if(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $page_form->dataRecord["domain"] != $page_form->oldDataRecord["domain"]) {
+					//* Change SSL Domain
+					$tmp=$app->db->queryOneRecord("SELECT ssl_domain FROM web_domain WHERE domain_id = ?", $page_form->id);
+					if($tmp['ssl_domain'] != '') {
+						$plain=str_replace($page_form->oldDataRecord["domain"], $page_form->dataRecord["domain"], $tmp);
+						$app->db->query("UPDATE web_domain SET ssl_domain = ? WHERE domain_id = ?", $plain, $page_form->id);
+					}
+
 					$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND domain LIKE ?", "%." . $page_form->oldDataRecord["domain"]);
 					foreach($records as $rec) {
 						$subdomain = str_replace($page_form->oldDataRecord["domain"], $page_form->dataRecord["domain"], $rec['domain']);

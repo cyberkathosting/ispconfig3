@@ -36,6 +36,7 @@ class nginx_plugin {
 	// private variables
 	var $action = '';
 	var $ssl_certificate_changed = false;
+	var $update_letsencrypt = false;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -354,6 +355,7 @@ class nginx_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$this->update_letsencrypt = true;
 		}
 
 		// load the server configuration options
@@ -682,31 +684,34 @@ class nginx_plugin {
 				}
 				exec('chmod -R a+r '.$error_page_path);
 			}
+			
+			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
+			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
+					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
 
-			if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-				if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
-
-				if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
-				//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				//}
-			} else {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
+					//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					//}
 				} else {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
-					if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					} else {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 					}
-					if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-					}
-					//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 				}
 			}
 			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
@@ -731,33 +736,34 @@ class nginx_plugin {
 		}  // end copy error docs
 
 		// Set the quota for the user, but only for vhosts, not vhostsubdomains or vhostalias
-	    if($username != '' && $app->system->is_user($username) && $data['new']['type'] == 'vhost') {
+		if($username != '' && $app->system->is_user($username) && $data['new']['type'] == 'vhost') {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
-                $mb_hard = $mb_soft + 1;
+				$mb_hard = $mb_soft + 1;
 			} else {
 				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
 			}
-            
-          // get the primitive folder for document_root and the filesystem, will need it later.
-          $df_output=explode(" ", exec("df -T $document_root|awk 'END{print \$2,\$NF}'"));
-          $file_system = $df_output[0];
-          $primitive_root = $df_output[1];
 
-          if ( in_array($file_system , array('ext2','ext3','ext4'), true) ) {
-            exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-            exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
-          } elseif ($file_system == 'xfs') {
+			// get the primitive folder for document_root and the filesystem, will need it later.
+			$df_output=explode(" ", exec("df -T " . escapeshellarg($data['new']['document_root']) . "|awk 'END{print \$2,\$NF}'"));
+			$file_system = $df_output[0];
+			$primitive_root = $df_output[1];
 
-            exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+			if($file_system == 'xfs') {
+				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $username) . " " . escapeshellarg($primitive_root));
 
-            // xfs only supports timers globally, not per user.
-            exec("xfs_quota -x -c 'timer -bir -i 604800'");
+				// xfs only supports timers globally, not per user.
+				exec("xfs_quota -x -c 'timer -bir -i 604800' " . escapeshellarg($primitive_root));
 
-            unset($project_uid, $username_position, $xfs_projects);
-            unset($primitive_root, $df_output, $mb_hard, $mb_soft);
-          }
+				unset($project_uid, $username_position, $xfs_projects);
+				unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+			} else {
+				if($app->system->is_installed('setquota')) {
+					exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+					exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+				}
+			}
 		}
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
@@ -957,7 +963,7 @@ class nginx_plugin {
 					$explode_v6prefix=explode(':', $conf['serverconfig']['server']['v6_prefix']);
 					$explode_v6=explode(':', $data['new']['ipv6_address']);
 
-					for ( $i = 0; $i <= count($explode_v6prefix)-3; $i++ ) {
+					for ( $i = 0; $i <= count($explode_v6prefix)-1; $i++ ) {
 						$explode_v6[$i] = $explode_v6prefix[$i];
 					}
 					$data['new']['ipv6_address'] = implode(':', $explode_v6);
@@ -1251,8 +1257,7 @@ class nginx_plugin {
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on alias domain
+			|| $this->update_letsencrypt == true
 		)) {
 			// default values
 			$temp_domains = array();
@@ -1262,7 +1267,7 @@ class nginx_plugin {
 			$sub_prefixes = array();
 
  			//* be sure to have good domain
- 			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+ 			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
 				$temp_domains[] = "www." . $domain;
 			}
 
@@ -1280,8 +1285,8 @@ class nginx_plugin {
 			if(is_array($aliasdomains)) {
 				foreach($aliasdomains as $aliasdomain) {
 					$temp_domains[] = $aliasdomain['domain'];
-					if(isset($aliasdomain['subdomain']) && ! empty($aliasdomain['subdomain'])) {
-						$temp_domains[] = $aliasdomain['subdomain'] . "." . $aliasdomain['domain'];
+					if(isset($aliasdomain['subdomain']) && substr($aliasdomain['domain'],0,4) != 'www.' && ($aliasdomain['subdomain'] == "www" OR $aliasdomain['subdomain'] == "*")) {
+						$temp_domains[] = "www." . $aliasdomain['domain'];
 					}
 					
 					foreach($sub_prefixes as $s) {
@@ -1309,13 +1314,16 @@ class nginx_plugin {
 			$webroot = $data['new']['document_root']."/web";
 
 			//* check if we have already a Let's Encrypt cert
-			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+				$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
 				
 				$success = false;
-				$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
+				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+				$letsencrypt = reset($letsencrypt);
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
@@ -1327,7 +1335,7 @@ class nginx_plugin {
 					/* Update also the master-DB of the Server-Farm */
 					$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 				}
-			}
+			//}
 
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
@@ -2124,6 +2132,18 @@ class nginx_plugin {
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
+
+			// remove letsencrypt if it exists (renew will always fail otherwise)
+			$domain = $data['old']['ssl_domain'];
+			if(!$domain) $domain = $data['old']['domain'];
+			if(substr($domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$domain = substr($domain, 2);
+			}
+			//$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
+			//$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
+			$le_conf_file = '/etc/letsencrypt/renewal/' . $domain . '.conf';
+			@rename('/etc/letsencrypt/renewal/' . $domain . '.conf', '/etc/letsencrypt/renewal/' . $domain . '.conf~backup');
 		}
 
 		//* remove mountpoint from fstab
@@ -2145,6 +2165,7 @@ class nginx_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$this->update_letsencrypt = true;
 			// just run the update function
 			$this->update($event_name, $data);
 
@@ -2765,6 +2786,8 @@ class nginx_plugin {
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
+		$tpl->setVar('fpm_listen_group', $web_config['group']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
 		$tpl->setVar('pm_start_servers', $data['new']['pm_start_servers']);

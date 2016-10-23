@@ -36,10 +36,22 @@ $app->auth->check_module_permissions('dns');
 
 
 // Loading the template
-$app->uses('tpl,validate_dns');
+$app->uses('tpl,validate_dns,tform');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/dns_wizard.htm');
 $app->load_language_file('/web/dns/lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng');
+
+// Check if dns record limit has been reached. We will check only users, not admins
+if($_SESSION["s"]["user"]["typ"] == 'user') {
+	$app->tform->formDef['db_table_idx'] = 'id';
+	$app->tform->formDef['db_table'] = 'dns_soa';
+	if(!$app->tform->checkClientLimit('limit_dns_zone')) {
+		$app->error($app->lng('limit_dns_zone_txt'));
+	}
+	if(!$app->tform->checkResellerLimit('limit_dns_zone')) {
+		$app->error('Reseller: '.$app->lng('limit_dns_zone_txt'));
+	}
+}
 
 // import variables
 $template_id = (isset($_POST['template_id']))?$app->functions->intval($_POST['template_id']):0;
@@ -155,13 +167,22 @@ if($_SESSION["s"]["user"]["typ"] != 'admin')
 
 }
 
+//* TODO: store dnssec-keys in the database - see below for non-admin-users
+//* hide dnssec if we found dns-mirror-servers
+$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id > 0 and dns_server = 1";
+$rec=$app->db->queryOneRecord($sql);
+
 $template_record = $app->db->queryOneRecord("SELECT * FROM dns_template WHERE template_id = ?", $template_id);
 $fields = explode(',', $template_record['fields']);
 if(is_array($fields)) {
 	foreach($fields as $field) {
-		$app->tpl->setVar($field."_VISIBLE", 1);
-		$field = strtolower($field);
-		$app->tpl->setVar($field, $_POST[$field]);
+		if($field == 'DNSSEC' && $rec['count'] > 0) {
+			//hide dnssec
+		} else {
+			$app->tpl->setVar($field."_VISIBLE", 1);
+			$field = strtolower($field);
+			$app->tpl->setVar($field, $_POST[$field]);
+		}
 	}
 }
 
@@ -173,7 +194,7 @@ if ($domains_settings['use_domain_module'] == 'y') {
 	/*
 	 * The domain-module is in use.
 	*/
-	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa");
+	$domains = $app->tools_sites->getDomainModuleDomains("dns_soa", 'domain');
 	$domain_select = '';
 	if(is_array($domains) && sizeof($domains) > 0) {
 		/* We have domains in the list, so create the drop-down-list */

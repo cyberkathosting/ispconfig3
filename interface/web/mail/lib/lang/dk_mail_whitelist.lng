@@ -1,0 +1,9 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['source_txt'] = 'Whitelist Adresse';
+$wb['recipient_txt'] = 'Modtager';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_error_notempty'] = 'Adresse er tom.';
+$wb['type_txt'] = 'Type';
+$wb['limit_mailfilter_txt'] = 'Max. antal af email filtere for din konto er nået.';
+?>

@@ -1,0 +1,13 @@
+<?php
+$wb['User Settings'] = 'Bruger Indstillinger';
+$wb['Settings'] = 'Indstillinger';
+$wb['ISPConfig Tools'] = 'ISPConfig Værktøjer';
+$wb['Interface'] = 'Grænseflade';
+$wb['Password and Language'] = 'Adgangskode og Sprog';
+$wb['ispconfig_tools_note'] = 'Dette modul tillader dig at ændre adgangskode og sprog, og at starte en resync af DNS-posterne.';
+$wb['Sync Tools'] = 'Sync Værktøjer';
+$wb['Resync'] = 'Resync';
+$wb['Import'] = 'Importer';
+$wb['ISPConfig 3 mail'] = 'ISPConfig 3 mail';
+$wb['PDNS Tupa'] = 'PowerDNS Tupa';
+?>

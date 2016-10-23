@@ -1,12 +1,13 @@
 <?php
 $wb['server_id_txt'] = 'Rewrite on Server';
-$wb['source_txt'] = 'Source IP';
-$wb['destination_txt'] = 'Destination IP';
+$wb['source_txt'] = 'Zdrojová IP adresa';
+$wb['destination_txt'] = 'Cílová IP adresa';
 $wb['active_txt'] = 'Aktivní';
-$wb['ip_error_wrong'] = 'The Destination IP address is invalid';
-$wb['destination_ip_empty'] = 'The Destination IP is empty.';
-$wb['source_ip_empty'] = 'The Source IP is empty.';
+$wb['ip_error_wrong'] = 'Cílová IP adresa je neplatná';
+$wb['destination_ip_empty'] = 'Cílová IP adresa je prázdná.';
+$wb['source_ip_empty'] = 'Zdrojová IP adresa je prázdná.';
 $wb['server_empty_error'] = 'The Server is empty.';
-$wb['duplicate_mapping_error'] = 'Mapping already exists.';
+$wb['duplicate_mapping_error'] = 'Mapování již existuje.';
 $wb['ip_mapping_error'] = 'Source IP can not be an IP of the Rewrite-Server';
 ?>
+

@@ -1,0 +1,10 @@
+<?php
+$wb['list_head_txt'] = 'Kunde Cirkler';
+$wb['circle_id_txt'] = 'Cirkel ID';
+$wb['circle_name_txt'] = 'Cirkel Navn';
+$wb['description_txt'] = 'Beskrivelse';
+$wb['add_new_record_txt'] = 'Tilføj ny cirkel';
+$wb['filter_txt'] = 'Filter';
+$wb['delete_txt'] = 'Slet';
+$wb['active_txt'] = 'Aktiv';
+?>

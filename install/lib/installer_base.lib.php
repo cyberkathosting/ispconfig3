@@ -171,16 +171,21 @@ class installer_base {
 		if(is_installed('named') || is_installed('bind') || is_installed('bind9')) $conf['bind']['installed'] = true;
 		if(is_installed('squid')) $conf['squid']['installed'] = true;
 		if(is_installed('nginx')) $conf['nginx']['installed'] = true;
-		if(is_installed('iptables') && is_installed('ufw')) $conf['ufw']['installed'] = true;
-		if(is_installed('iptables') && is_installed('bastille-netfilter')) $conf['firewall']['installed'] = true;
+		if(is_installed('iptables') && is_installed('ufw')) {
+			$conf['ufw']['installed'] = true;
+		} elseif(is_installed('iptables')) {
+			$conf['firewall']['installed'] = true;
+		}
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
 		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
-		if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
-		if(is_installed('cron')) $conf['cron']['installed'] = true;
+		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
+		// ISPConfig ships with vlogger, so it is always installed.
+		$conf['vlogger']['installed'] = true;
+		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
 
-		if ($conf['services']['web'] && (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")))) $this->ispconfig_interface_installed = true;
+		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
 
     public function force_configure_app($service, $enable_force=true) {
@@ -580,7 +585,7 @@ class installer_base {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
-				$query = "GRANT SELECT, UPDATE (`ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ?? TO ?@?";
+				$query = "GRANT SELECT, UPDATE (`ssl`, `ssl_letsencrypt`, `ssl_request`, `ssl_cert`, `ssl_action`, `ssl_key`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
 				}
@@ -798,7 +803,7 @@ class installer_base {
 		}
 
 		//* Create aliasaes
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if($status == 'install') exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
@@ -807,7 +812,7 @@ class installer_base {
 	public function get_postfix_service($service, $type) {
 		global $conf;
 
-		exec("postconf -M", $out, $ret);
+		exec("postconf -M 2> /dev/null", $out, $ret);
 
 		if ($ret === 0) { //* with postfix >= 2.9 we can detect configured services with postconf
 			unset($out);
@@ -817,9 +822,9 @@ class installer_base {
 			}
 			$postfix_service = @($out[0]=='')?false:true;
         } else { //* fallback - Postfix < 2.9
-			rf($conf['postfix']['config_dir'].'/master.cf');
-			$regex = '/[^#]'.$service.'.*.'.$type.'.*/';
-			$postfix_service = @(!preg_match($regex, $content))?true:false;
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$regex = "/^((?!#)".$service.".*".$type.".*)$/m"; 
+			$postfix_service = @(preg_match($regex, $content))?true:false;
 		}
 
 		return $postfix_service;
@@ -1361,21 +1366,25 @@ class installer_base {
 
 		// Add the clamav user to the amavis group
 		exec('adduser clamav amavis');
-
-		// Create the director for DKIM-Keys
-		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750, true);
-		// get shell-user for amavis
-		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
-		if(!empty($amavis_user)) {
-			$amavis_user=rtrim($amavis_user, ":");
-			exec('chown '.$amavis_user.' /var/lib/amavis/dkim');
-		}
 		// get shell-group for amavis
 		$amavis_group=exec('grep -o "^amavis:\|^vscan:" /etc/group');
 		if(!empty($amavis_group)) {
 			$amavis_group=rtrim($amavis_group, ":");
-			exec('chgrp '.$amavis_group.' /var/lib/amavis/dkim');
 		}
+		// get shell-user for amavis
+		$amavis_user=exec('grep -o "^amavis:\|^vscan:" /etc/passwd');
+		if(!empty($amavis_user)) {
+			$amavis_user=rtrim($amavis_user, ":");
+		}
+
+		// Create the director for DKIM-Keys
+		if(!is_dir('/var/lib/amavis')) mkdir('/var/lib/amavis', 0750, true);
+		if(!empty($amavis_user)) exec('chown '.$amavis_user.' /var/lib/amavis');
+		if(!empty($amavis_group)) exec('chgrp '.$amavis_group.' /var/lib/amavis');
+		if(!is_dir('/var/lib/amavis/dkim')) mkdir('/var/lib/amavis/dkim', 0750);
+		if(!empty($amavis_user)) exec('chown -R '.$amavis_user.' /var/lib/amavis/dkim');
+		if(!empty($amavis_group)) exec('chgrp -R '.$amavis_group.' /var/lib/amavis/dkim');
+
 	}
 
 	public function configure_spamassassin() {
@@ -1588,6 +1597,7 @@ class installer_base {
         // Copy isp libs
         if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
         caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+        caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
         // Process db config
         $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
         $content = rf($full_file_name);
@@ -1600,13 +1610,14 @@ class installer_base {
 
         if(!stristr($options, 'dont-create-certs')){
             // Create SSL Certificate for localhost
-            echo "writing new private key to 'localhost.key'\n-----\n";
-            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', '');
+            // Ensure no line is left blank
+			echo "writing new private key to 'localhost.key'\n-----\n";
+			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name');
             $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', '');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure');
             $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
-            $ssl_email = $this->free_query('Email Address', '');
+            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname']);
 
             $tpl = new tpl('metronome_conf_ssl.master');
             $tpl->setVar('ssl_country',$ssl_country);
@@ -1623,6 +1634,14 @@ class installer_base {
             exec("(cd /etc/metronome/certs && make localhost.cert)");
             exec('chmod 0400 /etc/metronome/certs/localhost.key');
             exec('chown metronome /etc/metronome/certs/localhost.key');
+
+			echo "IMPORTANT:\n";
+			echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/metronome/certs\n";
+			echo "In order to work with all clients, the server must have a trusted certificate, so use the Csr\n";
+			echo "to get a trusted certificate from your CA or replace Key and Cert with already signed files for\n";
+			echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
+			echo "\n";
+
         }else{
             echo "-----\n";
             echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
@@ -1636,45 +1655,6 @@ class installer_base {
         caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
         exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
-
-/*
-writing new private key to 'smtpd.key'
------
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [AU]:
-State or Province Name (full name) [Some-State]:
-Locality Name (eg, city) []:
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:
-Organizational Unit Name (eg, section) []:
-Common Name (e.g. server FQDN or YOUR name) []:
-Email Address []:
- * */
-
-        /*// Dont just copy over the virtualhost template but add some custom settings
-        $tpl = new tpl('apache_apps.vhost.master');
-
-        $tpl->setVar('apps_vhost_port',$conf['web']['apps_vhost_port']);
-        $tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
-        $tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
-        $tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
-        $tpl->setVar('apache_version',getapacheversion());
-
-
-        // comment out the listen directive if port is 80 or 443
-        if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
-            $tpl->setVar('vhost_port_listen','#');
-        } else {
-            $tpl->setVar('vhost_port_listen','');
-        }
-
-        wf($vhost_conf_dir.'/apps.vhost', $tpl->grab());
-        unset($tpl);*/
     }
 
 
@@ -1686,9 +1666,9 @@ Email Address []:
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
 		if(is_file('/etc/suphp/suphp.conf')) {
-			replaceLine('/etc/suphp/suphp.conf', 'php=php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
+			replaceLine('/etc/suphp/suphp.conf', 'php="php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
 			//replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
-			replaceLine('/etc/suphp/suphp.conf', 'umask=0077', 'umask=0022', 0);
+			replaceLine('/etc/suphp/suphp.conf', 'umask=00', 'umask=0022', 0);
 		}
 
 		if(is_file('/etc/apache2/sites-enabled/000-default')) {
@@ -2076,7 +2056,7 @@ Email Address []:
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
 
-			if(file_exists('/var/run/php5-fpm.sock')){
+			if(file_exists('/var/run/php5-fpm.sock') || file_exists('/var/run/php/php7.0-fpm.sock')){
 				$use_tcp = '#';
 				$use_socket = '';
 			} else {
@@ -2323,9 +2303,9 @@ Email Address []:
 		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
-        $xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
+		$xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '.$xmpp_server_enabled.' WHERE server_id = ?";
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
 
 		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
@@ -2554,8 +2534,8 @@ Email Address []:
 		if(is_file('/usr/local/bin/ispconfig_update_from_dev.sh')) unlink('/usr/local/bin/ispconfig_update_from_dev.sh');
 		chown($install_dir.'/server/scripts/update_from_dev.sh', 'root');
 		chmod($install_dir.'/server/scripts/update_from_dev.sh', 0700);
-		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
-		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
+//		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
+//		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
 		chown($install_dir.'/server/scripts/ispconfig_update.sh', 'root');
 		chmod($install_dir.'/server/scripts/ispconfig_update.sh', 0700);
 		if(!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_dev.sh');

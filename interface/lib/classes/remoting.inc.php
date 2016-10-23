@@ -37,7 +37,7 @@ Copyright (c) Tri-Plex technology
 class remoting {
 
 	//* remote session timeout in seconds
-	private $session_timeout = 600;
+	private $session_timeout = 1800;
 
 	public $oldDataRecord;
 	public $dataRecord;
@@ -488,7 +488,7 @@ class remoting {
 	public function server_get($session_id, $server_id = null, $section ='') {
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($session_id)) {
@@ -522,7 +522,7 @@ class remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
 		if (!empty($session_id)) {

@@ -1,7 +1,6 @@
 <?php
 $wb['email_txt'] = 'E-posta';
 $wb['destination_txt'] = 'Hedef';
-$wb['greylisting_txt'] = 'Enable greylisting';
 $wb['active_txt'] = 'Etkin';
 $wb['email_error_isemail'] = 'E-posta adresi geçersiz.';
 $wb['email_error_unique'] = 'Bu e-posta adresi zaten var';
@@ -14,4 +13,5 @@ $wb['duplicate_email_alias_txt'] = 'Bu takma e-posta adresi zaten var.';
 $wb['source_txt'] = 'Takma Ad';
 $wb['send_as_txt'] = 'Send as';
 $wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

@@ -1,9 +1,9 @@
 <?php
 $wb['list_head_txt'] = 'Usuários';
-$wb['username_txt'] = 'Nome de Usuário';
-$wb['client_id_txt'] = 'Client ID';
-$wb['active_txt'] = 'Active';
-$wb['add_new_record_txt'] = 'Adcionar novo usuário';
-$wb['warning_txt'] = '<b>AVISO:</b> Não modifique ou edite qualquer configuração de usuário aqui. Use o módulo de cliente ou revendedor. Modificar ou alterar usuários e grupos aqui pode ocasionar perda de dados!';
-$wb['groups_txt'] = 'Groups';
+$wb['username_txt'] = 'Nome do usuário';
+$wb['client_id_txt'] = 'ID do cliente';
+$wb['active_txt'] = 'Ativo';
+$wb['add_new_record_txt'] = 'Adicionar novo usuário';
+$wb['warning_txt'] = '<b>AVISO:</b> Não modifique ou edite qualquer configuração de usuário aqui. Use o módulo de clientes ou revendas. Modificar ou alterar usuários e grupos nesta aba pode ocasionar perda de dados!';
+$wb['groups_txt'] = 'Grupos';
 ?>

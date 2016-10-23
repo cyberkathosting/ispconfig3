@@ -1,11 +1,14 @@
 <?php
-$wb['sys_groupid_txt'] = 'Client';
-$wb['list_head_txt'] = 'Websites';
+$wb['sys_groupid_txt'] = 'Cliente';
+$wb['list_head_txt'] = 'Sites';
 $wb['domain_id_txt'] = 'ID';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Add new website';
-$wb['add_new_subdomain_txt'] = 'Add new subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
+$wb['active_txt'] = 'Ativo';
+$wb['server_id_txt'] = 'Servidor';
+$wb['domain_txt'] = 'Domínio';
+$wb['add_new_record_txt'] = 'Adicionar novo site';
+$wb['add_new_subdomain_txt'] = 'Adicionar novo subdomínio';
+$wb['add_new_aliasdomain_txt'] = 'Adicionar novo apelido';
+$wb['domain_list_head_txt'] = 'Sites';
+$wb['aliasdomain_list_head_txt'] = 'Apelidos de domínios (vhost)';
+$wb['subdomain_list_head_txt'] = 'Subdomínios (vhost)';
 ?>

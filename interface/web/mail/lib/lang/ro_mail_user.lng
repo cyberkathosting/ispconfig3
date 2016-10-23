@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'Marimea Mailbox  trebuie s afie un numar';
 $wb['quota_txt'] = 'Quota';
 $wb['server_id_txt'] = 'Server_id';
 $wb['password_txt'] = 'Password';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Enable Receiving';
 $wb['greylisting_txt'] = 'Enable greylisting';

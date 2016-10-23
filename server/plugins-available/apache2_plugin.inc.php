@@ -36,6 +36,7 @@ class apache2_plugin {
 	// private variables
 	var $action = '';
 	var $ssl_certificate_changed = false;
+	var $update_letsencrypt = false;
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -120,7 +121,7 @@ class apache2_plugin {
 				}
 				unset($tmp);
 			}
-			
+
 			if(!$master_php_ini_path) {
 				if($web_data['php'] == 'fast-cgi' && file_exists($fastcgi_config["fastcgi_phpini_path"])) {
 					$master_php_ini_path = $fastcgi_config["fastcgi_phpini_path"];
@@ -131,6 +132,13 @@ class apache2_plugin {
 				}
 			}
 		}
+		
+		// Resolve inconsistant path settings
+		if($master_php_ini_path != '' && is_dir($master_php_ini_path) && is_file($master_php_ini_path.'/php.ini')) {
+			$master_php_ini_path .= '/php.ini';
+		}
+
+		// Load the custom php.ini content
 		if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
 			$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 		}
@@ -259,9 +267,9 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key.org';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key';
+		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
+		$key_file = $ssl_dir.'/'.$domain.'.key';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
 		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 
@@ -321,12 +329,12 @@ class apache2_plugin {
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
 
 			$rand_file = escapeshellcmd($rand_file);
-			$key_file = escapeshellcmd($key_file);
-			$openssl_cmd_key_file = $key_file;
-			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
 			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
+			$key_file = escapeshellcmd($key_file);
+			$openssl_cmd_key_file = $key_file;
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
 			$openssl_cmd_csr_file = $csr_file;
@@ -338,9 +346,9 @@ class apache2_plugin {
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file 2048");
-				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file -out $openssl_cmd_key_file2");
+				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file2 2048");
+				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
+				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file2 -out $openssl_cmd_key_file");
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
@@ -349,24 +357,24 @@ class apache2_plugin {
 					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
+					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
 			}
 
-			$app->system->chmod($key_file, 0400);
 			$app->system->chmod($key_file2, 0400);
+			$app->system->chmod($key_file, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
 			$ssl_request = $app->system->file_get_contents($csr_file);
 			$ssl_cert = $app->system->file_get_contents($crt_file);
-			$ssl_key2 = $app->system->file_get_contents($key_file2);
+			$ssl_key = $app->system->file_get_contents($key_file);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
 		
@@ -389,13 +397,6 @@ class apache2_plugin {
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$this->ssl_certificate_changed = true;
-			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
-			$key_file = $ssl_dir.'/'.$domain.'.key.org';
-			$key_file2 = $ssl_dir.'/'.$domain.'.key';
-			$csr_file = $ssl_dir.'/'.$domain.".csr";
-			$crt_file = $ssl_dir.'/'.$domain.".crt";
-			$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 
 			//* Backup files
 			if(file_exists($key_file)){
@@ -424,14 +425,14 @@ class apache2_plugin {
 
 			//* Write the key file, if field is empty then import the key into the db
 			if(trim($data["new"]["ssl_key"]) != '') {
-				$app->system->file_put_contents($key_file2, $data["new"]["ssl_key"]);
-				$app->system->chmod($key_file2, 0400);
+				$app->system->file_put_contents($key_file, $data["new"]["ssl_key"]);
+				$app->system->chmod($key_file, 0400);
 			} else {
-				$ssl_key2 = $app->system->file_get_contents($key_file2);
+				$ssl_key = $app->system->file_get_contents($key_file);
 				/* Update the DB of the (local) Server */
-				$app->db->query("UPDATE web_domain SET ssl_key = ? WHERE domain = ?", $ssl_key2, $data['new']['domain']);
+				$app->db->query("UPDATE web_domain SET ssl_key = ? WHERE domain = ?", $ssl_key, $data['new']['domain']);
 				/* Update also the master-DB of the Server-Farm */
-				$app->dbmaster->query("UPDATE web_domain SET ssl_key = ? WHERE domain = ?", $ssl_key2, $data['new']['domain']);
+				$app->dbmaster->query("UPDATE web_domain SET ssl_key = ? WHERE domain = ?", $ssl_key, $data['new']['domain']);
 			}
 
 			/* Update the DB of the (local) Server */
@@ -444,11 +445,6 @@ class apache2_plugin {
 
 		//* Delete a SSL certificate
 		if($data['new']['ssl_action'] == 'del') {
-			$ssl_dir = $data['new']['document_root'].'/ssl';
-			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
-			$csr_file = $ssl_dir.'/'.$domain.'.csr';
-			$crt_file = $ssl_dir.'/'.$domain.'.crt';
-			$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 			{
 				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke ".escapeshellcmd($crt_file));
@@ -504,6 +500,7 @@ class apache2_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$this->update_letsencrypt = true;
 		}
 
 		// load the server configuration options
@@ -822,31 +819,32 @@ class apache2_plugin {
 				exec('chmod -R a+r '.$error_page_path);
 			}
 
-			if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-				if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
+			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
+					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
 
-				if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-				if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-				}
-			} else {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					}
+					//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
+					//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					//}
 				} else {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
-					if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-					}
-					if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-					}
-					if(is_file($conf['rootpath'] . '/conf/index/.htaccess')){
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+					if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+					} else {
+						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
+							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						}
+						//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 					}
 				}
 			}
@@ -876,29 +874,31 @@ class apache2_plugin {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
-                $mb_hard = $mb_soft + 1;
+				$mb_soft = $data['new']['hd_quota'];
+				$mb_hard = $mb_soft + 1;
 			} else {
 				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
 			}
-            
-          // get the primitive folder for document_root and the filesystem, will need it later.
-          $df_output=explode(" ", exec("df -T $document_root|awk 'END{print \$2,\$NF}'"));
-          $file_system = $df_output[0];
-          $primitive_root = $df_output[1];
 
-		  if ( in_array($file_system , array('ext2','ext3','ext4'), true) ) {
-            exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-            exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
-          } elseif ($file_system == 'xfs') {
+			// get the primitive folder for document_root and the filesystem, will need it later.
+			$df_output=explode(" ", exec("df -T " . escapeshellarg($data['new']['document_root']) . "|awk 'END{print \$2,\$NF}'"));
+			$file_system = $df_output[0];
+			$primitive_root = $df_output[1];
 
-            exec("xfs_quota -x -c 'limit -g bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+			if($file_system == 'xfs') {
+				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $username) . " " . escapeshellarg($primitive_root));
 
-            // xfs only supports timers globally, not per user.
-            exec("xfs_quota -x -c 'timer -bir -i 604800'");
+				// xfs only supports timers globally, not per user.
+				exec("xfs_quota -x -c 'timer -bir -i 604800' " . escapeshellarg($primitive_root));
 
-            unset($project_uid, $username_position, $xfs_projects);
-            unset($primitive_root, $df_output, $mb_hard, $mb_soft);
-          }
+				unset($project_uid, $username_position, $xfs_projects);
+				unset($primitive_root, $df_output, $mb_hard, $mb_soft);
+			} else {
+				if($app->system->is_installed('setquota')) {
+					exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
+					exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+				}
+			}
 		}
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
@@ -1148,18 +1148,14 @@ class apache2_plugin {
 		$domain = $data['new']['ssl_domain'];
 		if(!$domain) $domain = $data['new']['domain'];
 		$key_file = $ssl_dir.'/'.$domain.'.key';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
+		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		/*
-		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
-			$vhost_data['ssl_enabled'] = 1;
-			$app->log('Enable SSL for: '.$domain,LOGLEVEL_DEBUG);
-		} else {
-			$vhost_data['ssl_enabled'] = 0;
-			$app->log('SSL Disabled. '.$domain,LOGLEVEL_DEBUG);
-		}
-		*/
+		$vhost_data['ssl_crt_file'] = $crt_file;
+		$vhost_data['ssl_key_file'] = $key_file;
+		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			if(substr($domain, 0, 2) === '*.') {
@@ -1170,6 +1166,11 @@ class apache2_plugin {
 			
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
+
+			$key_file = $ssl_dir.'/'.$domain.'-le.key';
+			$key_file2 = $ssl_dir.'/'.$domain.'-le.key.org';
+			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
+			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
 		}
 
 		//* Generate Let's Encrypt SSL certificat
@@ -1177,8 +1178,7 @@ class apache2_plugin {
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
-			|| ($data['new']['type'] == 'subdomain') // we have new or update on subdomain
-			|| ($data['old']['type'] == 'alias' || $data['new']['type'] == 'alias') // we have new or update on aliasdomain
+			|| $this->update_letsencrypt == true
 		)) {
 			// default values
 			$temp_domains = array();
@@ -1188,7 +1188,7 @@ class apache2_plugin {
 			$sub_prefixes = array();
 
 			//* be sure to have good domain
-			if($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*") {
+			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
 				$temp_domains[] = "www." . $domain;
 			}
 
@@ -1206,8 +1206,8 @@ class apache2_plugin {
 			if(is_array($aliasdomains)) {
 				foreach($aliasdomains as $aliasdomain) {
 					$temp_domains[] = $aliasdomain['domain'];
-					if(isset($aliasdomain['subdomain']) && ! empty($aliasdomain['subdomain'])) {
-						$temp_domains[] = $aliasdomain['subdomain'] . "." . $aliasdomain['domain'];
+					if(isset($aliasdomain['subdomain']) && substr($aliasdomain['domain'],0,4) != 'www.' && ($aliasdomain['subdomain'] == "www" OR $aliasdomain['subdomain'] == "*")) {
+						$temp_domains[] = "www." . $aliasdomain['domain'];
 					}
 				}
 			}
@@ -1230,13 +1230,16 @@ class apache2_plugin {
 			$webroot = $data['new']['document_root']."/web";
 
 			//* check if we have already a Let's Encrypt cert
-			if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
+				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+				$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
 				
 				$success = false;
-				$letsencrypt = array_shift( explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt')) );
+				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+				$letsencrypt = reset($letsencrypt);
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " certonly --text --agree-tos --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
@@ -1248,10 +1251,10 @@ class apache2_plugin {
 					/* Update also the master-DB of the Server-Farm */
 					$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 				}
-			}
+			//}
 
 			//* check is been correctly created
-			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
+			if(file_exists($crt_tmp_file)) {
 				$date = date("YmdHis");
 				if(is_file($key_file)) {
 					$app->system->copy($key_file, $key_file.'.old'.$date);
@@ -1494,7 +1497,7 @@ class apache2_plugin {
 		
 		if (count($rewrite_wildcard_rules) > 0) $rewrite_rules = array_merge($rewrite_rules, $rewrite_wildcard_rules); // Append wildcard rules to the end of rules
 
-		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0) {
+		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0 || $data['new']['rewrite_to_https'] == 'y') {
 			$tpl->setVar('rewrite_enabled', 1);
 		} else {
 			$tpl->setVar('rewrite_enabled', 0);
@@ -1730,11 +1733,6 @@ class apache2_plugin {
 		unset($tmp_vhost_arr);
 
 		//* Add vhost for ipv4 IP with SSL
-		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key';
-		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-
 		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$tmp_vhost_arr = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443');
 			if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
@@ -1759,7 +1757,7 @@ class apache2_plugin {
 					$explode_v6prefix=explode(':', $web_config['serverconfig']['server']['v6_prefix']);
 					$explode_v6=explode(':', $data['new']['ipv6_address']);
 
-					for ( $i = 0; $i <= count($explode_v6prefix)-3; $i++ ) {
+					for ( $i = 0; $i <= count($explode_v6prefix)-1; $i++ ) {
 						$explode_v6[$i] = $explode_v6prefix[$i];
 					}
 					$data['new']['ipv6_address'] = implode(':', $explode_v6);
@@ -1954,15 +1952,6 @@ class apache2_plugin {
 					$app->system->file_put_contents($vhost_file, "# Apache did not start after modifying this vhost file.\n# Please check file $vhost_file.err for syntax errors.");
 				}
 				if($this->ssl_certificate_changed === true) {
-
-					$ssl_dir = $data['new']['document_root'].'/ssl';
-					$domain = $data['new']['ssl_domain'];
-					$key_file = $ssl_dir.'/'.$domain.'.key.org';
-					$key_file2 = $ssl_dir.'/'.$domain.'.key';
-					$csr_file = $ssl_dir.'/'.$domain.'.csr';
-					$crt_file = $ssl_dir.'/'.$domain.'.crt';
-					$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-
 					//* Backup the files that might have caused the error
 					if(is_file($key_file)){
 						$app->system->copy($key_file, $key_file.'.err');
@@ -2002,16 +1991,8 @@ class apache2_plugin {
 		// can reset the ssl changed var to false and cleanup some files
 		$this->ssl_certificate_changed = false;
 
-		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key.org';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key';
-		$csr_file = $ssl_dir.'/'.$domain.'.csr';
-		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-
 		if(@is_file($key_file.'~')) $app->system->unlink($key_file.'~');
-		if(@is_file($key2_file.'~')) $app->system->unlink($key2_file.'~');
+		if(@is_file($key_file2.'~')) $app->system->unlink($key_file2.'~');
 		if(@is_file($crt_file.'~')) $app->system->unlink($crt_file.'~');
 		if(@is_file($csr_file.'~')) $app->system->unlink($csr_file.'~');
 		if(@is_file($bundle_file.'~')) $app->system->unlink($bundle_file.'~');
@@ -2102,6 +2083,17 @@ class apache2_plugin {
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
+			
+			// remove letsencrypt if it exists (renew will always fail otherwise)
+			
+			$old_domain = $data['old']['ssl_domain'];
+			if(!$old_domain) $old_domain = $data['old']['domain'];
+			if(substr($old_domain, 0, 2) === '*.') {
+				// wildcard domain not yet supported by letsencrypt!
+				$old_domain = substr($old_domain, 2);
+			}
+			$le_conf_file = '/etc/letsencrypt/renewal/' . $old_domain . '.conf';
+			@rename('/etc/letsencrypt/renewal/' . $old_domain . '.conf', '/etc/letsencrypt/renewal/' . $old_domain . '.conf~backup');
 		}
 
 		//* remove mountpoint from fstab
@@ -2123,6 +2115,7 @@ class apache2_plugin {
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
+			$this->update_letsencrypt = true;
 			// just run the update function
 			$this->update($event_name, $data);
 
@@ -3042,7 +3035,7 @@ class apache2_plugin {
 				// Make sure we only have Unix linebreaks
 				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
 				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
+				if(@is_dir('/etc/hhvm')) file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
 			} else {
 				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
@@ -3150,6 +3143,8 @@ class apache2_plugin {
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
+		$tpl->setVar('fpm_listen_group', $web_config['group']);
 		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);

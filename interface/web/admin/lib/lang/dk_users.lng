@@ -1,0 +1,35 @@
+<?php
+$wb['username_txt'] = 'Brugernavn';
+$wb['username_err'] = 'Brugernavnet er for langt eller indeholder ugyldige karaktere.';
+$wb['username_empty'] = 'Brugernavnet er tomt.';
+$wb['username_unique'] = 'Der findes allerede en bruger med dette brugernavn.';
+$wb['passwort_txt'] = 'Adgangskode';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['modules_txt'] = 'Modul';
+$wb['startmodule_txt'] = 'Startmodul';
+$wb['app_theme_txt'] = 'Design';
+$wb['typ_txt'] = 'Type';
+$wb['active_txt'] = 'Aktiv';
+$wb['language_txt'] = 'Sprog';
+$wb['name_txt'] = 'Navn';
+$wb['vorname_txt'] = 'Fornavn';
+$wb['unternehmen_txt'] = 'Firma';
+$wb['strasse_txt'] = 'Gade';
+$wb['ort_txt'] = 'By';
+$wb['plz_txt'] = 'Post nr.';
+$wb['land_txt'] = 'Land';
+$wb['email_txt'] = 'E-mail';
+$wb['url_txt'] = 'Url';
+$wb['telefon_txt'] = 'Telefon';
+$wb['fax_txt'] = 'Fax';
+$wb['groups_txt'] = 'Grupper';
+$wb['default_group_txt'] = 'Standard Gruppe';
+$wb['startmodule_err'] = 'Start modul er ikke indenfor moduler.';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['username_error_collision'] = 'Brugernavn må ikke være web eller web plus et tal.\\"';
+$wb['client_not_admin_err'] = 'En bruger der hører til en klient kan ikke indstilles til typen: admin';
+$wb['lost_password_function_txt'] = 'Forgot password function is available';
+?>

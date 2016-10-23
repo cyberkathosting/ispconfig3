@@ -152,7 +152,7 @@ class page_action extends tform_actions {
 		//* Database username shall not be empty
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
 
-		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}', $dbuser_prefix . $this->dataRecord['database_user'], $app->tform->wordbook["database_user_error_len"]).'<br />';
+		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}', htmlentities($dbuser_prefix . $this->dataRecord['database_user'], ENT_QUOTES, 'UTF-8'), $app->tform->wordbook["database_user_error_len"]).'<br />';
 
 		//* Check database user against blacklist
 		$dbuser_blacklist = array($conf['db_user'], 'mysql', 'root');
@@ -182,6 +182,9 @@ class page_action extends tform_actions {
 
 		//* Database username shall not be empty
 		if($this->dataRecord['database_user'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_user_error_empty"].'<br />';
+		
+		//* Database password shall not be empty
+		if($this->dataRecord['database_password'] == '') $app->tform->errorMessage .= $app->tform->wordbook["database_password_error_empty"].'<br />';
 
 		//* Get the database name and database user prefix
 		$app->uses('getconf,tools_sites');
@@ -190,7 +193,7 @@ class page_action extends tform_actions {
 
 		$this->dataRecord['database_user_prefix'] = $dbuser_prefix;
 
-		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}', $dbuser_prefix . $this->dataRecord['database_user'], $app->tform->wordbook["database_user_error_len"]).'<br />';
+		if(strlen($dbuser_prefix . $this->dataRecord['database_user']) > 16) $app->tform->errorMessage .= str_replace('{user}', htmlentities($dbuser_prefix . $this->dataRecord['database_user'], ENT_QUOTES, 'UTF-8'), $app->tform->wordbook["database_user_error_len"]).'<br />';
 
 		//* Check database user against blacklist
 		$dbuser_blacklist = array($conf['db_user'], 'mysql', 'root');

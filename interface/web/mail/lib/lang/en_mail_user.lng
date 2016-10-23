@@ -21,6 +21,7 @@ $wb["quota_error_isint"] = 'Mailbox size must be a number.';
 $wb["quota_txt"] = 'Quota (0 for unlimited)';
 $wb["server_id_txt"] = 'Aerver_id';
 $wb["password_txt"] = 'Password';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb["maildir_txt"] = 'Maildir';
 $wb["postfix_txt"] = 'Enable receiving';
 $wb['greylisting_txt'] = 'Enable greylisting';

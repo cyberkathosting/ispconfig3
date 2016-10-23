@@ -2,6 +2,7 @@
 $wb['Virtual Servers'] = 'Virtual Servers';
 $wb['OS Templates'] = 'OS Šablony';
 $wb['VM Templates'] = 'VM Šablony';
-$wb['IP addresses'] = 'IP addresses';
+$wb['IP addresses'] = 'IP adresy';
 $wb['OpenVZ'] = 'OpenVZ';
 ?>
+

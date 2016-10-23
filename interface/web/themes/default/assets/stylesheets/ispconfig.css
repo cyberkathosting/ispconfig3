@@ -30,8 +30,11 @@ body {
   .control-label:after {
     content: ":"; }
 
+.control-label-plain:after {
+    content: ""; }
+
 .formbutton-default {
-  padding: 6px 30px;
+  padding: 6px 10px;
   border-bottom-style: solid;
   border-bottom-width: 2px;
   font-size: 12px;
@@ -73,7 +76,8 @@ body {
     height: 100%; }
 
 #headerbar {
-  float: right; }
+  float: right;
+  }
 
 #searchform {
   float: right;
@@ -140,7 +144,7 @@ body {
   #sidebar header {
     margin: 1px;
     padding: 0 10px;
-    height: 40px;
+    min-height: 40px;
     line-height: 40px;
     font-weight: bold;
     border-top-left-radius: 2px;
@@ -217,23 +221,32 @@ body {
 
 .table {
   table-layout: fixed;
-  margin-bottom: 1px; }
-  .table caption {
-    padding: 5px 10px;
-    text-align: left;
-    font-weight: bold;
-    font-size: 18px;
-    border-bottom-style: solid;
-    border-bottom-width: 1px; }
-  .table tbody tr {
-    border-top-style: solid;
-    border-top-width: 1px;
-    transition: background ease 500ms; }
-    .table tbody tr:last-child {
-      border-radius: 4px; }
-    .table tbody tr td {
-      text-overflow: ellipsis;
-      overflow-x: hidden; }
+  margin-bottom: 1px;
+  }
+.table caption {
+	padding: 5px 10px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 18px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	}
+.table tbody tr {
+	border-top-style: solid;
+	border-top-width: 1px;
+	transition: background ease 500ms;
+	}
+.table tbody tr:last-child {
+	border-radius: 4px;
+	}
+.table tbody tr td {
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	}
+
+.table-auto {
+	table-layout: auto;
+}
 
 .tfooter {
   margin-top: -1px;
@@ -694,4 +707,69 @@ span.flag-zw {background-position:0 -5435px}
 .input-group-field:last-child {
     border-top-left-radius:0;
     border-bottom-left-radius:0;
+}
+
+#ajaxloader {
+    position: absolute;
+    width: 325px;
+    height: 150px;
+    background: #ffffff url('../images/ajax-loader.gif') no-repeat center center;
+    border: solid 2px #e1e1e1;
+    border-radius: 10px;
+    /*background: rgba(255, 255, 255, 0.85);*/
+    padding: 20px;
+    text-align:center;
+    z-index: 100;
+}
+input[type="password"].form-control[readonly] {
+	cursor: text;
+}
+.tooltip-inner {
+    max-width: 100%;
+}
+.notification {
+	width: 35px;
+	height: 35px;
+	background: #c70f19;
+	border-radius: 50%;
+	display: flex;
+	margin-top: 15px;
+	cursor: pointer;
+	margin-right: 15px;
+	float: right;
+}
+.notification {
+	animation: pulse 2s infinite;
+}
+@media (max-width: 600px) {
+	.notification {
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-left: 230px;
+		position: relative;
+	}
+}
+@keyframes pulse {
+	0% {
+		background: #ff000e;
+	}
+	50% {
+		background: #c70f19;
+	}
+	100% {
+		background: #ff000e;
+	}
+}
+.systemmonitor-state.state-info .statusMsg {
+    display: none;
+}
+
+span.notification_text {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: inherit;
+    color: white;
 }

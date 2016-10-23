@@ -12,4 +12,6 @@ $wb['no_flag_txt'] = 'Keine Optionen';
 $wb['none_txt'] = 'Keine';
 $wb['add_new_subdomain_txt'] = 'Add new Subdomain';
 $wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
+$wb['aliasdomain_list_head_txt'] = 'Aliasdomains';
+$wb['subdomain_list_head_txt'] = 'Subdomains';
 ?>

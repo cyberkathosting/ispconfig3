@@ -15,7 +15,7 @@ $wb['password_txt'] = 'Heslo';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
 $wb['quota_size_txt'] = 'Disková kvóta';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_ftp_user_txt'] = 'Dosažen maximální počet FTP uživatelů pro Váš účet.';
+$wb['limit_ftp_user_txt'] = 'Byl dosažen maximální počet FTP uživatelů pro Váš účet.';
 $wb['username_error_empty'] = 'Uživatelské jméno je prázdné.';
 $wb['username_error_unique'] = 'Uživatelské jméno musí být unikátní.';
 $wb['username_error_regex'] = 'Uživatelské jméno obsahuje nepovolené znaky.';
@@ -33,3 +33,4 @@ $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['expires_txt'] = 'Expire at';
 ?>
+

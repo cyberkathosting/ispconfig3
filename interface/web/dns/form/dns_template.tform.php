@@ -50,6 +50,16 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+//* TODO: store dnssec-keys in the database - see below for non-admin-users
+//* hide dnssec if we found dns-mirror-servers
+$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id > 0 and dns_server = 1";
+$rec=$app->db->queryOneRecord($sql);
+if($rec['count'] > 0) {
+	$field_values = array('DOMAIN' => 'Domain', 'IP' => 'IP Address', 'IPV6' => 'IPv6 Address', 'NS1' => 'NS 1', 'NS2' => 'NS 2', 'EMAIL' => 'Email', 'DKIM' => 'DKIM');
+} else {
+	$field_values = array('DOMAIN' => 'Domain', 'IP' => 'IP Address', 'IPV6' => 'IPv6 Address', 'NS1' => 'NS 1', 'NS2' => 'NS 2', 'EMAIL' => 'Email', 'DKIM' => 'DKIM', 'DNSSEC' => 'DNSSEC');
+}
+
 $form["tabs"]['template'] = array (
 	'title'  => "DNS Template",
 	'width'  => 100,
@@ -74,7 +84,7 @@ $form["tabs"]['template'] = array (
 			'formtype' => 'CHECKBOXARRAY',
 			'default' => '',
 			'separator' => ',',
-			'value'  => array('DOMAIN' => 'Domain', 'IP' => 'IP Address', 'IPV6' => 'IPv6 Address', 'NS1' => 'NS 1', 'NS2' => 'NS 2', 'EMAIL' => 'Email', 'DKIM' => 'DKIM', 'DNSSEC' => 'DNSSEC'),
+			'value'  => $field_values,
 			'validators'    => array (  0 => array ('type'  => 'CUSTOM',
 					'class' => 'validate_dkim',
 					'function' => 'check_template',

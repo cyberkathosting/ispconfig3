@@ -9,7 +9,7 @@ $wb['run_mday_txt'] = 'Dny měsíce';
 $wb['run_month_txt'] = 'Měsíce';
 $wb['run_wday_txt'] = 'Dny týdne';
 $wb['command_txt'] = 'Příkaz ke spuštění (příkazy jsou spuštěny přes sh, url přes wget)';
-$wb['limit_cron_txt'] = 'Dosažen maximální počet cron úloh pro Váš účet.';
+$wb['limit_cron_txt'] = 'Byl dosažen maximální počet cron úloh pro Váš účet.';
 $wb['limit_cron_frequency_txt'] = 'Frekvence cron úloh překročila povolený limit (standardní povolená nejnižší hodnota je 1 x za 5 min. */5)';
 $wb['run_min_error_format'] = 'Chybný formát pro minuty.';
 $wb['run_hour_error_format'] = 'Chybný formát pror hodiny.';
@@ -24,3 +24,4 @@ $wb['command_error_empty'] = 'Command is empty.';
 $wb['command_hint_txt'] = 'e.g. /var/www/clients/clientX/webY/myscript.sh or http://www.mydomain.com/path/script.php, you can use [web_root] placeholder that is replaced by /var/www/clients/clientX/webY/web.';
 $wb['log_output_txt'] = 'Log output';
 ?>
+

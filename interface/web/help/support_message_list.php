@@ -12,7 +12,8 @@ $app->auth->check_module_permissions('help');
 $app->uses('listform_actions');
 
 //* Optional limit
-$app->listform_actions->SQLExtWhere = "support_message.recipient_id = ".$app->functions->intval($_SESSION['s']['user']['userid']);
+$userid=$app->functions->intval($_SESSION['s']['user']['userid']);
+$app->listform_actions->SQLExtWhere = "support_message.recipient_id = $userid OR support_message.sender_id = $userid";
 
 //* Start the form rendering and action ahndling
 $app->listform_actions->onLoad();

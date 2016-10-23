@@ -1,0 +1,19 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['type_txt'] = 'Type';
+$wb['source_server_txt'] = 'Pop3/Imap Server';
+$wb['source_username_txt'] = 'Brugernavn';
+$wb['source_password_txt'] = 'Adgangskode';
+$wb['source_delete_txt'] = 'Slet e-mails efter hentning';
+$wb['source_delete_note_txt'] = 'Kontroller først, om e-mail hentning fungerer, før du aktiverer denne valgmulighed.';
+$wb['source_read_all_txt'] = 'Hent alle e-mails (inkl. Læste mails)';
+$wb['destination_txt'] = 'Destination';
+$wb['active_txt'] = 'Aktiv';
+$wb['limit_fetchmail_txt'] = 'Max. antal af Fetchmail poster for din konto er nået.';
+$wb['source_server_error_isempty'] = 'Server er tom.';
+$wb['source_username_error_isempty'] = 'Brugernavn er tom.';
+$wb['source_password_error_isempty'] = 'Adgangskode er tom.';
+$wb['destination_error_isemail'] = 'Ingen destination er valgt.';
+$wb['source_server_error_regex'] = 'Pop3/Imap Server er ikke et gyldigt domænenavn.';
+$wb['error_delete_read_all_combination'] = 'Ulovlig kombination af muligheder. Du kan ikke bruge \\"Slet e-mails efter hentning\\" = nej sammen med \\"Hent alle e-mails\\" = ja';
+?>

@@ -1,0 +1,12 @@
+<?php
+$wb['login_1_txt'] = 'Vil du logge ind som bruger';
+$wb['login_2_txt'] = 'Hvis du gør det, kan du \\"Gå tilbage\\" ved at klikke på logout.';
+$wb['btn_yes_txt'] = 'Ja, log ind som Kunde';
+$wb['btn_back_txt'] = 'Nej, tilbage til listen';
+$wb['udp_port_help_txt'] = 'Adskilt af komma';
+$wb['active_txt'] = 'Aktiv';
+$wb['firewall_error_unique'] = 'Der er allerede en firewall post for denne server.';
+$wb['tcp_ports_error_regex'] = 'Tegn ikke tilladt i TCP port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
+$wb['udp_ports_error_regex'] = 'Tegn ikke tilladt i UDP port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
+$wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+?>

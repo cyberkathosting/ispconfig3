@@ -33,6 +33,19 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('dashboard');
 
+//* Hide modules
+if(isset($_GET['hide'])) {
+	if($_GET['hide'] == 'donate') {
+		$timeout = time()+31536000;
+		$tmp = $app->db->queryOneRecord("SELECT value FROM sys_config WHERE group = 'interface' AND name = 'hide_donation_dashlet'");
+		if(is_array($tmp)) {
+			$app->db->query("UPDATE sys_config SET value = ? WHERE group = 'interface' AND name = 'hide_donation_dashlet')",$timeout);
+		} else {
+			$app->db->query("INSERT INTO `sys_config` (`group`,`name`,`value`) VALUES ('interface','hide_donation_dashlet',?)",$timeout);
+		}
+	}
+}
+
 //* Loading Template
 $app->uses('tpl');
 $app->tpl->newTemplate("templates/dashboard.htm");
@@ -51,8 +64,8 @@ $app->tpl_defaults();
 if($_SESSION['s']['user']['typ'] == 'admin') {
 	$name = $_SESSION['s']['user']['username'];
 } else {
-	$tmp = $app->db->queryOneRecord("SELECT contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
-	$name = $tmp['contact_name'];
+	$tmp = $app->db->queryOneRecord("SELECT contact_firstname, contact_name FROM client WHERE username = ?", $_SESSION['s']['user']['username']);
+	$name = @(!empty($tmp['contact_firstname']))?$tmp['contact_firstname'].' '.$tmp['contact_name']:$tmp['contact_name'];
 }
 
 $welcome = sprintf($wb['welcome_user_txt'], htmlentities($name, ENT_QUOTES, 'UTF-8'));
@@ -175,19 +188,27 @@ if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSIO
 $dashlets_config[$role.'_dashlets_left'] = trim($dashlets_config[$role.'_dashlets_left']);
 $dashlets_config[$role.'_dashlets_right'] = trim($dashlets_config[$role.'_dashlets_right']);
 
-if($dashlets_config[$role.'_dashlets_left'] != ''){
+if($dashlets_config[$role.'_dashlets_left'] != '' || $dashlets_config[$role.'_dashlets_right'] != ''){
 	preg_match_all('@\[(.*?)\]@', $dashlets_config[$role.'_dashlets_left'], $matches);
 	$leftcol_dashlets = $matches[1];
 } else {
 	$leftcol_dashlets = $default_leftcol_dashlets;
 }
-if($dashlets_config[$role.'_dashlets_right'] != ''){
+if($dashlets_config[$role.'_dashlets_right'] != '' || $dashlets_config[$role.'_dashlets_left'] != ''){
 	preg_match_all('@\[(.*?)\]@', $dashlets_config[$role.'_dashlets_right'], $matches);
 	$rightcol_dashlets = $matches[1];
 } else {
 	$rightcol_dashlets = $default_rightcol_dashlets;
 }
 /******************************************************************************/
+
+/* Donation dashlet */
+if($app->auth->is_admin()) {
+	$tmp = $app->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = 'interface' AND `name` = 'hide_donation_dashlet'");
+	if(!is_array($tmp) || $tmp['value'] < time()) {
+		array_unshift($leftcol_dashlets,'donate');
+	}
+}
 
 
 /* Fill the left column */

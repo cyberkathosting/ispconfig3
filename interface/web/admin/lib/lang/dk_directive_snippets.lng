@@ -1,0 +1,12 @@
+<?php
+$wb['Directive Snippets'] = 'Direktiv Kodestykker';
+$wb['name_txt'] = 'Navn på Kodestykke';
+$wb['type_txt'] = 'Type';
+$wb['snippet_txt'] = 'Kodestykke';
+$wb['active_txt'] = 'Aktiv';
+$wb['directive_snippets_name_empty'] = 'Angiv et navn til uddrag.';
+$wb['directive_snippets_name_error_unique'] = 'Der er allerede et direktiv uddrag med dette navn.';
+$wb['variables_txt'] = 'Variabler';
+$wb['customer_viewable_txt'] = 'Customer viewable';
+$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+?>

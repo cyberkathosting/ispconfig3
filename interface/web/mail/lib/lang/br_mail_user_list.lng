@@ -1,12 +1,12 @@
 <?php
-$wb['list_head_txt'] = 'Caixa de Correio';
-$wb['email_txt'] = 'Correio';
-$wb['autoresponder_txt'] = 'Autoresponder';
-$wb['add_new_record_txt'] = 'Adcionar nova caixa de correio';
-$wb['name_txt'] = 'Realname';
-$wb['login_txt'] = 'Login';
-$wb['postfix_txt'] = 'Receiving';
-$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['list_head_txt'] = 'Contas de e-mail';
+$wb['email_txt'] = 'e-mail';
+$wb['autoresponder_txt'] = 'Autoresposta';
+$wb['add_new_record_txt'] = 'Adicionar novo e-mail';
+$wb['name_txt'] = 'Nome real';
+$wb['login_txt'] = 'acesso';
+$wb['postfix_txt'] = 'Recebendo';
+$wb['disablesmtp_txt'] = 'SMTP (envio)';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>

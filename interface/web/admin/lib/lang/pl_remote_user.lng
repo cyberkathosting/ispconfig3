@@ -1,11 +1,11 @@
 <?php
-$wb['username_txt'] = 'Nazwa użytkownika:';
-$wb['password_txt'] = 'Hasło:';
-$wb['function_txt'] = 'Funkcje:';
+$wb['username_txt'] = 'Nazwa użytkownika';
+$wb['password_txt'] = 'Hasło';
+$wb['function_txt'] = 'Funkcje';
 $wb['username_error_unique'] = 'Nazwa użytkownika musi być unikalna.';
 $wb['username_error_empty'] = 'Nazwa użytkownika nie może być pusta.';
 $wb['password_error_empty'] = 'Hasło nie może być puste.';
-$wb['password_strength_txt'] = 'Siła hasła:';
+$wb['password_strength_txt'] = 'Siła hasła';
 $wb['Mail domain functions'] = 'Funkcje domeny e-mail';
 $wb['Mail user functions'] = 'Funkcje użytkownika e-mail';
 $wb['Mail alias functions'] = 'Funkcje aliasu e-mail';

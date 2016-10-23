@@ -261,7 +261,6 @@ class db extends mysqli
 		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
-
 		$this->_iQueryId = @mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', 'SQL-Query = ' . $sQuery);
@@ -563,7 +562,7 @@ class db extends mysqli
 		}
 		
 		$query = 'INSERT INTO ?? (' . $k_query . ') VALUES (' . $v_query . ')';
-		return $this->query($query, true, $params + $v_params);
+		return $this->query($query, true, array_merge($params, $v_params));
 	}
 	
 	public function diffrec($record_old, $record_new) {
@@ -634,6 +633,7 @@ class db extends mysqli
 			$diffstr = serialize($diffrec_full);
 			$username = $_SESSION['s']['user']['username'];
 			$dbidx = $primary_field.':'.$primary_id;
+			if(trim($username) == '') $username = 'none';
 
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';
@@ -740,7 +740,8 @@ class db extends mysqli
 		global $app;
 
 		$return = array('count' => 0, 'entries' => array());
-		if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
+		//if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
+		// removed in favor of new non intrusive datalogstatus notification header
 
 		if($login == '' && isset($_SESSION['s']['user'])) {
 			$login = $_SESSION['s']['user']['username'];

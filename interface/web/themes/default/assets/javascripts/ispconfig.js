@@ -8,6 +8,7 @@ var ISPConfig = {
 	indicatorCompleted: false,
 	registeredHooks: new Array(),
 	new_tpl_add_id: 0,
+	dataLogTimer: 0,
 	
 	options: {
 		useLoadIndicator: false,
@@ -23,11 +24,7 @@ var ISPConfig = {
 	},
 	
 	reportError: function(request) {
-		/* Error reporting is disabled by default as some browsers like safari
-		   sometimes throw errors when a ajax request is delayed even if the
-		   ajax request worked. */
-
-		/*alert(request);*/
+		
 	},
 	
 	registerHook: function(name, callback) {
@@ -138,58 +135,20 @@ var ISPConfig = {
 			'fontAwesome': true,
 			'autoclose': true
 		});
+		$('[data-toggle="tooltip"]').tooltip({
+		});
+		// grab all password fields and set the readonly prop to prevent password managers to fill in new password
+		$('input[type="password"]').each(function() {
+			$(this).prop('readonly', true)
+			.tooltip({title: "Click to set", placement: "left"});
+		});
+		$('input[type="password"]').on('click focus', function() { 
+			$(this).prop('readonly', false);
+			$(this).tooltip('destroy');
+		});
 		
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
-
-	/* THIS ONE SHOULD BE REMOVED AFTER CREATING THE STATIC LOGIN PAGE!!! */
-	/*submitLoginForm: function(formname) {
-		//* Validate form. TODO: username and password with strip();
-		var frm = document.getElementById(formname);
-		var userNameObj = frm.username;
-		if(userNameObj.value == ''){
-			userNameObj.focus();
-			return;
-		}
-		var passwordObj = frm.passwort;
-		if(passwordObj.value == ''){
-			passwordObj.focus();
-			return;
-		}
-
-		$('#dummy_username').val(userNameObj.value);
-		$('#dummy_passwort').val(passwordObj.value);
-		$('#dummy_login_form').submit();
-
-		var submitFormObj = $.ajax({
-			type: "POST",
-			url: "content.php",
-			data: $('#'+formname).serialize(),
-			dataType: "html",
-			beforeSend: function() {
-				ISPConfig.showLoadIndicator();
-			},
-			success: function(data, textStatus, jqXHR) {
-				if(jqXHR.responseText.indexOf('HEADER_REDIRECT:') > -1) {
-					var parts = jqXHR.responseText.split(':');
-					ISPConfig.loadContent(parts[1]);
-				} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
-					// Go to the login page
-					document.location.href = 'index.php';
-				} else {
-					$('#pageContent').html(jqXHR.responseText);
-					ISPConfig.onAfterContentLoad('content.php', $('#'+formname).serialize());
-					ISPConfig.pageFormChanged = false;
-				}
-				ISPConfig.loadMenus();
-				ISPConfig.hideLoadIndicator();
-			},
-			error: function() {
-				ISPConfig.hideLoadIndicator();
-				ISPConfig.reportError('Ajax Request was not successful.110');
-			}
-		});
-	},*/
 
 	submitForm: function(formname, target, confirmation) {
 		var successMessage = arguments[3];
@@ -217,6 +176,8 @@ var ISPConfig = {
 						ISPConfig.onAfterContentLoad(target, $('#'+formname).serialize());
 						ISPConfig.pageFormChanged = false;
 					}
+					clearTimeout(dataLogTimer);
+					ISPConfig.dataLogNotification();
 					ISPConfig.hideLoadIndicator();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -320,15 +281,12 @@ var ISPConfig = {
 					var newUrl= jqXHR.responseText.substr(jqXHR.responseText.indexOf('URL_REDIRECT:') + "URL_REDIRECT:".length);
 					document.location.href = newUrl;
 				} else {
-					//document.getElementById('pageContent').innerHTML = jqXHR.responseText;
-					//var reponse = $(jqXHR.responseText);
-					//var reponseScript = reponse.filter("script");
-					//$.each(reponseScript, function(idx, val) { eval(val.text); } );
-
 					$('#pageContent').html(jqXHR.responseText);
 					ISPConfig.onAfterContentLoad(pagename, (params ? params : null));
 					ISPConfig.pageFormChanged = false;
 				}
+				clearTimeout(dataLogTimer); // clear running dataLogTimer
+				ISPConfig.dataLogNotification();
 				ISPConfig.hideLoadIndicator();
 			},
 			error: function() {
@@ -393,6 +351,7 @@ var ISPConfig = {
 		
 		ISPConfig.loadMenus();
 		ISPConfig.keepalive();
+		ISPConfig.dataLogNotification();
 		setTimeout(function() {
 			try {
 				$('form#pageForm').find('input[name="username"]').focus();
@@ -444,7 +403,10 @@ var ISPConfig = {
 	},
 
 	changeTab: function(tab, target, force) {
-		if(ISPConfig.requestsRunning > 0) return false;
+		if(ISPConfig.requestsRunning > 0) {
+			console.log('tab change interrupted, request still running.');
+			return false;
+		}
 	
 		document.pageForm.next_tab.value = tab;
 
@@ -537,7 +499,36 @@ var ISPConfig = {
 			}
 		});
 	},
-	
+	dataLogNotification: function() {
+		console.log(ISPConfig.options);
+	    var notificationContent = $.ajax({
+			type: "GET",
+			url: "datalogstatus.php",
+			dataType: "json",
+			success: function(data, textStatus, jqXHR) {
+				var dataLogItems = [];
+				$.each( data['entries'], function( key, val ) {
+					dataLogItems.push('<li><strong>' + val['text'] + ':</strong> ' + val['count'] + '</li>');
+				});
+				if(data['count'] > 0) {
+					$('.modal-body').html(dataLogItems.join(""));
+					$('.notification_text').text(data['count']);
+					$('.notification').css('display','');
+					dataLogTimer = setTimeout( function() { ISPConfig.dataLogNotification(); }, 2000 );
+				} else {
+					$('.notification').css('display','none');
+					$('.modal-body').html('');
+					$('#datalogModal').modal('hide');
+					dataLogTimer = setTimeout( function() { ISPConfig.dataLogNotification(); }, 5000 );
+				}
+			},
+			error: function() {
+				ISPConfig.reportError('Notification not loading, aborting.');
+				$('.notification').css('display','none');
+			}
+		});
+	},
+
 	addAdditionalTemplate: function(){
 		var tpl_add = $('#template_additional').val();
 		var addTemplate = $('#tpl_add_select').val().split('|',2);
@@ -546,14 +537,14 @@ var ISPConfig = {
 		if(addTplId > 0) {
 			var newVal = tpl_add.split('/');
 			ISPConfig.new_tpl_add_id += 1;
-			var delbtn = $('<a href="#"></a>').attr('class', 'button icons16 icoDelete').click(function(e) {
+			var delbtn = $('<a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>').attr('class', 'btn btn-danger btn-xs').click(function(e) {
 				e.preventDefault();
 				ISPConfig.delAdditionalTemplate($(this).parent().attr('rel'));
 			});
 			newVal[newVal.length] = 'n' + ISPConfig.new_tpl_add_id + ':' + addTplId;
-			$('<li>' + addTplText + '</li>').attr('rel', 'n' + new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
+			$('<li>' + addTplText + '</li>').attr('rel', 'n' + ISPConfig.new_tpl_add_id).append(delbtn).appendTo('#template_additional_list ul');
 			$('#template_additional').val(newVal.join('/'));
-			alert('additional template ' + addTplText + ' added to customer');
+			//alert('additional template ' + addTplText + ' added to customer');
 		} else {
 			alert('no additional template selcted');
 		}
@@ -575,7 +566,7 @@ var ISPConfig = {
 				newVal[newVal.length] = oldVal[i];
 			}
 			$('#template_additional').val(newVal.join('/'));
-			alert('additional template ' + addTplText + ' deleted from customer');
+			//alert('additional template ' + addTplText + ' deleted from customer');
 		} else if(tpl_add != '') {
 			// old style
 			var addTemplate = document.getElementById('tpl_add_select').value.split('|',2);
@@ -596,13 +587,12 @@ var ISPConfig = {
 			newVal = newVal.replace(repl, '');
 			newVal = newVal.replace('//', '/');
 			$('#template_additional').val(newVal);
-			alert('additional template ' + addTplText + ' deleted from customer');
+			//alert('additional template ' + addTplText + ' deleted from customer');
 	  } else {
 		alert('no additional template selcted');
 	  }
 	}
 };
-
 
 $(document).on("change", function(event) {
 	var elName = event.target.localName;
@@ -618,9 +608,17 @@ $(document).on("change", function(event) {
 	}
 });
 
+var $page = $('html, body');
+
 $(document).on('click', 'a[data-load-content],button[data-load-content]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-load-content');
 	if(!content_to_load) return this;
@@ -630,7 +628,13 @@ $(document).on('click', 'a[data-load-content],button[data-load-content]', functi
 
 $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var content_to_load = $(this).attr('data-capp');
 	if(!content_to_load) return this;
@@ -640,7 +644,13 @@ $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 
 $(document).on('click', 'a[data-submit-form],button[data-submit-form]', function(e) {
 	e.preventDefault();
-	$('html, body').animate({scrollTop: 0}, 1000);
+	if(ISPConfig.requestsRunning > 0) {
+		console.log('preventing click because there is still a request running.');
+		return;
+	}
+	
+	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
+	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
 	
 	var $el = $(this);
 	var act = $el.attr('data-form-action');
@@ -726,7 +736,6 @@ $(document).on("click", "[data-uncheck-fields] > input[type='checkbox']", functi
 	}
 });
 
-
 $(document).on('ready', function () {
 	$.fn.extend({
 		insertAtCaret: function(myValue){
@@ -804,3 +813,4 @@ $(document).on('ready', function () {
 		return iCaretPos;
 	};
 });
+

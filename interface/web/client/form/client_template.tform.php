@@ -114,7 +114,7 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
-		),
+		),/*
 		'default_mailserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -125,6 +125,18 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_mailserver'
+		),*/
+		'mail_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'mail_servers'
 		),
 		'limit_maildomain' => array (
 			'datatype' => 'INTEGER',
@@ -321,7 +333,7 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
-		),
+		),/*
         'default_xmppserver' => array (
             'datatype' => 'INTEGER',
             'formtype' => 'SELECT',
@@ -332,7 +344,7 @@ $form["tabs"]['limits'] = array (
             ),
             'value'  => '',
             'name'  => 'default_xmppserver'
-        ),
+        ),*/
         'xmpp_servers' => array (
             'datatype' => 'VARCHAR',
             'formtype' => 'MULTIPLE',
@@ -420,7 +432,7 @@ $form["tabs"]['limits'] = array (
             'formtype' => 'CHECKBOX',
             'default' => 'n',
             'value'  => array(0 => 'n', 1 => 'y')
-        ),
+        ),/*
 		'default_webserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -431,6 +443,18 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_webserver'
+		),*/
+		'web_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'web_servers'
 		),
 		'limit_web_domain' => array (
 			'datatype' => 'INTEGER',
@@ -623,7 +647,7 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
-		),
+		),/*
 		'default_dnsserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -634,6 +658,18 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_dnsserver'
+		),*/
+		'dns_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'dns_servers'
 		),
 		'limit_dns_zone' => array (
 			'datatype' => 'INTEGER',
@@ -704,6 +740,7 @@ $form["tabs"]['limits'] = array (
 			'cols'		=> ''
 		),
 		*/
+		/*
 		'default_dbserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
@@ -714,6 +751,18 @@ $form["tabs"]['limits'] = array (
 			),
 			'value'  => array(''),
 			'name'  => 'default_dbserver'
+		),*/
+		'db_servers' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'MULTIPLE',
+			'separator' => ',',
+			'default' => '1',
+			'datasource' => array (  'type' => 'CUSTOM',
+				'class'=> 'custom_datasource',
+				'function'=> 'client_servers'
+			),
+			'value'  => '',
+			'name'  => 'db_servers'
 		),
 		'limit_database' => array (
 			'datatype' => 'INTEGER',
@@ -837,6 +886,20 @@ $form["tabs"]['limits'] = array (
 					'errmsg'=> 'limit_aps_error_notint'),
 			),
 			'default' => '-1',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
+		'limit_domainmodule' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+					'errmsg'=> 'limit_domainmodule_error_notint'),
+			),
+			'default' => '0',
 			'value'  => '',
 			'separator' => '',
 			'width'  => '10',

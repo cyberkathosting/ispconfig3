@@ -85,6 +85,18 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
+		//* TODO: store dnssec-keys in the database - see below for non-admin-users
+		//* hide dnssec if we found dns-mirror-servers
+		if($this->id > 0) {
+			$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id = ?";
+			$rec=$app->db->queryOneRecord($sql, $this->dataRecord['server_id']);
+		} else {
+			$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id > 0 and dns_server = 1";
+			$rec=$app->db->queryOneRecord($sql);
+		}
+		$show_dnssec=@($rec['count'] > 0)?0:1;
+		$app->tpl->setVar('show_dnssec', $show_dnssec);
+
 		/*
 		 * Now we have to check, if we should use the domain-module to select the domain
 		 * or not
@@ -134,6 +146,20 @@ class page_action extends tform_actions {
 	{
 		$client_group_id = $_SESSION["s"]["user"]["default_group"];
 		$client_dns = $app->db->queryOneRecord("SELECT dns_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+
+		//* TODO: store dnssec-keys in the database
+		//* hide dnssec if we found dns-mirror-servers
+		$temp_rec=explode(",", $client_dns['dns_servers']);
+		$sql = "SELECT count(*) AS count FROM server WHERE mirror_server_id = ?";
+		foreach($temp_rec as $temp) {
+			$rec=$app->db->queryOneRecord($sql, $temp);
+			if ($rec['count'] > 0) {
+				break;
+			}
+		}
+		$show_dnssec=@($rec['count'] > 0)?0:1;
+		$app->tpl->setVar('show_dnssec', $show_dnssec);
+
 
 		$client_dns['dns_servers_ids'] = explode(',', $client_dns['dns_servers']);
 
@@ -189,6 +215,15 @@ class page_action extends tform_actions {
 		//* we are editing a existing record
 		$app->tpl->setVar("edit_disabled", 1);
 		$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+
+		$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'dns_soa' AND sys_datalog.dbidx = ? AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC", 'id:' . $this->id);
+		if(is_array($datalog) && !empty($datalog)){
+			if(trim($datalog['error']) != ''){
+				$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
+				$app->tpl->setVar("config_error_tstamp", date($app->lng('conf_format_datetime'), $datalog['tstamp']));
+			}
+		}
+
 	} else {
 		$app->tpl->setVar("edit_disabled", 0);
 	}

@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Webdav-Bruger';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['parent_domain_id_txt'] = 'Webside';
+$wb['username_txt'] = 'Brugernavn';
+$wb['add_new_record_txt'] = 'Tilføj ny Webdav-Bruger';
+?>

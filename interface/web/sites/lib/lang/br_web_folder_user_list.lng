@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Folder User';
-$wb['active_txt'] = 'Active';
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['add_new_record_txt'] = 'Add new Folder User';
+$wb['list_head_txt'] = 'Usuários de pastas';
+$wb['active_txt'] = 'Ativo';
+$wb['web_folder_id_txt'] = 'ID da pasta';
+$wb['username_txt'] = 'Usuário';
+$wb['add_new_record_txt'] = 'Adicionar novo usuário';
 ?>

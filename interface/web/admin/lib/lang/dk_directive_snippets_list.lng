@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Direktiv Kodestykker';
+$wb['active_txt'] = 'Aktiv';
+$wb['name_txt'] = 'Navn på Kodestykke';
+$wb['type_txt'] = 'Type';
+$wb['add_new_record_txt'] = 'Tilføj Direktiv Kodestykke';
+$wb['customer_viewable_txt'] = 'Customer viewable';
+?>

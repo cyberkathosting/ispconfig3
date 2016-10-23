@@ -41,4 +41,5 @@ $wb['ns2_txt'] = 'NS 2';
 $wb['server_id_txt'] = 'Servidor';
 $wb['template_id_txt'] = 'Plantilla';
 $wb['dnssec_txt'] = 'Sign zone (DNSSEC)';
+$wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
 ?>

@@ -1803,7 +1803,9 @@ class system{
 
 	function mount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh'){
 		global $app, $conf;
-
+		
+		if($this->is_mounted($backup_dir)) return true;
+		
 		$mounted = true;
 		if ( 	is_file($mount_cmd) &&
 				is_executable($mount_cmd) &&
@@ -1838,17 +1840,17 @@ class system{
 			if ($this->is_mounted($backup_dir)){
 				exec($mount_cmd);
 				sleep(1);
-			}
-		}
 
-        $unmounted = $this->is_mounted($backup_dir) == 0 ? true : false;
-		if(!$unmounted) {
-			//* send email to admin that backup directory could not be unmounted
-			$global_config = $app->getconf->get_global_config('mail');
-			if($global_config['admin_mail'] != ''){
-				$subject = 'Backup directory '.$backup_dir.' could not be unmounted';
-				$message = "Backup directory ".$backup_dir." could not be unmounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
-				mail($global_config['admin_mail'], $subject, $message);
+		        $unmounted = $this->is_mounted($backup_dir) == 0 ? true : false;
+				if(!$unmounted) {
+					//* send email to admin that backup directory could not be unmounted
+					$global_config = $app->getconf->get_global_config('mail');
+					if($global_config['admin_mail'] != ''){
+						$subject = 'Backup directory '.$backup_dir.' could not be unmounted';
+						$message = "Backup directory ".$backup_dir." could not be unmounted.\n\nThe command\n\n".$mount_cmd."\n\nfailed.";
+						mail($global_config['admin_mail'], $subject, $message);
+					}
+				}
 			}
 		}
 
@@ -1903,7 +1905,7 @@ class system{
 		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
 		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -v';
 		else {
-			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_WARN);
+			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_DEBUG);
 			return '2.2';
 		}
 		

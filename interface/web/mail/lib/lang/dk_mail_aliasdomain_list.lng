@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Domæne alias';
+$wb['active_txt'] = 'Aktiv';
+$wb['source_txt'] = 'Kilde';
+$wb['destination_txt'] = 'Destination';
+$wb['add_new_record_txt'] = 'Tilføj nyt Domæne alias';
+?>

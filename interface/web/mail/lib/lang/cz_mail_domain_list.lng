@@ -5,3 +5,4 @@ $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Vytvořit doménu';
 $wb['active_txt'] = 'Aktivní';
 ?>
+

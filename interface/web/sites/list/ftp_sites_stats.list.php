@@ -26,7 +26,7 @@ $liste["search_prefix"]  = "search_";
 $liste["records_per_page"]  = "15";
 
 // Script File of the list
-$liste["file"]    = "web_sites_stats.php";
+$liste["file"]    = "ftp_sites_stats.php";
 
 // Script file of the edit form
 $liste["edit_file"]   = "web_domain_edit.php";
@@ -40,6 +40,8 @@ $liste["paging_tpl"]  = "templates/paging.tpl.htm";
 // Enable auth
 $liste["auth"]    = "yes";
 
+// mark columns for php sorting (no real mySQL columns)
+$liste["phpsort"] = array('this_month', 'last_month', 'this_year', 'last_year');
 
 /*****************************************************
 * Suchfelder

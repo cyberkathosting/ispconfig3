@@ -44,9 +44,9 @@ function prepareDBDump() {
 	//** load the pre update sql script do perform modifications on the database before the database is dumped
 	if(is_file(ISPC_INSTALL_ROOT."/install/sql/pre_update.sql")) {
 		if($conf['mysql']['admin_password'] == '') {
-			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in pre_update.sql', 'could not read in pre_update.sql');
 		} else {
-			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
+			caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/pre_update.sql' &> /dev/null", __FILE__, __LINE__, 'read in pre_update.sql', 'could not read in pre_update.sql');
 		}
 	}
 
@@ -205,7 +205,11 @@ function updateDbAndIni() {
 					$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename;
 				}
 				
-				if(in_array($next_db_version,explode(',',$silent_update_versions))) $cmd .= ' > /dev/null 2> /dev/null';
+				if(in_array($next_db_version,explode(',',$silent_update_versions))) {
+					$cmd .= ' > /dev/null 2> /dev/null';
+				} else {
+					$cmd .= ' >> /var/log/ispconfig_install.log 2>> /var/log/ispconfig_install.log';
+				}
 				system($cmd);
 				
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
@@ -390,6 +394,9 @@ function updateDbAndIni() {
 	unset($old_ini_array);
 	unset($tpl_ini_array);
 	unset($new_ini);
+
+	// Truncate sys_session
+	$inst->db->query('TRUNCATE ??', $conf['mysql']['database'].'sys_session');
 }
 
 
@@ -412,6 +419,31 @@ function setDefaultServers(){
 		}
 	}
 	
+}
+
+
+
+/** Checks if a detected service differs from db setup and asks the user what to do
+ *	@param $servicename string the name of the Database-Field in "servers" for this service
+ *	@param $detected_value boolean The result of service detection
+ */
+function check_service_config_state($servicename, $detected_value) {
+	global $current_svc_config, $inst, $conf;
+	
+	if ($current_svc_config[$servicename] == 1) $current_state = 1;
+	else $current_state = 0;
+
+	if ($detected_value) $detected_value = 1;
+	else $detected_value = 0;
+	
+	if ($detected_value != $current_state) {
+		$answer = $inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename);
+		if ($answer == 'yes') return $detected_value;
+		else {
+			if ($servicename == 'web_server') echo "\033[0;33mWARNING: If ISPConfig-Interface (Webfrontend) is installed on this Server we will configure the Web Server anyways but will not enable it in ISPConfig.\033[0m\n\n";
+			return $current_state;
+		}
+	} else return $current_state;
 }
 
 ?>

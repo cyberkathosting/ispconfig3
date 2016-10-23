@@ -265,6 +265,7 @@ class bind_plugin {
 				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
 			}
 
+			$old_zonefile = @file_get_contents($filename);
 			file_put_contents($filename, $tpl->grab());
 			chown($filename, escapeshellcmd($dns_config['bind_user']));
 			chgrp($filename, escapeshellcmd($dns_config['bind_group']));
@@ -275,12 +276,20 @@ class bind_plugin {
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 			} else {
-				if($dns_config['disable_bind_log'] === 'y') {
-					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_DEBUG);
-				} else {
-					$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), LOGLEVEL_WARN);
+				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
+				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
+				if(is_array($out) && !empty($out)){
+					$app->log('Reason for Bind restart failure: '.implode("\n", $out), $loglevel);
+					$app->dbmaster->datalogError(implode("\n", $out));
 				}
-				rename($filename, $filename.'.err');
+				if ($old_zonefile != '') {
+					rename($filename, $filename.'.err');
+					file_put_contents($filename, $old_zonefile);
+					chown($filename, escapeshellcmd($dns_config['bind_user']));
+					chgrp($filename, escapeshellcmd($dns_config['bind_group']));
+				} else {
+					rename($filename, $filename.'.err');
+				}
 			}
 			unset($tpl);
 			unset($records);

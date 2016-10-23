@@ -1,0 +1,11 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['tcp_port_txt'] = 'Åben TCP porte';
+$wb['udp_port_txt'] = 'Åben UDP porte';
+$wb['tcp_port_help_txt'] = 'Adskilt af komma';
+$wb['udp_port_help_txt'] = 'Adskilt af komma';
+$wb['active_txt'] = 'Aktiv';
+$wb['firewall_error_unique'] = 'Der er allerede en firewall post for denne server.';
+$wb['tcp_ports_error_regex'] = 'Tegn ikke tilladt i tcp port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
+$wb['udp_ports_error_regex'] = 'Tegn ikke tilladt i udp port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
+?>

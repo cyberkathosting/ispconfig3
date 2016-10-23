@@ -250,6 +250,7 @@ $wb['mailbox_virtual_uidgid_maps_error_nosingleserver'] = 'Uid cannot be mapped 
 $wb['mailbox_virtual_uidgid_maps_error_nodovecot'] = 'Uid-mapping can only be used with dovecot.';
 $wb['mailbox_virtual_uidgid_maps_error_alreadyusers'] = 'Uid-mapping cannot be changed if there are already mail users.';
 $wb['reject_sender_login_mismatch_txt'] = 'Reject sender and login mismatch';
+$wb['backup_time_txt'] = 'Backup time';
 $wb['do_not_try_rescue_mongodb_txt'] = 'Disable MongoDB monitoring';
 $wb['v6_prefix_txt'] = 'IPv6 Prefix';
 $wb['vhost_rewrite_v6_txt'] = 'Rewrite IPv6 on Mirror';

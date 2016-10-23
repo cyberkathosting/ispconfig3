@@ -1,0 +1,7 @@
+<?php
+$wb['rulename_txt'] = 'Navn';
+$wb['add_new_record_txt'] = 'Tilføj nyt Filter';
+$wb['page_txt'] = 'Side';
+$wb['page_of_txt'] = 'af';
+$wb['delete_confirmation'] = 'Ønsker du virkelig at slette mailfilteret?';
+?>

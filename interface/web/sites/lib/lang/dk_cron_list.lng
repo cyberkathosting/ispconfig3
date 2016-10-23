@@ -1,0 +1,13 @@
+<?php
+$wb['list_head_txt'] = 'Cron Jobs';
+$wb['active_txt'] = 'Aktiv';
+$wb['server_id_txt'] = 'Server';
+$wb['run_min_txt'] = 'Minute';
+$wb['run_hour_txt'] = 'Hour';
+$wb['run_mday_txt'] = 'Day of month';
+$wb['run_month_txt'] = 'Month';
+$wb['run_wday_txt'] = 'Day of week';
+$wb['command_txt'] = 'Command';
+$wb['add_new_cron_txt'] = 'Tilføj nyt Cron job';
+$wb['parent_domain_id_txt'] = 'Webside';
+?>

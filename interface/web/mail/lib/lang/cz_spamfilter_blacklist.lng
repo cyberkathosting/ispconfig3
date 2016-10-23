@@ -5,8 +5,9 @@ $wb['rid_txt'] = 'Uživatel';
 $wb['email_txt'] = 'E-mail';
 $wb['priority_txt'] = 'Priorita';
 $wb['active_txt'] = 'Aktivní';
-$wb['limit_spamfilter_wblist_txt'] = 'Dosažen maximální počet záznamů pro bílou / černou listinu pro Váš účet.';
+$wb['limit_spamfilter_wblist_txt'] = 'Byl dosažen maximální počet záznamů pro bílou / černou listinu pro Váš účet.';
 $wb['10 - highest'] = '10 - nejvyšší';
 $wb['5 - medium'] = '5 - střední';
 $wb['1 - lowest'] = '1 - nejnižší';
 ?>
+

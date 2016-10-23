@@ -14,6 +14,7 @@ $wb['quota_error_isint'] = 'O tamanho da caixa de correio deve ser um número.';
 $wb['quota_txt'] = 'Cota';
 $wb['server_id_txt'] = 'Aerver_id';
 $wb['password_txt'] = 'Senha';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'Maildir';
 $wb['postfix_txt'] = 'Permitir Recepção';
 $wb['greylisting_txt'] = 'Enable greylisting';

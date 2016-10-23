@@ -5,5 +5,6 @@ $wb['server_id_txt'] = 'Server';
 $wb['priority_txt'] = 'Priorita';
 $wb['rid_txt'] = 'Uživatel';
 $wb['email_txt'] = 'E-maily na bílé listině';
-$wb['add_new_record_txt'] = 'Vytvořit záznam na bílou listinu';
+$wb['add_new_record_txt'] = 'Přidat na bílou listinu';
 ?>
+

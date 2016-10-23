@@ -1,0 +1,12 @@
+<?php
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['language_txt'] = 'Sprog';
+$wb['password_mismatch'] = 'Adgangskoden i det andet adgangskode felt matcher ikke den første adgangskode.';
+$wb['Form to edit the user password and language.'] = 'Formular for at rediger brugers adgangskode og sprog.';
+$wb['Settings'] = 'Indstillinger';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['password_txt'] = 'Password';
+?>

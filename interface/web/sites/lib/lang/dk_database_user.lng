@@ -1,0 +1,25 @@
+<?php
+$wb['database_user_txt'] = 'Database bruger';
+$wb['database_password_txt'] = 'Database adgangskode';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
+$wb['client_txt'] = 'Kunde';
+$wb['active_txt'] = 'Aktiv';
+$wb['database_user_error_empty'] = 'Database bruger er tom.';
+$wb['database_user_error_unique'] = 'There is already a database bruger with this name on the server. To get a unique name, e.g. prepend your domain name til the brugername.';
+$wb['database_user_error_regex'] = 'Ugyldigt database bruger name. Brugernavne may contain these characters: a-z, A-Z, 0-9 og the underscore. Length: 2 - 64 characters.';
+$wb['database_user_error_len'] = 'Database brugername - {user} - too long. Max. database brugername length incl. prefix is 16 chars.';
+$wb['btn_save_txt'] = 'Gem';
+$wb['btn_cancel_txt'] = 'Annullere';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['globalsearch_resultslimit_of_txt'] = 'af';
+$wb['globalsearch_resultslimit_results_txt'] = 'resultater';
+$wb['globalsearch_noresults_text_txt'] = 'Ingen resultater.';
+$wb['globalsearch_noresults_limit_txt'] = '0 resultater';
+$wb['globalsearch_searchfield_watermark_txt'] = 'Søg';
+$wb['globalsearch_suggestions_text_txt'] = 'Forslag';
+$wb['limit_database_user_txt'] = 'The max. number of database users is reached.';
+$wb['database_password_error_empty'] = 'Database password is empty.';
+?>

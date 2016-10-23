@@ -1,0 +1,11 @@
+<?php
+$wb['list_head_txt'] = 'Installeret pakker';
+$wb['name_txt'] = 'Navn';
+$wb['version_txt'] = 'Version';
+$wb['customer_txt'] = 'Kunde';
+$wb['status_txt'] = 'Status';
+$wb['install_location_txt'] = 'Install lokation';
+$wb['pkg_delete_confirmation'] = 'Do you really want til delete this installation?';
+$wb['filter_txt'] = 'Søg';
+$wb['delete_txt'] = 'Slet';
+?>

@@ -6,3 +6,4 @@ $wb['category_txt'] = 'Kategorie';
 $wb['status_txt'] = 'Odemčený';
 $wb['filter_txt'] = 'Hledat';
 ?>
+

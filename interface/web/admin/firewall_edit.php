@@ -50,6 +50,21 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
+	
+	function onShowEnd() {
+		global $app;
+
+		if($this->id ==0) { //* new record
+			$server_list = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE server_id NOT IN (SELECT server_id FROM firewall) ORDER BY server_name");
+			if(is_array($server_list)) {
+				foreach( $server_list as $server) $server_select .= "<option value='$server[server_id]' >$server[server_name]</option>\r\n";
+			}
+			$app->tpl->setVar('server_id', $server_select);
+		}
+		parent::onShowEnd();
+	}
+
+
 	function onBeforeUpdate() {
 		global $app, $conf;
 

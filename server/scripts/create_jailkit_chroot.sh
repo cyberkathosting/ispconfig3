@@ -30,6 +30,9 @@ then
 fi
 chmod a+rwx $CHROOT_HOMEDIR/tmp
 
+## Fix permissions of the root firectory
+chmod g-w $CHROOT_HOMEDIR/bin
+
 
 # mysql needs the socket in the chrooted environment
 mkdir $CHROOT_HOMEDIR/var

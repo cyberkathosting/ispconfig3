@@ -1,0 +1,31 @@
+<?php
+$wb['limits_txt'] = 'Konto begrænsninger';
+$wb['of_txt'] = 'af';
+$wb['unlimited_txt'] = 'Ubegrænset';
+$wb['limit_maildomain_txt'] = 'Antal af e-mail domæner';
+$wb['limit_mailmailinglist_txt'] = 'Antal af mail-lister';
+$wb['limit_mailbox_txt'] = 'Antal af mail-bokse';
+$wb['limit_mailalias_txt'] = 'Antal af e-mail aliaser';
+$wb['limit_mailaliasdomain_txt'] = 'Antal af domæne aliaser';
+$wb['limit_mailforward_txt'] = 'Antal af e-mail forwarders';
+$wb['limit_mailcatchall_txt'] = 'Antal af e-mail catchall konti';
+$wb['limit_mailrouting_txt'] = 'Antal af e-mail routes';
+$wb['limit_mailfilter_txt'] = 'Antal af e-mail filtere';
+$wb['limit_fetchmail_txt'] = 'Antal af fetchmail konti';
+$wb['limit_spamfilter_wblist_txt'] = 'Antal af spamfilter white/blacklist filtere';
+$wb['limit_spamfilter_user_txt'] = 'Antal af spamfilter brugere';
+$wb['limit_spamfilter_policy_txt'] = 'Antal af spamfilter politikker';
+$wb['limit_cron_txt'] = 'Antal af cron jobs';
+$wb['limit_web_domain_txt'] = 'Antal af web domæner';
+$wb['limit_web_aliasdomain_txt'] = 'Antal af web alias-domæner';
+$wb['limit_web_subdomain_txt'] = 'Antal af web sub-domæner';
+$wb['limit_ftp_user_txt'] = 'Antal af FTP brugere';
+$wb['limit_dns_zone_txt'] = 'Antal af DNS zoner';
+$wb['limit_dns_slave_zone_txt'] = 'Antal af DNS slave zoner';
+$wb['limit_dns_record_txt'] = 'Antal DNS poster';
+$wb['limit_shell_user_txt'] = 'Antal af Shell brugere';
+$wb['limit_webdav_user_txt'] = 'Antal af Webdav brugere';
+$wb['limit_client_txt'] = 'Antal af Kunder';
+$wb['limit_database_txt'] = 'Antal af Databaser';
+$wb['limit_domain_txt'] = 'Antal af Domæner';
+?>

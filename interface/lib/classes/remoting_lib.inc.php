@@ -97,7 +97,8 @@ class remoting_lib extends tform_base {
 		}
 		unset($form);
 
-		$this->dateformat = $app->lng('conf_format_dateshort');
+		$this->dateformat = 'Y-m-d'; //$app->lng('conf_format_dateshort');
+		$this->datetimeformat = 'Y-m-d H:i:s'; //$app->lng('conf_format_datetime');
 
 		return true;
 	}
@@ -283,7 +284,7 @@ class remoting_lib extends tform_base {
 				$startmodule=$_modules[0];
 			}
 		}
-		$usertheme = $params["usertheme"];
+		$usertheme = (isset($params["usertheme"]) && $params["usertheme"] != '')?$params["usertheme"]:'default';
 		$type = 'user';
 		$active = 1;
 		$insert_id = $app->functions->intval($insert_id);

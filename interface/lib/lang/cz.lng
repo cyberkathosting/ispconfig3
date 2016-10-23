@@ -131,7 +131,7 @@ $wb['datalog_status_i_web_folder_user'] = 'Vytvoření uživatele pro adresáře
 $wb['datalog_status_u_web_folder_user'] = 'Aktualizace nastavení uživatele pro adresáře chráněné heslem';
 $wb['datalog_status_d_web_folder_user'] = 'Odstranění uživatele pro adresáře chráněné heslem';
 $wb['login_as_txt'] = 'Přihlašte se jako';
-$wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu. ';
+$wb['no_domain_perm'] = 'Nemáte oprávnění pro tuto doménu.';
 $wb['no_destination_perm'] = 'Nemáte oprávnění pro tuto destinaci.';
 $wb['client_you_are_locked'] = 'Nemáte oprávnění měnit žádná nastavení.';
 $wb['gender_m_txt'] = 'Pan';
@@ -150,4 +150,7 @@ $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zás
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 $wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
+$wb['select_directive_snippet_txt'] = 'Directive Snippets';
+$wb['select_master_directive_snippet_txt'] = 'Master Directive Snippets';
 ?>
+

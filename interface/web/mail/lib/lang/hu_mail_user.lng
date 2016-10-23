@@ -13,6 +13,7 @@ $wb['quota_error_isint'] = 'Mailbox méret mező csak szákot tartalmazhat';
 $wb['quota_txt'] = 'Korlát MB-ban kifejezve';
 $wb['server_id_txt'] = 'szerver_azonosító';
 $wb['password_txt'] = 'Jelszó';
+$wb['password_click_to_set_txt'] = 'Click to set';
 $wb['maildir_txt'] = 'levelezőláda';
 $wb['postfix_txt'] = 'Bejövő engedélyezés';
 $wb['greylisting_txt'] = 'Enable greylisting';

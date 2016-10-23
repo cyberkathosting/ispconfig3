@@ -211,7 +211,7 @@ class maildrop_plugin {
 						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf/mailfilter_move_junk.master')."\n";
 					}
 				}
-				$mailfilter_content .= $data["new"]["custom_mailfilter"];
+				$mailfilter_content .= str_replace("\r\n","\n",$data["new"]["custom_mailfilter"]);
 
 				// Replace windows linebreaks in mailfilter file
 				$mailfilter_content = str_replace("\r\n", "\n", $mailfilter_content);

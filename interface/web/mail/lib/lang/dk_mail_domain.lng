@@ -1,0 +1,23 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['domain_txt'] = 'Domæne';
+$wb['type_txt'] = 'Type';
+$wb['active_txt'] = 'Aktiv';
+$wb['domain_error_empty'] = 'Domæne er tomt.';
+$wb['domain_error_unique'] = 'Dupliker Domæne.';
+$wb['domain_error_regex'] = 'Ugyldigt domæne navn.';
+$wb['client_txt'] = 'Kunde';
+$wb['limit_maildomain_txt'] = 'Max. antal af e-mail domæner for din konto er nået.';
+$wb['policy_txt'] = 'Spamfilter';
+$wb['no_policy'] = '- ikke aktiveret -';
+$wb['dkim_txt'] = 'enable DKIM';
+$wb['dkim_private_txt'] = 'DKIM Private-key';
+$wb['dkim_public_txt'] = 'DKIM Public-key\nfor information only';
+$wb['dkim_generate_txt'] = 'Generate DKIM Private-key';
+$wb['dkim_dns_txt'] = 'DNS-Record';
+$wb['dkim_private_key_error'] = 'Invalid DKIM-Private key';
+$wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
+$wb['error_not_allowed_server_id'] = 'Chosen server is not allowed for this account.';
+$wb['dkim_selector_txt'] = 'DKIM-Selector';
+$wb['dkim_selector_error'] = 'Invalid DKIM-Selector. Use only lower-case alphanumeric characters (a-z or 0-9) up to 63 chars';
+?>

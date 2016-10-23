@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Server';
 $wb['client_txt'] = 'Klient';
-$wb['btn_save_txt'] = 'Importovat vybraný DNS zonový soubor';
+$wb['btn_save_txt'] = 'Importovat DNS zonový soubor';
 $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['domain_txt'] = 'Doména';
 $wb['zone_file_successfully_imported_txt'] = 'Zónový soubor byl úspěšně importován !';
@@ -10,7 +10,8 @@ $wb['zonefile_to_import_txt'] = 'Vybrat soubor s DNS zónou ';
 $wb['domain_field_desc_txt'] = 'Může být ponechána nevyplněná, pokud je název domény názvem souboru nebo je v obsahu souboru s DNS zónou.';
 $wb['title'] = 'Importovat soubory zón';
 $wb['no_file_uploaded_error'] = 'Nelze odeslat DNS zonový soubor';
-$wb['zone_file_import_txt'] = 'Importovat vybraný DNS zonový soubor';
+$wb['zone_file_import_txt'] = 'Importovat DNS zonový soubor';
 $wb['error_no_server_id'] = 'No server provided.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 ?>
+

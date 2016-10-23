@@ -1,0 +1,7 @@
+<?php
+$wb['head_txt'] = 'Opdater Pakkeliste';
+$wb['list_desc_txt'] = '?';
+$wb['btn_start_txt'] = 'Opdater Pakkeliste';
+$wb['btn_cancel_txt'] = 'Annullere';
+$wb['legend_txt'] = 'Her kan du opdatere listen over tilgængelig pakker. Bemærk, at dette kan tage op til fem minutter. Du kan forlade denne side, hvis du har lyst, processen vil fortsætte i baggrunden.';
+?>
