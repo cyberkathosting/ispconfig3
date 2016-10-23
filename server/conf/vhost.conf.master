@@ -60,11 +60,11 @@
 		# <IfModule mod_headers.c>
 		# Header always add Strict-Transport-Security "max-age=15768000"
 		# </IfModule>
-		SSLCertificateFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt
-		SSLCertificateKeyFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key
+		SSLCertificateFile <tmpl_var name='ssl_crt_file'>
+		SSLCertificateKeyFile <tmpl_var name='ssl_key_file'>
 <tmpl_if name='has_bundle_cert'>
 		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
-		SSLCertificateChainFile <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.bundle
+		SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
 		</tmpl_if>
 		<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
 		SSLUseStapling on
