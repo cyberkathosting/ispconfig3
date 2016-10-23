@@ -22,7 +22,7 @@
                     </select></div>
                 </div>
 				<div class="clear"><div class="right">
-					<button class="btn btn-default formbutton-success" type="button" onclick="ISPConfig.addAdditionalTemplate();">{tmpl_var name="add_additional_template_txt"}</button>
+					<button id="tpl_add_btn" class="btn btn-default formbutton-success" type="button" onclick="ISPConfig.addAdditionalTemplate();">{tmpl_var name="add_additional_template_txt"}</button>
 				</div></div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='active_template_additional_txt'}</label>
@@ -471,9 +471,9 @@ $('div.panel_client')
         .find('div.pnl_formsarea')
         .find('fieldset')
         .find('input,select,button')
-        .not('#template_master,#template_additional,#default_mailserver,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter,#parent_client_id,#reseller')
+        .not('#template_master,#template_additional,#default_mailserver,#tpl_add_btn,#default_webserver,#default_dbserver,#default_dnsserver,#default_slave_dnsserver,#customer_no_template,#customer_no_start,#customer_no_counter,#parent_client_id,#reseller')
         .click(function(e) {
-            if(custom_template_selected()) return true;
+			if(custom_template_selected()) return true;
             e.preventDefault();
             alert('{tmpl_var name="err_msg_master_tpl_set"}');
         })

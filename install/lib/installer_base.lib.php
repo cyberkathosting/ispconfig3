@@ -803,7 +803,7 @@ class installer_base {
 		}
 
 		//* Create aliasaes
-		exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
+		if($status == 'install') exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
 
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');

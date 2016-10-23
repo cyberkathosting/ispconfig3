@@ -261,7 +261,6 @@ class db extends mysqli
 		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
-
 		$this->_iQueryId = @mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', 'SQL-Query = ' . $sQuery);
@@ -634,6 +633,7 @@ class db extends mysqli
 			$diffstr = serialize($diffrec_full);
 			$username = $_SESSION['s']['user']['username'];
 			$dbidx = $primary_field.':'.$primary_id;
+			if(trim($username) == '') $username = 'none';
 
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';

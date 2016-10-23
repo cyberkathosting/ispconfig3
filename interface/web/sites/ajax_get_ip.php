@@ -47,7 +47,7 @@ $ip_type = $_GET['ip_type'];
 	$tmp = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $client_group_id);
 	$sql = "SELECT ip_address FROM server_ip WHERE ip_type = ? AND server_id = ? AND (client_id = 0 OR client_id=?)";
 
-	$ips = $app->db->queryAllRecords($sql, $ip_type, $server_id, $tmp['groupid']);
+	$ips = $app->db->queryAllRecords($sql, $ip_type, $server_id, $tmp['client_id']);
 	// $ip_select = "<option value=''></option>";
 	if($ip_type == 'IPv4'){
 		$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"*#":"";

@@ -37,11 +37,11 @@ if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock')) {
 	$pid = trim(file_get_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock'));
 	if(preg_match('/^[0-9]+$/', $pid)) {
 		if(file_exists('/proc/' . $pid)) {
-			print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
+			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
 			exit;
 		}
 	}
-	print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
+	if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
 }
 
 // Set Lockfile
@@ -90,15 +90,15 @@ foreach($files as $f) {
 	if(class_exists($class_name, false)) {
 		$cronjob = new $class_name();
 		if(get_parent_class($cronjob) !== 'cronjob') {
-			print 'Invalid class ' . $class_name . ' not extending class cronjob (' . get_parent_class($cronjob) . ')!' . "\n";
+			if($conf['log_priority'] <= LOGLEVEL_WARN) print 'Invalid class ' . $class_name . ' not extending class cronjob (' . get_parent_class($cronjob) . ')!' . "\n";
 			unset($cronjob);
 			continue;
 		}
-		print 'Included ' . $class_name . ' from ' . $path . '/' . $f . ' -> will now run job.' . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print 'Included ' . $class_name . ' from ' . $path . '/' . $f . ' -> will now run job.' . "\n";
 
 		$cronjob->run();
 
-		print 'run job (' . $class_name . ') done.' . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print 'run job (' . $class_name . ') done.' . "\n";
 
 		unset($cronjob);
 	}
@@ -109,6 +109,6 @@ unset($files);
 @unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');
 $app->log('Remove Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', LOGLEVEL_DEBUG);
 
-die("finished.\n");
+if($conf['log_priority'] <= LOGLEVEL_DEBUG) die("finished.\n");
 
 ?>
