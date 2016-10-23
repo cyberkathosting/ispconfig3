@@ -57,6 +57,7 @@ protocol pop3 {
   mail_plugins = quota
 }
 protocol lda {
+  postmaster_address = webmaster@localhost
   mail_plugins = sieve quota
 }
 protocol lmtp {

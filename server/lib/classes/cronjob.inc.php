@@ -77,9 +77,10 @@ class cronjob {
 
 	/** run through cronjob sequence **/
 	public function run() {
-
-		print "Called run() for class " . get_class($this) . "\n";
-		print "Job has schedule: " . $this->getSchedule() . "\n";
+		global $conf;
+		
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called run() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Job has schedule: " . $this->getSchedule() . "\n";
 		$this->onPrepare();
 		$run_it = $this->onBeforeRun();
 		if($run_it == true) {
@@ -93,9 +94,9 @@ class cronjob {
 
 	/* this function prepares some data for the job and sets next run time if first executed */
 	protected function onPrepare() {
-		global $app;
+		global $app, $conf;
 
-		print "Called onPrepare() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onPrepare() for class " . get_class($this) . "\n";
 		// check the run time and values for this job
 
 		// get previous run data
@@ -120,15 +121,15 @@ class cronjob {
 
 	/* this function checks if a cron job's next runtime is reached and returns true or false */
 	protected function onBeforeRun() {
-		global $app;
+		global $app, $conf;
 
-		print "Called onBeforeRun() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onBeforeRun() for class " . get_class($this) . "\n";
 
 		if($this->_running == true) return false; // job is still marked as running!
 
-		print "Jobs next run is " . $this->_next_run . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Jobs next run is " . $this->_next_run . "\n";
 		$reached = ISPConfigDateTime::compare($this->_next_run, ISPConfigDateTime::dbtime());
-		print "Date compare of " . ISPConfigDateTime::to_timestamp($this->_next_run) . " and " . ISPConfigDateTime::dbtime() . " is " . $reached . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Date compare of " . ISPConfigDateTime::to_timestamp($this->_next_run) . " and " . ISPConfigDateTime::dbtime() . " is " . $reached . "\n";
 		if($reached === false) return false; // error!
 
 		if($reached === -1) {
@@ -152,7 +153,7 @@ class cronjob {
 			$next_run = $app->cron->getNextRun(ISPConfigDateTime::dbtime());
 		}
 
-		print "Jobs next run is now " . $next_run . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Jobs next run is now " . $next_run . "\n";
 
 		$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES (?, NOW(), ?, 1)", get_class($this), ($next_run === false ? "#NULL#" : $next_run));
 		return true;
@@ -160,23 +161,23 @@ class cronjob {
 
 	// child classes should override this!
 	protected function onRunJob() {
-		global $app;
+		global $app, $conf;
 
-		print "Called onRun() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onRun() for class " . get_class($this) . "\n";
 	}
 
 	// child classes may override this!
 	protected function onAfterRun() {
-		global $app;
+		global $app, $conf;
 
-		print "Called onAfterRun() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onAfterRun() for class " . get_class($this) . "\n";
 	}
 
 	// child classes may NOT override this!
 	private function onCompleted() {
-		global $app;
+		global $app, $conf;
 
-		print "Called onCompleted() for class " . get_class($this) . "\n";
+		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onCompleted() for class " . get_class($this) . "\n";
 		$app->db->query("UPDATE `sys_cron` SET `running` = 0 WHERE `name` = ?", get_class($this));
 	}
 

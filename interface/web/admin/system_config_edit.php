@@ -193,6 +193,10 @@ class page_action extends tform_actions {
 				"SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain " .
 				"FROM web_domain WHERE type NOT IN ('subdomain','vhostsubdomain')";
 			$app->db->query($sql);
+			$sql = "REPLACE INTO domain (sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, domain ) " .
+				"SELECT sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, SUBSTRING(origin, 1, CHAR_LENGTH(origin) - 1) " .
+				"FROM dns_soa";
+			$app->db->query($sql);
 		}
 		
 		//die(print_r($_FILES));
