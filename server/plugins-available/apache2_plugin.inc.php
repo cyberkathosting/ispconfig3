@@ -1256,6 +1256,7 @@ class apache2_plugin {
 			//* check is been correctly created
 			if(file_exists($crt_tmp_file)) {
 				$date = date("YmdHis");
+				//* TODO: check if is a symlink, if target same keep it, either remove it
 				if(is_file($key_file)) {
 					$app->system->copy($key_file, $key_file.'.old'.$date);
 					$app->system->chmod($key_file.'.old.'.$date, 0400);
@@ -1396,10 +1397,10 @@ class apache2_plugin {
 		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
-			$server_alias[] .= 'www.'.$data['new']['domain'].' ';
+			$server_alias[] = 'www.'.$data['new']['domain'].' ';
 			break;
 		case '*':
-			$server_alias[] .= '*.'.$data['new']['domain'].' ';
+			$server_alias[] = '*.'.$data['new']['domain'].' ';
 			break;
 		}
 		if(is_array($aliases)) {
@@ -3010,7 +3011,7 @@ class apache2_plugin {
 		}
 		
 		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || (isset($data['old']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
-		
+
 			// Custom php.ini settings
 			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
 			if(intval($data['new']['directive_snippets_id']) > 0){
@@ -3039,7 +3040,7 @@ class apache2_plugin {
 			} else {
 				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
-			
+
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
@@ -3061,12 +3062,12 @@ class apache2_plugin {
 				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
 			
-			if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])){
-					unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
+			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
+				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
+					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
 				}
-				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'])){
-					unlink('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user']);
+				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
+					unlink('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user']);
 				}
 				exec('/etc/init.d/monit restart >/dev/null 2>&1');
 			}
@@ -3224,9 +3225,9 @@ class apache2_plugin {
 				}
 			}
 		}
-		
+
 		$tpl->setVar('custom_session_save_path', ($custom_session_save_path ? 'y' : 'n'));
-		
+
 		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 
 		$app->system->file_put_contents($pool_dir.$pool_name.'.conf', $tpl->grab());
