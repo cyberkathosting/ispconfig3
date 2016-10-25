@@ -1230,6 +1230,7 @@ class nginx_plugin {
 		$tpl->setVar('ssl_letsencrypt', "n");
 		
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
+			$domain = $data['new']['domain'];
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
@@ -2118,8 +2119,7 @@ class nginx_plugin {
 			
 			// remove letsencrypt if it exists (renew will always fail otherwise)
 			
-			$old_domain = $data['old']['ssl_domain'];
-			if(!$old_domain) $old_domain = $data['old']['domain'];
+			$old_domain = $data['old']['domain'];
 			if(substr($old_domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$old_domain = substr($old_domain, 2);
