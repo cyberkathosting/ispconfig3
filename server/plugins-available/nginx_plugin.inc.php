@@ -1223,10 +1223,6 @@ class nginx_plugin {
 		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 
-		$vhost_data['ssl_crt_file'] = $crt_file;
-		$vhost_data['ssl_key_file'] = $key_file;
-		$vhost_data['ssl_bundle_file'] = $bundle_file;
-
 		$tpl->setVar('ssl_letsencrypt', "n");
 		
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
@@ -1245,6 +1241,10 @@ class nginx_plugin {
 			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
 			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
 		}
+
+		$vhost_data['ssl_crt_file'] = $crt_file;
+		$vhost_data['ssl_key_file'] = $key_file;
+		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active

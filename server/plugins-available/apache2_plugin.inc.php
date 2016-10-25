@@ -1153,10 +1153,6 @@ class apache2_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		$vhost_data['ssl_crt_file'] = $crt_file;
-		$vhost_data['ssl_key_file'] = $key_file;
-		$vhost_data['ssl_bundle_file'] = $bundle_file;
-
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			$domain = $data['new']['domain'];
 			if(substr($domain, 0, 2) === '*.') {
@@ -1173,6 +1169,10 @@ class apache2_plugin {
 			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
 			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
 		}
+
+		$vhost_data['ssl_crt_file'] = $crt_file;
+		$vhost_data['ssl_key_file'] = $key_file;
+		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
