@@ -546,7 +546,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 
 	//** Customise the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
-	$conf['interface_password'] = $inst->free_query('Admin password', 'admin');
+	$conf['interface_password'] = $inst->free_query('Admin password', 'admin','ispconfig_admin_password');
 	if($conf['interface_password'] != 'admin') {
 		$check = false;
 		do {

@@ -11,6 +11,7 @@ $autoinstall['mysql_charset'] = 'utf8'; // default: utf8
 $autoinstall['http_server'] = 'nginx'; // apache (default), nginx
 $autoinstall['ispconfig_port'] = '8080'; // default: 8080
 $autoinstall['ispconfig_use_ssl'] = 'y'; // y (default), n
+$autoinstall['ispconfig_admin_password'] = 'admin'; // default: admin
 
 /* SSL Settings */
 $autoinstall['ssl_cert_country'] = 'AU';
