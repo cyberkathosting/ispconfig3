@@ -29,7 +29,7 @@ $wb['generate_password_txt'] = 'Générer un mot de passe';
 $wb['repeat_password_txt'] = 'Répéter le mot de passe';
 $wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
 $wb['password_match_txt'] = 'Les mots de passe correspondent.';
-$wb['username_error_collision'] = 'The username may not be web or web plus a number.\\"';
-$wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
-$wb['lost_password_function_txt'] = 'Forgot password function is available';
+$wb['username_error_collision'] = 'Le nom d\'utilisateur ne peut pas commencer par <b>web</b> ou <b>web</b> suivi d\'un nombre.';
+$wb['client_not_admin_err'] = 'Un utilisateur affilié à un client ne peut pas être changé en type admin';
+$wb['lost_password_function_txt'] = 'La fonction mot de passe oublié est disponible';
 ?>

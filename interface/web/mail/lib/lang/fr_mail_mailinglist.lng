@@ -16,7 +16,7 @@ $wb['generate_password_txt'] = 'Générer un mot de passe';
 $wb['repeat_password_txt'] = 'Répéter le mot de passe';
 $wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
 $wb['password_match_txt'] = 'Les mots de passe correspondent.';
-$wb['listname_error_unique'] = 'There is already a mailinlist with name on the server. Please choose a different listname.';
-$wb['email_error_isemail'] = 'Email address is invalid.';
+$wb['listname_error_unique'] = 'Une liste avec le même nom existe déjà sur le serveur. Veuillez choisir un nom différent.';
+$wb['email_error_isemail'] = 'Adresse E-Mail invalide.';
 $wb['mailinglist_txt'] = 'Liste de distribution';
 ?>
