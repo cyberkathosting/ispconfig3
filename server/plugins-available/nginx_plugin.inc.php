@@ -109,13 +109,13 @@ class nginx_plugin {
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key.org';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key';
+		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
+		$key_file = $ssl_dir.'/'.$domain.'.key';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
 		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 
-		//* Create a SSL Certificate
+		//* Create a SSL Certificate, but only if this is not a mirror server.
 		if($data['new']['ssl_action'] == 'create' && $conf['mirror_server_id'] == 0) {
 
 			$this->ssl_certificate_changed = true;
@@ -165,18 +165,18 @@ class nginx_plugin {
         emailAddress           = webmaster@".$data['new']['domain']."
 
         [ req_attributes ]
-        challengePassword              = A challenge password";
+        ";//challengePassword              = A challenge password";
 
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
 
 			$rand_file = escapeshellcmd($rand_file);
-			$key_file = escapeshellcmd($key_file);
-			$openssl_cmd_key_file = $key_file;
-			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$key_file2 = escapeshellcmd($key_file2);
 			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
+			$key_file = escapeshellcmd($key_file);
+			$openssl_cmd_key_file = $key_file;
+			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$ssl_days = 3650;
 			$csr_file = escapeshellcmd($csr_file);
 			$openssl_cmd_csr_file = $csr_file;
@@ -188,9 +188,9 @@ class nginx_plugin {
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file 2048");
-				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file -out $openssl_cmd_key_file2");
+				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file2 2048");
+				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
+				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file2 -out $openssl_cmd_key_file");
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
@@ -199,27 +199,27 @@ class nginx_plugin {
 					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
+					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
 			}
 
-			$app->system->chmod($key_file, 0400);
 			$app->system->chmod($key_file2, 0400);
+			$app->system->chmod($key_file, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
 			$ssl_request = $app->system->file_get_contents($csr_file);
 			$ssl_cert = $app->system->file_get_contents($crt_file);
-			$ssl_key2 = $app->system->file_get_contents($key_file2);
+			$ssl_key = $app->system->file_get_contents($key_file);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key2, $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
-
+		
 		//* Check that the SSL key is not password protected
 		if($data["new"]["ssl_action"] == 'save') {
 			if(stristr($data["new"]["ssl_key"],'Proc-Type: 4,ENCRYPTED')) {
@@ -235,17 +235,10 @@ class nginx_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
-		
+
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
 			$this->ssl_certificate_changed = true;
-			$ssl_dir = $data["new"]["document_root"]."/ssl";
-			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
-			$key_file = $ssl_dir.'/'.$domain.'.key.org';
-			$key_file2 = $ssl_dir.'/'.$domain.'.key';
-			$csr_file = $ssl_dir.'/'.$domain.".csr";
-			$crt_file = $ssl_dir.'/'.$domain.".crt";
-			//$bundle_file = $ssl_dir.'/'.$domain.".bundle";
 
 			//* Backup files
 			if(file_exists($key_file)){
@@ -258,14 +251,12 @@ class nginx_plugin {
 			}
 			if(file_exists($csr_file)) $app->system->copy($csr_file, $csr_file.'~');
 			if(file_exists($crt_file)) $app->system->copy($crt_file, $crt_file.'~');
-			//if(file_exists($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'~');
 
 			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
 			if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
-			//if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file,$data["new"]["ssl_bundle"]);
-			if(trim($data["new"]["ssl_key"]) != '') $app->system->file_put_contents($key_file2, $data["new"]["ssl_key"]);
-			$app->system->chmod($key_file2, 0400);
+			if(trim($data["new"]["ssl_key"]) != '') $app->system->file_put_contents($key_file, $data["new"]["ssl_key"]);
+			$app->system->chmod($key_file, 0400);
 
 			// for nginx, bundle files have to be appended to the certificate file
 			if(trim($data["new"]["ssl_bundle"]) != ''){
@@ -279,6 +270,7 @@ class nginx_plugin {
 				$app->system->file_put_contents($crt_file, $app->file->unix_nl($crt_file_contents));
 				unset($crt_file_contents);
 			}
+
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
@@ -289,11 +281,6 @@ class nginx_plugin {
 
 		//* Delete a SSL certificate
 		if($data['new']['ssl_action'] == 'del') {
-			$ssl_dir = $data['new']['document_root'].'/ssl';
-			$domain = ($data["new"]["ssl_domain"] != '')?$data["new"]["ssl_domain"]:$data["new"]["domain"];
-			$csr_file = $ssl_dir.'/'.$domain.'.csr';
-			$crt_file = $ssl_dir.'/'.$domain.'.crt';
-			//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 			{
 				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke ".escapeshellcmd($crt_file));
@@ -301,7 +288,6 @@ class nginx_plugin {
 			};
 			$app->system->unlink($csr_file);
 			$app->system->unlink($crt_file);
-			//$app->system->unlink($bundle_file);
 			/* Update the DB of the (local) Server */
 			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
 			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
@@ -343,7 +329,7 @@ class nginx_plugin {
 
 			// If the parent_domain_id has been changed, we will have to update the old site as well.
 			if($this->action == 'update' && $data['new']['parent_domain_id'] != $data['old']['parent_domain_id']) {
-				$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $old_parent_domain_id);
+				$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ? AND active = ?', $old_parent_domain_id, 'y');
 				$data['new'] = $tmp;
 				$data['old'] = $tmp;
 				$this->action = 'update';
@@ -351,7 +337,7 @@ class nginx_plugin {
 			}
 
 			// This is not a vhost, so we need to update the parent record instead.
-			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $new_parent_domain_id);
+			$tmp = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ? AND active = ?', $new_parent_domain_id, 'y');
 			$data['new'] = $tmp;
 			$data['old'] = $tmp;
 			$this->action = 'update';
@@ -374,13 +360,11 @@ class nginx_plugin {
 			if($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $app->log('document_root not set', LOGLEVEL_WARN);
 			return 0;
 		}
-
 		if($app->system->is_allowed_user($data['new']['system_user'], $app->system->is_user($data['new']['system_user']), true) == false
 			|| $app->system->is_allowed_group($data['new']['system_group'], $app->system->is_group($data['new']['system_group']), true) == false) {
 			$app->log('Websites cannot be owned by the root user or group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
 			return 0;
 		}
-
 		if(trim($data['new']['domain']) == '') {
 			$app->log('domain is empty', LOGLEVEL_WARN);
 			return 0;
@@ -740,6 +724,7 @@ class nginx_plugin {
 			if($data['new']['hd_quota'] > 0) {
 				$blocks_soft = $data['new']['hd_quota'] * 1024;
 				$blocks_hard = $blocks_soft + 1024;
+				$mb_soft = $data['new']['hd_quota'];
 				$mb_hard = $mb_soft + 1;
 			} else {
 				$mb_soft = $mb_hard = $blocks_soft = $blocks_hard = 0;
@@ -1230,28 +1215,37 @@ class nginx_plugin {
 
 		// Check if a SSL cert exists
 		$ssl_dir = $data['new']['document_root'].'/ssl';
-		if(!isset($data['new']['ssl_domain']) OR empty($data['new']['ssl_domain'])) { $data['new']['ssl_domain'] = $data['new']['domain']; }
 		$domain = $data['new']['ssl_domain'];
 		if(!$domain) $domain = $data['new']['domain'];
 		$tpl->setVar('ssl_domain', $domain);
 		$key_file = $ssl_dir.'/'.$domain.'.key';
+		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
+		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-
 
 		$tpl->setVar('ssl_letsencrypt', "n");
 		
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
-			//* be sure to have good domain
+			$domain = $data['new']['domain'];
 			if(substr($domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
 				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
 				$domain = substr($domain, 2);
 			}
-
+			
 			$data['new']['ssl_domain'] = $domain;
 			$vhost_data['ssl_domain'] = $domain;
+
+			$key_file = $ssl_dir.'/'.$domain.'-le.key';
+			$key_file2 = $ssl_dir.'/'.$domain.'-le.key.org';
+			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
+			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
 		}
-		
+
+		$vhost_data['ssl_crt_file'] = $crt_file;
+		$vhost_data['ssl_key_file'] = $key_file;
+		$vhost_data['ssl_bundle_file'] = $bundle_file;
+
 		//* Generate Let's Encrypt SSL certificat
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
@@ -1261,13 +1255,13 @@ class nginx_plugin {
 		)) {
 			// default values
 			$temp_domains = array();
-			$lddomain     = $domain;
-			$subdomains   = null;
+			$lddomain = $domain;
+			$subdomains = null;
 			$aliasdomains = null;
 			$sub_prefixes = array();
 
- 			//* be sure to have good domain
- 			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
+			//* be sure to have good domain
+			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
 				$temp_domains[] = "www." . $domain;
 			}
 
@@ -1278,8 +1272,8 @@ class nginx_plugin {
 					$temp_domains[] = $subdomain['domain'];
 					$sub_prefixes[] = str_replace($domain, "", $subdomain['domain']);
 				}
- 			}
-
+			}
+			
 			//* then, add alias domain if we have
 			$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
 			if(is_array($aliasdomains)) {
@@ -1338,7 +1332,7 @@ class nginx_plugin {
 			//}
 
 			//* check is been correctly created
-			if(file_exists($crt_tmp_file) OR file_exists($key_tmp_file)) {
+			if(file_exists($crt_tmp_file)) {
 				$date = date("YmdHis");
 				//* TODO: check if is a symlink, if target same keep it, either remove it
 				if(is_file($key_file)) {
@@ -1373,7 +1367,7 @@ class nginx_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
-		};
+		}
 
 		if($domain!='' && $data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file) && (@filesize($crt_file)>0)  && (@filesize($key_file)>0)) {
 			$vhost_data['ssl_enabled'] = 1;
@@ -1616,6 +1610,9 @@ class nginx_plugin {
 			$server_alias[] .= $auto_alias.' ';
 		}
 
+		// get alias domains (co-domains and subdomains)
+		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ? AND active = 'y' AND (type != 'vhostsubdomain' AND type != 'vhostalias')", $data['new']['domain_id']);
+		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
 			$server_alias[] = 'www.'.$data['new']['domain'].' ';
@@ -1624,10 +1621,6 @@ class nginx_plugin {
 			$server_alias[] = '*.'.$data['new']['domain'].' ';
 			break;
 		}
-
-		// get alias domains (co-domains and subdomains)
-		$aliases = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE parent_domain_id = ? AND active = 'y' AND (type != 'vhostsubdomain' AND type != 'vhostalias')", $data['new']['domain_id']);
-		$alias_seo_redirects = array();
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
 
@@ -1883,7 +1876,7 @@ class nginx_plugin {
 		//* Set the symlink to enable the vhost
 		//* First we check if there is a old type of symlink and remove it
 		$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost');
-		if(is_link($vhost_symlink)) unlink($vhost_symlink);
+		if(is_link($vhost_symlink)) $app->system->unlink($vhost_symlink);
 
 		//* Remove old or changed symlinks
 		if($data['new']['subdomain'] != $data['old']['subdomain'] or $data['new']['active'] == 'n') {
@@ -2032,16 +2025,8 @@ class nginx_plugin {
 		// can reset the ssl changed var to false and cleanup some files
 		$this->ssl_certificate_changed = false;
 
-		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key.org';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key';
-		$csr_file = $ssl_dir.'/'.$domain.'.csr';
-		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-		//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-
 		if(@is_file($key_file.'~')) $app->system->unlink($key_file.'~');
-		if(@is_file($key2_file.'~')) $app->system->unlink($key2_file.'~');
+		if(@is_file($key_file2.'~')) $app->system->unlink($key_file2.'~');
 		if(@is_file($crt_file.'~')) $app->system->unlink($crt_file.'~');
 		if(@is_file($csr_file.'~')) $app->system->unlink($csr_file.'~');
 		//if(@is_file($bundle_file.'~')) $app->system->unlink($bundle_file.'~');
@@ -2051,7 +2036,6 @@ class nginx_plugin {
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';
-
 	}
 
 	function delete($event_name, $data) {
@@ -2132,18 +2116,16 @@ class nginx_plugin {
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
-
+			
 			// remove letsencrypt if it exists (renew will always fail otherwise)
-			$domain = $data['old']['ssl_domain'];
-			if(!$domain) $domain = $data['old']['domain'];
-			if(substr($domain, 0, 2) === '*.') {
+			
+			$old_domain = $data['old']['domain'];
+			if(substr($old_domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
-				$domain = substr($domain, 2);
+				$old_domain = substr($old_domain, 2);
 			}
-			//$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
-			//$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
-			$le_conf_file = '/etc/letsencrypt/renewal/' . $domain . '.conf';
-			@rename('/etc/letsencrypt/renewal/' . $domain . '.conf', '/etc/letsencrypt/renewal/' . $domain . '.conf~backup');
+			$le_conf_file = '/etc/letsencrypt/renewal/' . $old_domain . '.conf';
+			@rename('/etc/letsencrypt/renewal/' . $old_domain . '.conf', '/etc/letsencrypt/renewal/' . $old_domain . '.conf~backup');
 		}
 
 		//* remove mountpoint from fstab
@@ -2214,7 +2196,7 @@ class nginx_plugin {
 							// we use strict check as otherwise directories named '0' may not be deleted
 							$do_delete = false;
 						} else {
-							// read all vhost subdomains with same parent domain
+							// read all vhost subdomains and alias with same parent domain
 							$used_paths = array();
 							$tmp = $app->db->queryAllRecords("SELECT `web_folder` FROM web_domain WHERE (type = 'vhostsubdomain' OR type = 'vhostalias') AND parent_domain_id = ? AND domain_id != ?", $data['old']['parent_domain_id'], $data['old']['domain_id']);
 							foreach($tmp as $tmprec) {
@@ -2310,7 +2292,7 @@ class nginx_plugin {
 						$tmp_symlink = str_replace('[website_domain]', $data['old']['domain'], $tmp_symlink);
 						// Remove trailing slash
 						if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
-						// create the symlinks, if not exist
+						// delete the symlink
 						if(is_link($tmp_symlink)) {
 							$app->system->unlink($tmp_symlink);
 							$app->log('Removing symlink: '.$tmp_symlink, LOGLEVEL_DEBUG);
@@ -2318,8 +2300,6 @@ class nginx_plugin {
 					}
 				}
 				// end removing symlinks
-			} else {
-				// vhost subdomain
 			}
 
 			// Delete the log file directory
@@ -2349,6 +2329,7 @@ class nginx_plugin {
 				if($server_config['backup_dir'] != '' && $server_config['backup_delete'] == 'y') {
 					//* mount backup directory, if necessary
 					if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $mount_backup = false;
+
 					if($mount_backup){
 						$web_backup_dir = $backup_dir.'/web'.$data_old['domain_id'];
 						//** do not use rm -rf $web_backup_dir because database(s) may exits
@@ -2418,7 +2399,7 @@ class nginx_plugin {
 
 		//* Create empty .htpasswd file, if it does not exist
 		if(!is_file($folder_path.'.htpasswd')) {
-			touch($folder_path.'.htpasswd');
+			$app->system->touch($folder_path.'.htpasswd');
 			$app->system->chmod($folder_path.'.htpasswd', 0755);
 			$app->system->chown($folder_path.'.htpasswd', $website['system_user']);
 			$app->system->chgrp($folder_path.'.htpasswd', $website['system_group']);
@@ -2669,16 +2650,15 @@ class nginx_plugin {
 					}
 				}
 			}
-			
 			if($custom_php_ini_settings != ''){
 				// Make sure we only have Unix linebreaks
 				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
 				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
+				if(@is_dir('/etc/hhvm')) file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
 			} else {
 				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
-		
+
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
 			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
@@ -2716,15 +2696,6 @@ class nginx_plugin {
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
-		/*
-		if(trim($data['new']['fastcgi_php_version']) != ''){
-			$default_php_fpm = false;
-			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
-		} else {
-			$default_php_fpm = true;
-		}
-		*/
 		// HHVM => PHP-FPM-Fallback
 		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
@@ -2788,6 +2759,7 @@ class nginx_plugin {
 		$tpl->setVar('fpm_group', $data['new']['system_group']);
 		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_listen_group', $web_config['group']);
+		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
 		$tpl->setVar('pm_start_servers', $data['new']['pm_start_servers']);
@@ -3161,6 +3133,7 @@ class nginx_plugin {
 
 	public function create_relative_link($f, $t) {
 		global $app;
+
 		// $from already exists
 		$from = realpath($f);
 
