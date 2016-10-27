@@ -90,7 +90,7 @@ class page_action extends tform_actions {
 		$handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
 		while ($file = @readdir($handle)) {
 			if ($file != '.' && $file != '..' && !is_dir(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file)) {
-				$available_dashlets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.substr($file, 0, -4).']<pre class="addPlaceholderContent" style="display:none;">['.substr($file, 0, -4).'],</pre></a> ';
+				$available_dashlets_txt .= '<a href="javascript:void(0);" class="addPlaceholder '.substr($file, 0, -4).'">['.substr($file, 0, -4).']</a>';
 			}
 		}
 
