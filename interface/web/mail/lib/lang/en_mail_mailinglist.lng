@@ -68,3 +68,4 @@ $wb['goodbyeMsg_txt'] = 'Goodbye message';
 
 $wb['open_list_txt'] = 'Open';
 $wb['closed_list_txt'] = 'Closed';
+?>
