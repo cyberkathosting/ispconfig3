@@ -272,6 +272,7 @@ class apache2_plugin {
 		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
 		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
 		//* Create a SSL Certificate, but only if this is not a mirror server.
 		if($data['new']['ssl_action'] == 'create' && $conf['mirror_server_id'] == 0) {
@@ -416,7 +417,10 @@ class apache2_plugin {
 			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
 				$tmp_data = '';
 				if(trim($data["new"]["ssl_cert"]) != '') $tmp_data .= $data["new"]["ssl_cert"] . "\n";
-				if(trim($data["new"]["ssl_bundle"]) != '') $tmp_data .= $data["new"]["ssl_bundle"];
+				if(trim($data["new"]["ssl_bundle"]) != '') {
+					$tmp_data .= $data["new"]["ssl_bundle"];
+					$app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
+				}
 				if(trim($tmp_data) != '') $app->system->file_put_contents($crt_file, $tmp_data);
 			} else {
 				if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
