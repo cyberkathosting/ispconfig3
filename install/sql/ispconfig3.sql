@@ -490,7 +490,7 @@ CREATE TABLE `dns_rr` (
   `zone` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
   `type` enum('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY') default NULL,
-  `data` TEXT NOT NULL DEFAULT '',
+  `data` TEXT NOT NULL,
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL default 'Y',
