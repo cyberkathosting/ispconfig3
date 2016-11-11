@@ -35,6 +35,23 @@ class cronjob_bind_dnssec extends cronjob {
 
 	// job schedule
 	protected $_schedule = '30 3 * * *'; //daily at 3:30 a.m.
+	protected $_run_at_new = true;
+
+	private $_tools = null;
+
+	/* this function is optional if it contains no custom code */
+	public function onPrepare() {
+		global $app;
+
+		parent::onPrepare();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onBeforeRun() {
+		global $app;
+
+		return parent::onBeforeRun();
+	}
 	
 	private function increase_serial($serial){
 		global $app, $conf;
@@ -82,6 +99,13 @@ class cronjob_bind_dnssec extends cronjob {
 		}
 		
 		parent::onRunJob();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onAfterRun() {
+		global $app;
+
+		parent::onAfterRun();
 	}
 
 }
