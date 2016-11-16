@@ -265,23 +265,23 @@ class monitor_tools {
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS release 5')) {
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = '5';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 6')) {
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = '6';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = '7.2';
 			$distid = 'centos70';
 			$distconfid = 'centos72';
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = '7';
 			$distid = 'centos70';
 			$distbaseid = 'fedora';
 		} else {
