@@ -768,8 +768,6 @@ $(document).on('ready', function () {
 	$('.progress .progress-bar').css('width', function () {
 		return $(this).attr('aria-valuenow') + '%';
 	});
-	
-	ISPConfig.loadInitContent();
 
 	$('#searchform').submit(function(e) {
 		e.preventDefault();
