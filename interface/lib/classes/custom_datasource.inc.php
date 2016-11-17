@@ -136,6 +136,9 @@ class custom_datasource {
 		case 'default_dbserver':
 			$field = 'db_server';
 			break;
+		case 'default_xmppserver':
+			$field = 'xmpp_server';
+			break;
 		case 'default_vserverserver':
 			$field = 'vserver_server';
 			break;
@@ -150,6 +153,9 @@ class custom_datasource {
 			break;
 		case 'db_servers':
 			$field = 'db_server';
+			break;
+		case 'xmpp_servers':
+			$field = 'xmpp_server';
 			break;
 		default:
 			$field = 'web_server';
