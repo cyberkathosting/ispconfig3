@@ -159,6 +159,18 @@ class cronjob_monitor_system_update extends cronjob {
 			 * Fetch the output
 			 */
 			$data['output'] = shell_exec('zypper lu');
+		} else if (file_exists('/etc/redhat-release')) {
+			
+			if(shell_exec("yum list updates | awk 'p; /Updated Packages/ {p=1}'") == '') {
+				// There is nothing to update
+				$state = 'ok';
+			}
+			else {
+				$state = 'info';
+			}
+			// Fetch the output
+			$yumData = shell_exec('yum check-update');
+			$data['output'] = $yumData;
 		} else {
 			/*
 			 * It is not Debian/Ubuntu, so there is no data and no state
