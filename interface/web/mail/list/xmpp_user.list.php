@@ -47,7 +47,7 @@ $liste["auth"]   = "yes";
 * Suchfelder
 *****************************************************/
 
-$liste["item"][] = array(   'field'     => "JID",
+$liste["item"][] = array(   'field'     => "jid",
 	'datatype'  => "VARCHAR",
 	'filters'   => array( 0 => array( 'event' => 'SHOW',
 			'type' => 'IDNTOUTF8')
