@@ -94,10 +94,10 @@ class installer_dist extends installer_base {
 		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
 
 		//* mysql-virtual_gids.cf.master
-		$this->process_postfix_config('mysql-virtual_gids.cf.master.cf');
+		$this->process_postfix_config('mysql-virtual_gids.cf');
 
 		//* mysql-virtual_uids.cf
-		$this->process_postfix_config('mysql-virtual_uids.cf.master.cf');
+		$this->process_postfix_config('mysql-virtual_uids.cf');
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
