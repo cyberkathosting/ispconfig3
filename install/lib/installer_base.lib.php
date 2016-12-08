@@ -875,8 +875,14 @@ class installer_base {
 		//* mysql-virtual_outgoing_bcc.cf
 		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
 
-                //* mysql-virtual_policy_greylist.cf
-                $this->process_postfix_config('mysql-virtual_policy_greylist.cf');
+		//* mysql-virtual_policy_greylist.cf
+		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
+
+		//* mysql-virtual_gids.cf.master
+		$this->process_postfix_config('mysql-virtual_gids.cf.master.cf');
+
+		//* mysql-virtual_uids.cf
+		$this->process_postfix_config('mysql-virtual_uids.cf.master.cf');
 
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
