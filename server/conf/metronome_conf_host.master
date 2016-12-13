@@ -59,7 +59,7 @@ VirtualHost "{tmpl_var name='domain'}"
         };
 </tmpl_if>
 
-<tmpl_if name='use_proxy' op='==' value='true'>
+<tmpl_if name='use_anon_host' op='==' value='true'>
 VirtualHost "anon.{tmpl_var name='domain'}"
         enabled = true;
         authentication = "anonymous";
