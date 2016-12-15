@@ -1105,8 +1105,6 @@ class remoting_mail extends remoting {
 		return $app->quota_lib->get_mailquota_data($client_id, false);
 	}
 
-}
-
 	//** xmpp functions -----------------------------------------------------------------------------------
 
 	public function xmpp_domain_get($session_id, $primary_id)
@@ -1287,4 +1285,6 @@ class remoting_mail extends remoting {
 			return false;
 		}
 	}
+
+}
 ?>
