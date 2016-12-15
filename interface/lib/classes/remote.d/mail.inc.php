@@ -1250,20 +1250,6 @@ class remoting_mail extends remoting {
 		}
 	}
 
-	public function xmpp_user_get_by_domain($session_id, $domain) {
-		global $app;
-		if(!$this->checkPerm($session_id, 'xmpp_user_get_by_domain')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if (!empty($domain)) {
-			$sql            = "SELECT * FROM xmpp_user WHERE domain = ?";
-			$result         = $app->db->queryAllRecords($sql, $domain);
-			return          $result;
-		}
-		return false;
-	}
-
 	public function xmpp_user_set_status($session_id, $primary_id, $status) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'xmpp_user_set_status')) {
