@@ -267,12 +267,20 @@ if(count($_POST) > 0) {
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);
 						
+						// get last IP used to login 
+						$user_data = $app->db->queryOneRecord("SELECT last_login_ip,last_login_at FROM sys_user WHERE username = ?", $username);
+						
+						$_SESSION['s']['last_login_ip'] = $user_data['last_login_ip'];
+						$_SESSION['s']['last_login_at'] = $user_data['last_login_at'];
+						if(!$loginAs) {
+							$app->db->query("UPDATE sys_user SET last_login_ip =  ?, last_login_at = ? WHERE username = ?", $_SERVER['REMOTE_ADDR'], time(), $username);
+						}
 						/*
 						* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 						* new theme, if the logged-in user has another
 						*/
 						
-						if ($loginAs){
+						if($loginAs) {
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
@@ -284,8 +292,7 @@ if(count($_POST) > 0) {
 					$error = $app->lng('error_user_blocked');
 				}
 			} else {
-				if(!$alreadyfailed['times'] )
-				{
+				if(!$alreadyfailed['times']) {
 					//* user login the first time wrong
 					$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES (?, 1, NOW())";
 					$app->db->query($sql, $ip);

@@ -1,4 +1,5 @@
 <?php
 $wb['available_modules_txt'] = 'Módulos disponibles';
 $wb['welcome_user_txt'] = 'Bienvenido %s';
+$wb['last_login_ip'] = "Last login from %s at %s";
 ?>
