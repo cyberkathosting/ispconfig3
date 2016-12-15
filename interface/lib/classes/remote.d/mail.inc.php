@@ -1262,7 +1262,7 @@ class remoting_mail extends remoting {
 			} else {
 				$status = 'n';
 			}
-			$sql = "UPDATE xmpp_user SET active = ? WHERE domain_id = ?";
+			$sql = "UPDATE xmpp_user SET active = ? WHERE xmppuser_id = ?";
 			$app->db->query($sql, $status, $primary_id);
 			$result = $app->db->affectedRows();
 			return $result;
