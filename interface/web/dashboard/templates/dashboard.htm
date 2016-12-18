@@ -1,5 +1,8 @@
 <div class='page-header'>
   <h1>{tmpl_var name='welcome_user'}</h1>
+  <tmpl_if name='show_ip'>
+	  <h3>{tmpl_var name='last_login_ip'}</h3>
+  </tmpl_if>
 </div>
 
 <tmpl_if name='error'>
