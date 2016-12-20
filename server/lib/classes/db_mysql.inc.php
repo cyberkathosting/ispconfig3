@@ -278,7 +278,7 @@ class db extends mysqli
 	 * @return array result row or NULL if none found
 	 */
 	public function queryOneRecord($sQuery = '') {
-		if(!preg_match('/limit \d+\s*,\s*\d+$/i', $sQuery)) $sQuery .= ' LIMIT 0,1';
+		if(!preg_match('/limit \d+\s*(,\s*\d+)?$/i', $sQuery)) $sQuery .= ' LIMIT 0,1';
 
 		$aArgs = func_get_args();
 		$oResult = call_user_func_array(array(&$this, 'query'), $aArgs);
