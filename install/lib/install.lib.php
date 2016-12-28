@@ -618,7 +618,7 @@ function edit_xinetd_conf($service){
 
 //* Converts a ini string to array
 function ini_to_array($ini) {
-	$config = '';
+	$config = array();
 	$ini = str_replace("\r\n", "\n", $ini);
 	$lines = explode("\n", $ini);
 	foreach($lines as $line) {
