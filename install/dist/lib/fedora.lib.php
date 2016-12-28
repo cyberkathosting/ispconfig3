@@ -96,6 +96,12 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_policy_greylist.cf
 		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
 
+		//* mysql-virtual_gids.cf.master
+		$this->process_postfix_config('mysql-virtual_gids.cf');
+
+		//* mysql-virtual_uids.cf
+		$this->process_postfix_config('mysql-virtual_uids.cf');
+
 		//* postfix-dkim
 		$full_file_name=$config_dir.'/tag_as_originating.re';
 		if(is_file($full_file_name)) {
@@ -182,6 +188,7 @@ class installer_dist extends installer_base {
 		//if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
 		if(is_file('/var/lib/mailman/data/aliases')) unlink('/var/lib/mailman/data/aliases');
 		if(!is_link('/var/lib/mailman/data/aliases')) symlink('/etc/mailman/aliases', '/var/lib/mailman/data/aliases');
+		if(!is_dir('/etc/mailman')) mkdir('/etc/mailman');
 		if(!is_file('/etc/mailman/aliases')) touch('/etc/mailman/aliases');
 		exec('postalias /var/lib/mailman/data/aliases');
 		if(!is_file('/etc/mailman/virtual-mailman')) touch('/etc/mailman/virtual-mailman');

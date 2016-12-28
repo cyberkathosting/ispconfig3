@@ -602,6 +602,10 @@ class ispcmail {
 		if($this->smtp_crypt == 'tls') {
 			fputs($this->_smtp_conn, 'STARTTLS' . $this->_crlf);
 			fgets($this->_smtp_conn, 515);
+			
+			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_host', false);
+			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_peer', false);
+			stream_context_set_option($this->_smtp_conn, 'ssl', 'allow_self_signed', true);
 			stream_socket_enable_crypto($this->_smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
 		}
 

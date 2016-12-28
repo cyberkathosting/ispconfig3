@@ -41,6 +41,13 @@ global $app;
 $app->uses('getconf');
 $global_config = $app->getconf->get_global_config();
 
+$backup_available = true;
+if(!$app->auth->is_admin()) {
+	$client_group_id = $_SESSION['s']['user']['default_group'];
+	$client = $app->db->queryOneRecord("SELECT limit_backup FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+	if($client['limit_backup'] != 'y') $backup_available = false;
+}
+
 $form["title"]    = "Mailbox";
 $form["description"]  = "";
 $form["name"]    = "mail_user";
@@ -408,40 +415,40 @@ if ($_SESSION["s"]["user"]["typ"] == 'admin' && $global_config['mail']['mailbox_
 }
 
 //* Backup
-if ($global_config['mail']['mailbox_show_backup_tab'] === 'y') {
-        $form["tabs"]['backup'] = array (
-                'title'         => "Backup",
-                'width'         => 100,
-                'template'      => "templates/mail_user_backup.htm",
-                'readonly'      => false,
-                'fields'        => array (
-                ##################################
-                # Begin Datatable fields
-                ##################################
-                        'backup_interval' => array (
-                                'datatype'      => 'VARCHAR',
-                                'formtype'      => 'SELECT',
-                                'default'       => '',
-                                 'value'         => array('none' => 'no_backup_txt', 'daily' => 'daily_backup_txt', 'weekly' => 'weekly_backup_txt', 'monthly' => 'monthly_backup_txt')
-                        ),
-                        'backup_copies' => array (
-                                'datatype'      => 'INTEGER',
-                                'formtype'      => 'SELECT',
-                                'default'       => '',
-                                'value'         => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
-                        ),
-                ##################################
-                # ENDE Datatable fields
-                ##################################
-                ),
-                'plugins' => array (
-                        'backup_records' => array (
-                                'class'   => 'plugin_backuplist_mail',
-                                'options' => array(
-                                )
-                        )
-                )
-        );
+if ($backup_available) {
+	$form["tabs"]['backup'] = array (
+		'title'         => "Backup",
+		'width'         => 100,
+		'template'      => "templates/mail_user_backup.htm",
+		'readonly'      => false,
+		'fields'        => array (
+		##################################
+		# Begin Datatable fields
+		##################################
+			'backup_interval' => array (
+				'datatype'      => 'VARCHAR',
+				'formtype'      => 'SELECT',
+				'default'       => '',
+				 'value'         => array('none' => 'no_backup_txt', 'daily' => 'daily_backup_txt', 'weekly' => 'weekly_backup_txt', 'monthly' => 'monthly_backup_txt')
+			),
+			'backup_copies' => array (
+				'datatype'      => 'INTEGER',
+				'formtype'      => 'SELECT',
+				'default'       => '',
+				'value'         => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
+			),
+		##################################
+		# ENDE Datatable fields
+		##################################
+		),
+		'plugins' => array (
+			'backup_records' => array (
+				'class'   => 'plugin_backuplist_mail',
+				'options' => array(
+				)
+			)
+		)
+	);
 }
 
 ?>
