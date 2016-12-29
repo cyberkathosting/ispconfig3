@@ -74,7 +74,7 @@ $liste["item"][] = array( 'field'  => "status",
 	
 $liste["item"][] = array( 'field'  => "status_txt",
 	'datatype' => "VARCHAR",
-	'formtype' => "SELECT",
+	'formtype' => "TEXT",
 	'op'  => "=",
 	'prefix' => "",
 	'suffix' => "",
