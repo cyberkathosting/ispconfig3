@@ -339,6 +339,7 @@ class bind_plugin {
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
+			if(is_file($filename.'.pending')) unlink($filename.'.pending');
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
 		}
 

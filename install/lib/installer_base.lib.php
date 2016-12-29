@@ -666,7 +666,7 @@ class installer_base {
 				if(!$this->dbmaster->query($query, $value['db'] . '.mail_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
-				
+
 				$query = "GRANT SELECT, UPDATE(`dnssec_initialized`, `dnssec_info`, `dnssec_last_signed`, `status`, `status_txt`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
