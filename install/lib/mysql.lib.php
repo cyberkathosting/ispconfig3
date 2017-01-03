@@ -96,15 +96,16 @@ class db extends mysqli
 		$this->_setCharset();
 	}
 	
-	public function setDBData($host, $user, $password) {
+	public function setDBData($host, $port, $user, $password) {
 		$this->dbHost = $host;
+		$this->dbPort = $port;
 		$this->dbUser = $user;
 		$this->dbPass = $password;
 	}
 	
 	public function setDBName($name) {
 		$this->dbName = $name;
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass);
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', $this->dbPort);
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
 			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
