@@ -18,7 +18,7 @@ ssl_key_file = /etc/postfix/smtpd.key
 
 mail_privileged_group = mail
 
-login_greeting = ISPConfig3 IMAP server ready...
+login_greeting = MailServer managed by ISPConfig
 
 ## IMAP specific settings
 protocol imap {

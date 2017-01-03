@@ -178,7 +178,7 @@ ssl_key_file = /etc/postfix/smtpd.key
 #login_max_connections = 256
 
 # Greeting message for clients.
-#login_greeting = Dovecot ready.
+login_greeting = MailServer managed by ISPConfig
 
 # Space-separated list of elements we want to log. The elements which have
 # a non-empty variable value are joined together to form a comma-separated
