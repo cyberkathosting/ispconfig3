@@ -1551,6 +1551,9 @@ class installer_base {
 		}
 
 		if(!is_file('/etc/pure-ftpd/conf/DontResolve')) exec('echo "yes" > /etc/pure-ftpd/conf/DontResolve');
+		
+		if(!is_file('/etc/pure-ftpd/welcome.msg')) exec('echo "FTP managed by ISPConfig" > /etc/pure-ftpd/welcome.msg');
+		if(!is_file('/etc/pure-ftpd/conf/FortunesFile')) exec('echo "/etc/pure-ftpd/welcome.msg" > /etc/pure-ftpd/conf/FortunesFile');
 	}
 
 	public function configure_mydns() {
