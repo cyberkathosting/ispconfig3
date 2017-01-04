@@ -187,7 +187,7 @@ ssl_key_file = /etc/postfix/smtpd.key
 #login_max_connections = 256
 
 # Greeting message for clients.
-#login_greeting = Dovecot ready.
+login_greeting = MailServer managed by ISPConfig
 
 # Space separated list of trusted network ranges. Connections from these
 # IPs are allowed to override their IP addresses and ports (for logging and

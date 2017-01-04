@@ -40,3 +40,4 @@ smtpd_tls_protocols = !SSLv2,!SSLv3
 smtp_tls_protocols = !SSLv2,!SSLv3
 smtpd_tls_exclude_ciphers = RC4, aNULL
 smtp_tls_exclude_ciphers = RC4, aNULL
+smtpd_banner = MailServer managed by ISPConfig
