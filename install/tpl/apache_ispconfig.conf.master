@@ -1,7 +1,7 @@
 ################################################
 # ISPConfig General Apache Options
 ################################################
-
+ServerTokens ProductOnly
 ServerSignature Off
 
 
@@ -137,9 +137,10 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
 		</tmpl_if>
 </Directory>
 
+<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
 NameVirtualHost *:80
 NameVirtualHost *:443
 <tmpl_loop name="ip_adresses">
 NameVirtualHost {tmpl_var name="ip_address"}:{tmpl_var name="port"}
 </tmpl_loop>
-
+</tmpl_if>
