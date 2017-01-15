@@ -1743,7 +1743,7 @@ CREATE TABLE `sys_remoteaction` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   `action_type` varchar(20) NOT NULL DEFAULT '',
   `action_param` mediumtext,
-  `action_state` enum('pending','ok','warning','error') NOT NULL DEFAULT 'pending',
+  `action_state` enum('pending','processing','ok','warning','error') NOT NULL DEFAULT 'pending',
   `response` mediumtext,
   PRIMARY KEY (`action_id`),
   KEY `server_id` (`server_id`)
