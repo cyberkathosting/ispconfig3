@@ -297,40 +297,19 @@ function get_distname() {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: CentOS 6 or compatible\n");
-		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
-			$distname = 'CentOS';
-			$distver = 'Unknown';
-			$distid = 'centos72';
-			$distconfid = 'centos72';
-			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7.2\n");
-		} elseif(stristr($content, 'CentOS Linux release 7.3')) {
-			$distname = 'CentOS';
-			$distver = 'Unknown';
-			$distid = 'centos72';
-			$distconfid = 'centos72';
-			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7.3\n");
-		} elseif(stristr($content, 'CentOS Linux release 7.4')) {
-			$distname = 'CentOS';
-			$distver = 'Unknown';
-			$distid = 'centos72';
-			$distconfid = 'centos72';
-			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7.4\n");
-		} elseif(stristr($content, 'CentOS Linux release 7.5')) {
-			$distname = 'CentOS';
-			$distver = 'Unknown';
-			$distid = 'centos72';
-			$distconfid = 'centos72';
-			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7.5\n");
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
-			$distid = 'centos70';
 			$distbaseid = 'fedora';
-			swriteln("Operating System: CentOS 7 or compatible\n");
+			$var=explode(" ", $content);
+			$var=explode(".", $var[3]);
+			$var=$var[0].".".$var[1];
+			if($var=='7.0' || $var=='7.1') {
+				$distid = 'centos70';
+			} else {
+				$distid = 'centos72';
+			}
+			swriteln("Operating System: CentOS $var\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';
