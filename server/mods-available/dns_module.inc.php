@@ -126,6 +126,10 @@ class dns_module {
 		$daemon = '';
 		if(is_file($conf['init_scripts'] . '/' . 'bind9')) {
 			$daemon = 'bind9';
+		}elseif(is_file($conf['init_scripts'] . '/' . 'named-chroot')) {
+			$daemon = 'named-chroot';
+		}elseif(is_file('/usr/lib/systemd/system/named-chroot.service')) {
+			$daemon = 'named-chroot';
 		} else {
 			$daemon = 'named';
 		}
