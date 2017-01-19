@@ -203,7 +203,9 @@ class web_module {
 			$daemon = $web_config['server_type'];
 			break;
 		default:
-			if(is_file($conf['init_scripts'] . '/' . 'httpd') || is_dir('/etc/httpd')) {
+			if(is_file($conf['init_scripts'] . '/' . 'httpd24-httpd') || is_dir('/opt/rh/httpd24/root/etc/httpd') {
+				$daemon = 'httpd24-httpd';
+			} elseif(is_file($conf['init_scripts'] . '/' . 'httpd') || is_dir('/etc/httpd')) {
 				$daemon = 'httpd';
 			} else {
 				$daemon = 'apache2';
