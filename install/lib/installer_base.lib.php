@@ -1348,6 +1348,7 @@ class installer_base {
 		$add_amavis = !$this->get_postfix_service('amavis','unix');
 		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
 		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
+		//*TODO: check templates against existing postfix-services to make sure we use the template
 
 		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
 			//* backup master.cf
