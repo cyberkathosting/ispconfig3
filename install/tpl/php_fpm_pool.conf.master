@@ -20,5 +20,5 @@ chdir = /
 php_admin_value[session.save_path] = /usr/local/ispconfig/interface/temp
 php_admin_flag[magic_quotes_gpc] = off
 
-php_admin_value[memory_limit] = 4096M
+php_admin_value[memory_limit] = -1
 php_admin_value[max_execution_time] = 1200
