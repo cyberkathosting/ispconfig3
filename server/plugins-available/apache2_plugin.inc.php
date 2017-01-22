@@ -415,14 +415,13 @@ class apache2_plugin {
 			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
 			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+				// In apache 2.4.8 and newer, the ssl crt file contains the bundle, so we need no separate bundle file
 				$tmp_data = '';
 				if(trim($data["new"]["ssl_cert"]) != '') $tmp_data .= $data["new"]["ssl_cert"] . "\n";
-				if(trim($data["new"]["ssl_bundle"]) != '') {
-					$tmp_data .= $data["new"]["ssl_bundle"];
-					$app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
-				}
+				if(trim($data["new"]["ssl_bundle"]) != '') $tmp_data .= $data["new"]["ssl_bundle"];
 				if(trim($tmp_data) != '') $app->system->file_put_contents($crt_file, $tmp_data);
 			} else {
+				// Write separate crt and bundle file
 				if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
 				if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
 			}
