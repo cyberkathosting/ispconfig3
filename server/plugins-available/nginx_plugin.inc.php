@@ -2628,7 +2628,7 @@ class nginx_plugin {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || (isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
 			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
