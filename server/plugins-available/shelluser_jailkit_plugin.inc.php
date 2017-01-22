@@ -468,16 +468,9 @@ class shelluser_jailkit_plugin {
 		// If this user has no key yet, generate a pair
 		if ($userkey == '' && $id > 0){
 			//Generate ssh-rsa-keys
-			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-
-			// use the public key that has been generated
-			$userkey = $app->system->file_get_contents('/tmp/id_rsa.pub');
-
-			// save keypair in client table
-			$this->app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ? ssh_rsa = ? WHERE client_id = ?", $app->system->file_get_contents('/tmp/id_rsa'), $userkey, $id);
-
-			$app->system->unlink('/tmp/id_rsa');
-			$app->system->unlink('/tmp/id_rsa.pub');
+			$app->uses('functions');
+			$app->functions->generate_ssh_key($id, $username);
+			
 			$this->app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
 		};
 

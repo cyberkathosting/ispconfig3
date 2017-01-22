@@ -260,9 +260,8 @@ class page_action extends tform_actions {
 
 		// Create the controlpaneluser for the client
 		//Generate ssh-rsa-keys
-		exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f /tmp/id_rsa -N ""');
-		$app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents('/tmp/id_rsa'), @file_get_contents('/tmp/id_rsa.pub'), $this->id);
-		exec('rm -f /tmp/id_rsa /tmp/id_rsa.pub');
+		$app->uses('functions');
+		$app->functions->generate_ssh_key($this->id, $username);
 
 		// Create the controlpaneluser for the client
 		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
