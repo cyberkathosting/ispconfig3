@@ -12,4 +12,3 @@ $wb['domain_list_head_txt'] = 'Webové stránky';
 $wb['aliasdomain_list_head_txt'] = 'Přezdívky domén (Vhost)';
 $wb['subdomain_list_head_txt'] = 'Subdomény (Vhost)';
 ?>
-

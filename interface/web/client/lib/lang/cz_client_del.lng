@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Smazat klienta';
 $wb['btn_cancel_txt'] = 'Zrušit bez smazání klienta';
 $wb['confirm_client_delete_txt'] = 'Jste si jisti, že chcete smazat tohoto klienta ?';
 ?>
-

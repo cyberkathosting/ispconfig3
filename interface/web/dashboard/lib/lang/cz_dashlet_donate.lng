@@ -5,4 +5,3 @@ $wb['hide_btn_txt'] = 'Skrýt';
 $wb['donate_btn_txt'] = 'Podpořit ISPConfig a získat manuál';
 $wb['more_btn_txt'] = 'Více';
 ?>
-

@@ -1,12 +1,12 @@
 <?php
 $wb['login_1_txt'] = 'Você deseja acessar como usuário';
-$wb['login_2_txt'] = 'Para retornar ao administrador, você pode \"voltar\" selecionando sair.';
+$wb['login_2_txt'] = 'Para retornar ao administrador, você pode \\"voltar\\" selecionando sair.';
 $wb['btn_yes_txt'] = 'Sim, acessar como cliente';
 $wb['btn_back_txt'] = 'Não, voltar a lista';
 $wb['udp_port_help_txt'] = 'Separado por vírgula';
 $wb['active_txt'] = 'Ativo';
 $wb['firewall_error_unique'] = 'Já existe um registro de firewall igual para este servidor.';
-$wb['tcp_ports_error_regex'] = 'Caractere não permitido para atribuição numa porta TCP. Caracteres permitidos são: números, \":\" e \",\".';
-$wb['udp_ports_error_regex'] = 'Caractere não permitido para atribuição numa porta UDP. Caracteres permitidos são: números, \":\" e \",\".';
+$wb['tcp_ports_error_regex'] = 'Caractere não permitido para atribuição numa porta TCP. Caracteres permitidos são: números, \\":\\" e \\",\\".';
+$wb['udp_ports_error_regex'] = 'Caractere não permitido para atribuição numa porta UDP. Caracteres permitidos são: números, \\":\\" e \\",\\".';
 $wb['login_as_or_logout_txt'] = 'Você deseja acessar novamente como {UTYPE} ou sair?';
 ?>

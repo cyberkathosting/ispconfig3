@@ -5,4 +5,3 @@ $wb['language_txt'] = 'Jazyk';
 $wb['startmodule_txt'] = 'Výchozí modul po přihlášení';
 $wb['app_theme_txt'] = 'Výchozí grafické téma';
 ?>
-

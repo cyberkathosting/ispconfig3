@@ -42,4 +42,3 @@ $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for thi
 $wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
 ?>
-

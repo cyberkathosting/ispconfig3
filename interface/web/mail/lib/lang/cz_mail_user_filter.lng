@@ -27,4 +27,3 @@ $wb['reject_txt'] = 'Reject';
 $wb['stop_txt'] = 'Stop';
 $wb['move_to_txt'] = 'Přesunout';
 ?>
-

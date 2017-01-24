@@ -4,4 +4,3 @@ $wb['domain_error_unique'] = 'Doména již existuje';
 $wb['domain_error_regex'] = 'Toto doménové jméno je zakázáno';
 $wb['Domain'] = 'Doména';
 ?>
-

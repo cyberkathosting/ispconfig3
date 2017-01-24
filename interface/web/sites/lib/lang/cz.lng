@@ -33,4 +33,3 @@ $wb['Update Packagelist'] = 'Aktualizace seznamu balíčků';
 $wb['Subdomain (Vhost)'] = 'Subdoména (Vhost)';
 $wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
 ?>
-

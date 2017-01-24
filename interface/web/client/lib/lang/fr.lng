@@ -25,4 +25,5 @@ $wb['Limit-Templates'] = 'Limit-Templates';
 $wb['Send email'] = 'Send Email';
 $wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
 $wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
+$wb['Email-Templates'] = 'Email-Templates';
 ?>

@@ -20,4 +20,3 @@ $wb['listname_error_unique'] = 'Na serveru je již shodný \\"název seznamu\\".
 $wb['email_error_isemail'] = 'E-mailová adresa je neplatná.';
 $wb['mailinglist_txt'] = 'E-mailové konference';
 ?>
-

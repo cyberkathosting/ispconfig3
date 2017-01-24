@@ -120,5 +120,5 @@ $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['web_servers_txt'] = 'Webové servery';
 $wb['db_servers_txt'] = 'Databázové servery';
 $wb['mail_servers_txt'] = 'E-mailové servery';
+$wb['Limits'] = 'Limits';
 ?>
-
