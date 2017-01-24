@@ -1619,12 +1619,12 @@ class installer_base {
             // Create SSL Certificate for localhost
             // Ensure no line is left blank
 			echo "writing new private key to 'localhost.key'\n-----\n";
-			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name');
-            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure');
-            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
-            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname']);
+			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
+            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
 
             $tpl = new tpl('metronome_conf_ssl.master');
             $tpl->setVar('ssl_country',$ssl_country);

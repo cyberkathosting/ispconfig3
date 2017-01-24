@@ -4,6 +4,7 @@ $autoinstall['install_mode'] = 'standard'; // standard (default), expert
 
 $autoinstall['hostname'] = 'server1.example.com'; // default
 $autoinstall['mysql_hostname'] = 'localhost'; // default: localhost
+$autoinstall['mysql_port'] = '3306'; // default: 3306
 $autoinstall['mysql_root_user'] = 'root'; // default: root
 $autoinstall['mysql_root_password'] = 'howtoforge';
 $autoinstall['mysql_database'] = 'dbispconfig'; // default: dbispcongig
@@ -20,6 +21,7 @@ $autoinstall['ssl_cert_locality'] = 'Chicago';
 $autoinstall['ssl_cert_organisation'] = 'Internet Widgits Pty Ltd';
 $autoinstall['ssl_cert_organisation_unit'] = 'IT department';
 $autoinstall['ssl_cert_common_name'] = $autoinstall['hostname'];
+$autoinstall['ssl_cert_email'] = 'hostmaster@'.$autoinstall['hostname'];
 
 /* optional expert mode settings, needed only for expert mode */
 $autoinstall['mysql_ispconfig_user'] = 'ispconfig'; // default: ispconfig
