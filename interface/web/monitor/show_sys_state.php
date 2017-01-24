@@ -186,7 +186,7 @@ function _getServerState($serverId, $serverName) {
 	$messages = array();
 
 	/** The Result of the function */
-	$res = '';
+	$res = array();
 
 	/*
      * Get all monitoring-data from the server and process then
