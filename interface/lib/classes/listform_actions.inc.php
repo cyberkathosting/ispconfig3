@@ -131,7 +131,7 @@ class listform_actions {
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
 
 		$this->DataRowColor = "#FFFFFF";
-		$records_new = '';
+		$records_new = array();
 		if(is_array($records)) {
 			$this->idx_key = $app->listform->listDef["table_idx"];
 			foreach($records as $rec) {

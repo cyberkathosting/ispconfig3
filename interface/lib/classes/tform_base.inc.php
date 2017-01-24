@@ -173,7 +173,7 @@ class tform_base {
 		*/
 	protected function _decode($record, $tab = '', $api = false) {
 		global $app;
-		$new_record = '';
+		$new_record = array();
 		if($api == false) {
 			$table_idx = $this->formDef['db_table_idx'];
 			if(isset($record[$table_idx])) $new_record[$table_idx] = $app->functions->intval($record[$table_idx ]);
