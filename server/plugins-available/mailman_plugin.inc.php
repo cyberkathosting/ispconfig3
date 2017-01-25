@@ -82,8 +82,12 @@ class mailman_plugin {
 			unset($out);
 		} while ($running);
 		unset($out);
+		if(is_file('/etc/mailman/virtual-mailman') && !is_link('/var/lib/mailman/data/virtual-mailman')) {
+			symlink('/etc/mailman/virtual-mailman','/var/lib/mailman/data/virtual-mailman');
+		}
 		if(is_file('/var/lib/mailman/data/virtual-mailman')) exec('postmap /var/lib/mailman/data/virtual-mailman');
 		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
+		
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ?", $data["new"]['mailinglist_id']);

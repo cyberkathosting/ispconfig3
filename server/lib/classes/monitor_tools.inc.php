@@ -273,17 +273,19 @@ class monitor_tools {
 			$distver = '6';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
-		} elseif(stristr($content, 'CentOS Linux release 7.2')) {
-			$distname = 'CentOS';
-			$distver = '7.2';
-			$distid = 'centos70';
-			$distconfid = 'centos72';
-			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			$distname = 'CentOS';
-			$distver = '7';
-			$distid = 'centos70';
+			$distver = 'Unknown';
 			$distbaseid = 'fedora';
+			$var=explode(" ", $content);
+			$var=explode(".", $var[3]);
+			$var=$var[0].".".$var[1];
+			if($var=='7.0' || $var=='7.1') {
+				$distid = 'centos70';
+			} else {
+				$distid = 'centos72';
+			}
+			swriteln("Operating System: CentOS $var\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';

@@ -437,6 +437,23 @@ class functions {
 		
 		return $customer_no;
 	}
+	
+	public function generate_ssh_key($client_id, $username = ''){
+		global $app;
+		
+		// generate the SSH key pair for the client
+		$id_rsa_file = '/tmp/'.uniqid('',true);
+		$id_rsa_pub_file = $id_rsa_file.'.pub';
+		if(file_exists($id_rsa_file)) unset($id_rsa_file);
+		if(file_exists($id_rsa_pub_file)) unset($id_rsa_pub_file);
+		if(!file_exists($id_rsa_file) && !file_exists($id_rsa_pub_file)) {
+			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f '.$id_rsa_file.' -N ""');
+			$app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents($id_rsa_file), @file_get_contents($id_rsa_pub_file), $client_id);
+			exec('rm -f '.$id_rsa_file.' '.$id_rsa_pub_file);
+		} else {
+			$app->log("Failed to create SSH keypair for ".$username, LOGLEVEL_WARN);
+		}
+	}
 }
 
 ?>

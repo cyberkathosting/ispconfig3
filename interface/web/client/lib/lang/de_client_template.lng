@@ -120,4 +120,5 @@ $wb['limit_database_user_txt'] = 'Max. Database users';
 $wb['web_servers_txt'] = 'Web-Server';
 $wb['db_servers_txt'] = 'Datenbank-Server';
 $wb['mail_servers_txt'] = 'Mail-Server';
+$wb['Limits'] = 'Limits';
 ?>

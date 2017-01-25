@@ -17,7 +17,7 @@ $wb['dkim_generate_txt'] = 'Gerar chave privada DKIM';
 $wb['dkim_dns_txt'] = 'Registro dns';
 $wb['dkim_private_key_error'] = 'Chave privada DKIM inválida';
 $wb['dkim_selector_txt'] = 'Seletor DKIM';
-$wb['dkim_selector_error'] = 'Seletor DKIM inválido. Use apenas caracteres minúsculos e alfanuméricos  (\"a-z\" ou \"0-9\") até o máximo de 63 caracteres';
+$wb['dkim_selector_error'] = 'Seletor DKIM inválido. Use apenas caracteres minúsculos e alfanuméricos  (\\"a-z\\" ou \\"0-9\\") até o máximo de 63 caracteres';
 $wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
 $wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido para esta conta.';
 ?>

@@ -1434,6 +1434,7 @@ class installer_base {
 		$add_amavis = !$this->get_postfix_service('amavis','unix');
 		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
 		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
+		//*TODO: check templates against existing postfix-services to make sure we use the template
 
 		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
 			//* backup master.cf
@@ -1707,12 +1708,12 @@ class installer_base {
             // Create SSL Certificate for localhost
             // Ensure no line is left blank
 			echo "writing new private key to 'localhost.key'\n-----\n";
-			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name');
-            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure');
-            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname']);
-            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname']);
+			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
+            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
 
             $tpl = new tpl('metronome_conf_ssl.master');
             $tpl->setVar('ssl_country',$ssl_country);
@@ -1738,10 +1739,12 @@ class installer_base {
 			echo "\n";
 
         }else{
-            echo "-----\n";
+            /*
+			echo "-----\n";
             echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
             echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
             echo "-----\n";
+			*/
         }
 
         // Copy init script
@@ -2164,6 +2167,11 @@ class installer_base {
 			// SSL in apps vhost is off by default. Might change later.
 			$content = str_replace('{ssl_on}', 'off', $content);
 			$content = str_replace('{ssl_comment}', '#', $content);
+			
+			// Fix socket path on PHP 7 systems
+			if(file_exists('/var/run/php/php7.0-fpm.sock')) {
+				$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
+			}
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 

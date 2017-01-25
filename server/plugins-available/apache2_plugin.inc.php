@@ -415,14 +415,13 @@ class apache2_plugin {
 			//* Write new ssl files
 			if(trim($data["new"]["ssl_request"]) != '') $app->system->file_put_contents($csr_file, $data["new"]["ssl_request"]);
 			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+				// In apache 2.4.8 and newer, the ssl crt file contains the bundle, so we need no separate bundle file
 				$tmp_data = '';
 				if(trim($data["new"]["ssl_cert"]) != '') $tmp_data .= $data["new"]["ssl_cert"] . "\n";
-				if(trim($data["new"]["ssl_bundle"]) != '') {
-					$tmp_data .= $data["new"]["ssl_bundle"];
-					$app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
-				}
+				if(trim($data["new"]["ssl_bundle"]) != '') $tmp_data .= $data["new"]["ssl_bundle"];
 				if(trim($tmp_data) != '') $app->system->file_put_contents($crt_file, $tmp_data);
 			} else {
+				// Write separate crt and bundle file
 				if(trim($data["new"]["ssl_cert"]) != '') $app->system->file_put_contents($crt_file, $data["new"]["ssl_cert"]);
 				if(trim($data["new"]["ssl_bundle"]) != '') $app->system->file_put_contents($bundle_file, $data["new"]["ssl_bundle"]);
 			}
@@ -1277,7 +1276,8 @@ class apache2_plugin {
 				if ($web_config["website_symlinks_rel"] == 'y') {
 					$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
 				} else {
-					exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
+					if(@is_link($key_file)) $app->system->unlink($key_file);
+					if(@file_exists($key_tmp_file)) exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
 				}
 
 				if(is_file($crt_file)) {
@@ -1289,7 +1289,8 @@ class apache2_plugin {
 				if($web_config["website_symlinks_rel"] == 'y') {
 					$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
 				} else {
-					exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
+					if(@is_link($crt_file)) $app->system->unlink($crt_file);
+					if(@file_exists($crt_tmp_file))exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
 				}
 
 				if(is_file($bundle_file)) {
@@ -1301,7 +1302,8 @@ class apache2_plugin {
 				if($web_config["website_symlinks_rel"] == 'y') {
 					$this->create_relative_link(escapeshellcmd($bundle_tmp_file), escapeshellcmd($bundle_file));
 				} else {
-					exec("ln -s ".escapeshellcmd($bundle_tmp_file)." ".escapeshellcmd($bundle_file));
+					if(@is_link($bundle_file)) $app->system->unlink($bundle_file);
+					if(@file_exists($bundle_tmp_file)) exec("ln -s ".escapeshellcmd($bundle_tmp_file)." ".escapeshellcmd($bundle_file));
 				}
 
 				/* we don't need to store it.
@@ -2996,7 +2998,7 @@ class apache2_plugin {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || (isset($data['old']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
 			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);

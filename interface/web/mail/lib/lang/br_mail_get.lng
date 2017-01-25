@@ -14,6 +14,6 @@ $wb['source_password_error_isempty'] = 'Senha em branco.';
 $wb['destination_error_isemail'] = 'Destino não selecionado.';
 $wb['source_server_error_regex'] = 'Servidor pop3/imap não é um domínio válido.';
 $wb['source_read_all_txt'] = 'Receber todos os e-mails (inclusive e-mails lidos)';
-$wb['error_delete_read_all_combination'] = 'Combinação ilegal de opções. Você não pode usar \"Apagar e-mails após recebimento\" = não junto com \"Receber todos os e-mail\" = sim.';
+$wb['error_delete_read_all_combination'] = 'Combinação ilegal de opções. Você não pode usar \\"Apagar e-mails após recebimento\\" = não junto com \\"Receber todos os e-mail\\" = sim.';
 $wb['source_delete_note_txt'] = 'Por favor, verifique se o e-mail do para recepção está operacional, antes de ativar esta configuração.';
 ?>

@@ -51,11 +51,11 @@ $pkg_id = (isset($_GET['id'])) ? $_GET['id'] : '';
 
 // Check if a newer version is available for the current package
 // Note: It's intended that here is no strict ID check (see below)
-if(isset($pkg_id))
+/*if(isset($pkg_id))
 {
 	$newest_pkg_id = $gui->getNewestPackageID($pkg_id);
 	if($newest_pkg_id != 0) $pkg_id = $newest_pkg_id;
-}
+}*/
 
 // Make sure an integer ID is given
 $adminflag = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;

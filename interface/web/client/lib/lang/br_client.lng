@@ -141,7 +141,7 @@ $wb['email_error_isemail'] = 'Por favor, insira um e-mail válido.';
 $wb['customer_no_error_unique'] = 'O código do cliente deve ser exclusivo (ou em branco).';
 $wb['paypal_email_error_isemail'] = 'Por favor, insira um e-mail do PayPal válido.';
 $wb['paypal_email_txt'] = 'e-mail do PayPal';
-$wb['err_msg_master_tpl_set'] = 'Todos as configurações de limites personalizadas são ignoradas se qualquer gabarito mestre ou algum gabarito \"personalizado\" for selecionado.';
+$wb['err_msg_master_tpl_set'] = 'Todos as configurações de limites personalizadas são ignoradas se qualquer gabarito mestre ou algum gabarito \\"personalizado\\" for selecionado.';
 $wb['aps_limits_txt'] = 'Limites de apps instaladas';
 $wb['limit_aps_txt'] = 'Limite de instâncias de apps';
 $wb['limit_aps_error_notint'] = 'Limite de instâncias de apps deve ser um número.';
@@ -199,4 +199,6 @@ $wb['limit_database_user_error_notint'] = 'Limite de usuários de banco de dados
 $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt disponível';
 $wb['limit_directive_snippets_txt'] = 'Exibir seleção de configurações do servidor de páginas';
 $wb['password_click_to_set_txt'] = 'Selecionar para configurar';
+$wb['limit_dns_record_error_notint'] = 'The dns record limit must be a number.';
+$wb['Limits'] = 'Limits';
 ?>

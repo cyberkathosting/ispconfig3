@@ -2,7 +2,7 @@
 $wb['data_txt'] = 'Registro DMARC';
 $wb['domain_txt'] = 'Domínio';
 $wb['dmarc_policy_txt'] = 'Política de recepção de e-mails';
-$wb['dmarc_policy_note_txt'] = 'Como os \"ISPs\" devem tratar as mensagens SPF ou DKIM com falha (DMARC).';
+$wb['dmarc_policy_note_txt'] = 'Como os \\"ISPs\\" devem tratar as mensagens SPF ou DKIM com falha (DMARC).';
 $wb['dmarc_policy_none_txt'] = 'não fazer nada';
 $wb['dmarc_policy_quarantine_txt'] = 'quarentena';
 $wb['dmarc_policy_reject_txt'] = 'rejeitar';

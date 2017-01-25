@@ -19,8 +19,8 @@ $wb['run_wday_error_format'] = 'Formato dos dias da semana inválido.';
 $wb['command_error_format'] = 'Formato de comando inválido. Somente endereços url http/https são permitidos.';
 $wb['unknown_fieldtype_error'] = 'Um tipo desconhecido de campo foi usado.';
 $wb['server_id_error_empty'] = 'O ID do servidor em branco.';
-$wb['limit_cron_url_txt'] = 'Somente url do cron. Por favor, insira uma url iniciando com \"http://\" e um comando do cron.';
+$wb['limit_cron_url_txt'] = 'Somente url do cron. Por favor, insira uma url iniciando com \\"http://\\" e um comando do cron.';
 $wb['command_error_empty'] = 'Comando em branco.';
-$wb['command_hint_txt'] = 'Você poderá usar, por exemplo: \"/var/www/clients/clientX/webY/meu_script.sh\" ou \"\http://www.dominio.com/path/script.php\" e também a palavra reservada \"[web_root]\" substituído por \"/var/www/clients/clientX/webY/web\".';
+$wb['command_hint_txt'] = 'Você poderá usar, por exemplo: \\"/var/www/clients/clientX/webY/meu_script.sh\\" ou \\"\http://www.dominio.com/path/script.php\\" e também a palavra reservada \\"[web_root]\\" substituído por \\"/var/www/clients/clientX/webY/web\\".';
 $wb['log_output_txt'] = 'Saída do Log';
 ?>

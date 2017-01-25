@@ -159,7 +159,7 @@ $wb['added_date_txt'] = 'Data do cadastro';
 $wb['limit_domainmodule_error_notint'] = 'Limite de módulos de domínio deve ser um número.';
 $wb['limit_domainmodule_txt'] = 'Limites de módulos de domínio';
 $wb['client_limits_txt'] = 'Limite de clientes';
-$wb['err_msg_master_tpl_set'] = 'Todas as configurações personalizadas de limites serão ignoradas se um gabarito mestre ou \"personalizado\" for selecionado.';
+$wb['err_msg_master_tpl_set'] = 'Todas as configurações personalizadas de limites serão ignoradas se um gabarito mestre ou \\"personalizado\\" for selecionado.';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['email_error_empty'] = 'e-mail em branco.';
@@ -203,4 +203,5 @@ $wb['limit_database_quota_error_notint'] = 'A cota para banco de dados deve ser 
 $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt disponível';
 $wb['limit_directive_snippets_txt'] = 'Exibir seleção das configurações do servidor de páginas';
 $wb['password_click_to_set_txt'] = 'Configurar';
+$wb['Limits'] = 'Limits';
 ?>

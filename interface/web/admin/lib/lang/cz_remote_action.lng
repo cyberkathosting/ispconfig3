@@ -10,4 +10,3 @@ $wb['select_all_server'] = 'Všechny servery';
 $wb['ispconfig_update_title'] = 'ISPConfig pokyny k aktualizaci';
 $wb['ispconfig_update_text'] = 'Přihlaste se jako uživatel root na terminal (shell) serveru a proveďte příkaz<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />spustí se ISPConfig aktualizace.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Klikněte zde pro podrobnější informace o provedení aktualizace</a>';
 ?>
-

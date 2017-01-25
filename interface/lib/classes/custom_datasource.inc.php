@@ -98,8 +98,7 @@ class custom_datasource {
 			}
 		}
 		if(count($server_ids) == 0) return array();
-		$server_ids = implode(',', $server_ids);
-		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN (?) AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain", $server_ids);
+		$records = $app->db->queryAllRecords("SELECT web_domain.domain_id, CONCAT(web_domain.domain, ' :: ', server.server_name) AS parent_domain FROM web_domain, server WHERE web_domain.type = 'vhost' AND web_domain.server_id IN ? AND web_domain.server_id = server.server_id AND ".$app->tform->getAuthSQL('r', 'web_domain')." ORDER BY web_domain.domain", $server_ids);
 
 		$records_new = array();
 		if(is_array($records)) {

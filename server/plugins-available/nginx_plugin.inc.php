@@ -1344,7 +1344,8 @@ class nginx_plugin {
 				if ($web_config["website_symlinks_rel"] == 'y') {
 					$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
 				} else {
-					exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
+					if(@is_link($key_file)) $app->system->unlink($key_file);
+					if(@file_exists($key_tmp_file)) exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
 				}
 
 				if(is_file($crt_file)) {
@@ -1356,7 +1357,8 @@ class nginx_plugin {
 				if($web_config["website_symlinks_rel"] == 'y') {
 					$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
 				} else {
-					exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
+					if(@is_link($crt_file)) $app->system->unlink($crt_file);
+					if(@file_exists($crt_tmp_file))exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
 				}
 
 				/* we don't need to store it.
@@ -2628,7 +2630,7 @@ class nginx_plugin {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
 		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || (isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
+		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
 			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);

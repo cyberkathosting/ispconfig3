@@ -30,6 +30,6 @@ $wb['Available packages'] = 'Pacotes disponíveis';
 $wb['Installed packages'] = 'Pacotes instalados';
 $wb['Update Packagelist'] = 'Atualizar lista de pacotes';
 $wb['Subdomain (Vhost)'] = 'Subdomínio (vhost)';
-$wb['error_proxy_requires_url'] = 'Tipo de redirecionamento \"proxy\" exige uma url como caminho do redirecionamento.';
+$wb['error_proxy_requires_url'] = 'Tipo de redirecionamento \\"proxy\\" exige uma url como caminho do redirecionamento.';
 $wb['Domain'] = 'Domain';
 ?>

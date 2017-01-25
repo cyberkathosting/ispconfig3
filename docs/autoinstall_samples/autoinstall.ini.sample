@@ -3,6 +3,7 @@ language=en
 install_mode=standard
 hostname=server1.example.com
 mysql_hostname=localhost
+mysql_port=3306
 mysql_root_user=root
 mysql_root_password=ispconfig
 mysql_database=dbispconfig
@@ -19,6 +20,7 @@ ssl_cert_locality=Chicago
 ssl_cert_organisation=Internet Widgits Pty Ltd
 ssl_cert_organisation_unit=IT department
 ssl_cert_common_name=server1.example.com
+ssl_cert_email=hostmaster@example.com
 
 [expert]
 mysql_ispconfig_user=ispconfig

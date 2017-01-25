@@ -8,4 +8,3 @@ $wb['sum_txt'] = 'Součet (Stažení + Odeslání)';
 $wb['in_out_txt'] = 'DL/UL';
 $wb['last_year_txt'] = 'Last year';
 ?>
-
