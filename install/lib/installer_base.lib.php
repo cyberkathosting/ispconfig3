@@ -1650,10 +1650,12 @@ class installer_base {
 			echo "\n";
 
         }else{
-            echo "-----\n";
+            /*
+			echo "-----\n";
             echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
             echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
             echo "-----\n";
+			*/
         }
 
         // Copy init script
