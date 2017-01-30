@@ -1185,8 +1185,8 @@ class apache2_plugin {
 			|| $this->update_letsencrypt == true
 		)) {
 			// default values
-			$temp_domains = array();
-			$lddomain = $domain;
+			$temp_domains = array($domain);
+			$lddomain = '';
 			$subdomains = null;
 			$aliasdomains = null;
 			$sub_prefixes = array();
@@ -1218,6 +1218,25 @@ class apache2_plugin {
 
 			// prevent duplicate
 			$temp_domains = array_unique($temp_domains);
+			
+			// check if domains are reachable to avoid letsencrypt verification errors
+			$le_rnd_file = uniqid('le-') . '.txt';
+			$le_rnd_hash = md5(uniqid('le-', true));
+			file_put_contents('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file, $le_rnd_hash);
+			
+			$le_domains = array();
+			foreach($temp_domains as $temp_domain) {
+				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
+				if($le_hash_check == $le_rnd_hash) {
+					$le_domains[] = $temp_domain;
+					$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
+				} else {
+					$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+				}
+			}
+			$temp_domains = $le_domains;
+			unset($le_domains);
+			@unlink('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file);
 
 			// generate cli format
 			foreach($temp_domains as $temp_domain) {
@@ -1243,7 +1262,7 @@ class apache2_plugin {
 				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
 				$letsencrypt = reset($letsencrypt);
 				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain --domains $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
+					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
