@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Default Theme settings';
-$wb['list_desc_txt'] = 'Modify default-theme specific options';
-$wb['no_settings_txt'] = 'There are no settings for the default theme.';
-$wb['btn_start_txt'] = 'Save';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Параметры темы по умолчанию';
+$wb['list_desc_txt'] = 'Модификация конкретных параметров темы по умолчанию';
+$wb['no_settings_txt'] = 'Здесь нет настроек для темы по умолчанию.';
+$wb['btn_start_txt'] = 'Сохранить';
+$wb['btn_cancel_txt'] = 'Назад';
 ?>

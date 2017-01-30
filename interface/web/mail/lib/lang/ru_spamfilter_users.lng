@@ -1,13 +1,13 @@
 <?php
 $wb['server_id_txt'] = 'Сервер';
 $wb['priority_txt'] = 'Приоритет';
-$wb['policy_id_txt'] = 'Политика';
-$wb['email_txt'] = 'Email (Шаблон)';
+$wb['policy_id_txt'] = 'Правило';
+$wb['email_txt'] = 'Адрес эл. почты (Шаблон)';
 $wb['fullname_txt'] = 'Имя';
 $wb['local_txt'] = 'Локальный';
-$wb['email_error_notempty'] = 'The email address must not be empty.';
-$wb['fullname_error_notempty'] = 'The name must not be empty.';
-$wb['10 - highest'] = '10 - highest';
-$wb['5 - medium'] = '5 - medium';
-$wb['1 - lowest'] = '1 - lowest';
+$wb['email_error_notempty'] = 'Адрес эл. почты не может быть пустым.';
+$wb['fullname_error_notempty'] = 'Имя не может быть пустым.';
+$wb['10 - highest'] = '10 - сильный';
+$wb['5 - medium'] = '5 - средний';
+$wb['1 - lowest'] = '1 - слабый';
 ?>

@@ -1,14 +1,14 @@
 <?php
-$wb['web_folder_id_txt'] = 'Folder';
-$wb['username_txt'] = 'Username';
-$wb['password_txt'] = 'Password';
-$wb['active_txt'] = 'Active';
-$wb['folder_error_empty'] = 'No web folder selecetd.';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['no_folder_perm'] = 'You have no permission for this folder.';
-$wb['error_user_exists_already_txt'] = 'There is already a record for this user.';
+$wb['web_folder_id_txt'] = 'Папка';
+$wb['username_txt'] = 'Логин';
+$wb['password_txt'] = 'Пароль';
+$wb['active_txt'] = 'Активно';
+$wb['folder_error_empty'] = 'Нет выбранной веб-папки.';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['generate_password_txt'] = 'Создать пароль';
+$wb['repeat_password_txt'] = 'Повторить пароль';
+$wb['password_mismatch_txt'] = 'Пароли не совпадают.';
+$wb['password_match_txt'] = 'Эти пароли совпадают.';
+$wb['no_folder_perm'] = 'У вас нет разрешения на эту папку.';
+$wb['error_user_exists_already_txt'] = 'Уже есть такая запись для этого пользователя.';
 ?>

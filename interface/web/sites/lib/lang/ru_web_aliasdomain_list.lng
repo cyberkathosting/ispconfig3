@@ -1,14 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Доменные алиасы';
-$wb['active_txt'] = 'Активен?';
+$wb['list_head_txt'] = 'Алиасы доменов';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['parent_domain_id_txt'] = 'Web-сайт';
-$wb['domain_txt'] = 'Доменный алиас';
+$wb['domain_txt'] = 'Алиас домена';
 $wb['add_new_record_txt'] = 'Добавить новый алиас';
 $wb['domain_error_empty'] = 'Домен пустой.';
-$wb['domain_error_unique'] = 'Домен должен быть уникальным.';
-$wb['domain_error_regex'] = 'Имя домена неправильно.';
-$wb['no_redirect_txt'] = 'No redirect';
-$wb['no_flag_txt'] = 'No flag';
-$wb['none_txt'] = 'None';
+$wb['domain_error_unique'] = 'Имя должно быть уникальным.';
+$wb['domain_error_regex'] = 'Некорректное имя домена.';
+$wb['no_redirect_txt'] = 'Без переадресации';
+$wb['no_flag_txt'] = 'Нет флага';
+$wb['none_txt'] = 'Отсутствует';
 ?>

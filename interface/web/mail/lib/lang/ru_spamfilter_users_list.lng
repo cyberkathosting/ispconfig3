@@ -5,6 +5,6 @@ $wb['server_id_txt'] = 'Сервер';
 $wb['priority_txt'] = 'Приоритет';
 $wb['policy_id_txt'] = 'Правило';
 $wb['fullname_txt'] = 'Имя';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Адрес эл. почты';
 $wb['add_new_record_txt'] = 'Добавить пользователя спам-фильтра';
 ?>

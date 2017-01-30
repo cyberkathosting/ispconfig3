@@ -1,11 +1,11 @@
 <?php
-$wb['list_head_txt'] = 'DNS зоны';
-$wb['active_txt'] = 'Активна?';
+$wb['list_head_txt'] = 'DNS-зоны';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['origin_txt'] = 'Зона';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'Email';
-$wb['add_new_record_txt'] = 'Добавить новую DNS Zone (SOA)';
-$wb['add_new_record_wizard_txt'] = 'Add new DNS Zone with Wizard';
-$wb['import_zone_file_txt'] = 'Import Zone File';
+$wb['mbox_txt'] = 'Адрес эл. почты';
+$wb['add_new_record_txt'] = 'Добавить новую DNS-зону (SOA)';
+$wb['add_new_record_wizard_txt'] = 'Добавить новую DNS-зону с помощью мастера';
+$wb['import_zone_file_txt'] = 'Импорт файла зоны';
 ?>

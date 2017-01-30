@@ -1,14 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Веб сайты';
-$wb['active_txt'] = 'Активен?';
+$wb['list_head_txt'] = 'Web-сайты';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['domain_txt'] = 'Домен';
-$wb['add_new_record_txt'] = 'Добавить новый вебсайт';
+$wb['add_new_record_txt'] = 'Добавить новый Web-сайт';
 $wb['domain_id_txt'] = 'ID';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['add_new_subdomain_txt'] = 'Add new subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
-$wb['domain_list_head_txt'] = 'Websites';
-$wb['aliasdomain_list_head_txt'] = 'Aliasdomains (Vhost)';
-$wb['subdomain_list_head_txt'] = 'Subdomains (Vhost)';
+$wb['parent_domain_id_txt'] = 'Web-сайт';
+$wb['add_new_subdomain_txt'] = 'Добавить новый поддомен';
+$wb['add_new_aliasdomain_txt'] = 'Добавить новый алиас домена';
+$wb['domain_list_head_txt'] = 'Web-сайты';
+$wb['aliasdomain_list_head_txt'] = 'Алиас доменов (Vhost)';
+$wb['subdomain_list_head_txt'] = 'Поддомены (Vhost)';
 ?>

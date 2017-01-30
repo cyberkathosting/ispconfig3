@@ -1,15 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'XMPP User Accounts';
+$wb['list_head_txt'] = 'Учетные записи пользователей XMPP';
 $wb['jid_txt'] = 'Jabber ID';
-$wb['active_txt'] = 'Active';
-$wb['cryptpwd_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['error_no_pwd'] = 'Password is empty.';
-$wb['password_txt'] = 'Password';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['limit_xmpp_user_txt'] = 'The max. number of xmpp accounts for your account is reached.';
+$wb['active_txt'] = 'Активно';
+$wb['cryptpwd_txt'] = 'Пароль';
+$wb['password_strength_txt'] = 'Стойкость пароля';
+$wb['error_no_pwd'] = 'Пароль пустой.';
+$wb['password_txt'] = 'Пароль';
+$wb['generate_password_txt'] = 'Создать пароль';
+$wb['repeat_password_txt'] = 'Повторить пароль';
+$wb['password_mismatch_txt'] = 'Пароли не совпадают.';
+$wb['password_match_txt'] = 'Эти пароли совпадают.';
+$wb['no_domain_perm'] = 'У вас нет прав доступа к этому домену.';
+$wb['limit_xmpp_user_txt'] = 'Макс. количество учётных записей XMPP достигнуто.';
 ?>

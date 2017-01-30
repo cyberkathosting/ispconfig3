@@ -1,13 +1,13 @@
 <?php
-$wb['email_txt'] = 'E-mail';
+$wb['email_txt'] = 'Адрес эл. почты';
 $wb['destination_txt'] = 'Получатель E-mail';
-$wb['active_txt'] = 'Активен?';
-$wb['limit_mailforward_txt'] = 'Максимальное число forwarders достигнуто.';
-$wb['duplicate_mailbox_txt'] = 'Ящик с таким именем уже существует';
-$wb['domain_txt'] = 'Domain';
-$wb['source_txt'] = 'Source Email';
-$wb['greylisting_txt'] = 'Enable greylisting';
-$wb['email_error_isemail'] = 'Please enter a valid email address.';
-$wb['send_as_txt'] = 'Send as';
+$wb['active_txt'] = 'Активно';
+$wb['limit_mailforward_txt'] = 'Максимальное число почтовых пересылок достигнуто.';
+$wb['duplicate_mailbox_txt'] = 'Почтовый ящик с таким именем уже существует.';
+$wb['domain_txt'] = 'Домен';
+$wb['source_txt'] = 'Источник Email';
+$wb['greylisting_txt'] = 'Включить серый список (Greylisting)';
+$wb['email_error_isemail'] = 'Некорректный почтовый адрес.';
+$wb['send_as_txt'] = 'Отправить как';
 $wb['send_as_exp'] = 'Allow target to send mail using this address as origin (if target is internal)';
 ?>

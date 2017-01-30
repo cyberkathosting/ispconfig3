@@ -1,6 +1,6 @@
 <?php
-$wb['domain_error_empty'] = 'The domain-name is empty';
-$wb['domain_error_unique'] = 'The domain already exists';
-$wb['domain_error_regex'] = 'This domain-name is not allowed';
-$wb['Domain'] = 'Domain';
+$wb['domain_error_empty'] = 'Домен пустой.';
+$wb['domain_error_unique'] = 'Имя должно быть уникальным.';
+$wb['domain_error_regex'] = 'Некорректное имя домена.';
+$wb['Domain'] = 'Домен';
 ?>

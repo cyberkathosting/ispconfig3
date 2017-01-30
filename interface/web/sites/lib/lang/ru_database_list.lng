@@ -1,11 +1,11 @@
 <?php
 $wb['list_head_txt'] = 'Базы данных';
-$wb['active_txt'] = 'Активен?';
+$wb['active_txt'] = 'Активно';
 $wb['remote_access_txt'] = 'Удаленный доступ';
 $wb['server_id_txt'] = 'Сервер';
-$wb['database_name_txt'] = 'Имя БД';
+$wb['database_name_txt'] = 'Имя базы данных';
 $wb['add_new_record_txt'] = 'Добавить новую БД';
-$wb['database_user_txt'] = 'Database user';
-$wb['parent_domain_id_txt'] = 'Website';
-$wb['type_txt'] = 'Type';
+$wb['database_user_txt'] = 'Пользователь базы данных';
+$wb['parent_domain_id_txt'] = 'Web-сайт';
+$wb['type_txt'] = 'Тип';
 ?>

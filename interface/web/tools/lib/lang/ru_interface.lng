@@ -1,7 +1,7 @@
 <?php
-$wb['interface_head_txt'] = 'Interface Settings';
-$wb['interface_desc_txt'] = 'Modify your interface';
-$wb['language_txt'] = 'Language';
-$wb['startmodule_txt'] = 'Startmodule';
-$wb['app_theme_txt'] = 'Design';
+$wb['interface_head_txt'] = 'Настройки интерфейса';
+$wb['interface_desc_txt'] = 'Измените свой интерфейс';
+$wb['language_txt'] = 'Язык';
+$wb['startmodule_txt'] = 'Стартовый модуль';
+$wb['app_theme_txt'] = 'Тема';
 ?>

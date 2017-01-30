@@ -1,17 +1,17 @@
 <?php
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Адрес эл. почты';
 $wb['destination_txt'] = 'Получатель';
-$wb['active_txt'] = 'Активен?';
-$wb['email_error_isemail'] = 'Почтовый адрес неправилен.';
-$wb['email_error_unique'] = 'Почтовый адрес дублируется.';
-$wb['no_domain_perm'] = 'Вы не имеете прав для этого домена.';
-$wb['destination_error_isemail'] = 'Email получателя неправилен.';
+$wb['active_txt'] = 'Активно';
+$wb['email_error_isemail'] = 'Некорректный почтовый адрес.';
+$wb['email_error_unique'] = 'Такая запись уже есть.';
+$wb['no_domain_perm'] = 'У вас нет прав доступа к этому домену.';
+$wb['destination_error_isemail'] = 'Не выбран получатель или запись некорректна.';
 $wb['limit_mailalias_txt'] = 'Максимальное число алиасов достигнуто.';
-$wb['duplicate_mailbox_txt'] = 'Ящик с таким e-mail уже существует';
-$wb['domain_txt'] = 'Domain';
-$wb['duplicate_email_alias_txt'] = 'This email alias does already exist.';
-$wb['source_txt'] = 'Alias';
-$wb['greylisting_txt'] = 'Enable greylisting';
-$wb['send_as_txt'] = 'Send as';
+$wb['duplicate_mailbox_txt'] = 'Почтовый ящик с таким именем уже существует.';
+$wb['domain_txt'] = 'Домен';
+$wb['duplicate_email_alias_txt'] = 'Этот алиас электронной почты уже существует.';
+$wb['source_txt'] = 'Алиас';
+$wb['greylisting_txt'] = 'Включить серый список (Greylisting)';
+$wb['send_as_txt'] = 'Отправить как';
 $wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
 ?>

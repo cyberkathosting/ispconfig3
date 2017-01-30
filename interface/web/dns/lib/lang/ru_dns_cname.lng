@@ -1,17 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Сервер';
 $wb['zone_txt'] = 'Зона';
-$wb['name_txt'] = 'Name';
-$wb['type_txt'] = 'Type';
-$wb['data_txt'] = 'Target Hostname';
+$wb['name_txt'] = 'Имя';
+$wb['type_txt'] = 'Тип';
+$wb['data_txt'] = 'Имя целевого хоста';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Активна?';
-$wb['limit_dns_record_txt'] = 'Максимальное число DNS записей для вашего аккаунта, превышено.';
-$wb['no_zone_perm'] = 'Вы не имеете прав для добавления DNS зоны.';
-$wb['name_error_empty'] = 'Имя узла пустое.';
+$wb['active_txt'] = 'Активно';
+$wb['limit_dns_record_txt'] = 'Максимальное число DNS-записей для вашей учетной записи достигнуто.';
+$wb['no_zone_perm'] = 'У Вас нет прав добавлять эту запись.';
+$wb['name_error_empty'] = 'Имя пустое.';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'Целевое имя узла пустое';
 $wb['data_error_regex'] = 'Целевое имя узла имеет неправильный формат';
-$wb['data_error_duplicate'] = 'Duplicate A-Record or CNAME-Record';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['data_error_duplicate'] = 'Дубликат записи';
+$wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>

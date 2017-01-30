@@ -1,12 +1,12 @@
 <?php
 $wb['list_head_txt'] = 'Почтовый ящик';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Адрес эл. почты';
 $wb['autoresponder_txt'] = 'Автоответчик';
 $wb['add_new_record_txt'] = 'Добавить новый ящик';
-$wb['name_txt'] = 'Realname';
-$wb['login_txt'] = 'Login';
-$wb['postfix_txt'] = 'Receiving';
-$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['name_txt'] = 'Реальное имя';
+$wb['login_txt'] = 'Логин';
+$wb['postfix_txt'] = 'Получатель';
+$wb['disablesmtp_txt'] = 'SMTP (отправка)';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>

@@ -1,12 +1,12 @@
 <?php
-$wb['page_head_txt'] = 'Mailbox settings';
-$wb['page_desc_txt'] = 'Here you can edit the settings for the email account.';
-$wb['email_txt'] = 'Email address';
-$wb['login_txt'] = 'Login';
-$wb['server_address_txt'] = 'Mailserver address';
-$wb['cc_txt'] = 'Send copy to (CC)';
-$wb['quota_txt'] = 'Mailbox size';
-$wb['unlimited_txt'] = 'Unlimited';
-$wb['mb_txt'] = 'MB';
-$wb['none_txt'] = 'None';
+$wb['page_head_txt'] = 'Параметры почтового ящика';
+$wb['page_desc_txt'] = 'Здесь вы можете изменить настройки учетной записи электронной почты.';
+$wb['email_txt'] = 'Адрес эл. почты';
+$wb['login_txt'] = 'Логин';
+$wb['server_address_txt'] = 'Адрес почтового сервера';
+$wb['cc_txt'] = 'Отправить копию (CC)';
+$wb['quota_txt'] = 'Размер почтового ящика';
+$wb['unlimited_txt'] = 'Безлимитный';
+$wb['mb_txt'] = 'МБ';
+$wb['none_txt'] = 'Отсутствует';
 ?>

@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Задачи';
-$wb['tstamp_txt'] = 'Дата';
+$wb['tstamp_txt'] = 'Отметка времени';
 $wb['server_id_txt'] = 'Сервер';
-$wb['dbtable_txt'] = 'Таблица БД';
+$wb['dbtable_txt'] = 'Таблица базы данных';
 $wb['action_txt'] = 'Действие';
 $wb['status_txt'] = 'Статус';
 ?>

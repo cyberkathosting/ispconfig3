@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Политика антиспам';
-$wb['policy_name_txt'] = 'Имя';
+$wb['list_head_txt'] = 'Правила антиспама';
+$wb['policy_name_txt'] = 'Имя правила';
 $wb['virus_lover_txt'] = 'Любитель вирусов';
 $wb['spam_lover_txt'] = 'Любитель спама';
 $wb['banned_files_lover_txt'] = 'Любитель запрещенных файлов';
-$wb['bad_header_lover_txt'] = 'Любитель неправильных заголовков';
-$wb['add_new_record_txt'] = 'Добавить новую политику';
+$wb['bad_header_lover_txt'] = 'Любитель кривых заголовков';
+$wb['add_new_record_txt'] = 'Добавить новое правило';
 ?>

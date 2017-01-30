@@ -5,9 +5,9 @@ $wb['package_title_txt'] = 'Пакет';
 $wb['package_description_txt'] = 'Описание';
 $wb['action_txt'] = 'Действие';
 $wb['toolsarea_head_txt'] = 'Packages';
-$wb['repoupdate_txt'] = 'Update package list';
-$wb['package_id_txt'] = 'local App-ID';
-$wb['no_packages_txt'] = 'No packages available';
-$wb['edit_txt'] = 'Edit';
-$wb['delete_txt'] = 'Delete';
+$wb['repoupdate_txt'] = 'Обновить сисок пакетов';
+$wb['package_id_txt'] = 'Локальный App-ID';
+$wb['no_packages_txt'] = 'Нет доступных пакетов';
+$wb['edit_txt'] = 'Изменить';
+$wb['delete_txt'] = 'Удалить';
 ?>

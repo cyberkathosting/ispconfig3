@@ -1,12 +1,12 @@
 <?php
-$wb['login_1_txt'] = 'Do you want to login as user';
-$wb['login_2_txt'] = 'If you do so, you can \\"go back\\" by clicking at logout.';
-$wb['btn_yes_txt'] = 'Yes, login as Client';
-$wb['btn_back_txt'] = 'No, back to list';
-$wb['udp_port_help_txt'] = 'Separated by comma';
-$wb['active_txt'] = 'Active';
-$wb['firewall_error_unique'] = 'There is already a firewall record for this server.';
-$wb['tcp_ports_error_regex'] = 'Character not allowed in tcp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
-$wb['udp_ports_error_regex'] = 'Character not allowed in udp port definition. Allowed characters are numbers, \\":\\" and \\",\\".';
-$wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+$wb['login_1_txt'] = 'Вы хотите войти как пользователь';
+$wb['login_2_txt'] = 'Если вы это сделаете, вы можете "вернуться", нажав на "выход".';
+$wb['btn_yes_txt'] = 'Да, войти как Клиент';
+$wb['btn_back_txt'] = 'Нет, назад к списку';
+$wb['udp_port_help_txt'] = 'Перечислить через запятую';
+$wb['active_txt'] = 'Активно';
+$wb['firewall_error_unique'] = 'Уже есть такая запись бредмауэра для этого сервера.';
+$wb['tcp_ports_error_regex'] = 'Недопустимый символ в указании tcp порта. Корректные сиволы - цифры, ":" и ","';
+$wb['udp_ports_error_regex'] = 'Некорректный символ в указании UDP порта. Допустимые сиволы - цифры, ":" и ","';
+$wb['login_as_or_logout_txt'] = 'Вы хотите заново войти как {UTYPE} или выйти?';
 ?>

@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Website harddisk quota';
-$wb['domain_txt'] = 'Domain / Website';
-$wb['system_user_txt'] = 'Linux user';
-$wb['used_txt'] = 'Used space';
-$wb['hard_txt'] = 'Hard limit';
-$wb['soft_txt'] = 'Soft limit';
-$wb['files_txt'] = 'Single files';
+$wb['list_head_txt'] = 'Квота жесткого дивка для сайта';
+$wb['domain_txt'] = 'Домен/Web-сайт';
+$wb['system_user_txt'] = 'Пользователь Linux';
+$wb['used_txt'] = 'Используемое пространство';
+$wb['hard_txt'] = 'Жесткий лимит';
+$wb['soft_txt'] = 'Мягкий лимит';
+$wb['files_txt'] = 'Одиночные файлы';
 ?>

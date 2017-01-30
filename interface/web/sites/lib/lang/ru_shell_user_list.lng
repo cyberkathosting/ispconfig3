@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Shell Пользователь';
-$wb['active_txt'] = 'Активна?';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['parent_domain_id_txt'] = 'Сайт';
-$wb['username_txt'] = 'Пользователь';
-$wb['add_new_record_txt'] = 'Добавить Shell-пользователя';
+$wb['username_txt'] = 'Логин';
+$wb['add_new_record_txt'] = 'Добавить нового Shell-пользователя';
 ?>

@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'ISPConfig логи';
-$wb['tstamp_txt'] = 'Дата';
+$wb['list_head_txt'] = 'Журналы ISPConfig';
+$wb['tstamp_txt'] = 'Отметка времени';
 $wb['server_id_txt'] = 'Сервер';
-$wb['loglevel_txt'] = 'Loglevel';
+$wb['loglevel_txt'] = 'Уровень журналирования';
 $wb['message_txt'] = 'Сообщение';
 ?>

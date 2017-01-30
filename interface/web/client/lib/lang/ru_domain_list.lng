@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Domains';
-$wb['add_new_record_txt'] = 'Add new Domain';
-$wb['domain_txt'] = 'Domain';
-$wb['user_txt'] = 'Client';
+$wb['list_head_txt'] = 'Домены';
+$wb['add_new_record_txt'] = 'Добавить новый домен';
+$wb['domain_txt'] = 'Домен';
+$wb['user_txt'] = 'Клиент';
 ?>
