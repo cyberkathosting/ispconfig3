@@ -3421,6 +3421,7 @@ class apache2_plugin {
 
 		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
 		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
+		if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
 
 		return symlink($cfrom, $to);
 	}
