@@ -259,7 +259,7 @@ if(count($_POST) > 0) {
 							}
 						}
 						
-						$app->plugin->raiseEvent('login', $this);
+						$app->plugin->raiseEvent('login', $username);
 						
 						//* Save successfull login message to var
 						$authlog = 'Successful login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
