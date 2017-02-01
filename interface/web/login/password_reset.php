@@ -85,6 +85,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != '443') $server_domain .= ':' . $_SERVER['SERVER_PORT'];
 			
 			$app->uses('getconf,ispcmail');
+			$server_config_array = $app->getconf->get_global_config();
 			$mail_config = $server_config_array['mail'];
 			if($mail_config['smtp_enabled'] == 'y') {
 				$mail_config['use_smtp'] = true;
