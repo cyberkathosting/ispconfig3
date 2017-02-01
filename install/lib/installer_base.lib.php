@@ -1546,7 +1546,7 @@ class installer_base {
 			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
-  //backup old settings and write new ones
+		//backup old settings and write new ones
 		exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; done > $config_dir/conf/.backup~");
 		exec("echo yes > $config_dir/conf/BrokenClientsCompatibility");
 		exec("echo yes > $config_dir/conf/ChrootEveryone");
