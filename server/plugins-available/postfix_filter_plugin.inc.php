@@ -79,6 +79,8 @@ class postfix_filter_plugin {
 		global $app, $conf;
 
 		$type = $data["new"]["type"];
+		$restart = false;
+
 		if($type != '') {
 			$sql = "SELECT * FROM mail_content_filter WHERE server_id = ? AND type = ? AND active = 'y'";
 			$rules = $app->db->queryAllRecords($sql, $conf["server_id"], $type);
@@ -91,21 +93,25 @@ class postfix_filter_plugin {
 			if($type == 'header') {
 				file_put_contents('/etc/postfix/header_checks', $content);
 				$app->log("Writing /etc/postfix/header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'mime_header') {
 				file_put_contents('/etc/postfix/mime_header_checks', $content);
 				$app->log("Writing /etc/postfix/mime_header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'nested_header') {
 				file_put_contents('/etc/postfix/nested_header_checks', $content);
 				$app->log("Writing /etc/postfix/nested_header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'body') {
 				file_put_contents('/etc/postfix/body_checks', $content);
 				$app->log("Writing /etc/postfix/body_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 		}
 
@@ -122,23 +128,28 @@ class postfix_filter_plugin {
 			if($type == 'header') {
 				file_put_contents('/etc/postfix/header_checks', $content);
 				$app->log("Writing /etc/postfix/header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'mime_header') {
 				file_put_contents('/etc/postfix/mime_header_checks', $content);
 				$app->log("Writing /etc/postfix/mime_header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'nested_header') {
 				file_put_contents('/etc/postfix/nested_header_checks', $content);
 				$app->log("Writing /etc/postfix/nested_header_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 
 			if($type == 'body') {
 				file_put_contents('/etc/postfix/body_checks', $content);
 				$app->log("Writing /etc/postfix/body_checks", LOGLEVEL_DEBUG);
+				$restart = true;
 			}
 		}
+		if($restart) exec('postfix reload');
 	}
 
 	function delete($event_name, $data) {
