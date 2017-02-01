@@ -1546,31 +1546,31 @@ class installer_base {
 			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
-		//backup old settings and write new ones
+		//* backup old settings
 		exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; done > $config_dir/conf/.backup~");
-		//improves client compatibility
+		//* improves client compatibility
 		exec("echo yes > $config_dir/conf/BrokenClientsCompatibility");
-		//needed for ispconfig implementation
+		//* needed for ispconfig implementation
 		exec("echo yes > $config_dir/conf/ChrootEveryone");
-		//improves client compatibility
+		//* improves client compatibility
 		exec("echo yes > $config_dir/conf/DisplayDotFiles");
-		//improves performance
+		//* improves performance
 		exec("echo yes > $config_dir/conf/DontResolve");
-		//complies with RFC2640
+		//* complies with RFC2640
 		exec("echo UTF-8 > $config_dir/conf/FSCharset");
-		//provides welcome message
+		//* provides welcome message
 		exec("echo $config_dir/welcome.msg > $config_dir/conf/FortunesFile");
-		//increases the clients limit from 50 (default) to 128
-		exec("echo 128 > $config_dir/conf/MaxClientsNumber");
-		//prevents DoS attack from the same IP address
-		exec("echo 16 > $config_dir/conf/MaxClientsPerIP");
-		//needed for ispconfig implementation
+		//* increases the clients limit from 50 (default) to 1024
+		exec("echo 1024 > $config_dir/conf/MaxClientsNumber");
+		//* prevents DoS attack from the same IP address
+		exec("echo 64 > $config_dir/conf/MaxClientsPerIP");
+		//* needed for ispconfig implementation
 		exec("echo $config_dir/db/mysql.conf > $config_dir/conf/MySQLConfigFile");
-		//needed for ispconfig implementation
+		//* needed for ispconfig implementation
 		exec("echo yes > $config_dir/conf/NoAnonymous");
-		//grade A encryption
+		//* grade A encryption
 		exec("echo ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:\!RC4 > $config_dir/conf/TLSCipherSuite");
-		//hides implementation details
+		//* hides implementation details
 		exec("echo Welcome > $config_dir/welcome.msg");
 	}
 
