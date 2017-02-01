@@ -1547,19 +1547,19 @@ class installer_base {
 		}
 
   //backup old settings and write new ones
-  exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; done > $config_dir/conf/.backup~");
-  exec("echo yes > $config_dir/conf/BrokenClientsCompatibility");
-  exec("echo yes > $config_dir/conf/ChrootEveryone");
-  exec("echo yes > $config_dir/conf/DisplayDotFiles");
-  exec("echo yes > $config_dir/conf/DontResolve");
-  exec("echo UTF-8 > $config_dir/conf/FSCharset");
-  exec("echo $config_dir/welcome.msg > $config_dir/conf/FortunesFile");
-  exec("echo 128 > $config_dir/conf/MaxClientsNumber");
-  exec("echo 16 > $config_dir/conf/MaxClientsPerIP");
-  exec("echo $config_dir/db/mysql.conf > $config_dir/conf/MySQLConfigFile");
-  exec("echo yes > $config_dir/conf/NoAnonymous");
-  exec("echo ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:\!RC4 > $config_dir/conf/TLSCipherSuite");
-  exec("echo Welcome > $config_dir/welcome.msg");
+		exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; done > $config_dir/conf/.backup~");
+		exec("echo yes > $config_dir/conf/BrokenClientsCompatibility");
+		exec("echo yes > $config_dir/conf/ChrootEveryone");
+		exec("echo yes > $config_dir/conf/DisplayDotFiles");
+		exec("echo yes > $config_dir/conf/DontResolve");
+		exec("echo UTF-8 > $config_dir/conf/FSCharset");
+		exec("echo $config_dir/welcome.msg > $config_dir/conf/FortunesFile");
+		exec("echo 128 > $config_dir/conf/MaxClientsNumber");
+		exec("echo 16 > $config_dir/conf/MaxClientsPerIP");
+		exec("echo $config_dir/db/mysql.conf > $config_dir/conf/MySQLConfigFile");
+		exec("echo yes > $config_dir/conf/NoAnonymous");
+		exec("echo ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:\!RC4 > $config_dir/conf/TLSCipherSuite");
+		exec("echo Welcome > $config_dir/welcome.msg");
 	}
 
 	public function configure_mydns() {
