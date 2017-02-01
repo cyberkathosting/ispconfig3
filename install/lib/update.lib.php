@@ -125,7 +125,7 @@ function updateDbAndIni() {
 
 	//* check sql-mode
 	$check_sql_mode = $inst->db->queryOneRecord("SELECT @@sql_mode");
-	if($check_sql_mode['@@sql_mode']!='' && strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')===false) {
+	if ($check_sql_mode['@@sql_mode'] != '' && strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')===false) {
 		echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
 		echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
 		echo"to the mysqld-section in your mysql-config on the server\n";
