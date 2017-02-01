@@ -226,8 +226,7 @@ class installer_base {
 
 		//* check sql-mode
 		$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
-
-		if(!strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')) {
+		if($check_sql_mode['@@sql_mode']!='' && strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')===false) {
 			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
 			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
 			echo"to the mysqld-section in your mysql-config and restart mysqld afterwards\n";
