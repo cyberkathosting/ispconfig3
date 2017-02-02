@@ -226,11 +226,10 @@ class installer_base {
 
 		//* check sql-mode
 		$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
-
-		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
+		if ($check_sql_mode['@@sql_mode'] != '' && strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')===false) {
 			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
 			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
-			echo"to the mysqld-section in your mysql-config and restart mysqld afterwards\n";
+			echo"to the mysqld-section in your mysql-config on the server\n";
 			die();
 		}
 
@@ -1534,11 +1533,6 @@ class installer_base {
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
-		// **enable chrooting
-		//exec('mkdir -p '.$config_dir.'/conf/ChrootEveryone');
-		exec('echo "yes" > '.$config_dir.'/conf/ChrootEveryone');
-		exec('echo "yes" > '.$config_dir.'/conf/BrokenClientsCompatibility');
-		exec('echo "yes" > '.$config_dir.'/conf/DisplayDotFiles');
 
 		if(is_file('/etc/default/pure-ftpd-common')) {
 			replaceLine('/etc/default/pure-ftpd-common', 'STANDALONE_OR_INETD=inetd', 'STANDALONE_OR_INETD=standalone', 1, 0);
@@ -1551,10 +1545,36 @@ class installer_base {
 			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
-		if(!is_file('/etc/pure-ftpd/conf/DontResolve')) exec('echo "yes" > /etc/pure-ftpd/conf/DontResolve');
-		
-		if(!is_file('/etc/pure-ftpd/welcome.msg')) exec('echo "FTP managed by ISPConfig" > /etc/pure-ftpd/welcome.msg');
-		if(!is_file('/etc/pure-ftpd/conf/FortunesFile')) exec('echo "/etc/pure-ftpd/welcome.msg" > /etc/pure-ftpd/conf/FortunesFile');
+		if(!$this->is_update) {
+			//* backup old settings
+			exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; printf '\n'; done 2>&1 >$config_dir/conf/.backup~");
+			//* clean common unused settings
+			exec("rm $config_dir/conf/MinUID $config_dir/conf/PAMAuthentication $config_dir/conf/PureDB $config_dir/conf/UnixAuthentication 2> /dev/null");
+			//* improves client compatibility
+			file_put_contents("$config_dir/conf/BrokenClientsCompatibility","yes");
+			//* needed for ispconfig implementation
+			file_put_contents("$config_dir/conf/ChrootEveryone","yes");
+			//* improves client compatibility
+			file_put_contents("$config_dir/conf/DisplayDotFiles","yes");
+			//* improves performance
+			file_put_contents("$config_dir/conf/DontResolve","yes");
+			//* complies with RFC2640
+			file_put_contents("$config_dir/conf/FSCharset","UTF-8");
+			//* provides welcome message
+			file_put_contents("$config_dir/conf/FortunesFile","$config_dir/welcome.msg");
+			//* increases the clients limit from 50 (default) to 1024
+			file_put_contents("$config_dir/conf/MaxClientsNumber","1024");
+			//* prevents DoS attack from the same IP address
+			file_put_contents("$config_dir/conf/MaxClientsPerIP","64");
+			//* needed for ispconfig implementation
+			file_put_contents("$config_dir/conf/MySQLConfigFile","$config_dir/db/mysql.conf");
+			//* recommended for ispconfig implementation
+			file_put_contents("$config_dir/conf/NoAnonymous","yes");
+			//* grade A encryption
+			file_put_contents("$config_dir/conf/TLSCipherSuite","ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:!RC4");
+			//* hides implementation details
+			file_put_contents("$config_dir/welcome.msg","Welcome");
+		}
 	}
 
 	public function configure_mydns() {
