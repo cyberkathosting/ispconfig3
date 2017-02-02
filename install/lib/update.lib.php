@@ -123,14 +123,7 @@ function checkDbHealth() {
 function updateDbAndIni() {
 	global $inst, $conf;
 
-	//* check sql-mode
-	$check_sql_mode = $inst->db->queryOneRecord("SELECT @@sql_mode");
-	if ($check_sql_mode['@@sql_mode'] != '' && strpos($check_sql_mode['@@sql_mode'],'NO_ENGINE_SUBSTITUTION')===false) {
-		echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
-		echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
-		echo"to the mysqld-section in your mysql-config on the server\n";
-		die();
-	}
+	$inst->db->query("SET sql_mode = ''");
 
 	//* Update $conf array with values from the server.ini that shall be preserved
 	$tmp = $inst->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
