@@ -110,6 +110,7 @@ class tform_actions {
 		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'].':'.'on_before_update', $this);
 
 		$ext_where = '';
+		// pre-fill dataRecord array with elements from database to avoid overwriting fields set by admin but hidden for client
 		$tmp_old_record = $app->tform->getDataRecord($this->id);
 		if($tmp_old_record && is_array($tmp_old_record)) $this->dataRecord = array_merge($tmp_old_record, $this->dataRecord);
 		$sql = $app->tform->getSQL($this->dataRecord, $app->tform->getCurrentTab(), 'UPDATE', $this->id, $ext_where);
