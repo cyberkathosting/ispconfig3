@@ -224,7 +224,8 @@ class installer_base {
 	public function configure_database() {
 		global $conf;
 
-		$this->db->query("SET sql_mode = ''");
+		//* prevent substitution of ENGINE=MyISAM
+		$this->db->query("SET sql_mode = 'NO_ENGINE_SUBSTITUTION'");
 
 		//** Create the database
 		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
