@@ -955,7 +955,7 @@ function tRNG(){
 	exec("cat $path > $test & PID=\$!; sleep $time; kill \$PID");
 	if(($result=filesize($test)) < $warn) {
 		echo "$result bytes\n[WARN] these services may fail: {$conf['tRNG']}minimum recommended: $warn\n";
-	}else echo " $result bytes: OK\n";
+	}else echo "$result bytes OK\n";
 	unlink($test);
 }
 ?>
