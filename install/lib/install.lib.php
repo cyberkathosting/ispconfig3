@@ -950,12 +950,12 @@ function getapachemodules() {
 
 function tRNG(){
 	global $conf;
-	$path='/dev/random';$test='/tmp/ispconfig.tRNG';$time=8;$warn=8192;
-	echo "Testing $time seconds throughput of $path ...";
+	$path='/dev/random';$test='/tmp/ispconfig.tRNG';$time=2;$warn=8192;
+	echo "Testing $time seconds throughput of $path ... ";
 	exec("cat $path > $test & PID=\$!; sleep $time; kill \$PID");
 	if(($result=filesize($test)) < $warn) {
-		echo "\n[WARN] these services may fail: {$conf['tRNG']}result: $result bytes, minimum recommended: $warn\n";
-	}else echo " OK\n";
+		echo "$result bytes\n[WARN] these services may fail: {$conf['tRNG']}minimum recommended: $warn\n";
+	}else echo " $result bytes: OK\n";
 	unlink($test);
 }
 ?>
