@@ -278,6 +278,12 @@ class mysql_clientdb_plugin {
 				return;
 			}
 			
+			// check if the database exists
+			if($data['new']['database_name'] == $data['old']['database_name']) {
+				$result = $link->query("SHOW DATABASES LIKE '".$link->escape_string($data['new']['database_name'])."'");
+				if($result->num_rows === 0) $this->db_insert($event_name, $data);
+			}
+
 			// get the users for this database
 			$db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['new']['database_user_id']);
 			$old_db_user = $app->db->queryOneRecord("SELECT `database_user`, `database_password` FROM `web_database_user` WHERE `database_user_id` = ?", $data['old']['database_user_id']);
