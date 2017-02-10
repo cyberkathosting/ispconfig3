@@ -139,6 +139,9 @@ if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$di
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 
+//** tRNG dependencies
+$conf['tRNG']='';
+
 //** Get hostname
 exec('hostname -f', $tmp_out);
 $conf['hostname'] = $tmp_out[0];
@@ -407,9 +410,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		} elseif($conf['bind']['installed'] == true) {
 			swriteln('Configuring BIND');
 			$inst->configure_bind();
-			if(!is_installed('haveged')) {
-				swriteln("[INFO] haveged not detected - DNSSEC can fail");
-			}
+			$conf['tRNG'] .= 'DNSSEC with BIND, ';
 		} else {
 			swriteln('Configuring MyDNS');
 			$inst->configure_mydns();
@@ -569,6 +570,9 @@ if($reconfigure_services_answer == 'yes') {
 
 //* Set default servers
 setDefaultServers();
+
+//* test tRNG
+if($conf['tRNG']) tRNG();
 
 $inst->create_mount_script();
 

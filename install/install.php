@@ -174,6 +174,8 @@ $conf['language_file_import_enabled'] = true;
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard', 'expert'), 'standard','install_mode');
 
+//** tRNG dependencies
+$conf['tRNG']='';
 
 //** Get the hostname
 $tmp_out = array();
@@ -428,9 +430,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure DNS 
 		swriteln('Configuring BIND');
 		$inst->configure_bind();
 		$conf['services']['dns'] = true;
-		if(!is_installed('haveged')) {
-			swriteln("[INFO] haveged not detected - DNSSEC can fail");
-		}
+		$conf['tRNG'] .= 'DNSSEC with BIND, ';
 	}
 	//* Configure MyDNS
 	if($conf['mydns']['installed']) {
@@ -623,6 +623,8 @@ if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') s
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
 if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
 
+//* test tRNG
+if($conf['tRNG']) tRNG();
 
 $inst->create_mount_script();
 
