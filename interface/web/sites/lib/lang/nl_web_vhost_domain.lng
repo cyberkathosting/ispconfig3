@@ -148,4 +148,8 @@ $wb['https_port_txt'] = 'HTTPS Poort';
 $wb['http_port_error_regex'] = 'HTTP Poort niet correct.';
 $wb['https_port_error_regex'] = 'HTTPS Poort niet correct.';
 $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
+$wb['error_ipv4_change_forbidden'] = 'The IP cannot be changed. Please contact your administrator if you want to change the IPv4 address.';
+$wb['error_ipv6_change_forbidden'] = 'The IP cannot be changed. Please contact your administrator if you want to change the IPv6 address.';
+$wb['error_domain_change_forbidden'] = 'The domain name cannot be changed. Please contact your administrator if you want to change the domain name.';
+$wb['error_server_change_not_possible'] = 'The server cannot be changed.';
 ?>
