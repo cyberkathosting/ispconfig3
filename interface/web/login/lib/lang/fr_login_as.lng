@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'There is already a firewall record for this serv
 $wb['tcp_ports_error_regex'] = 'Caractère non autorisé dans la règle de port TCP. Les caractères autorisés sont : les chiffres, « : » et « , ».';
 $wb['udp_ports_error_regex'] = 'Caractère non autorisé dans la règle de port UDP. Les caractères autorisés sont : les chiffres, « : » et « , ».';
 $wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>

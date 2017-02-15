@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'Bu sunucu için bir güvenlik duvarı kaydı zat
 $wb['tcp_ports_error_regex'] = 'TCP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, \\":\\" ve \\",\\" karakterleri kullanılabilir.';
 $wb['udp_ports_error_regex'] = 'UDP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, \\":\\" ve \\",\\" karakterleri kullanılabilir.';
 $wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>
