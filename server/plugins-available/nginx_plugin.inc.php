@@ -1329,13 +1329,15 @@ class nginx_plugin {
 			//* check if we have already a Let's Encrypt cert
 			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
-				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-				$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
+				if(!empty($lddomain)) {
+					$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+					$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
+				}
 				
 				$success = false;
 				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
 				$letsencrypt = reset($letsencrypt);
-				if(is_executable($letsencrypt)) {
+				if(is_executable($letsencrypt) && !empty($lddomain)) {
 					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
