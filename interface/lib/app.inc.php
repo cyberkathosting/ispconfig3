@@ -283,6 +283,7 @@ class app {
 			$this->tpl->setVar('datalog_changes_end_txt', $this->lng('datalog_changes_end_txt'));
 			$this->tpl->setVar('datalog_changes_count', $datalog['count']);
 			$this->tpl->setLoop('datalog_changes', $datalog['entries']);
+			$this->tpl->setVar('datalog_changes_close_txt', $this->lng('datalog_changes_close_txt'));
 		} else {
 			$this->tpl->setVar('app_version', '');
 		}

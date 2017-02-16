@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'Υπάρχει ήδη μια εγγραφή Fire
 $wb['tcp_ports_error_regex'] = 'Μη έγκυρος χαρακτήρας για τον ορισμός θύρας tcp. Επιτρεπόμενοι χαρακτήρες είναι οι αριθμοί, η \\":\\" και οι \\",\\".';
 $wb['udp_ports_error_regex'] = 'Μη έγκυρος χαρακτήρας για τον ορισμός θύρας udp. Επιτρεπόμενοι χαρακτήρες είναι οι αριθμοί, η \\":\\" και οι \\",\\".';
 $wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>
