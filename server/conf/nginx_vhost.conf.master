@@ -114,10 +114,18 @@ server {
         access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
 
         ## Disable .htaccess and other hidden files
-        location ~ /\.(?!well-known/acme-challenge/) {
-            deny all;
-            access_log off;
-            log_not_found off;
+		location ~ /\. {
+			deny all;
+		}
+
+        ## Allow access for .well-known/acme-challenge
+		location ^~ /.well-known/acme-challenge/ {
+			access_log off;
+			log_not_found off;
+			root /usr/local/ispconfig/interface/acme/;
+			autoindex off;
+			index index.html;
+			try_files $uri $uri/ =404;
         }
 		
         location = /favicon.ico {
@@ -302,12 +310,6 @@ server {
 </tmpl_if>
         
         server_name <tmpl_var name='rewrite_domain'>;
-
-location ~ /\.well-known/acme-challenge/ {
-	   root /usr/local/ispconfig/interface/acme/;
-	   index index.html index.htm;
-	   try_files $uri =404;
-}
 
 <tmpl_if name='alias_seo_redirects2'>
 <tmpl_loop name="alias_seo_redirects2">
