@@ -124,7 +124,7 @@ function updateDbAndIni() {
 	global $inst, $conf;
 
 	//* ensure no modes with errors for ENGINE=MyISAM
-	$this->db->query("SET sql_mode = ''");
+	$inst->db->query("SET sql_mode = ''");
 
 	//* Update $conf array with values from the server.ini that shall be preserved
 	$tmp = $inst->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
