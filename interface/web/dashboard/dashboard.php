@@ -121,7 +121,7 @@ if(isset($_SESSION['show_error_msg'])) {
 */
 if($_SESSION["s"]["user"]["typ"] == 'admin') {
 	if(!isset($_SESSION['s']['new_ispconfig_version'])) {
-		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+		$new_version = @file_get_contents('https://www.ispconfig.org/downloads/ispconfig3_version.txt');
 		$_SESSION['s']['new_ispconfig_version'] = trim($new_version);
 	}
 	$v1 = ISPC_APP_VERSION;
