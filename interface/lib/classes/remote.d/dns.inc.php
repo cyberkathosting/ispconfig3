@@ -882,6 +882,65 @@ class remoting_dns extends remoting {
 		}
 	}
 
+	// ----------------------------------------------------------------------------------------------------------------
+
+	//* Get record by name / Useful for Dynamic DNS
+	public function dns_a_get_by_name($session_id, $params) 
+	{		
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'dns_a_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		if(!empty($params))	{
+			$zone     	= $app->functions->intval($params['zone']);
+			$name      	= $params['name'];
+			$sql 		= "SELECT id, zone, name, type, data, active FROM dns_rr WHERE zone = ? AND name = ? ";
+			$result    	= $app->db->queryOneRecord($sql,$zone,$name);
+			return      $result;
+
+		}
+		return false;
+	}
+
+	// Get master zone by ispconfig client id
+	public function dns_zone_get_status_by_user($session_id, $client_id, $server_id) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			$this->server->fault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		if (!empty($client_id)) {
+			$server_id      = $app->functions->intval($server_id);
+			$client_id      = $app->functions->intval($client_id);
+			$sql            = "SELECT id, origin, d.active 	FROM dns_soa d INNER JOIN sys_user s on (d.sys_groupid = s.default_group) WHERE client_id = ? AND server_id = ? ORDER BY origin ASC";
+			$result         = $app->db->queryAllRecords($sql, $client_id, $server_id);
+			return          $result;
+		}
+		return false;
+	}
+	
+	// Get slave zone by ispconfig client id
+	public function dnz_zone_get_slave_by_user($session_id, $client_id, $server_id){
+		global $app;
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		if (!empty($client_id)) {
+			$server_id      = $app->functions->intval($server_id);
+			$client_id      = $app->functions->intval($client_id);
+			$sql			= "SELECT d.id, d.origin, d.ns, d.active FROM dns_slave d INNER JOIN sys_user s on (d.sys_groupid = s.default_group) WHERE client_id = ? AND server_id = ?  ORDER BY origin ASC";
+			$result         = $app->db->queryAllRecords($sql, $client_id, $server_id);
+			return          $result;
+		}
+		return false;
+	}	
+	
 }
 
 ?>
