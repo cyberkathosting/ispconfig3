@@ -339,12 +339,24 @@
 			    </Directory>
 				<Directory {tmpl_var name='web_document_root_www'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php5-fcgi
+                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+                                SetHandler php5-fcgi
+                            </If>
+                    <tmpl_else>
+                            SetHandler php5-fcgi
+                    </tmpl_if>
 					</FilesMatch>
 				</Directory>
 				<Directory {tmpl_var name='web_document_root'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php5-fcgi
+                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+                                SetHandler php5-fcgi
+                            </If>
+                    <tmpl_else>
+                            SetHandler php5-fcgi
+                    </tmpl_if>
 					</FilesMatch>
 				</Directory>
                 Action php5-fcgi /php5-fcgi virtual
@@ -361,7 +373,13 @@
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
-						SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+                                    SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+                            </If>
+                    <tmpl_else>
+                            SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+                    </tmpl_if>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -369,7 +387,13 @@
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
-						SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+                                    SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+                            </If>
+                    <tmpl_else>
+                            SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+                    </tmpl_if>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
