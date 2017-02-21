@@ -341,7 +341,7 @@
 					<FilesMatch "\.php[345]?$">
                     <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
                             <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                    SetHandler php5-fcgi
+                                SetHandler php5-fcgi
                             </If>
                     <tmpl_else>
                             SetHandler php5-fcgi
@@ -352,7 +352,7 @@
 					<FilesMatch "\.php[345]?$">
                     <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
                             <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                    SetHandler php5-fcgi
+                                SetHandler php5-fcgi
                             </If>
                     <tmpl_else>
                             SetHandler php5-fcgi
