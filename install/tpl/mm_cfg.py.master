@@ -73,7 +73,7 @@ add_virtualhost(DEFAULT_URL_HOST, DEFAULT_EMAIL_HOST)
 
 #-------------------------------------------------------------
 # The default language for this server.
-DEFAULT_SERVER_LANGUAGE = {default_language}
+DEFAULT_SERVER_LANGUAGE = '{default_language}'
 
 #-------------------------------------------------------------
 # Iirc this was used in pre 2.1, leave it for now
