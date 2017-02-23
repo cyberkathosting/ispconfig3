@@ -1008,64 +1008,7 @@ class remoting_sites extends remoting {
 		return $app->quota_lib->get_databasequota_data($client_id, false);
 	}
 	
-	// ----------------------------------------------------------------------------------------------------------------
-
-	// Get ftp user by ispconfig client id and site id
-	public function sites_web_ftp_get_by_id($session_id, $client_id, $parent_domain_id)
-	{ 
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'sites_ftp_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		
-		if (!empty($client_id) ) {
-			$client_id    			= $app->functions->intval($client_id);
-			$parent_domain_id      	= $app->functions->intval($parent_domain_id);
-			$sql            = "SELECT ftp_user_id, f.username, f.active FROM ftp_user f INNER JOIN sys_user s on(f.sys_groupid = s.default_group) WHERE client_id = ? AND parent_domain_id = ? ORDER BY f.username ASC" ;
-			$result         = $app->db->queryAllRecords($sql,$client_id, $parent_domain_id);
-			return          $result;
-		}
-		return false;
-	}
 	
-	// Get site by ispconfig client id
-	public function sites_web_domain_get_by_id($session_id, $client_id)
-	{ 
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'sites_web_domain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		
-		if (!empty($client_id) ) {
-			$client_id      = $app->functions->intval($client_id);
-			$sql            = "SELECT w.domain_id, w.domain, w.type, w.hd_quota, w.active, w.parent_domain_id, svr.server_name  FROM web_domain w INNER JOIN sys_user AS s ON(w.sys_groupid = s.default_group) INNER JOIN server AS svr ON (w.server_id = svr.server_id) WHERE s.client_id = ? ORDER BY domain ASC" ;
-			$result         = $app->db->queryAllRecords($sql,$client_id);
-			return          $result;
-		}
-		return false;
-	}
-	
-	// Get id website by name
-	public function website_get_id_by_name($session_id, $params) 
-	{		
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'sites_web_domain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}	
-		if(!empty($params))	{
-			$sql = "SELECT domain_id FROM web_domain WHERE domain = ?";
-			$result         = $app->db->queryOneRecord($sql, $params);
-			return          $result;
-
-		}
-		return false;
-	}
 }
 
 ?>
