@@ -680,8 +680,34 @@ class mysql_clientdb_plugin {
 			}
 
 			if($data['new']['database_password'] != $data['old']['database_password'] && $data['new']['database_password'] != '') {
-				$link->query("SET PASSWORD FOR '".$link->escape_string($data['new']['database_user'])."'@'$db_host' = '".$link->escape_string($data['new']['database_password'])."';");
-				$app->log('Changing MySQL user password for: '.$data['new']['database_user'].'@'.$db_host, LOGLEVEL_DEBUG);
+				$result = $app->db->queryOneRecord("SELECT VERSION() as version");
+				$dbversion = $result['version'];
+
+				// mariadb
+				if(stripos($dbversion, 'mariadb') !== false) {
+					$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
+						$link->escape_string($data['new']['database_user']),
+						$db_host,
+						$link->escape_string($data['new']['database_password']));
+					$link->query($query);
+				}
+				// mysql
+				else {
+					if (version_compare($dbversion, '5.7') >= 0) {
+						$query = sprintf("ALTER USER IF EXISTS '%s'@'%s' IDENTIFIED WITH mysql_native_password AS '%s'",
+							$link->escape_string($data['new']['database_user']),
+							$db_host,
+							$link->escape_string($data['new']['database_password']));
+						$link->query($query);
+					} else {
+						$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
+							$link->escape_string($data['new']['database_user']),
+							$db_host,
+							$link->escape_string($data['new']['database_password']));
+						$link->query($query);
+					}
+					$app->log('Changing MySQL user password for: ' . $data['new']['database_user'] . '@' . $db_host, LOGLEVEL_DEBUG);
+				}
 			}
 		}
 
