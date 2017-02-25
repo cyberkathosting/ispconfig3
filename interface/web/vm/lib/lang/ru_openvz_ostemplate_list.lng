@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'OpenVZ OSTemplate';
-$wb['active_txt'] = 'Active';
-$wb['template_name_txt'] = 'Template name';
-$wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Exists on all servers';
+$wb['list_head_txt'] = 'Шаблоны ОС OpenVZ';
+$wb['active_txt'] = 'Активно';
+$wb['template_name_txt'] = 'Имя шаблона';
+$wb['server_id_txt'] = 'Сервер';
+$wb['allservers_txt'] = 'Существует на всех серверах';
 $wb['ostemplate_id_txt'] = 'ID';
 ?>

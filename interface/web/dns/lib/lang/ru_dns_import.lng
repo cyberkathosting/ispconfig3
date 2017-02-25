@@ -1,16 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['client_txt'] = 'Client';
-$wb['btn_save_txt'] = 'Import Zonefile';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['domain_txt'] = 'Domain';
-$wb['zone_file_successfully_imported_txt'] = 'The zone file has successfully been imported!';
-$wb['error_no_valid_zone_file_txt'] = 'This appears to be no valid zone file!';
-$wb['zonefile_to_import_txt'] = 'Zone File';
-$wb['domain_field_desc_txt'] = 'Can be left empty if domain name is in the filename or the zone-file content.';
-$wb['title'] = 'Import Zone Files';
-$wb['no_file_uploaded_error'] = 'No zonefile uploaded';
-$wb['zone_file_import_txt'] = 'Zone File Import';
-$wb['error_no_server_id'] = 'No server provided.';
-$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['server_id_txt'] = 'Сервер';
+$wb['client_txt'] = 'Клиент';
+$wb['btn_save_txt'] = 'Импорт файла зоны';
+$wb['btn_cancel_txt'] = 'Отменить';
+$wb['domain_txt'] = 'Домен';
+$wb['zone_file_successfully_imported_txt'] = 'Файл зоны успешно импортирован!';
+$wb['error_no_valid_zone_file_txt'] = 'Вы предоставили не правильный файл зоны!';
+$wb['zonefile_to_import_txt'] = 'Файл зоны';
+$wb['domain_field_desc_txt'] = 'Можно оставить пустым, если имя файла или содержимое файла содержит имя домена.';
+$wb['title'] = 'Импорт файлов зоны';
+$wb['no_file_uploaded_error'] = 'Файл зоны не загружен.';
+$wb['zone_file_import_txt'] = 'Импорт файла зоны';
+$wb['error_no_server_id'] = 'Не указан сервер.';
+$wb['error_not_allowed_server_id'] = 'Выбранный сервер не доступен для этой учетной записи.';
 ?>

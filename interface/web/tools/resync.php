@@ -74,7 +74,8 @@ class page_action extends tform_actions {
 			//* check the database for existing records
 			$server_data = $this->server_has_data($server_type, $server['server_id']);
 			foreach ($search as $needle) 
-				if (in_array($needle, $server_data) && strpos($options_servers, $server['server_name']) === false) {
+//				if (in_array($needle, $server_data) && strpos($options_servers, $server['server_name']) === false) {
+				if (in_array($needle, $server_data)) {
 					$options_servers .= "<option value='$server[server_id]'>$server[server_name]</option>";
 					$server_count++;
 				}

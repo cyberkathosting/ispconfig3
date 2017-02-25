@@ -169,7 +169,7 @@ class cronjob_backup_mail extends cronjob {
 							if ($rec['maildir_format'] == 'mdbox') {
 								if(file_exists($rec['maildir'].'/backup'))  exec("su -c 'rm -rf ".$rec['maildir']."/backup'");
 							}
-							$app->log($mail_backup_file.' NOK:'.implode('',$tmp_output), LOGLEVEL_DEBUG);
+							$app->log($mail_backup_file.' NOK:'.implode('',$tmp_output), LOGLEVEL_WARN);
 						}
 						/* Remove old backups */
 						$backup_copies = intval($rec['backup_copies']);

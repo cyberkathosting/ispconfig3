@@ -1,16 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring may overwrite existing files in your mailbox. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['delete_backup_txt'] = 'Delete Backup';
-$wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
-$wb['delete_confirm_txt'] = 'Really delete this backup?';
-$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
-$wb['filesize_txt'] = 'Filesize';
+$wb['list_head_txt'] = 'Существующие резервные копии';
+$wb['date_txt'] = 'Дата';
+$wb['backup_type_txt'] = 'Тип';
+$wb['filename_txt'] = 'Файл резервной копии';
+$wb['restore_backup_txt'] = 'Восстановить';
+$wb['restore_info_txt'] = 'Восстановление из резервной копии было запущено. Эта операция будет завершена через несколько минут.';
+$wb['restore_confirm_txt'] = 'Восстановление может перезаписать существующие файлы в вашем почтовом ящике. Вы действительно хотите восстановить эту резервную копию?';
+$wb['download_pending_txt'] = 'Загрузка этой резервной копии уже есть в очереди заданий на выполнение.';
+$wb['restore_pending_txt'] = 'Восстановление из резервной копии уже есть в очереди выполнения заданий.';
+$wb['delete_backup_txt'] = 'Удалить резервную копию';
+$wb['delete_info_txt'] = 'Было начато удаление резервной копии. До завершения это действие занимает несколько минут.';
+$wb['delete_confirm_txt'] = 'Действительно удалить эту резервную копию?';
+$wb['delete_pending_txt'] = 'Задание на удаление резервной копии уже есть в планировщике задач.';
+$wb['filesize_txt'] = 'Размер файла';
 ?>

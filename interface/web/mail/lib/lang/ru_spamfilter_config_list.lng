@@ -1,5 +1,5 @@
 <?php
 $wb['list_head_txt'] = 'Конфигурация сервера';
 $wb['server_name_txt'] = 'Сервер';
-$wb['server_id_txt'] = 'server_id';
+$wb['server_id_txt'] = 'ID сервера';
 ?>

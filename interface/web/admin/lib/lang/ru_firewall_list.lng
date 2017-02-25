@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Firewall';
-$wb['active_txt'] = 'Активен?';
+$wb['list_head_txt'] = 'Брандмауэр';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
-$wb['tcp_port_txt'] = 'Открытые TCP порты';
-$wb['udp_port_txt'] = 'Открытые UDP порты';
-$wb['add_new_record_txt'] = 'Добавить запись Firewall';
+$wb['tcp_port_txt'] = 'Открытые порты TCP';
+$wb['udp_port_txt'] = 'Открытые порты UDP';
+$wb['add_new_record_txt'] = 'Добавить запись брандмауэра';
 ?>

@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Проверка заголовков и тела письма Postfix';
-$wb['active_txt'] = 'Активен?';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['pattern_txt'] = 'Шаблон';
 $wb['action_txt'] = 'Действие';
-$wb['add_new_record_txt'] = 'Добавить новый контентный фильтр';
+$wb['add_new_record_txt'] = 'Добавить новый фильтр контента';
 ?>

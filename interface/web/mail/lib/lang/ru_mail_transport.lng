@@ -5,7 +5,7 @@ $wb['destination_txt'] = 'Получатель';
 $wb['type_txt'] = 'Тип';
 $wb['mx_txt'] = 'Не просматривать MX';
 $wb['sort_order_txt'] = 'Сортировать по';
-$wb['active_txt'] = 'Активен?';
-$wb['limit_mailrouting_txt'] = 'Достигнуто макс. количество маршрутов для вашего аккаунта.';
-$wb['transport_txt'] = 'Transport';
+$wb['active_txt'] = 'Активно';
+$wb['limit_mailrouting_txt'] = 'Достигнуто макс. количество маршрутов для вашей учетной записи.';
+$wb['transport_txt'] = 'Транспорт';
 ?>

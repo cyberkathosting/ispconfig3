@@ -1,15 +1,15 @@
 <?php
 $wb['list_head_txt'] = 'IPTables';
-$wb['add_new_rule_txt'] = 'Add IPTables Rule';
-$wb['server_id_txt'] = 'Server';
-$wb['multiport_txt'] = 'Multi Port';
-$wb['singleport_txt'] = 'Single Port';
-$wb['protocol_txt'] = 'Protocol';
-$wb['table_txt'] = 'Table';
-$wb['target_txt'] = 'Target';
-$wb['state_txt'] = 'State';
-$wb['destination_ip_txt'] = 'Destination Address';
-$wb['source_ip_txt'] = 'Source Address';
-$wb['active_txt'] = 'Active';
-$wb['iptables_error_unique'] = 'There is already a firewall record for this server.';
+$wb['add_new_rule_txt'] = 'Добавить правило IPTables';
+$wb['server_id_txt'] = 'Сервер';
+$wb['multiport_txt'] = 'Мульти Порт';
+$wb['singleport_txt'] = 'Одиночный порт';
+$wb['protocol_txt'] = 'Протокол';
+$wb['table_txt'] = 'Таблица';
+$wb['target_txt'] = 'Каталог';
+$wb['state_txt'] = 'Область/край';
+$wb['destination_ip_txt'] = 'IP-адрес назначения';
+$wb['source_ip_txt'] = 'IP-адрес источника';
+$wb['active_txt'] = 'Активно';
+$wb['iptables_error_unique'] = 'Запись брандмауэра уже существует для этого сервера.';
 ?>

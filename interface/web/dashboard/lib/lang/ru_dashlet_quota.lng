@@ -1,8 +1,8 @@
 <?php
-$wb['quota_txt'] = 'Website Harddisk Quota';
-$wb['domain_txt'] = 'Domain / Website';
-$wb['used_txt'] = 'Used space';
-$wb['hard_txt'] = 'Hard limit';
-$wb['soft_txt'] = 'Soft limit';
-$wb['no_sites_txt'] = 'No web sites found.';
+$wb['quota_txt'] = 'Квота Web-сайта на жёстком диске';
+$wb['domain_txt'] = 'Домен/Web-сайт';
+$wb['used_txt'] = 'Используемое пространство';
+$wb['hard_txt'] = 'Жесткий лимит';
+$wb['soft_txt'] = 'Мягкий лимит';
+$wb['no_sites_txt'] = 'Не найдено ни одного web-сайта.';
 ?>

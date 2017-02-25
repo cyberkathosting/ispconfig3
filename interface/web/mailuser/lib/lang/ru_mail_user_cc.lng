@@ -1,9 +1,9 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Send copy to email address';
-$wb['cc_txt'] = 'Send copy to';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['mailbox_cc_txt'] = 'Отправить копию на адрес эл. почты';
+$wb['cc_txt'] = 'Отправить копию';
+$wb['email_txt'] = 'Адрес эл. почты';
+$wb['cc_error_isemail'] = 'Поле -Отправить копию- не содержит действительный адрес электронной почты';
+$wb['email_is_cc_error'] = 'Адрес электронной почты и адрес для отправки копии не могут быть одинаковыми.';
+$wb['name_optional_txt'] = '(Опционально)';
+$wb['cc_note_txt'] = '(Разделите несколько адресов электронной почты запятыми)';
 ?>

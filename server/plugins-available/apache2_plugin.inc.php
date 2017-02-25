@@ -1255,15 +1255,15 @@ class apache2_plugin {
 			//* check if we have already a Let's Encrypt cert
 			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
 				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
-				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-				$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
-				
+				if(!empty($lddomain)) {
+					$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+					$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
+				}		
 				$success = false;
 				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
 				$letsencrypt = reset($letsencrypt);
-				$letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme";
-				if(is_executable($letsencrypt)) {
-					$success = $this->_exec($letsencrypt_cmd);
+				if(is_executable($letsencrypt) && !empty($lddomain)) {
+					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
 				}
 				if(!$success) {
 					// error issuing cert
@@ -3431,6 +3431,7 @@ class apache2_plugin {
 
 		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
 		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
+		if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
 
 		return symlink($cfrom, $to);
 	}

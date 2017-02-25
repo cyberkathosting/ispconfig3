@@ -1,9 +1,9 @@
 <?php
-$wb['products_txt'] = 'My Products';
-$wb['name_txt'] = 'Name';
-$wb['price_txt'] = 'Price';
-$wb['next_payment_date_txt'] = 'Next Invoice';
-$wb['no_products_txt'] = 'No products found.';
-$wb['edit_txt'] = 'Edit';
-$wb['cancellation_date_txt'] = 'Cancelled by';
+$wb['products_txt'] = 'Мои продукты';
+$wb['name_txt'] = 'Имя';
+$wb['price_txt'] = 'Цена';
+$wb['next_payment_date_txt'] = 'Следующая счёт-фактура';
+$wb['no_products_txt'] = 'Продукты не обнаружены.';
+$wb['edit_txt'] = 'Изменить';
+$wb['cancellation_date_txt'] = 'Отменено';
 ?>

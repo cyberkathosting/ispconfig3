@@ -1127,7 +1127,7 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id, `system_user`, `system_group`, `web_folder`, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl` FROM web_domain WHERE domain_id = ?", $this->id);
+				$tmp = $app->db->queryOneRecord("SELECT server_id, `system_user`, `system_group`, `web_folder`, `cgi`, `ssi`, `perl`, `ruby`, `python`, `suexec`, `errordocs`, `subdomain`, `ssl`, `ssl_letsencrypt`, `directive_snippets_id` FROM web_domain WHERE domain_id = ?", $this->id);
 				$this->dataRecord["server_id"] = $tmp["server_id"];
 				if($this->_vhostdomain_type != 'domain') $this->dataRecord['web_folder'] = $tmp['web_folder']; // cannot be changed!
 				$this->dataRecord['system_user'] = $tmp['system_user'];
@@ -1143,7 +1143,9 @@ class page_action extends tform_actions {
 				if($this->dataRecord['errordocs'] == 'n') $this->dataRecord['errordocs'] = $tmp['errordocs'];
 				if($this->dataRecord['subdomain'] == 'n') $this->dataRecord['subdomain'] = $tmp['subdomain'];
 				if($this->dataRecord['ssl'] == 'n') $this->dataRecord['ssl'] = $tmp['ssl'];
-
+				if($this->dataRecord['ssl_letsencrypt'] == 'n') $this->dataRecord['ssl_letsencrypt'] = $tmp['ssl_letsencrypt'];
+				if($this->dataRecord['directive_snippets_id'] == 0) $this->dataRecord['directive_snippets_id'] = $tmp['directive_snippets_id'];
+				
 				unset($tmp);
 				// When the record is inserted
 			} else {

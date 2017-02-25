@@ -31,7 +31,7 @@ then
         exit 1
     }
 
-    wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
+    wget https://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
     if [ -f ISPConfig-3-stable.tar.gz ]
     then
         tar xvfz ISPConfig-3-stable.tar.gz

@@ -1,12 +1,12 @@
 <?php
 $wb['password_txt'] = 'Пароль';
-$wb['password_strength_txt'] = 'Сложность пароля';
+$wb['password_strength_txt'] = 'Стойкость пароля';
 $wb['language_txt'] = 'Язык';
-$wb['password_mismatch'] = 'Введенные пароли не совпадают.';
-$wb['Form to edit the user password and language.'] = 'Форма для изменения языка и паролей';
-$wb['Settings'] = 'Настройки';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
+$wb['password_mismatch'] = 'Пароли не совпадают.';
+$wb['Form to edit the user password and language.'] = 'Форма для смены языка и паролей';
+$wb['Settings'] = 'Параметры';
+$wb['generate_password_txt'] = 'Создать пароль';
+$wb['repeat_password_txt'] = 'Повторить пароль';
+$wb['password_mismatch_txt'] = 'Пароли не совпадают.';
+$wb['password_match_txt'] = 'Эти пароли совпадают.';
 ?>

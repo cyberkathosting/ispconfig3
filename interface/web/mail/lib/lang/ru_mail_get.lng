@@ -1,19 +1,19 @@
 <?php
 $wb['server_id_txt'] = 'Сервер';
 $wb['type_txt'] = 'Тип';
-$wb['source_server_txt'] = 'Pop3/Imap Сервер';
-$wb['source_username_txt'] = 'Пользовательname';
+$wb['source_server_txt'] = 'POP3/IMAP Сервер';
+$wb['source_username_txt'] = 'Имя пользователя';
 $wb['source_password_txt'] = 'Пароль';
-$wb['source_delete_txt'] = 'Удалить emails после поиска';
+$wb['source_delete_txt'] = 'Удалять сообщения электронной почты после получения';
 $wb['destination_txt'] = 'Получатель';
-$wb['active_txt'] = 'Активен?';
-$wb['limit_fetchmail_txt'] = 'Максимальное число Fetchmail записей, достигнуто.';
+$wb['active_txt'] = 'Активно';
+$wb['limit_fetchmail_txt'] = 'Макс. количество учётных записей сборщиков почты достигнуто.';
 $wb['source_server_error_isempty'] = 'Пустой сервер.';
 $wb['source_username_error_isempty'] = 'Пустой логин.';
 $wb['source_password_error_isempty'] = 'Пустой пароль.';
-$wb['destination_error_isemail'] = 'Не выбран получатель.';
-$wb['source_server_error_regex'] = 'Неверное доменное имя для сервера Pop3/Imap.';
-$wb['source_read_all_txt'] = 'Retrieve all emails (incl. read mails)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
-$wb['source_delete_note_txt'] = 'Please check first if email retrieval works, before you activate this option.';
+$wb['destination_error_isemail'] = 'Не выбран получатель или запись некорректна.';
+$wb['source_server_error_regex'] = 'Некорректное доменное имя для сервера POP3/IMAP.';
+$wb['source_read_all_txt'] = 'Получать все сообщения электронной почты (включая прочитанные письма)';
+$wb['error_delete_read_all_combination'] = 'Недопустимая комбинация параметров. Вы не можете использовать "Удалить письма после получения" = НЕТ вместе с "Получить все письма" = ДА';
+$wb['source_delete_note_txt'] = 'Пожалуйста, прежде чем активировать этот параметр, убедитесь в том, что сборщик почты работает.';
 ?>

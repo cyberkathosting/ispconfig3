@@ -142,6 +142,7 @@ class cronjob_backup extends cronjob {
 								}
 							} else {
 								if(is_file($web_backup_dir.'/'.$web_backup_file)) unlink($web_backup_dir.'/'.$web_backup_file);
+								$app->log('Backup of '.$web_path.' failed.', LOGLEVEL_WARN);
 							}
 
 							//* Remove old backups

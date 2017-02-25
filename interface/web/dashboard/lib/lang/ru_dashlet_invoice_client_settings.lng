@@ -1,4 +1,4 @@
 <?php
-$wb['invoice_client_settings_txt'] = 'Invoice Client Settings';
-$wb['edit_txt'] = 'Edit';
+$wb['invoice_client_settings_txt'] = 'Параметры счёт-фактуры клиента';
+$wb['edit_txt'] = 'Изменить';
 ?>

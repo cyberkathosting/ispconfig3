@@ -1,12 +1,12 @@
 <?php
-$wb['server_id_txt'] = 'Rewrite on Server';
-$wb['source_txt'] = 'Source IP';
-$wb['destination_txt'] = 'Destination IP';
-$wb['active_txt'] = 'Active';
-$wb['ip_error_wrong'] = 'The Destination IP address is invalid';
-$wb['destination_ip_empty'] = 'The Destination IP is empty.';
-$wb['source_ip_empty'] = 'The Source IP is empty.';
-$wb['server_empty_error'] = 'The Server is empty.';
-$wb['duplicate_mapping_error'] = 'Mapping already exists.';
-$wb['ip_mapping_error'] = 'Source IP can not be an IP of the Rewrite-Server';
+$wb['server_id_txt'] = 'Rewrite на сервер';
+$wb['source_txt'] = 'IP-адрес источника';
+$wb['destination_txt'] = 'IP-адрес назначения';
+$wb['active_txt'] = 'Активно';
+$wb['ip_error_wrong'] = 'Неправильный формат IP-адреса';
+$wb['destination_ip_empty'] = 'IP-адрес назначения пуст.';
+$wb['source_ip_empty'] = 'IP-адрес источника пустой.';
+$wb['server_empty_error'] = 'Сервер не выбран.';
+$wb['duplicate_mapping_error'] = 'Сопоставление уже существует.';
+$wb['ip_mapping_error'] = 'Исходный IP не может быть IP от Rewrite-сервера';
 ?>

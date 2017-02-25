@@ -2,11 +2,11 @@
 $wb['server_id_txt'] = 'Сервер';
 $wb['wb_txt'] = 'wb';
 $wb['rid_txt'] = 'Пользователь';
-$wb['email_txt'] = 'Email';
+$wb['email_txt'] = 'Адрес эл. почты';
 $wb['priority_txt'] = 'Приоритет';
-$wb['active_txt'] = 'Активен?';
-$wb['limit_spamfilter_wblist_txt'] = 'Макс. чило белых/черных списков для вашего аккаунта достигнуто.';
-$wb['10 - highest'] = '10 - highest';
-$wb['5 - medium'] = '5 - medium';
-$wb['1 - lowest'] = '1 - lowest';
+$wb['active_txt'] = 'Активно';
+$wb['limit_spamfilter_wblist_txt'] = 'Макс. чило белых/черных списков для вашей учетной записи достигнуто.';
+$wb['10 - highest'] = '10 - сильный';
+$wb['5 - medium'] = '5 - средний';
+$wb['1 - lowest'] = '1 - слабый';
 ?>

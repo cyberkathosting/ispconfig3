@@ -1291,8 +1291,8 @@ class installer_dist extends installer_base {
 		if(is_file('/usr/local/bin/ispconfig_update_from_dev.sh')) unlink('/usr/local/bin/ispconfig_update_from_dev.sh');
 		exec('chown root /usr/local/ispconfig/server/scripts/update_from_dev.sh');
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_dev.sh');
-		exec('chown root /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
-		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_from_tgz.sh');
+		exec('chown root /usr/local/ispconfig/server/scripts/update_stable.sh');
+		exec('chmod 700 /usr/local/ispconfig/server/scripts/update_stable.sh');
 		exec('chown root /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
 		exec('chmod 700 /usr/local/ispconfig/server/scripts/ispconfig_update.sh');
 		if(!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_update.sh /usr/local/bin/ispconfig_update_from_dev.sh');

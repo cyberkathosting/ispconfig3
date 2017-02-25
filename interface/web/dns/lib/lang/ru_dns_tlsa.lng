@@ -1,16 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
+$wb['server_id_txt'] = 'Сервер';
+$wb['zone_txt'] = 'Зона';
 $wb['name_txt'] = 'Service-Descriptor';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'TLSA-Data';
+$wb['type_txt'] = 'Тип';
+$wb['data_txt'] = 'TLSA-данные';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format. Correct: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
-$wb['data_error_empty'] = 'TLSA-Data empty';
-$wb['data_error_regex'] = 'TLSA dataformat is wrong. Correct: n n n HASH';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['active_txt'] = 'Активно';
+$wb['limit_dns_record_txt'] = 'Макс. количество DNS-записей для вашей учетной записи достигнуто.';
+$wb['no_zone_perm'] = 'У Вас нет прав добавлять эту запись.';
+$wb['name_error_empty'] = 'Имя пустое.';
+$wb['name_error_regex'] = 'Имя имеет неправильный формат. Правильно: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
+$wb['data_error_empty'] = 'TLSA-данные отсутствуют';
+$wb['data_error_regex'] = 'TLSA-данные имеют неправильный формат. Правильно: n n n HASH';
+$wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>

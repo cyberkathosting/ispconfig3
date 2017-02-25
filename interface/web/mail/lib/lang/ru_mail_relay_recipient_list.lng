@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Relay получатели';
-$wb['active_txt'] = 'Активен?';
+$wb['active_txt'] = 'Активно';
 $wb['server_id_txt'] = 'Сервер';
 $wb['source_txt'] = 'Адрес получателя';
 $wb['recipient_txt'] = 'Получатель';

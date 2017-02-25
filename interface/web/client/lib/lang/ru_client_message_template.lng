@@ -1,11 +1,11 @@
 <?php
-$wb['template_type_txt'] = 'Email type';
-$wb['template_name_txt'] = 'Template name';
-$wb['subject_txt'] = 'Subject';
-$wb['message_txt'] = 'Message';
-$wb['Email template'] = 'Email template';
-$wb['Settings'] = 'Setting';
-$wb['variables_txt'] = 'Variables';
-$wb['variables_description_txt'] = '(The username and password variables are only available in welcome emails.)';
-$wb['duplicate_welcome_error'] = 'There can be only one default welcome email template. Please edit the existing template instead of adding a new one.';
+$wb['template_type_txt'] = 'Тип письма';
+$wb['template_name_txt'] = 'Имя шаблона';
+$wb['subject_txt'] = 'Тема';
+$wb['message_txt'] = 'Сообщение';
+$wb['Email template'] = 'Почтовый шаблон';
+$wb['Settings'] = 'Параметры';
+$wb['variables_txt'] = 'Переменные:';
+$wb['variables_description_txt'] = '(Переменные <b>username</b> и <b>password</b> доступны только в приветственных письмах.)';
+$wb['duplicate_welcome_error'] = 'Там может быть только один почтовый шаблон приветствия по умолчанию. Пожалуйста, измените существующий шаблон вместо добавления нового.';
 ?>

@@ -2,15 +2,15 @@
 $wb['server_id_txt'] = 'Сервер';
 $wb['zone_txt'] = 'Зона';
 $wb['name_txt'] = 'Зона';
-$wb['type_txt'] = 'тип';
-$wb['data_txt'] = 'Имя узла Nameserver';
+$wb['type_txt'] = 'Тип';
+$wb['data_txt'] = 'Имя узла NS';
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Активна?';
-$wb['limit_dns_record_txt'] = 'Максимальное число DNS записей, достигнуто';
-$wb['no_zone_perm'] = 'Вы не имеет прав для добавления записи в DNS зону.';
-$wb['name_error_empty'] = 'Зона пустая.';
+$wb['active_txt'] = 'Активно';
+$wb['limit_dns_record_txt'] = 'Максимальное число DNS-записей, достигнуто';
+$wb['no_zone_perm'] = 'У Вас нет прав добавлять эту запись.';
+$wb['name_error_empty'] = 'Имя пустое.';
 $wb['name_error_regex'] = 'Зона имеет неправильный формат.';
 $wb['data_error_empty'] = 'Nameserver пустой';
 $wb['data_error_regex'] = 'Nameserver имеет неправильный формат';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>

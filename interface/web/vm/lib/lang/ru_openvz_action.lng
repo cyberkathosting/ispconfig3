@@ -1,16 +1,16 @@
 <?php
-$wb['head_txt'] = 'Virtual server actions for VM:';
-$wb['start_txt'] = 'Start virtual server';
-$wb['stop_txt'] = 'Stop virtual server';
-$wb['restart_txt'] = 'Restart virtual server';
-$wb['ostemplate_txt'] = 'Create OSTemplate';
-$wb['ostemplate_desc_txt'] = '(example: debian-6.0-i386-custom)';
-$wb['btn_save_txt'] = 'Execute selected action';
-$wb['btn_cancel_txt'] = 'Cancel';
-$wb['start_exec_txt'] = 'Start command has been sent to the VM host server. It may take a minute until the VM is started.';
-$wb['stop_exec_txt'] = 'Stop command has been sent to the VM host server. It may take a minute until the VM is stopped.';
-$wb['restart_exec_txt'] = 'Restart command has been sent to the VM host server. It may take a minute until the VM is restarted.';
-$wb['ostemplate_name_error'] = 'The OSTemplate name conatains unallowed characters.';
-$wb['ostemplate_name_unique_error'] = 'There is already a OSTemplate with that name.';
-$wb['ostemplate_exec_txt'] = 'The command to create a OSTemplate has been sent to the host server. It will take several minutes until the OSTemplate has been created.';
+$wb['head_txt'] = 'Действия виртуальные сервера для VM:';
+$wb['start_txt'] = 'Запустить виртуальный сервер';
+$wb['stop_txt'] = 'Остановить виртуальный сервер';
+$wb['restart_txt'] = 'Перезапуск виртуального сервера';
+$wb['ostemplate_txt'] = 'Создать шаблон ОС';
+$wb['ostemplate_desc_txt'] = '(образец: debian-6.0-i386-custom)';
+$wb['btn_save_txt'] = 'Выполнить выбранное действие';
+$wb['btn_cancel_txt'] = 'Отменить';
+$wb['start_exec_txt'] = 'Команда запуска отправлена на хост-сервер VM. Это может занять минуту, пока не будет запущена виртуальная машина.';
+$wb['stop_exec_txt'] = 'Команда останова была отправлена на хост-сервер VM. Это может занять минуту, пока виртуальная машина не будет остановлена.';
+$wb['restart_exec_txt'] = 'Команда рестарта была отправлена на хост-сервер виртуальных машин. Перезапуск виртуальной машины может занять несколько минут.';
+$wb['ostemplate_name_error'] = 'Имя шаблона ОС содержит недопустимые символы.';
+$wb['ostemplate_name_unique_error'] = 'Уже существует шаблон ОС с таким именем.';
+$wb['ostemplate_exec_txt'] = 'Команда для создания шаблона ОС была отправлена на хост-сервер. Пройдет несколько минут, пока шаблон ОС будет создан.';
 ?>
