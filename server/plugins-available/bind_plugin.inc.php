@@ -544,7 +544,9 @@ class bind_plugin {
 
 		foreach($tmps_sec as $tmp) {
 
-			$options = "        masters {".$tmp['ns'].";};\n";
+			// When you have more than one master, the serial number is used to determine which Master has the most current version of the zone by the
+			// slaves.  The slaves actually ask for the SOA record from each Master when refreshing. 
+			$options = "        masters {".str_replace(',', ';', $tmp['ns']).";};\n";
 			if(trim($tmp['xfer']) != '') {
 				$options .= "        allow-transfer {".str_replace(',', ';', $tmp['xfer']).";};\n";
 			} else {

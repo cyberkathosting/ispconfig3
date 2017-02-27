@@ -273,13 +273,6 @@ server {
         }
 </tmpl_if>
 
-location ~ /\.well-known/acme-challenge/ {
-	   root /usr/local/ispconfig/interface/acme/;
-	   index index.html index.htm;
-	   try_files $uri =404;
-}
-
-
 <tmpl_loop name="basic_auth_locations">
         location <tmpl_var name='htpasswd_location'> { ##merge##
                 auth_basic "Members Only";
