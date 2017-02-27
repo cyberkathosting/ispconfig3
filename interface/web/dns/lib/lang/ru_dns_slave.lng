@@ -12,6 +12,6 @@ $wb['origin_error_unique'] = 'Для этой зоны уже есть запи�
 $wb['origin_error_regex'] = 'Зона имеет неправильный формат.';
 $wb['ns_error_regex'] = 'NS имеет неправильный формат.';
 $wb['eg_domain_tld'] = 'Например, domain.tld.';
-$wb['ipv4_form_txt'] = 'Формат IPv4 - например, 1.2.3.4';
+$wb['ipv4_form_txt'] = 'Separate multiple IPs with commas';
 $wb['secondary_zone_txt'] = 'Вторичная DNS-зона';
 ?>
