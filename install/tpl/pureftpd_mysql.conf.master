@@ -87,4 +87,4 @@ MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND ser
 # BerkeleyDB, Innobase...), you can enable SQL transactions to
 # avoid races. Leave this commented if you are using the
 # traditionnal MyIsam databases or old (< 3.23.x) MySQL versions.
-MySQLTransactions Off
+# MySQLTransactions On
