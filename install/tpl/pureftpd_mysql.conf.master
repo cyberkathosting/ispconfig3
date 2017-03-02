@@ -5,44 +5,29 @@
 #                                            #
 ##############################################
 
-
 # Optional : MySQL server name or IP. Don't define this for unix sockets.
-
 MYSQLServer     {mysql_server_ip}
 
-
 # Optional : MySQL port. Don't define this if a local unix socket is used.
-
 # MYSQLPort       3306
 
-
 # Optional : define the location of mysql.sock if the server runs on this host.
-
 # MYSQLSocket      /var/run/mysqld/mysqld.sock
 
-
 # Mandatory : user to bind the server as.
-
 MYSQLUser       {mysql_server_ispconfig_user}
 
-
 # Mandatory : user password. You must have a password.
-
 MYSQLPassword   {mysql_server_ispconfig_password}
 
-
 # Mandatory : database to open.
-
 MYSQLDatabase   {mysql_server_database}
-
 
 # Mandatory : how passwords are stored
 # Valid values are : "cleartext", "crypt", "md5" and "password"
 # ("password" = MySQL password() function)
 # You can also use "any" to try "crypt", "md5" *and* "password"
-
 MYSQLCrypt      crypt
-
 
 # In the following directives, parts of the strings are replaced at
 # run-time before performing queries :
@@ -56,73 +41,50 @@ MYSQLCrypt      crypt
 # Very complex queries can be performed using these substitution strings,
 # especially for virtual hosting.
 
-
 # Query to execute in order to fetch the password
-
 MYSQLGetPW      SELECT password FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 
-
 # Query to execute in order to fetch the system user name or uid
-
 MYSQLGetUID     SELECT uid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 
-
 # Optional : default UID - if set this overrides MYSQLGetUID
-
 #MYSQLDefaultUID 1000
 
-
 # Query to execute in order to fetch the system user group or gid
-
 MYSQLGetGID     SELECT gid FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 
-
 # Optional : default GID - if set this overrides MYSQLGetGID
-
 #MYSQLDefaultGID 1000
 
-
 # Query to execute in order to fetch the home directory
-
 MYSQLGetDir     SELECT dir FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
-
 
 # Optional : query to get the maximal number of files 
 # Pure-FTPd must have been compiled with virtual quotas support.
-
 MySQLGetQTAFS  SELECT quota_files FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_files != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
-
 
 # Optional : query to get the maximal disk usage (virtual quotas)
 # The number should be in Megabytes.
 # Pure-FTPd must have been compiled with virtual quotas support.
-
 MySQLGetQTASZ  SELECT quota_size FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND quota_size != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 
-
 # Optional : ratios. The server has to be compiled with ratio support.
-
 MySQLGetRatioUL SELECT ul_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_ratio != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 MySQLGetRatioDL SELECT dl_ratio FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_ratio != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
-
 
 # Optional : bandwidth throttling.
 # The server has to be compiled with throttling support.
 # Values are in KB/s .
-
 MySQLGetBandwidthUL SELECT ul_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND ul_bandwidth != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 MySQLGetBandwidthDL SELECT dl_bandwidth FROM ftp_user WHERE active = 'y' AND server_id = '{server_id}' AND dl_bandwidth != '-1' AND username="\L" AND (expires IS NULL OR expires="0000-00-00 00:00:00" OR expires > NOW())
 
 # Enable ~ expansion. NEVER ENABLE THIS BLINDLY UNLESS :
 # 1) You know what you are doing.
 # 2) Real and virtual users match.
-
 # MySQLForceTildeExpansion 1
-
 
 # If you upgraded your tables to transactionnal tables (Gemini,
 # BerkeleyDB, Innobase...), you can enable SQL transactions to
 # avoid races. Leave this commented if you are using the
 # traditionnal MyIsam databases or old (< 3.23.x) MySQL versions.
-
-MySQLTransactions On
+MySQLTransactions Off
