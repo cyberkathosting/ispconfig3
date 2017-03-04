@@ -3440,37 +3440,35 @@ class apache2_plugin {
 		if(substr($web['domain'], 0, 2) === '*.') $web['subdomain'] = '*';
 
 		if($web['subdomain'] == 'www' || $web['subdomain'] == '*'){
+			$domain = str_replace('.', '\.', $web['domain']);
 			if($web['seo_redirect'] == 'non_www_to_www'){
-				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = str_replace('.', '\.', $web['domain']);
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = $domain;
 				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
 				$seo_redirects[$prefix.'seo_redirect_operator'] = '';
 			}
 			if($web['seo_redirect'] == '*_domain_tld_to_www_domain_tld'){
-				// ^(example\.com|(?!\bwww\b)\.example\.com)$
-				// ^(example\.com|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.example\.com))$
-				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '('.str_replace('.', '\.', $web['domain']).'|((?:\w+(?:-\w+)*\.)*)((?!www\.)\w+(?:-\w+)*)(\.'.str_replace('.', '\.', $web['domain']).'))';
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = $domain.'|.*\.'.$domain.'(?<!^www\.'.$domain.')';
 				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
 				$seo_redirects[$prefix.'seo_redirect_operator'] = '';
 			}
 			if($web['seo_redirect'] == '*_to_www_domain_tld'){
-				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.str_replace('.', '\.', $web['domain']);
+				$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.$domain;
 				$seo_redirects[$prefix.'seo_redirect_target_domain'] = 'www.'.$web['domain'];
 				$seo_redirects[$prefix.'seo_redirect_operator'] = '!';
 			}
 		}
 		if($web['seo_redirect'] == 'www_to_non_www'){
-			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = 'www\.'.$domain;
 			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
 			$seo_redirects[$prefix.'seo_redirect_operator'] = '';
 		}
 		if($web['seo_redirect'] == '*_domain_tld_to_domain_tld'){
-			// ^(.+)\.example\.com$
-			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '(.+)\.'.str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = '.*\.'.$domain;
 			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
 			$seo_redirects[$prefix.'seo_redirect_operator'] = '';
 		}
 		if($web['seo_redirect'] == '*_to_domain_tld'){
-			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = str_replace('.', '\.', $web['domain']);
+			$seo_redirects[$prefix.'seo_redirect_origin_domain'] = $domain;
 			$seo_redirects[$prefix.'seo_redirect_target_domain'] = $web['domain'];
 			$seo_redirects[$prefix.'seo_redirect_operator'] = '!';
 		}
