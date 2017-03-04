@@ -1422,7 +1422,7 @@ class apache2_plugin {
 			unset($client);
 			unset($aa_search);
 			unset($aa_replace);
-			$server_alias[] .= $auto_alias.' ';
+			$server_alias[] .= $auto_alias;
 		}
 
 		// get alias domains (co-domains and subdomains)
@@ -1430,23 +1430,23 @@ class apache2_plugin {
 		$alias_seo_redirects = array();
 		switch($data['new']['subdomain']) {
 		case 'www':
-			$server_alias[] = 'www.'.$data['new']['domain'].' ';
+			$server_alias[] = 'www.'.$data['new']['domain'];
 			break;
 		case '*':
-			$server_alias[] = '*.'.$data['new']['domain'].' ';
+			$server_alias[] = '*.'.$data['new']['domain'];
 			break;
 		}
 		if(is_array($aliases)) {
 			foreach($aliases as $alias) {
 				switch($alias['subdomain']) {
 				case 'www':
-					$server_alias[] .= 'www.'.$alias['domain'].' '.$alias['domain'].' ';
+					$server_alias[] .= 'www.'.$alias['domain'].' '.$alias['domain'];
 					break;
 				case '*':
-					$server_alias[] .= '*.'.$alias['domain'].' '.$alias['domain'].' ';
+					$server_alias[] .= '*.'.$alias['domain'].' '.$alias['domain'];
 					break;
 				default:
-					$server_alias[] .= $alias['domain'].' ';
+					$server_alias[] .= $alias['domain'];
 					break;
 				}
 				$app->log('Add server alias: '.$alias['domain'], LOGLEVEL_DEBUG);
@@ -1513,22 +1513,18 @@ class apache2_plugin {
 		}
 
 		//* If we have some alias records
-		if(count($server_alias) > 0) {
-			$server_alias_str = '';
-			$n = 0;
-
-			// begin a new ServerAlias line after 30 alias domains
-			foreach($server_alias as $tmp_alias) {
-				if($n % 30 == 0) $server_alias_str .= "\n    ServerAlias ";
-				$server_alias_str .= $tmp_alias;
-			}
-			unset($tmp_alias);
-
-			$tpl->setVar('alias', trim($server_alias_str));
+		if($server_alias) {
+			//* begin a new ServerAlias line after 32 alias domains to avoid apache bugs
+			$server_alias_str = 'ServerAlias '.$server_alias[0];
+			for($n=1;$n<count($server_alias);++$n)
+				$server_alias_str .= ($n % 32?' ':"\nServerAlias ").$server_alias[$n];
+			$tpl->setVar('alias', $server_alias_str);
+			unset($server_alias_str);
+			unset($n);
 		} else {
 			$tpl->setVar('alias', '');
 		}
-		
+
 		if (count($rewrite_wildcard_rules) > 0) $rewrite_rules = array_merge($rewrite_rules, $rewrite_wildcard_rules); // Append wildcard rules to the end of rules
 
 		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0 || $data['new']['rewrite_to_https'] == 'y') {
