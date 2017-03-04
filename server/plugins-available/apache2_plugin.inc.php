@@ -1514,13 +1514,13 @@ class apache2_plugin {
 
 		//* If we have some alias records
 		if($server_alias) {
-            //* begin a new ServerAlias line after 32 alias domains to avoid apache bugs
-            $server_alias_str = 'ServerAlias '.$server_alias[0];
-            for($n=1;$n<count($server_alias);++$n)
-                $server_alias_str .= ($n % 32?' ':"\nServerAlias ").$server_alias[$n];
+			//* begin a new ServerAlias line after 32 alias domains to avoid apache bugs
+			$server_alias_str = 'ServerAlias '.$server_alias[0];
+			for($n=1;$n<count($server_alias);++$n)
+				$server_alias_str .= ($n % 32?' ':"\nServerAlias ").$server_alias[$n];
 			$tpl->setVar('alias', $server_alias_str);
-            unset($server_alias_str);
-            unset($n);
+			unset($server_alias_str);
+			unset($n);
 		} else {
 			$tpl->setVar('alias', '');
 		}
