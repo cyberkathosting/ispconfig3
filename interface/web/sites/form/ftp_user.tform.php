@@ -203,7 +203,7 @@ if($app->auth->is_admin()) {
 				'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
 															'errmsg'=> 'directory_error_empty'),
 											1 => array ( 	'type' => 'REGEX',
-															'regex' => '/^\/[a-zA-Z0-9\ \.\-\_\/]{10,128}$/',
+															'regex' => '/^\/[a-zA-Z0-9\ \.\-\_\/]{7,128}$/',
 															'errmsg'=> 'directory_error_regex'),
 											2 => array (    'type'  => 'CUSTOM',
 														'class' => 'validate_ftpuser',
