@@ -1513,7 +1513,7 @@ class apache2_plugin {
 		}
 
 		//* If we have some alias records
-		if($server_alias)) {
+		if($server_alias) {
 			$tpl->setVar('alias', 'ServerAlias '.implode(' ',$server_alias));
 		} else {
 			$tpl->setVar('alias', '');
