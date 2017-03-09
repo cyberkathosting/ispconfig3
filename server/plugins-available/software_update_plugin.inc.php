@@ -278,10 +278,10 @@ class software_update_plugin {
 		global $app;
 
 		//** Debian and compatible Linux distributions
-		if(file_exists('/etc/debian_version')) {
+		if(file_exists('/etc/debian_version') || file_exists('/etc/devuan_version')) {
 			exec("aptitude update");
 			exec("aptitude safe-upgrade -y");
-			$app->log('Execeuted Debian / Ubuntu update', LOGLEVEL_DEBUG);
+			$app->log('Execeuted Debian / Devuan / Ubuntu update', LOGLEVEL_DEBUG);
 		}
 
 		//** Gentoo Linux

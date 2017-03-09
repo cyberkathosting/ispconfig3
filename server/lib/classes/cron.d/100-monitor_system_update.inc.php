@@ -70,8 +70,8 @@ class cronjob_monitor_system_update extends cronjob {
 
 		$type = 'system_update';
 
-		/* This monitoring is only available on Debian or Ubuntu */
-		if (file_exists('/etc/debian_version')) {
+		/* This monitoring is only available on Debian, Devuan or Ubuntu */
+		if (file_exists('/etc/debian_version') || file_exists('/etc/devuan_version')) {
 
 			/*
 			 * first update the "apt database"

@@ -89,7 +89,7 @@ server {
 
                        # PHP only, required if PHP was built with --enable-force-cgi-redirect
                        fastcgi_param   REDIRECT_STATUS         200;
-                       # To access phpMyAdmin, the default user (like www-data on Debian/Ubuntu) must be used
+                       # To access phpMyAdmin, the default user (like www-data on Debian/Devuan/Ubuntu) must be used
                        {use_tcp}fastcgi_pass 127.0.0.1:9000;
                        {use_socket}fastcgi_pass unix:{fpm_socket};
                        fastcgi_index index.php;
@@ -139,7 +139,7 @@ server {
 
                        # PHP only, required if PHP was built with --enable-force-cgi-redirect
                        fastcgi_param   REDIRECT_STATUS         200;
-                       # To access SquirrelMail, the default user (like www-data on Debian/Ubuntu) must be used
+                       # To access SquirrelMail, the default user (like www-data on Debian/Devuan/Ubuntu) must be used
                        {use_tcp}fastcgi_pass 127.0.0.1:9000;
                        {use_socket}fastcgi_pass unix:{fpm_socket};
                        fastcgi_index index.php;

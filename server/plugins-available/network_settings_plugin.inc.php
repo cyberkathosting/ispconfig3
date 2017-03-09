@@ -86,7 +86,7 @@ class network_settings_plugin {
 			$server_config['ip_address'] != '0.0.0.0' &&
 			$server_config['gateway'] != '0.0.0.0') {
 
-			if (is_file('/etc/debian_version'))
+			if (is_file('/etc/debian_version') || is_file('/etc/devuan_version'))
 			{
 				copy('/etc/network/interfaces', '/etc/network/interfaces~');
 

@@ -220,6 +220,23 @@ function get_distname() {
 		}
 	}
 
+    //** Devuan
+    elseif(file_exists('/etc/devuan_version')) {
+		if(false !== strpos(trim(file_get_contents('/etc/devuan_version')), 'jessie')) {
+			$distname = 'Devuan';
+			$distver = 'Jessie';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Devuan 1.0 (Jessie) or compatible\n");
+		} elseif(false !== strpos(trim(file_get_contents('/etc/devuan_version')), 'ceres')) {
+            $distname = 'Devuan';
+            $distver = 'Ceres';
+            $distid = 'debiantesting';
+            $distbaseid = 'debian';
+            swriteln("Operating System: Devuan Unstable (Ceres) or compatible\n");
+        }
+    }
+
 	//** OpenSuSE
 	elseif(file_exists('/etc/SuSE-release')) {
 		if(stristr(file_get_contents('/etc/SuSE-release'), '11.0')) {

@@ -1484,7 +1484,7 @@ class installer_base {
 	public function configure_spamassassin() {
 		global $conf;
 
-		//* Enable spamasasssin on debian and ubuntu
+		//* Enable spamasasssin on debian, devuan and ubuntu
 		$configfile = '/etc/default/spamassassin';
 		if(is_file($configfile)) {
 			copy($configfile, $configfile.'~');
