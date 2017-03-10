@@ -207,6 +207,21 @@ class monitor_tools {
 		}
 	}
 
+    //** Devuan
+    elseif(file_exists('/etc/devuan_version')) {
+        if(false !== strpos(trim(file_get_contents('/etc/devuan_version')), 'jessie')) {
+            $distname = 'Devuan';
+            $distver = 'Jessie';
+            $distid = 'debian60';
+            $distbaseid = 'debian';
+        } elseif(false !== strpos(trim(file_get_contents('/etc/devuan_version')), 'ceres')) {
+            $distname = 'Devuan';
+            $distver = 'Testing';
+            $distid = 'debiantesting';
+            $distbaseid = 'debian';
+        }
+    }
+
 	//** OpenSuSE
 	elseif(file_exists('/etc/SuSE-release')) {
 		if(stristr(file_get_contents('/etc/SuSE-release'), '11.0')) {
@@ -450,6 +465,8 @@ class monitor_tools {
 
 		if (@is_file('/etc/debian_version')) {
 			$dist = 'debian';
+		} elseif (@is_file('/etc/devuan_version')) {
+			$dist = 'devuan';
 		} elseif (@is_file('/etc/redhat-release')) {
 			$dist = 'redhat';
 		} elseif (@is_file('/etc/SuSE-release')) {
@@ -462,6 +479,8 @@ class monitor_tools {
 		case 'log_mail':
 			if ($dist == 'debian') {
 				$logfile = '/var/log/mail.log';
+			} elseif ($dist == 'devuan') {
+				$logfile = '/var/log/mail.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = '/var/log/maillog';
 			} elseif ($dist == 'suse') {
@@ -472,6 +491,8 @@ class monitor_tools {
 			break;
 		case 'log_mail_warn':
 			if ($dist == 'debian') {
+				$logfile = '/var/log/mail.warn';
+			} elseif ($dist == 'devuan') {
 				$logfile = '/var/log/mail.warn';
 			} elseif ($dist == 'redhat') {
 				$logfile = '/var/log/maillog';
@@ -484,6 +505,8 @@ class monitor_tools {
 		case 'log_mail_err':
 			if ($dist == 'debian') {
 				$logfile = '/var/log/mail.err';
+			} elseif ($dist == 'devuan') {
+				$logfile = '/var/log/mail.err';
 			} elseif ($dist == 'redhat') {
 				$logfile = '/var/log/maillog';
 			} elseif ($dist == 'suse') {
@@ -494,6 +517,8 @@ class monitor_tools {
 			break;
 		case 'log_messages':
 			if ($dist == 'debian') {
+				$logfile = '/var/log/syslog';
+			} elseif ($dist == 'devuan') {
 				$logfile = '/var/log/syslog';
 			} elseif ($dist == 'redhat') {
 				$logfile = '/var/log/messages';
@@ -506,6 +531,8 @@ class monitor_tools {
 		case 'log_ispc_cron':
 			if ($dist == 'debian') {
 				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
+			} elseif ($dist == 'devuan') {
+				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = $conf['ispconfig_log_dir'] . '/cron.log';
 			} elseif ($dist == 'suse') {
@@ -517,6 +544,8 @@ class monitor_tools {
 		case 'log_freshclam':
 			if ($dist == 'debian') {
 				$logfile = '/var/log/clamav/freshclam.log';
+			} elseif ($dist == 'devuan') {
+                $logfile = '/var/log/clamav/freshclam.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = (is_file('/var/log/clamav/freshclam.log') ? '/var/log/clamav/freshclam.log' : '/var/log/freshclam.log');
 			} elseif ($dist == 'suse') {
@@ -528,6 +557,8 @@ class monitor_tools {
 		case 'log_clamav':
 			if ($dist == 'debian') {
 				$logfile = '/var/log/clamav/clamav.log';
+			} elseif ($dist == 'devuan') {
+                $logfile = '/var/log/clamav/clamav.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = (is_file('/var/log/clamav/clamd.log') ? '/var/log/clamav/clamd.log' : '/var/log/maillog');
 			} elseif ($dist == 'suse') {
@@ -538,6 +569,8 @@ class monitor_tools {
 			break;
 		case 'log_fail2ban':
 			if ($dist == 'debian') {
+				$logfile = '/var/log/fail2ban.log';
+			} elseif ($dist == 'devuan') {
 				$logfile = '/var/log/fail2ban.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = '/var/log/fail2ban.log';
@@ -552,6 +585,8 @@ class monitor_tools {
 			break;
 		case 'log_ispconfig':
 			if ($dist == 'debian') {
+				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
+			} elseif ($dist == 'devuan') {
 				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
 			} elseif ($dist == 'redhat') {
 				$logfile = $conf['ispconfig_log_dir'] . '/ispconfig.log';
