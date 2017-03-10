@@ -33,35 +33,56 @@ class cronjob_letsencrypt extends cronjob {
 	// job schedule
 	protected $_schedule = '0 3 * * *';
 
+	/* this function is optional if it contains no custom code */
+	public function onPrepare() {
+		global $app;
+
+		parent::onPrepare();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onBeforeRun() {
+		global $app;
+
+		return parent::onBeforeRun();
+	}
+
 	public function onRunJob() {
 		global $app, $conf;
 
 		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
 		$letsencrypt = reset($letsencrypt);
 		if(is_executable($letsencrypt)) {
-			$version = trim(exec($letsencrypt . ' --version 2>/dev/null'));
-			if(preg_match('/^(\S+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
+			$version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
+			if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
 				$type = strtolower($matches[1]);
 				$version = $matches[2];
 				if(($type != 'letsencrypt' && $type != 'certbot') || version_compare($version, '0.7.0', '<')) {
 					exec($letsencrypt . ' -n renew');
-					$app->services->restartServiceDelayed('httpd', 'force-reload');
+					$app->services->restartServiceDelayed('httpd', 'reload');
 				} else {
 					$marker_file = '/usr/local/ispconfig/server/le.restart';
 					$cmd = "echo '1' > " . $marker_file;
 					exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
 					if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
 						unlink($marker_file);
-						$app->services->restartServiceDelayed('httpd', 'force-reload');
+						$app->services->restartServiceDelayed('httpd', 'reload');
 					}
 				}
 			} else {
 				exec($letsencrypt . ' -n renew');
-				$app->services->restartServiceDelayed('httpd', 'force-reload');
+				$app->services->restartServiceDelayed('httpd', 'reload');
 			}
 		}
 		
 		parent::onRunJob();
+	}
+
+	/* this function is optional if it contains no custom code */
+	public function onAfterRun() {
+		global $app;
+
+		parent::onAfterRun();
 	}
 
 }
