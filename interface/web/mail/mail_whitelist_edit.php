@@ -85,6 +85,8 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
+		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
+		
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
 			// Get the limits of the client
