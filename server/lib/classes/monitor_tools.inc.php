@@ -285,7 +285,6 @@ class monitor_tools {
 			} else {
 				$distid = 'centos72';
 			}
-			swriteln("Operating System: CentOS $var\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';
