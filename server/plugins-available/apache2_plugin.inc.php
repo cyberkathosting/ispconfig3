@@ -2878,76 +2878,49 @@ class apache2_plugin {
 		$in = fopen($fileName, 'r');
 		$output = '';
 		$inWebdavSection = false;
-
-		/*
-		 * read line by line and search for the username and authname
-		*/
+		//* read line by line and search for the username and authname
 		while ($line = fgets($in)) {
-			/*
-			 *  is the "replace-comment" found...
-			*/
+			//* is the "replace-comment" found...
 			if (trim($line) == '# WEBDAV BEGIN') {
-				/*
-				 * The begin of the webdav - section is found, so ignore all lines til the end  is found
-				*/
+				//* The begin of the webdav - section is found, so ignore all lines til the end  is found
 				$inWebdavSection = true;
-
-				$output .= "      # WEBDAV BEGIN\n";
-
-				/*
-				 * add all the webdav-dirs to the webdav-section
-				*/
+				$output .= "# WEBDAV BEGIN\n";
+				//* add all the webdav-dirs to the webdav-section
 				$files = @scandir($webdavRoot);
 				if(is_array($files)) {
 					foreach($files as $file) {
 						if (substr($file, strlen($file) - strlen('.htdigest')) == '.htdigest' && preg_match("/^[a-zA-Z0-9\-_\.]*$/", $file)) {
-							/*
-						 * found a htdigest - file, so add it to webdav
-						*/
+							//* found a htdigest - file, so add it to webdav
 							$fn = substr($file, 0, strlen($file) - strlen('.htdigest'));
-							$output .= "\n";
-							// $output .= "      Alias /" . $fn . ' ' . $webdavRoot . '/' . $fn . "\n";
-							// $output .= "      <Location /" . $fn . ">\n";
-							$output .= "      Alias /webdav/" . $fn . ' ' . $webdavRoot . '/' . $fn . "\n";
-							$output .= "      <Location /webdav/" . $fn . ">\n";
-							$output .= "        DAV On\n";
-							$output .= '        BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On'."\n";
-							$output .= "        AuthType Digest\n";
-							$output .= "        AuthName \"" . $fn . "\"\n";
-							$output .= "        AuthUserFile " . $webdavRoot . '/' . $file . "\n";
-							$output .= "        Require valid-user \n";
-							$output .= "        Options +Indexes \n";
-							$output .= "        Order allow,deny \n";
-							$output .= "        Allow from all \n";
-							$output .= "      </Location> \n";
+							$output .= "Alias /webdav/$fn $webdavRoot/$fn\n";
+							$output .= "<Location /webdav/$fn>\n";
+							$output .= "Dav On\n";
+							$output .= "BrowserMatch MSIE AuthDigestEnableQueryStringHack=On\n";
+							$output .= "AuthType Digest\n";
+							$output .= "AuthName \"$fn\"\n";
+							$output .= "AuthUserFile $webdavRoot/$file\n";
+							$output .= "Require valid-user\n";
+							$output .= "Options +Indexes\n";
+							if($app->system->getapacheversion()<=2.2)
+								$output .= "Order allow,deny\nAllow from all\n";
+							$output .= "</Location>\n";
 						}
 					}
 				}
 			}
-			/*
-			 *  is the "replace-comment-end" found...
-			*/
+			//*  is the "replace-comment-end" found...
 			if (trim($line) == '# WEBDAV END') {
-				/*
-				 * The end of the webdav - section is found, so stop ignoring
-				*/
+				//* The end of the webdav - section is found, so stop ignoring
 				$inWebdavSection = false;
 			}
-
-			/*
-			 * Write the line to the output, if it is not in the section
-			*/
+			//* Write the line to the output, if it is not in the section
 			if (!$inWebdavSection) {
 				$output .= $line;
 			}
 		}
 		fclose($in);
-
-		/*
-		 * Now lets write the new file
-		*/
+		//* Now lets write the new file
 		$app->system->file_put_contents($fileName, $output);
-
 	}
 
 	//* Update the awstats configuration file
