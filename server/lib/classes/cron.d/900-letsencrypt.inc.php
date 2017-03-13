@@ -59,19 +59,19 @@ class cronjob_letsencrypt extends cronjob {
 				$version = $matches[2];
 				if(($type != 'letsencrypt' && $type != 'certbot') || version_compare($version, '0.7.0', '<')) {
 					exec($letsencrypt . ' -n renew');
-					$app->services->restartServiceDelayed('httpd', 'reload');
+					$app->services->restartServiceDelayed('httpd', 'force-reload');
 				} else {
 					$marker_file = '/usr/local/ispconfig/server/le.restart';
 					$cmd = "echo '1' > " . $marker_file;
 					exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
 					if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
 						unlink($marker_file);
-						$app->services->restartServiceDelayed('httpd', 'reload');
+						$app->services->restartServiceDelayed('httpd', 'force-reload');
 					}
 				}
 			} else {
 				exec($letsencrypt . ' -n renew');
-				$app->services->restartServiceDelayed('httpd', 'reload');
+				$app->services->restartServiceDelayed('httpd', 'force-reload');
 			}
 		}
 		
