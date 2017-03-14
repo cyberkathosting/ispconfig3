@@ -160,6 +160,12 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'asp_new_package_disabled' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'client_username_web_check_disabled' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
