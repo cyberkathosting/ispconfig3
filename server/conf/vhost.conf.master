@@ -482,23 +482,20 @@
 			AssignUserId <tmpl_var name='system_user'> <tmpl_var name='system_group'>
 		</IfModule>
 
-		<IfModule mod_dav_fs.c>
-		# Do not execute PHP files in webdav directory
-			<Directory {tmpl_var name='document_root'}/webdav>
-				<ifModule mod_security2.c>
-					SecRuleRemoveById 960015
-					SecRuleRemoveById 960032
-				</ifModule>
-				<FilesMatch "\.ph(p3?|tml)$">
-					SetHandler None
-				</FilesMatch>
-			</Directory>
-			DavLockDB {tmpl_var name='document_root'}/tmp/DavLock
-			# DO NOT REMOVE THE COMMENTS!
-			# IF YOU REMOVE THEM, WEBDAV WILL NOT WORK ANYMORE!
-			# WEBDAV BEGIN
-			# WEBDAV END
+	<IfModule mod_dav_fs.c>
+	<Location /webdav>
+		<IfModule mod_security2.c>
+		SecRuleRemoveById 960015
+		SecRuleRemoveById 960032
 		</IfModule>
+		DirectoryIndex disabled
+		SetHandler None
+	</Location>
+	DavLockDB {tmpl_var name='document_root'}/tmp/DavLock
+	# needed by apache2_plugin.inc.php
+	# WEBDAV BEGIN
+	# WEBDAV END
+	</IfModule>
 
 <tmpl_var name='apache_directives'>
 <tmpl_hook name='apache2_vhost:vhost_footer'>
