@@ -111,6 +111,7 @@ overquota_notify_freq=7
 overquota_db_notify_admin=y
 overquota_db_notify_client=y
 overquota_notify_onok=n
+asp_new_package_disabled=y
 
 [dns]
 bind_user=root
