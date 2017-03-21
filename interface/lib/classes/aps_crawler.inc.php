@@ -568,6 +568,9 @@ class ApsCrawler extends ApsBase
 				//$pkg_url = $this->app_download_url_list[$pkg];
 				$pkg_url = @file_get_contents($this->interface_pkg_dir.'/'.$pkg.'/PKG_URL');
 
+				//* Get global sites config
+				$sites_config = $app->getconf->get_global_config('sites');
+
 				// Insert only if data is complete
 				if($pkg != '' && $pkg_name != '' && $pkg_category != '' && $pkg_version != '' && $pkg_release != '' && $pkg_url){
 					$insert_data = array(
@@ -577,7 +580,7 @@ class ApsCrawler extends ApsBase
 						"version" => $pkg_version,
 						"release" => $pkg_release,
 						"package_url" => $pkg_url,
-						"package_status" => PACKAGE_ENABLED
+						"package_status" => $sites_config['asp_new_package_disabled'] == 'y' ? PACKAGE_LOCKED : PACKAGE_ENABLED
 					);
 					$app->db->datalogInsert('aps_packages', $insert_data, 'id');
 				} else {
