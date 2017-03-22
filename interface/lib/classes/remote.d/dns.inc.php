@@ -71,6 +71,7 @@ class remoting_dns extends remoting {
 		$tpl_rows = explode("\n", $tpl_content);
 		$section = '';
 		$vars = array();
+		$vars['xfer']='';
 		$dns_rr = array();
 		foreach($tpl_rows as $row) {
 			$row = trim($row);
@@ -176,6 +177,7 @@ class remoting_dns extends remoting {
 					$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 				}
 			}
+			return $dns_soa_id;
 			exit;
 		} else {
 			throw new SoapFault('permission_denied', $error);
