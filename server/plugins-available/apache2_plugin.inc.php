@@ -643,7 +643,7 @@ class apache2_plugin {
 				
 				//* Unmount the old log directory bfore we move the log dir
 				//exec('fuser -km '.escapeshellcmd($old_dir.'/log'));
-				exec('umount '.escapeshellcmd($data['old']['document_root'].'/log'));
+				exec('umount -l '.escapeshellcmd($data['old']['document_root'].'/log'));
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -726,7 +726,7 @@ class apache2_plugin {
 
 			//* Unmount log directory
 			//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
-			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
+			exec('umount -l '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
 		}
 
 		//* Create the log dir if nescessary and mount it
@@ -2084,12 +2084,12 @@ class apache2_plugin {
 				foreach($log_folders as $log_folder){
 					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 					//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
-					exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+					exec('umount -l '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 				}
 			} else {
 				//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
-				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+				exec('umount -l '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
 			}
 			
 			// remove letsencrypt if it exists (renew will always fail otherwise)
