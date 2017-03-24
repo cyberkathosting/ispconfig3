@@ -60,7 +60,7 @@ class cronjob_logfiles extends cronjob {
 		// Manage and compress web logfiles and create traffic statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ?";
+		$sql = "SELECT domain_id, domain, type, document_root, web_folder, parent_domain_id, log_retention FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') AND server_id = ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 		foreach($records as $rec) {
 
@@ -75,6 +75,8 @@ class cronjob_logfiles extends cronjob {
 				$log_folder .= '/' . $subdomain_host;
 				unset($tmp);
 			}
+
+                        $log_retention = $rec['log_retention'];
 
 			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			$total_bytes = 0;
@@ -142,21 +144,25 @@ class cronjob_logfiles extends cronjob {
 				exec("cat /dev/null > $logfile");
 			}
 
-			// delete logfiles after 30 days
-			$month_ago = date('Ymd', time() - 86400 * 30);
+			// delete logfiles after x days (default 30)
+                        if($log_retention > 0) {
+			$month_ago = date('Ymd', time() - 86400 * $log_retention);
 			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$month_ago.'-access.log.gz');
 			if(@is_file($logfile)) {
 				unlink($logfile);
 			}
+			}
 
 			//* Delete older Log files, in case that we missed them before due to serverdowntimes.
-			$datepart = date('Ym', time() - 86400 * 31 * 2);
+                        if($log_retention > 0) {
+			$datepart = date('Ym', time() - 86400 * $log_retention+1 * 2);
 
 			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log.gz';
 			exec('rm -f '.$logfile);
 
 			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log';
 			exec('rm -f '.$logfile);
+			}
 		}
 
 		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server

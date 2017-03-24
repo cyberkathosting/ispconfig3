@@ -133,4 +133,6 @@ $wb['http_port_txt'] = 'HTTP Port';
 $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
+$wb['log_retention_txt'] = 'Log-Datei Aufbewahrungszeit';
+$wb['log_retention_error_regex'] = 'Nur Nummern von 0-9999 zulässig.'
 ?>
