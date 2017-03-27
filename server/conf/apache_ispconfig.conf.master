@@ -14,7 +14,11 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 # ISPConfig Logfile configuration for vlogger
 ################################################
 
+<tmpl_if name='apache_version' op='>=' value='2.4.7' format='version'>
+LogFormat "%v %h %l %u %t \"%r\" %>s %S \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
+<tmpl_else>
 LogFormat "%v %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
+</tmpl_if>
 CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m%d-access.log\" /var/log/ispconfig/httpd" combined_ispconfig
 
 <Directory /var/www/clients>
