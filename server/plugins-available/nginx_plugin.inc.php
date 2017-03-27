@@ -1295,8 +1295,9 @@ class nginx_plugin {
 			// check if domains are reachable to avoid letsencrypt verification errors
 			$le_rnd_file = uniqid('le-') . '.txt';
 			$le_rnd_hash = md5(uniqid('le-', true));
+			if(!is_dir('/usr/local/interface/acme/.well-known/acme-challenge/'))mkdir('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/',0755,true);
 			file_put_contents('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file, $le_rnd_hash);
-			
+
 			$le_domains = array();
 			foreach($temp_domains as $temp_domain) {
 				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
