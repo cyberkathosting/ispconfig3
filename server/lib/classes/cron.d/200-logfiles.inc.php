@@ -146,23 +146,15 @@ class cronjob_logfiles extends cronjob {
 
 			// delete logfiles after x days (default 30)
                         if($log_retention > 0) {
-			$month_ago = date('Ymd', time() - 86400 * $log_retention);
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$month_ago.'-access.log.gz');
-			if(@is_file($logfile)) {
-				unlink($logfile);
-			}
-			}
+                        foreach (glob($rec['document_root'].'/' . $log_folder . '/'."*.log*") as $logfile) {
+                        $now   = time();
+                        if (is_file($logfile))
+                                if ($now - filemtime($logfile) >= 60 * 60 * 24 * $log_retention)
+                                        unlink($logfile);
+                        }
 
-			//* Delete older Log files, in case that we missed them before due to serverdowntimes.
-                        if($log_retention > 0) {
-			$datepart = date('Ym', time() - 86400 * $log_retention+1 * 2);
+                        }
 
-			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log.gz';
-			exec('rm -f '.$logfile);
-
-			$logfile = escapeshellcmd($rec['document_root']).'/' . $log_folder . '/'.$datepart.'*-access.log';
-			exec('rm -f '.$logfile);
-			}
 		}
 
 		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
