@@ -148,4 +148,6 @@ $wb['https_port_txt'] = 'HTTPS Poort';
 $wb['http_port_error_regex'] = 'HTTP Poort niet correct.';
 $wb['https_port_error_regex'] = 'HTTPS Poort niet correct.';
 $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
+$wb['log_retention_txt'] = 'Logfiles retention time';
+$wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
 ?>

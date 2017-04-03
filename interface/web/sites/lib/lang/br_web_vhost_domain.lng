@@ -148,4 +148,6 @@ $wb['https_port_txt'] = 'Porta HTTPS';
 $wb['http_port_error_regex'] = 'Porta HTTP inválida.';
 $wb['https_port_error_regex'] = 'Porta HTTPS inválida.';
 $wb['enable_pagespeed_txt'] = 'Habilitar PageSpeed';
+$wb['log_retention_txt'] = 'Logfiles retention time';
+$wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
 ?>

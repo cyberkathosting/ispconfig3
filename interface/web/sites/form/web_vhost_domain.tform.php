@@ -922,7 +922,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
                                 'datatype' => 'INTEGER',
                                 'formtype' => 'TEXT',
                                 'validators' => array (  0 => array ( 'type' => 'REGEX',
-                                                'regex' => '/^([0-9]{0,4})$/',
+                                                'regex' => '/^([0-9]{1,4})$/',
                                                 'errmsg'=> 'log_retention_error_regex'),
                                 ),
                                 'default' => '30',
