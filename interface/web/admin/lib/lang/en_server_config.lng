@@ -222,7 +222,7 @@ $wb['mailuser_group_name_error_regex'] = 'Invalid mailuser group name.';
 $wb['mailuser_uid_error_range'] = 'Mailuser uid must be >= 2000';
 $wb['mailuser_gid_error_range'] = 'Mailuser gid must be >= 2000';
 $wb['getmail_config_dir_error_regex'] = 'Invalid getmail config directory.';
-$wb['website_basedir_error_regex'] = 'Invalid website basedir.';
+$wb['website_basedir_error_regex'] = 'Invalid website basedir path, min. length 5 chars.';
 $wb['website_symlinks_error_regex'] = 'Invalid website symlinks.';
 $wb['vhost_conf_dir_error_regex'] = 'Invalid vhost config directory.';
 $wb['vhost_conf_enabled_dir_error_regex'] = 'Invalid vhost conf enabled directory.';
