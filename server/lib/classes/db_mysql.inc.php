@@ -64,7 +64,7 @@ class db extends mysqli
 	*/
 
 	// constructor
-	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL) {
+	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL, $flags = NULL) {
 		global $app, $conf;
 
 		$this->dbHost = $host ? $host  : $conf['db_host'];
@@ -74,15 +74,13 @@ class db extends mysqli
 		$this->dbPass = $pass ? $pass : $conf['db_password'];
 		$this->dbCharset = $conf['db_charset'];
 		$this->dbNewLink = $conf['db_new_link'];
-		$this->dbClientFlags = $conf['db_client_flags'];
+		$this->dbClientFlags = $flags ? $flags : $conf['db_client_flags'];
+		$this->_iConnId = mysqli_init();
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
-		$try = 0;
-		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
-			if($try > 0) sleep(1);
-
-			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
+		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
+		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5;++$try) {
+			sleep($try);
+			mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -197,7 +195,7 @@ class db extends mysqli
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
+				if(!mysqli_real_connect(mysqli_init(), $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
 					if($this->errorNumber == '111') {
 						// server is not available
 						if($try > 9) {

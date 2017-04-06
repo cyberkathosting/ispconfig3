@@ -75,14 +75,12 @@ class db extends mysqli
 		$this->dbCharset = $conf[$prefix.'db_charset'];
 		$this->dbNewLink = $conf[$prefix.'db_new_link'];
 		$this->dbClientFlags = $conf[$prefix.'db_client_flags'];
+		$this->_iConnId = mysqli_init();
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
-		$try = 0;
-		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
-			if($try > 0) sleep(1);
-
-			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
+		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
+		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5;++$try) {
+			sleep($try);
+			mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -244,7 +242,7 @@ class db extends mysqli
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
+				if(!mysqli_real_connect(mysqli_init(), $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
 					if($try > 4) {
 						$this->_sqlerror('DB::query -> reconnect');
 						return false;
