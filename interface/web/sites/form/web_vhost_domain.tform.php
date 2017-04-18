@@ -609,7 +609,7 @@ $form["tabs"]['stats'] = array (
 		'stats_type' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
-			'default' => 'webalizer',
+			'default' => 'awstats',
 			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
 		),
 		//#################################

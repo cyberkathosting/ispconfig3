@@ -1955,7 +1955,7 @@ CREATE TABLE `web_domain` (
   `ssl_key` mediumtext NULL,
   `ssl_action` varchar(16) NULL,
   `stats_password` varchar(255) default NULL,
-  `stats_type` varchar(255) default 'webalizer',
+  `stats_type` varchar(255) default 'awstats',
   `allow_override` varchar(255) NOT NULL default 'All',
   `apache_directives` mediumtext,
   `nginx_directives` mediumtext,
