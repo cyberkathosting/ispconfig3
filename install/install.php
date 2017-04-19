@@ -551,7 +551,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 		$check = false;
 		do {
 			unset($temp_password);
-			$temp_password = $inst->free_query('Re-enter admin password', '');
+			$temp_password = $inst->free_query('Re-enter admin password', '','ispconfig_admin_password');
 			$check = @($temp_password == $conf['interface_password'])?true:false;
 			if(!$check) swriteln('Passwords do not match.');
 		} while (!$check);
