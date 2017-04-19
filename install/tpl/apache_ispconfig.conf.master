@@ -128,6 +128,9 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
         Order allow,deny
         Allow from all
 		</tmpl_if>
+        <IfModule mpm_itk_module>
+           AssignUserId www-data www-data
+        </IfModule>
 </Directory>
 
 NameVirtualHost *:80
