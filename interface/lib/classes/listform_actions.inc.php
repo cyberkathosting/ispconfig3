@@ -153,7 +153,7 @@ class listform_actions {
 			$records_new = array_slice($records_new, $app->listform->getPagingValue('offset'), $app->listform->getPagingValue('records_per_page'));
 		}
 
-		$app->tpl->setLoop('records', $records_new);
+		if(is_array($records_new) && count($records_new) > 0) $app->tpl->setLoop('records', $records_new);
 
 		$this->onShow();
 
