@@ -27,7 +27,7 @@ class mail_mail_domain_plugin {
 	function mail_mail_domain_edit($event_name, $page_form) {
 		global $app, $conf;
 
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
+		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete entry created by an admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
@@ -44,7 +44,7 @@ class mail_mail_domain_plugin {
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
-			$updates = "sys_groupid = $client_group_id, sys_perm_group = 'riud'";
+			$updates = "sys_groupid = ?, sys_perm_group = 'riud'";
 			$update_params = array($client_group_id);
 			if ($event_name == 'mail:mail_domain:on_after_update') {
 				$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
