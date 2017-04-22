@@ -166,7 +166,8 @@ class page_action extends tform_actions {
 			}
 
 			// Check the quota and adjust
-			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0 && (($app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) || ($_POST["quota"] <= 0))) {
+			$old_mail_values = @($this->id > 0)?$app->db->queryOneRecord("SELECT * FROM mail_user WHERE mailuser_id = ?", $this->id):array();
+			if(isset($_POST["quota"]) && $client["limit_mailquota"] >= 0 && (($app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $old_mail_values['quota']) || ($_POST["quota"] <= 0))) {
 				$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user WHERE mailuser_id != ? AND ".$app->tform->getAuthSQL('u'), $this->id);
 				$mailquota = $tmp["mailquota"] / 1024 / 1024;
 				$new_mailbox_quota = $app->functions->intval($this->dataRecord["quota"]);
@@ -185,7 +186,7 @@ class page_action extends tform_actions {
 				$reseller = $app->db->queryOneRecord("SELECT limit_mailquota, limit_maildomain FROM client WHERE client_id = ?", $client['parent_client_id']);
 
 				//* Check the website quota of the client
-				if(isset($_POST["quota"]) && $reseller["limit_mailquota"] >= 0 && $app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $this->oldDataRecord['quota']) {
+				if(isset($_POST["quota"]) && $reseller["limit_mailquota"] >= 0 && $app->functions->intval($this->dataRecord["quota"]) * 1024 * 1024 != $old_mail_values['quota']) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(quota) as mailquota FROM mail_user, sys_group, client WHERE mail_user.sys_groupid=sys_group.groupid AND sys_group.client_id=client.client_id AND ? IN (client.parent_client_id, client.client_id) AND mailuser_id != ?", $client['parent_client_id'], $this->id);
 
 					$mailquota = $tmp["mailquota"] / 1024 / 1024;
