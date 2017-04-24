@@ -152,4 +152,6 @@ $wb['error_ipv4_change_forbidden'] = 'The IP cannot be changed. Please contact y
 $wb['error_ipv6_change_forbidden'] = 'The IP cannot be changed. Please contact your administrator if you want to change the IPv6 address.';
 $wb['error_domain_change_forbidden'] = 'The domain name cannot be changed. Please contact your administrator if you want to change the domain name.';
 $wb['error_server_change_not_possible'] = 'The server cannot be changed.';
+$wb['log_retention_txt'] = 'Logfiles retention time';
+$wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
 ?>

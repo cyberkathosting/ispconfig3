@@ -140,7 +140,10 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
 		<tmpl_else>
         Order allow,deny
         Allow from all
-		</tmpl_if>
+    </tmpl_if>
+	<IfModule mpm_itk_module>
+       AssignUserId www-data www-data
+    </IfModule>
 </Directory>
 
 <tmpl_if name='apache_version' op='<' value='2.4' format='version'>

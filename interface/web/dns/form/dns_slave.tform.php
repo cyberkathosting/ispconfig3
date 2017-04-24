@@ -108,8 +108,14 @@ $form["tabs"]['dns_slave'] = array (
 		'ns' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+/*
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
 					'regex' => '/^[0-9\.]{1,255}$/',
+					'errmsg'=> 'ns_error_regex'),
+			),
+*/
+			'validators' => array (  0 => array ( 'type' => 'ISIP',
+					'separator' => ',',
 					'errmsg'=> 'ns_error_regex'),
 			),
 			'default' => '',

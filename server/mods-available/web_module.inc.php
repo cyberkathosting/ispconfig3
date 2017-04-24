@@ -215,6 +215,8 @@ class web_module {
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
 			$cmd = $app->system->getinitcommand($daemon, 'restart');
+		} elseif($action == 'force-reload') {
+			$cmd = $app->system->getinitcommand($daemon, 'force-reload');
 		} else {
 			$cmd = $app->system->getinitcommand($daemon, 'reload');
 		}

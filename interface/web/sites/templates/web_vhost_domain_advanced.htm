@@ -35,6 +35,10 @@
                 </div>
                 <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
             </div>
+            <div class="form-group">
+                <label for="log_retention" class="col-sm-3 control-label">{tmpl_var name='log_retention_txt'}</label>
+                <div class="col-sm-9"><input name="log_retention" id="log_retention" value="{tmpl_var name='log_retention'}" type="text" class="form-control" /></div>
+            </div>
             <div class="form-group apache">
                 <label for="allow_override" class="col-sm-3 control-label">{tmpl_var name='allow_override_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" /></div></div>

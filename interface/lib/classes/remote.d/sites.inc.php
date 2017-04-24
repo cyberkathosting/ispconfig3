@@ -427,6 +427,7 @@ class remoting_sites extends remoting {
 		if($params['document_root'] == '') $params['document_root'] = '-';
 		if($params['system_user'] == '') $params['system_user'] = '-';
 		if($params['system_group'] == '') $params['system_group'] = '-';
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
@@ -447,6 +448,8 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
@@ -498,6 +501,7 @@ class remoting_sites extends remoting {
 		if($params['document_root'] == '') $params['document_root'] = '-';
 		if($params['system_user'] == '') $params['system_user'] = '-';
 		if($params['system_group'] == '') $params['system_group'] = '-';
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
@@ -516,6 +520,8 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
@@ -567,6 +573,7 @@ class remoting_sites extends remoting {
 		if($params['document_root'] == '') $params['document_root'] = '-';
 		if($params['system_user'] == '') $params['system_user'] = '-';
 		if($params['system_group'] == '') $params['system_group'] = '-';
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;
@@ -585,6 +592,8 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
 		if($params['pm_max_children'] == '') $params['pm_max_children'] = 1;

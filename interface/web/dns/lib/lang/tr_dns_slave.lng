@@ -13,5 +13,5 @@ $wb['origin_error_unique'] = 'Bu bölge için zaten bir kayıt var.';
 $wb['origin_error_regex'] = 'Bölge biçimi geçersiz.';
 $wb['ns_error_regex'] = 'NS biçimi geçersiz.';
 $wb['eg_domain_tld'] = 'Örnek: domain.tld.';
-$wb['ipv4_form_txt'] = 'IPv4 biçimi - Örnek: 1.2.3.4';
+$wb['ipv4_form_txt'] = 'Separate multiple IPs with commas';
 ?>

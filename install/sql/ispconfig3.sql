@@ -1968,7 +1968,7 @@ CREATE TABLE `web_domain` (
   `ssl_key` mediumtext NULL,
   `ssl_action` varchar(16) NULL,
   `stats_password` varchar(255) default NULL,
-  `stats_type` varchar(255) default 'webalizer',
+  `stats_type` varchar(255) default 'awstats',
   `allow_override` varchar(255) NOT NULL default 'All',
   `apache_directives` mediumtext,
   `nginx_directives` mediumtext,
@@ -1999,6 +1999,7 @@ CREATE TABLE `web_domain` (
   `http_port` int(11) unsigned NOT NULL DEFAULT '80',
   `https_port` int(11) unsigned NOT NULL DEFAULT '443',
   `folder_directive_snippets` text,
+  `log_retention` int(11) NOT NULL DEFAULT '30',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

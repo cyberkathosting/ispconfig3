@@ -421,6 +421,7 @@ if($_POST['create'] == 1) {
 			"dnssec_wanted" => $enable_dnssec
 		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
+		if($dns_soa_id > 0) $app->plugin->raiseEvent('dns:wizard:on_after_insert', $dns_soa_id);
 
 		// Insert the dns_rr records
 		if(is_array($dns_rr) && $dns_soa_id > 0) {

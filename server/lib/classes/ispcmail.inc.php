@@ -433,20 +433,17 @@ class ispcmail {
 			$textonly = true;
 		} elseif($text == true && $html == false && $attach == true) {
 			// text and attachment
-			$content_type = 'multipart/mixed;';
-			$content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+			$content_type = 'multipart/mixed; boundary="' . $this->mime_boundary . '"';
 		} elseif($html == true && $text == true && $attach == false) {
 			// html only (or text too)
-			$content_type = 'multipart/alternative;';
-			$content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+			$content_type = 'multipart/alternative; boundary="' . $this->mime_boundary . '"';
 		} elseif($html == true && $text == false && $attach == false) {
 			// html only (or text too)
 			$content_type = 'text/html; charset="' . strtolower($this->mail_charset) . '"';
 			$htmlonly = true;
 		} elseif($html == true && $attach == true) {
 			// html and attachments
-			$content_type = 'multipart/mixed;';
-			$content_type .= "\n" . ' boundary="' . $this->mime_boundary . '"';
+			$content_type = 'multipart/mixed; boundary="' . $this->mime_boundary . '"';
 		}
 
 		$this->headers['Content-Type'] = $content_type;
@@ -475,8 +472,7 @@ class ispcmail {
 			if($attach) {
 				foreach($this->attachments as $att) {
 					$this->body .= "--{$this->mime_boundary}\n" .
-						"Content-Type: " . $att['type'] . ";\n" .
-						" name=\"" . $att['filename'] . "\"\n" .
+						"Content-Type: " . $att['type'] . "; name=\"" . $att['filename'] . "\"\n" .
 						"Content-Transfer-Encoding: base64\n" .
 						"Content-Disposition: attachment;\n\n" .
 						chunk_split(base64_encode($att['content'])) . "\n\n";

@@ -2453,6 +2453,12 @@ class installer_base {
 		//* chown the interface files to the ispconfig user and group
 		$command = 'chown -R ispconfig:ispconfig '.$install_dir.'/interface';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+
+		//* Chmod the files and directories in the acme dir with nginx installed
+		if($conf['nginx']['installed'] == true) {
+			$command = 'chmod -R 755 '.$install_dir.'/interface/acme';
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
 		
 		//* chown the server files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/server';

@@ -151,4 +151,7 @@ $wb['error_ipv4_change_forbidden'] = 'Die IP-Adresse kann nicht geändert werden
 $wb['error_ipv6_change_forbidden'] = 'Die IP-Adresse kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator, wenn Sie die IPv6-Adresse ändern möchten.';
 $wb['error_domain_change_forbidden'] = 'Der Domainname kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator, wenn Sie den Domainnamen ändern möchten.';
 $wb['error_server_change_not_possible'] = 'Der Server kann nicht geändert werden.';
+$wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
+$wb['log_retention_txt'] = 'Log-Dateien Aufbewahrungszeit';
+$wb['log_retention_error_regex'] = "Aufbewahrungszeit in Tagen (Erlaubte Werte: min. 0 - max. 9999)";
 ?>

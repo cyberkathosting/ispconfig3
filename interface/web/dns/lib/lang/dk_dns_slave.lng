@@ -13,5 +13,5 @@ $wb['origin_error_unique'] = 'Der findes allerede en post for denne zone.';
 $wb['origin_error_regex'] = 'Zone har et ugyldigt format.';
 $wb['ns_error_regex'] = 'NS har et ugyldigt format.';
 $wb['eg_domain_tld'] = 'f.eks. domæne.tld.';
-$wb['ipv4_form_txt'] = 'IPv4 form - f.eks. 1.2.3.4';
+$wb['ipv4_form_txt'] = 'Separate multiple IPs with commas';
 ?>

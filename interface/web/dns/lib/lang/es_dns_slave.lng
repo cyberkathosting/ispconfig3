@@ -2,7 +2,7 @@
 $wb['active_txt'] = 'Habilitado';
 $wb['client_txt'] = 'Cliente';
 $wb['eg_domain_tld'] = 'eje. dominio.tld.';
-$wb['ipv4_form_txt'] = 'Formato IPv4 - eje. 1.2.3.4';
+$wb['ipv4_form_txt'] = 'Separate multiple IPs with commas';
 $wb['ns_error_regex'] = 'El registro NS contiene un formato inválido.';
 $wb['ns_txt'] = 'NS (Dirección IP)';
 $wb['origin_error_empty'] = 'Zona vacía.';
