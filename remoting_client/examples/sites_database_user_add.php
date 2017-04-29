@@ -22,7 +22,7 @@ try {
 		'database_password' => 'db_name2'
 	);
 
-	$database_id = $client->sites_database_user_add($session_id, $client_id, $params);
+	$database_user_id = $client->sites_database_user_add($session_id, $client_id, $params);
 
 	echo "Database ID: ".$database_user_id."<br>";
 
