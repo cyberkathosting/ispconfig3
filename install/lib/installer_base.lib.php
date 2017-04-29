@@ -894,7 +894,7 @@ class installer_base {
 		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
 
 		//* Changing mode and group of the new created config files.
-		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
+		caselog('chmod u=rw,g=r,o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
 			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
 		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
 			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
