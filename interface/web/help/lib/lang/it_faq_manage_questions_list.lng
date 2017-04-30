@@ -4,6 +4,6 @@ $wb['faq_section_name_txt'] = 'Sezione';
 $wb['faq_delete_txt'] = 'Elimina';
 $wb['faq_edit_txt'] = 'Modifica';
 $wb['faq_sections_txt'] = 'Sezione';
-$wb['faq_faq_questions_txt'] = 'Frequently Asked Questions';
+$wb['faq_faq_questions_txt'] = 'Domande frequenti';
 $wb['faq_new_question_txt'] = 'Aggiungi nuova domanda & rispondi';
 ?>
