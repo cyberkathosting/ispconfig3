@@ -846,7 +846,7 @@ class ApsGUIController extends ApsBase
 		$pkg['Requirements PHP extensions'] = trim($php_ext);
 
 		// PHP bool options
-		$pkg['Requirements PHP settings'] = '';
+		$pkg['Requirements PHP settings'] = array();
 		$php_bool_options = array('allow-url-fopen', 'file-uploads', 'magic-quotes-gpc',
 			'register-globals', 'safe-mode', 'short-open-tag');
 		foreach($php_bool_options as $option)

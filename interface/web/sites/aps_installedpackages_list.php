@@ -113,7 +113,7 @@ $records = $app->db->queryAllRecords($query);
 $app->listform_actions->DataRowColor = '#FFFFFF';
 
 // Re-form all result entries and add extra entries
-$records_new = '';
+$records_new = array();
 if(is_array($records))
 {
 	$app->listform_actions->idx_key = $app->listform->listDef["table_idx"];
