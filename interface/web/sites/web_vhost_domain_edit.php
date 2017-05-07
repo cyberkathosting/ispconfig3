@@ -160,6 +160,11 @@ class page_action extends tform_actions {
 			}
 
 			$client['web_servers_ids'] = explode(',', $client['web_servers']);
+			if($this->id > 0) {
+				$client['web_servers_ids'][] = $this->dataRecord['server_id'];
+				$client['web_servers_ids'] = array_unique($client['web_servers_ids']);
+			}
+			
 			$only_one_server = count($client['web_servers_ids']) === 1;
 			$app->tpl->setVar('only_one_server', $only_one_server);
 

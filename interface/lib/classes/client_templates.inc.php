@@ -151,11 +151,14 @@ class client_templates {
 						elseif($is_reseller == false && $v != 0) continue;
 					}
 					
+					// we need to do this, as e. g. a single server id in web_servers etc. would not be matching "is_string" below
+					if(in_array($k, array('mail_servers', 'web_servers', 'dns_servers', 'db_servers'), true)) $v = strval($v);
+					
 					/* we can remove this condition, but it is easier to debug with it (don't add ids and other non-limit values) */
-					if (strpos($k, 'limit') !== false or strpos($k, 'default') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
+					if (strpos($k, 'limit') !== false or strpos($k, 'default') !== false or strpos($k, 'servers') !== false or $k == 'ssh_chroot' or $k == 'web_php_options' or $k == 'force_suexec'){
 						$app->log('Template processing key ' . $k . ' for client ' . $clientId, LOGLEVEL_DEBUG);
 						/* process the numerical limits */
-						if (is_numeric($v)){
+						if (is_numeric($v) && in_array($k, array('mail_servers', 'web_servers', 'dns_servers', 'db_servers'), true) == false){
 							/* switch for special cases */
 							switch ($k){
 							case 'limit_cron_frequency':
@@ -210,17 +213,25 @@ class client_templates {
 								if (!isset($limits[$k])){
 									$limits[$k] = array();
 								}
-
+								
 								$limits_values = $limits[$k];
 								if (is_string($limits[$k])){
-									$limits_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"], $limits[$k]);
+									if($limits[$k] != '') {
+										$limits_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"], $limits[$k]);
+									} else {
+										$limits_values = array();
+									}
 								}
 								$additional_values = explode($form["tabs"]["limits"]["fields"][$k]["separator"], $v);
 								$app->log('Template processing key ' . $k . ' type CHECKBOXARRAY, lim / add: ' . implode(',', $limits_values) . ' / ' . implode(',', $additional_values) . ' for client ' . $clientId, LOGLEVEL_DEBUG);
 								/* unification of limits_values (master template) and additional_values (additional template) */
-								$limits_unified = array();
-								foreach($form["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
-									if (in_array($key, $limits_values) || in_array($key, $additional_values)) $limits_unified[] = $key;
+								if(in_array($k, array('mail_servers', 'web_servers', 'dns_servers', 'db_servers'), true)) {
+									$limits_unified = array_unique(array_merge($limits_values, $additional_values));
+								} else {
+									$limits_unified = array();
+									foreach($form["tabs"]["limits"]["fields"][$k]["value"] as $key => $val){
+										if (in_array($key, $limits_values) || in_array($key, $additional_values)) $limits_unified[] = $key;
+									}
 								}
 								$limits[$k] = implode($form["tabs"]["limits"]["fields"][$k]["separator"], $limits_unified);
 								break;
@@ -250,7 +261,7 @@ class client_templates {
 				}
 			}
 		}
-
+		
 		/*
          * Write all back to the database
          */
