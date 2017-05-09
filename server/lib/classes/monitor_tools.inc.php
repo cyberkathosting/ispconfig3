@@ -87,6 +87,10 @@ class monitor_tools {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "17.04":
+				$relname = "(Zesty Zapus)";
+				$distconfid = 'ubuntu1604';
+				break;
 			case "16.10":
 				$relname = "(Yakkety Yak)";
 				$distconfid = 'ubuntu1604';
