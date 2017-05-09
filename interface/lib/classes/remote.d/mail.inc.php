@@ -1105,6 +1105,172 @@ class remoting_mail extends remoting {
 		return $app->quota_lib->get_mailquota_data($client_id, false);
 	}
 
-}
+	//** xmpp functions -----------------------------------------------------------------------------------
 
+	public function xmpp_domain_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'xmpp_domain_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/xmpp_domain.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	public function xmpp_domain_add($session_id, $client_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'xmpp_domain_add')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$primary_id = $this->insertQuery('../mail/form/xmpp_domain.tform.php', $client_id, $params);
+		return $primary_id;
+	}
+
+	public function xmpp_domain_update($session_id, $client_id, $primary_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'xmpp_domain_update')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../mail/form/xmpp_domain.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+
+	public function xmpp_domain_delete($session_id, $primary_id)
+	{
+		if(!$this->checkPerm($session_id, 'xmpp_domain_delete')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../mail/form/xmpp_domain.tform.php', $primary_id);
+		return $affected_rows;
+	}
+
+	public function xmpp_user_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'xmpp_user_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../mail/form/xmpp_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	public function xmpp_user_add($session_id, $client_id, $params){
+		global $app;
+
+		if (!$this->checkPerm($session_id, 'xmpp_user_add')){
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		$jid_parts = explode('@', $params['jid']);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM xmpp_domain WHERE domain = ?", $jid_parts[1]);
+		if($tmp['domain'] != $jid_parts[1]) {
+			throw new SoapFault('xmpp_domain_does_not_exist', 'XMPP domain - '.$jid_parts[1].' - does not exist.');
+			return false;
+		}
+
+		$affected_rows = $this->insertQuery('../mail/form/xmpp_user.tform.php', $client_id, $params);
+		return $affected_rows;
+	}
+
+	public function xmpp_user_update($session_id, $client_id, $primary_id, $params)
+	{
+		global $app;
+
+		if (!$this->checkPerm($session_id, 'xmpp_user_update'))
+		{
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		$jid_parts = explode('@', $jid_parts['jid']);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM xmpp_domain WHERE domain = ?", $jid_parts[1]);
+		if($tmp['domain'] != $jid_parts[1]) {
+			throw new SoapFault('xmpp_domain_does_not_exist', 'Mail domain - '.$jid_parts[1].' - does not exist.');
+			return false;
+		}
+
+		$affected_rows = $this->updateQuery('../mail/form/xmpp_user.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+
+	public function xmpp_user_delete($session_id, $primary_id)
+	{
+		if (!$this->checkPerm($session_id, 'xmpp_user_delete'))
+		{
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->deleteQuery('../mail/form/xmpp_user.tform.php', $primary_id);
+		return $affected_rows;
+	}
+
+	public function xmpp_domain_get_by_domain($session_id, $domain) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'xmpp_domain_get_by_domain')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if (!empty($domain)) {
+			$sql            = "SELECT * FROM xmpp_domain WHERE domain = ?";
+			$result         = $app->db->queryAllRecords($sql, $domain);
+			return          $result;
+		}
+		return false;
+	}
+
+	public function xmpp_domain_set_status($session_id, $primary_id, $status) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'xmpp_domain_set_status')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if(in_array($status, array('active', 'inactive'))) {
+			if ($status == 'active') {
+				$status = 'y';
+			} else {
+				$status = 'n';
+			}
+			$sql = "UPDATE xmpp_domain SET active = ? WHERE domain_id = ?";
+			$app->db->query($sql, $status, $primary_id);
+			$result = $app->db->affectedRows();
+			return $result;
+		} else {
+			throw new SoapFault('status_undefined', 'The status is not available');
+			return false;
+		}
+	}
+
+	public function xmpp_user_set_status($session_id, $primary_id, $status) {
+		global $app;
+		if(!$this->checkPerm($session_id, 'xmpp_user_set_status')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		if(in_array($status, array('active', 'inactive'))) {
+			if ($status == 'active') {
+				$status = 'y';
+			} else {
+				$status = 'n';
+			}
+			$sql = "UPDATE xmpp_user SET active = ? WHERE xmppuser_id = ?";
+			$app->db->query($sql, $status, $primary_id);
+			$result = $app->db->affectedRows();
+			return $result;
+		} else {
+			throw new SoapFault('status_undefined', 'The status is not available');
+			return false;
+		}
+	}
+
+}
 ?>

@@ -1599,7 +1599,7 @@ $form["tabs"]['jailkit'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'jailkit_chroot_app_programs_error_empty'),
 									1 => array ( 	'type' => 'REGEX',
-										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]{1,}$/',
+										'regex' => '/^[a-zA-Z0-9\*\.\-\_\/\ ]{1,}$/',
 										'errmsg'=> 'jailkit_chroot_app_programs_error_regex'),
 			),
 			'value' => '',

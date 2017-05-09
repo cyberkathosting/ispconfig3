@@ -19,6 +19,7 @@ $function_list['mail_spamfilter_blacklist_get,mail_spamfilter_blacklist_add,mail
 $function_list['mail_user_filter_get,mail_user_filter_add,mail_user_filter_update,mail_user_filter_delete'] = 'Mail user filter functions';
 $function_list['mail_user_backup'] = 'Mail Backup functions';
 $function_list['mail_filter_get,mail_filter_add,mail_filter_update,mail_filter_delete'] = 'Mail filter functions';
-
+$function_list['xmpp_domain_get,xmpp_domain_add,xmpp_domain_update,xmpp_domain_delete,xmpp_domain_set_status,xmpp_domain_get_by_domain'] = 'XMPP domain functions';
+$function_list['xmpp_user_get,xmpp_user_add,xmpp_user_update,xmpp_user_delete,xmpp_user_set_status'] = 'XMPP user functions';
 
 ?>
