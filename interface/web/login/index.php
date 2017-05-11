@@ -298,7 +298,7 @@ if(count($_POST) > 0) {
 				$error = $app->lng('error_user_password_incorrect');
 				if($app->db->errorMessage != '') $error .= '<br />'.$app->db->errorMessage != '';
 
-				$app->plugin->raiseEvent('login_failed', $this);
+				$app->plugin->raiseEvent('login_failed', $username);
 				//* Save failed login message to var
 				$authlog = 'Failed login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
 				$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
@@ -309,7 +309,7 @@ if(count($_POST) > 0) {
 		} else {
 		//* Username or password empty
 		if($error == '') $error = $app->lng('error_user_password_empty');
-			$app->plugin->raiseEvent('login_empty', $this);
+			$app->plugin->raiseEvent('login_empty', $username);
 	}
 }
 
