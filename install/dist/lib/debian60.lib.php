@@ -105,6 +105,7 @@ class installer extends installer_base {
 				copy('tpl/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
+			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = webmaster@localhost', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			if(version_compare($dovecot_version,2.1) < 0) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
 			}
