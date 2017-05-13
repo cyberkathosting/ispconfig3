@@ -489,7 +489,7 @@ CREATE TABLE `dns_rr` (
   `server_id` int(11) NOT NULL default '1',
   `zone` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `type` enum('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY') default NULL,
+  `type` enum('A','AAAA','ALIAS','CAA','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY') default NULL,
   `data` TEXT NOT NULL,
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '3600',
@@ -499,6 +499,39 @@ CREATE TABLE `dns_rr` (
   PRIMARY KEY  (`id`),
   KEY `rr` (`zone`,`type`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table  `dns_ssl_ca`
+-- 
+
+CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
+  `id` int(10) unsigned NOT AUTO_INCREMENT,
+  `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
+  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
+  `active` enum('N','Y') NOT NULL DEFAULT 'N',
+  `ca_name` varchar(255) NOT NULL DEFAULT '',
+  `ca_issue` varchar(255) NOT NULL DEFAULT '',
+  `ca_wildcard` enum('Y','N') NOT NULL DEFAULT 'N',
+  `ca_iodef` text NOT NULL,
+  `ca_critical` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `active`, `ca_name`, `ca_issue`, `ca_wildcard`, `ca_iodef`, `ca_critical`) VALUES
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Comodo', 'comodoca.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'DigiCert', 'digicert.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Entrust', 'entrust.net', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'GeoTrust (Symantec)', 'geotrust.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Izenpe', 'izenpe.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Let''s Encrypt', 'letsencrypt.org', 'N', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Symantec', 'symantec.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Thawte (Symantec)', 'thawte.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'WoSign', 'wosign.com', 'Y', '', 0);
+
 
 -- --------------------------------------------------------
 

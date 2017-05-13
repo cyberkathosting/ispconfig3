@@ -236,6 +236,17 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 
+		//* Get the bind version
+		$bind_caa = false;
+        $bind = explode("\n", shell_exec('which named bind'));
+        $bind = reset($bind);
+        if(is_executable($bind)) {
+			exec($bind . ' -v 2>&1', $tmp);
+			$bind_caa = @(version_compare($tmp[0],"BIND 9.9.6", '>='))?true:false;
+			unset($tmp);
+		}
+		unset($bind);
+
 		//* Write the domain file
 		if(!empty($data['new']['id'])) {
 			$tpl = new tpl();
@@ -252,6 +263,20 @@ class bind_plugin {
 					//* Split TXT records, if nescessary
 					if($records[$i]['type'] == 'TXT' && strlen($records[$i]['data']) > 255) {
 						$records[$i]['data'] = implode('" "',str_split( $records[$i]['data'], 255));
+					}
+					//* CAA-Records - Type257 for older bind-versions
+					if($records[$i]['type'] == 'CAA' && !$bind_caa) {
+						$records[$i]['type'] = 'TYPE257';
+						$temp = explode(' ', $records[$i]['data']);
+						unset($temp[0]);
+						$records[$i]['data'] = implode(' ', $temp);
+						$data_new = str_replace(array('"', ' '), '', $records[$i]['data']);
+						//TODO: check if need \t and 00
+						$hex = unpack('H*', "\t$data_new");
+						$hex[1] = '00'.$hex[1];
+						$length = strlen($hex[1])/2;
+						$data_new = "\# $length $hex[1]";
+						$records[$i]['data'] = $data_new;
 					}
 				}
 			}
