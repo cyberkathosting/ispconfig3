@@ -1,0 +1,25 @@
+<tmpl_if name="edit_record">
+<tmpl_else>
+<table class="table">
+	<thead class="dark form-group-sm">
+		<tr>
+			<th data-column="active"><tmpl_var name="active_txt"></th>
+			<th data-column="name"><tmpl_var name="ca_name_txt"></th>
+			<th></th>
+		</tr>
+
+	</thead>
+	<tbody>
+		<tmpl_loop name="ca_records">
+			<tr>
+				<td>{tmpl_var name="active"}</td>
+				<td>{tmpl_var name="name"}</td>
+				<td class="text-right">
+ 					<button class="btn btn-default formbutton-default formbutton-narrow" type="button" onClick="ISPConfig.changeTab('dns_ca','admin/system_config_edit.php?action=edit&id={tmpl_var name='ca_id'}', true);"><span class="icon icon-edit"></span></button>
+					<button class="btn btn-default formbutton-danger formbutton-narrow" type="button" onClick="ISPConfig.changeTab('dns_ca','admin/system_config_edit.php?action=delete&id={tmpl_var name='ca_id'}', true);"><span class="icon icon-delete"></span></button>
+				</td>
+			</tr>
+		</tmpl_loop>
+	</tbody>
+</table>
+</tmpl_if>
