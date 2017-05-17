@@ -8,4 +8,6 @@ $wb['no_zone_perm'] = 'Vous n\'avez pas la permission d\'ajouter un enregistreme
 $wb['ttl_range_error'] = 'Le temps minimum TTL est de 60 secondes.';
 $wb['selector_txt'] = 'Selecteur DKIM';
 $wb['dkim_disabled_txt'] = 'DKIM disabled for this mail-domain';
+$wb['data_error_empty'] = 'Public-Key missing';
+$wb['dkim_selector_empty_txt'] = 'DKIM-Selector is empty';
 ?>

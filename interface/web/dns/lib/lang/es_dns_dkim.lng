@@ -8,4 +8,6 @@ $wb['record_exists_txt'] = 'El registro DNS ya existe';
 $wb['selector_txt'] = 'Seleccionador DKIM';
 $wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 $wb['ttl_txt'] = 'TTL';
+$wb['data_error_empty'] = 'Public-Key missing';
+$wb['dkim_selector_empty_txt'] = 'DKIM-Selector is empty';
 ?>

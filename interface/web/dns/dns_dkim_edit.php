@@ -72,16 +72,26 @@ class page_action extends tform_actions {
 		parent::onShowNew();
 
         $soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_GET['zone']);
-        $sql=$app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND " . $app->tform->getAuthSQL('r'), substr_replace($soa['origin'],'',-1));
-        $public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
-		$app->tpl->setVar('public_key', $public_key);
-		$app->tpl->setVar('selector', $sql['dkim_selector']);
+        $sql=$app->db->queryOneRecord("SELECT domain, dkim_public, dkim_selector, dkim FROM mail_domain WHERE domain = ? AND " . $app->tform->getAuthSQL('r'), substr_replace($soa['origin'],'',-1));
+		if(isset($sql['domain']) && $sql['domain'] != '') {
+			if($sql['dkim'] == 'y') {
+		        $public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
+				$app->tpl->setVar('public_key', $public_key);
+				$app->tpl->setVar('selector', $sql['dkim_selector']);
+			} else {
+			//TODO: show warning - use mail_domain for dkim and enabled dkim
+			}
+			$app->tpl->setVar('edit_disabled', 1);
+		} else {
+			$app->tpl->setVar('edit_disabled', 0);
+		}
 		$app->tpl->setVar('name', $soa['origin']);
 
 	}
 
 	function onSubmit() {
 		global $app, $conf;
+
 		// Get the parent soa record of the domain
 		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_POST["zone"]);
 		// Check if Domain belongs to user
@@ -110,15 +120,20 @@ class page_action extends tform_actions {
 			$this->dataRecord['name']=$this->dataRecord['selector'].'._domainkey.'.$this->dataRecord['name'];
 			$this->dataRecord['ttl']=60;
 		}
-			// Update the serial number  and timestamp of the RR record
-			$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
-			$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
-			$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
+		// Update the serial number  and timestamp of the RR record
+		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
+		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
+		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
 
-			// check for duplicate entry
-			$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord["data"], $this->dataRecord['name']);
-			if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
-			if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
+		// check for duplicate entry
+		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord["data"], $this->dataRecord['name']);
+		if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
+		if (empty($this->dataRecord['data'])) $app->tform->errorMessage /= $app->tform->wordbook["dkim_disabled_txt"];
+
+		// validate selector and public-key
+		if (empty($this->dataRecord['selector'])) $app->tform->errorMessage .= '<br/>'.$app->tform->wordbook["dkim_selector_empty_txt"].'<br/>';
+		$this->dataRecord['data']=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$this->dataRecord['data']); // if the users entered his own key
+	
 		parent::onSubmit();
 	}
 
