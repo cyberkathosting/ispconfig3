@@ -271,9 +271,8 @@ class bind_plugin {
 						unset($temp[0]);
 						$records[$i]['data'] = implode(' ', $temp);
 						$data_new = str_replace(array('"', ' '), '', $records[$i]['data']);
-						//TODO: check if need \t and 00
-						$hex = unpack('H*', "\t$data_new");
-						$hex[1] = '00'.$hex[1];
+						$hex = unpack('H*', $data_new);
+						$hex[1] = '0005'.strtoupper($hex[1]);
 						$length = strlen($hex[1])/2;
 						$data_new = "\# $length $hex[1]";
 						$records[$i]['data'] = $data_new;
