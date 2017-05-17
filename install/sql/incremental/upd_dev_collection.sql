@@ -31,7 +31,7 @@ CHANGE `warnbannedrecip` `warnbannedrecip` ENUM('N','Y') CHARACTER SET utf8 COLL
 CHANGE `warnbadhrecip` `warnbadhrecip` ENUM('N','Y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N';
 
 CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
-  `id` int(10) unsigned NOT AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
   `sys_groupid` int(11) unsigned NOT NULL DEFAULT '0',
   `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
@@ -42,8 +42,9 @@ CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
   `ca_issue` varchar(255) NOT NULL DEFAULT '',
   `ca_wildcard` enum('Y','N') NOT NULL DEFAULT 'N',
   `ca_iodef` text NOT NULL,
-  `ca_critical` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `ca_critical` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `active`, `ca_name`, `ca_issue`, `ca_wildcard`, `ca_iodef`, `ca_critical`) VALUES
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Comodo', 'comodoca.com', 'Y', '', 0),
