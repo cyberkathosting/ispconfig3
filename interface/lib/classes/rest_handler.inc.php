@@ -166,6 +166,7 @@ class ISPConfigRESTHandler {
 			$pname = $param->name;
 			if($pname == 'session_id') $params[] = (isset($get['session_id']) ? $get['session_id'] : '');
 			elseif($pname == 'primary_id' && $primary_id) $params[] = $primary_id;
+			elseif($pname == 'params' && is_array($json)) $params[] = $json;
 			elseif(isset($json[$pname])) $params[] = $json[$pname];
 			else $params[] = null;
 		}
