@@ -653,11 +653,11 @@ $form['tabs']['dns_ca'] = array (
 	'fields'  => array (),
 	'plugins' => array (
 		'dns_ca' => array (
-			'class'   => 'plugin_dns_ca',
+			'class'   => 'plugin_system_config_dns_ca',
 			'options' => array()
 		),
 		'dns_ca_list' => array (
-			'class'   => 'plugin_dns_ca_list',
+			'class'   => 'plugin_system_config_dns_ca_list',
 			'options' => array()
 		)
 	)
