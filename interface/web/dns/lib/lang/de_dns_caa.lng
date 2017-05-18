@@ -2,9 +2,9 @@
 $wb['ca_list_txt'] = 'Zertifizierungsstelle';
 $wb['ca_domain_txt'] = 'Domain';
 $wb['ca_hostname_txt'] = 'zusätzliche Hostnamen';
-$wb['ca_hostname_note_txt'] = '(mit Komma getrennte Liste)';
+$wb['ca_hostname_note_txt'] = '(mit Komma getrennte Liste - leer für alle Namen)';
 $wb['ca_options_txt'] = 'zusätzliche Angaben';
-$wb['ca_options_note_txt'] = 'von der Zertifizierungsstelle vorgegeben (mit Komma getrennte Liste - leer für alle Namen)';
+$wb['ca_options_note_txt'] = 'von der Zertifizierungsstelle vorgegeben (mit Komma getrennte Liste)';
 $wb['ca_wildcard_txt'] = 'Wildcard verwenden';
 $wb['ca_critical_txt'] = 'Strikte Überprüfung durch die Zertifizierungsstelle'; //For future use.  At this time, CA’s do not recognize any other flag values as described in RFC 6844
 $wb['ttl_txt'] = 'TTL';
