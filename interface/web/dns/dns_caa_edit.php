@@ -172,7 +172,7 @@ class page_action extends tform_actions {
 		}
 
 		// Check for duplicate
-		$temp = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE type = 'CAA' AND name = ? AND data = ?", $this->dataRecord['name'], $this->dataRecord['data']);
+		$temp = $app->db->queryOneRecord("SELECT * FROM dns_rr WHERE type = 'CAA' AND name = ? AND data = ? AND active = ?", $this->dataRecord['name'], $this->dataRecord['data'], $POST['active']);
 		if(is_array($temp)) $this->error('caa_exists_error');
 		unset($temp);
 		
