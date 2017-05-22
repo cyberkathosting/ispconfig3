@@ -86,7 +86,6 @@ var ISPConfig = {
 		if(ISPConfig.options.useComboBox == true) {
 			$('#sidebar').find("select:not(.chosen-select)").select2({
 				placeholder: '',
-				width: 'element',
 				selectOnBlur: true,
 				allowClear: true
 			});
@@ -100,7 +99,6 @@ var ISPConfig = {
 		if(ISPConfig.options.useComboBox == true) {
 			$('#pageContent').find("select:not(.chosen-select)").select2({
 				placeholder: '',
-				width: 'element',
 				selectOnBlur: true,
 				allowClear: true,
 				formatResult: function(o) {
