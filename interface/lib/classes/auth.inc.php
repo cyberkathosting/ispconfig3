@@ -64,6 +64,20 @@ class auth {
 			return false;
 		}
 	}
+	
+	// Function to check if a client belongs to a reseller
+	public function is_client_of_reseller($userid = 0) {
+		global $app, $conf;
+		
+		if($userid == 0) $userid = $_SESSION['s']['user']['userid'];
+
+		$client = $app->db->queryOneRecord("SELECT client.sys_userid, client.sys_groupid FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id", $userid);
+		if($client['sys_userid'] > 1 || $client['sys_groupid'] > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	//** This function adds a given group id to a given user.
 	public function add_group_to_user($userid, $groupid) {
