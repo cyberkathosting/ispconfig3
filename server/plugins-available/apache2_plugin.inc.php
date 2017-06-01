@@ -1226,12 +1226,16 @@ class apache2_plugin {
 			
 			$le_domains = array();
 			foreach($temp_domains as $temp_domain) {
-				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
-				if($le_hash_check == $le_rnd_hash) {
+				if(isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') {
 					$le_domains[] = $temp_domain;
-					$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
 				} else {
-					$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+					$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
+					if($le_hash_check == $le_rnd_hash) {
+						$le_domains[] = $temp_domain;
+						$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
+					} else {
+						$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+					}
 				}
 			}
 			$temp_domains = $le_domains;
