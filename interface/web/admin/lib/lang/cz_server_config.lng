@@ -281,4 +281,5 @@ $wb['hostname_txt'] = 'Název hostitele';
 $wb['hostname_error_empty'] = 'Název hostitele je prázdný';
 $wb['hostname_error_regex'] = 'Neplatný název hostitele.';
 $wb['backup_time_txt'] = 'Spustit zálohovaní v';
+$wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 ?>
