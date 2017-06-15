@@ -152,7 +152,7 @@ class cronjob_backup_mail extends cronjob {
 							}
 						}
 						
-						if($retval == 0){
+						if($retval <= 1){
 							chown($mail_backup_dir.'/'.$mail_backup_file, $backupusername);
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, $backupgroup);
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);
