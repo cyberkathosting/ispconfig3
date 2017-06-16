@@ -203,7 +203,6 @@ class monitor_tools {
 			$distconfid = 'debian90';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 9.0 (Stretch) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';
