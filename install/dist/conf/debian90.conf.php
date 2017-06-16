@@ -28,11 +28,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//***  Ubuntu 16.04 default settings
+//***  Debian 9 default settings
 
 //* Main
 $conf['language'] = 'en';
-$conf['distname'] = 'ubuntu1604';
+$conf['distname'] = 'debian90';
 $conf['hostname'] = 'server1.domain.tld'; // Full hostname
 $conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
@@ -119,6 +119,10 @@ $conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 $conf['mailman']['installed'] = false; // will be detected automatically during installation
 $conf['mailman']['config_dir'] = '/etc/mailman';
 $conf['mailman']['init_script'] = 'mailman';
+
+//* mlmmj
+$conf['mlmmj']['installed'] = false; // will be detected automatically during installation
+$conf['mlmmj']['config_dir'] = '/etc/mlmmj';
 
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
