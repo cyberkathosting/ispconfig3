@@ -1254,6 +1254,11 @@ class apache2_plugin {
 			$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
 			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
 			$bundle_tmp_file = "/etc/letsencrypt/live/".$domain."/chain.pem";
+			if(!is_dir("/etc/letsencrypt/live/".$domain)) {
+				$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
+				$key_tmp_file = "/etc/letsencrypt/live/www.".$domain."/privkey.pem";
+				$bundle_tmp_file = "/etc/letsencrypt/live/www.".$domain."/chain.pem";
+			}
 			$webroot = $data['new']['document_root']."/web";
 
 			//* check if we have already a Let's Encrypt cert

@@ -50,7 +50,7 @@ if($type == 'getservertype'){
 	$web_config = $app->getconf->get_server_config($server_id, 'web');
 	if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 	$json .= $server_type;
-	unset($webconfig);
+	unset($web_config);
 	$json .= '"}';
 }
 

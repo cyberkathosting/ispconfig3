@@ -1328,6 +1328,10 @@ class nginx_plugin {
 			//* TODO: check dns entry is correct
 			$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/fullchain.pem";
 			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
+			if(!is_dir("/etc/letsencrypt/live/".$domain)) {
+				$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
+				$key_tmp_file = "/etc/letsencrypt/live/www.".$domain."/privkey.pem";
+			}
 			$webroot = $data['new']['document_root']."/web";
 
 			//* check if we have already a Let's Encrypt cert
