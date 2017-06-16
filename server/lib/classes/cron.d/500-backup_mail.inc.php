@@ -152,7 +152,7 @@ class cronjob_backup_mail extends cronjob {
 							}
 						}
 						
-						if($retval == 0){
+						if($retval == 0 || ($backup_mode != 'userzip' && $retval == 1) || ($backup_mode == 'userzip' && $retval == 12)){// tar can return 1, zip can return 12(due to harmless warings) and still create valid backups
 							chown($mail_backup_dir.'/'.$mail_backup_file, $backupusername);
 							chgrp($mail_backup_dir.'/'.$mail_backup_file, $backupgroup);
 							chmod($mail_backup_dir.'/'.$mail_backup_file, 0640);

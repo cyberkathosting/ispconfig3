@@ -16,3 +16,4 @@ CHANGE `warnbannedrecip` `warnbannedrecip` ENUM('N','Y') CHARACTER SET utf8 COLL
 CHANGE `warnbadhrecip` `warnbadhrecip` ENUM('N','Y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'N';
 ALTER TABLE `dns_rr` CHANGE `data` `data` TEXT NOT NULL;
 ALTER TABLE `web_database` CHANGE `database_quota` `database_quota` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `web_domain` ADD `log_retention` INT NOT NULL DEFAULT '30' ;

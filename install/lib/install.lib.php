@@ -208,6 +208,13 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
+			$distname = 'Debian';
+			$distver = 'Stretch';
+			$distconfid = 'debian90';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 9.0 (Stretch) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';
