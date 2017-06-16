@@ -61,11 +61,7 @@ $conf['mysql']['port'] = '3306';
 $conf['mysql']['database'] = 'dbispconfig';
 $conf['mysql']['admin_user'] = 'root';
 $conf['mysql']['admin_password'] = '';
-<<<<<<< HEAD
-$conf['mysql']['charset'] = 'utf8mb4';
-=======
 $conf['mysql']['charset'] = 'utf8';
->>>>>>> stable-3.1
 $conf['mysql']['ispconfig_user'] = 'ispconfig';
 $conf['mysql']['ispconfig_password'] = md5(uniqid(rand()));
 $conf['mysql']['master_slave_setup'] = 'n';
@@ -122,13 +118,10 @@ $conf['mailman']['installed'] = false; // will be detected automatically during 
 $conf['mailman']['config_dir'] = '/etc/mailman';
 $conf['mailman']['init_script'] = 'mailman';
 
-<<<<<<< HEAD
 //* mlmmj
 $conf['mlmmj']['installed'] = false; // will be detected automatically during installation
 $conf['mlmmj']['config_dir'] = '/etc/mlmmj';
 
-=======
->>>>>>> stable-3.1
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';
@@ -175,11 +168,7 @@ $conf['mydns']['init_script'] = 'mydns';
 //* PowerDNS
 $conf['powerdns']['installed'] = false; // will be detected automatically during installation
 $conf['powerdns']['database'] = 'powerdns';
-<<<<<<< HEAD
 $conf['powerdns']['config_dir'] = '/etc/powerdns/pdns.d';
-=======
-$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
->>>>>>> stable-3.1
 $conf['powerdns']['init_script'] = 'pdns';
 
 //* BIND DNS Server
@@ -214,19 +203,11 @@ $conf['nginx']['vhost_conf_enabled_dir'] = '/etc/nginx/sites-enabled';
 $conf['nginx']['init_script'] = 'nginx';
 $conf['nginx']['vhost_port'] = '8080';
 $conf['nginx']['cgi_socket'] = '/var/run/fcgiwrap.socket';
-<<<<<<< HEAD
-$conf['nginx']['php_fpm_init_script'] = 'php5-fpm';
-$conf['nginx']['php_fpm_ini_path'] = '/etc/php5/fpm/php.ini';
-$conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
-$conf['nginx']['php_fpm_start_port'] = 9010;
-$conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php5-fpm';
-=======
 $conf['nginx']['php_fpm_init_script'] = 'php7.0-fpm';
 $conf['nginx']['php_fpm_ini_path'] = '/etc/php/7.0/fpm/php.ini';
 $conf['nginx']['php_fpm_pool_dir'] = '/etc/php/7.0/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php7.0-fpm';
->>>>>>> stable-3.1
 
 //* OpenVZ
 $conf['openvz']['installed'] = false;
@@ -246,9 +227,5 @@ $conf['cron']['wget'] = '/usr/bin/wget';
 //* Metronome XMPP
 $conf['xmpp']['installed'] = false;
 $conf['xmpp']['init_script'] = 'metronome';
-<<<<<<< HEAD
-=======
 
-
->>>>>>> stable-3.1
 ?>
