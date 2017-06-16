@@ -92,6 +92,10 @@ function get_distname() {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "17.04":
+				$relname = "(Zesty Zapus)";
+				$distconfid = 'ubuntu1604';
+				break;
 			case "16.10":
 				$relname = "(Yakkety Yak)";
 				$distconfid = 'ubuntu1604';
@@ -204,12 +208,13 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
-		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 			$distname = 'Debian';
 			$distver = 'Stretch';
-			$distid = 'debian90';
+			$distconfid = 'debian90';
+			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 9.x (Stretch) or compatible\n");
+			swriteln("Operating System: Debian 9.0 (Stretch) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';

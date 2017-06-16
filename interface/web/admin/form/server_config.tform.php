@@ -1262,6 +1262,15 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'skip_le_check' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default'  => 'n',
+			'value' => array (
+				0 => 'n',
+				1 => 'y'
+			)
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

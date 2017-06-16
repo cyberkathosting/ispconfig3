@@ -430,6 +430,32 @@
 				Alias /hhvm-fcgi {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
 		</IfModule>
+		<IfModule mod_proxy_fcgi.c>
+			<Directory {tmpl_var name='document_root'}/cgi-bin>
+				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+				Require all granted
+				<tmpl_else>
+				Order allow,deny
+				Allow from all
+				</tmpl_if>
+			</Directory>
+			<Directory {tmpl_var name='web_document_root'}>
+				<FilesMatch "\.php[345]?$">
+						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
+				</FilesMatch>
+				<FilesMatch "\.hh$">
+						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
+				</FilesMatch>
+			</Directory>
+			<Directory {tmpl_var name='web_document_root_www'}>
+				<FilesMatch "\.php[345]?$">
+						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
+				</FilesMatch>
+				<FilesMatch "\.hh$">
+						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
+				</FilesMatch>
+			</Directory>
+		</IfModule>
 </tmpl_if>
 
 <tmpl_if name="rewrite_enabled">

@@ -87,6 +87,10 @@ class monitor_tools {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "17.04":
+				$relname = "(Zesty Zapus)";
+				$distconfid = 'ubuntu1604';
+				break;
 			case "16.10":
 				$relname = "(Yakkety Yak)";
 				$distconfid = 'ubuntu1604';
@@ -193,10 +197,11 @@ class monitor_tools {
 			$distver = 'Jessie';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
+		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 			$distname = 'Debian';
 			$distver = 'Stretch';
-			$distid = 'debian90';
+			$distconfid = 'debian90';
+			$distid = 'debian60';
 			$distbaseid = 'debian';
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
