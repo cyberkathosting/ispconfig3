@@ -71,6 +71,8 @@ class remoting {
 	{
 		global $app, $conf;
 
+		$error = array();
+
 		// Maintenance mode
 		$app->uses('ini_parser,getconf');
 		$server_config_array = $app->getconf->get_global_config('misc');
@@ -80,70 +82,60 @@ class remoting {
 		}
 
 		if(empty($username)) {
-			throw new SoapFault('login_username_empty', 'The login username is empty.');
-			return false;
+			$error = array('faultcode' => 'login_username_empty', 'faultstring' => 'The login username is empty.');
 		}
 
 		if(empty($password)) {
-			throw new SoapFault('login_password_empty', 'The login password is empty.');
-			return false;
+			$error = array('faultcode' => 'login_password_empty', 'faultstring' => 'The login password is empty.');
 		}
 
 		//* Delete old remoting sessions
 		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMESTAMP()";
 		$app->db->query($sql);
 
-		if($client_login == true) {
-			$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
-			$user = $app->db->queryOneRecord($sql, $username);
-			if($user) {
-				$saved_password = stripslashes($user['passwort']);
+		$ip = md5($_SERVER['REMOTE_ADDR']);
+		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
+		$alreadyfailed = $app->db->queryOneRecord($sql, $ip);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
-					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
+		if($alreadyfailed['times'] > 5) {
+				throw new SoapFault('error_user_too_many_logins', 'Too many failed logins');
+				return false;
+		}
 
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
-						throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-						return false;
+		if (empty($error)) {
+
+			if($client_login == true) {
+				$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
+				$user = $app->db->queryOneRecord($sql, $username);
+				if($user) {
+					$saved_password = stripslashes($user['passwort']);
+
+					if(substr($saved_password, 0, 3) == '$1$') {
+						//* The password is crypt-md5 encrypted
+						$salt = '$1$'.substr($saved_password, 3, 8).'$';
+
+						if(crypt(stripslashes($password), $salt) != $saved_password) {
+							$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
+						}
+					} else {
+						//* The password is md5 encrypted
+						if(md5($password) != $saved_password) {
+							$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
+						}
 					}
 				} else {
-					//* The password is md5 encrypted
-					if(md5($password) != $saved_password) {
-						throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-						return false;
-					}
+					$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
 				}
-			} else {
-				throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-				return false;
-			}
-			if($user['active'] != 1) {
-				throw new SoapFault('client_login_failed', 'The login failed. User is blocked.');
-				return false;
-			}
+				if($user['active'] != 1) {
+					$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. User is blocked.');
+				}
 
-			// now we need the client data
-			$client = $app->db->queryOneRecord("SELECT client.can_use_api FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $user['default_group']);
-			if(!$client || $client['can_use_api'] != 'y') {
-				throw new SoapFault('client_login_failed', 'The login failed. Client may not use api.');
-				return false;
-			}
+				// now we need the client data
+				$client = $app->db->queryOneRecord("SELECT client.can_use_api FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $user['default_group']);
+				if(!$client || $client['can_use_api'] != 'y') {
+					$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Client may not use api.');
+				}
 
-			//* Create a remote user session
-			//srand ((double)microtime()*1000000);
-			$remote_session = md5(mt_rand().uniqid('ispco'));
-			$remote_userid = $user['userid'];
-			$remote_functions = '';
-			$tstamp = time() + $this->session_timeout;
-			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,client_login,tstamp'
-				.') VALUES (?, ?, ?, 1, $tstamp)';
-			$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
-			return $remote_session;
-		} else {
-			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
-			$remote_user = $app->db->queryOneRecord($sql, $username, $password);
-			if($remote_user['remote_userid'] > 0) {
 				//* Create a remote user session
 				//srand ((double)microtime()*1000000);
 				$remote_session = md5(mt_rand().uniqid('ispco'));
@@ -153,11 +145,57 @@ class remoting {
 				$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
 					.') VALUES (?, ?, ?, ?)';
 				$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
-				return $remote_session;
 			} else {
-				throw new SoapFault('login_failed', 'The login failed. Username or password wrong.');
-				return false;
+				$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
+				$remote_user = $app->db->queryOneRecord($sql, $username, $password);
+				if($remote_user['remote_userid'] > 0) {
+					//* Create a remote user session
+					//srand ((double)microtime()*1000000);
+					$remote_session = md5(mt_rand().uniqid('ispco'));
+					$remote_userid = $remote_user['remote_userid'];
+					$remote_functions = $remote_user['remote_functions'];
+					$tstamp = time() + $this->session_timeout;
+					$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
+						.') VALUES (?, ?, ?, ?)';
+					$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
+				} else {
+					$error = array('faultcode' => 'login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
+				}
 			}
+
+		}
+
+			if (! empty($error)) {
+				if(! $alreadyfailed['times']) {
+					//* user login the first time wrong
+					$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES (?, 1, NOW())";
+					$app->db->query($sql, $ip);
+				} elseif($alreadyfailed['times'] >= 1) {
+					//* update times wrong
+					$sql = "UPDATE `attempts_login` SET `times`=`times`+1, `login_time`=NOW() WHERE `ip` = ? AND `login_time` < NOW() ORDER BY `login_time` DESC LIMIT 1";
+					$app->db->query($sql, $ip);
+				}
+
+				$authlog = 'Failed login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' (api)';
+				$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
+				fwrite($authlog_handle, $authlog ."\n");
+				fclose($authlog_handle);
+
+				throw new SoapFault($error['faultcode'], $error['faultstring']);
+				return false;
+			} else {
+				// User login right, so attempts can be deleted
+				$sql = "DELETE FROM `attempts_login` WHERE `ip`=?";
+				$app->db->query($sql, $ip);
+
+				$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' (api)';
+				$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
+				fwrite($authlog_handle, $authlog ."\n");
+				fclose($authlog_handle);
+			}
+
+		if (isset($remote_session)) {
+			return $remote_session;
 		}
 
 	}
