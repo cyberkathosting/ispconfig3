@@ -63,7 +63,7 @@ if(count($_POST) > 0) {
 	if(!preg_match("/^.{1,256}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
 
 	//** importing variables
-	$ip    = ip2long($_SERVER['REMOTE_ADDR']);
+	$ip = md5($_SERVER['REMOTE_ADDR']);
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$loginAs  = false;
@@ -262,7 +262,7 @@ if(count($_POST) > 0) {
 						$app->plugin->raiseEvent('login', $username);
 						
 						//* Save successfull login message to var
-						$authlog = 'Successful login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
+						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s');
 						$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);
@@ -300,7 +300,7 @@ if(count($_POST) > 0) {
 
 				$app->plugin->raiseEvent('login_failed', $username);
 				//* Save failed login message to var
-				$authlog = 'Failed login for user \''. $username .'\' from '. long2ip($ip) .' at '. date('Y-m-d H:i:s');
+				$authlog = 'Failed login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s');
 				$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
 				fwrite($authlog_handle, $authlog ."\n");
 				fclose($authlog_handle);
