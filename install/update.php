@@ -119,7 +119,11 @@ if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
 	if($path_parts['extension'] == 'php') {
 		include_once $cmd_opt['autoinstall'];
 	} elseif($path_parts['extension'] == 'ini') {
-		$tmp = ini_to_array(file_get_contents('autoinstall.ini'));
+		if(is_file('autoinstall.ini')) {
+			$tmp = ini_to_array(file_get_contents('autoinstall.ini'));
+		} else {
+			$tmp = ini_to_array(file_get_contents($cmd_opt['autoinstall']));
+		}
 		if(!is_array($tmp['install'])) $tmp['install'] = array();
 		if(!is_array($tmp['ssl_cert'])) $tmp['ssl_cert'] = array();
 		if(!is_array($tmp['expert'])) $tmp['expert'] = array();
