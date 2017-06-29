@@ -439,6 +439,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure DNS 
 
 }
 
+if($install_mode == 'expert') swriteln('The Web Server option has to be enabled when you want run a web server or when this node shall host the ISPConfig interface.');
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web Server', array('y', 'n'), 'y','configure_webserver')) == 'y') {
 	//* Configure Apache
 	if($conf['apache']['installed']){
