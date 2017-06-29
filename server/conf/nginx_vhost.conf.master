@@ -298,8 +298,8 @@ server {
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:443 ssl;
 </tmpl_if>
-        ssl_certificate <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.crt;
-        ssl_certificate_key <tmpl_var name='document_root'>/ssl/<tmpl_var name='ssl_domain'>.key;
+        ssl_certificate <tmpl_var name='ssl_crt_file'>;
+        ssl_certificate_key <tmpl_var name='ssl_key_file'>;
 </tmpl_if>
         
         server_name <tmpl_var name='rewrite_domain'>;
