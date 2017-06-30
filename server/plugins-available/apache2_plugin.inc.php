@@ -1251,12 +1251,20 @@ class apache2_plugin {
 			// useless data
 			unset($subdomains);
 			unset($temp_domains);
-
-			$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
+			
+			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+				$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/fullchain.pem";
+			} else {
+				$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
+			}
 			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
 			$bundle_tmp_file = "/etc/letsencrypt/live/".$domain."/chain.pem";
 			if(!is_dir("/etc/letsencrypt/live/".$domain)) {
-				$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
+				if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+					$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
+				} else {
+					$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/cert.pem";
+				}
 				$key_tmp_file = "/etc/letsencrypt/live/www.".$domain."/privkey.pem";
 				$bundle_tmp_file = "/etc/letsencrypt/live/www.".$domain."/chain.pem";
 			}

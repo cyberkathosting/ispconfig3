@@ -109,6 +109,10 @@ class installer extends installer_base {
 			if(version_compare($dovecot_version,2.1) < 0) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
 			}
+			if(version_compare($dovecot_version,2.2) >= 0) {
+				// Dovecot > 2.2 does not recognize !SSLv2 anymore on Debian 9
+				replaceLine($config_dir.'/'.$configfile, 'ssl_protocols = !SSLv2 !SSLv3', 'ssl_protocols = !SSLv3', 1, 0);
+			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);

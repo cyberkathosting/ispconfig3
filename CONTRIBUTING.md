@@ -1,3 +1,7 @@
+# Which code branch to use
+
+The master branch is used for code (mostly new features) that shall go into the next major release (e.g. 3.2, 3.3 and so on). The stable branch (e.g. stable-3.1, stable-3.2) is the branch for the current intermediate and bugfix releases. Bugfixes shall be committed to the current stable branch and not the master branch. The stable branch is merged to the master automatically from time to time, please do not submit bugfixes a second time against the master.
+
 # Some guidelines for web development with php.
 -----------------------------------------------------
 * Unix Line Breaks Only, NO windows breaks please.

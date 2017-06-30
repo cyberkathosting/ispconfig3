@@ -202,9 +202,9 @@ if ($type == 'getdirectivesnippet') {
 }
 
 if($type == 'getclientssldata'){
-	$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $web_id);
+	$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $web_id);
 	$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", $web['sys_groupid']);
-	$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", $sys_group['client_id']);
+	$client = $app->db->queryOneRecord("SELECT company_name,contact_firstname, contact_name, street, zip, city, telephone, mobile,fax, country, state, email FROM client WHERE client_id = ?",$sys_group['client_id']);
 	if(is_array($client) && !empty($client)){
 		if($client['telephone'] == '' && $client['mobile'] != '') $client['telephone'] = $client['mobile'];
 		

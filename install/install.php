@@ -114,7 +114,11 @@ if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
 	if($path_parts['extension'] == 'php') {
 		include_once $cmd_opt['autoinstall'];
 	} elseif($path_parts['extension'] == 'ini') {
-		$tmp = ini_to_array(file_get_contents($cmd_opt['autoinstall']));
+		if(is_file('autoinstall.ini')) {
+			$tmp = ini_to_array(file_get_contents('autoinstall.ini'));
+		} else {
+			$tmp = ini_to_array(file_get_contents($cmd_opt['autoinstall']));
+		}
 		if(!is_array($tmp['install'])) $tmp['install'] = array();
 		if(!is_array($tmp['ssl_cert'])) $tmp['ssl_cert'] = array();
 		if(!is_array($tmp['expert'])) $tmp['expert'] = array();
@@ -441,6 +445,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure DNS 
 
 }
 
+if($install_mode == 'expert') swriteln('The Web Server option has to be enabled when you want run a web server or when this node shall host the ISPConfig interface.');
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web Server', array('y', 'n'), 'y','configure_webserver')) == 'y') {
 	//* Configure Apache
 	if($conf['apache']['installed']){
