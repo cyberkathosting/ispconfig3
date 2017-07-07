@@ -432,7 +432,7 @@ class nginx_plugin {
 		$groupname = escapeshellcmd($data['new']['system_group']);
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
 			exec('groupadd '.$fixed_gid_param.' '.$groupname);
-			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
+			if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
 			$app->log('Adding the group: '.$groupname, LOGLEVEL_DEBUG);
 		}
 
@@ -440,10 +440,10 @@ class nginx_plugin {
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
 			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
-				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
 			} else {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
-				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
 			}
 			$app->log('Adding the user: '.$username, LOGLEVEL_DEBUG);
 		}
@@ -513,7 +513,7 @@ class nginx_plugin {
 				exec($command);
 			}
 
-			if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+			if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
 			/*
@@ -632,7 +632,7 @@ class nginx_plugin {
 				if(!is_link($tmp_symlink)) {
 					//     exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
 					if ($web_config["website_symlinks_rel"] == 'y') {
-						$this->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
+						$app->system->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
 					} else {
 						exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
 					}
@@ -753,12 +753,12 @@ class nginx_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+			$app->system->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			} else {
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			}
 		}
 
@@ -794,12 +794,12 @@ class nginx_plugin {
 					$command = 'usermod';
 					$command .= ' --groups sshusers';
 					$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
-					$this->_exec($command);
+					$app->system->_exec($command);
 				}
 
 				//* if we have a chrooted nginx environment
 				if($nginx_chrooted) {
-					$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+					$app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 					//* add the nginx user to the client group in the chroot environment
 					$tmp_groupfile = $app->system->server_conf['group_datei'];
@@ -1213,35 +1213,19 @@ class nginx_plugin {
 		}
 		$tpl->setLoop('nginx_directives', $final_nginx_directives);
 
+		$app->uses('letsencrypt');
 		// Check if a SSL cert exists
-		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		if(!$domain) $domain = $data['new']['domain'];
-		$tpl->setVar('ssl_domain', $domain);
-		$key_file = $ssl_dir.'/'.$domain.'.key';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
-		$csr_file = $ssl_dir.'/'.$domain.'.csr';
-		$crt_file = $ssl_dir.'/'.$domain.'.crt';
+		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
+		$domain = $tmp['domain'];
+		$key_file = $tmp['key'];
+		$key_file2 = $tmp['key2'];
+		$csr_file = $tmp['csr'];
+		$crt_file = $tmp['crt'];
+		$bundle_file = $tmp['bundle'];
+		unset($tmp);
 
-		$tpl->setVar('ssl_letsencrypt', "n");
-		
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
-			$domain = $data['new']['domain'];
-			if(substr($domain, 0, 2) === '*.') {
-				// wildcard domain not yet supported by letsencrypt!
-				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
-				$domain = substr($domain, 2);
-			}
-			
-			$data['new']['ssl_domain'] = $domain;
-			$vhost_data['ssl_domain'] = $domain;
-
-			$key_file = $ssl_dir.'/'.$domain.'-le.key';
-			$key_file2 = $ssl_dir.'/'.$domain.'-le.key.org';
-			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
-			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
-		}
-
+		$data['new']['ssl_domain'] = $domain;
+		$vhost_data['ssl_domain'] = $domain;
 		$vhost_data['ssl_crt_file'] = $crt_file;
 		$vhost_data['ssl_key_file'] = $key_file;
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
@@ -1253,143 +1237,9 @@ class nginx_plugin {
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
 			|| $this->update_letsencrypt == true
 		)) {
-			// default values
-			$temp_domains = array($domain);
-			$lddomain = '';
-			$subdomains = null;
-			$aliasdomains = null;
-			$sub_prefixes = array();
 
-			//* be sure to have good domain
-			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
-				$temp_domains[] = "www." . $domain;
-			}
-
-			//* then, add subdomain if we have
-			$subdomains = $app->db->queryAllRecords('SELECT domain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'subdomain'");
-			if(is_array($subdomains)) {
-				foreach($subdomains as $subdomain) {
-					$temp_domains[] = $subdomain['domain'];
-					$sub_prefixes[] = str_replace($domain, "", $subdomain['domain']);
-				}
-			}
-			
-			//* then, add alias domain if we have
-			$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
-			if(is_array($aliasdomains)) {
-				foreach($aliasdomains as $aliasdomain) {
-					$temp_domains[] = $aliasdomain['domain'];
-					if(isset($aliasdomain['subdomain']) && substr($aliasdomain['domain'],0,4) != 'www.' && ($aliasdomain['subdomain'] == "www" OR $aliasdomain['subdomain'] == "*")) {
-						$temp_domains[] = "www." . $aliasdomain['domain'];
-					}
-					
-					foreach($sub_prefixes as $s) {
-						$temp_domains[] = $s . $aliasdomain['domain'];
-					}
-				}
-			}
-
-			// prevent duplicate
-			$temp_domains = array_unique($temp_domains);
-
-			// check if domains are reachable to avoid letsencrypt verification errors
-			$le_rnd_file = uniqid('le-') . '.txt';
-			$le_rnd_hash = md5(uniqid('le-', true));
-			file_put_contents('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file, $le_rnd_hash);
-			
-			$le_domains = array();
-			foreach($temp_domains as $temp_domain) {
-				if(isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') {
-					$le_domains[] = $temp_domain;
-				} else {
-					$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
-					if($le_hash_check == $le_rnd_hash) {
-						$le_domains[] = $temp_domain;
-						$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
-					} else {
-						$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
-					}
-				}
-			}
-			$temp_domains = $le_domains;
-			unset($le_domains);
-			@unlink('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file);
-
-			// generate cli format
-			foreach($temp_domains as $temp_domain) {
-				$lddomain .= (string) " --domains " . $temp_domain;
-			}
-
-			// useless data
-			unset($subdomains);
-			unset($temp_domains);
-
-			$tpl->setVar('ssl_letsencrypt', "y");
-			//* TODO: check dns entry is correct
-			$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/fullchain.pem";
-			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
-			if(!is_dir("/etc/letsencrypt/live/".$domain)) {
-				$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
-				$key_tmp_file = "/etc/letsencrypt/live/www.".$domain."/privkey.pem";
-			}
-			$webroot = $data['new']['document_root']."/web";
-
-			//* check if we have already a Let's Encrypt cert
-			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
-				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
-				if(!empty($lddomain)) {
-					$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
-				}
-				
-				$success = false;
-				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
-				$letsencrypt = reset($letsencrypt);
-				if(is_executable($letsencrypt) && !empty($lddomain)) {
-					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
-				}
-				if(!$success) {
-					// error issuing cert
-					$app->log('Let\'s Encrypt SSL Cert for: ' . $domain . ' could not be issued.', LOGLEVEL_WARN);
-					$data['new']['ssl_letsencrypt'] = 'n';
-					if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
-					/* Update the DB of the (local) Server */
-					$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
-					/* Update also the master-DB of the Server-Farm */
-					$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
-				}
-			//}
-
-			//* check is been correctly created
-			if(file_exists($crt_tmp_file)) {
-				$date = date("YmdHis");
-				//* TODO: check if is a symlink, if target same keep it, either remove it
-				if(is_file($key_file)) {
-					$app->system->copy($key_file, $key_file.'.old.'.$date);
-					$app->system->chmod($key_file.'.old.'.$date, 0400);
-					$app->system->unlink($key_file);
-				}
-
-				if ($web_config["website_symlinks_rel"] == 'y') {
-					$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
-				} else {
-					if(@is_link($key_file)) $app->system->unlink($key_file);
-					if(@file_exists($key_tmp_file)) exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
-				}
-
-				if(is_file($crt_file)) {
-					$app->system->copy($crt_file, $crt_file.'.old.'.$date);
-					$app->system->chmod($crt_file.'.old.'.$date, 0400);
-					$app->system->unlink($crt_file);
-				}
-
-				if($web_config["website_symlinks_rel"] == 'y') {
-					$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
-				} else {
-					if(@is_link($crt_file)) $app->system->unlink($crt_file);
-					if(@file_exists($crt_tmp_file))exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
-				}
-
+			$success = $app->letsencrypt->request_certificates($data, 'nginx');
+			if($success) {
 				/* we don't need to store it.
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
@@ -1397,6 +1247,13 @@ class nginx_plugin {
 				/* Update also the master-DB of the Server-Farm */
 				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			} else {
+				$data['new']['ssl_letsencrypt'] = 'n';
+				if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 			}
 		}
 
@@ -1422,8 +1279,6 @@ class nginx_plugin {
 		} else {
 			$vhost_data['seo_redirect_enabled'] = 0;
 		}
-
-
 
 		// Rewrite rules
 		$own_rewrite_rules = array();
@@ -2343,7 +2198,7 @@ class nginx_plugin {
 				$command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' ; userdel';
 				$command .= ' '.escapeshellcmd($data['old']['system_user']);
 				exec($command);
-				if($nginx_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			}
 
@@ -3132,22 +2987,11 @@ class nginx_plugin {
 			}
 
 			if($app->system->is_group('client'.$client_id)){
-				$this->_exec('groupdel client'.$client_id);
+				$app->system->_exec('groupdel client'.$client_id);
 				$app->log('Removed group client'.$client_id, LOGLEVEL_DEBUG);
 			}
 		}
 
-	}
-
-	//* Wrapper for exec function for easier debugging
-	private function _exec($command) {
-		global $app;
-		$out = array();
-		$ret = 0;
-		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
-		exec($command, $out, $ret);
-		if($ret != 0) return false;
-		else return true;
 	}
 
 	private function _checkTcp ($host, $port) {
@@ -3160,34 +3004,6 @@ class nginx_plugin {
 		} else {
 			return false;
 		}
-	}
-
-	public function create_relative_link($f, $t) {
-		global $app;
-
-		// $from already exists
-		$from = realpath($f);
-
-		// realpath requires the traced file to exist - so, lets touch it first, then remove
-		@$app->system->unlink($t); touch($t);
-		$to = realpath($t);
-		@$app->system->unlink($t);
-
-		// Remove from the left side matching path elements from $from and $to
-		// and get path elements counts
-		$a1 = explode('/', $from); $a2 = explode('/', $to);
-		for ($c = 0; $a1[$c] == $a2[$c]; $c++) {
-			unset($a1[$c]); unset($a2[$c]);
-		}
-		$cfrom = implode('/', $a1);
-
-		// Check if a path is fully a subpath of another - no way to create symlink in the case
-		if (count($a1) == 0 || count($a2) == 0) return false;
-
-		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
-		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
-
-		return symlink($cfrom, $to);
 	}
 
 	private function _rewrite_quote($string) {
