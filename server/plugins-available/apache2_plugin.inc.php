@@ -1,4 +1,4 @@
-<?php
+_<?php
 
 /*
 Copyright (c) 2007 - 2012, Till Brehm, projektfarm Gmbh
@@ -1169,13 +1169,13 @@ class apache2_plugin {
 			
 			$success = $app->letsencrypt->request_certificates($data);
 			if($success) {
-				/* we don't need to store it.
-				/* Update the DB of the (local) Server */
-				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain_id = ?", $data['new']['domain']);
-				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain_id = ?", $data['new']['domain']);
-				/* Update also the master-DB of the Server-Farm */
-				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
-				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+ 				/* we don't need to store it.
+ 				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+ 				/* Update also the master-DB of the Server-Farm */
+ 				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
+ 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			} else {
 				$data['new']['ssl_letsencrypt'] = 'n';
 				if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
