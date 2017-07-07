@@ -581,7 +581,7 @@ class apache2_plugin {
 		$groupname = escapeshellcmd($data['new']['system_group']);
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
 			exec('groupadd '.$fixed_gid_param.' '.$groupname);
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
+			if($apache_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
 			$app->log('Adding the group: '.$groupname, LOGLEVEL_DEBUG);
 		}
 
@@ -589,10 +589,10 @@ class apache2_plugin {
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
 			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
-				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				if($apache_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
 			} else {
 				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
-				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				if($apache_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
 			}
 			$app->log('Adding the user: '.$username, LOGLEVEL_DEBUG);
 		}
@@ -666,7 +666,7 @@ class apache2_plugin {
 				exec($command);
 			}
 
-			if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+			if($apache_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			//* Change the log mount
 			/*
@@ -785,7 +785,7 @@ class apache2_plugin {
 				if(!is_link($tmp_symlink)) {
 					//     exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
 					if ($web_config["website_symlinks_rel"] == 'y') {
-						$this->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
+						$app->system->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
 					} else {
 						exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
 					}
@@ -906,12 +906,12 @@ class apache2_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$this->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+			$app->system->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				$this->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			} else {
-				$this->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
 			}
 		}
 
@@ -946,12 +946,12 @@ class apache2_plugin {
 					$command = 'usermod';
 					$command .= ' --groups sshusers';
 					$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
-					$this->_exec($command);
+					$app->system->_exec($command);
 				}
 
 				//* if we have a chrooted Apache environment
 				if($apache_chrooted) {
-					$this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+					$app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 					//* add the apache user to the client group in the chroot environment
 					$tmp_groupfile = $app->system->server_conf['group_datei'];
@@ -1097,10 +1097,6 @@ class apache2_plugin {
 								}
 							}
 						}
-
-						foreach($sub_prefixes as $s) {
-							$temp_domains[] = $s . $aliasdomain['domain'];
-						}
 					}
 				}
 			}
@@ -1145,34 +1141,20 @@ class apache2_plugin {
 			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root']
 		);
 		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
-
+		
+		$app->uses('letsencrypt');
 		// Check if a SSL cert exists
-		$ssl_dir = $data['new']['document_root'].'/ssl';
-		$domain = $data['new']['ssl_domain'];
-		if(!$domain) $domain = $data['new']['domain'];
-		$key_file = $ssl_dir.'/'.$domain.'.key';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
-		$csr_file = $ssl_dir.'/'.$domain.'.csr';
-		$crt_file = $ssl_dir.'/'.$domain.'.crt';
-		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
-
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
-			$domain = $data['new']['domain'];
-			if(substr($domain, 0, 2) === '*.') {
-				// wildcard domain not yet supported by letsencrypt!
-				$app->log('Wildcard domains not yet supported by letsencrypt, so changing ' . $domain . ' to ' . substr($domain, 2), LOGLEVEL_WARN);
-				$domain = substr($domain, 2);
-			}
-			
-			$data['new']['ssl_domain'] = $domain;
-			$vhost_data['ssl_domain'] = $domain;
-
-			$key_file = $ssl_dir.'/'.$domain.'-le.key';
-			$key_file2 = $ssl_dir.'/'.$domain.'-le.key.org';
-			$crt_file = $ssl_dir.'/'.$domain.'-le.crt';
-			$bundle_file = $ssl_dir.'/'.$domain.'-le.bundle';
-		}
-
+		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
+		$domain = $tmp['domain'];
+		$key_file = $tmp['key'];
+		$key_file2 = $tmp['key2'];
+		$csr_file = $tmp['csr'];
+		$crt_file = $tmp['crt'];
+		$bundle_file = $tmp['bundle'];
+		unset($tmp);
+		
+		$data['new']['ssl_domain'] = $domain;
+		$vhost_data['ssl_domain'] = $domain;
 		$vhost_data['ssl_crt_file'] = $crt_file;
 		$vhost_data['ssl_key_file'] = $key_file;
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
@@ -1184,178 +1166,27 @@ class apache2_plugin {
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
 			|| $this->update_letsencrypt == true
 		)) {
-			// default values
-			$temp_domains = array($domain);
-			$lddomain = '';
-			$subdomains = null;
-			$aliasdomains = null;
-			$sub_prefixes = array();
-
-			//* be sure to have good domain
-			if(substr($domain,0,4) != 'www.' && ($data['new']['subdomain'] == "www" OR $data['new']['subdomain'] == "*")) {
-				$temp_domains[] = "www." . $domain;
-			}
-
-			//* then, add subdomain if we have
-			$subdomains = $app->db->queryAllRecords('SELECT domain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'subdomain'");
-			if(is_array($subdomains)) {
-				foreach($subdomains as $subdomain) {
-					$temp_domains[] = $subdomain['domain'];
-					$sub_prefixes[] = str_replace($domain, "", $subdomain['domain']);
-				}
-			}
 			
-			//* then, add alias domain if we have
-			$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
-			if(is_array($aliasdomains)) {
-				foreach($aliasdomains as $aliasdomain) {
-					$temp_domains[] = $aliasdomain['domain'];
-					if(isset($aliasdomain['subdomain']) && substr($aliasdomain['domain'],0,4) != 'www.' && ($aliasdomain['subdomain'] == "www" OR $aliasdomain['subdomain'] == "*")) {
-						$temp_domains[] = "www." . $aliasdomain['domain'];
-					}
-				}
-			}
-
-			// prevent duplicate
-			$temp_domains = array_unique($temp_domains);
-
-			// check if domains are reachable to avoid letsencrypt verification errors
-			$le_rnd_file = uniqid('le-') . '.txt';
-			$le_rnd_hash = md5(uniqid('le-', true));
-			if(!is_dir('/usr/local/interface/acme/.well-known/acme-challenge/'))mkdir('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/',0755,true);
-			file_put_contents('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file, $le_rnd_hash);
-
-			$le_domains = array();
-			foreach($temp_domains as $temp_domain) {
-				if(isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') {
-					$le_domains[] = $temp_domain;
-				} else {
-					$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
-					if($le_hash_check == $le_rnd_hash) {
-						$le_domains[] = $temp_domain;
-						$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
-					} else {
-						$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
-					}
-				}
-			}
-			$temp_domains = $le_domains;
-			unset($le_domains);
-			@unlink('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file);
-
-			// generate cli format
-			foreach($temp_domains as $temp_domain) {
-				$lddomain .= (string) " --domains " . $temp_domain;
-			}
-
-			// useless data
-			unset($subdomains);
-			unset($temp_domains);
-			
-			if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
-				$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/fullchain.pem";
-			} else {
-				$crt_tmp_file = "/etc/letsencrypt/live/".$domain."/cert.pem";
-			}
-			$key_tmp_file = "/etc/letsencrypt/live/".$domain."/privkey.pem";
-			$bundle_tmp_file = "/etc/letsencrypt/live/".$domain."/chain.pem";
-			if(!is_dir("/etc/letsencrypt/live/".$domain)) {
-				if(version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
-					$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/fullchain.pem";
-				} else {
-					$crt_tmp_file = "/etc/letsencrypt/live/www.".$domain."/cert.pem";
-				}
-				$key_tmp_file = "/etc/letsencrypt/live/www.".$domain."/privkey.pem";
-				$bundle_tmp_file = "/etc/letsencrypt/live/www.".$domain."/chain.pem";
-			}
-			$webroot = $data['new']['document_root']."/web";
-
-			//* check if we have already a Let's Encrypt cert
-			//if(!file_exists($crt_tmp_file) && !file_exists($key_tmp_file)) {
-				// we must not skip if cert exists, otherwise changed domains (alias or sub) won't make it to the cert
-				if(!empty($lddomain)) {
-					$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					$app->log("Let's Encrypt SSL Cert domains: $lddomain", LOGLEVEL_DEBUG);
-				}		
-				$success = false;
-				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
-				$letsencrypt = reset($letsencrypt);
-				if(is_executable($letsencrypt) && !empty($lddomain)) {
-					$success = $this->_exec($letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $lddomain --webroot-path /usr/local/ispconfig/interface/acme");
-				}
-				if(!$success) {
-					// error issuing cert
-					$app->log('Let\'s Encrypt SSL Cert for: ' . $domain . ' could not be issued.', LOGLEVEL_WARN);
-					$app->log($letsencrypt_cmd, LOGLEVEL_WARN);
-					
-					// if cert already exists, dont remove it. Ex. expired/misstyped/noDnsYet alias domain, api down...
-					if(!file_exists($crt_tmp_file)) {
-						$data['new']['ssl_letsencrypt'] = 'n';
-						if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
-						/* Update the DB of the (local) Server */
-						$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
-						/* Update also the master-DB of the Server-Farm */
-						$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
-					}
-				}
-			//}
-
-			//* check is been correctly created
-			if(file_exists($crt_tmp_file)) {
-				$date = date("YmdHis");
-				//* TODO: check if is a symlink, if target same keep it, either remove it
-				if(is_file($key_file)) {
-					$app->system->copy($key_file, $key_file.'.old.'.$date);
-					$app->system->chmod($key_file.'.old.'.$date, 0400);
-					$app->system->unlink($key_file);
-				}
-
-				if ($web_config["website_symlinks_rel"] == 'y') {
-					$this->create_relative_link(escapeshellcmd($key_tmp_file), escapeshellcmd($key_file));
-				} else {
-					if(@is_link($key_file)) $app->system->unlink($key_file);
-					if(@file_exists($key_tmp_file)) exec("ln -s ".escapeshellcmd($key_tmp_file)." ".escapeshellcmd($key_file));
-				}
-
-				if(is_file($crt_file)) {
-					$app->system->copy($crt_file, $crt_file.'.old.'.$date);
-					$app->system->chmod($crt_file.'.old.'.$date, 0400);
-					$app->system->unlink($crt_file);
-				}
-
-				if($web_config["website_symlinks_rel"] == 'y') {
-					$this->create_relative_link(escapeshellcmd($crt_tmp_file), escapeshellcmd($crt_file));
-				} else {
-					if(@is_link($crt_file)) $app->system->unlink($crt_file);
-					if(@file_exists($crt_tmp_file))exec("ln -s ".escapeshellcmd($crt_tmp_file)." ".escapeshellcmd($crt_file));
-				}
-
-				if(is_file($bundle_file)) {
-					$app->system->copy($bundle_file, $bundle_file.'.old.'.$date);
-					$app->system->chmod($bundle_file.'.old.'.$date, 0400);
-					$app->system->unlink($bundle_file);
-				}
-
-				if($web_config["website_symlinks_rel"] == 'y') {
-					$this->create_relative_link(escapeshellcmd($bundle_tmp_file), escapeshellcmd($bundle_file));
-				} else {
-					if(@is_link($bundle_file)) $app->system->unlink($bundle_file);
-					if(@file_exists($bundle_tmp_file)) exec("ln -s ".escapeshellcmd($bundle_tmp_file)." ".escapeshellcmd($bundle_file));
-				}
-
+			$success = $app->letsencrypt->request_certificates($data);
+			if($success) {
 				/* we don't need to store it.
 				/* Update the DB of the (local) Server */
-				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
-				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+				$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain_id = ?", $data['new']['domain']);
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain_id = ?", $data['new']['domain']);
 				/* Update also the master-DB of the Server-Farm */
 				$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '', ssl_key = '' WHERE domain = ?", $data['new']['domain']);
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			} else {
+				$data['new']['ssl_letsencrypt'] = 'n';
+				if($data['old']['ssl'] == 'n') $data['new']['ssl'] = 'n';
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 			}
 		}
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
-
-		//$vhost_data['document_root'] = $data['new']['document_root'].'/' . $web_folder;
 
 		// Set SEO Redirect
 		if($data['new']['seo_redirect'] != ''){
@@ -2303,7 +2134,7 @@ class apache2_plugin {
 				$command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' ; userdel';
 				$command .= ' '.escapeshellcmd($data['old']['system_user']);
 				exec($command);
-				if($apache_chrooted) $this->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+				if($apache_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
 
 			}
 
@@ -2749,8 +2580,8 @@ class apache2_plugin {
 			/*
 			 * The webdav - Root needs the group/user as owner and the apache as read and write
 			*/
-			//$this->_exec('chown ' . $user . ':' . $group . ' ' . escapeshellcmd($documentRoot . '/webdav/'));
-			//$this->_exec('chmod 770 ' . escapeshellcmd($documentRoot . '/webdav/'));
+			//$app->system->_exec('chown ' . $user . ':' . $group . ' ' . escapeshellcmd($documentRoot . '/webdav/'));
+			//$app->system->_exec('chmod 770 ' . escapeshellcmd($documentRoot . '/webdav/'));
 			$app->system->chown($documentRoot . '/webdav', $user);
 			$app->system->chgrp($documentRoot . '/webdav', $group);
 			$app->system->chmod($documentRoot . '/webdav', 0770);
@@ -2759,8 +2590,8 @@ class apache2_plugin {
 			 * The webdav folder (not the webdav-root!) needs the same (not in ONE step, because the
 			 * pwd-files are owned by root)
 			*/
-			//$this->_exec('chown ' . $user . ':' . $group . ' ' . escapeshellcmd($webdav_user_dir.' -R'));
-			//$this->_exec('chmod 770 ' . escapeshellcmd($webdav_user_dir.' -R'));
+			//$app->system->_exec('chown ' . $user . ':' . $group . ' ' . escapeshellcmd($webdav_user_dir.' -R'));
+			//$app->system->_exec('chmod 770 ' . escapeshellcmd($webdav_user_dir.' -R'));
 			$app->system->chown($webdav_user_dir, $user);
 			$app->system->chgrp($webdav_user_dir, $group);
 			$app->system->chmod($webdav_user_dir, 0770);
@@ -3360,26 +3191,11 @@ class apache2_plugin {
 			}
 
 			if($app->system->is_group('client'.$client_id)){
-				$this->_exec('groupdel client'.$client_id);
+				$app->system->_exec('groupdel client'.$client_id);
 				$app->log('Removed group client'.$client_id, LOGLEVEL_DEBUG);
 			}
 		}
 
-	}
-
-	//* Wrapper for exec function for easier debugging
-	private function _exec($command) {
-		global $app;
-		$out = array();
-		$ret = 0;
-		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
-		exec($command, $out, $ret);
-		if($ret != 0) {
-			$app->log(implode("\n", $out), LOGLEVEL_WARN);
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	private function _checkTcp ($host, $port) {
@@ -3392,35 +3208,6 @@ class apache2_plugin {
 		} else {
 			return false;
 		}
-	}
-
-	public function create_relative_link($f, $t) {
-		global $app;
-
-		// $from already exists
-		$from = realpath($f);
-
-		// realpath requires the traced file to exist - so, lets touch it first, then remove
-		@$app->system->unlink($t); touch($t);
-		$to = realpath($t);
-		@$app->system->unlink($t);
-
-		// Remove from the left side matching path elements from $from and $to
-		// and get path elements counts
-		$a1 = explode('/', $from); $a2 = explode('/', $to);
-		for ($c = 0; $a1[$c] == $a2[$c]; $c++) {
-			unset($a1[$c]); unset($a2[$c]);
-		}
-		$cfrom = implode('/', $a1);
-
-		// Check if a path is fully a subpath of another - no way to create symlink in the case
-		if (count($a1) == 0 || count($a2) == 0) return false;
-
-		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
-		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
-		if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
-
-		return symlink($cfrom, $to);
 	}
 
 	private function _rewrite_quote($string) {

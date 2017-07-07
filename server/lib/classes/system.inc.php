@@ -857,13 +857,13 @@ class system{
 		return rename($filename, $new_filename);
 	}
 
-	function mkdir($dirname, $allow_symlink = false) {
+	function mkdir($dirname, $allow_symlink = false, $mode = 0777, $recursive = false) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($dirname) == false) {
 			$app->log("Action aborted, file is a symlink: $dirname", LOGLEVEL_WARN);
 			return false;
 		}
-		if(@mkdir($dirname)) {
+		if(@mkdir($dirname, $mode, $recursive)) {
 			return true;
 		} else {
 			$app->log("mkdir failed: $dirname", LOGLEVEL_DEBUG);
@@ -892,6 +892,35 @@ class system{
 			$app->log("touch failed: $file", LOGLEVEL_DEBUG);
 			return false;
 		}
+	}
+
+	public function create_relative_link($f, $t) {
+		global $app;
+
+		// $from already exists
+		$from = realpath($f);
+
+		// realpath requires the traced file to exist - so, lets touch it first, then remove
+		@$app->system->unlink($t); touch($t);
+		$to = realpath($t);
+		@$app->system->unlink($t);
+
+		// Remove from the left side matching path elements from $from and $to
+		// and get path elements counts
+		$a1 = explode('/', $from); $a2 = explode('/', $to);
+		for ($c = 0; $a1[$c] == $a2[$c]; $c++) {
+			unset($a1[$c]); unset($a2[$c]);
+		}
+		$cfrom = implode('/', $a1);
+
+		// Check if a path is fully a subpath of another - no way to create symlink in the case
+		if (count($a1) == 0 || count($a2) == 0) return false;
+
+		// Add ($cnt_to-1) number of "../" elements to left side of $cfrom
+		for ($c = 0; $c < (count($a2)-1); $c++) { $cfrom = '../'.$cfrom; }
+		if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
+
+		return symlink($cfrom, $to);
 	}
 
 	function checkpath($path) {
@@ -1655,6 +1684,16 @@ class system{
 			}
 		}
 
+	}
+	
+	function _exec($command) {
+		global $app;
+		$out = array();
+		$ret = 0;
+		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
+		exec($command, $out, $ret);
+		if($ret != 0) return false;
+		else return true;
 	}
 
 	//* Check if a application is installed
