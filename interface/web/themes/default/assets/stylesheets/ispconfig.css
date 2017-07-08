@@ -154,13 +154,16 @@ body {
     padding: 0;
     list-style: none; }
   #sidebar li {
-    padding: 10px;
     border-top-style: solid;
     border-top-width: 1px;
     font-size: 12px; }
   #sidebar a {
+    display: block;
+    padding: 10px;
     text-decoration: none;
     transition: color ease 500ms; }
+    #sidebar header a {
+		padding: 0; }
 
 .page-header {
   margin: 20px 0;
