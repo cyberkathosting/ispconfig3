@@ -1183,7 +1183,6 @@ class apache2_plugin {
 				/* Update also the master-DB of the Server-Farm */
 				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
  			}
-			}
 		}
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
