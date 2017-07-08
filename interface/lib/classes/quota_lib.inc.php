@@ -14,7 +14,7 @@ class quota_lib {
 		//print_r($monitor_data);
 		
 		// select all websites or websites belonging to client
-		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".(($clientid != null)?" AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)":''), $clientid);
+		$sites = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE active = 'y' AND type = 'vhost'".(($clientid != null)?" AND sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)":'') . " ORDER BY domain", $clientid);
 		
 		//print_r($sites);
 		if(is_array($sites) && !empty($sites)){
@@ -237,7 +237,7 @@ class quota_lib {
 		//print_r($monitor_data);
 		
 		// select all email accounts or email accounts belonging to client
-		$emails = $app->db->queryAllRecords("SELECT * FROM mail_user".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : ''), $clientid);
+		$emails = $app->db->queryAllRecords("SELECT * FROM mail_user".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : '') . " ORDER BY email", $clientid);
 		
 		//print_r($emails);
 		if(is_array($emails) && !empty($emails)){
@@ -301,7 +301,7 @@ class quota_lib {
 		//print_r($monitor_data);
 	
 		// select all databases belonging to client
-		$databases = $app->db->queryAllRecords("SELECT * FROM web_database".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : ''), $clientid);
+		$databases = $app->db->queryAllRecords("SELECT * FROM web_database".(($clientid != null)? " WHERE sys_groupid = (SELECT default_group FROM sys_user WHERE client_id=?)" : '') . " ORDER BY database_name", $clientid);
 	
 		//print_r($databases);
 		if(is_array($databases) && !empty($databases)){
