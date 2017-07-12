@@ -1,5 +1,7 @@
 <?php
 
+die('deprecated');
+
 /*
 Copyright (c) 2005, Till Brehm, projektfarm Gmbh
 All rights reserved.
