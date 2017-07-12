@@ -143,6 +143,34 @@ class remoting_server extends remoting {
 	}
 	
 	/**
+	 Set a value in the server configuration
+	 @param int session id
+	 @param int server id
+	 @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	 @param string key of the option that you want to set
+	 @param string option value that you want to set
+	 */
+
+
+	public function server_config_set($session_id, $server_id, $section, $key, $value) {
+			global $app;
+			if(!$this->checkPerm($session_id, 'server_config_set')) {
+				throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+				return false;
+			}
+			if (!empty($server_id) && $server_id > 0 && $section != '' && $key != '') {
+				$app->uses('remoting_lib,getconf,ini_parser');
+				$server_config_array = $app->getconf->get_server_config($server_id);
+				$server_config_array[$section][$key] = $value;
+				$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
+				$app->db->datalogUpdate('server', array("config" => $server_config_str), 'server_id', $server_id);
+			} else {
+				throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
+				return false;
+			}
+	}
+	
+	/**
 		Gets a list of all servers
 		@param int session_id
 		@param int server_name
