@@ -268,8 +268,6 @@ $wb['php_ini_check_minutes_error_empty'] = 'Please specify a value how often php
 $wb['php_ini_check_minutes_info_txt'] = '0 = no check';
 $wb['enable_spdy_txt'] = 'Makes SPDY available';
 $wb['web_settings_txt'] = 'Web Server';
-
-// New for XMPP
 $wb['xmpp_server_txt'] = 'XMPP Server';
 $wb['xmpp_use_ipv6_txt'] = 'Use IPv6';
 $wb['xmpp_bosh_max_inactivity_txt'] = 'Max. BOSH inactivity time';
@@ -285,4 +283,5 @@ $wb['xmpp_port_bosh_txt'] = 'BOSH';
 $wb["disable_bind_log_txt"] = "Disable bind9 messages for Loglevel WARN";
 $wb["apps_vhost_enabled_txt"] = "Apps-vhost enabled";
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
+$wb['migration_mode_txt'] = 'Server Migration Mode';
 ?>
