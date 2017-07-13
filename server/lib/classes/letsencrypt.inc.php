@@ -257,7 +257,6 @@ class letsencrypt {
 		// unset useless data
 		unset($subdomains);
 		unset($aliasdomains);
-		unset($temp_domains);
 		
 		$letsencrypt_cmd = '';
 		$success = false;
@@ -274,6 +273,7 @@ class letsencrypt {
 		}
 		
 		$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
+		unset($temp_domains);
 		
 		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
 			$crt_tmp_file = $le_files['fullchain'];
