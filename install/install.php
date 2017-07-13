@@ -57,19 +57,21 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 error_reporting(E_ALL|E_STRICT);
+require_once realpath(dirname(__FILE__)) . '/lib/classes/libbashcolor.inc.php';
 
 define('INSTALLER_RUN', true);
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
-echo " _____ ___________   _____              __ _         ____
-|_   _/  ___| ___ \ /  __ \            / _(_)       /__  \
-  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _    _/ /
-  | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |  |_ |
- _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| | ___\ \
- \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, | \____/
+echo PXBashColor::getString( "<darkgrey>
+<strong> _____ ___________</strong>   _____              __ _         ____
+<strong>|_   _/  ___| ___ \</strong> /  __ \            / _(_)       /__  \
+<strong>  | | \ `--.| |_/ /</strong> | /  \/ ___  _ __ | |_ _  __ _    _/ /
+<strong>  | |  `--. \  __/</strong>  | |    / _ \| '_ \|  _| |/ _` |  |_ |
+<strong> _| |_/\__/ / |   </strong>  | \__/\ (_) | | | | | | | (_| | ___\ \
+<strong> \___/\____/\_|   </strong>   \____/\___/|_| |_|_| |_|\__, | \____/
                                               __/ |
-                                             |___/ ";
+                                             |___/ </darkgrey>");
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Initial configuration  \n\n";
 
@@ -148,12 +150,12 @@ $retval=shell_exec("which which");
 if (empty($retval)) die ("ISPConfig requieres which \n");
 
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
-swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
-swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
+swriteln($inst->lng('    Default values are in <strong>[brackets]</strong> and can be accepted with <em><ENTER></em>.'));
+swriteln($inst->lng('    Tap in "<em>quit</em>" (without the quotes) to stop the installer.'."\n\n"));
 
 //** Check log file is writable (probably not root or sudo)
 if(!is_writable(dirname(ISPC_LOG_FILE))){
-	die("ERROR: Cannot write to the ".dirname(ISPC_LOG_FILE)." directory. Are you root or sudo ?\n\n");
+	die(PXBashColor::getString("<strong><red>[ERROR]</red></strong> Cannot write to the ".dirname(ISPC_LOG_FILE)." directory. Are you root or sudo ?\n\n"));
 }
 
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {

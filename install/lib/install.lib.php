@@ -32,6 +32,8 @@ error_reporting(E_ALL|E_STRICT);
 
 $FILE = realpath('../install.php');
 
+require_once realpath(dirname(__FILE__)) . '/classes/libbashcolor.inc.php';
+
 //** Get distribution identifier
 //** IMPORTANT!
 //   This is the same code as in server/lib/classes/monitor_tools.inc.php
@@ -214,7 +216,7 @@ function get_distname() {
 			$distconfid = 'debian90';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-			swriteln("Operating System: Debian 9.0 (Stretch) or compatible\n");
+			swriteln("Operating System: <strong>Debian 9.0 (Stretch)</strong> or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';
@@ -379,7 +381,7 @@ function swrite($text = '') {
 }
 
 function swriteln($text = '') {
-	echo $text."\n";
+	echo PXBashColor::getString($text, true)."\n";
 }
 
 function ilog($msg){
