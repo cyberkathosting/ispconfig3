@@ -49,30 +49,35 @@ class cronjob_letsencrypt extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
-
-		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
-		$letsencrypt = reset($letsencrypt);
-		if(is_executable($letsencrypt)) {
-			$version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
-			if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
-				$type = strtolower($matches[1]);
-				$version = $matches[2];
-				if(($type != 'letsencrypt' && $type != 'certbot') || version_compare($version, '0.7.0', '<')) {
+		
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
+			$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+			$letsencrypt = reset($letsencrypt);
+			if(is_executable($letsencrypt)) {
+				$version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
+				if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
+					$type = strtolower($matches[1]);
+					$version = $matches[2];
+					if(($type != 'letsencrypt' && $type != 'certbot') || version_compare($version, '0.7.0', '<')) {
+						exec($letsencrypt . ' -n renew');
+						$app->services->restartServiceDelayed('httpd', 'force-reload');
+					} else {
+						$marker_file = '/usr/local/ispconfig/server/le.restart';
+						$cmd = "echo '1' > " . $marker_file;
+						exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
+						if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
+							unlink($marker_file);
+							$app->services->restartServiceDelayed('httpd', 'force-reload');
+						}
+					}
+				} else {
 					exec($letsencrypt . ' -n renew');
 					$app->services->restartServiceDelayed('httpd', 'force-reload');
-				} else {
-					$marker_file = '/usr/local/ispconfig/server/le.restart';
-					$cmd = "echo '1' > " . $marker_file;
-					exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
-					if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
-						unlink($marker_file);
-						$app->services->restartServiceDelayed('httpd', 'force-reload');
-					}
 				}
-			} else {
-				exec($letsencrypt . ' -n renew');
-				$app->services->restartServiceDelayed('httpd', 'force-reload');
 			}
+		} else {
+			$app->log('Migration mode active, not running Let\'s Encrypt renewal.', LOGLEVEL_DEBUG);
 		}
 		
 		parent::onRunJob();
