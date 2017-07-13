@@ -27,6 +27,7 @@ munin_url=
 munin_user=
 munin_password=
 monitor_system_updates=y
+migration_mode=n
 
 [mail]
 module=postfix_mysql

@@ -283,4 +283,5 @@ $wb['apps_vhost_enabled_txt'] = 'Apps-vhost enabled';
 $wb['backup_time_txt'] = 'Backup time';
 $wb["mailinglist_manager_txt"] = 'Gestore delle Liste'
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
+$wb['migration_mode_txt'] = 'Server Migration Mode';
 ?>

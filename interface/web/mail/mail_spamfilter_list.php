@@ -1,4 +1,7 @@
 <?php
+
+die('deprecated');
+
 require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 

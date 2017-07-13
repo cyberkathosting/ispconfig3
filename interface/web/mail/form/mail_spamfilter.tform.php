@@ -1,5 +1,7 @@
 <?php
 
+die('deprecated');
+
 /*
 	Form Definition
 

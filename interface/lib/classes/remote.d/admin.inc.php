@@ -103,6 +103,34 @@ class remoting_admin extends remoting {
 		return $app->db->datalogUpdate( $tablename, $permissions, $index_field, $index_value ) ;
 	}
 	
+	/**
+	 Set a value in the system configuration
+	 @param int session id
+	 @param int server id
+	 @param string  section of the config field in the server table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	 @param string key of the option that you want to set
+	 @param string option value that you want to set
+	 */
+
+
+	public function system_config_set($session_id, $section, $key, $value) {
+			global $app;
+			if(!$this->checkPerm($session_id, 'system_config_set')) {
+				throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+				return false;
+			}
+			if ($section != '' && $key != '') {
+				$app->uses('remoting_lib,getconf,ini_parser');
+				$system_config_array = $app->getconf->get_global_config();
+				$system_config_array[$section][$key] = $value;
+				$system_config_str = $app->ini_parser->get_ini_string($system_config_array);
+				$app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
+			} else {
+				throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
+				return false;
+			}
+	}
+	
 
 }
 

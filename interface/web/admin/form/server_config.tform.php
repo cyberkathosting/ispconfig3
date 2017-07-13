@@ -391,6 +391,12 @@ $form["tabs"]['server'] = array(
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'migration_mode' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
