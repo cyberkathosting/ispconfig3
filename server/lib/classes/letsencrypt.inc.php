@@ -254,21 +254,10 @@ class letsencrypt {
 			$cli_domain_arg .= (string) " --domains " . $temp_domain;
 		}
 
-		$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
-		
 		// unset useless data
 		unset($subdomains);
 		unset($aliasdomains);
 		unset($temp_domains);
-		
-		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
-			$crt_tmp_file = $le_files['fullchain'];
-		} else {
-			$crt_tmp_file = $le_files['cert'];
-		}
-		
-		$key_tmp_file = $le_files['privkey'];
-		$bundle_tmp_file = $le_files['chain'];
 		
 		$letsencrypt_cmd = '';
 		$success = false;
@@ -283,6 +272,17 @@ class letsencrypt {
 				$success = $app->system->_exec($letsencrypt_cmd);
 			}
 		}
+		
+		$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
+		
+		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+			$crt_tmp_file = $le_files['fullchain'];
+		} else {
+			$crt_tmp_file = $le_files['cert'];
+		}
+		
+		$key_tmp_file = $le_files['privkey'];
+		$bundle_tmp_file = $le_files['chain'];
 		
 		if(!$success) {
 			// error issuing cert
