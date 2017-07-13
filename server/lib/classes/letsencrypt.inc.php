@@ -181,6 +181,7 @@ class letsencrypt {
 		
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		
 		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
 		$domain = $tmp['domain'];
@@ -233,7 +234,7 @@ class letsencrypt {
 
 		$le_domains = array();
 		foreach($temp_domains as $temp_domain) {
-			if(isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') {
+			if((isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') || (isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y')) {
 				$le_domains[] = $temp_domain;
 			} else {
 				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
@@ -261,14 +262,19 @@ class letsencrypt {
 		$letsencrypt_cmd = '';
 		$success = false;
 		if(!empty($cli_domain_arg)) {
-			$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
-			$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
-		
-			$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
-			$letsencrypt = reset($letsencrypt);
-			if(is_executable($letsencrypt)) {
-				$letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
-				$success = $app->system->_exec($letsencrypt_cmd);
+			if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
+				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
+				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
+			
+				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+				$letsencrypt = reset($letsencrypt);
+				if(is_executable($letsencrypt)) {
+					$letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
+					$success = $app->system->_exec($letsencrypt_cmd);
+				}
+			} else {
+				$app->log("Migration mode active, skipping Let's Encrypt SSL Cert creation for: $domain", LOGLEVEL_DEBUG);
+				$success = true;
 			}
 		}
 		
