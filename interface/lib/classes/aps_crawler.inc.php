@@ -261,10 +261,13 @@ class ApsCrawler extends ApsBase
 			// Get all known apps from the database and the highest known version
 			// Note: A dirty hack is used for numerical sorting of the VARCHAR field Version: +0 -> cast
 			// A longer but typesafe way would be: ORDER BY CAST(REPLACE(Version, '.', '') AS UNSIGNED) DESC
-			$existing_apps = $app->db->queryAllRecords("SELECT * FROM (
-                SELECT name AS Name, CONCAT(version, '-', CAST(`release` AS CHAR)) AS CurrentVersion
-                FROM aps_packages ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC
-                ) as Versions GROUP BY name");
+			$existing_apps = array();
+			$tmpres = $app->db->query("SELECT name as `Name`, CONCAT(version, '-', CAST(`release` AS CHAR)) AS CurrentVersion FROM aps_packages ORDER BY INET_ATON(SUBSTRING_INDEX(CONCAT(version,'.0.0.0'),'.',4)) DESC, `release` DESC");
+			while($tmp = $tmpres->get()) {
+				if(!array_key_exists($tmp['Name'], $existing_apps)) $existing_apps[$tmp['Name']] = $tmp;
+			}
+			$tmpres->free();
+			unset($tmp);
 			//var_dump($existing_apps);
 
 			// Used for statistics later
@@ -492,6 +495,23 @@ class ApsCrawler extends ApsBase
 			$app->log($this->log_prefix.'Processed '.$apps_in_repo.
 				' apps from the repo. Downloaded '.$apps_updated.
 				' updates, '.$apps_downloaded.' new apps');
+			
+			$prevapp = '';
+			$res = $app->db->query("SELECT `id`, `name`, `version`, `release`, `package_status` FROM `aps_packages` WHERE 1 ORDER BY `name` ASC, INET_ATON(SUBSTRING_INDEX(CONCAT(version,'.0.0.0'),'.',4)) DESC, `release` DESC");
+			while($curapp = $res->get()) {
+				if($curapp['name'] != $prevapp) {
+					$prevapp = $curapp['name'];
+					continue;
+				}
+				if($curapp['package_status'] != PACKAGE_OUTDATED) {
+					$app->log($this->log_prefix.'Tagging ' . $curapp['name'] . ' ' . $curapp['version'] . '-' . $curapp['release'] . ' as outdated.');
+					$app->db->query("UPDATE `aps_packages` SET `package_status` = ? WHERE `id` = ?", PACKAGE_OUTDATED, $curapp['id']);
+					$app->db->datalogUpdate('aps_packages', array("package_status" => PACKAGE_OUTDATED), 'id', $curapp['id']);
+				}
+			}
+			$res->free();
+			unset($curapp);
+			unset($prevapp);
 		}
 
 		catch(Exception $e)

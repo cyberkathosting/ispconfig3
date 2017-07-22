@@ -39,5 +39,5 @@ class list_action extends listform_actions {
 }
 
 $list = new list_action;
-$list->SQLExtWhere = "";
+$list->SQLExtWhere = "web_domain.type = 'vhost'";
 $list->onLoad();
