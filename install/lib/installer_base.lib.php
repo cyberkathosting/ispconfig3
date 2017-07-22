@@ -59,7 +59,7 @@ class installer_base {
 	}
 
 	public function simple_query($query, $answers, $default, $name = '') {
-		global $autoinstall;
+		global $autoinstall, $autoupdate;
 		$finished = false;
 		do {
 			if($name != '' && $autoinstall[$name] != '') {
@@ -104,7 +104,7 @@ class installer_base {
 	}
 
 	public function free_query($query, $default, $name = '') {
-		global $autoinstall;
+		global $autoinstall, $autoupdate;
 		if($name != '' && $autoinstall[$name] != '') {
 			if($autoinstall[$name] == 'default') {
 				$input = $default;
