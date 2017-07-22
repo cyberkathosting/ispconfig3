@@ -306,7 +306,7 @@ class ApsInstaller extends ApsBase
 		$db_id = parent::getXPathValue($sxe, '//db:id');
 		if(empty($db_id)) return; // No database needed
 
-		$mysqlver_res = $app->db->queryOneRecord('SELECT VERSION() as ver;');
+		$mysqlver_res = $app->db->queryOneRecord('SELECT VERSION() as ver');
 		$mysqlver = $mysqlver_res['ver'];
 
 		$tmp = $app->db->queryOneRecord("SELECT value FROM aps_instances_settings WHERE name = 'main_database_password' AND instance_id = ?", $task['instance_id']);
