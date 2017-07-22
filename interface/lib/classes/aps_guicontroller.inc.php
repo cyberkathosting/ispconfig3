@@ -166,7 +166,7 @@ class ApsGUIController extends ApsBase
             FROM aps_packages
             WHERE name = (SELECT name FROM aps_packages WHERE id = ?)
             AND package_status = 2
-            ORDER BY REPLACE(version, '.', '')+0 DESC, `release` DESC", $id);
+            ORDER BY INET_ATON(SUBSTRING_INDEX(CONCAT(version,'.0.0.0'),'.',4)) DESC, `release` DESC", $id);
 
 		if(!empty($result) && ($id != $result['id'])) return $result['id'];
 
