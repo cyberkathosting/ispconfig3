@@ -206,7 +206,7 @@ class monitor_tools {
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';
-			$distid = 'debian90';
+			$distid = 'debian60';
 			$distconfid = 'debiantesting';
 			$distbaseid = 'debian';
 		} else {
