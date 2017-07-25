@@ -191,6 +191,7 @@ class installer_base {
 
     public function force_configure_app($service, $enable_force=true) {
 		$force = false;
+		if(AUTOINSTALL == true) return false;
 		if($enable_force == true) {
 			swriteln("[WARN] autodetect for $service failed");
 		} else {
