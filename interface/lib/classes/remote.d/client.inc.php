@@ -331,7 +331,7 @@ class remoting_client extends remoting {
 			return false;
 		}
 
-		if(@is_numeric($client_id) && @is_numeric($template_id)) {
+		if(@is_numeric($client_id) && @is_numeric($assigned_template_id)) {
 			// check if client exists
 			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
@@ -349,7 +349,7 @@ class remoting_client extends remoting {
 			$this->_set_client_formdata($client_id);
 
 			$sql = "DELETE FROM `client_template_assigned` WHERE `assigned_template_id` = ? AND `client_id` = ?";
-			$app->db->query($sql, $template_id, $client_id);
+			$app->db->query($sql, $assigned_template_id, $client_id);
 			$affected_rows = $app->db->affectedRows();
 
 			$app->plugin->raiseEvent('client:client:on_after_update', $this);
