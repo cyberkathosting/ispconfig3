@@ -339,7 +339,7 @@ class remoting_client extends remoting {
 				return false;
 			}
 			// check if template exists
-			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `assigned_template_id` = ?', $assigned_template_id);
+			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `client_id` = ? AND `client_template_id` = ?', $client_id, $assigned_template_id);
 			if(!$check) {
 				throw new SoapFault('Invalid template');
 				return false;
@@ -349,7 +349,7 @@ class remoting_client extends remoting {
 			$this->_set_client_formdata($client_id);
 
 			$sql = "DELETE FROM `client_template_assigned` WHERE `assigned_template_id` = ? AND `client_id` = ?";
-			$app->db->query($sql, $assigned_template_id, $client_id);
+			$app->db->query($sql, $check['assigned_template_id'], $client_id);
 			$affected_rows = $app->db->affectedRows();
 
 			$app->plugin->raiseEvent('client:client:on_after_update', $this);
