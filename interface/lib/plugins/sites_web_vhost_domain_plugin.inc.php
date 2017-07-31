@@ -197,17 +197,17 @@ class sites_web_vhost_domain_plugin {
 				}
 
 				//* If the domain name has been changed, we will have to change all subdomains + APS instances
-				if(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $page_form->dataRecord["domain"] != $page_form->oldDataRecord["domain"]) {
+				if(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $app->functions->idn_encode($page_form->dataRecord["domain"]) != $page_form->oldDataRecord["domain"]) {
 					//* Change SSL Domain
 					$tmp=$app->db->queryOneRecord("SELECT ssl_domain FROM web_domain WHERE domain_id = ?", $page_form->id);
 					if($tmp['ssl_domain'] != '') {
-						$plain=str_replace($page_form->oldDataRecord["domain"], $page_form->dataRecord["domain"], $tmp);
+						$plain=str_replace($page_form->oldDataRecord["domain"], $app->functions->idn_encode($page_form->dataRecord["domain"]), $tmp);
 						$app->db->query("UPDATE web_domain SET ssl_domain = ? WHERE domain_id = ?", $plain, $page_form->id);
 					}
 
 					$records = $app->db->queryAllRecords("SELECT domain_id,domain FROM web_domain WHERE (type = 'subdomain' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND domain LIKE ?", "%." . $page_form->oldDataRecord["domain"]);
 					foreach($records as $rec) {
-						$subdomain = str_replace($page_form->oldDataRecord["domain"], $page_form->dataRecord["domain"], $rec['domain']);
+						$subdomain = str_replace($page_form->oldDataRecord["domain"], $app->functions->idn_encode($page_form->dataRecord["domain"]), $rec['domain']);
 						$app->db->datalogUpdate('web_domain', array("domain" => $subdomain), 'domain_id', $rec['domain_id']);
 					}
 					unset($records);
@@ -218,7 +218,7 @@ class sites_web_vhost_domain_plugin {
 					$records = $app->db->queryAllRecords("SELECT id, instance_id FROM aps_instances_settings WHERE name = 'main_domain' AND value = ?", $page_form->oldDataRecord["domain"]);
 					if(is_array($records) && !empty($records)){
 						foreach($records as $rec){
-							$app->db->datalogUpdate('aps_instances_settings', array("value" => $page_form->dataRecord["domain"]), 'id', $rec['id']);
+							$app->db->datalogUpdate('aps_instances_settings', array("value" => $app->functions->idn_encode($page_form->dataRecord["domain"])), 'id', $rec['id']);
 						}
 					}
 					unset($records);
@@ -233,7 +233,7 @@ class sites_web_vhost_domain_plugin {
 
 				//* Set php_open_basedir if empty or domain or client has been changed
 				if(empty($web_rec['php_open_basedir']) ||
-					(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $page_form->dataRecord["domain"] != $page_form->oldDataRecord["domain"])) {
+					(!empty($page_form->dataRecord["domain"]) && !empty($page_form->oldDataRecord["domain"]) && $app->functions->idn_encode($page_form->dataRecord["domain"]) != $page_form->oldDataRecord["domain"])) {
 					$php_open_basedir = $web_rec['php_open_basedir'];
 					$php_open_basedir = str_replace($page_form->oldDataRecord['domain'], $web_rec['domain'], $php_open_basedir);
 					$sql = "UPDATE web_domain SET php_open_basedir = ? WHERE domain_id = ?";
@@ -274,7 +274,7 @@ class sites_web_vhost_domain_plugin {
 				}
 			} else {
 				$php_open_basedir    = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
-				$php_open_basedir    = str_replace("[website_domain]", $page_form->dataRecord['domain'], $php_open_basedir);
+				$php_open_basedir    = str_replace("[website_domain]", $app->functions->idn_encode($page_form->dataRecord['domain']), $php_open_basedir);
 				$htaccess_allow_override  = $web_config["htaccess_allow_override"];
 				
 				$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?  WHERE domain_id = ?";
@@ -289,9 +289,9 @@ class sites_web_vhost_domain_plugin {
 				$system_group = $parent_domain['system_group'];
 				$document_root = $parent_domain['document_root'];
 				$php_open_basedir = str_replace("[website_path]/web", $document_root.'/'.$page_form->dataRecord['web_folder'], $web_config["php_open_basedir"]);
-				$php_open_basedir = str_replace("[website_domain]/web", $page_form->dataRecord['domain'].'/'.$page_form->dataRecord['web_folder'], $php_open_basedir);
+				$php_open_basedir = str_replace("[website_domain]/web", $app->functions->idn_encode($page_form->dataRecord['domain']).'/'.$page_form->dataRecord['web_folder'], $php_open_basedir);
 				$php_open_basedir = str_replace("[website_path]", $document_root, $php_open_basedir);
-				$php_open_basedir = str_replace("[website_domain]", $page_form->dataRecord['domain'], $php_open_basedir);
+				$php_open_basedir = str_replace("[website_domain]", $app->functions->idn_encode($page_form->dataRecord['domain']), $php_open_basedir);
 				$htaccess_allow_override = $parent_domain['allow_override'];
 				$sql = "UPDATE web_domain SET sys_groupid = ?,system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ? WHERE domain_id = ?";
 				$app->db->query($sql, $parent_domain['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $page_form->id);
