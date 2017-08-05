@@ -121,7 +121,7 @@ class remoting_admin extends remoting {
 			$system_config_array = $app->getconf->get_global_config();
 			$system_config_array[$section][$key] = $value;
 			$system_config_str = $app->ini_parser->get_ini_string($system_config_array);
-			$app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
+			return $app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
 		} else {
 			throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
 			return false;
