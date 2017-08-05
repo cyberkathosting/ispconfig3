@@ -228,7 +228,7 @@ class remoting_server extends remoting {
             return false;
 		}
 		if (!empty($session_id) && !empty($server_id)) { 
-			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server FROM server WHERE server_id  = ? LIMIT 1 ";
+			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server, mirror_server_id FROM server WHERE server_id  = ? LIMIT 1 ";
 			$all = $app->db->queryOneRecord($sql, $server_id);
 			return $all;
 		} else {
