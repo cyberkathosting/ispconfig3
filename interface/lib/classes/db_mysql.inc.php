@@ -1029,7 +1029,7 @@ class db_result {
 	 *
 	 * @access private
 	 */
-	public function db_result($iResId, $iConnection) {
+	public function __construct($iResId, $iConnection) {
 		$this->_iResId = $iResId;
 		$this->_iConnection = $iConnection;
 	}
@@ -1155,7 +1155,7 @@ class fakedb_result {
 	 *
 	 * @access private
 	 */
-	public function fakedb_result($aData) {
+	public function __construct($aData) {
 		$this->aResultData = $aData;
 		$this->aLimitedData = $aData;
 		reset($this->aLimitedData);
