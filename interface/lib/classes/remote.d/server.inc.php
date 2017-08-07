@@ -163,7 +163,7 @@ class remoting_server extends remoting {
 				$server_config_array = $app->getconf->get_server_config($server_id);
 				$server_config_array[$section][$key] = $value;
 				$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
-				$app->db->datalogUpdate('server', array("config" => $server_config_str), 'server_id', $server_id);
+				return $app->db->datalogUpdate('server', array("config" => $server_config_str), 'server_id', $server_id);
 			} else {
 				throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
 				return false;
