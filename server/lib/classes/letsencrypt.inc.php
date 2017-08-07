@@ -227,7 +227,7 @@ class letsencrypt {
 		// check if domains are reachable to avoid letsencrypt verification errors
 		$le_rnd_file = uniqid('le-') . '.txt';
 		$le_rnd_hash = md5(uniqid('le-', true));
-		if(!is_dir('/usr/local/interface/acme/.well-known/acme-challenge/')) {
+		if(!is_dir('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/')) {
 			$app->system->mkdir('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/', false, 0755, true);
 		}
 		file_put_contents('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file, $le_rnd_hash);
