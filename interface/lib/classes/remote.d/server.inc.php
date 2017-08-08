@@ -55,8 +55,8 @@ class remoting_server extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$sql = "SELECT server_id FROM server_ip WHERE ip_address  = ? LIMIT 1";
-		$all = $app->db->queryAllRecords($sql, $ipaddress);
+		$sql = "SELECT server_id FROM server_ip WHERE ip_address  = ?";
+		$all = $app->db->queryOneRecord($sql, $ipaddress);
 		return $all;
 	}
 
@@ -206,7 +206,7 @@ class remoting_server extends remoting {
             return false;
 		}
 		if (!empty($session_id) && !empty($server_name)) {
-			$sql = "SELECT server_id FROM server WHERE server_name  = ? LIMIT 1";
+			$sql = "SELECT server_id FROM server WHERE server_name  = ?";
 			$all = $app->db->queryOneRecord($sql, $server_name);
 			return $all;
 		} else {
@@ -228,7 +228,7 @@ class remoting_server extends remoting {
             return false;
 		}
 		if (!empty($session_id) && !empty($server_id)) { 
-			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server, mirror_server_id FROM server WHERE server_id  = ? LIMIT 1 ";
+			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server, mirror_server_id FROM server WHERE server_id  = ?";
 			$all = $app->db->queryOneRecord($sql, $server_id);
 			return $all;
 		} else {
