@@ -120,8 +120,14 @@ class page_action extends tform_actions {
 					}
 				}
 			}
+			
+			//* Remove parent_domain_id from databases
+			$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ?", $this->id);
+			foreach($records as $rec) {
+				$app->db->datalogUpdate('web_database', array('parent_domain_id' => 0), 'database_id', $rec['database_id']);
+			}
 		}
-
+		
 		//* Delete all web folders
 		$records = $app->db->queryAllRecords("SELECT web_folder_id FROM web_folder WHERE parent_domain_id = ?", $this->id);
 		foreach($records as $rec) {

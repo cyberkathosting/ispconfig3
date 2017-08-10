@@ -18,3 +18,4 @@ ALTER TABLE `dns_rr` CHANGE `data` `data` TEXT NOT NULL;
 ALTER TABLE `web_database` CHANGE `database_quota` `database_quota` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `web_domain` ADD `log_retention` INT NOT NULL DEFAULT '30' ;
 ALTER TABLE spamfilter_policy CHANGE spam_tag_level spam_tag_level DECIMAL(5,2) NULL DEFAULT NULL, CHANGE spam_tag2_level spam_tag2_level DECIMAL(5,2) NULL DEFAULT NULL, CHANGE spam_kill_level spam_kill_level DECIMAL(5,2) NULL DEFAULT NULL, CHANGE spam_dsn_cutoff_level spam_dsn_cutoff_level DECIMAL(5,2) NULL DEFAULT NULL, CHANGE spam_quarantine_cutoff_level spam_quarantine_cutoff_level DECIMAL(5,2) NULL DEFAULT NULL;
+UPDATE `web_database` as d LEFT JOIN `web_domain` as w ON (w.domain_id = d.parent_domain_id) SET d.parent_domain_id = 0 WHERE w.domain_id IS NULL AND d.parent_domain_id != 0;
