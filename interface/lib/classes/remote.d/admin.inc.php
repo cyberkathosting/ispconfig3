@@ -150,6 +150,7 @@ class remoting_admin extends remoting {
 			} else {
 				if(isset($system_config_array[$section])) return $system_config_array[$section];
 				else return false;
+			}
 		} else {
 			throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
 			return false;
