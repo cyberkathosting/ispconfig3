@@ -101,7 +101,7 @@ $conf['web']['apps_vhost_group'] = 'ispapps';
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/php/7.0/cgi/';
 $conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
-$conf['fastcgi']['fastcgi_bin'] = '/usr/bin/php-cgi';
+$conf['fastcgi']['fastcgi_bin'] = '/usr/bin/php-cgi7.0';
 
 //* Postfix
 $conf['postfix']['installed'] = false; // will be detected automatically during installation
