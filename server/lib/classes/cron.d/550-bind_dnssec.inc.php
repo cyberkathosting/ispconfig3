@@ -87,12 +87,12 @@ class cronjob_bind_dnssec extends cronjob {
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
 		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+//		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
 		$soas = $app->db->queryAllRecords("SELECT id,serial,origin FROM dns_soa WHERE server_id = ? AND active= 'Y' AND dnssec_wanted = 'Y' AND dnssec_initialized = 'Y' AND (dnssec_last_signed < ? OR dnssec_last_signed > ?)", $conf['server_id'], time()-(3600*24*5)+900, time()+900); //Resign zones every 5 days (expiry is 16 days so we have enough safety, 15 minutes tolerance)
 
 		foreach ($soas as $data) {
 			$domain = substr($data['origin'], 0, strlen($data['origin'])-1);
-			if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) continue;
+//			if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) continue;
 			
 			$app->log('DNSSEC Auto-Resign: Touching zone '.$domain, LOGLEVEL_DEBUG);
 			$app->db->datalogUpdate('dns_soa', array("serial" => $this->increase_serial($data['serial'])), 'id', $data['id']);
