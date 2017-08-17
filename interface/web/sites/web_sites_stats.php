@@ -30,9 +30,9 @@ class list_action extends listform_actions {
 	{
 		global $app;
 
+		$domain = $rec['domain'];
 		$rec = $app->listform->decode($rec);
-		$domain = $app->functions->idn_encode(html_entity_decode($rec['domain']));
-
+		
 		//* Alternating datarow colors
 		$this->DataRowColor = ($this->DataRowColor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 		$rec['bgcolor'] = $this->DataRowColor;
