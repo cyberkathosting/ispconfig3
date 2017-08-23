@@ -21,9 +21,10 @@ insert the output of `php -v` here
 ## propsed fix
 optional, of course.  
 if you want to post code snippets, please use  
-> \`\`\`  
-> your code  
-> \`\`\`  
+```  
+your code  
+```
+or attach a code file. Best is to create a merge request of course.  
 
 ## references
 if you know of related bugs or feature requests, please reference them by using `#<bugnumber>`, e. g. #123  
