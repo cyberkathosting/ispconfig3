@@ -92,6 +92,9 @@ function get_distname() {
 				$ver = explode(" ", $ver, 2);
 				$ver = reset($ver);
 				$mainver = $ver;
+				$mainver = explode('.', $ver);
+				$mainver = array_filter($mainver);
+				$mainver = current($mainver).'.'.next($mainver);
 			}
 			switch ($mainver){
 			case "17.04":

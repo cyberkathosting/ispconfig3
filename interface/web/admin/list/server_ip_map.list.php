@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $liste['name']     = 'server_ip_map';
 $liste['table']    = 'server_ip_map';

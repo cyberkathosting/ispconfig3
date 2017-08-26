@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2012, ISPConfig UG (haftungsbeschränkt)
 All rights reserved.
 
