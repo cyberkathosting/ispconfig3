@@ -18,7 +18,7 @@ insert the output of `nginx -v` or `apachectl -v` here
 insert the output of `php -v` here
 ```
 
-## propsed fix
+## proposed fix
 optional, of course.  
 if you want to post code snippets, please use  
 ```  
@@ -34,3 +34,8 @@ if you know of a forum post on howtoforge.com that deals with this topic, just a
 ## screenshots
 optional, of course.  
 Add screenshots of the problem by clicking "Attach a file" on the bottom right.
+
+## log entries
+```
+apache / nginx error.log lines (if related)
+```
