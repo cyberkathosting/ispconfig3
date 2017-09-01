@@ -779,7 +779,7 @@ $DO_SYSLOG = 1;
 $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
 # DKIM
-
+include_config_files('{amavis_config_dir}/60-dkim');
 $enable_dkim_verification = 1;
 $enable_dkim_signing = 1; # load DKIM signing code
 $signed_header_fields{'received'} = 0;  # turn off signing of Received
