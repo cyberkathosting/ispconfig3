@@ -87,10 +87,11 @@ class mail_plugin_dkim {
 				break;
 			}
 		}
-		//* If we can use seperate config-files with amavis use 60-dkim
-		if (substr_compare($amavis_configfile, '50-user', -7) === 0)
+		if (substr_compare($amavis_configfile, '50-user', -7) === 0) {
 			$amavis_configfile = str_replace('50-user', '60-dkim', $amavis_configfile);
-
+		} else { //* fake 60-dkim on system with a monolithic amavis-config
+			$amavis_configfile = str_replace('amavisd.conf', '60-dkim', $amavis_configfile);
+		}
 		return $amavis_configfile;
 	}
 
@@ -109,7 +110,7 @@ class mail_plugin_dkim {
 		/* check for amavis-config */
 		$amavis_configfile = $this->get_amavis_config();
 
-		//* When we can use 60-dkim for the dkim-keys create the file if it does not exists.
+		//* Create the file if it does not exists.
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0 && !file_exists($amavis_configfile))
 			$app->system->touch($amavis_configfile);
 
@@ -120,12 +121,7 @@ class mail_plugin_dkim {
 
 		/* dir for dkim-keys writeable? */
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		if (	isset($mail_config['dkim_path']) && 
-				!empty($mail_config['dkim_path']) && 
-//				isset($data['new']['dkim_private']) && 
-//				!empty($data['new']['dkim_private']) &&
-				$mail_config['dkim_path'] != '/' 
-		) {
+		if (isset($mail_config['dkim_path']) && !empty($mail_config['dkim_path']) && $mail_config['dkim_path'] != '/') {
             if (!is_dir($mail_config['dkim_path'])) {
                 $app->log('DKIM Path '.$mail_config['dkim_path'].' not found - (re)created.', LOGLEVEL_DEBUG);
 				if($app->system->is_user('amavis')) { 
@@ -239,16 +235,18 @@ class mail_plugin_dkim {
 
 		$search_regex = "/(\n|\r)?dkim_key\(\'".$key_domain."\',\ \'(".$selector."|".$old_selector."){1}?\'.*/";
 
-		//* If we are using seperate config-files with amavis remove existing keys from 50-user to avoid duplicate keys
+		//* If we are using seperate config-files (no faked 60-dkim) with amavis remove existing keys from 50-user to avoid duplicate keys
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
-			$temp_config = $app->system->file_get_contents($temp_configfile, true);
-			if (preg_match($search_regex, $temp_config)) {
-				$temp_config = preg_replace($search_regex, '', $temp_config)."\n";
-				$app->system->file_put_contents($temp_configfile, $temp_config, true);
+			if(file_exists($temp_configfile)) {
+				$temp_config = $app->system->file_get_contents($temp_configfile, true);
+				if (preg_match($search_regex, $temp_config)) {
+					$temp_config = preg_replace($search_regex, '', $temp_config)."\n";
+					$app->system->file_put_contents($temp_configfile, $temp_config, true);
+				}
+				unset($temp_config);
 			}
 			unset($temp_configfile);
-			unset($temp_config);
 		}
 
 		$key_value="dkim_key('".$key_domain."', '".$selector."', '".$mail_config['dkim_path']."/".$key_domain.".private');\n";
@@ -285,17 +283,19 @@ class mail_plugin_dkim {
 			$restart = true;
 		}
 
-		//* If we are using seperate config-files with amavis remove existing keys from 50-user, too
+		//* If we are using seperate config-files (no faked 60-dkim) with amavis remove existing keys from 50-user to avoid duplicate keys
 		if (substr_compare($amavis_configfile, '60-dkim', -7) === 0) {
 			$temp_configfile = str_replace('60-dkim', '50-user', $amavis_configfile);
-			$temp_config = $app->system->file_get_contents($temp_configfile, true);
-			if (preg_match($search_regex, $temp_config)) {
-				$temp_config = preg_replace($search_regex, '', $temp_config);
-				$app->system->file_put_contents($temp_configfile, $temp_config, true);
-				$restart = true;
+			if(file_exists($temp_configfile)) {
+				$temp_config = $app->system->file_get_contents($temp_configfile, true);
+				if (preg_match($search_regex, $temp_config)) {
+					$temp_config = preg_replace($search_regex, '', $temp_config);
+					$app->system->file_put_contents($temp_configfile, $temp_config, true);
+					$restart = true;
+				}
+				unset($temp_configfile);
+				unset($temp_config);
 			}
-			unset($temp_configfile);
-			unset($temp_config);
 		}
 
 		return $restart;

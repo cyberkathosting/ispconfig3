@@ -48,6 +48,7 @@ class installer_centos extends installer_dist {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		$content = str_replace('/var/spool/amavisd/clamd.sock', $this->clamav_socket, $content);
+		$content = str_replace('{amavis_config_dir}', $conf['amavis']['config_dir']);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 		

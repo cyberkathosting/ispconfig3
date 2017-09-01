@@ -785,6 +785,7 @@ $LOGFILE = "/var/log/amavis.log";  # (defaults to empty, no log)
 
 $log_level = 0;                # (defaults to 0)
 
+include_config_files('{amavis_config_dir}/60-dkim');
 
 $enable_dkim_verification = 1;
 $enable_dkim_signing = 1; # load DKIM signing code
