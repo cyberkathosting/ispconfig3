@@ -711,7 +711,6 @@ $banned_filename_re = new_RE(
 # package/port of an audio editor. Make sure the correct 'sweep' is found
 # in the path when enabling.
 #
-w
 # ### http://www.sophos.com/   - backs up Sophie or SAVI-Perl
 # ['Sophos Anti Virus (sweep)', 'sweep',
 #   '-nb -f -all -rec -ss -sc -archive -cab -mime -oe -tnef '.
