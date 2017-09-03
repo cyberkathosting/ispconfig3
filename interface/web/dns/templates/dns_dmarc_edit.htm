@@ -51,7 +51,7 @@
             <div class="form-group">
 				<label class="col-sm-2 control-label control-label-plain"></label>
 				<div class="col-sm-1">
-					<input type="checkbox" value="1" id="dmarc_fo0" name="dmarc_fo0" {tmpl_var name='dmarc_fo1'}/>
+					<input type="checkbox" value="1" id="dmarc_fo1" name="dmarc_fo1" {tmpl_var name='dmarc_fo1'}/>
 				</div>
 				<div class="col-sm-3 input-sm">
 					{tmpl_var name='dmarc_fo1_txt'}
@@ -97,7 +97,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">{tmpl_var name='dmarc_rf_txt'}</label>
                  <div class="col-sm-1">
-                    <input type="checkbox" value="1" id="dmarc_rf_afrf" name="dmarc_fo0" {tmpl_var name='dmarc_rf_afrf'}/>
+                    <input type="checkbox" value="1" id="dmarc_rf_afrf" name="dmarc_rf_afrf" {tmpl_var name='dmarc_rf_afrf'}/>
                 </div>
                 <div class="col-sm-3 input-sm">
                     {tmpl_var name='dmarc_rf_afrf_txt'}
@@ -136,17 +136,11 @@
 					<select name="dmarc_sp" id="dmarc_sp" class="form-control">{tmpl_var name='dmarc_sp'}</select>
 				</div>
             </div>
-            <div class="form-group">
-                <label for="ttl" class="col-sm-2 control-label">{tmpl_var name='ttl_txt'}</label>
-                <div class="col-sm-3">
-					<input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" />
-				</div>
-			</div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-3">
-                    {tmpl_var name='active'}
+                    <input type="checkbox" value="1" id="active" name="active" {tmpl_var name='active'} />
                 </div>
             </div>
 
