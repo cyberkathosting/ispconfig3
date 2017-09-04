@@ -11,9 +11,9 @@ $wb['limit_mailcatchall_txt'] = 'Limite de contas cata tudo';
 $wb['limit_mailrouting_txt'] = 'Limite de transporte de e-mail';
 $wb['limit_mailfilter_txt'] = 'Limite de filtros de e-mail';
 $wb['limit_fetchmail_txt'] = 'Limite de contas de busca';
-$wb['limit_spamfilter_wblist_txt'] = 'Limite de filtros antispam lista branca/negra';
-$wb['limit_spamfilter_user_txt'] = 'Limite de usuários para filtros antispam';
-$wb['limit_spamfilter_policy_txt'] = 'Limite de políticas antispam';
+$wb['limit_spamfilter_wblist_txt'] = 'Limite de filtros anti-spam lista branca/negra';
+$wb['limit_spamfilter_user_txt'] = 'Limite de usuários para filtros anti-spam';
+$wb['limit_spamfilter_policy_txt'] = 'Limite de políticas anti-spam';
 $wb['limit_cron_txt'] = 'Limite de tarefas no cron';
 $wb['limit_web_domain_txt'] = 'Limite de domínios de site';
 $wb['limit_web_aliasdomain_txt'] = 'Limite de apelidos de domínios de site';
@@ -29,3 +29,4 @@ $wb['limit_database_txt'] = 'Limite de banco de dados';
 $wb['limit_mailmailinglist_txt'] = 'Limite de listas de e-mails';
 $wb['limit_domain_txt'] = 'Limite de domínios';
 ?>
+

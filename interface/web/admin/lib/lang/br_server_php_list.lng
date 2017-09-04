@@ -5,3 +5,4 @@ $wb['add_new_record_txt'] = 'Adicionar nova versão do php';
 $wb['client_id_txt'] = 'Cliente';
 $wb['name_txt'] = 'Nome da versão do php';
 ?>
+

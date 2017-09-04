@@ -19,5 +19,6 @@ $wb['import_aliasdomain_txt'] = 'Importar apelidos de domínio';
 $wb['import_alias_txt'] = 'Importar apelidos de e-mails';
 $wb['import_forward_txt'] = 'Importar encaminhamentos de e-mails';
 $wb['import_user_filter_txt'] = 'Importar filtros de e-mail de usuários';
-$wb['import_spamfilter_txt'] = 'Importar filtros antispam';
+$wb['import_spamfilter_txt'] = 'Importar filtros anti-spam';
 ?>
+

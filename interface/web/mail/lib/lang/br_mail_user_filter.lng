@@ -3,10 +3,10 @@ $wb['rulename_txt'] = 'Nome';
 $wb['action_txt'] = 'Ação';
 $wb['target_txt'] = 'Pasta';
 $wb['active_txt'] = 'Ativo';
-$wb['rulename_error_empty'] = 'Nome em branco.';
-$wb['searchterm_is_empty'] = 'Termo de busca em branco.';
+$wb['rulename_error_empty'] = 'Nome está em branco.';
+$wb['searchterm_is_empty'] = 'Termo de busca está em branco.';
 $wb['source_txt'] = 'Origem';
-$wb['target_error_regex'] = 'O alvo não pode conter os caracteres: \\"a-z\\", \\"0-9\\", \\"-\\", \\".\\", _, e \\"{espaço}\\".';
+$wb['target_error_regex'] = 'O alvo não pode conter os caracteres: \'a-z\', \'0-9\', \'-\', \'.\', \'_\', e \'{espaço}\'.';
 $wb['limit_mailfilter_txt'] = 'O limite de filtros de e-mail para esta conta foi alcançado.';
 $wb['subject_txt'] = 'Assunto';
 $wb['from_txt'] = 'De';
@@ -27,3 +27,4 @@ $wb['reject_txt'] = 'Rejeitar';
 $wb['stop_txt'] = 'Parar';
 $wb['move_to_txt'] = 'Mover para';
 ?>
+

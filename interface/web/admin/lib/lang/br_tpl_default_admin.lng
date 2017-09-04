@@ -9,10 +9,11 @@ $wb['FastCGI Settings'] = 'Configurações do FastCGI';
 $wb['PHP-FPM Settings'] = 'Configurações do PHP-FPM';
 $wb['Additional PHP Versions'] = 'Versões adicionais do php';
 $wb['Form to edit additional PHP versions'] = 'Formulário de edição de versões adicionais do php';
-$wb['server_php_name_error_empty'] = 'Nome em branco.';
+$wb['server_php_name_error_empty'] = 'Nome está em branco.';
 $wb['php_fastcgi_binary_txt'] = 'Caminho do binário FastCGI';
 $wb['php_fastcgi_ini_dir_txt'] = 'Caminho do diretório do php.ini';
 $wb['php_fpm_init_script_txt'] = 'Caminho do script de inicialização PHP-FPM';
 $wb['php_fpm_ini_dir_txt'] = 'Caminho do diretório php.ini';
 $wb['php_fpm_pool_dir_txt'] = 'Caminho do diretório de faixas (pool) do PHP-FPM';
 ?>
+

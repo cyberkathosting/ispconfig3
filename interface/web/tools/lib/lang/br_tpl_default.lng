@@ -5,3 +5,4 @@ $wb['no_settings_txt'] = 'Não existem configurações para o tema padrão.';
 $wb['btn_start_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Voltar';
 ?>
+

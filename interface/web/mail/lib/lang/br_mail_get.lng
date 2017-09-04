@@ -8,12 +8,13 @@ $wb['source_delete_txt'] = 'Remover mensagens da origem após o recebimento';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_fetchmail_txt'] = 'O limite de contas de buscas para esta conta foi alcançado.';
-$wb['source_server_error_isempty'] = 'Servidor em branco.';
-$wb['source_username_error_isempty'] = 'Usuário em branco.';
-$wb['source_password_error_isempty'] = 'Senha em branco.';
+$wb['source_server_error_isempty'] = 'Servidor está em branco.';
+$wb['source_username_error_isempty'] = 'Usuário está em branco.';
+$wb['source_password_error_isempty'] = 'Senha está em branco.';
 $wb['destination_error_isemail'] = 'Destino não selecionado.';
 $wb['source_server_error_regex'] = 'Servidor pop3/imap não é um domínio válido.';
 $wb['source_read_all_txt'] = 'Receber todos os e-mails (inclusive e-mails lidos)';
-$wb['error_delete_read_all_combination'] = 'Combinação ilegal de opções. Você não pode usar \\"Apagar e-mails após recebimento\\" = não junto com \\"Receber todos os e-mail\\" = sim.';
+$wb['error_delete_read_all_combination'] = 'Combinação ilegal de opções. Você não pode usar \'Apagar e-mails após recebimento\' = não junto com \'Receber todos os e-mail\' = sim.';
 $wb['source_delete_note_txt'] = 'Por favor, verifique se o e-mail do para recepção está operacional, antes de ativar esta configuração.';
 ?>
+

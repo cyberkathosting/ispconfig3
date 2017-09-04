@@ -14,8 +14,8 @@ $wb['Mail catchall functions'] = 'Funções de de contas cata tudo';
 $wb['Mail transport functions'] = 'Funções de transporte de e-mail';
 $wb['Mail whitelist functions'] = 'Funções de lista branca de e-mail';
 $wb['Mail blacklist functions'] = 'Funções de lista negra de e-mail';
-$wb['Mail spamfilter user functions'] = 'Funções de filtros antispam para contas de e-mail';
-$wb['Mail spamfilter policy functions'] = 'Funções de política de antispam para contas de e-mail';
+$wb['Mail spamfilter user functions'] = 'Funções de filtros anti-spam para contas de e-mail';
+$wb['Mail spamfilter policy functions'] = 'Funções de política de anti-spam para contas de e-mail';
 $wb['Mail fetchmail functions'] = 'Funções de contas de busca de e-mails';
 $wb['Mail user filter functions'] = 'Funções de filtro de e-mails para contas de e-mail';
 $wb['Mail filter functions'] = 'Funções de filtros de e-mail';
@@ -45,3 +45,4 @@ $wb['repeat_password_txt'] = 'Repetir senha';
 $wb['password_mismatch_txt'] = 'A senhas não coincidem.';
 $wb['password_match_txt'] = 'A senhas coincidem.';
 ?>
+

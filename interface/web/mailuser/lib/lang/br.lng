@@ -3,7 +3,8 @@ $wb['Email Account'] = 'Contas de e-mail';
 $wb['Overview'] = 'Visão geral';
 $wb['Autoresponder'] = 'Resposta automática';
 $wb['Send copy'] = 'Enviar cópia para';
-$wb['Spamfilter'] = 'Antispam';
+$wb['Spamfilter'] = 'Filtro anti-spam';
 $wb['Email Filters'] = 'Filtros de e-mail';
-$wb['Password'] = 'Password';
+$wb['Password'] = 'Senha';
 ?>
+

@@ -9,3 +9,4 @@ $wb['pkg_delete_confirmation'] = 'Você realmente deseja remover esta instalaç�
 $wb['filter_txt'] = 'Pesquisar';
 $wb['delete_txt'] = 'Remover';
 ?>
+

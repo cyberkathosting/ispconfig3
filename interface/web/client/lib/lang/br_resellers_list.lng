@@ -9,3 +9,4 @@ $wb['add_new_record_txt'] = 'Adicionar nova revenda';
 $wb['customer_no_txt'] = 'Código do Cliente';
 $wb['username_txt'] = 'Usuário';
 ?>
+

@@ -14,3 +14,4 @@ $wb['delete_confirm_txt'] = 'Tem certeza que deseja remover este backup?';
 $wb['delete_pending_txt'] = 'Já existe uma remoção deste backup em execução.';
 $wb['filesize_txt'] = 'Tamanho';
 ?>
+

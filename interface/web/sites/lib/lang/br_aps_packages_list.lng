@@ -6,3 +6,4 @@ $wb['category_txt'] = 'Categoria';
 $wb['status_txt'] = 'Desbloqueado';
 $wb['filter_txt'] = 'Pesquisar';
 ?>
+

@@ -8,3 +8,4 @@ $wb['add_new_record_txt'] = 'Adicionar nova zona';
 $wb['eg_domain_tld'] = 'ex.: dominio.com.';
 $wb['sys_groupid_txt'] = 'Cliente';
 ?>
+

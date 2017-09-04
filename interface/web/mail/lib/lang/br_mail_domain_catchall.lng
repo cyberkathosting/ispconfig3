@@ -9,3 +9,4 @@ $wb['limit_mailcatchall_txt'] = 'O limite de contas cata tudo para este domínio
 $wb['source_txt'] = 'Origem';
 $wb['destination_error_isemail'] = 'Destino não é um e-mail válido.';
 ?>
+

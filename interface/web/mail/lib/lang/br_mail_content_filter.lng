@@ -5,5 +5,6 @@ $wb['pattern_txt'] = 'Padrão de expressão regular.';
 $wb['data_txt'] = 'Data';
 $wb['action_txt'] = 'Ação';
 $wb['active_txt'] = 'Ativo';
-$wb['pattern_error_empty'] = 'Padrão em branco';
+$wb['pattern_error_empty'] = 'Padrão da expressão regular está em branco';
 ?>
+

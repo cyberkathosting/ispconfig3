@@ -4,6 +4,7 @@ $wb['language_import_txt'] = 'Buscar arquivo de idioma';
 $wb['btn_save_txt'] = 'Importar arquivo de idioma selecionado';
 $wb['language_overwrite_txt'] = 'Sobrescrever o arquivo se existir.';
 $wb['btn_cancel_txt'] = 'Voltar';
-$wb['ignore_version_txt'] = 'Pular verificação da versão do ISPConfig';
+$wb['ignore_version_txt'] = 'Ignorar verificação da versão do ISPConfig';
 $wb['list_desc_txt'] = 'ATENÇÃO: Não importe arquivos de idioma de fontes desconhecidas.';
 ?>
+

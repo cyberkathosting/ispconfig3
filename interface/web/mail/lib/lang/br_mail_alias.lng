@@ -2,7 +2,7 @@
 $wb['email_txt'] = 'e-mail';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Ativo';
-$wb['email_error_isemail'] = 'Endereço de e-mail inválido.';
+$wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
 $wb['email_error_unique'] = 'Endereço de e-mail duplicado.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['destination_error_isemail'] = 'Endereço de destino inválido';
@@ -15,3 +15,4 @@ $wb['greylisting_txt'] = 'Habilitar greylist';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['send_as_exp'] = 'Permite o alvo enviar e-mails usando este endereço como origem';
 ?>
+

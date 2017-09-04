@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Mapeamento IP';
+$wb['list_head_txt'] = 'Mapeamento IPv4 - servidor web';
 $wb['server_id_txt'] = 'Servidor';
 $wb['source_ip_txt'] = 'IP de origem';
 $wb['destination_ip_txt'] = 'IP de destino';
 $wb['active_txt'] = 'Ativo';
 ?>
+

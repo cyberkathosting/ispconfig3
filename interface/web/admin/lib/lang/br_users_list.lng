@@ -7,3 +7,4 @@ $wb['add_new_record_txt'] = 'Adicionar novo usuário';
 $wb['warning_txt'] = '<b>AVISO:</b> Não modifique ou edite qualquer configuração de usuário aqui. Use o módulo de clientes ou revendas. Modificar ou alterar usuários e grupos nesta aba pode ocasionar perda de dados!';
 $wb['groups_txt'] = 'Grupos';
 ?>
+

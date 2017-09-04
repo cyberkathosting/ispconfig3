@@ -12,3 +12,4 @@ $wb['domain_list_head_txt'] = 'Sites';
 $wb['aliasdomain_list_head_txt'] = 'Apelidos de domínios (vhost)';
 $wb['subdomain_list_head_txt'] = 'Subdomínios (vhost)';
 ?>
+

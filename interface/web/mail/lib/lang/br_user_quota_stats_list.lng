@@ -4,5 +4,6 @@ $wb['quota_txt'] = 'Cota';
 $wb['name_txt'] = 'Nome';
 $wb['email_txt'] = 'Endereço de e-mail';
 $wb['used_txt'] = 'Espaço utilizado';
-$wb['percentage_txt'] = 'Em uso %';
+$wb['percentage_txt'] = 'Percentual utilizado %';
 ?>
+

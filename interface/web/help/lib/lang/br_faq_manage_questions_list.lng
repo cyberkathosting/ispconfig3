@@ -7,3 +7,4 @@ $wb['faq_sections_txt'] = 'Sessão';
 $wb['faq_faq_questions_txt'] = 'Perguntas frequentes (FAQ)';
 $wb['faq_new_question_txt'] = 'Adicionar par pergunta/resposta';
 ?>
+

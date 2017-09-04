@@ -3,9 +3,10 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['ip_address_txt'] = 'Endereço IP';
 $wb['virtualhost_txt'] = 'Nome do virtualHost http';
 $wb['ip_error_wrong'] = 'Endereço IP inválido!';
-$wb['ip_error_unique'] = 'O endereço IP deve ser exclusivo';
+$wb['ip_error_unique'] = 'O endereço IP deve ser exclusivo.';
 $wb['client_id_txt'] = 'Cliente';
 $wb['ip_type_txt'] = 'Tipo';
 $wb['virtualhost_port_txt'] = 'Portas http';
-$wb['error_port_syntax'] = 'Caracteres inválidos no campo -Portas http-, insira somente números separados por vírgula. Exemplo: 80,443';
+$wb['error_port_syntax'] = 'Caracteres inválidos no campo -portas http-, insira somente números separados por vírgula. Exemplo: 80,443';
 ?>
+

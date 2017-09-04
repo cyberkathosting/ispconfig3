@@ -10,3 +10,4 @@ $wb['unlimited_txt'] = 'ilimitada';
 $wb['mb_txt'] = 'MB';
 $wb['none_txt'] = 'Nenhum';
 ?>
+

@@ -1,8 +1,8 @@
 <?php
 $wb['limit_mailmailinglist_txt'] = 'Limite alcançado';
-$wb['domain_error_empty'] = 'Domínio em branco.';
-$wb['listname_error_empty'] = 'Nome da lista em branco.';
-$wb['domain_error_regex'] = 'Domínio inválido.';
+$wb['domain_error_empty'] = 'Domínio está em branco.';
+$wb['listname_error_empty'] = 'Nome da lista está em branco.';
+$wb['domain_error_regex'] = 'Domínio é inválido.';
 $wb['email_in_use_txt'] = 'e-mail está em uso';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
@@ -17,6 +17,7 @@ $wb['repeat_password_txt'] = 'Repetir senha';
 $wb['password_mismatch_txt'] = 'A senhas não coincidem.';
 $wb['password_match_txt'] = 'A senhas coincidem.';
 $wb['listname_error_unique'] = 'Já existe uma lista com o mesmo nome neste servidor. Por favor, insira outro nome.';
-$wb['email_error_isemail'] = 'Endereço de e-mail inválido.';
+$wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
 $wb['mailinglist_txt'] = 'Lista de e-mails';
 ?>
+
