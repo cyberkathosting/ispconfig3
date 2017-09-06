@@ -132,6 +132,15 @@ function updateDbAndIni() {
 		die();
 	}
 
+	$unwanted_sql_plugins = array('validate_password');
+	$temp = '"'.implode('","', $unwanted_sql_plugins).'"';
+	$sql_plugins = $inst->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ($temp)");
+	if(is_array($sql_plugins) && !empty($sql_plugins)) {
+		foreach ($sql_plugins as $plugin) echo "Login in to MySQL and disable $plugin[plugin_name] with:\n\n    UNINSTALL PLUGIN $plugin[plugin_name];";
+		die();
+	}
+	unset($temp);
+
 	//* Update $conf array with values from the server.ini that shall be preserved
 	$tmp = $inst->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 	$ini_array = ini_to_array(stripslashes($tmp['config']));
