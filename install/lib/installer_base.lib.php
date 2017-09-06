@@ -234,14 +234,12 @@ class installer_base {
 			die();
 		}
 
-		$unwanted_sql_plugins = array('validate_password');
-		$temp = '"'.implode('","', $unwanted_sql_plugins).'"';
-		$sql_plugins = $inst->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ($temp)");
+		$unwanted_sql_plugins = array('validate_password');		
+		$sql_plugins = $inst->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
 		if(is_array($sql_plugins) && !empty($sql_plugins)) {
 			foreach ($sql_plugins as $plugin) echo "Login in to MySQL and disable $plugin[plugin_name] with:\n\n    UNINSTALL PLUGIN $plugin[plugin_name];";
 			die();
 		}
-		unset($temp);
 
 		//** Create the database
 		if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['mysql']['database'], $conf['mysql']['charset'])) {
