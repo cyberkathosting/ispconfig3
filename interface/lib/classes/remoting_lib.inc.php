@@ -199,7 +199,9 @@ class remoting_lib extends tform_base {
 	function getSQL($record, $action = 'INSERT', $primary_id = 0, $sql_ext_where = '', $dummy = '') {
 
 		global $app;
-
+		
+		$this->primary_id_override = true;
+		
 		if(!is_array($this->formDef)) $app->error("Form definition not found.");
 		$this->dataRecord = $record;
 
