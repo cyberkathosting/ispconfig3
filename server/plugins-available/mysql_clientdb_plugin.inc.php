@@ -83,7 +83,7 @@ class mysql_clientdb_plugin {
 				$sql_plugins[] = $row['plugin_name'];
 			}
 			$result->free();
-			foreach ($sql_plugins as $plugin) $app->log("MySQL-Plugin $plugin[plugin_name] enabled - can not execute function process_host_list", LOGLEVEL_ERROR);
+			foreach ($sql_plugins as $plugin) $app->log("MySQL-Plugin $plugin enabled - can not execute function process_host_list", LOGLEVEL_ERROR);
 			return false;
 		}
 
