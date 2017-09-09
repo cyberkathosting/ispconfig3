@@ -333,7 +333,10 @@ class remoting {
 			return false;
 		}
 
-		$insert_id = $app->db->insertID();
+		if ( isset($params['_primary_id'] ))
+			$insert_id = $params['_primary_id'];
+		else
+			$insert_id = $app->db->insertID();
 
 		// set a few values for compatibility with tform actions, mostly used by plugins
 		$this->id = $insert_id;
