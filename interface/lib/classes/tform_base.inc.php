@@ -1270,8 +1270,8 @@ class tform_base {
 		$record = $this->encode($record, $tab, true);
 		
 		if(($this->primary_id_override > 0)) {
-            $sql_insert_key .= '`'.$this->formDef["db_table_idx"].'`, ';
-            $sql_insert_val .= $this->primary_id_override.", ";
+			$sql_insert_key .= '`'.$this->formDef["db_table_idx"].'`, ';
+			$sql_insert_val .= $this->primary_id_override.", ";
 			$record['_primary_id'] = $this->primary_id_override;
 		}
 
