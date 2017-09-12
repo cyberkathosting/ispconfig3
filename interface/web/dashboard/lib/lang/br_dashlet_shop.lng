@@ -6,3 +6,4 @@ $wb['setup_fee_txt'] = 'Taxa Inicial';
 $wb['no_products_txt'] = 'Nenhum produto encontrado.';
 $wb['order_txt'] = 'Pedir';
 ?>
+

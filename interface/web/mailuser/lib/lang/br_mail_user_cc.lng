@@ -2,8 +2,9 @@
 $wb['mailbox_cc_txt'] = 'Enviar cópia para o e-mail';
 $wb['cc_txt'] = 'Enviar cópia para';
 $wb['email_txt'] = 'e-mail';
-$wb['cc_error_isemail'] = 'Endereço de e-mail inválido em -enviar cópia para-';
+$wb['cc_error_isemail'] = 'Endereço de e-mail inválido em \'enviar cópia para\'.';
 $wb['email_is_cc_error'] = 'Endereço de e-mail e -enviar cópia para- não podem ser iguais.';
 $wb['name_optional_txt'] = '(Opcional)';
 $wb['cc_note_txt'] = '(Separar múltiplos e-mails por vírgulas)';
 ?>
+

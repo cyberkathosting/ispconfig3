@@ -33,3 +33,4 @@ $wb['username_error_collision'] = 'O nome do usuário não pode conter as palavr
 $wb['client_not_admin_err'] = 'Um usuário definido como cliente não pode ser configurado com o tipo: admin (administrador).';
 $wb['lost_password_function_txt'] = 'Função reconfigurar senha perdida disponível';
 ?>
+

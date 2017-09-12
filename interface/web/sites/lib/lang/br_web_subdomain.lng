@@ -32,19 +32,20 @@ $wb['limit_web_domain_txt'] = 'O limite de domínios de site para esta conta foi
 $wb['limit_web_aliasdomain_txt'] = 'O limite de apelidos de domínio para esta conta foi alcançado.';
 $wb['limit_web_subdomain_txt'] = 'O limite de subdomínios para esta conta foi alcançado.';
 $wb['apache_directives_txt'] = 'Diretivas do apache';
-$wb['domain_error_empty'] = 'Domínio em branco.';
+$wb['domain_error_empty'] = 'Domínio está em branco.';
 $wb['domain_error_unique'] = 'Já existe apelido de domínio ou subdomínio com este nome.';
-$wb['domain_error_regex'] = 'Nome do domínio inválido.';
+$wb['domain_error_regex'] = 'Nome do domínio é inválido.';
 $wb['host_txt'] = 'Host';
-$wb['redirect_error_regex'] = 'Caminho de redirecionamento inválido. Exemplo de caminho válido: \\"/teste/\\" ou \\"http://www.dominio.com/teste/\\".';
+$wb['redirect_error_regex'] = 'Caminho de redirecionamento é inválido. Exemplo de caminho válido: "/teste/" ou "http://www.dominio.com/teste/".';
 $wb['no_redirect_txt'] = 'Sem redirecionamento';
 $wb['no_flag_txt'] = 'Sem marcas';
 $wb['domain_error_wildcard'] = 'Curingas de subdomínios não são permitidos.';
 $wb['proxy_directives_txt'] = 'Diretivas do proxy';
-$wb['available_proxy_directive_snippets_txt'] = 'Diretivas de fragmentação do proxy disponíveis:';
-$wb['error_proxy_requires_url'] = 'Tipo de redirecionamento \\"proxy\\" exige uma URL como caminho de redirecionamento.';
+$wb['available_proxy_directive_snippets_txt'] = 'Diretivas de trechos de código do proxy disponíveis:';
+$wb['error_proxy_requires_url'] = 'Tipo de redirecionamento \'proxy\' exige uma URL como caminho de redirecionamento.';
 $wb['http_port_txt'] = 'Porta HTTP';
 $wb['https_port_txt'] = 'Porta HTTPS';
 $wb['http_port_error_regex'] = 'Porta HTTP inválida.';
 $wb['https_port_error_regex'] = 'Porta HTTPS inválida.';
 ?>
+

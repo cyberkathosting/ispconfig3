@@ -4,9 +4,9 @@ $wb['database_password_txt'] = 'Senha do banco de dados';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
 $wb['client_txt'] = 'Cliente';
 $wb['active_txt'] = 'Ativo';
-$wb['database_user_error_empty'] = 'Usuário do banco de dados em branco.';
+$wb['database_user_error_empty'] = 'Usuário do banco de dados está em branco.';
 $wb['database_user_error_unique'] = 'Já existe um usuário do banco de dados com este nome no servidor. Para configurar um nome exclusivo, use como prefixo o domínio para o nome do usuário.';
-$wb['database_user_error_regex'] = 'Usuário do banco de dados inválido! O nome do usuário pode conter os seguintes caracteres: \\"a-z\\", \\"A-Z\\", \\"0-9\\" e o \\"underscore\\". Tamanho: 2 - 64 caracteres.';
+$wb['database_user_error_regex'] = 'Usuário do banco de dados inválido! O nome do usuário pode conter os seguintes caracteres: \'"a-z\', \'A-Z\', \'0-9\' e o \'underscore\'. Tamanho: 2 - 64 caracteres.';
 $wb['database_user_error_len'] = 'O usuário do banco de dados - {user} - é muito longo. O limite do nome do usuário, incluindo o prefixo, são 16 caracteres.';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Cancelar';
@@ -21,5 +21,6 @@ $wb['globalsearch_noresults_limit_txt'] = '0 resultados';
 $wb['globalsearch_searchfield_watermark_txt'] = 'Pesquisar';
 $wb['globalsearch_suggestions_text_txt'] = 'Sugestões';
 $wb['limit_database_user_txt'] = 'O limite de usuários do banco de dados foi alcançado.';
-$wb['database_password_error_empty'] = 'Senha do banco de dados em branco.';
+$wb['database_password_error_empty'] = 'Senha do banco de dados está em branco.';
 ?>
+

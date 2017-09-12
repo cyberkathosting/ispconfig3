@@ -73,7 +73,20 @@ class mysql_clientdb_plugin {
 
 	function process_host_list($action, $database_name, $database_user, $database_password, $host_list, $link, $database_rename_user = '', $user_access_mode = 'rw') {
 		global $app;
-		
+
+		// check mysql-plugins
+		$unwanted_sql_plugins = array('validate_password'); // strict-password-validation
+		$temp = "'".implode("','", $unwanted_sql_plugins)."'";
+		$result = $link->query("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ($temp)");
+		if($result) {
+			while ($row = $result->fetch_assoc()) {
+				$sql_plugins[] = $row['plugin_name'];
+			}
+			$result->free();
+			foreach ($sql_plugins as $plugin) $app->log("MySQL-Plugin $plugin enabled - can not execute function process_host_list", LOGLEVEL_ERROR);
+			return false;
+		}
+
 		if(!$user_access_mode) $user_access_mode = 'rw';
 		$action = strtoupper($action);
 

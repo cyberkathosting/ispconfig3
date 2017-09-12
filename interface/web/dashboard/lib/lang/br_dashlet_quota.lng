@@ -6,3 +6,4 @@ $wb['hard_txt'] = 'Limite';
 $wb['soft_txt'] = 'Limite para alerta';
 $wb['no_sites_txt'] = 'Nenhum site encontrado.';
 ?>
+

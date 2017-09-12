@@ -25,5 +25,6 @@ $wb['error_client_can_not_add_domain'] = 'Você não pode adicionar um novo dom�
 $wb['error_client_group_id_empty'] = 'Você deve selecionar um cliente<br>';
 $wb['error_domain_in dnsuse'] = 'Este domínio não pode ser removido porque está em uso como uma zona dns.';
 $wb['error_domain_in dnsslaveuse'] = 'Este domínio não pode ser removido porque está em uso como uma zona dns secundária.';
-$wb['Email-Templates'] = 'Email-Templates';
+$wb['Email-Templates'] = 'Gabaritos de e-mails';
 ?>
+

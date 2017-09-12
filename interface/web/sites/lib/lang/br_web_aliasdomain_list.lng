@@ -5,10 +5,11 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['domain_txt'] = 'Apelido de domínio';
 $wb['add_new_record_txt'] = 'Adicionar novo apelido';
-$wb['domain_error_empty'] = 'Domínio em branco.';
+$wb['domain_error_empty'] = 'Domínio está em branco.';
 $wb['domain_error_unique'] = 'O domínio deve ser exclusivo.';
 $wb['domain_error_regex'] = 'Domínio inválido!';
 $wb['no_redirect_txt'] = 'Sem redirecionamento';
 $wb['no_flag_txt'] = 'Sem marcas';
 $wb['none_txt'] = 'Nenhum';
 ?>
+

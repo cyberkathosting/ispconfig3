@@ -1,5 +1,5 @@
 <?php
-$wb['error_user_password_empty'] = 'Usuário ou senha em branco.';
+$wb['error_user_password_empty'] = 'Usuário ou senha está em branco.';
 $wb['error_user_password_incorrect'] = 'Usuário ou senha incorretos.';
 $wb['error_user_blocked'] = 'O usuário está bloqueado.';
 $wb['error_user_too_many_logins'] = 'Várias tentativas de acesso incorretas, faça uma nova tentativa dentro de 15 minutos.';
@@ -22,7 +22,7 @@ $wb['pw_button_txt'] = 'Reenviar senha';
 $wb['email_txt'] = 'E-mail';
 $wb['theme_not_compatible'] = 'O tema escolhido não é compatível com a versão atual do ISPConfig. Por favor, procure por uma nova versão deste tema compatível com ISPConfig.<br />O tema padrão foi configurado automaticamente.';
 $wb['back_txt'] = 'Voltar';
-$wb['email_error'] = 'O e-mail contém caracteres não permitidos ou formato inválido.';
+$wb['email_error'] = 'O e-mail contém caracteres não permitidos ou formato é inválido.';
 $wb['stay_logged_in_txt'] = 'Manter-me conectado';
 $wb['lost_password_function_disabled_txt'] = 'Função de redefinir senha indisponível para este usuário.';
 $wb['pw_reset_act'] = 'Você receberá um link de ativação. Por favor, acesse o link de ativação para confirmar sua nova senha.';
@@ -32,3 +32,4 @@ $wb['lost_password_function_wait_txt'] = 'Você não pode requisitar uma nova se
 $wb['lost_password_function_expired_txt'] = 'Este link de ativação expirou. Por favor, faça uma nova requisição.';
 $wb['lost_password_function_denied_txt'] = 'Este link de ativação não é válido.';
 ?>
+

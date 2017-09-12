@@ -9,6 +9,7 @@ virtual_uid_maps = mysql:/etc/postfix/mysql-virtual_uids.cf
 virtual_gid_maps = mysql:/etc/postfix/mysql-virtual_gids.cf
 sender_bcc_maps = proxy:mysql:{config_dir}/mysql-virtual_outgoing_bcc.cf
 inet_protocols=all
+inet_interfaces = all
 smtpd_sasl_auth_enable = yes
 broken_sasl_auth_clients = yes
 smtpd_sasl_authenticated_header = yes

@@ -6,3 +6,4 @@ $wb['page_txt'] = 'Página';
 $wb['page_of_txt'] = 'de';
 $wb['delete_confirmation'] = 'Você tem certeza que gostaria de remover este filtro de e-mail?';
 ?>
+

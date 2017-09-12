@@ -7,3 +7,4 @@ $wb['hard_txt'] = 'Limite';
 $wb['soft_txt'] = 'Limite para alerta';
 $wb['files_txt'] = 'Arquivos simples';
 ?>
+

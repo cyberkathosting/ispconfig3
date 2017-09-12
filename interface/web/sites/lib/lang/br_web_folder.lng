@@ -3,6 +3,7 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['path_txt'] = 'Caminho';
 $wb['active_txt'] = 'Ativo';
-$wb['path_error_regex'] = 'Caminho da pasta inválido.';
+$wb['path_error_regex'] = 'Caminho da pasta é inválido.';
 $wb['error_folder_already_protected_txt'] = 'Já existe um registro para esta pasta.';
 ?>
+

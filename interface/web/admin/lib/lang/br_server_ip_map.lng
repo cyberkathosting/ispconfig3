@@ -3,10 +3,11 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['source_txt'] = 'Endereço IP de origem';
 $wb['destination_txt'] = 'Endereço IP de destino';
 $wb['active_txt'] = 'Ativo';
-$wb['ip_error_wrong'] = 'Endereço IP inválido.';
-$wb['destination_ip_empty'] = 'Endereço IP de destino em branco.';
-$wb['source_ip_empty'] = 'Endereço IP de origem em branco.';
-$wb['server_empty_error'] = 'Servidor em branco.';
+$wb['ip_error_wrong'] = 'Endereço IP é inválido.';
+$wb['destination_ip_empty'] = 'Endereço IP de destino está em branco.';
+$wb['source_ip_empty'] = 'Endereço IP de origem está em branco.';
+$wb['server_empty_error'] = 'Servidor está em branco.';
 $wb['duplicate_mapping_error'] = 'Mapeamento já existe.';
 $wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser um endereço IP do servidor.';
 ?>
+

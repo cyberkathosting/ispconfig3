@@ -1,16 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Hospedeiro';
+$wb['name_txt'] = 'Nome';
 $wb['type_txt'] = 'Tipo';
-$wb['data_txt'] = 'Hospedeiro de destino';
+$wb['data_txt'] = 'Servidor de destino';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
 $wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
-$wb['name_error_empty'] = 'Hospedeiro em branco.';
-$wb['name_error_regex'] = 'Hospedeiro inválido.';
-$wb['data_error_empty'] = 'Hospedeiro de destino em branco.';
-$wb['data_error_regex'] = 'Hospedeiro de destino inválido.';
+$wb['name_error_empty'] = 'O nome está em branco.';
+$wb['name_error_regex'] = 'O nome é inválido.';
+$wb['data_error_empty'] = 'O servidor de destino está em branco.';
+$wb['data_error_regex'] = 'O servidor de destino é inválido.';
 $wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 ?>
+

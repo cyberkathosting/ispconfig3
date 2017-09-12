@@ -11,3 +11,4 @@ $wb['email_error_isemail'] = 'Por favor, insira um e-mail válido.';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['send_as_exp'] = 'Permite o alvo enviar e-mails usando este endereço como origem (se o alvo for interno)';
 ?>
+

@@ -1,7 +1,8 @@
 <?php
 $wb['head_txt'] = 'Atualizar lista de pacotes';
-$wb['list_desc_txt'] = '';
+$wb['list_desc_txt'] = 'Lista de pacotes';
 $wb['btn_start_txt'] = 'Atualizar lista de pacotes';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['legend_txt'] = 'Aqui você pode atualizar a lista de pacotes disponíveis. Por favor, observe que este processo poderá levar alguns minutos. Você pode fechar esta página, o processo continuará em segundo plano.';
 ?>
+

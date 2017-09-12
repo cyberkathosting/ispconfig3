@@ -1,5 +1,5 @@
 <?php
-$wb['1001'] = 'Usuário ou senha em branco.';
+$wb['1001'] = 'Usuário ou senha está em branco.';
 $wb['1002'] = 'Usuário ou senha errados.';
 $wb['Groups'] = 'Grupos';
 $wb['groups_description'] = 'Edição dos grupos de usuários do sistema';
@@ -26,6 +26,7 @@ $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
 $wb['Rescue'] = 'Manutenção';
 $wb['Server IP addresses'] = 'Endereço IP do servidor';
+$wb['Server IPv4 mapping'] = 'Mapeamento IPv4 do servidor';
 $wb['Additional PHP Versions'] = 'Versões adicionais do php';
 $wb['Firewall'] = 'Firewall';
 $wb['Interface'] = 'Interface';
@@ -44,9 +45,10 @@ $wb['Import'] = 'Importar';
 $wb['Remote Actions'] = 'Ações remotas';
 $wb['Do OS-Update'] = 'Atualização do SO';
 $wb['Do ISPConfig-Update'] = 'Atualização do ISPConfig';
-$wb['Directive Snippets'] = 'Diretivas de fragmentação';
+$wb['Directive Snippets'] = 'Diretivas de trechos de código';
 $wb['Sites'] = 'Sites';
 $wb['DNS'] = 'DNS';
-$wb['Server'] = 'Server';
-$wb['Updates'] = 'Updates';
+$wb['Server'] = 'Servidor';
+$wb['Updates'] = 'Atualizações';
 ?>
+

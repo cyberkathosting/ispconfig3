@@ -3,3 +3,4 @@ $wb['list_head_txt'] = 'Gabarito de e-mails';
 $wb['template_type_txt'] = 'Mensagem de';
 $wb['template_name_txt'] = 'Nome do gabarito';
 ?>
+

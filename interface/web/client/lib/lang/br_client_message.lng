@@ -6,7 +6,7 @@ $wb['subject_txt'] = 'Assunto';
 $wb['message_txt'] = 'Mensagem';
 $wb['form_legend_client_txt'] = 'Enviar mensagem a todos os clientes.';
 $wb['form_legend_admin_txt'] = 'Enviar mensagem a todos clientes e revendas.';
-$wb['sender_invalid_error'] = 'O e-mail do remetente é inválido.';
+$wb['sender_invalid_error'] = 'O e-mail do remetente é é inválido.';
 $wb['subject_invalid_error'] = 'O assunto está em branco.';
 $wb['message_invalid_error'] = 'A mensagem está em branco.';
 $wb['email_sent_to_txt'] = 'Enviar e-mail para:';
@@ -18,3 +18,4 @@ $wb['variables_txt'] = 'Variáveis:';
 $wb['gender_m_txt'] = 'Sr.';
 $wb['gender_f_txt'] = 'Sra.';
 ?>
+

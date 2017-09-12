@@ -4,11 +4,12 @@ $wb['server_name_txt'] = 'Nome';
 $wb['mail_server_txt'] = 'e-Mails';
 $wb['web_server_txt'] = 'Sites';
 $wb['dns_server_txt'] = 'DNS';
-$wb['file_server_txt'] = 'Arquivos';
-$wb['db_server_txt'] = 'Banco de dados';
+$wb['file_server_txt'] = 'FTP';
+$wb['db_server_txt'] = 'BD';
 $wb['vserver_server_txt'] = 'VServer';
 $wb['add_new_record_txt'] = 'Adicionar novo servidor';
 $wb['proxy_server_txt'] = 'Proxy';
 $wb['firewall_server_txt'] = 'Firewall';
 $wb['xmpp_server_txt'] = 'XMPP';
 ?>
+

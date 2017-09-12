@@ -7,3 +7,4 @@ $wb['this_year_txt'] = 'Este ano';
 $wb['last_year_txt'] = 'Último ano';
 $wb['sum_txt'] = 'Soma';
 ?>
+
