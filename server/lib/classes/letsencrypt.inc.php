@@ -252,7 +252,7 @@ class letsencrypt {
 
 		$le_domain_count = count($temp_domains);
 		if($le_domain_count > 100) {
-			$temp_domains = array_splice($temp_domains, 0, 100);
+			$temp_domains = array_slice($temp_domains, 0, 100);
 			$app->log("There were " . $le_domain_count . " domains in the domain list. LE only supports 100, so we strip the rest.", LOGLEVEL_WARN);
 		}
 
