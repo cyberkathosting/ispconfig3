@@ -250,6 +250,12 @@ class letsencrypt {
 		unset($le_domains);
 		@unlink('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file);
 
+		$le_domain_count = count($temp_domains);
+		if($le_domain_count > 100) {
+			$temp_domains = array_splice($temp_domains, 0, 100);
+			$app->log("There were " . $le_domain_count . " domains in the domain list. LE only supports 100, so we strip the rest.", LOGLEVEL_WARN);
+		}
+
 		// generate cli format
 		foreach($temp_domains as $temp_domain) {
 			$cli_domain_arg .= (string) " --domains " . $temp_domain;
@@ -266,7 +272,7 @@ class letsencrypt {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
 			
-				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 				$letsencrypt = reset($letsencrypt);
 				if(is_executable($letsencrypt)) {
 					$letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";

@@ -52,7 +52,7 @@ class cronjob_letsencrypt extends cronjob {
 		
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
-			$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt'));
+			$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 			$letsencrypt = reset($letsencrypt);
 			if(is_executable($letsencrypt)) {
 				$version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
