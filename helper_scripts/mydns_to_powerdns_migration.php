@@ -31,11 +31,28 @@ while($row2 = mysql_fetch_array($sql2))
 		{
 			$file2=$row2['data'];
 		}
+
+                //
+                // Fix for 'domain.ext.' apex notation
+                //
+                $record_name_end=substr($row2['name'], -1);
+                if ($record_name_end==".")
+                {
+                       // remove trailing dot from apex
+                       $record_name = substr($row2['name'], 0, strlen($row2['name'])-1);
+                }
+                else
+                {
+                       // add domain to make it a fqdn
+                       $record_name = $row2['name'] . "." . $row3['origin'];
+                }
+
+                print "$row2[name].$row3[origin]" . " $record_name\r\n"; 
 		mysql_select_db("dbispconfig");
 		$sql3 = mysql_query("SELECT substr(origin,1, LENGTH(origin)-1) AS origin FROM dns_soa where id=$row2[zone];");
 		$row3 = mysql_fetch_array($sql3);
 		mysql_select_db("powerdns");
-		mysql_query("INSERT INTO records (domain_id,name,content,ispconfig_id,type,ttl,prio,change_date) values ('$row2[zone]','$row2[name].$row3[origin]','$file2','$row2[id]','$row2[type]','$row2[ttl]','$row2[aux]','1260446221');");
+		mysql_query("INSERT INTO records (domain_id,name,content,ispconfig_id,type,ttl,prio,change_date) values ('$row2[zone]','$record_name','$file2','$row2[id]','$row2[type]','$row2[ttl]','$row2[aux]','1260446221');");
 	}
 	else
 	{
