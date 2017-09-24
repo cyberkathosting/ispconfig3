@@ -131,6 +131,8 @@ server {
         location = /favicon.ico {
             log_not_found off;
             access_log off;
+            expires max;
+            add_header Cache-Control "public, must-revalidate, proxy-revalidate";
         }
 
         location = /robots.txt {
