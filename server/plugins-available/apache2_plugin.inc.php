@@ -2789,7 +2789,11 @@ class apache2_plugin {
 							$output .= "        DAV On\n";
 							$output .= '        BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On'."\n";
 							$output .= "        AuthType Digest\n";
-							$output .= "        AuthName \"Restricted Area\"\n";
+							if($fn != '' && $fn != '/') {
+								$output .= "        AuthName \"" . $fn . "\"\n";
+							} else {
+								$output .= "        AuthName \"Restricted Area\"\n";
+							}
 							$output .= "        AuthUserFile " . $webdavRoot . '/' . $file . "\n";
 							$output .= "        Require valid-user \n";
 							$output .= "        Options +Indexes \n";
