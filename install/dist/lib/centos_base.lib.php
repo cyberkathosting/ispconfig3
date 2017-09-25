@@ -61,6 +61,8 @@ class installer_centos extends installer_dist {
 		if($dist['confid'] == 'centos72') {
 			chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0750);
 			chgrp($conf['amavis']['config_dir'].'/amavisd.conf', 'amavis');
+			chmod($conf['amavis']['config_dir'].'/60-dkim', 0750);
+			chgrp($conf['amavis']['config_dir'].'/60-dkim', 'amavis');
 		}
 
 
