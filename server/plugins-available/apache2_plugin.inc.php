@@ -2744,7 +2744,7 @@ class apache2_plugin {
 							$output .= "Dav On\n";
 							$output .= "BrowserMatch MSIE AuthDigestEnableQueryStringHack=On\n";
 							$output .= "AuthType Digest\n";
-							$output .= 'AuthName "'.(empty($fn)?'/':$fn).'"\n';
+							$output .= 'AuthName "'.(empty($fn)?'/':$fn)."\"\n";
 							$output .= "AuthUserFile $webdavRoot/$file\n";
 							$output .= "Require valid-user\n";
 							$output .= "Options +Indexes\n";
