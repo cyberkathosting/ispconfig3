@@ -59,6 +59,8 @@ function prepareDBDump() {
 
 		system("mysqldump -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -c -t --add-drop-table --create-options --quick --result-file=existing_db.sql ".$conf['mysql']['database']);
 	}
+	chmod('existing_db.sql', 0400);
+	chown('existing_db.sql', 'root');
 
 	/*
 	 * If we have a server with nothing in it except VE's then the database of thie server is empty.
