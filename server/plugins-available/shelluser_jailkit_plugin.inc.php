@@ -480,7 +480,7 @@ class shelluser_jailkit_plugin {
 			if(is_file('/root/.ssh/authorized_keys')) $app->system->file_put_contents($sshkeys, $app->system->file_get_contents('/root/.ssh/authorized_keys'));
 
 			// Remove duplicate keys
-			$existing_keys = @file($sshkeys);
+			$existing_keys = @file($sshkeys, FILE_IGNORE_NEW_LINES);
 			$new_keys = explode("\n", $userkey);
 			$final_keys_arr = @array_merge($existing_keys, $new_keys);
 			$new_final_keys_arr = array();
@@ -497,7 +497,7 @@ class shelluser_jailkit_plugin {
 			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
 		}
 		//* Get the keys
-		$existing_keys = file($sshkeys);
+		$existing_keys = file($sshkeys, FILE_IGNORE_NEW_LINES);
 		$new_keys = explode("\n", $sshrsa);
 		$old_keys = explode("\n", $this->data['old']['ssh_rsa']);
 
@@ -505,7 +505,9 @@ class shelluser_jailkit_plugin {
 		if(is_array($old_keys)) {
 			foreach($old_keys as $key => $val) {
 				$k = array_search(trim($val), $existing_keys);
-				unset($existing_keys[$k]);
+				if ($k !== false) {
+					unset($existing_keys[$k]);
+				}
 			}
 		}
 
