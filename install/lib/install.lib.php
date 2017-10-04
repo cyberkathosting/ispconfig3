@@ -180,6 +180,7 @@ function get_distname() {
 				break;
 			default:
 				$relname = "UNKNOWN";
+				$distconfid = 'ubuntu1604';
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distname.' '.$distver."\n");
@@ -230,7 +231,8 @@ function get_distname() {
 		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
-			$distid = 'debian40';
+			$distid = 'debian60';
+			$distconfid = 'debian90';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}

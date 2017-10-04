@@ -705,6 +705,13 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
 		if(!is_dir($data['new']['document_root'].'/webdav')) $app->system->mkdirpath($data['new']['document_root'].'/webdav');
+		
+		if(!is_dir($data['new']['document_root'].'/.ssh')) {
+			$app->system->mkdirpath($data['new']['document_root'].'/.ssh');
+			$app->system->chmod($data['new']['document_root'].'/.ssh', 0700);
+			$app->system->chown($data['new']['document_root'].'/.ssh', $username);
+			$app->system->chgrp($data['new']['document_root'].'/.ssh', $groupname);
+		}
 
 		//* Create the new private directory
 		if(!is_dir($data['new']['document_root'].'/private')) {
@@ -2741,10 +2748,14 @@ class apache2_plugin {
 							$output .= "\n";
 							$output .= "Alias /webdav/$fn $webdavRoot/$fn\n";
 							$output .= "<Location /webdav/$fn>\n";
-							$output .= "Dav On\n";
+							$output .= "DAV On\n";
 							$output .= "BrowserMatch MSIE AuthDigestEnableQueryStringHack=On\n";
 							$output .= "AuthType Digest\n";
-							$output .= 'AuthName "'.(empty($fn)?'/':$fn)."\"\n";
+							if($fn != '' && $fn != '/') {
+								$output .= "        AuthName \"" . $fn . "\"\n";
+							} else {
+								$output .= "        AuthName \"Restricted Area\"\n";
+							}
 							$output .= "AuthUserFile $webdavRoot/$file\n";
 							$output .= "Require valid-user\n";
 							$output .= "Options +Indexes\n";

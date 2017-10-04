@@ -48,14 +48,21 @@ class installer_centos extends installer_dist {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
 		$content = str_replace('/var/spool/amavisd/clamd.sock', $this->clamav_socket, $content);
-		$content = str_replace('{amavis_config_dir}', $conf['amavis']['config_dir']);
+		$content = str_replace('{amavis_config_dir}', $conf['amavis']['config_dir'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
+		
+		if(!is_file($conf['amavis']['config_dir'].'/60-dkim')) {
+			touch($conf['amavis']['config_dir'].'/60-dkim');
+			chmod($conf['amavis']['config_dir'].'/60-dkim', 0640);
+		}
 		
 		// for CentOS 7.2 only
 		if($dist['confid'] == 'centos72') {
 			chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0750);
 			chgrp($conf['amavis']['config_dir'].'/amavisd.conf', 'amavis');
+			chmod($conf['amavis']['config_dir'].'/60-dkim', 0750);
+			chgrp($conf['amavis']['config_dir'].'/60-dkim', 'amavis');
 		}
 
 

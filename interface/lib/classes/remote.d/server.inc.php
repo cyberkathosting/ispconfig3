@@ -244,7 +244,7 @@ class remoting_server extends remoting {
 			return false;
 		}
 		if (!empty($session_id)) {
-			if($server_id === 0) $ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
+			if($server_id == 0) $ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
 			else {
 				$rec = $app->db->queryOneRecord("SELECT data FROM monitor_data WHERE type = 'ispc_info' AND server_id = ?", $server_id);
 				$rec = unserialize($rec['data']);
