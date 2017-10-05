@@ -278,7 +278,7 @@ class monitor_tools {
 			$distver = 'Unknown';
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
-		} elseif(stristr($content, 'CentOS Linux release 6')) {
+		} elseif(stristr($content, 'CentOS Linux release 6') || stristr($content, 'CentOS release 6')) {
 			$distname = 'CentOS';
 			$distver = 'Unknown';
 			$distid = 'centos53';
