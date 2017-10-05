@@ -104,6 +104,7 @@ class tform_base {
 	var $module;
 	var $primary_id;
 	var $diffrec = array();
+	var $primary_id_override = 0;
 
 	/**
 	 * Loading of the table definition
@@ -1253,11 +1254,17 @@ class tform_base {
 		$this->action = $action;
 		$this->primary_id = $primary_id;
 
-
-		$record = $this->encode($record, $tab, true);
 		$sql_insert_key = '';
 		$sql_insert_val = '';
 		$sql_update = '';
+
+		$record = $this->encode($record, $tab, true);
+		
+		if(($this->primary_id_override > 0)) {
+			$sql_insert_key .= '`'.$this->formDef["db_table_idx"].'`, ';
+			$sql_insert_val .= $this->primary_id_override.", ";
+			$record['_primary_id'] = $this->primary_id_override;
+		}
 
 		if($api == true) $fields = &$this->formDef['fields'];
 		else $fields = &$this->formDef['tabs'][$tab]['fields'];
