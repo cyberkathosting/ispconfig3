@@ -208,6 +208,10 @@ class remoting {
 
 		//* Execute the SQL query
 		$app->db->query($sql);
+		if($app->db->errorMessage != '') {
+			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			return false;
+		}
 		if ( isset($params['_primary_id'] ))
 			$insert_id = $params['_primary_id'];
 		else
