@@ -1,0 +1,9 @@
+server_host = x.x.x.x
+search_base = ou=xxx, dc=xxx, dc=xx
+version = 3
+timeout = 10
+leaf_result_attribute = mail
+bind_dn = user@domain
+bind_pw = userpassword
+query_filter = (mail=%s) 
+result_attribute = mail, addressToForward
