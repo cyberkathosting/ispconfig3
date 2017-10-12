@@ -1,0 +1,1 @@
+This folder will contain examples for further ISPC hardening (NwSEC)
