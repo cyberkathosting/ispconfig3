@@ -1,5 +1,5 @@
 #
-# This does into / at the end of /etc/fail2ban/jail.local
+# This goes into (or at the end of) /etc/fail2ban/jail.local
 #
 [wp-auth]
  enabled = true
