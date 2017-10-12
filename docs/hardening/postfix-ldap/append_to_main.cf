@@ -1,0 +1,1 @@
+relay_recipient_maps = hash:/etc/postfix/relay_recipients, ldap:/etc/postfix/ldap-aliases.cf
