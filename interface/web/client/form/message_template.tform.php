@@ -78,6 +78,9 @@ $form["tabs"]['template'] = array (
 		'subject' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'validators' => array ( 0 => array ( 'type' => 'NOTEMPTY',
+				'errmsg'=> 'subject_error_empty'),
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -89,6 +92,9 @@ $form["tabs"]['template'] = array (
 		'message' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'validators' => array ( 0 => array ( 'type' => 'NOTEMPTY',
+				'errmsg'=> 'message_error_empty'),
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
