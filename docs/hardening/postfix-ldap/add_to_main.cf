@@ -1,0 +1,4 @@
+#
+# This goes into /etc/postfix/main.cf in the section relay_recipient_maps
+#
+relay_recipient_maps = hash:/etc/postfix/relay_recipients, ldap:/etc/postfix/ldap-aliases.cf

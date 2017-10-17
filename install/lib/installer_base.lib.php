@@ -1560,38 +1560,36 @@ class installer_base {
 			//if(is_file($conf['init_scripts'].'/'.'openbsd-inetd')) exec($conf['init_scripts'].'/'.'openbsd-inetd restart');
 		}
 
-		if(!$this->is_update) {
-			//* backup old settings
-			exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; printf '\n'; done 2>&1 >$config_dir/conf/.backup~");
-			//* clean common unused settings
-			exec("rm $config_dir/conf/MinUID $config_dir/conf/PAMAuthentication $config_dir/conf/PureDB $config_dir/conf/UnixAuthentication 2> /dev/null");
-			//* required for ftp traffic stats
-			file_put_contents("$config_dir/conf/AltLog","clf:/var/log/pure-ftpd/transfer.log");
-			//* improves client compatibility
-			file_put_contents("$config_dir/conf/BrokenClientsCompatibility","yes");
-			//* needed for ispconfig implementation
-			file_put_contents("$config_dir/conf/ChrootEveryone","yes");
-			//* improves client compatibility
-			file_put_contents("$config_dir/conf/DisplayDotFiles","yes");
-			//* improves performance
-			file_put_contents("$config_dir/conf/DontResolve","yes");
-			//* complies with RFC2640
-			file_put_contents("$config_dir/conf/FSCharset","UTF-8");
-			//* provides welcome message
-			file_put_contents("$config_dir/conf/FortunesFile","$config_dir/welcome.msg");
-			//* increases the clients limit from 50 (default) to 1024
-			file_put_contents("$config_dir/conf/MaxClientsNumber","1024");
-			//* prevents DoS attack from the same IP address
-			file_put_contents("$config_dir/conf/MaxClientsPerIP","64");
-			//* needed for ispconfig implementation
-			file_put_contents("$config_dir/conf/MySQLConfigFile","$config_dir/db/mysql.conf");
-			//* recommended for ispconfig implementation
-			file_put_contents("$config_dir/conf/NoAnonymous","yes");
-			//* grade A encryption
-			file_put_contents("$config_dir/conf/TLSCipherSuite","ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:!RC4");
-			//* hides implementation details
-			file_put_contents("$config_dir/welcome.msg","Welcome");
-		}
+		//* backup old settings
+		exec("for i in $config_dir/conf/*; do printf \$i\ ; cat \$i; printf '\n'; done 2>&1 >$config_dir/conf/.backup~");
+		//* clean common unused settings
+		exec("rm $config_dir/conf/MinUID $config_dir/conf/PAMAuthentication $config_dir/conf/PureDB $config_dir/conf/UnixAuthentication 2> /dev/null");
+		//* required for ftp traffic stats
+		file_put_contents("$config_dir/conf/AltLog","clf:/var/log/pure-ftpd/transfer.log");
+		//* improves client compatibility
+		file_put_contents("$config_dir/conf/BrokenClientsCompatibility","yes");
+		//* needed for ispconfig implementation
+		file_put_contents("$config_dir/conf/ChrootEveryone","yes");
+		//* improves client compatibility
+		file_put_contents("$config_dir/conf/DisplayDotFiles","yes");
+		//* improves performance
+		file_put_contents("$config_dir/conf/DontResolve","yes");
+		//* complies with RFC2640
+		file_put_contents("$config_dir/conf/FSCharset","UTF-8");
+		//* provides welcome message
+		file_put_contents("$config_dir/conf/FortunesFile","$config_dir/welcome.msg");
+		//* increases the clients limit from 50 (default) to 1024
+		file_put_contents("$config_dir/conf/MaxClientsNumber","1024");
+		//* prevents DoS attack from the same IP address
+		file_put_contents("$config_dir/conf/MaxClientsPerIP","64");
+		//* needed for ispconfig implementation
+		file_put_contents("$config_dir/conf/MySQLConfigFile","$config_dir/db/mysql.conf");
+		//* recommended for ispconfig implementation
+		file_put_contents("$config_dir/conf/NoAnonymous","yes");
+		//* grade A encryption
+		file_put_contents("$config_dir/conf/TLSCipherSuite","ECDHE:AES256-SHA:AES128-SHA:DES-CBC3-SHA:!RC4");
+		//* hides implementation details
+		file_put_contents("$config_dir/welcome.msg","Welcome");
 	}
 
 	public function configure_mydns() {

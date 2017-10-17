@@ -78,13 +78,16 @@ class mysql_clientdb_plugin {
 		$unwanted_sql_plugins = array('validate_password'); // strict-password-validation
 		$temp = "'".implode("','", $unwanted_sql_plugins)."'";
 		$result = $link->query("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ($temp)");
-		if($result) {
+		if($result && $result->num_rows > 0) {
+			$sql_plugins = array();
 			while ($row = $result->fetch_assoc()) {
 				$sql_plugins[] = $row['plugin_name'];
 			}
 			$result->free();
-			foreach ($sql_plugins as $plugin) $app->log("MySQL-Plugin $plugin enabled - can not execute function process_host_list", LOGLEVEL_ERROR);
-			return false;
+			if(count($sql_plugins) > 0) {
+				foreach ($sql_plugins as $plugin) $app->log("MySQL-Plugin $plugin enabled - can not execute function process_host_list", LOGLEVEL_ERROR);
+				return false;
+			}
 		}
 
 		if(!$user_access_mode) $user_access_mode = 'rw';

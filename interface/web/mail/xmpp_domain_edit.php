@@ -223,7 +223,7 @@ class page_action extends tform_actions {
 		/* check if the domain module is used - and check if the selected domain can be used! */
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
-		if ($settings['use_domain_module'] == 'y') {
+		if ((isset($this->dataRecord['domain'])) && ($settings['use_domain_module'] == 'y')) {
 			if ($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 				$this->dataRecord['client_group_id'] = $app->tools_sites->getClientIdForDomain($this->dataRecord['domain']);
 			}

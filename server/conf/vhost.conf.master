@@ -182,7 +182,7 @@
 
 <tmpl_if name='python' op='==' value='y'>
 		<IfModule mod_python.c>
-			<Directory {tmpl_var name='web_document_root_www'}>
+			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.py$">
 					SetHandler mod_python
 				</FilesMatch>
@@ -362,10 +362,10 @@
                 Action php5-fcgi /php5-fcgi virtual
 				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization             
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization  -pass-header Content-Type    
 </tmpl_if>
 <tmpl_if name='use_socket'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization  -pass-header Content-Type
 </tmpl_if>
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
@@ -428,7 +428,7 @@
 				</Directory>
                 Action hhvm-fcgi /hhvm-fcgi virtual
 				Alias /hhvm-fcgi {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization  -pass-header Content-Type
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
 			<Directory {tmpl_var name='document_root'}/cgi-bin>
