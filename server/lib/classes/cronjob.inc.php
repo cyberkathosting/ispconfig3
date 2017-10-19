@@ -114,7 +114,7 @@ class cronjob {
 				$next_run = $app->cron->getNextRun(ISPConfigDateTime::dbtime());
 				$this->_next_run = $next_run;
 
-				$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES (?, ?, ?, ?)", get_class($this), ($this->_last_run ? $this->_last_run : "#NULL#"), ($next_run === false ? "#NULL#" : $next_run . "'"), ($this->_running == true ? "1" : "0"));
+				$app->db->query("REPLACE INTO `sys_cron` (`name`, `last_run`, `next_run`, `running`) VALUES (?, ?, ?, ?)", get_class($this), ($this->_last_run ? $this->_last_run : "#NULL#"), ($next_run === false ? "#NULL#" : $next_run), ($this->_running == true ? "1" : "0"));
 			}
 		}
 	}
