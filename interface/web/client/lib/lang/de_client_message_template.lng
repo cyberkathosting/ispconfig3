@@ -8,4 +8,6 @@ $wb['Settings'] = 'Einstellung';
 $wb['variables_txt'] = 'Variable';
 $wb['variables_description_txt'] = '(Die Benutzername und Passwort Variable können nur in Willkommensnachrichten verwendet werden.)';
 $wb['duplicate_welcome_error'] = 'Es kann nur eine Standard Willkommensnachrichten Vorlage geben. Bitte bearbeiten Sie die bestehende Vorlage anstatt eine neue hinzuzufügen.';
+$wb['subject_error_empty'] = 'Betreff ist leer';
+$wb['message_error_empty'] = 'Nachricht ist leer';
 ?>

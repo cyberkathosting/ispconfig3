@@ -27,7 +27,7 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class db extends mysqli
+class db
 {
 	/**#@+
      * @access private

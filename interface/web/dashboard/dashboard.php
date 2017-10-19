@@ -37,9 +37,9 @@ $app->auth->check_module_permissions('dashboard');
 if(isset($_GET['hide'])) {
 	if($_GET['hide'] == 'donate') {
 		$timeout = time()+31536000;
-		$tmp = $app->db->queryOneRecord("SELECT value FROM sys_config WHERE group = 'interface' AND name = 'hide_donation_dashlet'");
+		$tmp = $app->db->queryOneRecord("SELECT `value` FROM `sys_config` WHERE `group` = 'interface' AND `name` = 'hide_donation_dashlet'");
 		if(is_array($tmp)) {
-			$app->db->query("UPDATE sys_config SET value = ? WHERE group = 'interface' AND name = 'hide_donation_dashlet')",$timeout);
+			$app->db->query("UPDATE `sys_config` SET `value` = ? WHERE `group` = 'interface' AND `name` = 'hide_donation_dashlet'",$timeout);
 		} else {
 			$app->db->query("INSERT INTO `sys_config` (`group`,`name`,`value`) VALUES ('interface','hide_donation_dashlet',?)",$timeout);
 		}
