@@ -644,6 +644,7 @@ function ini_to_array($ini) {
 				$section = strtolower($matches[1]);
 			} elseif(preg_match("/^([\w\d_]+)=(.*)$/", $line, $matches) && $section != null) {
 				$item = trim($matches[1]);
+				if(!isset($config[$section])) $config[$section] = array();
 				$config[$section][$item] = trim($matches[2]);
 			}
 		}
