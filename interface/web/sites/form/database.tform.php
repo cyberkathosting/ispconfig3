@@ -157,7 +157,7 @@ $form["tabs"]['database'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('' => 'DB-Default', 'latin1' => 'Latin 1', 'utf8' => 'UTF-8')
+			'value'  => array('' => 'DB-Default', 'latin1' => 'Latin 1', 'utf8' => 'utf8', 'utf8mb4' => 'utf8mb4')
 		),
 		'remote_access' => array (
 			'datatype' => 'VARCHAR',
