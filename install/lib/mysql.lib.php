@@ -69,8 +69,8 @@ class db
 		global $conf;
 		
 		if($this->_iConnId) return true;
-		$this->dbHost = $conf['mysql']['port'];
-		$this->dbPort = $conf[$prefix.'db_port'];
+		$this->dbHost = $conf['mysql']['host'];
+		$this->dbPort = $conf['mysql']['port'];
 		$this->dbName = false;//$conf["mysql"]["database"];
 		$this->dbUser = $conf["mysql"]["admin_user"];
 		$this->dbPass = $conf["mysql"]["admin_password"];
@@ -78,13 +78,13 @@ class db
 		$this->dbNewLink = false;
 		$this->dbClientFlags = null;
 		
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
+		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
 		$try = 0;
 		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
 			if($try > 0) sleep(1);
 
 			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, (int)$this->dbPort);
+			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
@@ -204,7 +204,7 @@ class db
 			$try++;
 			$ok = mysqli_ping($this->_iConnId);
 			if(!$ok) {
-				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort)) {
+				if(!mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, '', (int)$this->dbPort)) {
 					if($this->errorNumber == '111') {
 						// server is not available
 						if($try > 9) {
