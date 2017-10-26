@@ -282,7 +282,7 @@ if($install_mode == 'expert' && strtolower($inst->simple_query('Shall this serve
 	// initialize the connection to the master database
 	$inst->dbmaster = new db();
 	if($inst->dbmaster->linkId) $inst->dbmaster->closeConn();
-	$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"]);
+	$inst->dbmaster->setDBData($conf['mysql']["master_host"], $conf['mysql']["master_admin_user"], $conf['mysql']["master_admin_password"], $conf['mysql']['master_port']);
 	$inst->dbmaster->setDBName($conf['mysql']["master_database"]);
 
 } else {
