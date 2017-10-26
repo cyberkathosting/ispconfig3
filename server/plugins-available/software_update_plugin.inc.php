@@ -279,8 +279,8 @@ class software_update_plugin {
 
 		//** Debian and compatible Linux distributions
 		if(file_exists('/etc/debian_version')) {
-			exec("aptitude update");
-			exec("aptitude safe-upgrade -y");
+			exec("apt-get update");
+			exec("apt-get upgrade -y");
 			$app->log('Execeuted Debian / Ubuntu update', LOGLEVEL_DEBUG);
 		}
 
