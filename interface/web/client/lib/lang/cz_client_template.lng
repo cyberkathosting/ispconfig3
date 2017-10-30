@@ -114,11 +114,11 @@ $wb['limit_xmpp_vjud_txt'] = 'VJUD user directory available';
 $wb['limit_xmpp_proxy_txt'] = 'Bytestream proxy available';
 $wb['limit_xmpp_status_txt'] = 'Status host available';
 $wb['dns_servers_txt'] = 'DNS servery';
-$wb['limit_ssl_letsencrypt_txt'] = 'Let';
+$wb['limit_ssl_letsencrypt_txt'] = 'Lets Encrypt SSL - dostupná volba pro klienta';
 $wb['limit_directive_snippets_txt'] = 'Výběr configurace webového serveru - dostupná volba pro klienta';
 $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['web_servers_txt'] = 'Webové servery';
 $wb['db_servers_txt'] = 'Databázové servery';
 $wb['mail_servers_txt'] = 'E-mailové servery';
-$wb['Limits'] = 'Limits';
+$wb['Limits'] = 'Limity';
 ?>
