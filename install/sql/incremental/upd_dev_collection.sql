@@ -49,8 +49,9 @@ CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
 ALTER TABLE `dns_ssl_ca` ADD UNIQUE(`ca_issue`);
 
 UPDATE `dns_ssl_ca` SET `ca_issue` = 'comodo.com' WHERE `ca_issue` = 'comodoca.com';
-UPDATE `dns_ssl_ca` SET `ca_issue` = 'geotrust.com' WHERE `ca_issue` = 'symantec.com';
-UPDATE `dns_ssl_ca` SET `ca_issue` = 'thawte.com' WHERE `ca_issue` = 'symantec.com';
+DELETE FROM `dns_ssl_ca` WHERE `ca_issue` = 'geotrust.com';
+DELETE FROM `dns_ssl_ca` WHERE `ca_issue` = 'thawte.com';
+UPDATE `dns_ssl_ca` SET `ca_name` = 'Symantec / Thawte / GeoTrust' WHERE `ca_issue` = 'symantec.com';
 
 INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `active`, `ca_name`, `ca_issue`, `ca_wildcard`, `ca_iodef`, `ca_critical`) VALUES
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'AC Camerfirma', 'camerfirma.com', 'Y', '', 0),
@@ -75,7 +76,6 @@ INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Entrust', 'entrust.net', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Firmaprofesional', 'firmaprofesional.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'FNMT', 'fnmt.es', 'Y', '', 0),
-(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'GeoTrust (Symantec)', 'symantec.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'GlobalSign', 'globalsign.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'GoDaddy', 'godaddy.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Google Trust Services', 'pki.goog', 'Y', '', 0),
@@ -94,10 +94,9 @@ INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Sertifitseerimiskeskuse', 'sk.ee', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'StartCom', 'startcomca.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'SwissSign', 'swisssign.com', 'Y', '', 0),
-(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Symantec', 'symantec.com', 'Y', '', 0),
+(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Symantec / Thawte / GeoTrust', 'symantec.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'T-Systems', 'telesec.de', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Telia', 'telia.com', 'Y', '', 0),
-(NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Thawte (Symantec)', 'symantec.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Trustwave', 'trustwave.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Web.com', 'web.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'WISeKey', 'wisekey.com', 'Y', '', 0),

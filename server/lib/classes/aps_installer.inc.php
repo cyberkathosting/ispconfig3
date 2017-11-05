@@ -559,7 +559,7 @@ class ApsInstaller extends ApsBase
 			$shell_ret_str = implode("\n", $shell_ret);
 
 			// Although $shell_retcode might be 0, there can be PHP errors. Filter them:
-			if(substr_count($shell_ret_str, 'Warning: ') > 0) $shell_retcode = 1;
+			if(stripos($shell_ret_str,'error: ')!==false)$shell_retcode=1;
 
 			// If an error has occurred, the return code is != 0
 			if($shell_retcode != 0) throw new Exception($shell_ret_str);

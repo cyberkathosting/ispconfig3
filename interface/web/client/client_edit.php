@@ -348,8 +348,7 @@ class page_action extends tform_actions {
 		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
 		$email_template = $app->db->queryOneRecord($sql, $client_group_id);
 		$client = $app->tform->getDataRecord($this->id);
-
-		if(is_array($email_template) && $client['email'] != '') {
+		if(is_array($email_template) && $email_template['subject'] != '' && $email_template['message'] != '' && $client['email'] != '') {
 			//* Parse client details into message
 			$message = $email_template['message'];
 			$subject = $email_template['subject'];

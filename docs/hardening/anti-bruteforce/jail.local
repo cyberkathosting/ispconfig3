@@ -5,6 +5,6 @@
  enabled = true
  filter = wp-auth
  action = iptables-multiport[name=wp-auth, port="http,https"]
- logpath = /var/www/clients/client*/web*/log/*.log
+ logpath = /var/log/ispconfig/httpd/*/*.log
  bantime = 1200
  maxretry = 5
