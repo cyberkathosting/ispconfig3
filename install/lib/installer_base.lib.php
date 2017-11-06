@@ -497,15 +497,22 @@ class installer_base {
 
 			//* insert the ispconfig user in the remote server
 			$from_host = $conf['hostname'];
-			$from_ip = gethostbyname($conf['hostname']);
 
 			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
 			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 
-			$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
-			$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
-			$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+			$ip_list=array();
+			$ip_rec=dns_get_record($conf['hostname'], DNS_A + DNS_AAAA);
+			if(!empty($ip_rec)) foreach($ip_rec as $rec => $ip) $ip_list[]=@(isset($ip['ip']))?$ip['ip']:$ip['ipv6'];
+
+			if(!empty($ip_list)) {
+				foreach($ip_list as $ip) {
+					$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+					$hosts[$ip]['db'] = $conf['mysql']['master_database'];
+					$hosts[$ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+				}
+			}
 		} else{
 			/*
 			 * it is NOT a master-slave - Setup so we have to find out all clients and their
