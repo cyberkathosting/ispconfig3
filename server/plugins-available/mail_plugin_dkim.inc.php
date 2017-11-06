@@ -196,8 +196,21 @@ class mail_plugin_dkim {
 			$public_key='';
 			foreach($pubkey as $values) $public_key=$public_key.$values."\n";
 			/* save the DKIM Public-key in dkim-dir */
-			if ( $app->system->file_put_contents($key_file.'.public', $public_key) )
+			if ( $app->system->file_put_contents($key_file.'.public', $public_key) ) {
 				$app->log('Saved DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
+				if($app->system->is_user('amavis')) { 
+					$amavis_user='amavis'; 
+				} elseif ($app->system->is_user('vscan')) { 
+					$amavis_user='vscan'; 
+				}
+				else { 
+					$amavis_user=''; 
+				}
+				if($amavis_user!='') {
+					$app->system->chown($key_file.'.private', $amavis_user);
+					$app->system->chmod($key_file.'.private', 0440);
+				}
+			}
 			else $app->log('Unable to save DKIM Public to '.$key_domain.'.', LOGLEVEL_DEBUG);
 		} else {
 			$app->log('Unable to save DKIM Private-key to '.$key_file.'.private', LOGLEVEL_ERROR);
