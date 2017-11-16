@@ -250,6 +250,9 @@ abstract class ISPConfigRequest {
 			foreach($tmpheaders as $cur) {
 				if(preg_match('/^(\w+)\:\s*(.*)$/is', $cur, $matches)) {
 					$headers["$matches[1]"] = trim($matches[2]);
+				} elseif(strpos($cur, ':') === false && substr($cur, 0, 5) === 'HTTP/') {
+					$headers['status'] = $header;
+					$headers['http_code'] = intval(preg_replace('/^HTTP\/\d+\.\d+\s+(\d+)\s+.*$/', '$1', $header));
 				}
 			}
 			return array($headers, $response);
