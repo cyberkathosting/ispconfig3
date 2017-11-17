@@ -59,7 +59,9 @@ try {
 		'backup_interval' => '',
 		'backup_copies' => 1,
 		'active' => 'y',
-		'traffic_quota_lock' => 'n'
+		'traffic_quota_lock' => 'n',
+		'http_port' => '80',
+		'https_port' => '443'
 	);
 
 	$affected_rows = $client->sites_web_domain_add($session_id, $client_id, $params, $readonly = false);
