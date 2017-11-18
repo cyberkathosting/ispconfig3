@@ -165,6 +165,7 @@ if($conf['timezone'] == '{timezone}' or trim($conf['timezone']) == '') $conf['ti
 $conf['language_file_import_enabled'] = (isset($conf_old['language_file_import_enabled']))?$conf_old['language_file_import_enabled']:true;
 
 if(isset($conf_old["dbmaster_host"])) $conf["mysql"]["master_host"] = $conf_old["dbmaster_host"];
+if(isset($conf_old["dbmaster_port"])) $conf["mysql"]["master_port"] = $conf_old["dbmaster_port"];
 if(isset($conf_old["dbmaster_database"])) $conf["mysql"]["master_database"] = $conf_old["dbmaster_database"];
 if(isset($conf_old["dbmaster_user"])) $conf["mysql"]["master_ispconfig_user"] = $conf_old["dbmaster_user"];
 if(isset($conf_old["dbmaster_password"])) $conf["mysql"]["master_ispconfig_password"] = $conf_old["dbmaster_password"];
@@ -192,7 +193,7 @@ $do_backup = $inst->simple_query('Shall the script create a ISPConfig backup in 
 if($do_backup == 'yes') {
 
 	//* Create the backup directory
-	$backup_path = '/var/backup/ispconfig_'.@date('Y-m-d_H-i');
+	$backup_path = '/var/backup/ispconfig_'.$conf['hostname'].'_'.@date('Y-m-d_H-i');
 	$conf['backup_path'] = $backup_path;
 	exec("mkdir -p $backup_path");
 	exec("chown root:root $backup_path");

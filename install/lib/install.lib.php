@@ -97,6 +97,10 @@ function get_distname() {
 				$mainver = current($mainver).'.'.next($mainver);
 			}
 			switch ($mainver){
+			case "17.10":
+				$relname = "(Artful Aardvark)";
+				$distconfid = 'ubuntu1710';
+				break;
 			case "17.04":
 				$relname = "(Zesty Zapus)";
 				$distconfid = 'ubuntu1604';

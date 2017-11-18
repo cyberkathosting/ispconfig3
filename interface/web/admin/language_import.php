@@ -152,6 +152,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 				if(is_array($parts) && count($parts) > 0 && $parts[0] == '--') {
 					// Write language file, if its not the first file
 					if($buffer != '' && $langfile_path != '') {
+						$buffer = trim($buffer)."\n";
 						if(@$_REQUEST['overwrite'] != 1 && @is_file($langfile_path)) {
 							$error .= "File exists, not written: $langfile_path<br />";
 						} else {

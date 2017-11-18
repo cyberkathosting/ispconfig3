@@ -2589,6 +2589,8 @@ class nginx_plugin {
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
+		$rh_releasefiles = array('/etc/centos-release', '/etc/redhat-release');
+		
 		// HHVM => PHP-FPM-Fallback
 		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
@@ -2649,7 +2651,25 @@ class nginx_plugin {
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
-		$tpl->setVar('fpm_group', $data['new']['system_group']);
+		
+		//Red Hat workaround for group ownership of socket files
+		foreach($rh_releasefiles as $rh_file) {
+			if(file_exists($rh_file) && (filesize($rh_file) > 0)) {
+				$tmp = file_get_contents($rh_file);
+				if(preg_match('/[67]+\.[0-9]+/m', $tmp)) {
+					$tpl->setVar('fpm_group', $data['new']['system_group']);
+					$tpl->setVar('fpm_listen_group', $data['new']['system_group']);
+				}
+				unset($tmp);
+			} elseif(!file_exists($rh_file)) {
+				//OS seems to be not Red Hat'ish
+				$tpl->setVar('fpm_group', $web_config['group']);
+				$tpl->setVar('fpm_listen_group', $web_config['group']);
+			}
+			break;
+		}
+		
+		// $tpl->setVar('fpm_group', $web_config['group']);
 		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_listen_group', $web_config['group']);
 		$tpl->setVar('fpm_domain', $data['new']['domain']);

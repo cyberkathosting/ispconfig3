@@ -1,9 +1,9 @@
 <?php
-$wb['conf_format_dateshort'] = 'd. m. Y';
+$wb['conf_format_dateshort'] = 'Y-d-m';
 $wb['conf_format_datelong'] = 'l dS of F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
-$wb['conf_format_datetime'] = 'd. m. Y H:i';
+$wb['conf_format_datetime'] = 'Y-d-m H:i';
 $wb['number_format_decimals'] = '4';
 $wb['number_format_decimals_client'] = '2';
 $wb['number_format_dec_point'] = '.';
@@ -69,7 +69,7 @@ $wb['monthnamesshort_dec'] = 'Pro';
 $wb['datepicker_nextText'] = 'Další';
 $wb['datepicker_prevText'] = 'Předchozí';
 $wb['logout_txt'] = 'Odhlášení';
-$wb['conf_format_dateshort_human_readable'] = 'dd. mm. yyyy';
+$wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
 $wb['submit_confirmation'] = 'Opravdu chcete provést tuto akci ?';
 $wb['top_menu_mailuser'] = 'E-mail. uživ.';
 $wb['globalsearch_resultslimit_of_txt'] = 'z';
@@ -150,13 +150,14 @@ $wb['weak_password_length_txt'] = 'Zvolené heslo neodpovídá požadavkům zás
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 $wb['err_csrf_attempt_blocked'] = 'CSRF attempt blocked.';
-$wb['select_directive_snippet_txt'] = 'Directive Snippets';
+$wb['select_directive_snippet_txt'] = 'Šablony částí prog. kódu';
 $wb['select_master_directive_snippet_txt'] = 'Master Directive Snippets';
-$wb['datalog_status_i_xmpp_domain'] = 'Create XMPP domain';
-$wb['datalog_status_u_xmpp_domain'] = 'Update XMPP domain';
-$wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
-$wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
-$wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
-$wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
 $wb['datalog_changes_close_txt'] = 'Close';
+$wb['datalog_status_i_xmpp_domain'] = 'Vytvořit XMPP doménu';
+$wb['datalog_status_u_xmpp_domain'] = 'Aktualizovat XMPP doménu';
+$wb['datalog_status_d_xmpp_domain'] = 'Smazat XMPP doménu';
+$wb['datalog_status_i_xmpp_user'] = 'Vytvořit XMPP uživatele';
+$wb['datalog_status_u_xmpp_user'] = 'Aktualizovat XMPP uživatele';
+$wb['datalog_status_d_xmpp_user'] = 'Smazat XMPP uživatele';
+
 ?>

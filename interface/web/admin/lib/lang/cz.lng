@@ -46,7 +46,7 @@ $wb['Import'] = 'Nahrát jazykový soubor';
 $wb['Remote Actions'] = 'Vzdálené akce';
 $wb['Do OS-Update'] = 'Aktualizovat operační systém';
 $wb['Do ISPConfig-Update'] = 'Aktualizovat ISPConfig';
-$wb['Directive Snippets'] = 'Directive Snippets';
+$wb['Directive Snippets'] = 'Šablony částí prog. kódu';
 $wb['Sites'] = 'Stránky';
 $wb['DNS'] = 'DNS';
 ?>
