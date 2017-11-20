@@ -901,13 +901,17 @@ class installer_base {
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
 		//* postfix-dkim
-		$full_file_name=$config_dir.'/tag_as_originating.re';
+		$filename='tag_as_originating.re';
+		$full_file_name=$config_dir.'/'.$filename;
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
-		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10026');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
-		$full_file_name=$config_dir.'/tag_as_foreign.re';
+		$filename='tag_as_foreign.re';
+		$full_file_name=$config_dir.'/'.$filename;
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
-		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
 		//* Changing mode and group of the new created config files.
 		caselog('chmod u=rw,g=r,o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',

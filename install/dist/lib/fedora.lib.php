@@ -103,17 +103,17 @@ class installer_dist extends installer_base {
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
 		//* postfix-dkim
-		$full_file_name=$config_dir.'/tag_as_originating.re';
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.$configfile.'~');
-		}
-		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10026');
+		$filename='tag_as_originating.re';
+		$full_file_name=$config_dir.'/'.$filename;
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
-		$full_file_name=$config_dir.'/tag_as_foreign.re';
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.$configfile.'~');
-		}
-		wf($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
+		$filename='tag_as_foreign.re';
+		$full_file_name=$config_dir.'/'.$filename;
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
 		//* Changing mode and group of the new created config files.
 		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
