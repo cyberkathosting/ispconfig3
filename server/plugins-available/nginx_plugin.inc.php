@@ -2663,15 +2663,13 @@ class nginx_plugin {
 				unset($tmp);
 			} elseif(!file_exists($rh_file)) {
 				//OS seems to be not Red Hat'ish
-				$tpl->setVar('fpm_group', $web_config['group']);
+				$tpl->setVar('fpm_group', $data['new']['system_group']);
 				$tpl->setVar('fpm_listen_group', $web_config['group']);
 			}
 			break;
 		}
 		
-		// $tpl->setVar('fpm_group', $web_config['group']);
 		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
-		$tpl->setVar('fpm_listen_group', $web_config['group']);
 		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
 		$tpl->setVar('pm_max_children', $data['new']['pm_max_children']);
