@@ -1327,7 +1327,7 @@ class nginx_plugin {
 						$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'], 0, -1);
 						break;
 					}
-					$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+					$rewrite_exclude = '(?!/('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 				} else { // URL - check if URL is local
 					$tmp_redirect_path = $data['new']['redirect_path'];
 					if(substr($tmp_redirect_path, 0, 7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path, 7);
@@ -1342,7 +1342,7 @@ class nginx_plugin {
 							$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
 							break;
 						} else {
-							$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							$rewrite_exclude = '(?!/('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 							$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 						}
 					} else {
@@ -1377,7 +1377,7 @@ class nginx_plugin {
 						$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'], 0, -1);
 						break;
 					}
-					$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+					$rewrite_exclude = '(?!/('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 				} else { // URL - check if URL is local
 					$tmp_redirect_path = $data['new']['redirect_path'];
 					if(substr($tmp_redirect_path, 0, 7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path, 7);
@@ -1394,7 +1394,7 @@ class nginx_plugin {
 							$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
 							break;
 						} else {
-							$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							$rewrite_exclude = '(?!/('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 							$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 						}
 					} else {
@@ -1429,7 +1429,7 @@ class nginx_plugin {
 						$vhost_data['web_document_root_www'] .= substr($data['new']['redirect_path'], 0, -1);
 						break;
 					}
-					$rewrite_exclude = '(?!/\b('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+					$rewrite_exclude = '(?!/('.substr($data['new']['redirect_path'], 1, -1).(substr($data['new']['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 				} else { // URL - check if URL is local
 					$tmp_redirect_path = $data['new']['redirect_path'];
 					if(substr($tmp_redirect_path, 0, 7) == '$scheme') $tmp_redirect_path = 'http'.substr($tmp_redirect_path, 7);
@@ -1444,7 +1444,7 @@ class nginx_plugin {
 							$vhost_data['web_document_root_www'] .= $tmp_redirect_path_parts['path'];
 							break;
 						} else {
-							$rewrite_exclude = '(?!/\b('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+							$rewrite_exclude = '(?!/('.substr($tmp_redirect_path_parts['path'], 1).(substr($tmp_redirect_path_parts['path'], 1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 							$exclude_own_hostname = $tmp_redirect_path_parts['host'];
 						}
 					} else {
@@ -1560,7 +1560,7 @@ class nginx_plugin {
 				// Local Rewriting (inside vhost server {} container)
 				if($alias['redirect_type'] != '' && substr($alias['redirect_path'], 0, 1) == '/' && $alias['redirect_type'] != 'proxy') {  // proxy makes no sense with local path
 					if(substr($alias['redirect_path'], -1) != '/') $alias['redirect_path'] .= '/';
-					$rewrite_exclude = '(?!/\b('.substr($alias['redirect_path'], 1, -1).(substr($alias['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').')\b)/';
+					$rewrite_exclude = '(?!/('.substr($alias['redirect_path'], 1, -1).(substr($alias['redirect_path'], 1, -1) != ''? '|': '').'stats'.($vhost_data['errordocs'] == 1 ? '|error' : '').'|\.well-known/acme-challenge))/';
 					switch($alias['subdomain']) {
 					case 'www':
 						// example.com
