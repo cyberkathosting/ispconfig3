@@ -55,8 +55,8 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// Getting Servers
-		$sql = "SELECT server_id,server_name FROM server WHERE server_id != ? ORDER BY server_name";
-		$mirror_servers = $app->db->queryAllRecords($sql, $this->id);
+		$sql = "SELECT server_id,server_name FROM server WHERE server_id != ? AND mirror_server_id != ? ORDER BY server_name";
+		$mirror_servers = $app->db->queryAllRecords($sql, $this->id, $this->id);
 		$mirror_server_select = '<option value="0">'.$app->tform->lng('- None -').'</option>';
 		if(is_array($mirror_servers)) {
 			foreach( $mirror_servers as $mirror_server) {
@@ -72,8 +72,8 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app;
 
-		//* We do not want to mirror the the server itself
-		if($this->id == $this->dataRecord['mirror_server_id']) $this->dataRecord['mirror_server_id'] = 0;
+		//* We do not want to mirror the the server itself and the master can not be a mirror
+		if($this->id == $this->dataRecord['mirror_server_id'] || $this->id == 1) $this->dataRecord['mirror_server_id'] = 0;
 
 		parent::onSubmit();
 
