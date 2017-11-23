@@ -72,8 +72,8 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app;
 
-		//* We do not want to mirror the the server itself
-		if($this->id == $this->dataRecord['mirror_server_id']) $this->dataRecord['mirror_server_id'] = 0;
+		//* We do not want to mirror the the server itself and the master can not be a mirror
+		if($this->id == $this->dataRecord['mirror_server_id'] || $this->id == 1) $this->dataRecord['mirror_server_id'] = 0;
 
 		parent::onSubmit();
 
