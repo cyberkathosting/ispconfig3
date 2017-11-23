@@ -212,17 +212,17 @@ class installer extends installer_base
 		}
 
 		//* postfix-dkim
-		$full_file_name=$config_dir.'/tag_as_originating.re';
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.$configfile.'~');
-		}
-		$this->write_config_file($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10026');
+		$filename='tag_as_originating.re';
+		$full_file_name=$config_dir.'/'.$filename;
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
-		$full_file_name=$config_dir.'/tag_as_foreign.re';
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.$configfile.'~');
-		}
-		$this->write_config_file($full_file_name, '/^/ FILTER amavis:[127.0.0.1]:10024');
+		$filename='tag_as_foreign.re';
+		$full_file_name=$config_dir.'/'.$filename;
+		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		wf($full_file_name, $content);
 
 		//* Chmod and chown the .mailfilter file
 		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';
