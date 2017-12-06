@@ -37,16 +37,16 @@ class upd_0085 extends installer_patch_update {
 					} elseif(preg_match('/^\w+=/', $line)) {
 						if(preg_match('/\s/', $line)) {
 							// warning line with env var and space!
-							swriteln($inst->lng('[WARNING] Cron line in file ' . $cron_file . ' contains environment variable.'));
+							swriteln($inst->lng("\n" . '[WARNING] Cron line in file ' . $cron_file . ' contains environment variable.' . "\n"));
 						}
 					} elseif(!isset($fields[5])) {
 						// invalid line (missing user)
-							swriteln($inst->lng('[WARNING] Cron line in file ' . $cron_file . ' misses user field.'));
+							swriteln($inst->lng("\n" . '[WARNING] Cron line in file ' . $cron_file . ' misses user field.' . "\n"));
 					} else {
 						$check_filename = trim($fields[5]) . $check_suffix;
 						if(substr($cron_file, -strlen($check_filename)) != $check_filename) {
 							// warning user not equal to file name
-							swriteln($inst->lng('[WARNING] SUSPECT USER IN CRON FILE ' . $cron_file . '! CHECK CRON FILE FOR MALICIOUS ENTRIES!'));
+							swriteln($inst->lng("\n" . '[WARNING] SUSPECT USER IN CRON FILE ' . $cron_file . '! CHECK CRON FILE FOR MALICIOUS ENTRIES!' . "\n"));
 						}
 					}
 				}
