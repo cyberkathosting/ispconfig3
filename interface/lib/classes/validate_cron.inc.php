@@ -54,6 +54,9 @@ class validate_cron {
 
 			if(preg_match("'^([a-z0-9][a-z0-9\-]{0,62}\.)+([A-Za-z0-9\-]{2,30})$'i", $parsed["host"]) == false) return $this->get_error($validator['errmsg']);
 		}
+		if(strpos($field_value, "\n") !== false || strpos($field_value, "\r") !== false || strpos($field_value, chr(0)) !== false) {
+			return $this->get_error($validator['errmsg']);
+		}
 	}
 
 	function run_month_format($field_name, $field_value, $validator) {
