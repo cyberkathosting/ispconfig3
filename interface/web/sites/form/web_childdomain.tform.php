@@ -133,6 +133,12 @@ $form["tabs"]['domain'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'ssl_letsencrypt_exclude' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

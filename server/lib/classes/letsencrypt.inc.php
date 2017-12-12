@@ -203,7 +203,7 @@ class letsencrypt {
 		}
 
 		//* then, add subdomain if we have
-		$subdomains = $app->db->queryAllRecords('SELECT domain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'subdomain'");
+		$subdomains = $app->db->queryAllRecords('SELECT domain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'subdomain' AND ssl_letsencrypt_exclude != 'y'");
 		if(is_array($subdomains)) {
 			foreach($subdomains as $subdomain) {
 				$temp_domains[] = $subdomain['domain'];
@@ -211,7 +211,7 @@ class letsencrypt {
 		}
 		
 		//* then, add alias domain if we have
-		$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias'");
+		$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias' AND ssl_letsencrypt_exclude != 'y'");
 		if(is_array($aliasdomains)) {
 			foreach($aliasdomains as $aliasdomain) {
 				$temp_domains[] = $aliasdomain['domain'];
