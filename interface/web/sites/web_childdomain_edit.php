@@ -146,7 +146,14 @@ class page_action extends tform_actions {
 		}
 		if($this->_childdomain_type == 'subdomain') $app->tpl->setVar("domain", $this->dataRecord["domain"]);
 
-		if($_SESSION["s"]["user"]["typ"] == 'admin') {
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$client = $app->db->queryOneRecord("SELECT client.limit_ssl_letsencrypt FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+			$app->tpl->setVar('limit_ssl_letsencrypt', $client['limit_ssl_letsencrypt']);
+		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
+			$client = $app->db->queryOneRecord("SELECT client.limit_ssl_letsencrypt FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+			$app->tpl->setVar('limit_ssl_letsencrypt', $client['limit_ssl_letsencrypt']);
+		} else {
 			// Directive Snippets
 			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y'");
 			$proxy_directive_snippets_txt = '';
@@ -157,6 +164,7 @@ class page_action extends tform_actions {
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
 			$app->tpl->setVar("proxy_directive_snippets_txt", $proxy_directive_snippets_txt);
+			$app->tpl->setVar('limit_ssl_letsencrypt', 'y');
 		}
 
 		$app->tpl->setVar('childdomain_type', $this->_childdomain_type);
@@ -208,6 +216,15 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->lng("error_proxy_requires_url")."<br />";
 		}
 
+
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Get the limits of the client
+			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+			$client = $app->db->queryOneRecord("SELECT limit_ssl_letsencrypt FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+			if($client['limit_ssl_letsencrypt'] != 'y') $this->dataRecord['ssl_letsencrypt_exclude'] = 'n';
+		}
+		
+		
 		// Set a few fixed values
 		$this->dataRecord["type"] = ($this->_childdomain_type == 'subdomain' ? 'subdomain' : 'alias');
 		$this->dataRecord["server_id"] = $parent_domain["server_id"];
