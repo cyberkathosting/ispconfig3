@@ -33,6 +33,8 @@ class validate_remote_user {
 	function valid_remote_ip($field_name, $field_value, $validator) {
 		global $app;
 
+		if(trim($field_value) == '') return;
+
 		$values = explode(',', $field_value);
 		$regex = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
 		foreach($values as $cur_value) {
