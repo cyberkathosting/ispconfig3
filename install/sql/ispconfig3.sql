@@ -1246,6 +1246,8 @@ CREATE TABLE `remote_user` (
   `sys_perm_other` varchar(5) default NULL,
   `remote_username` varchar(64) NOT NULL DEFAULT '',
   `remote_password` varchar(64) NOT NULL DEFAULT '',
+  `remote_access` enum('y','n') NOT NULL DEFAULT 'y',
+  `remote_ips` TEXT,
   `remote_functions` text,
   PRIMARY KEY  (`remote_userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

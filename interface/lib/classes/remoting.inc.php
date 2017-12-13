@@ -144,6 +144,41 @@ class remoting {
 			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
 			$remote_user = $app->db->queryOneRecord($sql, $username, $password);
 			if($remote_user['remote_userid'] > 0) {
+				$allowed_ips = explode(',',$remote_user['remote_ips']);
+				foreach($allowed_ips as $i => $allowed) { 
+					if(!filter_var($allowed, FILTER_VALIDATE_IP)) { 
+						// get the ip for a hostname
+						unset($allowed_ips[$i]);
+						$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
+						foreach($temp as $t) {
+							if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
+							if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+						}
+						unset($temp);
+					}
+				}
+				$allowed_ips[] = '127.0.0.1';
+				$allowed_ips[] = '::1';
+				$allowed_ips=array_unique($allowed_ips);
+				$ip = $_SERVER['REMOTE_ADDR'];
+				$remote_allowed = @($ip == '::1' || $ip == '127.0.0.1')?true:false;
+				if(!$remote_allowed && $remote_user['remote_access'] == 'y') {
+					if(trim($remote_user['remote_ips']) == '') {
+						$remote_allowed=true;
+					} else {
+						$ip = inet_pton($_SERVER['REMOTE_ADDR']);
+						foreach($allowed_ips as $allowed) {
+							if($ip == inet_pton(trim($allowed))) {
+								$remote_allowed=true;
+								break;
+							}
+						}
+					}
+				}
+				if(!$remote_allowed) {
+					throw new SoapFault('login_failed', 'The login is not allowed from '.$_SERVER['REMOTE_ADDR']);
+					return false;
+				}	
 				//* Create a remote user session
 				//srand ((double)microtime()*1000000);
 				$remote_session = md5(mt_rand().uniqid('ispco'));
