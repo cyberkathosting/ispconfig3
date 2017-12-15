@@ -13,8 +13,8 @@ $wb['limit_spamfilter_user_txt'] = 'Limite de usuários de filtros anti-spam';
 $wb['limit_spamfilter_policy_txt'] = 'Limite de políticas anti-spam';
 $wb['default_mailserver_txt'] = 'Servidor de e-mails padrão';
 $wb['company_name_txt'] = 'Empresa';
-$wb['contact_firstname_txt'] = 'Contato';
-$wb['contact_name_txt'] = 'Contato';
+$wb['contact_firstname_txt'] = 'Nome do contato';
+$wb['contact_name_txt'] = 'Sobrenome do contato';
 $wb['username_txt'] = 'Nome do usuário';
 $wb['password_txt'] = 'Senha';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
@@ -202,4 +202,3 @@ $wb['password_click_to_set_txt'] = 'Selecionar para configurar';
 $wb['limit_dns_record_error_notint'] = 'O limite de registros dns deve ser um número.';
 $wb['Limits'] = 'Limites';
 ?>
-

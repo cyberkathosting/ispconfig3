@@ -5,7 +5,6 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Adicionar nova zona';
-$wb['eg_domain_tld'] = 'ex.: dominio.com.';
+$wb['eg_domain_tld'] = 'ex.: dominio.com.br.';
 $wb['sys_groupid_txt'] = 'Cliente';
 ?>
-

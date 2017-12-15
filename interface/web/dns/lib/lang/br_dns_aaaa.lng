@@ -14,4 +14,3 @@ $wb['data_error_empty'] = 'Endereço IP está em branco.';
 $wb['ip_error_wrong'] = 'Endereço IP é inválido.';
 $wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 ?>
-

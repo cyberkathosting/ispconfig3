@@ -4,4 +4,3 @@ $wb['install_key_txt'] = 'Insira a chave de instalação';
 $wb['btn_save_txt'] = 'Iniciar instalação';
 $wb['btn_cancel_txt'] = 'Cancelar';
 ?>
-

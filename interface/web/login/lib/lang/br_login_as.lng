@@ -10,4 +10,3 @@ $wb['tcp_ports_error_regex'] = 'Caractere não permitido para atribuição numa 
 $wb['udp_ports_error_regex'] = 'Caractere não permitido para atribuição numa porta UDP. Caracteres permitidos são: números, \':\' e \',\'.';
 $wb['login_as_or_logout_txt'] = 'Você deseja acessar novamente como {UTYPE} ou sair?';
 ?>
-

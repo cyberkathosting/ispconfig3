@@ -12,4 +12,3 @@ $wb['password_match_txt'] = 'A senhas coincidem.';
 $wb['no_folder_perm'] = 'Você não tem permissão para esta pasta.';
 $wb['error_user_exists_already_txt'] = 'Já existe um registro igual para este usuário.';
 ?>
-

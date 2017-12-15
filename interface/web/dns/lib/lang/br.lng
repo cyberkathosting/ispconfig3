@@ -16,9 +16,8 @@ $wb['DNS TXT Record'] = 'Registro TXT';
 $wb['DNS TXT'] = 'TXT';
 $wb['DNS Wizard'] = 'Assistente dns';
 $wb['Add DNS Zone'] = 'Adicionar nova zona';
+$wb['Import Zone File'] = 'Importar arquivo de zona';
 $wb['Templates'] = 'Gabaritos';
 $wb['Secondary DNS'] = 'DNS Secundário';
 $wb['Secondary Zones'] = 'Zonas secundárias';
-$wb['Import Zone File'] = 'Importar arquivo de zona';
 ?>
-

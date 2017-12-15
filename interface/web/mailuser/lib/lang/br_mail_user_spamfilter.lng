@@ -5,4 +5,3 @@ $wb['email_txt'] = 'e-mail';
 $wb['no_policy'] = '-desabilitado-';
 $wb['policy_txt'] = 'Política';
 ?>
-

@@ -32,4 +32,3 @@ $wb['lost_password_function_wait_txt'] = 'Você não pode requisitar uma nova se
 $wb['lost_password_function_expired_txt'] = 'Este link de ativação expirou. Por favor, faça uma nova requisição.';
 $wb['lost_password_function_denied_txt'] = 'Este link de ativação não é válido.';
 ?>
-

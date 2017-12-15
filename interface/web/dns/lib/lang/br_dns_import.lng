@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['client_txt'] = 'Cliente';
-$wb['btn_save_txt'] = 'Importar arquivo de zona';
+$wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['domain_txt'] = 'Domínio';
 $wb['zone_file_successfully_imported_txt'] = 'O arquivo de zona foi importado com sucesso!';

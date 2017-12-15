@@ -7,4 +7,3 @@ $wb['rid_txt'] = 'Usuário';
 $wb['email_txt'] = 'e-mail na lista branca';
 $wb['add_new_record_txt'] = 'Adicionar novo e-mail';
 ?>
-

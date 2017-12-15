@@ -9,4 +9,3 @@ $wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta
 $wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 $wb['selector_txt'] = 'Seletor DKIM';
 ?>
-

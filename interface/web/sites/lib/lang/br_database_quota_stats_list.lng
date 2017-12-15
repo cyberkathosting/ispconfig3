@@ -7,4 +7,3 @@ $wb['quota_txt'] = 'Cota';
 $wb['percentage_txt'] = 'Espaço utilizado em %';
 $wb['list_head_txt'] = 'Cota para banco de dados';
 ?>
-

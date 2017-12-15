@@ -14,7 +14,7 @@ $wb['ostemplate_id_txt'] = 'Gabarito do SO';
 $wb['template_id_txt'] = 'Gabarito';
 $wb['ip_address_txt'] = 'Endereço IP';
 $wb['hostname_txt'] = 'Servidor';
-$wb['vm_password_txt'] = 'Senha da VM';
+$wb['vm_password_txt'] = 'Senha da máquina virtual';
 $wb['start_boot_txt'] = 'Iniciar no boot';
 $wb['active_txt'] = 'Ativo';
 $wb['description_txt'] = 'Descrição';
@@ -23,8 +23,8 @@ $wb['veid_txt'] = 'VEID';
 $wb['create_dns_txt'] = 'Adicionar DNS para servidor';
 $wb['active_until_date_txt'] = 'Ativo até a data';
 $wb['ip_address_error_empty'] = 'Endereço IP está em branco.';
-$wb['hostname_error_empty'] = 'Hospedeiro está em branco.';
-$wb['vm_password_error_empty'] = 'Senha da VM está em branco.';
+$wb['hostname_error_empty'] = 'Nome do servidor está em branco.';
+$wb['vm_password_error_empty'] = 'Senha da máquina virtual está em branco.';
 $wb['veid_error_empty'] = 'VEID está em branco.';
 $wb['veid_error_unique'] = 'VEID não existe.';
 $wb['diskspace_error_empty'] = 'Espaço em disco está em branco.';
@@ -43,4 +43,3 @@ $wb['custom_txt'] = 'Configurações personalizadas';
 $wb['bootorder_txt'] = 'Prioridade do boot';
 $wb['bootorder_error_notpositive'] = 'Somente números positivos podem ser configurados na prioridade do boot.';
 ?>
-

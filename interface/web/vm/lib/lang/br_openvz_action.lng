@@ -14,4 +14,3 @@ $wb['ostemplate_name_error'] = 'O gabarito de SO contém caracteres não permiti
 $wb['ostemplate_name_unique_error'] = 'Já existe um gabarito de SO com este nome.';
 $wb['ostemplate_exec_txt'] = 'O comando -criar máquina virtual- foi enviado ao servidor servidor de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja criada.';
 ?>
-

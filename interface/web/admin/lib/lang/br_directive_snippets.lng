@@ -10,4 +10,3 @@ $wb['variables_txt'] = 'Variáveis';
 $wb['customer_viewable_txt'] = 'Visualizada pelo cliente';
 $wb['required_php_snippets_txt'] = 'Diretiva obrigatória para PHP';
 ?>
-

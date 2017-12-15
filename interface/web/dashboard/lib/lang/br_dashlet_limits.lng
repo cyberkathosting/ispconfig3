@@ -29,4 +29,3 @@ $wb['limit_database_txt'] = 'Limite de banco de dados';
 $wb['limit_mailmailinglist_txt'] = 'Limite de listas de e-mails';
 $wb['limit_domain_txt'] = 'Limite de domínios';
 ?>
-

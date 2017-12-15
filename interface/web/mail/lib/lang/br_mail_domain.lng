@@ -21,4 +21,3 @@ $wb['dkim_selector_error'] = 'Seletor DKIM é inválido. Use apenas caracteres m
 $wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
 $wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido para esta conta.';
 ?>
-

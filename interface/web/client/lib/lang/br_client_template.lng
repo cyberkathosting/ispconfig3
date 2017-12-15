@@ -122,4 +122,3 @@ $wb['db_servers_txt'] = 'Servidores de banco de dados';
 $wb['mail_servers_txt'] = 'Servidores de e-mail';
 $wb['Limits'] = 'Limites';
 ?>
-

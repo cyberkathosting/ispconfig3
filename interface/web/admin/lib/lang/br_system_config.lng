@@ -82,4 +82,3 @@ $wb['default_slave_dnsserver_txt'] = 'Servidor dns secundário padrão';
 $wb['default_dbserver_txt'] = 'Servidor de banco de dados padrão';
 $wb['No'] = 'Não';
 ?>
-

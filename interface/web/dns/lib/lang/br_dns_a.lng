@@ -15,4 +15,3 @@ $wb['ip_error_wrong'] = 'Endereço IP é inválido.';
 $wb['data_error_duplicate'] = 'Registro A duplicado.';
 $wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 ?>
-

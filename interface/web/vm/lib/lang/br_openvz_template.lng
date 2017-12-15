@@ -21,7 +21,7 @@ $wb['numsiginfo_txt'] = 'Numsiginfo';
 $wb['dcachesize_txt'] = 'Dcachesize';
 $wb['numiptent_txt'] = 'Numiptent';
 $wb['swappages_txt'] = 'Swappages';
-$wb['hostname_txt'] = 'Hospedeiro';
+$wb['hostname_txt'] = 'Nome do servidor';
 $wb['nameserver_txt'] = 'Servidor(es) de nome';
 $wb['nameserver_desc_txt'] = '(separado por espaços em branco)';
 $wb['capability_txt'] = 'Capacidade';
@@ -95,4 +95,3 @@ $wb['iptables_txt'] = 'Firewall';
 $wb['custom_txt'] = 'Configurações personalizadas';
 $wb['custom_error'] = 'Não permitido em configurações personalizadas: ';
 ?>
-

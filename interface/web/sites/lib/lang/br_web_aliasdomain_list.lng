@@ -12,4 +12,3 @@ $wb['no_redirect_txt'] = 'Sem redirecionamento';
 $wb['no_flag_txt'] = 'Sem marcas';
 $wb['none_txt'] = 'Nenhum';
 ?>
-

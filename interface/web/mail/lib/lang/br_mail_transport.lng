@@ -9,4 +9,3 @@ $wb['active_txt'] = 'Ativo';
 $wb['limit_mailrouting_txt'] = 'O limite de transportes para esta conta foi alcançado.';
 $wb['transport_txt'] = 'Transporte';
 ?>
-

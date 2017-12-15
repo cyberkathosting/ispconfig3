@@ -27,4 +27,3 @@ $wb['error_domain_in dnsuse'] = 'Este domínio não pode ser removido porque est
 $wb['error_domain_in dnsslaveuse'] = 'Este domínio não pode ser removido porque está em uso como uma zona dns secundária.';
 $wb['Email-Templates'] = 'Gabaritos de e-mails';
 ?>
-

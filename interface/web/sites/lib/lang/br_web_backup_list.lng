@@ -19,4 +19,3 @@ $wb['backup_type_web'] = 'Arquivos do site';
 $wb['filesize_txt'] = 'Tamanho';
 $wb['backup_type_mongodb'] = 'Banco de dados MongoDB';
 ?>
-

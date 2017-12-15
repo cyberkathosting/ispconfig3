@@ -7,4 +7,3 @@ $wb['btn_cancel_txt'] = 'Voltar';
 $wb['ignore_version_txt'] = 'Ignorar verificação da versão do ISPConfig';
 $wb['list_desc_txt'] = 'ATENÇÃO: Não importe arquivos de idioma de fontes desconhecidas.';
 ?>
-

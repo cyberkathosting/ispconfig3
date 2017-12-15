@@ -60,4 +60,3 @@ $wb['delete_certificate_txt'] = 'Remover certificado';
 $wb['ssl_error_isemail'] = 'Por favor, insira um e-mail válido para gerar o certificado SSL.';
 $wb['limit_xmppdomain_txt'] = 'O limite de domínios xmpp para esta conta foi alcançado.';
 ?>
-

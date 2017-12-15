@@ -6,7 +6,7 @@ $wb['web_server_txt'] = 'Servidor de páginas';
 $wb['dns_server_txt'] = 'Servidor dns';
 $wb['file_server_txt'] = 'Servidor de arquivo';
 $wb['db_server_txt'] = 'Servidor de banco de dados';
-$wb['vserver_server_txt'] = 'Servidor vserver';
+$wb['vserver_server_txt'] = 'Servidor virtual';
 $wb['active_txt'] = 'Ativo';
 $wb['mirror_server_id_txt'] = 'É um espelho de servidor?';
 $wb['- None -'] = '- Nenhum -';
@@ -14,4 +14,3 @@ $wb['proxy_server_txt'] = 'Servidor proxy';
 $wb['firewall_server_txt'] = 'Servidor de firewall';
 $wb['xmpp_server_txt'] = 'Servidor XMPP';
 ?>
-

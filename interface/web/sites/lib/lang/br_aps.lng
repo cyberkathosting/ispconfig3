@@ -56,4 +56,3 @@ $wb['btn_install_txt'] = 'Instalar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['limit_aps_txt'] = 'O limite de instâncias de apps para esta conta foi alcançado.';
 ?>
-

@@ -47,4 +47,3 @@ $wb['do_mail_spamfilter_txt'] = 'Filtros anti-spam sincronizados';
 $wb['do_mailget_txt'] = 'Contas de busca de e-mail sincronizadas';
 $wb['resync_mailget_txt'] = 'Contas de busca de e-mails';
 ?>
-

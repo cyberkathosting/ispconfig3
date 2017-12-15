@@ -19,4 +19,3 @@ $wb['repeat_password_txt'] = 'Repetir senha';
 $wb['password_mismatch_txt'] = 'A senhas não coincidem.';
 $wb['password_match_txt'] = 'A senhas coincidem.';
 ?>
-
