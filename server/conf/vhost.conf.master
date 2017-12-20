@@ -474,7 +474,7 @@
         RewriteCond %{HTTPS} off
         <tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
 </tmpl_if>
-        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 </tmpl_if>
 </tmpl_if>
 </tmpl_if>
