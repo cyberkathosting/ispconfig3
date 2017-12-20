@@ -808,7 +808,7 @@ class tform_base {
 					$new_record[$key] = $record[$key];
 					break;
 				case 'CURRENCY':
-					$new_record[$key] = str_replace(",", ".", $record[$key]);
+					$new_record[$key] = $app->functions->currency_unformat($record[$key]);
 					break;
 
 				case 'DATETIME':
