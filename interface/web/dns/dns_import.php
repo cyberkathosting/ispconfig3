@@ -611,7 +611,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	$retry = $soa['retry'];
 	$expire = $soa['expire'];
 	$minimum = $soa['minimum'];
-	$ttl = $soa['ttl'];
+	$ttl = isset($soa['ttl']) ? $soa['ttl'] : '86400';
 	$xfer = '';
 	$serial = $app->functions->intval($soa['serial']+1);
 	//print_r($soa);
