@@ -2863,6 +2863,16 @@ class nginx_plugin {
 	}
 
 	private function nginx_merge_locations($vhost_conf){
+        global $app, $conf;
+
+        if(preg_match('/##subroot (.+) ##/', $vhost_conf, $subroot)) {
+            if(!preg_match('/^(?:[a-z0-9\/_-]|\.(?!\.))+$/iD', $subroot[1])) {
+                $app->log('Token ##subroot is unsecure (server ID: '.$conf['server_id'].').', LOGLEVEL_WARN);
+            } else {
+                $insert_pos = strpos($vhost_conf, ';', strpos($vhost_conf, 'root '));
+                $vhost_conf = substr_replace($vhost_conf, ltrim($subroot[1], '/'), $insert_pos, 0);
+            }
+        }
 
 		$lines = explode("\n", $vhost_conf);
 
