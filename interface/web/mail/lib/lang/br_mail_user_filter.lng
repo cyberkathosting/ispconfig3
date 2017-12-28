@@ -28,4 +28,3 @@ $wb['reject_txt'] = 'Rejeitar';
 $wb['stop_txt'] = 'Parar';
 $wb['move_to_txt'] = 'Mover para';
 ?>
-

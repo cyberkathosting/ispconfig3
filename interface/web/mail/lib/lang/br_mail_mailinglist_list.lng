@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Lista de e-mails';
 $wb['domain_txt'] = 'Domínio';
 $wb['listname_txt'] = 'Nome';
 ?>
-

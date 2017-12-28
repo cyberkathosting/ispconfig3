@@ -1330,6 +1330,8 @@ CREATE TABLE `remote_user` (
   `sys_perm_other` varchar(5) default NULL,
   `remote_username` varchar(64) NOT NULL DEFAULT '',
   `remote_password` varchar(64) NOT NULL DEFAULT '',
+  `remote_access` enum('y','n') NOT NULL DEFAULT 'y',
+  `remote_ips` TEXT,
   `remote_functions` text,
   PRIMARY KEY  (`remote_userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -2029,6 +2031,7 @@ CREATE TABLE `web_domain` (
   `rewrite_to_https` ENUM('y','n') NOT NULL DEFAULT 'n',
   `ssl` enum('n','y') NOT NULL default 'n',
   `ssl_letsencrypt` enum('n','y') NOT NULL DEFAULT 'n',
+  `ssl_letsencrypt_exclude` enum('n','y') NOT NULL DEFAULT 'n',
   `ssl_state` varchar(255) NULL,
   `ssl_locality` varchar(255) NULL,
   `ssl_organisation` varchar(255) NULL,

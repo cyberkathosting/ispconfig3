@@ -7,4 +7,3 @@ $wb['Spamfilter'] = 'Filtro anti-spam';
 $wb['Email Filters'] = 'Filtros de e-mail';
 $wb['Password'] = 'Senha';
 ?>
-

@@ -51,4 +51,3 @@ $wb['Relay Recipients'] = 'Destinatários de retransmissão';
 $wb['Mailbox quota'] = 'Cota para contas de e-mails';
 $wb['Server'] = 'Servidor';
 ?>
-

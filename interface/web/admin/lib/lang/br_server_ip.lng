@@ -9,4 +9,3 @@ $wb['ip_type_txt'] = 'Tipo';
 $wb['virtualhost_port_txt'] = 'Portas http';
 $wb['error_port_syntax'] = 'Caracteres inválidos no campo -portas http-, insira somente números separados por vírgula. Exemplo: 80,443';
 ?>
-

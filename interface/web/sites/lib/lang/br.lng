@@ -36,4 +36,3 @@ $wb['Subdomain (Vhost)'] = 'Subdomínio (vhost)';
 $wb['error_proxy_requires_url'] = 'Tipo de redirecionamento "proxy" exige uma url como caminho do redirecionamento.';
 $wb['Domain'] = 'Domínio';
 ?>
-

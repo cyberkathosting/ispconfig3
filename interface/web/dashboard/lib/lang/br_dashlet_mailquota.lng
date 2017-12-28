@@ -6,4 +6,3 @@ $wb['used_txt'] = 'Espaço utilizado';
 $wb['quota_txt'] = 'Cota';
 $wb['no_email_accounts_txt'] = 'Nenhuma conta de e-mail encontrada.';
 ?>
-

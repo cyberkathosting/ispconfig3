@@ -90,4 +90,3 @@ $wb['btn_cancel_txt'] = 'Cancel';
 $wb['default_dbserver_txt'] = 'Servidor de banco de dados padrão';
 $wb['No'] = 'Não';
 ?>
-

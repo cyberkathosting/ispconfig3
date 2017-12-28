@@ -15,4 +15,3 @@ $wb['greylisting_txt'] = 'Habilitar greylist';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['send_as_exp'] = 'Permite o alvo enviar e-mails usando este endereço como origem';
 ?>
-

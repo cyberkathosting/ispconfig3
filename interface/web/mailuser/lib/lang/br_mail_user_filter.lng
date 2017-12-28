@@ -19,4 +19,3 @@ $wb['move_to_txt'] = 'Mover para';
 $wb['delete_txt'] = 'Remover';
 $wb['mailbox_filter_txt'] = 'Filtro de e-mail';
 ?>
-

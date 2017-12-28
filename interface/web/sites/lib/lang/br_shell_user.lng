@@ -34,4 +34,3 @@ $wb['shell_error_regex'] = 'Shell inválido';
 $wb['invalid_username_txt'] = 'Usuário inválido';
 $wb['directory_error_notinweb'] = 'O diretório deve estar dentro do diretório web principal.';
 ?>
-

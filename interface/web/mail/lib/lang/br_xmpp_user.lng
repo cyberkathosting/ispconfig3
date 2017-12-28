@@ -13,4 +13,3 @@ $wb['password_match_txt'] = 'A senhas coincidem.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['limit_xmpp_user_txt'] = 'O limite de usuários xmpp para esta conta foi alcançando.';
 ?>
-

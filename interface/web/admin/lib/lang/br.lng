@@ -51,4 +51,3 @@ $wb['DNS'] = 'DNS';
 $wb['Server'] = 'Servidor';
 $wb['Updates'] = 'Atualizações';
 ?>
-

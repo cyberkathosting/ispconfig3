@@ -5,4 +5,3 @@ $wb['btn_save_txt'] = 'Remover o cliente';
 $wb['btn_cancel_txt'] = 'Cancelar sem remover o cliente';
 $wb['confirm_client_delete_txt'] = 'Você tem certeza que deseja remover este cliente?';
 ?>
-

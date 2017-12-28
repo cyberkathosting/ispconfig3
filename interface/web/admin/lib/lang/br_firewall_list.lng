@@ -6,4 +6,3 @@ $wb['tcp_port_txt'] = 'Portas tcp abertas';
 $wb['udp_port_txt'] = 'Portas udp abertas';
 $wb['add_new_record_txt'] = 'Adicionar regra de firewall';
 ?>
-

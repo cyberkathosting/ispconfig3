@@ -17,4 +17,3 @@ $wb['invalid_type_dkim'] = 'DKIM não permitido. Use o botão DKIM.';
 $wb['invalid_type_dmarc'] = 'DMARC não permitido. Use o botão DMARC.';
 $wb['invalid_type_spf'] = 'SPF não permitido. Use o botão SPF.';
 ?>
-

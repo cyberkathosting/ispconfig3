@@ -583,7 +583,7 @@ class listform {
 					break;
 
 				case 'CURRENCY':
-					$record[$key] = str_replace(',', '.', $record[$key]);
+					$record[$key] = $app->functions->currency_unformat($record[$key]);
 					break;
 				
 				case 'BOOLEAN':

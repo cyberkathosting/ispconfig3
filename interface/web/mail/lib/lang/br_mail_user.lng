@@ -22,8 +22,8 @@ $wb['policy_txt'] = 'Filtro anti-spam';
 $wb['no_policy'] = '- desabilitado -';
 $wb['limit_mailbox_txt'] = 'O limite de contas de e-mail para esta conta foi alcançado.';
 $wb['limit_mailquota_txt'] = 'O espaço em disco disponível para criação de contas de e-mail foi alcançado.';
-$wb['disableimap_txt'] = 'Desativar imap';
-$wb['disablepop3_txt'] = 'Disativar pop3';
+$wb['disableimap_txt'] = 'Desabilitar imap';
+$wb['disablepop3_txt'] = 'Desabilitar pop3';
 $wb['duplicate_alias_or_forward_txt'] = 'Já existe um apelido ou encaminhamento com este endereço de e-mail.';
 $wb['quota_error_value'] = 'Valor da cota é inválido. Valores válidos são: 0 para ilimitado ou número > 1';
 $wb['autoresponder_start_date_txt'] = 'Início:';
@@ -63,4 +63,3 @@ $wb['monthly_backup_txt'] = 'Mensal';
 $wb['sender_cc_note_txt'] = '(Múltiplos e-mails separados por vírgulas)';
 $wb['password_click_to_set_txt'] = 'Configurar';
 ?>
-

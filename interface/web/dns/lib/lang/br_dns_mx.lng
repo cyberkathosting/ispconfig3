@@ -16,4 +16,3 @@ $wb['data_error_regex'] = 'Nome do servidor de e-mails é inválido.';
 $wb['duplicate_mx_record_txt'] = 'Registro MX duplicado.';
 $wb['ttl_range_error'] = 'O ttl minímo são 60 segundos.';
 ?>
-

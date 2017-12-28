@@ -43,4 +43,3 @@ $wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido p
 $wb['dnssec_txt'] = 'Zona assinada (DNSSEC)';
 $wb['limit_dns_zone_txt'] = 'O limite de zonas dns para esta conta foi alcançado.';
 ?>
-

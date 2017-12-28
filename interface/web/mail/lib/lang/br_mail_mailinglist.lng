@@ -20,4 +20,3 @@ $wb['listname_error_unique'] = 'Já existe uma lista com o mesmo nome neste serv
 $wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
 $wb['mailinglist_txt'] = 'Lista de e-mails';
 ?>
-

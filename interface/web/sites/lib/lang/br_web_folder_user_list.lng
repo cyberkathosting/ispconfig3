@@ -5,4 +5,3 @@ $wb['web_folder_id_txt'] = 'ID da pasta';
 $wb['username_txt'] = 'Usuário';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
 ?>
-

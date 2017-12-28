@@ -23,4 +23,3 @@ $wb['globalsearch_suggestions_text_txt'] = 'Sugestões';
 $wb['limit_database_user_txt'] = 'O limite de usuários do banco de dados foi alcançado.';
 $wb['database_password_error_empty'] = 'Senha do banco de dados está em branco.';
 ?>
-

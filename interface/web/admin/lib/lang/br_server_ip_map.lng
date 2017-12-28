@@ -10,4 +10,3 @@ $wb['server_empty_error'] = 'Servidor está em branco.';
 $wb['duplicate_mapping_error'] = 'Mapeamento já existe.';
 $wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser um endereço IP do servidor.';
 ?>
-

@@ -559,8 +559,9 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 
 	//** Customise the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
-	$conf['interface_password'] = $inst->free_query('Admin password', 'admin','ispconfig_admin_password');
-	if(!AUTOINSTALL && $conf['interface_password'] != 'admin') {
+	$temp_admin_password = str_shuffle(bin2hex(openssl_random_pseudo_bytes(4)));
+	$conf['interface_password'] = $inst->free_query('Admin password', $temp_admin_password, 'ispconfig_admin_password');
+	if($conf['interface_password'] != $temp_admin_password) {
 		$check = false;
 		do {
 			unset($temp_password);
@@ -571,6 +572,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 	}
 	unset($check);
 	unset($temp_password);
+	unset($temp_admin_password);
 	if($conf['apache']['installed'] == true) $conf['apache']['vhost_port']  = $ispconfig_vhost_port;
 	if($conf['nginx']['installed'] == true) $conf['nginx']['vhost_port']  = $ispconfig_vhost_port;
 	unset($ispconfig_vhost_port);

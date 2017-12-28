@@ -78,7 +78,7 @@ class ftpuser_base_plugin {
 
 			//* Check if the resulting path is inside the docroot
 			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {
-				$app->log('User dir is outside of docroot.', LOGLEVEL_WARN);
+				$app->log("User dir '".$data['new']['dir']."' is outside of docroot.", LOGLEVEL_WARN);
 				return false;
 			}
 
@@ -104,7 +104,7 @@ class ftpuser_base_plugin {
 
 			//* Check if the resulting path is inside the docroot
 			if(substr($data['new']['dir'], 0, strlen($web['document_root'])) != $web['document_root']) {
-				$app->log('User dir is outside of docroot.', LOGLEVEL_WARN);
+				$app->log("User dir '".$data['new']['dir']."' is outside of docroot.", LOGLEVEL_WARN);
 				return false;
 			}
 

@@ -115,6 +115,27 @@ $form["tabs"]['remote_user'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'remote_access' => array (
+ 			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+        ),
+		'remote_ips' => array (
+			'datatype'  => 'TEXT',
+			'formtype'  => 'TEXT',
+			'validators'  => array (  
+				0 => array (
+					'type' => 'CUSTOM', 
+					'class' => 'validate_remote_user', 
+					'function' => 'valid_remote_ip', 
+					'errmsg' => 'remote_user_error_ips'),
+			),
+			'default' => '',
+			'value'   => '',
+			'width'   => '60',
+			'searchable' => 2
+		),
 		'remote_functions' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'CHECKBOXARRAY',

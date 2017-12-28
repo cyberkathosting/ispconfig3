@@ -36,7 +36,7 @@ $wb['domain_error_empty'] = 'Domínio está em branco.';
 $wb['domain_error_unique'] = 'Já existe apelido de domínio ou subdomínio com este nome.';
 $wb['domain_error_regex'] = 'Nome de domínio é inválido.';
 $wb['host_txt'] = 'HostNome do host';
-$wb['redirect_error_regex'] = 'Caminho de redirecionamento é inválido. Exemplo de caminho válido: "/teste/" ou "http://www.dominio.com/teste/".';
+$wb['redirect_error_regex'] = 'Caminho de redirecionamento é inválido. Exemplo de caminho válido: "/teste/" ou "http://www.dominio.com.br/teste/".';
 $wb['no_redirect_txt'] = 'Sem redirecionamento';
 $wb['no_flag_txt'] = 'Sem marcas';
 $wb['domain_error_wildcard'] = 'Curingas para subdomínios não são permitidos.';
@@ -47,7 +47,7 @@ $wb['backup_interval_txt'] = 'Intervalo de backup';
 $wb['backup_copies_txt'] = 'Limite de cópias do backup';
 $wb['ssl_key_txt'] = 'Chave';
 $wb['ssl_domain_txt'] = 'Domínio do SSL';
-$wb['web_folder_error_regex'] = 'Pasta inválida informada. Por favor não use uma barra "/".';
+$wb['web_folder_error_regex'] = 'Pasta inválida informada. Por favor não use uma barra - "/".';
 $wb['ipv6_address_txt'] = 'Endereço IPv6';
 $wb['errordocs_txt'] = 'Pasta personalizada Error-Documents';
 $wb['subdomain_txt'] = 'Subdomínio automático';
@@ -116,4 +116,3 @@ $wb['available_apache_directive_snippets_txt'] = 'Diretivas de trechos de códig
 $wb['available_nginx_directive_snippets_txt'] = 'Diretivas de trechos de código do nginx disponíveis:';
 $wb['Domain'] = 'Apelido de domínio';
 ?>
-

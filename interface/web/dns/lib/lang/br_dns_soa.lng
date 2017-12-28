@@ -25,9 +25,9 @@ $wb['also_notify_txt'] = 'Também notificar';
 $wb['also_notify_error_regex'] = 'Por favor, insira um endereço IP.';
 $wb['update_acl_txt'] = 'Atualizar ACL';
 $wb['seconds_txt'] = 'Segundos';
-$wb['eg_domain_tld'] = 'ex.: dominio.com';
-$wb['eg_ns1_domain_tld'] = 'ex.: ns1.dominio.com';
-$wb['eg_webmaster_domain_tld'] = 'ex.: portsmaster@dominio.com';
+$wb['eg_domain_tld'] = 'ex.: dominio.com.br';
+$wb['eg_ns1_domain_tld'] = 'ex.: ns1.dominio.com.br';
+$wb['eg_webmaster_domain_tld'] = 'ex.: postmaster@dominio.com.br';
 $wb['The Domain can not be changed. Please ask your Administrator if you want to change the domain name.'] = 'O domínio não pode ser modificado. Por favor, entre em contato com o administrador do sistema se você deseja modificar este domínio.';
 $wb['refresh_range_error'] = 'Tempo mínimo de atualizações (refresh) são 60 segundos.';
 $wb['retry_range_error'] = 'Tempo mínimo de repetições (retry) são 60 segundos.';
@@ -42,4 +42,3 @@ $wb['error_not_allowed_server_id'] = 'O servidor selecionado não tem permissão
 $wb['soa_cannot_be_changed_txt'] = 'A zona SOA não pode ser modificada. Entre em contato com o administrador para alterar esta zona.';
 $wb['configuration_error_txt'] = 'ERRO DE CONFIGURAÇÃO';
 ?>
-

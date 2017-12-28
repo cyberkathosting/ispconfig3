@@ -9,4 +9,3 @@ $wb['variables_txt'] = 'Variáveis';
 $wb['variables_description_txt'] = '(As variáveis usuário e senha estão disponíveis apenas em e-mails de boas vindas.)';
 $wb['duplicate_welcome_error'] = 'Disponível apenas para o gabarito padrão de e-mail de boas vindas. Por favor edite o gabarito existente ou adicione um novo gabarito.';
 ?>
-

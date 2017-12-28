@@ -77,33 +77,30 @@ class remoting {
 		$app->uses('ini_parser,getconf');
 		$server_config_array = $app->getconf->get_global_config('misc');
 		if($server_config_array['maintenance_mode'] == 'y'){
-			throw new SoapFault('maintenance_mode', 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.');
-			return false;
-		}
+			$error = array('faultcode' => 'maintenance_mode', 'faultstring' => 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.');
+		} else {
+			if(empty($username)) {
+				$error = array('faultcode' => 'login_username_empty', 'faultstring' => 'The login username is empty.');
+			}
 
-		if(empty($username)) {
-			$error = array('faultcode' => 'login_username_empty', 'faultstring' => 'The login username is empty.');
-		}
+			if(empty($password)) {
+				$error = array('faultcode' => 'login_password_empty', 'faultstring' => 'The login password is empty.');
+			}
 
-		if(empty($password)) {
-			$error = array('faultcode' => 'login_password_empty', 'faultstring' => 'The login password is empty.');
-		}
+			//* Delete old remoting sessions
+			$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMESTAMP()";
+			$app->db->query($sql);
 
-		//* Delete old remoting sessions
-		$sql = "DELETE FROM remote_session WHERE tstamp < UNIX_TIMESTAMP()";
-		$app->db->query($sql);
+			$ip = md5($_SERVER['REMOTE_ADDR']);
+			$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
+			$alreadyfailed = $app->db->queryOneRecord($sql, $ip);
 
-		$ip = md5($_SERVER['REMOTE_ADDR']);
-		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
-		$alreadyfailed = $app->db->queryOneRecord($sql, $ip);
-
-		if($alreadyfailed['times'] > 5) {
-				throw new SoapFault('error_user_too_many_logins', 'Too many failed logins');
-				return false;
+			if($alreadyfailed['times'] > 5) {
+				$error = array('faultcode' => 'error_user_too_many_logins', 'faultstring' => 'Too many failed logins.');
+			}
 		}
 
 		if (empty($error)) {
-
 			if($client_login == true) {
 				$sql = "SELECT * FROM sys_user WHERE USERNAME = ?";
 				$user = $app->db->queryOneRecord($sql, $username);
@@ -135,20 +132,50 @@ class remoting {
 				if(!$client || $client['can_use_api'] != 'y') {
 					$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Client may not use api.');
 				}
-
-				//* Create a remote user session
-				//srand ((double)microtime()*1000000);
-				$remote_session = md5(mt_rand().uniqid('ispco'));
-				$remote_userid = $remote_user['remote_userid'];
-				$remote_functions = $remote_user['remote_functions'];
-				$tstamp = time() + $this->session_timeout;
-				$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
-					.') VALUES (?, ?, ?, ?)';
-				$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 			} else {
 				$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
 				$remote_user = $app->db->queryOneRecord($sql, $username, $password);
 				if($remote_user['remote_userid'] > 0) {
+					$allowed_ips = explode(',',$remote_user['remote_ips']);
+					foreach($allowed_ips as $i => $allowed) { 
+						if(!filter_var($allowed, FILTER_VALIDATE_IP)) { 
+							// get the ip for a hostname
+							unset($allowed_ips[$i]);
+							$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
+							foreach($temp as $t) {
+								if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
+								if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+							}
+							unset($temp);
+						}
+					}
+					$allowed_ips[] = '127.0.0.1';
+					$allowed_ips[] = '::1';
+					$allowed_ips=array_unique($allowed_ips);
+					$ip = $_SERVER['REMOTE_ADDR'];
+					$remote_allowed = @($ip == '::1' || $ip == '127.0.0.1')?true:false;
+					if(!$remote_allowed && $remote_user['remote_access'] == 'y') {
+						if(trim($remote_user['remote_ips']) == '') {
+							$remote_allowed=true;
+						} else {
+							$ip = inet_pton($_SERVER['REMOTE_ADDR']);
+							foreach($allowed_ips as $allowed) {
+								if($ip == inet_pton(trim($allowed))) {
+									$remote_allowed=true;
+									break;
+								}
+							}
+						}
+					}
+					if(!$remote_allowed) {
+						$error = array('faultcode' => 'login_failed', 'faultstring' => 'The login is not allowed from '.$_SERVER['REMOTE_ADDR']);
+					}
+				} else {
+					$error = array('faultcode' => 'client_login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
+				}
+			}
+			
+			if(empty($error) && isset($remote_user['remote_userid'])) {
 					//* Create a remote user session
 					//srand ((double)microtime()*1000000);
 					$remote_session = md5(mt_rand().uniqid('ispco'));
@@ -158,12 +185,8 @@ class remoting {
 					$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,tstamp'
 						.') VALUES (?, ?, ?, ?)';
 					$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
-				} else {
-					$error = array('faultcode' => 'login_failed', 'faultstring' => 'The login failed. Username or password wrong.');
 				}
 			}
-
-		}
 
 			if (! empty($error)) {
 				if(! $alreadyfailed['times']) {

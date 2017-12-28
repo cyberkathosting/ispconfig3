@@ -14,4 +14,3 @@ $wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por 
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não foi enviada porque o e-mail do destinatário e/ou remetente não é válido.';
 $wb['subject_is_empty'] = 'Não é permitido o campo "Assunto" em branco.';
 ?>
-

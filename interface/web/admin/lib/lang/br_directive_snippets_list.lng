@@ -6,4 +6,3 @@ $wb['type_txt'] = 'Tipo';
 $wb['add_new_record_txt'] = 'Adicionar nova diretiva';
 $wb['customer_viewable_txt'] = 'Visível para o cliente';
 ?>
-

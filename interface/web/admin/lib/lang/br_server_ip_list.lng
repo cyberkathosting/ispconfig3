@@ -8,4 +8,3 @@ $wb['virtualhost_txt'] = 'Vhost http';
 $wb['virtualhost_port_txt'] = 'Portas http';
 $wb['ip_type_txt'] = 'Tipo';
 ?>
-

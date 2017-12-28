@@ -6,4 +6,3 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['allservers_txt'] = 'Disponível em todos os servidores';
 $wb['ostemplate_id_txt'] = 'ID';
 ?>
-

@@ -7,4 +7,3 @@ $wb['source_error_notempty'] = 'Endereço está em branco.';
 $wb['type_txt'] = 'Tipo';
 $wb['limit_mailfilter_txt'] = 'O limite de filtros de e-mail para esta conta foi alcançado.';
 ?>
-

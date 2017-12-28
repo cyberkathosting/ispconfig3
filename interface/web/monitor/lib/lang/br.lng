@@ -56,8 +56,8 @@ $wb['monitor_diskusage_available_txt'] = 'Disponível';
 $wb['monitor_diskusage_usage_txt'] = 'Uso %';
 $wb['monitor_diskusage_mounted_txt'] = 'Montado em';
 $wb['monitor_logs_mail_txt'] = 'Log de e-mail';
-$wb['monitor_logs_mailwarn_txt'] = 'Log de alertas';
-$wb['monitor_logs_mailerr_txt'] = 'Log de erros';
+$wb['monitor_logs_mailwarn_txt'] = 'Alertas de e-mails';
+$wb['monitor_logs_mailerr_txt'] = 'Erros de e-mails';
 $wb['monitor_logs_messages_txt'] = 'Log do sistema';
 $wb['monitor_logs_ispccron_txt'] = 'Log do cron';
 $wb['monitor_logs_freshclam_txt'] = 'Logo do freshclam';
@@ -162,4 +162,3 @@ $wb['Show MongoDB-Log'] = 'Exibir logs do MongoDB';
 $wb['monitor_services_mongodb_txt'] = 'Servidor MongoDB:';
 $wb['monitor_title_mongodb_txt'] = 'Logs do MongoDB';
 ?>
-

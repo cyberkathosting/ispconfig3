@@ -44,4 +44,7 @@ $wb['generate_password_txt'] = 'Passwort erzeugen';
 $wb['repeat_password_txt'] = 'Passwort wiederholen';
 $wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
 $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
+$wb['remote_user_error_ips'] = 'Mindestens eine eingegebene IP-Adresse oder ein Hostname ist ungueltig.';
+$wb['remote_access_txt'] = 'Entfernter Zugriff';
+$wb['remote_ips_txt'] = 'Entfernter Zugriff IP / Hostname (Mehrere mit Komma trennen, keine Angabe für <i>alle</i>)';
 ?>

@@ -15,4 +15,3 @@ $wb['data_error_regex'] = 'Dados é inválido.';
 $wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
 $wb['invalid_type_ds'] = 'Registro DS é inválido.';
 ?>
-

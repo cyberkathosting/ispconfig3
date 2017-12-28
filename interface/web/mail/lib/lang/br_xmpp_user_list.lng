@@ -6,4 +6,3 @@ $wb['is_muc_admin_txt'] = 'Administrador MUC';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
 $wb['active_txt'] = 'Ativo';
 ?>
-

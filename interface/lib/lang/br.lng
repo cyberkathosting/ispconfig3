@@ -39,7 +39,7 @@ $wb['top_menu_billing'] = 'Faturas';
 $wb['top_menu_domain'] = 'Domínios';
 $wb['top_menu_dashboard'] = 'Início';
 $wb['latest_news_txt'] = 'Últimas notícias';
-$wb['top_menu_vm'] = 'VM';
+$wb['top_menu_vm'] = 'VPS';
 $wb['daynamesmin_su'] = 'Do';
 $wb['daynamesmin_mo'] = 'Se';
 $wb['daynamesmin_tu'] = 'Te';
@@ -160,4 +160,3 @@ $wb['datalog_status_i_xmpp_user'] = 'Adicionar usuário XMPP';
 $wb['datalog_status_u_xmpp_user'] = 'Atualizar usuário XMPP';
 $wb['datalog_status_d_xmpp_user'] = 'Remover usuário XMPP';
 ?>
-

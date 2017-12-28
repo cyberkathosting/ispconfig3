@@ -21,4 +21,3 @@ $wb['import_forward_txt'] = 'Importar encaminhamentos de e-mails';
 $wb['import_user_filter_txt'] = 'Importar filtros de e-mail de usuários';
 $wb['import_spamfilter_txt'] = 'Importar filtros anti-spam';
 ?>
-

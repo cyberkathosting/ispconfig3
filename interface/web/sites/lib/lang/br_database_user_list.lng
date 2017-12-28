@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Usuários';
 $wb['database_user_txt'] = 'Usuário';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
 ?>
-

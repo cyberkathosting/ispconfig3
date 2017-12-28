@@ -5,4 +5,3 @@ $wb['used_txt'] = 'Espaço utilizado';
 $wb['quota_txt'] = 'Cota';
 $wb['no_database_accounts_txt'] = 'Nenhum banco de dados encontrado.';
 ?>
-
