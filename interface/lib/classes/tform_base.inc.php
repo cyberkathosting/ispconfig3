@@ -473,9 +473,8 @@ class tform_base {
 						if(is_array($field['value'])) {
 							foreach($field['value'] as $k => $v) {
 								$selected = ($k == $val)?' SELECTED':'';
-								if(isset($this->wordbook[$v]))
-									$v = $this->wordbook[$v];
-								$v = $app->functions->htmlentities($v);
+								if(isset($this->wordbook[$v])) $v = $this->wordbook[$v];
+								else $v = $app->functions->htmlentities($v);
 								$out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
 							}
 						}
@@ -914,7 +913,7 @@ class tform_base {
 					$returnval = preg_replace('/\s+/', '', $returnval);
 					break;
 				case 'STRIPTAGS':
-					$returnval = strip_tags(preg_replace('/<script[^>]*>/is', '', $returnval));
+					$returnval = strip_tags(preg_replace('/<script[^>]*?>.*?<\/script>/is', '', $returnval));
 					break;
 				case 'STRIPNL':
 					$returnval = str_replace(array("\n","\r"),'', $returnval);
