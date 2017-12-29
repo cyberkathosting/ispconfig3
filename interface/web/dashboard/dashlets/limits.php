@@ -154,6 +154,7 @@ class dashlet_limits {
 					'percentage' => $percentage);
 			}
 		}
+		$rows = $app->functions->htmlentities($rows);
 		$tpl->setLoop('rows', $rows);
 
 

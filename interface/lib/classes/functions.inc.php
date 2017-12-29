@@ -460,7 +460,7 @@ class functions {
 
 		if(is_array($value)) {
 			$out = array();
-			foreach($values as $key => $val) {
+			foreach($value as $key => $val) {
 				if(is_array($val)) {
 					$out[$key] = $this->htmlentities($val);
 				} else {
