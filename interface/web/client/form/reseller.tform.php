@@ -91,6 +91,12 @@ $form["tabs"]['address'] = array (
 		'company_name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -119,6 +125,10 @@ $form["tabs"]['address'] = array (
 			'searchable' => 1,
 			'filters'   => array( 0 => array( 'event' => 'SAVE',
 												'type' => 'TRIM'),
+								  1 => array( 'event' => 'SAVE',
+												'type' => 'STRIPTAGS'),
+								  2 => array( 'event' => 'SAVE',
+												'type' => 'STRIPNL')
 			),
 		),
 		'contact_name' => array (
@@ -137,6 +147,10 @@ $form["tabs"]['address'] = array (
 			'searchable' => 1,
 			'filters'   => array( 0 => array( 'event' => 'SAVE',
 												'type' => 'TRIM'),
+								  1 => array( 'event' => 'SAVE',
+												'type' => 'STRIPTAGS'),
+								  2 => array( 'event' => 'SAVE',
+												'type' => 'STRIPNL')
 			),
 		),
 		'customer_no' => array (
@@ -145,6 +159,12 @@ $form["tabs"]['address'] = array (
 			'validators' => array (  0 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'customer_no_error_unique',
 					'allowempty' => 'y'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
@@ -226,6 +246,12 @@ $form["tabs"]['address'] = array (
 		'street' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -238,6 +264,12 @@ $form["tabs"]['address'] = array (
 		'zip' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -250,6 +282,12 @@ $form["tabs"]['address'] = array (
 		'city' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -262,6 +300,12 @@ $form["tabs"]['address'] = array (
 		'state' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -286,6 +330,12 @@ $form["tabs"]['address'] = array (
 		'telephone' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -298,6 +348,12 @@ $form["tabs"]['address'] = array (
 		'mobile' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -310,6 +366,12 @@ $form["tabs"]['address'] = array (
 		'fax' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -343,6 +405,12 @@ $form["tabs"]['address'] = array (
 		'internet' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => 'http://',
 			'value'  => '',
 			'separator' => '',
@@ -355,6 +423,12 @@ $form["tabs"]['address'] = array (
 		'icq' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -383,12 +457,22 @@ $form["tabs"]['address'] = array (
 								1 => array( 	'event' => 'SAVE',
 												'type' => 'TOUPPER'),
 								2 => array( 	'event' => 'SAVE',
-												'type' => 'NOWHITESPACE')
+												'type' => 'NOWHITESPACE'),
+								3 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPTAGS'),
+								4 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPNL')
 			),
 		),
 		'company_id' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -400,6 +484,12 @@ $form["tabs"]['address'] = array (
 		'bank_account_owner' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -411,6 +501,12 @@ $form["tabs"]['address'] = array (
 		'bank_account_number' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -422,6 +518,12 @@ $form["tabs"]['address'] = array (
 		'bank_code' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -433,6 +535,12 @@ $form["tabs"]['address'] = array (
 		'bank_name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -456,7 +564,11 @@ $form["tabs"]['address'] = array (
 								1 => array( 	'event' => 'SAVE',
 												'type' => 'TOUPPER'),
 								2 => array( 	'event' => 'SAVE',
-												'type' => 'NOWHITESPACE')
+												'type' => 'NOWHITESPACE'),
+								3 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPTAGS'),
+								4 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPNL')
 			),
 		),
 		'bank_account_swift' => array (
@@ -474,12 +586,20 @@ $form["tabs"]['address'] = array (
 								1 => array( 	'event' => 'SAVE',
 												'type' => 'TOUPPER'),
 								2 => array( 	'event' => 'SAVE',
-												'type' => 'NOWHITESPACE')
+												'type' => 'NOWHITESPACE'),
+								3 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPTAGS'),
+								4 => array( 	'event' => 'SAVE',
+												'type' => 'STRIPNL')
 			),
 		),
 		'notes' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -536,6 +656,12 @@ $form["tabs"]['address'] = array (
 		'added_by' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => $_SESSION['s']['user']['username'],
 			'value'  => '',
 			'separator' => '',

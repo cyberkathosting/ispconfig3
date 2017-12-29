@@ -33,7 +33,7 @@
 						<td><input class="form-control" type="text" name="search_customer_no" value="{tmpl_var name='search_customer_no'}" /></td>
                         <td><input class="form-control" type="text" name="search_username" value="{tmpl_var name='search_username'}" /></td>
                         <td><input class="form-control" type="text" name="search_city" value="{tmpl_var name='search_city'}" /></td>
-                        <td><select class="form-control" name="search_country">{tmpl_var name='search_country'}</select></td>
+                        <td><select class="form-control flags" name="search_country">{tmpl_var name='search_country'}</select></td>
 						<tmpl_if name="has_robot"><td><select class="form-control" name="search_validation_status">{tmpl_var name='search_validation_status'}</select></td></tmpl_if>
                         <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="client/client_list.php"><span class="icon icon-filter"></span></button>

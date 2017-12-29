@@ -139,12 +139,22 @@ $form["tabs"]['domain'] = array (
         'registration_message' => array(
             'datatype' => 'TEXT',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
             'default' => "",
             'value' => ''
         ),
         'domain_admins' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
             'default' => '',
             'value' => '',
             'width' => '15',

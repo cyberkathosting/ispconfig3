@@ -69,6 +69,12 @@ $form["tabs"]['main'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'template_name_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -80,6 +86,12 @@ $form["tabs"]['main'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'template_file_error_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
@@ -113,6 +125,10 @@ $form["tabs"]['main'] = array (
 		'description' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',

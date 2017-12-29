@@ -87,6 +87,7 @@ class page_action extends tform_actions {
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$records = $app->db->queryAllRecords($sql, $client['client_id']);
+			$records = $app->functions->htmlentities($records);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contact_name'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -101,6 +102,7 @@ class page_action extends tform_actions {
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {

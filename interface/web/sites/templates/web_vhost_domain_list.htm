@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <tmpl_if name="vhostdomain_type" value="domain"><td><input class="form-control" type="text" name="search_domain_id" value="{tmpl_var name='search_domain_id'}" /></td></tmpl_if>
-                    <td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
+                    <td><select class="form-control active-switch" name="search_active">{tmpl_var name='search_active'}</select></td>
                     <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
 					<tmpl_if name="vhostdomain_type" op="!=" value="domain"><td><select class="form-control" name="search_parent_domain_id">{tmpl_var name='search_parent_domain_id'}</select></td></tmpl_if>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>

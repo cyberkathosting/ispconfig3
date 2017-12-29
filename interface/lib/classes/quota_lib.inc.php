@@ -243,7 +243,8 @@ class quota_lib {
 		if(is_array($emails) && !empty($emails)){
 			for($i=0;$i<sizeof($emails);$i++){
 				$email = $emails[$i]['email'];
-		
+				
+				$emails[$i]['name'] = $app->functions->htmlentities($emails[$i]['name']);
 				$emails[$i]['used'] = isset($monitor_data[$email]['used']) ? $monitor_data[$email]['used'] : array(1 => 0);
 		
 				if (!is_numeric($emails[$i]['used'])) $emails[$i]['used']=$emails[$i]['used'][1];

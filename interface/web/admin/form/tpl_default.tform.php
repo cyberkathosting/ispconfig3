@@ -87,6 +87,12 @@ $form["tabs"]['basic'] = array (
 		'username' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'validators'    => '',
 			'default' => 'global',
 			'value'  => 'global',
@@ -97,6 +103,12 @@ $form["tabs"]['basic'] = array (
 		'logo_url' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'validators'    => '',
 			'default' => '',
 			'value'  => '',

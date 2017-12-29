@@ -122,7 +122,11 @@ $form["tabs"]['main'] = array (
 				1 => array( 'event' => 'SHOW',
 					'type' => 'IDNTOUTF8'),
 				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
+					'type' => 'TOLOWER'),
+				3 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+				4 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'hostname_error_empty'),
@@ -178,6 +182,10 @@ $form["tabs"]['main'] = array (
 		'description' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',

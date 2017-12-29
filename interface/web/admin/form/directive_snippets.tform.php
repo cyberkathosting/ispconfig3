@@ -71,6 +71,12 @@ $form["tabs"]['directive_snippets'] = array (
 				1 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'directive_snippets_name_error_unique'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

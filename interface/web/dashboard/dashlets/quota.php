@@ -21,6 +21,7 @@ class dashlet_quota {
 
 		$has_quota = false;
 		if(is_array($sites) && !empty($sites)){
+			$sites = $app->functions->htmlentities($sites);
 			$tpl->setloop('quota', $sites);
 			$has_quota = isset($sites[0]['used']);
 		}

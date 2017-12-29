@@ -112,6 +112,12 @@ $form["tabs"]['php_name'] = array (
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'server_php_name_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -135,6 +141,12 @@ $form["tabs"]['php_fastcgi'] = array(
 		'php_fastcgi_binary' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -143,6 +155,12 @@ $form["tabs"]['php_fastcgi'] = array(
 		'php_fastcgi_ini_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -165,6 +183,12 @@ $form["tabs"]['php_fpm'] = array(
 		'php_fpm_init_script' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -173,6 +197,12 @@ $form["tabs"]['php_fpm'] = array(
 		'php_fpm_ini_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -181,6 +211,12 @@ $form["tabs"]['php_fpm'] = array(
 		'php_fpm_pool_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
