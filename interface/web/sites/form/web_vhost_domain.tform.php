@@ -885,7 +885,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 							'type' => 'CUSTOM',
 							'class' => 'validate_domain',
 							'function' => 'web_nginx_directives',
-							'errmsg' => 'nginx_directive_blockd_error'
+							'errmsg' => 'nginx_directive_blocked_error'
 						),
 				),
 				'default' => '',
