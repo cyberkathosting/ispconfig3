@@ -180,7 +180,7 @@ class listform_actions {
 						$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
 					}
 					//* substitute value for select field
-					$rec[$key] = @$field['value'][$rec[$key]];
+					$rec[$key] = $app->functions->htmlentities(@$field['value'][$rec[$key]]);
 				}
 			}
 		}

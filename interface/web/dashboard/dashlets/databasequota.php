@@ -21,6 +21,7 @@ class dashlet_databasequota {
 
 		$has_databasequota = false;
 		if(is_array($databases) && !empty($databases)){
+			$databases = $app->functions->htmlentities($databases);
 			$tpl->setloop('databasequota', $databases);
 			$has_databasequota = isset($databases[0]['used']);
 		}

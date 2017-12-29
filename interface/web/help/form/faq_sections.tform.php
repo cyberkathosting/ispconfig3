@@ -63,6 +63,12 @@ $form['tabs']['message'] = array(
 					'errmsg'=> 'subject_is_empty'
 				),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

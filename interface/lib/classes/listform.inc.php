@@ -179,6 +179,7 @@ class listform {
 								&& $k == $_SESSION['search'][$list_name][$search_prefix.$field]
 								&& $_SESSION['search'][$list_name][$search_prefix.$field] != '')
 								? ' SELECTED' : '';
+							$v = $app->functions->htmlentities($v);
 							$out .= "<option value='$k'$selected>$v</option>\r\n";
 						}
 					}
@@ -610,17 +611,8 @@ class listform {
 	}
 
 	function escapeArrayValues($search_values) {
-		global $conf;
-
-		$out = array();
-		if(is_array($search_values)) {
-			foreach($search_values as $key => $val) {
-				$out[$key] = htmlentities($val, ENT_QUOTES, $conf["html_content_encoding"]);
-			}
-		}
-
-		return $out;
-
+		global $app;
+		return $app->functions->htmlentities($search_values);
 	}
 
 }

@@ -127,6 +127,7 @@ class page_action extends tform_actions {
 		$tpls = $app->db->queryAllRecords($sql);
 		$option = '';
 		$tpl = array();
+		$tpls = $app->functions->htmlentities($tpls);
 		foreach($tpls as $item){
 			$option .= '<option value="' . $item['template_id'] . '|' .  $item['template_name'] . '">' . $item['template_name'] . '</option>';
 			$tpl[$item['template_id']] = $item['template_name'];
@@ -148,7 +149,7 @@ class page_action extends tform_actions {
 					$tmp->id = $item['assigned_template_id'];
 					$tmp->data = '';
 					$app->plugin->raiseEvent('get_client_template_details', $tmp);
-					if($tmp->data != '') $text .= '<br /><em>' . $tmp->data . '</em>';
+					if($tmp->data != '') $text .= '<br /><em>' . $app->functions->htmlentities($tmp->data) . '</em>';
 
 					$text .= '</li>';
 					$items[] = $item['assigned_template_id'] . ':' . $item['client_template_id'];

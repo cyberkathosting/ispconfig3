@@ -144,6 +144,12 @@ $form["tabs"]['mailuser'] = array(
 		'name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -205,6 +211,12 @@ $form["tabs"]['mailuser'] = array(
 		'maildir' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -213,6 +225,12 @@ $form["tabs"]['mailuser'] = array(
 		'maildir_format' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -221,6 +239,12 @@ $form["tabs"]['mailuser'] = array(
 		'homedir' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -304,6 +328,12 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 			'autoresponder_subject' => array (
 				'datatype'  => 'VARCHAR',
 				'formtype'  => 'TEXT',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 				'default'   => 'Out of office reply',
 				'value'     => '',
 				'width'  => '30',
@@ -312,6 +342,10 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 			'autoresponder_text' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',

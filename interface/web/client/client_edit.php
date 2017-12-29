@@ -133,6 +133,7 @@ class page_action extends tform_actions {
 		$tpls = $app->db->queryAllRecords($sql);
 		$option = '';
 		$tpl = array();
+		$tpls = $app->functions->htmlentities($tpls);
 		foreach($tpls as $item){
 			$option .= '<option value="' . $item['template_id'] . '|' .  $item['template_name'] . '">' . $item['template_name'] . '</option>';
 			$tpl[$item['template_id']] = $item['template_name'];
@@ -154,7 +155,7 @@ class page_action extends tform_actions {
 					$tmp->id = $item['assigned_template_id'];
 					$tmp->data = '';
 					$app->plugin->raiseEvent('get_client_template_details', $tmp);
-					if($tmp->data != '') $text .= '<br /><em>' . $tmp->data . '</em>';
+					if($tmp->data != '') $text .= '<br /><em>' . $app->functions->htmlentities($tmp->data) . '</em>';
 
 					$text .= '</li>';
 					$items[] = $item['assigned_template_id'] . ':' . $item['client_template_id'];
@@ -219,6 +220,7 @@ class page_action extends tform_actions {
 			// Fill the client select field
 			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client != 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = "<option value='0'>- ".$app->tform->lng('none_txt')." -</option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {

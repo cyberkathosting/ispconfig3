@@ -454,6 +454,25 @@ class functions {
 			$app->log("Failed to create SSH keypair for ".$username, LOGLEVEL_WARN);
 		}
 	}
+	
+	public function htmlentities($value) {
+		global $conf;
+
+		if(is_array($value)) {
+			$out = array();
+			foreach($value as $key => $val) {
+				if(is_array($val)) {
+					$out[$key] = $this->htmlentities($val);
+				} else {
+					$out[$key] = htmlentities($val, ENT_QUOTES, $conf["html_content_encoding"]);
+				}
+			}
+		} else {
+			$out = htmlentities($value, ENT_QUOTES, $conf["html_content_encoding"]);
+		}
+		
+		return $out;
+	}
 }
 
 ?>
