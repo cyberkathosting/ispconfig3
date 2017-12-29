@@ -21,6 +21,8 @@ class dashlet_mailquota {
 
 		$has_mailquota = false;
 		if(is_array($emails) && !empty($emails)){
+			// email username is quoted in quota.lib already, so no htmlentities here to prevent double encoding
+			//$emails = $app->functions->htmlentities($emails);
 			$tpl->setloop('mailquota', $emails);
 			$has_mailquota = isset($emails[0]['used']);
 		}

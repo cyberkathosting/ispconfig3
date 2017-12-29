@@ -520,6 +520,12 @@ if($ssl_available) {
 			'ssl_domain' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'TEXT',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',
@@ -528,6 +534,10 @@ if($ssl_available) {
 			'ssl_key' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -536,6 +546,10 @@ if($ssl_available) {
 			'ssl_request' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -544,6 +558,10 @@ if($ssl_available) {
 			'ssl_cert' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -552,6 +570,10 @@ if($ssl_available) {
 			'ssl_bundle' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',

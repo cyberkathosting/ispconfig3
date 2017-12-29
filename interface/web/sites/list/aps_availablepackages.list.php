@@ -80,7 +80,7 @@ if($_SESSION['s']['user']['typ'] == 'admin')
 		'prefix'   => '',
 		'suffix'   => '',
 		'width'    => '',
-		'value'    => array(PACKAGE_ENABLED => '<div class="swap" id="ir-Yes"><span>'.$app->lng('Yes').'</span></div>',
-			PACKAGE_LOCKED => '<div class="swap" id="ir-No"><span>'.$app->lng('No').'</span></div>'));
+		'value'    => array(PACKAGE_ENABLED => $app->lng('Yes'),
+			PACKAGE_LOCKED => $app->lng('No')));
 }
 ?>

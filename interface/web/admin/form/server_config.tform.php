@@ -145,6 +145,12 @@ $form["tabs"]['server'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'nameservers_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -316,6 +322,12 @@ $form["tabs"]['server'] = array(
 		'monit_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -344,6 +356,12 @@ $form["tabs"]['server'] = array(
 		'munin_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -426,6 +444,12 @@ $form["tabs"]['mail'] = array(
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '/var/lib/amavis/dkim',
 			'value' => '',
 			'width' => '40',
@@ -527,6 +551,12 @@ $form["tabs"]['mail'] = array(
 		'relayhost' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -535,6 +565,12 @@ $form["tabs"]['mail'] = array(
 		'relayhost_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -719,6 +755,12 @@ $form["tabs"]['web'] = array(
 		'website_autoalias' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -1135,6 +1177,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'htaccess_allow_override_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1161,6 +1209,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'apps_vhost_port_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1172,6 +1226,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'apps_vhost_ip_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1179,6 +1239,12 @@ $form["tabs"]['web'] = array(
 		'apps_vhost_servername' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -1187,6 +1253,12 @@ $form["tabs"]['web'] = array(
 		'awstats_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -1486,6 +1558,12 @@ $form["tabs"]['xmpp'] = array(
         'xmpp_server_admins' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
             'default' => 'admin@service.com, superuser@service.com',
             'value' => '',
             'width' => '15'
@@ -1494,6 +1572,12 @@ $form["tabs"]['xmpp'] = array(
         'xmpp_modules_enabled' => array(
             'datatype' => 'TEXT',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
             'default' => "saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons",
             'value' => '',
             'separator' => ","

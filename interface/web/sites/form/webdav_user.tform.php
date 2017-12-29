@@ -130,6 +130,12 @@ $form["tabs"]['webdav'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'directory_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

@@ -253,6 +253,12 @@ $form["tabs"]['dns_soa'] = array (
 		'update_acl' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -273,6 +279,10 @@ $form["tabs"]['dns_soa'] = array (
  		'dnssec_info' => array (
  			'datatype' => 'TEXT',
  			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
  			'default' => '',
  			'value'  => '',
  			'width'  => '30',
