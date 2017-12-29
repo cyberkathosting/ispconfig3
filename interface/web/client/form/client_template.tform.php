@@ -82,6 +82,12 @@ $form["tabs"]['template'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'error_template_name_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

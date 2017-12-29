@@ -82,7 +82,11 @@ $form["tabs"]['transport'] = array (
 				1 => array( 'event' => 'SHOW',
 					'type' => 'IDNTOUTF8'),
 				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
+					'type' => 'TOLOWER'),
+				3 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+				4 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
@@ -93,6 +97,12 @@ $form["tabs"]['transport'] = array (
 		'transport' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

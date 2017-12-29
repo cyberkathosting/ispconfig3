@@ -108,6 +108,12 @@ $form["tabs"]['spamfilter'] = array (
 		'spam_rewrite_subject' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '***SPAM***',
 			'value'  => '',
 			'width'  => '30',

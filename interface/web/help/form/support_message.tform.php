@@ -100,6 +100,12 @@ $form["tabs"]['message'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'subject_is_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => $sm_default_subject,
 			'value'  => '',
 			'width'  => '30',
@@ -110,6 +116,10 @@ $form["tabs"]['message'] = array (
 			'formtype' => 'TEXTAREA',
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'message_is_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
 			),
 			'default' => '',
 			'value'  => '',

@@ -72,6 +72,12 @@ $form["tabs"]['whitelist'] = array (
 		'wb' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => 'W',
 			'value'  => array('W' => 'Whitelist', 'B' => 'Blacklist')
 		),
@@ -95,7 +101,11 @@ $form["tabs"]['whitelist'] = array (
 				1 => array( 'event' => 'SHOW',
 					'type' => 'IDNTOUTF8'),
 				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
+					'type' => 'TOLOWER'),
+				3 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+				4 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'email_error_notempty'),

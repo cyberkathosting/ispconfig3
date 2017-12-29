@@ -103,7 +103,11 @@ $form["tabs"]['alias'] = array (
 				1 => array( 'event' => 'SHOW',
 					'type' => 'IDNTOUTF8'),
 				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
+					'type' => 'TOLOWER'),
+				3 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+				4 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
