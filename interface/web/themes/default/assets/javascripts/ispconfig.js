@@ -105,10 +105,12 @@ var ISPConfig = {
 				allowClear: true,
 				formatResult: function(o, cont, qry, escapeMarkup) {
 					if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + escapeMarkup(o.text) + '</span>';
+					else if(o.id && $(o.element).parent().hasClass('active-switch')) return '<span class="active active-' + o.id.toLowerCase() + '">' + escapeMarkup(o.text) + '</span>';
 					else return escapeMarkup(o.text);
 				},
 				formatSelection: function(o, cont, escapeMarkup) {
 					if(o.id && $(o.element).parent().hasClass('flags')) return '<span class="flags flag-' + o.id.toLowerCase() + '">' + escapeMarkup(o.text) + '</span>';
+					else if(o.id && $(o.element).parent().hasClass('active-switch')) return '<span class="active active-' + o.id.toLowerCase() + '">' + escapeMarkup(o.text) + '</span>';
 					else return escapeMarkup(o.text);
 				}
 			}).on('change', function(e) {

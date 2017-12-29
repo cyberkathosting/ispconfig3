@@ -54,7 +54,7 @@ $liste["item"][] = array( 'field'  => "active",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('y' => $app->lng('yes_txt'), 'n' => $app->lng('no_txt')));
 
 $liste["item"][] = array( 'field'  => "ostemplate_id",
 	'datatype' => "INTEGER",
@@ -96,7 +96,7 @@ $liste["item"][] = array( 'field'  => "allservers",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'n' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('y' => $app->lng('yes_txt'), 'n' => $app->lng('no_txt')));
 
 
 

@@ -22,9 +22,9 @@ class list_action extends listform_actions {
 
 		$rec = parent::prepareDataRow($rec);
 
-		$rec['active'] = "<div id=\"ir-Yes\" class=\"swap\"><span>Yes</span></div>";
+		$rec['active'] = "Yes";
 		if ($rec['backup_interval'] === 'none') {
-			$rec['active']        = "<div class=\"swap\" id=\"ir-No\"><span>No</span></div>";
+			$rec['active']        = "No";
 			$rec['backup_copies'] = 0;
 		}
 		$recBackup = $app->db->queryOneRecord('SELECT COUNT(backup_id) AS backup_count FROM mail_backup WHERE mailuser_id = ?', $rec['mailuser_id']);
