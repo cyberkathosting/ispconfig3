@@ -475,6 +475,7 @@ class tform_base {
 								$selected = ($k == $val)?' SELECTED':'';
 								if(isset($this->wordbook[$v]))
 									$v = $this->wordbook[$v];
+								$v = $app->functions->htmlentities($v);
 								$out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
 							}
 						}
@@ -494,7 +495,7 @@ class tform_base {
 								foreach($vals as $tvl) {
 									if(trim($tvl) == trim($k)) $selected = ' SELECTED';
 								}
-
+								$v = $app->functions->htmlentities($v);
 								$out .= "<option value='$k'$selected>$v</option>\r\n";
 							}
 						}
@@ -577,7 +578,7 @@ class tform_base {
 					
 					default:
 						if(isset($record[$key])) {
-							$new_record[$key] = htmlspecialchars($record[$key]);
+							$new_record[$key] = $app->functions->htmlentities($record[$key]);
 						} else {
 							$new_record[$key] = '';
 						}
@@ -608,7 +609,8 @@ class tform_base {
 						$out = '';
 						foreach($field['value'] as $k => $v) {
 							$selected = ($k == $field["default"])?' SELECTED':'';
-							$out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
+							$v = $app->functions->htmlentities($this->lng($v));
+							$out .= "<option value='$k'$selected>".$v."</option>\r\n";
 						}
 					}
 					if(isset($out)) $new_record[$key] = $out;
@@ -622,7 +624,7 @@ class tform_base {
 						// HTML schreiben
 						$out = '';
 						foreach($field['value'] as $k => $v) {
-
+							$v = $app->functions->htmlentities($v);
 							$out .= "<option value='$k'>$v</option>\r\n";
 						}
 					}
@@ -693,7 +695,7 @@ class tform_base {
 					break;
 
 				default:
-					$new_record[$key] = htmlspecialchars($field['default']);
+					$new_record[$key] = $app->functions->htmlentities($field['default']);
 				}
 			}
 
@@ -910,6 +912,12 @@ class tform_base {
 					break;
 				case 'NOWHITESPACE':
 					$returnval = preg_replace('/\s+/', '', $returnval);
+					break;
+				case 'STRIPTAGS':
+					$returnval = strip_tags(preg_replace('/<script[^>]*>/is', '', $returnval));
+					break;
+				case 'STRIPNL':
+					$returnval = str_replace(array("\n","\r"),'', $returnval);
 					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];
