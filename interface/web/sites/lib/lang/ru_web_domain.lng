@@ -133,4 +133,5 @@ $wb['http_port_txt'] = 'Порт HTTP';
 $wb['https_port_txt'] = 'Порт HTTPS';
 $wb['http_port_error_regex'] = 'Некорректный порт HTTP.';
 $wb['https_port_error_regex'] = 'Некорректный порт HTTPS.';
+$wb['nginx_directive_blocked_error'] = 'Nginx directive blocked by security settings:';
 ?>

@@ -141,6 +141,44 @@ class validate_domain {
 		}
 	}
 	
+	/* Check nginx directives */
+	function web_nginx_directives($field_name, $field_value, $validator) {
+		global $app;
+		
+		if(trim($field_value) != '') {
+			$security_config = $app->getconf->get_security_config('ids');
+		
+			if($security_config['nginx_directives_scan_enabled'] == 'yes') {
+				
+				// Get blacklist
+				$blacklist_path = '/usr/local/ispconfig/security/nginx_directives.blacklist';
+				if(is_file('/usr/local/ispconfig/security/nginx_directives.blacklist.custom')) $blacklist_path = '/usr/local/ispconfig/security/nginx_directives.blacklist.custom';
+				if(!is_file($blacklist_path)) $blacklist_path = realpath(ISPC_ROOT_PATH.'/../security/nginx_directives.blacklist');
+				
+				$directives = explode("\n",$field_value);
+				$regex = explode("\n",file_get_contents($blacklist_path));
+				$blocked = false;
+				$blocked_line = '';
+				
+				if(is_array($directives) && is_array($regex)) {
+					foreach($directives as $directive) {
+						$directive = trim($directive);
+						foreach($regex as $r) {
+							if(preg_match(trim($r),$directive)) {
+								$blocked = true;
+								$blocked_line .= $directive.'<br />';
+							};
+						}
+					}
+				}
+			}
+		}
+		
+		if($blocked === true) {
+			return $this->get_error('nginx_directive_blocked_error').' '.$blocked_line;
+		}
+	}
+	
 
 	/* internal validator function to match regexp */
 	function _regex_validate($domain_name, $allow_wildcard = false) {
