@@ -8,10 +8,7 @@ require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 
 // Check the  module permissions and redirect if not allowed.
-if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
-	header('Location: ../index.php');
-	die;
-}
+$app->auth->check_module_permissions('admin');
 
 // Load the templating and form classes
 $app->uses('tpl,tform,tform_actions');
