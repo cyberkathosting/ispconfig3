@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$rec = $app->tform->getDataRecord($this->id);
-		$app->tpl->setVar("email", $rec['email']);
+		$app->tpl->setVar("email", $rec['email'], true);
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $rec['email']);
@@ -122,7 +122,7 @@ class page_action extends tform_actions {
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
-				$policy_select .= "<option value='$p[id]' $selected>$p[policy_name]</option>\r\n";
+				$policy_select .= "<option value='$p[id]' $selected>" . $app->functions->htmlentities($p['policy_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("policy", $policy_select);

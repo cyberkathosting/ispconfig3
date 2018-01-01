@@ -122,7 +122,7 @@ class page_action extends tform_actions {
 		}
 
 		if($this->dataRecord['database_user'] == "") {
-			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
+			$app->tpl->setVar("database_user_prefix", $dbuser_prefix, true);
 		} else {
 			$app->tpl->setVar("database_user_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_user_prefix'], $dbuser_prefix, $global_config['dbuser_prefix']), true);
 		}

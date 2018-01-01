@@ -116,7 +116,7 @@ class page_action extends tform_actions {
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
 				$selected = ($domain["domain"] == $this->dataRecord["domain"])?'SELECTED':'';
-				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("domain_option", $domain_select);

@@ -93,7 +93,7 @@ class page_action extends tform_actions {
 		if ( isset($rec) && !empty($rec) ) {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
-			$app->tpl->setVar("data", $old_data);
+			$app->tpl->setVar("data", $old_data, true);
             if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
 			$dmarc_rua = '';
 			$dmarc_ruf = '';
@@ -123,7 +123,7 @@ class page_action extends tform_actions {
 		} 
 
 		//set html-values
-		$app->tpl->setVar('domain', $domain_name);
+		$app->tpl->setVar('domain', $domain_name, true);
 
 		//create dmarc-policy-list
 		$dmarc_policy_value = array( 
@@ -138,9 +138,9 @@ class page_action extends tform_actions {
 		}
 		$app->tpl->setVar('dmarc_policy', $dmarc_policy_list);
 
-		if (!empty($dmarc_rua)) $app->tpl->setVar("dmarc_rua", $dmarc_rua);
+		if (!empty($dmarc_rua)) $app->tpl->setVar("dmarc_rua", $dmarc_rua, true);
 
-		if (!empty($dmarc_ruf)) $app->tpl->setVar("dmarc_ruf", $dmarc_ruf);
+		if (!empty($dmarc_ruf)) $app->tpl->setVar("dmarc_ruf", $dmarc_ruf, true);
 
 		//set dmarc-fo-options
 		if (isset($dmarc_fo)) {
@@ -178,9 +178,9 @@ class page_action extends tform_actions {
 		if ( strpos($dmarc_rf, 'afrf') !== false ) $app->tpl->setVar("dmarc_rf_afrf", 'CHECKED');
 		if ( strpos($dmarc_rf, 'iodef') !== false ) $app->tpl->setVar("dmarc_rf_iodef", 'CHECKED');
 
-		$app->tpl->setVar("dmarc_pct", $dmarc_pct);
+		$app->tpl->setVar("dmarc_pct", $dmarc_pct, true);
 
-		$app->tpl->setVar("dmarc_ri", $dmarc_ri);
+		$app->tpl->setVar("dmarc_ri", $dmarc_ri, true);
 
 		//create dmarc-sp-list
 		$dmarc_sp_value = array( 

@@ -82,7 +82,7 @@ class page_action extends tform_actions {
 		}
 
 		if($this->dataRecord['username'] == "") {
-			$app->tpl->setVar("username_prefix", $webdavuser_prefix);
+			$app->tpl->setVar("username_prefix", $webdavuser_prefix, true);
 		} else {
 			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']), true);
 		}

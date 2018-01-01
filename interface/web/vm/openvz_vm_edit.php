@@ -86,7 +86,7 @@ class page_action extends tform_actions {
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -109,7 +109,7 @@ class page_action extends tform_actions {
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+					$client_select .= "<option value='$rec[groupid]' $selected>" . $app->functions->htmlentities($rec['contactname']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
@@ -124,7 +124,7 @@ class page_action extends tform_actions {
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -141,7 +141,7 @@ class page_action extends tform_actions {
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>" . $app->functions->htmlentities($client['contactname']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
@@ -153,7 +153,7 @@ class page_action extends tform_actions {
 				$template_id_select='';
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -175,7 +175,7 @@ class page_action extends tform_actions {
 		if(is_array($ips)) {
 			foreach( $ips as $ip) {
 				$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-				$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+				$ip_select .= "<option value='$ip[ip_address]' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("ip_address", $ip_select);
@@ -188,7 +188,7 @@ class page_action extends tform_actions {
 		foreach ($additional_ips as $idx => $rec) {
 			$temp .= "<input type='hidden' id='id".$idx."' name='additional_ip[".$idx."]' name='additional_ip[".$idx."]'  value='0'>";
 			$used = @($rec['additional']=='y')?'CHECKED':'';
-			$temp .= "<input type='checkbox' value='".$rec['ip_address']."' id='id".$idx."' name='additional_ip[".$idx."]' ".$used.">   ".$rec['ip_address']."<br>";
+			$temp .= "<input type='checkbox' value='".$app->functions->htmlentities($rec['ip_address'])."' id='id".$idx."' name='additional_ip[".$idx."]' ".$used.">   ".$app->functions->htmlentities($rec['ip_address'])."<br>";
 		}
 		$app->tpl->setVar("additional_ip", $temp);
 		unset($used);

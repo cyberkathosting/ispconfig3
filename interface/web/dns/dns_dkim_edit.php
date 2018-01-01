@@ -76,8 +76,8 @@ class page_action extends tform_actions {
 		if(isset($sql['domain']) && $sql['domain'] != '') {
 			if($sql['dkim'] == 'y') {
 		        $public_key=str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$sql['dkim_public']);
-				$app->tpl->setVar('public_key', $public_key);
-				$app->tpl->setVar('selector', $sql['dkim_selector']);
+				$app->tpl->setVar('public_key', $public_key, true);
+				$app->tpl->setVar('selector', $sql['dkim_selector'], true);
 			} else {
 			//TODO: show warning - use mail_domain for dkim and enabled dkim
 			}
@@ -85,7 +85,7 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar('edit_disabled', 0);
 		}
-		$app->tpl->setVar('name', $soa['origin']);
+		$app->tpl->setVar('name', $soa['origin'], true);
 
 	}
 

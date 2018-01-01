@@ -87,7 +87,7 @@ class page_action extends tform_actions {
 			}
 		}
 
-		$app->tpl->setVar('childdomain_type', $this->_childdomain_type);
+		$app->tpl->setVar('childdomain_type', $this->_childdomain_type, true);
 
 		parent::onShowNew();
 	}
@@ -118,7 +118,7 @@ class page_action extends tform_actions {
 					} elseif($this->_childdomain_type == 'aliasdomain' && $domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -159,7 +159,7 @@ class page_action extends tform_actions {
 			$proxy_directive_snippets_txt = '';
 			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.$proxy_directive_snippet['snippet'].'</pre></a> ';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a> ';
 				}
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -167,7 +167,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar('limit_ssl_letsencrypt', 'y');
 		}
 
-		$app->tpl->setVar('childdomain_type', $this->_childdomain_type);
+		$app->tpl->setVar('childdomain_type', $this->_childdomain_type, true);
 
 		parent::onShowEnd();
 

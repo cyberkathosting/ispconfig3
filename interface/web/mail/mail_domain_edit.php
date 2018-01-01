@@ -101,7 +101,7 @@ class page_action extends tform_actions {
 
 			// Set the mailserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $client['default_mailserver']);
-			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>$tmp[server_name]</option>");
+			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>" . $app->functions->htmlentities($tmp['server_name']) . "</option>");
 			unset($tmp);
 
 			if ($settings['use_domain_module'] != 'y') {
@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 			$options_mail_servers = "";
 
 			foreach ($mail_servers as $mail_server) {
-				$options_mail_servers .= '<option value="'.$mail_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $mail_server['server_id'] ? ' selected="selected"' : '').'>'.$mail_server['server_name'].'</option>';
+				$options_mail_servers .= '<option value="'.$mail_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $mail_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($mail_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("client_server_id", $options_mail_servers);
@@ -167,7 +167,7 @@ class page_action extends tform_actions {
 					if ($domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -193,7 +193,7 @@ class page_action extends tform_actions {
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
-				$policy_select .= "<option value='$p[id]' $selected>$p[policy_name]</option>\r\n";
+				$policy_select .= "<option value='$p[id]' $selected>" . $app->functions->htmlentities($p['policy_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("policy", $policy_select);
@@ -214,10 +214,10 @@ class page_action extends tform_actions {
 		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));
 		$dns_key = str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$rec['dkim_public']);
 		$dns_record = $rec['dkim_selector'] . '._domainkey.' . $rec['domain'] . '. 3600   TXT   v=DKIM1; t=s; p=' . $dns_key;
-		$app->tpl->setVar('dkim_selector', $rec['dkim_selector']);
-		$app->tpl->setVar('dkim_private', $rec['dkim_private']);
-		$app->tpl->setVar('dkim_public', $rec['dkim_public']);
-		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record);
+		$app->tpl->setVar('dkim_selector', $rec['dkim_selector'], true);
+		$app->tpl->setVar('dkim_private', $rec['dkim_private'], true);
+		$app->tpl->setVar('dkim_public', $rec['dkim_public'], true);
+		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record, true);
 
 		parent::onShowEnd();
 	}

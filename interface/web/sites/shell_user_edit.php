@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 		}
 
 		if($this->dataRecord['username'] == "") {
-			$app->tpl->setVar("username_prefix", $shelluser_prefix);
+			$app->tpl->setVar("username_prefix", $shelluser_prefix, true);
 		} else {
 			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $shelluser_prefix, $global_config['shelluser_prefix']), true);
 		}

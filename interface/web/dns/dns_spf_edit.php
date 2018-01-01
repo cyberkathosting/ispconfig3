@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
 
-			$app->tpl->setVar("data", $old_data);
+			$app->tpl->setVar("data", $old_data, true);
 			if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
 
 			$spf_hostname = '';

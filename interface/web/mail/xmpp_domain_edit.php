@@ -165,7 +165,7 @@ class page_action extends tform_actions {
 			$options_xmpp_servers = "";
 
 			foreach ($xmpp_servers as $xmpp_server) {
-				$options_xmpp_servers .= "<option value='$xmpp_server[server_id]'>$xmpp_server[server_name]</option>";
+				$options_xmpp_servers .= "<option value='$xmpp_server[server_id]'>" . $app->functions->htmlentities($xmpp_server['server_name']) . "</option>";
 			}
 
 			$app->tpl->setVar("client_server_id", $options_xmpp_servers);
@@ -190,7 +190,7 @@ class page_action extends tform_actions {
 					if ($domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {

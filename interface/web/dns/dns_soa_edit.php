@@ -179,7 +179,7 @@ class page_action extends tform_actions {
 		$options_dns_servers = "";
 
 		foreach ($dns_servers as $dns_server) {
-			$options_dns_servers .= '<option value="'.$dns_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $dns_server['server_id'] ? ' selected="selected"' : '').'>'.$dns_server['server_name'].'</option>';
+			$options_dns_servers .= '<option value="'.$dns_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $dns_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($dns_server['server_name']).'</option>';
 		}
 
 		$app->tpl->setVar("client_server_id", $options_dns_servers);
@@ -200,7 +200,7 @@ class page_action extends tform_actions {
 				if ($domain['domain'].'.' == $this->dataRecord["origin"]) {
 					$domain_select .= " selected";
 				}
-				$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+				$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . ".</option>\r\n";
 			}
 		}
 		else {
@@ -222,7 +222,7 @@ class page_action extends tform_actions {
 		$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'dns_soa' AND sys_datalog.dbidx = ? AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC", 'id:' . $this->id);
 		if(is_array($datalog) && !empty($datalog)){
 			if(trim($datalog['error']) != ''){
-				$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
+				$app->tpl->setVar("config_error_msg", nl2br($app->functions->htmlentities($datalog['error'])));
 				$app->tpl->setVar("config_error_tstamp", date($app->lng('conf_format_datetime'), $datalog['tstamp']));
 			}
 		}

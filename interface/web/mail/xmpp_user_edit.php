@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 			foreach( $domains as $domain) {
 				$domain['domain'] = $app->functions->idn_decode($domain['domain']);
 				$selected = ($domain["domain"] == @$jid_parts[1])?'SELECTED':'';
-				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("jid_domain", $domain_select);

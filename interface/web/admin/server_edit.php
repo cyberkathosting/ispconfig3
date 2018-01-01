@@ -61,7 +61,7 @@ class page_action extends tform_actions {
 		if(is_array($mirror_servers)) {
 			foreach( $mirror_servers as $mirror_server) {
 				$selected = ($mirror_server["server_id"] == $this->dataRecord['mirror_server_id'])?'SELECTED':'';
-				$mirror_server_select .= "<option value='$mirror_server[server_id]' $selected>$mirror_server[server_name]</option>\r\n";
+				$mirror_server_select .= "<option value='$mirror_server[server_id]' $selected>" . $app->functions->htmlentities($mirror_server['server_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("mirror_server_id", $mirror_server_select);

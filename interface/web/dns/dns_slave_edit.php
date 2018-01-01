@@ -132,7 +132,7 @@ class page_action extends tform_actions {
 					if ($domain['domain'].'.' == $this->dataRecord["origin"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . ".</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . ".</option>\r\n";
 				}
 			}
 			else {
