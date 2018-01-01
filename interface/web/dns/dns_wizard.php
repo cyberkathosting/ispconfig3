@@ -183,7 +183,7 @@ if(is_array($fields)) {
 		} else {
 			$app->tpl->setVar($field."_VISIBLE", 1);
 			$field = strtolower($field);
-			$app->tpl->setVar($field, $_POST[$field]);
+			$app->tpl->setVar($field, $_POST[$field], true);
 		}
 	}
 }

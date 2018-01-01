@@ -41,7 +41,7 @@ if(!isset($_SESSION['s']['module']['name'])) $_SESSION['s']['module']['name'] = 
 
 $app->uses('tpl');
 $app->tpl->newTemplate('main.tpl.htm');
-$app->tpl->setVar('startpage', isset($_SESSION['s']['module']['startpage']) ? $_SESSION['s']['module']['startpage'] : '');
+$app->tpl->setVar('startpage', isset($_SESSION['s']['module']['startpage']) ? $_SESSION['s']['module']['startpage'] : '', true);
 $app->tpl->setVar('logged_in', ($_SESSION['s']['user']['active'] != 1 ? 'n' : 'y'));
 
 // tab change warning?
@@ -93,7 +93,7 @@ if(@is_dir($js_d)) {
 if (!empty($js_d_files)) $app->tpl->setLoop('js_d_includes', $js_d_files);
 unset($js_d_files);
 
-$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default', true);
 
 // Logo
 $logo = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");

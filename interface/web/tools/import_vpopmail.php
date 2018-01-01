@@ -84,11 +84,11 @@ if(isset($_POST['db_hostname']) && $_POST['db_hostname'] != '') {
 	$_POST['local_server_id'] = 1;
 }
 
-$app->tpl->setVar('db_hostname', $_POST['db_hostname']);
-$app->tpl->setVar('db_user', $_POST['db_user']);
-$app->tpl->setVar('db_password', $_POST['db_password']);
-$app->tpl->setVar('db_name', $_POST['db_name']);
-$app->tpl->setVar('local_server_id', $_POST['local_server_id']);
+$app->tpl->setVar('db_hostname', $_POST['db_hostname'], true);
+$app->tpl->setVar('db_user', $_POST['db_user'], true);
+$app->tpl->setVar('db_password', $_POST['db_password'], true);
+$app->tpl->setVar('db_name', $_POST['db_name'], true);
+$app->tpl->setVar('local_server_id', $_POST['local_server_id'], true);
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
 
