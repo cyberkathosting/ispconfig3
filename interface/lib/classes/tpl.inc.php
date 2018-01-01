@@ -245,7 +245,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 			} else {
 				if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
 					if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
-					if($encode == true) $value = $app->functions->htmlentities($);
+					if($encode == true) $v = $app->functions->htmlentities($v);
 					$this->_vars[trim($k)] = $v;
 				} else {
 					return false;
