@@ -121,7 +121,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord['autoresponder_subject'] == '') {
 			$app->tpl->setVar('autoresponder_subject', $app->tform->lng('autoresponder_subject'));
 		} else {
-			$app->tpl->setVar('autoresponder_subject', $this->dataRecord['autoresponder_subject']);
+			$app->tpl->setVar('autoresponder_subject', $this->dataRecord['autoresponder_subject'], true);
 		}
 
 		$app->uses('getconf');

@@ -124,9 +124,9 @@ class page_action extends tform_actions {
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("listname_value", $this->dataRecord["listname"]);
-			$app->tpl->setVar("domain_value", $this->dataRecord["domain"]);
-			$app->tpl->setVar("email_value", $this->dataRecord["email"]);
+			$app->tpl->setVar("listname_value", $this->dataRecord["listname"], true);
+			$app->tpl->setVar("domain_value", $this->dataRecord["domain"], true);
+			$app->tpl->setVar("email_value", $this->dataRecord["email"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}

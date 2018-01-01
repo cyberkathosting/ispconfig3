@@ -118,13 +118,13 @@ class page_action extends tform_actions {
 
 		if ($this->dataRecord['database_user'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("database_user", $app->tools_sites->removePrefix($this->dataRecord['database_user'], $this->dataRecord['database_user_prefix'], $dbuser_prefix));
+			$app->tpl->setVar("database_user", $app->tools_sites->removePrefix($this->dataRecord['database_user'], $this->dataRecord['database_user_prefix'], $dbuser_prefix), true);
 		}
 
 		if($this->dataRecord['database_user'] == "") {
 			$app->tpl->setVar("database_user_prefix", $dbuser_prefix);
 		} else {
-			$app->tpl->setVar("database_user_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_user_prefix'], $dbuser_prefix, $global_config['dbuser_prefix']));
+			$app->tpl->setVar("database_user_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_user_prefix'], $dbuser_prefix, $global_config['dbuser_prefix']), true);
 		}
 
 		parent::onShowEnd();

@@ -144,7 +144,7 @@ class page_action extends tform_actions {
 				$this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 			}
 		}
-		if($this->_childdomain_type == 'subdomain') $app->tpl->setVar("domain", $this->dataRecord["domain"]);
+		if($this->_childdomain_type == 'subdomain') $app->tpl->setVar("domain", $this->dataRecord["domain"], true);
 
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && !$app->auth->has_clients($_SESSION['s']['user']['userid'])) {

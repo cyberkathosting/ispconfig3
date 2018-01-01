@@ -287,7 +287,7 @@ class tform_actions {
 		global $app, $conf;
 
 		$app->tpl->setVar("error", "<li>".$app->tform->errorMessage."</li>");
-		$app->tpl->setVar($this->dataRecord);
+		$app->tpl->setVar($this->dataRecord, null, true);
 		$this->onShow();
 	}
 

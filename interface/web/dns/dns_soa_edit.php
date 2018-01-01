@@ -217,7 +217,7 @@ class page_action extends tform_actions {
 	if($this->id > 0) {
 		//* we are editing a existing record
 		$app->tpl->setVar("edit_disabled", 1);
-		$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+		$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
 
 		$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'dns_soa' AND sys_datalog.dbidx = ? AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC", 'id:' . $this->id);
 		if(is_array($datalog) && !empty($datalog)){
