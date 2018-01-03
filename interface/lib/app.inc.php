@@ -342,7 +342,7 @@ $app = new app();
 // load and enable PHP Intrusion Detection System (PHPIDS)
 $ids_security_config = $app->getconf->get_security_config('ids');
 		
-if(is_dir(ISPC_CLASS_PATH.'/IDS') && $ids_security_config['ids_enabled'] == 'yes') {
+if(is_dir(ISPC_CLASS_PATH.'/IDS') && ($ids_security_config['ids_anon_enabled'] == 'yes' || $ids_security_config['ids_user_enabled'] == 'yes' || $ids_security_config['ids_admin_enabled'] == 'yes')) {
 	$app->uses('ids');
 	$app->ids->start();
 }
