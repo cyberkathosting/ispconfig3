@@ -2862,10 +2862,10 @@ class nginx_plugin {
 		return $location;
 	}
 
-	private function nginx_merge_locations($vhost_conf){
-        global $app, $conf;
+	private function nginx_merge_locations($vhost_conf) {
+		global $app, $conf;
 
-        if(preg_match('/##subroot (.+) ##/', $vhost_conf, $subroot)) {
+        if(preg_match('/##subroot (.+?)\s*##/', $vhost_conf, $subroot)) {
             if(!preg_match('/^(?:[a-z0-9\/_-]|\.(?!\.))+$/iD', $subroot[1])) {
                 $app->log('Token ##subroot is unsecure (server ID: '.$conf['server_id'].').', LOGLEVEL_WARN);
             } else {
