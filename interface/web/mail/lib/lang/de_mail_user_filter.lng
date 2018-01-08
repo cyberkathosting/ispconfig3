@@ -27,4 +27,5 @@ $wb['reject_txt'] = 'Abweisen';
 $wb['stop_txt'] = 'Stop';
 $wb['move_to_txt'] = 'Verschiebe nach';
 $wb['mark_read_txt'] = 'Als gelesen markieren';
+$wb['detail_txt'] = 'Detail-Angabe des Empfängers (user+detail@domain.com)';
 ?>

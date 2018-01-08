@@ -18,4 +18,5 @@ $wb['begins_with_txt'] = 'Startet mit';
 $wb['ends_with_txt'] = 'Endet mit';
 $wb['move_to_txt'] = 'Verschieben nach';
 $wb['delete_txt'] = 'Löschen';
+$wb['detail_txt'] = 'Detail-Angabe des Empfängers (user+detail@domain.com)';
 ?>
