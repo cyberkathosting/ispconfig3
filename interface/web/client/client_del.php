@@ -142,7 +142,7 @@ class page_action extends tform_actions {
 						}
 						//* Delete the records
 						if($index_field != '') {
-							$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ? ORDER BY ? DESC", $table, $client_group_id, $index_field);
+							$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ? ORDER BY ?? DESC", $table, $client_group_id, $index_field);
 							if(is_array($records)) {
 								foreach($records as $rec) {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
