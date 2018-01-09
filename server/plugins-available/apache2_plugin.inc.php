@@ -457,11 +457,11 @@ class apache2_plugin {
 			$app->system->unlink($crt_file);
 			$app->system->unlink($bundle_file);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
-			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
-			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
 			$app->log('Deleting SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
 		}
 
