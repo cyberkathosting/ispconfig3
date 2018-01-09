@@ -134,7 +134,6 @@ class page_action extends tform_actions {
 			if($client_group_id > 1) {
 				foreach($tables_array as $table) {
 					if($table != '') {
-						$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ?", $table, $client_group_id);
 						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
 						$index_field = '';
@@ -143,6 +142,7 @@ class page_action extends tform_actions {
 						}
 						//* Delete the records
 						if($index_field != '') {
+							$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ? ORDER BY ? DESC", $table, $client_group_id, $index_field);
 							if(is_array($records)) {
 								foreach($records as $rec) {
 									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
