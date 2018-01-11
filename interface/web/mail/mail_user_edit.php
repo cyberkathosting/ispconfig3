@@ -84,7 +84,7 @@ class page_action extends tform_actions {
 			foreach( $domains as $domain) {
 				$domain['domain'] = $app->functions->idn_decode($domain['domain']);
 				$selected = ($domain["domain"] == @$email_parts[1])?'SELECTED':'';
-				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("email_domain", $domain_select);
@@ -100,7 +100,7 @@ class page_action extends tform_actions {
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
-				$policy_select .= "<option value='$p[id]' $selected>$p[policy_name]</option>\r\n";
+				$policy_select .= "<option value='$p[id]' $selected>" . $app->functions->htmlentities($p['policy_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("policy", $policy_select);
@@ -121,7 +121,7 @@ class page_action extends tform_actions {
 		if($this->dataRecord['autoresponder_subject'] == '') {
 			$app->tpl->setVar('autoresponder_subject', $app->tform->lng('autoresponder_subject'));
 		} else {
-			$app->tpl->setVar('autoresponder_subject', $this->dataRecord['autoresponder_subject']);
+			$app->tpl->setVar('autoresponder_subject', $this->dataRecord['autoresponder_subject'], true);
 		}
 
 		$app->uses('getconf');

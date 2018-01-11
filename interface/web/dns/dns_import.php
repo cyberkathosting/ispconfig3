@@ -587,6 +587,15 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			if($dns_rr[$r]['type'] == 'NS' && $dns_rr[$r]['name'] == $soa['name']){
 				unset($dns_rr[$r]);
 			}
+			
+			$valid = true;
+			$dns_rr[$r]['ttl'] = $app->functions->intval($dns_rr[$r]['ttl']);
+			$dns_rr[$r]['aux'] = $app->functions->intval($dns_rr[$r]['aux']);
+			$dns_rr[$r]['data'] = strip_tags($dns_rr[$r]['data']);
+			if(!preg_match('/^[a-zA-Z0-9\.\-\*]{0,64}$/',$dns_rr[$r]['name'])) $valid == false;
+			if(!in_array(strtoupper($dns_rr[$r]['type']),array('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY'))) $valid == false;
+			if($valid == false) unset($dns_rr[$r]);
+			
 			$r++;
 		}
 		$i++;

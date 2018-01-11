@@ -115,11 +115,18 @@ class tform extends tform_base {
 			// Show the same tab again in case of an error
 			$active_tab = $_SESSION["s"]["form"]["tab"];
 		}
+		
+		if(!preg_match('/^[a-zA-Z0-9_]{0,50}$/',$active_tab)) {
+			die('Invalid next tab name.');
+		}
 
 		return $active_tab;
 	}
 
 	function getCurrentTab() {
+		if(!preg_match('/^[a-zA-Z0-9_]{0,50}$/',$_SESSION["s"]["form"]["tab"])) {
+			die('Invalid current tab name.');
+		}
 		return $_SESSION["s"]["form"]["tab"];
 	}
 

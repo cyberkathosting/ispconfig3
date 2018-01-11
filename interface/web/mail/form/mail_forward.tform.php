@@ -100,9 +100,7 @@ $form["tabs"]['forward'] = array (
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER'),
 				3 => array( 'event' => 'SAVE',
-					'type' => 'STRIPTAGS'),
-				4 => array( 'event' => 'SAVE',
-					'type' => 'STRIPNL')
+					'type' => 'STRIPTAGS')
 			),
 			'default' => '',
 			'value'  => '',

@@ -7,10 +7,7 @@ require_once '../../lib/app.inc.php';
 $list_def_file = 'list/faq_list.php';
 
 // Check the module permissions
-if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
-	header('Location: ../index.php');
-	die();
-}
+$app->auth->check_module_permissions('help');
 
 // Loading the class
 $app->uses('listform_actions');
@@ -31,7 +28,7 @@ $app->listform_actions->SQLExtWhere = "help_faq.hf_section = $hf_section";
 
 if($hf_section) $res = $app->db->queryOneRecord("SELECT hfs_name FROM help_faq_sections WHERE hfs_id=?", $hf_section);
 // Start the form rendering and action ahndling
-echo "<h2>FAQ: ".$res['hfs_name']."</h2>";
+echo "<h2>FAQ: ".$app->functions->htmlentities($res['hfs_name'])."</h2>";
 if($hf_section) $app->listform_actions->onLoad();
 
 ?>

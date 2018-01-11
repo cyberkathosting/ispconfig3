@@ -51,9 +51,9 @@ class page_action extends dns_page_action {
 		// Split the 3 parts of the SRV Record apart
 		$split = explode(' ', $this->dataRecord['data']);
 
-		$app->tpl->setVar('weight', $split[0]);
-		$app->tpl->setVar('port', $split[1]);
-		$app->tpl->setVar('target', $split[2]);
+		$app->tpl->setVar('weight', $split[0], true);
+		$app->tpl->setVar('port', $split[1], true);
+		$app->tpl->setVar('target', $split[2], true);
 
 		parent::onShowEnd();
 	}

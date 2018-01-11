@@ -70,9 +70,9 @@ class page_action extends tform_actions {
 		if($this->id > 0){
 			if($this->dataRecord['master_directive_snippets_id'] > 0){
 				$is_master = true;
-				$app->tpl->setVar("name", $this->dataRecord['name']);
-				$app->tpl->setVar("type", $this->dataRecord['type']);
-				$app->tpl->setVar("snippet", $this->dataRecord['snippet']);
+				$app->tpl->setVar("name", $this->dataRecord['name'], true);
+				$app->tpl->setVar("type", $this->dataRecord['type'], true);
+				$app->tpl->setVar("snippet", $this->dataRecord['snippet'], true);
 			}
 		}
 		$app->tpl->setVar("is_master", $is_master);

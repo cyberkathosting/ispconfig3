@@ -52,7 +52,7 @@ class page_action extends tform_actions {
 		if(is_array($servers)) {
 			foreach($servers as $server) {
 				$selected = ($server['server_id'] == $this->dataRecord['server_id'])?'SELECTED':'';
-				$server_select .= "<option value='$server[server_id]' $selected>$server[server_name]</option>\r\n";
+				$server_select .= "<option value='$server[server_id]' $selected>" . $app->functions->htmlentities($server['server_name']) . "</option>\r\n";
 			}
 		}
 		unset($servers);
@@ -65,7 +65,7 @@ class page_action extends tform_actions {
 		if(is_array($ips)) {
 			foreach( $ips as $ip) {
 				$selected = ($ip['ip_address'] == $this->dataRecord['source_ip'])?'SELECTED':'';
-				$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[source]</option>\r\n";
+				$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['source']) . "</option>\r\n";
 			}
 		}
 		unset($ips);

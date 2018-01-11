@@ -89,7 +89,7 @@ class page_action extends tform_actions {
 			}
 
 			foreach ($tmp as $db_server) {
-				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$db_server['server_name'].'</option>';
+				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($db_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_db_servers);
@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 			}
 
 			foreach ($tmp as $db_server) {
-				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$db_server['server_name'].'</option>';
+				$options_db_servers .= '<option value="'.$db_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $db_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($db_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_db_servers);
@@ -143,22 +143,22 @@ class page_action extends tform_actions {
 
 		if ($this->dataRecord['database_name'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix));
+			$app->tpl->setVar("database_name", $app->tools_sites->removePrefix($this->dataRecord['database_name'], $this->dataRecord['database_name_prefix'], $dbname_prefix), true);
 		}
 
 		if($this->dataRecord['database_name'] == "") {
-			$app->tpl->setVar("database_name_prefix", $dbname_prefix);
+			$app->tpl->setVar("database_name_prefix", $dbname_prefix, true);
 		} else {
-			$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']));
+			$app->tpl->setVar("database_name_prefix", $app->tools_sites->getPrefix($this->dataRecord['database_name_prefix'], $dbname_prefix, $global_config['dbname_prefix']), true);
 		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$edit_disabled = @($_SESSION["s"]["user"]["typ"] == 'admin')? 0 : 1; //* admin can change the database-name
 			$app->tpl->setVar("edit_disabled", $edit_disabled);
-			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
-			$app->tpl->setVar("database_charset_value", $this->dataRecord["database_charset"]);
-			$app->tpl->setVar("limit_database_quota", $this->dataRecord["database_quota"]);
+			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
+			$app->tpl->setVar("database_charset_value", $this->dataRecord["database_charset"], true);
+			$app->tpl->setVar("limit_database_quota", $this->dataRecord["database_quota"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}

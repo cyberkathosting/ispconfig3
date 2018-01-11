@@ -114,9 +114,9 @@ if(isset($_POST) && count($_POST) > 1) {
 		}
 
 	} else {
-		$app->tpl->setVar('sender', $_POST['sender']);
-		$app->tpl->setVar('subject', $_POST['subject']);
-		$app->tpl->setVar('message', $_POST['message']);
+		$app->tpl->setVar('sender', $_POST['sender'], true);
+		$app->tpl->setVar('subject', $_POST['subject'], true);
+		$app->tpl->setVar('message', $_POST['message'], true);
 	}
 } else {
 	// pre-fill Sender field with reseller's email address

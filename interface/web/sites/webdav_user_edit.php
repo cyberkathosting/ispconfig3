@@ -78,19 +78,19 @@ class page_action extends tform_actions {
 
 		if ($this->dataRecord['username'] != "") {
 			/* REMOVE the restriction */
-			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $webdavuser_prefix));
+			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $webdavuser_prefix), true);
 		}
 
 		if($this->dataRecord['username'] == "") {
-			$app->tpl->setVar("username_prefix", $webdavuser_prefix);
+			$app->tpl->setVar("username_prefix", $webdavuser_prefix, true);
 		} else {
-			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']));
+			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $webdavuser_prefix, $global_config['webdavuser_prefix']), true);
 		}
 
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("parent_domain_id_value", $this->dataRecord["parent_domain_id"]);
+			$app->tpl->setVar("parent_domain_id_value", $this->dataRecord["parent_domain_id"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
