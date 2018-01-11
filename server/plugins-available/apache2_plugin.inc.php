@@ -394,6 +394,26 @@ class apache2_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
+		
+		//* and check that SSL cert does not contain subdomain of domain acme.invalid
+		if($data["new"]["ssl_action"] == 'save') {
+			$tmp = array();
+			$crt_data = '';
+			exec('openssl x509 -noout -text -in '.escapeshellarg($crt_file),$tmp);
+			$crt_data = implode("\n",$tmp);
+			if(stristr($crt_data,'.acme.invalid')) {
+				$data["new"]["ssl_action"] = '';
+			
+				$app->log('SSL Certificate not saved. The SSL cert contains domain acme.invalid.', LOGLEVEL_WARN);
+				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL cert contains domain acme.invalid.');
+			
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			}
+		}
 
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
