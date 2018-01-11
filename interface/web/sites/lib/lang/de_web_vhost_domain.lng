@@ -38,6 +38,7 @@ $wb['apache_directives_txt'] = 'Apache Direktiven';
 $wb['domain_error_empty'] = 'Domain ist leer.';
 $wb['domain_error_unique'] = 'Domain muss eindeutig sein';
 $wb['domain_error_regex'] = 'Domain Name ungültig.';
+$wb['domain_error_acme_invalid'] = 'Domainname acme.invalid ist nicht erlaubt.';
 $wb['domain_error_autosub'] = 'Es existiert bereits eine Subdomain mit diesen Einstellungen.';
 $wb['hd_quota_error_empty'] = 'Speicherplatzbeschränkung ist leer.';
 $wb['traffic_quota_error_empty'] = 'Transfervolumenbeschränkung ist leer.';

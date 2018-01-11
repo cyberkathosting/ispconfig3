@@ -51,6 +51,9 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
+		
+		$pattern = '/\.acme\.invalid$/';
+		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
 
 	/* Validator function for sub domain */
@@ -65,6 +68,9 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
+		
+		$pattern = '/\.acme\.invalid$/';
+		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
 
 	/* Validator function for alias domain */
@@ -77,6 +83,9 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
+		
+		$pattern = '/\.acme\.invalid$/';
+		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
 
 	/* Validator function for checking the auto subdomain of a web/aliasdomain */
