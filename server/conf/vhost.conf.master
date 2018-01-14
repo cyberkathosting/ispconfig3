@@ -13,6 +13,12 @@
 <tmpl_loop name='vhosts'>
 <VirtualHost {tmpl_var name='ip_address'}:{tmpl_var name='port'}>
 <tmpl_hook name='apache2_vhost:vhost_header'>
+<tmpl_if name='enable_spdy' op='==' value='y'>
+<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+		Protocols h2 h2c http/1.1
+</tmpl_if>
+</tmpl_if>
+
 <tmpl_if name='php' op='==' value='suphp'>
 		DocumentRoot <tmpl_var name='web_document_root'>
 </tmpl_else>
