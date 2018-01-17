@@ -5,4 +5,4 @@ table = mail_user
 select_field = sender_cc
 where_field = email
 additional_conditions = and postfix = 'y' and disabledeliver = 'n' and disablesmtp = 'n' and sender_cc != ''
-hosts = 127.0.0.1
+hosts = {mysql_server_ip}
