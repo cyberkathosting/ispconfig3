@@ -283,7 +283,7 @@ class cronjob_monitor_raid extends cronjob {
 		if($retval === 0 || $retval64 === 0) {
 			$binary=@($retval === 0)?'megacli':'megacli64';
 			$state = 'ok';
-			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll');
+			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll -NoLog');
 			if (strpos($data['output'], 'Optimal') !== false) {
 				$this->_tools->_setState($state, 'ok');
 			} else if (strpos($data['output'], 'Degraded') !== false) {
