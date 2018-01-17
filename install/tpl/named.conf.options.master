@@ -22,8 +22,7 @@ options {
 	dnssec-validation yes;
 	dnssec-lookaside auto;
 
-	version "DNS managed by ISPConfig";
-	
+	version "DNS-Server";
 	auth-nxdomain no;    # conform to RFC1035
 	listen-on-v6 { any; };
 };

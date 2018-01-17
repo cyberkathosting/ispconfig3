@@ -8,6 +8,9 @@
 
 <VirtualHost _default_:<tmpl_var name="vhost_port">>
   ServerAdmin webmaster@localhost
+  <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+		Protocols h2 h2c http/1.1
+  </tmpl_if>
 
   <Directory /var/www/ispconfig/>
     <FilesMatch "\.ph(p3?|tml)$">
