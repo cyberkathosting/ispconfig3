@@ -69,7 +69,7 @@ class cronjob_monitor_openvz extends cronjob {
 		/*
 			Fetch the data into a array
 		 */
-		$app->load(openvz_tools);
+		$app->load('openvz_tools');
 		$openVzTools = new openvz_tools();
 		$data = $openVzTools->getOpenVzVeInfo();
 
@@ -98,7 +98,7 @@ class cronjob_monitor_openvz extends cronjob {
 		/*
 			Fetch the data into a array
 		 */
-		$app->load(openvz_tools);
+		$app->load('openvz_tools');
 		$openVzTools = new openvz_tools();
 		$data = $openVzTools->getOpenVzVeBeanCounter();
 
