@@ -264,10 +264,16 @@ class cron {
 		if(!array_key_exists($sField, $this->_aValidValues)) return false;
 
 		reset($this->_aValidValues[$sField]);
+		/*
 		while(($cur = each($this->_aValidValues[$sField])) !== false) {
 			if($bIncludeCurrent == true && $cur['value'] >= $iValue) return $cur['value'];
 			elseif($cur['value'] > $iValue) return $cur['value'];
 		}
+		*/
+		foreach($this->_aValidValues[$sField] as $key => $value) {
+        	if($bIncludeCurrent == true && $value >= $iValue) return $value;                
+        	elseif($value > $iValue) return $value;                
+        }
 		return reset($this->_aValidValues[$sField]);
 	}
 
