@@ -271,9 +271,9 @@ class cron {
 		}
 		*/
 		foreach($this->_aValidValues[$sField] as $key => $value) {
-        	if($bIncludeCurrent == true && $value >= $iValue) return $value;                
-        	elseif($value > $iValue) return $value;                
-        }
+		    if($bIncludeCurrent == true && $value >= $iValue) return $value;
+		    elseif($value > $iValue) return $value;
+		}
 		return reset($this->_aValidValues[$sField]);
 	}
 
