@@ -260,13 +260,27 @@ class ApsGUIController extends ApsBase
 				$webserver_config = $app->getconf->get_server_config($app->functions->intval($websrv['server_id']), 'server');
 				$mysql_db_remote_ips = $webserver_config['ip_address'];
 			} else {
+			     // Changing column lookup from default_dbserver to db_servers
+			    $client = $app->db->queryOneRecord("SELECT db_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $websrv['sys_groupid']);
+                               if(is_array($client) && $client['db_servers'] > 0 && $client['db_servers'] != $websrv['server_id']) {
+                                       $mysql_db_server_id =  $app->functions->intval($client['db_servers']);
+                                       $dbserver_config = $web_config = $app->getconf->get_server_config($app->functions->intval($mysql_db_server_id), 'server');
+                                       $settings['main_database_host'] = $dbserver_config['ip_address'];
+                                       $mysql_db_remote_access = 'y';
+                                       $webserver_config = $app->getconf->get_server_config($app->functions->intval($websrv['server_id']), 'server');
+                                       $mysql_db_remote_ips = $webserver_config['ip_address'];
+                               } else { // Really nothing to do if reach this point :)
+                               return false;
+                               }
+
+				
 				/* I left this in place for a fallback that should NEVER! happen.
 				 * if we reach this point it means that there is NO default db server for the client
 				* AND the webserver has NO db service enabled.
 				* We have to abort the aps installation here... so I added a return false
 				* although this does not present any error message to the user.
 				*/
-				return false;
+				//return false;
 	
 				/*$mysql_db_server_id = $websrv['server_id'];
 				 $settings['main_database_host'] = 'localhost';
