@@ -245,7 +245,7 @@ class tform_base {
 	 */
 	function decode($record, $tab) {
 		global $conf, $app;
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: ".$app->functions->htmlentities($tab).").");
 		return $this->_decode($record, $tab, false);
 	}
 
@@ -416,7 +416,7 @@ class tform_base {
 		$this->action = $action;
 
 		if(!is_array($this->formDef)) $app->error("No form definition found.");
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 
 		/* CSRF PROTECTION */
 		// generate csrf protection id and key
@@ -868,7 +868,7 @@ class tform_base {
 	function encode($record, $tab, $dbencode = true) {
 		global $app;
 
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 		return $this->_encode($record, $tab, $dbencode, false);
 	}
 
@@ -1446,7 +1446,7 @@ class tform_base {
 		}
 
 		if(!is_array($this->formDef)) $app->error("Form definition not found.");
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 
 		return $this->_getSQL($record, $tab, $action, $primary_id, $sql_ext_where, false);
 	}

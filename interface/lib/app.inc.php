@@ -299,14 +299,14 @@ class app {
 
 		$this->tpl->setVar('phpsessid', session_id());
 
-		$this->tpl->setVar('theme', $_SESSION['s']['theme']);
+		$this->tpl->setVar('theme', $_SESSION['s']['theme'], true);
 		$this->tpl->setVar('html_content_encoding', $this->_conf['html_content_encoding']);
 
 		$this->tpl->setVar('delete_confirmation', $this->lng('delete_confirmation'));
 		//print_r($_SESSION);
 		if(isset($_SESSION['s']['module']['name'])) {
-			$this->tpl->setVar('app_module', $_SESSION['s']['module']['name']);
-			$this->tpl->setVar('session_module', $_SESSION['s']['module']['name']);
+			$this->tpl->setVar('app_module', $_SESSION['s']['module']['name'], true);
+			$this->tpl->setVar('session_module', $_SESSION['s']['module']['name'], true);
 		}
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
 			$this->tpl->setVar('is_admin', 1);
@@ -316,7 +316,7 @@ class app {
 		}
 		/* Show username */
 		if(isset($_SESSION['s']['user'])) {
-			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username']);
+			$this->tpl->setVar('cpuser', $_SESSION['s']['user']['username'], true);
 			$this->tpl->setVar('logout_txt', $this->lng('logout_txt'));
 			/* Show search field only for normal users, not mail users */
 			if(stristr($_SESSION['s']['user']['username'], '@')){
@@ -343,7 +343,7 @@ $app = new app();
 // load and enable PHP Intrusion Detection System (PHPIDS)
 $ids_security_config = $app->getconf->get_security_config('ids');
 		
-if(is_dir(ISPC_CLASS_PATH.'/IDS') && $ids_security_config['ids_enabled'] == 'yes') {
+if(is_dir(ISPC_CLASS_PATH.'/IDS') && !defined('REMOTE_API_CALL') && ($ids_security_config['ids_anon_enabled'] == 'yes' || $ids_security_config['ids_user_enabled'] == 'yes' || $ids_security_config['ids_admin_enabled'] == 'yes')) {
 	$app->uses('ids');
 	$app->ids->start();
 }

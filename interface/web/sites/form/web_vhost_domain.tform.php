@@ -396,7 +396,7 @@ $form["tabs"]['redirect'] = array (
 		'redirect_path' => array (
 			'datatype' => 'VARCHAR',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '@^(([\.]{0})|((ftp|https?)://([-\w\.]+)+(:\d+)?(/([\w/_\.\,\-\+\?\~!:%]*(\?\S+)?)?)?)|(\[scheme\]://([-\w\.]+)+(:\d+)?(/([\w/_\.\-\,\+\?\~!:%]*(\?\S+)?)?)?)|(/(?!.*\.\.)[\w/_\.\-]{1,255}/))$@',
+					'regex' => '@^(([\.]{0})|((ftp|https?|\[scheme\])://([-\w\.]+)+(:\d+)?(/([\w/_\.\,\-\+\?\~!:%]*(\?\S+)?)?)?)(?:#\S*)?|(/(?!.*\.\.)[\w/_\.\-]{1,255}/))$@',
 					'errmsg'=> 'redirect_error_regex'),
 			),
 			'formtype' => 'TEXT',
@@ -881,6 +881,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 			'nginx_directives' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXT',
+				'validators' => array (  0 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_domain',
+							'function' => 'web_nginx_directives',
+							'errmsg' => 'nginx_directive_blocked_error'
+						),
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',

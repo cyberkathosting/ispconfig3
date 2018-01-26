@@ -118,7 +118,25 @@ class ids {
 			
 			$impact = $ids_result->getImpact();
 			
-			if($impact >= $security_config['ids_log_level']) {
+			// Choose level from security config
+			if($app->auth->is_admin()) {
+				// User is admin
+				$ids_log_level = $security_config['ids_admin_log_level'];
+				$ids_warn_level = $security_config['ids_admin_warn_level'];
+				$ids_block_level = $security_config['ids_admin_block_level'];
+			} elseif(is_array($_SESSION['s']['user']) && $_SESSION['s']['user']['userid'] > 0) {
+				// User is Client or Reseller
+				$ids_log_level = $security_config['ids_user_log_level'];
+				$ids_warn_level = $security_config['ids_user_warn_level'];
+				$ids_block_level = $security_config['ids_user_block_level'];
+			} else {
+				// Not logged in
+				$ids_log_level = $security_config['ids_anon_log_level'];
+				$ids_warn_level = $security_config['ids_anon_warn_level'];
+				$ids_block_level = $security_config['ids_anon_block_level'];
+			}
+			
+			if($impact >= $ids_log_level) {
 				$ids_log = ISPC_ROOT_PATH.'/temp/ids.log';
 				if(!is_file($ids_log)) touch($ids_log);
 				
@@ -132,11 +150,11 @@ class ids {
 				
 			}
 			
-			if($impact >= $security_config['ids_warn_level']) {
+			if($impact >= $ids_warn_level) {
 				$app->log("PHP IDS Alert.".$ids_result, 2);
 			}
 			
-			if($impact >= $security_config['ids_block_level']) {
+			if($impact >= $ids_block_level) {
 				$app->error("Possible attack detected. This action has been logged.",'', true, 2);
 			}
 			

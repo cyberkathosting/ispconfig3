@@ -56,7 +56,7 @@ class plugin_listview extends plugin_base {
 		// $app->listform->listDef["page_params"] = "&id=".$app->tform_actions->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
 		$app->listform->listDef["page_params"] = "&id=".$this->form->id."&next_tab=".$_SESSION["s"]["form"]["tab"];
 		$listTpl->setVar('parent_id', $this->form->id);
-		$listTpl->setVar('theme', $_SESSION['s']['theme']);
+		$listTpl->setVar('theme', $_SESSION['s']['theme'], true);
 
 		// Generate the SQL for searching
 		$sql_where = "";
@@ -193,13 +193,13 @@ class plugin_listview extends plugin_base {
 
 		$listTpl->setVar('phpsessid', session_id());
 
-		$listTpl->setVar('theme', $_SESSION['s']['theme']);
+		$listTpl->setVar('theme', $_SESSION['s']['theme'], true);
 		$listTpl->setVar('html_content_encoding', $app->_conf['html_content_encoding']);
 
 		$listTpl->setVar('delete_confirmation', $app->lng('delete_confirmation'));
 		//print_r($_SESSION);
 		if(isset($_SESSION['s']['module']['name'])) {
-			$listTpl->setVar('app_module', $_SESSION['s']['module']['name']);
+			$listTpl->setVar('app_module', $_SESSION['s']['module']['name'], true);
 		}
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') {
 			$listTpl->setVar('is_admin', 1);
@@ -209,7 +209,7 @@ class plugin_listview extends plugin_base {
 		}
 		/* Show username */
 		if(isset($_SESSION['s']['user'])) {
-			$listTpl->setVar('cpuser', $_SESSION['s']['user']['username']);
+			$listTpl->setVar('cpuser', $_SESSION['s']['user']['username'], true);
 			$listTpl->setVar('logout_txt', $app->lng('logout_txt'));
 			/* Show search field only for normal users, not mail users */
 			if(stristr($_SESSION['s']['user']['username'], '@')){

@@ -9,10 +9,7 @@ require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 
 // Check module permissions
-if(!stristr($_SESSION['s']['user']['modules'], 'help')) {
-	header('Location: ../index.php');
-	die;
-}
+$app->auth->check_module_permissions('admin');
 
 // Load the form
 $app->uses('tform_actions');

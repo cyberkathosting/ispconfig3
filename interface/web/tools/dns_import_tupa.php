@@ -50,10 +50,10 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 	$app->auth->csrf_token_check();
 
 	//* Set variable sin template
-	$app->tpl->setVar('dbhost', $_POST['dbhost']);
-	$app->tpl->setVar('dbname', $_POST['dbname']);
-	$app->tpl->setVar('dbuser', $_POST['dbuser']);
-	$app->tpl->setVar('dbpassword', $_POST['dbpassword']);
+	$app->tpl->setVar('dbhost', $_POST['dbhost'], true);
+	$app->tpl->setVar('dbname', $_POST['dbname'], true);
+	$app->tpl->setVar('dbuser', $_POST['dbuser'], true);
+	$app->tpl->setVar('dbpassword', $_POST['dbpassword'], true);
 
 	//* Establish connection to external database
 	$msg .= 'Connecting to external database...<br />';

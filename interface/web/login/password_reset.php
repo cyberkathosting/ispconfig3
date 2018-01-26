@@ -156,7 +156,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	if(isset($_POST) && count($_POST) > 0) $app->tpl->setVar("msg", $wb['pw_error_noinput']);
 }
 
-$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default', true);
 
 // Logo
 $logo = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");

@@ -67,7 +67,7 @@ class page_action extends tform_actions {
 		$domain_select = '';
 		foreach( $domains as $domain) {
 			$selected = ($domain["domain"] == $email_parts[1])?'SELECTED':'';
-			$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+			$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 		}
 		$app->tpl->setVar("email_domain", $domain_select);
 

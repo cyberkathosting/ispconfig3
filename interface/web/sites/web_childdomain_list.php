@@ -56,7 +56,7 @@ $_SESSION['s']['var']['childdomain_type'] = $show_type;
 class list_action extends listform_actions {
 	function onShow() {
 		global $app;
-		$app->tpl->setVar('childdomain_type', $_SESSION['s']['var']['childdomain_type']);
+		$app->tpl->setVar('childdomain_type', $_SESSION['s']['var']['childdomain_type'], true);
 		
 		parent::onShow();
 	}

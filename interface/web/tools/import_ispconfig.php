@@ -153,9 +153,9 @@ if(isset($_POST['connected'])) {
 
 }
 
-$app->tpl->setVar('remote_server', $_POST['remote_server']);
-$app->tpl->setVar('remote_user', $_POST['remote_user']);
-$app->tpl->setVar('remote_password', $_POST['remote_password']);
+$app->tpl->setVar('remote_server', $_POST['remote_server'], true);
+$app->tpl->setVar('remote_user', $_POST['remote_user'], true);
+$app->tpl->setVar('remote_password', $_POST['remote_password'], true);
 $app->tpl->setVar('connected', $connected);
 $app->tpl->setVar('remote_session_id', $remote_session_id);
 $app->tpl->setVar('msg', $msg);

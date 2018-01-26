@@ -188,6 +188,13 @@
 
 <tmpl_if name='python' op='==' value='y'>
 		<IfModule mod_python.c>
+			<Directory {tmpl_var name='web_document_root_www'}>
+				<FilesMatch "\.py$">
+					SetHandler mod_python
+				</FilesMatch>
+				PythonHandler mod_python.publisher
+				PythonDebug On
+			</Directory>
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.py$">
 					SetHandler mod_python

@@ -41,6 +41,7 @@ $wb['apache_directives_txt'] = 'Apache directives';
 $wb['domain_error_empty'] = 'Το Domain δεν έχει οριστεί.';
 $wb['domain_error_unique'] = 'Υπάρχει ήδη ένα website ή ένα sub / aliasdomain με αυτό το όνομα domain.';
 $wb['domain_error_regex'] = 'Domain name invalid.';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
 $wb['hd_quota_error_empty'] = 'Το όριο αποθηκευτικού χώρου είναι 0 ή δεν έχει οριστεί.';
 $wb['traffic_quota_error_empty'] = 'Το όριο κίνησης δεν έχει οριστεί.';
 $wb['error_ssl_state_empty'] = 'Κενή περιφέρεια SSL.';

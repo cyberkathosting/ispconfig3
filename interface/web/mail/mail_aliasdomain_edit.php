@@ -82,9 +82,9 @@ class page_action extends tform_actions {
 			foreach( $domains as $domain) {
 				$domain['domain'] = $app->functions->idn_decode($domain['domain']);
 				$selected = ($domain["domain"] == @$source_domain)?'SELECTED':'';
-				$source_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$source_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 				$selected = ($domain["domain"] == @$destination_domain)?'SELECTED':'';
-				$destination_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$destination_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("source_domain", $source_select);

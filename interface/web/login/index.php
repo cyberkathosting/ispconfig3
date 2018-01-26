@@ -347,7 +347,7 @@ $app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
 $app->tpl->setVar('session_timeout', $server_config_array['session_timeout']);
 $app->tpl->setVar('session_allow_endless', $server_config_array['session_allow_endless']);
 //$app->tpl->setInclude('content_tpl', 'login/templates/index.htm');
-$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default', true);
 //die(isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
 
 // Logo

@@ -115,7 +115,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$web_servers = explode(',', $client['web_servers']);
 			$server_id = $web_servers[0];
-			$app->tpl->setVar("server_id_value", $server_id);
+			$app->tpl->setVar("server_id_value", $server_id, true);
 			unset($web_servers);
 		} else {
 			$settings = $app->getconf->get_global_config('sites');
@@ -130,7 +130,7 @@ class page_action extends tform_actions {
 		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
-		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
+		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 		parent::onShowNew();
 	}
 
@@ -179,7 +179,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($web_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);
@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -230,7 +230,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -266,7 +266,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -306,7 +306,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($web_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);
@@ -361,7 +361,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -376,7 +376,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -413,7 +413,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -441,7 +441,7 @@ class page_action extends tform_actions {
 					$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($php_directive_snippets as $php_directive_snippet){
 						$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -464,7 +464,7 @@ class page_action extends tform_actions {
 						$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($apache_directive_snippets as $apache_directive_snippet){
 							$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 					}
 					if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -478,7 +478,7 @@ class page_action extends tform_actions {
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
 							$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 						$nginx_directive_snippets_txt .= '<br><br>';
 					}
@@ -488,7 +488,7 @@ class page_action extends tform_actions {
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
 							$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 					}
 					if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -501,7 +501,7 @@ class page_action extends tform_actions {
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
 						$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$proxy_directive_snippets_txt .= '<br><br>';
 				}
@@ -511,7 +511,7 @@ class page_action extends tform_actions {
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
 						$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -557,7 +557,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -572,7 +572,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -633,7 +633,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -648,7 +648,7 @@ class page_action extends tform_actions {
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 				foreach($php_directive_snippets as $php_directive_snippet){
 					$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 				$php_directive_snippets_txt .= '<br><br>';
 			}
@@ -658,7 +658,7 @@ class page_action extends tform_actions {
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($php_directive_snippets as $php_directive_snippet){
 					$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
 			if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -671,7 +671,7 @@ class page_action extends tform_actions {
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($apache_directive_snippets as $apache_directive_snippet){
 						$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$apache_directive_snippets_txt .= '<br><br>';
 				}
@@ -681,7 +681,7 @@ class page_action extends tform_actions {
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($apache_directive_snippets as $apache_directive_snippet){
 						$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -695,7 +695,7 @@ class page_action extends tform_actions {
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
 						$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$nginx_directive_snippets_txt .= '<br><br>';
 				}
@@ -705,7 +705,7 @@ class page_action extends tform_actions {
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
 						$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -718,7 +718,7 @@ class page_action extends tform_actions {
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
 					$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 				$proxy_directive_snippets_txt .= '<br><br>';
 			}
@@ -728,7 +728,7 @@ class page_action extends tform_actions {
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
 					$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -748,7 +748,7 @@ class page_action extends tform_actions {
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
-				$ssl_domain_select .= "<option value='$ssl_domain' $selected>".$app->functions->idn_decode($ssl_domain)."</option>\r\n";
+				$ssl_domain_select .= "<option value='" . $app->functions->htmlentities($ssl_domain) . "' $selected>".$app->functions->htmlentities($app->functions->idn_decode($ssl_domain))."</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("ssl_domain", $ssl_domain_select);
@@ -761,8 +761,8 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 1);
 			$app->tpl->setVar('fixed_folder', 'y');
 			if($this->_vhostdomain_type == 'domain') {
-				$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
-				$app->tpl->setVar("document_root", $this->dataRecord["document_root"]);
+				$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
+				$app->tpl->setVar("document_root", $this->dataRecord["document_root"], true);
 			}
 			else $app->tpl->setVar('server_id_value', $parent_domain['server_id']);
 		} else {
@@ -798,7 +798,7 @@ class page_action extends tform_actions {
 					} elseif($this->_vhostdomain_type == 'domain' && $domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -820,20 +820,20 @@ class page_action extends tform_actions {
 			if($this->dataRecord["type"] == 'vhostsubdomain') $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
 		
-		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"]);
+		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"], true);
 
 		// check for configuration errors in sys_datalog
 		if($this->id > 0) {
 			$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'web_domain' AND sys_datalog.dbidx = ? AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC", 'domain_id:' . $this->id);
 			if(is_array($datalog) && !empty($datalog)){
 				if(trim($datalog['error']) != ''){
-					$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
+					$app->tpl->setVar("config_error_msg", nl2br($app->functions->htmlentities($datalog['error'])));
 					$app->tpl->setVar("config_error_tstamp", date($app->lng('conf_format_datetime'), $datalog['tstamp']));
 				}
 			}
 		}
 		
-		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
+		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 
 		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
 		$app->tpl->setVar("is_admin", $is_admin);
@@ -859,7 +859,7 @@ class page_action extends tform_actions {
 		if(is_array($m_directive_snippets) && !empty($m_directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
 			foreach($m_directive_snippets as $m_directive_snippet){
-				$directive_snippets_id_select .= '<option value="'.$m_directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $m_directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$m_directive_snippet['name'].'</option>';
+				$directive_snippets_id_select .= '<option value="'.$m_directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $m_directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$app->functions->htmlentities($m_directive_snippet['name']).'</option>';
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}
@@ -868,7 +868,7 @@ class page_action extends tform_actions {
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 			foreach($directive_snippets as $directive_snippet){
-				$directive_snippets_id_select .= '<option value="'.$directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$directive_snippet['name'].'</option>';
+				$directive_snippets_id_select .= '<option value="'.$directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$app->functions->htmlentities($directive_snippet['name']).'</option>';
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}

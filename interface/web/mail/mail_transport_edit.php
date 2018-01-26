@@ -70,6 +70,7 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
+		$rec = array();
 		$types = array('smtp' => 'smtp', 'uucp' => 'uucp', 'slow' => 'slow', 'error' => 'error', 'custom' => 'custom', '' => 'null');
 		$tmp_parts = explode(":", $this->dataRecord["transport"]);
 		if(!empty($this->id) && !stristr($this->dataRecord["transport"], ':')) {
@@ -106,7 +107,7 @@ class page_action extends tform_actions {
 			}
 		}
 		$rec["type"] = $type_select;
-		$app->tpl->setVar($rec);
+		$app->tpl->setVar($rec, null, true);
 		unset($type);
 		unset($types);
 

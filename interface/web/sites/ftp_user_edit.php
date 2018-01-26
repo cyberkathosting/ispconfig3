@@ -79,13 +79,13 @@ class page_action extends tform_actions {
 
 		if ($this->dataRecord['username'] != ""){
 			/* REMOVE the restriction */
-			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $ftpuser_prefix));
+			$app->tpl->setVar("username", $app->tools_sites->removePrefix($this->dataRecord['username'], $this->dataRecord['username_prefix'], $ftpuser_prefix), true);
 		}
 
 		if($this->dataRecord['username'] == "") {
-			$app->tpl->setVar("username_prefix", $ftpuser_prefix);
+			$app->tpl->setVar("username_prefix", $ftpuser_prefix, true);
 		} else {
-			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $ftpuser_prefix, $global_config['ftpuser_prefix']));
+			$app->tpl->setVar("username_prefix", $app->tools_sites->getPrefix($this->dataRecord['username_prefix'], $ftpuser_prefix, $global_config['ftpuser_prefix']), true);
 		}
 
 		parent::onShowEnd();
