@@ -29,6 +29,7 @@ $wb['vhost_type_txt'] = 'VHost Type';
 $wb['hd_quota_txt'] = 'Harddisk Quota';
 $wb['traffic_quota_txt'] = 'Traffic Quota';
 $wb['cgi_txt'] = 'CGI';
+$wb['php_fpm_chroot_txt'] = 'PHP-FPM Chroot';
 $wb['ssi_txt'] = 'SSI';
 $wb['errordocs_txt'] = 'Own Error-Documents';
 $wb['subdomain_txt'] = 'Auto-Subdomain';

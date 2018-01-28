@@ -26,20 +26,38 @@ pm.process_idle_timeout = <tmpl_var name='pm_process_idle_timeout'>s;
 </tmpl_if>
 pm.max_requests = <tmpl_var name='pm_max_requests'>
 
+<tmpl_if name='php_fpm_chroot'>
+prefix = <tmpl_var name='document_root'>
+chroot = $prefix
+</tmpl_if>
 chdir = /
 
 env[HOSTNAME] = $HOSTNAME
+<tmpl_if name='php_fpm_chroot'>
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
+</tmpl_else>
 env[TMP] = <tmpl_var name='document_root'>/tmp
 env[TMPDIR] = <tmpl_var name='document_root'>/tmp
 env[TEMP] = <tmpl_var name='document_root'>/tmp
+</tmpl_if>
 env[PATH] = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 <tmpl_if name='security_level' op='==' value='20'>
 <tmpl_var name='enable_php_open_basedir'>php_admin_value[open_basedir] = <tmpl_var name='php_open_basedir'>
 <tmpl_if name='custom_session_save_path' op='!=' value='y'>
+<tmpl_if name='php_fpm_chroot'>
+php_admin_value[session.save_path] = /tmp
+</tmpl_else>
 php_admin_value[session.save_path] = <tmpl_var name='document_root'>/tmp
 </tmpl_if>
+</tmpl_if>
+<tmpl_if name='php_fpm_chroot'>
+php_admin_value[upload_tmp_dir] = /tmp
+</tmpl_else>
 php_admin_value[upload_tmp_dir] = <tmpl_var name='document_root'>/tmp
+</tmpl_if>
 php_admin_value[sendmail_path] = "/usr/sbin/sendmail -t -i -f webmaster@<tmpl_var name='domain'>"
 </tmpl_if>
 
