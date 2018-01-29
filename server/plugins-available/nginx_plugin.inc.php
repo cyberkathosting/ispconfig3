@@ -1024,6 +1024,11 @@ class nginx_plugin {
 		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
 		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
 
+        if($data['new']['php_fpm_chroot'] == 'y'){
+            $php_fpm_chroot = 1;
+        } else {
+            $php_fpm_chroot = 0;
+        }
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
 			$use_socket = 1;
@@ -1033,6 +1038,7 @@ class nginx_plugin {
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
+		$tpl->setVar('php_fpm_chroot', $php_fpm_chroot);
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('rnd_php_dummy_file', '/'.md5(uniqid(microtime(), 1)).'.htm');
@@ -2653,6 +2659,11 @@ class nginx_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('php_fpm_pool.conf.master');
 
+        if($data['new']['php_fpm_chroot'] == 'y'){
+            $php_fpm_chroot = 1;
+        } else {
+            $php_fpm_chroot = 0;
+        }
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
 			$use_socket = 1;
@@ -2663,6 +2674,7 @@ class nginx_plugin {
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
+		$tpl->setVar('php_fpm_chroot', $php_fpm_chroot);
 
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
@@ -2702,7 +2714,14 @@ class nginx_plugin {
 		$tpl->setVar('security_level', $web_config['security_level']);
 		$tpl->setVar('domain', $data['new']['domain']);
 		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
-		$tpl->setVar('php_open_basedir', $php_open_basedir);
+        if($php_fpm_chroot){
+            $document_root = $data['new']['document_root'];
+            $domain = $data['new']['domain'];
+            $php_open_basedir = str_replace(":/srv/www/$domain/web",'',$php_open_basedir);
+            $php_open_basedir = str_replace(":/var/www/$domain/web",'',$php_open_basedir);
+            $php_open_basedir = str_replace("$document_root",'',$php_open_basedir);
+        }
+        $tpl->setVar('php_open_basedir', $php_open_basedir);
 		if($php_open_basedir != ''){
 			$tpl->setVar('enable_php_open_basedir', '');
 		} else {

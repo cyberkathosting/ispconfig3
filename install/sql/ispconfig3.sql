@@ -2049,6 +2049,7 @@ CREATE TABLE `web_domain` (
   `apache_directives` mediumtext,
   `nginx_directives` mediumtext,
   `php_fpm_use_socket` ENUM('n','y') NOT NULL DEFAULT 'y',
+  `php_fpm_chroot` ENUM('n','y') NOT NULL DEFAULT 'n',
   `pm` enum('static','dynamic','ondemand') NOT NULL DEFAULT 'dynamic',
   `pm_max_children` int(11) NOT NULL DEFAULT '10',
   `pm_start_servers` int(11) NOT NULL DEFAULT '2',

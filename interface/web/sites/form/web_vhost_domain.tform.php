@@ -766,6 +766,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'default' => 'n',
 				'value'  => array(0 => 'n', 1 => 'y')
 			),
+            'php_fpm_chroot' => array (
+                'datatype' => 'VARCHAR',
+                'formtype' => 'CHECKBOX',
+                'default' => 'n',
+                'value'  => array(0 => 'n', 1 => 'y')
+            ),
 			'pm' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'SELECT',

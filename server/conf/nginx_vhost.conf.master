@@ -182,7 +182,11 @@ server {
             fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
 </tmpl_if>
             fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot'>
+            fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+</tmpl_else>
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
             #fastcgi_param PATH_INFO $fastcgi_script_name;
             fastcgi_intercept_errors on;
         }
