@@ -44,3 +44,8 @@ if [ -e "/var/run/mysqld/mysqld.sock" ]
 then
   ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
 fi
+# copy zone info
+if [ ! -d "$CHROOT_HOMEDIR/usr/share/zoneinfo" ]
+then
+  jk_cp -v -j $CHROOT_HOMEDIR/ /usr/share/zoneinfo
+fi

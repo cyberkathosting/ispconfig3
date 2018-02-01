@@ -1026,8 +1026,10 @@ class nginx_plugin {
 
         if($data['new']['php_fpm_chroot'] == 'y'){
             $php_fpm_chroot = 1;
+            $php_fpm_nochroot = 0;
         } else {
             $php_fpm_chroot = 0;
+            $php_fpm_nochroot = 1;
         }
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
@@ -1039,6 +1041,7 @@ class nginx_plugin {
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
 		$tpl->setVar('php_fpm_chroot', $php_fpm_chroot);
+		$tpl->setVar('php_fpm_nochroot', $php_fpm_nochroot);
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('rnd_php_dummy_file', '/'.md5(uniqid(microtime(), 1)).'.htm');
@@ -2035,7 +2038,14 @@ class nginx_plugin {
 				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
 			}
-			
+
+			//try umount mysql
+            if(file_exists($data['old']['document_root'].'/var/run/mysqld')) {
+                $fstab_line = '/var/run/mysqld ' . $data['old']['document_root'] . '/var/run/mysqld    none    bind,nobootwait    0    0';
+                $app->system->removeLine('/etc/fstab', $fstab_line);
+                $command = 'umount ' . escapeshellarg($data['old']['document_root']) . '/var/run/mysqld/';
+                exec($command);
+            }
 			// remove letsencrypt if it exists (renew will always fail otherwise)
 			
 			$old_domain = $data['old']['domain'];

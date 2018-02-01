@@ -169,7 +169,8 @@ server {
             fastcgi_index index.php;
 <tmpl_if name='php_fpm_chroot'>
             fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
-</tmpl_else>
+</tmpl_if>
+<tmpl_if name='php_fpm_nochroot'>
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 </tmpl_if>
             #fastcgi_param PATH_INFO $fastcgi_script_name;
