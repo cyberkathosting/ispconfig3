@@ -144,17 +144,19 @@ class remoting {
 			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
 			$remote_user = $app->db->queryOneRecord($sql, $username, $password);
 			if($remote_user['remote_userid'] > 0) {
-				$allowed_ips = explode(',',$remote_user['remote_ips']);
-				foreach($allowed_ips as $i => $allowed) { 
-					if(!filter_var($allowed, FILTER_VALIDATE_IP)) { 
-						// get the ip for a hostname
-						unset($allowed_ips[$i]);
-						$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
-						foreach($temp as $t) {
-							if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
-							if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+				if (trim($remote_user['remote_ips']) != '') {
+					$allowed_ips = explode(',',$remote_user['remote_ips']);
+					foreach($allowed_ips as $i => $allowed) { 
+						if(!filter_var($allowed, FILTER_VALIDATE_IP)) { 
+							// get the ip for a hostname
+							unset($allowed_ips[$i]);
+							$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
+							foreach($temp as $t) {
+								if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
+								if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+							}
+							unset($temp);
 						}
-						unset($temp);
 					}
 				}
 				$allowed_ips[] = '127.0.0.1';
