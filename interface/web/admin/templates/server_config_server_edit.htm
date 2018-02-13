@@ -63,6 +63,10 @@
                     {tmpl_var name='backup_mode'}
                 </select></div>
             </div>
+            <div class="form-group">
+                <label for="backup_tmp" class="col-sm-3 control-label">{tmpl_var name='backup_tmp_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="backup_tmp" id="backup_tmp" value="{tmpl_var name='backup_tmp'}" class="form-control" /></div>
+			</div>
 			<div class="form-group">
                 <label for="backup_time" class="col-sm-3 control-label">{tmpl_var name='backup_time_txt'}</label>
                 <div class="col-sm-3"><select name="backup_time" id="backup_time" class="form-control">
