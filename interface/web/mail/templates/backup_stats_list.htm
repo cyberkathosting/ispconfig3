@@ -9,13 +9,24 @@
 <table class="table">
                 <thead class="dark form-group-sm">
 					<tr>
-						<th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
-						<th data-column="domain"><tmpl_var name="domain_txt"></th>
-						<th data-column="backup_server"><tmpl_var name="backup_server_txt"></th>
-						<th data-column="backup_interval"><tmpl_var name="backup_interval_txt"></th>
-						<th data-column="backup_count"><tmpl_var name="backup_count_txt"></th>
-						<th data-column="backup_size"><tmpl_var name="backup_size_txt"></th>
+						<th class="col-md-1" data-column="active"><tmpl_var name="active_txt"></th>
+						<th class="col-md-3" data-column="email"><tmpl_var name="domain_txt"></th>
+						<th class="col-md-3" data-column="server_id"><tmpl_var name="backup_server_txt"></th>
+						<th class="col-md-2" data-column="interval_sort"><tmpl_var name="backup_interval_txt"></th>
+						<th class="col-md-2" data-column="backup_copies_exists"><tmpl_var name="backup_count_txt"></th>
+						<th class="col-md-2" data-column="backup_size_sort"><tmpl_var name="backup_size_txt"></th>
 					</tr>
+<tr>
+                                        <td class="active">&nbsp;</td>
+                                        <td><input class="form-control" type="text" name="search_email" value="{tmpl_var name='search_email'}" /></td>
+                                        <td class="backup_server">&nbsp;</td>
+                                        <td class="backup_interval">&nbsp;</td>
+                                        <td class="backup_count">&nbsp;</td>
+                                        <td class="text-right">
+                                                <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/backup_stats.php"><span class="icon icon-filter"></span></button>
+                                        </td>
+                                </tr>
+
                 </thead>
 				<tbody>
 					<tmpl_loop name="records">
