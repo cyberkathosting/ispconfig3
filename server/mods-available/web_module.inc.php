@@ -248,60 +248,53 @@ class web_module {
 		return $retval;
 	}
 
-	function restartPHP_FPM($action = 'restart') {
-		global $app, $conf;
+    function restartPHP_FPM($action = 'restart')
+    {
+        global $app, $conf;
 
-		// load the server configuration options
-		$app->uses('getconf,system');
-		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+        // load the server configuration options
+        $app->uses('getconf,system');
+        $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
-		list($action, $init_script) = explode(':', $action);
+        list($action, $init_script) = explode(':', $action);
 
-		if(!$init_script){
-			//$init_script = $conf['init_scripts'].'/'.$web_config['php_fpm_init_script'];
-			$initcommand = $app->system->getinitcommand($web_config['php_fpm_init_script'], $action);
-		} else {
-			$path_parts = pathinfo($init_script);
-			$initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
-			
-			if($action == 'reload' && $init_script == $conf['init_scripts'].'/'.$web_config['php_fpm_init_script']) {
-				// we have to do a workaround because of buggy ubuntu fpm reload handling
-				// @see: https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
-				if(file_exists('/etc/os-release')) {
-					$tmp = file_get_contents('/etc/os-release');
-					//if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp)) {
-					if(preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp) && stristr(phpversion(), 'deb.sury.org') === false) {
-						$initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
-					}
-					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
-                                        /*
-					if(preg_match('/^ID=centos/m', $tmp) && preg_match('/^VERSION_ID="7"/m', $tmp)) {
-						$initcommand = 'systemctl restart php-fpm.service';
-					}
-                                        */
-					unset($tmp);
-				}	
-			}
-			/*
-			if($action == 'reload') {
-				// And the next workaround, php-fpm reloads in centos 7 downt work as well.
-				if(file_exists('/etc/os-release')) {
-					$tmp = file_get_contents('/etc/os-release');
-					// And the next workaround, php-fpm reloads in centos 7 downt work as well.
-					if(preg_match('/^ID="centos"/m', $tmp) && preg_match('/^VERSION_ID="7"/m', $tmp)) {
-						$initcommand = 'systemctl restart php-fpm.service';
-					}
-					unset($tmp);
-				}
-			}
-                        */
-		}
+        if (!$init_script) {
+            $initcommand = $app->system->getinitcommand($web_config['php_fpm_init_script'], $action);
+        } else {
+            $path_parts = pathinfo($init_script);
 
-		$retval = array('output' => '', 'retval' => 0);
-		exec($initcommand.' 2>&1', $retval['output'], $retval['retval']);
-		$app->log("Restarting php-fpm: $initcommand", LOGLEVEL_DEBUG);
-		return $retval;
-	}
+            if (is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')) {
+                passthru('systemctl is-active ' . $init_script, $fpmstatus);
+
+                if ($fpmstatus !== "active") {
+                    $action = 'restart';
+                    $app->log('FPM Process ' . $init_script . ' seems to be not running', LOGLEVEL_DEBUG);
+                } else {
+                    $app->log('FPM Process ' . $init_script . ' is running', LOGLEVEL_DEBUG);
+                }
+            }
+
+            $initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
+
+            if ($action == 'reload' && $init_script == $conf['init_scripts'] . '/' . $web_config['php_fpm_init_script']) {
+
+                if (file_exists('/etc/os-release')) {
+                    $tmp = file_get_contents('/etc/os-release');
+                    if (preg_match('/^ID=ubuntu/m', $tmp) && preg_match('/^VERSION_ID="14\.04"/m', $tmp) && stristr(phpversion(), 'deb.sury.org') === false) {
+                        $initcommand = '/sbin/start-stop-daemon --stop --signal USR2 --quiet --pidfile /var/run/php5-fpm.pid --name php5-fpm';
+                    }
+                    unset($tmp);
+                }
+            }
+        }
+
+
+        $retval = array('output' => '', 'retval' => 0);
+        exec($initcommand . ' 2>&1', $retval['output'], $retval['retval']);
+        $app->log("Restarting php-fpm: $initcommand", LOGLEVEL_DEBUG);
+
+        return $retval;
+    }
 
 } // end class
 
