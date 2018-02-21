@@ -28,7 +28,7 @@ $liste["paging_tpl"]  = "templates/paging.tpl.htm";
 $liste["auth"]    = "yes";
 
 // mark columns for php sorting (no real mySQL columns)
-$liste["phpsort"] = array('server_name', 'client', 'used', 'quota', 'percentage');
+$liste["phpsort"] = array('server_name', 'client', 'used_sort', 'quota_sort', 'percentage_sort');
 
 
 /*****************************************************

@@ -281,9 +281,14 @@ class functions {
 	 * @return string - formated bytes
 	 */
 	public function formatBytes($size, $precision = 2) {
-		$base=log($size)/log(1024);
 		$suffixes=array('', ' kB', ' MB', ' GB', ' TB');
-		return round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
+		if($size != 0 || is_nan($size)) { 
+			$base=log($size)/log(1024);
+			$tmpoutput =  round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
+		} else {
+			$tmpoutput = "0 " . $suffixes[1];
+		}
+		return $tmpoutput;
 	}
 
 	/** IDN converter wrapper.

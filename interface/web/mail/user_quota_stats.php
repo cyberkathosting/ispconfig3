@@ -53,7 +53,7 @@ class list_action extends listform_actions {
 
 		if($rec['quota'] == 0){
 			$rec['quota'] = $app->lng('unlimited');
-			$rec['percentage'] = '';
+			$rec['percentage'] = 'n/a';
 			$rec['percentage_sort'] = 0;
 		} else {
 			$rec['percentage'] = round(100 * $rec['used'] / $rec['quota']) . '%';
@@ -63,13 +63,6 @@ class list_action extends listform_actions {
 
 
 		$rec['used_sort'] = $rec['used'];
-/*
-		if($rec['used'] < 1544000) {
-			$rec['used'] = round($rec['used'] / 1024, 4).' KB';
-		} else {
-			$rec['used'] = round($rec['used'] / 1048576, 4).' MB';
-		}
-*/
 		$rec['used']=$app->functions->formatBytes($rec['used']);
 		if ($rec['used'] == 'NAN') $rec['used']='0 KB';
 

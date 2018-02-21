@@ -9,12 +9,12 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th data-column="domain"><tmpl_var name="domain_txt"></th>
-                        <th data-column="this_month"><tmpl_var name="this_month_txt"></th>
-                        <th data-column="last_month"><tmpl_var name="last_month_txt"></th>
-                        <th data-column="this_year"><tmpl_var name="this_year_txt"></th>
-                        <th data-column="last_year"><tmpl_var name="last_year_txt"></th>
-                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+                        <th class="col-md-3" data-column="domain"><tmpl_var name="domain_txt"></th>
+                        <th class="col-md-2" data-column="this_month_sort"><tmpl_var name="this_month_txt"></th>
+                        <th class="col-md-2" data-column="last_month_sort"><tmpl_var name="last_month_txt"></th>
+                        <th class="col-md-2" data-column="this_year_sort"><tmpl_var name="this_year_txt"></th>
+                        <th class="col-md-2" data-column="last_year_sort"><tmpl_var name="last_year_txt"></th>
+                        <th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>

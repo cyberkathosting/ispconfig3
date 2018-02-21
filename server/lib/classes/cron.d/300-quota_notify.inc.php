@@ -87,9 +87,13 @@ class cronjob_quota_notify extends cronjob {
 						//* Send traffic notifications
 						if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
 
-							$placeholders = array('{domain}' => $rec['domain'],
-								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'));
-
+                            $placeholders = array('{domain}' => $rec['domain'],
+								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
+								'{used}' => $web_traffic,
+								'{limit}' => $web_traffic_quota,
+								'{ratio}' => number_format(($web_traffic_quota > 0 ? $web_traffic/$web_traffic_quota : 0) * 100, 2, '.', '').'%'
+							);
+							
 							$recipients = array();
 							//* send email to admin
 							if($global_config['admin_mail'] != '' && $web_config['overtraffic_notify_admin'] == 'y') {
