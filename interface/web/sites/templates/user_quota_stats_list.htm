@@ -8,13 +8,13 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                 <tr>
-                    <th data-column="domain"><tmpl_var name="domain_txt"></th>
-                    <th data-column="system_user"><tmpl_var name="system_user_txt"></th>
-                    <th data-column="used"><tmpl_var name="used_txt"></th>
-                    <th data-column="soft"><tmpl_var name="soft_txt"></th>
-                    <th data-column="hard"><tmpl_var name="hard_txt"></th>
-                    <th data-column="files"><tmpl_var name="files_txt"></th>
-                    <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+                    <th class="col-md-3" data-column="domain"><tmpl_var name="domain_txt"></th>
+                    <th class="col-md-1" data-column="system_user"><tmpl_var name="system_user_txt"></th>
+                    <th class="col-md-1" data-column="used_sort"><tmpl_var name="used_txt"></th>
+                    <th class="col-md-1" data-column="soft_sort"><tmpl_var name="soft_txt"></th>
+                    <th class="col-md-1" data-column="hard_sort"><tmpl_var name="hard_txt"></th>
+                    <th class="col-md-1" data-column="files"><tmpl_var name="files_txt"></th>
+                    <th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
                     <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>

@@ -8,13 +8,13 @@
 <table class="table">
 				<thead class="dark form-group-sm">
 				<tr>
-					<th data-column="database_name"><tmpl_var name="database_txt"></th>
-					<th data-column="server_name"><tmpl_var name="server_name_txt"></th>
-					<th data-column="client"><tmpl_var name="client_txt"></th>
-					<th data-column="used"><tmpl_var name="used_txt"></th>
-					<th data-column="quota"><tmpl_var name="quota_txt"></th>
-					<th data-column="percentage"><tmpl_var name="percentage_txt">
-					<th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+					<th class="col-md-2" data-column="database_name"><tmpl_var name="database_txt"></th>
+					<th class="col-md-3" data-column="server_name"><tmpl_var name="server_name_txt"></th>
+					<th class="col-md-2" data-column="client"><tmpl_var name="client_txt"></th>
+					<th class="col-md-1" data-column="used_sort"><tmpl_var name="used_txt"></th>
+					<th class="col-md-1" data-column="quota_sort"><tmpl_var name="quota_txt"></th>
+					<th class="col-md-1" data-column="percentage_sort"><tmpl_var name="percentage_txt">
+					<th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
 				</tr>
 				<tr>
 					<td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
