@@ -69,14 +69,21 @@ class list_action extends listform_actions {
 			$rec['server_name'] = $tmp['server_name'];
 			unset($tmp);
 			$rec['used'] = $monitor_data[$rec['server_id'].'.'.$database_name]['used'];
+			$rec['used_sort'] = $rec['used'];
 			$rec['quota'] = $monitor_data[$rec['server_id'].'.'.$database_name]['quota'];
+			$rec['quota_sort'] = $rec['quota'];
+			$rec['percentage_sort'] = 0;
 
 			if($rec['quota'] == 0){
 				$rec['quota'] = $app->lng('unlimited');
-				$rec['percentage'] = '';
+				$rec['percentage'] = 'n/a';
 			} else {
-				if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) ).'%';
-				$rec['quota'] .= ' MB';
+				if ($rec['used'] > 0 ) {
+					$rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) );
+					$rec['percentage_sort'] = $rec['percentage'];
+					$rec['percentage'] = $rec['percentage'].'%';
+				}
+				$rec['quota'] = $app->functions->formatBytes($rec['quota']*1024*1024);
 			}
 
 			if ($rec['used'] > 0) $rec['used'] = $app->functions->formatBytes($rec['used']);
@@ -92,7 +99,7 @@ class list_action extends listform_actions {
 			$rec['quota'] = $rec['database_quota'];
 		}
 		$rec['id'] = $rec[$this->idx_key];
-
+		if ($rec['used'] == 0) $rec['used'] = $app->functions->formatBytes($rec['used']);
 		return $rec;
 	}
 
