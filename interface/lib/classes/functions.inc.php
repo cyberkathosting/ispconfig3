@@ -282,7 +282,7 @@ class functions {
 	 */
 	public function formatBytes($size, $precision = 2) {
 		$suffixes=array('', ' kB', ' MB', ' GB', ' TB');
-		if($size != 0 || is_nan($size)) { 
+		if($size != 0 && !is_nan($size)) { 
 			$base=log($size)/log(1024);
 			$tmpoutput =  round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
 		} else {

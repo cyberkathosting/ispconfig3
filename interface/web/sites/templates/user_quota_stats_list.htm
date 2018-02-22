@@ -8,12 +8,13 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                 <tr>
-                    <th class="col-md-3" data-column="domain"><tmpl_var name="domain_txt"></th>
+                    <th class="col-md-4" data-column="domain"><tmpl_var name="domain_txt"></th>
                     <th class="col-md-1" data-column="system_user"><tmpl_var name="system_user_txt"></th>
                     <th class="col-md-1" data-column="used_sort"><tmpl_var name="used_txt"></th>
                     <th class="col-md-1" data-column="soft_sort"><tmpl_var name="soft_txt"></th>
-                    <th class="col-md-1" data-column="hard_sort"><tmpl_var name="hard_txt"></th>
+                    <!--<th class="col-md-1" data-column="hard_sort"><tmpl_var name="hard_txt"></th>-->
                     <th class="col-md-1" data-column="files"><tmpl_var name="files_txt"></th>
+		    <th class="col-md-2" data-column="percentage"><tmpl_var name="percentage_txt"></th>
                     <th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
                 </tr>
                 <tr>
@@ -35,9 +36,11 @@
                             <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="system_user"}</a></td>
                             <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
                             <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="soft"}</a></td>
-                            <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>
+                            <!--<td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="hard"}</a></td>-->
                             <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="files"}</a></td>
-                            <td class="text-right"></td>
+			    <td colspan="2">{tmpl_if name="progressbar" op="!=" value="-1"}<div class="progress" style="height: 20px">
+                                        <div class='progress-bar-striped progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role="progressbar" style="width: {tmpl_var name="progressbar"}%;" aria-valuenow="{tmpl_var name="percentage"}" aria-valuemin="0" aria-valuemax="100">{tmpl_var name="percentage"}%</div>
+                                </div>{/tmpl_if}</td>
                         </tr>
                     </tmpl_loop>
                     <tmpl_unless name="records">

@@ -144,14 +144,16 @@ class dashlet_limits {
 			if($value != 0 || $value == $wb['unlimited_txt']) {
 				$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value;
 				$usage = $this->_get_limit_usage($limit);
-				$percentage = ($value == '-1' || $value == 0 ? 0 : round(100 * $usage / $value));
+				$percentage = ($value == '-1' || $value == 0 ? -1 : round(100 * $usage / $value));
+				$progressbar = $percentage > 100 ? 100 : $percentage;
 				$rows[] = array('field' => $field,
 					'field_txt' => $wb[$field.'_txt'],
 					'value' => $value_formatted,
 					'value_raw' => $value,
 					'usage' => $usage,
 					'usage_raw' => $usage,
-					'percentage' => $percentage);
+					'percentage' => $percentage,
+					'progressbar' => $progressbar);
 			}
 		}
 		$rows = $app->functions->htmlentities($rows);
