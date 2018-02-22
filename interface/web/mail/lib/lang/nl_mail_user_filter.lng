@@ -27,4 +27,5 @@ $wb['reject_txt'] = 'Reject';
 $wb['stop_txt'] = 'Stop';
 $wb['move_to_txt'] = 'Move to';
 $wb['mark_read_txt'] = 'Mark as read';
+$wb['detail_txt'] = 'Detail part in recipient (user+detail@domain.com)';
 ?>
