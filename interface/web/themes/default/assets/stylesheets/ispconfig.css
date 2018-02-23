@@ -783,7 +783,9 @@ input[type="password"].form-control[readonly] {
 .systemmonitor-state.state-info .statusMsg {
     display: none;
 }
-
+#footer {
+    display: none;
+}
 span.notification_text {
     display: block;
     margin-left: auto;
@@ -793,11 +795,9 @@ span.notification_text {
     font-family: inherit;
     color: white;
 }
-
 span.company_name {
     font-weight: bold;
 }
-
 span.tmp_account_name {
     font-size: 0.9em;
 }
