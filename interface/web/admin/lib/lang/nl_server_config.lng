@@ -283,4 +283,10 @@ $wb['xmpp_port_bosh_txt'] = 'BOSH';
 $wb['backup_time_txt'] = 'Backup time';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nagios_url_txt'] = 'Nagios/Check_MK URL';
+$wb['nagios_user_txt'] = 'Nagios/Check_MK User';
+$wb['nagios_password_txt'] = 'Nagios/Check_MK Password';
+$wb['nagios_url_error_regex'] = 'Invalid Nagios/Check_MK URL';
+$wb['nagios_url_note_txt'] = 'Check_MK is being autodetected. Placeholder:';
+$wb['mailinglist_manager_txt'] = 'Mailinglist Manager';
 ?>

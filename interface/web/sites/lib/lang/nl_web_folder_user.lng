@@ -11,4 +11,5 @@ $wb['password_mismatch_txt'] = 'De wachtwoorden zijn niet gelijk.';
 $wb['password_match_txt'] = 'De wachtwoorden zijn gelijk.';
 $wb['no_folder_perm'] = 'Je hebt geen toegang tot deze folder.';
 $wb['error_user_exists_already_txt'] = 'Deze gebruiker bestaat al.';
+$wb['username_error_regex'] = 'De gebruikersnaam bevat niet toegestane karakters.';
 ?>
