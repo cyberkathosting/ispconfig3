@@ -77,10 +77,12 @@ class list_action extends listform_actions {
 			if($rec['quota'] == 0){
 				$rec['quota'] = $app->lng('unlimited');
 				$rec['percentage'] = 'n/a';
+				$rec['progressbar'] = -1;
 			} else {
 				if ($rec['used'] > 0 ) {
 					$rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) );
 					$rec['percentage_sort'] = $rec['percentage'];
+					$rec['progressbar'] = $rec['percentage'] > 100 ? 100 : $rec['percentage'];
 					$rec['percentage'] = $rec['percentage'].'%';
 				}
 				$rec['quota'] = $app->functions->formatBytes($rec['quota']*1024*1024);

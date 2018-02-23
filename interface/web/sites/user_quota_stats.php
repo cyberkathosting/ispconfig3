@@ -59,6 +59,8 @@ class list_action extends listform_actions {
 				$rec['used'] = $rec['used'][1];
 			}
 		}
+		$rec['percentage'] = $rec['soft'] != 0 ? round(($rec['used']/$rec['soft'])*100) : -1;
+		$rec['progressbar'] = $rec['percentage'] > 100 ? 100 : $rec['percentage'];
 		$rec['used_sort'] = $rec['used'];
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
@@ -67,7 +69,6 @@ class list_action extends listform_actions {
 		$rec['soft'] = $rec['soft'] == 0 ? $app->lng('unlimited') : $rec['soft']=$app->functions->formatBytes($rec['soft']*1024);
 		$rec['hard'] = $rec['hard'] == 0 ? $app->lng('unlimited') : $rec['hard']=$app->functions->formatBytes($rec['hard']*1024);
 		$rec['files'] = is_numeric($rec['files']) ? $rec['files'] : 0;
-		
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
 		return $rec;
