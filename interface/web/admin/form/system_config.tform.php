@@ -311,7 +311,7 @@ $form["tabs"]['mail'] = array (
 		'smtp_enabled' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
-			'default' => 'n',
+			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		'smtp_host' => array (
@@ -328,7 +328,7 @@ $form["tabs"]['mail'] = array (
 					'type' => 'STRIPNL')
 			),
 			'formtype' => 'TEXT',
-			'default' => '',
+			'default' => 'localhost',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
