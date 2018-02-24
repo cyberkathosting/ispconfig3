@@ -66,6 +66,7 @@ protocol lmtp {
   postmaster_address = webmaster@localhost
   mail_plugins = quota sieve
 }
+mail_plugins = $mail_plugins quota
 imap_capability=+SEPCIAL-USE XLIST
 namespace inbox {
   inbox = yes
@@ -82,4 +83,3 @@ namespace inbox {
     special_use = \Trash
   }
 }
-
