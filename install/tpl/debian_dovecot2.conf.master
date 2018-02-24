@@ -74,10 +74,10 @@ namespace inbox {
   mailbox Junk {
     special_use = \Junk
   }
-  mailbox Trash {
-    special_use = \Trash
-  }
   mailbox Sent {
     special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
   }
 }
