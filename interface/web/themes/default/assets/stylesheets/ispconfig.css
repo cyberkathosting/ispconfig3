@@ -792,3 +792,11 @@ span.company_name {
 span.tmp_account_name {
     font-size: 0.9em;
 }
+
+#select_server .select2-choice {
+    height: auto;
+}
+span.pbvaluemargin {
+    margin-left: 5px;
+}
+
