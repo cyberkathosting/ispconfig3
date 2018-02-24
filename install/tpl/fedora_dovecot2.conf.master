@@ -78,4 +78,3 @@ namespace inbox {
     special_use = \Trash
   }
 }
-
