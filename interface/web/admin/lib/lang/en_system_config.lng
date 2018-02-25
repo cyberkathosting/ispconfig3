@@ -95,4 +95,7 @@ $wb['ca_iodef_txt'] = 'iodef';
 $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
+$wb['use_ipsuggestions_txt'] = 'Enable IP suggestions dropdown';
+$wb['use_ipsuggestions_descr_txt'] = 'Shows a dropdown list of IP addresses below a field where an IP address is needed for both IPv4 and IPv6.';
+$wb['ipsuggestions_max_txt'] = 'Max IP suggestions';
 ?>
