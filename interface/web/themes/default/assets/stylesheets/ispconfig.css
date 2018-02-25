@@ -800,3 +800,6 @@ span.pbvaluemargin {
     margin-left: 5px;
 }
 
+.ip_suggestion_server {
+    font-weight: bold;
+}
