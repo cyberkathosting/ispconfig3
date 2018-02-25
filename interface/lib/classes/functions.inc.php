@@ -182,11 +182,25 @@ class functions {
 		}
 	}
 
+
+	/**
+	 * Function to suggest IP addresses in selectbox with hints, limited to the client logged in.
+	 *
+	 * @access public
+	 * @param string $type (default: 'IPv4')
+	 * @return void
+	 */
 	public function suggest_ips($type = 'IPv4'){
 		global $app;
 
+		$use_suggestions = $app->getconf->get_global_config('misc')['use_ipsuggestions'] == 'y' ? true : false;;
+		if(!$use_suggestions) {return array('cheader' => array(), 'cdata' => array());}
+
+		$suggestions_max = $app->getconf->get_global_config('misc')['ipsuggestions_max'];
+		$groupid = intval($_SESSION["s"]["user"]["default_group"]);
+
 		if($type == 'IPv4'){
-//			$regex = "/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/";
+			//   $regex = "/^[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}(\.)[0-9]{1,3}$/";
 			$regex = "/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/";
 		} else {
 			// IPv6
@@ -198,58 +212,75 @@ class functions {
 		$servers = $app->db->queryAllRecords("SELECT * FROM server");
 		if(is_array($servers) && !empty($servers)){
 			foreach($servers as $server){
-				$server_by_id[$server['server_id']] = $server['server_name'];
+				$server_by_id[$server['server_id']] = '<span class="ip_suggestion_server">server: ' . $server['server_name'] . '</span>';
 			}
 		}
 
+		$localips = array();
 		$ips = array();
 		$results = $app->db->queryAllRecords("SELECT ip_address AS ip, server_id FROM server_ip WHERE ip_type = ?", $type);
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
 				if(preg_match($regex, $result['ip'])){
-					$ips[] = $result['ip'];
+					$localips[] = $result['ip'];
 					$server_by_ip[$result['ip']] = $server_by_id[$result['server_id']];
 				}
 			}
 		}
+
 		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-		$results = $app->db->queryAllRecords("SELECT data AS ip FROM dns_rr WHERE type = 'A' OR type = 'AAAA'");
+		$results = $groupid != 1 ? $app->db->queryAllRecords("SELECT rr.data AS server_ip, rr.name as server_name, soa.origin as domain FROM dns_rr as rr, dns_soa as soa WHERE (rr.type = 'A' OR rr.type = 'AAAA') AND soa.id = rr.zone AND rr.sys_groupid = ?", $groupid) : $results = $app->db->queryAllRecords("SELECT rr.data AS server_ip, rr.name as server_name, soa.origin as domain FROM dns_rr as rr, dns_soa as soa WHERE (rr.type = 'A' OR rr.type = 'AAAA') AND soa.id = rr.zone");
+
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+				$result['server_name'] = substr($result['server_name'], -1) == '.' ? $result['server_name'] : $result['server_name'] . '.' . $result['domain'];
+				if (!array_key_exists($result['server_ip'],$server_by_ip)) {
+					$server_by_ip[$result['server_ip']] = 'dns: ' . $result['server_name'];
+					if(preg_match($regex, $result['server_ip'])) $ips[] = $result['server_ip'];
+				}
 			}
 		}
-		$results = $app->db->queryAllRecords("SELECT ns AS ip FROM dns_slave");
+
+		$results = $groupid != 1 ? $app->db->queryAllRecords("SELECT ns AS ip FROM dns_slave WHERE sys_groupid = ?", $groupid) : $results = $app->db->queryAllRecords("SELECT ns AS ip FROM dns_slave");
+
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+				if (!array_key_exists($result['ip'],$server_by_ip)) {
+					if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
+				}
 			}
 		}
-		
-		$results = $app->db->queryAllRecords("SELECT remote_ips FROM web_database WHERE remote_ips != ''");
+
+		$results = $groupid != 1 ? $app->db->queryAllRecords("SELECT database_name as name,remote_ips as ip FROM web_database WHERE remote_ips != '' AND sys_groupid = ?", $groupid) : $results = $app->db->queryAllRecords("SELECT database_name as name,remote_ips as ip FROM web_database WHERE remote_ips != ''");
+
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
-				$tmp_ips = explode(',', $result['remote_ips']);
+				$tmp_ips = explode(',', $result['ip']);
 				foreach($tmp_ips as $tmp_ip){
 					$tmp_ip = trim($tmp_ip);
-					if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+					if (!array_key_exists($tmp_ip,$server_by_ip)) {
+						$server_by_ip[$tmp_ip] = 'database: ' . $result['name'];
+						if(preg_match($regex, $tmp_ip)) $ips[] = $tmp_ip;
+					}
 				}
 			}
 		}
 		$ips = array_unique($ips);
+		sort($localips, SORT_NUMERIC);
 		sort($ips, SORT_NUMERIC);
-
+		$ips = array_merge($localips,$ips);
+		$ips = array_slice($ips, 0, $suggestions_max);
 		$result_array = array('cheader' => array(), 'cdata' => array());
 
 		if(!empty($ips)){
 			$result_array['cheader'] = array('title' => 'IPs',
 				'total' => count($ips),
-				'limit' => count($ips)
+				'limit' => count($ips),
 			);
 
 			foreach($ips as $ip){
@@ -282,7 +313,7 @@ class functions {
 	 */
 	public function formatBytes($size, $precision = 2) {
 		$suffixes=array('', ' kB', ' MB', ' GB', ' TB');
-		if($size != 0 && !is_nan($size)) { 
+		if($size != 0 && !is_nan($size)) {
 			$base=log($size)/log(1024);
 			$tmpoutput =  round(pow(1024, $base-floor($base)), $precision).$suffixes[floor($base)];
 		} else {
@@ -371,42 +402,42 @@ class functions {
 
 	public function is_allowed_user($username, $restrict_names = false) {
 		global $app;
-		
+
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($username,$name_blacklist)) return false;
-		
+
 		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $username) == false) return false;
-		
+
 		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
-		
+
 		return true;
 	}
-	
+
 	public function is_allowed_group($groupname, $restrict_names = false) {
 		global $app;
-		
+
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($groupname,$name_blacklist)) return false;
-		
+
 		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $groupname) == false) return false;
-		
+
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
-		
+
 		return true;
 	}
-	
+
 	public function getimagesizefromstring($string){
 		if (!function_exists('getimagesizefromstring')) {
 			$uri = 'data://application/octet-stream;base64,' . base64_encode($string);
 			return getimagesize($uri);
 		} else {
 			return getimagesizefromstring($string);
-		}		
+		}
 	}
-	
+
 	public function password($minLength = 10, $special = false){
 		global $app;
-	
+
 		$iteration = 0;
 		$password = "";
 		$maxLength = $minLength + 5;
@@ -431,7 +462,7 @@ class functions {
 	public function getRandomInt($min, $max){
 		return floor((mt_rand() / mt_getrandmax()) * ($max - $min + 1)) + $min;
 	}
-	
+
 	public function generate_customer_no(){
 		global $app;
 		// generate customer no.
@@ -439,13 +470,13 @@ class functions {
 		while($app->db->queryOneRecord("SELECT client_id FROM client WHERE customer_no = ?", $customer_no)) {
 			$customer_no = mt_rand(100000, 999999);
 		}
-		
+
 		return $customer_no;
 	}
-	
+
 	public function generate_ssh_key($client_id, $username = ''){
 		global $app;
-		
+
 		// generate the SSH key pair for the client
 		$id_rsa_file = '/tmp/'.uniqid('',true);
 		$id_rsa_pub_file = $id_rsa_file.'.pub';
@@ -459,7 +490,7 @@ class functions {
 			$app->log("Failed to create SSH keypair for ".$username, LOGLEVEL_WARN);
 		}
 	}
-	
+
 	public function htmlentities($value) {
 		global $conf;
 
@@ -475,7 +506,7 @@ class functions {
 		} else {
 			$out = htmlentities($value, ENT_QUOTES, $conf["html_content_encoding"]);
 		}
-		
+
 		return $out;
 	}
 }

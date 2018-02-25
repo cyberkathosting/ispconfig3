@@ -68,7 +68,7 @@ $wb['customer_no_template_error_regex_txt'] = 'The customer No. template contain
 $wb['customer_no_start_txt'] = 'Customer No. start value';
 $wb['customer_no_counter_txt'] = 'Customer No. counter';
 $wb['session_timeout_txt'] = 'Session timeout (minutes)';
-$wb['session_allow_endless_txt'] = 'Enable \\"stay logged in\\"';
+$wb['session_allow_endless_txt'] = 'Enable "stay logged in"';
 $wb['No'] = 'No';
 $wb['min_password_length_txt'] = 'Minimum password length';
 $wb['min_password_strength_txt'] = 'Minimum password strength';
@@ -91,4 +91,7 @@ $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['asp_new_package_disabled_txt'] = 'Disable new aps packages';
+$wb['use_ipsuggestions_txt'] = 'IP adres suggesties inschakelen';
+$wb['use_ipsuggestions_descr_txt'] = 'Toont een dropdown box met een lijst van IP adressen voor IPv4 en IPv6 adressen.';
+$wb['ipsuggestions_max_txt'] = 'Max aantal IP suggesties';
 ?>
