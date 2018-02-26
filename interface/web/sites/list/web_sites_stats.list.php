@@ -43,7 +43,7 @@ $liste["paging_tpl"]  = "templates/paging.tpl.htm";
 $liste["auth"]    = "yes";
 
 // mark columns for php sorting (no real mySQL columns)
-$liste["phpsort"] = array('this_month_sort', 'last_month_sort', 'this_year_sort', 'last_year_sort');
+$liste["phpsort"] = array('this_month_sort', 'last_month_sort', 'this_year_sort', 'last_year_sort', 'percentage', 'quota_sort');
 
 /*****************************************************
 * Suchfelder
