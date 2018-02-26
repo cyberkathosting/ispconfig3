@@ -2773,9 +2773,9 @@ class apache2_plugin {
 							$output .= "BrowserMatch MSIE AuthDigestEnableQueryStringHack=On\n";
 							$output .= "AuthType Digest\n";
 							if($fn != '' && $fn != '/') {
-								$output .= "        AuthName \"" . $fn . "\"\n";
+								$output .= "AuthName \"" . $fn . "\"\n";
 							} else {
-								$output .= "        AuthName \"Restricted Area\"\n";
+								$output .= "AuthName \"Restricted Area\"\n";
 							}
 							$output .= "AuthUserFile $webdavRoot/$file\n";
 							$output .= "Require valid-user\n";
