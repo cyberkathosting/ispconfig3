@@ -67,7 +67,13 @@ class list_action extends listform_actions {
 		$rec['last_year'] = $app->functions->formatBytes($tmp_rec['t']);
 		$rec['last_year_sort'] = $tmp_rec['t'];
 		$this->sum_last_year += $tmp_rec['t'];
+		$rec['percentage'] = $rec['traffic_quota'] == '-1' ? -1 : round((($rec['this_month_sort']/($rec['traffic_quota']*1024*1024))*100));
+		$rec['progressbar'] = $rec['percentage'] > 100 ? 100 : $rec['percentage'];
+		$rec['quota_sort'] = $rec['traffic_quota'];
+		$rec['quota'] = $rec['traffic_quota'] == '-1' ? 'unlimited' : $app->functions->formatBytes($rec['traffic_quota']*1024*1024);
+		//echo 'quota: ' . $rec['traffic_quota']*1024*1024 . ' - traffic: ' . $rec['this_month_sort'] . ' - percentage: ' . $rec['percentage'] . ' - progressbar: ' . $rec['progressbar'] . '<br/>';
 
+		//var_dump($rec);
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];
 
@@ -97,3 +103,4 @@ $list->onLoad();
 
 
 ?>
+
