@@ -602,6 +602,20 @@ $form["tabs"]['misc'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'use_ipsuggestions' => array (
+                        'datatype' => 'VARCHAR',
+                        'formtype' => 'CHECKBOX',
+                        'default' => 'y',
+                        'value'  => array(0 => 'n', 1 => 'y')
+                ),
+		'ipsuggestions_max' => array (
+                        'datatype' => 'INTEGER',
+                        'formtype' => 'TEXT',
+                        'default' => '',
+                        'value'  => '',
+                        'width'  => '30',
+                        'maxlength' => '255'
+                ),
 		'maintenance_mode' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
