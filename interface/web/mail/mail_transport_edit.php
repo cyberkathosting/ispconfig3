@@ -107,7 +107,7 @@ class page_action extends tform_actions {
 			}
 		}
 		$rec["type"] = $type_select;
-		$app->tpl->setVar($rec, null, true);
+		$app->tpl->setVar($rec);
 		unset($type);
 		unset($types);
 

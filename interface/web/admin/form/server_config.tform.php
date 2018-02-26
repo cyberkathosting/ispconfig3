@@ -183,6 +183,20 @@ $form["tabs"]['server'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'backup_tmp' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '/tmp/',
+			'validators' => array(	0 => array('type' => 'NOTEMPTY',
+										'errmsg' => 'tmpdir_path_error_empty'),
+									1 => array ( 	'type' => 'REGEX',
+										'regex' => "/^\/[a-zA-Z0-9\.\-\_\/]{4,128}$/",
+										'errmsg'=> 'tmpdir_path_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'backup_dir_is_mount' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
