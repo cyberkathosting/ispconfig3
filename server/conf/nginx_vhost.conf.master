@@ -313,8 +313,19 @@ server {
         }
 </tmpl_loop>
 </tmpl_if>
+		## no redirect for acme
+		location ^~ /.well-known/acme-challenge/ {
+			access_log off;
+			log_not_found off;
+			root /usr/local/ispconfig/interface/acme/;
+			autoindex off;
+			index index.html;
+			try_files $uri $uri/ =404;
+        }
 <tmpl_if name='use_rewrite'>
-        rewrite ^ <tmpl_var name='rewrite_target'>$request_uri? <tmpl_var name='rewrite_type'>;
+		location / {
+			rewrite ^ <tmpl_var name='rewrite_target'>$request_uri? <tmpl_var name='rewrite_type'>;
+		}
 </tmpl_if>
 <tmpl_if name='use_proxy'>
         location / {
