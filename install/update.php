@@ -201,7 +201,7 @@ if($do_backup == 'yes') {
 
 	//* Do the backup
 	swriteln('Creating backup of "/usr/local/ispconfig" directory...');
-	exec("tar pcfz $backup_path/ispconfig_software.tar.gz /usr/local/ispconfig 2> /dev/null", $out, $returnvar);
+	exec("tar pcfz $backup_path/ispconfig_software.tar.gz /usr/local/ispconfig --exclude=/usr/local/ispconfig/server/aps_packages 2> /dev/null", $out, $returnvar);
 	if($returnvar != 0) die("Backup failed. We stop here...\n");
 
 	swriteln('Creating backup of "/etc" directory...');
