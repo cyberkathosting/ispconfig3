@@ -54,6 +54,7 @@ class cronjob_backup extends cronjob {
 		$global_config = $app->getconf->get_global_config('sites');
 		$backup_dir = trim($server_config['backup_dir']);
 		$backup_mode = $server_config['backup_mode'];
+		$backup_tmp = trim($server_config['backup_tmp']);
 		if($backup_mode == '') $backup_mode = 'userzip';
 
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -77,6 +78,15 @@ class cronjob_backup extends cronjob {
             if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($backup_dir) ) $run_backups = false;
 			if($run_backups){
 				$web_array = array();
+
+				system('which pigz > /dev/null', $ret);
+				if($ret === 0) {
+					$use_pigz = true;
+					$zip_cmd = 'pigz'; // db-backups
+				} else {
+					$use_pigz = false;
+					$zip_cmd = 'gzip'; // db-backups
+				}
 				
 				//* backup only active domains
 				$sql = "SELECT * FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias') AND active = 'y'";
@@ -117,12 +127,16 @@ class cronjob_backup extends cronjob {
 							if($backup_mode == 'userzip') {
 								//* Create a .zip backup as web user and include also files owned by apache / nginx user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
-								exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b /tmp --exclude=./backup\*'.$backup_excludes.' --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
-								if($retval == 0 || $retval == 12) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b /tmp --exclude=./backup\*'.$backup_excludes.' --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
+								exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b '.escapeshellarg($backup_tmp).' --exclude=./backup\*'.$backup_excludes.' --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
+								if($retval == 0 || $retval == 12) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b '.escapeshellarg($backup_tmp).' --exclude=./backup\*'.$backup_excludes.' --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
 							} else {
 								//* Create a tar.gz backup as root user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
-								exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=./backup\*'.$backup_excludes.' --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
+								if ($use_pigz) {
+									exec('tar pcf - --directory '.escapeshellarg($web_path).' . --exclude=./backup\*'.$backup_excludes.' | pigz > '.escapeshellarg($web_backup_dir.'/'.$web_backup_file), $tmp_output, $retval);
+								} else {
+									exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=./backup\*'.$backup_excludes.' --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
+}
 							}
 							if($retval == 0 || ($backup_mode != 'userzip' && $retval == 1) || ($backup_mode == 'userzip' && $retval == 12)) { // tar can return 1, zip can return 12(due to harmless warings) and still create valid backups  
 								if(is_file($web_backup_dir.'/'.$web_backup_file)){
@@ -241,8 +255,8 @@ class cronjob_backup extends cronjob {
 							$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." -c --add-drop-table --create-options --quick --max_allowed_packet=512M --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
 							exec($command, $tmp_output, $retval);
 
-							//* Compress the backup with gzip
-							if($retval == 0) exec("gzip -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
+							//* Compress the backup with gzip / pigz
+							if($retval == 0) exec("$zip_cmd -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
 
 							if($retval == 0){
 								if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')){

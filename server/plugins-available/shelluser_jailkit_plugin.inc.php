@@ -399,7 +399,7 @@ class shelluser_jailkit_plugin {
 		if($this->data['new']['active'] != 'y') $shell = '/bin/false';
 		
 		$app->system->usermod($this->data['new']['username'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, $shell);
-		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, '/usr/sbin/jk_chrootsh');
+		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_puserhome, '/usr/sbin/jk_chrootsh');
 
 		$this->app->log("Added jailkit user to chroot with command: ".$command, LOGLEVEL_DEBUG);
 

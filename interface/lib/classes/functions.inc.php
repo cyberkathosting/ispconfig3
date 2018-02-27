@@ -58,6 +58,10 @@ class functions {
 		if($cc != '') $app->ispcmail->setHeader('Cc', $cc);
 		if($bcc != '') $app->ispcmail->setHeader('Bcc', $bcc);
 
+		if(is_string($to) && strpos($to, ',') !== false) {
+				$to = preg_split('/\s*,\s*/', $to);
+		}
+		
 		$app->ispcmail->send($to);
 		$app->ispcmail->finish();
 

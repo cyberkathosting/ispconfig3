@@ -170,7 +170,7 @@ class backup_plugin {
 						
 						$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 						$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
-						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						$app->log('unlink '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}

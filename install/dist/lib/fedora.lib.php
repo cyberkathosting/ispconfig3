@@ -443,6 +443,13 @@ class installer_dist extends installer_base {
 			if(version_compare($dovecot_version,2.1) < 0) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
 			}
+			if(version_compare($dovecot_version,2.2) >= 0) {
+				// Dovecot > 2.2 does not recognize !SSLv2 anymore on Debian 9
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('!SSLv2','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
+			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = webmaster@localhost', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 		} else {
