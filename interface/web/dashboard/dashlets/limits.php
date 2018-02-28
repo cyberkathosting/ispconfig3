@@ -165,8 +165,11 @@ class dashlet_limits {
 				}
 				else $usage = $this->_get_limit_usage($limit);
 				$percentage = ($value == '-1' || $value == 0 ? 0 : round(100 * $usage / $value));
-				$progressbar = $percentage > 100 ? 100 : $percentage;
-
+				if($value == $wb['unlimited_txt'] || $value == '-1') {
+					$progressbar = '-1';
+				} else {
+					$progressbar = $percentage > 100 ? 100 : $percentage;
+				}
 				$rows[] = array('field' => $field,
 					'field_txt' => $wb[$field.'_txt'],
 					'value' => $value_formatted,
