@@ -189,7 +189,7 @@ class installer_base {
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
 
-    public function force_configure_app($service, $enable_force=true) {
+	public function force_configure_app($service, $enable_force=true) {
 		$force = false;
 		if(AUTOINSTALL == true) return false;
 		if($enable_force == true) {
@@ -198,12 +198,12 @@ class installer_base {
 			swriteln("[INFO] service $service not detected");
 		}
 		if($enable_force) {
-	        if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
-	            $force = true;
+			if(strtolower($this->simple_query("Force configure $service", array('y', 'n'), 'n') ) == 'y') {
+				$force = true;
 			} else swriteln("Skipping $service\n");
 		}
 		return $force;
-    }
+	}
 
 	public function reconfigure_app($service, $reconfigure_services_answer) {
 		$reconfigure = false;
@@ -228,7 +228,7 @@ class installer_base {
 		//* ensure no modes with errors for ENGINE=MyISAM
 		$this->db->query("SET sql_mode = ''");
 
-		$unwanted_sql_plugins = array('validate_password');		
+		$unwanted_sql_plugins = array('validate_password');
 		$sql_plugins = $this->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
 		if(is_array($sql_plugins) && !empty($sql_plugins)) {
 			foreach ($sql_plugins as $plugin) echo "Login in to MySQL and disable $plugin[plugin_name] with:\n\n    UNINSTALL PLUGIN $plugin[plugin_name];";
@@ -345,7 +345,7 @@ class installer_base {
 		}
 
 		$server_ini_content = array_to_ini($tpl_ini_array);
-		
+
 		$mail_server_enabled = ($conf['services']['mail'])?1:0;
 		$web_server_enabled = ($conf['services']['web'])?1:0;
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
@@ -397,12 +397,12 @@ class installer_base {
 
 
 	}
-	
+
 	public function detect_ips(){
 		global $conf;
 
 		exec("ip addr show | awk '/global/ { print $2 }' | cut -d '/' -f 1", $output, $retval);
-		
+
 		if($retval == 0){
 			if(is_array($output) && !empty($output)){
 				foreach($output as $line){
@@ -506,13 +506,13 @@ class installer_base {
 			$ip_rec=dns_get_record($conf['hostname'], DNS_A + DNS_AAAA);
 			if(!empty($ip_rec)) foreach($ip_rec as $rec => $ip) $ip_list[]=@(isset($ip['ip']))?$ip['ip']:$ip['ipv6'];
 
-			if(!empty($ip_list)) {
-				foreach($ip_list as $ip) {
-					$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
-					$hosts[$ip]['db'] = $conf['mysql']['master_database'];
-					$hosts[$ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+				if(!empty($ip_list)) {
+					foreach($ip_list as $ip) {
+						$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+						$hosts[$ip]['db'] = $conf['mysql']['master_database'];
+						$hosts[$ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+					}
 				}
-			}
 		} else{
 			/*
 			 * it is NOT a master-slave - Setup so we have to find out all clients and their
@@ -650,7 +650,7 @@ class installer_base {
 				if(!$this->dbmaster->query($query, $value['db'] . '.aps_instances', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
-				
+
 				$query = "GRANT SELECT, DELETE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
@@ -674,7 +674,7 @@ class installer_base {
 				if(!$this->dbmaster->query($query, $value['db'] . '.mail_backup', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
-				
+
 				$query = "GRANT SELECT, UPDATE(`dnssec_initialized`, `dnssec_info`, `dnssec_last_signed`) ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
@@ -682,7 +682,7 @@ class installer_base {
 				if(!$this->dbmaster->query($query, $value['db'] . '.dns_soa', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
-				
+
 				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
@@ -918,14 +918,14 @@ class installer_base {
 
 		if ($ret === 0) { //* with postfix >= 2.9 we can detect configured services with postconf
 			unset($out);
-			exec ("postconf -M $service/$type 2> /dev/null", $out, $ret); //* Postfix >= 2.11
+			exec("postconf -M $service/$type 2> /dev/null", $out, $ret); //* Postfix >= 2.11
 			if (!isset($out[0])) { //* try Postfix 2.9
-				exec ("postconf -M $service.$type 2> /dev/null", $out, $ret);
+				exec("postconf -M $service.$type 2> /dev/null", $out, $ret);
 			}
 			$postfix_service = @($out[0]=='')?false:true;
-        } else { //* fallback - Postfix < 2.9
+		} else { //* fallback - Postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
-			$regex = "/^((?!#)".$service.".*".$type.".*)$/m"; 
+			$regex = "/^((?!#)".$service.".*".$type.".*)$/m";
 			$postfix_service = @(preg_match($regex, $content))?true:false;
 		}
 
@@ -973,7 +973,7 @@ class installer_base {
 
 		//* mysql-virtual_relayrecipientmaps.cf
 		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
-		
+
 		//* mysql-virtual_outgoing_bcc.cf
 		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
 
@@ -1032,13 +1032,13 @@ class installer_base {
 		if($conf['postgrey']['installed'] == true) {
 			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
 		}
-		
+
 		$reject_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
 			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
 		}
 		unset($server_ini_array);
-		
+
 		$tmp = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
@@ -1132,7 +1132,7 @@ class installer_base {
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
 		$configfile = $config_dir.'/master.cf';
 		if($this->get_postfix_service('maildrop', 'unix')) {
-			exec ("postconf -M maildrop.unix &> /dev/null", $out, $ret);
+			exec("postconf -M maildrop.unix &> /dev/null", $out, $ret);
 			$change_maildrop_flags = @(preg_match($regex, $out[0]) && $out[0] !='')?false:true;
 		} else {
 			$change_maildrop_flags = @(preg_match($regex, $configfile))?false:true;
@@ -1144,12 +1144,12 @@ class installer_base {
 			}
 			if(is_file($config_dir.'/master.cf~')) {
 				chmod($config_dir.'/master.cf~', 0400);
- 			}
+			}
 			$configfile = $config_dir.'/master.cf';
 			$content = rf($configfile);
-			$content =	str_replace('flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}',
-						'flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d '.$cf['vmail_username'].' ${extension} ${recipient} ${user} ${nexthop} ${sender}',
-						$content);
+			$content = str_replace('flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}',
+				'flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d '.$cf['vmail_username'].' ${extension} ${recipient} ${user} ${nexthop} ${sender}',
+				$content);
 			wf($configfile, $content);
 		}
 
@@ -1176,7 +1176,7 @@ class installer_base {
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 	}
-	
+
 	public function configure_saslauthd() {
 		global $conf;
 
@@ -1292,17 +1292,17 @@ class installer_base {
 
 	public function configure_dovecot() {
 		global $conf;
-		
+
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
-		
+
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
-			
+
 			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
 				$configure_lmtp = true;
@@ -1313,7 +1313,7 @@ class installer_base {
 
 		//* Configure master.cf and add a line for deliver
 		if(!$this->get_postfix_service('dovecot', 'unix')) {
- 			//* backup
+			//* backup
 			if(is_file($config_dir.'/master.cf')){
 				copy($config_dir.'/master.cf', $config_dir.'/master.cf~2');
 			}
@@ -1359,13 +1359,13 @@ class installer_base {
 		unset($tmp);
 
 		//* Copy dovecot configuration file
-		if(version_compare($dovecot_version,1, '<=')) {	//* Dovecot 1.x
+		if(version_compare($dovecot_version,1, '<=')) { //* Dovecot 1.x
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian_dovecot.conf.master', $config_dir.'/'.$configfile);
 			}
-		} else {	//* Dovecot 2.x
+		} else { //* Dovecot 2.x
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
@@ -1412,7 +1412,7 @@ class installer_base {
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
-		
+
 		// Dovecot shall ignore mounts in website directory
 		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
@@ -1482,7 +1482,7 @@ class installer_base {
 				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
 				af($config_dir.'/master.cf', $content);
 				unset($content);
-    		}
+			}
 		}
 
 		// Add the clamav user to the amavis group
@@ -1667,14 +1667,14 @@ class installer_base {
 
 
 	}
-	
+
 	//** writes bind configuration files
 	public function process_bind_file($configfile, $target='/', $absolute=false) {
 		global $conf;
 
 		if ($absolute) $full_file_name = $target.$configfile;
 		else $full_file_name = $conf['ispconfig_install_dir'].$target.$configfile;
-		
+
 		//* Backup exiting file
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.$configfile.'~');
@@ -1706,79 +1706,79 @@ class installer_base {
 		chown($content, $conf['bind']['bind_user']);
 		chgrp($content, $conf['bind']['bind_group']);
 		chmod($content, 02770);
-		
+
 		//* Install scripts for dnssec implementation
 		$this->process_bind_file('named.conf.options', '/etc/bind/', true); //TODO replace hardcoded path
 	}
 
 
-    public function configure_xmpp($options = '') {
-        global $conf;
+	public function configure_xmpp($options = '') {
+		global $conf;
 
-        if($conf['xmpp']['installed'] == false) return;
-        //* Create the logging directory for xmpp server
-        if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
-        chown('/var/log/metronome', 'metronome');
-        if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
-        chown('/var/run/metronome', 'metronome');
-        if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
-        chown('/var/lib/metronome', 'metronome');
-        if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
-        if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
-        unlink('/etc/metronome/metronome.cfg.lua');
+		if($conf['xmpp']['installed'] == false) return;
+		//* Create the logging directory for xmpp server
+		if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
+		chown('/var/log/metronome', 'metronome');
+		if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
+		chown('/var/run/metronome', 'metronome');
+		if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
+		chown('/var/lib/metronome', 'metronome');
+		if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
+		if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
+		unlink('/etc/metronome/metronome.cfg.lua');
 
-        $row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
-        $server_name = $row["server_name"];
+		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
+		$server_name = $row["server_name"];
 
-        $tpl = new tpl('metronome_conf_main.master');
-        wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
-        unset($tpl);
+		$tpl = new tpl('metronome_conf_main.master');
+		wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
+		unset($tpl);
 
-        $tpl = new tpl('metronome_conf_global.master');
-        $tpl->setVar('xmpp_admins','');
-        wf('/etc/metronome/global.cfg.lua', $tpl->grab());
-        unset($tpl);
+		$tpl = new tpl('metronome_conf_global.master');
+		$tpl->setVar('xmpp_admins','');
+		wf('/etc/metronome/global.cfg.lua', $tpl->grab());
+		unset($tpl);
 
-        // Copy isp libs
-        if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
-        caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
-        caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
-        // Process db config
-        $full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
-        $content = rf($full_file_name);
-        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-        $content = str_replace('{server_id}', $conf['server_id'], $content);
-        wf($full_file_name, $content);
+		// Copy isp libs
+		if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
+		caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+		caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
+		// Process db config
+		$full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
+		$content = rf($full_file_name);
+		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
+		wf($full_file_name, $content);
 
-        if(!stristr($options, 'dont-create-certs')){
-            // Create SSL Certificate for localhost
-            // Ensure no line is left blank
+		if(!stristr($options, 'dont-create-certs')){
+			// Create SSL Certificate for localhost
+			// Ensure no line is left blank
 			echo "writing new private key to 'localhost.key'\n-----\n";
 			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
-            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
-            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
-            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
+			$ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
+			$ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
+			$ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
+			$ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
+			$ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
 
-            $tpl = new tpl('metronome_conf_ssl.master');
-            $tpl->setVar('ssl_country',$ssl_country);
-            $tpl->setVar('ssl_locality',$ssl_locality);
-            $tpl->setVar('ssl_organisation',$ssl_organisation);
-            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
-            $tpl->setVar('domain',$ssl_domain);
-            $tpl->setVar('ssl_email',$ssl_email);
-            wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
-            unset($tpl);
-            // Generate new key, csr and cert
-            exec("(cd /etc/metronome/certs && make localhost.key)");
-            exec("(cd /etc/metronome/certs && make localhost.csr)");
-            exec("(cd /etc/metronome/certs && make localhost.cert)");
-            exec('chmod 0400 /etc/metronome/certs/localhost.key');
-            exec('chown metronome /etc/metronome/certs/localhost.key');
+			$tpl = new tpl('metronome_conf_ssl.master');
+			$tpl->setVar('ssl_country',$ssl_country);
+			$tpl->setVar('ssl_locality',$ssl_locality);
+			$tpl->setVar('ssl_organisation',$ssl_organisation);
+			$tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
+			$tpl->setVar('domain',$ssl_domain);
+			$tpl->setVar('ssl_email',$ssl_email);
+			wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
+			unset($tpl);
+			// Generate new key, csr and cert
+			exec("(cd /etc/metronome/certs && make localhost.key)");
+			exec("(cd /etc/metronome/certs && make localhost.csr)");
+			exec("(cd /etc/metronome/certs && make localhost.cert)");
+			exec('chmod 0400 /etc/metronome/certs/localhost.key');
+			exec('chown metronome /etc/metronome/certs/localhost.key');
 
 			echo "IMPORTANT:\n";
 			echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/metronome/certs\n";
@@ -1787,22 +1787,22 @@ class installer_base {
 			echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
 			echo "\n";
 
-        }else{
-            /*
+		}else{
+			/*
 			echo "-----\n";
             echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
             echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
             echo "-----\n";
 			*/
-        }
+		}
 
-        // Copy init script
-        caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
-        caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
-        caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
+		// Copy init script
+		caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
+		caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
+		caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
-        exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
-    }
+		exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
+	}
 
 
 	public function configure_apache() {
@@ -1826,12 +1826,12 @@ class installer_base {
 		if(is_file('/etc/apache2/ports.conf')) {
 			// add a line "Listen 443" to ports conf if line does not exist
 			replaceLine('/etc/apache2/ports.conf', 'Listen 443', 'Listen 443', 1);
-			
+
 			// Comment out the namevirtualhost lines, as they were added by ispconfig in ispconfig.conf file again
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:80', '# NameVirtualHost *:80', 1);
 			replaceLine('/etc/apache2/ports.conf', 'NameVirtualHost *:443', '# NameVirtualHost *:443', 1);
 		}
-		
+
 		if(is_file('/etc/apache2/mods-available/fcgid.conf')) {
 			// add or modify the parameters for fcgid.conf
 			replaceLine('/etc/apache2/mods-available/fcgid.conf','MaxRequestLen','MaxRequestLen 15728640',1);
@@ -1846,7 +1846,7 @@ class installer_base {
 				}
 			}
 		}
-		
+
 		if(is_file('/etc/apache2/apache2.conf')) {
 			if(hasLine('/etc/apache2/apache2.conf', 'Include sites-enabled/', 1) == false && hasLine('/etc/apache2/apache2.conf', 'IncludeOptional sites-enabled/', 1) == false) {
 				if(hasLine('/etc/apache2/apache2.conf', 'Include sites-enabled/*.conf', 1) == true) {
@@ -1862,11 +1862,11 @@ class installer_base {
 		$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
 		$tpl = new tpl('apache_ispconfig.conf.master');
-		$tpl->setVar('apache_version',getapacheversion());
-		
+		$tpl->setVar('apache_version',getapacheversion(true));
+
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
-		
+
 		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
 				if($rec['ip_type'] == 'IPv6') {
@@ -1885,9 +1885,9 @@ class installer_base {
 				}
 			}
 		}
-		
+
 		if(count($ip_addresses) > 0) $tpl->setLoop('ip_adresses',$ip_addresses);
-		
+
 		wf($vhost_conf_dir.'/ispconfig.conf', $tpl->grab());
 		unset($tpl);
 
@@ -2106,7 +2106,7 @@ class installer_base {
 			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
 			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 			$apps_vhost_servername = ($conf['web']['apps_vhost_servername'] == '')?'':'ServerName '.$conf['web']['apps_vhost_servername'];
-			
+
 			//* Get the apps vhost port
 			if($this->is_update == true) {
 				$conf['web']['apps_vhost_port'] = get_apps_vhost_port_number();
@@ -2212,11 +2212,11 @@ class installer_base {
 			}
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
-			
+
 			// SSL in apps vhost is off by default. Might change later.
 			$content = str_replace('{ssl_on}', 'off', $content);
 			$content = str_replace('{ssl_comment}', '#', $content);
-			
+
 			// Fix socket path on PHP 7 systems
 			if(file_exists('/var/run/php/php7.0-fpm.sock')) {
 				$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
@@ -2266,7 +2266,7 @@ class installer_base {
 		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
 		rename($ssl_key_file, $ssl_key_file.'.secure');
 		rename($ssl_key_file.'.insecure', $ssl_key_file);
-		
+
 		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 	}
@@ -2296,14 +2296,14 @@ class installer_base {
 		//* copy the ISPConfig server part
 		$command = 'cp -rf ../server '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Make a backup of the security settings
 		if(is_file('/usr/local/ispconfig/security/security_settings.ini')) copy('/usr/local/ispconfig/security/security_settings.ini','/usr/local/ispconfig/security/security_settings.ini~');
-		
+
 		//* copy the ISPConfig security part
 		$command = 'cp -rf ../security '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Apply changed security_settings.ini values to new security_settings.ini file
 		if(is_file('/usr/local/ispconfig/security/security_settings.ini~')) {
 			$security_settings_old = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini~'));
@@ -2482,15 +2482,15 @@ class installer_base {
 		//* Chmod the files and directories in the acme dir
 		$command = 'chmod -R 755 '.$install_dir.'/interface/acme';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the server files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/server';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the security files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/security';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the security directory and security_settings.ini to root:ispconfig
 		$command = 'chown root:ispconfig '.$install_dir.'/security/security_settings.ini';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -2504,7 +2504,7 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chown root:ispconfig '.$install_dir.'/security/nginx_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Make the global language file directory group writable
 		exec("chmod -R 770 $install_dir/interface/lib/lang");
 
@@ -2555,7 +2555,7 @@ class installer_base {
 			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
-		
+
 		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
@@ -2594,6 +2594,8 @@ class installer_base {
 
 			// Dont just copy over the virtualhost template but add some custom settings
 			$tpl = new tpl('apache_ispconfig.vhost.master');
+			$tpl->setVar('apache_version',getapacheversion());
+			$tpl->setVar(array_fill_keys(getapachemodules(), true)); // set all apache modules as template variables
 			$tpl->setVar('vhost_port',$conf['apache']['vhost_port']);
 
 			// comment out the listen directive if port is 80 or 443
@@ -2613,7 +2615,7 @@ class installer_base {
 			} else {
 				$tpl->setVar('ssl_bundle_comment','#');
 			}
-			
+
 			$tpl->setVar('apache_version',getapacheversion());
 
 			wf($vhost_conf_dir.'/ispconfig.vhost', $tpl->grab());
@@ -2692,8 +2694,8 @@ class installer_base {
 		if(is_file('/usr/local/bin/ispconfig_update_from_dev.sh')) unlink('/usr/local/bin/ispconfig_update_from_dev.sh');
 		chown($install_dir.'/server/scripts/update_from_dev.sh', 'root');
 		chmod($install_dir.'/server/scripts/update_from_dev.sh', 0700);
-//		chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
-//		chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
+		//  chown($install_dir.'/server/scripts/update_from_tgz.sh', 'root');
+		//  chmod($install_dir.'/server/scripts/update_from_tgz.sh', 0700);
 		chown($install_dir.'/server/scripts/ispconfig_update.sh', 'root');
 		chmod($install_dir.'/server/scripts/ispconfig_update.sh', 0700);
 		if(!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_dev.sh');
@@ -2752,16 +2754,16 @@ class installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
-		
+
 		//* Disable rkhunter run and update in debian cronjob as ispconfig is running and updating rkhunter
 		if(is_file('/etc/default/rkhunter')) {
 			replaceLine('/etc/default/rkhunter', 'CRON_DAILY_RUN="yes"', 'CRON_DAILY_RUN="no"', 1, 0);
 			replaceLine('/etc/default/rkhunter', 'CRON_DB_UPDATE="yes"', 'CRON_DB_UPDATE="no"', 1, 0);
 		}
-		
+
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-		
+
 		// Change mode of a few files from amavisd
 		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
@@ -2855,12 +2857,12 @@ class installer_base {
 		chmod($conf['ispconfig_log_dir'].'/cron.log', 0660);
 
 	}
-	
+
 	public function create_mount_script(){
 		global $app, $conf;
 		$mount_script = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh';
 		$mount_command = '';
-		
+
 		if(is_file($mount_script)) return;
 		if(is_file('/etc/rc.local')){
 			$rc_local = file('/etc/rc.local');
@@ -2881,25 +2883,25 @@ class installer_base {
 			}
 		}
 	}
-	
+
 	// This function is called at the end of the update process and contains code to clean up parts of old ISPCONfig releases
 	public function cleanup_ispconfig() {
 		global $app,$conf;
-		
+
 		// Remove directories recursively
 		if(is_dir('/usr/local/ispconfig/interface/web/designer')) exec('rm -rf /usr/local/ispconfig/interface/web/designer');
 		if(is_dir('/usr/local/ispconfig/interface/web/themes/default-304')) exec('rm -rf /usr/local/ispconfig/interface/web/themes/default-304');
-		
+
 		// Remove files
 		if(is_file('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/db_firebird.inc.php');
 		if(is_file('/usr/local/ispconfig/interface/lib/classes/form.inc.php')) unlink('/usr/local/ispconfig/interface/lib/classes/form.inc.php');
-		
+
 		// Change mode of a few files from amavisd
 		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf')) chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/amavisd.conf~')) chmod($conf['amavis']['config_dir'].'/amavisd.conf~', 0400);
-		
+
 	}
 
 	public function getinitcommand($servicename, $action, $init_script_directory = ''){
