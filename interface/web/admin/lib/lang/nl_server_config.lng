@@ -289,4 +289,7 @@ $wb['nagios_password_txt'] = 'Nagios/Check_MK Password';
 $wb['nagios_url_error_regex'] = 'Invalid Nagios/Check_MK URL';
 $wb['nagios_url_note_txt'] = 'Check_MK is being autodetected. Placeholder:';
 $wb['mailinglist_manager_txt'] = 'Mailinglist Manager';
+$wb['backup_tmp_txt'] = 'Backup tijdelijke map voor zip';
+$wb['tmpdir_path_error_empty'] = 'tmp-dir map is leeg.';
+$wb['tmpdir_path_error_regex'] = 'Ongeldige tmp-dir map.';
 ?>
