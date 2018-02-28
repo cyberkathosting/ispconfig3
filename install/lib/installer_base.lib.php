@@ -1862,6 +1862,7 @@ class installer_base {
 		$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
 		$tpl = new tpl('apache_ispconfig.conf.master');
+		$tpl->setVar('apache_version',getapacheversion(true));
 
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
