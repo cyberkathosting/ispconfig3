@@ -66,8 +66,8 @@ body {
 
 #logo {
   float: left;
-  width: 75px;
-  height: 40px;
+  width: 200px;
+  height: 65px;
   margin-top:10px;
   /*background: url("../images/logo.png") no-repeat;*/ }
   #logo a {
@@ -693,19 +693,10 @@ span.flag-za {background-position:0 -5391px}
 span.flag-zm {background-position:0 -5413px}
 span.flag-zw {background-position:0 -5435px}
 
-#logo {
-    background-image: url("../images/logo.png");
-    background-size: 75px auto; 
-    background-repeat: no-repeat;
-   }
-
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #logo {
     background-image: url("../images/logo@2x.png");
-    background-size: 75px auto; 
-    background-repeat: no-repeat;
-    }
-}
+    background-size: 200px 65px; } }
 
 .input-group-field {
     display: table-cell;
@@ -783,9 +774,7 @@ input[type="password"].form-control[readonly] {
 .systemmonitor-state.state-info .statusMsg {
     display: none;
 }
-#footer {
-    display: none;
-}
+
 span.notification_text {
     display: block;
     margin-left: auto;
@@ -795,9 +784,11 @@ span.notification_text {
     font-family: inherit;
     color: white;
 }
+
 span.company_name {
     font-weight: bold;
 }
+
 span.tmp_account_name {
     font-size: 0.9em;
 }
