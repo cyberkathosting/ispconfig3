@@ -237,7 +237,7 @@ class cron_plugin {
 				
 				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
+					$command .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					if(strpos($job['command'], "\n") !== false || strpos($job['command'], "\r") !== false || strpos($job['command'], chr(0)) !== false) {
 						$app->log("Insecure Cron job SKIPPED: " . $job['command'], LOGLEVEL_WARN);
