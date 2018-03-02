@@ -408,6 +408,8 @@ class ApsGUIController extends ApsBase
 
 		//* Set package status to install afetr we inserted the settings
 		$app->db->datalogUpdate('aps_instances', array("instance_status" => INSTANCE_INSTALL), 'id', $InstanceID);
+		
+		return $InstanceID;
 	}
 
 	/**

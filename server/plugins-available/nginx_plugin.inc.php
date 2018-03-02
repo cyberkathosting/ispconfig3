@@ -1779,8 +1779,19 @@ class nginx_plugin {
 			$tpl->setLoop('alias_seo_redirects', $alias_seo_redirects);
 		}
 
+		$stats_web_folder = 'web';
+		if($data['new']['type'] == 'vhost'){
+			if($data['new']['web_folder'] != ''){
+				if(substr($data['new']['web_folder'], 0, 1) == '/') $data['new']['web_folder'] = substr($data['new']['web_folder'],1);
+				if(substr($data['new']['web_folder'], -1) == '/') $data['new']['web_folder'] = substr($data['new']['web_folder'],0,-1);
+			}
+			$stats_web_folder .= '/'.$data['new']['web_folder'];
+		} elseif($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
+			$stats_web_folder = $data['new']['web_folder'];
+		}
+		
 		//* Create basic http auth for website statistics
-		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/web/stats/.htpasswd_stats");
+		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/" . $stats_web_folder . "/stats/.htpasswd_stats");
 
 		// Create basic http auth for other directories
 		$basic_auth_locations = $this->_create_web_folder_auth_configuration($data['new']);
@@ -1848,11 +1859,11 @@ class nginx_plugin {
 		}
 
 		// create password file for stats directory
-		if(!is_file($data['new']['document_root'].'/web/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
+		if(!is_file($data['new']['document_root'].'/' . $stats_web_folder . '/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
 			if(trim($data['new']['stats_password']) != '') {
 				$htp_file = 'admin:'.trim($data['new']['stats_password']);
-				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats', $htp_file);
-				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats', 0755);
+				$app->system->file_put_contents($data['new']['document_root'].'/' . $stats_web_folder . '/stats/.htpasswd_stats', $htp_file);
+				$app->system->chmod($data['new']['document_root'].'/' . $stats_web_folder . '/stats/.htpasswd_stats', 0755);
 				unset($htp_file);
 			}
 		}

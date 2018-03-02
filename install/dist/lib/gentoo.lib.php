@@ -345,6 +345,7 @@ class installer extends installer_base
 		if(version_compare($dovecot_version,2, '>=')) {
 			$content = str_replace('# iterate_query', 'iterate_query', $content);
 		}
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$this->write_config_file($configfile, $content);
 	}
 
