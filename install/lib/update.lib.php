@@ -345,6 +345,8 @@ function updateDbAndIni() {
 	$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 	$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
 
+    $tpl_ini_array['xmpp']['xmpp_daemon'] = ($conf['metronome']['installed'] == true)?'metronome':'prosody';
+
 	if ($conf['nginx']['installed'] == true) {
 		$tpl_ini_array['web']['server_type'] = 'nginx';
 		$tpl_ini_array['global']['webserver'] = 'nginx';

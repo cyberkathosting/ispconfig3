@@ -277,6 +277,7 @@ $wb['php_ini_check_minutes_info_txt'] = '0 = no check';
 $wb['enable_spdy_txt'] = 'Makes SPDY available';
 $wb['web_settings_txt'] = 'Web Server';
 $wb['xmpp_server_txt'] = 'XMPP Server';
+$wb['xmpp_daemon_txt'] = 'XMPP Daemon';
 $wb['xmpp_use_ipv6_txt'] = 'Use IPv6';
 $wb['xmpp_bosh_max_inactivity_txt'] = 'Max. BOSH inactivity time';
 $wb['xmpp_bosh_timeout_range_wrong'] = 'Please enter a bosh timeout range between 15 - 360';

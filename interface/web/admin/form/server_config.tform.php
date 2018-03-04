@@ -1585,6 +1585,12 @@ $form["tabs"]['xmpp'] = array(
         //#################################
         // Begin Datatable fields
         //#################################
+        'xmpp_daemon' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'SELECT',
+            'default' => '20',
+            'value' => array('prosody' => 'Prosody', 'metronome' => 'Metronome')
+        ),
         'xmpp_use_ipv6' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'CHECKBOX',

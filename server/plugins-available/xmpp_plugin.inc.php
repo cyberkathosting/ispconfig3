@@ -99,7 +99,7 @@ class xmpp_plugin {
 
         // Global server config
         $tpl = new tpl();
-        $tpl->newTemplate('metronome_conf_global.master');
+        $tpl->newTemplate('xmpp_metronome_conf_global.master');
         $tpl->setVar('ipv6', $xmpp_config['xmpp_use_ipv6']=='y'?'true':'false');
         $tpl->setVar('bosh_timeout', intval($xmpp_config['xmpp_bosh_max_inactivity']));
         $tpl->setVar('port_http', intval($xmpp_config['xmpp_port_http']));
@@ -144,7 +144,7 @@ class xmpp_plugin {
 
         // Create main host file
         $tpl = new tpl();
-        $tpl->newTemplate('metronome_conf_host.master');
+        $tpl->newTemplate('xmpp_metronome_conf_host.master');
         $tpl->setVar('domain', $data['new']['domain']);
         $tpl->setVar('active', $data['new']['active'] == 'y' ? 'true' : 'false');
         $tpl->setVar('public_registration', $data['new']['public_registration'] == 'y' ? 'true' : 'false');
@@ -213,7 +213,7 @@ class xmpp_plugin {
         // Create status host file
         if($data['new']['use_status_host']=='y'){
             $tpl = new tpl;
-            $tpl->newTemplate('metronome_conf_status.master');
+            $tpl->newTemplate('xmpp_metronome_conf_status.master');
             $tpl->setVar('domain', $data['new']['domain']);
             $tpl->setVar('status_hosts', "\t\t\"".implode("\",\n\t\t\"",$status_hosts)."\"\n");
             $tpl->setVar('status_comps', "\t\t\"".implode("\",\n\t\t\"",$status_comps)."\"\n");
@@ -301,7 +301,7 @@ class xmpp_plugin {
 
             // Write new CNF file
             $tpl = new tpl();
-            $tpl->newTemplate('metronome_conf_ssl.master');
+            $tpl->newTemplate('xmpp_metronome_conf_ssl.master');
             $tpl->setVar('domain', $domain);
             $tpl->setVar('ssl_country', $data['new']['ssl_country']);
             $tpl->setVar('ssl_locality', $data['new']['ssl_locality']);

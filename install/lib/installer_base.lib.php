@@ -179,7 +179,8 @@ class installer_base {
 		}
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
 		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
-		if(is_installed('metronome') && is_installed('metronomectl')) $conf['xmpp']['installed'] = true;
+        if(is_installed('metronome') && is_installed('metronomectl')) $conf['metronome']['installed'] = true;
+        if(is_installed('prosody') && is_installed('prosodyctl')) $conf['prosody']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
 		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		// ISPConfig ships with vlogger, so it is always installed.
@@ -332,6 +333,9 @@ class installer_base {
 		$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 		$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 		$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
+
+        $tpl_ini_array['xmpp']['xmpp_daemon'] = ($conf['metronome']['installed'] == true)?'metronome':'prosody';
+        $tpl_ini_array['xmpp']['xmpp_modules_enabled'] = $conf[$tpl_ini_array['xmpp']['xmpp_daemon']]['initial_modules'];
 
 		if ($conf['nginx']['installed'] == true) {
 			$tpl_ini_array['web']['server_type'] = 'nginx';
@@ -1712,10 +1716,10 @@ class installer_base {
 	}
 
 
-	public function configure_xmpp($options = '') {
+	public function configure_metronome($options = '') {
 		global $conf;
 
-		if($conf['xmpp']['installed'] == false) return;
+		if($conf['metronome']['installed'] == false) return;
 		//* Create the logging directory for xmpp server
 		if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
 		chown('/var/log/metronome', 'metronome');
@@ -1730,18 +1734,18 @@ class installer_base {
 		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
 		$server_name = $row["server_name"];
 
-		$tpl = new tpl('metronome_conf_main.master');
+		$tpl = new tpl('xmpp_metronome_conf_main.master');
 		wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
 		unset($tpl);
 
-		$tpl = new tpl('metronome_conf_global.master');
+		$tpl = new tpl('xmpp_metronome_conf_global.master');
 		$tpl->setVar('xmpp_admins','');
 		wf('/etc/metronome/global.cfg.lua', $tpl->grab());
 		unset($tpl);
 
 		// Copy isp libs
 		if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
-		caselog('cp -rf apps/metronome_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
+		caselog('cp -rf apps/xmpp_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
 		caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
 		// Process db config
 		$full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
@@ -1764,7 +1768,7 @@ class installer_base {
 			$ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
 			$ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
 
-			$tpl = new tpl('metronome_conf_ssl.master');
+			$tpl = new tpl('xmpp_metronome_conf_ssl.master');
 			$tpl->setVar('ssl_country',$ssl_country);
 			$tpl->setVar('ssl_locality',$ssl_locality);
 			$tpl->setVar('ssl_organisation',$ssl_organisation);
@@ -1801,8 +1805,122 @@ class installer_base {
 		caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
 		caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
 
-		exec($this->getinitcommand($conf['xmpp']['init_script'], 'restart'));
+		exec($this->getinitcommand($conf['metronome']['init_script'], 'restart'));
 	}
+
+    public function configure_prosody($options = '') {
+        global $conf;
+
+        if($conf['prosody']['installed'] == false) return;
+        //* Create the logging directory for xmpp server
+        if(!@is_dir('/var/log/prosody')) mkdir('/var/log/prosody', 0755, true);
+        chown('/var/log/prosody', 'prosody');
+        if(!@is_dir('/var/run/prosody')) mkdir('/var/run/prosody', 0755, true);
+        chown('/var/run/prosody', 'prosody');
+        if(!@is_dir('/var/lib/prosody')) mkdir('/var/lib/prosody', 0755, true);
+        chown('/var/lib/prosody', 'prosody');
+        if(!@is_dir('/etc/prosody/hosts')) mkdir('/etc/prosody/hosts', 0755, true);
+        if(!@is_dir('/etc/prosody/status')) mkdir('/etc/prosody/status', 0755, true);
+        unlink('/etc/prosody/prosody.cfg.lua');
+
+        $tpl = new tpl('xmpp_prosody_conf_main.master');
+        wf('/etc/prosody/prosody.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        $tpl = new tpl('xmpp_prosody_conf_global.master');
+        $tpl->setVar('main_host', $conf['hostname']);
+        $tpl->setVar('xmpp_admins','');
+        wf('/etc/prosody/global.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+        //** Create the database
+        if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['prosody']['storage_database'], $conf['mysql']['charset'])) {
+            $this->error('Unable to create MySQL database: '.$conf['prosody']['storage_database'].'.');
+        }
+        if($conf['mysql']['host'] == 'localhost') {
+            $from_host = 'localhost';
+        } else {
+            $from_host = $conf['hostname'];
+        }
+        $this->dbmaster->query("CREATE USER ?@? IDENTIFIED BY ?", $conf['prosody']['storage_user'], $from_host, $conf['prosody']['storage_password']); // ignore the error
+        $query = 'GRANT ALL PRIVILEGES ON ?? TO ?@? IDENTIFIED BY ?';
+        if(!$this->db->query($query, $conf['prosody']['storage_database'] . ".*", $conf['prosody']['storage_user'], $from_host, $conf['prosody']['storage_password'])) {
+            $this->error('Unable to create database user: '.$conf['prosody']['storage_user'].' Error: '.$this->db->errorMessage);
+        }
+
+
+
+        $tpl = new tpl('xmpp_prosody_conf_storage.master');
+        $tpl->setVar('db_name', $conf['prosody']['storage_database']);
+        $tpl->setVar('db_host', $conf['mysql']['host']);
+        $tpl->setVar('db_port', $conf['mysql']['port']);
+        $tpl->setVar('db_username', $conf['prosody']['storage_user']);
+        $tpl->setVar('db_password', $conf['prosody']['storage_password']);
+        wf('/etc/prosody/storage.cfg.lua', $tpl->grab());
+        unset($tpl);
+
+
+        // Copy isp libs
+        if(!@is_dir('/usr/local/lib/prosody/auth')) mkdir('/usr/local/lib/prosody/auth', 0755, true);
+        caselog('cp -rf apps/xmpp_libs/mod_auth_external/db_* /usr/local/lib/prosody/auth/', __FILE__, __LINE__);
+        caselog('cp -rf apps/xmpp_libs/mod_auth_external/authenticate_isp.sh /usr/local/lib/prosody/auth/', __FILE__, __LINE__);
+        caselog('chmod 755 /usr/local/lib/prosody/auth/authenticate_isp.sh', __FILE__, __LINE__);
+
+        // Process db config
+        $full_file_name = '/usr/local/lib/prosody/auth/db_conf.inc.php';
+        $content = rf($full_file_name);
+        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
+        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
+        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
+        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
+        $content = str_replace('{server_id}', $conf['server_id'], $content);
+        wf($full_file_name, $content);
+
+        if(!stristr($options, 'dont-create-certs')){
+            // Create SSL Certificate for localhost
+            // Ensure no line is left blank
+            echo "writing new private key to 'localhost.key'\n-----\n";
+            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
+            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
+            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
+            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
+            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
+            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
+
+            $tpl = new tpl('xmpp_prosody_conf_ssl.master');
+            $tpl->setVar('ssl_country',$ssl_country);
+            $tpl->setVar('ssl_locality',$ssl_locality);
+            $tpl->setVar('ssl_organisation',$ssl_organisation);
+            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
+            $tpl->setVar('domain',$ssl_domain);
+            $tpl->setVar('ssl_email',$ssl_email);
+            wf('/etc/prosody/certs/localhost.cnf', $tpl->grab());
+            unset($tpl);
+            // Generate new key, csr and cert
+            exec("(cd /etc/prosody/certs && make localhost.key)");
+            exec("(cd /etc/prosody/certs && make localhost.csr)");
+            exec("(cd /etc/prosody/certs && make localhost.crt)");
+            exec('chmod 0400 /etc/prosody/certs/localhost.key');
+            exec('chown prosody /etc/prosody/certs/localhost.key');
+
+            echo "IMPORTANT:\n";
+            echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/prosody/certs\n";
+            echo "In order to work with all clients, the server must have a trusted certificate, so use the Csr\n";
+            echo "to get a trusted certificate from your CA or replace Key and Cert with already signed files for\n";
+            echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
+            echo "\n";
+
+        }else{
+            /*
+            echo "-----\n";
+            echo "Prosody XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
+            echo "# (cd /etc/prosody/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown prosody localhost.key)\n";
+            echo "-----\n";
+            */
+        }
+
+        exec($this->getinitcommand($conf['prosody']['init_script'], 'restart'));
+    }
 
 
 	public function configure_apache() {
