@@ -8,55 +8,24 @@ log = {
         error = "/var/log/prosody/prosody.err",
         "syslog",
 };
-use_ipv6 = true;
+use_ipv6 = {tmpl_var name='ipv6'};
 http_ports = {
-        5290,
+        {tmpl_var name='port_http'},
 };
 https_ports = {
-        5291,
+        {tmpl_var name='port_https'},
 };
 pastebin_ports = {
-        5292,
+        {tmpl_var name='port_pastebin'},
 };
 bosh_ports = {
-        5280,
+        {tmpl_var name='port_bosh'},
 };
 admins = {
-        {tmpl_var xmpp_admins}
+{tmpl_var name='server_admins'}
 };
 modules_enabled = {
-        "roster",
-        "saslauth",
-        "tls",
-        "dialback",
-        "disco",
-        "carbons",
-        "pep",
-        "private",
-        "blocklist",
-        "compression",
-        "vcard",
-        "version",
-        "uptime",
-        "time",
-        "ping",
-        "admin_adhoc",
-        "mam",
-        "bosh",
-        "websocket",
-        "http_files",
-        "announce",
-        "proxy65",
-        "offline",
-        "posix",
-        "websocket",
-        -- community modules
-        "webpresence",
-        "smacks",
-        "csi_battery_saver",
-        "pep_vcard_avatar",
-        "omemo_all_access",
-
+{tmpl_var name='modules_enabled'}
 };
 modules_disabled = {
 };
@@ -78,7 +47,7 @@ archive_expires_after = "2w";
 statistics = "internal";
 
 certificates = "certs";
-bosh_max_inactivity = 60;
+bosh_max_inactivity = {tmpl_var name='bosh_timeout'};
 consider_bosh_secure = true;
 cross_domain_bosh = true;
 consider_websocket_secure = true;

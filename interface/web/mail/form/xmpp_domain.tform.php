@@ -253,8 +253,8 @@ if($muc_available)
             'muc_restrict_room_creation' => array (
                 'datatype'      => 'VARCHAR',
                 'formtype'      => 'SELECT',
-                'default'       => '1',
-                'value'         => array(0 => 'Everyone', 1 => 'Members', 2 => 'Admins')
+                'default'       => 'm',
+                'value'         => array('n' => 'Everyone', 'm' => 'Members', 'y' => 'Admins')
             ),
             'muc_admins' => array(
                 'datatype' => 'VARCHAR',

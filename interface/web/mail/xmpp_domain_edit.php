@@ -294,19 +294,6 @@ class page_action extends tform_actions {
         // vjud opt mode
         if(isset($this->dataRecord["vjud_opt_mode"]))
             $this->dataRecord["vjud_opt_mode"] = $this->dataRecord["vjud_opt_mode"] == 0 ? 'in' : 'out';
-        if(isset($this->dataRecord["muc_restrict_room_creation"])){
-            switch($this->dataRecord["muc_restrict_room_creation"]){
-                case 0:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'false';
-                    break;
-                case 1:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'member';
-                    break;
-                case 2:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'true';
-                    break;
-            }
-        }
 
         // Reset public registration to 'n', is not yet supported
         $this->dataRecord["public_registration"] = 'n';
@@ -429,6 +416,7 @@ class page_action extends tform_actions {
             $required_hosts[] = 'vjud';
         if($rec['use_muc_host']=='y')
             $required_hosts[] = 'muc';
+        $required_hosts[] = 'upload';
 
         // purge old rr-record
         $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
