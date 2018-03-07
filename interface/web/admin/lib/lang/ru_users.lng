@@ -32,4 +32,5 @@ $wb['password_match_txt'] = 'Эти пароли совпадают.';
 $wb['username_error_collision'] = 'Имя пользователя не может начинаться со слова "web" или "web" плюс число.';
 $wb['client_not_admin_err'] = 'Пользователь, который принадлежит к клиенту не может быть установлен тип: admin';
 $wb['lost_password_function_txt'] = 'Функция восстановления пароля доступна';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added automatically when you add a client or reseller.';
 ?>

@@ -32,4 +32,5 @@ $wb['password_match_txt'] = 'Parola ile onayı aynı.';
 $wb['username_error_collision'] = 'Kullanıcı adı -web- ya da -web- sözcüğünü izleyen bir sayı ile başlayamaz.\\"';
 $wb['client_not_admin_err'] = 'Bir müşteriye ait bir kullanıcının tipi admin olarak atanamaz';
 $wb['lost_password_function_txt'] = 'Forgot password function is available';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added automatically when you add a client or reseller.';
 ?>

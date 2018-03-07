@@ -32,4 +32,5 @@ $wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
 $wb['username_error_collision'] = 'Brugernavn må ikke være web eller web plus et tal.\\"';
 $wb['client_not_admin_err'] = 'En bruger der hører til en klient kan ikke indstilles til typen: admin';
 $wb['lost_password_function_txt'] = 'Forgot password function is available';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added automatically when you add a client or reseller.';
 ?>

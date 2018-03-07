@@ -32,4 +32,5 @@ $wb['password_match_txt'] = 'A senhas coincidem.';
 $wb['username_error_collision'] = 'O nome do usuário não pode conter as palavras reservadas -web- ou -web- seguidas por um número.';
 $wb['client_not_admin_err'] = 'Um usuário definido como cliente não pode ser configurado com o tipo: admin (administrador).';
 $wb['lost_password_function_txt'] = 'Função reconfigurar senha perdida disponível';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added automatically when you add a client or reseller.';
 ?>

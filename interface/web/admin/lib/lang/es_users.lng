@@ -32,4 +32,5 @@ $wb['username_error_collision'] = 'El nombre de usuario no puede ser el del web 
 $wb['username_txt'] = 'Nombre de usuario';
 $wb['username_unique'] = 'Ya existe un usuario con ese nombre de usuario.';
 $wb['vorname_txt'] = 'Primer nombre';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added automatically when you add a client or reseller.';
 ?>

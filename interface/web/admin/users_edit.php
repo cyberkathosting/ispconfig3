@@ -62,7 +62,10 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
 		
-		
+		//* Do not add users here
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'user') {
+			$app->tform->errorMessage .= $app->tform->wordbook['no_user_insert'];
+		}
 		
 	}
 
