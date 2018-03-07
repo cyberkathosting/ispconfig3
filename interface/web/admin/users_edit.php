@@ -90,6 +90,11 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->wordbook['client_not_admin_err'];
 		}
 		
+		//* Users have to belong to clients
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'user'  && $this->oldDataRecord['client_id'] == 0) {
+			$app->tform->errorMessage .= $app->tform->wordbook['no_user_insert'];
+		}
+		
 	}
 
 	/*
