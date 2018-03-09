@@ -87,12 +87,12 @@ class page_action extends tform_actions {
 	}
 
 	function onShowEnd() {
-		global $app, $conf;
+		global $app;
 
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
-        $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status');
+        $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status', 'limit_xmpp_webpresence', 'limit_xmpp_http_upload');
         if($_SESSION["s"]["user"]["typ"] != 'admin') {
             $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
             $client = $app->db->queryOneRecord("SELECT client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
@@ -221,7 +221,7 @@ class page_action extends tform_actions {
 	}
 
 	function onSubmit() {
-		global $app, $conf;
+		global $app;
 
 		/* check if the domain module is used - and check if the selected domain can be used! */
 		$app->uses('ini_parser,getconf');

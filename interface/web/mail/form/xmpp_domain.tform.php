@@ -55,10 +55,10 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
-$muc_available = $muc_pastebin_available = $muc_httparchive_available = $anon_available = $vjud_available = $proxy_available = $status_available = true;
+$muc_available = $muc_pastebin_available = $muc_httparchive_available = $anon_available = $vjud_available = $proxy_available = $status_available = $webpresence_available = $http_upload_available = true;
 if(!$app->auth->is_admin()) {
     $client_group_id = $_SESSION["s"]["user"]["default_group"];
-    $client = $app->db->queryOneRecord("SELECT limit_xmpp_muc, limit_xmpp_anon, limit_xmpp_vjud, limit_xmpp_proxy, limit_xmpp_status, limit_xmpp_pastebin, limit_xmpp_httparchive FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+    $client = $app->db->queryOneRecord("SELECT limit_xmpp_muc, limit_xmpp_anon, limit_xmpp_vjud, limit_xmpp_proxy, limit_xmpp_status, limit_xmpp_pastebin, limit_xmpp_httparchive, limit_xmpp_webpresence, limit_xmpp_http_upload FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
     if($client['limit_xmpp_muc'] != 'y') $muc_available = false;
     if($client['limit_xmpp_pastebin'] != 'y' || $client['limit_xmpp_muc'] != 'y') $muc_pastebin_available = false;
@@ -67,7 +67,13 @@ if(!$app->auth->is_admin()) {
     if($client['limit_xmpp_vjud'] != 'y') $vjud_available = false;
     if($client['limit_xmpp_proxy'] != 'y') $proxy_available= false;
     if($client['limit_xmpp_status'] != 'y') $status_available = false;
+    if($client['limit_xmpp_webpresence'] != 'y') $webpresence_available = false;
+    if($client['limit_xmpp_http_upload'] != 'y') $http_upload_available = false;
 }
+
+$app->uses('getconf');
+$xmpp_config = $app->getconf->get_global_config('xmpp');
+
 
 $form["tabs"]['domain'] = array (
 	'title'  => "Domain",
@@ -223,6 +229,22 @@ if($proxy_available)
     );
 if($status_available)
     $form['tabs']['features']['fields']['use_status_host'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+
+if($webpresence_available)
+    $form['tabs']['features']['fields']['use_webpresence'] = array (
+        'datatype' => 'VARCHAR',
+        'formtype' => 'CHECKBOX',
+        'default' => 'y',
+        'value'  => array(0 => 'n', 1 => 'y')
+    );
+
+if($http_upload_available)
+    $form['tabs']['features']['fields']['use_http_upload'] = array (
         'datatype' => 'VARCHAR',
         'formtype' => 'CHECKBOX',
         'default' => 'y',

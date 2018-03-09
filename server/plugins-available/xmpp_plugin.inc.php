@@ -190,6 +190,7 @@ class xmpp_plugin {
         }else{
             $tpl->setVar('use_vjud', 'false');
         }
+        $tpl->setVar('use_http_upload', $data['new']['use_muc_host']=='y'?'true':'false');
 
         $tpl->setVar('use_muc', $data['new']['use_muc_host']=='y'?'true':'false');
         if($data['new']['use_muc_host'] == 'y'){
@@ -228,16 +229,27 @@ class xmpp_plugin {
         $app->system->file_put_contents($this->xmpp_config_dir.'/hosts/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
         unset($tpl);
 
-        // Create status host file
+        // Create http host file
+        $tpl = new tpl;
+        $tpl->newTemplate("xmpp_{$this->daemon}_conf_status.master");
+        $tpl->setVar('domain', $data['new']['domain']);
+        $httpMods = 0;
+        $tpl->setVar('use_webpresence', $data['new']['use_webpresence'] == 'y' ? 'true' : 'false');
+        if($data['new']['use_webpresence']=='y') {
+            $httpMods++;
+        }
+        $tpl->setVar('use_status_host', $data['new']['use_status_host'] == 'y' ? 'true' : 'false');
         if($data['new']['use_status_host']=='y'){
-            $tpl = new tpl;
-            $tpl->newTemplate("xmpp_{$this->daemon}_conf_status.master");
-            $tpl->setVar('domain', $data['new']['domain']);
+            $httpMods++;
             $tpl->setVar('status_hosts', "\t\t\"".implode("\",\n\t\t\"",$status_hosts)."\"\n");
             $tpl->setVar('status_comps', "\t\t\"".implode("\",\n\t\t\"",$status_comps)."\"\n");
-            $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
-            unset($tpl);
         }
+        if($httpMods > 0){
+            $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
+        } else {
+            unlink($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua');
+        }
+        unset($tpl);
 
         $app->services->restartServiceDelayed('xmpp', 'reload');
     }

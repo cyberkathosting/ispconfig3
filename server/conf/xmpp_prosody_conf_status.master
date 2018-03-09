@@ -1,8 +1,14 @@
 Component "xmpp.{tmpl_var name='domain'}" "http"
         modules_enabled = {
+<tmpl_if name='use_status_host' op='==' value='true'>
                 "server_status",
-                "webpresence"
+</tmpl_if>
+<tmpl_if name='use_webpresence' op='==' value='true'>
+                "webpresence",
+</tmpl_if>
         };
+
+<tmpl_if name='use_status_host' op='==' value='true'>
         server_status_basepath = "/xmppd/";
         server_status_json = true;
         server_status_show_hosts = {
@@ -11,3 +17,4 @@ Component "xmpp.{tmpl_var name='domain'}" "http"
         server_status_show_comps = {
 {tmpl_var name='status_comps'}
         };
+</tmpl_if>

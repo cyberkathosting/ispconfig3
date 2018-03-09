@@ -49,6 +49,25 @@
     </div>
 </tmpl_if>
 
+<tmpl_if name="limit_xmpp_webpresence" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_webpresence_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_webpresence'}
+            {tmpl_var name='xmpp_daemon'}
+        </div>
+    </div>
+</tmpl_if>
+
+<tmpl_if name="limit_xmpp_http_upload" value="y">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{tmpl_var name='use_http_upload_txt'}</label>
+        <div class="col-sm-9">
+            {tmpl_var name='use_http_upload'}
+        </div>
+    </div>
+</tmpl_if>
+
 
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">

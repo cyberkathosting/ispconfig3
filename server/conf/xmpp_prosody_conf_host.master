@@ -47,10 +47,12 @@ VirtualHost "{tmpl_var name='domain'}"
             "{tmpl_var name='domain'} User Directory",
         },
 </tmpl_if>
+<tmpl_if name='use_http_upload' op='==' value='true'>
         {
             "upload.{tmpl_var name='domain'}",
             "{tmpl_var name='domain'} HTTP File Upload",
         }
+</tmpl_if>
     };
 
     admins = {
@@ -62,17 +64,6 @@ VirtualHost "{tmpl_var name='domain'}"
         certificate = "/etc/prosody/certs/{tmpl_var name='domain'}.crt",
     };
 </tmpl_if>
-
-<tmpl_if name='use_anon_host' op='==' value='true'>
-VirtualHost "anon.{tmpl_var name='domain'}"
-    enabled = true;
-    authentication = "anonymous";
-    allow_anonymous_multiresourcing = true;
-    anonymous_jid_gentoken = "{tmpl_var name='domain'} Anonymous User";
-    admins = {
-    };
-</tmpl_if>
-
 
 <tmpl_if name='use_muc' op='==' value='true'>
 Component "muc.{tmpl_var name='domain'}" "muc"
@@ -132,8 +123,21 @@ Component "vjud.{tmpl_var name='domain'}" "vjud"
     vjud_mode = "{tmpl_var name='vjud_opt_mode'}";
 </tmpl_if>
 
+<tmpl_if name='use_http_upload' op='==' value='true'>
 Component "upload.{tmpl_var name='domain'}" "http_upload"
     ud_disco_name = "{tmpl_var name='domain'} HTTP File Upload";
     http_upload_file_size_limit = 1024 * 1024 * 10      -- 10MB, maximum
     http_upload_quota = 1024 * 1024 * 10                -- 10MB quota per user
     http_upload_expire_after = 60 * 60 * 24 * 2         -- 2 days in seconds
+</tmpl_if>
+
+
+<tmpl_if name='use_anon_host' op='==' value='true'>
+VirtualHost "anon.{tmpl_var name='domain'}"
+    enabled = true;
+    authentication = "anonymous";
+    allow_anonymous_multiresourcing = true;
+    anonymous_jid_gentoken = "{tmpl_var name='domain'} Anonymous User";
+    admins = {
+    };
+</tmpl_if>
