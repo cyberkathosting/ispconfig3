@@ -79,6 +79,7 @@ class xmpp_module {
         */
 
         $app->modules->registerTableHook('xmpp_domain', 'xmpp_module', 'process');
+        $app->modules->registerTableHook('xmpp_user', 'xmpp_module', 'process');
         $app->services->registerService('xmpp', 'xmpp_module', 'reloadXMPP');
         $app->services->registerService('xmpp', 'xmpp_module', 'restartXMPP');
 

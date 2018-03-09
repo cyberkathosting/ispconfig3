@@ -34,7 +34,6 @@ modules_enabled = {
         "pep",
         "private",
         "blocklist",
-        "compression",
         "vcard",
         "version",
         "uptime",

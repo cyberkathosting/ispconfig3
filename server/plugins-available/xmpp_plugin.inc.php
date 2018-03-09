@@ -134,6 +134,8 @@ class xmpp_plugin {
         global $app, $conf;
 
         $this->domainUpdate($event_name, $data);
+        // Need to restart the server
+        $app->services->restartServiceDelayed('xmpp', 'restart');
 
     }
 
@@ -260,7 +262,6 @@ class xmpp_plugin {
         // get the config
         $app->uses("system");
         $domain = $data['old']['domain'];
-        $folder = str_replace('-', '%2d', str_replace('.', '%2e', $str = urlencode($domain)));
 
         // Remove config files
         $app->system->unlink("/etc/{$this->daemon}/hosts/$domain.cfg.lua");
@@ -272,12 +273,19 @@ class xmpp_plugin {
         $app->system->unlink("/etc/{$this->daemon}/certs/$domain.key");
         $app->system->unlink("/etc/{$this->daemon}/certs/$domain.csr");
         // Remove all stored data
-        if($this->daemon === 'metronome') {
-            exec('rm -rf /var/lib/metronome/'.$folder);
-            exec('rm -rf /var/lib/metronome/*%2e'.$folder);
+        $folder = str_replace('-', '%2d', str_replace('.', '%2e', $str = urlencode($domain)));
+
+        exec("rm -rf /var/lib/{$this->daemon}/{$folder}");
+        exec("rm -rf /var/lib/{$this->daemon}/*%2e{$folder}");
+        switch($this->daemon) {
+            case 'metronome':
+                break;
+            case 'prosody':
+                exec("php /usr/local/lib/prosody/auth/prosody-purge domain {$domain}");
+                break;
         }
 
-        $app->services->restartServiceDelayed('xmpp', 'reload');
+        $app->services->restartServiceDelayed('xmpp', 'restart');
     }
 
     function userInsert($event_name, $data){
@@ -297,8 +305,17 @@ class xmpp_plugin {
         // Check domain for auth settings
         // Don't allow manual user deletion for mailaccount controlled domains
 
-        // Remove account from metronome
-        exec("{$this->daemon}ctl deluser {$data['old']['jid']}");
+        $jid_parts = explode('@', $data['old']['jid']);
+
+        switch($this->daemon) {
+            case 'metronome':
+                // Remove account from metronome
+                exec("{$this->daemon}ctl deluser {$data['old']['jid']}");
+                break;
+            case 'prosody':
+                exec("php /usr/local/lib/prosody/auth/prosody-purge user {$jid_parts[1]} {$jid_parts[0]}");
+                break;
+        }
     }
 
     // Handle the creation of SSL certificates

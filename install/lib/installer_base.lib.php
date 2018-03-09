@@ -1863,7 +1863,9 @@ class installer_base {
         // Copy isp libs
         if(!@is_dir('/usr/local/lib/prosody/auth')) mkdir('/usr/local/lib/prosody/auth', 0755, true);
         caselog('cp -rf apps/xmpp_libs/auth_prosody/* /usr/local/lib/prosody/auth/', __FILE__, __LINE__);
-                caselog('chmod 755 /usr/local/lib/prosody/auth/authenticate_isp.sh', __FILE__, __LINE__);
+		caselog('chmod 755 /usr/local/lib/prosody/auth/authenticate_isp.sh', __FILE__, __LINE__);
+		caselog('chown root:ispconfig /usr/local/lib/prosody/auth/prosody-purge', __FILE__, __LINE__);
+		caselog('chmod 750 /usr/local/lib/prosody/auth/prosody-purge', __FILE__, __LINE__);
 
         // Process db config
         $full_file_name = '/usr/local/lib/prosody/auth/db_conf.inc.php';
