@@ -53,3 +53,4 @@ user:/login/index.php:POST.password
 user:/mail/mail_domain_edit.php:POST.dkim_private
 user:/mail/mail_domain_edit.php:POST.dkim_public
 user:/mail/mail_domain_edit.php:POST.dns_record
+user:/sites/web_vhost_domain_edit.php:POST.fastcgi_php_version
