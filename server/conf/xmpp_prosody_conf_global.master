@@ -1,0 +1,61 @@
+plugin_paths = {
+        "/usr/local/lib/prosody/modules",
+};
+use_libevent = true;
+log = {
+        -- debug = "/var/log/prosody/prosody.dbg",
+        info = "/var/log/prosody/prosody.log",
+        error = "/var/log/prosody/prosody.err",
+        "syslog",
+};
+use_ipv6 = {tmpl_var name='ipv6'};
+http_ports = {
+        {tmpl_var name='port_http'},
+};
+https_ports = {
+        {tmpl_var name='port_https'},
+};
+pastebin_ports = {
+        {tmpl_var name='port_pastebin'},
+};
+bosh_ports = {
+        {tmpl_var name='port_bosh'},
+};
+admins = {
+{tmpl_var name='server_admins'}
+};
+modules_enabled = {
+{tmpl_var name='modules_enabled'}
+};
+modules_disabled = {
+};
+
+allow_registration = false;
+c2s_require_encryption = false;
+s2s_require_encryption = true;
+s2s_secure_auth = false;
+s2s_insecure_domains = {
+        "gmail.com",
+};
+
+pidfile = "/var/run/prosody/prosody.pid";
+
+authentication = "external";
+
+archive_expires_after = "2w";
+
+statistics = "internal";
+
+certificates = "certs";
+bosh_max_inactivity = {tmpl_var name='bosh_timeout'};
+consider_bosh_secure = true;
+cross_domain_bosh = true;
+consider_websocket_secure = true;
+
+ssl = {
+        key = "/etc/prosody/certs/localhost.key",
+        certificate = "/etc/prosody/certs/localhost.crt",
+};
+
+VirtualHost "{tmpl_var main_host}"
+        certificate = "/etc/prosody/certs/localhost.crt"

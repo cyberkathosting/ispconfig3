@@ -1,0 +1,9 @@
+storage = "sql"
+sql = {
+    driver = "MySQL";
+    database = "{tmpl_var db_name}";
+    host = "{tmpl_var db_host}";
+    port = {tmpl_var db_port};
+    username = "{tmpl_var db_username}";
+    password = "{tmpl_var db_password}";
+}

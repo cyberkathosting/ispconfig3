@@ -1,3 +1,0 @@
-Include "/etc/metronome/global.cfg.lua"
-Include "/etc/metronome/hosts/*.lua"
-Include "/etc/metronome/status.cfg.lua"

@@ -33,7 +33,8 @@ class xmpp_plugin {
     var $plugin_name = 'xmpp_server_plugin';
     var $class_name = 'xmpp_server_plugin';
 
-    var $xmpp_config_dir = '/etc/metronome';
+    var $daemon;
+    var $xmpp_config_dir;
 
     var $ssl_certificate_changed = false;
     var $ssl_certificate_deleted = false;
@@ -57,8 +58,8 @@ class xmpp_plugin {
     */
 
     function onLoad() {
-        global $app;
-
+        global $app, $conf;
+        $app->uses("getconf");
         /*
         Register for the events
         */
@@ -77,6 +78,11 @@ class xmpp_plugin {
         $app->plugins->registerEvent('xmpp_user_update', 'xmpp_plugin', 'userUpdate');
         $app->plugins->registerEvent('xmpp_user_delete', 'xmpp_plugin', 'userDelete');
 
+        // set some params
+        $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
+        $daemon = $xmpp_config['xmpp_daemon'];
+        $this->daemon = $daemon;
+        $this->xmpp_config_dir = "/etc/${daemon}";
     }
 
     function insert($event_name, $data) {
@@ -93,13 +99,12 @@ class xmpp_plugin {
         // get the config
         $app->uses("getconf,system,tpl");
 
-
         $old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
         $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
 
         // Global server config
         $tpl = new tpl();
-        $tpl->newTemplate('metronome_conf_global.master');
+        $tpl->newTemplate("xmpp_{$this->daemon}_conf_global.master");
         $tpl->setVar('ipv6', $xmpp_config['xmpp_use_ipv6']=='y'?'true':'false');
         $tpl->setVar('bosh_timeout', intval($xmpp_config['xmpp_bosh_max_inactivity']));
         $tpl->setVar('port_http', intval($xmpp_config['xmpp_port_http']));
@@ -121,7 +126,7 @@ class xmpp_plugin {
         $app->system->file_put_contents($this->xmpp_config_dir.'/global.cfg.lua', $tpl->grab());
         unset($tpl);
 
-        $app->services->restartServiceDelayed('metronome', 'restart');
+        $app->services->restartServiceDelayed('xmpp', 'restart');
         return;
     }
 
@@ -129,6 +134,8 @@ class xmpp_plugin {
         global $app, $conf;
 
         $this->domainUpdate($event_name, $data);
+        // Need to restart the server
+        $app->services->restartServiceDelayed('xmpp', 'restart');
 
     }
 
@@ -144,10 +151,13 @@ class xmpp_plugin {
 
         // Create main host file
         $tpl = new tpl();
-        $tpl->newTemplate('metronome_conf_host.master');
+        $tpl->newTemplate("xmpp_{$this->daemon}_conf_host.master");
         $tpl->setVar('domain', $data['new']['domain']);
         $tpl->setVar('active', $data['new']['active'] == 'y' ? 'true' : 'false');
         $tpl->setVar('public_registration', $data['new']['public_registration'] == 'y' ? 'true' : 'false');
+        $tpl->setVar('registration_url', $data['new']['registration_url']);
+        $tpl->setVar('registration_message', $data['new']['registration_message']);
+
         // Domain admins
         $admins = array();
         foreach(explode(',',$data['new']['domain_admins']) AS $adm){
@@ -182,11 +192,22 @@ class xmpp_plugin {
         }else{
             $tpl->setVar('use_vjud', 'false');
         }
+        $tpl->setVar('use_http_upload', $data['new']['use_muc_host']=='y'?'true':'false');
 
         $tpl->setVar('use_muc', $data['new']['use_muc_host']=='y'?'true':'false');
         if($data['new']['use_muc_host'] == 'y'){
             $status_comps[] = 'muc.'.$data['new']['domain'];
-            $tpl->setVar('muc_restrict_room_creation', $data['new']['muc_restrict_room_creation']);
+            switch($data['new']['muc_restrict_room_creation']) {
+                case 'n':
+                    $tpl->setVar('muc_restrict_room_creation', 'false');
+                    break;
+                case 'y':
+                    $tpl->setVar('muc_restrict_room_creation', 'admin');
+                    break;
+                case 'm':
+                    $tpl->setVar('muc_restrict_room_creation', 'local');
+                    break;
+            }
             $tpl->setVar('muc_name', strlen($data['new']['muc_name']) ? $data['new']['muc_name'] : $data['new']['domain'].' Chatrooms');
             // Admins for MUC channels
             $admins = array();
@@ -210,18 +231,29 @@ class xmpp_plugin {
         $app->system->file_put_contents($this->xmpp_config_dir.'/hosts/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
         unset($tpl);
 
-        // Create status host file
+        // Create http host file
+        $tpl = new tpl;
+        $tpl->newTemplate("xmpp_{$this->daemon}_conf_status.master");
+        $tpl->setVar('domain', $data['new']['domain']);
+        $httpMods = 0;
+        $tpl->setVar('use_webpresence', $data['new']['use_webpresence'] == 'y' ? 'true' : 'false');
+        if($data['new']['use_webpresence']=='y') {
+            $httpMods++;
+        }
+        $tpl->setVar('use_status_host', $data['new']['use_status_host'] == 'y' ? 'true' : 'false');
         if($data['new']['use_status_host']=='y'){
-            $tpl = new tpl;
-            $tpl->newTemplate('metronome_conf_status.master');
-            $tpl->setVar('domain', $data['new']['domain']);
+            $httpMods++;
             $tpl->setVar('status_hosts', "\t\t\"".implode("\",\n\t\t\"",$status_hosts)."\"\n");
             $tpl->setVar('status_comps', "\t\t\"".implode("\",\n\t\t\"",$status_comps)."\"\n");
-            $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
-            unset($tpl);
         }
+        if($httpMods > 0){
+            $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
+        } else {
+            unlink($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua');
+        }
+        unset($tpl);
 
-        $app->services->restartServiceDelayed('metronome', 'reload');
+        $app->services->restartServiceDelayed('xmpp', 'reload');
     }
 
     function domainDelete($event_name, $data){
@@ -230,20 +262,30 @@ class xmpp_plugin {
         // get the config
         $app->uses("system");
         $domain = $data['old']['domain'];
-        $folder = str_replace('-', '%2d', str_replace('.', '%2e', $str = urlencode($domain)));
 
         // Remove config files
-        $app->system->unlink("/etc/metronome/hosts/$domain.cfg.lua");
-        $app->system->unlink("/etc/metronome/status/$domain.cfg.lua");
-        $app->system->unlink("/etc/metronome/certs/$domain.cert");
-        $app->system->unlink("/etc/metronome/certs/$domain.key");
-        $app->system->unlink("/etc/metronome/certs/$domain.csr");
+        $app->system->unlink("/etc/{$this->daemon}/hosts/$domain.cfg.lua");
+        $app->system->unlink("/etc/{$this->daemon}/status/$domain.cfg.lua");
+        if($this->daemon === 'prosody')
+            $app->system->unlink("/etc/{$this->daemon}/certs/$domain.crt");
+        else
+            $app->system->unlink("/etc/{$this->daemon}/certs/$domain.cert");
+        $app->system->unlink("/etc/{$this->daemon}/certs/$domain.key");
+        $app->system->unlink("/etc/{$this->daemon}/certs/$domain.csr");
         // Remove all stored data
-        var_dump('rm -rf /var/lib/metronome/'.$folder);
-        exec('rm -rf /var/lib/metronome/'.$folder);
-        exec('rm -rf /var/lib/metronome/*%2e'.$folder);
+        $folder = str_replace('-', '%2d', str_replace('.', '%2e', $str = urlencode($domain)));
 
-        $app->services->restartServiceDelayed('metronome', 'reload');
+        exec("rm -rf /var/lib/{$this->daemon}/{$folder}");
+        exec("rm -rf /var/lib/{$this->daemon}/*%2e{$folder}");
+        switch($this->daemon) {
+            case 'metronome':
+                break;
+            case 'prosody':
+                exec("php /usr/local/lib/prosody/auth/prosody-purge domain {$domain}");
+                break;
+        }
+
+        $app->services->restartServiceDelayed('xmpp', 'restart');
     }
 
     function userInsert($event_name, $data){
@@ -263,8 +305,17 @@ class xmpp_plugin {
         // Check domain for auth settings
         // Don't allow manual user deletion for mailaccount controlled domains
 
-        // Remove account from metronome
-        exec('metronomectl deluser '.$data['old']['jid']);
+        $jid_parts = explode('@', $data['old']['jid']);
+
+        switch($this->daemon) {
+            case 'metronome':
+                // Remove account from metronome
+                exec("{$this->daemon}ctl deluser {$data['old']['jid']}");
+                break;
+            case 'prosody':
+                exec("php /usr/local/lib/prosody/auth/prosody-purge user {$jid_parts[1]} {$jid_parts[0]}");
+                break;
+        }
     }
 
     // Handle the creation of SSL certificates
@@ -275,14 +326,18 @@ class xmpp_plugin {
 
         // load the server configuration options
         $app->uses('getconf');
-        $web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
-        $ssl_dir = '/etc/metronome/certs';
+        $ssl_dir = "/etc/{$this->daemon}/certs";
         $domain = $data['new']['domain'];
         $cnf_file = $ssl_dir.'/'.$domain.'.cnf';
         $key_file = $ssl_dir.'/'.$domain.'.key';
         $csr_file = $ssl_dir.'/'.$domain.'.csr';
-        $crt_file = $ssl_dir.'/'.$domain.'.cert';
+        if ($this->daemon === 'prosody') {
+            $crt_file = $ssl_dir.'/'.$domain.'.crt';
+        } else {
+            $crt_file = $ssl_dir.'/'.$domain.'.cert';
+        }
+
 
         //* Create a SSL Certificate, but only if this is not a mirror server.
         if($data['new']['ssl_action'] == 'create' && $conf['mirror_server_id'] == 0) {
@@ -294,14 +349,14 @@ class xmpp_plugin {
             if(file_exists($key_file)){
                 $app->system->rename($key_file, $key_file.'.bak');
                 $app->system->chmod($key_file.'.bak', 0400);
-                $app->system->chown($key_file.'.bak', 'metronome');
+                $app->system->chown($key_file.'.bak', $this->daemon);
             }
             if(file_exists($csr_file)) $app->system->rename($csr_file, $csr_file.'.bak');
             if(file_exists($crt_file)) $app->system->rename($crt_file, $crt_file.'.bak');
 
             // Write new CNF file
             $tpl = new tpl();
-            $tpl->newTemplate('metronome_conf_ssl.master');
+            $tpl->newTemplate('xmpp_metronome_conf_ssl.master');
             $tpl->setVar('domain', $domain);
             $tpl->setVar('ssl_country', $data['new']['ssl_country']);
             $tpl->setVar('ssl_locality', $data['new']['ssl_locality']);
@@ -311,13 +366,17 @@ class xmpp_plugin {
             $app->system->file_put_contents($cnf_file, $tpl->grab());
 
             // Generate new key, csr and cert
-            exec("(cd /etc/metronome/certs && make $domain.key)");
-            exec("(cd /etc/metronome/certs && make $domain.csr)");
-            exec("(cd /etc/metronome/certs && make $domain.cert)");
+            exec("(cd /etc/{$this->daemon}/certs && make $domain.key)");
+            exec("(cd /etc/{$this->daemon}/certs && make $domain.csr)");
+            if ($this->daemon === 'prosody') {
+                exec("(cd /etc/{$this->daemon}/certs && make $domain.crt)");
+            } else {
+                exec("(cd /etc/{$this->daemon}/certs && make $domain.cert)");
+            }
 
             $ssl_key = $app->system->file_get_contents($key_file);
             $app->system->chmod($key_file, 0400);
-            $app->system->chown($key_file, 'metronome');
+            $app->system->chown($key_file, $this->daemon);
             $ssl_request = $app->system->file_get_contents($csr_file);
             $ssl_cert = $app->system->file_get_contents($crt_file);
             /* Update the DB of the (local) Server */
@@ -338,7 +397,7 @@ class xmpp_plugin {
             if(file_exists($key_file)){
                 $app->system->rename($key_file, $key_file.'.bak');
                 $app->system->chmod($key_file.'.bak', 0400);
-                $app->system->chown($key_file.'.bak', 'metronome');
+                $app->system->chown($key_file.'.bak', $this->daemon);
             }
             if(file_exists($csr_file)) $app->system->rename($csr_file, $csr_file.'.bak');
             if(file_exists($crt_file)) $app->system->rename($crt_file, $crt_file.'.bak');
@@ -353,7 +412,7 @@ class xmpp_plugin {
             if(trim($data["new"]["ssl_key"]) != '') {
                 $app->system->file_put_contents($key_file, $data["new"]["ssl_key"]);
                 $app->system->chmod($key_file, 0400);
-                $app->system->chown($key_file, 'metronome');
+                $app->system->chown($key_file, $this->daemon);
             } else {
                 $ssl_key = $app->system->file_get_contents($key_file);
                 /* Update the DB of the (local) Server */

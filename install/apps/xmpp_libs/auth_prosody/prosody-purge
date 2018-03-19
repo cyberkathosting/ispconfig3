@@ -1,0 +1,62 @@
+#!/usr/bin/php
+<?php
+
+define('DEBUG', true);
+usage(count($argv) < 3 || count($argv) > 4);
+
+$operation = $argv[1];
+$host = $argv[2];
+
+$configFile = file_get_contents('/etc/prosody/storage.cfg.lua');
+preg_match_all('/(host|database|port|username|password) *= *"?([^"\n]*)"?;/', $configFile, $matches);
+$config = array();
+foreach($matches[1] AS $ix => $key) {
+	$config[$key] = $matches[2][$ix];
+}
+
+try {
+	// Connect to database
+	$db = new mysqli($config['host'], $config['username'], $config['password'], $config['database']);
+	
+	switch($operation){
+	case 'user':
+		usage(count($argv) != 4);
+		$user = $argv[3];
+		do_query($db->prepare("DELETE FROM prosody WHERE user = ? AND host = ?"), $host, $user);
+		do_query($db->prepare("DELETE FROM prosodyarchive WHERE user = ? AND host = ?"), $host, $user);
+		break;
+	case 'domain':
+		do_query($db->prepare("DELETE FROM prosody WHERE host = ?"), $host);
+		do_query($db->prepare("DELETE FROM prosodyarchive WHERE host = ?"), $host);
+		do_query($db->prepare("DELETE FROM prosody WHERE host LIKE ?"), "%.$host");
+		do_query($db->prepare("DELETE FROM prosodyarchive WHERE host LIKE ?"), "%.$host");
+		break;
+	}
+	$db->close();
+} catch (Exception $ex) {
+	var_dump($ex);
+}
+
+
+function do_query($query, $host, $user = false){
+	if($user !== false)
+		$query->bind_param('ss', $user, $host);
+	else
+		$query->bind_param('s', $host);
+	$query->execute();
+	$entries = $query->affected_rows;
+	$query->close();
+	if(DEBUG) echo "$entries deleted!\n";
+	return $entries;
+}	
+
+function result_false($cond = true) {
+	if(!$cond) return;
+	exit(1);
+}
+
+function usage($cond = false){
+	if(!$cond) return;
+	echo "USAGE: \n prosody-purge domain my.domain.com \n prosody-purge user my.domain.com username \n";
+	result_false();
+}

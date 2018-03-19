@@ -323,7 +323,7 @@ else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_ser
 $conf['services']['mail'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
 $conf['services']['dns'] = check_service_config_state('dns_server', ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']));
 $conf['services']['web'] = check_service_config_state('web_server', ($conf['apache']['installed'] || $conf['nginx']['installed']));
-$conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['xmpp']['installed']);
+$conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['metronome']['installed']);
 $conf['services']['firewall'] = check_service_config_state('firewall_server', ($conf['ufw']['installed'] || $conf['firewall']['installed']));
 $conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
 $conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
@@ -462,7 +462,13 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
     if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
         //** Configure Metronome XMPP
-        $inst->configure_xmpp('dont-create-certs');
+        if($conf['prosody']['installed'] == true) {
+            swriteln('Configuring Prosody XMPP');
+            $inst->configure_prosody('dont-create-certs');
+        } elseif ($conf['metronome']['installed'] == true) {
+            swriteln('Configuring Metronome XMPP');
+            $inst->configure_metronome('dont-create-certs');
+        }
     }
 
 	if($conf['services']['firewall'] && $inst->reconfigure_app('Firewall', $reconfigure_services_answer)) {
@@ -560,7 +566,7 @@ if($reconfigure_services_answer == 'yes') {
 	}
 
     if($conf['services']['xmpp']) {
-        if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+        if($conf['metronome']['installed'] == true && $conf['metronome']['init_script'] != '') system($inst->getinitcommand($conf['metronome']['init_script'], 'restart').' &> /dev/null');
     }
 
 	if($conf['services']['proxy']) {

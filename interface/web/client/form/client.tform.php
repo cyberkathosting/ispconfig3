@@ -1011,6 +1011,18 @@ $form["tabs"]['limits'] = array (
             'default' => 'n',
             'value'  => array(0 => 'n', 1 => 'y')
         ),
+        'limit_xmpp_webpresence' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value'  => array(0 => 'n', 1 => 'y')
+        ),
+        'limit_xmpp_http_upload' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value'  => array(0 => 'n', 1 => 'y')
+        ),
         'limit_xmpp_pastebin' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'CHECKBOX',

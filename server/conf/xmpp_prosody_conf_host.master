@@ -1,0 +1,143 @@
+VirtualHost "{tmpl_var name='domain'}"
+    enabled = {tmpl_var name='active'};
+    authentication = "external";
+    external_auth_command = "/usr/local/lib/prosody/auth/authenticate_isp.sh";
+    allow_registration = {tmpl_var name='public_registration'};
+    <tmpl_if name='registration_url' op='!=' value=''>
+    registration_url = "{tmpl_var name='registration_url'}";
+    registration_text = "{tmpl_var name='registration_message'}";
+    </tmpl_if>
+    no_registration_whitelist = true;
+
+    modules_enabled = {
+        "roster",
+        "private",
+        "vcard",
+        "blocklist",
+        "pep",
+<tmpl_if name='public_registration' op='==' value='true'>
+        "register",
+<tmpl_elseif name='registration_url' op='!=' value=''>
+        "register_redirect",
+</tmpl_if>
+        "admin_adhoc",
+    };
+    disco_items = {
+<tmpl_if name='use_muc' op='==' value='true'>
+        {
+            "muc.{tmpl_var name='domain'}",
+            "{tmpl_var name='muc_name'}",
+        },
+</tmpl_if>
+<tmpl_if name='use_pubsub' op='==' value='true'>
+        {
+            "pubsub.{tmpl_var name='domain'}",
+            "{tmpl_var name='domain'} Publish/Subscribe",
+        },
+</tmpl_if>
+<tmpl_if name='use_proxy' op='==' value='true'>
+        {
+            "proxy.{tmpl_var name='domain'}",
+            "{tmpl_var name='domain'} Bytestream Proxy",
+        },
+</tmpl_if>
+<tmpl_if name='use_vjud' op='==' value='true'>
+        {
+            "vjud.{tmpl_var name='domain'}",
+            "{tmpl_var name='domain'} User Directory",
+        },
+</tmpl_if>
+<tmpl_if name='use_http_upload' op='==' value='true'>
+        {
+            "upload.{tmpl_var name='domain'}",
+            "{tmpl_var name='domain'} HTTP File Upload",
+        }
+</tmpl_if>
+    };
+
+    admins = {
+{tmpl_var name='domain_admins'}
+    };
+<tmpl_if name='ssl_cert' op='==' value='true'>
+    ssl = {
+        key = "/etc/prosody/certs/{tmpl_var name='domain'}.key",
+        certificate = "/etc/prosody/certs/{tmpl_var name='domain'}.crt",
+    };
+</tmpl_if>
+
+<tmpl_if name='use_muc' op='==' value='true'>
+Component "muc.{tmpl_var name='domain'}" "muc"
+    modules_enabled = {
+        "muc_limits",
+        "muc_log",
+<tmpl_if name='use_archive' op='==' value='true'>
+        "muc_log_http",
+</tmpl_if>
+<tmpl_if name='use_pastebin' op='==' value='true'>
+        "pastebin",
+</tmpl_if>
+    };
+    muc_event_rate = 0.5;
+    muc_burst_factor = 8;
+    muc_log_presences = false;
+<tmpl_if name='use_archive' op='==' value='true'>
+    muc_log_http = {
+        show_join = {tmpl_var name='archive_join'},
+        show_presence = {tmpl_var name='archive_join'},
+        show_status = {tmpl_var name='archive_status'},
+        theme = "prosody",
+        url_base = "logs",
+    };
+</tmpl_if>
+<tmpl_if name='use_pastebin' op='==' value='true'>
+    pastebin_threshold = 500;
+    pastebin_line_threshold = 4;
+    pastebin_expire_after = {tmpl_var name='pastebin_expire'};
+    pastebin_trigger = "{tmpl_var name='pastebin_trigger'}";
+</tmpl_if>
+    name = "{tmpl_var name='muc_name'}";
+    restrict_room_creation = "{tmpl_var name='muc_restrict_room_creation'}";
+    max_history_messages = 20;
+    admins = {
+{tmpl_var name='muc_admins'}
+    };
+</tmpl_if>
+
+
+<tmpl_if name='use_pubsub' op='==' value='true'>
+Component "pubsub.{tmpl_var name='domain'}" "pubsub"
+    name = "{tmpl_var name='domain'} Publish/Subscribe";
+</tmpl_if>
+
+<tmpl_if name='use_proxy' op='==' value='true'>
+Component "proxy.{tmpl_var name='domain'}" "proxy65"
+    proxy65_acl = {
+        "{tmpl_var name='domain'}",
+    };
+</tmpl_if>
+
+
+<tmpl_if name='use_vjud' op='==' value='true'>
+Component "vjud.{tmpl_var name='domain'}" "vjud"
+    ud_disco_name = "{tmpl_var name='domain'} User Directory";
+    vjud_mode = "{tmpl_var name='vjud_opt_mode'}";
+</tmpl_if>
+
+<tmpl_if name='use_http_upload' op='==' value='true'>
+Component "upload.{tmpl_var name='domain'}" "http_upload"
+    ud_disco_name = "{tmpl_var name='domain'} HTTP File Upload";
+    http_upload_file_size_limit = 1024 * 1024 * 10      -- 10MB, maximum
+    http_upload_quota = 1024 * 1024 * 10                -- 10MB quota per user
+    http_upload_expire_after = 60 * 60 * 24 * 2         -- 2 days in seconds
+</tmpl_if>
+
+
+<tmpl_if name='use_anon_host' op='==' value='true'>
+VirtualHost "anon.{tmpl_var name='domain'}"
+    enabled = true;
+    authentication = "anonymous";
+    allow_anonymous_multiresourcing = true;
+    anonymous_jid_gentoken = "{tmpl_var name='domain'} Anonymous User";
+    admins = {
+    };
+</tmpl_if>
