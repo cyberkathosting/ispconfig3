@@ -115,6 +115,15 @@ $liste["item"][] = array(   'field'     => "country",
 	'width' => "",
 	'value' => "");
 	
+$liste["item"][] = array( 'field'  => "locked",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('y' => $app->lng('yes_txt'), 'n' => $app->lng('no_txt')));
+
 if(is_file(ISPC_WEB_PATH.'/robot/lib/robot_config.inc.php')){
 	$liste["item"][] = array( 'field'  => "validation_status",
 	'datatype' => "VARCHAR",
