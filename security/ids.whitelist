@@ -43,3 +43,13 @@ admin:/sites/web_domain_edit.php:POST.php_open_basedir
 admin:/sites/web_domain_edit.php:POST.apache_directives
 user:/sites/shell_user_edit.php:POST.ssh_rsa
 user:/sites/cron_edit.php:POST.command
+admin:/admin/server_config_edit.php:POST.jailkit_chroot_app_programs
+admin:/login/index.php:POST.password
+admin:/sites/web_vhost_domain_edit.php:POST.apache_directives
+admin:/sites/web_vhost_domain_edit.php:POST.custom_php_ini
+admin:/sites/web_vhost_domain_edit.php:POST.php_open_basedir
+any:/login/index.php:POST.password
+user:/login/index.php:POST.password
+user:/mail/mail_domain_edit.php:POST.dkim_private
+user:/mail/mail_domain_edit.php:POST.dkim_public
+user:/mail/mail_domain_edit.php:POST.dns_record
