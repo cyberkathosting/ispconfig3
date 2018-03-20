@@ -46,4 +46,8 @@ $wb['do_mail_spamfilter_policy_txt'] = 'Ресинхронизация прав�
 $wb['do_mail_spamfilter_txt'] = 'Ресинхронизация спам-фильтров';
 $wb['do_mailget_txt'] = 'Ресинхронизация сборщиков почты';
 $wb['resync_mailget_txt'] = 'Сборщики почты';
+$wb['resync_mailtransport_txt'] = 'E-Mail Transport';
+$wb['resync_mailrelay_txt'] = 'E-Mail Relay';
+$wb['do_mailtransport_txt'] = 'Resynced Mailtransport';
+$wb['do_mailrelay_txt'] = 'Resynced Mailrelay';
 ?>
