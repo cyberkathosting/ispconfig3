@@ -315,6 +315,29 @@ class cronjob_monitor_raid extends cronjob {
 			}
 		}
 
+		/*
+		* SAS2IRCU
+		*/
+		system('which sas2ircu', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('sas2ircu 0 DISPLAY');
+			if(is_array($data['output'])) {
+				foreach ($data['output'] as $item) {
+					if (strpos($item, 'Optimal (OPT)') !== false) {
+						$this->_tools->_setState($state, 'ok');
+					} else {
+						$this->_tools->_setState($state, 'critical');
+					}
+					if (strpos($item, 'Okay (OKY)') !== false) {
+						$this->_tools->_setState($state, 'ok');
+					} else {
+						$this->_tools->_setState($state, 'critical');
+					}
+				}
+			}
+		}
+
 		$res = array();
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;
