@@ -70,3 +70,7 @@ otherName.12=      SRVName;IA5STRING:_xmpp-server.proxy.{tmpl_var name='domain'}
 DNS.6       =                                      vjud.{tmpl_var name='domain'}
 otherName.13=            xmppAddr;FORMAT:UTF8,UTF8:vjud.{tmpl_var name='domain'}
 otherName.14=       SRVName;IA5STRING:_xmpp-server.vjud.{tmpl_var name='domain'}
+
+DNS.7       =                                      upload.{tmpl_var name='domain'}
+otherName.15=            xmppAddr;FORMAT:UTF8,UTF8:upload.{tmpl_var name='domain'}
+otherName.16=       SRVName;IA5STRING:_xmpp-server.upload.{tmpl_var name='domain'}

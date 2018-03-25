@@ -192,7 +192,12 @@ class xmpp_plugin {
         }else{
             $tpl->setVar('use_vjud', 'false');
         }
-        $tpl->setVar('use_http_upload', $data['new']['use_muc_host']=='y'?'true':'false');
+        if($data['new']['use_muc_host']=='y'){
+            $tpl->setVar('use_http_upload', 'true');
+            $status_comps[] = 'upload.'.$data['new']['domain'];
+        }else{
+            $tpl->setVar('use_http_upload', 'false');
+        }
 
         $tpl->setVar('use_muc', $data['new']['use_muc_host']=='y'?'true':'false');
         if($data['new']['use_muc_host'] == 'y'){
