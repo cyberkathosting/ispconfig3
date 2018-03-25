@@ -416,11 +416,12 @@ class page_action extends tform_actions {
             $required_hosts[] = 'vjud';
         if($rec['use_muc_host']=='y')
             $required_hosts[] = 'muc';
-        $required_hosts[] = 'upload';
+        if($rec['use_http_upload']=='y')
+            $required_hosts[] = 'upload';
 
         // purge old rr-record
         $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
-        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%');
+        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc', 'upload'), '_xmpp-%');
         if (is_array($rec[1])) {
             for ($i=0; $i < count($rec); ++$i)
                 $app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);
