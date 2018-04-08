@@ -276,7 +276,7 @@ class cronjob_monitor_raid extends cronjob {
 		}
 
     	/*
-		* HP Proliant new driver -> http://downloads.linux.hpe.com/SDR/project/mcp/
+		* HP Proliant new HPE Command Line Smart Storage Administration Utility
 		*/
 		system('which ssacli', $retval);
 		if($retval === 0) {
