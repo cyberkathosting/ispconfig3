@@ -190,7 +190,7 @@ $form["tabs"]['server'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'tmpdir_path_error_empty'),
 									1 => array ( 	'type' => 'REGEX',
-										'regex' => "/^\/[a-zA-Z0-9\.\-\_\/]{4,128}$/",
+										'regex' => "/^\/[a-zA-Z0-9\.\-\_\/]{3,128}$/",
 										'errmsg'=> 'tmpdir_path_error_regex'),
 			),
 			'value' => '',
