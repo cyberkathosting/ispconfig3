@@ -84,7 +84,7 @@ $wb['pm_max_children_txt'] = 'Diretiva PHP-FPM pm.max_children';
 $wb['pm_start_servers_txt'] = 'Diretiva PHP-FPM pm.start_servers';
 $wb['pm_min_spare_servers_txt'] = 'Diretiva PHP-FPM pm.min_spare_servers';
 $wb['pm_max_spare_servers_txt'] = 'Diretiva PHP-FPM pm.max_spare_servers';
-$wb['error_php_fpm_pm_settings_txt'] = 'Valores para as configurações do PHP-FPM pm devem obedecer as seguintes condições:: pm.max_children &gt;= pm.max_spare_servers &gt;= pm.start_servers &gt;= pm.min_spare_servers &gt; 0';
+$wb['error_php_fpm_pm_settings_txt'] = 'Valores para as configurações do PHP-FPM pm devem obedecer as seguintes condições: pm.max_children &gt;= pm.max_spare_servers &gt;= pm.start_servers &gt;= pm.min_spare_servers &gt; 0';
 $wb['pm_max_children_error_regex'] = 'O valor do PHP-FPM pm.max_children deve ser um número positivo.';
 $wb['pm_start_servers_error_regex'] = 'O valor do PHP-FPM pm.start_servers deve ser um inteiro positvo.';
 $wb['pm_min_spare_servers_error_regex'] = 'O valor do PHP-FPM pm.min_spare_servers deve ser um número positivo.';
