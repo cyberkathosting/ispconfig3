@@ -7,7 +7,7 @@ set -e
 
 ### Variables
 
-VERSION=2018-04-23
+VERSION=2018-04-24
 PROGNAME=$(basename $0)
 DATESTAMP=`date +%s`
 
@@ -44,30 +44,40 @@ usage() {
   echo
   echo "Functions combine several methods to carry out common tasks. Function options:"
   echo
-  echo "  -c <client>"
-  echo "      Client user name to use."
+  echo "  -b <file>"
+  echo "      Batch file for processing of functions, one per row. Cannot be used with -m, -f or -t."
   echo
-  echo "  -f <function>"
-  echo "      Function to perform, such as dns_a_add. Cannot be used with -m, -d, -j or -s."
+  echo "  -c <client>"
+  echo "      Username of the client whose records are to be accessed, see Client->Clients and Client->Resellers."
+  echo
+  echo "  -f \"<function>\""
+  echo "      Function to perform. Note the qoutes around the full function command. Cannot be used with -m, -b or -t."
   echo
   echo "  -p <password>"
-  echo "      Password of the remote user specified in ISPConfig."
+  echo "      Password of the remote user as specified in System->Remote Users."
+  echo
+  echo "  -t"
+  echo "      Read batch for processing of functions from stdin, one per row. Cannot be used with -m, -b or -f."
   echo
   echo "  -u <user>"
-  echo "      Name of the remote user specified in IPSConfig."
+  echo "      Username of the remote user as specified in System->Remote Users."
   echo
   echo "  Available functions:"
   echo
   echo "    clients                      List all clients"
+  echo "    dns_as <zone>                List all A records for a zone"
   echo "    dns_a_add <zone> <name> <ip> Add or update a DNS A record"
   echo "    dns_a_delete <zone> <name>   Delete a DNS A record"
+  echo "    dns_cnames <zone>            List all CNAME records for a zone"
   echo "    dns_rr <zone>                List all records for a zone"
   echo "    dns_zones                    List all zones"
+  echo "    methods                      List available methods"
   echo "    log_in                       Create a session (not needed by default)"
   echo "    log_out <session>            Log out a session (not needed by default)"
+  echo "    servers                      List all servers"
   echo
-  echo "Using a method wraps the raw request on the command line. Method options:"
-  echo 
+  echo "Using a method wraps the JSON data to the API call and returns a JSON response. Method options:"
+  echo
   echo "  -d <string>"
   echo "      Read JSON data from command line. Use escapes and quotes! Cannot be used with -j or -s."
   echo
@@ -83,7 +93,7 @@ usage() {
   echo "For details on methods, see:"
   echo "https://git.ispconfig.org/ispconfig/ispconfig3/tree/master/remoting_client/API-docs"
   echo
-  echo "Config files are bash files that can contain the following variables (with examples):"
+  echo "Config files are bash files that can contain the following variables:"
   echo
   echo "remote_user=myuser # see -u"
   echo "remote_password=mypassword # see -p"
@@ -93,7 +103,13 @@ usage() {
   echo "ssl_validate=off # see -k"
   echo
   echo "Example uses:"
-  echo "  1. Update a DNS A record or update if it already exists"
+  echo "  1. Log in using the method and escaped JSON on the command line, without config file"
+  echo '    ispconfig-cli -m login -d "{\"username\": \"myuser\",\"password\": \"mypassword\"}" -e https://myserver.example.com:8080/remote/json.php'
+  echo
+  echo "  2. Log in using the function, without config file"
+  echo "    ispconfig-cli -f \"log_in\" -u myuser -p mypassword -e https://myserver.example.com:8080/remote/json.php -c myclient"
+  echo
+  echo "  3. Update a DNS A record or update if it already exists, with complete config file"
   echo "    ispconfig-cli -f \"dns_a_add example.com. johnscomputer 192.168.0.99\""
   echo
 }
@@ -103,15 +119,6 @@ message() {
   if [ $1 -le $VERBOSITY ]; then
     MESSAGE="${MESSAGE}${2}"
   fi
-}
-
-# fail dump
-fail() {
-  echo -e "$MESSAGE"
-  echo "Something went wrong. Here is the last response:"
-  echo $1
-  log_out
-  exit 1
 }
 
 # restCall method data
@@ -124,12 +131,18 @@ method() {
   restCall $1 "$JSONDATA"
 }
 
-### Functions
+### Smart functions
 
 # List all clients
 # clients
 clients() {
-  clientGet | jq .response
+  clientsGet | jq .response
+}
+
+# List all A records for a zone                           
+# dns_as zone
+dns_as() {
+  dns_rr $1 | jq -r ".[] | select(.type == \"A\") | .name"
 }
 
 # Add or update an A record
@@ -139,12 +152,10 @@ dns_a_add() {
   dns_a_id $1 $2
   if [[ $dns_a_id =~ ^-?[0-9]+$ ]]; then
     message 2 "DNS A $2 exists with id $dns_a_id, updating rows: "
-    message 1 "`dnsUpdateAByIdAndIp $dns_a_id $3 | jq -r .response`"
+    message 1 "`dnsUpdateAByIdAndIp $dns_a_id $3 | jq -r .response`\n"
   elif [[ $dns_a_id == "" ]]; then
     message 2 "DNS A $2 does not exist, created ID: "
     message 1 "`dnsAddAByZoneAndNameAndIp $dns_zone_id $2 $3 | jq -r .response`\n"
-  else
-    fail $dns_a_id
   fi
 }
 
@@ -155,10 +166,16 @@ dns_a_delete() {
   dns_a_id $1 $2
   if [[ $dns_a_id =~ ^-?[0-9]+$ ]]; then
     message 2 "DNS A $2 has id $dns_a_id, deleted rows: "
-    message 1 "`dnsDeleteAById $dns_a_id | jq -r '.response'`\n"
+    message 1 "`dnsDeleteAById $dns_a_id | jq -r .response`\n"
   else
     message 2 "DNS A $2 does not exist, skipping.\n"
   fi
+}
+
+# List all CNAME records for a zone                           
+# dns_cnames zone
+dns_cnames() {
+  dns_rr $1 | jq -r ".[] | select(.type == \"CNAME\") | .name"
 }
 
 # List all records for a zone
@@ -174,31 +191,50 @@ dns_zones() {
   dnsGetZones | jq .response
 }
 
-# Log in
-log_in() {
-  session_id=`restCall login "{\"username\": \"${remote_user}\",\"password\": \"${remote_password}\"}" | jq -r '.response'`
-  if [[ $session_id == "false" ]]; then
-    fail "Login failed!"
+# List all available methods
+# methods
+methods() {
+  methods=`functionsGet | jq .response`
+  if [[ $methods == "false" ]]; then
+    message 1 "Getting methods (Server functions) failed, check permissions?\n"
   else
-    message 3 "Logged in with session_id $session_id as $remote_user.\n"
-    client_id $client_user
+    echo $methods | jq
+  fi
+}
+
+# List all servers
+# server
+servers() {
+  serversGet | jq .response
+}
+
+# Log in
+# log_in remote_user remote_password
+log_in() {
+  log_in=`logInByUserAndPassword $1 $2 | jq -r '.response'`
+  if [[ $log_in == "false" ]]; then
+    message 1 "Login failed!\n"
+  else
+    message 3 "Logged in session_id $log_in as $1.\n"
+    echo "$log_in"
   fi
 }
 
 # Log out
 # log_out session
 log_out() {
-  if [[ `restCall logout "{\"session_id\": \"${1}\"}" |jq -r .response` == "true" ]]; then
+  if [[ `logOutBySession $1 | jq -r .response` == "true" ]]; then
     message 3 "Logged out session $1 successfully.\n"
   else
-    fail "Logging out failed!"
+    message 1 "Logging out failed!\n"
   fi
 }
 
 ### ID helpers
 # Due to bash limitations, id's should only be set in _id functions below.
-# Do not run subshells anywhere else.
-# This is due to subshell nesting will otherwise lose the variables.
+# This is due to nested subshells losing the variables.
+# As such, some helpers may be called several times redundantly when both
+# a child and parent function are also to be available on the CLI.
 
 # Get client id
 # client_id client_user
@@ -222,9 +258,8 @@ dns_zone_id() {
 }
 
 ### Methods
-
 # Get clients
-clientGet() {
+clientsGet() {
   restCall client_get "{\"session_id\": \"${session_id}\",\"client_id\":{}}"
 }
 
@@ -251,6 +286,26 @@ dnsGetZones() {
 # Update A by id and IP
 dnsUpdateAByIdAndIp() {
   restCall dns_a_update "{\"session_id\": \"${session_id}\",\"client_id\": \"${client_id}\",\"primary_id\": \"${1}\",\"params\": {\"data\": \"${2}\", \"stamp\": \"${datestamp}\"}}"
+}
+
+# Get functions
+functionsGet() {
+  restCall get_function_list "{\"session_id\": \"${session_id}\"}"
+}
+
+# Log in by user and password
+logInByUserAndPassword() {
+  restCall login "{\"username\": \"${1}\",\"password\": \"${2}\"}"
+}
+
+# Log out by session
+logOutBySession() {
+  restCall logout "{\"session_id\": \"${1}\"}"
+}
+
+# Get servers info
+serversGet() {
+  restCall server_get "{\"session_id\": \"${session_id}\",\"server_id\":{}}"
 }
 
 ### Run
@@ -280,7 +335,7 @@ if [[ $1 == "" ]]; then
 fi
 SERVER=1
 VERBOSITY=2
-while getopts :a:e:hi:kqvc:f:p:u:d:j:m:s opt; do
+while getopts :a:e:hi:kqvb:c:f:p:tu:d:j:m:s opt; do
   case $opt in
     a)
       if [[ -e $OPTARG ]]; then
@@ -319,12 +374,30 @@ while getopts :a:e:hi:kqvc:f:p:u:d:j:m:s opt; do
         exit 1
       fi
       ;;
+    b)
+      if [[ $METHOD == "" ]]; then
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=`cat $OPTARG`
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
     c)
       client_user=$OPTARG
       ;;
     f)
       if [[ $METHOD == "" ]]; then
-        FUNCTION=$OPTARG
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=$OPTARG
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
       else
         echo "Function and method cannot be specified at the same time!"
         exit 1
@@ -332,6 +405,19 @@ while getopts :a:e:hi:kqvc:f:p:u:d:j:m:s opt; do
       ;;
     p)
       remote_password=$OPTARG
+      ;;
+    t)
+      if [[ $METHOD == "" ]]; then
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=`cat`
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
       ;;
     u)
       remote_user=$OPTARG
@@ -390,18 +476,20 @@ if [[ $ssl_validate == "off" ]]; then
 fi
 if [[ $METHOD != "" ]]; then
   method $METHOD
-elif [[ $FUNCTION == log_* ]]; then
-  $FUNCTION
 elif [[ $FUNCTION != "" ]]; then
-  log_in
-  $FUNCTION
+  session_id="`log_in $remote_user $remote_password`" # This is the only ID that has to be set outside ID helpers
+  message 3 "Using session_id $session_id as $remote_user for CLI operations.\n"
+  client_id $client_user
+  #echo $FUNCTION|while read i; do message 1 `$i`; done # Does not work here due to creating subshells
+  IFS=$'\n'
+  for i in $FUNCTION; do eval $i; done
+  unset IFS
   log_out $session_id
 else
-  echo "Neither method nor functions specified!"
+  echo "Neither method nor function specified!"
   exit 1
 fi
 
 echo -e $MESSAGE
 
 exit 0
-
