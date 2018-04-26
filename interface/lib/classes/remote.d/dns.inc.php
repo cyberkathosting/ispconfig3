@@ -301,23 +301,25 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_aaaa_add($session_id, $client_id, $params)
+	public function dns_aaaa_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_aaaa.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params)
+	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../dns/form/dns_aaaa.tform.php', $client_id, $primary_id, $params);
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -349,22 +351,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_a_add($session_id, $client_id, $params)
+	public function dns_a_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_a.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_a_update($session_id, $client_id, $primary_id, $params)
+	public function dns_a_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_a.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -397,22 +401,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_alias_add($session_id, $client_id, $params)
+	public function dns_alias_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_alias.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_alias_update($session_id, $client_id, $primary_id, $params)
+	public function dns_alias_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_alias.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -445,22 +451,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_cname_add($session_id, $client_id, $params)
+	public function dns_cname_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_cname.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_cname_update($session_id, $client_id, $primary_id, $params)
+	public function dns_cname_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_cname.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -493,22 +501,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_hinfo_add($session_id, $client_id, $params)
+	public function dns_hinfo_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_hinfo.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params)
+	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_hinfo.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -541,22 +551,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_mx_add($session_id, $client_id, $params)
+	public function dns_mx_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_mx.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_mx_update($session_id, $client_id, $primary_id, $params)
+	public function dns_mx_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_mx.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -589,22 +601,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_ns_add($session_id, $client_id, $params)
+	public function dns_ns_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_ns.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_ns_update($session_id, $client_id, $primary_id, $params)
+	public function dns_ns_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_ns.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -637,22 +651,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_ptr_add($session_id, $client_id, $params)
+	public function dns_ptr_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_ptr.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_ptr_update($session_id, $client_id, $primary_id, $params)
+	public function dns_ptr_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_ptr.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -685,22 +701,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_rp_add($session_id, $client_id, $params)
+	public function dns_rp_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_rp.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_rp_update($session_id, $client_id, $primary_id, $params)
+	public function dns_rp_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_rp.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -733,22 +751,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_srv_add($session_id, $client_id, $params)
+	public function dns_srv_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_srv.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_srv_update($session_id, $client_id, $primary_id, $params)
+	public function dns_srv_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_srv.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -781,22 +801,24 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_txt_add($session_id, $client_id, $params)
+	public function dns_txt_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		return $this->insertQuery('../dns/form/dns_txt.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_txt_update($session_id, $client_id, $primary_id, $params)
+	public function dns_txt_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		if($update_serial != false) $this->increase_serial($session_id, $client_id, $params);
 		$affected_rows = $this->updateQuery('../dns/form/dns_txt.tform.php', $client_id, $primary_id, $params);
 		return $affected_rows;
 	}
@@ -882,6 +904,26 @@ class remoting_dns extends remoting {
 		}
 	}
 
+	private function increase_serial($session_id, $client_id, $params) {
+		$soa = $this->dns_zone_get($session_id, $params['zone']);
+		$serial=$soa['serial'];
+		$serial_date = intval(substr($serial, 0, 8));
+		$count = intval(substr($serial, 8, 2));
+		$current_date = date("Ymd");
+		if($serial_date >= $current_date){
+			$count += 1;
+			if ($count > 99) {
+				$serial_date += 1;
+				$count = 0;
+			}
+			$count = str_pad($count, 2, "0", STR_PAD_LEFT);
+			$new_serial = $serial_date.$count;
+		} else {
+			$new_serial = $current_date.'01';
+		}
+		$soa['serial'] = $new_serial;
+		$this->dns_zone_update($session_id, $client_id, $soa['id'], $soa);
+	}
 }
 
 ?>
