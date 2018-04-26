@@ -324,13 +324,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_aaaa_delete($session_id, $primary_id)
+	public function dns_aaaa_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_aaaa.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -374,13 +375,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_a_delete($session_id, $primary_id)
+	public function dns_a_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_a.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -424,13 +426,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_alias_delete($session_id, $primary_id)
+	public function dns_alias_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_alias.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -474,13 +477,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_cname_delete($session_id, $primary_id)
+	public function dns_cname_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_cname.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -524,13 +528,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_hinfo_delete($session_id, $primary_id)
+	public function dns_hinfo_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_hinfo.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -574,13 +579,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_mx_delete($session_id, $primary_id)
+	public function dns_mx_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_mx.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -624,13 +630,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_ns_delete($session_id, $primary_id)
+	public function dns_ns_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ns.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -674,13 +681,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_ptr_delete($session_id, $primary_id)
+	public function dns_ptr_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ptr.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -724,13 +732,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_rp_delete($session_id, $primary_id)
+	public function dns_rp_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_rp.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -774,13 +783,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_srv_delete($session_id, $primary_id)
+	public function dns_srv_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_srv.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
@@ -824,13 +834,14 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_txt_delete($session_id, $primary_id)
+	public function dns_txt_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_delete')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_txt.tform.php', $primary_id);
+		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
 		return $affected_rows;
 	}
 
