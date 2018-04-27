@@ -87,6 +87,10 @@ class monitor_tools {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "18.04":
+				$relname = "(Bionic Beaver)";
+				$distconfid = 'ubuntu1804';
+				break;
 			case "17.10":
 				$relname = "(Artful Aardvark)";
 				$distconfid = 'ubuntu1710';
