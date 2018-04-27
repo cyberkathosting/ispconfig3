@@ -283,4 +283,5 @@ $wb['disable_bind_log_txt'] = 'Disable bind9 messages for Loglevel WARN';
 $wb['apps_vhost_enabled_txt'] = 'Apps-vhost enabled';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
 ?>

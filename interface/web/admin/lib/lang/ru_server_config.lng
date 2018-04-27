@@ -283,4 +283,5 @@ $wb['xmpp_port_bosh_txt'] = 'BOSH';
 $wb['backup_time_txt'] = 'Время копирования';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
 ?>

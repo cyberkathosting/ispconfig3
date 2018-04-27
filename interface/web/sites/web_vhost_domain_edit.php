@@ -836,6 +836,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 
 		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+		$app->tpl->setVar('is_pagespeed_enabled', ($web_config['nginx_enable_pagespeed'] === 'y'));
 		$app->tpl->setVar("is_admin", $is_admin);
 		
 		if($this->id > 0) {
@@ -1308,7 +1309,7 @@ class page_action extends tform_actions {
 		if($web_config['enable_spdy'] === 'n') {
 			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
-		if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
+	//	if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
 		
 		//print_r($_POST['folder_directive_snippets']);
 		//print_r($_POST['folder_directive_snippets_id']);

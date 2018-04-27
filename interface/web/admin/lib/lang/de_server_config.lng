@@ -286,4 +286,5 @@ $wb['xmpp_port_pastebin_txt'] = 'Pastebin';
 $wb['xmpp_port_bosh_txt'] = 'BOSH';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
 ?>
