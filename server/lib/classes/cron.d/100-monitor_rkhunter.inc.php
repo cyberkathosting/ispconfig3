@@ -72,7 +72,13 @@ class cronjob_monitor_rkhunter extends cronjob {
 			/*
 			 * Fetch the output
 			 */
-			$data['output'] = shell_exec('rkhunter --update --checkall --nocolors --skip-keypress');
+			
+			// Do not try to update rkhunter on Debian and Ubuntu, rkhunter is keept up to date with apt.
+			if(file_exists('/etc/debian_version')) {
+				$data['output'] = shell_exec('rkhunter --checkall --nocolors --skip-keypress');
+			} else {
+				$data['output'] = shell_exec('rkhunter --update --checkall --nocolors --skip-keypress');
+			}
 
 			/*
 			 * At this moment, there is no state (maybe later)
