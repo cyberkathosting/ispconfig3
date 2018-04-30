@@ -225,14 +225,14 @@ class installer_base {
 		global $conf;
 
 		//* check sql-mode
-		$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
+		/*$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
 
 		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
 			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
 			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
 			echo"to the mysqld-section in your mysql-config on this server and restart mysqld afterwards\n";
 			die();
-		}
+		}*/
 
 		$unwanted_sql_plugins = array('validate_password');		
 		$sql_plugins = $this->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
@@ -2093,7 +2093,12 @@ class installer_base {
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
 
-			if(file_exists('/var/run/php5-fpm.sock') || file_exists('/var/run/php/php7.0-fpm.sock')){
+			if(	file_exists('/var/run/php5-fpm.sock')
+				|| file_exists('/var/run/php/php7.0-fpm.sock')
+				|| file_exists('/var/run/php/php7.1-fpm.sock')
+				|| file_exists('/var/run/php/php7.2-fpm.sock')
+				|| file_exists('/var/run/php/php7.3-fpm.sock')
+			){
 				$use_tcp = '#';
 				$use_socket = '';
 			} else {
