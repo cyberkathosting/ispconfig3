@@ -117,7 +117,7 @@ class app {
          2 = ERROR
         */
 
-	function log($msg, $priority = 0) {
+	function log($msg, $priority = 0, $dblog = true) {
 
 		global $conf;
 
@@ -148,7 +148,7 @@ class app {
 			fclose($fp);
 
 			// Log to database
-			if(isset($this->dbmaster)) {
+			if($dblog === true && isset($this->dbmaster)) {
 				$server_id = $conf['server_id'];
 				$loglevel = $priority;
 				$message = $msg;

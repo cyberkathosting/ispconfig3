@@ -476,7 +476,7 @@ class db
 		if($this->show_error_messages && $conf['demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
 		} elseif(is_object($app) && method_exists($app, 'log') && $bNoLog == false) {
-			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
+			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN, false);
 		} elseif(php_sapi_name() == 'cli') {
 			echo $sErrormsg . $sAddMsg;
 		}
