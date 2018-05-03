@@ -287,7 +287,7 @@ class page_action extends tform_actions {
 			unset($temp);
 		}
 		
-		$fo_rec = '';
+		$fo_rec = array();
 		if (isset($this->dataRecord['dmarc_fo0'])) $fo_rec[] = '0';
 		if (isset($this->dataRecord['dmarc_fo1'])) $fo_rec[] = '1';
 		if (isset($this->dataRecord['dmarc_fod'])) $fo_rec[] = 'd';
