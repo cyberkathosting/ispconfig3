@@ -62,7 +62,7 @@ $wb['do_not_try_rescue_mongodb_txt'] = 'Deshabilitar monitorización de MongoDB'
 $wb['do_not_try_rescue_mysql_txt'] = 'Deshabilitar monitorización de MySQL';
 $wb['enable_ip_wildcard_txt'] = 'Activar comodín IP (*)';
 $wb['enable_sni_txt'] = 'Habilitar SNI';
-$wb['enable_spdy_txt'] = 'Hacer que SPDY esté disponible';
+$wb['enable_spdy_txt'] = 'Hacer que SPDY/HTTP2 esté disponible';
 $wb['fastcgi_alias_error_empty'] = 'El alias de FastCGI está vacío.';
 $wb['fastcgi_alias_error_regex'] = 'El alias de fastcgi es inválido.';
 $wb['fastcgi_alias_txt'] = 'Alias de FastCGI';
@@ -283,4 +283,5 @@ $wb['xmpp_use_ipv6_txt'] = 'Usar IPv6';
 $wb['backup_time_txt'] = 'Backup time';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
 ?>

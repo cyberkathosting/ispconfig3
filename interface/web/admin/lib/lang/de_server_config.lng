@@ -267,7 +267,7 @@ $wb['php_ini_check_minutes_txt'] = 'Prüfe php.ini alle X Minuten auf Änderunge
 $wb['php_ini_check_minutes_error_empty'] = 'Bitte geben Sie einen Wert an, wie oft die php.ini auf Änderungen geprüft werden soll.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = keine Prüfung';
 $wb['php_handler_txt'] = 'Standard-PHP-Handler';
-$wb['enable_spdy_txt'] = 'Stellt SPDY zur Verfügung';
+$wb['enable_spdy_txt'] = 'Stellt SPDY/HTTP2 zur Verfügung';
 $wb['disable_bind_log_txt'] = 'Disable bind9 messages for Loglevel WARN';
 $wb['apps_vhost_enabled_txt'] = 'Apps-vhost enabled';
 $wb['disabled_txt'] = 'Disabled';
@@ -286,4 +286,5 @@ $wb['xmpp_port_pastebin_txt'] = 'Pastebin';
 $wb['xmpp_port_bosh_txt'] = 'BOSH';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
 ?>

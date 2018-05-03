@@ -1149,6 +1149,16 @@ class nginx_plugin {
 
 		// Custom nginx directives
 		$final_nginx_directives = array();
+		if($data['new']['enable_pagespeed'] == 'y'){
+			// if PageSpeed is already enabled, don't add configuration again
+			if(stripos($nginx_directives, 'pagespeed') !== false){
+				$vhost_data['enable_pagespeed'] = false;
+			} else {
+				$vhost_data['enable_pagespeed'] = true;
+			}
+		} else {
+			$vhost_data['enable_pagespeed'] = false;
+		}
 		if(intval($data['new']['directive_snippets_id']) > 0){
 			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", $data['new']['directive_snippets_id']);
 			if(isset($snippet['snippet'])){
@@ -1156,6 +1166,7 @@ class nginx_plugin {
 			} else {
 				$nginx_directives = $data['new']['nginx_directives'];
 			}
+/*
 			if($data['new']['enable_pagespeed'] == 'y'){
 				// if PageSpeed is already enabled, don't add configuration again
 				if(stripos($nginx_directives, 'pagespeed') !== false){
@@ -1166,9 +1177,10 @@ class nginx_plugin {
 			} else {
 				$vhost_data['enable_pagespeed'] = false;
 			}
+*/
 		} else {
 			$nginx_directives = $data['new']['nginx_directives'];
-			$vhost_data['enable_pagespeed'] = false;
+//			$vhost_data['enable_pagespeed'] = false;
 		}
 		
 		// folder_directive_snippets

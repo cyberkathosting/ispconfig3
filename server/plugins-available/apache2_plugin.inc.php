@@ -1214,6 +1214,17 @@ class apache2_plugin {
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
 
+		// HTTP/2.0 ?
+		$vhost_data['enable_http2']  = 'n';
+		if($vhost_data['enable_spdy'] == 'y'){
+			// check if apache supports http_v2
+			exec("2>&1 apachectl -M | grep http2_module", $tmp_output, $tmp_retval);
+			if($tmp_retval == 0){
+				$vhost_data['enable_http2']  = 'y';
+			}
+			unset($tmp_output, $tmp_retval);
+		}
+
 		// Set SEO Redirect
 		if($data['new']['seo_redirect'] != ''){
 			$vhost_data['seo_redirect_enabled'] = 1;
