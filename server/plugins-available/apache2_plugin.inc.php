@@ -1187,7 +1187,7 @@ class apache2_plugin {
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && $conf['mirror_server_id'] == 0 ( // ssl and let's encrypt is active and no mirror server
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && $conf['mirror_server_id'] == 0 && ( // ssl and let's encrypt is active and no mirror server
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
