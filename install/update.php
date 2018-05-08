@@ -154,6 +154,8 @@ $conf["mysql"]["database"] = $conf_old["db_database"];
 $conf['mysql']['charset'] = 'utf8';
 $conf["mysql"]["ispconfig_user"] = $conf_old["db_user"];
 $conf["mysql"]["ispconfig_password"] = $conf_old["db_password"];
+$conf['mysql']['port'] = $conf_old["db_port"];
+if($conf['mysql']['port'] == 0 || $conf['mysql']['port'] == '') $conf['mysql']['port'] = 3306;
 $conf['language'] = $conf_old['language'];
 $conf['theme'] = $conf_old['theme'];
 if($conf['language'] == '{language}') $conf['language'] = 'en';
