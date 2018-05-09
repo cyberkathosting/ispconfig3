@@ -98,6 +98,8 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
 }
 
+if(!is_installed('patch')) die('The patch command is missing. Install patch command and start installation again.');
+
 //** Get distribution identifier
 $dist = get_distname();
 
