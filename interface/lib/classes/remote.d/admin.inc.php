@@ -48,7 +48,7 @@ class remoting_admin extends remoting {
 	 * @param array permissions
 	 * @author "ispcomm", improved by M. Cramer <m.cramer@pixcept.de>
 	 */
-	public function update_record_permissions($tablename, $index_field, $index_value, $permissions) {
+	public function update_record_permissions($session_id, $tablename, $index_field, $index_value, $permissions) {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'admin_record_permissions')) {
