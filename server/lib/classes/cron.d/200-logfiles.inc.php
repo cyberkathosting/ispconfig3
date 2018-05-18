@@ -121,8 +121,8 @@ class cronjob_logfiles extends cronjob {
 				
 				// rename older files (move up by one)
 				$num = $log_retention;
-				while($num >= 1 && is_file($cron_logfile . '.' . $num . '.gz')) {
-					rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
+				while($num >= 1) {
+					if(is_file($cron_logfile . '.' . $num . '.gz')) rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
 					$num--;
 				}
 				
