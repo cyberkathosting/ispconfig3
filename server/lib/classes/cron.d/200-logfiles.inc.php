@@ -49,6 +49,8 @@ class cronjob_logfiles extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
+		
+		$max_syslog = 10;
 
 		//######################################################################################################
 		// Make the web logfiles directories world readable to enable ftp access
@@ -76,7 +78,7 @@ class cronjob_logfiles extends cronjob {
 				unset($tmp);
 			}
 
-                        $log_retention = $rec['log_retention'];
+			$log_retention = $rec['log_retention'];
 
 			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			$total_bytes = 0;
@@ -118,9 +120,9 @@ class cronjob_logfiles extends cronjob {
 				$cron_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/' . $cron_logfile);
 				
 				// rename older files (move up by one)
-				$num = 7;
-				while($num >= 1 && is_file($cron_logfile . '.' . $num . '.gz')) {
-					rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
+				$num = $log_retention;
+				while($num >= 1) {
+					if(is_file($cron_logfile . '.' . $num . '.gz')) rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
 					$num--;
 				}
 				
@@ -130,7 +132,7 @@ class cronjob_logfiles extends cronjob {
 					exec("cat /dev/null > $cron_logfile");
 				}
 				// remove older logs
-				$num = 7;
+				$num = $log_retention;
 				while(is_file($cron_logfile . '.' . $num . '.gz')) {
 					@unlink($cron_logfile . '.' . $num . '.gz');
 					$num++;
@@ -151,23 +153,22 @@ class cronjob_logfiles extends cronjob {
 				exec("cat /dev/null > $error_logfile");
 			}
 
-			// delete logfiles after x days (default 30)
-                        if($log_retention > 0) {
-                        foreach (glob($rec['document_root'].'/' . $log_folder . '/'."*.log*") as $logfile) {
-                        $now   = time();
-                        if (is_file($logfile))
-                                if ($now - filemtime($logfile) >= 60 * 60 * 24 * $log_retention)
-                                        unlink($logfile);
-                        }
-
-                        }
+			// delete logfiles after x days (default 10)
+			if($log_retention > 0) {
+				foreach (glob($rec['document_root'].'/' . $log_folder . '/'."*.log*") as $logfile) {
+					$now = time();
+					if (is_file($logfile))
+						if ($now - filemtime($logfile) >= 60 * 60 * 24 * $log_retention)
+							unlink($logfile);
+				}
+			}
 
 		}
 
 		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
 		exec('hostname -f', $tmp_hostname);
 		if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
-			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +30 -name '*.log' | xargs rm > /dev/null 2> /dev/null");
+			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +$max_syslog -name '*.log' | xargs rm > /dev/null 2> /dev/null");
 		}
 		unset($tmp_hostname);
 
@@ -175,14 +176,14 @@ class cronjob_logfiles extends cronjob {
 		// Rotate the ispconfig.log file
 		//######################################################################################################
 
-		$num = 10;
 
 		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log');
 		foreach($ispconfig_logfiles as $ispconfig_logfile) {
+			$num = $max_syslog;
 			$ispconfig_logfile = escapeshellcmd($conf['ispconfig_log_dir'].'/'.$ispconfig_logfile);
 			// rename older files (move up by one)
-			while($num >= 1 && is_file($ispconfig_logfile . '.' . $num . '.gz')) {
-				rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
+			while($num >= 1) {
+				if(is_file($ispconfig_logfile . '.' . $num . '.gz')) rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
 				$num--;
 			}
 			// compress current logfile
@@ -191,6 +192,7 @@ class cronjob_logfiles extends cronjob {
 				exec("cat /dev/null > $ispconfig_logfile");
 			}
 			// remove older logs
+			$num = $max_syslog;
 			while(is_file($ispconfig_logfile . '.' . $num . '.gz')) {
 				@unlink($ispconfig_logfile . '.' . $num . '.gz');
 				$num++;
