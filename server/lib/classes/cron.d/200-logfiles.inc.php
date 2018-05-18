@@ -137,11 +137,18 @@ class cronjob_logfiles extends cronjob {
 				}
 			}
 
-			// rotate and compress the error.log when it exceeds a size of 10 MB
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
-			if(is_file($logfile) && filesize($logfile) > 10000000) {
-				exec("gzip -c $logfile > $logfile.1.gz");
-				exec("cat /dev/null > $logfile");
+			// rotate and compress the error.log 
+			$error_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
+			// rename older files (move up by one)
+			$num = $log_retention;
+			while($num >= 1 && is_file($error_logfile . '.' . $num . '.gz')) {
+				rename($error_logfile . '.' . $num . '.gz', $error_logfile . '.' . ($num + 1) . '.gz');
+				$num--;
+			}
+			// compress current logfile
+			if(is_file($error_logfile)) {
+				exec("gzip -c $error_logfile > $error_logfile.1.gz");
+				exec("cat /dev/null > $error_logfile");
 			}
 
 			// delete logfiles after x days (default 30)
@@ -168,25 +175,26 @@ class cronjob_logfiles extends cronjob {
 		// Rotate the ispconfig.log file
 		//######################################################################################################
 
-		// rotate the ispconfig.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/ispconfig.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
-		}
+		$num = 10;
 
-		// rotate the cron.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/cron.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
-		}
-
-		// rotate the auth.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/auth.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
+		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log');
+		foreach($ispconfig_logfiles as $ispconfig_logfile) {
+			$ispconfig_logfile = escapeshellcmd($conf['ispconfig_log_dir'].'/'.$ispconfig_logfile);
+			// rename older files (move up by one)
+			while($num >= 1 && is_file($ispconfig_logfile . '.' . $num . '.gz')) {
+				rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
+				$num--;
+			}
+			// compress current logfile
+			if(is_file($ispconfig_logfile)) {
+				exec("gzip -c $ispconfig_logfile > $ispconfig_logfile.1.gz");
+				exec("cat /dev/null > $ispconfig_logfile");
+			}
+			// remove older logs
+			while(is_file($ispconfig_logfile . '.' . $num . '.gz')) {
+				@unlink($ispconfig_logfile . '.' . $num . '.gz');
+				$num++;
+			}
 		}
 
 		//######################################################################################################
