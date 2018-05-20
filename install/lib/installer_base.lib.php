@@ -1768,7 +1768,7 @@ class installer_base {
 			$ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
 			$ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
 
-			$tpl = new tpl('xmpp_metronome_conf_ssl.master');
+			$tpl = new tpl('xmpp_conf_ssl.master');
 			$tpl->setVar('ssl_country',$ssl_country);
 			$tpl->setVar('ssl_locality',$ssl_locality);
 			$tpl->setVar('ssl_organisation',$ssl_organisation);
