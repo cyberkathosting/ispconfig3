@@ -50,6 +50,8 @@ if($result) {
 	$result = restCall('client_get', array('session_id' => $session_id, 'client_id' => array()));
 	if($result) var_dump(json_decode($result, true));
 	else print "Could not get client_get result\n";
+	
+	// please refer to API-Docs for expected input variables and parameters names  
 
 	$result = restCall('logout', array('session_id' => $session_id));
 	if($result) var_dump(json_decode($result, true));

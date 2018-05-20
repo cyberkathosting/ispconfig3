@@ -189,6 +189,9 @@ server {
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 </tmpl_if>
             #fastcgi_param PATH_INFO $fastcgi_script_name;
+<tmpl_if name='seo_redirect_enabled'>
+            fastcgi_param SERVER_NAME <tmpl_var name='seo_redirect_target_domain'>;
+</tmpl_if>
             fastcgi_intercept_errors on;
         }
 </tmpl_else>
@@ -200,6 +203,9 @@ server {
 				fastcgi_index index.php;
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
+<tmpl_if name='seo_redirect_enabled'>
+                fastcgi_param SERVER_NAME <tmpl_var name='seo_redirect_target_domain'>;
+</tmpl_if>
 				fastcgi_intercept_errors on;
 				error_page 500 501 502 503 = @phpfallback;
 			}
@@ -216,6 +222,9 @@ server {
 				fastcgi_index index.php;
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
+<tmpl_if name='seo_redirect_enabled'>
+                fastcgi_param SERVER_NAME <tmpl_var name='seo_redirect_target_domain'>;
+</tmpl_if>
 				fastcgi_intercept_errors on;
 			}
 	</tmpl_else>

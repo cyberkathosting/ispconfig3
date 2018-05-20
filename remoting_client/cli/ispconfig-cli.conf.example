@@ -1,0 +1,6 @@
+remote_user=myuser
+remote_password=mypassword
+remote_url=https://myserver.example.com:8080/remote/json.php
+client_user=myclient
+server_id=1
+ssl_validate=off
