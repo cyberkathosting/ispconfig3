@@ -28,7 +28,7 @@
 # 1.1   bugfix release
 # 1.2   support for mod_logio
 # 1.3	various contributed bugfixes
-# 1.3ISPconfig1 This local version has been modified for ISPConfig. Namely: "Added better error handling to vlogger script in case the MySQL database connection is not available."
+# 1.4   automatically creates two levels of subdirs.
 #
 # 
 # TODO:
@@ -109,6 +109,9 @@ or "%m%d%Y-error.log".  When using the -r option, the default becomes
 -d CONFIG
 	Use the DBI usage tracker.
 
+-p
+	Privacy mode (delete last octet of ipv4 or last 4 sections of ipv6)
+
 -h
 	Displays help.
 
@@ -148,10 +151,12 @@ use sigtrap qw(handler exitall HUP USR1 TERM INT PIPE);
 use Date::Format;
 use Getopt::Std;
 use IO::Handle;
+use File::Path qw(make_path);
+use File::Basename;
 
 # get command line options
 our %OPTS;
-getopts( 'f:t:s:hu:g:aeivr:d:', \%OPTS );
+getopts( 'f:t:s:hu:g:aeipvr:d:', \%OPTS );
 
 # print out version
 if ( $OPTS{'v'} ) {
@@ -171,9 +176,9 @@ if ( $OPTS{'h'} || !$ARGV[0] ) {
 # log directory
 my $LOGDIR;
 if ( $ARGV[0] ) {
-    if ( !-d $ARGV[0] || -l $ARGV[0]) {
+    if ( !-d $ARGV[0] ) {
         print STDERR
-          "[vlogger] target directory $ARGV[0] does not exist or is a symlink - exiting.\n\n";
+          "[vlogger] target directory $ARGV[0] does not exist - exiting.\n\n";
         exit;
     }
     $LOGDIR = $ARGV[0];
@@ -253,14 +258,9 @@ if ( $OPTS{'d'} ) {
     }
 
     # test the connection
-	eval {
-      my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
-        or die "DBI Error: $!";
-      $dbh->disconnect;
-	};
-	if ($@) {
-       print "MySQL Connection problem\n";
-    }
+    my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
+      or die "DBI Error: $!";
+    $dbh->disconnect;
 
     # SIGALRM dumps the tracker hash
     $SIG{ALRM} = \&dump_tracker;
@@ -317,7 +317,7 @@ if ( $OPTS{'s'} ) {
 
 # chroot to the logdir
 chdir($LOGDIR);
-#chroot("."); we better do not chroot as DBI requires to load a module on the fly -> error!
+chroot(".");
 
 my %logs     = ();
 my %tracker  = ();
@@ -378,6 +378,12 @@ else {
     $0 = "vlogger (access log)";
     while ( my $log_line = <STDIN> ) {
 
+        
+        if ( $OPTS{'p'} ) {
+			$log_line =~ s/^(\S*\s+\d+\.\d+\.\d+)\.\d+(\s+.*)/$1.0$2/;
+			$log_line =~ s/^(\S*\s+[a-f0-9]*:[a-f0-9]*:[a-f0-9]*:[a-f0-9]*)(?::[a-f0-9]*){1,4}(\s+.*)/$1::0$2/;
+        }
+        
         # parse out the first word (the vhost)
         my @this_line = split ( /\s/, $log_line );
         my ($vhost) = $this_line[0];
@@ -386,7 +392,6 @@ else {
         if ( $vhost =~ m#[/\\]# ) { $vhost = "default" }
         $vhost =~ /(.*)/o;
         $vhost = $1;
-	$vhost = 'default' unless $vhost;
 
         if ( $OPTS{'i'} ) {
             $reqsize = $this_line[1] + $this_line[2];
@@ -425,20 +430,19 @@ else {
                 delete( $logs{$key} );
             }
 
+            my $filename = "${vhost}/" . time2str( $TEMPLATE, time() );
+            my $filepath = dirname($filename);
+
             # check if directory is there
-            unless ( -d "${vhost}" ) {
-                mkdir("${vhost}");
+            unless ( -d $filepath ) {
+                print "mkdir: " . $filepath . "\n";
+                make_path($filepath)
+                  or die ( "can't mkdir $filepath" );
             }
-			
-			# Dont log to symlinks
-			if( -l "${vhost}/".time2str( $TEMPLATE, time() ) ) {
-				die("Log target is a symlink: $LOGDIR/${vhost}/".time2str( $TEMPLATE, time() ));
-			}
 
             # open the file using the template
-            open $vhost, ">>${vhost}/" . time2str( $TEMPLATE, time() )
-              or die ( "can't open $LOGDIR/${vhost}/"
-                . time2str( $TEMPLATE, time() ) );
+            open $vhost, ">>".$filename
+              or die ( "can't open $filename" );
 
             # autoflush the handle unless -a
             if ( !$OPTS{'a'} ) {
@@ -465,9 +469,11 @@ else {
             $log_line =~ s/^\S*\s+//o;
         }
 
-        if ( $reqsize =~ m/^\d*$/ && $reqsize > 0 ) {
-            $tracker{$vhost} += $reqsize;
-        }
+        if ($reqsize ne "-") {
+			  if ( $reqsize =~ m/\d|/ && $reqsize > 0 ) {
+   	         $tracker{$vhost} += $reqsize;
+      	  }
+		  }
 
         print $vhost $log_line;
 
@@ -514,26 +520,25 @@ sub open_errorlog {
 
 # sub to update the database with the tracker data
 sub dump_tracker {
-    eval {
-	if ( keys(%tracker) > 0 ) {
+    if ( keys(%tracker) > 0 ) {
         my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
           or warn "DBI Error: $!";
         foreach my $key ( keys(%tracker) ) {
-            my $ts = time2str( "%Y-%m-%d", time() );
+            my $ts = time2str( "%m%d%Y", time() );
             my $sth =
-              $dbh->prepare( "select * from web_traffic where hostname='" . $key
-                . "' and traffic_date='" . $ts . "'" );
+              $dbh->prepare( "select * from wwwusage where vhost='" . $key
+                . "' and ldate='" . $ts . "'" );
             $sth->execute;
             if ( $sth->rows ) {
                 my $query =
-                  "update web_traffic set traffic_bytes=traffic_bytes+"
+                  "update wwwusage set bytes=bytes+"
                   . $tracker{$key}
-                  . " where hostname='" . $key
-                  . "' and traffic_date='" . $ts . "'";
+                  . " where vhost='" . $key
+                  . "' and ldate='" . $ts . "'";
                 $dbh->do($query);
             }
             else {
-                my $query = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('$key', '$ts', '$tracker{$key}')";
+                my $query = "insert into wwwusage (vhost, ldate, bytes) values ('$key', '$ts', '$tracker{$key}')";
                 $dbh->do($query);
             }
         }
@@ -541,10 +546,6 @@ sub dump_tracker {
         %tracker = ();
     }
     alarm $DBI_DUMP;
-	};
-    if ($@) {
-        print "Unable to store vlogger data in database\n";
-    }
 }
 
 # print usage info
@@ -562,6 +563,8 @@ sub usage {
     print "  -s SYMLINK                  maintain a symlink to most recent file\n";
     print "  -r SIZE                     rotate when file reaches SIZE\n";
     print "  -d CONFIG                   use DBI usage tracker (see perldoc vlogger)\n";
+    print "  -p                          Privacy mode (delete last octet of ipv4 or\n";
+    print "                              last 4 sections of ipv6)\n";
     print "  -i                          extract mod_logio instead of filesize\n";
     print "  -h                          display this help\n";
     print "  -v                          output version information\n\n";
