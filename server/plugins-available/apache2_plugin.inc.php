@@ -719,7 +719,7 @@ class apache2_plugin {
 
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
+		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
 		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
@@ -1005,8 +1005,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
@@ -1046,8 +1048,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 			}
@@ -1060,16 +1064,20 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			} else {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0755);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			}
 		}
 
