@@ -26,7 +26,6 @@ $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
 $wb['Rescue'] = 'Manutenção';
 $wb['Server IP addresses'] = 'Endereço IP do servidor';
-$wb['Server IPv4 mapping'] = 'Mapeamento IPv4 do servidor';
 $wb['Additional PHP Versions'] = 'Versões adicionais do php';
 $wb['Firewall'] = 'Firewall';
 $wb['Interface'] = 'Interface';

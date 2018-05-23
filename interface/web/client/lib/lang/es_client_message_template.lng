@@ -8,4 +8,6 @@ $wb['template_name_txt'] = 'Nombre de la plantilla';
 $wb['template_type_txt'] = 'Tipo de correo';
 $wb['variables_description_txt'] = '(Las variables de nombre de usuario y contraseña están solo disponibles para correos de bienvenida.)';
 $wb['variables_txt'] = 'Variables';
+$wb['subject_error_empty'] = 'Subject is empty';
+$wb['message_error_empty'] = 'Message is empty';
 ?>

@@ -1,6 +1,6 @@
 <?php
 $wb['login_1_txt'] = 'Você deseja acessar como usuário';
-$wb['login_2_txt'] = 'Para retornar ao administrador, você pode "voltar" selecionando sair.';
+$wb['login_2_txt'] = 'Para retornar ao administrador, você pode \"voltar\" selecionando sair.';
 $wb['btn_yes_txt'] = 'Sim, acessar como cliente';
 $wb['btn_back_txt'] = 'Não, voltar a lista';
 $wb['udp_port_help_txt'] = 'Separado por vírgula';

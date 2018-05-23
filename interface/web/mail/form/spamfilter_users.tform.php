@@ -94,8 +94,12 @@ $form["tabs"]['users'] = array (
 					'type' => 'TOLOWER'),
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPTAGS'),
-				2 => array( 'event' => 'SAVE',
-					'type' => 'STRIPNL')
+					2 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL'),
+					3 => array( 'event' => 'SAVE',
+					'type' => 'IDNTOASCII'),
+					4 => array( 'event' => 'SHOW',
+					'type' => 'IDNTOUTF8')
 			),
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'email_error_notempty'),

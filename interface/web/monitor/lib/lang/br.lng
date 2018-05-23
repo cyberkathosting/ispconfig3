@@ -32,7 +32,6 @@ $wb['Show Update State'] = 'Exibir estado atual';
 $wb['Show RAID state'] = 'Exibir estado do RAID';
 $wb['Show Server load'] = 'Exibir carga do servidor';
 $wb['Show Disk usage'] = 'Exibir uso do disco';
-$wb['Show MySQL Database size'] = 'Exibir tamanho do banco de dados MySQL';
 $wb['Show Memory usage'] = 'Exibir uso da memória';
 $wb['Show Services'] = 'Exibir serviços';
 $wb['Show Mail-Queue'] = 'Exibir fila de e-mails';

@@ -28,4 +28,7 @@ $wb['limit_webdav_user_txt'] = 'Antal af Webdav brugere';
 $wb['limit_client_txt'] = 'Antal af Kunder';
 $wb['limit_database_txt'] = 'Antal af Databaser';
 $wb['limit_domain_txt'] = 'Antal af Domæner';
+$wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
+$wb['limit_web_quota_txt'] = 'Assigned web quota';
+$wb['limit_database_quota_txt'] = 'Assigned database quota';
 ?>
