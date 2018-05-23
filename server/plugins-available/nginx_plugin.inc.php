@@ -1524,6 +1524,9 @@ class nginx_plugin {
 			}
 			unset($tmp_output, $tmp_retval);
 		}
+		
+		// set logging variable
+		$vhost_data['logging'] = $web_config['logging'];
 
 		$tpl->setVar($vhost_data);
 
