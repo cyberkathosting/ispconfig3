@@ -33,7 +33,7 @@
 # 1.4p2 implemented anonymization in error log part
 # 1.4p3 implemented stronger anonymization
 # 1.4p4 implemented re-opening on externally rotated error.log
-# 1.4p5 backported old ISPConfig changes (improved DBI error handling)
+# 1.4p5 backported old ISPConfig changes (improved DBI error handling, naming)
 #
 # 
 # TODO:
@@ -566,21 +566,21 @@ sub dump_tracker {
         my $dbh = DBI->connect( $DBI_DSN, $DBI_USER, $DBI_PASS )
           or warn "DBI Error: $!";
         foreach my $key ( keys(%tracker) ) {
-            my $ts = time2str( "%m%d%Y", time() );
+            my $ts = time2str( "%Y-%m-%d", time() );
             my $sth =
-              $dbh->prepare( "select * from wwwusage where vhost='" . $key
-                . "' and ldate='" . $ts . "'" );
+              $dbh->prepare( "select * from web_traffic where hostname='" . $key
+                . "' and traffic_date='" . $ts . "'" );
             $sth->execute;
             if ( $sth->rows ) {
                 my $query =
-                  "update wwwusage set bytes=bytes+"
+                  "update web_traffic set traffic_bytes=traffic_bytes+"
                   . $tracker{$key}
-                  . " where vhost='" . $key
-                  . "' and ldate='" . $ts . "'";
+                  . " where hostname='" . $key
+                  . "' and traffic_date='" . $ts . "'";
                 $dbh->do($query);
             }
             else {
-                my $query = "insert into wwwusage (vhost, ldate, bytes) values ('$key', '$ts', '$tracker{$key}')";
+                my $query = "insert into web_traffic (hostname, traffic_date, traffic_bytes) values ('$key', '$ts', '$tracker{$key}')";
                 $dbh->do($query);
             }
         }
