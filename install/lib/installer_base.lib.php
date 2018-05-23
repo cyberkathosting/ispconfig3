@@ -2010,6 +2010,11 @@ class installer_base {
 			$tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
 			$tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
 			$tpl->setVar('apache_version',getapacheversion());
+			if($this->is_update == true) {
+				$tpl->setVar('logging',get_logging_state());
+			} else {
+				$tpl->setVar('logging','yes');
+			}
 
 
 			// comment out the listen directive if port is 80 or 443

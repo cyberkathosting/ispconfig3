@@ -80,6 +80,10 @@
                 </div>
             </div>
 			<div class="form-group">
+                <label for="log_retention" class="col-sm-3 control-label">{tmpl_var name='log_retention_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="log_retention" id="log_retention" value="{tmpl_var name='log_retention'}" class="form-control" /></div>
+			</div>
+			<div class="form-group">
                 <label for="monit_url" class="col-sm-3 control-label">{tmpl_var name='monit_url_txt'}</label>
                 <div class="col-sm-6"><input type="text" name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" class="form-control" />&nbsp;{tmpl_var name='monit_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a></div>
             </div>

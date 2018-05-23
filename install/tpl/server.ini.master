@@ -29,6 +29,7 @@ munin_user=
 munin_password=
 monitor_system_updates=y
 migration_mode=n
+log_retention=10
 
 [mail]
 module=postfix_mysql
@@ -113,6 +114,7 @@ overquota_notify_freq=7
 overquota_db_notify_admin=y
 overquota_db_notify_client=y
 overquota_notify_onok=n
+logging=yes
 
 [dns]
 bind_user=root

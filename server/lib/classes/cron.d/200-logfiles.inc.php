@@ -50,7 +50,14 @@ class cronjob_logfiles extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 		
-		$max_syslog = 10;
+		$app->uses('getconf');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		
+		if($server_config['log_retention'] > 0) {
+			$max_syslog = $server_config['log_retention'];
+		} else {
+			$max_syslog = 10;
+		}
 
 		//######################################################################################################
 		// Make the web logfiles directories world readable to enable ftp access

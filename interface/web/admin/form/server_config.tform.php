@@ -395,6 +395,17 @@ $form["tabs"]['server'] = array(
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'log_retention' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISPOSITIVE',
+				'errmsg'=> 'log_retention_error_ispositive'),
+			),
+			'default' => '30',
+			'value' => '',
+			'width' => '4',
+			'maxlength' => '4'
+		),
 		'migration_mode' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -909,6 +920,12 @@ $form["tabs"]['web'] = array(
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'logging' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'yes',
+			'value' => array('yes' => 'Yes', 'anon' => 'Anonymize IP', 'no' => 'No')
 		),
 		'overtraffic_notify_admin' => array(
 			'datatype' => 'VARCHAR',

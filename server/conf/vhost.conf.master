@@ -45,7 +45,12 @@
 </tmpl_if>
 </tmpl_if>
 
+<tmpl_if name='logging' op='==' value='anon'>
+		ErrorLog "|/usr/local/ispconfig/server/scripts/vlogger -e -n -P -t \"error.log\" /var/log/ispconfig/httpd/<tmpl_var name='domain'>"
+</tmpl_if>
+<tmpl_if name='logging' op='==' value='yes'>
 		ErrorLog /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log
+</tmpl_if>
 
 <tmpl_if name='errordocs'>
 		Alias /error/ "<tmpl_var name='web_document_root_www'>/error/"

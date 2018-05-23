@@ -73,6 +73,9 @@ class apache2_plugin {
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_ip');
 
 		$app->plugins->registerEvent('webdav_user_insert', $this->plugin_name, 'webdav');
 		$app->plugins->registerEvent('webdav_user_update', $this->plugin_name, 'webdav');
@@ -1160,6 +1163,7 @@ class apache2_plugin {
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
+		$vhost_data['logging'] = $web_config['logging'];
 
 		// Custom Apache directives
 		if(intval($data['new']['directive_snippets_id']) > 0){
@@ -2248,7 +2252,7 @@ class apache2_plugin {
 		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'], true);
 	}
 
-	//* This function is called when a IP on the server is inserted, updated or deleted
+	//* This function is called when a IP on the server is inserted, updated or deleted or when anon_ip setting is altered
 	function server_ip($event_name, $data) {
 		global $app, $conf;
 
@@ -2261,6 +2265,7 @@ class apache2_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
+		$tpl->setVar('logging', $web_config['logging']);
 		$records = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ? AND virtualhost = 'y'", $conf['server_id']);
 
 		$records_out= array();

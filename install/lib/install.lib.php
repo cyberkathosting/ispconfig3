@@ -859,6 +859,28 @@ function is_ispconfig_ssl_enabled() {
 	}
 }
 
+/*
+* Is anonymization enabled in ispconfig.conf file
+*/
+
+function get_logging_state() {
+	global $conf;
+	$ispconfig_conf_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.conf';
+
+	if(is_file($ispconfig_conf_file)) {
+		$tmp = file_get_contents($ispconfig_conf_file);
+		if(stristr($tmp, '/usr/local/ispconfig/server/scripts/vlogger -p -s access.log')) {
+			return 'anon';
+		} elseif(stristr($tmp, '/usr/local/ispconfig/server/scripts/vlogger -s access.log')) {
+			return 'yes';
+		} else {
+			return 'no';
+		}
+	} else {
+		return 'yes';
+	}
+}
+
 /**
  Function to find the hash file for timezone detection
  (c) 2012 Marius Cramer, pixcept KG, m.cramer@pixcept.de
