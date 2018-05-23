@@ -46,8 +46,6 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 my $VERSION = "1.4p5"; # modified for ISPConfig
 
-use Data::Dumper;
-
 =head1 NAME
 
 vlogger - flexible log rotation and usage tracking in perl
