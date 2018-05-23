@@ -1440,7 +1440,7 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $web_config["htaccess_allow_override"];
 			$added_by = $_SESSION['s']['user']['username'];
 
-			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention  WHERE domain_id = ?";
+			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
 			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
 		} else  {
 			// Set the values for document_root, system_user and system_group
@@ -1454,7 +1454,7 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $this->parent_domain_record['allow_override'];
 			$added_by = $_SESSION['s']['user']['username'];
 			
-			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention  WHERE domain_id = ?";
+			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
 			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
