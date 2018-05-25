@@ -135,7 +135,7 @@ $wb['host_txt'] = 'Host';
 $wb['domain_error_wildcard'] = 'Wildcard-Subdomains sind nicht erlaubt.';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
-$wb['enable_spdy_txt'] = 'Aktiviere SPDY';
+$wb['enable_spdy_txt'] = 'Aktiviere SPDY/HTTP2';
 $wb['load_client_data_txt'] = 'Kundendaten übernehmen';
 $wb['load_my_data_txt'] = 'Meine Kontaktdaten laden';
 $wb['reset_client_data_txt'] = 'Daten verwerfen';
@@ -154,5 +154,5 @@ $wb['error_domain_change_forbidden'] = 'Der Domainname kann nicht geändert werd
 $wb['error_server_change_not_possible'] = 'Der Server kann nicht geändert werden.';
 $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
 $wb['log_retention_txt'] = 'Log-Dateien Aufbewahrungszeit';
-$wb['log_retention_error_regex'] = "Aufbewahrungszeit in Tagen (Erlaubte Werte: min. 0 - max. 9999)";
+$wb['log_retention_error_regex'] = 'Aufbewahrungszeit in Tagen (Erlaubte Werte: min. 0 - max. 9999)';
 ?>

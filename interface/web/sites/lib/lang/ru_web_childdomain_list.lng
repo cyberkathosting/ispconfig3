@@ -14,4 +14,5 @@ $wb['add_new_subdomain_txt'] = 'Добавить новый поддомен';
 $wb['add_new_aliasdomain_txt'] = 'Добавить новый алиас домена';
 $wb['aliasdomain_list_head_txt'] = 'Алиас доменов';
 $wb['subdomain_list_head_txt'] = 'Поддомены';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
 ?>

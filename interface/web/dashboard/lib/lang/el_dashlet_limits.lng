@@ -28,4 +28,7 @@ $wb['limit_client_txt'] = 'Αριθμός Πελατών';
 $wb['limit_database_txt'] = 'Αριθμός Databases';
 $wb['limit_mailmailinglist_txt'] = 'Αριθμός λιστών ηλ. αλληλογραφίας';
 $wb['limit_domain_txt'] = 'Number of Domains';
+$wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
+$wb['limit_web_quota_txt'] = 'Assigned web quota';
+$wb['limit_database_quota_txt'] = 'Assigned database quota';
 ?>

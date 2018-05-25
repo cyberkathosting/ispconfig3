@@ -116,4 +116,5 @@ $wb['available_apache_directive_snippets_txt'] = 'Verfügbare Apache-Direktiven-
 $wb['available_nginx_directive_snippets_txt'] = 'Verfügbare nginx-Direktiven-Schnipsel:';
 $wb['Domain'] = 'Aliasdomain';
 $wb['ssl_letsencrypt_exclude_txt'] = 'Nicht in Let\'s Encrypt Zertifikat aufnehmen';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
 ?>

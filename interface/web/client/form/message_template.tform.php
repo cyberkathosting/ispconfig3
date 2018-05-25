@@ -62,7 +62,7 @@ $form["tabs"]['template'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('welcome' => 'Default welcome email', 'other' => 'Other')
+			'value'  => array('welcome' => 'Default welcome email', 'gdpr' => 'GDPR data send', 'other' => 'Other')
 		),
 		'template_name' => array (
 			'datatype' => 'VARCHAR',

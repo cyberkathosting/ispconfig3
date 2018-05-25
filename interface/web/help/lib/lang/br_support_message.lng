@@ -12,5 +12,5 @@ $wb['answer_to_support_request_txt'] = 'Você tem uma nova resposta para requisi
 $wb['answer_to_support_request_sent_txt'] = 'Sua resposta para requisição de suporte foi enviada. Por favor, não responda esse e-mail.';
 $wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por favor não responda este e-mail.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não foi enviada porque o e-mail do destinatário e/ou remetente não é válido.';
-$wb['subject_is_empty'] = 'Não é permitido o campo "Assunto" em branco.';
+$wb['subject_is_empty'] = 'Não é permitido o campo \"Assunto\" em branco.';
 ?>

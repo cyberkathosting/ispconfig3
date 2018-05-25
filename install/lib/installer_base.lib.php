@@ -226,8 +226,15 @@ class installer_base {
 	public function configure_database() {
 		global $conf;
 
-		//* ensure no modes with errors for ENGINE=MyISAM
-		$this->db->query("SET sql_mode = ''");
+		//* check sql-mode
+		/*$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
+
+		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
+			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
+			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
+			echo"to the mysqld-section in your mysql-config on this server and restart mysqld afterwards\n";
+			die();
+		}*/
 
 		$unwanted_sql_plugins = array('validate_password');
 		$sql_plugins = $this->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
@@ -250,10 +257,10 @@ class installer_base {
 			$this->error('Stopped: Database already contains some tables.');
 		} else {
 			if($conf['mysql']['admin_password'] == '') {
-				caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null",
+				caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -P ".escapeshellarg($conf['mysql']['port'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null",
 					__FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			} else {
-				caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null",
+				caselog("mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -P ".escapeshellarg($conf['mysql']['port'])." ".escapeshellarg($conf['mysql']['database'])." < '".ISPC_INSTALL_ROOT."/install/sql/ispconfig3.sql' &> /dev/null",
 					__FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in ispconfig3.sql');
 			}
 			$db_tables = $this->db->getTables();
@@ -1981,6 +1988,14 @@ class installer_base {
 		$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
 
 		$tpl = new tpl('apache_ispconfig.conf.master');
+		$tpl->setVar('apache_version',getapacheversion());
+		
+		if($this->is_update == true) {
+			$tpl->setVar('logging',get_logging_state());
+		} else {
+			$tpl->setVar('logging','yes');
+		}
+		
 		$tpl->setVar('apache_version',getapacheversion(true));
 
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
@@ -2066,6 +2081,17 @@ class installer_base {
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
+		// add anonymized log option to nginxx.conf file
+		$nginx_conf_file = $conf['nginx']['config_dir'].'/nginx.conf';
+		if(is_file($nginx_conf_file)) {
+			$tmp = file_get_contents($nginx_conf_file);
+			if(!stristr($tmp, 'log_format anonymized')) {
+				copy($nginx_conf_file,$nginx_conf_file.'~');
+				replaceLine($nginx_conf_file, 'http {', "http {\n\n".file_get_contents('tpl/nginx_anonlog.master'), 0, 0);
+			}
+		}
+		
 	}
 
 	public function configure_fail2ban() {
@@ -2239,6 +2265,11 @@ class installer_base {
 			$tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
 			$tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
 			$tpl->setVar('apache_version',getapacheversion());
+			if($this->is_update == true) {
+				$tpl->setVar('logging',get_logging_state());
+			} else {
+				$tpl->setVar('logging','yes');
+			}
 
 
 			// comment out the listen directive if port is 80 or 443
@@ -2322,7 +2353,12 @@ class installer_base {
 			$content = str_replace('{fpm_socket}', $fpm_socket, $content);
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
 
-			if(file_exists('/var/run/php5-fpm.sock') || file_exists('/var/run/php/php7.0-fpm.sock')){
+			if(	file_exists('/var/run/php5-fpm.sock')
+				|| file_exists('/var/run/php/php7.0-fpm.sock')
+				|| file_exists('/var/run/php/php7.1-fpm.sock')
+				|| file_exists('/var/run/php/php7.2-fpm.sock')
+				|| file_exists('/var/run/php/php7.3-fpm.sock')
+			){
 				$use_tcp = '#';
 				$use_socket = '';
 			} else {

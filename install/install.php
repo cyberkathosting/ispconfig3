@@ -99,6 +99,9 @@ require_once 'lib/classes/tpl.inc.php';
     die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 }*/
 
+// Patch is required to reapir latest amavis versions
+if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start installation again.');
+
 //** Get distribution identifier
 $dist = get_distname();
 

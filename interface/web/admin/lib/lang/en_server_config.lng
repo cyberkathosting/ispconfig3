@@ -274,7 +274,7 @@ $wb['network_filesystem_txt'] = 'Network Filesystem';
 $wb['php_ini_check_minutes_txt'] = 'Check php.ini every X minutes for changes';
 $wb['php_ini_check_minutes_error_empty'] = 'Please specify a value how often php.ini should be checked for changes.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = no check';
-$wb['enable_spdy_txt'] = 'Makes SPDY available';
+$wb['enable_spdy_txt'] = 'Makes SPDY/HTTP2 available';
 $wb['web_settings_txt'] = 'Web Server';
 $wb['xmpp_server_txt'] = 'XMPP Server';
 $wb['xmpp_daemon_txt'] = 'XMPP Daemon';
@@ -294,4 +294,9 @@ $wb["apps_vhost_enabled_txt"] = "Apps-vhost enabled";
 $wb["mailinglist_manager_txt"] = 'Mailinglist Manager';
 $wb['skip_le_check_txt'] = 'Skip Lets Encrypt Check';
 $wb['migration_mode_txt'] = 'Server Migration Mode';
+$wb['nginx_enable_pagespeed_txt'] = 'Makes Pagespeed available';
+$wb['logging_txt'] = 'Store website access and error logs';
+$wb['logging_desc_txt'] = 'Use Tools > Resync to apply changes to existing sites. For Apache, access and error log can be anonymized. For nginx, only the access log is anonymized, the error log will contain IP addresses.';
+$wb['log_retention_txt'] = 'Log retention (days)';
+$wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
 ?>

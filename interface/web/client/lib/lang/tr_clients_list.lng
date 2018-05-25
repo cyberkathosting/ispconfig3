@@ -8,4 +8,7 @@ $wb['city_txt'] = 'İl';
 $wb['country_txt'] = 'Ülke';
 $wb['add_new_record_txt'] = 'Müşteri Ekle';
 $wb['customer_no_txt'] = 'Müşteri No';
+$wb['locked_txt'] = 'Locked';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>

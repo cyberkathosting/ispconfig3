@@ -136,7 +136,7 @@ $wb['server_chosen_not_ok'] = 'The selected server is not allowed for this accou
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
-$wb['enable_spdy_txt'] = 'Enable SPDY';
+$wb['enable_spdy_txt'] = 'Enable SPDY/HTTP2';
 $wb['load_client_data_txt'] = 'Load client details';
 $wb['load_my_data_txt'] = 'Load my contact details';
 $wb['reset_client_data_txt'] = 'Reset data';
@@ -154,4 +154,5 @@ $wb['error_domain_change_forbidden'] = 'The domain name cannot be changed. Pleas
 $wb['error_server_change_not_possible'] = 'The server cannot be changed.';
 $wb['log_retention_txt'] = 'Logfiles retention time';
 $wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
 ?>

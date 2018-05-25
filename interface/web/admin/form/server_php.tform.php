@@ -124,6 +124,13 @@ $form["tabs"]['php_name'] = array (
 			'width'  => '40',
 			'maxlength' => '255'
 		),
+		'active' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
+
 		//#################################
 		// ENDE Datenbankfelder
 		//#################################

@@ -96,8 +96,21 @@
 			<div class="col-sm-3"><select name="mailinglist_server_id" id="mailinglist_server_id" class="form-control">{tmpl_var name='mailinglist_server_id'}</select></div>
 		</div>
 	</tmpl_if>
+	<tmpl_if name="mailtransport_found">
+		<div class="form-group">
+			<label for="resync_mailtransport" class="col-sm-2 control-label">{tmpl_var name="resync_mailtransport_txt"}</label>
+			<div class="col-sm-1"><input type="checkbox" id="resync_mailtransport" value="1" name="resync_mailtransport"></div>
+			<div class="col-sm-3"><select name="mailtransport_server_id" id="mailtransport_server_id" class="form-control">{tmpl_var name='mailtransport_server_id'}</select></div>
+		</div>
+	</tmpl_if>
+	<tmpl_if name="mailrelay_found">
+		<div class="form-group">
+			<label for="resync_mailrelay" class="col-sm-2 control-label">{tmpl_var name="resync_mailrelay_txt"}</label>
+			<div class="col-sm-1"><input type="checkbox" id="resync_mailtransport" value="1" name="resync_mailrelay"></div>
+			<div class="col-sm-3"><select name="mailrelay_server_id" id="mailrelay_server_id" class="form-control">{tmpl_var name='mailrelay_server_id'}</select></div>
+		</div>
+	</tmpl_if>
 </tmpl_if>
-
 
 <tmpl_if name="dns_server_found">
 	<tmpl_if name="dns_soa_found">

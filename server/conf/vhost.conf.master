@@ -43,7 +43,20 @@
 </tmpl_if>
 		ServerAdmin webmaster@<tmpl_var name='domain'>
 
+<tmpl_if name='ssl_enabled'>
+<tmpl_if name='enable_http2' op='==' value='y'>
+		Protocols h2 http/1.1
+		SSLProtocol All -SSLv2 -SSLv3
+		SSLCipherSuite 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS'
+</tmpl_if>
+</tmpl_if>
+
+<tmpl_if name='logging' op='==' value='anon'>
+		ErrorLog "|/usr/local/ispconfig/server/scripts/vlogger -e -n -P -t \"error.log\" /var/log/ispconfig/httpd/<tmpl_var name='domain'>"
+</tmpl_if>
+<tmpl_if name='logging' op='==' value='yes'>
 		ErrorLog /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log
+</tmpl_if>
 
 <tmpl_if name='errordocs'>
 		Alias /error/ "<tmpl_var name='web_document_root_www'>/error/"

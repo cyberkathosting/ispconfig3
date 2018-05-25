@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ALTER TABLE `mail_mailinglist` ADD `list_type` enum('open','closed') NOT NULL DEFAULT 'open';
 ALTER TABLE `mail_mailinglist` ADD `subject_prefix` varchar(50) NOT NULL DEFAULT '';
 ALTER TABLE `mail_mailinglist` ADD `admins` mediumtext;
@@ -92,8 +91,6 @@ ALTER TABLE `web_domain` ADD COLUMN `ssl_letsencrypt_exclude` enum('n','y') NOT 
 ALTER TABLE `remote_user` ADD `remote_access` ENUM('y','n') NOT NULL DEFAULT 'y' AFTER `remote_password`;
 ALTER TABLE `remote_user` ADD `remote_ips` TEXT AFTER `remote_access`;
 ALTER TABLE `web_domain` ADD `php_fpm_chroot` enum('n','y') NOT NULL DEFAULT 'n' AFTER `php_fpm_use_socket`;
-
-
 
 
 ALTER TABLE `client_template`

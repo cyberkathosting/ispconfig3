@@ -46,4 +46,8 @@ $wb['do_mail_spamfilter_policy_txt'] = 'Resynced Spamfilter Policies';
 $wb['do_mail_spamfilter_txt'] = 'Resynced Spamfilter';
 $wb['do_mailget_txt'] = 'Resynced Fetchmail';
 $wb['resync_mailget_txt'] = 'Fetchmail';
+$wb['resync_mailtransport_txt'] = 'E-Mail Transport';
+$wb['resync_mailrelay_txt'] = 'E-Mail Relay';
+$wb['do_mailtransport_txt'] = 'Resynced Mailtransport';
+$wb['do_mailrelay_txt'] = 'Resynced Mailrelay';
 ?>

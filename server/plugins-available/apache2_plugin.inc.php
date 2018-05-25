@@ -73,6 +73,9 @@ class apache2_plugin {
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_ip');
 
 		$app->plugins->registerEvent('webdav_user_insert', $this->plugin_name, 'webdav');
 		$app->plugins->registerEvent('webdav_user_update', $this->plugin_name, 'webdav');
@@ -264,7 +267,7 @@ class apache2_plugin {
 		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
 		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
-		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
+		if(!is_dir($data['new']['document_root'].'/ssl') && !is_dir($data['old']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
@@ -719,7 +722,7 @@ class apache2_plugin {
 
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
+		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
 		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
@@ -1005,8 +1008,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
@@ -1046,8 +1051,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 			}
@@ -1060,16 +1067,20 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			} else {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0755);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			}
 		}
 
@@ -1152,6 +1163,7 @@ class apache2_plugin {
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
+		$vhost_data['logging'] = $web_config['logging'];
 
 		// Custom Apache directives
 		if(intval($data['new']['directive_snippets_id']) > 0){
@@ -1187,7 +1199,7 @@ class apache2_plugin {
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && $conf['mirror_server_id'] == 0 && ( // ssl and let's encrypt is active and no mirror server
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
@@ -1214,6 +1226,17 @@ class apache2_plugin {
 		}
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
+
+		// HTTP/2.0 ?
+		$vhost_data['enable_http2']  = 'n';
+		if($vhost_data['enable_spdy'] == 'y'){
+			// check if apache supports http_v2
+			exec("2>&1 apachectl -M | grep http2_module", $tmp_output, $tmp_retval);
+			if($tmp_retval == 0){
+				$vhost_data['enable_http2']  = 'y';
+			}
+			unset($tmp_output, $tmp_retval);
+		}
 
 		// Set SEO Redirect
 		if($data['new']['seo_redirect'] != ''){
@@ -2205,7 +2228,7 @@ class apache2_plugin {
 		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'], true);
 	}
 
-	//* This function is called when a IP on the server is inserted, updated or deleted
+	//* This function is called when a IP on the server is inserted, updated or deleted or when anon_ip setting is altered
 	function server_ip($event_name, $data) {
 		global $app, $conf;
 
@@ -2218,6 +2241,7 @@ class apache2_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
+		$tpl->setVar('logging', $web_config['logging']);
 		$tpl->setVar('apache_full_version', $app->system->getapacheversion(true));
 		$records = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ? AND virtualhost = 'y'", $conf['server_id']);
 

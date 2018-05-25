@@ -49,6 +49,15 @@ class cronjob_logfiles extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
+		
+		$app->uses('getconf');
+		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
+		
+		if($server_config['log_retention'] > 0) {
+			$max_syslog = $server_config['log_retention'];
+		} else {
+			$max_syslog = 10;
+		}
 
 		//######################################################################################################
 		// Make the web logfiles directories world readable to enable ftp access
@@ -76,7 +85,7 @@ class cronjob_logfiles extends cronjob {
 				unset($tmp);
 			}
 
-                        $log_retention = $rec['log_retention'];
+			$log_retention = $rec['log_retention'];
 
 			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			$total_bytes = 0;
@@ -118,9 +127,9 @@ class cronjob_logfiles extends cronjob {
 				$cron_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/' . $cron_logfile);
 				
 				// rename older files (move up by one)
-				$num = 7;
-				while($num >= 1 && is_file($cron_logfile . '.' . $num . '.gz')) {
-					rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
+				$num = $log_retention;
+				while($num >= 1) {
+					if(is_file($cron_logfile . '.' . $num . '.gz')) rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
 					$num--;
 				}
 				
@@ -130,37 +139,43 @@ class cronjob_logfiles extends cronjob {
 					exec("cat /dev/null > $cron_logfile");
 				}
 				// remove older logs
-				$num = 7;
+				$num = $log_retention;
 				while(is_file($cron_logfile . '.' . $num . '.gz')) {
 					@unlink($cron_logfile . '.' . $num . '.gz');
 					$num++;
 				}
 			}
 
-			// rotate and compress the error.log when it exceeds a size of 10 MB
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
-			if(is_file($logfile) && filesize($logfile) > 10000000) {
-				exec("gzip -c $logfile > $logfile.1.gz");
-				exec("cat /dev/null > $logfile");
+			// rotate and compress the error.log 
+			$error_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
+			// rename older files (move up by one)
+			$num = $log_retention;
+			while($num >= 1 && is_file($error_logfile . '.' . $num . '.gz')) {
+				rename($error_logfile . '.' . $num . '.gz', $error_logfile . '.' . ($num + 1) . '.gz');
+				$num--;
+			}
+			// compress current logfile
+			if(is_file($error_logfile)) {
+				exec("gzip -c $error_logfile > $error_logfile.1.gz");
+				exec("cat /dev/null > $error_logfile");
 			}
 
-			// delete logfiles after x days (default 30)
-                        if($log_retention > 0) {
-                        foreach (glob($rec['document_root'].'/' . $log_folder . '/'."*.log*") as $logfile) {
-                        $now   = time();
-                        if (is_file($logfile))
-                                if ($now - filemtime($logfile) >= 60 * 60 * 24 * $log_retention)
-                                        unlink($logfile);
-                        }
-
-                        }
+			// delete logfiles after x days (default 10)
+			if($log_retention > 0) {
+				foreach (glob($rec['document_root'].'/' . $log_folder . '/'."*.log*") as $logfile) {
+					$now = time();
+					if (is_file($logfile))
+						if ($now - filemtime($logfile) >= 60 * 60 * 24 * $log_retention)
+							unlink($logfile);
+				}
+			}
 
 		}
 
 		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
 		exec('hostname -f', $tmp_hostname);
 		if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
-			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +30 -name '*.log' | xargs rm > /dev/null 2> /dev/null");
+			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +$max_syslog -name '*.log' | xargs rm > /dev/null 2> /dev/null");
 		}
 		unset($tmp_hostname);
 
@@ -168,25 +183,27 @@ class cronjob_logfiles extends cronjob {
 		// Rotate the ispconfig.log file
 		//######################################################################################################
 
-		// rotate the ispconfig.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/ispconfig.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
-		}
 
-		// rotate the cron.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/cron.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
-		}
-
-		// rotate the auth.log when it exceeds a size of 10 MB
-		$logfile = $conf['ispconfig_log_dir'].'/auth.log';
-		if(is_file($logfile) && filesize($logfile) > 10000000) {
-			exec("gzip -c $logfile > $logfile.1.gz");
-			exec("cat /dev/null > $logfile");
+		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log');
+		foreach($ispconfig_logfiles as $ispconfig_logfile) {
+			$num = $max_syslog;
+			$ispconfig_logfile = escapeshellcmd($conf['ispconfig_log_dir'].'/'.$ispconfig_logfile);
+			// rename older files (move up by one)
+			while($num >= 1) {
+				if(is_file($ispconfig_logfile . '.' . $num . '.gz')) rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
+				$num--;
+			}
+			// compress current logfile
+			if(is_file($ispconfig_logfile)) {
+				exec("gzip -c $ispconfig_logfile > $ispconfig_logfile.1.gz");
+				exec("cat /dev/null > $ispconfig_logfile");
+			}
+			// remove older logs
+			$num = $max_syslog;
+			while(is_file($ispconfig_logfile . '.' . $num . '.gz')) {
+				@unlink($ispconfig_logfile . '.' . $num . '.gz');
+				$num++;
+			}
 		}
 
 		//######################################################################################################

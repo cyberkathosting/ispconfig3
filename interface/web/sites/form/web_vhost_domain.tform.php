@@ -953,18 +953,18 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'width'  => '3',
 				'maxlength' => '6'
 			),
-                        'log_retention' => array (
-                                'datatype' => 'INTEGER',
-                                'formtype' => 'TEXT',
-                                'validators' => array (  0 => array ( 'type' => 'REGEX',
-                                                'regex' => '/^([0-9]{1,4})$/',
-                                                'errmsg'=> 'log_retention_error_regex'),
-                                ),
-                                'default' => '30',
-                                'value' => '',
-                                'width' => '4',
-                                'maxlength' => '4'
-                        )
+			'log_retention' => array (
+				'datatype' => 'INTEGER',
+				'formtype' => 'TEXT',
+				'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '/^([0-9]{1,4})$/',
+					'errmsg'=> 'log_retention_error_regex'),
+				),
+				'default' => '30',
+				'value' => '',
+				'width' => '4',
+				'maxlength' => '4'
+			)
 			//#################################
 			// ENDE Datatable fields
 			//#################################

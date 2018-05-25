@@ -125,8 +125,14 @@ server {
         }
 </tmpl_if>
 		
+<tmpl_if name='logging' op='==' value='yes'>
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
         access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
+</tmpl_var>
+<tmpl_if name='logging' op='==' value='anon'>
+        error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
+        access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log anonymized;
+</tmpl_var>
 
         ## Disable .htaccess and other hidden files
 		location ~ /\. {

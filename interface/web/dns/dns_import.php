@@ -606,6 +606,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		$dns_rr[$r]['type'] = 'NS';
 		$dns_rr[$r]['data'] = $server['server_name'];
 		$dns_rr[$r]['aux'] = 0;
+		$dns_rr[$r]['ttl'] = $soa['ttl'];
 		$r++;
 	}
 	//print('<pre>');

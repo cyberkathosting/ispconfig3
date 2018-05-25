@@ -113,6 +113,16 @@ class page_action extends tform_actions {
         			'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
+    			'mail_transport' => array (
+        			'index_field' =>  'transport_id',
+        			'server_type' => 'mail',
+					'server_id' => $server_id,
+				),
+    			'mail_relay' => array (
+        			'index_field' =>  'relay_recipient_id',
+        			'server_type' => 'mail',
+					'server_id' => $server_id,
+				),
 			);
 		}
 		if($type == 'mail_filter') {
@@ -292,6 +302,27 @@ class page_action extends tform_actions {
 				unset($options_servers);
 			}
 
+			//* mailtransport
+			$server_list = $this->create_list($mail_server_rec, 'mail', 'mail_transport');
+			$options_servers = $server_list[0];$server_count = $server_list[1];
+			unset($server_list);
+			if (isset($options_servers)) {	//* server with data found
+				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_transport_txt']."</option>" . $options_servers;
+				$app->tpl->setVar('mailtransport_server_id', $options_servers);
+				$app->tpl->setVar('mailtransport_found', 1);
+				unset($options_servers);
+			}
+
+			//* mailrelay
+			$server_list = $this->create_list($mail_server_rec, 'mail', 'mail_relay');
+			$options_servers = $server_list[0];$server_count = $server_list[1];
+			unset($server_list);
+			if (isset($options_servers)) {	//* server with data found
+				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_relay_txt']."</option>" . $options_servers;
+				$app->tpl->setVar('mailrelay_server_id', $options_servers);
+				$app->tpl->setVar('mailrelay_found', 1);
+				unset($options_servers);
+			}
 		}
 
 		//* fetch web-server
@@ -481,6 +512,8 @@ class page_action extends tform_actions {
 			$this->dataRecord['resync_mailbox'] = 1;
 			$this->dataRecord['resync_mailfilter'] = 1;
 			$this->dataRecord['resync_mailinglist'] = 1;
+			$this->dataRecord['resync_mailtransport'] = 1;
+			$this->dataRecord['resync_mailrelay'] = 1;
 			$this->dataRecord['resync_vserver'] = 1;
 			$this->dataRecord['resync_dns'] = 1;
 			$this->dataRecord['resync_client'] = 1;
@@ -552,6 +585,14 @@ class page_action extends tform_actions {
 		//* mailinglists
 		if($this->dataRecord['resync_mailinglist'] == 1) 
 			$msg .= $this->do_resync('mail_mailinglist', 'mailinglist_id', 'mail', $this->dataRecord['mail_server_id'], 'listname',  $app->tform->wordbook['do_mailinglist_txt'], false);
+
+		//* mailtransport
+		if($this->dataRecord['resync_mailtransport'] == 1) 
+			$msg .= $this->do_resync('mail_transport', 'transport_id', 'mail', $this->dataRecord['mail_server_id'], 'domain',  $app->tform->wordbook['do_mailtransport_txt'], false);
+
+		//* mailrelay
+		if($this->dataRecord['resync_mailrelay'] == 1) 
+			$msg .= $this->do_resync('mail_relay_recipient', 'relay_recipient_id', 'mail', $this->dataRecord['mail_server_id'], 'source',  $app->tform->wordbook['do_mailrelay_txt'], false);
 
 		//* vserver
 		if($this->dataRecord['resync_vserver'] == 1) 

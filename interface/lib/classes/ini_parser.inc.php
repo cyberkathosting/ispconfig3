@@ -34,6 +34,7 @@ class ini_parser{
 
 	//* Converts a ini string to array
 	public function parse_ini_string($ini) {
+		$this->config = array();
 		$ini = str_replace("\r\n", "\n", $ini);
 		$lines = explode("\n", $ini);
 		foreach($lines as $line) {

@@ -62,7 +62,10 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
 		
-		
+		//* Do not add users here
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'user') {
+			$app->tform->errorMessage .= $app->tform->wordbook['no_user_insert'];
+		}
 		
 	}
 
@@ -85,6 +88,11 @@ class page_action extends tform_actions {
 		//* A user that belongs to a client record (client or reseller) may not have typ admin
 		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'admin'  && $this->oldDataRecord['client_id'] > 0) {
 			$app->tform->errorMessage .= $app->tform->wordbook['client_not_admin_err'];
+		}
+		
+		//* Users have to belong to clients
+		if(isset($this->dataRecord['typ']) && $this->dataRecord['typ'][0] == 'user'  && $this->oldDataRecord['client_id'] == 0) {
+			$app->tform->errorMessage .= $app->tform->wordbook['no_user_insert'];
 		}
 		
 	}

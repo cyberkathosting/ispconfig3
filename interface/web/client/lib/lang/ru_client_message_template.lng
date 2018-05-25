@@ -8,4 +8,6 @@ $wb['Settings'] = 'Параметры';
 $wb['variables_txt'] = 'Переменные:';
 $wb['variables_description_txt'] = '(Переменные <b>username</b> и <b>password</b> доступны только в приветственных письмах.)';
 $wb['duplicate_welcome_error'] = 'Там может быть только один почтовый шаблон приветствия по умолчанию. Пожалуйста, измените существующий шаблон вместо добавления нового.';
+$wb['subject_error_empty'] = 'Subject is empty';
+$wb['message_error_empty'] = 'Message is empty';
 ?>

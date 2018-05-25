@@ -8,4 +8,7 @@ $wb['country_txt'] = 'País';
 $wb['customer_no_txt'] = 'Cliente Nº.';
 $wb['list_head_txt'] = 'Clientes';
 $wb['username_txt'] = 'Nombre de usuario';
+$wb['locked_txt'] = 'Locked';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>

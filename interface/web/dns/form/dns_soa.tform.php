@@ -319,6 +319,7 @@ $form["tabs"]['dns_records'] = array (
 	)
 );
 
-
+// show update acl to admins only.
+if(!$app->auth->is_admin()) unset($form["tabs"]['dns_soa']['fields']['update_acl']);
 
 ?>

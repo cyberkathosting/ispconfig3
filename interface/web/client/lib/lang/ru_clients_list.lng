@@ -8,4 +8,7 @@ $wb['client_id_txt'] = 'ID Клиента';
 $wb['add_new_record_txt'] = 'Добавить клиента';
 $wb['username_txt'] = 'Логин';
 $wb['customer_no_txt'] = 'Номер Клиента';
+$wb['locked_txt'] = 'Locked';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>

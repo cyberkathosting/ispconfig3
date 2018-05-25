@@ -603,6 +603,12 @@ class installer extends installer_base
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
+		if($this->is_update == true) {
+			$tpl->setVar('logging',get_logging_state());
+		} else {
+			$tpl->setVar('logging','yes');
+		}
+		
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		

@@ -28,4 +28,7 @@ $wb['limit_client_txt'] = 'Limite de clientes';
 $wb['limit_database_txt'] = 'Limite de banco de dados';
 $wb['limit_mailmailinglist_txt'] = 'Limite de listas de e-mails';
 $wb['limit_domain_txt'] = 'Limite de domínios';
+$wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
+$wb['limit_web_quota_txt'] = 'Assigned web quota';
+$wb['limit_database_quota_txt'] = 'Assigned database quota';
 ?>

@@ -691,6 +691,12 @@ class installer_dist extends installer_base {
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
+		if($this->is_update == true) {
+			$tpl->setVar('logging',get_logging_state());
+		} else {
+			$tpl->setVar('logging','yes');
+		}
+		
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
@@ -817,6 +823,16 @@ class installer_dist extends installer_base {
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+	
+		// add anonymized log option to nginxx.conf file
+		$nginx_conf_file = $conf['nginx']['config_dir'].'/nginx.conf';
+		if(is_file($nginx_conf_file)) {
+			$tmp = file_get_contents($nginx_conf_file);
+			if(!stristr($tmp, 'log_format anonymized')) {
+				copy($nginx_conf_file,$nginx_conf_file.'~');
+				replaceLine($nginx_conf_file, 'http {', "http {\n\n".file_get_contents('tpl/nginx_anonlog.master'), 0, 0);
+			}
+		}
 	}
 
 	public function configure_bastille_firewall()

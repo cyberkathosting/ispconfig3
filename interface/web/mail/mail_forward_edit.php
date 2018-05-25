@@ -76,7 +76,7 @@ class page_action extends tform_actions {
 
 		// Getting Domains of the user
 		//$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
-		$sql = "SELECT domain FROM mail_domain WHERE domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') AND ".$app->tform->getAuthSQL('r')." ORDER BY domain";
+		$sql = "SELECT domain FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		foreach( $domains as $domain) {

@@ -8,4 +8,6 @@ $wb['Settings'] = 'Ayarlar';
 $wb['variables_txt'] = 'Değişkenler';
 $wb['variables_description_txt'] = '(Kullanıcı adı ve parola değişkenleri yalnız hoşgeldiniz e-postalarında kullanılabilir.)';
 $wb['duplicate_welcome_error'] = 'Yalnız bir varsayılan hoşgeldiniz e-postası kalıbı bulunabilir. Lütfen yeni bir tema eklemek yerine varolan temayı düzenlemeyi deneyin.';
+$wb['subject_error_empty'] = 'Subject is empty';
+$wb['message_error_empty'] = 'Message is empty';
 ?>

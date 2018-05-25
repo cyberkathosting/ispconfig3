@@ -1430,6 +1430,7 @@ CREATE TABLE `server_php` (
   `php_fpm_init_script` varchar(255) DEFAULT NULL,
   `php_fpm_ini_dir` varchar(255) DEFAULT NULL,
   `php_fpm_pool_dir` varchar(255) DEFAULT NULL,
+  `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`server_php_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2076,7 +2077,7 @@ CREATE TABLE `web_domain` (
   `http_port` int(11) unsigned NOT NULL DEFAULT '80',
   `https_port` int(11) unsigned NOT NULL DEFAULT '443',
   `folder_directive_snippets` text,
-  `log_retention` int(11) NOT NULL DEFAULT '30',
+  `log_retention` int(11) NOT NULL DEFAULT '10',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

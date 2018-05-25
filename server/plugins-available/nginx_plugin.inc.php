@@ -106,7 +106,7 @@ class nginx_plugin {
 		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
 		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
-		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
+		if(!is_dir($data['new']['document_root'].'/ssl') && !is_dir($data['old']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
@@ -566,7 +566,7 @@ class nginx_plugin {
 
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
+		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
 		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
@@ -853,8 +853,10 @@ class nginx_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
@@ -900,8 +902,10 @@ class nginx_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 				
@@ -919,16 +923,20 @@ class nginx_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			} else {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0755);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			}
 		}
 
@@ -1158,6 +1166,16 @@ class nginx_plugin {
 
 		// Custom nginx directives
 		$final_nginx_directives = array();
+		if($data['new']['enable_pagespeed'] == 'y'){
+			// if PageSpeed is already enabled, don't add configuration again
+			if(stripos($nginx_directives, 'pagespeed') !== false){
+				$vhost_data['enable_pagespeed'] = false;
+			} else {
+				$vhost_data['enable_pagespeed'] = true;
+			}
+		} else {
+			$vhost_data['enable_pagespeed'] = false;
+		}
 		if(intval($data['new']['directive_snippets_id']) > 0){
 			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", $data['new']['directive_snippets_id']);
 			if(isset($snippet['snippet'])){
@@ -1165,6 +1183,7 @@ class nginx_plugin {
 			} else {
 				$nginx_directives = $data['new']['nginx_directives'];
 			}
+/*
 			if($data['new']['enable_pagespeed'] == 'y'){
 				// if PageSpeed is already enabled, don't add configuration again
 				if(stripos($nginx_directives, 'pagespeed') !== false){
@@ -1175,9 +1194,10 @@ class nginx_plugin {
 			} else {
 				$vhost_data['enable_pagespeed'] = false;
 			}
+*/
 		} else {
 			$nginx_directives = $data['new']['nginx_directives'];
-			$vhost_data['enable_pagespeed'] = false;
+//			$vhost_data['enable_pagespeed'] = false;
 		}
 		
 		// folder_directive_snippets
@@ -1267,7 +1287,7 @@ class nginx_plugin {
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && $conf['mirror_server_id'] == 0 && ( // ssl and let's encrypt is active and no mirror server
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
@@ -1513,6 +1533,9 @@ class nginx_plugin {
 			}
 			unset($tmp_output, $tmp_retval);
 		}
+		
+		// set logging variable
+		$vhost_data['logging'] = $web_config['logging'];
 
 		$tpl->setVar($vhost_data);
 
