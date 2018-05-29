@@ -152,6 +152,7 @@ class xmpp_plugin {
         // Create main host file
         $tpl = new tpl();
         $tpl->newTemplate("xmpp_{$this->daemon}_conf_host.master");
+        $tpl->setVar('main_host', $conf['serverconfig']['server']['hostname']);
         $tpl->setVar('domain', $data['new']['domain']);
         $tpl->setVar('active', $data['new']['active'] == 'y' ? 'true' : 'false');
         $tpl->setVar('public_registration', $data['new']['public_registration'] == 'y' ? 'true' : 'false');
@@ -166,6 +167,8 @@ class xmpp_plugin {
         $tpl->setVar('domain_admins', "\t\t\"".implode("\",\n\t\t\"",$admins)."\"\n");
 
         // Enable / Disable features
+        $tpl->setVar('use_status_host', $data['new']['use_status_host'] == 'y' ? 'true' : 'false');
+        $tpl->setVar('use_webpresence', $data['new']['use_webpresence'] == 'y' ? 'true' : 'false');
         if($data['new']['use_pubsub']=='y'){
             $tpl->setVar('use_pubsub', 'true');
             $status_comps[] = 'pubsub.'.$data['new']['domain'];
@@ -237,26 +240,26 @@ class xmpp_plugin {
         unset($tpl);
 
         // Create http host file
-        $tpl = new tpl;
-        $tpl->newTemplate("xmpp_{$this->daemon}_conf_status.master");
-        $tpl->setVar('domain', $data['new']['domain']);
-        $httpMods = 0;
-        $tpl->setVar('use_webpresence', $data['new']['use_webpresence'] == 'y' ? 'true' : 'false');
-        if($data['new']['use_webpresence']=='y') {
-            $httpMods++;
-        }
-        $tpl->setVar('use_status_host', $data['new']['use_status_host'] == 'y' ? 'true' : 'false');
-        if($data['new']['use_status_host']=='y'){
-            $httpMods++;
-            $tpl->setVar('status_hosts', "\t\t\"".implode("\",\n\t\t\"",$status_hosts)."\"\n");
-            $tpl->setVar('status_comps', "\t\t\"".implode("\",\n\t\t\"",$status_comps)."\"\n");
-        }
-        if($httpMods > 0){
-            $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
-        } else {
-            unlink($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua');
-        }
-        unset($tpl);
+        //$tpl = new tpl;
+        //$tpl->newTemplate("xmpp_{$this->daemon}_conf_status.master");
+        //$tpl->setVar('domain', $data['new']['domain']);
+        //$httpMods = 0;
+        //$tpl->setVar('use_webpresence', $data['new']['use_webpresence'] == 'y' ? 'true' : 'false');
+        //if($data['new']['use_webpresence']=='y') {
+        //    $httpMods++;
+        //}
+        //$tpl->setVar('use_status_host', $data['new']['use_status_host'] == 'y' ? 'true' : 'false');
+        //if($data['new']['use_status_host']=='y'){
+        //    $httpMods++;
+        //    $tpl->setVar('status_hosts', "\t\t\"".implode("\",\n\t\t\"",$status_hosts)."\"\n");
+        //    $tpl->setVar('status_comps', "\t\t\"".implode("\",\n\t\t\"",$status_comps)."\"\n");
+        //}
+        //if($httpMods > 0){
+        //    $app->system->file_put_contents($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua', $tpl->grab());
+        //} else {
+        //    unlink($this->xmpp_config_dir.'/status/'.$data['new']['domain'].'.cfg.lua');
+        //}
+        //unset($tpl);
 
         $app->services->restartServiceDelayed('xmpp', 'reload');
     }
@@ -361,7 +364,7 @@ class xmpp_plugin {
 
             // Write new CNF file
             $tpl = new tpl();
-            $tpl->newTemplate('xmpp_metronome_conf_ssl.master');
+            $tpl->newTemplate('xmpp_conf_ssl.master');
             $tpl->setVar('domain', $domain);
             $tpl->setVar('ssl_country', $data['new']['ssl_country']);
             $tpl->setVar('ssl_locality', $data['new']['ssl_locality']);

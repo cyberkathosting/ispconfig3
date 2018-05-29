@@ -3,10 +3,11 @@ plugin_paths = {
 };
 use_libevent = true;
 log = {
-        -- debug = "/var/log/prosody/prosody.dbg",
-        info = "/var/log/prosody/prosody.log",
-        error = "/var/log/prosody/prosody.err",
-        "syslog",
+      -- optional: uncomment debug log here
+      -- debug = "/var/log/prosody/prosody.dbg",
+      info = "/var/log/prosody/prosody.log",
+      error = "/var/log/prosody/prosody.err",
+      "syslog",
 };
 use_ipv6 = {tmpl_var name='ipv6'};
 http_ports = {
@@ -57,5 +58,3 @@ ssl = {
         certificate = "/etc/prosody/certs/localhost.crt",
 };
 
-VirtualHost "{tmpl_var main_host}"
-        certificate = "/etc/prosody/certs/localhost.crt"
