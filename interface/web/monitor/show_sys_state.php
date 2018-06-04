@@ -195,6 +195,7 @@ function _getServerState($serverId, $serverName) {
 	$osData = null;
 	$veInfo = null;
 	$ispcData = null;
+	$kernelInfo = null;
 	foreach($records as $record) {
 		/* get the state from the db-data */
 		$tmp = _processDbState($record['type'], $serverId, $serverState, $messages);
@@ -208,6 +209,10 @@ function _getServerState($serverId, $serverName) {
 		/* if we have the ISPConfig-info, get it */
 		if ($record['type'] == 'ispc_info') {
 			$ispcData = unserialize($record['data']);
+		}
+		/* if we have the kernel-info, get it */
+		if ($record['type'] == 'kernel_info') {
+			$kernelInfo = unserialize($record['data']);
 		}
 		/* if we have the ve-info, get it */
 		if ($record['type'] == 'openvz_veinfo') {
@@ -248,6 +253,7 @@ function _getServerState($serverId, $serverName) {
 	else {
 		$html_ve .= '</h3>';
 	}
+	$html_ve .= '<p><h3>' . $app->lng("monitor_serverstate_kernel_txt") . ': ' . $kernelInfo['version'] . '</h3></p>';
 	$html_ve .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . '</p>';
 
 	/*
@@ -294,7 +300,7 @@ function _getServerState($serverId, $serverName) {
 	else {
 		$html_server .= '</h3>';
 	}
-
+	$html_server .= '<p><h3>' . $app->lng("monitor_serverstate_kernel_txt") . ': ' . $kernelInfo['version'] . '</h3></p>';
 	$html_server .= '<p>' . $app->lng("monitor_serverstate_state_txt") . ': ' . $serverState . ' (';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listunknown_txt")]) ? $messages[$app->lng("monitor_serverstate_listunknown_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_unknown_txt") . ', ';
 	$html_server .= sizeof((isset($messages[$app->lng("monitor_serverstate_listinfo_txt")]) ? $messages[$app->lng("monitor_serverstate_listinfo_txt")] : array())) . ' ' . $app->lng("monitor_serverstate_info_txt") . ', ';
