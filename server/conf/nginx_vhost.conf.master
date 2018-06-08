@@ -243,6 +243,10 @@ server {
 		
 <tmpl_if name='cgi' op='==' value='y'>
         location /cgi-bin/ {
+            try_files <tmpl_var name='rnd_php_dummy_file'> @cgi;
+        }
+
+        location @cgi {
             try_files $uri =404;
             include /etc/nginx/fastcgi_params;
             root <tmpl_var name='document_root'>;
@@ -318,6 +322,12 @@ server {
                 location ~ \.php$ {
                     try_files <tmpl_var name='rnd_php_dummy_file'> @php;
                 }
+
+<tmpl_if name='cgi' op='==' value='y'>
+                location ~ \.cgi$ {
+                    try_files <tmpl_var name='rnd_php_dummy_file'> @cgi;
+                }
+</tmpl_if>
         }
 </tmpl_loop>
 </tmpl_if>	
