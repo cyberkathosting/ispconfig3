@@ -40,12 +40,11 @@ $domain_id = $_GET['domain_id'];
 if($type == 'create_dkim' && $domain_id != ''){
 	$dkim_public = $_GET['dkim_public'];
 	$dkim_selector = $_GET['dkim_selector'];
-	$client_id = $_GET['client_group_id'];
-	$server_id = $_GET['server_id'];
-
-	$domain=@(is_numeric($domain_id))?$app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ?", $domain_id)['domain']:$domain_id;
-	$maildomain = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $domain)['domain'];
-
+	$domain=@(is_numeric($domain_id))?$app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $domain_id)['domain']:$domain_id;
+	$rec = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ?", $domain);
+	$server_id = $rec['server_id'];
+	$maildomain = $rec['domain'];
+	unset($rec);
 	$mail_config = $app->getconf->get_server_config($server_id, 'mail');
 	$dkim_strength = $app->functions->intval($mail_config['dkim_strength']);
 	if ($dkim_strength=='') $dkim_strength = 2048;
@@ -75,7 +74,6 @@ if($type == 'create_dkim' && $domain_id != ''){
 		} else {
 			$selector = 'invalid domain or selector';
 		}
-	} else {
 		unset($dkim_public);
 		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
