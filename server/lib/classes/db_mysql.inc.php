@@ -76,16 +76,17 @@ class db
 		$this->dbNewLink = $conf['db_new_link'];
 		$this->dbClientFlags = $conf['db_client_flags'];
 
-		$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
+		$this->_iConnId = mysqli_init();
+		$this->_iConnId->real_connect($this->dbHost, $this->dbUser, $this->dbPass, null, (int)$this->dbPort, null, $this->dbClientFlags);
 		$try = 0;
-		while((!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5) {
+		while($this->_iConnId->connect_error && $try < 5) {
 			if($try > 0) sleep(1);
 
 			$try++;
-			$this->_iConnId = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort);
+			$this->_iConnId->real_connect($this->dbHost, $this->dbUser, $this->dbPass, null, (int)$this->dbPort, null, $this->dbClientFlags);
 		}
 
-		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
+		if($this->_iConnId->connect_error) {
 			$this->_iConnId = null;
 			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true);
 			return false;
