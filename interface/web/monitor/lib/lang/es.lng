@@ -74,6 +74,7 @@ $wb['monitor_serverstate_server_txt'] = 'Servidor';
 $wb['monitor_serverstate_servicesoffline_txt'] = 'Uno o más servicios necesarios no están funcionando';
 $wb['monitor_serverstate_servicesonline_txt'] = 'Todos los servicios necesarios están funcionando';
 $wb['monitor_serverstate_servicesunknown_txt'] = 'Servicios: ¿?';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Estado';
 $wb['monitor_serverstate_syslogerror_txt'] = 'Hay errores en su registro del sistema';
 $wb['monitor_serverstate_syslogok_txt'] = 'El registro del sistema está bien';

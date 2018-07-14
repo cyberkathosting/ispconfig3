@@ -64,6 +64,7 @@ $wb['monitor_logs_clamav_txt'] = 'Log do Clamav ';
 $wb['monitor_logs_ispc_txt'] = 'Log do ISPConfig';
 $wb['monitor_norkhunter_txt'] = 'RKHunter não está instalado, então não existem logs a exibir';
 $wb['monitor_serverstate_server_txt'] = 'Servidor';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Estado';
 $wb['monitor_serverstate_unknown_txt'] = 'desconhecido';
 $wb['monitor_serverstate_info_txt'] = 'informações';
