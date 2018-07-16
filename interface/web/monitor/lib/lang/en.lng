@@ -74,6 +74,7 @@ $wb['monitor_logs_ispc_txt'] = 'ISPConfig - Log';
 $wb['monitor_nosupportedraid1_txt'] = "At the moment, we support 'mdadm' or 'mpt-status' for monitoring the RAID.<br>We can't find any of them at your server.<br><br>This means we can not support your RAID yet.";
 $wb['monitor_norkhunter_txt'] = 'RKHunter is not installed, so there is no log data';
 $wb['monitor_serverstate_server_txt'] = 'Server';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'State';
 $wb['monitor_serverstate_unknown_txt'] = 'unknown';
 $wb['monitor_serverstate_info_txt'] = 'info';
