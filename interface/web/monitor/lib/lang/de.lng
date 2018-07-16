@@ -64,6 +64,7 @@ $wb['monitor_logs_clamav_txt'] = 'ClamAV Protokoll';
 $wb['monitor_logs_ispc_txt'] = 'ISPConfig Protokoll';
 $wb['monitor_norkhunter_txt'] = 'RKHunter ist nicht installiert, deshalb gibt es keine Protokolldatei';
 $wb['monitor_serverstate_server_txt'] = 'Server';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Status';
 $wb['monitor_serverstate_unknown_txt'] = 'unbekannt';
 $wb['monitor_serverstate_info_txt'] = 'Info';
