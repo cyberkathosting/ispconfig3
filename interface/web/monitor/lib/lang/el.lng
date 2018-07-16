@@ -65,6 +65,7 @@ $wb['monitor_logs_ispc_txt'] = 'Αρχείο καταγραφής ISPConfig';
 $wb['monitor_nosupportedraid1_txt'] = 'Προς το παρόν υποστηρίζουμε mdadm ή mpt-status για την εποπτεία του RAID.<br>Δεν μπορούμε να βρούμε κάποιο από αυτά στον server σας.<br><br>Αυτό σημαίνει ότι δεν μπορούμε να υποστηρίξουμε το RAID σας ακόμη.';
 $wb['monitor_norkhunter_txt'] = 'Το RKHunter δεν είναι εγκατεστημένο, οπότε δεν υπάρχουν δεδομένα';
 $wb['monitor_serverstate_server_txt'] = 'Server';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Κατάσταση';
 $wb['monitor_serverstate_unknown_txt'] = 'άγνωστη';
 $wb['monitor_serverstate_info_txt'] = 'πληροφορία';
