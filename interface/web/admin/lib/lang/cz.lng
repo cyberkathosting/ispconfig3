@@ -1,52 +1,64 @@
 <?php
-$wb['1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
-$wb['1002'] = 'Uživatelské jméno nebo heslo je nesprávné.';
+//Errors
+$wb[1001] = 'Uživatelské jméno nebo heslo je prázdné.';
+$wb[1002] = 'Uživatelské jméno nebo heslo je nesprávné.';
+
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
+
 $wb['Servers'] = 'Servery';
 $wb['Config'] = 'Konigurace';
+
 $wb['Add user'] = 'Vytvořit uživatele';
 $wb['Edit user'] = 'Upravit uživatele';
 $wb['Add group'] = 'Vytvořit skupinu';
 $wb['Edit group'] = 'Upravit skupinu';
 $wb['Edit server'] = 'Upravit server';
+
 $wb['Sync. Now'] = 'Synch. nyní';
 $wb['DB Sync.'] = 'DB synch.';
+
+// subnav
 $wb['User Management'] = 'Správa uživatelů';
 $wb['CP Users'] = 'CP uživatelé';
 $wb['Remote Users'] = 'Vzdálení uživatelé';
+
 $wb['System'] = 'Systém';
 $wb['Server Services'] = 'Služby serveru';
-$wb['Services'] = 'Služby';
+    $wb['Services'] = 'Služby';
 $wb['Server Config'] = 'Konfigurace serveru';
-$wb['Server'] = 'Server';
-$wb['Mail'] = 'E-mail';
-$wb['Getmail'] = 'Getmail';
-$wb['Web'] = 'Web';
-$wb['FastCGI'] = 'FastCGI';
-$wb['Jailkit'] = 'Jailkit';
-$wb['Rescue'] = 'Zachrána';
+    $wb['Server'] = 'Server';
+    $wb['Mail'] = 'E-mail';
+    $wb['Getmail'] = 'Getmail';
+    $wb['Web'] = 'Web';
+    $wb['FastCGI'] = 'FastCGI';
+    $wb['Jailkit'] = 'Jailkit';
+    $wb['Rescue'] = 'Zachrána';
 $wb['Server IP addresses'] = 'IP adresy serveru';
 $wb['Additional PHP Versions'] = 'Další verze PHP';
+$wb['Directive Snippets'] = 'Šablony částí prog. kódu';
 $wb['Firewall'] = 'Firewall';
+
 $wb['Interface'] = 'Rozhraní';
 $wb['Interface Config'] = 'Hlavní konfigurace';
-$wb['Domains'] = 'Domény';
-$wb['Misc'] = 'Různé';
+    $wb['Sites'] = 'Stránky';
+    $wb['DNS'] = 'DNS';
+    $wb['Domains'] = 'Domény';
+    $wb['Misc'] = 'Různé';
+
 $wb['Software'] = 'Software';
 $wb['Repositories'] = 'Zdroje repozitářů';
 $wb['Packages'] = 'Balíčky';
 $wb['Updates'] = 'Aktualizace';
+
 $wb['Language Editor'] = 'Jazykový editor';
 $wb['Languages'] = 'Výběr jazyka - přímá editace';
 $wb['New Language'] = 'Vytvořit nový jazyk';
 $wb['Merge'] = 'Sloučit jazykový soubor';
 $wb['Export'] = 'Uložit jazyk do souboru';
 $wb['Import'] = 'Nahrát jazykový soubor';
+
 $wb['Remote Actions'] = 'Vzdálené akce';
 $wb['Do OS-Update'] = 'Aktualizovat operační systém';
 $wb['Do ISPConfig-Update'] = 'Aktualizovat ISPConfig';
-$wb['Directive Snippets'] = 'Šablony částí prog. kódu';
-$wb['Sites'] = 'Stránky';
-$wb['DNS'] = 'DNS';
 ?>
