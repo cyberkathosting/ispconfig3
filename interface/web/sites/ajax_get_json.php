@@ -97,6 +97,8 @@ if($type == 'getphpfastcgi'){
 	} elseif($php_type == 'fast-cgi'){
 		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y'".$sql_where, $server_id);
 	}
+	$php_records[]=array('name' => $web_config['php_default_name']);
+	uasort($php_records, 'sort_php');
 	$php_select = "";
 	if(is_array($php_records) && !empty($php_records)) {
 		foreach( $php_records as $php_record) {
@@ -243,4 +245,9 @@ if($type == 'getclientssldata'){
 
 header('Content-type: application/json');
 echo $json;
+
+function sort_php($a, $b) {
+	return strcmp($a['name'], $b['name']);
+}
+
 ?>

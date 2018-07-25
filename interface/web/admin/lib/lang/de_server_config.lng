@@ -291,4 +291,6 @@ $wb['logging_txt'] = 'Store website access and error logs';
 $wb['logging_desc_txt'] = 'Use Tools > Resync to apply changes to existing sites. For Apache, access and error log can be anonymized. For nginx, only the access log is anonymized, the error log will contain IP addresses.';
 $wb['log_retention_txt'] = 'Log retention (days)';
 $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
+$wb['php_default_name_txt'] = 'Beschreibung Standard PHP';
+$wb['php_default_name_error_empty'] = 'Beschreibung Standard PHP ist leer.';
 ?>
