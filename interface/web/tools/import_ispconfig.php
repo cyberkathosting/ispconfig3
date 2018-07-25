@@ -109,10 +109,22 @@ if(isset($_POST['connected'])) {
 
 
 		try {
+			//* Allow connections to self signed SSL certs
+			$context = stream_context_create(
+				array(
+					'ssl' => array (
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => true
+					)
+				)
+			);
+				
 			$client = new SoapClient(null, array('location' => $_POST['remote_server'],
 					'uri'      => $_POST['remote_server'].'/index.php',
 					'trace' => 1,
-					'exceptions' => 1));
+					'exceptions' => 1,
+					'stream_context' => $context));
 
 			if(!isset($remote_session_id)) $remote_session_id = $_POST['remote_session_id'];
 

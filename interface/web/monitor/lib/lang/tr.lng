@@ -68,6 +68,7 @@ $wb['monitor_logs_ispc_txt'] = 'ISPConfig Günlüğü';
 $wb['monitor_nosupportedraid1_txt'] = 'Şimdilik RAID durumunu izlemek için mdadm ya da mpt-status destekleniyor.<br>Bunlardan biri sunucunuzda bulunamadı.<br><br>Bu nedenle RAID sürücünüz henüz desteklenemiyor.';
 $wb['monitor_norkhunter_txt'] = 'RKHunter yüklü olmadığından herhangi bir günlük verisi yok';
 $wb['monitor_serverstate_server_txt'] = 'Sunucu';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Durum';
 $wb['monitor_serverstate_unknown_txt'] = 'bilinmiyor';
 $wb['monitor_serverstate_info_txt'] = 'bilgi';
