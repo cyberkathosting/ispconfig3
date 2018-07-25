@@ -44,6 +44,22 @@ $liste["auth"]    = "yes";
 /*****************************************************
 * Suchfelder
 *****************************************************/
+if($_SESSION['s']['user']['typ'] == 'admin') {
+	$liste["item"][] = array( 'field'  => 'sys_groupid',
+		'datatype' => 'INTEGER',
+		'formtype' => 'SELECT',
+		'op'  => '=',
+		'prefix' => '',
+		'suffix' => '',
+		'datasource' => array (  'type' => 'SQL',
+			'querystring' => "SELECT sys_group.groupid,CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), IF(client.contact_firstname != '', CONCAT(client.contact_firstname, ' '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as name FROM sys_group, client WHERE sys_group.groupid != 1 AND sys_group.client_id = client.client_id ORDER BY client.company_name, client.contact_name",
+			'keyfield'=> 'groupid',
+			'valuefield'=> 'name'
+		),
+		'width'  => '',
+		'value'  => ''
+	);
+}
 
 $liste["item"][] = array( 'field'  => "template_id",
 	'datatype' => "INTEGER",
