@@ -53,6 +53,14 @@ class installer_dist extends installer_base {
 		$cf = $conf['postfix'];
 		$config_dir = $cf['config_dir'];
 
+		exec('postconf mail_version', $ret);
+		$postfix_version=str_replace('mail_version = ', '', $ret[0]);
+		unset($ret);
+		exec('openssl version', $ret);
+		$openssl_version=$ret[0];
+		unset($ret);
+		$use_pfs=@(version_compare($openssl_version, 'OpenSSL 0.9', '>=') && version_compare($postfix_version, '2.6', '>='))?true:false;
+
 		if(!is_dir($config_dir)){
 			$this->error("The postfix configuration directory '$config_dir' does not exist.");
 		}
@@ -174,6 +182,19 @@ class installer_dist extends installer_base {
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
 		);
+
+		//* If PFS is possible, configure it
+		if($use_pfs && !file_exists($config_dir.'/dh_512.pem')) exec('openssl gendh -out '.$config_dir.'/dh_512.pem -2 512');
+		if($use_pfs && !file_exists($config_dir.'/dh_2048.pem')) exec('openssl gendh -out '.$config_dir.'/dh_2048.pem -2 2048');
+		if($use_pfs && file_exists($config_dir.'/dh_512.pem') && file_exists($config_dir.'/dh_2048.pem')) {
+			$postconf_placeholders = array_merge($postconf_placeholders, array(
+				'{smtpd_tls_dh512_param_file}' => $config_dir.'/dh_512.pem',
+				'{smtpd_tls_dh1024_param_file}' => $config_dir.'/dh_2048.pem' ));
+		} else {
+			$postconf_placeholders = array_merge($postconf_placeholders, array(
+				'{smtpd_tls_dh512_param_file}' => '',
+				'{smtpd_tls_dh1024_param_file}' => ''));
+		}
 		
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/opensuse_postfix.conf.master', 'tpl/opensuse_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);

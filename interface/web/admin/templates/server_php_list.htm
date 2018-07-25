@@ -15,12 +15,14 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
+						<th class="tiny-col" data-column="active"><tmpl_var name="active_txt"></th>
                         <th data-column="server_id"><tmpl_var name="server_id_txt"></th>
                         <th class="small-col" data-column="client_id"><tmpl_var name="client_id_txt"></th>
                         <th data-column="name"><tmpl_var name="name_txt"></th>
                         <th class="text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
+						<td><select class="form-control" name="search_active">{tmpl_var name='search_active'}</select></td>
                         <td><select class="form-control" name="search_server_id">{tmpl_var name='search_server_id'}</select></td>
                         <td><select class="form-control" name="search_client_id">{tmpl_var name='search_client_id'}</select></td>
                         <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
@@ -32,6 +34,7 @@
                 <tbody>
                     <tmpl_loop name="records">
                         <tr>
+							<td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="active"}</a></td>
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="server_id"}</a></td>
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client_id"}</a></td>
                             <td><a href="#" data-load-content="admin/server_php_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
