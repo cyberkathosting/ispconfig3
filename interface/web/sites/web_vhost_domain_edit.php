@@ -239,7 +239,6 @@ class page_action extends tform_actions {
 
 			//PHP Version Selection (FastCGI)
 			$server_type = 'apache';
-//print_r($web_config[$server_id]);exit;
 			if(!empty($web_config[$server_id]['server_type'])) $server_type = $web_config[$server_id]['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 
@@ -953,7 +952,6 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-//print_r($this->dataRecord);exit;
 		// Set a few fixed values
 		$this->dataRecord["vhost_type"] = 'name';
 		if($this->_vhostdomain_type == 'domain') {
