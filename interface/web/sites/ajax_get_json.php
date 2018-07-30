@@ -107,7 +107,11 @@ if($type == 'getphpfastcgi'){
 			} else {
 				$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 			}
-			$json .= '"'.$php_version.'": "'.$php_record['name'].'",';
+			if($php_record['name'] != $web_config['php_default_name']) {
+				$json .= '"'.$php_version.'": "'.$php_record['name'].'",';
+			} else {
+				$json .= '"": "'.$php_record['name'].'",';
+			}
 		}
 	}
 	unset($php_records);
