@@ -331,7 +331,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_aaaa.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -382,7 +382,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_a.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -433,7 +433,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_alias.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -484,7 +484,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_cname.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -535,7 +535,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_hinfo.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -586,7 +586,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_mx.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -637,7 +637,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ns.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -688,7 +688,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ptr.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -739,7 +739,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_rp.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -790,7 +790,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_srv.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -841,7 +841,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_txt.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
 		return $affected_rows;
 	}
 
@@ -916,6 +916,12 @@ class remoting_dns extends remoting {
 	}
 
 	private function increase_serial($session_id, $client_id, $params) {
+		global $app;
+		if(!isset($params['zone']) && isset($params['dns_rr_id'])) {
+			$tmp = $app->db->queryOneRecord('SELECT zone FROM dns_rr WHERE id = ?',$params['dns_rr_id']);
+			$params['zone'] = $tmp['zone'];
+			unset($tmp);
+		}
 		$soa = $this->dns_zone_get($session_id, $params['zone']);
 		$serial=$soa['serial'];
 		$serial_date = intval(substr($serial, 0, 8));
