@@ -132,20 +132,25 @@ class tform extends tform_base {
 
 	function isReadonlyTab($tab, $primary_id) {
 		global $app, $conf;
+		
+		if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true) {
 
-		// Add backticks for incomplete table names.
-		if(stristr($this->formDef['db_table'], '.')) {
-			$escape = '';
-		} else {
-			$escape = '`';
-		}
+			// Add backticks for incomplete table names.
+			if(stristr($this->formDef['db_table'], '.')) {
+				$escape = '';
+			} else {
+				$escape = '`';
+			}
 
-		$sql = "SELECT sys_userid FROM ?? WHERE ?? = ?";
-		$record = $app->db->queryOneRecord($sql, $this->formDef['db_table'], $this->formDef['db_table_idx'], $primary_id);
+			$sql = "SELECT sys_userid FROM ?? WHERE ?? = ?";
+			$record = $app->db->queryOneRecord($sql, $this->formDef['db_table'], $this->formDef['db_table_idx'], $primary_id);
 
-		// return true if the readonly flag of the form is set and the current loggedin user is not the owner of the record.
-		if(isset($this->formDef['tabs'][$tab]['readonly']) && $this->formDef['tabs'][$tab]['readonly'] == true && $record['sys_userid'] != $_SESSION["s"]["user"]["userid"]) {
-			return true;
+			// return true if the readonly flag of the form is set and the current loggedin user is not the owner of the record.
+			if($record['sys_userid'] != $_SESSION["s"]["user"]["userid"]) {
+				return true;
+			} else {
+				return false;	
+			}
 		} else {
 			return false;
 		}
