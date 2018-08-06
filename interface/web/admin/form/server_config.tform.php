@@ -1094,6 +1094,16 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_default_name' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => 'Default',
+			'validators' => array(	0 => array('type' => 'NOTEMPTY',
+										'errmsg' => 'php_default_name_error_empty'),
+			),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_fpm_init_script' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
