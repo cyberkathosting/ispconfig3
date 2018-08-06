@@ -1101,6 +1101,14 @@ $form["tabs"]['web'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'php_default_name_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'TRIM'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					2 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'width' => '40',
 			'maxlength' => '255'
 		),
