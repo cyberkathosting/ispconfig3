@@ -187,6 +187,58 @@ class db
 		mysqli_query($this->_iConnId, "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
 	}
 
+	private function securityScan($string) {
+		global $app, $conf;
+
+		// get security config
+		if(isset($app)) {
+			$app->uses('getconf');
+			$ids_config = $app->getconf->get_security_config('ids');
+
+			if($ids_config['sql_scan_enabled'] == 'yes') {
+
+				// Remove whitespace
+				$string = trim($string);
+				if(substr($string,-1) == ';') $string = substr($string,0,-1);
+
+				// Save original string
+				$string_orig = $string;
+
+				//echo $string;
+				$chars = array(';', '#', '/*', '*/', '--', '\\\'', '\\"');
+
+				$string = str_replace('\\\\', '', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])\\2/is', '$1', $string);
+				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\])\\2/is', '$1', $string);
+				$ok = true;
+
+				if(substr_count($string, "`") % 2 != 0 || substr_count($string, "'") % 2 != 0 || substr_count($string, '"') % 2 != 0) {
+					$app->log("SQL injection warning (" . $string_orig . ")",2);
+					$ok = false;
+				} else {
+					foreach($chars as $char) {
+						if(strpos($string, $char) !== false) {
+							$ok = false;
+							$app->log("SQL injection warning (" . $string_orig . ")",2);
+							break;
+						}
+					}
+				}
+				if($ok == true) {
+					return true;
+				} else {
+					if($ids_config['sql_scan_action'] == 'warn') {
+						// we return false in warning level.
+						return false;
+					} else {
+						// if sql action = 'block' or anything else then stop here.
+						$app->error('Possible SQL injection. All actions have been logged.');
+					}
+				}
+			}
+		}
+	}
+
 	private function _query($sQuery = '') {
 		global $app;
 
@@ -227,7 +279,7 @@ class db
 
 		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
-
+		$this->securityScan($sQuery);
 		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', 'SQL-Query = ' . $sQuery);
