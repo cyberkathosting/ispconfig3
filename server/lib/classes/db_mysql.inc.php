@@ -35,6 +35,8 @@ class db
 	private $_iQueryId;
 	private $_iConnId;
 
+	private $_Prefix = ''; // config variable name prefix
+
 	private $dbHost = '';  // hostname of the MySQL server
 	private $dbPort = '';  // port of the MySQL server
 	private $dbName = '';  // logical database name on that server
@@ -64,17 +66,18 @@ class db
 	*/
 
 	// constructor
-	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL, $flags = NULL) {
+	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL, $flags = NULL, $confPrefix = '') {
 		global $app, $conf;
 
-		$this->dbHost = $host ? $host  : $conf['db_host'];
-		$this->dbPort = $port ? $port : $conf['db_port'];
-		$this->dbName = $database ? $database : $conf['db_database'];
-		$this->dbUser = $user ? $user : $conf['db_user'];
-		$this->dbPass = $pass ? $pass : $conf['db_password'];
-		$this->dbCharset = $conf['db_charset'];
-		$this->dbNewLink = $conf['db_new_link'];
-		$this->dbClientFlags = $flags ? $flags : $conf['db_client_flags'];
+		if($confPrefix != '') $this->_Prefix = $confPrefix . '_';
+		$this->dbHost = $host ? $host  : $conf[$this->_Prefix.'db_host'];
+		$this->dbPort = $port ? $port : $conf[$this->_Prefix.'db_port'];
+		$this->dbName = $database ? $database : $conf[$this->_Prefix.'db_database'];
+		$this->dbUser = $user ? $user : $conf[$this->_Prefix.'db_user'];
+		$this->dbPass = $pass ? $pass : $conf[$this->_Prefix.'db_password'];
+		$this->dbCharset = $conf[$this->_Prefix.'db_charset'];
+		$this->dbNewLink = $conf[$this->_Prefix.'db_new_link'];
+		$this->dbClientFlags = $flags ? $flags : $conf[$this->_Prefix.'db_client_flags'];
 		$this->_iConnId = mysqli_init();
 
 		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
@@ -187,7 +190,6 @@ class db
 	private function _query($sQuery = '') {
 		global $app;
 
-		//if($this->isConnected == false) return false;
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
 			return false;
@@ -211,7 +213,7 @@ class db
 					}
 
 					if($try > 9) {
-						$this->_sqlerror('DB::query -> reconnect', '', true);
+						$this->_sqlerror('DB::_query -> reconnect', '', true);
 						return false;
 					} else {
 						sleep(($try > 7 ? 5 : 1));
@@ -474,7 +476,7 @@ class db
 
 		//$sAddMsg .= getDebugBacktrace();
 
-		if($this->show_error_messages && $conf['demo_mode'] === false) {
+		if($this->show_error_messages && $conf[$this->_Prefix.'demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
 		} elseif(is_object($app) && method_exists($app, 'log') && $bNoLog == false) {
 			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN, false);
@@ -570,7 +572,7 @@ class db
 
 	//** Function to fill the datalog with a full differential record.
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
-		global $app, $conf;
+		global $app;
 
 		// Insert backticks only for incomplete table names.
 		if(stristr($db_table, '.')) {
