@@ -78,12 +78,15 @@ class db
 		$this->_iConnId = mysqli_init();
 
 		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
-		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5;++$try) {
+		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_errno()) && $try < 5;++$try) {
 			sleep($try);
+			if(!is_object($this->_iConnId)) {
+				$this->_iConnId = mysqli_init();
+			}
 			mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
 		}
 
-		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
+		if(!is_object($this->_iConnId) || mysqli_connect_errno()) {
 			$this->_iConnId = null;
 			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true);
 			return false;
@@ -193,7 +196,7 @@ class db
 		$try = 0;
 		do {
 			$try++;
-			$ok = mysqli_ping($this->_iConnId);
+			$ok = (is_object($this->_iConnId)) ? mysqli_ping($this->_iConnId) : false;
 			if(!$ok) {
 				if(!mysqli_real_connect(mysqli_init(), $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
 					if($this->errorNumber == '111') {
@@ -550,28 +553,18 @@ class db
 	 * @param string $database_name
 	 * @return int - database-size in bytes
 	 */
-
-
 	public function getDatabaseSize($database_name) {
 		global $app;
 		
-		include 'lib/mysql_clientdb.conf';
+		require_once 'lib/mysql_clientdb.conf';
 		
-		/* Connect to the database */
-		$link = mysqli_connect($clientdb_host, $clientdb_user, $clientdb_password);
-		if (!$link) {
-			$app->log('Unable to connect to the database'.mysqli_connect_error(), LOGLEVEL_DEBUG);
-			return;
-		}
-		
-		/* Get database-size from information_schema */
-		$result = mysqli_query($link, "SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".mysqli_real_escape_string($link, $database_name)."'");
+		$result = $this->_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$this->escape($database_name)."'");
 		if(!$result) {
-			$app->log('Unable to get the database-size for ' . $database_name . ': '.mysqli_error($link), LOGLEVEL_DEBUG);
+			$this->_sqlerror('Unable to get the database-size for ' . $database_name);
 			return;
 		}
-		$database_size = mysqli_fetch_row($result);
-		mysqli_close($link);
+		$database_size = $result->getAsRow();
+		$result->free();
 		return $database_size[0];
 	}
 
