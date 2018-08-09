@@ -634,12 +634,12 @@ class db
 		
 		$result = $this->_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$this->escape($database_name)."'");
 		if(!$result) {
-			$this->_sqlerror('Unable to get the database-size for ' . $database_name);
+			$this->_sqlerror('Unable to determine the size of database ' . $database_name);
 			return;
 		}
 		$database_size = $result->getAsRow();
 		$result->free();
-		return $database_size[0];
+        return $database_size[0] ? $database_size[0] : 0;
 	}
 
 	//** Function to fill the datalog with a full differential record.
