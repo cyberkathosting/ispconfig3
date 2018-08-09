@@ -95,7 +95,7 @@ class cronjob_monitor_database_size extends cronjob {
 				if(!is_numeric($quota)) continue;
 				
 				if($quota < 1 || $quota > $data[$i]['size']) {
-					print 'database ' . $rec['database_name'] . ' size does not exceed quota: ' . $quota . ' (quota) > ' . $data[$i]['size'] . " (used)\n";
+					print 'database ' . $rec['database_name'] . ' size does not exceed quota: ' . ($quota < 1 ? 'unlimited' : $quota) . ' (quota) > ' . $data[$i]['size'] . " (used)\n";
 					if($rec['quota_exceeded'] == 'y') {
 						$app->dbmaster->datalogUpdate('web_database', array('quota_exceeded' => 'n'), 'database_id', $rec['database_id']);
 					}
