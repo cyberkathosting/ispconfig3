@@ -1,5 +1,13 @@
 <?php
 /*
+ * db_mysql.inc.php:  ISPConfig mysql db interface
+ *
+ * Note!  When making changes to this file, put a copy in both locations:
+ *   interface/lib/classes/db_mysql.inc.php
+ *      server/lib/classes/db_mysql.inc.php
+ */
+
+/*
    Copyright (c) 2005, Till Brehm, projektfarm Gmbh
    All rights reserved.
 
@@ -140,6 +148,7 @@ class db
 				if($iPos2 !== false && ($iPos === false || $iPos2 <= $iPos)) {
 					$sTxt = $this->escape($sValue);
 
+					$sTxt = str_replace('`', '', $sTxt);
 					if(strpos($sTxt, '.') !== false) {
 						$sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
 						$sTxt = str_replace('.`*`', '.*', $sTxt);
@@ -180,11 +189,11 @@ class db
 
 
 	/**#@+
-     * @access private
-     */
+	 * @access private
+	 */
 	private function _setCharset() {
-		mysqli_query($this->_iConnId, 'SET NAMES '.$this->dbCharset);
-		mysqli_query($this->_iConnId, "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
+		$this->query('SET NAMES '.$this->dbCharset);
+		$this->query("SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
 	}
 
 	private function securityScan($string) {
@@ -693,6 +702,10 @@ class db
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
 
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+
 		if(is_array($insert_data)) {
 			$key_str = '';
 			$val_str = '';
@@ -728,6 +741,10 @@ class db
 	public function datalogUpdate($tablename, $update_data, $index_field, $index_value, $force_update = false) {
 		global $app;
 
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 
 		if(is_array($update_data)) {
@@ -759,6 +776,10 @@ class db
 	public function datalogDelete($tablename, $index_field, $index_value) {
 		global $app;
 
+		// Check fields
+		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
+		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
+
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->query("DELETE FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$new_rec = array();
@@ -774,6 +795,26 @@ class db
 		if(isset($app->modules->current_datalog_id) && $app->modules->current_datalog_id > 0) $this->query("UPDATE sys_datalog set error = ? WHERE datalog_id = ?", $errormsg, $app->modules->current_datalog_id);
 
 		return true;
+	}
+
+	//* get the current datalog status for the specified login (or currently logged in user)
+	public function datalogStatus($login = '') {
+		global $app;
+
+		$return = array('count' => 0, 'entries' => array());
+
+		if($login == '' && isset($_SESSION['s']['user'])) {
+			$login = $_SESSION['s']['user']['username'];
+		}
+
+		$result = $this->queryAllRecords("SELECT COUNT( * ) AS cnt, sys_datalog.action, sys_datalog.dbtable FROM sys_datalog, server WHERE server.server_id = sys_datalog.server_id AND sys_datalog.user = ? AND sys_datalog.datalog_id > server.updated GROUP BY sys_datalog.dbtable, sys_datalog.action", $login);
+		foreach($result as $row) {
+			if(!$row['dbtable'] || in_array($row['dbtable'], array('aps_instances', 'aps_instances_settings', 'mail_access', 'mail_content_filter'))) continue; // ignore some entries, maybe more to come
+			$return['entries'][] = array('table' => $row['dbtable'], 'action' => $row['action'], 'count' => $row['cnt'], 'text' => $app->lng('datalog_status_' . $row['action'] . '_' . $row['dbtable'])); $return['count'] += $row['cnt'];
+		}
+		unset($result);
+
+		return $return;
 	}
 
 
@@ -906,10 +947,10 @@ class db
 
 	function tableInfo($table_name) {
 
-		global $go_api, $go_info;
+		global $go_api, $go_info, $app;
 		// Tabellenfelder einlesen
 
-		if($rows = $go_api->db->queryAllRecords('SHOW FIELDS FROM ??', $table_name)){
+		if($rows = $app->db->queryAllRecords('SHOW FIELDS FROM ??', $table_name)){
 			foreach($rows as $row) {
 				$name = $row['Field'];
 				$default = $row['Default'];
@@ -1011,7 +1052,7 @@ class db
 			return 'char';
 			break;
 		case 'varchar':
-			if($typeValue < 1) die('Database failure: Lenght required for these data types.');
+			if($typeValue < 1) die('Database failure: Length required for these data types.');
 			return 'varchar('.$typeValue.')';
 			break;
 		case 'text':
@@ -1019,6 +1060,9 @@ class db
 			break;
 		case 'blob':
 			return 'blob';
+			break;
+		case 'date':
+			return 'date';
 			break;
 		}
 	}
