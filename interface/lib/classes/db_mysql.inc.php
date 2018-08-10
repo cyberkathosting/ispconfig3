@@ -1,5 +1,13 @@
 <?php
 /*
+ * db_mysql.inc.php:  ISPConfig mysql db interface
+ *
+ * Note!  When making changes to this file, put a copy in both locations:
+ *   interface/lib/classes/db_mysql.inc.php
+ *      server/lib/classes/db_mysql.inc.php
+ */
+
+/*
    Copyright (c) 2005, Till Brehm, projektfarm Gmbh
    All rights reserved.
 
@@ -27,12 +35,15 @@
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class db {
+class db
+{
 	/**#@+
      * @access private
      */
 	private $_iQueryId;
 	private $_iConnId;
+
+	private $_Prefix = ''; // config variable name prefix
 
 	private $dbHost = '';  // hostname of the MySQL server
 	private $dbPort = '';  // port of the MySQL server
@@ -53,7 +64,7 @@ class db {
 	private $record = array(); // last record fetched
 	private $autoCommit = 1;    // Autocommit Transactions
 	private $currentRow;  // current row number
-	private $errorNumber = 0; // last error number
+	public $errorNumber = 0; // last error number
 	*/
 	public $errorMessage = ''; // last error message
 	/*
@@ -63,33 +74,37 @@ class db {
 	*/
 
 	// constructor
-	public function __construct($prefix = '') {
-		global $conf;
-		if($prefix != '') $prefix .= '_';
-		$this->dbHost = $conf[$prefix.'db_host'];
-		$this->dbPort = $conf[$prefix.'db_port'];
-		$this->dbName = $conf[$prefix.'db_database'];
-		$this->dbUser = $conf[$prefix.'db_user'];
-		$this->dbPass = $conf[$prefix.'db_password'];
-		$this->dbCharset = $conf[$prefix.'db_charset'];
-		$this->dbNewLink = $conf[$prefix.'db_new_link'];
-		$this->dbClientFlags = $conf[$prefix.'db_client_flags'];
+	public function __construct($host = NULL , $user = NULL, $pass = NULL, $database = NULL, $port = NULL, $flags = NULL, $confPrefix = '') {
+		global $app, $conf;
+
+		if($confPrefix != '') $this->_Prefix = $confPrefix . '_';
+		$this->dbHost = $host ? $host  : $conf[$this->_Prefix.'db_host'];
+		$this->dbPort = $port ? $port : $conf[$this->_Prefix.'db_port'];
+		$this->dbName = $database ? $database : $conf[$this->_Prefix.'db_database'];
+		$this->dbUser = $user ? $user : $conf[$this->_Prefix.'db_user'];
+		$this->dbPass = $pass ? $pass : $conf[$this->_Prefix.'db_password'];
+		$this->dbCharset = $conf[$this->_Prefix.'db_charset'];
+		$this->dbNewLink = $conf[$this->_Prefix.'db_new_link'];
+		$this->dbClientFlags = $flags ? $flags : $conf[$this->_Prefix.'db_client_flags'];
 		$this->_iConnId = mysqli_init();
 
 		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
-		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_error()) && $try < 5;++$try) {
+		for($try=0;(!is_object($this->_iConnId) || mysqli_connect_errno()) && $try < 5;++$try) {
 			sleep($try);
+			if(!is_object($this->_iConnId)) {
+				$this->_iConnId = mysqli_init();
+			}
 			mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
 		}
 
-		if(!is_object($this->_iConnId) || mysqli_connect_error()) {
+		if(!is_object($this->_iConnId) || mysqli_connect_errno()) {
 			$this->_iConnId = null;
-			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!');
+			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true);
 			return false;
 		}
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
-			$this->_sqlerror('Datenbank nicht gefunden / Database not found');
+			$this->_sqlerror('Datenbank nicht gefunden / Database not found', '', true);
 			return false;
 		}
 
@@ -103,6 +118,11 @@ class db {
 	public function close() {
 		if($this->_iConnId) mysqli_close($this->_iConnId);
 		$this->_iConnId = null;
+	}
+
+	/* This allows our private variables to be "read" out side of the class */
+	public function __get($var) {
+		return isset($this->$var) ? $this->$var : NULL;
 	}
 
 	public function _build_query_string($sQuery = '') {
@@ -127,7 +147,7 @@ class db {
 
 				if($iPos2 !== false && ($iPos === false || $iPos2 <= $iPos)) {
 					$sTxt = $this->escape($sValue);
-					
+
 					$sTxt = str_replace('`', '', $sTxt);
 					if(strpos($sTxt, '.') !== false) {
 						$sTxt = preg_replace('/^(.+)\.(.+)$/', '`$1`.`$2`', $sTxt);
@@ -169,33 +189,33 @@ class db {
 
 
 	/**#@+
-     * @access private
-     */
+	 * @access private
+	 */
 	private function _setCharset() {
-		mysqli_query($this->_iConnId, 'SET NAMES '.$this->dbCharset);
-		mysqli_query($this->_iConnId, "SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
+		$this->query('SET NAMES '.$this->dbCharset);
+		$this->query("SET character_set_results = '".$this->dbCharset."', character_set_client = '".$this->dbCharset."', character_set_connection = '".$this->dbCharset."', character_set_database = '".$this->dbCharset."', character_set_server = '".$this->dbCharset."'");
 	}
-	
+
 	private function securityScan($string) {
 		global $app, $conf;
-		
+
 		// get security config
 		if(isset($app)) {
 			$app->uses('getconf');
 			$ids_config = $app->getconf->get_security_config('ids');
-			
+
 			if($ids_config['sql_scan_enabled'] == 'yes') {
-				
+
 				// Remove whitespace
 				$string = trim($string);
 				if(substr($string,-1) == ';') $string = substr($string,0,-1);
-				
+
 				// Save original string
 				$string_orig = $string;
-				
+
 				//echo $string;
 				$chars = array(';', '#', '/*', '*/', '--', '\\\'', '\\"');
-		
+
 				$string = str_replace('\\\\', '', $string);
 				$string = preg_replace('/(^|[^\\\])([\'"])\\2/is', '$1', $string);
 				$string = preg_replace('/(^|[^\\\])([\'"])(.*?[^\\\])\\2/is', '$1', $string);
@@ -239,14 +259,25 @@ class db {
 		$try = 0;
 		do {
 			$try++;
-			$ok = mysqli_ping($this->_iConnId);
+			$ok = (is_object($this->_iConnId)) ? mysqli_ping($this->_iConnId) : false;
 			if(!$ok) {
 				if(!mysqli_real_connect(mysqli_init(), $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
-					if($try > 4) {
-						$this->_sqlerror('DB::query -> reconnect');
+					if($this->errorNumber == '111') {
+						// server is not available
+						if($try > 9) {
+							if(isset($app) && isset($app->forceErrorExit)) {
+								$app->forceErrorExit('Database connection failure!');
+							}
+							// if we reach this, the app object is missing or has no exit method, so we continue as normal
+						}
+						sleep(30); // additional seconds, please!
+					}
+
+					if($try > 9) {
+						$this->_sqlerror('DB::_query -> reconnect', '', true);
 						return false;
 					} else {
-						sleep(1);
+						sleep(($try > 7 ? 5 : 1));
 					}
 				} else {
 					$this->_setCharset();
@@ -258,7 +289,7 @@ class db {
 		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
-		$this->_iQueryId = @mysqli_query($this->_iConnId, $sQuery);
+		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
 		if (!$this->_iQueryId) {
 			$this->_sqlerror('Falsche Anfrage / Wrong Query', 'SQL-Query = ' . $sQuery);
 			return false;
@@ -390,7 +421,7 @@ class db {
 	}
 
 	public function query_all_array($sQuery = '') {
-		return $this->queryAllArray($sQuery);
+		return call_user_func_array(array(&$this, 'queryAllArray'), func_get_args());
 	}
 
 
@@ -429,6 +460,7 @@ class db {
 		if(!$iRows) $iRows = 0;
 		return $iRows;
 	}
+
 
 
 	/**
@@ -470,7 +502,7 @@ class db {
 	public function escape($sString) {
 		global $app;
 		if(!is_string($sString) && !is_numeric($sString)) {
-			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_DEBUG);
+			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_INFO);
 			//$sAddMsg = getDebugBacktrace();
 			$app->log($sAddMsg, LOGLEVEL_DEBUG);
 			$sString = '';
@@ -479,7 +511,7 @@ class db {
 		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_DEBUG);
+				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
@@ -496,7 +528,7 @@ class db {
 	 *
 	 * @access private
 	 */
-	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '') {
+	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '', $bNoLog = false) {
 		global $app, $conf;
 
 		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
@@ -505,11 +537,13 @@ class db {
 
 		//$sAddMsg .= getDebugBacktrace();
 
-		if($this->show_error_messages && $conf['demo_mode'] === false) {
+		if($this->show_error_messages && $conf[$this->_Prefix.'demo_mode'] === false) {
 			echo $sErrormsg . $sAddMsg;
-		} else if(is_object($app) && method_exists($app, 'log')) {
-				$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN);
-			}
+		} elseif(is_object($app) && method_exists($app, 'log') && $bNoLog == false) {
+			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN, false);
+		} elseif(php_sapi_name() == 'cli') {
+			echo $sErrormsg . $sAddMsg;
+		}
 	}
 
 	public function affectedRows() {
@@ -541,27 +575,27 @@ class db {
 		}
 		return $out;
 	}
-	
+
 	public function insertFromArray($tablename, $data) {
 		if(!is_array($data)) return false;
-		
+
 		$k_query = '';
 		$v_query = '';
-		
+
 		$params = array($tablename);
 		$v_params = array();
-		
+
 		foreach($data as $key => $value) {
 			$k_query .= ($k_query != '' ? ', ' : '') . '??';
 			$v_query .= ($v_query != '' ? ', ' : '') . '?';
 			$params[] = $key;
 			$v_params[] = $value;
 		}
-		
+
 		$query = 'INSERT INTO ?? (' . $k_query . ') VALUES (' . $v_query . ')';
 		return $this->query($query, true, array_merge($params, $v_params));
 	}
-	
+
 	public function diffrec($record_old, $record_new) {
 		$diffrec_full = array();
 		$diff_num = 0;
@@ -597,15 +631,36 @@ class db {
 
 	}
 
+	/**
+	 * Function to get the database-size
+	 * @param string $database_name
+	 * @return int - database-size in bytes
+	 */
+	public function getDatabaseSize($database_name) {
+		global $app;
+		
+		require_once 'lib/mysql_clientdb.conf';
+		
+		$result = $this->_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$this->escape($database_name)."'");
+		if(!$result) {
+			$this->_sqlerror('Unable to determine the size of database ' . $database_name);
+			return;
+		}
+		$database_size = $result->getAsRow();
+		$result->free();
+        return $database_size[0] ? $database_size[0] : 0;
+	}
+
 	//** Function to fill the datalog with a full differential record.
 	public function datalogSave($db_table, $action, $primary_field, $primary_id, $record_old, $record_new, $force_update = false) {
-		global $app, $conf;
+		global $app;
 
-		// Check fields
-		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$db_table)) $app->error('Invalid table name '.$db_table);
-		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$primary_field)) $app->error('Invalid primary field '.$primary_field.' in table '.$db_table);
-		
-		$primary_id = intval($primary_id);
+		// Insert backticks only for incomplete table names.
+		if(stristr($db_table, '.')) {
+			$escape = '';
+		} else {
+			$escape = '`';
+		}
 
 		if($force_update == true) {
 			//* We force a update even if no record has changed
@@ -625,12 +680,13 @@ class db {
 
 
 		if($diff_num > 0) {
-			//print_r($diff_num);
-			//print_r($diffrec_full);
 			$diffstr = serialize($diffrec_full);
-			$username = $_SESSION['s']['user']['username'];
+			if(isset($_SESSION)) {
+				$username = $_SESSION['s']['user']['username'];
+			} else {
+				$username = 'admin';
+			}
 			$dbidx = $primary_field.':'.$primary_id;
-			if(trim($username) == '') $username = 'none';
 
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';
@@ -645,11 +701,11 @@ class db {
 	//** Inserts a record and saves the changes into the datalog
 	public function datalogInsert($tablename, $insert_data, $index_field) {
 		global $app;
-		
+
 		// Check fields
 		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
-		
+
 		if(is_array($insert_data)) {
 			$key_str = '';
 			$val_str = '';
@@ -688,7 +744,7 @@ class db {
 		// Check fields
 		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
-		
+
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 
 		if(is_array($update_data)) {
@@ -723,11 +779,20 @@ class db {
 		// Check fields
 		if(!preg_match('/^[a-zA-Z0-9\-\_\.]{1,64}$/',$tablename)) $app->error('Invalid table name '.$tablename);
 		if(!preg_match('/^[a-zA-Z0-9\-\_]{1,64}$/',$index_field)) $app->error('Invalid index field '.$index_field.' in table '.$tablename);
-		
+
 		$old_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->query("DELETE FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$new_rec = array();
 		$this->datalogSave($tablename, 'DELETE', $index_field, $index_value, $old_rec, $new_rec);
+
+		return true;
+	}
+
+	//** Deletes a record and saves the changes into the datalog
+	public function datalogError($errormsg) {
+		global $app;
+
+		if(isset($app->modules->current_datalog_id) && $app->modules->current_datalog_id > 0) $this->query("UPDATE sys_datalog set error = ? WHERE datalog_id = ?", $errormsg, $app->modules->current_datalog_id);
 
 		return true;
 	}
@@ -737,8 +802,6 @@ class db {
 		global $app;
 
 		$return = array('count' => 0, 'entries' => array());
-		//if($_SESSION['s']['user']['typ'] == 'admin') return $return; // these information should not be displayed to admin users
-		// removed in favor of new non intrusive datalogstatus notification header
 
 		if($login == '' && isset($_SESSION['s']['user'])) {
 			$login = $_SESSION['s']['user']['username'];
@@ -747,12 +810,22 @@ class db {
 		$result = $this->queryAllRecords("SELECT COUNT( * ) AS cnt, sys_datalog.action, sys_datalog.dbtable FROM sys_datalog, server WHERE server.server_id = sys_datalog.server_id AND sys_datalog.user = ? AND sys_datalog.datalog_id > server.updated GROUP BY sys_datalog.dbtable, sys_datalog.action", $login);
 		foreach($result as $row) {
 			if(!$row['dbtable'] || in_array($row['dbtable'], array('aps_instances', 'aps_instances_settings', 'mail_access', 'mail_content_filter'))) continue; // ignore some entries, maybe more to come
-			$return['entries'][] = array('table' => $row['dbtable'], 'action' => $row['action'], 'count' => $row['cnt'], 'text' => $app->lng('datalog_status_' . $row['action'] . '_' . $row['dbtable']));
-			$return['count'] += $row['cnt'];
+			$return['entries'][] = array('table' => $row['dbtable'], 'action' => $row['action'], 'count' => $row['cnt'], 'text' => $app->lng('datalog_status_' . $row['action'] . '_' . $row['dbtable'])); $return['count'] += $row['cnt'];
 		}
 		unset($result);
 
 		return $return;
+	}
+
+
+	public function freeResult($query)
+	{
+		if(is_object($query) && (get_class($query) == "mysqli_result")) {
+			$query->free();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/*
@@ -879,15 +952,6 @@ class db {
 
 		if($rows = $app->db->queryAllRecords('SHOW FIELDS FROM ??', $table_name)){
 			foreach($rows as $row) {
-				/*
-	  $name = $row[0];
-	  $default = $row[4];
-	  $key = $row[3];
-	  $extra = $row[5];
-	  $isnull = $row[2];
-	  $type = $row[1];
-	  */
-
 				$name = $row['Field'];
 				$default = $row['Default'];
 				$key = $row['Key'];
@@ -988,7 +1052,7 @@ class db {
 			return 'char';
 			break;
 		case 'varchar':
-			if($typeValue < 1) die('Database failure: Lenght required for these data types.');
+			if($typeValue < 1) die('Database failure: Length required for these data types.');
 			return 'varchar('.$typeValue.')';
 			break;
 		case 'text':
