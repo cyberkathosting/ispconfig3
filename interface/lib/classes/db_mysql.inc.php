@@ -49,7 +49,6 @@ class db
 	private $dbUser = '';  // database authorized user
 	private $dbPass = '';  // user's password
 	private $dbCharset = 'utf8';// Database charset
-	private $dbNewLink = false; // Return a new linkID when connect is called again
 	private $dbClientFlags = 0; // MySQL Client falgs
 	/**#@-*/
 
@@ -81,7 +80,6 @@ class db
 		$this->dbUser = $user ? $user : $conf['db_user'];
 		$this->dbPass = $pass ? $pass : $conf['db_password'];
 		$this->dbCharset = $conf['db_charset'];
-		$this->dbNewLink = $conf['db_new_link'];
 		$this->dbClientFlags = $flags ? $flags : $conf['db_client_flags'];
 		$this->_iConnId = mysqli_init();
 
