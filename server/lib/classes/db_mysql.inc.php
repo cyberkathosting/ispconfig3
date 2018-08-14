@@ -64,8 +64,8 @@ class db
 	private $record = array(); // last record fetched
 	private $autoCommit = 1;    // Autocommit Transactions
 	private $currentRow;  // current row number
-	public $errorNumber = 0; // last error number
 	*/
+	public $errorNumber = 0; // last error number
 	public $errorMessage = ''; // last error message
 	/*
 	private $errorLocation = '';// last error location
@@ -94,18 +94,20 @@ class db
 			if(!is_object($this->_iConnId)) {
 				$this->_iConnId = mysqli_init();
 			}
-			mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
+			if(!mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags)) {
+				$this->_sqlerror('Database connection failed');
+			}
 		}
 
 		if(!is_object($this->_iConnId) || mysqli_connect_errno()) {
 			$this->_iConnId = null;
-			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true);
-			return false;
+			$this->_sqlerror('Zugriff auf Datenbankserver fehlgeschlagen! / Database server not accessible!', '', true); // sets errorMessage
+			throw new Exception($this->errorMessage);
 		}
 		if(!((bool)mysqli_query( $this->_iConnId, 'USE `' . $this->dbName . '`'))) {
 			$this->close();
-			$this->_sqlerror('Datenbank nicht gefunden / Database not found', '', true);
-			return false;
+			$this->_sqlerror('Datenbank nicht gefunden / Database not found', '', true); // sets errorMessage
+			throw new Exception($this->errorMessage);
 		}
 
 		$this->_setCharset();
@@ -261,8 +263,11 @@ class db
 			$try++;
 			$ok = (is_object($this->_iConnId)) ? mysqli_ping($this->_iConnId) : false;
 			if(!$ok) {
-				if(!mysqli_real_connect(mysqli_init(), $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
-					if($this->errorNumber == '111') {
+				if(!is_object($this->_iConnId)) {
+					$this->_iConnId = mysqli_init();
+				}
+				if(!mysqli_real_connect($this->_isConnId, $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
+					if(mysqli_connect_errno() == '111') {
 						// server is not available
 						if($try > 9) {
 							if(isset($app) && isset($app->forceErrorExit)) {
@@ -531,8 +536,13 @@ class db
 	private function _sqlerror($sErrormsg = 'Unbekannter Fehler', $sAddMsg = '', $bNoLog = false) {
 		global $app, $conf;
 
-		$mysql_error = (is_object($this->_iConnId) ? mysqli_error($this->_iConnId) : mysqli_connect_error());
-		$mysql_errno = (is_object($this->_iConnId) ? mysqli_errno($this->_iConnId) : mysqli_connect_errno());
+		$mysql_errno = mysqli_connect_errno();
+		$mysql_error = mysqli_connect_error();
+		if ($mysql_errno === 0 && is_object($this->_iConnId)) {
+			$mysql_errno = mysqli_errno($this->_iConnId);
+			$mysql_error = mysqli_error($this->_iConnId);
+		}
+		$this->errorNumber = $mysql_error;
 		$this->errorMessage = $mysql_error;
 
 		//$sAddMsg .= getDebugBacktrace();

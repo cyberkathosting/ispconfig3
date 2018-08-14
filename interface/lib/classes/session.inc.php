@@ -36,7 +36,11 @@ class session {
 	private $permanent = false;
 
 	function __construct($session_timeout = 0) {
-		$this->db = new db;
+		try {
+			$this->db = new db;
+		} catch (Exception $e) {
+			$this->db = false;
+		}
 		$this->timeout = $session_timeout;
 	}
 	
