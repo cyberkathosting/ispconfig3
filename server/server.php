@@ -61,7 +61,7 @@ $conf['server_id'] = intval($conf['server_id']);
 /*
  * Try to Load the server configuration from the master-db
  */
-if ($app->dbmaster->connect_error == NULL) {
+if ($app->dbmaster->testConnection()) {
 	$server_db_record = $app->dbmaster->queryOneRecord("SELECT * FROM server WHERE server_id = ?", $conf['server_id']);
 
 	if(!is_array($server_db_record)) die('Unable to load the server configuration from database.');
@@ -152,7 +152,7 @@ $needStartCore = true;
 /*
  * Next we try to process the datalog
  */
-if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
+if ($app->db->testConnection() && $app->dbmaster->testConnection()) {
 
 	// Check if there is anything to update
 	if ($conf['mirror_server_id'] > 0) {
@@ -187,7 +187,7 @@ if ($app->db->connect_error == NULL && $app->dbmaster->connect_error == NULL) {
 	$needStartCore = false;
 
 } else {
-	if ($app->db->connect->connect_error == NULL) {
+	if (!$app->db->connect->testConnection()) {
 		$app->log('Unable to connect to local server.' . $app->db->errorMessage, LOGLEVEL_WARN);
 	} else {
 		$app->log('Unable to connect to master server.' . $app->dbmaster->errorMessage, LOGLEVEL_WARN);

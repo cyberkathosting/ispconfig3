@@ -52,8 +52,7 @@ class db
 	private $dbClientFlags = 0; // MySQL Client falgs
 	/**#@-*/
 
-	public $show_error_messages = false; // false in server, true in interface
-
+	public $show_error_messages = false; // false in server, interface sets true when generating templates
 
 	/* old things - unused now ////
 	private $linkId = 0;  // last result of mysqli_connect()
@@ -80,7 +79,7 @@ class db
 		$this->dbUser = $user ? $user : $conf['db_user'];
 		$this->dbPass = $pass ? $pass : $conf['db_password'];
 		$this->dbCharset = $conf['db_charset'];
-		$this->dbClientFlags = $flags ? $flags : $conf['db_client_flags'];
+		$this->dbClientFlags = ($flags !== NULL) ? $flags : $conf['db_client_flags'];
 		$this->_iConnId = mysqli_init();
 
 		mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, '', (int)$this->dbPort, NULL, $this->dbClientFlags);
@@ -115,6 +114,18 @@ class db
 	public function close() {
 		if($this->_iConnId) mysqli_close($this->_iConnId);
 		$this->_iConnId = null;
+	}
+
+	/*
+	 * Test mysql connection.
+	 *
+	 * @return boolean returns true if db connection is good.
+	 */
+	public function testConnection() {
+		if(mysqli_connect_errno()) {
+			return false;
+		}
+		return (boolean)(is_object($this->_iConnId) && mysqli_ping($this->_iConnId));
 	}
 
 	/* This allows our private variables to be "read" out side of the class */
@@ -435,13 +446,14 @@ class db
 	 * @return int id of last inserted row or 0 if none
 	 */
 	public function insert_id() {
-		$iRes = mysqli_query($this->_iConnId, 'SELECT LAST_INSERT_ID() as `newid`');
-		if(!is_object($iRes)) return false;
-
-		$aReturn = mysqli_fetch_assoc($iRes);
-		mysqli_free_result($iRes);
-
-		return $aReturn['newid'];
+		$oResult = $this->query('SELECT LAST_INSERT_ID() as `newid`');
+		if(!$oResult) {
+			$this->_sqlerror('Unable to select last_insert_id()');
+			return false;
+		}
+		$aReturn = $oResult->get();
+		$oResult->free();
+		return isset($aReturn['newid']) ? $aReturn['newid'] : 0;
 	}
 
 
