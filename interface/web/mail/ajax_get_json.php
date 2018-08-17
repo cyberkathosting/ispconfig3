@@ -74,6 +74,7 @@ if($type == 'create_dkim' && $domain_id != ''){
 		} else {
 			$selector = 'invalid domain or selector';
 		}
+	} else {
 		unset($dkim_public);
 		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
