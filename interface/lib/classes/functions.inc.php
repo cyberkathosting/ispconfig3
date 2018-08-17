@@ -480,8 +480,8 @@ class functions {
 	
 	// Function to check paths before we use it as include. Use with absolute paths only.
 	public function check_include_path($path) {
-		if(strpos($path,'//') === false) die('Include path seems to be an URL: '.$this->htmlentities($path));
-		if(strpos($path,'..') === false) die('Two dots are not allowed in include path: '.$this->htmlentities($path));
+		if(strpos($path,'//') !== false) die('Include path seems to be an URL: '.$this->htmlentities($path));
+		if(strpos($path,'..') !== false) die('Two dots are not allowed in include path: '.$this->htmlentities($path));
 		if(!preg_match("/^[a-zA-Z0-9_\/\.\-]+$/", $path)) die('Wrong chars in include path: '.$this->htmlentities($path));
 		$path = realpath($path);
 		if($path == '') die('Include path does not exist.');
