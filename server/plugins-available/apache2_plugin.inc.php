@@ -1460,7 +1460,11 @@ class apache2_plugin {
 			//exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.escapeshellcmd($fastcgi_starter_path));
 			$app->system->chown($fastcgi_starter_path, $data['new']['system_user']);
 			$app->system->chgrp($fastcgi_starter_path, $data['new']['system_group']);
-			$app->system->chmod($fastcgi_starter_path, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($fastcgi_starter_path, 0755);
+			} else {
+				$app->system->chmod($fastcgi_starter_path, 0550);
+			}
 
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate('php-fcgi-starter.master');
@@ -1503,7 +1507,11 @@ class apache2_plugin {
 
 			$app->log('Creating fastcgi starter script: '.$fcgi_starter_script, LOGLEVEL_DEBUG);
 
-			$app->system->chmod($fcgi_starter_script, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($fcgi_starter_script, 0755);
+			} else {
+				$app->system->chmod($fcgi_starter_script, 0550);
+			}
 			$app->system->chown($fcgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($fcgi_starter_script, $data['new']['system_group']);
 
@@ -1596,7 +1604,11 @@ class apache2_plugin {
 				$app->system->mkdirpath($cgi_starter_path);
 				$app->system->chown($cgi_starter_path, $data['new']['system_user']);
 				$app->system->chgrp($cgi_starter_path, $data['new']['system_group']);
-				$app->system->chmod($cgi_starter_path, 0550);
+				if($web_config['security_level'] == 10) {
+					$app->system->chmod($cgi_starter_path, 0755);
+				} else {
+					$app->system->chmod($cgi_starter_path, 0550);
+				}
 
 				$app->log('Creating cgi starter script directory: '.$cgi_starter_path, LOGLEVEL_DEBUG);
 			}
@@ -1629,7 +1641,11 @@ class apache2_plugin {
 			$app->log('Creating cgi starter script: '.$cgi_starter_script, LOGLEVEL_DEBUG);
 
 
-			$app->system->chmod($cgi_starter_script, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($cgi_starter_script, 0755);
+			} else {
+				$app->system->chmod($cgi_starter_script, 0550);
+			}
 			$app->system->chown($cgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($cgi_starter_script, $data['new']['system_group']);
 
