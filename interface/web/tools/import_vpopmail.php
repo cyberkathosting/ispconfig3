@@ -46,7 +46,7 @@ $msg = '';
 $error = '';
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_import_vpopmail.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_import_vpopmail.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

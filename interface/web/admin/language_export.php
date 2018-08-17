@@ -111,7 +111,7 @@ if(isset($_POST['lng_select']) && $error == '') {
 $app->tpl->setVar('msg', $msg);
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_export.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_language_export.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

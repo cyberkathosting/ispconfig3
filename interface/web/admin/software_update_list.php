@@ -193,7 +193,7 @@ if(is_array($installed_packages)) {
 $app->tpl->setLoop('records', $records_out);
 
 $language = (isset($_SESSION['s']['language']))?$_SESSION['s']['language']:$conf['language'];
-include_once 'lib/lang/'.$language.'_software_update_list.lng';
+include_once 'lib/lang/'.$app->functions->check_language($language).'_software_update_list.lng';
 $app->tpl->setVar($wb);
 
 

@@ -134,7 +134,7 @@ class tform_base {
 		$this->module = $module;
 		$wb = array();
 
-		include_once ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+		include_once ISPC_ROOT_PATH.'/lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 
 		if(is_array($wb)) $wb_global = $wb;
 
@@ -143,7 +143,7 @@ class tform_base {
 			if(!file_exists($lng_file)) $lng_file = "lib/lang/en_".$this->formDef["name"].".lng";
 			include $lng_file;
 		} else {
-			$lng_file = "../$module/lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng";
+			$lng_file = "../$module/lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_".$this->formDef["name"].".lng";
 			if(!file_exists($lng_file)) $lng_file = "../$module/lib/lang/en_".$this->formDef["name"].".lng";
 			include $lng_file;
 		}

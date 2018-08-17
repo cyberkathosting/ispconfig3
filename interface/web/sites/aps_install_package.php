@@ -42,7 +42,7 @@ $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/aps_install_package.htm');
 
 // Load the language file
-$lngfile = 'lib/lang/'.$_SESSION['s']['language'].'_aps.lng';
+$lngfile = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_aps.lng';
 require_once $lngfile;
 $app->tpl->setVar($wb);
 $app->load_language_file('web/sites/'.$lngfile);

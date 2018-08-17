@@ -83,7 +83,7 @@ $dbData = $app->db->queryOneRecord(
  * TODO: move the login_as form to a template file -> themeability
  */
 
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_login_as.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_login_as.lng';
 include $lng_file;
 
 echo '

@@ -43,7 +43,7 @@ if (isset($_GET['l']) && ($_GET['l']== 1)) $forceLogout = true;
 if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin' || $app->auth->has_clients($_SESSION['s_old']['user']['userid']))) &&
 	(!$forceLogout)){
 	$utype = ($_SESSION['s_old']['user']['typ'] == 'admin' ? 'admin' : 'reseller');
-	$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_login_as.lng';
+	$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_login_as.lng';
 	include $lng_file;
 	echo '
 		<br /> <br />	<br /> <br />

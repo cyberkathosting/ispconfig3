@@ -204,7 +204,7 @@ if ($settings['use_domain_module'] == 'y') {
 	}
 }
 
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_import.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_dns_import.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

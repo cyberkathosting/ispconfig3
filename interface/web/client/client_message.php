@@ -42,7 +42,7 @@ $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/client_message.htm');
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_client_message.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_client_message.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

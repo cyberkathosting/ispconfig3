@@ -97,7 +97,7 @@ $app->tpl->setLoop('records', $language_files_list);
 
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_list.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_language_list.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

@@ -477,6 +477,28 @@ class functions {
 		
 		return $out;
 	}
+	
+	// Function to check paths before we use it as include. Use with absolute paths only.
+	public function check_include_path($path) {
+		if(strpos($path,'//')) die('Include path seems to be an URL: '.$this->htmlentities($path));
+		if(strpos($path,'..')) die('Two dots are not allowed in include path: '.$this->htmlentities($path));
+		if(!preg_match("/^[a-zA-Z0-9_\/\.\-]{1,}$/", $path)) die('Wrong chars in include path: '.$this->htmlentities($path));
+		$path = realpath($path);
+		if($path == '') die('Include path does not exist.');
+		if(substr($path,0,strlen(ISPC_ROOT_PATH)) != ISPC_ROOT_PATH) die('Path '.$this->htmlentities($path).' is outside of ISPConfig installation directory.');
+		return $path;
+	}
+	
+	// Function to check language strings
+	public function check_language($language) {
+		global $app;
+		if(preg_match('/^[a-z]{2}$/',$language)) {
+			 return $language;
+		} else {
+			die('Invalid language string: '.$this->htmlentities($language));	
+		}
+	}
+	
 }
 
 ?>

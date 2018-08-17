@@ -298,7 +298,7 @@ class tform_tpl_generator {
 	function lng_add($lang, $formDef) {
 		global $go_api, $go_info, $conf;
 
-		$lng_file = "lib/lang/".$conf["language"]."_".$formDef['name'].".lng";
+		$lng_file = "lib/lang/".$app->functions->check_language($conf["language"])."_".$formDef['name'].".lng";
 		if(is_file($lng_file)) {
 			include $lng_file;
 		} else {

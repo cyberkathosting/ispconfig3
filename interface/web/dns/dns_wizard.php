@@ -465,7 +465,7 @@ $csrf_token = $app->auth->csrf_token_get('dns_wizard');
 $app->tpl->setVar('_csrf_id',$csrf_token['csrf_id']);
 $app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_wizard.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_dns_wizard.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
