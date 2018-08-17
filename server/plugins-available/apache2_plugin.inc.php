@@ -1220,7 +1220,7 @@ class apache2_plugin {
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 				/* Update also the master-DB of the Server-Farm */
-				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
+				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ? AND `server_id` = ?", $data['new']['ssl'], 'n', $data['new']['domain'], $conf['server_id']);
  			}
 		}
 
