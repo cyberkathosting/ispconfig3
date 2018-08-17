@@ -510,11 +510,9 @@ else {
             $log_line =~ s/^\S*\s+//o;
         }
 
-        if ($reqsize ne "-") {
-			  if ( $reqsize =~ m/\d|/ && $reqsize > 0 ) {
-   	         $tracker{$vhost} += $reqsize;
-      	  }
-		  }
+		if ( $reqsize =~ m/^\d+$/ && $reqsize > 0 ) {
+			$tracker{$vhost} += $reqsize;
+		}
 
         print $vhost $log_line;
 
