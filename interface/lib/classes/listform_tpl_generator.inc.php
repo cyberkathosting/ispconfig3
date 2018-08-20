@@ -153,10 +153,10 @@ class listform_tpl_generator {
 	}
 
 	function lng_add($lang, $listDef, $module = '') {
-		global $go_api, $go_info, $conf;
+		global $app, $conf;
 
 		if($module == '') {
-			$lng_file = "lib/lang/".$conf["language"]."_".$listDef['name']."_list.lng";
+			$lng_file = "lib/lang/".$app->functions->check_language($conf["language"])."_".$listDef['name']."_list.lng";
 		} else {
 			$lng_file = '../'.$module."/lib/lang/en_".$listDef['name']."_list.lng";
 		}

@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 			$app->tpl->setLoop('records', $table_list);
 
 			//* load language file
-			$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_client_del.lng';
+			$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_client_del.lng';
 			include $lng_file;
 			$app->tpl->setVar($wb);
 

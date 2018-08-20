@@ -46,7 +46,7 @@ class plugin_backuplist_mail extends plugin_base {
 		$listTpl->newTemplate('templates/mail_user_backup_list.htm');
 				
 		//* Loading language file
-		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_mail_backup_list.lng";
+		$lng_file = "lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_mail_backup_list.lng";
 		include($lng_file);
 		$listTpl->setVar($wb);
 

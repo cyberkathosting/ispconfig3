@@ -120,7 +120,7 @@ class plugin_listview extends plugin_base {
 		}
 
 		// Loading language field
-		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_".$app->listform->listDef['name']."_list.lng";
+		$lng_file = "lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_".$app->listform->listDef['name']."_list.lng";
 		include $lng_file;
 		$listTpl->setVar($wb);
 

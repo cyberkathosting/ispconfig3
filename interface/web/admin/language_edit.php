@@ -104,7 +104,7 @@ $app->tpl->setVar('_csrf_key',$csrf_token['csrf_key']);
 
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_language_edit.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_language_edit.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

@@ -47,7 +47,7 @@ class dashlet_modules {
 						} else {
 							if(strlen($module_title) > 8) $module_title = substr($module_title, 0, 7).'..';
 						}
-						$mod[$module['order']] = array( 'modules_title'  => $module_title,
+						$mod[$module['order'].'-'.$module['name']] = array( 'modules_title'  => $module_title,
 							'modules_startpage' => $module['startpage'],
 							'modules_name'   => $module['name']);
 					}

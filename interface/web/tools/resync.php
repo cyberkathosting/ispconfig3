@@ -74,8 +74,8 @@ class page_action extends tform_actions {
 			//* check the database for existing records
 			$server_data = $this->server_has_data($server_type, $server['server_id']);
 			foreach ($search as $needle) 
-//				if (in_array($needle, $server_data) && strpos($options_servers, $server['server_name']) === false) {
-				if (in_array($needle, $server_data)) {
+				if (in_array($needle, $server_data) && strpos($options_servers, $server['server_name']) === false) {
+//				if (in_array($needle, $server_data)) {
 					$options_servers .= "<option value='$server[server_id]'>$server[server_name]</option>";
 					$server_count++;
 				}
@@ -525,7 +525,7 @@ class page_action extends tform_actions {
 			$this->dataRecord['db_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['mail_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['mailbox_server_id'] = $this->dataRecord['all_server_id'];
-			$this->dataRecord['verserver_server_id'] = $this->dataRecord['all_server_id'];
+			$this->dataRecord['vserver_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['dns_server_id'] = $this->dataRecord['all_server_id'];
 		}
 
@@ -596,7 +596,7 @@ class page_action extends tform_actions {
 
 		//* vserver
 		if($this->dataRecord['resync_vserver'] == 1) 
-			$msg .= $this->do_resync('openvz_vm', 'vm_id', 'vserver', $this->dataRecord['verserver_server_id'], 'hostname',  $app->tform->wordbook['do_vserver_txt']);
+			$msg .= $this->do_resync('openvz_vm', 'vm_id', 'vserver', $this->dataRecord['vserver_server_id'], 'hostname',  $app->tform->wordbook['do_vserver_txt']);
 
 		//* dns
 		if($this->dataRecord['resync_dns'] == 1) {

@@ -49,7 +49,7 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 include $lng_file;
 
 

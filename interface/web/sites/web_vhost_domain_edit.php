@@ -257,7 +257,7 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -404,7 +404,7 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -624,7 +624,7 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y' ORDER BY name", $parent_domain['server_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -952,7 +952,6 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-
 		// Set a few fixed values
 		$this->dataRecord["vhost_type"] = 'name';
 		if($this->_vhostdomain_type == 'domain') {

@@ -44,7 +44,7 @@ $msg = '';
 $error = '';
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_import_ispconfig.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_import_ispconfig.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
@@ -109,16 +109,17 @@ if(isset($_POST['connected'])) {
 
 
 		try {
-		    //* Second connections to self signed SSL certs
+			//* Allow connections to self signed SSL certs
 			$context = stream_context_create(
 				array(
-						'ssl' => array (
-						'verify_peer' => false,
-						'verify_peer_name' => false,
-						'allow_self_signed' => true
-						)
+					'ssl' => array (
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => true
 					)
+				)
 			);
+				
 			$client = new SoapClient(null, array('location' => $_POST['remote_server'],
 					'uri'      => $_POST['remote_server'].'/index.php',
 					'trace' => 1,

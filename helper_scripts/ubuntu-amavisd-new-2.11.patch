@@ -1,0 +1,18 @@
+--- amavisd-new.orig	2017-11-16 11:51:19.000000000 +0100
++++ amavisd-new	2018-05-25 16:53:45.623398108 +0200
+@@ -22829,6 +22829,7 @@
+         }
+         # load policy banks from the 'client_ipaddr_policy' lookup
+         Amavis::load_policy_bank($_,$msginfo) for @bank_names_cl;
++        $msginfo->originating(c('originating'));
+ 
+         $msginfo->client_addr($cl_ip);      # ADDR
+         $msginfo->client_port($cl_port);    # PORT
+@@ -34361,6 +34362,7 @@
+     $sig_ind++;
+   }
+   Amavis::load_policy_bank($_,$msginfo) for @bank_names;
++  $msginfo->originating(c('originating'));
+   $msginfo->dkim_signatures_valid(\@signatures_valid)  if @signatures_valid;
+ # if (ll(5) && $sig_ind > 0) {
+ #   # show which header fields are covered by which signature

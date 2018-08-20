@@ -1128,6 +1128,24 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_default_name' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => 'Default',
+			'validators' => array(	0 => array('type' => 'NOTEMPTY',
+										'errmsg' => 'php_default_name_error_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'TRIM'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					2 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_fpm_init_script' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

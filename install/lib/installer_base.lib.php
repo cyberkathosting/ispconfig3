@@ -2371,9 +2371,9 @@ class installer_base {
 			$content = str_replace('{ssl_comment}', '#', $content);
 
 			// Fix socket path on PHP 7 systems
-			if(file_exists('/var/run/php/php7.0-fpm.sock')) {
-				$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
-			}
+			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.2-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.2-fpm.sock', $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 

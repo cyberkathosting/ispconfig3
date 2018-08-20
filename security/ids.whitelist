@@ -41,6 +41,7 @@ admin:/capp.php:SESSION.s.module.nav.1.items.0.title
 admin:/sites/web_vhost_subdomain_edit.php:POST.php_open_basedir
 admin:/sites/web_domain_edit.php:POST.php_open_basedir
 admin:/sites/web_domain_edit.php:POST.apache_directives
+admin:/sites/web_vhost_domain_edit.php:POST.nginx_directives
 user:/sites/shell_user_edit.php:POST.ssh_rsa
 user:/sites/cron_edit.php:POST.command
 admin:/admin/server_config_edit.php:POST.jailkit_chroot_app_programs

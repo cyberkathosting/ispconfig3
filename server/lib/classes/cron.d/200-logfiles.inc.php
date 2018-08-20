@@ -150,8 +150,8 @@ class cronjob_logfiles extends cronjob {
 			$error_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
 			// rename older files (move up by one)
 			$num = $log_retention;
-			while($num >= 1 && is_file($error_logfile . '.' . $num . '.gz')) {
-				rename($error_logfile . '.' . $num . '.gz', $error_logfile . '.' . ($num + 1) . '.gz');
+			while($num >= 1) {
+				if(is_file($error_logfile . '.' . $num . '.gz')) rename($error_logfile . '.' . $num . '.gz', $error_logfile . '.' . ($num + 1) . '.gz');
 				$num--;
 			}
 			// compress current logfile

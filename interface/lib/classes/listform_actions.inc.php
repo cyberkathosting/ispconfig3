@@ -249,7 +249,7 @@ class listform_actions {
 		global $app;
 
 		//* Set global Language File
-		$lng_file = ISPC_LIB_PATH.'/lang/'.$_SESSION['s']['language'].'.lng';
+		$lng_file = ISPC_LIB_PATH.'/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 		if(!file_exists($lng_file))
 			$lng_file = ISPC_LIB_PATH.'/lang/en.lng';
 		include $lng_file;

@@ -444,8 +444,8 @@
 		
     function reloadFastcgiPHPVersions(noFormChange) {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi", client_group_id : clientGroupId}, function(data) {
-            var options = '<option value="">Default</option>';
-			//var options = '';
+            //var options = '<option value="">Default</option>';
+			var options = '';
             var phpfastcgiselected = '';
             $.each(data, function(key, val) {
 				<tmpl_if name="id">
@@ -468,7 +468,7 @@
 			</tmpl_else>
 				phpfastcgiselected = '';
 			</tmpl_if>
-			options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
+			//options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
             $('#fastcgi_php_version').html(options).change();
             if(noFormChange) ISPConfig.resetFormChanged();
         });

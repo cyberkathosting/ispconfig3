@@ -275,16 +275,16 @@ class letsencrypt {
 				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 				$letsencrypt = reset($letsencrypt);
 				if(is_executable($letsencrypt)) {
-					$letsencrypt_version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
-					if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $letsencrypt_version, $matches)) {
-						$letsencrypt_version = $matches[2];
-					}
-					if ($letsencrypt_version >=0.22) {
-						$acme_version = 'https://acme-v02.api.letsencrypt.org/directory';
-					} else {
-						$acme_version = 'https://acme-v01.api.letsencrypt.org/directory';
-					}
-					$letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
+				    $letsencrypt_version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
+                    if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $letsencrypt_version, $matches)) {
+                        $letsencrypt_version = $matches[2];
+                    }
+                    if ($letsencrypt_version >=0.22) {
+                        $acme_version = 'https://acme-v02.api.letsencrypt.org/directory';
+                    } else {
+                        $acme_version = 'https://acme-v01.api.letsencrypt.org/directory';
+                    }
+                    $letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
 					$success = $app->system->_exec($letsencrypt_cmd);
 				}
 			} else {
