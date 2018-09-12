@@ -242,7 +242,7 @@ class cronjob_backup_mail extends cronjob {
 						if(!is_file($mail_backup_dir.'/'.$backup['filename'])){
 							$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						}
 					}
 				}
