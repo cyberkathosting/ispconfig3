@@ -71,24 +71,26 @@ class cronjob_ftplogfiles extends cronjob {
 			}
 		}
 		
-		$fp = fopen('/var/log/pure-ftpd/transfer.log.1', 'r');
+		$fp = @fopen('/var/log/pure-ftpd/transfer.log.1', 'r');
 		$ftp_traffic = array();
 
-		// cumule des stats journalière dans un tableau
-		while($line = fgets($fp)) 
-		{
-			$parsed_line = parse_ftp_log($line);
-			
-			$sql = "SELECT wd.domain FROM ftp_user AS fu INNER JOIN web_domain AS wd ON fu.parent_domain_id = wd.domain_id WHERE fu.username = ? ";		
-			$temp = $app->db->queryOneRecord($sql, $parsed_line['username'] );
-			
-			$parsed_line['domain'] = $temp['domain'];
-					
-			add_ftp_traffic($ftp_traffic, $parsed_line);		
+		if ($fp) {
+			// cumule des stats journalière dans un tableau
+			while($line = fgets($fp))
+			{
+				$parsed_line = parse_ftp_log($line);
+
+				$sql = "SELECT wd.domain FROM ftp_user AS fu INNER JOIN web_domain AS wd ON fu.parent_domain_id = wd.domain_id WHERE fu.username = ? ";		
+				$temp = $app->db->queryOneRecord($sql, $parsed_line['username'] );
+
+				$parsed_line['domain'] = $temp['domain'];
+
+				add_ftp_traffic($ftp_traffic, $parsed_line);
+			}
+
+			fclose($fp);
 		}
-			
-		fclose($fp);
-		
+
 		// Save du tableau en BD
 		foreach($ftp_traffic as $traffic_date => $all_traffic)
 		{

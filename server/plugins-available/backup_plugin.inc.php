@@ -296,7 +296,7 @@ class backup_plugin {
 						unlink($mail_backup_file);
 						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 						$app->db->query($sql, $conf['server_id'], $mail_backup['parent_domain_id'], $mail_backup['filename']);
-						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $mail_backup['parent_domain_id'], $mail_backup['filename']);
 						$app->log('unlink '.$backup_dir.'/'.$mail_backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}

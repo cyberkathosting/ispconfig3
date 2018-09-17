@@ -780,7 +780,8 @@ class monitor_tools {
 		$mailSubject = '';
 		$inHeader = true;
 		for($l = 0; $l < count($lines); $l++) {
-			if(trim($lines[$l]) == '') {
+			/* Trim only in headers */
+			if($inHeader && trim($lines[$l]) == '') {
 				$inHeader = false;
 				continue;
 			}
