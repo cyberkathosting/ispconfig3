@@ -37,7 +37,7 @@ if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock')) {
 	$pid = trim(file_get_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock'));
 	if(preg_match('/^[0-9]+$/', $pid)) {
 		if(file_exists('/proc/' . $pid)) {
-			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
+			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of cron.php running with pid ' . $pid . '.' . "\n";
 			exit;
 		}
 	}
