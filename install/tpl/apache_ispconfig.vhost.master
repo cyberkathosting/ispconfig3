@@ -94,7 +94,12 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
     Header set X-Frame-Options: SAMEORIGIN
     Header set X-XSS-Protection: "1; mode=block"
     Header always edit Set-Cookie (.*) "$1; HTTPOnly; Secure"
-    Header setifempty Strict-Transport-Security "max-age=15768000"
+    <IfVersion >= 2.4.7>
+        Header setifempty Strict-Transport-Security "max-age=15768000"
+    </IfVersion>
+    <IfVersion < 2.4.7>
+        Header set Strict-Transport-Security "max-age=15768000"
+    </IfVersion>
     RequestHeader unset Proxy early
   </IfModule>
 
