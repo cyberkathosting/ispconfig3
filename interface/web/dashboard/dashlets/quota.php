@@ -8,6 +8,11 @@ class dashlet_quota {
 		//* Loading Template
 		$app->uses('tpl,quota_lib');
 
+		$modules = $_SESSION['s']['user']['modules'];
+		if (!in_array($modules, 'sites')) {
+			return '';
+		}
+
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/quota.htm");
 
