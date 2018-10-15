@@ -1,0 +1,18 @@
+# Defines stages which are to be executed
+stages:
+  - syntax
+
+#
+### Stage syntax
+#
+
+syntax:lint:
+  stage: syntax
+  image: bobey/docker-gitlab-ci-runner-php7
+  allow_failure: false
+
+  script:
+    - composer require overtrue/phplint
+    - echo "Syntax checking PHP files"
+    - echo "For more information http://www.icosaedro.it/phplint/"
+    - vendor/bin/phplint
