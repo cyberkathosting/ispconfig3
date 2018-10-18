@@ -654,18 +654,29 @@ class db
 	 * @return int - database-size in bytes
 	 */
 	public function getDatabaseSize($database_name) {
-		global $app;
-		
-		require_once 'lib/mysql_clientdb.conf';
-		
-		$result = $this->_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$this->escape($database_name)."'");
+		global $app, $conf;
+		static $db=null;
+
+		if ( ! $db ) {
+			$clientdb_host     = ($conf['db_host']) ? $conf['db_host'] : NULL;
+			$clientdb_user     = ($conf['db_user']) ? $conf['db_user'] : NULL;
+			$clientdb_password = ($conf['db_password']) ? $conf['db_password'] : NULL;
+			$clientdb_port     = ((int)$conf['db_port']) ? (int)$conf['db_port'] : NULL;
+			$clientdb_flags    = ($conf['db_flags'] !== NULL) ? $conf['db_flags'] : NULL;
+
+			require_once 'lib/mysql_clientdb.conf';
+
+			$db = new db($clientdb_host, $clientdb_user, $clientdb_password, NULL, $clientdb_port, $clientdb_flags);
+		}
+
+		$result = $db->_query("SELECT SUM(data_length+index_length) FROM information_schema.TABLES WHERE table_schema='".$db->escape($database_name)."'");
 		if(!$result) {
-			$this->_sqlerror('Unable to determine the size of database ' . $database_name);
+			$db->_sqlerror('Unable to determine the size of database ' . $database_name);
 			return;
 		}
 		$database_size = $result->getAsRow();
 		$result->free();
-        return $database_size[0] ? $database_size[0] : 0;
+		return $database_size[0] ? $database_size[0] : 0;
 	}
 
 	//** Function to fill the datalog with a full differential record.
