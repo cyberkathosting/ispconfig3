@@ -10,6 +10,8 @@ syntax:lint:
   stage: syntax
   image: bobey/docker-gitlab-ci-runner-php7
   allow_failure: false
+  only:
+    - schedules
 
   script:
     - composer require overtrue/phplint
