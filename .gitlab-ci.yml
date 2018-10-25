@@ -13,8 +13,6 @@ syntax:lint:
   only:
     - schedules
     - web
-    - master@ispconfig/ispconfig3
-    - stable-3.1@ispconfig/ispconfig3
 
   script:
     - composer require overtrue/phplint
