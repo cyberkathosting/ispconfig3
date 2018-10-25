@@ -8,26 +8,31 @@
     <div class="pnl_formsarea">
         <legend>{tmpl_var name="legend_txt"}</legend>
             <div class="form-group">
-                <label class="col-sm-3 control-label">Database Hostname</label>
+                <label class="col-sm-3 control-label" for="db_hostname">Database Hostname</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="db_hostname" value="{tmpl_var name='db_hostname'}" name="db_hostname" /></div>
             </div>
 			<div class="form-group">
-                <label class="col-sm-3 control-label">Database Name</label>
+                <label class="col-sm-3 control-label" for="db_name">Database Name</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="db_name" value="{tmpl_var name='db_name'}" name="db_name" /></div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">Database User</label>
+                <label class="col-sm-3 control-label" for="db_user">Database User</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="db_user" value="{tmpl_var name='db_user'}" name="db_user" /></div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">Database password</label>
+                <label class="col-sm-3 control-label" for="db_password">Database password</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="db_password" value="{tmpl_var name='db_password'}" name="db_password" /></div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="db_options">Tupa database options</label>
+                <div class="col-sm-9" id="db_options">
+                    <label class="checkbox-inline" for="db_ssl"><input type="checkbox" id="db_ssl" value="1" name="db_ssl" <tmpl_if name='db_ssl' op='==' value='true'>checked</tmpl_if>/> Use SSL</label>
+                </div>
+            </div>
 			<div class="form-group">
-                <label class="col-sm-3 control-label">Server ID of local mailserver</label>
+                <label class="col-sm-3 control-label" for="local_server_id">Server ID of local mailserver</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="local_server_id" value="{tmpl_var name='local_server_id'}" name="local_server_id" /></div>
             </div>
-        
     </div>
 	 
     <tmpl_if name="msg">

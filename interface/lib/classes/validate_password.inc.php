@@ -71,7 +71,7 @@ class validate_password {
 		} else if ($points == 1) {
 			if ($length >= 5 && $length <= 6) {
 				return 2;
-			} else if (length >= 7 && length <=10) {
+			} else if ($length >= 7 && $length <=10) {
 				return 3;
 			} else {
 				return 4;

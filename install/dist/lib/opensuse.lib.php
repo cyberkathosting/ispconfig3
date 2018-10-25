@@ -507,7 +507,7 @@ class installer_dist extends installer_base {
 		$content = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{hostname}', $conf['hostname'], $content);
-		$content = str_replace('{amavis_config_dir}', $conf['amavis']['config_dir']);
+		$content = str_replace('{amavis_config_dir}', $conf['amavis']['config_dir'], $content);
 		wf($conf["amavis"]["config_dir"].'/amavisd.conf', $content);
 		chmod($conf['amavis']['config_dir'].'/amavisd.conf', 0640);
 

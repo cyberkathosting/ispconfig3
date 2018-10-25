@@ -191,7 +191,7 @@ class validate_domain {
 
 	/* internal validator function to match regexp */
 	function _regex_validate($domain_name, $allow_wildcard = false) {
-		$pattern = '/^' . ($allow_wildcard == true ? '(\*\.)?' : '') . '[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,30}$/';
+		$pattern = '/^' . ($allow_wildcard == true ? '(\*\.)?' : '') . '[\w\.\-]{1,255}\.[a-zA-Z0-9\-]{2,30}$/';
 		return preg_match($pattern, $domain_name);
 	}
 
