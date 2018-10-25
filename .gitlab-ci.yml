@@ -1,0 +1,19 @@
+# Defines stages which are to be executed
+stages:
+  - syntax
+
+#
+### Stage syntax
+#
+
+syntax:lint:
+  stage: syntax
+  allow_failure: false
+
+  script:
+    - echo "Syntax checking PHP files"
+    - echo "For more information http://www.icosaedro.it/phplint/"
+    - shopt -s globstar
+    - set -e
+    - for x in **/*.php **/*.lng ; do php -l "$x" ; done
+

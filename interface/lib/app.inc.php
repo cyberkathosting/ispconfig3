@@ -62,7 +62,11 @@ class app {
 		$this->_conf = $conf;
 		if($this->_conf['start_db'] == true) {
 			$this->load('db_'.$this->_conf['db_type']);
-			$this->db = new db;
+			try {
+				$this->db = new db;
+			} catch (Exception $e) {
+				$this->db = false;
+			}
 		}
 
 		//* Start the session

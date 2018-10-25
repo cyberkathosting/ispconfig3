@@ -25,6 +25,9 @@ body {
 .form-group input[type='checkbox'] {
   margin-top: 10px; }
 
+.form-group .checkbox-inline input[type='checkbox'] {
+  margin-top: 4px; }
+
 .control-label {
   font-weight: normal; }
   .control-label:after {
