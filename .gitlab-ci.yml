@@ -8,12 +8,12 @@ stages:
 
 syntax:lint:
   stage: syntax
+  image: bobey/docker-gitlab-ci-runner-php7
   allow_failure: false
 
   script:
+    - composer require overtrue/phplint
     - echo "Syntax checking PHP files"
     - echo "For more information http://www.icosaedro.it/phplint/"
-    - shopt -s globstar
-    - set -e
-    - for x in **/*.php **/*.lng ; do php -l "$x" ; done
+    - vendor/bin/phplint
 
