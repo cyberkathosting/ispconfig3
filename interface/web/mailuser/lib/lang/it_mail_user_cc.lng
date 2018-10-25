@@ -3,7 +3,7 @@ $wb['mailbox_cc_txt'] = 'Invia copa delle e-mail';
 $wb['cc_txt'] = 'Manda copia a';
 $wb['email_txt'] = 'E-mail ricevute da';
 $wb['cc_error_isemail'] = 'Indirizzo e-mail non valido';
-$wb['email_is_cc_error'] = 'Specificare un indirizzo e-mail diverso dalll'attuale e-mail.';
+$wb['email_is_cc_error'] = 'Specificare un indirizzo e-mail diverso dalll\'attuale e-mail.';
 $wb['name_optional_txt'] = '(Opzionale)';
 $wb['cc_note_txt'] = '(Separare con una virgola e-mail multiple)';
 ?>

@@ -16,4 +16,3 @@ syntax:lint:
     - echo "Syntax checking PHP files"
     - echo "For more information http://www.icosaedro.it/phplint/"
     - vendor/bin/phplint
-
