@@ -2441,12 +2441,12 @@ class installer_base {
 			if (is_file($ssl_pem_file)) exec("mv $ispccrt $ssl_pem_file-$(date +'%y%m%d%H%M%S).bak");
 			
 			// Create symlink to LE fullchain and key for ISPConfig
-			exec("ln -s $le_live_dir/fullchain.pem $ssl_crt_file");
-			exec("ln -s $le_live_dir/privkey.pem $ssl_key_file");
+			exec("ln -sf $le_live_dir/fullchain.pem $ssl_crt_file");
+			exec("ln -sf $le_live_dir/privkey.pem $ssl_key_file");
 
 			// Build ispserver.pem file and chmod it
-			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file")
-			chmod 600 $ssl_pem_file
+			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file");
+			exec("chmod 600 $ssl_pem_file");
 		}
 /*
 		$ssl_pw = substr(md5(mt_rand()), 0, 6);
