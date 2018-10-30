@@ -2398,16 +2398,57 @@ class installer_base {
 	}
 
 	public function make_ispconfig_ssl_cert() {
-		global $conf,$autoinstall;
+		global $conf, $autoinstall;
 
-		$install_dir = $conf['ispconfig_install_dir'];
+		// This hostname can be taken from user entry too
+		// But I don't find a way for it yet so...
+		// I use this for now ;D
+		$hostname = exec('hostname -f');
+		// Check if LE SSL folder for the hostname existed
+		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
+		// Check if this is web server
+		$check_nginx = exec("dpkg-query -W -f='\${Status}' nginx 2>/dev/null | grep -c 'ok installed'");
+		$check_apache = exec("dpkg-query -W -f='\${Status}' apache2 2>/dev/null | grep -c 'ok installed'");
+		// We support certbot so create standalone LE SSL certs for this server
+		if (!@is_dir($le_live_dir)) {
+			// If it is nginx webserver
+			if ($check_nginx == 1)
+				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service nginx stop' --post-hook 'service nginx start'");
+			// If it is apache2 webserver
+			elseif ($check_apache2 == 1)
+				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service apache2 stop' --post-hook 'service apache2 start'");
+			// If it is not webserver
+			else
+				exec("certbot certonly --authenticator standalone -d $hostname");
+		}
+		
+		// If the LE SSL certs for this hostname exists
+		if (is_dir($le_live_dir)) {
 
-		$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
-		$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
-		$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
+			// Define and check ISPConfig SSL folder
+			$install_dir = $conf['ispconfig_install_dir'];
+			if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
+			$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
+			$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
+			$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
+			$ssl_pem_file = $install_dir.'/interface/ssl/ispserver.pem';
+			$ssl_bak_file = $install_dir.'/interface/ssl/ispserver.*.bak';
+			
+			// Delete old then backup existing ispserver ssl files
+			if (is_file($ssl_bak_file)) exec("rm $ssl_bak_file");
+			if (is_file($ssl_crt_file)) exec("mv $ispccrt $ssl_crt_file-$(date +'%y%m%d%H%M%S).bak");
+			if (is_file($ssl_key_file)) exec("mv $ispccrt $ssl_key_file-$(date +'%y%m%d%H%M%S).bak");
+			if (is_file($ssl_pem_file)) exec("mv $ispccrt $ssl_pem_file-$(date +'%y%m%d%H%M%S).bak");
+			
+			// Create symlink to LE fullchain and key for ISPConfig
+			exec("ln -s $le_live_dir/fullchain.pem $ssl_crt_file");
+			exec("ln -s $le_live_dir/privkey.pem $ssl_key_file");
 
-		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
-
+			// Build ispserver.pem file and chmod it
+			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file")
+			chmod 600 $ssl_pem_file
+		}
+/*
 		$ssl_pw = substr(md5(mt_rand()), 0, 6);
 		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
 		if(AUTOINSTALL){
@@ -2419,8 +2460,8 @@ class installer_base {
 		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
 		rename($ssl_key_file, $ssl_key_file.'.secure');
 		rename($ssl_key_file.'.insecure', $ssl_key_file);
-
-		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
+*/
+		exec("chown -R root:root $install_dir/interface/ssl");
 
 	}
 
