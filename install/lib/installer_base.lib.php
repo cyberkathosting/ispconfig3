@@ -2409,9 +2409,9 @@ class installer_base {
 		if (checkdnsrr(idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), 'A')) {
 			$dnsa=dns_get_record($hostname, DNS_A);
 			$dns_ips = array();
-            foreach ($dnsa as $rec) {
-                $dns_ips[] = $rec['ip'];
-            }
+			foreach ($dnsa as $rec) {
+			    $dns_ips[] = $rec['ip'];
+			}
 		}
 
 		// Check if LE SSL folder for the hostname existed
