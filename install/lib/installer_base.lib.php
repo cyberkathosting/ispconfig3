@@ -2427,6 +2427,8 @@ class installer_base {
 			else
 				exec("certbot certonly --authenticator standalone -d $hostname");
 		}
+		// TODO: To implement webroot instead of standalone via
+		// probably ispconfig vhost to provide for port 80 && 443
 
 		// Define and check ISPConfig SSL folder
 		$install_dir = $conf['ispconfig_install_dir'];
@@ -2453,9 +2455,8 @@ class installer_base {
 
 			// Build ispserver.pem file and chmod it
 			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
-		}
-		
-		if (!@is_dir($le_live_dir) && ($svr_ip != $dns_ip)) {
+			
+		} else {
 		
 			// We can still use the old self-signed method
 			$ssl_pw = substr(md5(mt_rand()), 0, 6);
