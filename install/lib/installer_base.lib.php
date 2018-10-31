@@ -2406,8 +2406,8 @@ class installer_base {
 		
 		// Check dns a record exist and its ip equal to server public ip
 		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
-		if (checkdnsrr(idn_to_ascii($hostname), 'A')) {
-			$dns_A=dns_get_record($hostname, DNS_A); $dns_ip=$dns_A[0][ip];
+		if (checkdnsrr(idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), 'A')) {
+			$dnsa=dns_get_record($hostname, DNS_A); $dns_ip=$dnsa[0]['ip'];
 		}
 
 		// Check if LE SSL folder for the hostname existed
