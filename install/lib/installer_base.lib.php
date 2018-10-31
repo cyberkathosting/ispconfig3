@@ -2401,19 +2401,23 @@ class installer_base {
 		global $conf, $autoinstall;
 
 		// Get hostname from user entry or shell command
-		if($conf['hostname'] !== ('localhost' || '') ) $hostname = $conf['hostname'];
+		if($conf['hostname'] !== ('localhost' || '')) $hostname = $conf['hostname'];
 		else $hostname = exec('hostname -f');
 		
 		// Check dns a record exist and its ip equal to server public ip
 		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
 		if (checkdnsrr(idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), 'A')) {
-			$dnsa=dns_get_record($hostname, DNS_A); $dns_ip=$dnsa[0]['ip'];
+			$dnsa=dns_get_record($hostname, DNS_A);
+			$dns_ips = array();
+            foreach ($dnsa as $rec) {
+                $dns_ips[] = $rec['ip'];
+            }
 		}
 
 		// Check if LE SSL folder for the hostname existed
 		// Then create standalone LE SSL certs for this server
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
-		if (!@is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
+		if (!@is_dir($le_live_dir) && in_array($srv_ip, $dns_ips)) {
 
 			// If it is nginx webserver
 			if($conf['nginx']['installed'] == true)
@@ -2441,7 +2445,7 @@ class installer_base {
 		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
 		
 		// If the LE SSL certs for this hostname exists
-		if (is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
+		if (is_dir($le_live_dir) && in_array($srv_ip, $dns_ips)) {
 		    
 			// Backup existing ispserver ssl files
 			$date = new DateTime();
