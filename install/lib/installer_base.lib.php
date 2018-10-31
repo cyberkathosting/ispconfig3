@@ -2400,17 +2400,20 @@ class installer_base {
 	public function make_ispconfig_ssl_cert() {
 		global $conf, $autoinstall;
 
-		// This hostname can be taken from user entry too
-		// But I don't find a way for it yet so...
-		// I use this for now ;D
+		// Get hostname from user entry or shell command
 		if($conf['hostname'] !== ('localhost' || '') ) $hostname = $conf['hostname'];
 		else $hostname = exec('hostname -f');
 		
+		// Check dns a record exist and its ip equal to server public ip
+		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
+		if (checkdnsrr(idn_to_ascii($hostname), 'A')) {
+		    $dns_A=dns_get_record($hostname, DNS_A); $dns_ip=$dns_A[0][ip];
+		}
 		// Check if LE SSL folder for the hostname existed
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
 		
-		// We support certbot so create standalone LE SSL certs for this server
-		if (!@is_dir($le_live_dir)) {
+		// We support certbot so let's create standalone LE SSL certs for this server
+		if (!@is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
 			// If it is nginx webserver
 			if($conf['nginx']['installed'] == true)
 				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service nginx stop' --post-hook 'service nginx start'");
@@ -2421,20 +2424,21 @@ class installer_base {
 			else
 				exec("certbot certonly --authenticator standalone -d $hostname");
 		}
+
+		// Define and check ISPConfig SSL folder
+		$install_dir = $conf['ispconfig_install_dir'];
+
+		$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
+		$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
+		$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
+		$ssl_pem_file = $install_dir.'/interface/ssl/ispserver.pem';
+
+		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
 		
 		// If the LE SSL certs for this hostname exists
-		if (is_dir($le_live_dir)) {
-
-			// Define and check ISPConfig SSL folder
-			$install_dir = $conf['ispconfig_install_dir'];
-			if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
-			
-			$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
-			$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
-			$ssl_pem_file = $install_dir.'/interface/ssl/ispserver.pem';
-			$ssl_bak_file = $install_dir.'/interface/ssl/ispserver.*.bak';
-			
-			// Delete old then backup existing ispserver ssl files
+		if (is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
+		    
+			// Backup existing ispserver ssl files
 			if (is_file($ssl_bak_file)) exec("rm $ssl_bak_file");
 			if (is_file($ssl_crt_file)) exec("mv $ssl_crt_file-\$(date +'%y%m%d%H%M%S).bak");
 			if (is_file($ssl_key_file)) exec("mv $ssl_key_file-\$(date +'%y%m%d%H%M%S).bak");
@@ -2448,19 +2452,22 @@ class installer_base {
 			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file");
 			exec("chmod 600 $ssl_pem_file");
 		}
-/*
-		$ssl_pw = substr(md5(mt_rand()), 0, 6);
-		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
-		if(AUTOINSTALL){
-			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
-		} else {
-			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
+
+		if (!@is_dir($le_live_dir) && ($svr_ip != $dns_ip)) {
+		    
+		    // We can still use the old self-signed method
+    		$ssl_pw = substr(md5(mt_rand()), 0, 6);
+    		exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
+    		if(AUTOINSTALL){
+    			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
+    		} else {
+    			exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
+    		}
+    		exec("openssl req -x509 -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -in $ssl_csr_file -out $ssl_crt_file -days 3650");
+    		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
+    		rename($ssl_key_file, $ssl_key_file.'.secure');
+    		rename($ssl_key_file.'.insecure', $ssl_key_file);
 		}
-		exec("openssl req -x509 -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -in $ssl_csr_file -out $ssl_crt_file -days 3650");
-		exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
-		rename($ssl_key_file, $ssl_key_file.'.secure');
-		rename($ssl_key_file.'.insecure', $ssl_key_file);
-*/
 		exec("chown -R root:root $install_dir/interface/ssl");
 
 	}
