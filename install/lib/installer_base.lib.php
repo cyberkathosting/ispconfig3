@@ -2407,7 +2407,7 @@ class installer_base {
 		// Check dns a record exist and its ip equal to server public ip
 		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
 		if (checkdnsrr(idn_to_ascii($hostname), 'A')) {
-		    $dns_A=dns_get_record($hostname, DNS_A); $dns_ip=$dns_A[0][ip];
+            $dns_A=dns_get_record($hostname, DNS_A); $dns_ip=$dns_A[0][ip];
 		}
 
 		// Check if LE SSL folder for the hostname existed
@@ -2454,22 +2454,22 @@ class installer_base {
 			// Build ispserver.pem file and chmod it
 			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
 		}
-
+		
 		if (!@is_dir($le_live_dir) && ($svr_ip != $dns_ip)) {
             
             // We can still use the old self-signed method
             $ssl_pw = substr(md5(mt_rand()), 0, 6);
             exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
             if(AUTOINSTALL){
-            	exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
+                exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
             } else {
-            	exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
+                exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
             }
             exec("openssl req -x509 -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -in $ssl_csr_file -out $ssl_crt_file -days 3650");
             exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
             rename($ssl_key_file, $ssl_key_file.'.secure');
             rename($ssl_key_file.'.insecure', $ssl_key_file);
-		}
+        }
 		exec("chown -R root:root $install_dir/interface/ssl");
 
 	}
