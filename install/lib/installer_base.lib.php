@@ -2409,17 +2409,20 @@ class installer_base {
 		if (checkdnsrr(idn_to_ascii($hostname), 'A')) {
 		    $dns_A=dns_get_record($hostname, DNS_A); $dns_ip=$dns_A[0][ip];
 		}
+
 		// Check if LE SSL folder for the hostname existed
+		// Then create standalone LE SSL certs for this server
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
-		
-		// We support certbot so let's create standalone LE SSL certs for this server
 		if (!@is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
+
 			// If it is nginx webserver
 			if($conf['nginx']['installed'] == true)
 				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service nginx stop' --post-hook 'service nginx start'");
+
 			// If it is apache2 webserver
 			elseif($conf['apache']['installed'] == true)
 				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service apache2 stop' --post-hook 'service apache2 start'");
+
 			// If it is not webserver
 			else
 				exec("certbot certonly --authenticator standalone -d $hostname");
@@ -2439,18 +2442,17 @@ class installer_base {
 		if (is_dir($le_live_dir) && ($svr_ip = $dns_ip)) {
 		    
 			// Backup existing ispserver ssl files
-			if (is_file($ssl_bak_file)) exec("rm $ssl_bak_file");
-			if (is_file($ssl_crt_file)) exec("mv $ssl_crt_file-\$(date +'%y%m%d%H%M%S).bak");
-			if (is_file($ssl_key_file)) exec("mv $ssl_key_file-\$(date +'%y%m%d%H%M%S).bak");
-			if (is_file($ssl_pem_file)) exec("mv $ssl_pem_file-\$(date +'%y%m%d%H%M%S).bak");
+			$date = new DateTime();
+			if (file_exists($ssl_crt_file)) rename($ssl_crt_file, $ssl_crt_file . '-' .$date->format('YmdHis') . '.bak');
+			if (file_exists($ssl_crt_file)) rename($ssl_key_file, $ssl_key_file . '-' .$date->format('YmdHis') . '.bak');
+			if (file_exists($ssl_crt_file)) rename($ssl_pem_file, $ssl_pem_file . '-' .$date->format('YmdHis') . '.bak');
 			
 			// Create symlink to LE fullchain and key for ISPConfig
-			exec("ln -sf $le_live_dir/fullchain.pem $ssl_crt_file");
-			exec("ln -sf $le_live_dir/privkey.pem $ssl_key_file");
+			symlink($le_live_dir.'/fullchain.pem', $ssl_crt_file);
+			symlink($le_live_dir.'/privkey.pem', $ssl_key_file);
 
 			// Build ispserver.pem file and chmod it
-			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file");
-			exec("chmod 600 $ssl_pem_file");
+			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
 		}
 
 		if (!@is_dir($le_live_dir) && ($svr_ip != $dns_ip)) {
