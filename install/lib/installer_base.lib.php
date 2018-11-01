@@ -2417,7 +2417,7 @@ class installer_base {
 		// Check if LE SSL folder for the hostname existed
 		// Then create standalone LE SSL certs for this server
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
-		if (!@is_dir($le_live_dir) && in_array($srv_ip, $dns_ips)) {
+		if (!@is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
 
 			// If it is nginx webserver
 			if($conf['nginx']['installed'] == true)
@@ -2445,7 +2445,7 @@ class installer_base {
 		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
 		
 		// If the LE SSL certs for this hostname exists
-		if (is_dir($le_live_dir) && in_array($srv_ip, $dns_ips)) {
+		if (is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
 		    
 			// Backup existing ispserver ssl files
 			$date = new DateTime();
@@ -2459,6 +2459,44 @@ class installer_base {
 
 			// Build ispserver.pem file and chmod it
 			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
+			
+			
+			
+			// Extend LE SSL certs to postfix
+			if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y')) {
+			    
+			    // Define folder, file(s)
+			    $cf = $conf['postfix'];
+			    $postfix_dir = $cf['config_dir'];
+			    if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
+			    $smtpd_crt = $postfix_dir.'/smtpd.cert';
+			    $smtpd_key = $postfix_dir.'/smtpd.key';
+			    
+			    // Backup existing postfix ssl files
+			    if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
+			    if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
+			    
+			    // Create symlink to ISPConfig SSL files
+			    symlink($ssl_crt_file, $smtpd_crt);
+			    symlink($ssl_key_file, $smtpd_key);
+			}
+			
+			// Extend LE SSL certs to pureftpd
+			if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
+			    
+			    // Define folder, file(s)
+			    $pureftpd_dir = '/etc/ssl/private';
+			    if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
+			    $pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
+			    
+			    // Backup existing postfix ssl files
+			    if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
+			    
+			    // Create symlink to ISPConfig SSL files
+			    symlink($ssl_pem_file, $pureftpd_pem);
+			    if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
+			        exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
+			}
 			
 		} else {
 		
