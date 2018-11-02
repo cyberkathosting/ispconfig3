@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2007-2010, Till Brehm, projektfarm Gmbh
+Copyright (c) 2007-2018, Till Brehm, projektfarm Gmbh, Hj Ahmad Rasyid Hj Ismail
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -2400,41 +2400,68 @@ class installer_base {
 	public function make_ispconfig_ssl_cert() {
 		global $conf, $autoinstall;
 
-		// Get hostname from user entry or shell command
+		//* Get hostname from user entry or shell command */
 		if($conf['hostname'] !== ('localhost' || '')) $hostname = $conf['hostname'];
 		else $hostname = exec('hostname -f');
-		
+
 		// Check dns a record exist and its ip equal to server public ip
 		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
 		if (checkdnsrr(idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), 'A')) {
 			$dnsa=dns_get_record($hostname, DNS_A);
 			$dns_ips = array();
 			foreach ($dnsa as $rec) {
-			    $dns_ips[] = $rec['ip'];
+				$dns_ips[] = $rec['ip'];
 			}
 		}
 
-		// Check if LE SSL folder for the hostname existed
-		// Then create standalone LE SSL certs for this server
-		$le_live_dir = '/etc/letsencrypt/live/' . $hostname; 
+		// Request for certs if no LE SSL folder for server fqdn exist
+		$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
 		if (!@is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
 
-			// If it is nginx webserver
-			if($conf['nginx']['installed'] == true)
-				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service nginx stop' --post-hook 'service nginx start'");
+			// Try to support for multi domain, if it is defined in letsencrypt_domains.master
+			$domain_file = '/usr/local/ispconfig/server/conf-custom/letsencrypt_domains.master';
+			$cli_domain_arg = '';
 
-			// If it is apache2 webserver
-			elseif($conf['apache']['installed'] == true)
-				exec("certbot certonly --authenticator standalone -d $hostname --pre-hook 'service apache2 stop' --post-hook 'service apache2 start'");
+			// If file exist, get the unique domains but not more then 99
+			if (file_exists($domain_file)) {
+				$extra_domains = file($domain_file, FILE_IGNORE_NEW_LINES);
+				$extra_domains = array_unique($extra_domains);
+				$le_domain_count = count($extra_domains);
+				if($le_domain_count > 99) {
+					$extra_domains = array_slice($extra_domains, 0, 99);
+					echo "\nExtra domains exceed limits. Only the first 99 will be expanded into the hostname FQDN cert.\n";
+				}
+				foreach($extra_domains as $le_domain) $cli_domain_arg .= (string) ' -d ' . $le_domain;
+			}
 
-			// If it is not webserver
-			else
-				exec("certbot certonly --authenticator standalone -d $hostname");
+			// Get the default LE client name and version
+			$le_client = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
+			$le_client = reset($le_client);
+			$le_info = exec($le_client . ' --version  2>&1', $ret, $val);
+			if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $le_info, $matches)) { $le_name = $matches[1]; $le_version = $matches[2]; }
+			$acme_version = '--server https://acme-v0' . (($le_version >=0.22) ? '2' : '1') . '.api.letsencrypt.org/directory';
+			$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
+			$webroot = '--authenticator webroot --webroot-path /var/www/html';
+			$standalone = '--authenticator standalone';
+
+			// Only certbot is supported to prevent unknown failures
+			if($le_name == 'certbot' && is_executable($le_client)) {
+				// If this is a webserver, we use webroot
+				if(($conf['nginx']['installed'] || $conf['apache']['installed']) == true) {
+					$well_known = '/var/www/html/.well-known';
+					$challenge = "$well_known/acme_challenge";
+					$acme_challenge = '/usr/local/ispconfig/interface/acme/.well-known/acme-challenge';
+					if (!is_dir($well_known)) mkdir($well_known, 0755, true);
+					if (!is_dir($challenge)) exec("ln -sf $acme_challenge $challenge");
+					exec("$le_client $certonly $acme_version $webroot --email postmaster@$hostname -d $hostname $cli_domain_arg");
+				}
+				// Else, it is not webserver, so we use standalone
+				else
+					exec("$le_client $certonly $acme_version $standalone --email postmaster@$hostname -d $hostname $cli_domain_arg");
+			}
 		}
-		// TODO: To implement webroot instead of standalone via
-		// probably ispconfig vhost to provide for port 80 && 443
 
-		// Define and check ISPConfig SSL folder
+		//* Define and check ISPConfig SSL folder */
 		$install_dir = $conf['ispconfig_install_dir'];
 
 		$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
@@ -2443,63 +2470,62 @@ class installer_base {
 		$ssl_pem_file = $install_dir.'/interface/ssl/ispserver.pem';
 
 		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
-		
+
+		$date = new DateTime();
+
 		// If the LE SSL certs for this hostname exists
 		if (is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
-		    
+
 			// Backup existing ispserver ssl files
-			$date = new DateTime();
 			if (file_exists($ssl_crt_file)) rename($ssl_crt_file, $ssl_crt_file . '-' .$date->format('YmdHis') . '.bak');
 			if (file_exists($ssl_crt_file)) rename($ssl_key_file, $ssl_key_file . '-' .$date->format('YmdHis') . '.bak');
 			if (file_exists($ssl_crt_file)) rename($ssl_pem_file, $ssl_pem_file . '-' .$date->format('YmdHis') . '.bak');
-			
+
 			// Create symlink to LE fullchain and key for ISPConfig
 			symlink($le_live_dir.'/fullchain.pem', $ssl_crt_file);
 			symlink($le_live_dir.'/privkey.pem', $ssl_key_file);
 
 			// Build ispserver.pem file and chmod it
 			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
-			
-			
-			
+
 			// Extend LE SSL certs to postfix
-			if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y')) {
-			    
-			    // Define folder, file(s)
-			    $cf = $conf['postfix'];
-			    $postfix_dir = $cf['config_dir'];
-			    if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
-			    $smtpd_crt = $postfix_dir.'/smtpd.cert';
-			    $smtpd_key = $postfix_dir.'/smtpd.key';
-			    
-			    // Backup existing postfix ssl files
-			    if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
-			    if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
-			    
-			    // Create symlink to ISPConfig SSL files
-			    symlink($ssl_crt_file, $smtpd_crt);
-			    symlink($ssl_key_file, $smtpd_key);
+			if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y') {
+
+				// Define folder, file(s)
+				$cf = $conf['postfix'];
+				$postfix_dir = $cf['config_dir'];
+				if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
+				$smtpd_crt = $postfix_dir.'/smtpd.cert';
+				$smtpd_key = $postfix_dir.'/smtpd.key';
+
+				// Backup existing postfix ssl files
+				if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
+				if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
+
+				// Create symlink to ISPConfig SSL files
+				symlink($ssl_crt_file, $smtpd_crt);
+				symlink($ssl_key_file, $smtpd_key);
 			}
-			
+
 			// Extend LE SSL certs to pureftpd
 			if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
-			    
-			    // Define folder, file(s)
-			    $pureftpd_dir = '/etc/ssl/private';
-			    if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
-			    $pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
-			    
-			    // Backup existing postfix ssl files
-			    if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
-			    
-			    // Create symlink to ISPConfig SSL files
-			    symlink($ssl_pem_file, $pureftpd_pem);
-			    if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
-			        exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
+
+				// Define folder, file(s)
+				$pureftpd_dir = '/etc/ssl/private';
+				if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
+				$pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
+
+				// Backup existing postfix ssl files
+				if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
+
+				// Create symlink to ISPConfig SSL files
+				symlink($ssl_pem_file, $pureftpd_pem);
+				if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
+					exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
 			}
-			
+
 		} else {
-		
+
 			// We can still use the old self-signed method
 			$ssl_pw = substr(md5(mt_rand()), 0, 6);
 			exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
@@ -2513,7 +2539,7 @@ class installer_base {
 			rename($ssl_key_file, $ssl_key_file.'.secure');
 			rename($ssl_key_file.'.insecure', $ssl_key_file);
 		}
-		
+
 		exec("chown -R root:root $install_dir/interface/ssl");
 
 	}
