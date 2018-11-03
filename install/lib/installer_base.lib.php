@@ -2418,30 +2418,13 @@ class installer_base {
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
 		if (!@is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
 
-			/* // Try to support for multi domain, if it is defined in letsencrypt_domains.master
-			// Should try to get from ISPConfig database later on
-			$domain_file = '/usr/local/ispconfig/server/conf-custom/letsencrypt_domains.master';
-			$cli_domain_arg = '';
-
-			// If file exist, get the unique domains but not more then 99
-			// This won't work if the domain don't have working vhost / conf file
-			// In other words this won't work on non web-server
-			if (file_exists($domain_file)) {
-				$extra_domains = file($domain_file, FILE_SKIP_EMPTY_LINES);
-				$extra_domains = array_unique($extra_domains);
-				$le_domain_count = count($extra_domains);
-				if($le_domain_count > 99) {
-					$extra_domains = array_slice($extra_domains, 0, 99);
-					echo "\nExtra domains exceed limits. Only the first 99 will be expanded into the hostname FQDN cert.\n";
-				}
-				foreach($extra_domains as $le_domain) $cli_domain_arg .= (string) ' -d ' . $le_domain;
-			} */
-
 			// Get the default LE client name and version
 			$le_client = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 			$le_client = reset($le_client);
 			$le_info = exec($le_client . ' --version  2>&1', $ret, $val);
 			if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $le_info, $matches)) { $le_name = $matches[1]; $le_version = $matches[2]; }
+			
+			// Define certbot commands
 			$acme_version = '--server https://acme-v0' . (($le_version >=0.22) ? '2' : '1') . '.api.letsencrypt.org/directory';
 			$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
 			$webroot = '--authenticator webroot --webroot-path /var/www/html';
@@ -2456,7 +2439,6 @@ class installer_base {
 					$acme_challenge = '/usr/local/ispconfig/interface/acme/.well-known/acme-challenge';
 					if (!is_dir($well_known)) mkdir($well_known, 0755, true);
 					if (!is_dir($challenge)) exec("ln -sf $acme_challenge $challenge");
-					//exec("$le_client $certonly $acme_version $webroot --email postmaster@$hostname -d $hostname $cli_domain_arg");
 					exec("$le_client $certonly $acme_version $webroot --email postmaster@$hostname -d $hostname");
 				}
 				// Else, it is not webserver, so we use standalone
@@ -2519,7 +2501,7 @@ class installer_base {
 				if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
 				$pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
 
-				// Backup existing postfix ssl files
+				// Backup existing pureftpd ssl files
 				if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
 
 				// Create symlink to ISPConfig SSL files
