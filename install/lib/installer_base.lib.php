@@ -1120,21 +1120,6 @@ class installer_base {
 			caselog($command." &> /dev/null", __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 
-		if(!stristr($options, 'dont-create-certs')) {
-			//* Create the SSL certificate
-			if(AUTOINSTALL){
-				$command = 'cd '.$config_dir.'; '
-					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
-			} else {
-				$command = 'cd '.$config_dir.'; '
-					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
-			}
-			exec($command);
-
-			$command = 'chmod o= '.$config_dir.'/smtpd.key';
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-		}
-
 		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
 		$command = 'chmod 755  /var/run/courier/authdaemon/';
 		if(is_file('/var/run/courier/authdaemon/')) caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
@@ -2471,45 +2456,6 @@ class installer_base {
 			symlink($le_live_dir.'/fullchain.pem', $ssl_crt_file);
 			symlink($le_live_dir.'/privkey.pem', $ssl_key_file);
 
-			// Build ispserver.pem file and chmod it
-			exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
-
-			// Extend LE SSL certs to postfix
-			if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y') {
-
-				// Define folder, file(s)
-				$cf = $conf['postfix'];
-				$postfix_dir = $cf['config_dir'];
-				if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
-				$smtpd_crt = $postfix_dir.'/smtpd.cert';
-				$smtpd_key = $postfix_dir.'/smtpd.key';
-
-				// Backup existing postfix ssl files
-				if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
-				if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
-
-				// Create symlink to ISPConfig SSL files
-				symlink($ssl_crt_file, $smtpd_crt);
-				symlink($ssl_key_file, $smtpd_key);
-			}
-
-			// Extend LE SSL certs to pureftpd
-			if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
-
-				// Define folder, file(s)
-				$pureftpd_dir = '/etc/ssl/private';
-				if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
-				$pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
-
-				// Backup existing pureftpd ssl files
-				if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
-
-				// Create symlink to ISPConfig SSL files
-				symlink($ssl_pem_file, $pureftpd_pem);
-				if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
-					exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
-			}
-
 		} else {
 
 			// We can still use the old self-signed method
@@ -2525,8 +2471,47 @@ class installer_base {
 			rename($ssl_key_file, $ssl_key_file.'.secure');
 			rename($ssl_key_file.'.insecure', $ssl_key_file);
 		}
-
-		exec("chown -R root:root $install_dir/interface/ssl");
+		
+		// Build ispserver.pem file and chmod it
+		exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
+		
+		// Extend LE SSL certs to postfix
+		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y') {
+		    
+		    // Define folder, file(s)
+		    $cf = $conf['postfix'];
+		    $postfix_dir = $cf['config_dir'];
+		    if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
+		    $smtpd_crt = $postfix_dir.'/smtpd.cert';
+		    $smtpd_key = $postfix_dir.'/smtpd.key';
+		    
+		    // Backup existing postfix ssl files
+		    if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
+		    if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
+		    
+		    // Create symlink to ISPConfig SSL files
+		    symlink($ssl_crt_file, $smtpd_crt);
+		    symlink($ssl_key_file, $smtpd_key);
+	    }
+	    
+	    // Extend LE SSL certs to pureftpd
+	    if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
+	        
+	        // Define folder, file(s)
+	        $pureftpd_dir = '/etc/ssl/private';
+	        if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
+	        $pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
+	        
+	        // Backup existing pureftpd ssl files
+	        if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
+	        
+	        // Create symlink to ISPConfig SSL files
+	        symlink($ssl_pem_file, $pureftpd_pem);
+	        if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
+	            exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
+        }
+        
+        exec("chown -R root:root $install_dir/interface/ssl");
 
 	}
 
