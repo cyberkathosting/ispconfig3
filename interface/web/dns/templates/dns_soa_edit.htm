@@ -179,4 +179,15 @@
         searchFieldWatermark: '',
         resultBoxPosition: ''
     });
+    jQuery('#dnssec_wanted').on('click', function(event) {
+        if ($(this).is(':checked')) {
+            return;
+        }
+
+        if (window.confirm('{tmpl_var name="dnssec_wanted_info"}')) {
+            return;
+        }
+
+        event.preventDefault();
+    });
 </script>
