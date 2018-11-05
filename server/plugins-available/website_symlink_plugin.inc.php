@@ -24,9 +24,12 @@ class website_symlink_plugin {
 	public function onInstall() {
 		global $conf;
 
+		// Enable the following code section to activate the plugin automatically at install time
+		/*
 		if ($conf['services']['web'] == true) {
 			return true;
 		}
+		*/
 
 		return false;
 	}
