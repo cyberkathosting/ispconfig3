@@ -222,9 +222,5 @@ $conf['cron']['init_script'] = 'cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
 
-//* Metronome XMPP
-$conf['xmpp']['installed'] = false;
-$conf['xmpp']['init_script'] = 'metronome';
-
 
 ?>

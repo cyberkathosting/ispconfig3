@@ -110,13 +110,4 @@ $liste['item'][] = array( 'field'  => 'vserver_server',
 	'width'  => '',
 	'value'  => array('1' => $app->lng('yes_txt'), '0' => $app->lng('no_txt')));
 
-$liste['item'][] = array( 'field'  => 'xmpp_server',
-	'datatype' => 'VARCHAR',
-	'formtype' => 'SELECT',
-	'op'  => 'like',
-	'prefix' => '%',
-	'suffix' => '%',
-	'width'  => '',
-	'value'  => array('1' => $app->lng('yes_txt'), '0' => $app->lng('no_txt')));
-
 ?>

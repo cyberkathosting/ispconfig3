@@ -36,7 +36,7 @@ class server_services_plugin {
 	var $plugin_name = 'server_services_plugin';
 	var $class_name = 'server_services_plugin';
 
-	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server', 'vserver_server', 'xmpp_server');
+	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server', 'vserver_server');
 
 	var $mail_plugins = array('getmail_plugin', 'mail_plugin', 'mail_plugin_dkim', 'mailman_plugin', 'postfix_filter_plugin', 'postfix_server_plugin');
 	var $courier_plugins = array('maildrop_plugin');
@@ -52,8 +52,6 @@ class server_services_plugin {
 	var $db_plugins = array('mysql_clientdb_plugin');
 
 	var $openvz_plugins = array('openvz_plugin');
-
-	var $xmpp_plugins = array('xmpp_plugin');
 
 	function onInstall() {
 
@@ -117,9 +115,6 @@ class server_services_plugin {
 				break;
 				case 'vserver_server':
 					$this->change_state($this->openvz_plugins, $value, $config);
-				break;
-				case 'xmpp_server':
-					$this->change_state($this->xmpp_plugins, $value, $config);
 				break;
 			}
 		}

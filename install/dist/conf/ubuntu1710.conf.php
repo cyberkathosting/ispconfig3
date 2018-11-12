@@ -222,18 +222,4 @@ $conf['cron']['init_script'] = 'cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
 
-//* Metronome XMPP
-$conf['metronome']['installed'] = false;
-$conf['metronome']['init_script'] = 'metronome';
-$conf['metronome']['initial_modules'] = 'saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons';
-
-//* Prosody XMPP
-$conf['prosody']['installed'] = false;
-$conf['prosody']['init_script'] = 'prosody';
-$conf['prosody']['storage_database'] = 'prosody';
-$conf['prosody']['storage_user'] = 'prosody';
-$conf['prosody']['storage_password'] = md5(uniqid(rand()));
-$conf['prosody']['initial_modules'] = 'roster, saslauth, tls, dialback, disco, carbons, pep, private, blocklist, vcard, version, uptime, time, ping, admin_adhoc, mam, bosh, websocket, http_files, announce, proxy65, offline, posix, webpresence, smacks, csi_battery_saver, pep_vcard_avatar, omemo_all_access';
-
-
 ?>

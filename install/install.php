@@ -255,7 +255,6 @@ $conf['services']['db'] = true;
 $conf['services']['vserver'] = false;
 $conf['services']['firewall'] = false;
 $conf['services']['proxy'] = false;
-$conf['services']['xmpp'] = false;
 
 //** Get Server ID
 // $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
@@ -518,22 +517,6 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Fire
 		$conf['services']['firewall'] = true;
 		$conf['bastille']['installed'] = true;
 	}
-}
-
-if($install_mode == 'standard' || strtolower($inst->simple_query('Configure XMPP Server', array('y', 'n') , 'y','configure_xmpp') ) == 'y') {
-//* Configure XMPP Metronome
-    if ($conf['metronome']['installed']) {
-        swriteln('Configuring Metronome XMPP Server');
-        $inst->configure_metronome();
-        $conf['services']['xmpp'] = true;
-    }
-
-//* Configure XMPP Prosody
-    if ($conf['prosody']['installed']) {
-        swriteln('Configuring Prosody XMPP Server');
-        $inst->configure_prosody();
-        $conf['services']['xmpp'] = true;
-    }
 }
 
 //* Configure Fail2ban
