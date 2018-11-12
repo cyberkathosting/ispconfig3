@@ -2921,8 +2921,6 @@ class plugin_webserver_base {
 							$output .= "AuthUserFile $webdavRoot/$file\n";
 							$output .= "Require valid-user\n";
 							$output .= "Options +Indexes\n";
-							if($app->system->getapacheversion()<=2.2)
-								$output .= "Order allow,deny\nAllow from all\n";
 							$output .= "</Location>\n";
 						}
 					}

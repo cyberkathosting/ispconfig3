@@ -970,20 +970,20 @@ function getapacheversion($get_minor = false) {
 	elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
 	else {
 		ilog("Could not check apache version, apachectl not found.");
-		return '2.2';
+		return '2.4';
 	}
 	
 	exec($cmd, $output, $return_var);
 	if($return_var != 0 || !$output[0]) {
 		ilog("Could not check apache version, apachectl did not return any data.");
-		return '2.2';
+		return '2.4';
 	}
 	
 	if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
 		return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
 	} else {
 		ilog("Could not check apache version, did not find version string in apachectl output.");
-		return '2.2';
+		return '2.4';
 	}
 }
 

@@ -367,7 +367,6 @@ class plugin_webserver_apache {
 			$tpl->setVar('fastcgi_alias', $fastcgi_config['fastcgi_alias']);
 			$tpl->setVar('fastcgi_starter_path', $fastcgi_starter_path);
 			$tpl->setVar('fastcgi_starter_script', $fastcgi_config['fastcgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
-			$tpl->setVar('fastcgi_config_syntax', $fastcgi_config['fastcgi_config_syntax']);
 			$tpl->setVar('fastcgi_max_requests', $fastcgi_config['fastcgi_max_requests']);
 
 		} else {

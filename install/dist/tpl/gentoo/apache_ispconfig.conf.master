@@ -9,13 +9,11 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 
 <Directory /var/www/clients>
     AllowOverride None
-    Order Deny,Allow
-    Deny from all
+    Require all denied
 </Directory>
 
 # allow path to awstats and alias for awstats icons
 <Directory /usr/share/awstats>
-        Order allow,deny
-        Allow from all
+        Require all granted
 </Directory>
 Alias /awstats/icon "/usr/share/awstats/htdocs/icon"
