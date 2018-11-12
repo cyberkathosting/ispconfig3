@@ -293,31 +293,21 @@
 		reloadFastcgiPHPVersions();
     });
 		
-    if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm' || (jQuery('#php').val() == 'hhvm' && serverType == 'nginx')){
+    if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm'){
         jQuery('.fastcgi_php_version:hidden').show();
-		if(jQuery('#php').val() == 'hhvm'){
-			jQuery('#fastcgi_php_version_txt').hide();
-			jQuery('#fastcgi_php_fallback_version_txt').show();
-		} else {
-			jQuery('#fastcgi_php_version_txt').show();
-			jQuery('#fastcgi_php_fallback_version_txt').hide();
-		}
-    } else {
+		jQuery('#fastcgi_php_version_txt').show();
+		jQuery('#fastcgi_php_fallback_version_txt').hide();
+	} else {
         jQuery('.fastcgi_php_version:visible').hide();
     }
     //ISPConfig.resetFormChanged();
     
     jQuery('#php').change(function(){
         reloadFastcgiPHPVersions();
-        if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm' || (jQuery(this).val() == 'hhvm' && serverType == 'nginx')){	
+        if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm'){	
             jQuery('.fastcgi_php_version:hidden').show();
-			if(jQuery(this).val() == 'hhvm'){
-				jQuery('#fastcgi_php_version_txt').hide();
-				jQuery('#fastcgi_php_fallback_version_txt').show();
-			} else {
-				jQuery('#fastcgi_php_version_txt').show();
-				jQuery('#fastcgi_php_fallback_version_txt').hide();
-			}
+			jQuery('#fastcgi_php_version_txt').show();
+			jQuery('#fastcgi_php_fallback_version_txt').hide();
         } else {
             jQuery('.fastcgi_php_version:visible').hide();
         }
@@ -373,21 +363,17 @@
 					}
 				});
 */
-                if(selected != "no" && selected != "php-fpm" && selected != "hhvm") {
+                if(selected != "no" && selected != "php-fpm") {
                     jQuery('#php option[value="php-fpm"]').attr('selected', 'selected').val('php-fpm');
                 }
                 jQuery('#php option[value="fast-cgi"]').hide();
-                jQuery('#php option[value="cgi"]').hide();
                 jQuery('#php option[value="mod"]').hide();
-                jQuery('#php option[value="suphp"]').hide();
             } else {
 				serverType = 'apache';
 				jQuery('.nginx').hide();
                 jQuery('.apache').show();
                 jQuery('#php option[value="fast-cgi"]').show();
-                jQuery('#php option[value="cgi"]').show();
                 jQuery('#php option[value="mod"]').show();
-                jQuery('#php option[value="suphp"]').show();
             }
             if(noFormChange) {
                 ISPConfig.resetFormChanged();

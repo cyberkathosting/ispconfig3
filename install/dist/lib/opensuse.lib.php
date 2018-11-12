@@ -663,13 +663,6 @@ class installer_dist extends installer_base {
 		//* enable apache logio module
 		exec('a2enmod logio');
 
-		//if(is_file('/etc/suphp.conf')) {
-		replaceLine('/etc/suphp.conf', 'php=php', 'x-httpd-suphp="php:/srv/www/cgi-bin/php5"', 0, 0);
-		replaceLine('/etc/suphp.conf', 'php="php', 'x-httpd-suphp="php:/srv/www/cgi-bin/php5"', 0, 0);
-		replaceLine('/etc/suphp.conf', 'docroot=', 'docroot=/srv/www', 0, 0);
-		replaceLine('/etc/suphp.conf', 'umask=0077', 'umask=0022', 0);
-		//}
-
 		if(!file_exists('/srv/www/cgi-bin/php5') && file_exists('/srv/www/cgi-bin/php')) {
 			symlink('/srv/www/cgi-bin/php', '/srv/www/cgi-bin/php5');
 		}
@@ -1249,9 +1242,6 @@ class installer_dist extends installer_base {
 				}
 
 			}
-
-			// Fix a setting in vhost master file for suse
-			replaceLine('/usr/local/ispconfig/server/conf/vhost.conf.master', "suPHP_UserGroup", "        suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>", 0);
 		}
 
 		if($conf['nginx']['installed'] == true && $this->install_ispconfig_interface == true){

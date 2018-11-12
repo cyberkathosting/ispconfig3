@@ -243,14 +243,14 @@ class page_action extends tform_actions {
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 
 			if($this->_vhostdomain_type == 'domain') {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
 				}
 			} else {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi'){
@@ -260,7 +260,7 @@ class page_action extends tform_actions {
 			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+					if($this->dataRecord['php'] == 'php-fpm'){
 						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
 					} else {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
@@ -390,14 +390,14 @@ class page_action extends tform_actions {
 			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $selected_client_group_id);
 			$sql_where = " AND (client_id = 0 OR client_id = ?) AND active = 'y'";
 			if($this->_vhostdomain_type == 'domain') {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where." ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where." ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
 				}
 			} else {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
@@ -407,7 +407,7 @@ class page_action extends tform_actions {
 			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+					if($this->dataRecord['php'] == 'php-fpm'){
 						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
 					} else {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
@@ -610,14 +610,14 @@ class page_action extends tform_actions {
 			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $selected_client_group_id);
 			$sql_where = " AND (client_id = 0 OR client_id = ?) AND active = 'y'";
 			if($this->_vhostdomain_type == 'domain') {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where." ORDER BY name", $server_id, $selected_client['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where." ORDER BY name", $server_id, $selected_client['client_id']);
 				}
 			} else {
-				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+				if($this->dataRecord['php'] == 'php-fpm'){
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND active = 'y' ORDER BY name", $parent_domain['server_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
@@ -627,7 +627,7 @@ class page_action extends tform_actions {
 			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
+					if($this->dataRecord['php'] == 'php-fpm'){
 						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
 					} else {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];

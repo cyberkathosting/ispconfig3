@@ -555,19 +555,6 @@ class installer extends installer_base
 			mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 		}
 
-		if (is_file($conf['suphp']['config_file']))
-		{
-			$content = rf($conf['suphp']['config_file']);
-
-			if (!preg_match('|^x-httpd-suphp=php:/usr/bin/php-cgi$|m', $content))
-			{
-				$content = preg_replace('/;Handler for php-scripts/', ";Handler for php-scripts\nx-httpd-suphp=php:/usr/bin/php-cgi", $content);
-				$content = preg_replace('/;?umask=\d+/', 'umask=0022', $content);
-			}
-
-			$this->write_config_file($conf['suphp']['config_file'], $content);
-		}
-
 		//* Enable ISPConfig default vhost settings
 		$default_vhost_path = $conf['apache']['vhost_conf_dir'].'/'.$conf['apache']['vhost_default'];
 		if (is_file($default_vhost_path))

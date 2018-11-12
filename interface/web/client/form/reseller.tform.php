@@ -1097,7 +1097,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'default' => '',
 			'separator' => ',',
-			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
+			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'mod' => 'Mod-PHP', 'php-fpm' => 'PHP-FPM')
 		),
 		'limit_cgi' => array (
 			'datatype' => 'VARCHAR',

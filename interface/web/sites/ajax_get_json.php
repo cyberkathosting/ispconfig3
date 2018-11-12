@@ -92,7 +92,7 @@ if($type == 'getphpfastcgi'){
 		$sql_where .= ")";
 	}
 
-	if($php_type == 'php-fpm' || ($php_type == 'hhvm' && $server_type == 'nginx')){
+	if($php_type == 'php-fpm'){
 		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND active = 'y' ORDER BY name".$sql_where, $server_id);
 	} elseif($php_type == 'fast-cgi'){
 		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y' ORDER BY name".$sql_where, $server_id);
@@ -102,7 +102,7 @@ if($type == 'getphpfastcgi'){
 	$php_select = "";
 	if(is_array($php_records) && !empty($php_records)) {
 		foreach( $php_records as $php_record) {
-			if($php_type == 'php-fpm' || ($php_type == 'hhvm' && $server_type == 'nginx')){
+			if($php_type == 'php-fpm'){
 				$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
 			} else {
 				$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];

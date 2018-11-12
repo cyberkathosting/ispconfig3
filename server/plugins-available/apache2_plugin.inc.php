@@ -159,7 +159,7 @@ class apache2_plugin {
 
 		/* $data contains an array with these keys:
          * file -> full path of changed php_ini
-         * mode -> web_domain php modes to change (mod, fast-cgi, php-fpm, hhvm or '' for all except 'mod')
+         * mode -> web_domain php modes to change (mod, fast-cgi, php-fpm or '' for all except 'mod')
          * php_version -> php ini path that changed (additional php versions)
          */
 
@@ -175,12 +175,6 @@ class apache2_plugin {
 			}
 		} elseif($data['mode'] == 'php-fpm') {
 			$qrystr .= " AND php = 'php-fpm'";
-			if($data['php_version']) {
-				$qrystr .= " AND fastcgi_php_version LIKE ?";
-				$param = '%:' . $data['php_version'] . ':%';
-			}
-		} elseif($data['mode'] == 'hhvm') {
-			$qrystr .= " AND php = 'hhvm'";
 			if($data['php_version']) {
 				$qrystr .= " AND fastcgi_php_version LIKE ?";
 				$param = '%:' . $data['php_version'] . ':%';
@@ -1099,11 +1093,6 @@ class apache2_plugin {
 		if($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') $custom_php_ini_dir .= '_' . $web_folder;
 		if(!is_dir($web_config['website_basedir'].'/conf')) $app->system->mkdir($web_config['website_basedir'].'/conf');
 
-		//* add open_basedir restriction to custom php.ini content, required for suphp only
-		if(!stristr($data['new']['custom_php_ini'], 'open_basedir') && $data['new']['php'] == 'suphp') {
-			$data['new']['custom_php_ini'] .= "\nopen_basedir = '".$data['new']['php_open_basedir']."'\n";
-		}
-
 		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
 
 		if(trim($data['new']['fastcgi_php_version']) != ''){
@@ -1550,7 +1539,7 @@ class apache2_plugin {
 				$default_php_fpm = true;
 			}
 		} else {
-			if(trim($data['old']['fastcgi_php_version']) != '' && ($data['old']['php'] == 'php-fpm' || $data['old']['php'] == 'hhvm')){
+			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
 				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
@@ -1823,7 +1812,6 @@ class apache2_plugin {
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
-		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if apache starts with the new configuration file
@@ -2143,8 +2131,6 @@ class apache2_plugin {
 				// remove PHP-FPM pool
 				if ($data['old']['php'] == 'php-fpm') {
 					$this->php_fpm_pool_delete($data, $web_config);
-				} elseif($data['old']['php'] == 'hhvm') {
-					$this->hhvm_update($data, $web_config);
 				}
 
 				//remove the php cgi starter script if available
@@ -2892,84 +2878,6 @@ class apache2_plugin {
 		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
 			$app->system->unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
-		}
-	}
-
-	private function hhvm_update($data, $web_config) {
-		global $app, $conf;
-		
-		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
-			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
-		} else {
-			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
-		}
-		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_monit.master')) {
-			$monit_content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_monit.master');
-		} else {
-			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
-		}
-		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
-
-			// Custom php.ini settings
-			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
-			if(intval($data['new']['directive_snippets_id']) > 0){
-				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
-				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
-					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
-					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
-						foreach($required_php_snippets as $required_php_snippet){
-							$required_php_snippet = intval($required_php_snippet);
-							if($required_php_snippet > 0){
-								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
-								$php_snippet['snippet'] = trim($php_snippet['snippet']);
-								if($php_snippet['snippet'] != ''){
-									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
-								}
-							}
-						}
-					}
-				}
-			}
-			if($custom_php_ini_settings != ''){
-				// Make sure we only have Unix linebreaks
-				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
-				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				if(@is_dir('/etc/hhvm')) file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
-			} else {
-				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
-			}
-
-			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
-			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
-			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
-			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
-			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
-			
-			if(is_dir('/etc/monit/conf.d')){
-				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
-				file_put_contents('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'], $monit_content);
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])) unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
-				exec('/etc/init.d/monit restart >/dev/null 2>&1');
-			}
-			
- 		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
-			if($data['old']['system_user'] != ''){
-				exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
-				exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
-				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
-				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
-			}
-			
-			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
-					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
-				}
-				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
-					unlink('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user']);
-				}
-				exec('/etc/init.d/monit restart >/dev/null 2>&1');
-			}
 		}
 	}
 
