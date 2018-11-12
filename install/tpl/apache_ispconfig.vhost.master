@@ -4,7 +4,6 @@
 ######################################################
 
 <tmpl_var name="vhost_port_listen"> Listen <tmpl_var name="vhost_port">
-<tmpl_if name='apache_version' op='<' value='2.4' format='version'>NameVirtualHost *:<tmpl_var name="vhost_port"></tmpl_if>
 
 <VirtualHost _default_:<tmpl_var name="vhost_port">>
   ServerAdmin webmaster@localhost
