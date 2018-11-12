@@ -29,8 +29,8 @@ try {
 		'cc' => '',
 		'homedir' => '/var/vmail',
 		'autoresponder' => 'n',
-		'autoresponder_start_date' => array('day' => 1, 'month' => 7, 'year' => 2012, 'hour' => 0, 'minute' => 0),
-		'autoresponder_end_date' => array('day' => 20, 'month' => 7, 'year' => 2012, 'hour' => 0, 'minute' => 0),
+		'autoresponder_start_date' => '',
+		'autoresponder_end_date' => '',
 		'autoresponder_text' => 'hallo',
 		'move_junk' => 'n',
 		'custom_mailfilter' => 'spam',
@@ -42,9 +42,9 @@ try {
 		'disablesmtp' => 'n'
 	);
 
-	$affected_rows = $client->mail_user_add($session_id, $client_id, $params);
+	$mailuser_id = $client->mail_user_add($session_id, $client_id, $params);
 
-	echo "New user: ".$affected_rows."<br>";
+	echo "New user: ".$mailuser_id."<br>";
 
 	if($client->logout($session_id)) {
 		echo 'Logged out.<br />';

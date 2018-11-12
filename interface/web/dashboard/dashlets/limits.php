@@ -8,6 +8,11 @@ class dashlet_limits {
 		$limits = array();
 
 		/* Limits to be shown*/
+		
+		$limits[] = array('field' => 'limit_mailquota',
+			'db_table' => 'mail_user',
+			'db_where' => 'quota > 0',  /* Count only posive value of quota, negative value -1 is unlimited */
+			'q_type' => 'quota');
 
 		$limits[] = array('field' => 'limit_maildomain',
 			'db_table' => 'mail_domain',
@@ -61,6 +66,11 @@ class dashlet_limits {
 			'db_table' => 'spamfilter_policy',
 			'db_where' => "");
 
+		$limits[] = array('field' => 'limit_web_quota',
+			'db_table' => 'web_domain',
+			'db_where' => 'hd_quota > 0', /* Count only posive value of quota, negative value -1 is unlimited */
+			'q_type' => 'hd_quota');
+			
 		$limits[] = array('field' => 'limit_web_domain',
 			'db_table' => 'web_domain',
 			'db_where' => "type = 'vhost'");
@@ -93,6 +103,11 @@ class dashlet_limits {
 			'db_table' => 'dns_rr',
 			'db_where' => "");
 
+		$limits[] = array('field' => 'limit_database_quota',
+			'db_table' => 'web_database',
+			'db_where' => 'database_quota > 0', /* Count only posive value of quota, negative value -1 is unlimited */
+			'q_type' => 'database_quota');
+			
 		$limits[] = array('field' => 'limit_database',
 			'db_table' => 'web_database',
 			'db_where' => "");
@@ -143,17 +158,29 @@ class dashlet_limits {
 			}
 			if($value != 0 || $value == $wb['unlimited_txt']) {
 				$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value;
-				$usage = $this->_get_limit_usage($limit);
+
+				if($limit['q_type']!=''){
+					$usage = $this->_get_assigned_quota($limit) . " MB";
+					$value_formatted = ($value == '-1')?$wb['unlimited_txt']:$value . " MB";
+				}
+				else $usage = $this->_get_limit_usage($limit);
 				$percentage = ($value == '-1' || $value == 0 ? 0 : round(100 * $usage / $value));
+				if($value == $wb['unlimited_txt'] || $value == '-1') {
+					$progressbar = '-1';
+				} else {
+					$progressbar = $percentage > 100 ? 100 : $percentage;
+				}
 				$rows[] = array('field' => $field,
 					'field_txt' => $wb[$field.'_txt'],
 					'value' => $value_formatted,
 					'value_raw' => $value,
 					'usage' => $usage,
 					'usage_raw' => $usage,
-					'percentage' => $percentage);
+					'percentage' => $percentage,
+					'progressbar' => $progressbar);
 			}
 		}
+		$rows = $app->functions->htmlentities($rows);
 		$tpl->setLoop('rows', $rows);
 
 
@@ -169,6 +196,19 @@ class dashlet_limits {
 		$sql .= $app->tform->getAuthSQL('r');
 		$rec = $app->db->queryOneRecord($sql, $limit['db_table']);
 		return $rec['number'];
+
+	}
+	
+	function _get_assigned_quota($limit) {
+		global $app;
+
+		$sql = "SELECT sum(??) as number FROM ?? WHERE ";
+		if($limit['db_where'] != '') $sql .= $limit['db_where']." AND ";
+		$sql .= $app->tform->getAuthSQL('r');
+		$rec = $app->db->queryOneRecord($sql, $limit['q_type'], $limit['db_table']);
+		if($limit['db_table']=='mail_user') $quotaMB = $rec['number'] / 1048576; // Mail quota is in bytes, must be converted to MB
+		else $quotaMB = $rec['number'];
+		return $quotaMB;
 
 	}
 

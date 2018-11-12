@@ -8,6 +8,11 @@ class dashlet_databasequota {
 		//* Loading Template
 		$app->uses('tpl,quota_lib');
 
+		$modules = $_SESSION['s']['user']['modules'];
+		if (!in_array($modules, 'sites')) {
+			return '';
+		}
+
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/databasequota.htm");
 
@@ -18,24 +23,15 @@ class dashlet_databasequota {
 
 		$databases = $app->quota_lib->get_databasequota_data( ($_SESSION["s"]["user"]["typ"] != 'admin') ? $_SESSION['s']['user']['client_id'] : null);
 		//print_r($databases);
-
 		$has_databasequota = false;
 		if(is_array($databases) && !empty($databases)){
+			$databases = $app->functions->htmlentities($databases);
 			$tpl->setloop('databasequota', $databases);
 			$has_databasequota = isset($databases[0]['used']);
 		}
 		$tpl->setVar('has_databasequota', $has_databasequota);
-		
+		//var_dump($tpl);
 		return $tpl->grab();
 	}
-
 }
-
-
-
-
-
-
-
-
 ?>

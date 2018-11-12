@@ -226,21 +226,26 @@ if (!defined('vlibTemplateClassLoaded')) {
 		 * using the keys as variable names and the values as variable values.
 		 * @param mixed $k key to define variable name
 		 * @param mixed $v variable to assign to $k
+		 * @param bool $encode if set to true use htmlentities on values
 		 * @return boolean true/false
 		 * @access public
 		 */
-		public function setVar($k, $v = null)
+		public function setVar($k, $v = null, $encode = false)
 		{
+			global $app;
+			
 			if (is_array($k)) {
 				foreach($k as $key => $value){
 					$key = ($this->OPTIONS['CASELESS']) ? strtolower(trim($key)) : trim($key);
 					if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $key) && $value !== null ) {
+						if($encode == true) $value = $app->functions->htmlentities($value);
 						$this->_vars[$key] = $value;
 					}
 				}
 			} else {
 				if (preg_match('/^[A-Za-z_]+[A-Za-z0-9_]*$/', $k) && $v !== null) {
 					if ($this->OPTIONS['CASELESS']) $k = strtolower($k);
+					if($encode == true) $v = $app->functions->htmlentities($v);
 					$this->_vars[trim($k)] = $v;
 				} else {
 					return false;

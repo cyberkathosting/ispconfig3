@@ -180,7 +180,7 @@ class listform_actions {
 						$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
 					}
 					//* substitute value for select field
-					$rec[$key] = @$field['value'][$rec[$key]];
+					$rec[$key] = $app->functions->htmlentities(@$field['value'][$rec[$key]]);
 				}
 			}
 		}
@@ -249,7 +249,7 @@ class listform_actions {
 		global $app;
 
 		//* Set global Language File
-		$lng_file = ISPC_LIB_PATH.'/lang/'.$_SESSION['s']['language'].'.lng';
+		$lng_file = ISPC_LIB_PATH.'/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 		if(!file_exists($lng_file))
 			$lng_file = ISPC_LIB_PATH.'/lang/en.lng';
 		include $lng_file;

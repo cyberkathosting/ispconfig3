@@ -9,12 +9,14 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th data-column="domain"><tmpl_var name="domain_txt"></th>
-                        <th data-column="this_month"><tmpl_var name="this_month_txt"></th>
-                        <th data-column="last_month"><tmpl_var name="last_month_txt"></th>
-                        <th data-column="this_year"><tmpl_var name="this_year_txt"></th>
-                        <th data-column="last_year"><tmpl_var name="last_year_txt"></th>
-                        <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+                        <th class="col-md-3" data-column="domain"><tmpl_var name="domain_txt"></th>
+                        <th class="col-md-2" data-column="this_month_sort"><tmpl_var name="this_month_txt"></th>
+                        <th class="col-md-2" data-column="last_month_sort"><tmpl_var name="last_month_txt"></th>
+                        <th class="col-md-2" data-column="this_year_sort"><tmpl_var name="this_year_txt"></th>
+                        <th class="col-md-2" data-column="last_year_sort"><tmpl_var name="last_year_txt"></th>
+			<th class="col-md-2" data-column="quota_sort"><tmpl_var name="quota_txt"></th>
+			<th class="col-md-2" data-column="percentage"><tmpl_var name="percentage_txt"></th>
+                        <th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_domain" value="{tmpl_var name='search_domain'}" /></td>
@@ -22,7 +24,8 @@
                         <td class="last_month"></td>
                         <td class="this_year"></td>
                         <td class="last_year"></td>
-                        <td class="text-right">
+			<td class="quota"></td>
+                        <td colspan="2" class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="sites/web_sites_stats.php"><span class="icon icon-filter"></span></button>
                         </td>
                     </tr>
@@ -35,7 +38,10 @@
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_month"}</a></td>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="this_year"}</a></td>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="last_year"}</a></td>
-                        <td class="text-right"></td>
+			<td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>
+                        <td colspan="2">{tmpl_if name="progressbar" op="!=" value="-1"}<div class="progress" style="height: 20px">
+                                        <div class='progress-bar-striped progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role="progressbar" style="width: {tmpl_var name="progressbar"}%;" aria-valuenow="{tmpl_var name="percentage"}" aria-valuemin="0" aria-valuemax="100"><span{tmpl_if name="progressbar" op="<" value="25"} class="pbvaluemargin"{/tmpl_if}>{tmpl_var name="percentage"}%</span></div>
+                                </div>{/tmpl_if}</td>
                     </tr>
                 </tmpl_loop>
                 <tmpl_unless name="records">
@@ -49,7 +55,7 @@
                         <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_month"}</a></td>
                         <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_this_year"}</a></td>
                         <td><a href="#" onclick="return false;" style="font-weight:bold;">{tmpl_var name="sum_last_year"}</a></td>
-                        <td class="text-right"></td>
+                        <td colspan="3" class="text-right"></td>
                     </tr>
                 </tbody>
                 <tfoot>

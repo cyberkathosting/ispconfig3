@@ -55,7 +55,7 @@ $sql_select_policy =
 
 
 $sql_select_white_black_list = 'SELECT wb FROM spamfilter_wblist'.
-    ' WHERE (spamfilter_wblist.rid=?) AND (spamfilter_wblist.email IN (%k))' .
+    ' WHERE (spamfilter_wblist.rid=?) AND (spamfilter_wblist.email IN (%k)) AND (spamfilter_wblist.active="y")' .
     ' ORDER BY spamfilter_wblist.priority DESC';
 
 #
@@ -112,9 +112,10 @@ $policy_bank{'ORIGINATING'} = {
 # Allow SMTP access from IPs in @inet_acl to amvisd SMTP Port
 @inet_acl = qw( 127.0.0.1 [::1] 192.168.0.0/16 );
 
-$signed_header_fields{'received'} = 0; # turn off signing of Received
+# DKIM
 $enable_dkim_verification = 1;
-$enable_dkim_signing = 1;
+$enable_dkim_signing = 1; # load DKIM signing code
+$signed_header_fields{'received'} = 0;  # turn off signing of Received
 @dkim_signature_options_bysender_maps = (
 { '.' => { ttl => 21*24*3600, c => 'relaxed/simple' } } );
 

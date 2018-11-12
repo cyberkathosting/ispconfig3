@@ -308,7 +308,9 @@ class remoting_lib extends tform_base {
 		global $app;
 		$username = $params["username"];
 		$clear_password = $params["password"];
+		$language = $params['language'];
 		$client_id = $app->functions->intval($client_id);
+
 		if(!isset($params['_ispconfig_pw_crypted']) || $params['_ispconfig_pw_crypted'] != 1) $password = $app->auth->crypt_password(stripslashes($clear_password));
 		else $password = $clear_password;
 		$params = array($username);
@@ -318,8 +320,15 @@ class remoting_lib extends tform_base {
 		} else {
 			$pwstring ="" ;
 		}
+
+		$langstring = '';
+		if (!empty($language)) {
+			$langstring = ', language = ?';
+			$params[] = $language;
+		}
+
 		$params[] = $client_id;
-		$sql = "UPDATE sys_user set username = ? $pwstring WHERE client_id = ?";
+		$sql = "UPDATE sys_user set username = ? $pwstring $langstring WHERE client_id = ?";
 		$app->db->query($sql, true, $params);
 	}
 

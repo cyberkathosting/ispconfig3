@@ -49,32 +49,27 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 	//* CSRF Check
 	$app->auth->csrf_token_check();
 
-	//* Set variable sin template
-	$app->tpl->setVar('dbhost', $_POST['dbhost']);
-	$app->tpl->setVar('dbname', $_POST['dbname']);
-	$app->tpl->setVar('dbuser', $_POST['dbuser']);
-	$app->tpl->setVar('dbpassword', $_POST['dbpassword']);
+	//* Set variables in template
+	$app->tpl->setVar('dbhost', $_POST['dbhost'], true);
+	$app->tpl->setVar('dbname', $_POST['dbname'], true);
+	$app->tpl->setVar('dbuser', $_POST['dbuser'], true);
+	$app->tpl->setVar('dbpassword', $_POST['dbpassword'], true);
+	$app->tpl->setVar('dbssl', 'true', true);
 
 	//* Establish connection to external database
 	$msg .= 'Connecting to external database...<br />';
 
-	//* Backup DB login details
-	/*$conf_bak['db_host'] = $conf['db_host'];
-	$conf_bak['db_database'] = $conf['db_database'];
-	$conf_bak['db_user'] = $conf['db_user'];
-	$conf_bak['db_password'] = $conf['db_password'];*/
+	//* Set external db client flags
+	$db_client_flags = 0;
+	if(isset($_POST['dbssl']) && $_POST['dbssl'] == 1) $db_client_flags |= MYSQLI_CLIENT_SSL;
 
-	//* Set external Login details
-	$conf['imp_db_host'] = $_POST['dbhost'];
-	$conf['imp_db_database'] = $_POST['dbname'];
-	$conf['imp_db_user'] = $_POST['dbuser'];
-	$conf['imp_db_password'] = $_POST['dbpassword'];
-	$conf['imp_db_charset'] = $conf['db_charset'];
-	$conf['imp_db_new_link'] = $conf['db_new_link'];
-	$conf['imp_db_client_flags'] = $conf['db_client_flags'];
-
-	//* create new db object
-	$exdb = new db('imp');
+	//* create new db object with external login details
+	try {
+		$exdb = new db($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpassword'], $_POST['dbname'], 3306, $db_client_flags);
+	} catch (Exception $e) {
+		$error .= "Error connecting to Tupa database" . ($e->getMessage() ? ": " . $e->getMessage() : '.') . "<br />\n";
+		$exdb = false;
+	}
 
 	$server_id = 1;
 	$sys_userid = 1;
@@ -159,25 +154,12 @@ if(isset($_POST['start']) && $_POST['start'] == 1) {
 							);
 							$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 							//$msg .= $insert_data.'<br />';
-
 						}
 					}
 				}
-
 			}
 		}
-
-
-
-	} else {
-		$error .= $exdb->errorMessage;
 	}
-
-	//* restore db login details
-	/*$conf['db_host'] = $conf_bak['db_host'];
-	$conf['db_database'] = $conf_bak['db_database'];
-	$conf['db_user'] = $conf_bak['db_user'];
-	$conf['db_password'] = $conf_bak['db_password'];*/
 
 }
 

@@ -32,7 +32,7 @@ $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/openvz_action.htm');
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_openvz_action.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_openvz_action.lng';
 include_once $lng_file;
 $app->tpl->setVar($wb);
 

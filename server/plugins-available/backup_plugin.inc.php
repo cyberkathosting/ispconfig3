@@ -70,7 +70,7 @@ class backup_plugin {
 
 			$app->uses('ini_parser,file,getconf,system');
 
-			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = trim($server_config['backup_dir']);
 			if($backup_dir == '') return;
@@ -170,7 +170,7 @@ class backup_plugin {
 						
 						$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 						$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
-						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						$app->log('unlink '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}
@@ -296,7 +296,7 @@ class backup_plugin {
 						unlink($mail_backup_file);
 						$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 						$app->db->query($sql, $conf['server_id'], $mail_backup['parent_domain_id'], $mail_backup['filename']);
-						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+						if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $mail_backup['parent_domain_id'], $mail_backup['filename']);
 						$app->log('unlink '.$backup_dir.'/'.$mail_backup['filename'], LOGLEVEL_DEBUG);
 					}
 				}

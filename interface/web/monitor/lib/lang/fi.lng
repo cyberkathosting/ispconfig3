@@ -64,6 +64,7 @@ $wb['monitor_logs_clamav_txt'] = 'Clamav-päivitysloki';
 $wb['monitor_logs_ispc_txt'] = 'ISPConfig-pääloki';
 $wb['monitor_norkhunter_txt'] = 'RKHunter ei ole asennettuna, joten siitä ei ole tulostietoja.';
 $wb['monitor_serverstate_server_txt'] = 'Palvelin';
+$wb['monitor_serverstate_kernel_txt'] = 'Kernel';
 $wb['monitor_serverstate_state_txt'] = 'Tila';
 $wb['monitor_serverstate_unknown_txt'] = 'tuntematonta';
 $wb['monitor_serverstate_info_txt'] = 'viestiä';

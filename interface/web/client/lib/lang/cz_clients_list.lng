@@ -8,4 +8,7 @@ $wb['country_txt'] = 'Stát';
 $wb['add_new_record_txt'] = 'Vytvořit klienta';
 $wb['username_txt'] = 'Uživatelské jméno';
 $wb['customer_no_txt'] = 'Zákaznické číslo';
+$wb['locked_txt'] = 'Locked';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>

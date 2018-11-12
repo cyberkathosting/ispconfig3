@@ -47,6 +47,7 @@ class custom_datasource {
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+
 			$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$sql = "SELECT server_id,server_name FROM server WHERE server_id = ?";
 		} else {
@@ -167,9 +168,10 @@ class custom_datasource {
 			$sql = "SELECT $server_type as server_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?";
 			$client = $app->db->queryOneRecord($sql, $client_group_id);
 			if($client['server_id'] > 0) {
-				//* Select the default server for the client
-				$sql = "SELECT server_id,server_name FROM server WHERE server_id = ?";
-				$records = $app->db->queryAllRecords($sql, $client['server_id']);
+				//* Select the available servers for the client
+				$clientservers = $client['server_id'];
+				$sql = "SELECT server_id,server_name FROM server WHERE server_id IN ($clientservers) ORDER BY server_name";
+				$records = $app->db->queryAllRecords($sql);
 			} else {
 				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
 				$app->log('Unable to find default server for client in custom_datasource.inc.php', 1);
@@ -182,7 +184,7 @@ class custom_datasource {
 			$records = $app->db->queryAllRecords($sql, $field);
 		}
 
-		
+
 		$records_new = array();
 		if(is_array($records)) {
 			foreach($records as $rec) {

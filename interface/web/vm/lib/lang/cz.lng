@@ -1,5 +1,5 @@
 <?php
-$wb['Virtual Servers'] = 'Virtual Servers';
+$wb['Virtual Servers'] = 'Virtuální servery';
 $wb['OS Templates'] = 'OS Šablony';
 $wb['VM Templates'] = 'VM Šablony';
 $wb['IP addresses'] = 'IP adresy';

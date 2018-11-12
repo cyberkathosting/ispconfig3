@@ -134,7 +134,7 @@ class tform_base {
 		$this->module = $module;
 		$wb = array();
 
-		include_once ISPC_ROOT_PATH.'/lib/lang/'.$_SESSION['s']['language'].'.lng';
+		include_once ISPC_ROOT_PATH.'/lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 
 		if(is_array($wb)) $wb_global = $wb;
 
@@ -143,7 +143,7 @@ class tform_base {
 			if(!file_exists($lng_file)) $lng_file = "lib/lang/en_".$this->formDef["name"].".lng";
 			include $lng_file;
 		} else {
-			$lng_file = "../$module/lib/lang/".$_SESSION["s"]["language"]."_".$this->formDef["name"].".lng";
+			$lng_file = "../$module/lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_".$this->formDef["name"].".lng";
 			if(!file_exists($lng_file)) $lng_file = "../$module/lib/lang/en_".$this->formDef["name"].".lng";
 			include $lng_file;
 		}
@@ -245,7 +245,7 @@ class tform_base {
 	 */
 	function decode($record, $tab) {
 		global $conf, $app;
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab does not exist or the tab is empty (TAB: ".$app->functions->htmlentities($tab).").");
 		return $this->_decode($record, $tab, false);
 	}
 
@@ -416,7 +416,7 @@ class tform_base {
 		$this->action = $action;
 
 		if(!is_array($this->formDef)) $app->error("No form definition found.");
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 
 		/* CSRF PROTECTION */
 		// generate csrf protection id and key
@@ -473,9 +473,8 @@ class tform_base {
 						if(is_array($field['value'])) {
 							foreach($field['value'] as $k => $v) {
 								$selected = ($k == $val)?' SELECTED':'';
-								if(isset($this->wordbook[$v]))
-									$v = $this->wordbook[$v];
-								$v = $app->functions->htmlentities($v);
+								if(isset($this->wordbook[$v])) $v = $this->wordbook[$v];
+								else $v = $app->functions->htmlentities($v);
 								$out .= "<option value='$k'$selected>".$this->lng($v)."</option>\r\n";
 							}
 						}
@@ -869,7 +868,7 @@ class tform_base {
 	function encode($record, $tab, $dbencode = true) {
 		global $app;
 
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("Tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 		return $this->_encode($record, $tab, $dbencode, false);
 	}
 
@@ -914,7 +913,7 @@ class tform_base {
 					$returnval = preg_replace('/\s+/', '', $returnval);
 					break;
 				case 'STRIPTAGS':
-					$returnval = strip_tags(preg_replace('/<script[^>]*>/is', '', $returnval));
+					$returnval = strip_tags(preg_replace('/<script[^>]*?>.*?<\/script>/is', '', $returnval));
 					break;
 				case 'STRIPNL':
 					$returnval = str_replace(array("\n","\r"),'', $returnval);
@@ -1447,7 +1446,7 @@ class tform_base {
 		}
 
 		if(!is_array($this->formDef)) $app->error("Form definition not found.");
-		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: $tab).");
+		if(!is_array($this->formDef['tabs'][$tab])) $app->error("The tab is empty or does not exist (TAB: ".$app->functions->htmlentities($tab).").");
 
 		return $this->_getSQL($record, $tab, $action, $primary_id, $sql_ext_where, false);
 	}

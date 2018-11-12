@@ -102,6 +102,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	// load the list of clients
 	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 	$clients = $app->db->queryAllRecords($sql);
+	$clients = $app->functions->htmlentities($clients);
 	$client_select = '';
 	if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 	if(is_array($clients)) {
@@ -119,11 +120,12 @@ if ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSIO
 	// Get the limits of the client
 	$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 	$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-
+	$client = $app->functions->htmlentities($client);
 
 	// load the list of clients
 	$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 	$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+	$clients = $app->functions->htmlentities($clients);
 	$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 	$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 	if(is_array($clients)) {
@@ -202,7 +204,7 @@ if ($settings['use_domain_module'] == 'y') {
 	}
 }
 
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_dns_import.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_dns_import.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
@@ -585,6 +587,15 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			if($dns_rr[$r]['type'] == 'NS' && $dns_rr[$r]['name'] == $soa['name']){
 				unset($dns_rr[$r]);
 			}
+			
+			$valid = true;
+			$dns_rr[$r]['ttl'] = $app->functions->intval($dns_rr[$r]['ttl']);
+			$dns_rr[$r]['aux'] = $app->functions->intval($dns_rr[$r]['aux']);
+			$dns_rr[$r]['data'] = strip_tags($dns_rr[$r]['data']);
+			if(!preg_match('/^[a-zA-Z0-9\.\-\*]{0,64}$/',$dns_rr[$r]['name'])) $valid == false;
+			if(!in_array(strtoupper($dns_rr[$r]['type']),array('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY'))) $valid == false;
+			if($valid == false) unset($dns_rr[$r]);
+			
 			$r++;
 		}
 		$i++;
@@ -595,6 +606,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		$dns_rr[$r]['type'] = 'NS';
 		$dns_rr[$r]['data'] = $server['server_name'];
 		$dns_rr[$r]['aux'] = 0;
+		$dns_rr[$r]['ttl'] = $soa['ttl'];
 		$r++;
 	}
 	//print('<pre>');

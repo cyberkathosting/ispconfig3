@@ -148,16 +148,19 @@ class mail_user_filter_plugin {
 				}
 				$content .= 'if size :over '.intval($page_form->dataRecord["searchterm"]).$unit.' {'."\n";
 			} else {
-			
-				if($page_form->dataRecord["source"] == 'Header') {
-					$parts = explode(':',trim($page_form->dataRecord["searchterm"]));
-					$page_form->dataRecord["source"] = trim($parts[0]);
-					unset($parts[0]);
-					$page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
-					unset($parts);
-				}
+				if($page_form->dataRecord["source"] == 'Detail') {
+					$content .= 'if envelope :detail :regex "to" ["';
+				} else {
+                    if($page_form->dataRecord["source"] == 'Header') {
+                        $parts = explode(':',trim($page_form->dataRecord["searchterm"]));
+                        $page_form->dataRecord["source"] = trim($parts[0]);
+                        unset($parts[0]);
+                        $page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
+                        unset($parts);
+                    }
 
-				$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
+                    $content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
+				}
 
 				$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
 				$searchterm = str_replace(

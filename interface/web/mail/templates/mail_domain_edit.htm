@@ -101,7 +101,7 @@
                 <label for="dkim_private" class="col-sm-3 control-label">{tmpl_var name='dkim_private_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="dkim_private" id="dkim_private" rows='10' cols='30'>{tmpl_var name='dkim_private'}</textarea></div>
               </div>
-				<a class="btn btn-default formbutton-default" href="javascript:setRequest('create')" value="{tmpl_var name='dkim_generate_txt'}">{tmpl_var name='dkim_generate_txt'}</a>
+				<a class="btn btn-default formbutton-default" id="dkim-button" value="{tmpl_var name='dkim_generate_txt'}">{tmpl_var name='dkim_generate_txt'}</a>
 		<div class="form-group">
                 <div class="col-sm-9"><textarea class="form-control" name="dkim_public" style="display:none;" id="dkim_public" rows='5' cols='30' readonly>{tmpl_var name='dkim_public'}</textarea></div>
               </div>
@@ -121,4 +121,26 @@
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
-<script language="JavaScript" type="text/javascript" src="js/mail_domain_dkim.js"></script>
+<script language="JavaScript" type="text/javascript">
+	$("#dkim-button").click(function() { getDKIM(); });
+
+	function getDKIM() {
+		var domain_id = jQuery('#domain').val();
+		var dkim_selector = jQuery('#dkim_selector').val();
+		var dkim_public = jQuery('#dkim_public').val();
+		jQuery.getJSON('mail/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {
+			domain_id : domain_id,
+			dkim_public : dkim_public,
+			dkim_selector : dkim_selector,
+			type : "create_dkim" 
+		}, function(data) {
+			var dns=data['dkim_selector'] + '._domainkey.' + data['domain'] + '. 3600	TXT	v=DKIM1; t=s; p=' + data['dns_record'];
+			$("#dkim_selector").val(data.dkim_selector);
+			$("#dkim_public").val(data.dkim_public);
+			$("#dkim_private").val(data.dkim_private);
+			$("#dns_record").val(dns);
+		});
+	};
+</script>
+
+

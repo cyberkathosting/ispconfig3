@@ -54,7 +54,7 @@ $liste["item"][] = array( 'field'  => "local",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
 
 $liste["item"][] = array( 'field'  => "server_id",

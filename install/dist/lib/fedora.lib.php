@@ -394,7 +394,7 @@ class installer_dist extends installer_base {
 			}
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop} -a ${original_recipient}'."\n";
 			af($conf["postfix"]["config_dir"].'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
@@ -442,6 +442,13 @@ class installer_dist extends installer_base {
 			}
 			if(version_compare($dovecot_version,2.1) < 0) {
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+			}
+			if(version_compare($dovecot_version,2.2) >= 0) {
+				// Dovecot > 2.2 does not recognize !SSLv2 anymore on Debian 9
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('!SSLv2','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = webmaster@localhost', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
@@ -715,6 +722,12 @@ class installer_dist extends installer_base {
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
 		
+		if($this->is_update == true) {
+			$tpl->setVar('logging',get_logging_state());
+		} else {
+			$tpl->setVar('logging','yes');
+		}
+		
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
 		
@@ -799,6 +812,17 @@ class installer_dist extends installer_base {
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+	
+		// add anonymized log option to nginxx.conf file
+		$nginx_conf_file = $conf['nginx']['config_dir'].'/nginx.conf';
+		if(is_file($nginx_conf_file)) {
+			$tmp = file_get_contents($nginx_conf_file);
+			if(!stristr($tmp, 'log_format anonymized')) {
+				copy($nginx_conf_file,$nginx_conf_file.'~');
+				replaceLine($nginx_conf_file, 'http {', "http {\n\n".file_get_contents('tpl/nginx_anonlog.master'), 0, 0);
+			}
+		}
+	
 	}
 
 	public function configure_bastille_firewall()
@@ -1076,6 +1100,8 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chown root:ispconfig '.$install_dir.'/security/apache_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		$command = 'chown root:ispconfig '.$install_dir.'/security/nginx_directives.blacklist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		//* Make the global language file directory group writable
 		exec("chmod -R 770 $install_dir/interface/lib/lang");
@@ -1149,6 +1175,11 @@ class installer_dist extends installer_base {
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
+		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
+			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
+			$this->db->query($sql, $conf['interface_password']);
+		}
+		
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			// TODO: These are missing! should they be "vhost_dist_*_dir" ?

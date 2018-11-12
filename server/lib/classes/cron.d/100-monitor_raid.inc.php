@@ -275,6 +275,52 @@ class cronjob_monitor_raid extends cronjob {
 			}
 		}
 
+    	/*
+		* HP Proliant new HPE Command Line Smart Storage Administration Utility
+		*/
+		system('which ssacli', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('/usr/sbin/ssacli ctrl all show config');
+			$tmp = explode("\n", $data['output']);
+			if(is_array($tmp)) {
+				foreach ($tmp as $item) {
+					if (strpos($item, 'logicaldrive') !== false) {
+						if (strpos($item, 'OK') !== false) {
+							$this->_tools->_setState($state = 'ok');
+						} elseif (strpos($item, 'Recovery Mode') !== false) {
+							$this->_tools->_setState($state = 'critical');
+							break;
+						} elseif (strpos($item, 'Failed') !== false) {
+							$this->_tools->_setState($state = 'error');
+							break;
+						} elseif (strpos($item, 'Recovering') !== false) {
+							$this->_tools->_setState($state = 'info');
+							break;
+						} else {
+							$this->_tools->_setState($state = 'critical');
+						}
+					}
+					if (strpos($item, 'physicaldrive') !== false) {
+						if (strpos($item, 'physicaldrive') !== false) {
+							if (strpos($item, 'OK') !== false) {
+								$this->_tools->_setState($state = 'ok');
+							} elseif (strpos($item, 'Failed') !== false) {
+								$this->_tools->_setState($state = 'critical');
+								break;
+							} elseif (strpos($item, 'Rebuilding') !== false) {
+								$this->_tools->_setState($state = 'info');
+								break;
+							} else {
+								$this->_tools->_setState($state = 'critical');
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		/*
 		* LSI MegaRaid
 		*/
@@ -283,7 +329,7 @@ class cronjob_monitor_raid extends cronjob {
 		if($retval === 0 || $retval64 === 0) {
 			$binary=@($retval === 0)?'megacli':'megacli64';
 			$state = 'ok';
-			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll');
+			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll -NoLog');
 			if (strpos($data['output'], 'Optimal') !== false) {
 				$this->_tools->_setState($state, 'ok');
 			} else if (strpos($data['output'], 'Degraded') !== false) {
@@ -310,6 +356,29 @@ class cronjob_monitor_raid extends cronjob {
 						} else {
 							$this->_tools->_setState($state, 'critical');
 						}
+					}
+				}
+			}
+		}
+
+		/*
+		* SAS2IRCU
+		*/
+		system('which sas2ircu', $retval);
+		if($retval === 0) {
+			$state = 'ok';
+			$data['output'] = shell_exec('sas2ircu 0 DISPLAY');
+			if(is_array($data['output'])) {
+				foreach ($data['output'] as $item) {
+					if (strpos($item, 'Optimal (OPT)') !== false) {
+						$this->_tools->_setState($state, 'ok');
+					} else {
+						$this->_tools->_setState($state, 'critical');
+					}
+					if (strpos($item, 'Okay (OKY)') !== false) {
+						$this->_tools->_setState($state, 'ok');
+					} else {
+						$this->_tools->_setState($state, 'critical');
 					}
 				}
 			}

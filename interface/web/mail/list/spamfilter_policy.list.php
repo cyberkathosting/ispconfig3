@@ -65,7 +65,7 @@ $liste["item"][] = array( 'field'  => "virus_lover",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
 
 $liste["item"][] = array( 'field'  => "spam_lover",
@@ -75,7 +75,7 @@ $liste["item"][] = array( 'field'  => "spam_lover",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
 
 $liste["item"][] = array( 'field'  => "banned_files_lover",
@@ -85,7 +85,7 @@ $liste["item"][] = array( 'field'  => "banned_files_lover",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
 
 $liste["item"][] = array( 'field'  => "bad_header_lover",
@@ -95,7 +95,7 @@ $liste["item"][] = array( 'field'  => "bad_header_lover",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('Y' => "<div id=\"ir-Yes\" class=\"swap\"><span>".$app->lng('yes_txt')."</span></div>", 'N' => "<div class=\"swap\" id=\"ir-No\"><span>".$app->lng('no_txt')."</span></div>"));
+	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
 
 

@@ -73,6 +73,12 @@ $form["tabs"]['filter'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'rulename_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -82,7 +88,7 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt')
+			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt', 'Detail'=>'detail_txt')
 		),
 		'op' => array (
 			'datatype' => 'VARCHAR',
@@ -96,6 +102,10 @@ $form["tabs"]['filter'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'searchterm_is_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',

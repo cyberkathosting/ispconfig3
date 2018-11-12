@@ -81,6 +81,12 @@ $form["tabs"]['groups'] = array (
 		'name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'regex'  => '/^.{1,30}$/',
 			'errmsg' => 'name_err',
 			'default' => '',
@@ -94,6 +100,10 @@ $form["tabs"]['groups'] = array (
 		'description' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 			'regex'  => '',
 			'errmsg' => '',
 			'default' => '',

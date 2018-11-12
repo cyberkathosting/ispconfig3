@@ -32,4 +32,5 @@ $wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
 $wb['username_error_collision'] = 'Der Benutzername darf nicht <b>web<b> oder <b>web<b> gefolgt von einer Zahl sein.';
 $wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 $wb['lost_password_function_txt'] = 'Passwort vergessen Funktion steht zur Verfügung';
+$wb['no_user_insert'] = 'CP-Users of type -user- get added and updated automatically when you add a client or reseller.';
 ?>

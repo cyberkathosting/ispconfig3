@@ -82,6 +82,12 @@ $form["tabs"]['template'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'error_template_name_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -416,6 +422,18 @@ $form["tabs"]['limits'] = array (
             'value'  => array(0 => 'n', 1 => 'y')
         ),
         'limit_xmpp_status' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value'  => array(0 => 'n', 1 => 'y')
+        ),
+        'limit_xmpp_webpresence' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'CHECKBOX',
+            'default' => 'n',
+            'value'  => array(0 => 'n', 1 => 'y')
+        ),
+        'limit_xmpp_http_upload' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'CHECKBOX',
             'default' => 'n',

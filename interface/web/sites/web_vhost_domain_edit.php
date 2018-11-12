@@ -115,7 +115,7 @@ class page_action extends tform_actions {
 			$client = $app->db->queryOneRecord("SELECT client.web_servers FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$web_servers = explode(',', $client['web_servers']);
 			$server_id = $web_servers[0];
-			$app->tpl->setVar("server_id_value", $server_id);
+			$app->tpl->setVar("server_id_value", $server_id, true);
 			unset($web_servers);
 		} else {
 			$settings = $app->getconf->get_global_config('sites');
@@ -130,7 +130,7 @@ class page_action extends tform_actions {
 		$app->tform->formDef['tabs']['domain']['fields']['php']['default'] = $web_config['php_handler'];
 		$app->tform->formDef['tabs']['domain']['readonly'] = false;
 
-		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
+		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 		parent::onShowNew();
 	}
 
@@ -179,7 +179,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($web_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);
@@ -214,7 +214,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -230,7 +230,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -244,20 +244,20 @@ class page_action extends tform_actions {
 
 			if($this->_vhostdomain_type == 'domain') {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi'){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $_SESSION['s']['user']['client_id']);
 				}
 			} else {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi'){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -266,7 +266,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -290,6 +290,7 @@ class page_action extends tform_actions {
 			} elseif($this->_vhostdomain_type == 'aliasdomain') {
 				$client = $app->db->queryOneRecord("SELECT client.client_id, client.limit_web_aliasdomain, client.web_servers, client.default_webserver, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name, client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			}
+			$client = $app->functions->htmlentities($client);
 
 			$client['web_servers_ids'] = explode(',', $client['web_servers']);
 			$only_one_server = count($client['web_servers_ids']) === 1;
@@ -305,7 +306,7 @@ class page_action extends tform_actions {
 			$options_web_servers = "";
 
 			foreach ($web_servers as $web_server) {
-				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$web_server['server_name'].'</option>';
+				$options_web_servers .= '<option value="'.$web_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $web_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($web_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("server_id", $options_web_servers);
@@ -326,6 +327,7 @@ class page_action extends tform_actions {
 				// Fill the client select field
 				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 				$records = $app->db->queryAllRecords($sql, $client['client_id']);
+				$records = $app->functions->htmlentities($records);
 				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -359,7 +361,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -374,7 +376,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -386,23 +388,23 @@ class page_action extends tform_actions {
 			if(!empty($web_config[$server_id]['server_type'])) $server_type = $web_config[$server_id]['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $selected_client_group_id);
-			$sql_where = " AND (client_id = 0 OR client_id = ?)";
+			$sql_where = " AND (client_id = 0 OR client_id = ?) AND active = 'y'";
 			if($this->_vhostdomain_type == 'domain') {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where, ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where." ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where, ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where." ORDER BY name", ($this->id > 0 ? $this->dataRecord['server_id'] : $client['default_webserver']), $selected_client['client_id']);
 				}
 			} else {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?)", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y' ORDER BY name", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -411,7 +413,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -439,7 +441,7 @@ class page_action extends tform_actions {
 					$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($php_directive_snippets as $php_directive_snippet){
 						$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -462,7 +464,7 @@ class page_action extends tform_actions {
 						$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($apache_directive_snippets as $apache_directive_snippet){
 							$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 					}
 					if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -476,7 +478,7 @@ class page_action extends tform_actions {
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
 							$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 						$nginx_directive_snippets_txt .= '<br><br>';
 					}
@@ -486,7 +488,7 @@ class page_action extends tform_actions {
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
 							$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 						}
 					}
 					if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -499,7 +501,7 @@ class page_action extends tform_actions {
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
 						$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$proxy_directive_snippets_txt .= '<br><br>';
 				}
@@ -509,7 +511,7 @@ class page_action extends tform_actions {
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
 						$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -555,7 +557,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ip_address", $ip_select);
@@ -570,7 +572,7 @@ class page_action extends tform_actions {
 			if(is_array($ips)) {
 				foreach( $ips as $ip) {
 					$selected = ($ip["ip_address"] == $this->dataRecord["ipv6_address"])?'SELECTED':'';
-					$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+					$ip_select .= "<option value='" . $app->functions->htmlentities($ip['ip_address']) . "' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("ipv6_address", $ip_select);
@@ -585,6 +587,7 @@ class page_action extends tform_actions {
 				// Fill the client select field
 				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 				$clients = $app->db->queryAllRecords($sql);
+				$clients = $app->functions->htmlentities($clients);
 				$client_select = "<option value='0'></option>";
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
 				if(is_array($clients)) {
@@ -605,23 +608,23 @@ class page_action extends tform_actions {
 			if(!empty($web_config['server_type'])) $server_type = $web_config['server_type'];
 			if($server_type == 'nginx' && $this->dataRecord['php'] == 'fast-cgi') $this->dataRecord['php'] = 'php-fpm';
 			$selected_client = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $selected_client_group_id);
-			$sql_where = " AND (client_id = 0 OR client_id = ?)";
+			$sql_where = " AND (client_id = 0 OR client_id = ?) AND active = 'y'";
 			if($this->_vhostdomain_type == 'domain') {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where, $server_id, $selected_client['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?".$sql_where." ORDER BY name", $server_id, $selected_client['client_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where, $server_id, $selected_client['client_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?".$sql_where." ORDER BY name", $server_id, $selected_client['client_id']);
 				}
 			} else {
 				if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $parent_domain['server_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND active = 'y' ORDER BY name", $parent_domain['server_id']);
 				}
 				if($this->dataRecord['php'] == 'fast-cgi') {
-					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ?", $parent_domain['server_id']);
+					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y' ORDER BY name", $parent_domain['server_id']);
 				}
 			}
-			$php_select = "<option value=''>Default</option>";
+			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -630,7 +633,7 @@ class page_action extends tform_actions {
 						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
 					}
 					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='$php_version' $selected>".$php_record['name']."</option>\r\n";
+					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("fastcgi_php_version", $php_select);
@@ -645,7 +648,7 @@ class page_action extends tform_actions {
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 				foreach($php_directive_snippets as $php_directive_snippet){
 					$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 				$php_directive_snippets_txt .= '<br><br>';
 			}
@@ -655,7 +658,7 @@ class page_action extends tform_actions {
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($php_directive_snippets as $php_directive_snippet){
 					$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
 			if($php_directive_snippets_txt == '') $php_directive_snippets_txt = '------';
@@ -668,7 +671,7 @@ class page_action extends tform_actions {
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($apache_directive_snippets as $apache_directive_snippet){
 						$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$apache_directive_snippets_txt .= '<br><br>';
 				}
@@ -678,7 +681,7 @@ class page_action extends tform_actions {
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($apache_directive_snippets as $apache_directive_snippet){
 						$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($apache_directive_snippets_txt == '') $apache_directive_snippets_txt = '------';
@@ -692,7 +695,7 @@ class page_action extends tform_actions {
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
 						$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$nginx_directive_snippets_txt .= '<br><br>';
 				}
@@ -702,7 +705,7 @@ class page_action extends tform_actions {
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
 						$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$nginx_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 				}
 				if($nginx_directive_snippets_txt == '') $nginx_directive_snippets_txt = '------';
@@ -715,7 +718,7 @@ class page_action extends tform_actions {
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
 					$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 				$proxy_directive_snippets_txt .= '<br><br>';
 			}
@@ -725,7 +728,7 @@ class page_action extends tform_actions {
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
 					$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$proxy_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
 			if($proxy_directive_snippets_txt == '') $proxy_directive_snippets_txt = '------';
@@ -745,7 +748,7 @@ class page_action extends tform_actions {
 		if(is_array($ssl_domains)) {
 			foreach( $ssl_domains as $ssl_domain) {
 				$selected = ($ssl_domain == $this->dataRecord['ssl_domain'])?'SELECTED':'';
-				$ssl_domain_select .= "<option value='$ssl_domain' $selected>".$app->functions->idn_decode($ssl_domain)."</option>\r\n";
+				$ssl_domain_select .= "<option value='" . $app->functions->htmlentities($ssl_domain) . "' $selected>".$app->functions->htmlentities($app->functions->idn_decode($ssl_domain))."</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("ssl_domain", $ssl_domain_select);
@@ -758,8 +761,8 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 1);
 			$app->tpl->setVar('fixed_folder', 'y');
 			if($this->_vhostdomain_type == 'domain') {
-				$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
-				$app->tpl->setVar("document_root", $this->dataRecord["document_root"]);
+				$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
+				$app->tpl->setVar("document_root", $this->dataRecord["document_root"], true);
 			}
 			else $app->tpl->setVar('server_id_value', $parent_domain['server_id']);
 		} else {
@@ -795,7 +798,7 @@ class page_action extends tform_actions {
 					} elseif($this->_vhostdomain_type == 'domain' && $domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -817,22 +820,23 @@ class page_action extends tform_actions {
 			if($this->dataRecord["type"] == 'vhostsubdomain') $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
 		
-		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"]);
+		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"], true);
 
 		// check for configuration errors in sys_datalog
 		if($this->id > 0) {
 			$datalog = $app->db->queryOneRecord("SELECT sys_datalog.error, sys_log.tstamp FROM sys_datalog, sys_log WHERE sys_datalog.dbtable = 'web_domain' AND sys_datalog.dbidx = ? AND sys_datalog.datalog_id = sys_log.datalog_id AND sys_log.message = CONCAT('Processed datalog_id ',sys_log.datalog_id) ORDER BY sys_datalog.tstamp DESC", 'domain_id:' . $this->id);
 			if(is_array($datalog) && !empty($datalog)){
 				if(trim($datalog['error']) != ''){
-					$app->tpl->setVar("config_error_msg", nl2br(htmlentities($datalog['error'])));
+					$app->tpl->setVar("config_error_msg", nl2br($app->functions->htmlentities($datalog['error'])));
 					$app->tpl->setVar("config_error_tstamp", date($app->lng('conf_format_datetime'), $datalog['tstamp']));
 				}
 			}
 		}
 		
-		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type);
+		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 
 		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+		$app->tpl->setVar('is_pagespeed_enabled', ($web_config['nginx_enable_pagespeed'] === 'y'));
 		$app->tpl->setVar("is_admin", $is_admin);
 		
 		if($this->id > 0) {
@@ -856,7 +860,7 @@ class page_action extends tform_actions {
 		if(is_array($m_directive_snippets) && !empty($m_directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
 			foreach($m_directive_snippets as $m_directive_snippet){
-				$directive_snippets_id_select .= '<option value="'.$m_directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $m_directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$m_directive_snippet['name'].'</option>';
+				$directive_snippets_id_select .= '<option value="'.$m_directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $m_directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$app->functions->htmlentities($m_directive_snippet['name']).'</option>';
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}
@@ -865,7 +869,7 @@ class page_action extends tform_actions {
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 			foreach($directive_snippets as $directive_snippet){
-				$directive_snippets_id_select .= '<option value="'.$directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$directive_snippet['name'].'</option>';
+				$directive_snippets_id_select .= '<option value="'.$directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$app->functions->htmlentities($directive_snippet['name']).'</option>';
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}
@@ -948,7 +952,6 @@ class page_action extends tform_actions {
 
 	function onSubmit() {
 		global $app, $conf;
-
 		// Set a few fixed values
 		$this->dataRecord["vhost_type"] = 'name';
 		if($this->_vhostdomain_type == 'domain') {
@@ -1305,7 +1308,7 @@ class page_action extends tform_actions {
 		if($web_config['enable_spdy'] === 'n') {
 			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
-		if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
+	//	if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
 		
 		//print_r($_POST['folder_directive_snippets']);
 		//print_r($_POST['folder_directive_snippets_id']);
@@ -1335,7 +1338,7 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord['fastcgi_php_version']) && $this->dataRecord['fastcgi_php_version'] != '') {
 			// Check php-fpm mode
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE CONCAT(name,':',php_fpm_init_script,':',php_fpm_ini_dir,':',php_fpm_pool_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
+				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND CONCAT(name,':',php_fpm_init_script,':',php_fpm_ini_dir,':',php_fpm_pool_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
 				if(is_array($tmp)) {
 					$this->dataRecord['fastcgi_php_version'] = $tmp['name'].':'.$tmp['php_fpm_init_script'].':'.$tmp['php_fpm_ini_dir'].':'.$tmp['php_fpm_pool_dir'];
 				} else {
@@ -1344,7 +1347,7 @@ class page_action extends tform_actions {
 				unset($tmp);
 			// Check fast-cgi mode
 			} elseif($this->dataRecord['php'] == 'fast-cgi') {
-				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE CONCAT(name,':',php_fastcgi_binary,':',php_fastcgi_ini_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
+				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND CONCAT(name,':',php_fastcgi_binary,':',php_fastcgi_ini_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
 				if(is_array($tmp)) {
 					$this->dataRecord['fastcgi_php_version'] = $tmp['name'].':'.$tmp['php_fastcgi_binary'].':'.$tmp['php_fastcgi_ini_dir'];
 				} else {
@@ -1395,6 +1398,14 @@ class page_action extends tform_actions {
 		$app->uses("getconf");
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'web');
+		
+		// get global log retention value as default for web log retention
+		$server_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'server');
+		if($server_config['log_retention'] > 0) {
+			$log_retention = $server_config['log_retention'];
+		} else {
+			$log_retention = 10;
+		}
 
 		if($this->_vhostdomain_type == 'domain') {
 			$document_root = str_replace("[website_id]", $this->id, $web_config["website_path"]);
@@ -1428,8 +1439,8 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $web_config["htaccess_allow_override"];
 			$added_by = $_SESSION['s']['user']['username'];
 
-			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?  WHERE domain_id = ?";
-			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
+			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
+			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
 		} else  {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $this->parent_domain_record['system_user'];
@@ -1442,8 +1453,8 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $this->parent_domain_record['allow_override'];
 			$added_by = $_SESSION['s']['user']['username'];
 			
-			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?  WHERE domain_id = ?";
-			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $this->id);
+			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
+			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
 		

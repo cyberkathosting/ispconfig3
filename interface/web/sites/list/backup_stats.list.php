@@ -27,12 +27,23 @@ $liste["paging_tpl"]  = "templates/paging.tpl.htm";
 $liste["auth"]    = "yes";
 
 // mark columns for php sorting (no real mySQL columns)
-$liste["phpsort"] = array('used_sort', 'files');
+$liste["phpsort"] = array('active', 'domain', 'server_id', 'interval_sort', 'backup_copies_exists', 'backup_size_sort');
 
 
 /*****************************************************
 * Suchfelder
 *****************************************************/
+$liste["item"][] = array( 'field'  => "domain",
+        'datatype' => "VARCHAR",
+        'filters'   => array( 0 => array( 'event' => 'SHOW',
+                        'type' => 'IDNTOUTF8')
+        ),
+        'formtype' => "TEXT",
+        'op'  => "like",
+        'prefix' => "%",
+        'suffix' => "%",
+        'width'  => "",
+        'value'  => "");
 
 $liste['item'][] = array (
    	'field'    => 'server_id',

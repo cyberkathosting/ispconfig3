@@ -303,7 +303,7 @@ class installer extends installer_base
 			}
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DROhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DROhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver -f ${sender} -d ${user}@${nexthop} -a ${original_recipient}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
@@ -345,6 +345,7 @@ class installer extends installer_base
 		if(version_compare($dovecot_version,2, '>=')) {
 			$content = str_replace('# iterate_query', 'iterate_query', $content);
 		}
+		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		$this->write_config_file($configfile, $content);
 	}
 
@@ -601,6 +602,12 @@ class installer extends installer_base
 		//* Copy the ISPConfig configuration include
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
+		
+		if($this->is_update == true) {
+			$tpl->setVar('logging',get_logging_state());
+		} else {
+			$tpl->setVar('logging','yes');
+		}
 		
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
@@ -996,7 +1003,9 @@ class installer extends installer_base
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chown root:ispconfig '.$install_dir.'/security/apache_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
+		$command = 'chown root:ispconfig '.$install_dir.'/security/nginx_directives.blacklist';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		
 		//* Make the global language file directory group writable
 		exec("chmod -R 770 $install_dir/interface/lib/lang");
 
@@ -1076,6 +1085,11 @@ class installer extends installer_base
 		$command = "chmod +x $install_dir/server/scripts/*.sh";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
+		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
+			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
+			$this->db->query($sql, $conf['interface_password']);
+		}
+		
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			$content = $this->get_template_file("apache_ispconfig.vhost", true);

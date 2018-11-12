@@ -52,6 +52,12 @@ $form["tabs"]['iptables'] = array (
 		'source_ip' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '',
@@ -60,6 +66,12 @@ $form["tabs"]['iptables'] = array (
 		'destination_ip' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '',
@@ -68,6 +80,12 @@ $form["tabs"]['iptables'] = array (
 		'singleport' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '',
@@ -76,6 +94,12 @@ $form["tabs"]['iptables'] = array (
 		'multiport' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '',
@@ -84,6 +108,12 @@ $form["tabs"]['iptables'] = array (
 		'state' => array (
 			'datatype'      => 'VARCHAR',
 			'formtype'      => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default'       => '',
 			'value'         => '',
 			'width'         => '',

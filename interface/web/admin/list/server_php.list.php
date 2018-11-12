@@ -44,6 +44,15 @@ $liste['auth']    = 'no';
 * Suchfelder
 *****************************************************/
 
+$liste['item'][] = array( 'field'  => 'active',
+	'datatype' => 'VARCHAR',
+	'formtype' => 'SELECT',
+	'op'  => '=',
+	'prefix' => '',
+	'suffix' => '',
+	'width'  => '',
+	'value'  => array('y' => $app->lng('yes_txt'), 'n' => $app->lng('no_txt')));
+
 $liste['item'][] = array( 'field'  => 'server_id',
 	'datatype' => 'INTEGER',
 	'formtype' => 'SELECT',

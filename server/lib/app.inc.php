@@ -43,7 +43,11 @@ class app {
 
 		if($conf['start_db'] == true) {
 			$this->load('db_'.$conf['db_type']);
-			$this->db = new db;
+			try {
+				$this->db = new db;
+			} catch (Exception $e) {
+				$this->db = false;
+			}
 
 			/*
 					Initialize the connection to the master DB,
@@ -51,7 +55,11 @@ class app {
 					*/
 
 			if($conf['dbmaster_host'] != '' && ($conf['dbmaster_host'] != $conf['db_host'] || ($conf['dbmaster_host'] == $conf['db_host'] && $conf['dbmaster_database'] != $conf['db_database']))) {
-				$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database'], $conf['dbmaster_port'], $conf['dbmaster_client_flags']);
+				try {
+					$this->dbmaster = new db($conf['dbmaster_host'], $conf['dbmaster_user'], $conf['dbmaster_password'], $conf['dbmaster_database'], $conf['dbmaster_port'], $conf['dbmaster_client_flags']);
+				} catch (Exception $e) {
+					$this->dbmaster = false;
+				}
 			} else {
 				$this->dbmaster = $this->db;
 			}
@@ -117,7 +125,7 @@ class app {
          2 = ERROR
         */
 
-	function log($msg, $priority = 0) {
+	function log($msg, $priority = 0, $dblog = true) {
 
 		global $conf;
 
@@ -148,7 +156,7 @@ class app {
 			fclose($fp);
 
 			// Log to database
-			if(isset($this->dbmaster)) {
+			if($dblog === true && isset($this->dbmaster)) {
 				$server_id = $conf['server_id'];
 				$loglevel = $priority;
 				$message = $msg;

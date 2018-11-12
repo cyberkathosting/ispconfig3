@@ -61,7 +61,7 @@ class installer extends installer_base {
 			}
 			//* Configure master.cf and add a line for deliver
 			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
-			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
+			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop} -a ${original_recipient}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
 			unset($deliver_content);
@@ -111,7 +111,10 @@ class installer extends installer_base {
 			}
 			if(version_compare($dovecot_version,2.2) >= 0) {
 				// Dovecot > 2.2 does not recognize !SSLv2 anymore on Debian 9
-				replaceLine($config_dir.'/'.$configfile, 'ssl_protocols = !SSLv2 !SSLv3', 'ssl_protocols = !SSLv3', 1, 0);
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('!SSLv2','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
 			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {

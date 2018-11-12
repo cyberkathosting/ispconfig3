@@ -91,6 +91,12 @@ $form["tabs"]['circle'] = array (
 		'circle_name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -115,6 +121,10 @@ $form["tabs"]['circle'] = array (
 		'description' => array (
 			'datatype' => 'TEXT',
 			'formtype' => 'TEXTAREA',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',

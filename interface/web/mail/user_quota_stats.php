@@ -53,25 +53,23 @@ class list_action extends listform_actions {
 
 		if($rec['quota'] == 0){
 			$rec['quota'] = $app->lng('unlimited');
-			$rec['percentage'] = '';
+			$rec['percentage'] = '0%';
 			$rec['percentage_sort'] = 0;
+			$rec['progressbar'] = -1;
 		} else {
 			$rec['percentage'] = round(100 * $rec['used'] / $rec['quota']) . '%';
 			$rec['percentage_sort'] = round(100 * $rec['used'] / $rec['quota']);
 			$rec['quota'] = round($rec['quota'] / 1048576, 4).' MB';
+			if($rec['percentage_sort'] > 100) {
+				$rec['progressbar'] = 100;
+			} else {
+				$rec['progressbar'] = $rec['percentage_sort'];
+			}
 		}
-
+		//echo 'progressbar: ' . $rec['progressbar'] . '<br/>';
 
 		$rec['used_sort'] = $rec['used'];
-/*
-		if($rec['used'] < 1544000) {
-			$rec['used'] = round($rec['used'] / 1024, 4).' KB';
-		} else {
-			$rec['used'] = round($rec['used'] / 1048576, 4).' MB';
-		}
-*/
 		$rec['used']=$app->functions->formatBytes($rec['used']);
-		if ($rec['used'] == 'NAN') $rec['used']='0 KB';
 
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];

@@ -41,7 +41,7 @@ $msg = '';
 $error = '';
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_aps_update_packagelist.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_aps_update_packagelist.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 

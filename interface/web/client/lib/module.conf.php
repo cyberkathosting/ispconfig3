@@ -95,6 +95,22 @@ if ($settings['use_domain_module'] == 'y') {
 }
 
 /*
+// GDPR functions for admin only, might be extended for resellers later
+if($_SESSION["s"]["user"]["typ"] == 'admin'){
+	$items = array();
+	$items[] = array( 'title'  => 'Send Personal Data',
+		'target'  => 'content',
+		'link' => 'client/gdpr_send.php');
+
+	$module['nav'][] = array( 'title' => 'GDPR',
+		'open'  => 1,
+		'items' => $items);
+
+	unset($items);
+}
+*/
+
+/*
 if($_SESSION["s"]["user"]["typ"] == 'admin'){
 $items[] = array(   'title' 	=> "Interface Settings",
                     'target' 	=> 'content',

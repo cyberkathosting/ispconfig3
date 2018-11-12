@@ -80,7 +80,7 @@ class page_action extends tform_actions {
 					if($field_name['Field'] == 'gender'){
 						$message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{salutation}</a> ';
 					} else {
-						$message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{'.$field_name['Field'].'}</a> ';
+						$message_variables .= '<a href="javascript:void(0);" class="addPlaceholder">{'.$app->functions->htmlentities($field_name['Field']).'}</a> ';
 					}
 				}
 			}

@@ -42,7 +42,7 @@ $wb['no_flag_txt'] = 'Нет флага';
 $wb['domain_error_wildcard'] = 'Wildcard поддомены не допускаются.';
 $wb['proxy_directives_txt'] = 'Директивы прокси';
 $wb['available_proxy_directive_snippets_txt'] = 'Доступные заготовки директив Proxy:';
-$wb['error_proxy_requires_url'] = 'Тип редиректа "proxy" требует URL в качестве пути перенаправления.';
+$wb['error_proxy_requires_url'] = 'Тип редиректа \"proxy\" требует URL в качестве пути перенаправления.';
 $wb['backup_interval_txt'] = 'Интервал резервного копирования';
 $wb['backup_copies_txt'] = 'Количество резервных копий';
 $wb['ssl_key_txt'] = 'SSL-ключ';
@@ -115,4 +115,6 @@ $wb['available_php_directive_snippets_txt'] = 'Доступные заготов
 $wb['available_apache_directive_snippets_txt'] = 'Доступные заготовки директив Apache:';
 $wb['available_nginx_directive_snippets_txt'] = 'Доступные заготовки директив Nginx:';
 $wb['Domain'] = 'Алиас домена';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
+$wb['ssl_letsencrypt_exclude_txt'] = 'Don\'t add to Let\'s Encrypt certificate';
 ?>

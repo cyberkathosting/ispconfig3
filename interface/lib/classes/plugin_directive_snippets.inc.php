@@ -18,7 +18,7 @@ class plugin_directive_snippets extends plugin_base
 		$listTpl->newTemplate('templates/web_directive_snippets.htm');
 
 		//* Loading language file
-		$lng_file = "lib/lang/".$_SESSION["s"]["language"]."_web_directive_snippets.lng";
+		$lng_file = "lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_web_directive_snippets.lng";
 
 		include $lng_file;
 		$listTpl->setVar($wb);

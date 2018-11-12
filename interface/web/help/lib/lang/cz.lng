@@ -9,6 +9,6 @@ $wb['Version'] = 'Verze';
 $wb['Frequently Asked Questions'] = 'Často kladené dotazy';
 $wb['FAQ Sections'] = 'Sekce FAQ - Často kladené dotazy';
 $wb['Manage Sections'] = 'Spravovat sekce';
-$wb['Manage Questions'] = 'Spravovat dotazy';
 $wb['Add a Question & Answer Pair'] = 'Vytvořit otázku a odpověď';
+$wb['Manage Questions'] = 'Spravovat dotazy';
 ?>

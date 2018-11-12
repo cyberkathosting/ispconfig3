@@ -189,6 +189,7 @@ function _search($module, $section, $additional_sql = '', $params = ''){
 
 		$sql = "SELECT * FROM ?? WHERE ".$where_clause.$authsql.$order_clause." LIMIT 0,10";
 		$results = $app->db->queryAllRecords($sql, $db_table);
+		$results = $app->functions->htmlentities($results);
 
 		if(is_array($results) && !empty($results)){
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';

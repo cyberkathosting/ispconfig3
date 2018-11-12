@@ -68,7 +68,7 @@ $_SESSION['s']['var']['vhostdomain_type'] = $show_type;
 class list_action extends listform_actions {
 	function onShow() {
 		global $app;
-		$app->tpl->setVar('vhostdomain_type', $_SESSION['s']['var']['vhostdomain_type']);
+		$app->tpl->setVar('vhostdomain_type', $_SESSION['s']['var']['vhostdomain_type'], true);
 		
 		parent::onShow();
 	}

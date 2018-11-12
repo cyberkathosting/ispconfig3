@@ -48,7 +48,7 @@ class remoting_admin extends remoting {
 	 * @param array permissions
 	 * @author "ispcomm", improved by M. Cramer <m.cramer@pixcept.de>
 	 */
-	public function update_record_permissions($tablename, $index_field, $index_value, $permissions) {
+	public function update_record_permissions($session_id, $tablename, $index_field, $index_value, $permissions) {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'admin_record_permissions')) {
@@ -155,6 +155,122 @@ class remoting_admin extends remoting {
 			throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
 			return false;
 		}
+	}
+	
+	// config_value_* functions ---------------------------------------------------------------------------------------
+
+	//* Get config_value details
+	public function config_value_get($session_id, $group, $name)
+	{
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'config_value_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		// validate fields
+		if($group == '' || $name == '') {
+			throw new SoapFault('field_empty_error', 'Group and name parameter may not be empty.');
+			return false;
+		}
+		
+		return $app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name);
+	}
+
+	//* Add a config_value record
+	public function config_value_add($session_id, $group, $name, $value)
+	{
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'config_value_add')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		// validate fields
+		if($group == '' || $name == '' || $value == '') {
+			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			return false;
+		}
+		
+		if(is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
+			throw new SoapFault('record_unique_error', 'Group plus name field combination is not unique.');
+			return false;
+		}
+		
+		return $app->db->query('INSERT INTO sys_config (`group`,`name`,`value`) VALUES (?,?,?)',$group,$name,$value);
+	}
+
+	//* Update config_value record
+	public function config_value_update($session_id, $group, $name, $value)
+	{
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'config_value_update')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		// validate fields
+		if($group == '' || $name == '' || $value == '') {
+			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			return false;
+		}
+		
+		if(!is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
+			throw new SoapFault('record_nonexist_error', 'There is no record with this group plus name field combination.');
+			return false;
+		}
+		
+		return $app->db->query('UPDATE sys_config SET `value` = ? WHERE `group` = ? AND `name` = ?',$value,$group,$name);
+	}
+	
+	//* Replace config_value record
+	public function config_value_replace($session_id, $group, $name, $value)
+	{
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'config_value_replace')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		// validate fields
+		if($group == '' || $name == '' || $value == '') {
+			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			return false;
+		}
+		
+		if(is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
+			return $app->db->query('UPDATE sys_config SET `value` = ? WHERE `group` = ? AND `name` = ?',$value,$group,$name);
+		} else {
+			return $app->db->query('INSERT INTO sys_config (`group`,`name`,`value`) VALUES (?,?,?)',$group,$name,$value);
+		}
+	}
+
+	//* Delete config_value record
+	public function config_value_delete($session_id, $group, $name)
+	{
+		global $app;
+		
+		if(!$this->checkPerm($session_id, 'config_value_delete')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		
+		// validate fields
+		if($group == '' || $name == '') {
+			throw new SoapFault('field_empty_error', 'Group and name parameter may not be empty.');
+			return false;
+		}
+		
+		if(!is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
+			throw new SoapFault('record_nonexist_error', 'There is no record with this group plus name field combination.');
+			return false;
+		}
+		
+		return $app->db->query('DELETE FROM sys_config WHERE `group` = ? AND `name` = ?',$group,$name);
 	}
 
 }

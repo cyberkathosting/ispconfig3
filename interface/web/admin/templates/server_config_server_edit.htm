@@ -1,5 +1,5 @@
 <div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
+	<h1><tmpl_var name="list_head_txt"> {tmpl_var name='server_name'}</h1>
 </div>
 <p><tmpl_var name="list_desc_txt"></p>
 
@@ -63,6 +63,10 @@
                     {tmpl_var name='backup_mode'}
                 </select></div>
             </div>
+            <div class="form-group">
+                <label for="backup_tmp" class="col-sm-3 control-label">{tmpl_var name='backup_tmp_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="backup_tmp" id="backup_tmp" value="{tmpl_var name='backup_tmp'}" class="form-control" /></div>
+			</div>
 			<div class="form-group">
                 <label for="backup_time" class="col-sm-3 control-label">{tmpl_var name='backup_time_txt'}</label>
                 <div class="col-sm-3"><select name="backup_time" id="backup_time" class="form-control">
@@ -75,6 +79,10 @@
                     {tmpl_var name='backup_delete'}
                 </div>
             </div>
+			<div class="form-group">
+                <label for="log_retention" class="col-sm-3 control-label">{tmpl_var name='log_retention_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="log_retention" id="log_retention" value="{tmpl_var name='log_retention'}" class="form-control" /></div>
+			</div>
 			<div class="form-group">
                 <label for="monit_url" class="col-sm-3 control-label">{tmpl_var name='monit_url_txt'}</label>
                 <div class="col-sm-6"><input type="text" name="monit_url" id="monit_url" value="{tmpl_var name='monit_url'}" class="form-control" />&nbsp;{tmpl_var name='monit_url_note_txt'} <a href="javascript:void(0);" class="addPlaceholder">[SERVERNAME]</a></div>

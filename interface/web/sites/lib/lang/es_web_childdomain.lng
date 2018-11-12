@@ -115,4 +115,6 @@ $wb['available_nginx_directive_snippets_txt'] = 'Fragmentos de directivas de ngi
 $wb['Domain'] = 'Alias de dominio';
 $wb['hd_quota_error_empty'] = 'Harddisk quota is 0 or empty.';
 $wb['traffic_quota_error_empty'] = 'Traffic quota is empty.';
+$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
+$wb['ssl_letsencrypt_exclude_txt'] = 'Don\'t add to Let\'s Encrypt certificate';
 ?>

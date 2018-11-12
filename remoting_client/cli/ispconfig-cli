@@ -1,0 +1,495 @@
+#!/bin/bash
+
+# Command line for ISPConfig remote user REST API using either smart functions or raw methods.
+# Author: Johan Ehnberg, johan@molnix.com
+
+set -e
+
+### Variables
+
+VERSION=2018-04-24
+PROGNAME=$(basename $0)
+DATESTAMP=`date +%s`
+
+### Common commands
+
+# usage
+usage() {
+  echo "Command line for ISPConfig remote user REST API using either smart functions or raw methods."
+  echo
+  echo "Usage: $PROGNAME -h/-f <function>/-m <method> [options] ..."
+  echo
+  echo "Common options:"
+  echo
+  echo "  -a <file>"
+  echo "      Config file. Options are read in the following order: system configuration, user configuration, the file specified in this option, other command line options. The last occurrence overrides previous ones."
+  echo
+  echo "  -e <url>"
+  echo "      API endpoint url such as https://myserver.example.com:8080/remote/json.php ."
+  echo
+  echo "  -h"
+  echo "      Show this help text."
+  echo
+  echo "  -i <id>"
+  echo "      Server id (defaults to 1)."
+  echo
+  echo "  -k"
+  echo "      Do not validate server certificate (for self-signed certificates)."
+  echo
+  echo "  -q"
+  echo "      Quiet, only outputs results."
+  echo
+  echo "  -v"
+  echo "      Verbose, outputs all info where available."
+  echo
+  echo "Functions combine several methods to carry out common tasks. Function options:"
+  echo
+  echo "  -b <file>"
+  echo "      Batch file for processing of functions, one per row. Cannot be used with -m, -f or -t."
+  echo
+  echo "  -c <client>"
+  echo "      Username of the client whose records are to be accessed, see Client->Clients and Client->Resellers."
+  echo
+  echo "  -f \"<function>\""
+  echo "      Function to perform. Note the qoutes around the full function command. Cannot be used with -m, -b or -t."
+  echo
+  echo "  -p <password>"
+  echo "      Password of the remote user as specified in System->Remote Users."
+  echo
+  echo "  -t"
+  echo "      Read batch for processing of functions from stdin, one per row. Cannot be used with -m, -b or -f."
+  echo
+  echo "  -u <user>"
+  echo "      Username of the remote user as specified in System->Remote Users."
+  echo
+  echo "  Available functions:"
+  echo
+  echo "    clients                      List all clients"
+  echo "    dns_as <zone>                List all A records for a zone"
+  echo "    dns_a_add <zone> <name> <ip> Add or update a DNS A record"
+  echo "    dns_a_delete <zone> <name>   Delete a DNS A record"
+  echo "    dns_cnames <zone>            List all CNAME records for a zone"
+  echo "    dns_rr <zone>                List all records for a zone"
+  echo "    dns_zones                    List all zones"
+  echo "    methods                      List available methods"
+  echo "    log_in                       Create a session (not needed by default)"
+  echo "    log_out <session>            Log out a session (not needed by default)"
+  echo "    servers                      List all servers"
+  echo
+  echo "Using a method wraps the JSON data to the API call and returns a JSON response. Method options:"
+  echo
+  echo "  -d <string>"
+  echo "      Read JSON data from command line. Use escapes and quotes! Cannot be used with -j or -s."
+  echo
+  echo "  -j <file>"
+  echo "      Read JSON data from file. Cannot be used with -d or -s."
+  echo
+  echo "  -m <method>"
+  echo "      Raw method to use such as dns_a_add. Cannot be used with -f. Requires one of -d, -j or -s."
+  echo
+  echo "  -s"
+  echo "      Read JSON data from stdin. Cannot be used with -d or -j."
+  echo
+  echo "For details on methods, see:"
+  echo "https://git.ispconfig.org/ispconfig/ispconfig3/tree/master/remoting_client/API-docs"
+  echo
+  echo "Config files are bash files that can contain the following variables:"
+  echo
+  echo "remote_user=myuser # see -u"
+  echo "remote_password=mypassword # see -p"
+  echo "remote_url=https://myserver.example.com:8080/remote/json.php # see -e"
+  echo "client_user=myclient # see -c"
+  echo "server_id=1 # see -i"
+  echo "ssl_validate=off # see -k"
+  echo
+  echo "Example uses:"
+  echo "  1. Log in using the method and escaped JSON on the command line, without config file"
+  echo '    ispconfig-cli -m login -d "{\"username\": \"myuser\",\"password\": \"mypassword\"}" -e https://myserver.example.com:8080/remote/json.php'
+  echo
+  echo "  2. Log in using the function, without config file"
+  echo "    ispconfig-cli -f \"log_in\" -u myuser -p mypassword -e https://myserver.example.com:8080/remote/json.php -c myclient"
+  echo
+  echo "  3. Update a DNS A record or update if it already exists, with complete config file"
+  echo "    ispconfig-cli -f \"dns_a_add example.com. johnscomputer 192.168.0.99\""
+  echo
+}
+
+# message verbosity message
+message() {
+  if [ $1 -le $VERBOSITY ]; then
+    MESSAGE="${MESSAGE}${2}"
+  fi
+}
+
+# restCall method data
+restCall() {
+  curl $CURLK -sS -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d "${2}" "${remote_url}?${1}"
+}
+
+# method method
+method() {
+  restCall $1 "$JSONDATA"
+}
+
+### Smart functions
+
+# List all clients
+# clients
+clients() {
+  clientsGet | jq .response
+}
+
+# List all A records for a zone                           
+# dns_as zone
+dns_as() {
+  dns_rr $1 | jq -r ".[] | select(.type == \"A\") | .name"
+}
+
+# Add or update an A record
+# dns_a_add zone name ip
+dns_a_add() {
+  dns_zone_id $1
+  dns_a_id $1 $2
+  if [[ $dns_a_id =~ ^-?[0-9]+$ ]]; then
+    message 2 "DNS A $2 exists with id $dns_a_id, updating rows: "
+    message 1 "`dnsUpdateAByIdAndIp $dns_a_id $3 | jq -r .response`\n"
+  elif [[ $dns_a_id == "" ]]; then
+    message 2 "DNS A $2 does not exist, created ID: "
+    message 1 "`dnsAddAByZoneAndNameAndIp $dns_zone_id $2 $3 | jq -r .response`\n"
+  fi
+}
+
+# Delete an A record if it exists
+# dns_a_delete zone name
+dns_a_delete() {
+  dns_zone_id $1
+  dns_a_id $1 $2
+  if [[ $dns_a_id =~ ^-?[0-9]+$ ]]; then
+    message 2 "DNS A $2 has id $dns_a_id, deleted rows: "
+    message 1 "`dnsDeleteAById $dns_a_id | jq -r .response`\n"
+  else
+    message 2 "DNS A $2 does not exist, skipping.\n"
+  fi
+}
+
+# List all CNAME records for a zone                           
+# dns_cnames zone
+dns_cnames() {
+  dns_rr $1 | jq -r ".[] | select(.type == \"CNAME\") | .name"
+}
+
+# List all records for a zone
+# dns_rr zone
+dns_rr() {
+  dns_zone_id $1
+  dnsGetRrByZone $dns_zone_id | jq .response
+}
+
+# List all zones
+# dns_zones
+dns_zones() {
+  dnsGetZones | jq .response
+}
+
+# List all available methods
+# methods
+methods() {
+  methods=`functionsGet | jq .response`
+  if [[ $methods == "false" ]]; then
+    message 1 "Getting methods (Server functions) failed, check permissions?\n"
+  else
+    echo $methods | jq
+  fi
+}
+
+# List all servers
+# server
+servers() {
+  serversGet | jq .response
+}
+
+# Log in
+# log_in remote_user remote_password
+log_in() {
+  log_in=`logInByUserAndPassword $1 $2 | jq -r '.response'`
+  if [[ $log_in == "false" ]]; then
+    message 1 "Login failed!\n"
+  else
+    message 3 "Logged in session_id $log_in as $1.\n"
+    echo "$log_in"
+  fi
+}
+
+# Log out
+# log_out session
+log_out() {
+  if [[ `logOutBySession $1 | jq -r .response` == "true" ]]; then
+    message 3 "Logged out session $1 successfully.\n"
+  else
+    message 1 "Logging out failed!\n"
+  fi
+}
+
+### ID helpers
+# Due to bash limitations, id's should only be set in _id functions below.
+# This is due to nested subshells losing the variables.
+# As such, some helpers may be called several times redundantly when both
+# a child and parent function are also to be available on the CLI.
+
+# Get client id
+# client_id client_user
+client_id() {
+  client_id=`clients | jq -r ".[] | select(.username == \"${1}\") | .client_id"`
+  message 3 "Client $1 has id $client_id.\n"
+}
+
+# Get dns A id
+# dns_a_id zone name
+dns_a_id() {
+  dns_a_id=`dns_rr $1 | jq -r ".[] | select(.name == \"${2}\") | .id"`
+  message 3 "DNS A $2 has id $dns_a_id.\n"
+}
+
+# Get zone id
+# dns_zone_id zone
+dns_zone_id() {
+  dns_zone_id=`dns_zones | jq -r ".[] | select(.origin == \"${1}\") | .id"`
+  message 3 "DNS zone $1 has id $dns_zone_id.\n"
+}
+
+### Methods
+# Get clients
+clientsGet() {
+  restCall client_get "{\"session_id\": \"${session_id}\",\"client_id\":{}}"
+}
+
+# Add A by zone and name and IP
+dnsAddAByZoneAndNameAndIp() {
+  restCall dns_a_add "{\"session_id\": \"${session_id}\",\"client_id\": \"${client_id}\",\"params\": {\"server_id\": ${SERVER},\"zone\": \"${1}\",\"name\": \"${2}\",\"type\": \"a\",\"data\": \"${3}\",\"aux\": \"0\", \"ttl\": \"3600\", \"active\": \"y\", \"stamp\": \"${datestamp}\", \"serial\": \"1\"}}"
+}
+
+# Delete A by id
+dnsDeleteAById() {
+  restCall dns_a_delete "{\"session_id\": \"${session_id}\",\"primary_id\": \"${1}\"}"
+}
+
+# Get RR by id
+dnsGetRrByZone() {
+  restCall dns_rr_get_all_by_zone "{\"session_id\": \"${session_id}\",\"zone_id\": \"${1}\"}"
+}
+
+# Get zones
+dnsGetZones() {
+  restCall dns_zone_get_by_user "{\"session_id\": \"${session_id}\",\"client_id\": \"${client_id}\",\"server_id\": ${SERVER}}"
+}
+
+# Update A by id and IP
+dnsUpdateAByIdAndIp() {
+  restCall dns_a_update "{\"session_id\": \"${session_id}\",\"client_id\": \"${client_id}\",\"primary_id\": \"${1}\",\"params\": {\"data\": \"${2}\", \"stamp\": \"${datestamp}\"}}"
+}
+
+# Get functions
+functionsGet() {
+  restCall get_function_list "{\"session_id\": \"${session_id}\"}"
+}
+
+# Log in by user and password
+logInByUserAndPassword() {
+  restCall login "{\"username\": \"${1}\",\"password\": \"${2}\"}"
+}
+
+# Log out by session
+logOutBySession() {
+  restCall logout "{\"session_id\": \"${1}\"}"
+}
+
+# Get servers info
+serversGet() {
+  restCall server_get "{\"session_id\": \"${session_id}\",\"server_id\":{}}"
+}
+
+### Run
+
+# Check dependencies
+if ! [ -x "$(command -v curl)" ]; then
+  echo 'Error: curl is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v jq)" ]; then
+  echo 'Error: jq is not installed.' >&2
+  exit 1
+fi
+
+# Check config files
+if [ -r /etc/ispconfig-cli.conf ]; then
+  . /etc/ispconfig-cli.conf
+fi
+if [ -r ~/.ispconfig-cli ]; then
+  . ~/.ispconfig-cli
+fi
+
+# Check command line
+if [[ $1 == "" ]]; then
+  usage
+  exit 1
+fi
+SERVER=1
+VERBOSITY=2
+while getopts :a:e:hi:kqvb:c:f:p:tu:d:j:m:s opt; do
+  case $opt in
+    a)
+      if [[ -e $OPTARG ]]; then
+        source $OPTARG
+      else
+        echo "Config file $OPTARG not found!"
+        exit 1
+      fi
+      ;;
+    e)
+      remote_url=$OPTARG
+      ;;
+    h)
+      usage
+      exit 1
+      ;;
+    i)
+      SERVER=$OPTARG
+      ;;
+    k)
+      $ssl_validate=off
+      ;;
+    q)
+      if [[ $VERBOSITY == "2" ]]; then
+        VERBOSITY=1
+      else
+        echo "-q and -v cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    v)
+      if [[ $VERBOSITY == "2" ]]; then
+        VERBOSITY=3
+      else
+        echo "-q and -v cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    b)
+      if [[ $METHOD == "" ]]; then
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=`cat $OPTARG`
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    c)
+      client_user=$OPTARG
+      ;;
+    f)
+      if [[ $METHOD == "" ]]; then
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=$OPTARG
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    p)
+      remote_password=$OPTARG
+      ;;
+    t)
+      if [[ $METHOD == "" ]]; then
+        if [[ $FUNCTION == "" ]]; then
+          FUNCTION=`cat`
+        else
+          echo "You can only use one function source!"
+          exit 1
+        fi
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    u)
+      remote_user=$OPTARG
+      ;;
+    d)
+      if [[ $JSONMODE == "" ]]; then
+        JSONMODE=cli
+        JSONDATA=$OPTARG
+      else
+        echo "You can only use one JSON data source!"
+        exit 1
+      fi
+      ;;
+    j)
+      if [[ $JSONMODE == "" ]]; then
+        JSONMODE=fil
+        JSONDATA=`cat $OPTARG`
+      else
+        echo "You can only use one JSON data source!"
+        exit 1
+      fi
+      ;;
+    m)
+      if [[ $FUNCTION == "" ]]; then
+        METHOD=$OPTARG
+      else
+        echo "Function and method cannot be specified at the same time!"
+        exit 1
+      fi
+      ;;
+    s)
+      if [[ $JSONMODE == "" ]]; then
+        JSONMODE=std
+        JSONDATA=`cat`
+      else
+        echo "You can only use one JSON data source!"
+        exit 1
+      fi
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+if [[ $remote_url == "" ]]; then
+  echo "No url provided!"
+  exit 1
+fi
+if [[ $ssl_validate == "off" ]]; then
+  CURLK="-k"
+fi
+if [[ $METHOD != "" ]]; then
+  method $METHOD
+elif [[ $FUNCTION != "" ]]; then
+  session_id="`log_in $remote_user $remote_password`" # This is the only ID that has to be set outside ID helpers
+  message 3 "Using session_id $session_id as $remote_user for CLI operations.\n"
+  client_id $client_user
+  #echo $FUNCTION|while read i; do message 1 `$i`; done # Does not work here due to creating subshells
+  IFS=$'\n'
+  for i in $FUNCTION; do eval $i; done
+  unset IFS
+  log_out $session_id
+else
+  echo "Neither method nor function specified!"
+  exit 1
+fi
+
+echo -e $MESSAGE
+
+exit 0

@@ -142,11 +142,13 @@ class remoting {
 							// get the ip for a hostname
 							unset($allowed_ips[$i]);
 							$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
-							foreach($temp as $t) {
-								if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
-								if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+							if(is_array($temp) && !empty($temp)) {
+								foreach($temp as $t) {
+									if(isset($t['ip'])) $allowed_ips[] = $t['ip'];
+									if(isset($t['ipv6'])) $allowed_ips[] = $t['ipv6'];
+								}
+								unset($temp);
 							}
-							unset($temp);
 						}
 					}
 					$allowed_ips[] = '127.0.0.1';

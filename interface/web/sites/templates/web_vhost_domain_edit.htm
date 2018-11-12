@@ -237,6 +237,13 @@
 					{tmpl_var name='directive_snippets_id'}
 				</select></div>
 			</div></tmpl_if>
+			<tmpl_if name="is_pagespeed_enabled" op="==" value="y">
+				<div class="form-group nginx pagespeed">
+					<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>
+					<div class="col-sm-9">{tmpl_var name="enable_pagespeed"}</div>
+				</div>
+			</tmpl_if>
+<!--
 			{tmpl_hook name="field_enable_pagespeed"}
 			<div class="form-group nginx pagespeed">
 				<label class="col-sm-3 control-label">{tmpl_var name='enable_pagespeed_txt'}</label>
@@ -244,6 +251,7 @@
 					{tmpl_var name="enable_pagespeed"}
 				</div>
 			</div>
+-->
             {tmpl_hook name="field_active"}
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
@@ -319,7 +327,8 @@
     });
 	// new Vhostsubdomains/Vhostaliasdomains
 	if(serverId == '') jQuery('#parent_domain_id').trigger('change');
-	
+
+/*	
 	if(jQuery('#directive_snippets_id').val() > 0){
 		jQuery('.pagespeed').show();
 	} else {
@@ -332,6 +341,7 @@
 			jQuery('.pagespeed').hide();
 		}
 	});
+*/
     
     function reloadServerId(noFormChange) {
         var parentWebId = jQuery('#parent_domain_id').val();
@@ -349,6 +359,7 @@
                 var selected = jQuery('#php').val();
                 jQuery('.apache').hide();
 				jQuery('.nginx').show();
+/*
 				if(jQuery('#directive_snippets_id').val() > 0){
 					jQuery('.pagespeed').show();
 				} else {
@@ -361,6 +372,7 @@
 						jQuery('.pagespeed').hide();
 					}
 				});
+*/
                 if(selected != "no" && selected != "php-fpm" && selected != "hhvm") {
                     jQuery('#php option[value="php-fpm"]').attr('selected', 'selected').val('php-fpm');
                 }
@@ -432,8 +444,8 @@
 		
     function reloadFastcgiPHPVersions(noFormChange) {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi", client_group_id : clientGroupId}, function(data) {
-            var options = '<option value="">Default</option>';
-			//var options = '';
+            //var options = '<option value="">Default</option>';
+			var options = '';
             var phpfastcgiselected = '';
             $.each(data, function(key, val) {
 				<tmpl_if name="id">
@@ -456,7 +468,7 @@
 			</tmpl_else>
 				phpfastcgiselected = '';
 			</tmpl_if>
-			options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
+			//options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
             $('#fastcgi_php_version').html(options).change();
             if(noFormChange) ISPConfig.resetFormChanged();
         });

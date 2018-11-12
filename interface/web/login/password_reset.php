@@ -43,7 +43,7 @@ $app->tpl->setInclude('content_tpl', 'templates/password_reset.htm');
 
 $app->tpl_defaults();
 
-include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$_SESSION['s']['language'].'.lng';
+include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 $app->tpl->setVar($wb);
 $continue = true;
 
@@ -156,7 +156,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	if(isset($_POST) && count($_POST) > 0) $app->tpl->setVar("msg", $wb['pw_error_noinput']);
 }
 
-$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default', true);
 
 // Logo
 $logo = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");

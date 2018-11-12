@@ -19,5 +19,4 @@ $wb['Add DNS Zone'] = 'Добавить DNS-зону';
 $wb['Templates'] = 'Шаблоны';
 $wb['Secondary Zones'] = 'Вторичные зоны';
 $wb['Import Zone File'] = 'Импорт файла зоны';
-$wb['Secondary DNS'] = 'Вторичные DNS';
 ?>

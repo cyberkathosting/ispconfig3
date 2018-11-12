@@ -86,7 +86,7 @@ class page_action extends tform_actions {
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -97,18 +97,19 @@ class page_action extends tform_actions {
 			//* Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.limit_openvz_vm_template_id, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-
+			$client = $app->functions->htmlentities($client);
 
 			//* Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$records = $app->db->queryAllRecords($sql, $client['client_id']);
+			$records = $app->functions->htmlentities($records);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$rec[groupid]' $selected>$rec[contactname]</option>\r\n";
+					$client_select .= "<option value='$rec[groupid]' $selected>" . $app->functions->htmlentities($rec['contactname']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
@@ -123,7 +124,7 @@ class page_action extends tform_actions {
 			if(is_array($records)) {
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -134,12 +135,13 @@ class page_action extends tform_actions {
 			//* Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
 			if(is_array($clients)) {
 				foreach( $clients as $client) {
 					$selected = @(is_array($this->dataRecord) && ($client["groupid"] == $this->dataRecord['client_group_id'] || $client["groupid"] == $this->dataRecord['sys_groupid']))?'SELECTED':'';
-					$client_select .= "<option value='$client[groupid]' $selected>$client[contactname]</option>\r\n";
+					$client_select .= "<option value='$client[groupid]' $selected>" . $app->functions->htmlentities($client['contactname']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("client_group_id", $client_select);
@@ -151,7 +153,7 @@ class page_action extends tform_actions {
 				$template_id_select='';
 				foreach( $records as $rec) {
 					$selected = @($rec["template_id"] == $this->dataRecord["template_id"])?'SELECTED':'';
-					$template_id_select .= "<option value='$rec[template_id]' $selected>$rec[template_name]</option>\r\n";
+					$template_id_select .= "<option value='$rec[template_id]' $selected>" . $app->functions->htmlentities($rec['template_name']) . "</option>\r\n";
 				}
 			}
 			$app->tpl->setVar("template_id_select", $template_id_select);
@@ -173,7 +175,7 @@ class page_action extends tform_actions {
 		if(is_array($ips)) {
 			foreach( $ips as $ip) {
 				$selected = ($ip["ip_address"] == $this->dataRecord["ip_address"])?'SELECTED':'';
-				$ip_select .= "<option value='$ip[ip_address]' $selected>$ip[ip_address]</option>\r\n";
+				$ip_select .= "<option value='$ip[ip_address]' $selected>" . $app->functions->htmlentities($ip['ip_address']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("ip_address", $ip_select);
@@ -186,7 +188,7 @@ class page_action extends tform_actions {
 		foreach ($additional_ips as $idx => $rec) {
 			$temp .= "<input type='hidden' id='id".$idx."' name='additional_ip[".$idx."]' name='additional_ip[".$idx."]'  value='0'>";
 			$used = @($rec['additional']=='y')?'CHECKED':'';
-			$temp .= "<input type='checkbox' value='".$rec['ip_address']."' id='id".$idx."' name='additional_ip[".$idx."]' ".$used.">   ".$rec['ip_address']."<br>";
+			$temp .= "<input type='checkbox' value='".$app->functions->htmlentities($rec['ip_address'])."' id='id".$idx."' name='additional_ip[".$idx."]' ".$used.">   ".$app->functions->htmlentities($rec['ip_address'])."<br>";
 		}
 		$app->tpl->setVar("additional_ip", $temp);
 		unset($used);
@@ -196,8 +198,8 @@ class page_action extends tform_actions {
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
-			$app->tpl->setVar("ostemplate_id_value", $this->dataRecord["ostemplate_id"]);
+			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
+			$app->tpl->setVar("ostemplate_id_value", $this->dataRecord["ostemplate_id"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}

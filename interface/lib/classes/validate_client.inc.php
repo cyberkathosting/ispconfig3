@@ -174,10 +174,8 @@ class validate_client {
 					}
 				}
 			}
-
-			$client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
-
-			if($client){
+			try {
+				$client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
 				$params = array('countryCode' => $cc, 'vatNumber' => $vn);
 				try{
 					$r = $client->checkVat($params);
@@ -191,12 +189,12 @@ class validate_client {
 							}
 					}
 
-					// This foreach shows every single line of the returned information
-					/*
-					foreach($r as $k=>$prop){
-						echo $k . ': ' . $prop;
-					}
-					*/
+				// This foreach shows every single line of the returned information
+				/*
+				foreach($r as $k=>$prop){
+					echo $k . ': ' . $prop;
+				}
+				*/
 
 				} catch(SoapFault $e) {
 					//echo 'Error, see message: '.$e->faultstring;
@@ -217,7 +215,7 @@ class validate_client {
 							break;
 					}
 				}
-			} else {
+			} catch(SoapFault $e){
 				// Connection to host not possible, europe.eu down?
 				// this shouldn't be the user's fault, so we return no error
 			}

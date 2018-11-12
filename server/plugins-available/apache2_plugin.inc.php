@@ -73,6 +73,9 @@ class apache2_plugin {
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_ip');
 
 		$app->plugins->registerEvent('webdav_user_insert', $this->plugin_name, 'webdav');
 		$app->plugins->registerEvent('webdav_user_update', $this->plugin_name, 'webdav');
@@ -264,7 +267,7 @@ class apache2_plugin {
 		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
 		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
-		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
+		if(!is_dir($data['new']['document_root'].'/ssl') && !is_dir($data['old']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
@@ -394,6 +397,26 @@ class apache2_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
+		
+		//* and check that SSL cert does not contain subdomain of domain acme.invalid
+		if($data["new"]["ssl_action"] == 'save') {
+			$tmp = array();
+			$crt_data = '';
+			exec('openssl x509 -noout -text -in '.escapeshellarg($crt_file),$tmp);
+			$crt_data = implode("\n",$tmp);
+			if(stristr($crt_data,'.acme.invalid')) {
+				$data["new"]["ssl_action"] = '';
+			
+				$app->log('SSL Certificate not saved. The SSL cert contains domain acme.invalid.', LOGLEVEL_WARN);
+				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL cert contains domain acme.invalid.');
+			
+				/* Update the DB of the (local) Server */
+				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+
+				/* Update also the master-DB of the Server-Farm */
+				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			}
+		}
 
 		//* Save a SSL certificate to disk
 		if($data["new"]["ssl_action"] == 'save') {
@@ -457,11 +480,11 @@ class apache2_plugin {
 			$app->system->unlink($crt_file);
 			$app->system->unlink($bundle_file);
 			/* Update the DB of the (local) Server */
-			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
-			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			$app->db->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
+			$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
 			/* Update also the master-DB of the Server-Farm */
-			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ?", $data['new']['domain']);
-			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_request = '', ssl_cert = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
+			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ? AND server_id = ?", $data['new']['domain'], $data['new']['server_id']);
 			$app->log('Deleting SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
 		}
 
@@ -681,10 +704,10 @@ class apache2_plugin {
 			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 			
 			if($web_config['network_filesystem'] == 'y') {
-				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait,_netdev    0 0';
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail,_netdev    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
 			} else {
-				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait    0 0';
+				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
 			}
 			
@@ -699,7 +722,7 @@ class apache2_plugin {
 
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
+		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
 		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
@@ -985,8 +1008,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
@@ -1026,8 +1051,10 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/web', $groupname);
 				$app->system->chown($data['new']['document_root'].'/web/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/web/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/web/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/web/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/web/stats', $groupname);
+				}
 				$app->system->chown($data['new']['document_root'].'/webdav', $username);
 				$app->system->chgrp($data['new']['document_root'].'/webdav', $groupname);
 			}
@@ -1040,16 +1067,20 @@ class apache2_plugin {
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			} else {
 				$app->system->chmod($data['new']['document_root'].'/' . $web_folder, 0755);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder, $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder, $groupname);
 				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/error', $username);
 				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/error', $groupname);
-				$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
-				$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				if($data['new']['stats_type'] != '') {
+					$app->system->chown($data['new']['document_root'].'/' . $web_folder . '/stats', $username);
+					$app->system->chgrp($data['new']['document_root'].'/' . $web_folder . '/stats', $groupname);
+				}
 			}
 		}
 
@@ -1132,6 +1163,7 @@ class apache2_plugin {
 		$vhost_data['ssl_domain'] = $data['new']['ssl_domain'];
 		$vhost_data['has_custom_php_ini'] = $has_custom_php_ini;
 		$vhost_data['custom_php_ini_dir'] = escapeshellcmd($custom_php_ini_dir);
+		$vhost_data['logging'] = $web_config['logging'];
 
 		// Custom Apache directives
 		if(intval($data['new']['directive_snippets_id']) > 0){
@@ -1167,7 +1199,7 @@ class apache2_plugin {
 		$vhost_data['ssl_bundle_file'] = $bundle_file;
 
 		//* Generate Let's Encrypt SSL certificat
-		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && ( // ssl and let's encrypt is active
+		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y' && $conf['mirror_server_id'] == 0 && ( // ssl and let's encrypt is active and no mirror server
 			($data['old']['ssl'] == 'n' || $data['old']['ssl_letsencrypt'] == 'n') // we have new let's encrypt configuration
 			|| ($data['old']['domain'] != $data['new']['domain']) // we have domain update
 			|| ($data['old']['subdomain'] != $data['new']['subdomain']) // we have new or update on "auto" subdomain
@@ -1189,11 +1221,22 @@ class apache2_plugin {
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
 				/* Update also the master-DB of the Server-Farm */
-				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ?", $data['new']['ssl'], 'n', $data['new']['domain']);
-			}
+				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ? AND `server_id` = ?", $data['new']['ssl'], 'n', $data['new']['domain'], $conf['server_id']);
+ 			}
 		}
 
 		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
+
+		// HTTP/2.0 ?
+		$vhost_data['enable_http2']  = 'n';
+		if($vhost_data['enable_spdy'] == 'y'){
+			// check if apache supports http_v2
+			exec("2>&1 apachectl -M | grep http2_module", $tmp_output, $tmp_retval);
+			if($tmp_retval == 0){
+				$vhost_data['enable_http2']  = 'y';
+			}
+			unset($tmp_output, $tmp_retval);
+		}
 
 		// Set SEO Redirect
 		if($data['new']['seo_redirect'] != ''){
@@ -1415,7 +1458,11 @@ class apache2_plugin {
 			//exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.escapeshellcmd($fastcgi_starter_path));
 			$app->system->chown($fastcgi_starter_path, $data['new']['system_user']);
 			$app->system->chgrp($fastcgi_starter_path, $data['new']['system_group']);
-			$app->system->chmod($fastcgi_starter_path, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($fastcgi_starter_path, 0755);
+			} else {
+				$app->system->chmod($fastcgi_starter_path, 0550);
+			}
 
 			$fcgi_tpl = new tpl();
 			$fcgi_tpl->newTemplate('php-fcgi-starter.master');
@@ -1459,7 +1506,11 @@ class apache2_plugin {
 
 			$app->log('Creating fastcgi starter script: '.$fcgi_starter_script, LOGLEVEL_DEBUG);
 
-			$app->system->chmod($fcgi_starter_script, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($fcgi_starter_script, 0755);
+			} else {
+				$app->system->chmod($fcgi_starter_script, 0550);
+			}
 			$app->system->chown($fcgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($fcgi_starter_script, $data['new']['system_group']);
 
@@ -1552,7 +1603,11 @@ class apache2_plugin {
 				$app->system->mkdirpath($cgi_starter_path);
 				$app->system->chown($cgi_starter_path, $data['new']['system_user']);
 				$app->system->chgrp($cgi_starter_path, $data['new']['system_group']);
-				$app->system->chmod($cgi_starter_path, 0550);
+				if($web_config['security_level'] == 10) {
+					$app->system->chmod($cgi_starter_path, 0755);
+				} else {
+					$app->system->chmod($cgi_starter_path, 0550);
+				}
 
 				$app->log('Creating cgi starter script directory: '.$cgi_starter_path, LOGLEVEL_DEBUG);
 			}
@@ -1586,7 +1641,11 @@ class apache2_plugin {
 			$app->log('Creating cgi starter script: '.$cgi_starter_script, LOGLEVEL_DEBUG);
 
 
-			$app->system->chmod($cgi_starter_script, 0550);
+			if($web_config['security_level'] == 10) {
+				$app->system->chmod($cgi_starter_script, 0755);
+			} else {
+				$app->system->chmod($cgi_starter_script, 0550);
+			}
 			$app->system->chown($cgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($cgi_starter_script, $data['new']['system_group']);
 
@@ -2185,7 +2244,7 @@ class apache2_plugin {
 		if($data['old']['type'] != 'vhost') $app->system->web_folder_protection($data['old']['document_root'], true);
 	}
 
-	//* This function is called when a IP on the server is inserted, updated or deleted
+	//* This function is called when a IP on the server is inserted, updated or deleted or when anon_ip setting is altered
 	function server_ip($event_name, $data) {
 		global $app, $conf;
 
@@ -2198,6 +2257,7 @@ class apache2_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
+		$tpl->setVar('logging', $web_config['logging']);
 		$tpl->setVar('apache_full_version', $app->system->getapacheversion(true));
 		$records = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ? AND virtualhost = 'y'", $conf['server_id']);
 
@@ -2753,9 +2813,9 @@ class apache2_plugin {
 							$output .= "BrowserMatch MSIE AuthDigestEnableQueryStringHack=On\n";
 							$output .= "AuthType Digest\n";
 							if($fn != '' && $fn != '/') {
-								$output .= "        AuthName \"" . $fn . "\"\n";
+								$output .= "AuthName \"" . $fn . "\"\n";
 							} else {
-								$output .= "        AuthName \"Restricted Area\"\n";
+								$output .= "AuthName \"Restricted Area\"\n";
 							}
 							$output .= "AuthUserFile $webdavRoot/$file\n";
 							$output .= "Require valid-user\n";

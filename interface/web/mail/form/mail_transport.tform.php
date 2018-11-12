@@ -68,7 +68,7 @@ $form["tabs"]['transport'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND {AUTHSQL} ORDER BY server_name',
+				'querystring' => 'SELECT server_id,server_name FROM server WHERE mirror_server_id = 0 AND mail_server = 1 AND {AUTHSQL} ORDER BY server_name',
 				'keyfield'=> 'server_id',
 				'valuefield'=> 'server_name'
 			),
@@ -82,7 +82,11 @@ $form["tabs"]['transport'] = array (
 				1 => array( 'event' => 'SHOW',
 					'type' => 'IDNTOUTF8'),
 				2 => array( 'event' => 'SAVE',
-					'type' => 'TOLOWER')
+					'type' => 'TOLOWER'),
+				3 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+				4 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
@@ -93,6 +97,12 @@ $form["tabs"]['transport'] = array (
 		'transport' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

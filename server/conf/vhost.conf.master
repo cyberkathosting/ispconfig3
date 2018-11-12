@@ -13,6 +13,12 @@
 <tmpl_loop name='vhosts'>
 <VirtualHost {tmpl_var name='ip_address'}:{tmpl_var name='port'}>
 <tmpl_hook name='apache2_vhost:vhost_header'>
+<tmpl_if name='enable_spdy' op='==' value='y'>
+<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
+		Protocols h2 h2c http/1.1
+</tmpl_if>
+</tmpl_if>
+
 <tmpl_if name='php' op='==' value='suphp'>
 		DocumentRoot <tmpl_var name='web_document_root'>
 </tmpl_else>
@@ -37,7 +43,20 @@
 </tmpl_if>
 		ServerAdmin webmaster@<tmpl_var name='domain'>
 
+<tmpl_if name='ssl_enabled'>
+<tmpl_if name='enable_http2' op='==' value='y'>
+		Protocols h2 http/1.1
+		SSLProtocol All -SSLv2 -SSLv3
+		SSLCipherSuite 'TLS-CHACHA20-POLY1305-SHA256:TLS-AES-256-GCM-SHA384:TLS-AES-128-GCM-SHA256:EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS'
+</tmpl_if>
+</tmpl_if>
+
+<tmpl_if name='logging' op='==' value='anon'>
+		ErrorLog "|/usr/local/ispconfig/server/scripts/vlogger -e -n -P -t \"error.log\" /var/log/ispconfig/httpd/<tmpl_var name='domain'>"
+</tmpl_if>
+<tmpl_if name='logging' op='==' value='yes'>
 		ErrorLog /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log
+</tmpl_if>
 
 <tmpl_if name='errordocs'>
 		Alias /error/ "<tmpl_var name='web_document_root_www'>/error/"
@@ -55,7 +74,7 @@
 		<IfModule mod_ssl.c>
 		SSLEngine on
 		SSLProtocol All -SSLv2 -SSLv3
-		# SSLCipherSuite          ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
+		# SSLCipherSuite          TLS-CHACHA20-POLY1305-SHA256:TLS-AES-256-GCM-SHA384:TLS-AES-128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
 		SSLHonorCipherOrder     on
 		# <IfModule mod_headers.c>
 		# Header always add Strict-Transport-Security "max-age=15768000"
@@ -182,6 +201,13 @@
 
 <tmpl_if name='python' op='==' value='y'>
 		<IfModule mod_python.c>
+			<Directory {tmpl_var name='web_document_root_www'}>
+				<FilesMatch "\.py$">
+					SetHandler mod_python
+				</FilesMatch>
+				PythonHandler mod_python.publisher
+				PythonDebug On
+			</Directory>
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.py$">
 					SetHandler mod_python
@@ -245,16 +271,16 @@
 </tmpl_if>
 <tmpl_if name='php' op='==' value='cgi'>
 		# php as cgi enabled
-		ScriptAlias /php5-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
-		Action php5-cgi /php5-cgi
+		ScriptAlias /php-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
+		Action php-cgi /php-cgi
 		<Directory {tmpl_var name='web_document_root_www'}>
 			<FilesMatch "\.php[345]?$">
-				SetHandler php5-cgi
+				SetHandler php-cgi
 			</FilesMatch>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
 			<FilesMatch "\.php[345]?$">
-				SetHandler php5-cgi
+				SetHandler php-cgi
 			</FilesMatch>
 		</Directory>
 		<Directory {tmpl_var name='cgi_starter_path'}>
@@ -341,10 +367,10 @@
 					<FilesMatch "\.php[345]?$">
                     <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
                             <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                SetHandler php5-fcgi
+                                SetHandler php-fcgi
                             </If>
                     <tmpl_else>
-                            SetHandler php5-fcgi
+                            SetHandler php-fcgi
                     </tmpl_if>
 					</FilesMatch>
 				</Directory>
@@ -352,20 +378,20 @@
 					<FilesMatch "\.php[345]?$">
                     <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
                             <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                SetHandler php5-fcgi
+                                SetHandler php-fcgi
                             </If>
                     <tmpl_else>
-                            SetHandler php5-fcgi
+                            SetHandler php-fcgi
                     </tmpl_if>
 					</FilesMatch>
 				</Directory>
-                Action php5-fcgi /php5-fcgi virtual
-				Alias /php5-fcgi {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
+                Action php-fcgi /php-fcgi virtual
+				Alias /php-fcgi {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization  -pass-header Content-Type    
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization  -pass-header Content-Type    
 </tmpl_if>
 <tmpl_if name='use_socket'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php5-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization  -pass-header Content-Type
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization  -pass-header Content-Type
 </tmpl_if>
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
@@ -494,7 +520,7 @@
 		</tmpl_if>
 <tmpl_if name="rewrite_is_url" op="==" value="n">
 		RewriteCond %{REQUEST_URI} !^/webdav/
-		RewriteCond %{REQUEST_URI} !^/php5-fcgi/
+		RewriteCond %{REQUEST_URI} !^/php-fcgi/
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
 		RewriteRule /(.*) <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if> <tmpl_var name='rewrite_type'>

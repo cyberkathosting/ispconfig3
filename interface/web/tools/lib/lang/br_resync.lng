@@ -46,4 +46,8 @@ $wb['do_mail_spamfilter_policy_txt'] = 'Políticas anti-spam sincronizadas';
 $wb['do_mail_spamfilter_txt'] = 'Filtros anti-spam sincronizados';
 $wb['do_mailget_txt'] = 'Contas de busca de e-mail sincronizadas';
 $wb['resync_mailget_txt'] = 'Contas de busca de e-mails';
+$wb['resync_mailtransport_txt'] = 'E-Mail Transport';
+$wb['resync_mailrelay_txt'] = 'E-Mail Relay';
+$wb['do_mailtransport_txt'] = 'Resynced Mailtransport';
+$wb['do_mailrelay_txt'] = 'Resynced Mailrelay';
 ?>

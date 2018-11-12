@@ -1,0 +1,3 @@
+Include "/etc/prosody/storage.cfg.lua"
+Include "/etc/prosody/global.cfg.lua"
+Include "/etc/prosody/hosts/*.lua"

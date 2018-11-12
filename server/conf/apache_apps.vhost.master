@@ -33,6 +33,21 @@
     </Directory>
   </IfModule>
   
+  <IfModule mod_php7.c>
+    DocumentRoot {tmpl_var name='apps_vhost_dir'}
+    AddType application/x-httpd-php .php
+    <Directory {tmpl_var name='apps_vhost_dir'}>
+		Options FollowSymLinks
+		AllowOverride None
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+		Order allow,deny
+		Allow from all
+		</tmpl_if>
+    </Directory>
+  </IfModule>
+  
   <IfModule mod_fcgid.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     SuexecUserGroup ispapps ispapps

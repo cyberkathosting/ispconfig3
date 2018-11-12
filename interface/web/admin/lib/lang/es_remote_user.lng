@@ -44,4 +44,7 @@ $wb['Sites Subdomain functions'] = 'Funciones para sub-dominios';
 $wb['username_error_empty'] = 'El nombre de usuario no puede esta vacío';
 $wb['username_error_unique'] = 'En nombre de usuario debe ser único';
 $wb['username_txt'] = 'Nombre de usuario';
+$wb['remote_access_txt'] = 'Remote Access';
+$wb['remote_ips_txt'] = 'Remote Access IPs / Hostnames (separate by , and leave blank for <i>any</i>)';
+$wb['remote_user_error_ips'] = 'At least one of the entered ip addresses or hostnames is invalid.';
 ?>

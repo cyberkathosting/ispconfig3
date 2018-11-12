@@ -79,8 +79,9 @@ class xmpp_module {
         */
 
         $app->modules->registerTableHook('xmpp_domain', 'xmpp_module', 'process');
-        $app->services->registerService('metronome', 'xmpp_module', 'reloadXMPP');
-        $app->services->registerService('metronome', 'xmpp_module', 'restartXMPP');
+        $app->modules->registerTableHook('xmpp_user', 'xmpp_module', 'process');
+        $app->services->registerService('xmpp', 'xmpp_module', 'reloadXMPP');
+        $app->services->registerService('xmpp', 'xmpp_module', 'restartXMPP');
 
     }
 
@@ -113,7 +114,8 @@ class xmpp_module {
         // load the server configuration options
         $app->uses('getconf,system');
 
-        $daemon = 'metronome';
+        $xmpp_config = $app->getconf->get_server_config($conf['server_id'], 'xmpp');
+        $daemon = $xmpp_config['xmpp_daemon'];
 
         $retval = array('output' => '', 'retval' => 0);
         if($action == 'restart') {

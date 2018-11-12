@@ -86,12 +86,10 @@ class page_action extends tform_actions {
 		if($_POST['passwort'] != $_POST['repeat_password']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
-		if(preg_match('/[a-z]{2}/',$_POST['language'])) {
-			$_SESSION['s']['user']['language'] = $_POST['language'];
-			$_SESSION['s']['language'] = $_POST['language'];
-		} else {
-			$app->error('Invalid language.');
-		}
+		
+		$language = $app->functions->check_language($_POST['language']);
+		$_SESSION['s']['user']['language'] = $language;
+		$_SESSION['s']['language'] = $language;
 	}
 	
 	function onAfterUpdate() {

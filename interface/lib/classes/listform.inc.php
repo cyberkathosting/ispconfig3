@@ -60,7 +60,7 @@ class listform {
 		}
 
 		//* Set local Language File
-		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_'.$this->listDef['name'].'_list.lng';
+		$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_'.$this->listDef['name'].'_list.lng';
 		if(!file_exists($lng_file)) $lng_file = 'lib/lang/en_'.$this->listDef['name'].'_list.lng';
 		include $lng_file;
 

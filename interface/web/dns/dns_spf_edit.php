@@ -83,7 +83,7 @@ class page_action extends tform_actions {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
 
-			$app->tpl->setVar("data", $old_data);
+			$app->tpl->setVar("data", $old_data, true);
 			if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
 
 			$spf_hostname = '';
@@ -108,9 +108,9 @@ class page_action extends tform_actions {
 		}
 
 		//set html-values
-		$app->tpl->setVar("spf_ip", $spf_ip);
-		$app->tpl->setVar("spf_hostname", $spf_hostname);
-		$app->tpl->setVar("spf_domain", $spf_domain);
+		$app->tpl->setVar("spf_ip", $spf_ip, true);
+		$app->tpl->setVar("spf_hostname", $spf_hostname, true);
+		$app->tpl->setVar("spf_domain", $spf_domain, true);
 		//create spf-mechanism-list
 		$spf_mechanism_value = array( 
 			'+' => 'spf_mechanism_pass_txt',

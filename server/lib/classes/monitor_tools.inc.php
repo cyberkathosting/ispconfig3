@@ -87,6 +87,10 @@ class monitor_tools {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "18.04":
+				$relname = "(Bionic Beaver)";
+				$distconfid = 'ubuntu1804';
+				break;
 			case "17.10":
 				$relname = "(Artful Aardvark)";
 				$distconfid = 'ubuntu1710';
@@ -811,7 +815,8 @@ class monitor_tools {
 		$mailSubject = '';
 		$inHeader = true;
 		for($l = 0; $l < count($lines); $l++) {
-			if(trim($lines[$l]) == '') {
+			/* Trim only in headers */
+			if($inHeader && trim($lines[$l]) == '') {
 				$inHeader = false;
 				continue;
 			}

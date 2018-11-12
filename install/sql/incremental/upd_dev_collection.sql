@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ALTER TABLE `mail_mailinglist` ADD `list_type` enum('open','closed') NOT NULL DEFAULT 'open';
 ALTER TABLE `mail_mailinglist` ADD `subject_prefix` varchar(50) NOT NULL DEFAULT '';
 ALTER TABLE `mail_mailinglist` ADD `admins` mediumtext;
@@ -91,3 +90,17 @@ ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CAA','CNAME',
 ALTER TABLE `web_domain` ADD COLUMN `ssl_letsencrypt_exclude` enum('n','y') NOT NULL DEFAULT 'n' AFTER `ssl_letsencrypt`;
 ALTER TABLE `remote_user` ADD `remote_access` ENUM('y','n') NOT NULL DEFAULT 'y' AFTER `remote_password`;
 ALTER TABLE `remote_user` ADD `remote_ips` TEXT AFTER `remote_access`;
+ALTER TABLE `web_domain` ADD `php_fpm_chroot` enum('n','y') NOT NULL DEFAULT 'n' AFTER `php_fpm_use_socket`;
+
+
+ALTER TABLE `client_template`
+  ADD COLUMN `limit_xmpp_webpresence` ENUM( 'n', 'y' ) NOT NULL default 'y',
+  ADD COLUMN `limit_xmpp_http_upload` ENUM( 'n', 'y' ) NOT NULL default 'n';
+
+ALTER TABLE `client`
+  ADD COLUMN `limit_xmpp_webpresence` ENUM( 'n', 'y' ) NOT NULL default 'y',
+  ADD COLUMN `limit_xmpp_http_upload` ENUM( 'n', 'y' ) NOT NULL default 'n';
+
+ALTER TABLE `xmpp_domain`
+  ADD COLUMN `use_webpresence` enum('n','y') NOT NULL DEFAULT 'y',
+  ADD COLUMN `use_http_upload` enum('n','y') NOT NULL DEFAULT 'n';

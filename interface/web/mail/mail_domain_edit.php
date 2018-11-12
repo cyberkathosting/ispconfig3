@@ -80,6 +80,7 @@ class page_action extends tform_actions {
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -96,16 +97,18 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.default_mailserver, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ? order by client.contact_name", $client_group_id);
+			$client = $app->functions->htmlentities($client);
 
 			// Set the mailserver to the default server of the client
 			$tmp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $client['default_mailserver']);
-			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>$tmp[server_name]</option>");
+			$app->tpl->setVar("server_id", "<option value='$client[default_mailserver]'>" . $app->functions->htmlentities($tmp['server_name']) . "</option>");
 			unset($tmp);
 
 			if ($settings['use_domain_module'] != 'y') {
 				// Fill the client select field
 				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 				$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+				$clients = $app->functions->htmlentities($clients);
 				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -139,7 +142,7 @@ class page_action extends tform_actions {
 			$options_mail_servers = "";
 
 			foreach ($mail_servers as $mail_server) {
-				$options_mail_servers .= '<option value="'.$mail_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $mail_server['server_id'] ? ' selected="selected"' : '').'>'.$mail_server['server_name'].'</option>';
+				$options_mail_servers .= '<option value="'.$mail_server['server_id'].'"'.($this->id > 0 && $this->dataRecord["server_id"] == $mail_server['server_id'] ? ' selected="selected"' : '').'>'.$app->functions->htmlentities($mail_server['server_name']).'</option>';
 			}
 
 			$app->tpl->setVar("client_server_id", $options_mail_servers);
@@ -164,7 +167,7 @@ class page_action extends tform_actions {
 					if ($domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -190,7 +193,7 @@ class page_action extends tform_actions {
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
-				$policy_select .= "<option value='$p[id]' $selected>$p[policy_name]</option>\r\n";
+				$policy_select .= "<option value='$p[id]' $selected>" . $app->functions->htmlentities($p['policy_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("policy", $policy_select);
@@ -201,7 +204,7 @@ class page_action extends tform_actions {
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
@@ -211,10 +214,10 @@ class page_action extends tform_actions {
 		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));
 		$dns_key = str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$rec['dkim_public']);
 		$dns_record = $rec['dkim_selector'] . '._domainkey.' . $rec['domain'] . '. 3600   TXT   v=DKIM1; t=s; p=' . $dns_key;
-		$app->tpl->setVar('dkim_selector', $rec['dkim_selector']);
-		$app->tpl->setVar('dkim_private', $rec['dkim_private']);
-		$app->tpl->setVar('dkim_public', $rec['dkim_public']);
-		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record);
+		$app->tpl->setVar('dkim_selector', $rec['dkim_selector'], true);
+		$app->tpl->setVar('dkim_private', $rec['dkim_private'], true);
+		$app->tpl->setVar('dkim_public', $rec['dkim_public'], true);
+		if (!empty($rec['dkim_public'])) $app->tpl->setVar('dns_record', $dns_record, true);
 
 		parent::onShowEnd();
 	}

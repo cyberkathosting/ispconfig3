@@ -46,23 +46,23 @@ $msg = '';
 $error = '';
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_import_vpopmail.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_import_vpopmail.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
 if(isset($_POST['db_hostname']) && $_POST['db_hostname'] != '') {
 
-	//* Set external Login details
-	$conf['imp_db_host'] = $_POST['db_hostname'];
-	$conf['imp_db_database'] = $_POST['db_name'];
-	$conf['imp_db_user'] = $_POST['db_user'];
-	$conf['imp_db_password'] = $_POST['db_password'];
-	$conf['imp_db_charset'] = 'utf8';
-	$conf['imp_db_new_link'] = false;
-	$conf['imp_db_client_flags'] = 0;
+	//* Set external db client flags
+	$db_client_flags = 0;
+	if(isset($_POST['db_ssl']) && $_POST['db_ssl'] == 1) $db_client_flags |= MYSQLI_CLIENT_SSL;
 
-	//* create new db object
-	$exdb = new db('imp');
+	//* create new db object with external login details
+	try {
+		$exdb = new db($_POST['db_hostname'], $_POST['db_user'], $_POST['db_password'], $_POST['db_name'], 3306, $db_client_flags);
+	} catch (Exception $e) {
+		$error .= "Error connecting to database" . ($e->getMessage() ? ": " . $e->getMessage() : '.') . "<br />\n";
+		$exdb = false;
+	}
 
 	if($exdb !== false) {
 		$msg .= 'Databse connection succeeded<br />';
@@ -75,20 +75,18 @@ if(isset($_POST['db_hostname']) && $_POST['db_hostname'] != '') {
 		} else {
 			$msg .= 'The server with the ID $local_server_id is not a mail server.<br />';
 		}
-
-	} else {
-		$msg .= 'Database connection failed<br />';
 	}
 
 } else {
 	$_POST['local_server_id'] = 1;
 }
 
-$app->tpl->setVar('db_hostname', $_POST['db_hostname']);
-$app->tpl->setVar('db_user', $_POST['db_user']);
-$app->tpl->setVar('db_password', $_POST['db_password']);
-$app->tpl->setVar('db_name', $_POST['db_name']);
-$app->tpl->setVar('local_server_id', $_POST['local_server_id']);
+$app->tpl->setVar('db_hostname', $_POST['db_hostname'], true);
+$app->tpl->setVar('db_user', $_POST['db_user'], true);
+$app->tpl->setVar('db_password', $_POST['db_password'], true);
+$app->tpl->setVar('db_name', $_POST['db_name'], true);
+$app->tpl->setVar('db_ssl', 'true', true);
+$app->tpl->setVar('local_server_id', $_POST['local_server_id'], true);
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
 

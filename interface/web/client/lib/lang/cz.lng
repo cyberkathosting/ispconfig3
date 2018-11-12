@@ -19,11 +19,11 @@ $wb['Edit Client Circle'] = 'Upravit skupinu klientů';
 $wb['Domains'] = 'Domény';
 $wb['domain_txt'] = 'Doména';
 $wb['client_txt'] = 'Klient';
+$wb['error_domain_in dnsuse'] = 'Tato doména nemůže být odstraněna, jelikož je použitá jako DNS zóna';
+$wb['error_domain_in dnsslaveuse'] = 'Tato doména nemůže být odstraněna, jelikož je použitá jako sekundární DNS zóna';
 $wb['error_domain_in mailuse'] = 'Tato doména nelze odstranit, protože je v používána jako poštovní doména';
 $wb['error_domain_in webuse'] = 'Tato doména nelze odstranit, protože je v používána jako webová doména';
 $wb['error_client_can_not_add_domain'] = 'Nemůžete přidat novou doménu';
 $wb['error_client_group_id_empty'] = 'Musíte vybrat zákazníka<br>';
-$wb['error_domain_in dnsuse'] = 'This domain cannot be deleted, because it is in use as dns zone';
-$wb['error_domain_in dnsslaveuse'] = 'This domain cannot be deleted, because it is in use as secondary dns zone';
 $wb['Email-Templates'] = 'E-mailové šablony';
 ?>

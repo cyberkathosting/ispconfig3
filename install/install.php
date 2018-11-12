@@ -99,6 +99,9 @@ require_once 'lib/classes/tpl.inc.php';
     die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 }*/
 
+// Patch is required to reapir latest amavis versions
+if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start installation again.');
+
 //** Get distribution identifier
 $dist = get_distname();
 
@@ -517,12 +520,20 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Fire
 	}
 }
 
-//* Configure XMPP
-$force = @($conf['xmpp']['installed']) ? true : $inst->force_configure_app('Metronome XMPP Server', ($install_mode == 'expert'));
-if($force) {
-	swriteln('Configuring Metronome XMPP Server');
-	$inst->configure_xmpp();
-	$conf['services']['xmpp'] = true;
+if($install_mode == 'standard' || strtolower($inst->simple_query('Configure XMPP Server', array('y', 'n') , 'y','configure_xmpp') ) == 'y') {
+//* Configure XMPP Metronome
+    if ($conf['metronome']['installed']) {
+        swriteln('Configuring Metronome XMPP Server');
+        $inst->configure_metronome();
+        $conf['services']['xmpp'] = true;
+    }
+
+//* Configure XMPP Prosody
+    if ($conf['prosody']['installed']) {
+        swriteln('Configuring Prosody XMPP Server');
+        $inst->configure_prosody();
+        $conf['services']['xmpp'] = true;
+    }
 }
 
 //* Configure Fail2ban
@@ -630,7 +641,7 @@ if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') sys
 //if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
-if($conf['xmpp']['installed'] == true && $conf['xmpp']['init_script'] != '') system($inst->getinitcommand($conf['xmpp']['init_script'], 'restart').' &> /dev/null');
+if($conf['metronome']['installed'] == true && $conf['metronome']['init_script'] != '') system($inst->getinitcommand($conf['metronome']['init_script'], 'restart').' &> /dev/null');
 
 //* test tRNG
 if($conf['tRNG']) tRNG();

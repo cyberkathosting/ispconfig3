@@ -1,5 +1,7 @@
 <?php
 
+define('REMOTE_API_CALL', true);
+
 require_once '../../lib/config.inc.php';
 $conf['start_session'] = false;
 require_once '../../lib/app.inc.php';

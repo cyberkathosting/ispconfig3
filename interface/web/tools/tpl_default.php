@@ -41,7 +41,7 @@ $app->uses('tpl');
 $app->tpl->newTemplate('listpage.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/tpl_default.htm');
 
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_tpl_default.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_tpl_default.lng';
 include $lng_file;
 
 $app->tpl->setVar($wb);

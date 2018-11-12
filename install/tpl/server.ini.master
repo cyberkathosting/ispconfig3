@@ -16,6 +16,7 @@ firewall=bastille
 loglevel=2
 admin_notify_events=1
 backup_dir=/var/backup
+backup_tmp=/tmp
 backup_dir_is_mount=n
 backup_mode=rootgz
 backup_time=0:00
@@ -28,6 +29,7 @@ munin_user=
 munin_password=
 monitor_system_updates=y
 migration_mode=n
+log_retention=10
 
 [mail]
 module=postfix_mysql
@@ -101,6 +103,7 @@ php_fpm_ini_path=/etc/php5/fpm/php.ini
 php_fpm_pool_dir=/etc/php5/fpm/pool.d
 php_fpm_start_port=9010
 php_fpm_socket_dir=/var/lib/php5-fpm
+php_default_name=Default
 set_folder_permissions_on_update=n
 add_web_users_to_sshusers_group=y
 connect_userid_to_webid=n
@@ -113,6 +116,7 @@ overquota_notify_freq=7
 overquota_db_notify_admin=y
 overquota_db_notify_client=y
 overquota_notify_onok=n
+logging=yes
 
 [dns]
 bind_user=root
@@ -153,10 +157,11 @@ do_not_try_rescue_mysql=n
 do_not_try_rescue_mail=n
 
 [xmpp]
+xmpp_daemon=prosody
 xmpp_use_ispv6=n
 xmpp_bosh_max_inactivity=30
-xmpp_server_admins=admin@service.com, superuser@service.com
-xmpp_modules_enabled=saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons
+xmpp_server_admins=
+xmpp_modules_enabled=roster, saslauth, tls, dialback, disco, carbons, pep, private, blocklist, vcard, version, uptime, time, ping, admin_adhoc, mam, bosh, websocket, http_files, announce, proxy65, offline, posix, webpresence, smacks, csi_battery_saver, pep_vcard_avatar, omemo_all_access
 xmpp_port_http=5290
 xmpp_port_https=5291
 xmpp_port_pastebin=5292

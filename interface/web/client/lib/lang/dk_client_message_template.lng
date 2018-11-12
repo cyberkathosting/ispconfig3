@@ -8,4 +8,6 @@ $wb['Settings'] = 'Indstillinger';
 $wb['variables_txt'] = 'Variabler';
 $wb['variables_description_txt'] = '(Brugernavn og adgangskode variabler er kun tilgængelig i velkomst e-mails.)';
 $wb['duplicate_welcome_error'] = 'Der kan kun være én standard velkomstmail skabelon. Rediger den eksisterende skabelon i stedet for at tilføje en ny.';
+$wb['subject_error_empty'] = 'Subject is empty';
+$wb['message_error_empty'] = 'Message is empty';
 ?>

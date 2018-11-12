@@ -51,7 +51,7 @@ $app->uses('tpl');
 $app->tpl->newTemplate("templates/dashboard.htm");
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
 include $lng_file;
 $app->tpl->setVar($wb);
 
@@ -160,10 +160,13 @@ $dashlet_list = array();
 $handle = @opendir(ISPC_WEB_PATH.'/dashboard/dashlets');
 while ($file = @readdir($handle)) {
 	if ($file != '.' && $file != '..' && !is_dir(ISPC_WEB_PATH.'/dashboard/dashlets/'.$file)) {
-		$dashlet_name = substr($file, 0, -4);
-		$dashlet_class = 'dashlet_'.$dashlet_name;
-		include_once ISPC_WEB_PATH.'/dashboard/dashlets/'.$file;
-		$dashlet_list[$dashlet_name] = new $dashlet_class;
+		$splitfilename = explode('.', $file);
+		if (end($splitfilename) == 'php') { // only allow .php files 
+			$dashlet_name = substr($file, 0, -4);
+			$dashlet_class = 'dashlet_'.$dashlet_name;
+			include_once ISPC_WEB_PATH.'/dashboard/dashlets/'.$file;
+			$dashlet_list[$dashlet_name] = new $dashlet_class;
+		}
 	}
 }
 

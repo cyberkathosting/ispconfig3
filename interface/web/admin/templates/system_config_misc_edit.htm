@@ -81,6 +81,15 @@
                 </div>
             </div>
 			<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='use_ipsuggestions_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='use_ipsuggestions'}<br/>{tmpl_var name='use_ipsuggestions_descr_txt'}
+                </div>
+            </div>
+			<div class="form-group">
+                <label for="ipsuggestions_max" class="col-sm-3 control-label">{tmpl_var name='ipsuggestions_max_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ipsuggestions_max" id="ipsuggestions_max" value="{tmpl_var name='ipsuggestions_max'}" class="form-control" /></div></div>
+			<div class="form-group">
                 <label for="customer_no_template" class="col-sm-3 control-label">{tmpl_var name='customer_no_template_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="customer_no_template" id="customer_no_template" value="{tmpl_var name='customer_no_template'}" class="form-control" /></div></div>
 			<div class="form-group">

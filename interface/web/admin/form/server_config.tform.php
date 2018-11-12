@@ -145,6 +145,12 @@ $form["tabs"]['server'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'nameservers_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -172,6 +178,20 @@ $form["tabs"]['server'] = array(
 			'validators' => array(	0 => array ( 	'type' => 'REGEX',
 										'regex' => "/(|^\\/{1,2}(?:[\\w-]+[.]?\\/?){5,128})$/",
 										'errmsg'=> 'backup_dir_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'backup_tmp' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '/tmp/',
+			'validators' => array(	0 => array('type' => 'NOTEMPTY',
+										'errmsg' => 'tmpdir_path_error_empty'),
+									1 => array ( 	'type' => 'REGEX',
+										'regex' => "/^\/[a-zA-Z0-9\.\-\_\/]{3,128}$/",
+										'errmsg'=> 'tmpdir_path_error_regex'),
 			),
 			'value' => '',
 			'width' => '40',
@@ -316,6 +336,12 @@ $form["tabs"]['server'] = array(
 		'monit_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -344,6 +370,12 @@ $form["tabs"]['server'] = array(
 		'munin_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -390,6 +422,17 @@ $form["tabs"]['server'] = array(
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'log_retention' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISPOSITIVE',
+				'errmsg'=> 'log_retention_error_ispositive'),
+			),
+			'default' => '30',
+			'value' => '',
+			'width' => '4',
+			'maxlength' => '4'
 		),
 		'migration_mode' => array(
 			'datatype' => 'VARCHAR',
@@ -454,6 +497,12 @@ $form["tabs"]['mail'] = array(
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '/var/lib/amavis/dkim',
 			'value' => '',
 			'width' => '40',
@@ -555,6 +604,12 @@ $form["tabs"]['mail'] = array(
 		'relayhost' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -563,6 +618,12 @@ $form["tabs"]['mail'] = array(
 		'relayhost_user' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -753,6 +814,12 @@ $form["tabs"]['web'] = array(
 		'website_autoalias' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -791,6 +858,12 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'nginx_enable_pagespeed' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
 		),
 		'nginx_vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
@@ -881,6 +954,12 @@ $form["tabs"]['web'] = array(
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
 			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'logging' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'yes',
+			'value' => array('yes' => 'Yes', 'anon' => 'Anonymize IP', 'no' => 'No')
 		),
 		'overtraffic_notify_admin' => array(
 			'datatype' => 'VARCHAR',
@@ -1049,6 +1128,24 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_default_name' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => 'Default',
+			'validators' => array(	0 => array('type' => 'NOTEMPTY',
+										'errmsg' => 'php_default_name_error_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'TRIM'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					2 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'php_fpm_init_script' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1169,6 +1266,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'htaccess_allow_override_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1195,6 +1298,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'apps_vhost_port_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1206,6 +1315,12 @@ $form["tabs"]['web'] = array(
 			'validators' => array(0 => array('type' => 'NOTEMPTY',
 					'errmsg' => 'apps_vhost_ip_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
@@ -1213,6 +1328,12 @@ $form["tabs"]['web'] = array(
 		'apps_vhost_servername' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -1221,6 +1342,12 @@ $form["tabs"]['web'] = array(
 		'awstats_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value' => '',
 			'width' => '40',
@@ -1499,6 +1626,12 @@ $form["tabs"]['xmpp'] = array(
         //#################################
         // Begin Datatable fields
         //#################################
+        'xmpp_daemon' => array(
+            'datatype' => 'VARCHAR',
+            'formtype' => 'SELECT',
+            'default' => '20',
+            'value' => array('prosody' => 'Prosody', 'metronome' => 'Metronome')
+        ),
         'xmpp_use_ipv6' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'CHECKBOX',
@@ -1520,6 +1653,12 @@ $form["tabs"]['xmpp'] = array(
         'xmpp_server_admins' => array(
             'datatype' => 'VARCHAR',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
             'default' => 'admin@service.com, superuser@service.com',
             'value' => '',
             'width' => '15'
@@ -1528,6 +1667,12 @@ $form["tabs"]['xmpp'] = array(
         'xmpp_modules_enabled' => array(
             'datatype' => 'TEXT',
             'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
             'default' => "saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons",
             'value' => '',
             'separator' => ","

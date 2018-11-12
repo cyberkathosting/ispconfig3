@@ -62,11 +62,17 @@ $form["tabs"]['template'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('welcome' => 'Default welcome email', 'other' => 'Other')
+			'value'  => array('welcome' => 'Default welcome email', 'gdpr' => 'GDPR data send', 'other' => 'Other')
 		),
 		'template_name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'separator' => '',
@@ -80,6 +86,12 @@ $form["tabs"]['template'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array ( 0 => array ( 'type' => 'NOTEMPTY',
 				'errmsg'=> 'subject_error_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',

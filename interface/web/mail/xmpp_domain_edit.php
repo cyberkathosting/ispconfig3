@@ -87,12 +87,12 @@ class page_action extends tform_actions {
 	}
 
 	function onShowEnd() {
-		global $app, $conf;
+		global $app;
 
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
-        $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status');
+        $read_limits = array('limit_xmpp_pastebin', 'limit_xmpp_httparchive', 'limit_xmpp_anon', 'limit_xmpp_vjud', 'limit_xmpp_proxy', 'limit_xmpp_status', 'limit_xmpp_webpresence', 'limit_xmpp_http_upload');
         if($_SESSION["s"]["user"]["typ"] != 'admin') {
             $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
             $client = $app->db->queryOneRecord("SELECT client." . implode(", client.", $read_limits) . " FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
@@ -108,6 +108,7 @@ class page_action extends tform_actions {
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -124,11 +125,13 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ? order by client.contact_name", $client_group_id);
+			$client = $app->functions->htmlentities($client);
 
 			if ($settings['use_domain_module'] != 'y') {
 				// Fill the client select field
 				$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 				$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+				$clients = $app->functions->htmlentities($clients);
 				$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 				$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 				//$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -162,7 +165,7 @@ class page_action extends tform_actions {
 			$options_xmpp_servers = "";
 
 			foreach ($xmpp_servers as $xmpp_server) {
-				$options_xmpp_servers .= "<option value='$xmpp_server[server_id]'>$xmpp_server[server_name]</option>";
+				$options_xmpp_servers .= "<option value='$xmpp_server[server_id]'>" . $app->functions->htmlentities($xmpp_server['server_name']) . "</option>";
 			}
 
 			$app->tpl->setVar("client_server_id", $options_xmpp_servers);
@@ -187,7 +190,7 @@ class page_action extends tform_actions {
 					if ($domain['domain'] == $this->dataRecord["domain"]) {
 						$domain_select .= " selected";
 					}
-					$domain_select .= ">" . $app->functions->idn_decode($domain['domain']) . "</option>\r\n";
+					$domain_select .= ">" . $app->functions->htmlentities($app->functions->idn_decode($domain['domain'])) . "</option>\r\n";
 				}
 			}
 			else {
@@ -208,7 +211,7 @@ class page_action extends tform_actions {
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"]);
+			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
@@ -218,7 +221,7 @@ class page_action extends tform_actions {
 	}
 
 	function onSubmit() {
-		global $app, $conf;
+		global $app;
 
 		/* check if the domain module is used - and check if the selected domain can be used! */
 		$app->uses('ini_parser,getconf');
@@ -291,19 +294,6 @@ class page_action extends tform_actions {
         // vjud opt mode
         if(isset($this->dataRecord["vjud_opt_mode"]))
             $this->dataRecord["vjud_opt_mode"] = $this->dataRecord["vjud_opt_mode"] == 0 ? 'in' : 'out';
-        if(isset($this->dataRecord["muc_restrict_room_creation"])){
-            switch($this->dataRecord["muc_restrict_room_creation"]){
-                case 0:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'false';
-                    break;
-                case 1:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'member';
-                    break;
-                case 2:
-                    $this->dataRecord["muc_restrict_room_creation"] = 'true';
-                    break;
-            }
-        }
 
         // Reset public registration to 'n', is not yet supported
         $this->dataRecord["public_registration"] = 'n';
@@ -429,7 +419,7 @@ class page_action extends tform_actions {
 
         // purge old rr-record
         $sql = "SELECT * FROM dns_rr WHERE zone = ? AND (name IN ? AND type = 'CNAME' OR name LIKE ? AND type = 'SRV')  AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
-        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc'), '_xmpp-%');
+        $rec = $app->db->queryAllRecords($sql, $new_rr['zone'], array('xmpp', 'pubsub', 'proxy', 'anon', 'vjud', 'muc', 'upload'), '_xmpp-%');
         if (is_array($rec[1])) {
             for ($i=0; $i < count($rec); ++$i)
                 $app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);

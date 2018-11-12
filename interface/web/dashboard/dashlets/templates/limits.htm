@@ -3,8 +3,9 @@
 		<caption>{tmpl_var name='limits_txt'}</caption>
 		<thead class="dark form-group-sm">
 		  <tr>
-			<th>&nbsp;</th>
-			<th colspan='2'>&nbsp;</th>
+			<th class="col-md-4">&nbsp;</th>
+			<th class="col-md-3">&nbsp;</th>
+			<th class="col-md-2">&nbsp;</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -12,13 +13,12 @@
 			<tr>
 				<td>{tmpl_var name='field_txt'}</td>
 				<td>{tmpl_var name='usage'} {tmpl_var name='of_txt'} {tmpl_var name='value'}</td>
-				<td>
+				{tmpl_if name="progressbar" op="!=" value="-1"}<td>
 				<div class='progress'>
-					<div class='progress-bar progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{tmpl_var name="percentage"}' style='width:{tmpl_var name="percentage"}%' data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='percentage'}%">
-					<span class='sr-only'>{tmpl_var name='usage'} {tmpl_var name='of_txt'} {tmpl_var name='value'}</span>
+					<div class='progress-bar progress-bar-striped progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{tmpl_var name="progressbar"}' style='width:{tmpl_var name="progressbar"}%'"><span{tmpl_if name="progressbar" op="<" value="25"} class="pbvaluemargin"{/tmpl_if}>{tmpl_var name="percentage"}%</span><span class='sr-only'>{tmpl_var name='usage'} {tmpl_var name='of_txt'} {tmpl_var name='value'}</span>
 					</div>
 				</div>
-				</td>
+				</td><tmpl_else><td></td>{/tmpl_if}
 			</tr>
 		</tmpl_loop>
 		</tbody>

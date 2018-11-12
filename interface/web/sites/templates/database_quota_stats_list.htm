@@ -8,13 +8,13 @@
 <table class="table">
 				<thead class="dark form-group-sm">
 				<tr>
-					<th data-column="database_name"><tmpl_var name="database_txt"></th>
-					<th data-column="server_name"><tmpl_var name="server_name_txt"></th>
-					<th data-column="client"><tmpl_var name="client_txt"></th>
-					<th data-column="used"><tmpl_var name="used_txt"></th>
-					<th data-column="quota"><tmpl_var name="quota_txt"></th>
-					<th data-column="percentage"><tmpl_var name="percentage_txt">
-					<th class="small-col text-right">{tmpl_var name='search_limit'}</th>
+					<th class="col-md-2" data-column="database_name"><tmpl_var name="database_txt"></th>
+					<th class="col-md-3" data-column="server_name"><tmpl_var name="server_name_txt"></th>
+					<th class="col-md-2" data-column="client"><tmpl_var name="client_txt"></th>
+					<th class="col-md-1" data-column="used_sort"><tmpl_var name="used_txt"></th>
+					<th class="col-md-1" data-column="quota_sort"><tmpl_var name="quota_txt"></th>
+					<th class="col-md-1" data-column="percentage_sort"><tmpl_var name="percentage_txt">
+					<th class="col-md-1 text-right">{tmpl_var name='search_limit'}</th>
 				</tr>
 				<tr>
 					<td><input class="form-control" type="text" name="search_database_name" value="{tmpl_var name='search_database_name'}" /></td>
@@ -36,8 +36,10 @@
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>
-							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="percentage"}</a></td>
-							<td class="text-right"></td>
+							<td colspan="2">{tmpl_if name="progressbar" op="!=" value="-1"}<div class="progress" style="height: 20px">
+                                        <div class='progress-bar-striped progress-bar-{tmpl_if name="percentage_sort" op="<" value="50"}success{tmpl_elseif name="percentage_sort" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role="progressbar" style="width: {tmpl_var name="progressbar"}%;" aria-valuenow="{tmpl_var name="percentage"}" aria-valuemin="0" aria-valuemax="100">{tmpl_var name="percentage"}</div>
+                                </div>{/tmpl_if}
+</td>
 						</tr>
 					</tmpl_loop>
 					<tmpl_unless name="records">

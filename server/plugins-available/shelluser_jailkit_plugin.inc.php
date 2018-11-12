@@ -350,6 +350,11 @@ class shelluser_jailkit_plugin {
 
 		//add the user to the chroot
 		$jailkit_chroot_userhome = $this->_get_home_dir($this->data['new']['username']);
+		if(isset($this->data['old']['username'])) {
+			$jailkit_chroot_userhome_old = $this->_get_home_dir($this->data['old']['username']);
+		} else {
+			$jailkit_chroot_userhome_old = '';
+		}
 		$jailkit_chroot_puserhome = $this->_get_home_dir($this->data['new']['puser']);
 
 		if(!is_dir($this->data['new']['dir'].'/etc')) mkdir($this->data['new']['dir'].'/etc', 0755);
@@ -394,17 +399,23 @@ class shelluser_jailkit_plugin {
 		if($this->data['new']['active'] != 'y') $shell = '/bin/false';
 		
 		$app->system->usermod($this->data['new']['username'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, $shell);
-		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, '/usr/sbin/jk_chrootsh');
+		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_puserhome, '/usr/sbin/jk_chrootsh');
 
 		$this->app->log("Added jailkit user to chroot with command: ".$command, LOGLEVEL_DEBUG);
 
-		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0755, true);
+		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome)) {
+			if(is_dir($this->data['old']['dir'].$jailkit_chroot_userhome_old)) {
+				$app->system->rename(escapeshellcmd($this->data['old']['dir'].$jailkit_chroot_userhome_old),escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome));
+			} else {
+				mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), 0750, true);
+			}
+		}
 		$app->system->chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['username']);
 		$app->system->chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_userhome), $this->data['new']['pgroup']);
 
 		$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 
-		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_puserhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0755, true);
+		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_puserhome)) mkdir(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), 0750, true);
 		$app->system->chown(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['puser']);
 		$app->system->chgrp(escapeshellcmd($this->data['new']['dir'].$jailkit_chroot_puserhome), $this->data['new']['pgroup']);
 

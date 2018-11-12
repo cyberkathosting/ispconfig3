@@ -75,7 +75,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 					}
 
 					include_once $mt.'/lib/module.conf.php';
-					$language = (isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language'];
+					$language = $app->functions->check_language((isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language']);
 					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;
 					$topnav[$module['order'].'-'.$module['name']] = array( 'title'  => $app->lng($module['title']),

@@ -226,6 +226,9 @@ class shelluser_base_plugin {
 					$homedir_old = $data['old']['dir'].'/home/'.$data['old']['username'];
 				}
 				
+				$app->log("Homedir New: ".$homedir, LOGLEVEL_DEBUG);
+				$app->log("Homedir Old: ".$homedir_old, LOGLEVEL_DEBUG);
+				
 				// Check if the user that we want to update exists, if not, we insert it
 				if($app->system->is_user($data['old']['username'])) {
 					//* Remove webfolder protection
@@ -246,16 +249,27 @@ class shelluser_base_plugin {
 					$app->log("Executed command: $command ",LOGLEVEL_DEBUG);
 					*/
 					//$groupinfo = $app->system->posix_getgrnam($data['new']['pgroup']);
-					if($homedir != $homedir_old && !is_dir($homedir)){
+					if($homedir != $homedir_old){
 						$app->system->web_folder_protection($web['document_root'], false);
-						if(!is_dir($data['new']['dir'].'/home')){
+						// Rename dir, in case the new directory exists already.
+						if(is_dir($homedir)) {
+							$app->log("New Homedir exists, renaming it to ".$homedir.'_bak', LOGLEVEL_DEBUG);
+							$app->system->rename(escapeshellcmd($homedir),escapeshellcmd($homedir.'_bak'));
+						}
+						/*if(!is_dir($data['new']['dir'].'/home')){
 							$app->file->mkdirs(escapeshellcmd($data['new']['dir'].'/home'), '0750');
 							$app->system->chown(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['puser']));
 							$app->system->chgrp(escapeshellcmd($data['new']['dir'].'/home'),escapeshellcmd($data['new']['pgroup']));
 						}
 						$app->file->mkdirs(escapeshellcmd($homedir), '0755');
 						$app->system->chown(escapeshellcmd($homedir),'root');
-						$app->system->chgrp(escapeshellcmd($homedir),'root');
+						$app->system->chgrp(escapeshellcmd($homedir),'root');*/
+						
+						// Move old directory to new path
+						$app->system->rename(escapeshellcmd($homedir_old),escapeshellcmd($homedir));
+						$app->file->mkdirs(escapeshellcmd($homedir), '0750');
+						$app->system->chown(escapeshellcmd($homedir),escapeshellcmd($data['new']['puser']));
+						$app->system->chgrp(escapeshellcmd($homedir),escapeshellcmd($data['new']['pgroup']));
 						$app->system->web_folder_protection($web['document_root'], true);
 					} else {
 						if(!is_dir($homedir)){

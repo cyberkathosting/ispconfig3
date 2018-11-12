@@ -229,12 +229,12 @@ if(count($_POST) > 0) {
 						if ($loginAs) $_SESSION['s_old'] = $oldSession; // keep the way back!
 						$_SESSION['s']['user'] = $user;
 						$_SESSION['s']['user']['theme'] = isset($user['app_theme']) ? $user['app_theme'] : 'default';
-						$_SESSION['s']['language'] = $user['language'];
+						$_SESSION['s']['language'] = $app->functions->check_language($user['language']);
 						$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 						if ($loginAs) $_SESSION['s']['plugin_cache'] = $_SESSION['s_old']['plugin_cache'];
 						
 						if(is_file(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
-							include_once ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php';
+							include_once $app->functions->check_include_path(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 							$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
 								if (is_dir($menu_dir)) {
 								if ($dh = opendir($menu_dir)) {
@@ -347,7 +347,7 @@ $app->tpl->setVar('login_button_txt', $app->lng('login_button_txt'));
 $app->tpl->setVar('session_timeout', $server_config_array['session_timeout']);
 $app->tpl->setVar('session_allow_endless', $server_config_array['session_allow_endless']);
 //$app->tpl->setInclude('content_tpl', 'login/templates/index.htm');
-$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
+$app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default', true);
 //die(isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
 
 // Logo

@@ -1,4 +1,8 @@
 #!/bin/bash
+
+#  this is a bash script library to be called by other scripts, 
+#  but not to be run directly
+
 # Copyright (c) 2009, Scott Barr <gsbarr@gmail.com>
 # All rights reserved.
 #

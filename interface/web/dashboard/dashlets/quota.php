@@ -8,6 +8,11 @@ class dashlet_quota {
 		//* Loading Template
 		$app->uses('tpl,quota_lib');
 
+		$modules = $_SESSION['s']['user']['modules'];
+		if (!in_array($modules, 'sites')) {
+			return '';
+		}
+
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/quota.htm");
 
@@ -21,6 +26,7 @@ class dashlet_quota {
 
 		$has_quota = false;
 		if(is_array($sites) && !empty($sites)){
+			$sites = $app->functions->htmlentities($sites);
 			$tpl->setloop('quota', $sites);
 			$has_quota = isset($sites[0]['used']);
 		}

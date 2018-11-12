@@ -349,6 +349,9 @@ if($vhostdomain_type == 'domain') {
 				'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
 				'errmsg'=> 'web_folder_error_regex'),
 		),
+		'filters'   => array( 0 => array( 	'event' => 'SAVE',
+											'type' => 'TRIM'),
+		),
 		'formtype' => 'TEXT',
 		'default' => '',
 		'value'  => '',
@@ -367,6 +370,9 @@ if($vhostdomain_type == 'domain') {
 		'validators' => array (  0 => array ( 'type' => 'REGEX',
 				'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
 				'errmsg'=> 'web_folder_error_regex'),
+		),
+		'filters'   => array( 0 => array( 	'event' => 'SAVE',
+											'type' => 'TRIM'),
 		),
 		'formtype' => 'TEXT',
 		'default' => '',
@@ -396,7 +402,7 @@ $form["tabs"]['redirect'] = array (
 		'redirect_path' => array (
 			'datatype' => 'VARCHAR',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '@^(([\.]{0})|((ftp|https?)://([-\w\.]+)+(:\d+)?(/([\w/_\.\,\-\+\?\~!:%]*(\?\S+)?)?)?)|(\[scheme\]://([-\w\.]+)+(:\d+)?(/([\w/_\.\-\,\+\?\~!:%]*(\?\S+)?)?)?)|(/(?!.*\.\.)[\w/_\.\-]{1,255}/))$@',
+					'regex' => '@^(([\.]{0})|((ftp|https?|\[scheme\])://([-\w\.]+)+(:\d+)?(/([\w/_\.\,\-\+\?\~!:%]*(\?\S+)?)?)?)(?:#\S*)?|(/(?!.*\.\.)[\w/_\.\-]{1,255}/))$@',
 					'errmsg'=> 'redirect_error_regex'),
 			),
 			'formtype' => 'TEXT',
@@ -520,6 +526,12 @@ if($ssl_available) {
 			'ssl_domain' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'TEXT',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',
@@ -528,6 +540,10 @@ if($ssl_available) {
 			'ssl_key' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -536,6 +552,10 @@ if($ssl_available) {
 			'ssl_request' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -544,6 +564,10 @@ if($ssl_available) {
 			'ssl_cert' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -552,6 +576,10 @@ if($ssl_available) {
 			'ssl_bundle' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXTAREA',
+				'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS')
+				),
 				'default' => '',
 				'value'  => '',
 				'cols'  => '30',
@@ -744,6 +772,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'default' => 'n',
 				'value'  => array(0 => 'n', 1 => 'y')
 			),
+            'php_fpm_chroot' => array (
+                'datatype' => 'VARCHAR',
+                'formtype' => 'CHECKBOX',
+                'default' => 'n',
+                'value'  => array(0 => 'n', 1 => 'y')
+            ),
 			'pm' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'SELECT',
@@ -859,6 +893,13 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 			'nginx_directives' => array (
 				'datatype' => 'TEXT',
 				'formtype' => 'TEXT',
+				'validators' => array (  0 => array(
+							'type' => 'CUSTOM',
+							'class' => 'validate_domain',
+							'function' => 'web_nginx_directives',
+							'errmsg' => 'nginx_directive_blocked_error'
+						),
+				),
 				'default' => '',
 				'value'  => '',
 				'width'  => '30',
@@ -918,18 +959,18 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'width'  => '3',
 				'maxlength' => '6'
 			),
-                        'log_retention' => array (
-                                'datatype' => 'INTEGER',
-                                'formtype' => 'TEXT',
-                                'validators' => array (  0 => array ( 'type' => 'REGEX',
-                                                'regex' => '/^([0-9]{1,4})$/',
-                                                'errmsg'=> 'log_retention_error_regex'),
-                                ),
-                                'default' => '30',
-                                'value' => '',
-                                'width' => '4',
-                                'maxlength' => '4'
-                        )
+			'log_retention' => array (
+				'datatype' => 'INTEGER',
+				'formtype' => 'TEXT',
+				'validators' => array (  0 => array ( 'type' => 'REGEX',
+					'regex' => '/^([0-9]{1,4})$/',
+					'errmsg'=> 'log_retention_error_regex'),
+				),
+				'default' => '30',
+				'value' => '',
+				'width' => '4',
+				'maxlength' => '4'
+			)
 			//#################################
 			// ENDE Datatable fields
 			//#################################

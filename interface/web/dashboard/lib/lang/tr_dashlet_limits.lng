@@ -28,4 +28,7 @@ $wb['limit_webdav_user_txt'] = 'Webdav Kullanıcı Sayısı';
 $wb['limit_client_txt'] = 'Müşteri Sayısı';
 $wb['limit_database_txt'] = 'Veritabanı Sayısı';
 $wb['limit_domain_txt'] = 'Alan Adı Sayısı';
+$wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
+$wb['limit_web_quota_txt'] = 'Assigned web quota';
+$wb['limit_database_quota_txt'] = 'Assigned database quota';
 ?>

@@ -1,9 +1,9 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Trasmetti copia all indirizzo  email';
+$wb['mailbox_cc_txt'] = 'Invia copa delle e-mail';
 $wb['cc_txt'] = 'Manda copia a';
-$wb['email_txt'] = 'Email';
-$wb['cc_error_isemail'] = 'Email address invalid in -Send copy to- field';
-$wb['email_is_cc_error'] = 'Email address and send copy to address can not be the same.';
-$wb['name_optional_txt'] = '(Optional)';
-$wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['email_txt'] = 'E-mail ricevute da';
+$wb['cc_error_isemail'] = 'Indirizzo e-mail non valido';
+$wb['email_is_cc_error'] = 'Specificare un indirizzo e-mail diverso dalll\'attuale e-mail.';
+$wb['name_optional_txt'] = '(Opzionale)';
+$wb['cc_note_txt'] = '(Separare con una virgola e-mail multiple)';
 ?>

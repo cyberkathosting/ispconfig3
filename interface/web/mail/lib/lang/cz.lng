@@ -37,12 +37,12 @@ $wb['User / Domain'] = 'Uživatel / Doména';
 $wb['Server Settings'] = 'Nastavení serveru';
 $wb['Fetchmail'] = 'Externí získávání e-mailů';
 $wb['Mailbox traffic'] = 'Přenesená data';
+$wb['Statistics'] = 'Statistiky';
 $wb['Postfix Whitelist'] = 'Postfix bílá listina';
 $wb['Postfix Blacklist'] = 'Postfix černá listina';
 $wb['Content Filter'] = 'Obsahový filtr';
 $wb['Global Filters'] = 'Globální filtry';
 $wb['Domain Alias'] = 'Přezdívky e-mailových domén';
 $wb['Relay Recipients'] = 'Relay adresáti';
-$wb['Statistics'] = 'Statistiky';
 $wb['Mailbox quota'] = 'Kvóty pro e-mailové schránky';
 ?>

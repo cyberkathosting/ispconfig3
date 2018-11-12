@@ -8,4 +8,7 @@ $wb['city_txt'] = 'By';
 $wb['country_txt'] = 'Land';
 $wb['add_new_record_txt'] = 'Tilføj ny kunde';
 $wb['customer_no_txt'] = 'Kunde Nr.';
+$wb['locked_txt'] = 'Locked';
+$wb['yes_txt'] = 'Yes';
+$wb['no_txt'] = 'No';
 ?>

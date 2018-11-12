@@ -44,7 +44,7 @@ $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/remote_action_ispcupdate.htm');
 
 //* load language file
-$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_remote_action.lng';
+$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_remote_action.lng';
 include $lng_file;
 
 /*

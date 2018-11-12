@@ -76,13 +76,13 @@ class page_action extends tform_actions {
 
 		// Getting Domains of the user
 		//$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
-		$sql = "SELECT domain FROM mail_domain WHERE domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') AND ".$app->tform->getAuthSQL('r')." ORDER BY domain";
+		$sql = "SELECT domain FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		foreach( $domains as $domain) {
 			$domain['domain'] = $app->functions->idn_decode($domain['domain']);
 			$selected = (isset($email_parts[1]) && $domain["domain"] == $email_parts[1])?'SELECTED':'';
-			$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+			$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 		}
 		$app->tpl->setVar("email_domain", $domain_select);
 

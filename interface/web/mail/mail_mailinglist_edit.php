@@ -74,6 +74,7 @@ class page_action extends tform_actions {
 			// Getting Clients of the user
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql);
+			$clients = $app->functions->htmlentities($clients);
 			$client_select = '';
 			if($_SESSION["s"]["user"]["typ"] == 'admin') $client_select .= "<option value='0'></option>";
 			$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -90,10 +91,12 @@ class page_action extends tform_actions {
 			// Get the limits of the client
 			$client_group_id = $_SESSION["s"]["user"]["default_group"];
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, client.default_mailserver, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ? order by contact_name", $client_group_id);
+			$client = $app->functions->htmlentities($client);
 
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 			$clients = $app->db->queryAllRecords($sql, $client['client_id']);
+			$clients = $app->functions->htmlentities($clients);
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client['client_id']);
 			$client_select = '<option value="'.$tmp['groupid'].'">'.$client['contactname'].'</option>';
 			$tmp_data_record = $app->tform->getDataRecord($this->id);
@@ -113,7 +116,7 @@ class page_action extends tform_actions {
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
 				$selected = ($domain["domain"] == $this->dataRecord["domain"])?'SELECTED':'';
-				$domain_select .= "<option value='$domain[domain]' $selected>$domain[domain]</option>\r\n";
+				$domain_select .= "<option value='" . $app->functions->htmlentities($domain['domain']) . "' $selected>" . $app->functions->htmlentities($domain['domain']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("domain_option", $domain_select);
@@ -121,9 +124,9 @@ class page_action extends tform_actions {
 		if($this->id > 0) {
 			//* we are editing a existing record
 			$app->tpl->setVar("edit_disabled", 1);
-			$app->tpl->setVar("listname_value", $this->dataRecord["listname"]);
-			$app->tpl->setVar("domain_value", $this->dataRecord["domain"]);
-			$app->tpl->setVar("email_value", $this->dataRecord["email"]);
+			$app->tpl->setVar("listname_value", $this->dataRecord["listname"], true);
+			$app->tpl->setVar("domain_value", $this->dataRecord["domain"], true);
+			$app->tpl->setVar("email_value", $this->dataRecord["email"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}

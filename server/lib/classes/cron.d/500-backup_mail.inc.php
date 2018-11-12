@@ -59,6 +59,7 @@ class cronjob_backup_mail extends cronjob {
 
 		$backup_mode = $server_config['backup_mode'];
 		if($backup_mode == '') $backup_mode = 'userzip';
+		$backup_tmp = trim($server_config['backup_tmp']);
 
 		if($backup_dir != '') {
 			$run_backups = true;
@@ -72,7 +73,12 @@ class cronjob_backup_mail extends cronjob {
 				} else {
 					chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
 				}
-
+				system('which pigz > /dev/null', $ret);
+				if($ret === 0) {
+					$use_pigz = true;
+				} else {
+					$use_pigz = false;
+				}
 				foreach($records as $rec) {
 					//* Do the mailbox backup
 					$email = $rec['email'];
@@ -120,11 +126,15 @@ class cronjob_backup_mail extends cronjob {
 		
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';
-								exec('cd '.$this->tmp_backup_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r backup > /dev/null && rm -rf backup', $tmp_output, $retval);
+								exec('cd '.$this->tmp_backup_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b '.escapeshellarg($backup_tmp).' -r backup > /dev/null && rm -rf backup', $tmp_output, $retval);
 							}
 							else {
 								$mail_backup_file.='.tar.gz';
-								exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$this->tmp_backup_dir.' backup && rm -rf '.$this->tmp_backup_dir.'/backup'), $tmp_output, $retval);
+								if ($use_pigz) {
+									exec('tar pcf - --directory '.escapeshellarg($this->tmp_backup_dir).' backup | pigz > '.$mail_backup_dir.'/'.$mail_backup_file.' && rm -rf '.$this->tmp_backup_dir.'/backup', $tmp_output, $retval);
+								} else {
+									exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$this->tmp_backup_dir.' backup && rm -rf '.$this->tmp_backup_dir.'/backup'), $tmp_output, $retval);
+								}
 							}
 							
 							if ($retval != 0) {
@@ -144,11 +154,15 @@ class cronjob_backup_mail extends cronjob {
 							//* create archives
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';
-								exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b /tmp -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
+								exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b '.escapeshellarg($backup_tmp).' -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
 							} else {
 								/* Create a tar.gz backup */
 								$mail_backup_file.='.tar.gz';
-								exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
+								if ($use_pigz) {
+									exec('tar pcf - --directory '.escapeshellarg($domain_dir).' '.escapeshellarg($source_dir).' | pigz > '.$mail_backup_dir.'/'.$mail_backup_file, $tmp_output, $retval);
+								} else {
+									exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
+								}
 							}
 						}
 						
@@ -228,7 +242,7 @@ class cronjob_backup_mail extends cronjob {
 						if(!is_file($mail_backup_dir.'/'.$backup['filename'])){
 							$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 							$app->db->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
-							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql);
+							if($app->db->dbHost != $app->dbmaster->dbHost) $app->dbmaster->query($sql, $conf['server_id'], $backup['parent_domain_id'], $backup['filename']);
 						}
 					}
 				}

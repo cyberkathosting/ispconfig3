@@ -87,6 +87,12 @@ $form["tabs"]['software_package'] = array (
 		'package_title' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'validators' => '',
 			'default' => '',
 			'value'  => '',
@@ -99,6 +105,12 @@ $form["tabs"]['software_package'] = array (
 		'package_key' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'validators' => '',
 			'default' => '',
 			'value'  => '',

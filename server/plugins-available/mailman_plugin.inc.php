@@ -89,6 +89,9 @@ class mailman_plugin {
 		if(is_file('/var/lib/mailman/data/transport-mailman')) exec('postmap /var/lib/mailman/data/transport-mailman');
 		
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
+		
+		// Fix list URL
+		exec('/usr/sbin/withlist -l -r fix_url '.escapeshellcmd($data["new"]["listname"]));
 
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ?", $data["new"]['mailinglist_id']);
 

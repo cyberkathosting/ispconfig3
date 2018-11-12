@@ -76,6 +76,12 @@ $form["tabs"]['relay_recipient'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'source_error_notempty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
@@ -83,6 +89,12 @@ $form["tabs"]['relay_recipient'] = array (
 		'access' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => 'OK',
 			'value'  => 'OK',
 			'width'  => '30',
