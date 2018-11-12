@@ -124,9 +124,6 @@ class validate_client {
 					$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM mail_domain INNER JOIN sys_user ON mail_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
 					break;
 
-				case 'xmpp_servers':
-					$used_servers = $app->db->queryAllRecords('SELECT domain_id FROM xmpp_domain INNER JOIN sys_user ON xmpp_domain.sys_userid = sys_user.userid WHERE client_id = ? AND server_id NOT IN ?', $client_id, $field_value);
-					break;
 				}
 
 				if ($used_servers === null || count($used_servers))
