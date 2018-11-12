@@ -269,7 +269,7 @@ class remoting_server extends remoting {
 			$web_config[$server_id] = $app->getconf->get_server_config($server_id, 'web');
 			$server_type = !empty($web_config[$server_id]['server_type']) ? $web_config[$server_id]['server_type'] : 'apache';
 
-			if ($php === 'php-fpm' || ($php === 'hhvm' && $server_type === 'nginx')) {
+			if ($php === 'php-fpm') {
 				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0)", $server_id);
 				foreach ($php_records as $php_record) {
 					$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];

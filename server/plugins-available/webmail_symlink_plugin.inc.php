@@ -101,9 +101,7 @@ class webmail_symlink_plugin {
 		}
 
 		$symlink = true;
-		if($data["new"]["php"] == "suphp") $symlink = false;
-		elseif($data["new"]["php"] == "cgi" && $data["new"]["suexec"] == "y") $symlink = false;
-		elseif($data["new"]["php"] == "fast-cgi" && $data["new"]["suexec"] == "y") $symlink = false;
+		if($data["new"]["php"] == "fast-cgi" && $data["new"]["suexec"] == "y") $symlink = false;
 
 
 		if(!is_dir($data["new"]["document_root"]."/web")) mkdir($data["new"]["document_root"].'/web', 0755, true);
