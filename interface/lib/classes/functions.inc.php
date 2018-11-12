@@ -536,7 +536,6 @@ class functions {
 		}
 	}
 	
->>>>>>> ispconfig3.official/master
 }
 
 ?>
