@@ -138,15 +138,6 @@ case 'fail2ban':
 	$description = '';
 	$add_padding = true;
 	break;
-/*
-case 'mongodb':
-	$template = 'templates/show_data.htm';
-	$output .= $app->tools_monitor->showMongoDB();
-	$time = $app->tools_monitor->getDataTime('log_mongodb');
-	$title = $app->lng("monitor_title_mongodb_txt") . ' (' . $monTransSrv . ' : ' . $_SESSION['monitor']['server_name'] . ')';
-	$description = '';
-	break;
-*/
 case 'iptables':
 	$template = 'templates/show_data.htm';
 	$output .= $app->tools_monitor->showIPTables();

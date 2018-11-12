@@ -504,39 +504,6 @@ class tools_monitor {
 		return $html;
 	}
 
-	function showMongoDB() {
-		global $app;
-
-		/* fetch the Data from the DB */
-		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'log_mongodb' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);
-
-		if(isset($record['data'])) {
-			$html =
-				'<div class="systemmonitor-state state-'.$record['state'].'">
-                <div class="systemmonitor-content icons32 ico-'.$record['state'].'">';
-
-			/*
-             * First, we have to detect, if there is any monitoring-data.
-             * If not (because mongodb is not installed) show this.
-            */
-			$data = unserialize($record['data']);
-			if ($data == '') {
-				$html .= '<p>'.
-					'MongoDB is not installed on this server.<br />' .
-					'</p>';
-			}
-			else {
-				$html .= nl2br($data);
-			}
-			$html .= '</div></div>';
-
-		} else {
-			$html = '<p>There is no data available at the moment.</p>';
-		}
-
-		return $html;
-	}
-
 	function showIPTables() {
 		global $app;
 		$record = $app->db->queryOneRecord("SELECT data, state FROM monitor_data WHERE type = 'iptables_rules' and server_id = ? ORDER BY created DESC", $_SESSION['monitor']['server_id']);

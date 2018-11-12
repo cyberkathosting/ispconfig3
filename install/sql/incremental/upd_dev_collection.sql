@@ -104,3 +104,8 @@ ALTER TABLE `client`
 ALTER TABLE `xmpp_domain`
   ADD COLUMN `use_webpresence` enum('n','y') NOT NULL DEFAULT 'y',
   ADD COLUMN `use_http_upload` enum('n','y') NOT NULL DEFAULT 'n';
+
+
+-- STRIPDOWN!
+ALTER TABLE `web_backup` CHANGE `backup_type` `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web';
+ALTER TABLE `web_database_user` DROP COLUMN `database_password_mongo`;

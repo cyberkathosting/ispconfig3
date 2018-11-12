@@ -168,14 +168,6 @@ class page_action extends tform_actions {
 			$this->dataRecord['database_user'] = substr($dbuser_prefix . $this->dataRecord['database_user'], 0, 16);
 		}
 
-		/* prepare password for MongoDB */
-		// TODO: this still doens't work as when only the username changes we have no database_password.
-		// taking the one from oldData doesn't work as it's encrypted...shit!
-/*
-		$this->dataRecord['database_password_mongo'] = $this->dataRecord['database_user'].":mongo:".$this->dataRecord['database_password'];
-
-		$this->dataRecord['server_id'] = 0; // we need this on all servers
-*/
 		parent::onBeforeUpdate();
 	}
 
@@ -210,9 +202,6 @@ class page_action extends tform_actions {
 		}
 
 		$this->dataRecord['server_id'] = 0; // we need this on all servers
-
-		/* prepare password for MongoDB */
-//		$this->dataRecord['database_password_mongo'] = $this->dataRecord['database_user'].":mongo:".$this->dataRecord['database_password'];
 
 		parent::onBeforeInsert();
 	}
