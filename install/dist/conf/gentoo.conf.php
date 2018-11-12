@@ -72,9 +72,6 @@ $conf['mysql']['master_admin_password'] = '';
 $conf['mysql']['master_ispconfig_user'] = '';
 $conf['mysql']['master_ispconfig_password'] = md5(uniqid(rand()));
 
-//* SuPHP
-$conf['suphp']['config_file'] = '/etc/suphp.conf';
-
 //* Apache
 $conf['apache']['installed'] = false; // will be detected automatically during installation
 $conf['apache']['user'] = 'apache';

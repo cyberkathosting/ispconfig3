@@ -19,22 +19,10 @@
 </tmpl_if>
 </tmpl_if>
 
-<tmpl_if name='php' op='==' value='suphp'>
-		DocumentRoot <tmpl_var name='web_document_root'>
+<tmpl_if name='php' op='==' value='php-fpm'>
+DocumentRoot <tmpl_var name='web_document_root'>
 </tmpl_else>
-	<tmpl_if name='php' op='==' value='cgi'>
-		DocumentRoot <tmpl_var name='web_document_root'>
-	</tmpl_else>
-		<tmpl_if name='php' op='==' value='php-fpm'>
-		DocumentRoot <tmpl_var name='web_document_root'>
-		</tmpl_else>
-			<tmpl_if name='php' op='==' value='hhvm'>
-			DocumentRoot <tmpl_var name='web_document_root'>
-			</tmpl_else>
-			DocumentRoot <tmpl_var name='web_document_root_www'>
-			</tmpl_if>
-		</tmpl_if>
-	</tmpl_if>
+DocumentRoot <tmpl_var name='web_document_root_www'>
 </tmpl_if>
 
 		ServerName <tmpl_var name='domain'>
@@ -253,45 +241,6 @@
 		php_admin_value open_basedir <tmpl_var name='php_open_basedir'>
 </tmpl_if>
 </tmpl_if>
-<tmpl_if name='php' op='==' value='suphp'>
-		# suphp enabled
-		<Directory {tmpl_var name='web_document_root'}>
-		<IfModule mod_suphp.c>
-			suPHP_Engine on
-			# suPHP_UserGroup <tmpl_var name='system_user'> <tmpl_var name='system_group'>
-<tmpl_if name='has_custom_php_ini'>
-	suPHP_ConfigPath <tmpl_var name='custom_php_ini_dir'>
-</tmpl_if>
-			<FilesMatch "\.php[345]?$">
-				SetHandler x-httpd-suphp
-			</FilesMatch>
-			suPHP_AddHandler x-httpd-suphp
-		</IfModule>
-		</Directory>
-</tmpl_if>
-<tmpl_if name='php' op='==' value='cgi'>
-		# php as cgi enabled
-		ScriptAlias /php-cgi <tmpl_var name='cgi_starter_path'><tmpl_var name='cgi_starter_script'>
-		Action php-cgi /php-cgi
-		<Directory {tmpl_var name='web_document_root_www'}>
-			<FilesMatch "\.php[345]?$">
-				SetHandler php-cgi
-			</FilesMatch>
-		</Directory>
-		<Directory {tmpl_var name='web_document_root'}>
-			<FilesMatch "\.php[345]?$">
-				SetHandler php-cgi
-			</FilesMatch>
-		</Directory>
-		<Directory {tmpl_var name='cgi_starter_path'}>
-			<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-			Require all granted
-			<tmpl_else>
-			Order allow,deny
-			Allow from all
-			</tmpl_if>
-		</Directory>
-</tmpl_if>
 <tmpl_if name='php' op='==' value='fast-cgi'>
 		# php as fast-cgi enabled
 	# For config options see: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
@@ -424,64 +373,6 @@
 			</Directory>
 </tmpl_if>
 			</IfModule>
-</tmpl_if>
-
-<tmpl_if name='php' op='==' value='hhvm'>
-		<IfModule mod_fastcgi.c>
-				<Directory {tmpl_var name='document_root'}/cgi-bin>
-					<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-					Require all granted
-					<tmpl_else>
-					Order allow,deny
-					Allow from all
-					</tmpl_if>
-			    </Directory>
-				<Directory {tmpl_var name='web_document_root_www'}>
-					<FilesMatch "\.php[345]?$">
-						SetHandler hhvm-fcgi
-					</FilesMatch>
-					<FilesMatch "\.hh$">
-						SetHandler hhvm-fcgi
-					</FilesMatch>
-				</Directory>
-				<Directory {tmpl_var name='web_document_root'}>
-					<FilesMatch "\.php[345]?$">
-						SetHandler hhvm-fcgi
-					</FilesMatch>
-					<FilesMatch "\.hh$">
-						SetHandler hhvm-fcgi
-					</FilesMatch>
-				</Directory>
-                Action hhvm-fcgi /hhvm-fcgi virtual
-				Alias /hhvm-fcgi {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/hhvm-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket /var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock -pass-header Authorization  -pass-header Content-Type
-		</IfModule>
-		<IfModule mod_proxy_fcgi.c>
-			<Directory {tmpl_var name='document_root'}/cgi-bin>
-				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-				Require all granted
-				<tmpl_else>
-				Order allow,deny
-				Allow from all
-				</tmpl_if>
-			</Directory>
-			<Directory {tmpl_var name='web_document_root'}>
-				<FilesMatch "\.php[345]?$">
-						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
-				</FilesMatch>
-				<FilesMatch "\.hh$">
-						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
-				</FilesMatch>
-			</Directory>
-			<Directory {tmpl_var name='web_document_root_www'}>
-				<FilesMatch "\.php[345]?$">
-						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
-				</FilesMatch>
-				<FilesMatch "\.hh$">
-						SetHandler "proxy:unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock|fcgi://localhost"
-				</FilesMatch>
-			</Directory>
-		</IfModule>
 </tmpl_if>
 
 <tmpl_if name="rewrite_enabled">

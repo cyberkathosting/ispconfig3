@@ -1003,7 +1003,7 @@ class nginx_plugin {
 			$default_php_fpm = true;
 		}
 		*/
-		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
+		if($data['new']['php'] == 'php-fpm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -1897,7 +1897,6 @@ class nginx_plugin {
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
-		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
 			//* Test if nginx starts with the new configuration file
@@ -2218,9 +2217,6 @@ class nginx_plugin {
 
 				// remove PHP-FPM pool
 				if ($data['old']['php'] == 'php-fpm') {
-					$this->php_fpm_pool_delete($data, $web_config);
-				} elseif($data['old']['php'] == 'hhvm') {
-					$this->hhvm_update($data, $web_config);
 					$this->php_fpm_pool_delete($data, $web_config);
 				}
 
@@ -2577,92 +2573,13 @@ class nginx_plugin {
 		}
 	}
 
-	private function hhvm_update($data, $web_config) {
-		global $app, $conf;
-		
-		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
-			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
-		} else {
-			$content = file_get_contents($conf['rootpath'] . '/conf/hhvm_starter.master');
-		}
-		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_monit.master')) {
-			$monit_content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_monit.master');
-		} else {
-			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
-		}
-		
-		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
-
-			// Custom php.ini settings
-			$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
-			if(intval($data['new']['directive_snippets_id']) > 0){
-				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
-				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
-					$required_php_snippets = explode(',', trim($snippet['required_php_snippets']));
-					if(is_array($required_php_snippets) && !empty($required_php_snippets)){
-						foreach($required_php_snippets as $required_php_snippet){
-							$required_php_snippet = intval($required_php_snippet);
-							if($required_php_snippet > 0){
-								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
-								$php_snippet['snippet'] = trim($php_snippet['snippet']);
-								if($php_snippet['snippet'] != ''){
-									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
-								}
-							}
-						}
-					}
-				}
-			}
-			if($custom_php_ini_settings != ''){
-				// Make sure we only have Unix linebreaks
-				$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
-				$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
-				if(@is_dir('/etc/hhvm')) file_put_contents('/etc/hhvm/'.$data['new']['system_user'].'.ini', $custom_php_ini_settings);
-			} else {
-				if($data['old']['system_user'] != '' && is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
-			}
-
-			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
-			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
-			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
-			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
-			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
-			
-			if(is_dir('/etc/monit/conf.d')){
-				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
-				file_put_contents('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'], $monit_content);
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])) unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
-				exec('/etc/init.d/monit restart >/dev/null 2>&1');
-			}
-			
- 		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
-			if($data['old']['system_user'] != ''){
-				exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
-				exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
-				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
-				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
-			}
-			
-			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
-				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
-					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
-				}
-				if(is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
-					unlink('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user']);
-				}
-				exec('/etc/init.d/monit restart >/dev/null 2>&1');
-			}
-		}
-	}
-
 	//* Update the PHP-FPM pool configuration file
 	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
 		$rh_releasefiles = array('/etc/centos-release', '/etc/redhat-release');
 		
-		// HHVM => PHP-FPM-Fallback
-		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
+		if($data['new']['php'] == 'php-fpm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
 				$default_php_fpm = false;
 				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
@@ -2683,8 +2600,7 @@ class nginx_plugin {
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
 
-		// HHVM => PHP-FPM-Fallback
-		if($data['new']['php'] != 'php-fpm' && $data['new']['php'] != 'hhvm'){
+		if($data['new']['php'] != 'php-fpm'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
 				$app->system->unlink($pool_dir.$pool_name.'.conf');
 				//$reload = true;

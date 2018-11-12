@@ -696,11 +696,6 @@ class installer_dist extends installer_base {
 		global $conf;
 
 		if($conf['apache']['installed'] == false) return;
-		if(is_file('/etc/suphp.conf')) {
-			//replaceLine('/etc/suphp.conf','php=php:/usr/bin','x-httpd-suphp=php:/usr/bin/php-cgi',0);
-			replaceLine('/etc/suphp.conf', 'docroot=', 'docroot=/var/www', 0);
-			replaceLine('/etc/suphp.conf', 'umask=0077', 'umask=0022', 0);
-		}
 
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');

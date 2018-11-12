@@ -1938,12 +1938,6 @@ class installer_base {
 		//* Create the logging directory for the vhost logfiles
 		if(!@is_dir($conf['ispconfig_log_dir'].'/httpd')) mkdir($conf['ispconfig_log_dir'].'/httpd', 0755, true);
 
-		if(is_file('/etc/suphp/suphp.conf')) {
-			replaceLine('/etc/suphp/suphp.conf', 'php="php:/usr/bin', 'x-httpd-suphp="php:/usr/bin/php-cgi"', 0);
-			//replaceLine('/etc/suphp/suphp.conf','docroot=','docroot=/var/clients',0);
-			replaceLine('/etc/suphp/suphp.conf', 'umask=00', 'umask=0022', 0);
-		}
-
 		if(is_file('/etc/apache2/sites-enabled/000-default')) {
 			replaceLine('/etc/apache2/sites-available/000-default', 'NameVirtualHost *', 'NameVirtualHost *:80', 1, 0);
 			replaceLine('/etc/apache2/sites-available/000-default', '<VirtualHost *>', '<VirtualHost *:80>', 1, 0);

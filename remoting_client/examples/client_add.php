@@ -51,7 +51,7 @@ try {
 		'limit_web_ip' => '',
 		'limit_web_domain' => -1,
 		'limit_web_quota' => -1,
-		'web_php_options' => 'no,fast-cgi,cgi,mod,suphp',
+		'web_php_options' => 'no,fast-cgi,mod',
 		'limit_web_subdomain' => -1,
 		'limit_web_aliasdomain' => -1,
 		'limit_ftp_user' => -1,
