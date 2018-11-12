@@ -181,12 +181,6 @@ class installer extends installer_base
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 
-		//* We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755  /var/lib/courier/authdaemon/';
-		if (is_dir('/var/lib/courier/authdaemon')) {
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-		}
-
 		//* Changing maildrop lines in posfix master.cf
 		$configfile = $config_dir.'/master.cf';
 		$content = rf($configfile);
@@ -231,43 +225,6 @@ class installer extends installer_base
 		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-	}
-
-	public function configure_saslauthd()
-	{
-		global $conf;
-
-		$content = $this->get_template_file('sasl_smtpd.conf', true, true); //* get contents & insert db cred
-		$this->write_config_file($conf['saslauthd']['config_dir'].'/smtpd.conf', $content);
-
-		//* Edit the file saslauthd config file
-		$content = rf($conf['saslauthd']['config_file']);
-		$content = preg_replace('/(?<=\n)SASLAUTHD_OPTS="\$\{SASLAUTHD_OPTS\}[^"]+"/', 'SASLAUTHD_OPTS="${SASLAUTHD_OPTS} -a pam -r -c -s 128 -t 30 -n 5"', $content);
-
-		$this->write_config_file($conf['saslauthd']['config_file'], $content);
-	}
-
-	public function configure_courier()
-	{
-		global $conf;
-
-		//* authmysqlrc
-		$content = $this->get_template_file('authmysqlrc', true, true); //* get contents & insert db cred
-		$this->write_config_file($conf['courier']['config_dir'].'/authmysqlrc', $content);
-
-		//* authdaemonrc
-		$configfile = $conf['courier']['config_dir'].'/authdaemonrc';
-
-		$content = rf($configfile);
-		$content = preg_replace('/(?<=\n)authmodulelist="[^"]+"/', "authmodulelist=\"authmysql\"", $content);
-		$this->write_config_file($configfile, $content);
-
-		//* create certificates
-		$command = 'mkimapdcert';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		$command = 'mkpop3dcert';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 	}
 
 	public function configure_dovecot()

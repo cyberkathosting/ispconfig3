@@ -125,154 +125,84 @@ class mail_user_filter_plugin {
 		$mailuser_rec = $app->db->queryOneRecord("SELECT server_id FROM mail_user WHERE mailuser_id = ?", $page_form->dataRecord["mailuser_id"]);
 		$mail_config = $app->getconf->get_server_config($app->functions->intval($mailuser_rec["server_id"]), 'mail');
 
-		if($mail_config['mail_filter_syntax'] == 'sieve') {
+		// #######################################################
+		// Filter in Sieve Syntax
+		// #######################################################
 
-			// #######################################################
-			// Filter in Sieve Syntax
-			// #######################################################
+		$content = '';
+		$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
 
-			$content = '';
-			$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
+		//$content .= 'require ["fileinto", "regex", "vacation"];'."\n";
 
-			//$content .= 'require ["fileinto", "regex", "vacation"];'."\n";
-			
-			if($page_form->dataRecord["op"] == 'domain') {
-				$content .= 'if address :domain :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
-			} elseif ($page_form->dataRecord["op"] == 'localpart') {
-				$content .= 'if address :localpart :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
-			} elseif ($page_form->dataRecord["source"] == 'Size') {
-				if(substr(trim($page_form->dataRecord["searchterm"]),-1) == 'k' || substr(trim($page_form->dataRecord["searchterm"]),-1) == 'K') {
-					$unit = 'k';
-				} else {
-					$unit = 'm';
-				}
-				$content .= 'if size :over '.intval($page_form->dataRecord["searchterm"]).$unit.' {'."\n";
+		if($page_form->dataRecord["op"] == 'domain') {
+			$content .= 'if address :domain :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
+		} elseif ($page_form->dataRecord["op"] == 'localpart') {
+			$content .= 'if address :localpart :is "'.strtolower($page_form->dataRecord["source"]).'" "'.$page_form->dataRecord["searchterm"].'" {'."\n";
+		} elseif ($page_form->dataRecord["source"] == 'Size') {
+			if(substr(trim($page_form->dataRecord["searchterm"]),-1) == 'k' || substr(trim($page_form->dataRecord["searchterm"]),-1) == 'K') {
+				$unit = 'k';
 			} else {
-				if($page_form->dataRecord["source"] == 'Detail') {
-					$content .= 'if envelope :detail :regex "to" ["';
-				} else {
-                    if($page_form->dataRecord["source"] == 'Header') {
-                        $parts = explode(':',trim($page_form->dataRecord["searchterm"]));
-                        $page_form->dataRecord["source"] = trim($parts[0]);
-                        unset($parts[0]);
-                        $page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
-                        unset($parts);
-                    }
-
-                    $content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
-				}
-
-				$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
-				$searchterm = str_replace(
-					array(
-						'"',
-						'\\[',
-						'\\]'
-					),
-					array(
-						'\\"',
-						'\\\\[',
-						'\\\\]'
-					), $searchterm);
-
-				if($page_form->dataRecord["op"] == 'contains') {
-					$content .= ".*".$searchterm;
-				} elseif ($page_form->dataRecord["op"] == 'is') {
-					$content .= "^".$searchterm."$";
-				} elseif ($page_form->dataRecord["op"] == 'begins') {
-					$content .= "^".$searchterm."";
-				} elseif ($page_form->dataRecord["op"] == 'ends') {
-					$content .= ".*".$searchterm."$";
-				}
-
-				$content .= '"] {'."\n";
+				$unit = 'm';
 			}
-
-			if($page_form->dataRecord["action"] == 'move') {
-				$content .= '    fileinto "'.$page_form->dataRecord["target"].'";' . "\n    stop;\n";
-			} elseif ($page_form->dataRecord["action"] == 'keep') {
-				$content .= "    keep;\n";
-			} elseif ($page_form->dataRecord["action"] == 'stop') {
-				$content .= "    stop;\n";
-			} elseif ($page_form->dataRecord["action"] == 'reject') {
-				$content .= '    reject "'.$page_form->dataRecord["target"].'";    stop;\n\n';
-			} elseif ($page_form->dataRecord["action"] == 'read') {
-				$content .= '    setflag "\\\\Seen";\n    stop;\n';
-			} else {
-				$content .= "    discard;\n    stop;\n";
-			}
-
-			$content .= "}\n";
-
-			$content .= '### END FILTER_ID:'.$page_form->id."\n";
-
+			$content .= 'if size :over '.intval($page_form->dataRecord["searchterm"]).$unit.' {'."\n";
 		} else {
+			if($page_form->dataRecord["source"] == 'Detail') {
+				$content .= 'if envelope :detail :regex "to" ["';
+			} else {
+				if($page_form->dataRecord["source"] == 'Header') {
+					$parts = explode(':',trim($page_form->dataRecord["searchterm"]));
+					$page_form->dataRecord["source"] = trim($parts[0]);
+					unset($parts[0]);
+					$page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
+					unset($parts);
+				}
 
-			// #######################################################
-			// Filter in Maildrop Syntax
-			// #######################################################
-			$content = '';
-			$content .= '### BEGIN FILTER_ID:'.$page_form->id."\n";
-
-			$TargetNoQuotes = $page_form->dataRecord["target"];
-			$TargetQuotes = "\"$TargetNoQuotes\"";
-
-			$TestChDirNoQuotes = '$DEFAULT/.'.$TargetNoQuotes;
-			$TestChDirQuotes = "\"$TestChDirNoQuotes\"";
-
-			$MailDirMakeNoQuotes = $TargetQuotes.' $DEFAULT';
-
-			$EchoTargetFinal = $TargetNoQuotes;
-
-
-			if($page_form->dataRecord["action"] == 'move') {
-
-				$content .= "
-`test -e ".$TestChDirQuotes." && exit 1 || exit 0`
-if ( ".'$RETURNCODE'." != 1 )
-{
-	`maildirmake -f $MailDirMakeNoQuotes`
-	`chmod -R 0700 ".$TestChDirQuotes."`
-	`echo \"INBOX.$EchoTargetFinal\" >> ".'$DEFAULT'."/courierimapsubscribed`
-}
-";
+				$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 			}
-
-			$content .= "if (/^".$page_form->dataRecord["source"].": ";
 
 			$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
+			$searchterm = str_replace(
+				array(
+					'"',
+					'\\[',
+					'\\]'
+				),
+				array(
+					'\\"',
+					'\\\\[',
+					'\\\\]'
+				), $searchterm);
 
 			if($page_form->dataRecord["op"] == 'contains') {
-				$content .= ".*".$searchterm."/:h)\n";
+				$content .= ".*".$searchterm;
 			} elseif ($page_form->dataRecord["op"] == 'is') {
-				$content .= $searchterm."$/:h)\n";
+				$content .= "^".$searchterm."$";
 			} elseif ($page_form->dataRecord["op"] == 'begins') {
-				$content .= $searchterm."/:h)\n";
+				$content .= "^".$searchterm."";
 			} elseif ($page_form->dataRecord["op"] == 'ends') {
-				$content .= ".*".$searchterm."$/:h)\n";
+				$content .= ".*".$searchterm."$";
 			}
 
-			$content .= "{\n";
-			$content .= "exception {\n";
-
-			if($page_form->dataRecord["action"] == 'move') {
-				$content .= 'ID' . "$page_form->id" . 'EndFolder = "$DEFAULT/.' . $page_form->dataRecord['target'] . '/"' . "\n";
-				$content .= "xfilter \"/usr/bin/formail -A \\\"X-User-Mail-Filter-ID"."$page_form->id".": Yes\\\"\"" . "\n";
-				$content .= "to ". '$ID' . "$page_form->id" . 'EndFolder' . "\n";
-			} elseif ($page_form->dataRecord["action"] == 'read') {
-				$content .= ''; // mark as read currently not supported for Maildrop
-			} else {
-				$content .= "to /dev/null\n";
-			}
-
-			$content .= "}\n";
-			$content .= "}\n";
-
-			//}
-
-			$content .= '### END FILTER_ID:'.$page_form->id."\n";
-
+			$content .= '"] {'."\n";
 		}
+
+		if($page_form->dataRecord["action"] == 'move') {
+			$content .= '    fileinto "'.$page_form->dataRecord["target"].'";' . "\n    stop;\n";
+		} elseif ($page_form->dataRecord["action"] == 'keep') {
+			$content .= "    keep;\n";
+		} elseif ($page_form->dataRecord["action"] == 'stop') {
+			$content .= "    stop;\n";
+		} elseif ($page_form->dataRecord["action"] == 'reject') {
+			$content .= '    reject "'.$page_form->dataRecord["target"].'";    stop;\n\n';
+		} elseif ($page_form->dataRecord["action"] == 'read') {
+			$content .= '    setflag "\\\\Seen";\n    stop;\n';
+		} else {
+			$content .= "    discard;\n    stop;\n";
+		}
+
+		$content .= "}\n";
+
+		$content .= '### END FILTER_ID:'.$page_form->id."\n";
 
 		return $content;
 	}

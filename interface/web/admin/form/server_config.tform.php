@@ -523,18 +523,6 @@ $form["tabs"]['mail'] = array(
             'maxlength' => '255'
         ),
 
-		'pop3_imap_daemon' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '20',
-			'value' => array('courier' => 'Courier', 'dovecot' => 'Dovecot')
-		),
-		'mail_filter_syntax' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '20',
-			'value' => array('maildrop' => 'Maildrop', 'sieve' => 'Sieve')
-		),
 		'mailuser_uid' => array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',

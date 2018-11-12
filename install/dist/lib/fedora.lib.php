@@ -241,10 +241,6 @@ class installer_dist extends installer_base {
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 
-		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755 /var/spool/authdaemon';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-
 		//* Changing maildrop lines in posfix master.cf
 		if(is_file($config_dir.'/master.cf')){
 			copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
@@ -295,70 +291,6 @@ class installer_dist extends installer_base {
 		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-	}
-
-	public function configure_saslauthd() {
-		global $conf;
-
-		$configfile = 'tpl/fedora_saslauthd_smtpd_conf.master';
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_saslauthd_smtpd_conf.master', $configfile);
-		wf('/usr/lib/sasl2/smtpd.conf', $content);
-		if(is_dir('/usr/lib64')) wf('/usr/lib64/sasl/smtpd.conf', $content);
-		if(is_dir('/usr/lib64')) wf('/usr/lib64/sasl2/smtpd.conf', $content);
-
-	}
-
-	public function configure_pam()
-	{
-		global $conf;
-		$pam = $conf['pam'];
-		//* configure pam for SMTP authentication agains the ispconfig database
-		$configfile = 'pamd_smtp';
-		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
-		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf("$pam/smtp", $content);
-		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
-		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
-	}
-
-	public function configure_courier()
-	{
-		global $conf;
-		$config_dir = $conf['courier']['config_dir'];
-		//* authmysqlrc
-		$configfile = 'authmysqlrc';
-		if(is_file("$config_dir/$configfile")){
-			copy("$config_dir/$configfile", "$config_dir/$configfile~");
-		}
-		exec("chmod 400 $config_dir/$configfile~");
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
-		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
-		wf("$config_dir/$configfile", $content);
-
-		exec("chmod 660 $config_dir/$configfile");
-		exec("chown root:root $config_dir/$configfile");
-
-		//* authdaemonrc
-		$configfile = $conf['courier']['config_dir'].'/authdaemonrc';
-		if(is_file($configfile)){
-			copy($configfile, $configfile.'~');
-		}
-		if(is_file($configfile.'~')){
-			exec('chmod 400 '.$configfile.'~');
-		}
-		$content = rf($configfile);
-		$content = str_replace('authmodulelist=', 'authmodulelist="authmysql"', $content);
-		wf($configfile, $content);
 	}
 
 	public function configure_dovecot()

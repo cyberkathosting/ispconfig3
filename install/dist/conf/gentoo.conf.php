@@ -138,25 +138,10 @@ $conf['getmail']['user'] = 'getmail';
 $conf['getmail']['config_dir'] = '/etc/getmail';
 $conf['getmail']['program'] = '/usr/bin/getmail';
 
-//* Courier
-$conf['courier']['installed'] = false; // will be detected automatically during installation
-$conf['courier']['config_dir'] = '/etc/courier/authlib';
-$conf['courier']['courier-authdaemon'] = 'courier-authlib';
-$conf['courier']['courier-imap'] = 'courier-imapd';
-$conf['courier']['courier-imap-ssl'] = 'courier-imapd-ssl';
-$conf['courier']['courier-pop'] = 'courier-pop3d';
-$conf['courier']['courier-pop-ssl'] = 'courier-pop3d-ssl';
-
 //* Dovecot
 $conf['dovecot']['installed'] = false; // will be detected automatically during installation
 $conf['dovecot']['config_dir'] = '/etc/dovecot';
 $conf['dovecot']['init_script'] = 'dovecot';
-
-//* SASL
-$conf['saslauthd']['installed'] = false; // will be detected automatically during installation
-$conf['saslauthd']['config_file'] = '/etc/conf.d/saslauthd';
-$conf['saslauthd']['config_dir'] = '/etc/sasl2';
-$conf['saslauthd']['init_script'] = 'saslauthd';
 
 //* Amavisd
 $conf['amavis']['installed'] = false; // will be detected automatically during installation

@@ -352,34 +352,15 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 		}
 
 		//* Check for Dovecot and Courier
-		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
+		if(!$conf['dovecot']['installed']) {
 			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', ($install_mode == 'expert'));
-			$conf['courier']['installed'] = $inst->force_configure_app('Courier', ($install_mode == 'expert'));
-		}
-		//* Configure Mailserver - Dovecot or Courier
-		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
-			$mail_server_to_use = $inst->simple_query('Dovecot and Courier detected. Select server to use with ISPConfig:', array('dovecot', 'courier'), 'dovecot','mail_server');
-			if($mail_server_to_use == 'dovecot'){
-				$conf['courier']['installed'] = false;
-			} else {
-				$conf['dovecot']['installed'] = false;
-			}
 		}
 		//* Configure Dovecot
 		if($conf['dovecot']['installed']) {
 			swriteln('Configuring Dovecot');
 			$inst->configure_dovecot();
 		}
-		//* Configure Courier
-		if($conf['courier']['installed']) {
-			swriteln('Configuring Courier');
-			$inst->configure_courier();
-			swriteln('Configuring SASL');
-			$inst->configure_saslauthd();
-			swriteln('Configuring PAM');
-			$inst->configure_pam();
-		}
-
+		
 		//* Configure Spamasassin
 		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin', ($install_mode == 'expert'));
 		if($force) {
@@ -599,16 +580,8 @@ $inst->detect_ips();
 swriteln('Restarting services ...');
 if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
-if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
 if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
-if($conf['courier']['installed'] == true){
-	if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
-	if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
-	if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
-	if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
-	if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
-}
 if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
 if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));

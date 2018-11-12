@@ -1639,29 +1639,15 @@ class system{
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
 			
-			// Courier
-			if($mail_config['pop3_imap_daemon'] == 'courier') {
-				if(!is_file($maildir_path.'/courierimapsubscribed')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
-					touch($tmp_file);
-					chmod($tmp_file, 0744);
-					chown($tmp_file, 'vmail');
-					chgrp($tmp_file, 'vmail');
-				}
-				$this->replaceLine($maildir_path.'/courierimapsubscribed', 'INBOX.'.$subfolder, 'INBOX.'.$subfolder, 1, 1);
-			}
-
 			// Dovecot
-			if($mail_config['pop3_imap_daemon'] == 'dovecot') {
-				if(!is_file($maildir_path.'/subscriptions')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
-					touch($tmp_file);
-					chmod($tmp_file, 0744);
-					chown($tmp_file, 'vmail');
-					chgrp($tmp_file, 'vmail');
-				}
-				$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
+			if(!is_file($maildir_path.'/subscriptions')) {
+				$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
+				touch($tmp_file);
+				chmod($tmp_file, 0744);
+				chown($tmp_file, 'vmail');
+				chgrp($tmp_file, 'vmail');
 			}
+			$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
 		}
 
 		$app->log('Created Maildir '.$maildir_path.' with subfolder: '.$subfolder, LOGLEVEL_DEBUG);

@@ -80,7 +80,7 @@ class cronjob_monitor_email_quota extends cronjob {
 
 			//* with dovecot we can use doveadm instead of 'du -s'
 			$dovecot = false;
-			if (isset($mail_config['pop3_imap_daemon']) && $mail_config ['pop3_imap_daemon'] = 'dovecot' && is_executable('doveadm')) {
+			if (is_executable('doveadm')) {
 				exec('doveadm quota 2>&1', $tmp_output, $tmp_retval); // with dovecot 2.2.x 'doveadm quota' is unuseable
 				if ($retval = 64) $dovecot = true;
 			}
@@ -110,20 +110,6 @@ class cronjob_monitor_email_quota extends cronjob {
 
 		unset($mailboxes);
 
-		//* Dovecot quota check Courier in progress lathama@gmail.com
-		/*
-				if($dir = opendir("/var/vmail")){
-						while (($quotafiles = readdir($dir)) !== false){
-								if(preg_match('/.\_quota$/', $quotafiles)){
-										$quotafile = (file("/var/vmail/" . $quotafiles));
-										$emailaddress = preg_replace('/_quota/',"", $quotafiles);
-										$emailaddress = preg_replace('/_/',"@", $emailaddress);
-										$data[$emailaddress]['used'] = trim($quotafile['1']);
-								}
-						}
-						closedir($dir);
-				}
-		*/
 		$res = array();
 		$res['server_id'] = $server_id;
 		$res['type'] = $type;

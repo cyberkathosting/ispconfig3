@@ -160,9 +160,7 @@ class installer_base {
 		if(is_installed('mlmmj') || is_installed('mlmmj-make-ml')) $conf['mlmmj']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
-		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
-		if(is_installed('saslauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new') || is_installed('amavisd')) $conf['amavis']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
@@ -321,8 +319,6 @@ class installer_base {
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 		$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
-		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
-		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
 		$tpl_ini_array['mail']['mailinglist_manager'] = ($conf['mlmmj']['installed'] == true)?'mlmmj':'mailman';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
@@ -1132,10 +1128,6 @@ class installer_base {
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
 
-		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755  /var/run/courier/authdaemon/';
-		if(is_file('/var/run/courier/authdaemon/')) caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-
 		//* Check maildrop service in posfix master.cf
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
 		$configfile = $config_dir.'/master.cf';
@@ -1183,119 +1175,6 @@ class installer_base {
 		$command = 'chmod 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-	}
-
-	public function configure_saslauthd() {
-		global $conf;
-
-		//* Get saslsauthd version
-		exec('saslauthd -v 2>&1', $out);
-		$parts = explode(' ', $out[0]);
-		$saslversion = $parts[1];
-		unset($parts);
-		unset($out);
-
-		if(version_compare($saslversion , '2.1.23', '<=')) {
-			//* Configfile for saslauthd versions up to 2.1.23
-			$configfile = 'sasl_smtpd.conf';
-		} else {
-			//* Configfile for saslauthd versions 2.1.24 and newer
-			$configfile = 'sasl_smtpd2.conf';
-		}
-
-		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
-		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf~')) chmod($conf['postfix']['config_dir'].'/sasl/smtpd.conf~', 0400);
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $content);
-
-		// TODO: Chmod and chown on the config file
-
-
-		// Recursively create the spool directory
-		if(!@is_dir('/var/spool/postfix/var/run/saslauthd')) mkdir('/var/spool/postfix/var/run/saslauthd', 0755, true);
-
-		// Edit the file /etc/default/saslauthd
-		$configfile = $conf['saslauthd']['config'];
-		if(is_file($configfile)) copy($configfile, $configfile.'~');
-		if(is_file($configfile.'~')) chmod($configfile.'~', 0400);
-		$content = rf($configfile);
-		$content = str_replace('START=no', 'START=yes', $content);
-		// Debian
-		$content = str_replace('OPTIONS="-c"', 'OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"', $content);
-		// Ubuntu
-		$content = str_replace('OPTIONS="-c -m /var/run/saslauthd"', 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd -r"', $content);
-		wf($configfile, $content);
-
-		// Edit the file /etc/init.d/saslauthd
-		$configfile = $conf['init_scripts'].'/'.$conf['saslauthd']['init_script'];
-		$content = rf($configfile);
-		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid', 'PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"', $content);
-		wf($configfile, $content);
-
-		// add the postfix user to the sasl group (at least necessary for Ubuntu 8.04 and most likely Debian Lenny as well.
-		exec('adduser postfix sasl');
-
-
-	}
-
-	public function configure_pam() {
-		global $conf;
-		$pam = $conf['pam'];
-		//* configure pam for SMTP authentication agains the ispconfig database
-		$configfile = 'pamd_smtp';
-		if(is_file($pam.'/smtp'))    copy($pam.'/smtp', $pam.'/smtp~');
-		if(is_file($pam.'/smtp~'))   chmod($pam.'/smtp~', 0400);
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf($pam.'/smtp', $content);
-		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
-		if(is_file($pam.'/smtp'))    exec("chmod o= $pam/smtp");
-		chmod($pam.'/smtp', 0660);
-		chown($pam.'/smtp', 'daemon');
-		chgrp($pam.'/smtp', 'daemon');
-
-	}
-
-	public function configure_courier() {
-		global $conf;
-		$config_dir = $conf['courier']['config_dir'];
-		//* authmysqlrc
-		$configfile = 'authmysqlrc';
-		if(is_file($config_dir.'/'.$configfile)) {
-			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
-		}
-		chmod($config_dir.'/'.$configfile.'~', 0400);
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
-		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
-		wf($config_dir.'/'.$configfile, $content);
-
-		chmod($config_dir.'/'.$configfile, 0660);
-		chown($config_dir.'/'.$configfile, 'daemon');
-		chgrp($config_dir.'/'.$configfile, 'daemon');
-
-		//* authdaemonrc
-		$configfile = $config_dir.'/authdaemonrc';
-		if(is_file($configfile)) {
-			copy($configfile, $configfile.'~');
-		}
-		if(is_file($configfile.'~')) {
-			chmod($configfile.'~', 0400);
-		}
-		$content = rf($configfile);
-		$content = str_replace('authmodulelist="authpam"', 'authmodulelist="authmysql"', $content);
-		wf($configfile, $content);
 	}
 
 	public function configure_dovecot() {

@@ -39,7 +39,6 @@ class server_services_plugin {
 	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server', 'vserver_server');
 
 	var $mail_plugins = array('getmail_plugin', 'mail_plugin', 'mail_plugin_dkim', 'mailman_plugin', 'postfix_filter_plugin', 'postfix_server_plugin');
-	var $courier_plugins = array('maildrop_plugin');
 	var $dovecot_plugins = array('maildeliver_plugin');
 
 	var $web_plugins = array('aps_plugin', 'cron_plugin', 'cron_jailkit_plugin', 'ftpuser_base_plugin', 'shelluser_base_plugin', 'shelluser_jailkit_plugin', 'webserver_plugin');
@@ -95,7 +94,7 @@ class server_services_plugin {
 			switch($service) {
 				case 'mail_server':
         			$config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-					$plugins = @($config['pop3_imap_daemon'] == 'dovecot')?$this->dovecot_plugins:$this->courier_plugins;
+					$plugins = $this->dovecot_plugins;
 					$plugins = array_merge($plugins, $this->mail_plugins);
 					$this->change_state($plugins, $value, $config);
 				break;
