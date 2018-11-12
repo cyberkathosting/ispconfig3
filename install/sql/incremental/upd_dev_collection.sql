@@ -143,6 +143,12 @@ ALTER TABLE `client`
   DROP COLUMN `limit_xmpp_webpresence`,
   DROP COLUMN `limit_xmpp_http_upload`;
 
-
 DROP TABLE `xmpp_domain`;
 DROP TABLE `xmpp_user`;
+
+-- only on nginx
+UPDATE `web_domain` as d INNER JOIN `server` as s ON (s.server_id = d.server_id) SET d.php = 'php-fpm' WHERE d.php = 'fast-cgi' AND s.config LIKE '%\nserver_type=nginx\n%' AND s.config NOT LIKE '%\nserver_type=apache\n%';
+
+UPDATE `web_domain` SET `php` = 'php-fpm' WHERE `php` = 'hhvm';
+UPDATE `web_domain` SET `php` = 'fast-cgi' WHERE `php` = 'cgi';
+UPDATE `web_domain` SET `php` = 'mod' WHERE `php` = 'suphp';
