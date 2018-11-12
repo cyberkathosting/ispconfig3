@@ -1826,24 +1826,6 @@ class plugin_webserver_base {
 					$this->php_fpm_pool_delete($data, $web_config, $server_type);
 				}
 
-				//remove the php cgi starter script if available
-				if ($data['old']['php'] == 'cgi') {
-					// TODO: fetch the date from the server-settings
-					$web_config['cgi_starter_path'] = $web_config['website_basedir'].'/php-cgi-scripts/[system_user]/';
-
-					$cgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['cgi_starter_path']);
-					if($data['old']['type'] == 'vhost') {
-						if (is_dir($cgi_starter_path)) {
-							exec('rm -rf '.$cgi_starter_path);
-						}
-					} else {
-						$cgi_starter_script = $cgi_starter_path.'php-cgi-starter_web'.$data['old']['domain_id'];
-						if (file_exists($cgi_starter_script)) {
-							exec('rm -f '.$cgi_starter_script);
-						}
-					}
-				}
-
 				$app->log('Removing website: '.$docroot, LOGLEVEL_DEBUG);
 
 				// Delete the symlinks for the sites
