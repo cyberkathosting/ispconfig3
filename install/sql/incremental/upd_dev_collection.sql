@@ -109,3 +109,40 @@ ALTER TABLE `xmpp_domain`
 -- STRIPDOWN!
 ALTER TABLE `web_backup` CHANGE `backup_type` `backup_type` enum('web','mysql') NOT NULL DEFAULT 'web';
 ALTER TABLE `web_database_user` DROP COLUMN `database_password_mongo`;
+ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR(255) NOT NULL DEFAULT 'no,fast-cgi,mod,php-fpm';
+ALTER TABLE `client_template`
+  DROP COLUMN `default_xmppserver`,
+  DROP COLUMN `xmpp_servers`,
+  DROP COLUMN `limit_xmpp_domain`,
+  DROP COLUMN `limit_xmpp_user`,
+  DROP COLUMN `limit_xmpp_muc`,
+  DROP COLUMN `limit_xmpp_anon`,
+  DROP COLUMN `limit_xmpp_vjud`,
+  DROP COLUMN `limit_xmpp_proxy`,
+  DROP COLUMN `limit_xmpp_status`,
+  DROP COLUMN `limit_xmpp_pastebin`,
+  DROP COLUMN `limit_xmpp_httparchive`,
+  DROP COLUMN `limit_xmpp_webpresence`,
+  DROP COLUMN `limit_xmpp_http_upload`;
+
+ALTER TABLE `server` DROP COLUMN `xmpp_server`;
+
+ALTER TABLE `client`
+  DROP COLUMN `default_xmppserver` int(11) unsigned NOT NULL DEFAULT '1',
+  DROP COLUMN `xmpp_servers`,
+  DROP COLUMN `limit_xmpp_domain`,
+  DROP COLUMN `limit_xmpp_user`,
+  DROP COLUMN `limit_xmpp_muc`,
+  DROP COLUMN `limit_xmpp_anon`,
+  DROP COLUMN `limit_xmpp_auth_options`,
+  DROP COLUMN `limit_xmpp_vjud`,
+  DROP COLUMN `limit_xmpp_proxy`,
+  DROP COLUMN `limit_xmpp_status`,
+  DROP COLUMN `limit_xmpp_pastebin`,
+  DROP COLUMN `limit_xmpp_httparchive`,
+  DROP COLUMN `limit_xmpp_webpresence`,
+  DROP COLUMN `limit_xmpp_http_upload`;
+
+
+DROP TABLE `xmpp_domain`;
+DROP TABLE `xmpp_user`;
