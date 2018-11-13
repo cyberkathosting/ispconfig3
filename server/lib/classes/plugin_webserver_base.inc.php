@@ -2999,5 +2999,7 @@ class plugin_webserver_base {
 				unset($tmp);
 			}
 		}
+		
+		return $folder;
 	}
 }
