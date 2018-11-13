@@ -1,0 +1,3 @@
+rspamd_config.R_DUMMY = function (task)
+  return true
+end

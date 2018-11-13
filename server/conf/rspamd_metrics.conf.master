@@ -1,0 +1,17 @@
+subject = "***SPAM*** %s";
+
+symbol {
+	weight = 50;
+	name = "CLAM_VIRUS";
+	description = "Clamav has found a virus.";
+}
+symbol {
+	weight = 50;
+	name = "JUST_EICAR";
+	description = "Clamav has found a virus.";
+}
+symbol {
+	weight = 0.0;
+	name = "R_DUMMY";
+	description = "Dummy symbol";
+}

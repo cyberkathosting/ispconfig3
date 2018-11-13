@@ -60,15 +60,15 @@ class postfix_server_plugin {
 		Register for the events
 		*/
 
-		$app->plugins->registerEvent('server_insert', 'postfix_server_plugin', 'insert');
-		$app->plugins->registerEvent('server_update', 'postfix_server_plugin', 'update');
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'insert');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'update');
 
-
-
+		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
 	}
 
 	function insert($event_name, $data) {
-		global $app, $conf;
 
 		$this->update($event_name, $data);
 
@@ -116,7 +116,7 @@ class postfix_server_plugin {
 			if($rbl_hosts != ''){
 				$rbl_hosts = explode(",", $rbl_hosts);
 			}
-			$options = explode(", ", exec("postconf -h smtpd_recipient_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_rbl_client/', $value)) {
@@ -162,7 +162,8 @@ class postfix_server_plugin {
 		}		
 		
 		if($app->system->is_installed('dovecot')) {
-			$temp = exec("postconf -n virtual_transport", $out);
+			$out = null;
+			exec("postconf -n virtual_transport", $out);
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				// If dovecot switch to lmtp
 				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp") {
@@ -182,12 +183,139 @@ class postfix_server_plugin {
 			}
 		}
 
+		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
+			if($mail_config['content_filter'] == 'rspamd'){
+				exec("postconf -X 'receive_override_options'");
+				exec("postconf -X 'content_filter'");
+				
+				exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+				exec("postconf -e 'milter_protocol = 6'");
+				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
+				exec("postconf -e 'milter_default_action = accept'");
+				
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+				
+				$new_options = array();
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+				foreach ($options as $key => $value) {
+					if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+						$new_options[] = $value;
+					}
+				}
+				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+				
+				if(!is_dir('/etc/rspamd/local.d/')){
+					$app->system->mkdirpath('/etc/rspamd/local.d/');
+				}
+				
+				$this->server_ip($event_name, $data);
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+				}
+
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_classifier-bayes.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+				}
+
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_greylist.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+				}
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_metrics.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_metrics.conf.master /etc/rspamd/local.d/metrics.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_metrics.conf.master /etc/rspamd/local.d/metrics.conf');
+				}
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_metrics_override.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_metrics_override.conf.master /etc/rspamd/override.d/metrics.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_metrics_override.conf.master /etc/rspamd/override.d/metrics.conf');
+				}
+			
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+				}
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd.local.lua.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
+				}
+				
+				$tpl = new tpl();
+				$tpl->newTemplate('rspamd_dkim_signing.conf.master');
+				$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+				$app->system->file_put_contents('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
+
+				$app->system->add_user_to_group('amavis', '_rspamd');
+				
+				if(strpos($app->system->file_get_contents('/etc/rspamd/rspamd.conf'), '.include "$LOCAL_CONFDIR/local.d/users.conf"') === false){
+					$app->uses('file');
+					$app->file->af('/etc/rspamd/rspamd.conf', '.include "$LOCAL_CONFDIR/local.d/users.conf"');
+				}
+				
+				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			}	
+			if($mail_config['content_filter'] == 'amavisd'){
+				exec("postconf -X 'smtpd_milters'");
+				exec("postconf -X 'milter_protocol'");
+				exec("postconf -X 'milter_mail_macros'");
+				exec("postconf -X 'milter_default_action'");
+				
+				exec("postconf -e 'receive_override_options = no_address_mappings'");
+				exec("postconf -e 'content_filter = amavis:[127.0.0.1]:10024'");
+				
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
+			}
+		}
+		
+		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {
+			$tpl = new tpl();
+			$tpl->newTemplate('rspamd_worker-controller.inc.master');
+			$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+		}
+
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'"); //TODO : no reload?
 		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'"); //TODO : no reload?
-		
-
+	
 	}
 
-} // end class
+	function server_ip($event_name, $data) {
+		global $app, $conf;
+ 
+		// get the config
+		$app->uses("getconf,system");
+		$app->load('tpl');
 
-?>
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+		
+		if($mail_config['content_filter'] == 'rspamd'){
+			$tpl = new tpl();
+			$tpl->newTemplate('rspamd_users.conf.master');
+				
+			$whitelist_ips = array();
+			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+			if(is_array($ips) && !empty($ips)){
+				foreach($ips as $ip){
+					$whitelist_ips[] = array('ip' => $ip['ip_address']);
+				}
+			}
+			$tpl->setLoop('whitelist_ips', $whitelist_ips);
+			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
+				
+			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+		}
+	}
+} // end class

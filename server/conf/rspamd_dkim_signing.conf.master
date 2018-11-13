@@ -1,0 +1,2 @@
+path = "<tmpl_var name='dkim_path'>/$domain.private";
+selector = "default";

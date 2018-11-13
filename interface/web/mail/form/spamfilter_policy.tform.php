@@ -216,6 +216,42 @@ $form["tabs"]['quarantine'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'rspamd_greylisting' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
+		'rspamd_spam_greylisting_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
+		'rspamd_spam_tag_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
+		'rspamd_spam_tag_method' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rewrite_subject',
+			'value'  => array('add_header' => $app->lng('add_header_txt'), 'rewrite_subject' => $app->lng('rewrite_subject_txt'))
+		),
+		'rspamd_spam_kill_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

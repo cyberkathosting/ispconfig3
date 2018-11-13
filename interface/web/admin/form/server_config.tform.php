@@ -331,7 +331,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monit_user' => array(
 			'datatype' => 'VARCHAR',
@@ -345,7 +350,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monit_password' => array(
 			'datatype' => 'VARCHAR',
@@ -353,7 +363,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_url' => array(
 			'datatype' => 'VARCHAR',
@@ -365,7 +380,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_user' => array(
 			'datatype' => 'VARCHAR',
@@ -379,7 +399,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_password' => array(
 			'datatype' => 'VARCHAR',
@@ -387,7 +412,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_url' => array(
 			'datatype' => 'VARCHAR',
@@ -399,7 +429,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_user' => array(
 			'datatype' => 'VARCHAR',
@@ -407,7 +442,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_password' => array(
 			'datatype' => 'VARCHAR',
@@ -415,7 +455,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monitor_system_updates' => array(
 			'datatype' => 'VARCHAR',
@@ -493,6 +538,23 @@ $form["tabs"]['mail'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'content_filter' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rspamd',
+			'value' => array('amavisd' => 'Amavisd', 'rspamd' => 'Rspamd')
+		),
+		'rspamd_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
 		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',

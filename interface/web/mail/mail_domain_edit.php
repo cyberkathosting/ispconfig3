@@ -273,7 +273,10 @@ class page_action extends tform_actions {
 		}
 
 		//* make sure that the email domain is lowercase
-		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		if(isset($this->dataRecord["domain"])){
+			$this->dataRecord["domain"] = $app->functions->idn_encode($this->dataRecord["domain"]);
+			$this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		}
 
 
 		parent::onSubmit();

@@ -52,6 +52,16 @@
     </Directory>
   </IfModule>
 
+{tmpl_if name="use_rspamd"}
+  <Location /rspamd>
+        Order allow,deny
+        Allow from all
+  </Location>
+  RewriteEngine On
+  RewriteRule ^/rspamd$ /rspamd/ [R,L]
+  RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P]
+{/tmpl_if}
+
 </VirtualHost>
 
 
