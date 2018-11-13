@@ -30,6 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class plugin_webserver_base {
 	
+	private $action = '';
+	
 	public function registerEvents($server_type = 'apache') {
 		global $app;
 		
@@ -522,10 +524,12 @@ class plugin_webserver_base {
 			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
 		}
 	}
-
-	public function eventUpdate($event_name, $data, $server_type = 'apache') {
+	
+	public function eventUpdate($event_name, $data, $action, $server_type = 'apache') {
 		global $app, $conf;
 
+		$this->action = $action;
+		
 		if($server_type === 'nginx') {
 			//* Check if the apache plugin is enabled
 			if(@is_link('/usr/local/ispconfig/server/plugins-enabled/apache2_plugin.inc.php')) {
