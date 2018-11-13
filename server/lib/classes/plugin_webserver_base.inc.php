@@ -1352,6 +1352,64 @@ class plugin_webserver_base {
 			$config_prefix = 'nginx_';
 		}
 		
+		/**
+		 * PHP-FPM
+		 */
+		// Support for multiple PHP versions
+		if($data['new']['php'] == 'php-fpm'){
+			if(trim($data['new']['fastcgi_php_version']) != ''){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
+		} else {
+			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
+				$default_php_fpm = false;
+				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
+				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+			} else {
+				$default_php_fpm = true;
+			}
+		}
+
+		if($default_php_fpm){
+			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+		} else {
+			$pool_dir = $custom_php_fpm_pool_dir;
+		}
+		$pool_dir = trim($pool_dir);
+		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
+		$pool_name = 'web'.$data['new']['domain_id'];
+		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
+		
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = 0;
+			$use_socket = 1;
+			if(!is_dir($socket_dir)) $app->system->mkdirpath($socket_dir);
+		} else {
+			$use_tcp = 1;
+			$use_socket = 0;
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
+		$tpl->setVar('fpm_socket', $fpm_socket);
+		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
+		
+		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $server_type);
+		if($server_type === 'nginx') {
+			$fpm_data = array(
+				'use_tcp' => $use_tcp,
+				'use_socket' => $use_socket,
+				'socket_dir' => $socket_dir,
+				'fpm_socket' => $fpm_socket,
+				'fpm_port' => $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1
+			);
+			$app->plugin_webserver_nginx->processCustomDirectives($tpl, $data, $vhost_data, $fpm_data);
+		}
 
 		$vhost_file = escapeshellcmd($web_config[$config_prefix.'vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost');
 		//* Make a backup copy of vhost file
@@ -1459,65 +1517,6 @@ class plugin_webserver_base {
 		//* Create awstats configuration
 		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$app->plugin_webserver_base->awstats_update($data, $web_config);
-		}
-
-		/**
-		 * PHP-FPM
-		 */
-		// Support for multiple PHP versions
-		if($data['new']['php'] == 'php-fpm'){
-			if(trim($data['new']['fastcgi_php_version']) != ''){
-				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
-			} else {
-				$default_php_fpm = true;
-			}
-		} else {
-			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
-				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
-			} else {
-				$default_php_fpm = true;
-			}
-		}
-
-		if($default_php_fpm){
-			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
-		} else {
-			$pool_dir = $custom_php_fpm_pool_dir;
-		}
-		$pool_dir = trim($pool_dir);
-		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
-		$pool_name = 'web'.$data['new']['domain_id'];
-		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
-		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
-		
-		if($data['new']['php_fpm_use_socket'] == 'y'){
-			$use_tcp = 0;
-			$use_socket = 1;
-			if(!is_dir($socket_dir)) $app->system->mkdirpath($socket_dir);
-		} else {
-			$use_tcp = 1;
-			$use_socket = 0;
-		}
-		$tpl->setVar('use_tcp', $use_tcp);
-		$tpl->setVar('use_socket', $use_socket);
-		$fpm_socket = $socket_dir.$pool_name.'.sock';
-		$tpl->setVar('fpm_socket', $fpm_socket);
-		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
-		
-		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $server_type);
-		if($server_type === 'nginx') {
-			$fpm_data = array(
-				'use_tcp' => $use_tcp,
-				'use_socket' => $use_socket,
-				'socket_dir' => $socket_dir,
-				'fpm_socket' => $fpm_socket,
-				'fpm_port' => $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1
-			);
-			$app->plugin_webserver_nginx->processCustomDirectives($tpl, $data, $vhost_data, $fpm_data);
 		}
 
 		if($web_config['check_apache_config'] == 'y') {
