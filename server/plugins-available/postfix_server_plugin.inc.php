@@ -265,8 +265,7 @@ class postfix_server_plugin {
 				}
 				
 				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
-			}	
-			if($mail_config['content_filter'] == 'amavisd'){
+			} elseif($mail_config['content_filter'] == 'amavisd'){
 				exec("postconf -X 'smtpd_milters'");
 				exec("postconf -X 'milter_protocol'");
 				exec("postconf -X 'milter_mail_macros'");
