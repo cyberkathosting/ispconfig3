@@ -376,8 +376,10 @@ class letsencrypt {
 		unset($aliasdomains);
 		
 		$letsencrypt_cmd = '';
+		$allow_return_codes = null;
 		if($use_acme) {
 			$letsencrypt_cmd = $this->get_acme_command($temp_domains, $key_file, $bundle_file, $crt_file);
+			$allow_return_codes = array(2);
 		} else {
 			$letsencrypt_cmd = $this->get_certbot_command($temp_domains);
 		}
@@ -388,7 +390,7 @@ class letsencrypt {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
 			
-				$success = $app->system->_exec($letsencrypt_cmd);
+				$success = $app->system->_exec($letsencrypt_cmd, $allow_return_codes);
 			} else {
 				$app->log("Migration mode active, skipping Let's Encrypt SSL Cert creation for: $domain", LOGLEVEL_DEBUG);
 				$success = true;

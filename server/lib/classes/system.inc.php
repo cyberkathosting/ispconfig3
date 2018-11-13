@@ -1672,14 +1672,24 @@ class system{
 
 	}
 	
-	function _exec($command) {
+	function _exec($command, $return_codes_ok = null) {
 		global $app;
+		
+		if(!is_null($return_codes_ok) && !is_array($return_codes_ok)) {
+			$return_codes_ok = array($return_codes_ok);
+		}
+		
 		$out = array();
 		$ret = 0;
 		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
 		exec($command, $out, $ret);
-		if($ret != 0) return false;
-		else return true;
+		if($ret == 0) {
+			return true;
+		} elseif(is_array($return_codes_ok) && !empty($return_codes_ok) && in_array($ret, $return_codes_ok)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//* Check if a application is installed
