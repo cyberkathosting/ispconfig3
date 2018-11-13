@@ -208,8 +208,18 @@ class postfix_server_plugin {
 					$app->system->mkdirpath('/etc/rspamd/local.d/');
 				}
 				
+				if(!is_dir('/etc/rspamd/override.d/')){
+					$app->system->mkdirpath('/etc/rspamd/override.d/');
+				}
+				
 				$this->server_ip($event_name, $data);
 				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_groups.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+				}
+
 				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master')) {
 					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
 				} else {
@@ -235,15 +245,15 @@ class postfix_server_plugin {
 				}
 				
 				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master /etc/rspamd/override.d/group_rbl.conf');
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
 				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_rbl.conf.master /etc/rspamd/override.d/group_rbl.conf');
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
 				}
 			
 				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master /etc/rspamd/override.d/group_surbl.conf');
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
 				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_surbl.conf.master /etc/rspamd/override.d/group_surbl.conf');
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
 				}
 			
 				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master')) {
@@ -252,11 +262,13 @@ class postfix_server_plugin {
 					exec('cp '.$conf['rootpath'].'/conf/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
 				}
 				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd.local.lua.master')) {
+				/*if(file_exists($conf['rootpath'].'/conf-custom/rspamd.local.lua.master')) {
 					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
 				} else {
 					exec('cp '.$conf['rootpath'].'/conf/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
-				}
+				}*/
+				
+				exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
 				
 				$tpl = new tpl();
 				$tpl->newTemplate('rspamd_dkim_signing.conf.master');
@@ -289,7 +301,7 @@ class postfix_server_plugin {
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
 			$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
 			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'"); //TODO : no reload?
