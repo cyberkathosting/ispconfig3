@@ -18,6 +18,7 @@ SSLStaplingCache shmcb:/var/run/ocsp(128000)
 LogFormat '%v %h %l %u %t "%r" %>s %S "%{Referer}i" "%{User-Agent}i"' combined_ispconfig
 <tmpl_else>
 LogFormat "%v %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined_ispconfig
+</tmpl_if>
 <tmpl_if name='logging' op='==' value='anon'>
 CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -p -s access.log -t \"%Y%m%d-access.log\" /var/log/ispconfig/httpd" combined_ispconfig env=!dontlog
 </tmpl_if>
