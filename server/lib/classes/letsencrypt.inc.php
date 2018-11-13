@@ -63,6 +63,10 @@ class letsencrypt {
 			$cmd .= (string) " -d " . $domain;
 		}
 		
+		if($cmd == '') {
+			return false;
+		}
+		
 		$cmd = $letsencrypt . " --issue $cmd -w /usr/local/ispconfig/interface/acme && " . $letsencrypt . " --install-cert " . $cmd . " --key-file " . escapeshellarg($key_file) . " --fullchain-file " . escapeshellarg($bundle_file) . " --cert-file " . escapeshellarg($cert_file) . " --reloadcmd " . escapeshellarg($this->get_reload_command());
 		
 		return $cmd;
@@ -119,6 +123,10 @@ class letsencrypt {
 		// generate cli format
 		foreach($domains as $domain) {
 			$cmd .= (string) " --domains " . $domain;
+		}
+		
+		if($cmd == '') {
+			return false;
 		}
 		
 		$matches = array();
@@ -375,7 +383,7 @@ class letsencrypt {
 		}
 		
 		$success = false;
-		if(!empty($cli_domain_arg)) {
+		if(!$letsencrypt_cmd) {
 			if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
