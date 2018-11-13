@@ -25,12 +25,12 @@ settings {
 		
 		want_spam = yes;
 	}
-	whitelist-timmehosting {
-		priority = 20;
-		from = "@timmehosting.de";
-		from = "@timmehosting.com";
-		want_spam = yes;
-	}
+#	whitelist-timmehosting {
+#		priority = 20;
+#		from = "@xxx";
+#		from = "@xxx";
+#		want_spam = yes;
+#	}
 	whitelist-ca {
 		priority = 20;
 		from = "@comodo.com";

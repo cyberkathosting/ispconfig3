@@ -189,6 +189,7 @@ class postfix_server_plugin {
 				exec("postconf -X 'content_filter'");
 				
 				exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+				exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
 				exec("postconf -e 'milter_protocol = 6'");
 				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 				exec("postconf -e 'milter_default_action = accept'");
@@ -262,6 +263,24 @@ class postfix_server_plugin {
 					exec('cp '.$conf['rootpath'].'/conf/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
 				}
 				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_redis.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+				}
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_milter_headers.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+				}
+				
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_options.inc.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+				}
+				
 				/*if(file_exists($conf['rootpath'].'/conf-custom/rspamd.local.lua.master')) {
 					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
 				} else {
@@ -304,9 +323,9 @@ class postfix_server_plugin {
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 
-		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'"); //TODO : no reload?
-		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'"); //TODO : no reload?
-	
+		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
+		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
+		$app->services->restartServiceDelayed('postfix', 'reload');
 	}
 
 	function server_ip($event_name, $data) {
