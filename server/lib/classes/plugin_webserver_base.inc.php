@@ -33,38 +33,44 @@ class plugin_webserver_base {
 	public function registerEvents($server_type = 'apache') {
 		global $app;
 		
-		$app->plugins->registerEvent('web_domain_insert', $this->plugin_name, 'ssl');
-		$app->plugins->registerEvent('web_domain_update', $this->plugin_name, 'ssl');
-		$app->plugins->registerEvent('web_domain_delete', $this->plugin_name, 'ssl');
-
-		$app->plugins->registerEvent('web_domain_insert', $this->plugin_name, 'insert');
-		$app->plugins->registerEvent('web_domain_update', $this->plugin_name, 'update');
-		$app->plugins->registerEvent('web_domain_delete', $this->plugin_name, 'delete');
-
-		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		if($server_type === 'apache') {
+			$plugin_name = 'apache2_plugin';
+		} else {
+			$plugin_name = 'nginx_plugin';
+		}
 		
-		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('web_domain_insert', $plugin_name, 'ssl');
+		$app->plugins->registerEvent('web_domain_update', $plugin_name, 'ssl');
+		$app->plugins->registerEvent('web_domain_delete', $plugin_name, 'ssl');
 
-		$app->plugins->registerEvent('client_delete', $this->plugin_name, 'client_delete');
+		$app->plugins->registerEvent('web_domain_insert', $plugin_name, 'insert');
+		$app->plugins->registerEvent('web_domain_update', $plugin_name, 'update');
+		$app->plugins->registerEvent('web_domain_delete', $plugin_name, 'delete');
 
-		$app->plugins->registerEvent('web_folder_user_insert', $this->plugin_name, 'web_folder_user');
-		$app->plugins->registerEvent('web_folder_user_update', $this->plugin_name, 'web_folder_user');
-		$app->plugins->registerEvent('web_folder_user_delete', $this->plugin_name, 'web_folder_user');
+		$app->plugins->registerEvent('server_ip_insert', $plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_update', $plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_delete', $plugin_name, 'server_ip');
+		
+		$app->plugins->registerEvent('server_insert', $plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_update', $plugin_name, 'server_ip');
 
-		$app->plugins->registerEvent('web_folder_update', $this->plugin_name, 'web_folder_update');
-		$app->plugins->registerEvent('web_folder_delete', $this->plugin_name, 'web_folder_delete');
+		$app->plugins->registerEvent('client_delete', $plugin_name, 'client_delete');
 
-		$app->plugins->registerEvent('ftp_user_delete', $this->plugin_name, 'ftp_user_delete');
+		$app->plugins->registerEvent('web_folder_user_insert', $plugin_name, 'web_folder_user');
+		$app->plugins->registerEvent('web_folder_user_update', $plugin_name, 'web_folder_user');
+		$app->plugins->registerEvent('web_folder_user_delete', $plugin_name, 'web_folder_user');
 
-		$app->plugins->registerAction('php_ini_changed', $this->plugin_name, 'php_ini_changed');
+		$app->plugins->registerEvent('web_folder_update', $plugin_name, 'web_folder_update');
+		$app->plugins->registerEvent('web_folder_delete', $plugin_name, 'web_folder_delete');
+
+		$app->plugins->registerEvent('ftp_user_delete', $plugin_name, 'ftp_user_delete');
+
+		$app->plugins->registerAction('php_ini_changed', $plugin_name, 'php_ini_changed');
 		
 		if($server_type === 'apache') {
-			$app->plugins->registerEvent('webdav_user_insert', $this->plugin_name, 'webdav');
-			$app->plugins->registerEvent('webdav_user_update', $this->plugin_name, 'webdav');
-			$app->plugins->registerEvent('webdav_user_delete', $this->plugin_name, 'webdav');
+			$app->plugins->registerEvent('webdav_user_insert', $plugin_name, 'webdav');
+			$app->plugins->registerEvent('webdav_user_update', $plugin_name, 'webdav');
+			$app->plugins->registerEvent('webdav_user_delete', $plugin_name, 'webdav');
 		}
 	}
 	
@@ -1354,8 +1360,7 @@ class plugin_webserver_base {
 			$app->system->file_put_contents($vhost_file, $this->nginx_merge_locations($tpl->grab()));
 		}
 		$app->log('Writing the vhost file: '.$vhost_file, LOGLEVEL_DEBUG);
-		unset($tpl);
-
+		
 		if($server_type === 'apache') {
 			/*
 			 * maybe we have some webdav - user. If so, add them...

@@ -98,7 +98,7 @@ class apache2_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
-		$app->plugins_webserver_base->eventUpdate($event_name, $data, 'apache');
+		$app->plugin_webserver_base->eventUpdate($event_name, $data, 'apache');
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';

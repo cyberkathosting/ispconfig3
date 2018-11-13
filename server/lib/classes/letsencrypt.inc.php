@@ -44,7 +44,7 @@ class letsencrypt {
 	}
 	
 	public function get_acme_script() {
-		$acme = excplode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
+		$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 		$acme = reset($acme);
 		if(is_executable($acme)) {
 			return $acme;
@@ -233,7 +233,10 @@ class letsencrypt {
 	}
 	
 	private function get_ssl_domain($data) {
+		global $app;
+		
 		$domain = $data['new']['ssl_domain'];
+		
 		if(!$domain) $domain = $data['new']['domain'];
 		
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
@@ -249,8 +252,6 @@ class letsencrypt {
 	}
 	
 	public function get_website_certificate_paths($data) {
-		global $app;
-		
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = $this->get_ssl_domain($data);
 		
@@ -472,4 +473,3 @@ class letsencrypt {
 	}
 }
 
-?>
