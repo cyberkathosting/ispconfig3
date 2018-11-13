@@ -2328,10 +2328,20 @@ class plugin_webserver_base {
 			$tpl->setVar('apache_version', $app->system->getapacheversion());
 			$tpl->setVar('apache_full_version', $app->system->getapacheversion(true));
 		}
+		if($data['new']['php_fpm_use_socket'] == 'y'){
+			$use_tcp = 0;
+			$use_socket = 1;
+			if(!is_dir($socket_dir)) $app->system->mkdirpath($socket_dir);
+		} else {
+			$use_tcp = 1;
+			$use_socket = 0;
+		}
+		$tpl->setVar('use_tcp', $use_tcp);
+		$tpl->setVar('use_socket', $use_socket);
+		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		
 		$tpl->setVar('php_fpm_chroot', $php_fpm_chroot);
 
-		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('fpm_listen_mode', '0660');
 

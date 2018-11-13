@@ -383,7 +383,7 @@ class letsencrypt {
 		}
 		
 		$success = false;
-		if(!$letsencrypt_cmd) {
+		if($letsencrypt_cmd) {
 			if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
