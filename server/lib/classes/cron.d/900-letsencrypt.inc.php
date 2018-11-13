@@ -35,15 +35,11 @@ class cronjob_letsencrypt extends cronjob {
 
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
-		global $app;
-
 		parent::onPrepare();
 	}
 
 	/* this function is optional if it contains no custom code */
 	public function onBeforeRun() {
-		global $app;
-
 		return parent::onBeforeRun();
 	}
 
@@ -52,9 +48,19 @@ class cronjob_letsencrypt extends cronjob {
 		
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
-			$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
-			$letsencrypt = reset($letsencrypt);
-			if(is_executable($letsencrypt)) {
+			
+			$acme = $app->letsencrypt->get_acme_script();
+			if($acme) {
+				// skip letsencrypt
+				parent::onRunJob();
+				return;
+			}
+			
+			$letsencrypt = $app->letsencrypt->get_certbot_script();
+			if($letsencrypt) {
+				$ret = null;
+				$val = 0;
+				$matches = array();
 				$version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
 				if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $version, $matches)) {
 					$type = strtolower($matches[1]);
@@ -85,11 +91,7 @@ class cronjob_letsencrypt extends cronjob {
 
 	/* this function is optional if it contains no custom code */
 	public function onAfterRun() {
-		global $app;
-
 		parent::onAfterRun();
 	}
 
 }
-
-?>

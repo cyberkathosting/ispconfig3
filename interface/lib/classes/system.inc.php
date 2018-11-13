@@ -41,7 +41,7 @@ class system {
 
 		// simple query cache
 		if($this->client_service===null)
-			$this->client_service =  $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id", $userid);
+			$this->client_service = $app->db->queryOneRecord("SELECT client.* FROM sys_user, client WHERE sys_user.userid = ? AND sys_user.client_id = client.client_id", $userid);
 
 		// isn't service
 		if(!$this->client_service) return false;
