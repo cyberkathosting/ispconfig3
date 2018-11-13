@@ -1619,7 +1619,7 @@ class plugin_webserver_base {
 		$this->action = '';
 	}
 	
-	public function eventDelete($event_name, $data,  $server_type = 'apache') {
+	public function eventDelete($event_name, $data, $server_type = 'apache') {
 		global $app, $conf;
 
 		// load the server configuration options
@@ -1628,7 +1628,10 @@ class plugin_webserver_base {
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
 
-		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
+		if($data['old']['type'] == 'vhost') {
+			$app->system->web_folder_protection($data['old']['document_root'], false);
+		} elseif($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
+			
 			$parent_domain_id = intval($data['old']['parent_domain_id']);
 			$tmp = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ? AND active = 'y'", $parent_domain_id);
 			$app->system->web_folder_protection($tmp['document_root'], false);
