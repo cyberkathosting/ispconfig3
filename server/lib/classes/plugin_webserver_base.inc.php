@@ -1337,16 +1337,11 @@ class plugin_webserver_base {
 
 		$config_prefix = '';
 		if($server_type === 'apache') {
-			$ssl_data = array(
-				'crt_file' => $crt_file,
-				'key_file' => $key_file,
-			);
-			
 			$tpl->setVar('apache_version', $app->system->getapacheversion());
 			$tpl->setVar('apache_full_version', $app->system->getapacheversion(true));
 			$app->plugin_webserver_apache->processRewriteRules($tpl, $data, $vhost_data);
 			$app->plugin_webserver_apache->processPhpStarters($tpl, $data, $vhost_data);
-			$app->plugin_webserver_apache->processVhosts($tpl, $data, $vhost_data, $ssl_data);
+			$app->plugin_webserver_apache->processVhosts($tpl, $data, $vhost_data);
 		} elseif($server_type === 'nginx') {
 			$app->plugin_webserver_nginx->processStatsAuth($tpl, $data, $vhost_data);
 			$config_prefix = 'nginx_';

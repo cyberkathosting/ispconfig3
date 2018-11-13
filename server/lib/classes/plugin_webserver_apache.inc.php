@@ -394,7 +394,7 @@ class plugin_webserver_apache {
 	 * @param array $data
 	 * @param array $vhost_data
 	 */
-	public function processVhosts(&$tpl, &$data, &$vhost_data, $ssl_data) {
+	public function processVhosts(&$tpl, &$data, &$vhost_data) {
 		global $app, $conf;
 		
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -419,7 +419,7 @@ class plugin_webserver_apache {
 		unset($tmp_vhost_arr);
 
 		//* Add vhost for ipv4 IP with SSL
-		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($ssl_data['crt_file']) && @is_file($ssl_data['key_file']) && (@filesize($ssl_data['crt_file'])>0)  && (@filesize($ssl_data['key_file'])>0)) {
+		if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($vhost_data['ssl_crt_file']) && @is_file($vhost_data['ssl_key_file']) && (@filesize($vhost_data['ssl_crt_file'])>0)  && (@filesize($vhost_data['ssl_key_file'])>0)) {
 			$tmp_vhost_arr = array('ip_address' => $data['new']['ip_address'], 'ssl_enabled' => 1, 'port' => '443');
 			if(count($this->rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $this->rewrite_rules);
 			$ipv4_ssl_alias_seo_redirects = $this->alias_seo_redirects;
@@ -456,7 +456,7 @@ class plugin_webserver_apache {
 			unset($tmp_vhost_arr);
 
 			//* Add vhost for ipv6 IP with SSL
-			if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($ssl_data['crt_file']) && @is_file($ssl_data['key_file']) && (@filesize($ssl_data['crt_file'])>0)  && (@filesize($ssl_data['key_file'])>0)) {
+			if($data['new']['ssl_domain'] != '' && $data['new']['ssl'] == 'y' && @is_file($vhost_data['ssl_crt_file']) && @is_file($vhost_data['ssl_key_file']) && (@filesize($vhost_data['ssl_crt_file'])>0)  && (@filesize($vhost_data['ssl_key_file'])>0)) {
 				$tmp_vhost_arr = array('ip_address' => '['.$data['new']['ipv6_address'].']', 'ssl_enabled' => 1, 'port' => '443');
 				if(count($this->rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $this->rewrite_rules);
 				$ipv6_ssl_alias_seo_redirects = $this->alias_seo_redirects;
@@ -470,7 +470,7 @@ class plugin_webserver_apache {
 				unset($tmp_vhost_arr, $ipv6_ssl_alias_seo_redirects);
 			}
 		}
-
+		
 		//* Set the vhost loop
 		$tpl->setLoop('vhosts', $vhosts);
 		return;

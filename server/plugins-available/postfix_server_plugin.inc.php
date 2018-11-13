@@ -228,16 +228,22 @@ class postfix_server_plugin {
 					exec('cp '.$conf['rootpath'].'/conf/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
 				}
 				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_metrics.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_metrics.conf.master /etc/rspamd/local.d/metrics.conf');
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_symbols_antivirus.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
 				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_metrics.conf.master /etc/rspamd/local.d/metrics.conf');
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
 				}
 				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_metrics_override.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_metrics_override.conf.master /etc/rspamd/override.d/metrics.conf');
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master /etc/rspamd/override.d/group_rbl.conf');
 				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_metrics_override.conf.master /etc/rspamd/override.d/metrics.conf');
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_rbl.conf.master /etc/rspamd/override.d/group_rbl.conf');
+				}
+			
+				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master')) {
+					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master /etc/rspamd/override.d/group_surbl.conf');
+				} else {
+					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_surbl.conf.master /etc/rspamd/override.d/group_surbl.conf');
 				}
 			
 				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master')) {

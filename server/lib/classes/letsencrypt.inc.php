@@ -67,7 +67,7 @@ class letsencrypt {
 			return false;
 		}
 		
-		$cmd = $letsencrypt . " --issue $cmd -w /usr/local/ispconfig/interface/acme && " . $letsencrypt . " --install-cert " . $cmd . " --key-file " . escapeshellarg($key_file) . " --fullchain-file " . escapeshellarg($bundle_file) . " --cert-file " . escapeshellarg($cert_file) . " --reloadcmd " . escapeshellarg($this->get_reload_command());
+		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme ; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' --fullchain-file ' . escapeshellarg($bundle_file) . ' --cert-file ' . escapeshellarg($cert_file) . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
 		
 		return $cmd;
 	}
