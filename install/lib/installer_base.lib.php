@@ -37,7 +37,9 @@ class installer_base {
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
 	public $min_php = '5.3.3'; // minimal php-version for update / install
-
+	private $addon_classes = null;
+	private $install_mode = '';
+	
 	public function __construct() {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
 		//$this->conf = $conf;
@@ -56,6 +58,14 @@ class installer_base {
 		echo 'WARNING: '.$msg."\n";
 	}
 
+	public function set_install_mode($mode) {
+		$this->install_mode = $mode;
+	}
+	
+	public function get_install_mode() {
+		return $this->install_mode;
+	}
+	
 	public function simple_query($query, $answers, $default, $name = '') {
 		global $autoinstall, $autoupdate;
 		$finished = false;
@@ -150,7 +160,8 @@ class installer_base {
 	//** Detect installed applications
 	public function find_installed_apps() {
 		global $conf;
-
+	
+		$this->call_hook('find_installed_apps', false);
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
@@ -180,6 +191,8 @@ class installer_base {
 		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
+		
+		$this->call_hook('find_installed_apps', true);
 	}
 
 	public function force_configure_app($service, $enable_force=true) {
@@ -2815,6 +2828,40 @@ class installer_base {
 		$tContents = str_replace('{mysql_server_port}', $conf["mysql"]["port"], $tContents);
 
 		return $tContents;
+	}
+	
+	public function call_hook($hook_name, $after = true) {
+		if(is_null($this->addon_classes)) {
+			// load addon libs
+			$this->addon_classes = array();
+			$libpath = realpath(dirname(__FILE__).'/..') . '/lib.d';
+			if(($dir = opendir($libpath))) {
+				while(false !== ($cur = readdir($dir))) {
+					if(strpos($cur, '..') !== false || !is_file($libpath . '/' . $cur) || substr($cur, -8) !== '.lib.php') {
+						continue;
+					}
+					$class_name = substr($cur, 0, -8) . '_addon_installer';
+					include_once $libpath . '/' . $cur;
+					if(!class_exists($class_name)) {
+						continue;
+					}
+					
+					$this->addon_classes[] = new $class_name;
+				}
+				closedir($dir);
+			}
+		}
+		
+		$call_method = 'onBefore';
+		if($after === true) {
+			$call_method = 'onAfter';
+		}
+		reset($this->addon_classes);
+		foreach($this->addon_classes as $cl) {
+			if(method_exists($cl, $call_method)) {
+				call_user_func(array($cl, $call_method), $hook_name);
+			}
+		}
 	}
 
 }

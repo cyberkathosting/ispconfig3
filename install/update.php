@@ -142,10 +142,51 @@ if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
 	define('AUTOINSTALL', false);
 }
 
+
 //** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
+
+//** Include addon lib config files
+if(is_dir('dist/lib.d')) {
+	// scheme is: <addon-name>.<distconfid>.conf.php
+	if(($dir = opendir('dist/lib.d'))) {
+		while(false !== ($cur = readdir($dir))) {
+			$curpath = 'dist/lib.d/' . $cur;
+			if(strpos($curpath, '..') !== false
+					|| !is_file($curpath)
+					|| !preg_match('/\.(?:' . preg_quote($dist['id'], '/') . '|' . preg_quote($dist['baseid'], '/') . ')\.lib\.php$/', $cur)) {
+				
+				// invalid entry or entry not for current distribution
+				continue;
+			}
+			// valid file name and either generic or for current distribution
+			include_once $curpath;
+		}
+		closedir($dir);
+	}
+}
+
+//** Include addon dist config files
+if(is_dir('dist/conf.d')) {
+	// scheme is: <addon-name>.<distconfid>.conf.php
+	if(($dir = opendir('dist/conf.d'))) {
+		while(false !== ($cur = readdir($dir))) {
+			$curpath = 'dist/conf.d/' . $cur;
+			if(strpos($curpath, '..') !== false
+					|| !is_file($curpath)
+					|| !preg_match('/\.' . preg_quote($dist['confid'], '/') . '\.conf\.php$/', $cur)) {
+				
+				// invalid entry or entry not for current distribution
+				continue;
+			}
+			// valid file name and either generic or for current distribution
+			include_once $curpath;
+		}
+		closedir($dir);
+	}
+}
 
 //** tRNG dependencies
 $conf['tRNG']='';
@@ -299,7 +340,9 @@ checkDbHealth();
 /*
  *  dump the new Database and reconfigure the server.ini
  */
+$inst->call_hook('updateDbAndIni', false);
 updateDbAndIni();
+$inst->call_hook('updateDbAndIni', true);
 
 //** read server config from db into $conf['server_config']
 $tmp = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
@@ -321,7 +364,9 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 //}
 
 //** Detect the installed applications
+$this->call_hook('find_installed_apps', false);
 $inst->find_installed_apps();
+$this->call_hook('find_installed_apps', true);
 
 //** Check for current service config state and compare to our results
 if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,firewall_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);

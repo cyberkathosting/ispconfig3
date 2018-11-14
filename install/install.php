@@ -145,6 +145,46 @@ if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$di
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 
+//** Include addon lib config files
+if(is_dir('dist/lib.d')) {
+	// scheme is: <addon-name>.<distconfid>.conf.php
+	if(($dir = opendir('dist/lib.d'))) {
+		while(false !== ($cur = readdir($dir))) {
+			$curpath = 'dist/lib.d/' . $cur;
+			if(strpos($curpath, '..') !== false
+					|| !is_file($curpath)
+					|| !preg_match('/\.(?:' . preg_quote($dist['id'], '/') . '|' . preg_quote($dist['baseid'], '/') . ')\.lib\.php$/', $cur)) {
+				
+				// invalid entry or entry not for current distribution
+				continue;
+			}
+			// valid file name and either generic or for current distribution
+			include_once $curpath;
+		}
+		closedir($dir);
+	}
+}
+
+//** Include addon dist config files
+if(is_dir('dist/conf.d')) {
+	// scheme is: <addon-name>.<distconfid>.conf.php
+	if(($dir = opendir('dist/conf.d'))) {
+		while(false !== ($cur = readdir($dir))) {
+			$curpath = 'dist/conf.d/' . $cur;
+			if(strpos($curpath, '..') !== false
+					|| !is_file($curpath)
+					|| !preg_match('/\.' . preg_quote($dist['confid'], '/') . '\.conf\.php$/', $cur)) {
+				
+				// invalid entry or entry not for current distribution
+				continue;
+			}
+			// valid file name and either generic or for current distribution
+			include_once $curpath;
+		}
+		closedir($dir);
+	}
+}
+
 //****************************************************************************************************
 //** Installer Interface
 //****************************************************************************************************
@@ -171,7 +211,9 @@ if(is_dir('/usr/local/ispconfig')) {
 }
 
 //** Detect the installed applications
+$this->call_hook('find_installed_apps', false);
 $inst->find_installed_apps();
+$this->call_hook('find_installed_apps', true);
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
@@ -183,6 +225,7 @@ $conf['language_file_import_enabled'] = true;
 
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard', 'expert'), 'standard','install_mode');
+$inst->set_install_mode($install_mode);
 
 //** tRNG dependencies
 $conf['tRNG']='';
@@ -456,6 +499,8 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web 
 	}
 }
 
+$inst->call_hook('configure_webserver_selection', true);
+
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
 	//* Check for Firewall
 	if(!$conf['ufw']['installed'] && !$conf['firewall']['installed']) {
@@ -547,7 +592,9 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 	$inst->install_ispconfig_interface = false;
 }
 
+$inst->call_hook('install_ispconfig', false);
 $inst->install_ispconfig();
+$inst->call_hook('install_ispconfig', true);
 
 //* Configure DBServer
 swriteln('Configuring DBServer');
