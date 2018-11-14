@@ -66,6 +66,11 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('spamfilter_wblist_insert', $this->plugin_name, 'spamfilter_wblist_insert');
 		$app->plugins->registerEvent('spamfilter_wblist_update', $this->plugin_name, 'spamfilter_wblist_update');
 		$app->plugins->registerEvent('spamfilter_wblist_delete', $this->plugin_name, 'spamfilter_wblist_delete');
+		
+		//* server ip
+		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
 	}
 
 	function spamfilter_users_insert($event_name, $data) {
@@ -206,5 +211,32 @@ class rspamd_plugin {
 		}
 	}
 
+	function server_ip($event_name, $data) {
+		global $app, $conf;
+ 
+		// get the config
+		$app->uses("getconf,system");
+		$app->load('tpl');
+
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+		
+		if($mail_config['content_filter'] == 'rspamd'){
+			$tpl = new tpl();
+			$tpl->newTemplate('rspamd_users.conf.master');
+				
+			$whitelist_ips = array();
+			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+			if(is_array($ips) && !empty($ips)){
+				foreach($ips as $ip){
+					$whitelist_ips[] = array('ip' => $ip['ip_address']);
+				}
+			}
+			$tpl->setLoop('whitelist_ips', $whitelist_ips);
+			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
+				
+			$app->services->restartServiceDelayed('rspamd', 'reload');
+		}
+	}
+	
 } // end class
 ?>

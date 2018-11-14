@@ -98,7 +98,7 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
 }
 
-// Patch is required to reapir latest amavis versions
+// Patch is required to repair latest amavis versions
 if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start update again.');
 
 //** Get distribution identifier
@@ -380,6 +380,12 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 			$inst->configure_amavis();
 		}
 
+		//** Configure Rspamd
+		if($conf['rspamd']['installed'] == true && $inst->reconfigure_app('Rspamd', $reconfigure_services_answer)) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
+		}
+
 		//** Configure Getmail
 		if ($inst->reconfigure_app('Getmail', $reconfigure_services_answer)) {
 			swriteln('Configuring Getmail');
@@ -507,6 +513,7 @@ if($reconfigure_services_answer == 'yes') {
 	if($conf['services']['mail']) {
 		if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
 		if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+		if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 		if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 		if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
 	}

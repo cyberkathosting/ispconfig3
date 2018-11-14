@@ -1911,4 +1911,10 @@ $form["tabs"]['rescue'] = array(
 		//#################################
 	)
 );
-?>
+
+$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+if(!isset($mail_config['rspamd_available']) || $mail_config['rspamd_available'] != 'y') {
+	$form['tabs']['mail']['fields']['content_filter']['default'] = 'amavisd';
+	unset($form['tabs']['mail']['fields']['content_filter']['value']['rspamd']);
+	unset($form['tabs']['mail']['fields']['rspamd_password']);
+}

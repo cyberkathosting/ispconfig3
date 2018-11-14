@@ -99,7 +99,7 @@ require_once 'lib/classes/tpl.inc.php';
     die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 }*/
 
-// Patch is required to reapir latest amavis versions
+// Patch is required to repair latest amavis versions
 if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start installation again.');
 
 //** Get distribution identifier
@@ -362,6 +362,12 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 			$inst->configure_amavis();
 		}
 
+		//* Configure Rspamd
+		$force = @($conf['rspamd']['installed']) ? true : $inst->force_configure_app('Rspamd', ($install_mode == 'expert'));
+		if($force) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
+		}
 		//* Configure Getmail
 		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', ($install_mode == 'expert'));
 		if($force) {
@@ -561,6 +567,7 @@ swriteln('Restarting services ...');
 if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
 if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
 if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));

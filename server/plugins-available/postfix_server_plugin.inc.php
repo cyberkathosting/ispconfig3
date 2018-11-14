@@ -62,10 +62,6 @@ class postfix_server_plugin {
 
 		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('server_update', $this->plugin_name, 'update');
-
-		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
 	}
 
 	function insert($event_name, $data) {
@@ -204,104 +200,6 @@ class postfix_server_plugin {
 					}
 				}
 				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
-				
-				if(!is_dir('/etc/rspamd/local.d/')){
-					$app->system->mkdirpath('/etc/rspamd/local.d/');
-				}
-				
-				if(!is_dir('/etc/rspamd/override.d/')){
-					$app->system->mkdirpath('/etc/rspamd/override.d/');
-				}
-				
-				$this->server_ip($event_name, $data);
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_groups.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
-				}
-
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
-				}
-
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_classifier-bayes.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
-				}
-
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_greylist.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
-				}
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_symbols_antivirus.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
-				}
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
-				}
-			
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
-				}
-			
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
-				}
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_redis.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
-				}
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_milter_headers.conf.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
-				}
-				
-				if(file_exists($conf['rootpath'].'/conf-custom/rspamd_options.inc.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
-				}
-				
-				/*if(file_exists($conf['rootpath'].'/conf-custom/rspamd.local.lua.master')) {
-					exec('cp '.$conf['rootpath'].'/conf-custom/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
-				} else {
-					exec('cp '.$conf['rootpath'].'/conf/rspamd.local.lua.master /etc/rspamd/rspamd.local.lua');
-				}*/
-				
-				exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
-				
-				$tpl = new tpl();
-				$tpl->newTemplate('rspamd_dkim_signing.conf.master');
-				$tpl->setVar('dkim_path', $mail_config['dkim_path']);
-				$app->system->file_put_contents('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
-
-				$app->system->add_user_to_group('amavis', '_rspamd');
-				
-				if(strpos($app->system->file_get_contents('/etc/rspamd/rspamd.conf'), '.include "$LOCAL_CONFDIR/local.d/users.conf"') === false){
-					$app->uses('file');
-					$app->file->af('/etc/rspamd/rspamd.conf', '.include "$LOCAL_CONFDIR/local.d/users.conf"');
-				}
-				
-				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
 			} elseif($mail_config['content_filter'] == 'amavisd'){
 				exec("postconf -X 'smtpd_milters'");
 				exec("postconf -X 'milter_protocol'");
@@ -328,30 +226,4 @@ class postfix_server_plugin {
 		$app->services->restartServiceDelayed('postfix', 'reload');
 	}
 
-	function server_ip($event_name, $data) {
-		global $app, $conf;
- 
-		// get the config
-		$app->uses("getconf,system");
-		$app->load('tpl');
-
-		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		
-		if($mail_config['content_filter'] == 'rspamd'){
-			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_users.conf.master');
-				
-			$whitelist_ips = array();
-			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
-			if(is_array($ips) && !empty($ips)){
-				foreach($ips as $ip){
-					$whitelist_ips[] = array('ip' => $ip['ip_address']);
-				}
-			}
-			$tpl->setLoop('whitelist_ips', $whitelist_ips);
-			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
-				
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
-		}
-	}
 } // end class
