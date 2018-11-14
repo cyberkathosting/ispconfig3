@@ -4,11 +4,9 @@
 ServerTokens ProductOnly
 ServerSignature Off
 
-<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
 <IfModule mod_ssl.c>
 SSLStaplingCache shmcb:/var/run/ocsp(128000)
 </IfModule>
-</tmpl_if>
 
 ################################################
 # ISPConfig Logfile configuration for vlogger
@@ -85,6 +83,6 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
 <Directory /usr/local/ispconfig/interface/acme/.well-known/acme-challenge>
 		Require all granted
 	<IfModule mpm_itk_module>
-       AssignUserId www-data www-data
-    </IfModule>
+		AssignUserId www-data www-data
+	</IfModule>
 </Directory>
