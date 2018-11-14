@@ -146,7 +146,7 @@ $conf['mydns']['init_script'] = 'mydns';
 //* PowerDNS
 $conf['powerdns']['installed'] = false; // will be detected automatically during installation
 $conf['powerdns']['database'] = 'powerdns';
-$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
+$conf['powerdns']['config_dir'] = '/etc/powerdns/pdns.d';
 $conf['powerdns']['init_script'] = 'pdns';
 
 //* BIND DNS Server
@@ -190,7 +190,6 @@ $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php5-fpm';
 //*Bastille-Firwall
 $conf['bastille']['installed'] = false;
 $conf['bastille']['config_dir'] = '/etc/Bastille';
-
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc';

@@ -146,7 +146,7 @@ $conf['mydns']['init_script'] = 'mydns';
 //* PowerDNS
 $conf['powerdns']['installed'] = false; // will be detected automatically during installation
 $conf['powerdns']['database'] = 'powerdns';
-$conf["powerdns"]["config_dir"] = '/etc/powerdns/pdns.d';
+$conf['powerdns']['config_dir'] = '/etc/powerdns/pdns.d';
 $conf['powerdns']['init_script'] = 'pdns';
 
 //* BIND DNS Server
@@ -198,6 +198,3 @@ $conf['vlogger']['config_dir'] = '/etc';
 $conf['cron']['init_script'] = 'cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-
-?>

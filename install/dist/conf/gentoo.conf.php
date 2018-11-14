@@ -50,6 +50,8 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
+$conf['services']['proxy'] = false;
+$conf['services']['firewall'] = false;
 
 //* MySQL
 $conf['mysql']['installed'] = false; // will be detected automatically during installation
@@ -196,6 +198,10 @@ $conf['nginx']['php_fpm_ini_path'] = '/etc/php5/fpm/php.ini';
 $conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php5-fpm';
+
+//*Bastille-Firwall
+$conf['bastille']['installed'] = false;
+$conf['bastille']['config_dir'] = '/etc/Bastille';
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc/vlogger';
