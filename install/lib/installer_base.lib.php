@@ -280,7 +280,7 @@ class installer_base {
 
 		// Delete ISPConfig user in the local database, in case that it exists
 		$this->db->query("DROP USER ?@?", $conf['mysql']['ispconfig_user'], $from_host);
-		$this->db->query("DROP DATABASE IF EXISTS ?", $conf['mysql']['database']);
+		$this->db->query("DROP DATABASE IF EXISTS ??", $conf['mysql']['database']);
 
 		//* Create the ISPConfig database user in the local database
 		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
@@ -2237,7 +2237,7 @@ class installer_base {
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled WHERE server_id = ?";
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
 
 		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
