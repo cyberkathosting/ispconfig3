@@ -29,8 +29,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
-	protected $mailman_group = 'mailman';
-	
 	public function __construct() {
 		//** check apache modules */
 		$mods = getapachemodules();
@@ -193,15 +191,6 @@ class installer_dist extends installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
-
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postmap /var/lib/mailman/data/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';

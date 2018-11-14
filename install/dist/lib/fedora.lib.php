@@ -29,7 +29,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
-	protected $mailman_group = 'mailman';
 	
 	public function __construct() {
 		//** check apache modules */
@@ -182,19 +181,6 @@ class installer_dist extends installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
-
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		//if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		if(is_file('/var/lib/mailman/data/aliases')) unlink('/var/lib/mailman/data/aliases');
-		if(!is_link('/var/lib/mailman/data/aliases')) symlink('/etc/mailman/aliases', '/var/lib/mailman/data/aliases');
-		if(!is_dir('/etc/mailman')) mkdir('/etc/mailman');
-		if(!is_file('/etc/mailman/aliases')) touch('/etc/mailman/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/etc/mailman/virtual-mailman')) touch('/etc/mailman/virtual-mailman');
-		exec('postmap /etc/mailman/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';

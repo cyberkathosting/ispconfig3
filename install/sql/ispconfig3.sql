@@ -226,7 +226,6 @@ CREATE TABLE `client` (
   `limit_traffic_quota` int(11) NOT NULL DEFAULT '-1',
   `limit_client` int(11) NOT NULL DEFAULT '0',
   `limit_domainmodule` int(11) NOT NULL DEFAULT '0',
-  `limit_mailmailinglist` int(11) NOT NULL DEFAULT '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
   `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
   `parent_client_id` int(11) unsigned NOT NULL DEFAULT '0',
@@ -342,7 +341,6 @@ CREATE TABLE `client_template` (
   `limit_traffic_quota` int(11) NOT NULL default '-1',
   `limit_client` int(11) NOT NULL default '0',
   `limit_domainmodule` int(11) NOT NULL DEFAULT '0',
-  `limit_mailmailinglist` int(11) NOT NULL default '-1',
   `limit_openvz_vm` int(11) NOT NULL DEFAULT '0',
   `limit_openvz_vm_template_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY  (`template_id`)
@@ -911,38 +909,6 @@ CREATE TABLE `mail_get` (
   `destination` varchar(255) default NULL,
   `active` varchar(255) NOT NULL default 'y',
   PRIMARY KEY  (`mailget_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `mail_mailinglist`
---
-
-CREATE TABLE `mail_mailinglist` (
-  `mailinglist_id` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL default '0',
-  `sys_groupid` int(11) unsigned NOT NULL default '0',
-  `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
-  `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
-  `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
-  `server_id` int(11) unsigned NOT NULL default '0',
-  `domain` varchar(255) NOT NULL DEFAULT '',
-  `listname` varchar(255) NOT NULL DEFAULT '',
-  `list_type` enum('open','closed') NOT NULL DEFAULT 'open',
-  `email` varchar(255) NOT NULL DEFAULT '',
-  `password` varchar(255) NOT NULL DEFAULT '',
-  `subject_prefix` varchar(50) NOT NULL DEFAULT '',
-  `admins` mediumtext,
-  `digestinterval` int(11) NOT NULL DEFAULT '7',
-  `digestmaxmails` int(11) NOT NULL DEFAULT '50',
-  `archive` enum('n','y') NOT NULL DEFAULT 'n',
-  `digesttext` enum('n','y') NOT NULL DEFAULT 'n',
-  `digestsub` enum('n','y') NOT NULL DEFAULT 'n',
-  `mail_footer` mediumtext,
-  `subscribe_policy` enum('disabled','confirm','approval','both','none') NOT NULL DEFAULT 'confirm',
-  `posting_policy` enum('closed','moderated','free') NOT NULL DEFAULT 'free',
-  PRIMARY KEY  (`mailinglist_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

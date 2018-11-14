@@ -95,15 +95,6 @@ ALTER TABLE `mail_forwarding`
 	CHANGE `source` `source` varchar(255) NOT NULL DEFAULT '',
 	CHANGE `active` `active` enum('n','y') NOT NULL DEFAULT 'n';
 
-ALTER TABLE `mail_mailinglist`
-	CHANGE `sys_perm_user` `sys_perm_user` varchar(5) NOT NULL DEFAULT '',
-	CHANGE `sys_perm_group` `sys_perm_group` varchar(5) NOT NULL DEFAULT '',
-	CHANGE `sys_perm_other` `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
-	CHANGE `domain` `domain` varchar(255) NOT NULL DEFAULT '',
-	CHANGE `listname` `listname` varchar(255) NOT NULL DEFAULT '',
-	CHANGE `email` `email` varchar(255) NOT NULL DEFAULT '',
-	CHANGE `password` `password` varchar(255) NOT NULL DEFAULT '';
-
 ALTER TABLE `mail_traffic`
 	CHANGE `mailuser_id` `mailuser_id` int(11) unsigned NOT NULL DEFAULT '0',
 	CHANGE `month` `month` char(7) NOT NULL DEFAULT '',

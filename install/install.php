@@ -339,13 +339,6 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 	}
 
 	if($conf['services']['mail']) {
-		//* Configure Mailman
-		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman', ($install_mode == 'expert'));
-		if($force) {
-			swriteln('Configuring Mailman');
-			$inst->configure_mailman();
-		}
-
 		//* Check for Dovecot
 		if(!$conf['dovecot']['installed']) {
 			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', ($install_mode == 'expert'));
@@ -578,7 +571,6 @@ if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '
 if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
 if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
 //* Reload is enough for nginx
 if($conf['nginx']['installed'] == true){

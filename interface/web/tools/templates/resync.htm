@@ -89,13 +89,6 @@
 			<div class="col-sm-3"><select name="mailfilter_server_id" id="mailfilter_server_id" class="form-control">{tmpl_var name='mailfilter_server_id'}</select></div>
 		</div>
 	</tmpl_if>
-	<tmpl_if name="mailinglist_found">
-		<div class="form-group">
-			<label for="resync_mailinglist" class="col-sm-2 control-label">{tmpl_var name="resync_mailinglist_txt"}</label>
-			<div class="col-sm-1"><input type="checkbox" id="resync_mailinglist" value="1" name="resync_mailinglist"></div>
-			<div class="col-sm-3"><select name="mailinglist_server_id" id="mailinglist_server_id" class="form-control">{tmpl_var name='mailinglist_server_id'}</select></div>
-		</div>
-	</tmpl_if>
 	<tmpl_if name="mailtransport_found">
 		<div class="form-group">
 			<label for="resync_mailtransport" class="col-sm-2 control-label">{tmpl_var name="resync_mailtransport_txt"}</label>

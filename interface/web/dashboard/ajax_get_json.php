@@ -102,9 +102,6 @@ if($type == 'globalsearch'){
 	// email transports
 	$result[] = _search('mail', 'mail_transport');
 
-	// mailinglists
-	$result[] = _search('mail', 'mail_mailinglist');
-
 	// getmails
 	$result[] = _search('mail', 'mail_get');
 

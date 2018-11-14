@@ -369,12 +369,6 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 		}
 
-		//** Configure mailman
-		if($conf['mailman']['installed'] == true && $inst->reconfigure_app('Mailman', $reconfigure_services_answer)) {
-			swriteln('Configuring Mailman');
-			$inst->configure_mailman('update');
-		}
-
 		//** Configure Spamasassin
 		if($inst->reconfigure_app('Spamassassin', $reconfigure_services_answer)) {
 			swriteln('Configuring Spamassassin');
@@ -516,7 +510,6 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
 		if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 		if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-		if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 	}
 	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
 		if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));

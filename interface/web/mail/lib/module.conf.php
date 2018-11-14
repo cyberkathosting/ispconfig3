@@ -76,26 +76,6 @@ if(count($items) && $app->system->has_service($userid, 'mail'))
 		'items' => $items);
 }
 
-//**** Mailinglist menu
-$items = array();
-
-if($app->auth->get_client_limit($userid, 'mailmailinglist') != 0)
-{
-	$items[] = array( 'title'  => 'Mailing List',
-		'target'  => 'content',
-		'link' => 'mail/mail_mailinglist_list.php',
-		'html_id' => 'mail_mailinglist_list');
-
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
-}
-
-if(count($items) && $app->system->has_service($userid, 'mail'))
-{
-	$module['nav'][] = array( 'title' => 'Mailing List',
-		'open'  => 1,
-		'items' => $items);
-}
-
 //**** Spamfilter menu
 $items = array();
 

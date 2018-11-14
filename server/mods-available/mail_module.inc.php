@@ -53,18 +53,12 @@ class mail_module {
 		'mail_content_filter_insert',
 		'mail_content_filter_update',
 		'mail_content_filter_delete',
-		'mail_mailinglist_insert',
-		'mail_mailinglist_update',
-		'mail_mailinglist_delete',
 		'spamfilter_users_insert',
 		'spamfilter_users_update',
 		'spamfilter_users_delete',
 		'spamfilter_wblist_insert',
 		'spamfilter_wblist_update',
-		'spamfilter_wblist_delete',
-		'mail_ml_member_insert',
-		'mail_ml_member_update',
-		'mail_ml_member_delete');
+		'spamfilter_wblist_delete');
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -110,8 +104,6 @@ class mail_module {
 		$app->modules->registerTableHook('mail_user', 'mail_module', 'process');
 		$app->modules->registerTableHook('mail_get', 'mail_module', 'process');
 		$app->modules->registerTableHook('mail_content_filter', 'mail_module', 'process');
-		$app->modules->registerTableHook('mail_mailinglist', 'mail_module', 'process');
-		$app->modules->registerTableHook('mail_ml_membership', 'mail_module', 'process');
 
 		$app->modules->registerTableHook('spamfilter_users', 'mail_module', 'process');
 		$app->modules->registerTableHook('spamfilter_wblist', 'mail_module', 'process'); 
@@ -162,16 +154,6 @@ class mail_module {
 			if($action == 'i') $app->plugins->raiseEvent('mail_content_filter_insert', $data);
 			if($action == 'u') $app->plugins->raiseEvent('mail_content_filter_update', $data);
 			if($action == 'd') $app->plugins->raiseEvent('mail_content_filter_delete', $data);
-			break;
-		case 'mail_mailinglist':
-			if($action == 'i') $app->plugins->raiseEvent('mail_mailinglist_insert', $data);
-			if($action == 'u') $app->plugins->raiseEvent('mail_mailinglist_update', $data);
-			if($action == 'd') $app->plugins->raiseEvent('mail_mailinglist_delete', $data);
-			break;
-		case 'mail_ml_membership':
-			if($action == 'i') $app->plugins->raiseEvent('mail_ml_member_insert', $data);
-			if($action == 'u') $app->plugins->raiseEvent('mail_ml_member_update', $data);
-			if($action == 'd') $app->plugins->raiseEvent('mail_ml_member_delete', $data);
 			break;
 		case 'spamfilter_users':
 			if($action == 'i') $app->plugins->raiseEvent('spamfilter_users_insert', $data);

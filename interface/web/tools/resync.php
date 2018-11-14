@@ -103,11 +103,6 @@ class page_action extends tform_actions {
 					'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
-    			'mail_mailinglist' => array (
-        			'index_field' =>  'mailinglist_id',
-        			'server_type' => 'mail',
-					'server_id' => $server_id,
-    			),
     			'mail_user' => array (
         			'index_field' =>  'mailuser_id',
         			'server_type' => 'mail',
@@ -288,17 +283,6 @@ class page_action extends tform_actions {
 				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_txt']."</option>" . $options_servers;
 				$app->tpl->setVar('mailfilter_server_id', $options_servers);
 				$app->tpl->setVar('mail_filter_found', 1);
-				unset($options_servers);
-			}
-
-			//* mailinglist
-			$server_list = $this->create_list($mail_server_rec, 'mail', 'mail_mailinglist');
-			$options_servers = $server_list[0];$server_count = $server_list[1];
-			unset($server_list);
-			if (isset($options_servers)) {	//* server with data found
-				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_mail_txt']."</option>" . $options_servers;
-				$app->tpl->setVar('mailinglist_server_id', $options_servers);
-				$app->tpl->setVar('mailinglist_found', 1);
 				unset($options_servers);
 			}
 
@@ -511,7 +495,6 @@ class page_action extends tform_actions {
 			$this->dataRecord['resync_mailget'] = 1;
 			$this->dataRecord['resync_mailbox'] = 1;
 			$this->dataRecord['resync_mailfilter'] = 1;
-			$this->dataRecord['resync_mailinglist'] = 1;
 			$this->dataRecord['resync_mailtransport'] = 1;
 			$this->dataRecord['resync_mailrelay'] = 1;
 			$this->dataRecord['resync_vserver'] = 1;
@@ -581,10 +564,6 @@ class page_action extends tform_actions {
 			$msg .= $this->do_resync('spamfilter_users', 'id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_spamfilter_txt'], false);
 			$msg .= $this->do_resync('spamfilter_wblist', 'wblist_id', 'mail', $this->dataRecord['mailbox_server_id'], '',  $app->tform->wordbook['do_mail_spamfilter_txt']) 	;
 		}
-
-		//* mailinglists
-		if($this->dataRecord['resync_mailinglist'] == 1) 
-			$msg .= $this->do_resync('mail_mailinglist', 'mailinglist_id', 'mail', $this->dataRecord['mail_server_id'], 'listname',  $app->tform->wordbook['do_mailinglist_txt'], false);
 
 		//* mailtransport
 		if($this->dataRecord['resync_mailtransport'] == 1) 

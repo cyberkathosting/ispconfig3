@@ -58,20 +58,6 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 		Require all granted
 </Directory>
 
-# Allow access to mailman on OpenSuSE
-<Directory /usr/lib/mailman/cgi-bin>
-		Require all granted
-</Directory>
-
-<Directory /usr/lib/mailman/icons>
-		Require all granted
-</Directory>
-
-<Directory /var/lib/mailman/archives/>
-        Options +FollowSymLinks
-		Require all granted
-</Directory>
-
 # allow path to awstats and alias for awstats icons
 <Directory /usr/share/awstats>
 		Require all granted

@@ -37,8 +37,6 @@ class installer_base {
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
 	public $min_php = '5.3.3'; // minimal php-version for update / install
-	protected $mailman_group = 'list';
-
 
 	public function __construct() {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
@@ -156,7 +154,6 @@ class installer_base {
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
-		if(is_installed('mailman') || is_installed('mmsitepass')) $conf['mailman']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
@@ -318,7 +315,6 @@ class installer_base {
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 		$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
-		$tpl_ini_array['mail']['mailinglist_manager'] = 'mailman';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -749,87 +745,6 @@ class installer_base {
 
 	}
 
-	public function configure_mailman($status = 'insert') {
-		global $conf;
-
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'mm_cfg.py';
-		//* Backup exiting file
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'mm_cfg.py~');
-		}
-
-		// load files
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mm_cfg.py.master', 'tpl/mm_cfg.py.master');
-		$old_file = rf($full_file_name);
-
-		$old_options = array();
-		$lines = explode("\n", $old_file);
-		foreach ($lines as $line)
-		{
-			if (trim($line) != '' && substr($line, 0, 1) != '#')
-			{
-				@list($key, $value) = @explode("=", $line);
-				if (isset($value) && $value !== '')
-				{
-					$key = rtrim($key);
-					$old_options[$key] = trim($value);
-				}
-			}
-		}
-
-		$virtual_domains = '';
-		if($status == 'update')
-		{
-			// create virtual_domains list
-			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
-
-			if(is_array($domainAll)) {
-				foreach($domainAll as $domain)
-				{
-					if ($domainAll[0]['domain'] == $domain['domain'])
-						$virtual_domains .= "'".$domain['domain']."'";
-					else
-						$virtual_domains .= ", '".$domain['domain']."'";
-				}
-			}
-		}
-		else
-			$virtual_domains = "' '";
-
-		$content = str_replace('{hostname}', $conf['hostname'], $content);
-		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE']) || $old_options['DEFAULT_SERVER_LANGUAGE'] == '') $old_options['DEFAULT_SERVER_LANGUAGE'] = "'en'";
-		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
-		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-
-		wf($full_file_name, $content);
-
-		//* Write virtual_to_transport.sh script
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-
-		if(is_dir('/etc/mailman')) {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
-			} else {
-				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
-			}
-			chgrp($full_file_name, $this->mailman_group);
-			chmod($full_file_name, 0755);
-		}
-
-		//* Create aliasaes
-		if($status == 'install') exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
-
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-	}
-
 	public function get_postfix_service($service, $type) {
 		global $conf;
 
@@ -988,15 +903,6 @@ class installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
-
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postmap /var/lib/mailman/data/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';

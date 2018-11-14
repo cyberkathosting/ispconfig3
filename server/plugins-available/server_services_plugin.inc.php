@@ -38,7 +38,7 @@ class server_services_plugin {
 
 	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server', 'vserver_server');
 
-	var $mail_plugins = array('getmail_plugin', 'mail_plugin', 'mail_plugin_dkim', 'mailman_plugin', 'postfix_filter_plugin', 'postfix_server_plugin');
+	var $mail_plugins = array('getmail_plugin', 'mail_plugin', 'mail_plugin_dkim', 'postfix_filter_plugin', 'postfix_server_plugin');
 	var $dovecot_plugins = array('maildeliver_plugin');
 
 	var $web_plugins = array('aps_plugin', 'cron_plugin', 'cron_jailkit_plugin', 'ftpuser_base_plugin', 'shelluser_base_plugin', 'shelluser_jailkit_plugin', 'webserver_plugin');

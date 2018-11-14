@@ -414,9 +414,6 @@ class page_action extends tform_actions {
 				}
 			}
 
-			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_userid = ?, sys_groupid = ? WHERE domain = ?", $client_user_id, $sys_groupid, $this->oldDataRecord['domain']);
-			
 			//* Update fetchmail accounts
 			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $this->oldDataRecord['domain']);
 			if(is_array($fetchmail)) {
