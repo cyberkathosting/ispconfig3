@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mailing Liste';
-$wb['domain_txt'] = 'Domæne';
-$wb['listname_txt'] = 'Listenavn';
-?>

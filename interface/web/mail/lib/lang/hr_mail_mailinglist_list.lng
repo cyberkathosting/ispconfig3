@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Mailing lista';
-$wb['domain_txt'] = 'Domena';
-$wb['listname_txt'] = 'Naziv liste';
-?>
