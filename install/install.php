@@ -556,7 +556,6 @@ $inst->configure_dbserver();
 //* Configure ISPConfig
 swriteln('Installing ISPConfig crontab');
 if($conf['cron']['installed']) {
-	swriteln('Installing ISPConfig crontab');
 	$inst->install_crontab();
 } else swriteln('[ERROR] Cron not found');
 
@@ -583,6 +582,14 @@ if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') sys
 //if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
+
+//** update server services in DB
+$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
+$inst->db->query($sql, $conf['mysql']['database'].'.server', $conf['server_id']);
+if($conf['mysql']['master_slave_setup'] == 'y') {
+	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', $conf['server_id']);
+}
+
 
 //* test tRNG
 if($conf['tRNG']) tRNG();
