@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Сервер хоста';
-$wb['ip_address_txt'] = 'IP-адрес';
-$wb['vm_id_txt'] = 'Виртуальный сервер';
-$wb['reserved_txt'] = 'Зарезервированный';
-$wb['ip_error_wrong'] = 'Неправильный формат IP-адреса';
-$wb['ip_error_unique'] = 'IP-адрес должен быть уникальным';
-$wb['IP address'] = 'IP-адрес';
-?>

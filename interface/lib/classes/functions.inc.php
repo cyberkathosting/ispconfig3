@@ -232,12 +232,6 @@ class functions {
 			}
 		}
 
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
-			}
-		}
 		$results = $groupid != 1 ? $app->db->queryAllRecords("SELECT rr.data AS server_ip, rr.name as server_name, soa.origin as domain FROM dns_rr as rr, dns_soa as soa WHERE (rr.type = 'A' OR rr.type = 'AAAA') AND soa.id = rr.zone AND rr.sys_groupid = ?", $groupid) : $results = $app->db->queryAllRecords("SELECT rr.data AS server_ip, rr.name as server_name, soa.origin as domain FROM dns_rr as rr, dns_soa as soa WHERE (rr.type = 'A' OR rr.type = 'AAAA') AND soa.id = rr.zone");
 
 		if(!empty($results) && is_array($results)){

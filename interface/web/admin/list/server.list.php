@@ -100,14 +100,3 @@ $liste['item'][] = array( 'field'  => 'db_server',
 	'suffix' => '%',
 	'width'  => '',
 	'value'  => array('1' => $app->lng('yes_txt'), '0' => $app->lng('no_txt')));
-
-$liste['item'][] = array( 'field'  => 'vserver_server',
-	'datatype' => 'VARCHAR',
-	'formtype' => 'SELECT',
-	'op'  => 'like',
-	'prefix' => '%',
-	'suffix' => '%',
-	'width'  => '',
-	'value'  => array('1' => $app->lng('yes_txt'), '0' => $app->lng('no_txt')));
-
-?>

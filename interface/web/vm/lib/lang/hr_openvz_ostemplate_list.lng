@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ OS predložak';
-$wb['active_txt'] = 'Aktivan';
-$wb['template_name_txt'] = 'Ime predloška';
-$wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Postoji na svim serverima';
-$wb['ostemplate_id_txt'] = 'ID';
-?>

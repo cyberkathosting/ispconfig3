@@ -111,18 +111,6 @@ if($type == 'globalsearch'){
 	// secondary dns zones
 	$result[] = _search('dns', 'dns_slave');
 
-	// virtual machines
-	$result[] = _search('vm', 'openvz_vm');
-
-	// virtual machines os templates
-	$result[] = _search('vm', 'openvz_ostemplate');
-
-	// virtual machines vm templates
-	$result[] = _search('vm', 'openvz_template');
-
-	// virtual machines ip addresses
-	$result[] = _search('vm', 'openvz_ip');
-
 	// directive snippets
 	$result[] = _search('admin', 'directive_snippets');
 

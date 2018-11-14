@@ -50,7 +50,6 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
 
 //* MySQL
 $conf['mysql']['installed'] = false; // will be detected automatically during installation
@@ -206,8 +205,3 @@ $conf['cron']['init_script'] = 'vixie-cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['group'] = 'cron';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-//* OpenVZ
-$conf['openvz']['installed'] = false;
-
-?>

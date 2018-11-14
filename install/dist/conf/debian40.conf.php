@@ -50,7 +50,6 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
 $conf['services']['proxy'] = false;
 $conf['services']['firewall'] = false;
 
@@ -200,9 +199,3 @@ $conf['vlogger']['config_dir'] = '/etc';
 $conf['cron']['init_script'] = 'cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-//* OpenVZ
-$conf['openvz']['installed'] = false;
-
-
-?>

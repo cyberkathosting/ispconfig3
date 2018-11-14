@@ -50,7 +50,6 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
 $conf['services']['proxy'] = false;
 $conf['services']['firewall'] = false;
 
@@ -187,9 +186,6 @@ $conf['nginx']['php_fpm_ini_path'] = '/etc/php/7.1/fpm/php.ini';
 $conf['nginx']['php_fpm_pool_dir'] = '/etc/php/7.1/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php7.1-fpm';
-
-//* OpenVZ
-$conf['openvz']['installed'] = false;
 
 //*Bastille-Firwall
 $conf['bastille']['installed'] = false;

@@ -202,15 +202,6 @@ class page_action extends tform_actions {
 				),
 			);
 		}
-		if($type == 'vserver' ) {
-			$server_data = array (
-				'openvz_vm' => array (
-					'index_field' => 'vm_id',
-					'server_type' => 'vserver',
-					'server_id' => $server_id,
-				),
-			);
-		}
 		//* proxy
 		//* firewall
 		$array_out = array();
@@ -407,22 +398,6 @@ class page_action extends tform_actions {
 			}
 		}
 
-		//* fetch vserver
-		$v_server_rec = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE vserver_server = 1 AND active = 1 AND mirror_server_id = 0 ORDER BY active DESC, server_name");
-		if (!empty($db_server_rec)) {
-			$app->tpl->setVar('vserver_server_found', 1);
-
-			$server_list = $this->create_list($v_server_rec, 'vserver', 'openvz_vm');
-			$options_servers = $server_list[0];$server_count = $server_list[1];
-			unset($server_list);
-			if (isset($options_servers)) {	//* server with data found
-				if ($server_count > 1) $options_servers = "<option value='0'>".$app->tform->wordbook['all_active_vserver_txt']."</option>" . $options_servers;
-				$app->tpl->setVar('vserver_server_id', $options_servers);
-				$app->tpl->setVar('vserver_found', 1);
-				unset($options_servers);
-			}
-		}
-
 		$csrf_token = $app->auth->csrf_token_get('tools_resync');
 		$app->tpl->setVar('_csrf_id', $csrf_token['csrf_id']);
 		$app->tpl->setVar('_csrf_key', $csrf_token['csrf_key']);
@@ -497,7 +472,6 @@ class page_action extends tform_actions {
 			$this->dataRecord['resync_mailfilter'] = 1;
 			$this->dataRecord['resync_mailtransport'] = 1;
 			$this->dataRecord['resync_mailrelay'] = 1;
-			$this->dataRecord['resync_vserver'] = 1;
 			$this->dataRecord['resync_dns'] = 1;
 			$this->dataRecord['resync_client'] = 1;
 			$this->dataRecord['web_server_id'] = $this->dataRecord['all_server_id'];
@@ -508,7 +482,6 @@ class page_action extends tform_actions {
 			$this->dataRecord['db_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['mail_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['mailbox_server_id'] = $this->dataRecord['all_server_id'];
-			$this->dataRecord['vserver_server_id'] = $this->dataRecord['all_server_id'];
 			$this->dataRecord['dns_server_id'] = $this->dataRecord['all_server_id'];
 		}
 
@@ -572,10 +545,6 @@ class page_action extends tform_actions {
 		//* mailrelay
 		if($this->dataRecord['resync_mailrelay'] == 1) 
 			$msg .= $this->do_resync('mail_relay_recipient', 'relay_recipient_id', 'mail', $this->dataRecord['mail_server_id'], 'source',  $app->tform->wordbook['do_mailrelay_txt'], false);
-
-		//* vserver
-		if($this->dataRecord['resync_vserver'] == 1) 
-			$msg .= $this->do_resync('openvz_vm', 'vm_id', 'vserver', $this->dataRecord['vserver_server_id'], 'hostname',  $app->tform->wordbook['do_vserver_txt']);
 
 		//* dns
 		if($this->dataRecord['resync_dns'] == 1) {

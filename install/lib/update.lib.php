@@ -154,7 +154,6 @@ function updateDbAndIni() {
 	$conf['services']['dns'] = ($tmp['dns_server'] == 1)?true:false;
 	$conf['services']['file'] = ($tmp['file_server'] == 1)?true:false;
 	$conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
-	$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
 	$conf['services']['proxy'] = (isset($tmp['proxy_server']) && $tmp['proxy_server'] == 1)?true:false;
 	$conf['services']['firewall'] = (isset($tmp['firewall_server']) && $tmp['firewall_server'] == 1)?true:false;
 

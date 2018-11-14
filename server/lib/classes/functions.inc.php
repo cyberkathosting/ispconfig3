@@ -244,12 +244,6 @@ class functions {
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
-			}
-		}
 		$results = $app->db->queryAllRecords("SELECT data AS ip FROM dns_rr WHERE type = 'A' OR type = 'AAAA'");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){

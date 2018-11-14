@@ -36,7 +36,7 @@ class server_services_plugin {
 	var $plugin_name = 'server_services_plugin';
 	var $class_name = 'server_services_plugin';
 
-	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server', 'vserver_server');
+	var $services = array('mail_server', 'web_server', 'dns_server', 'db_server');
 
 	var $mail_plugins = array('getmail_plugin', 'mail_plugin', 'mail_plugin_dkim', 'postfix_filter_plugin', 'postfix_server_plugin');
 	var $dovecot_plugins = array('maildeliver_plugin');
@@ -49,8 +49,6 @@ class server_services_plugin {
 	var $powerdns_plugins = array('powerdns_plugin');
 
 	var $db_plugins = array('mysql_clientdb_plugin');
-
-	var $openvz_plugins = array('openvz_plugin');
 
 	function onInstall() {
 
@@ -111,9 +109,6 @@ class server_services_plugin {
 				break;
 				case 'db_server':
 					$this->change_state($this->db_plugins, $value, $config);
-				break;
-				case 'vserver_server':
-					$this->change_state($this->openvz_plugins, $value, $config);
 				break;
 			}
 		}

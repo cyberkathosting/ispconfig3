@@ -58,7 +58,6 @@ $autoupdate['svc_detect_change_mail_server'] = 'yes'; // yes (default), no
 $autoupdate['svc_detect_change_web_server'] = 'yes'; // yes (default), no
 $autoupdate['svc_detect_change_dns_server'] = 'yes'; // yes (default), no
 $autoupdate['svc_detect_change_firewall_server'] = 'yes'; // yes (default), no
-$autoupdate['svc_detect_change_vserver_server'] = 'yes'; // yes (default), no
 $autoupdate['svc_detect_change_db_server'] = 'yes'; // yes (default), no
 
 ?>

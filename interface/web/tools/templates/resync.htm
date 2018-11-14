@@ -115,16 +115,6 @@
 	</tmpl_if>
 </tmpl_if>
 	
-<tmpl_if name="vserver_server_found">
-	<tmpl_if name="vserver_found">
-		<div class="form-group">
-			<label for="resync_vserver" class="col-sm-2 control-label">{tmpl_var name="resync_vserver_txt"}</label>
-			<div class="col-sm-1"><input type="checkbox" id="resync_vserver" value="1" name="resync_vserver"></div>
-			<div class="col-sm-3"><select name="vserver_server_id" id="vserver_server_id" class="form-control">{tmpl_var name='vserver_server_id'}</select></div>
-		</div>
-	</tmpl_if>
-</tmpl_if>
-	
 <tmpl_if name="firewall_server_found">
 	<div class="form-group">
 		<label for="resync_firewall" class="col-sm-2 control-label">{tmpl_var name="resync_firewall_txt"}</label>

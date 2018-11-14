@@ -438,7 +438,6 @@ class page_action extends tform_actions {
 				'mail_user_smtp' => 'mailuser_id',
 				'mail_forwarding' => 'forwarding_id',
 				'mail_get' => 'mailget_id',
-				'openvz_vm' => 'vm_id',
 				'shell_user' => 'shell_user_id',
 				'webdav_user' => 'webdav_user_id',
 				'web_database' => 'database_id',

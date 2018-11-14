@@ -253,7 +253,6 @@ $conf['services']['web'] = false;
 $conf['services']['dns'] = false;
 $conf['services']['file'] = false;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = false;
 $conf['services']['firewall'] = false;
 $conf['services']['proxy'] = false;
 
@@ -449,13 +448,6 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web 
 		$inst->configure_nginx();
 		$conf['services']['web'] = true;
 	}
-}
-
-//* Configure OpenVZ
-$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ', ($install_mode == 'expert'));
-if($force) {
-	$conf['services']['vserver'] = true;
-	swriteln('Configuring OpenVZ');
 }
 
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {

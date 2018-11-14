@@ -50,7 +50,6 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
 
 //* MySQL
 $conf['mysql']['installed'] = false; // will be detected automatically during installation
@@ -193,8 +192,3 @@ $conf['vlogger']['config_dir'] = '/etc';
 $conf['cron']['init_script'] = 'crond';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-//* OpenVZ
-$conf['openvz']['installed'] = false;
-
-?>

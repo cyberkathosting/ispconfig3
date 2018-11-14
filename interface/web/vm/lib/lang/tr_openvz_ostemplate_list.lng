@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ OS Kalıbı';
-$wb['active_txt'] = 'Etkin';
-$wb['template_name_txt'] = 'Kalıp Adı';
-$wb['server_id_txt'] = 'Sunucu';
-$wb['allservers_txt'] = 'Tüm sunucularda var';
-$wb['ostemplate_id_txt'] = 'Kod';
-?>

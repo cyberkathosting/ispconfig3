@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ VM predložak';
-$wb['active_txt'] = 'Aktivan';
-$wb['template_name_txt'] = 'Ime predloška';
-?>

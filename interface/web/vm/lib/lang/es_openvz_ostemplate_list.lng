@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Plantilla de SO de OpenVZ';
-$wb['active_txt'] = 'Habilitado';
-$wb['template_name_txt'] = 'Nombre de la plantilla';
-$wb['server_id_txt'] = 'Servidor';
-$wb['allservers_txt'] = 'Existente en todos los servidores';
-$wb['ostemplate_id_txt'] = 'ID';
-?>

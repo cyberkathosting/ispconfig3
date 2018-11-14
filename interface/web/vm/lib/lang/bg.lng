@@ -1,7 +1,0 @@
-<?php
-$wb['Virtual Servers'] = 'Виртуални сървъри';
-$wb['OS Templates'] = 'OS Темплейти';
-$wb['VM Templates'] = 'VM Темплейти';
-$wb['IP addresses'] = 'IP Темплейти';
-$wb['OpenVZ'] = 'OpenVZ';
-?>

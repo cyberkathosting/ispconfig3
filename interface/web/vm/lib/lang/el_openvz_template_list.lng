@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Πρότυπο Εικονικής Μηχανής OpenVZ';
-$wb['active_txt'] = 'Ενεργό';
-$wb['template_name_txt'] = 'Όνομα Προτύπου';
-?>
