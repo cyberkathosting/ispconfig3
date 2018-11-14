@@ -369,13 +369,12 @@ class installer_base {
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
 			$this->dbmaster->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->dbmaster->insertID();
-			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server``, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server``, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
 			$this->db->query($sql, $conf['server_id'], $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 
 			//* username for the ispconfig user
@@ -385,10 +384,9 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
 			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->db->insertID();
-			$conf['server_id'] = $conf['server_id'];
 		}
 
 
