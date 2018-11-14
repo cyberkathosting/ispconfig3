@@ -161,7 +161,6 @@ class installer_base {
 	public function find_installed_apps() {
 		global $conf;
 	
-		$this->call_hook('find_installed_apps', false);
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
@@ -191,8 +190,6 @@ class installer_base {
 		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
-		
-		$this->call_hook('find_installed_apps', true);
 	}
 
 	public function force_configure_app($service, $enable_force=true) {
