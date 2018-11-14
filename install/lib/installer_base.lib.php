@@ -172,8 +172,6 @@ class installer_base {
 			$conf['firewall']['installed'] = true;
 		}
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
-        if(is_installed('metronome') && is_installed('metronomectl')) $conf['metronome']['installed'] = true;
-        if(is_installed('prosody') && is_installed('prosodyctl')) $conf['prosody']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
 		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		// ISPConfig ships with vlogger, so it is always installed.

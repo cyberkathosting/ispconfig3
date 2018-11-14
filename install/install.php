@@ -576,7 +576,6 @@ if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') sys
 //if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
-if($conf['metronome']['installed'] == true && $conf['metronome']['init_script'] != '') system($inst->getinitcommand($conf['metronome']['init_script'], 'restart').' &> /dev/null');
 
 //* test tRNG
 if($conf['tRNG']) tRNG();
