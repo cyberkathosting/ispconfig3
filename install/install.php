@@ -584,10 +584,10 @@ if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') s
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
 
 //** update server services in DB
-$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
-$inst->db->query($sql, $conf['mysql']['database'].'.server', $conf['server_id']);
+$sql = "UPDATE ?? SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ?, proxy_server = ?, firewall_server = ? WHERE server_id = ?";
+$inst->db->query($sql, $conf['mysql']['database'].'.server', ($conf['services']['mail'] ? 1 : 0), ($conf['services']['web'] ? 1 : 0), ($conf['services']['dns'] ? 1 : 0), ($conf['services']['file'] ? 1 : 0), ($conf['services']['db'] ? 1 : 0), ($conf['services']['proxy'] ? 1 : 0), ($conf['services']['firewall'] ? 1 : 0), $conf['server_id']);
 if($conf['mysql']['master_slave_setup'] == 'y') {
-	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', $conf['server_id']);
+	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', ($conf['services']['mail'] ? 1 : 0), ($conf['services']['web'] ? 1 : 0), ($conf['services']['dns'] ? 1 : 0), ($conf['services']['file'] ? 1 : 0), ($conf['services']['db'] ? 1 : 0), ($conf['services']['proxy'] ? 1 : 0), ($conf['services']['firewall'] ? 1 : 0), $conf['server_id']);
 }
 
 
