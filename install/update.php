@@ -109,6 +109,7 @@ $conf_old = $conf;
 unset($conf);
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
+if(!is_supported_dist($dist)) die('This distribution is not supported.');
 
 //** Include the autoinstaller configuration (for non-interactive setups)
 error_reporting(E_ALL ^ E_NOTICE);

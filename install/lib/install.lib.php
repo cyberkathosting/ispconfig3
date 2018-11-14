@@ -34,6 +34,44 @@ $FILE = realpath('../install.php');
 
 require_once realpath(dirname(__FILE__)) . '/classes/libbashcolor.inc.php';
 
+function is_supported_dist($dist) {
+	$name = $dist['name'];
+	$version = $dist['version'];
+	
+	$min_version = false;
+	if($name === 'Ubuntu') {
+		$tmp = explode(" ", $version);
+		$version = reset($tmp); // Dist name is appended on get_distname
+		$min_version = '16.04';
+		$add_versions = array('Testing', 'Unknown');
+	} elseif($name === 'Debian') {
+		$min_version = '8';
+		$add_versions = array('Testing', 'Unknown');
+	} elseif($name === 'Devuan') {
+		$min_version = '1.0';
+		$add_versions = array('Jessie', 'Ceres');
+	} elseif($name === 'openSUSE') {
+		$min_version = '11.2';
+		$add_versions = false;
+	} elseif($name === 'Fedora') {
+		$min_version = '11';
+		$add_versions = array('Unknown');
+	} elseif($name === 'CentOS') {
+		$min_version = '7.0';
+		$add_versions = array('Unknown');
+	} elseif($name === 'Gentoo') {
+		$min_version = '1.0';
+	}
+	
+	if($version && $min_version && preg_match('/^[0-9]+/', $version)) {
+		if(version_compare($version, $min_version, '>=')) return true;
+	} elseif($version && !preg_match('/^[0-9]+/', $version) && !empty($add_versions)) {
+		if(in_array($version, $add_versions, true)) return true;
+	}
+	
+	return false;
+}
+
 //** Get distribution identifier
 //** IMPORTANT!
 //   This is the same code as in server/lib/classes/monitor_tools.inc.php
@@ -347,6 +385,7 @@ function get_distname() {
 			$var=explode(" ", $content);
 			$var=explode(".", $var[3]);
 			$var=$var[0].".".$var[1];
+			$distver = $var;
 			if($var=='7.0' || $var=='7.1') {
 				$distid = 'centos70';
 			} else {

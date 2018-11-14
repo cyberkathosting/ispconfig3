@@ -106,6 +106,7 @@ if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command
 $dist = get_distname();
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
+if(!is_supported_dist($dist)) die('This distribution is not supported.');
 
 //** Include the autoinstaller configuration (for non-interactive setups)
 error_reporting(E_ALL ^ E_NOTICE);
