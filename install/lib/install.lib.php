@@ -46,7 +46,7 @@ function is_supported_dist($dist) {
 		$add_versions = array('Testing', 'Unknown');
 	} elseif($name === 'Debian') {
 		$min_version = '9';
-		$add_versions = array('Testing', 'Unknown');
+		$add_versions = array('Testing', 'Unknown', 'Stretch', 'Buster');
 	} elseif($name === 'Devuan') {
 		$min_version = '1.0';
 		$add_versions = array('Jessie', 'Ceres');
