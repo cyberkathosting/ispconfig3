@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Учетные записи пользователей XMPP';
-$wb['jid_txt'] = 'Jabber ID';
-$wb['is_domain_admin_txt'] = 'Домен админа';
-$wb['is_muc_admin_txt'] = 'Админ многопользовательского чата (MUC)';
-$wb['add_new_record_txt'] = 'Добавить нового пользователя';
-$wb['active_txt'] = 'Активно';
-?>

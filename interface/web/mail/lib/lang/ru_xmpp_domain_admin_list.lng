@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Домен XMPP';
-$wb['server_id_txt'] = 'Сервер';
-$wb['domain_txt'] = 'Домен';
-$wb['add_new_record_txt'] = 'Добавить новый домен';
-$wb['active_txt'] = 'Активно';
-$wb['sys_groupid_txt'] = 'Клиент';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['active_txt'] = 'Habilitado';
-$wb['add_new_record_txt'] = 'Añadir nuevo usuario';
-$wb['is_domain_admin_txt'] = 'Administrador de dominio';
-$wb['is_muc_admin_txt'] = 'Administrador de MUC';
-$wb['jid_txt'] = 'ID de Jabber';
-$wb['list_head_txt'] = 'Cuentas de usuario XMPP';
-?>
