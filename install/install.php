@@ -346,13 +346,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 			$inst->configure_mailman();
 		}
 
-		//* Configure mlmmj
-		if($conf['mlmmj']['installed'] == true) {
-			swriteln('Configuring Mlmmj');
-			$inst->configure_mlmmj(/*install*/);
-		}
-
-		//* Check for Dovecot and Courier
+		//* Check for Dovecot
 		if(!$conf['dovecot']['installed']) {
 			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', ($install_mode == 'expert'));
 		}

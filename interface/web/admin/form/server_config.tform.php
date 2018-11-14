@@ -757,7 +757,7 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '20',
-			'value' => array('mlmmj' => 'Mlmmj', 'mailman' => 'Mailman')
+			'value' => array('mailman' => 'Mailman')
 		),
 		//#################################
 		// ENDE Datatable fields

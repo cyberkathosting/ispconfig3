@@ -87,11 +87,6 @@ if($app->auth->get_client_limit($userid, 'mailmailinglist') != 0)
 		'html_id' => 'mail_mailinglist_list');
 
 		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
-		if($mlManager == 'mlmmj')
-			$items[] = array( 'title'  => 'Membership',
-				'target'  => 'content',
-				'link' => 'mail/mail_ml_membership_list.php',
-				'html_id' => 'mail_ml_membership_list');
 }
 
 if(count($items) && $app->system->has_service($userid, 'mail'))

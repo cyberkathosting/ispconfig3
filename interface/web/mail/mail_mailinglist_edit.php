@@ -197,13 +197,6 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
-		if($mlManager == 'mlmmj') {
-			// The following update is usefull to set the prefix of the new mailinglist as the list name
-			$sql = 'UPDATE mail_mailinglist SET subject_prefix = ? WHERE mailinglist_id = ?';
-			$app->db->query($sql, '['.$this->dataRecord['listname'].']', $this->id);
-		}
-
 		// make sure that the record belongs to the client group and not the admin group when a dmin inserts it
 		// also make sure that the user can not delete domain created by a admin
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {

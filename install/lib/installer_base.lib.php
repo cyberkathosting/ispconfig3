@@ -157,7 +157,6 @@ class installer_base {
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
 		if(is_installed('mailman') || is_installed('mmsitepass')) $conf['mailman']['installed'] = true;
-		if(is_installed('mlmmj') || is_installed('mlmmj-make-ml')) $conf['mlmmj']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
@@ -319,7 +318,7 @@ class installer_base {
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 		$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
-		$tpl_ini_array['mail']['mailinglist_manager'] = ($conf['mlmmj']['installed'] == true)?'mlmmj':'mailman';
+		$tpl_ini_array['mail']['mailinglist_manager'] = 'mailman';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -829,90 +828,6 @@ class installer_base {
 
 		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
 		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-	}
-
-	public function configure_mlmmj() {
-		global $conf;
-
-		$configDir = $conf['mlmmj']['config_dir'];
-		@mkdir($configDir, 0755, true);
-
-		$configFile = 'mlmmj.conf';
-
-		//* Backup exiting file
-		if(is_file("$configDir/$configFile")) {
-			copy("$configDir/$configFile", "$configDir/$configFile~");
-		}
-
-		// load files
-		if(is_file($conf['ispconfig_install_dir']."/server/conf-custom/install/$configFile.master")) {
-			copy($conf['ispconfig_install_dir']."/server/conf-custom/install/$configFile.master", "$configDir/$configFile");
-		} else {
-			copy("tpl/$configFile.master", "$configDir/$configFile");
-		}
-
-		$mlConfig = @parse_ini_file("$configDir/$configFile");
-		// Force PHP7 to use # to mark comments
-		if(PHP_MAJOR_VERSION >= 7)
-			$mlConfig = array_filter($mlConfig, function($v){return(substr($v,0,1)!=='#');}, ARRAY_FILTER_USE_KEY);
-
-		$command = 'useradd --system mlmmj --home '.$mlConfig['spool_dir'].' --shell /usr/false';
-		if(!is_user('mlmmj')) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		@mkdir($mlConfig['spool_dir'], 0755, true);
-		chown($mlConfig['spool_dir'], 'mlmmj');
-		chgrp($mlConfig['spool_dir'], 'mlmmj');
-
-		// Make a backup copy of master.cf and main.cf files
-		copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~mlmmj');
-
-		//* Update postfix main.cf
-		$content  = rf($conf['postfix']['config_dir'].'/main.cf');
-
-		if(!preg_match("/^alias_maps = .*hash:\/etc\/mlmmj\/aliases.*/m", $content)) {
-			$content = preg_replace("/^alias_maps = (.*)/m", "$0, hash:$configDir/aliases", $content);
-		}
-
-		if(!preg_match("/^alias_database = .*hash:\/etc\/mlmmj\/aliases.*/m", $content)) {
-			$content = preg_replace("/^alias_database = (.*)/m", "$0, hash:$configDir/aliases", $content);
-		}
-
-		if(!preg_match("/^virtual_alias_maps = .*hash:\/etc\/mlmmj\/virtual.*/m", $content)) {
-			$content = preg_replace("/^virtual_alias_maps = (.*)/m", "$0, hash:$configDir/virtual", $content);
-		}
-
-		if(!preg_match("/^transport_maps = .*hash:\/etc\/mlmmj\/transport.*/m", $content)) {
-			$content = preg_replace("/transport_maps = (.*)/m", "$0, hash:$configDir/transport", $content);
-		}
-
-		if(!preg_match("/^mlmmj_destination_recipient_limit.*/m", $content)) {
-			$content .= "\n# Only deliver one message to Mlmmj at a time\nmlmmj_destination_recipient_limit = 1\n";
-		}
-
-		wf($conf['postfix']['config_dir'].'/main.cf', $content);
-
-		//* Update postfix master.cf
-		$content  = rf($conf['postfix']['config_dir'].'/master.cf');
-		if(!preg_match('/^mlmmj\s+unix\s+-\s+n\s+n\s+-\s+-\s+pipe\s*$/m', $content)) {
-			copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~mlmmj');
-			$content .= "\n# mlmmj mailing lists\n";
-			$content .= "mlmmj   unix  -       n       n       -       -       pipe\n";
-			$content .= "  flags=ORhu user=mlmmj argv=/usr/bin/mlmmj-receive -F -L ";
-			$content .= $mlConfig['spool_dir']."/\$nexthop\n\n";
-			wf($conf['postfix']['config_dir'].'/master.cf', $content);
-		}
-
-		//* Create aliasaes
-		touch("$configDir/aliases");
-		exec("nohup /usr/sbin/postalias $configDir/aliases >/dev/null 2>&1");
-		touch("$configDir/virtual");
-		exec("nohup /usr/sbin/postmap $configDir/virtual >/dev/null 2>&1");
-		touch("$configDir/transport");
-		exec("nohup /usr/sbin/postmap $configDir/transport >/dev/null 2>&1");
-
-		//* Create/update cron entry
-		$cronEntry = '0 */2 * * * find /var'.$mlConfig['spool_dir'].'/ -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;';
-		file_put_contents('/etc/cron.d/mlmmj', $cronEntry);
 	}
 
 	public function get_postfix_service($service, $type) {
