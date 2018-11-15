@@ -425,7 +425,7 @@ class page_action extends tform_actions {
 
 		//* fetch vserver
 		$v_server_rec = $app->db->queryAllRecords("SELECT server_id, server_name FROM server WHERE vserver_server = 1 AND active = 1 AND mirror_server_id = 0 ORDER BY active DESC, server_name");
-		if (!empty($db_server_rec)) {
+		if (!empty($v_server_rec)) {
 			$app->tpl->setVar('vserver_server_found', 1);
 
 			$server_list = $this->create_list($v_server_rec, 'vserver', 'openvz_vm');
