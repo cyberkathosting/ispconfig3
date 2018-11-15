@@ -215,6 +215,7 @@ class monitor_tools {
 				$distver = 'Jessie';
 				$distid = 'debian60';
 				$distbaseid = 'debian';
+				$distsupported = true;
 			} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 				$distname = 'Debian';
 				$distver = 'Stretch';
