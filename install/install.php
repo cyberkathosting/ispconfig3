@@ -211,9 +211,9 @@ if(is_dir('/usr/local/ispconfig')) {
 }
 
 //** Detect the installed applications
-$this->call_hook('find_installed_apps', false);
+$inst->raiseEvent('find_installed_apps::before');
 $inst->find_installed_apps();
-$this->call_hook('find_installed_apps', true);
+$inst->raiseEvent('find_installed_apps::after');
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
@@ -499,7 +499,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web 
 	}
 }
 
-$inst->call_hook('configure_webserver_selection', true);
+$inst->raiseEvent('configure_webserver_selection::after');
 
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
 	//* Check for Firewall
@@ -592,9 +592,9 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 	$inst->install_ispconfig_interface = false;
 }
 
-$inst->call_hook('install_ispconfig', false);
+$inst->raiseEvent('install_ispconfig::before');
 $inst->install_ispconfig();
-$inst->call_hook('install_ispconfig', true);
+$inst->raiseEvent('install_ispconfig::after');
 
 //* Configure DBServer
 swriteln('Configuring DBServer');

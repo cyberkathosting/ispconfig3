@@ -66,6 +66,70 @@ class listform {
 
 		$this->wordbook = $wb;
 
+		$module = (isset($_SESSION['s']['module']['name']) ? $_SESSION['s']['module']['name'] : '');
+
+		// load wordbook/lang files from addons
+		if($module == '') {
+			$lng_path = 'lib/lang.d';
+		} else {
+			$lng_path = '../' . $module . '/lib/lang.d';
+		}
+		if(($dir = opendir($lng_path))) {
+			$fallback_files = array();
+			$use_files = array();
+			while(false !== ($cur = readdir($dir))) {
+				$lng_file = $lng_path . '/' . $cur;
+				if(is_file($lng_file) && substr($cur, -strlen('.'.$app->listform->listDef["name"].".lng")) === '.'.$app->listform->listDef["name"].".lng") {
+					if(substr($cur, 0, 3) === 'en_') {
+						$fallback_files[] = $cur;
+					} elseif(substr($cur, 0, 3) === $app->functions->check_language($_SESSION["s"]["language"]) . '_') {
+						$use_files[] = $cur;
+					}
+				}
+			}
+			closedir($dir);
+			
+			foreach($fallback_files as $cur) {
+				$cur_lng = $app->functions->check_language($_SESSION["s"]["language"]) . '_' . substr($cur, 3);
+				if(in_array($cur_lng, $use_files, true) == false) {
+					$use_files[] = $cur;
+				}
+			}
+			unset($fallback_files);
+			
+			reset($use_files);
+			foreach($use_files as $cur) {
+				$lng_file = $lng_path . '/' . $cur;
+				
+				include $lng_file;
+				if(isset($wb) && is_array($wb)) {
+					$this->wordbook = $app->functions->array_merge($this->wordbook, $wb);
+				}
+			}
+			unset($use_files);
+		}
+
+
+		if($module) {
+			// load list files from addons
+			$listform_path = '../' . $module . '/lib/form.d';
+			if(($dir = opendir($listform_path))) {
+				$items = null;
+				while(false !== ($cur = readdir($dir))) {
+					$listform_file = $listform_path . '/' . $cur;
+					if(is_file($listform_file) && substr($cur, -strlen('.'.$app->listform->listDef["name"].".list.php")) === '.'.$app->listform->listDef["name"].".list.php") {
+						unset($items); // just in case someone does not create a new array in the list file
+						include($listform_file);
+						if(isset($items) && is_array($items) && !empty($items)) {
+							$this->listDef['item'] = array_merge($this->listDef['item'], $items);
+						}
+					}
+				}
+				closedir($dir);
+			}
+		}
+		
+		
 		return true;
 	}
 

@@ -340,9 +340,9 @@ checkDbHealth();
 /*
  *  dump the new Database and reconfigure the server.ini
  */
-$inst->call_hook('updateDbAndIni', false);
+$inst->raiseEvent('updateDbAndIni::before');
 updateDbAndIni();
-$inst->call_hook('updateDbAndIni', true);
+$inst->raiseEvent('updateDbAndIni::after');
 
 //** read server config from db into $conf['server_config']
 $tmp = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
@@ -364,11 +364,12 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 //}
 
 //** Detect the installed applications
-$this->call_hook('find_installed_apps', false);
+$inst->raiseEvent('find_installed_apps::before');
 $inst->find_installed_apps();
-$this->call_hook('find_installed_apps', true);
+$inst->raiseEvent('find_installed_apps::after');
 
 //** Check for current service config state and compare to our results
+$inst->raiseEvent('check_service_config_state::before');
 if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,firewall_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
 else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,firewall_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 $conf['services']['mail'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
@@ -377,6 +378,7 @@ $conf['services']['web'] = check_service_config_state('web_server', ($conf['apac
 $conf['services']['firewall'] = check_service_config_state('firewall_server', ($conf['ufw']['installed'] || $conf['firewall']['installed']));
 $conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
+$inst->raiseEvent('check_service_config_state::after');
 
 //** Write new decisions into DB
 $sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
@@ -539,7 +541,9 @@ if ($inst->install_ispconfig_interface) {
 	}
 }
 
+$inst->raiseEvent('install_ispconfig::before');
 $inst->install_ispconfig();
+$inst->raiseEvent('install_ispconfig::after');
 
 // Cleanup
 $inst->cleanup_ispconfig();

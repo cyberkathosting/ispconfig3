@@ -124,17 +124,35 @@ class plugin {
 				$tmp_event = $sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
 				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
-				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				if($return_data == true && $tmpresult) {
+					if(is_array($tmpresult) && (!$result || is_array($result))) {
+						$result = array_merge($result, $tmpresult);
+					} elseif(!is_array($tmpresult)) {
+						$result .= $tmpresult;
+					}
+				}
 				
 				$tmp_event = $sub_events[0].':'.$sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
 				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
-				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				if($return_data == true && $tmpresult) {
+					if(is_array($tmpresult) && (!$result || is_array($result))) {
+						$result = array_merge($result, $tmpresult);
+					} elseif(!is_array($tmpresult)) {
+						$result .= $tmpresult;
+					}
+				}
 				
 				$tmp_event = $sub_events[0].':'.$sub_events[1].':'.$sub_events[2];
 				if($this->debug) $app->log("Called Event '$tmp_event'", LOGLEVEL_DEBUG);
 				$tmpresult = $this->callPluginEvent($tmp_event, $data, $return_data);
-				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				if($return_data == true && $tmpresult) {
+					if(is_array($tmpresult) && (!$result || is_array($result))) {
+						$result = array_merge($result, $tmpresult);
+					} elseif(!is_array($tmpresult)) {
+						$result .= $tmpresult;
+					}
+				}
 
 				/*$sub_events = array_reverse($sub_events);
 				$tmp_event = '';
@@ -147,7 +165,13 @@ class plugin {
 			} else {
 				if($this->debug) $app->log("Called Event '$sub_events[0]'", LOGLEVEL_DEBUG);
 				$tmpresult = $this->callPluginEvent($sub_events[0], $data, $return_data);
-				if($return_data == true && $tmpresult) $result .= $tmpresult;
+				if($return_data == true && $tmpresult) {
+					if(is_array($tmpresult) && (!$result || is_array($result))) {
+						$result = array_merge($result, $tmpresult);
+					} elseif(!is_array($tmpresult)) {
+						$result .= $tmpresult;
+					}
+				}
 			}
 		}
 		
@@ -187,7 +211,13 @@ class plugin {
 					// call_user_method($function_name,$app->loaded_plugins[$plugin_name],$event_name,$data);
 
 					$tmpresult = call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $event_name, $data);
-					if($return_data == true && $tmpresult) $result .= $tmpresult;
+					if($return_data == true && $tmpresult) {
+						if(is_array($tmpresult) && (!$result || is_array($result))) {
+							$result = array_merge($result, $tmpresult);
+						} elseif(!is_array($tmpresult)) {
+							$result .= $tmpresult;
+						}
+					}
 				}
 			}
 

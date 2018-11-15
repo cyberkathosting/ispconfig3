@@ -203,7 +203,6 @@ class remoting_server extends remoting {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
         	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
 		}
 		if (!empty($session_id) && !empty($server_name)) {
 			$sql = "SELECT server_id FROM server WHERE server_name  = ?";
@@ -225,12 +224,22 @@ class remoting_server extends remoting {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
         	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
 		}
 		if (!empty($session_id) && !empty($server_id)) { 
-			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, proxy_server, firewall_server, mirror_server_id FROM server WHERE server_id  = ?";
+			$sql = "SELECT * FROM server WHERE server_id  = ?";
 			$all = $app->db->queryOneRecord($sql, $server_id);
-			return $all;
+			if(empty($all)) return false;
+			
+			$func = array();
+			foreach($all as $key => $value) {
+				if($key === 'mirror_server_id' || substr($key, -7) === '_server') {
+					if($value == 0 || $value == 1) {
+						$func[$key] = $value;
+					}
+				}
+			}
+			
+			return $func;
 		} else {
 			return false;
 		}
@@ -241,7 +250,6 @@ class remoting_server extends remoting {
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
 		}
 		if (!empty($session_id)) {
 			if($server_id == 0) $ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);

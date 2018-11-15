@@ -53,6 +53,7 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 			$modules = array_merge(array('dashboard'), $modules);
 		}
 		*/
+		$module = null;
 		if(is_array($modules)) {
 			foreach($modules as $mt) {
 				if(is_file($mt.'/lib/module.conf.php')) {
@@ -70,7 +71,10 @@ if(isset($_GET['nav']) && $_GET['nav'] == 'top') {
 						if($web_servers['cnt'] == 0) continue;
 					}
 
+					unset($module);
 					include_once $mt.'/lib/module.conf.php';
+					if(!isset($module)) continue; // allow module files to be skipped if they define no module data
+					
 					$language = $app->functions->check_language((isset($_SESSION['s']['user']['language']))?$_SESSION['s']['user']['language']:$conf['language']);
 					$app->load_language_file('web/'.$mt.'/lib/'.$language.'.lng');
 					$active = ($module['name'] == $_SESSION['s']['module']['name']) ? 1 : 0;

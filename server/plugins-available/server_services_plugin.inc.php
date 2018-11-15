@@ -50,6 +50,8 @@ class server_services_plugin {
 
 	var $db_plugins = array('mysql_clientdb_plugin');
 
+	/** TODO: implement plugins from addons **/
+	
 	function onInstall() {
 
 		return true;

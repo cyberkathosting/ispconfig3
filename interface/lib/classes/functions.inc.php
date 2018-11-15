@@ -253,6 +253,12 @@ class functions {
 				}
 			}
 		}
+		
+		$tmp_ips = $app->plugin->raiseEvent('get_server_ips', 0, true);
+		if(is_array($tmp_ips) && !empty($tmp_ips)) {
+			$ips = array_merge($ips, $tmp_ips);
+		}
+		
 
 		$results = $groupid != 1 ? $app->db->queryAllRecords("SELECT database_name as name,remote_ips as ip FROM web_database WHERE remote_ips != '' AND sys_groupid = ?", $groupid) : $results = $app->db->queryAllRecords("SELECT database_name as name,remote_ips as ip FROM web_database WHERE remote_ips != ''");
 

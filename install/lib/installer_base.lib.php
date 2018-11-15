@@ -2827,40 +2827,61 @@ class installer_base {
 		return $tContents;
 	}
 	
-	public function call_hook($hook_name, $after = true) {
+	private function loadAddonClasses($path) {
+		$libpath = $conf['ispconfig_install_dir'] . '/addons';
+		if(($dir = opendir($libpath))) {
+			while(false !== ($cur = readdir($dir))) {
+				if($cur === '.' || $cur === '..' || strpos($cur, '..') !== false || !is_dir($libpath . '/' . $cur)) {
+					continue;
+				}
+				$addon_file = $libpath . '/' . $cur . '/' . $cur . '.addon.php';
+				if(!is_file($addon_file)) {
+					continue;
+				}
+
+				$class_name = $cur . '_addon_installer';
+				
+				if(isset($this->addon_classes[$class_name]) && is_object($this->addon_classes[$class_name])) {
+					// don't override
+					continue;
+				}
+				
+				include_once $addon_file;
+				if(!class_exists($class_name)) {
+					continue;
+				}
+
+				if(!is_array($this->addon_classes)) {
+					$this->addon_classes = array();
+				}
+				
+				$this->addon_classes[$class_name] = new $class_name;
+			}
+			closedir($dir);
+		}
+	}
+	
+	public function raiseEvent($event_name) {
+		global $conf;
+		
 		if(is_null($this->addon_classes)) {
 			// load addon libs
 			$this->addon_classes = array();
-			$libpath = realpath(dirname(__FILE__).'/..') . '/lib.d';
-			if(($dir = opendir($libpath))) {
-				while(false !== ($cur = readdir($dir))) {
-					if(strpos($cur, '..') !== false || !is_file($libpath . '/' . $cur) || substr($cur, -8) !== '.lib.php') {
-						continue;
-					}
-					$class_name = substr($cur, 0, -8) . '_addon_installer';
-					include_once $libpath . '/' . $cur;
-					if(!class_exists($class_name)) {
-						continue;
-					}
-					
-					$this->addon_classes[] = new $class_name;
-				}
-				closedir($dir);
-			}
+			$addonpath = $conf['ispconfig_install_dir'] . '/addons';
+			$this->loadAddonClasses($addonpath);
+			
+			// check for addon libs in install dir
+			$addonpath = realpath(dirname(__FILE__) . '/..') . '/addons';
+			$this->loadAddonClasses($addonpath);
 		}
 		
-		$call_method = 'onBefore';
-		if($after === true) {
-			$call_method = 'onAfter';
-		}
+		$call_method = 'onRaisedEvent';
 		reset($this->addon_classes);
 		foreach($this->addon_classes as $cl) {
 			if(method_exists($cl, $call_method)) {
-				call_user_func(array($cl, $call_method), $hook_name);
+				call_user_func(array($cl, $call_method), $event_name);
 			}
 		}
 	}
 
 }
-
-?>

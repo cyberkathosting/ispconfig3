@@ -434,11 +434,16 @@ function setDefaultServers(){
  *	@param $servicename string the name of the Database-Field in "servers" for this service
  *	@param $detected_value boolean The result of service detection
  */
-function check_service_config_state($servicename, $detected_value) {
-	global $current_svc_config, $inst, $conf;
+function check_service_config_state($servicename, $detected_value, $use_current_config = null) {
+	global $current_svc_config, $inst;
 	
-	if ($current_svc_config[$servicename] == 1) $current_state = 1;
-	else $current_state = 0;
+	if(is_array($use_current_config)) {
+		if ($use_current_config[$servicename] == 1) $current_state = 1;
+		else $current_state = 0;
+	} else {
+		if ($current_svc_config[$servicename] == 1) $current_state = 1;
+		else $current_state = 0;
+	}
 
 	if ($detected_value) $detected_value = 1;
 	else $detected_value = 0;

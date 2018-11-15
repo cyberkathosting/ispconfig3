@@ -4,7 +4,7 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
 
-        
+        {tmpl_hook name="begin_form"}
             <div class="form-group">
                 <label for="server_name" class="col-sm-3 control-label">{tmpl_var name='server_name_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="server_name" id="server_name" value="{tmpl_var name='server_name'}" class="form-control" /></div></div>
@@ -38,6 +38,8 @@
                     {tmpl_var name='db_server'}
                 </div>
             </div>
+			{tmpl_hook name="field_db_server"}
+			{tmpl_hook name="end_service_fields"}
              <tmpl_if name="id" op="!=" value="1">
 	            <div class="form-group">
     	            <label for="mirror_server_id" class="col-sm-3 control-label">{tmpl_var name='mirror_server_id_txt'}</label>
@@ -52,7 +54,7 @@
                     {tmpl_var name='active'}
                 </select></div>
             </div>
-        
+			{tmpl_hook name="end_form"}
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             
