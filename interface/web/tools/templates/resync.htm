@@ -122,6 +122,8 @@
 		<div class="col-sm-3"><select name="firewall_server_id" id="firewall_server_id" class="form-control">{tmpl_var name='firewall_server_id'}</select></div>
 	</div>
 </tmpl_if>
+
+{tmpl_hook name="end_form"}
 	
 <div class="form-group">
 	<label for="resync_client" class="col-sm-2 control-label control-label-plain">{tmpl_var name="resync_client_txt"}</label> 

@@ -148,45 +148,11 @@ if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$di
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 
-//** Include addon lib config files
-if(is_dir('dist/lib.d')) {
-	// scheme is: <addon-name>.<distconfid>.conf.php
-	if(($dir = opendir('dist/lib.d'))) {
-		while(false !== ($cur = readdir($dir))) {
-			$curpath = 'dist/lib.d/' . $cur;
-			if(strpos($curpath, '..') !== false
-					|| !is_file($curpath)
-					|| !preg_match('/\.(?:' . preg_quote($dist['id'], '/') . '|' . preg_quote($dist['baseid'], '/') . ')\.lib\.php$/', $cur)) {
-				
-				// invalid entry or entry not for current distribution
-				continue;
-			}
-			// valid file name and either generic or for current distribution
-			include_once $curpath;
-		}
-		closedir($dir);
-	}
-}
+$inst = new installer();
+if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
+$inst->is_update = true;
 
-//** Include addon dist config files
-if(is_dir('dist/conf.d')) {
-	// scheme is: <addon-name>.<distconfid>.conf.php
-	if(($dir = opendir('dist/conf.d'))) {
-		while(false !== ($cur = readdir($dir))) {
-			$curpath = 'dist/conf.d/' . $cur;
-			if(strpos($curpath, '..') !== false
-					|| !is_file($curpath)
-					|| !preg_match('/\.' . preg_quote($dist['confid'], '/') . '\.conf\.php$/', $cur)) {
-				
-				// invalid entry or entry not for current distribution
-				continue;
-			}
-			// valid file name and either generic or for current distribution
-			include_once $curpath;
-		}
-		closedir($dir);
-	}
-}
+$inst->raiseEvent('set_dist_config', $dist);
 
 //** tRNG dependencies
 $conf['tRNG']='';
@@ -227,10 +193,6 @@ if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to
 
 $conf['server_id'] = intval($conf_old["server_id"]);
 $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
-
-$inst = new installer();
-if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
-$inst->is_update = true;
 
 echo "This application will update ISPConfig 3 on your server.\n\n";
 

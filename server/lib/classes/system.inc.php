@@ -2044,7 +2044,32 @@ class system{
 		
 		return true;
 	}
+
+	public function tempdir($parent_path = null, $prefix = 'tmp_', $mode = 0700) {
+		if(is_null($parent_path)) {
+			$parent_path = sys_get_temp_dir();
+		}
+
+		$parent_path = rtrim($parent_path, '/');
+		if(!is_dir($parent_path) || !is_writable($parent_path)) {
+			return false;
+		}
+
+		if(strpbrk($prefix, '\\/:*?"<>|') !== false) {
+			return false;
+		}
+
+		$path = false;
+		$tries = 0;
+		while($tries < 1000) {
+			$tries++;
+			$path = $parent_path . FS_DIV . uniqid($prefix, true);
+			if(mkdir($path, $mode)) {
+				break;
+			}
+		}
+
+		return $path;
+	}
 	
 }
-
-?>

@@ -599,6 +599,19 @@ class page_action extends tform_actions {
 			}
 			$msg .= '<br>';
 		}
+		
+		$entries = $app->plugin->raiseEvent('tools:resync:get_resync_entries', $this->dataRecord, true);
+		if(is_array($entries) && !empty($entries)) {
+			foreach($entries as $entry) {
+				if(!isset($entry['db_table']) || !isset($entry['db_table']) || !isset($entry['db_table']) || !isset($entry['db_table']) || !isset($entry['db_table']) || !isset($entry['db_table'])) {
+					continue;
+				}
+				if(!isset($entry['active'])) {
+					$entry['active'] = true;
+				}
+				$msg .= $this->do_resync($entry['db_table'], $entry['index_field'], $entry['server_type'], $entry['server_id'], $entry['msg_field'], $entry['wordbook'], $entry['active']);
+			}
+		}
 
 		echo $msg;
     } //* end onSumbmit
