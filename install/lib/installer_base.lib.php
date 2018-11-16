@@ -2828,6 +2828,9 @@ class installer_base {
 	}
 	
 	private function loadAddonClasses($path) {
+		if(!is_dir($path)) {
+			return false;
+		}
 		$libpath = $path;
 		if(($dir = opendir($libpath))) {
 			while(false !== ($cur = readdir($dir))) {
