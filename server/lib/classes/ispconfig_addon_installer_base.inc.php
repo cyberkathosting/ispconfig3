@@ -85,10 +85,10 @@ class ispconfig_addon_installer_base {
 		if(is_dir($this->temp_dir . '/install')) {
 			$ret = null;
 			$retval = 0;
-			$command = 'cp -rf ' . escapeshellarg($this->temp_dir . '/addon.ini') . ' ' . escapeshellarg($this->temp_dir . '/' . $this->addon_ident . 'addon.php') . ' ' . escapeshellarg($this->temp_dir . '/install'). ' ' . escapeshellarg($install_dir . '/');
+			$command = 'cp -rf ' . escapeshellarg($this->temp_dir . '/addon.ini') . ' ' . escapeshellarg($this->temp_dir . '/' . $this->addon_ident . '.addon.php') . ' ' . escapeshellarg($this->temp_dir . '/install'). ' ' . escapeshellarg($install_dir . '/');
 			exec($command, $ret, $retval);
 			if($retval != 0) {
-				throw new AddonInstallerException('Command ' . $command . ' failed with code ' . $retval);
+				/* TODO: logging */
 			}
 			
 			return true;
@@ -174,7 +174,7 @@ class ispconfig_addon_installer_base {
 	
 	
 	
-	public function onRaisedInstallerEvent($event_name) {
+	public function onRaisedInstallerEvent($event_name, $data) {
 		
 	}
 }

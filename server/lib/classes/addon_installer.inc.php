@@ -176,6 +176,8 @@ class addon_installer {
 			$inst->onAfterInstall();
 		}
 		
+		exec('rm -rf ' . escapeshellarg($tmp_dir));
+		
 		return true;
 	}
 	
