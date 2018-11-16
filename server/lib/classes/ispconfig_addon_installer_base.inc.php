@@ -109,11 +109,6 @@ class ispconfig_addon_installer_base {
 	protected function executeSqlStatements() {
 		global $app, $conf;
 		
-		$app->log('Adding addon entry to db.', 0, false);
-		// create addon entry if not existing
-		$qry = 'INSERT IGNORE INTO `addons` (`addon_ident`, `addon_version`, `addon_name`, `db_version`) VALUES (?, ?, ?, ?)';
-		$app->db->query($qry, $this->addon_ident, $this->addon_version, $this->addon_name, 0);
-		
 		$incremental = false;
 		$check = $app->db->queryOneRecord('SELECT `db_version` FROM `addons` WHERE `addon_ident` = ?', $this->addon_ident);
 		if($check) {
@@ -124,6 +119,10 @@ class ispconfig_addon_installer_base {
 			}
 		}
 		
+		$app->log('Adding addon entry to db.', 0, false);
+		// create addon entry if not existing
+		$qry = 'INSERT IGNORE INTO `addons` (`addon_ident`, `addon_version`, `addon_name`, `db_version`) VALUES (?, ?, ?, ?)';
+		$app->db->query($qry, $this->addon_ident, $this->addon_version, $this->addon_name, 0);
 		
 		$mysql_command = 'mysql --default-character-set=' . escapeshellarg($conf['db_charset']) . ' --force -h ' . escapeshellarg($conf['db_host']) . ' -u ' . escapeshellarg($conf['db_user']) . ' -p' . escapeshellarg($conf['db_password']) . ' -P ' . escapeshellarg($conf['db_port']) . ' -D ' . escapeshellarg($conf['db_database']);
 		
