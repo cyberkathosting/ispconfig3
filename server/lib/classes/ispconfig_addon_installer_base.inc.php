@@ -34,7 +34,7 @@ class ispconfig_addon_installer_base {
 	}
 	
 	protected function copyInterfaceFiles() {
-		global $conf;
+		global $app, $conf;
 		
 		$app->log('Copying interface files.', 0, false);
 		$install_dir = realpath($conf['rootpath'] . '/..');
@@ -56,7 +56,7 @@ class ispconfig_addon_installer_base {
 	}
 	
 	protected function copyServerFiles() {
-		global $conf;
+		global $app, $conf;
 		
 		$app->log('Copying server files.', 0, false);
 		
@@ -169,6 +169,8 @@ class ispconfig_addon_installer_base {
 	public function onBeforeInstall() { }
 	
 	public function onInstall() {
+		global $app;
+		
 		$app->log('Running onInstall()', 0, false);
 		$this->copyAddonFiles();
 		$this->copyInterfaceFiles();
@@ -182,6 +184,8 @@ class ispconfig_addon_installer_base {
 	public function onBeforeUpdate() { }
 	
 	public function onUpdate() {
+		global $app;
+
 		$app->log('Running onUpdate()', 0, false);
 		$this->copyAddonFiles();
 		$this->copyInterfaceFiles();

@@ -54,6 +54,8 @@ class addon_installer {
 	 * @throws AddonInstallerValidationException
 	 */
 	private function validatePackage($path) {
+		global $app;
+		
 		$app->log('Validating extracted addon at ' . $path, 0, false);
 		
 		if(!is_dir($path)) {
