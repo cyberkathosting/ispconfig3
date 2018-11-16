@@ -119,12 +119,14 @@ class ispconfig_addon_installer_base {
 			}
 		}
 		
+		include '/usr/local/ispconfig/server/lib/mysql_clientdb.conf';
+		
 		$app->log('Adding addon entry to db.', 0, false);
 		// create addon entry if not existing
 		$qry = 'INSERT IGNORE INTO `addons` (`addon_ident`, `addon_version`, `addon_name`, `db_version`) VALUES (?, ?, ?, ?)';
 		$app->db->query($qry, $this->addon_ident, $this->addon_version, $this->addon_name, 0);
 		
-		$mysql_command = 'mysql --default-character-set=' . escapeshellarg($conf['db_charset']) . ' --force -h ' . escapeshellarg($conf['db_host']) . ' -u ' . escapeshellarg($conf['db_user']) . ' -p' . escapeshellarg($conf['db_password']) . ' -P ' . escapeshellarg($conf['db_port']) . ' -D ' . escapeshellarg($conf['db_database']);
+		$mysql_command = 'mysql --default-character-set=' . escapeshellarg($conf['db_charset']) . ' --force -h ' . escapeshellarg($clientdb_host) . ' -u ' . escapeshellarg($clientdb_user) . ' -p' . escapeshellarg($clientdb_password) . ' -P ' . escapeshellarg($clientdb_port) . ' -D ' . escapeshellarg($conf['db_database']);
 		
 		if($incremental === false) {
 			$sql_file = $this->temp_dir . '/install/sql/' . $this->addon_ident . '.sql';

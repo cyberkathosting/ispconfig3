@@ -2578,6 +2578,7 @@ class installer_base {
 		$content = str_replace('{hostname}', $conf['mysql']['host'], $content);
 		$content = str_replace('{username}', $conf['mysql']['admin_user'], $content);
 		$content = str_replace('{password}', addslashes($conf['mysql']['admin_password']), $content);
+		$content = str_replace('{port}', addslashes($conf['mysql']['port']), $content);
 		wf($install_dir.'/server/lib/mysql_clientdb.conf', $content);
 		chmod($install_dir.'/server/lib/mysql_clientdb.conf', 0600);
 		chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
