@@ -297,6 +297,12 @@ class functions {
 				}
 			}
 		}
+		
+		$tmp_ips = $app->plugins->raiseAction('get_server_ips', 0, true);
+		if(is_array($tmp_ips) && !empty($tmp_ips)) {
+			$ips = array_merge($ips, $tmp_ips);
+		}
+		
 		$ips = array_unique($ips);
 		sort($ips, SORT_NUMERIC);
 

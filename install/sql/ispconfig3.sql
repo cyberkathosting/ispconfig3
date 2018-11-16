@@ -54,6 +54,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `addons`
+--
+
+CREATE TABLE IF NOT EXISTS `addons` (
+  `addon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `addon_ident` VARCHAR(100) NOT NULL DEFAULT '',
+  `addon_version` VARCHAR(20) NOT NULL DEFAULT '',
+  `addon_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `db_version` INT(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`addon_id`),
+  UNIQUE KEY `ident` (`addon_ident`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `aps_instances`
 --
 

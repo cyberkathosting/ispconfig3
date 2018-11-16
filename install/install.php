@@ -145,46 +145,6 @@ if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$di
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 
-//** Include addon lib config files
-if(is_dir('dist/lib.d')) {
-	// scheme is: <addon-name>.<distconfid>.conf.php
-	if(($dir = opendir('dist/lib.d'))) {
-		while(false !== ($cur = readdir($dir))) {
-			$curpath = 'dist/lib.d/' . $cur;
-			if(strpos($curpath, '..') !== false
-					|| !is_file($curpath)
-					|| !preg_match('/\.(?:' . preg_quote($dist['id'], '/') . '|' . preg_quote($dist['baseid'], '/') . ')\.lib\.php$/', $cur)) {
-				
-				// invalid entry or entry not for current distribution
-				continue;
-			}
-			// valid file name and either generic or for current distribution
-			include_once $curpath;
-		}
-		closedir($dir);
-	}
-}
-
-//** Include addon dist config files
-if(is_dir('dist/conf.d')) {
-	// scheme is: <addon-name>.<distconfid>.conf.php
-	if(($dir = opendir('dist/conf.d'))) {
-		while(false !== ($cur = readdir($dir))) {
-			$curpath = 'dist/conf.d/' . $cur;
-			if(strpos($curpath, '..') !== false
-					|| !is_file($curpath)
-					|| !preg_match('/\.' . preg_quote($dist['confid'], '/') . '\.conf\.php$/', $cur)) {
-				
-				// invalid entry or entry not for current distribution
-				continue;
-			}
-			// valid file name and either generic or for current distribution
-			include_once $curpath;
-		}
-		closedir($dir);
-	}
-}
-
 //****************************************************************************************************
 //** Installer Interface
 //****************************************************************************************************

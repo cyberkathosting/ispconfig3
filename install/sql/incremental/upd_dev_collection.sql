@@ -142,3 +142,12 @@ UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '8.00' WHERE id = 6;
 UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '20.00' WHERE id = 7;
 -- end of rspamd
 
+CREATE TABLE IF NOT EXISTS `addons` (
+  `addon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `addon_ident` VARCHAR(100) NOT NULL DEFAULT '',
+  `addon_version` VARCHAR(20) NOT NULL DEFAULT '',
+  `addon_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `db_version` INT(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`addon_id`),
+  UNIQUE KEY `ident` (`addon_ident`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;

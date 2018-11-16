@@ -28,6 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+require_once realpath(dirname(__FILE__)) . '/classes/ispconfig_addon_installer.inc.php';
+
 class installer_base {
 
 	var $wb = array();
@@ -397,8 +399,6 @@ class installer_base {
 			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->db->insertID();
 		}
-
-
 	}
 
 	public function detect_ips(){
@@ -2183,7 +2183,7 @@ class installer_base {
 		// TODO: Implement a selector which modules and plugins shall be enabled.
 		$dir = $install_dir.'/server/mods-available/';
 		if (is_dir($dir)) {
-			if ($dh = opendir($dir)) {
+			if (($dh = opendir($dir))) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..' && substr($file, -8, 8) == '.inc.php') {
 						include_once $install_dir.'/server/mods-available/'.$file;
@@ -2210,7 +2210,7 @@ class installer_base {
 
 		$dir = $install_dir.'/server/plugins-available/';
 		if (is_dir($dir)) {
-			if ($dh = opendir($dir)) {
+			if (($dh = opendir($dir))) {
 				while (($file = readdir($dh)) !== false) {
 					if($conf['apache']['installed'] == true && $file == 'nginx_plugin.inc.php') continue;
 					if($conf['nginx']['installed'] == true && $file == 'apache2_plugin.inc.php') continue;
@@ -2828,7 +2828,7 @@ class installer_base {
 	}
 	
 	private function loadAddonClasses($path) {
-		$libpath = $conf['ispconfig_install_dir'] . '/addons';
+		$libpath = $path;
 		if(($dir = opendir($libpath))) {
 			while(false !== ($cur = readdir($dir))) {
 				if($cur === '.' || $cur === '..' || strpos($cur, '..') !== false || !is_dir($libpath . '/' . $cur)) {
@@ -2867,15 +2867,12 @@ class installer_base {
 		if(is_null($this->addon_classes)) {
 			// load addon libs
 			$this->addon_classes = array();
-			$addonpath = $conf['ispconfig_install_dir'] . '/addons';
-			$this->loadAddonClasses($addonpath);
 			
-			// check for addon libs in install dir
-			$addonpath = realpath(dirname(__FILE__) . '/..') . '/addons';
+			$addonpath = $conf['ispconfig_install_dir'] . '/addons';
 			$this->loadAddonClasses($addonpath);
 		}
 		
-		$call_method = 'onRaisedEvent';
+		$call_method = 'onRaisedInstallerEvent';
 		reset($this->addon_classes);
 		foreach($this->addon_classes as $cl) {
 			if(method_exists($cl, $call_method)) {
