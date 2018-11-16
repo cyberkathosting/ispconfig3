@@ -72,6 +72,31 @@ class ispconfig_addon_installer_base {
 		}		
 	}
 	
+	protected function copyAddonFiles() {
+		global $app, $conf;
+		
+		$install_dir = realpath($conf['rootpath'] . '/..') . '/addons/' . $this->addon_ident;
+		if(!is_dir($install_dir)) {
+			if(!$app->system->mkdir($install_dir, false, 0750, true)) {
+				throw new AddonInstallerException('Could not create addons dir ' . $install_dir);
+			}
+		}
+		
+		if(is_dir($this->temp_dir . '/install')) {
+			$ret = null;
+			$retval = 0;
+			$command = 'cp -rf ' . escapeshellarg($this->temp_dir . '/addon.ini') . ' ' . escapeshellarg($this->temp_dir . '/' . $this->addon_ident . 'addon.php') . ' ' . escapeshellarg($this->temp_dir . '/install'). ' ' . escapeshellarg($install_dir . '/');
+			exec($command, $ret, $retval);
+			if($retval != 0) {
+				throw new AddonInstallerException('Command ' . $command . ' failed with code ' . $retval);
+			}
+			
+			return true;
+		} else {
+			return false;
+		}		
+	}
+	
 	protected function executeSqlStatements() {
 		global $app, $conf;
 		
@@ -128,6 +153,7 @@ class ispconfig_addon_installer_base {
 	public function onBeforeInstall() { }
 	
 	public function onInstall() {
+		$this->copyAddonFiles();
 		$this->copyInterfaceFiles();
 		$this->copyServerFiles();
 		$this->executeSqlStatements();
@@ -138,6 +164,7 @@ class ispconfig_addon_installer_base {
 	public function onBeforeUpdate() { }
 	
 	public function onUpdate() {
+		$this->copyAddonFiles();
 		$this->copyInterfaceFiles();
 		$this->copyServerFiles();
 		$this->executeSqlStatements();
