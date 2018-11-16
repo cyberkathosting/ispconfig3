@@ -121,6 +121,10 @@ class addon_installer {
 	 * @throws AddonInstallerValidationException
 	 */
 	public function installAddon($package_file, $force = false) {
+		global $app;
+		
+		$app->load('ispconfig_addon_installer_base');
+		
 		if(!is_file($package_file)) {
 			throw new AddonInstallerException('Package file not found.');
 		} elseif(substr($package_file, -4) !== '.pkg') {

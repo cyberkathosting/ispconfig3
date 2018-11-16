@@ -46,7 +46,7 @@ $action = '';
 $package = '';
 
 $argv = $_SERVER['argv'];
-for($a = 0; $a < count($argv); $a++) {
+for($a = 1; $a < count($argv); $a++) {
 	if($argv[$a] === '--install' || $argv[$a] === 'install'
 			|| $argv[$a] === '--update' || $argv[$a] === 'update') {
 		$action = 'install';
