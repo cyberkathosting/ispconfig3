@@ -14,7 +14,7 @@ class ispconfig_addon_installer_base {
 		$this->addon_ident = preg_replace('/_addon_installer$/', '', get_called_class());
 	}
 	
-	public function onRaisedInstallerEvent($event_name, $data) {
+	public function onRaisedInstallerEvent($event_name, $data = false) {
 		
 	}
 }

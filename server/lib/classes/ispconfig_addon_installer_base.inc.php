@@ -194,7 +194,7 @@ class ispconfig_addon_installer_base {
 	
 	
 	
-	public function onRaisedInstallerEvent($event_name, $data) {
+	public function onRaisedInstallerEvent($event_name, $data = false) {
 		
 	}
 }

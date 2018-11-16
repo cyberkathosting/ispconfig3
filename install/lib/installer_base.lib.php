@@ -2864,7 +2864,7 @@ class installer_base {
 		}
 	}
 	
-	public function raiseEvent($event_name) {
+	public function raiseEvent($event_name, $data = false) {
 		global $conf;
 		
 		if(is_null($this->addon_classes)) {
@@ -2879,7 +2879,7 @@ class installer_base {
 		reset($this->addon_classes);
 		foreach($this->addon_classes as $cl) {
 			if(method_exists($cl, $call_method)) {
-				call_user_func(array($cl, $call_method), $event_name);
+				call_user_func(array($cl, $call_method), $event_name, $data);
 			}
 		}
 	}
