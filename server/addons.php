@@ -44,6 +44,7 @@ if(!isset($_SERVER['argv'])) {
 
 $action = '';
 $package = '';
+$force = false;
 
 $argv = $_SERVER['argv'];
 for($a = 1; $a < count($argv); $a++) {
@@ -52,6 +53,8 @@ for($a = 1; $a < count($argv); $a++) {
 		$action = 'install';
 	} elseif($argv[$a] === '--uninstall' || $argv[$a] === 'uninstall') {
 		$action = 'uninstall';
+	} elseif($argv[$a] === '--force') {
+		$force = true;
 	} elseif(substr($argv[$a], -4) === '.pkg' && is_file($argv[$a])) {
 		$package = $argv[$a];
 	} else {
@@ -63,7 +66,7 @@ if($action == 'uninstall') {
 	die('Automatic uninstall not supported, yet.');
 } else {
 	try {
-		$app->addon_installer->installAddon($package);
+		$app->addon_installer->installAddon($package, $force);
 	} catch(Exception $e) {
 		die('Error: ' . $e->getMessage() . "\n");
 	}
