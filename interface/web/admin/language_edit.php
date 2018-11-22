@@ -49,7 +49,7 @@ $lang_file = $_REQUEST['lang_file'];
 
 if(!preg_match("/^[a-z]+$/i", $lang)) die('unallowed characters in language name.');
 if(!preg_match("/^[a-z_]+$/i", $module)) die('unallowed characters in module name.');
-if(!preg_match("/^[a-z\._]+$/i", $lang_file)) die('unallowed characters in language file name.');
+if(!preg_match("/^[a-z\._]+$/i", $lang_file) || strpos($lang_file,'..') !== false || substr($lang_file,-4) != '.lng') die('unallowed characters in language file name.');
 
 $msg = '';
 
