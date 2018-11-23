@@ -52,7 +52,7 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'admin_record_permissions')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -62,7 +62,7 @@ class remoting_admin extends remoting {
 					// check if userid is valid
 					$check = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE userid = ?', $app->functions->intval($value));
 					if(!$check || !$check['userid']) {
-						throw new SoapFault('invalid parameters', $value . ' is no valid sys_userid.');
+						throw new ISPConfigRemoteException('invalid parameters', $value . ' is no valid sys_userid.');
 						return false;
 					}
 					$permissions[$key] = $app->functions->intval($value);
@@ -71,7 +71,7 @@ class remoting_admin extends remoting {
 					// check if groupid is valid
 					$check = $app->db->queryOneRecord('SELECT groupid FROM sys_group WHERE groupid = ?', $app->functions->intval($value));
 					if(!$check || !$check['groupid']) {
-						throw new SoapFault('invalid parameters', $value . ' is no valid sys_groupid.');
+						throw new ISPConfigRemoteException('invalid parameters', $value . ' is no valid sys_groupid.');
 						return false;
 					}
 					$permissions[$key] = $app->functions->intval($value);
@@ -81,7 +81,7 @@ class remoting_admin extends remoting {
 					// check if permissions are valid
 					$value = strtolower($value);
 					if(!preg_match('/^[riud]+$/', $value)) {
-						throw new SoapFault('invalid parameters', $value . ' is no valid permission string.');
+						throw new ISPConfigRemoteException('invalid parameters', $value . ' is no valid permission string.');
 						return false;
 					}
 					
@@ -95,7 +95,7 @@ class remoting_admin extends remoting {
 					
 					break;
 				default:
-					throw new SoapFault('invalid parameters', 'Only sys_userid, sys_groupid, sys_perm_user and sys_perm_group parameters can be changed with this function.');
+					throw new ISPConfigRemoteException('invalid parameters', 'Only sys_userid, sys_groupid, sys_perm_user and sys_perm_group parameters can be changed with this function.');
 					break;
 			}
 		}
@@ -113,7 +113,7 @@ class remoting_admin extends remoting {
 	public function system_config_set($session_id, $section, $key, $value) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'system_config_set')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($section != '' && $key != '') {
@@ -123,7 +123,7 @@ class remoting_admin extends remoting {
 			$system_config_str = $app->ini_parser->get_ini_string($system_config_array);
 			return $app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
 		} else {
-			throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
+			throw new ISPConfigRemoteException('invalid_function_parameter', 'Invalid function parameter.');
 			return false;
 		}
 	}
@@ -138,7 +138,7 @@ class remoting_admin extends remoting {
 	public function system_config_get($session_id, $section, $key) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'system_config_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($section != '') {
@@ -152,7 +152,7 @@ class remoting_admin extends remoting {
 				else return false;
 			}
 		} else {
-			throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
+			throw new ISPConfigRemoteException('invalid_function_parameter', 'Invalid function parameter.');
 			return false;
 		}
 	}
@@ -165,13 +165,13 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'config_value_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		// validate fields
 		if($group == '' || $name == '') {
-			throw new SoapFault('field_empty_error', 'Group and name parameter may not be empty.');
+			throw new ISPConfigRemoteException('field_empty_error', 'Group and name parameter may not be empty.');
 			return false;
 		}
 		
@@ -184,18 +184,18 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'config_value_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		// validate fields
 		if($group == '' || $name == '' || $value == '') {
-			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			throw new ISPConfigRemoteException('field_empty_error', 'Group, name, and value parameter may not be empty.');
 			return false;
 		}
 		
 		if(is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
-			throw new SoapFault('record_unique_error', 'Group plus name field combination is not unique.');
+			throw new ISPConfigRemoteException('record_unique_error', 'Group plus name field combination is not unique.');
 			return false;
 		}
 		
@@ -208,18 +208,18 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'config_value_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		// validate fields
 		if($group == '' || $name == '' || $value == '') {
-			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			throw new ISPConfigRemoteException('field_empty_error', 'Group, name, and value parameter may not be empty.');
 			return false;
 		}
 		
 		if(!is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
-			throw new SoapFault('record_nonexist_error', 'There is no record with this group plus name field combination.');
+			throw new ISPConfigRemoteException('record_nonexist_error', 'There is no record with this group plus name field combination.');
 			return false;
 		}
 		
@@ -232,13 +232,13 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'config_value_replace')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		// validate fields
 		if($group == '' || $name == '' || $value == '') {
-			throw new SoapFault('field_empty_error', 'Group, name, and value parameter may not be empty.');
+			throw new ISPConfigRemoteException('field_empty_error', 'Group, name, and value parameter may not be empty.');
 			return false;
 		}
 		
@@ -255,18 +255,18 @@ class remoting_admin extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'config_value_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		// validate fields
 		if($group == '' || $name == '') {
-			throw new SoapFault('field_empty_error', 'Group and name parameter may not be empty.');
+			throw new ISPConfigRemoteException('field_empty_error', 'Group and name parameter may not be empty.');
 			return false;
 		}
 		
 		if(!is_array($app->db->queryOneRecord('SELECT * FROM sys_config WHERE `group` = ? AND `name` = ?', $group, $name))) {
-			throw new SoapFault('record_nonexist_error', 'There is no record with this group plus name field combination.');
+			throw new ISPConfigRemoteException('record_nonexist_error', 'There is no record with this group plus name field combination.');
 			return false;
 		}
 		

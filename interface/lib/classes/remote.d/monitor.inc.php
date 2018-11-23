@@ -38,7 +38,7 @@ class remoting_monitor extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'monitor_jobqueue_count')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		

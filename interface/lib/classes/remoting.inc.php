@@ -206,7 +206,7 @@ class remoting {
 				fwrite($authlog_handle, $authlog ."\n");
 				fclose($authlog_handle);
 
-				throw new SoapFault($error['faultcode'], $error['faultstring']);
+				throw new ISPConfigRemoteException($error['faultcode'], $error['faultstring']);
 				return false;
 			} else {
 				// User login right, so attempts can be deleted
@@ -231,7 +231,7 @@ class remoting {
 		global $app;
 
 		if(empty($session_id)) {
-			throw new SoapFault('session_id_empty', 'The SessionID is empty.');
+			throw new ISPConfigRemoteException('session_id_empty', 'The SessionID is empty.');
 			return false;
 		}
 
@@ -265,14 +265,14 @@ class remoting {
 
 		//* Stop on error while preparing the sql query
 		if($app->remoting_lib->errorMessage != '') {
-			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
+			throw new ISPConfigRemoteException('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 
 		//* Execute the SQL query
 		$app->db->query($sql);
 		if($app->db->errorMessage != '') {
-			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			throw new ISPConfigRemoteException('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 		if ( isset($params['_primary_id'] ))
@@ -283,7 +283,7 @@ class remoting {
 
 		//* Stop on error while executing the sql query
 		if($app->remoting_lib->errorMessage != '') {
-			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
+			throw new ISPConfigRemoteException('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 
@@ -294,7 +294,7 @@ class remoting {
 
 		/*
 		if($app->db->errorMessage != '') {
-			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			throw new ISPConfigRemoteException('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 		*/
@@ -345,7 +345,7 @@ class remoting {
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'INSERT', 0);
 		if($app->remoting_lib->errorMessage != '') {
-			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
+			throw new ISPConfigRemoteException('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 		$app->log('Executed insertQueryPrepare', LOGLEVEL_DEBUG);
@@ -361,7 +361,7 @@ class remoting {
 		$app->db->query($sql);
 
 		if($app->db->errorMessage != '') {
-			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			throw new ISPConfigRemoteException('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 
@@ -421,9 +421,9 @@ class remoting {
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'UPDATE', $primary_id);
 		
-		// throw new SoapFault('debug', $sql);
+		// throw new ISPConfigRemoteException('debug', $sql);
 		if($app->remoting_lib->errorMessage != '') {
-			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
+			throw new ISPConfigRemoteException('data_processing_error', $app->remoting_lib->errorMessage);
 			return false;
 		}
 
@@ -446,7 +446,7 @@ class remoting {
 		$app->db->query($sql);
 
 		if($app->db->errorMessage != '') {
-			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			throw new ISPConfigRemoteException('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 
@@ -492,7 +492,7 @@ class remoting {
 		$affected_rows = $app->db->affectedRows();
 
 		if($app->db->errorMessage != '') {
-			throw new SoapFault('database_error', $app->db->errorMessage . ' '.$sql);
+			throw new ISPConfigRemoteException('database_error', $app->db->errorMessage . ' '.$sql);
 			return false;
 		}
 
@@ -543,7 +543,7 @@ class remoting {
 		global $app;
 
 		if(empty($session_id)) {
-			throw new SoapFault('session_id_empty', 'The SessionID is empty.');
+			throw new ISPConfigRemoteException('session_id_empty', 'The SessionID is empty.');
 			return false;
 		}
 
@@ -552,7 +552,7 @@ class remoting {
 		if($session['remote_userid'] > 0) {
 			return $session;
 		} else {
-			throw new SoapFault('session_does_not_exist', 'The Session is expired or does not exist.');
+			throw new ISPConfigRemoteException('session_does_not_exist', 'The Session is expired or does not exist.');
 			return false;
 		}
 	}
@@ -560,7 +560,7 @@ class remoting {
 	public function server_get($session_id, $server_id = null, $section ='') {
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($session_id)) {
@@ -594,7 +594,7 @@ class remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+        	throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
 		if (!empty($session_id)) {
@@ -617,7 +617,7 @@ class remoting {
 	public function get_function_list($session_id)
 	{
 		if(!$this->checkPerm($session_id, 'get_function_list')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->_methods;

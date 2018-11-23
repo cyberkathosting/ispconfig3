@@ -238,7 +238,7 @@ class remoting_lib extends tform_base {
 				$sql = "SELECT * FROM ??";
 				return $app->db->queryAllRecords($sql, $this->formDef['db_table']);
 			} else {
-				throw new SoapFault('invalid_id', 'The ID has to be > 0 or -1.');
+				throw new ISPConfigRemoteException('invalid_id', 'The ID has to be > 0 or -1.');
 				return array();
 			}
 		} elseif (@is_array($primary_id) || @is_object($primary_id)) {

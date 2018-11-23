@@ -193,7 +193,7 @@ class validate_client {
 				}
 				*/
 
-				} catch(SoapFault $e) {
+				} catch(ISPConfigRemoteException $e) {
 					//echo 'Error, see message: '.$e->faultstring;
 					switch ($e->faultstring) {
 						case 'INVALID_INPUT':
@@ -212,7 +212,7 @@ class validate_client {
 							break;
 					}
 				}
-			} catch(SoapFault $e){
+			} catch(ISPConfigRemoteException $e){
 				// Connection to host not possible, europe.eu down?
 				// this shouldn't be the user's fault, so we return no error
 			}

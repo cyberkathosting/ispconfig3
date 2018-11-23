@@ -45,7 +45,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_domain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -57,7 +57,7 @@ class remoting_mail extends remoting {
 	public function mail_domain_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'mail_domain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$primary_id = $this->insertQuery('../mail/form/mail_domain.tform.php', $client_id, $params);
@@ -68,7 +68,7 @@ class remoting_mail extends remoting {
 	public function mail_domain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'mail_domain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_domain.tform.php', $client_id, $primary_id, $params);
@@ -79,7 +79,7 @@ class remoting_mail extends remoting {
 	public function mail_domain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'mail_domain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_domain.tform.php', $primary_id);
@@ -92,7 +92,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_aliasdomain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -105,7 +105,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_aliasdomain_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_aliasdomain.tform.php', $client_id, $params);
@@ -117,7 +117,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_aliasdomain_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_aliasdomain.tform.php', $client_id, $primary_id, $params);
@@ -128,7 +128,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_aliasdomain_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_aliasdomain.tform.php', $primary_id);
@@ -141,7 +141,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -155,7 +155,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if (!$this->checkPerm($session_id, 'mail_user_add')){
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -163,7 +163,7 @@ class remoting_mail extends remoting {
 		$email_parts = explode('@', $params['email']);
 		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
-			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
+			throw new ISPConfigRemoteException('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
 			return false;
 		}
 
@@ -183,7 +183,7 @@ class remoting_mail extends remoting {
 
 		if (!$this->checkPerm($session_id, 'mail_user_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -191,7 +191,7 @@ class remoting_mail extends remoting {
 		$email_parts = explode('@', $params['email']);
 		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
-			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
+			throw new ISPConfigRemoteException('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
 			return false;
 		}
 
@@ -205,7 +205,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_user_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_user.tform.php', $primary_id);
@@ -218,7 +218,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_user_filter_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -230,7 +230,7 @@ class remoting_mail extends remoting {
 	{
 		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_add')){
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_user_filter.tform.php', $client_id, $params, 'mail:mail_user_filter:on_after_insert');
@@ -243,7 +243,7 @@ class remoting_mail extends remoting {
 		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_user_filter.tform.php', $client_id, $primary_id, $params, 'mail:mail_user_filter:on_after_update');
@@ -256,7 +256,7 @@ class remoting_mail extends remoting {
 		global $app;
 		if (!$this->checkPerm($session_id, 'mail_user_filter_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_user_filter.tform.php', $primary_id, 'mail:mail_user_filter:on_after_delete');
@@ -270,7 +270,7 @@ class remoting_mail extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -293,7 +293,7 @@ class remoting_mail extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'mail_user_backup')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -307,19 +307,19 @@ class remoting_mail extends remoting {
 	
 		//* Basic validation of variables
 		if ($server_id <= 0) {
-			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			throw new ISPConfigRemoteException('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
 	
 		if (/*$action_type != 'backup_download_mail' and*/ $action_type != 'backup_restore_mail' and $action_type != 'backup_delete_mail') {
-			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
+			throw new ISPConfigRemoteException('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
 	
 		//* Validate instance
 		$instance_record        =       $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`=? and `action_type`=? and `action_state`='pending'", $primary_id, $action_type);
 		if ($instance_record['action_id'] >= 1) {
-			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
+			throw new ISPConfigRemoteException('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
 	
@@ -337,7 +337,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_alias_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -352,14 +352,14 @@ class remoting_mail extends remoting {
 
 		if (!$this->checkPerm($session_id, 'mail_alias_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
 		//* Check if there is no active mailbox with this address
 		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $params["source"]);
 		if($tmp['number'] > 0) {
-			throw new SoapFault('duplicate', 'There is already a mailbox with this email address.');
+			throw new ISPConfigRemoteException('duplicate', 'There is already a mailbox with this email address.');
 		}
 		unset($tmp);
 
@@ -374,14 +374,14 @@ class remoting_mail extends remoting {
 
 		if (!$this->checkPerm($session_id, 'mail_alias_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
 		//* Check if there is no active mailbox with this address
 		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $params["source"]);
 		if($tmp['number'] > 0) {
-			throw new SoapFault('duplicate', 'There is already a mailbox with this email address.');
+			throw new ISPConfigRemoteException('duplicate', 'There is already a mailbox with this email address.');
 		}
 		unset($tmp);
 
@@ -393,7 +393,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_alias_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_alias.tform.php', $primary_id);
@@ -406,7 +406,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_forward_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -419,7 +419,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_forward_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_forward.tform.php', $client_id, $params);
@@ -431,7 +431,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_forward_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_forward.tform.php', $client_id, $primary_id, $params);
@@ -443,7 +443,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_forward_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_forward.tform.php', $primary_id);
@@ -456,7 +456,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_catchall_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -469,7 +469,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_catchall_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_domain_catchall.tform.php', $client_id, $params);
@@ -480,7 +480,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_catchall_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_domain_catchall.tform.php', $client_id, $primary_id, $params);
@@ -491,7 +491,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_catchall_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_domain_catchall.tform.php', $primary_id);
@@ -504,7 +504,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_transport_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -517,7 +517,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_transport_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_transport.tform.php', $client_id, $params);
@@ -529,7 +529,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_transport_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_transport.tform.php', $client_id, $primary_id, $params);
@@ -541,7 +541,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_transport_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_transport.tform.php', $primary_id);
@@ -554,7 +554,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_relay_get')) {
-				throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+				throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 				return false;
 		}
 		$app->uses('remoting_lib');
@@ -568,7 +568,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_add'))
 		{
-			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_relay_recipient.tform.php', $client_id, $params);
@@ -580,7 +580,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_update'))
 		{
-			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_relay_recipient.tform.php', $client_id, $primary_id, $params);
@@ -592,7 +592,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_relay_delete'))
 		{
-			throw new SoapFault('permission_denied','You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied','You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_relay_recipient.tform.php', $primary_id);
@@ -605,7 +605,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -618,7 +618,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/spamfilter_whitelist.tform.php', $client_id, $params);
@@ -630,7 +630,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/spamfilter_whitelist.tform.php', $client_id, $primary_id, $params);
@@ -642,7 +642,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/spamfilter_whitelist.tform.php', $primary_id);
@@ -655,7 +655,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -668,7 +668,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/spamfilter_blacklist.tform.php', $client_id, $params);
@@ -680,7 +680,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/spamfilter_blacklist.tform.php', $client_id, $primary_id, $params);
@@ -692,7 +692,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/spamfilter_blacklist.tform.php', $primary_id);
@@ -705,7 +705,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_spamfilter_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -718,7 +718,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_user_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/spamfilter_users.tform.php', $client_id, $params);
@@ -730,7 +730,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_user_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/spamfilter_users.tform.php', $client_id, $primary_id, $params);
@@ -742,7 +742,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_user_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/spamfilter_users.tform.php', $primary_id);
@@ -755,7 +755,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_policy_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -768,7 +768,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_policy_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/spamfilter_policy.tform.php', $client_id, $params);
@@ -780,7 +780,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_policy_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/spamfilter_policy.tform.php', $client_id, $primary_id, $params);
@@ -792,7 +792,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_policy_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/spamfilter_policy.tform.php', $primary_id);
@@ -805,7 +805,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_fetchmail_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -818,7 +818,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_fetchmail_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_get.tform.php', $client_id, $params);
@@ -830,7 +830,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_fetchmail_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_get.tform.php', $client_id, $primary_id, $params);
@@ -842,7 +842,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_fetchmail_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_get.tform.php', $primary_id);
@@ -855,7 +855,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_whitelist_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -868,7 +868,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_whitelist_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_whitelist.tform.php', $client_id, $params);
@@ -880,7 +880,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_whitelist_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_whitelist.tform.php', $client_id, $primary_id, $params);
@@ -892,7 +892,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_whitelist_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_whitelist.tform.php', $primary_id);
@@ -905,7 +905,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_blacklist_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -918,7 +918,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_blacklist_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_blacklist.tform.php', $client_id, $params);
@@ -930,7 +930,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_blacklist_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_blacklist.tform.php', $client_id, $primary_id, $params);
@@ -942,7 +942,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_blacklist_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_blacklist.tform.php', $primary_id);
@@ -955,7 +955,7 @@ class remoting_mail extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'mail_filter_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -968,7 +968,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_filter_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->insertQuery('../mail/form/mail_content_filter.tform.php', $client_id, $params);
@@ -980,7 +980,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_filter_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../mail/form/mail_content_filter.tform.php', $client_id, $primary_id, $params);
@@ -992,7 +992,7 @@ class remoting_mail extends remoting {
 	{
 		if (!$this->checkPerm($session_id, 'mail_filter_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../mail/form/mail_content_filter.tform.php', $primary_id);
@@ -1011,7 +1011,7 @@ class remoting_mail extends remoting {
 	public function mail_domain_get_by_domain($session_id, $domain) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'mail_domain_get_by_domain')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($domain)) {
@@ -1025,7 +1025,7 @@ class remoting_mail extends remoting {
 	public function mail_domain_set_status($session_id, $primary_id, $status) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'mail_domain_set_status')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if(in_array($status, array('active', 'inactive'))) {
@@ -1039,7 +1039,7 @@ class remoting_mail extends remoting {
 			$result = $app->db->affectedRows();
 			return $result;
 		} else {
-			throw new SoapFault('status_undefined', 'The status is not available');
+			throw new ISPConfigRemoteException('status_undefined', 'The status is not available');
 			return false;
 		}
 	}
@@ -1051,7 +1051,7 @@ class remoting_mail extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'mailquota_get_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
