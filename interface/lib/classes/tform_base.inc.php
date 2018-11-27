@@ -1384,7 +1384,7 @@ class tform_base {
 		} else {
 			if($this->formDef['auth'] == 'yes') {
 				if($primary_id != 0) {
-					if($api == true && $_SESSION["s"]["user"]["client_id"] > 0 && $_SESSION["s"]["user"]["iserid"] > 0 && $_SESSION["s"]["user"]["default_group"] > 0) {
+					if($api == true && $_SESSION["s"]["user"]["client_id"] > 0 && $_SESSION["s"]["user"]["userid"] > 0 && $_SESSION["s"]["user"]["default_group"] > 0) {
 						$sql_update .= '`sys_userid` = '.$this->sys_userid.', ';
 						$sql_update .= '`sys_groupid` = '.$this->sys_default_group.', ';
 					}
