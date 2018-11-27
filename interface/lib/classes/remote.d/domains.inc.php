@@ -66,13 +66,13 @@ class remoting_domains extends remoting {
 	}
 
 	//* Update a record
-	public function domains_domain_update($session_id, $client_id, $params)
+	public function domains_domain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'domains_domain_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		return $this->updateQuery('../client/form/domain.tform.php', $client_id, $params);
+		return $this->updateQuery('../client/form/domain.tform.php', $client_id, $primary_id, $params);
 	}
 
 	//* Delete a record
