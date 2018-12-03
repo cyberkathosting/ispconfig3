@@ -32,9 +32,18 @@ define('SCRIPT_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
 require SCRIPT_PATH."/lib/config.inc.php";
 
 // Check whether another instance of this script is already running
-if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock')) {
+$lockFile = $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock';
+if (is_file($lockFile)) {
 	clearstatcache();
-	$pid = trim(file_get_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock'));
+
+	// Maybe we hit a deadlock and the lock file is no longer relevant
+	if(filemtime($lockFile) > time() - 86400) { // 86400 seconds = 1 day
+		if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - The cron lock file is older than one day.' . "\n";
+		exit;
+	}
+
+	// Check if the process id we have in the lock file is still present
+	$pid = trim(file_get_contents($lockFile));
 	if(preg_match('/^[0-9]+$/', $pid)) {
 		if(file_exists('/proc/' . $pid)) {
 			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
@@ -45,7 +54,7 @@ if (is_file($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock')) {
 }
 
 // Set Lockfile
-@file_put_contents($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', getmypid());
+@file_put_contents($lockFile, getmypid());
 
 if($conf['log_priority'] <= LOGLEVEL_DEBUG) print 'Set Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock' . "\n";
 
