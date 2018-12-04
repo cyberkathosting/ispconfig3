@@ -52,6 +52,15 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onSubmit() {
+		global $app, $conf;
+		
+		if(isset($this->dataRecord['mailbox_size_limit']) && $this->dataRecord['mailbox_size_limit'] != 0 && $this->dataRecord['mailbox_size_limit'] < $this->dataRecord['message_size_limit']) {
+			$app->tform->errorMessage .= $app->tform->lng("error_mailbox_message_size_txt").'<br>';
+		}
+		parent::onSubmit();
+	}
+	
 	function onShowEdit() {
 		global $app, $conf;
 

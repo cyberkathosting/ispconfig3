@@ -293,4 +293,5 @@ $wb['log_retention_txt'] = 'Log retention (days)';
 $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
 $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
+$wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 ?>
