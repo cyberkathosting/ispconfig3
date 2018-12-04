@@ -383,7 +383,7 @@ class remoting {
 		$app->remoting_lib->loadFormDef($formdef_file);
 		
 		//* get old record and merge with params, so only new values have to be set in $params
-		$old_rec = $app->remoting_lib->getDataRecord($primary_id);
+               $old_rec = $app->remoting_lib->getDataRecord($primary_id, $client_id);
 		
 		foreach ($app->remoting_lib->formDef['fields'] as $fieldName => $fieldConf)
         {
