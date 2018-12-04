@@ -225,7 +225,7 @@ class remoting_lib extends tform_base {
 		return $sql;
 	}
 
-       function getDataRecord($primary_id, $client_id) {
+       function getDataRecord($primary_id, $client_id = 0) {
 		global $app;
 		$escape = '`';
                $this->loadUserProfile($client_id);
