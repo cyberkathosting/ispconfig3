@@ -54,19 +54,19 @@ class quota_lib {
 					if($used_ratio >= 1) $sites[$i]['display_colour'] = '#cc0000';
 			
 					if($sites[$i]['used'] > 1024) {
-						$sites[$i]['used'] = round($sites[$i]['used'] / 1024, 2).' MB';
+						$sites[$i]['used'] = round($sites[$i]['used'] / 1024, 1).' MB';
 					} else {
 						if ($sites[$i]['used'] != '') $sites[$i]['used'] .= ' KB';
 					}
 			
 					if($sites[$i]['soft'] > 1024) {
-						$sites[$i]['soft'] = round($sites[$i]['soft'] / 1024, 2).' MB';
+						$sites[$i]['soft'] = round($sites[$i]['soft'] / 1024, 1).' MB';
 					} else {
 						$sites[$i]['soft'] .= ' KB';
 					}
 			
 					if($sites[$i]['hard'] > 1024) {
-						$sites[$i]['hard'] = round($sites[$i]['hard'] / 1024, 2).' MB';
+						$sites[$i]['hard'] = round($sites[$i]['hard'] / 1024, 1).' MB';
 					} else {
 						$sites[$i]['hard'] .= ' KB';
 					}
@@ -268,14 +268,14 @@ class quota_lib {
 					if($emails[$i]['quota'] == 0){
 						$emails[$i]['quota'] = $app->lng('unlimited');
 					} else {
-						$emails[$i]['quota'] = round($emails[$i]['quota'] / 1048576, 4).' MB';
+                                               $emails[$i]['quota'] = round($emails[$i]['quota'] / 1048576, 1).' MB';
 					}
 			
 			
 					if($emails[$i]['used'] < 1544000) {
-						$emails[$i]['used'] = round($emails[$i]['used'] / 1024, 4).' KB';
+                                               $emails[$i]['used'] = round($emails[$i]['used'] / 1024, 1).' KB';
 					} else {
-						$emails[$i]['used'] = round($emails[$i]['used'] / 1048576, 4).' MB';
+                                               $emails[$i]['used'] = round($emails[$i]['used'] / 1048576, 1).' MB';
 					}
 				}
 			}
@@ -334,9 +334,9 @@ class quota_lib {
 						
 						
 					if($databases[$i]['used'] < 1544000) {
-						$databases[$i]['used'] = round($databases[$i]['used'] / 1024, 4).' KB';
+						$databases[$i]['used'] = round($databases[$i]['used'] / 1024, 1).' KB';
 					} else {
-						$databases[$i]['used'] = round($databases[$i]['used'] / 1048576, 4).' MB';
+						$databases[$i]['used'] = round($databases[$i]['used'] / 1048576, 1).' MB';
 					}
 				}
 			}
