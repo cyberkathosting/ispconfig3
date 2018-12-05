@@ -21,11 +21,12 @@ try {
 		'domain' => 'cellar.door'
 	);
 
-	$domain_id = $client->domains_domain_update($session_id, $client_id, $primary_id, $params);
+	$result = $client->domains_domain_update($session_id, $client_id, $primary_id, $params);
 
-	echo "Domain ID: ".$domain_id."<br>";
-
-	if($client->logout($session_id)) {
+	if ($result) {
+		echo 'Domain updated.<br />';
+	}
+	if ($client->logout($session_id)) {
 		echo 'Logged out.<br />';
 	}
 
