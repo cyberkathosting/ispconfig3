@@ -131,9 +131,10 @@ class shelluser_jailkit_plugin {
 
 						$this->_update_website_security_level();
 						$app->system->web_folder_protection($web['document_root'], true);
+						$app->log("Jailkit Plugin -> insert username:".$data['new']['username'], LOGLEVEL_DEBUG);
+					} else {
+						$app->log("Jailkit Plugin -> insert username:".$data['new']['username']. "skipped, Jailkit not selected", LOGLEVEL_DEBUG);
 					}
-
-					$app->log("Jailkit Plugin -> insert username:".$data['new']['username'], LOGLEVEL_DEBUG);
 
 				} else {
 					$app->log("Jailkit Plugin -> insert username:".$data['new']['username']." skipped, the user does not exist.", LOGLEVEL_WARN);
