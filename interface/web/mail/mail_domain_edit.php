@@ -440,7 +440,8 @@ class page_action extends tform_actions {
 			$dkim_active = @($this->dataRecord['dkim'] == 'y') ? true : false; 
 			$selector = @($this->dataRecord['dkim_selector'] != $this->oldDataRecord['dkim_selector']) ? true : false;
 			$dkim_private = @($this->dataRecord['dkim_private'] != $this->oldDataRecord['dkim_private']) ? true : false;
-
+			
+			$soaDomain = $this->dataRecord['domain'].'.';
 			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
 				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
@@ -474,10 +475,12 @@ class page_action extends tform_actions {
 		// purge old rr-record(s)
 		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND data LIKE 'v=DKIM1%' AND " . $app->tform->getAuthSQL('r') . " ORDER BY serial DESC";
 		$rec = $app->db->queryAllRecords($sql, '%._domainkey.'.$dataRecord['domain'].'.');
-		if (is_array($rec[1])) {
-			for ($i=1; $i < count($rec); ++$i)
-				$app->db->datalogDelete('dns_rr', 'id', $rec[$i]['id']);
+		if(is_array($rec)) {
+			foreach($rec as $r) {
+				$app->db->datalogDelete('dns_rr', 'id', $r['id']);
+			}
 		}
+		
 		// also delete a dsn-records with same selector 
 		$sql = "SELECT * from dns_rr WHERE name ? AND data LIKE 'v=DKIM1%' AND " . $app->tform->getAuthSQL('r');
 		$rec = $app->db->queryAllRecords($sql, '._domainkey.'.$dataRecord['dkim_selector'].'.', $dataRecord['domain']);
