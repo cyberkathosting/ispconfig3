@@ -1337,6 +1337,18 @@ class installer_base {
 			exec('cp tpl/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
 		}
 
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		} else {
+			exec('cp tpl/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		} else {
+			exec('cp tpl/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		}
+
 		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
 
 		$tpl = new tpl();
