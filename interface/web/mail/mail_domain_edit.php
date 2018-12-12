@@ -312,7 +312,11 @@ class page_action extends tform_actions {
 
 		//* create dns-record with dkim-values if the zone exists
 		if ( $this->dataRecord['active'] == 'y' && $this->dataRecord['dkim'] == 'y' ) {
-			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
+			$soaDomain = $this->dataRecord['domain'].'.';
+ 			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
+				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
+				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
+			}
 			if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
 		}
 
@@ -437,7 +441,10 @@ class page_action extends tform_actions {
 			$selector = @($this->dataRecord['dkim_selector'] != $this->oldDataRecord['dkim_selector']) ? true : false;
 			$dkim_private = @($this->dataRecord['dkim_private'] != $this->oldDataRecord['dkim_private']) ? true : false;
 
-			$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $this->dataRecord['domain'].'.');
+			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
+				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
+				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
+			}
 
 			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )
 				//* create a new record only if the dns-zone exists
