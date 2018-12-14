@@ -1591,7 +1591,7 @@ CREATE TABLE `sys_log` (
 
 CREATE TABLE IF NOT EXISTS `sys_mailqueue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `from` varchar(255) NOT NULL DEFAULT '',
+  `from_address` varchar(255) NOT NULL DEFAULT '',
   `recipients` text NOT NULL,
   `mail_content` mediumblob NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

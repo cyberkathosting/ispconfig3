@@ -866,7 +866,7 @@ class ispcmail {
 				// Send mail:
 
 				$id = $mail['id'];
-				$from = $mail['from'];
+				$from = $mail['from_address'];
 				$recipients = explode("\n", $mail['recipients']);
 				$mail_content = $mail['mail_content'];
 
@@ -914,7 +914,7 @@ class ispcmail {
          */
 	private function add_to_queue($from, $recipients, $mail_content) {
 		global $app;
-		$app->db->query('INSERT INTO `sys_mailqueue` (`from`, `recipients`, `mail_content`) VALUES (?,?,?)', $from, implode("\n", $recipients), $mail_content);
+		$app->db->query('INSERT INTO `sys_mailqueue` (`from_address`, `recipients`, `mail_content`) VALUES (?,?,?)', $from, implode("\n", $recipients), $mail_content);
         }
 
 	/**
