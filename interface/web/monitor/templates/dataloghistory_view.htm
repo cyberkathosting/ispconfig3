@@ -116,7 +116,7 @@
 
 <div class="clear">
 	<div class="right">
-		<tmpl_if name='action_char' value='u'>
+		<tmpl_if name='can_undo'>
 			<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('monitor/dataloghistory_undo.php?id={tmpl_var name='id'}','{tmpl_var name='undo_confirmation_txt'}');"> {tmpl_var name='undo_txt'}</a>
 		</tmpl_if>
 		<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="monitor/dataloghistory_list.php">{tmpl_var name='btn_cancel_txt'}</button>

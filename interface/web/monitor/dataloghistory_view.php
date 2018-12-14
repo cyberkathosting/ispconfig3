@@ -109,6 +109,7 @@ switch ($record['action']) {
 }
 
 $app->tpl->setVar($out);
+$app->tpl->setVar('can_undo', ($out['action_char'] === 'u' || $out['action_char'] === 'd'));
 
 $app->tpl_defaults();
 $app->tpl->pparse();

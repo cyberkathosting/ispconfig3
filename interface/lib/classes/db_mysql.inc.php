@@ -759,6 +759,9 @@ class db
 		
 		$old_rec = array();
 		$index_value = $this->insertID();
+		if(!$index_value && isset($insert_data[$index_field])) {
+			$index_value = $insert_data[$index_field];
+		}
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 
