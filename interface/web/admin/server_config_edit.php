@@ -125,7 +125,10 @@ class page_action extends tform_actions {
 			}
 
 			if(isset($this->dataRecord['jailkit_chroot_app_programs'])) {
-				$jailkit_chroot_app_programs = explode("\r\n", $this->dataRecord['jailkit_chroot_app_programs']);
+				$app->uses('file');
+				$jailkit_chroot_app_programs = $this->dataRecord['jailkit_chroot_app_programs'];
+				$jailkit_chroot_app_programs = $app->file->unix_nl($jailkit_chroot_app_programs);
+				$jailkit_chroot_app_programs = explode("\n", $jailkit_chroot_app_programs);
 				$jailkit_chroot_app_programs = array_unique($jailkit_chroot_app_programs);
 				foreach ($jailkit_chroot_app_programs as $key => $value) {
 					if (trim($value)=='') {
