@@ -1,0 +1,17 @@
+<tmpl_if name="list_head_txt">
+<div class='page-header'>
+        <h1><tmpl_var name="list_head_txt"></h1>
+</div>
+</tmpl_if>
+
+<tmpl_if name='success'>
+	<tmpl_var name='success_txt'>
+<tmpl_else>
+	<tmpl_var name='error_txt'>
+</tmpl_if>
+
+<div class="clear">
+	<div class="right">
+		<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="monitor/dataloghistory_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+	</div>
+</div>

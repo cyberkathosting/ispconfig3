@@ -1,0 +1,26 @@
+<?php
+$wb['i'] = 'Insert';
+$wb['u'] = 'Update';
+$wb['d'] = 'Delete';
+$wb['list_head_txt'] = 'Datalog-History-Eintrag';
+$wb['id_txt'] = 'ID';
+$wb['timestamp_txt'] = 'Zeitpunkt';
+$wb['table_txt'] = 'Tabelle';
+$wb['action_txt'] = 'Aktion';
+$wb['session_id_txt'] = 'Session-ID';
+$wb['fields_txt'] = 'Felder';
+$wb['fields_inserted_txt'] = 'Eingefügte Felder';
+$wb['fields_updated_txt'] = 'Geänderte Felder';
+$wb['fields_deleted_txt'] = 'Gelöschte Felder';
+$wb['no_changes_txt'] = 'Keine Änderungen (Resync)';
+$wb['is_diff_txt'] = 'Die Änderungen werden hervorgehoben angezeigt';
+$wb['is_diff_inserts_txt'] = 'Einfügungen';
+$wb['is_diff_deletes_txt'] = 'Löschungen';
+$wb['field_txt'] = 'Feld';
+$wb['value_txt'] = 'Wert';
+$wb['old_txt'] = 'Alt';
+$wb['new_txt'] = 'Neu';
+$wb['btn_cancel_txt'] = 'Zurück';
+$wb['undo_txt'] = 'Rückgängig machen';
+$wb['undo_confirmation_txt'] = 'Soll diese Änderung wirklich rückgängig gemacht werden?';
+?>

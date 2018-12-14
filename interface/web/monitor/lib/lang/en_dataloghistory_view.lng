@@ -1,0 +1,26 @@
+<?php
+$wb['i'] = 'Insert';
+$wb['u'] = 'Update';
+$wb['d'] = 'Delete';
+$wb['list_head_txt'] = 'Data Log History Entry';
+$wb['id_txt'] = 'ID';
+$wb['timestamp_txt'] = 'Timestamp';
+$wb['table_txt'] = 'Table';
+$wb['action_txt'] = 'Action';
+$wb['session_id_txt'] = 'Session ID';
+$wb['fields_txt'] = 'Fields';
+$wb['fields_inserted_txt'] = 'Inserted Fields';
+$wb['fields_updated_txt'] = 'Updated Fields';
+$wb['fields_deleted_txt'] = 'Deleted Fields';
+$wb['no_changes_txt'] = 'No changes (re-sync)';
+$wb['is_diff_txt'] = 'The differences are highlighted';
+$wb['is_diff_inserts_txt'] = 'Insertions';
+$wb['is_diff_deletes_txt'] = 'Deletions';
+$wb['field_txt'] = 'Field';
+$wb['value_txt'] = 'Value';
+$wb['old_txt'] = 'Old';
+$wb['new_txt'] = 'New';
+$wb['btn_cancel_txt'] = 'Back';
+$wb['undo_txt'] = 'Undo action';
+$wb['undo_confirmation_txt'] = 'Do you really want to undo this action?';
+?>
