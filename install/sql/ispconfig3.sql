@@ -1850,6 +1850,7 @@ CREATE TABLE `web_domain` (
   `pm_max_requests` int(11) NOT NULL DEFAULT '0',
   `php_open_basedir` mediumtext,
   `custom_php_ini` mediumtext,
+  `jailkit_jkupdate_cron` enum('n','y') NOT NULL DEFAULT 'y',
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
   `backup_excludes` mediumtext,

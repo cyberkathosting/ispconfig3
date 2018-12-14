@@ -970,6 +970,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'value' => '',
 				'width' => '4',
 				'maxlength' => '4'
+			),
+			'jailkit_jkupdate_cron' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'y',
+				'value'  => array(0 => 'n', 1 => 'y')
 			)
 			//#################################
 			// ENDE Datatable fields

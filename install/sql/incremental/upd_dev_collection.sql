@@ -160,3 +160,5 @@ CREATE TABLE IF NOT EXISTS `sys_mailqueue` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `web_domain` ADD `jailkit_jkupdate_cron` enum('n','y') NOT NULL DEFAULT 'y' AFTER `custom_php_ini`;
