@@ -86,6 +86,7 @@ class cronjob_jkupdate extends cronjob {
 					
 				}
 				if(is_array($jailkit_programs) && !empty($jailkit_programs)) $this->run_jk_cp($site['document_root'], $jailkit_programs);
+				$this->fix_broken_symlinks($site['document_root']);
 				
 				if($set_php_symlink){
 					// create symlink from /usr/bin/php to current PHP version
@@ -161,6 +162,30 @@ class cronjob_jkupdate extends cronjob {
 		
 		if(file_exists($document_root.'/dev/tty')){
 			chmod($document_root.'/dev/tty', 0666);
+		}
+	}
+	
+	private function fix_broken_symlinks($document_root){
+		global $app;
+		
+		exec('cd '.escapeshellarg($document_root).' && find . -type l \( ! -name web \) -xtype l', $output, $retval);
+
+		if(is_array($output) && !empty($output)){
+			foreach($output as $link){
+				$link = trim($link);
+				if(preg_match('@\.so(\.\d+)*$@',$link)){
+					if(substr($link, 0, 1) == '.') $link = substr($link, 1);
+					//echo $link."\n";
+					$path = $document_root.$link;
+					//if(is_link($path)) echo "Ist Link\n";
+					//if(!file_exists($path)) echo "Aber Link ist kaputt!\n";
+					if(is_link($path) && !file_exists($path)){
+						//echo $path."\n";
+						@unlink($path);
+						$this->run_jk_cp($document_root, array($link));
+					}
+				}
+			}
 		}
 	}
 
