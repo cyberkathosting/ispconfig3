@@ -1,0 +1,33 @@
+<?php
+$wb['list_head_txt'] = 'Bulk Editor';
+$wb['list_desc_txt'] = 'Change DNS records using search and replace';
+$wb['error_txt'] = 'Error';
+$wb['error_no_client_txt'] = 'Please select a client';
+$wb['error_no_action_txt'] = 'Please select an action';
+$wb['error_no_zone_txt'] = 'Please select at least one zone';
+$wb['error_invalid_zone_txt'] = 'Invalid zone';
+$wb['error_no_search_replace_txt'] = 'Please enter values for search and replace';
+$wb['error_no_ttl_txt'] = 'Please enter valid TTL value';
+$wb['error_invalid_ip_txt'] = 'Please enter a valid IP address';
+$wb['error_invalid_dns_zone_txt'] = 'Please enter a valid zone name';
+$wb['error_ip_type_mismatch_txt'] = 'Please enter either IPv4 or IPv6 addresses';
+$wb['legend_client_txt'] = 'Select customer';
+$wb['legend_action_txt'] = 'Select action';
+$wb['legend_zones_txt'] = 'Select zones';
+$wb['legend_result_txt'] = 'The following changes were made:';
+$wb['select_client_txt'] = 'Please select a customer';
+$wb['client_txt'] = 'Client';
+$wb['search_txt'] = 'Search';
+$wb['replace_txt'] = 'Replace';
+$wb['a_records_txt'] = 'A Records';
+$wb['mx_records_txt'] = 'MX Records';
+$wb['ttl_txt'] = 'TTL';
+$wb['ttl_desc_txt'] = 'of A, AAAA and MX records';
+$wb['check_uncheck_all_txt'] = 'Check/uncheck all';
+$wb['zone_txt'] = 'Zone';
+$wb['btn_ok_txt'] = 'Update';
+$wb['no_matches_txt'] = 'No matches.';
+$wb['ttip_a_records_txt'] = 'Please enter either a valid IPv4 or a valid IPv6 address into the fields.';
+$wb['ttip_mx_records_txt'] = 'If you enter a fully qualified domain name, do not forget to enter a dot at the end, for example: www.example.com<b><u>.</u></b><br><br>If you enter a subdomain of your domain, please enter only the subdomain and no dot at the end, for example <i>www</i>.';
+$wb['ttip_ttl_txt'] = 'Please enter the desired TTL value in seconds.';
+?>
