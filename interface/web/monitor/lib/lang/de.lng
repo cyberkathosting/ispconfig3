@@ -40,6 +40,7 @@ $wb['Show Clamav-Log'] = 'ClamAV Protokoll anzeigen';
 $wb['Show ISPConfig-Log'] = 'ISPConfig Protokoll anzeigen';
 $wb['Show RKHunter-Log'] = 'RKHunter Protokoll anzeigen';
 $wb['Show Jobqueue'] = 'Jobwarteschlange anzeigen';
+$wb['Show Data Log History'] = 'Datalog-History anzeigen';
 $wb['Show ISPC Cron-Log'] = 'Cron Protokoll anzeigen';
 $wb['no_data_updates_txt'] = 'Derzeit stehen keine Daten über Updates zur Verfügung. Bitte später erneut überprüfen.';
 $wb['no_data_raid_txt'] = 'Derzeit stehen keine Daten über RAID zur Verfügung. Bitte später erneut überprüfen.';

@@ -1631,6 +1631,7 @@ CREATE TABLE `sys_datalog` (
   `data` longtext,
   `status` set('pending','ok','warning','error') NOT NULL default 'ok',
   `error` mediumtext,
+  `session_id` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY  (`datalog_id`),
   KEY `server_id` (`server_id`,`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

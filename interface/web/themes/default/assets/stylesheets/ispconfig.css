@@ -782,3 +782,16 @@ span.notification_text {
     font-family: inherit;
     color: white;
 }
+.finediff {
+	font-family: monospace;
+}
+.finediff ins {
+	color: green;
+	background: #dfd;
+	text-decoration: none;
+}
+.finediff del {
+	color: red;
+	background: #fdd;
+	text-decoration: none;
+}
