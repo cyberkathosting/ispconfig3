@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'Data Log History Entry';
+$wb['success_txt'] = 'Undo successful';
+$wb['error_txt'] = 'Error during undo: Record does not exist anymore';
+$wb['btn_cancel_txt'] = 'Back';
+?>

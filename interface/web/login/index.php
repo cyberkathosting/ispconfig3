@@ -262,7 +262,7 @@ if(count($_POST) > 0) {
 						$app->plugin->raiseEvent('login', $username);
 						
 						//* Save successfull login message to var
-						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s');
+						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' with session ID ' .session_id();						
 						$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);

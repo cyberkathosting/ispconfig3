@@ -26,6 +26,11 @@ $items[] = array( 'title'  => 'Show Jobqueue',
 	'link' => 'monitor/datalog_list.php',
 	'html_id' => 'jobqueue');
 
+$items[] = array( 'title'  => 'Show Data Log History',
+	'target'  => 'content',
+	'link' => 'monitor/dataloghistory_list.php',
+	'html_id' => 'dataloghistory');
+
 $module["nav"][] = array( 'title' => 'System State (All Servers)',
 	'open'  => 1,
 	'items' => $items);

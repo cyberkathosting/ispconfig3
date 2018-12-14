@@ -809,3 +809,16 @@ span.pbvaluemargin {
 .ip_suggestion_server {
     font-weight: bold;
 }
+.finediff {
+	font-family: monospace;
+}
+.finediff ins {
+	color: green;
+	background: #dfd;
+	text-decoration: none;
+}
+.finediff del {
+	color: red;
+	background: #fdd;
+	text-decoration: none;
+}
