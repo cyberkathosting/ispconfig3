@@ -80,6 +80,8 @@ class page_action extends tform_actions {
 
 			$this->dataRecord = $app->getconf->get_server_config($server_id, $section);
 			
+			$this->dataRecord['jailkit_chroot_app_programs'] = str_replace(' ', "\r\n", $this->dataRecord['jailkit_chroot_app_programs']);
+			
 			if($section == 'mail'){
 				$server_config = $app->getconf->get_server_config($server_id, 'server');
 				$rspamd_url = 'https://'.$server_config['hostname'].':8081/rspamd/';
@@ -120,6 +122,17 @@ class page_action extends tform_actions {
 						$this->dataRecord[$key] = $field['value'][0];
 					}
 				}
+			}
+
+			if(isset($this->dataRecord['jailkit_chroot_app_programs'])) {
+				$jailkit_chroot_app_programs = explode("\r\n", $this->dataRecord['jailkit_chroot_app_programs']);
+				$jailkit_chroot_app_programs = array_unique($jailkit_chroot_app_programs);
+				foreach ($jailkit_chroot_app_programs as $key => $value) {
+					if (trim($value)=='') {
+						unset($jailkit_chroot_app_programs[$key]);
+					}
+				}
+				$this->dataRecord['jailkit_chroot_app_programs'] = implode(' ', $jailkit_chroot_app_programs);
 			}
 
 			if($app->tform->errorMessage == '') {

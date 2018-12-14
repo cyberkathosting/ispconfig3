@@ -1691,13 +1691,13 @@ $form["tabs"]['jailkit'] = array(
 			'maxlength' => '1000'
 		),
 		'jailkit_chroot_app_programs' => array(
-			'datatype' => 'VARCHAR',
+			'datatype' => 'TEXT',
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'jailkit_chroot_app_programs_error_empty'),
 									1 => array ( 	'type' => 'REGEX',
-										'regex' => '/^[a-zA-Z0-9\*\.\-\_\/\ ]{1,}$/',
+										'regex' => '/^[a-zA-Z0-9\*\.\-\_\/\ \r\n]{1,}$/',
 										'errmsg'=> 'jailkit_chroot_app_programs_error_regex'),
 			),
 			'value' => '',
