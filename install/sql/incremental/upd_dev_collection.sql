@@ -151,3 +151,12 @@ CREATE TABLE IF NOT EXISTS `addons` (
   PRIMARY KEY (`addon_id`),
   UNIQUE KEY `ident` (`addon_ident`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `sys_mailqueue` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from` varchar(255) NOT NULL DEFAULT '',
+  `recipients` text NOT NULL,
+  `mail_content` mediumblob NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
