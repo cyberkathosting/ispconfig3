@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class cronjob_jkupdate extends cronjob {
 
 	// job schedule
-	protected $_schedule = '45 22 * * *';
+	protected $_schedule = '45 22 3 * *';
 	protected $_run_at_new = true;
 
 	/* this function is optional if it contains no custom code */
@@ -70,8 +70,11 @@ class cronjob_jkupdate extends cronjob {
 					return;
 				}
 				
-				//$app->log('Running jailkit init for '.$site['document_root']);
-				//if($jailkit_sections != '') $this->run_jk_init($site['document_root'], $jailkit_sections);
+				//* Protect web folders
+				$app->system->web_folder_protection($site['document_root'], false);
+				
+				$app->log('Running jailkit init for '.$site['document_root']);
+				if($jailkit_sections != '') $this->run_jk_init($site['document_root'], $jailkit_sections);
 
 				$app->log('Running jailkit updates for '.$site['document_root']);
 
@@ -95,6 +98,9 @@ class cronjob_jkupdate extends cronjob {
 						@symlink('/opt/php-'.$matches[1].'/bin/php', $site['document_root'].'/usr/bin/php');
 					}
 				}
+				
+				//* Protect web folders
+				$app->system->web_folder_protection($site['document_root'], true);
 			}
 		}
 		
