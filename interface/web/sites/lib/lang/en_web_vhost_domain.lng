@@ -161,4 +161,5 @@ $wb['error_domain_change_forbidden'] = 'The domain name cannot be changed. Pleas
 $wb['error_server_change_not_possible'] = 'The server cannot be changed.';
 $wb['log_retention_txt'] = 'Logfiles retention time';
 $wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
-$wb['jailkit_jkupdate_cron_txt'] = 'Automate jkupdate';
+$wb['jailkit_jkupdate_cron_txt'] = 'Automatic Jailkit update';
+$wb['ttip_jailkit_jkupdate_cron_txt'] = 'If this site has at least one Jailkit SSH user, the jailkit will be kept up to date through a daily cron job.';

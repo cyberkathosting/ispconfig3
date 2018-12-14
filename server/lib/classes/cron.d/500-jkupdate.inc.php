@@ -53,26 +53,71 @@ class cronjob_jkupdate extends cronjob {
 
 		$app->uses('getconf');
 		$jailkit_conf = $app->getconf->get_server_config($conf['server_id'], 'jailkit');
-		$jailkit_programs = explode(' ', $jailkit_conf['jailkit_chroot_app_programs']);
+		//$jailkit_programs = explode(' ', $jailkit_conf['jailkit_chroot_app_programs']);
+		$jailkit_programs = preg_split("/[\s,]+/", $jailkit_conf['jailkit_chroot_app_programs']);
+		$jailkit_sections = trim($jailkit_conf['jailkit_chroot_app_sections']);
 
-		$sites = $app->db->queryAllRecords('SELECT domain_id, document_root FROM web_domain WHERE jailkit_jkupdate_cron = \'y\'');
+		$sites = $app->db->queryAllRecords("SELECT domain_id, document_root, fastcgi_php_version FROM web_domain WHERE jailkit_jkupdate_cron = 'y' AND type = 'vhost' AND parent_domain_id = 0 AND document_root != '' ORDER BY domain_id");
 
 		foreach($sites as $site) {
-			$users = $app->db->queryOneRecord('SELECT COUNT(*) AS user_count FROM shell_user WHERE parent_domain_id = ? AND active=\'y\' AND chroot=\'jailkit\'', $site['domain_id']);
-			$crons = $app->db->queryOneRecord('SELECT COUNT(*) AS cron_count FROM cron WHERE parent_domain_id = ? AND active=\'y\' AND type=\'chrooted\'', $site['domain_id']);
+			$set_php_symlink = false;
+			
+			$users = $app->db->queryOneRecord("SELECT COUNT(*) AS user_count FROM shell_user WHERE parent_domain_id = ? AND active='y' AND chroot='jailkit'", intval($site['domain_id']));
+			$crons = $app->db->queryOneRecord("SELECT COUNT(*) AS cron_count FROM cron WHERE parent_domain_id = ? AND active='y' AND type='chrooted'", $site['domain_id']);
 			if ($users['user_count'] > 0 || $crons['cron_count'] > 0) {
+				
 				if (!is_dir($site['document_root'])) {
 					return;
 				}
+				
+				//$app->log('Running jailkit init for '.$site['document_root']);
+				//if($jailkit_sections != '') $this->run_jk_init($site['document_root'], $jailkit_sections);
 
 				$app->log('Running jailkit updates for '.$site['document_root']);
 
 				$this->run_jk_update($site['document_root']);
-				$this->run_jk_cp($site['document_root'], $jailkit_programs);
+				if(preg_match('@(\d\d?\.\d\d?\.\d\d?)@', $site['fastcgi_php_version'], $matches)){
+					if(!in_array('/opt/php-'.$matches[1].'/bin/php', $jailkit_programs)) $jailkit_programs[] = '/opt/php-'.$matches[1].'/bin/php';
+					if(!in_array('/opt/php-'.$matches[1].'/include', $jailkit_programs)) $jailkit_programs[] = '/opt/php-'.$matches[1].'/include';
+					if(!in_array('/opt/php-'.$matches[1].'/lib', $jailkit_programs)) $jailkit_programs[] = '/opt/php-'.$matches[1].'/lib';
+					if(!in_array('/opt/th-php-libs', $jailkit_programs)) $jailkit_programs[] = '/opt/th-php-libs';
+					
+					$set_php_symlink = true;
+					
+				}
+				if(is_array($jailkit_programs) && !empty($jailkit_programs)) $this->run_jk_cp($site['document_root'], $jailkit_programs);
+				
+				if($set_php_symlink){
+					// create symlink from /usr/bin/php to current PHP version
+					if(preg_match('@(\d\d?\.\d\d?\.\d\d?)@', $site['fastcgi_php_version'], $matches) && (!file_exists($site['document_root'].'/usr/bin/php') || is_link($site['document_root'].'/usr/bin/php'))){
+						@unlink($site['document_root'].'/usr/bin/php');
+						@symlink('/opt/php-'.$matches[1].'/bin/php', $site['document_root'].'/usr/bin/php');
+					}
+				}
 			}
+		}
+		
+		if(file_exists('/dev/tty')){
+			chmod('/dev/tty', 0666);
 		}
 
 		parent::onRunJob();
+	}
+	
+	private function run_jk_init($document_root, $sections){
+		global $app;
+		
+		$return_var = $this->exec_log('/usr/sbin/jk_init -f -k -c /etc/jailkit/jk_init.ini -j '.escapeshellarg($document_root).' '.$sections);
+		
+		if ($return_var > 0) {
+			$app->log('jk_init failed with -j, trying again without -j', LOGLEVEL_DEBUG);
+			
+			$return_var = $this->exec_log('/usr/sbin/jk_init -f -k -c /etc/jailkit/jk_init.ini '.escapeshellarg($document_root).' '.$sections);
+			
+			if ($return_var > 0) {
+				$app->log('jk_init failed (with and without -j parameter)', LOGLEVEL_WARN);
+			}
+		}
 	}
 
 	private function run_jk_update($document_root) {
@@ -94,10 +139,14 @@ class cronjob_jkupdate extends cronjob {
 		global $app;
 
 		foreach($programs as $program) {
+			$program = trim($program);
+			if($program == ''){
+				continue;
+			}
 			if (!file_exists($program)) {
 				continue;
 			}
-
+			
 			$return_var = $this->exec_log('/usr/sbin/jk_cp '.escapeshellarg($document_root).' '.escapeshellarg($program));
 
 			if ($return_var > 0) {
@@ -108,6 +157,10 @@ class cronjob_jkupdate extends cronjob {
 					$app->log('jk_cp failed (without and with -j parameter)', LOGLEVEL_WARN);
 				}
 			}
+		}
+		
+		if(file_exists($document_root.'/dev/tty')){
+			chmod($document_root.'/dev/tty', 0666);
 		}
 	}
 
