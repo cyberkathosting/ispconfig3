@@ -1,14 +1,3 @@
-ALTER TABLE `mail_mailinglist` ADD `list_type` enum('open','closed') NOT NULL DEFAULT 'open';
-ALTER TABLE `mail_mailinglist` ADD `subject_prefix` varchar(50) NOT NULL DEFAULT '';
-ALTER TABLE `mail_mailinglist` ADD `admins` mediumtext;
-ALTER TABLE `mail_mailinglist` ADD `digestinterval` int(11) NOT NULL DEFAULT '7';
-ALTER TABLE `mail_mailinglist` ADD `digestmaxmails` int(11) NOT NULL DEFAULT '50';
-ALTER TABLE `mail_mailinglist` ADD `archive` enum('n','y') NOT NULL DEFAULT 'n';
-ALTER TABLE `mail_mailinglist` ADD `digesttext` ENUM('n','y') NOT NULL DEFAULT 'n';
-ALTER TABLE `mail_mailinglist` ADD `digestsub` ENUM('n','y') NOT NULL DEFAULT 'n';
-ALTER TABLE `mail_mailinglist` ADD `mail_footer` mediumtext;
-ALTER TABLE `mail_mailinglist` ADD `subscribe_policy` enum('disabled','confirm','approval','both','none') NOT NULL DEFAULT 'confirm';
-ALTER TABLE `mail_mailinglist` ADD `posting_policy` enum('closed','moderated','free') NOT NULL DEFAULT 'free';
 ALTER TABLE `sys_user` ADD `last_login_ip` VARCHAR(50) NULL AFTER `lost_password_reqtime`;
 ALTER TABLE `sys_user` ADD `last_login_at` BIGINT(20) NULL AFTER `last_login_ip`;
 ALTER TABLE `sys_remoteaction` CHANGE `action_state` `action_state` ENUM('pending','processing','ok','warning','error') NOT NULL DEFAULT 'pending';
@@ -104,3 +93,73 @@ ALTER TABLE `client`
 ALTER TABLE `xmpp_domain`
   ADD COLUMN `use_webpresence` enum('n','y') NOT NULL DEFAULT 'y',
   ADD COLUMN `use_http_upload` enum('n','y') NOT NULL DEFAULT 'n';
+
+
+-- STRIPDOWN!
+ALTER TABLE `client` CHANGE `web_php_options` `web_php_options` VARCHAR(255) NOT NULL DEFAULT 'no,fast-cgi,mod,php-fpm';
+
+-- only on nginx
+UPDATE `web_domain` as d INNER JOIN `server` as s ON (s.server_id = d.server_id) SET d.php = 'php-fpm' WHERE d.php = 'fast-cgi' AND s.config LIKE '%\nserver_type=nginx\n%' AND s.config NOT LIKE '%\nserver_type=apache\n%';
+
+UPDATE `web_domain` SET `php` = 'php-fpm' WHERE `php` = 'hhvm';
+UPDATE `web_domain` SET `php` = 'fast-cgi' WHERE `php` = 'cgi';
+UPDATE `web_domain` SET `php` = 'mod' WHERE `php` = 'suphp';
+
+-- we do not drop columns or tables here to avoid deleting user data on existing servers!
+
+-- END OF STRIPDOWN!
+
+-- rspamd
+ALTER TABLE `spamfilter_policy` ADD `rspamd_greylisting` ENUM('n','y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'n' AFTER `policyd_greylist`;
+ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_greylisting_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_greylisting`;
+ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_tag_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_spam_greylisting_level`;
+ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_tag_method` ENUM('add_header','rewrite_subject') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'rewrite_subject' AFTER `rspamd_spam_tag_level`;
+ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_kill_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_spam_tag_method`;
+
+UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 4;
+UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 5;
+UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 6;
+
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '4.00';
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '6.00' WHERE id = 1;
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '999.00' WHERE id = 2;
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '999.00' WHERE id = 3;
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '2.00' WHERE id = 6;
+UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '7.00' WHERE id = 7;
+
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '6.00';
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '8.00' WHERE id = 1;
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '999.00' WHERE id = 2;
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '999.00' WHERE id = 3;
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '4.00' WHERE id = 6;
+UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '10.00' WHERE id = 7;
+
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '10.00';
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '12.00' WHERE id = 1;
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '999.00' WHERE id = 2;
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '999.00' WHERE id = 3;
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '8.00' WHERE id = 6;
+UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '20.00' WHERE id = 7;
+-- end of rspamd
+
+CREATE TABLE IF NOT EXISTS `addons` (
+  `addon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `addon_ident` VARCHAR(100) NOT NULL DEFAULT '',
+  `addon_version` VARCHAR(20) NOT NULL DEFAULT '',
+  `addon_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `db_version` INT(6) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`addon_id`),
+  UNIQUE KEY `ident` (`addon_ident`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `sys_mailqueue` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from_address` varchar(255) NOT NULL DEFAULT '',
+  `recipients` text NOT NULL,
+  `mail_content` mediumblob NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `web_domain` ADD `jailkit_jkupdate_cron` enum('n','y') NOT NULL DEFAULT 'y' AFTER `custom_php_ini`;
+ALTER TABLE `sys_datalog` ADD `session_id` varchar(64) NOT NULL DEFAULT '' AFTER `error`;

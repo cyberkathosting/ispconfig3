@@ -52,6 +52,21 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	function onShow() {
+		global $app, $conf;
+		
+		// get the config
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		
+		if($web_config['server_type'] == 'nginx'){
+			unset($app->tform->formDef["tabs"]["fastcgi"]);
+			unset($app->tform->formDef["tabs"]["vlogger"]);
+		}
+		
+		parent::onShow();
+	}
+
 	function onShowEdit() {
 		global $app, $conf;
 
@@ -64,11 +79,19 @@ class page_action extends tform_actions {
 			$server_id = $this->id;
 
 			$this->dataRecord = $app->getconf->get_server_config($server_id, $section);
+			
+			$this->dataRecord['jailkit_chroot_app_programs'] = str_replace(' ', "\r\n", $this->dataRecord['jailkit_chroot_app_programs']);
+			
+			if($section == 'mail'){
+				$server_config = $app->getconf->get_server_config($server_id, 'server');
+				$rspamd_url = 'https://'.$server_config['hostname'].':8081/rspamd/';
+			}
 		}
 
 		$record = $app->tform->getHTML($this->dataRecord, $this->active_tab, 'EDIT');
 
 		$record['id'] = $this->id;
+		if(isset($rspamd_url)) $record['rspamd_url'] = $rspamd_url;
 		$app->tpl->setVar($record);
 	}
 
@@ -101,6 +124,20 @@ class page_action extends tform_actions {
 				}
 			}
 
+			if(isset($this->dataRecord['jailkit_chroot_app_programs'])) {
+				$app->uses('file');
+				$jailkit_chroot_app_programs = $this->dataRecord['jailkit_chroot_app_programs'];
+				$jailkit_chroot_app_programs = $app->file->unix_nl($jailkit_chroot_app_programs);
+				$jailkit_chroot_app_programs = explode("\n", $jailkit_chroot_app_programs);
+				$jailkit_chroot_app_programs = array_unique($jailkit_chroot_app_programs);
+				foreach ($jailkit_chroot_app_programs as $key => $value) {
+					if (trim($value)=='') {
+						unset($jailkit_chroot_app_programs[$key]);
+					}
+				}
+				$this->dataRecord['jailkit_chroot_app_programs'] = implode(' ', $jailkit_chroot_app_programs);
+			}
+
 			if($app->tform->errorMessage == '') {
 				$server_config_array[$section] = $app->tform->encode($this->dataRecord, $section);
 				$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
@@ -108,6 +145,49 @@ class page_action extends tform_actions {
 				$app->db->datalogUpdate('server', array("config" => $server_config_str), 'server_id', $server_id);
 			} else {
 				$app->error('Security breach!');
+			}
+		}
+	}
+
+	function onAfterUpdate() {
+		global $app;
+		
+		if(isset($this->dataRecord['content_filter'])){
+			$app->uses('ini_parser');
+			$old_config = $app->ini_parser->parse_ini_string(stripslashes($this->oldDataRecord['config']));
+			if($this->dataRecord['content_filter'] == 'rspamd' && $old_config['mail']['content_filter'] != $this->dataRecord['content_filter']){
+			
+				$spamfilter_users = $app->db->queryAllRecords("SELECT * FROM spamfilter_users WHERE server_id = ?", intval($this->id));
+				if(is_array($spamfilter_users) && !empty($spamfilter_users)){
+					foreach($spamfilter_users as $spamfilter_user){
+						$app->db->datalogUpdate('spamfilter_users', $spamfilter_user, 'id', $spamfilter_user["id"], true);
+					}
+				}
+				
+				$spamfilter_wblists = $app->db->queryAllRecords("SELECT * FROM spamfilter_wblist WHERE server_id = ?", intval($this->id));
+				if(is_array($spamfilter_wblists) && !empty($spamfilter_wblists)){
+					foreach($spamfilter_wblists as $spamfilter_wblist){
+						$app->db->datalogUpdate('spamfilter_wblist', $spamfilter_wblist, 'wblist_id', $spamfilter_wblist["wblist_id"], true);
+					}
+				}
+				
+				$mail_users = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND (autoresponder = 'y' OR move_junk = 'y')", intval($this->id));
+				if(is_array($mail_users) && !empty($mail_users)){
+					foreach($mail_users as $mail_user){
+						if($mail_user['autoresponder'] == 'y'){
+							$mail_user['autoresponder'] = 'n';
+							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
+							$mail_user['autoresponder'] = 'y';
+							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
+						} else {
+							$mail_user['move_junk'] = 'n';
+							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
+							$mail_user['move_junk'] = 'y';
+							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
+						}
+						
+					}
+				}
 			}
 		}
 	}

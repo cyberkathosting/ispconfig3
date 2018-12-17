@@ -1,0 +1,140 @@
+<tmpl_if name="list_head_txt">
+<div class='page-header'>
+        <h1><tmpl_var name="list_head_txt"></h1>
+</div>
+</tmpl_if>
+<tmpl_if name="list_desc_txt"><p><tmpl_var name="list_desc_txt"></p></tmpl_if>
+
+<tmpl_if name="error">
+	<div class='alert alert-danger clear'>
+		<div class='alert-label'><strong><tmpl_var name="error_txt"></strong></div>
+		<div class='alert-content'>
+			<ol>
+				<li><tmpl_var name="error"></li>
+			</ol>
+		</div>
+		</div>
+</tmpl_if>
+
+<div class="content-tab-wrapper">
+<div id="tabbox_content" class="tab-content">
+<div class="tab-pane active fade in">
+
+	<tmpl_if name='is_admin'>
+        	<legend><tmpl_var name="legend_client_txt"></legend>
+
+		<div class="form-group">
+			<label for="client_group_id" class="col-sm-2 control-label">{tmpl_var name='client_txt'}</label>
+			<div class="col-sm-10">
+				<select name="client_group_id" id="client_group_id" class="form-control" onchange="ISPConfig.submitForm('pageForm','dns/dns_bulk_editor.php');">
+					{tmpl_var name='clients_select_options'}
+				</select>
+			</div>
+		</div>
+	</tmpl_if>
+
+        <legend><tmpl_var name="legend_action_txt"></legend>
+
+	<div class="form-group">
+		<div class="col-sm-1 text-center">
+			<div class="ttip" title="{tmpl_var name='ttip_a_records_txt'}"></div> 
+			<input type="radio" name="action" value="a_records" id="action_a_records"{tmpl_if name='action_a_records'} checked="true"{/tmpl_if}>
+		</div>
+		<label class="col-sm-1 control-label">{tmpl_var name='a_records_txt'}</label>
+		<label class="col-sm-1 control-label">{tmpl_var name='search_txt'}</label>
+		<div class="col-sm-4">
+			<input type="text" name="a_records_search" id="a_records_search" value="{tmpl_var name='a_records_search'}" class="form-control" {tmpl_if name='action_a_records' op='!=' value='true'} disabled="true"{/tmpl_if}/>
+		</div>
+		<label class="col-sm-1 control-label">{tmpl_var name='replace_txt'}</label>
+		<div class="col-sm-4">
+			<input type="text" name="a_records_replace" id="a_records_replace" value="{tmpl_var name='a_records_replace'}" class="form-control" {tmpl_if name='action_a_records' op='!=' value='true'} disabled="true"{/tmpl_if}//>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-1 text-center">
+			<div class="ttip" title="{tmpl_var name='ttip_mx_records_txt'}"></div> 
+			<input type="radio" name="action" value="mx_records" id="action_mx_records"{tmpl_if name='action_mx_records'} checked="true"{/tmpl_if}>
+		</div>
+		<label class="col-sm-1 control-label">{tmpl_var name='mx_records_txt'}</label>
+		<label class="col-sm-1 control-label">{tmpl_var name='search_txt'}</label>
+		<div class="col-sm-4">
+			<input type="text" name="mx_records_search" id="mx_records_search" value="{tmpl_var name='mx_records_search'}" class="form-control" {tmpl_if name='action_mx_records' op='!=' value='true'} disabled="true"{/tmpl_if}/>
+		</div>
+		<label class="col-sm-1 control-label">{tmpl_var name='replace_txt'}</label>
+		<div class="col-sm-4">
+			<input type="text" name="mx_records_replace" id="mx_records_replace" value="{tmpl_var name='mx_records_replace'}" class="form-control" {tmpl_if name='action_mx_records' op='!=' value='true'} disabled="true"{/tmpl_if}/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-1 text-center">
+			<div class="ttip" title="{tmpl_var name='ttip_ttl_txt'}"></div> 
+			<input type="radio" name="action" value="ttl" id="action_ttl"{tmpl_if name='action_ttl'} checked="true"{/tmpl_if} />
+		</div>
+		<label class="col-sm-1 control-label">{tmpl_var name='ttl_txt'}</label>
+		<div class="col-sm-1"></div>
+		<div class="col-sm-1">
+			<input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" {tmpl_if name='action_ttl' op='!=' value='true'} disabled="true"{/tmpl_if}/>
+		</div>
+		<div class="col-sm-8">{tmpl_var name='ttl_desc_txt'}</div>
+	</div>
+
+        <legend><tmpl_var name="legend_zones_txt"></legend>
+
+	<div class="table-wrapper marginTop15">
+		<table class="table">
+			<thead class="dark form-group-sm">
+				<th width="10%"><input type="checkbox" class="check_uncheck_all"></th>
+				<th>{tmpl_var name='zone_txt'}</th>
+			</thead>
+			<tmpl_if name='zones_rows_count' op='>' value='0'>
+				<tbody>
+					<tmpl_loop name='zones_rows'>
+						<tr>
+							<td><input type="checkbox" value="y" name="zone_{tmpl_var name='zone_id'}" id="zone_{tmpl_var name='zone_id'}" {tmpl_if name='zone_selected'}checked="true"{/tmpl_if}></td>
+							<td>{tmpl_var name='zone_name'}</td>
+						</tr>
+					</tmpl_loop>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan=2><input type="checkbox" class="check_uncheck_all"> {tmpl_var name='check_uncheck_all_txt'}</td>
+					</tr>
+				</tfoot>
+			</tmpl_if>
+		</table>
+	</div>
+
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_ok_txt'}" name="btn_ok" onclick=";ISPConfig.submitForm('pageForm','dns/dns_bulk_editor.php?submitted=y');">{tmpl_var name='btn_ok_txt'}</button>
+        </div></div>
+</div>
+</div>
+</div>
+<script language="JavaScript" type="text/javascript">
+	jQuery('#action_a_records').click(function() {
+		jQuery('#a_records_search').prop('disabled', false);
+		jQuery('#a_records_replace').prop('disabled', false);
+		jQuery('#mx_records_search').prop('disabled', true);
+		jQuery('#mx_records_replace').prop('disabled', true);
+		jQuery('#ttl').prop('disabled', true);
+	});
+	jQuery('#action_mx_records').click(function() {
+		jQuery('#a_records_search').prop('disabled', true);
+		jQuery('#a_records_replace').prop('disabled', true);
+		jQuery('#mx_records_search').prop('disabled', false);
+		jQuery('#mx_records_replace').prop('disabled', false);
+		jQuery('#ttl').prop('disabled', true);
+	});
+	jQuery('#action_ttl').click(function() {
+		jQuery('#a_records_search').prop('disabled', true);
+		jQuery('#a_records_replace').prop('disabled', true);
+		jQuery('#mx_records_search').prop('disabled', true);
+		jQuery('#mx_records_replace').prop('disabled', true);
+		jQuery('#ttl').prop('disabled', false);
+	});
+	jQuery('.check_uncheck_all').click(function() {
+		jQuery('input[type=checkbox]').prop('checked', this.checked);
+	});
+</script>

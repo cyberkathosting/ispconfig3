@@ -76,31 +76,6 @@ if(count($items) && $app->system->has_service($userid, 'mail'))
 		'items' => $items);
 }
 
-//**** Mailinglist menu
-$items = array();
-
-if($app->auth->get_client_limit($userid, 'mailmailinglist') != 0)
-{
-	$items[] = array( 'title'  => 'Mailing List',
-		'target'  => 'content',
-		'link' => 'mail/mail_mailinglist_list.php',
-		'html_id' => 'mail_mailinglist_list');
-
-		$mlManager = $app->getconf->get_server_config($conf['server_id'], 'mail')['mailinglist_manager'];
-		if($mlManager == 'mlmmj')
-			$items[] = array( 'title'  => 'Membership',
-				'target'  => 'content',
-				'link' => 'mail/mail_ml_membership_list.php',
-				'html_id' => 'mail_ml_membership_list');
-}
-
-if(count($items) && $app->system->has_service($userid, 'mail'))
-{
-	$module['nav'][] = array( 'title' => 'Mailing List',
-		'open'  => 1,
-		'items' => $items);
-}
-
 //**** Spamfilter menu
 $items = array();
 
@@ -155,31 +130,6 @@ if($app->auth->get_client_limit($userid, 'fetchmail') != 0)
 		'open'  => 1,
 		'items' => $items);
 }
-
-//**** XMPP Menu
-$items = array();
-
-if($app->auth->get_client_limit($userid, 'xmpp_domain') != 0)
-{
-    $items[] = array( 'title'  => 'XMPP Domain',
-        'target'  => 'content',
-        'link' => 'mail/xmpp_domain_list.php',
-        'html_id' => 'xmpp_domain_list');
-}
-
-if($app->auth->get_client_limit($userid, 'xmpp_user') != 0)
-{
-    $items[] = array( 'title'  => 'XMPP Account',
-        'target'  => 'content',
-        'link' => 'mail/xmpp_user_list.php',
-        'html_id' => 'xmpp_user_list');
-}
-
-if(count($items) && $app->system->has_service($userid, 'xmpp'))
-    $module['nav'][] = array( 'title' => 'Jabber / XMPP',
-        'open'  => 1,
-        'items' => $items);
-
 
 
 //**** Statistics menu

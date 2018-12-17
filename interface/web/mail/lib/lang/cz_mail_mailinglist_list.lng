@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'E-mailové konference';
-$wb['domain_txt'] = 'Doména';
-$wb['listname_txt'] = 'Název seznamu';
-?>

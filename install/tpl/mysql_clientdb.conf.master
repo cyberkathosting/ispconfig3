@@ -3,5 +3,6 @@
 $clientdb_host			= '{hostname}';
 $clientdb_user			= '{username}';
 $clientdb_password		= '{password}';
+$clientdb_port			= '{port}';
 
 ?>

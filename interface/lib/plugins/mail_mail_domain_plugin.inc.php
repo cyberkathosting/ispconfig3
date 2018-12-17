@@ -88,14 +88,6 @@ class mail_mail_domain_plugin {
 				}
 			}
 
-			//* Update the mailinglist
-			$mailing_lists = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = ?", $page_form->oldDataRecord['domain']);
-			if(is_array($mailing_lists)) {
-				foreach($mailing_lists as $rec) {
-					$app->db->datalogUpdate('mail_mailinglist', array("sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailinglist_id', $rec['mailinglist_id']);
-				}
-			}
-
 			//* Update the mailget records
 			$mail_gets = $app->db->queryAllRecords("SELECT mailget_id, destination FROM mail_get WHERE destination LIKE ?", "%@" . $page_form->oldDataRecord['domain']);
 			if(is_array($mail_gets)) {

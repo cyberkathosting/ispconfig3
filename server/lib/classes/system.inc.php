@@ -1639,29 +1639,15 @@ class system{
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
 			
-			// Courier
-			if($mail_config['pop3_imap_daemon'] == 'courier') {
-				if(!is_file($maildir_path.'/courierimapsubscribed')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
-					touch($tmp_file);
-					chmod($tmp_file, 0744);
-					chown($tmp_file, 'vmail');
-					chgrp($tmp_file, 'vmail');
-				}
-				$this->replaceLine($maildir_path.'/courierimapsubscribed', 'INBOX.'.$subfolder, 'INBOX.'.$subfolder, 1, 1);
-			}
-
 			// Dovecot
-			if($mail_config['pop3_imap_daemon'] == 'dovecot') {
-				if(!is_file($maildir_path.'/subscriptions')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
-					touch($tmp_file);
-					chmod($tmp_file, 0744);
-					chown($tmp_file, 'vmail');
-					chgrp($tmp_file, 'vmail');
-				}
-				$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
+			if(!is_file($maildir_path.'/subscriptions')) {
+				$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
+				touch($tmp_file);
+				chmod($tmp_file, 0744);
+				chown($tmp_file, 'vmail');
+				chgrp($tmp_file, 'vmail');
 			}
+			$this->replaceLine($maildir_path.'/subscriptions', $subfolder, $subfolder, 1, 1);
 		}
 
 		$app->log('Created Maildir '.$maildir_path.' with subfolder: '.$subfolder, LOGLEVEL_DEBUG);
@@ -1686,14 +1672,24 @@ class system{
 
 	}
 	
-	function _exec($command) {
+	function _exec($command, $return_codes_ok = null) {
 		global $app;
+		
+		if(!is_null($return_codes_ok) && !is_array($return_codes_ok)) {
+			$return_codes_ok = array($return_codes_ok);
+		}
+		
 		$out = array();
 		$ret = 0;
 		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
 		exec($command, $out, $ret);
-		if($ret != 0) return false;
-		else return true;
+		if($ret == 0) {
+			return true;
+		} elseif(is_array($return_codes_ok) && !empty($return_codes_ok) && in_array($ret, $return_codes_ok)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//* Check if a application is installed
@@ -1945,20 +1941,20 @@ class system{
 		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -v';
 		else {
 			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_DEBUG);
-			return '2.2';
+			return '2.4';
 		}
 		
 		exec($cmd, $output, $return_var);
 		if($return_var != 0 || !$output[0]) {
 			$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
-			return '2.2';
+			return '2.4';
 		}
 		
 		if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
 			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
 		} else {
 			$app->log("Could not check apache version, did not find version string in apachectl output.", LOGLEVEL_WARN);
-			return '2.2';
+			return '2.4';
 		}
 	}
 
@@ -2048,7 +2044,32 @@ class system{
 		
 		return true;
 	}
+
+	public function tempdir($parent_path = null, $prefix = 'tmp_', $mode = 0700) {
+		if(is_null($parent_path)) {
+			$parent_path = sys_get_temp_dir();
+		}
+
+		$parent_path = rtrim($parent_path, '/');
+		if(!is_dir($parent_path) || !is_writable($parent_path)) {
+			return false;
+		}
+
+		if(strpbrk($prefix, '\\/:*?"<>|') !== false) {
+			return false;
+		}
+
+		$path = false;
+		$tries = 0;
+		while($tries < 1000) {
+			$tries++;
+			$path = $parent_path . FS_DIV . uniqid($prefix, true);
+			if(mkdir($path, $mode)) {
+				break;
+			}
+		}
+
+		return $path;
+	}
 	
 }
-
-?>

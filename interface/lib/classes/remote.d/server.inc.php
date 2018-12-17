@@ -52,7 +52,7 @@ class remoting_server extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get_serverid_by_ip')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$sql = "SELECT server_id FROM server_ip WHERE ip_address  = ?";
@@ -66,7 +66,7 @@ class remoting_server extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'server_ip_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -78,7 +78,7 @@ class remoting_server extends remoting {
 	public function server_ip_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'server_ip_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../admin/form/server_ip.tform.php', $client_id, $params);
@@ -88,7 +88,7 @@ class remoting_server extends remoting {
 	public function server_ip_update($session_id, $client_id, $ip_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'server_ip_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../admin/form/server_ip.tform.php', $client_id, $ip_id, $params);
@@ -99,7 +99,7 @@ class remoting_server extends remoting {
 	public function server_ip_delete($session_id, $ip_id)
 	{
 		if(!$this->checkPerm($session_id, 'server_ip_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php', $ip_id);
@@ -118,7 +118,7 @@ class remoting_server extends remoting {
 	public function server_get($session_id, $server_id = null, $section ='') {
 			global $app;
 			if(!$this->checkPerm($session_id, 'server_get')) {
-					throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+					throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 					return false;
 			}
 			if (!empty($session_id)) {
@@ -155,7 +155,7 @@ class remoting_server extends remoting {
 	public function server_config_set($session_id, $server_id, $section, $key, $value) {
 			global $app;
 			if(!$this->checkPerm($session_id, 'server_config_set')) {
-				throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+				throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 				return false;
 			}
 			if (!empty($server_id) && $server_id > 0 && $section != '' && $key != '') {
@@ -165,7 +165,7 @@ class remoting_server extends remoting {
 				$server_config_str = $app->ini_parser->get_ini_string($server_config_array);
 				return $app->db->datalogUpdate('server', array("config" => $server_config_str), 'server_id', $server_id);
 			} else {
-				throw new SoapFault('invalid_function_parameter', 'Invalid function parameter.');
+				throw new ISPConfigRemoteException('invalid_function_parameter', 'Invalid function parameter.');
 				return false;
 			}
 	}
@@ -180,7 +180,7 @@ class remoting_server extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($session_id)) {
@@ -202,8 +202,7 @@ class remoting_server extends remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
+        	throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 		}
 		if (!empty($session_id) && !empty($server_name)) {
 			$sql = "SELECT server_id FROM server WHERE server_name  = ?";
@@ -224,13 +223,23 @@ class remoting_server extends remoting {
     {
         global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-            return false;
+        	throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 		}
 		if (!empty($session_id) && !empty($server_id)) { 
-			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server, xmpp_server, mirror_server_id FROM server WHERE server_id  = ?";
+			$sql = "SELECT * FROM server WHERE server_id  = ?";
 			$all = $app->db->queryOneRecord($sql, $server_id);
-			return $all;
+			if(empty($all)) return false;
+			
+			$func = array();
+			foreach($all as $key => $value) {
+				if($key === 'mirror_server_id' || substr($key, -7) === '_server') {
+					if($value == 0 || $value == 1) {
+						$func[$key] = $value;
+					}
+				}
+			}
+			
+			return $func;
 		} else {
 			return false;
 		}
@@ -240,8 +249,7 @@ class remoting_server extends remoting {
     {
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 		}
 		if (!empty($session_id)) {
 			if($server_id == 0) $ispc_app_version = array('ispc_app_version' => ISPC_APP_VERSION);
@@ -261,7 +269,7 @@ class remoting_server extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 		}
 		if (!empty($session_id) && !empty($server_id) && !empty($php)) {
 			$php_versions = array();

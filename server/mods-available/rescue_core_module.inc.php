@@ -95,11 +95,6 @@ class rescue_core_module {
 		$this->_rescueData = $this->_getRescueData();
 
 		/*
-		 * rescue MongoDB if needed
-		 */
-//		$this->_rescueMongoDB();
-
-		/*
 		 * rescue mysql if needed (maybe httpd depends on mysql, so try this first!)
 		 */
 		$this->_rescueMySql();
@@ -310,73 +305,6 @@ class rescue_core_module {
 
 		$this->_rescueDaemon($daemon);
 	}
-
-
-	/**
-	 * restarts MongoDB, if needed
-	 */
-//	private function _rescueMongoDB(){
-//		global $app, $conf;
-
-		/*
-		 * do nothing, if it is not allowed to rescue mysql
-		 */
-//		if ((isset($conf['serverconfig']['rescue']['do_not_try_rescue_mongodb']) && ($conf['serverconfig']['rescue']['do_not_try_rescue_mongodb']) == 'y')){
-//			return;
-//		}
-
-		/*
-		 * if the service is up and running, or the service is not installed there is nothing to do...
-		 */
-//		if ($this->_monitoringData[0][0]['data']['mongodbserver'] != 0){
-//			/* Clear the try counter, because we do not have to try to rescue the service */
-//			$this->_rescueData['mongodbserver']['try_counter'] = 0;
-//			return;
-//		}
-
-		/*
-		 * OK, the service is installed and down.
-		 * Maybe this is because of a restart of the service by the admin.
-		 * This means, we check the data 1 minute ago
-		 */
-//		if ((!isset($this->_monitoringData[1][0]['data']['mongodbserver'])) ||
-//			((isset($this->_monitoringData[1][0]['data']['mongodbserver'])) && ($this->_monitoringData[1][0]['data']['mongodbserver'] != 0))){
-			/*
-			 * We do NOT have this data or we have this data, but the webserver was not down 1 minute ago.
-			 * This means, it could be, that the admin is restarting the server.
-			 * We wait one more minute...
-			 */
-//			return;
-//		}
-
-		/*#####
-		 * The service is down and it was down 1 minute ago.
-		 * We try to rescue it
-		 *#####*/
-
-		/* Get the try counter */
-//		$tryCount = (!isset($this->_rescueData['mongodbserver']['try_counter']))? 1 : $this->_rescueData['mongodbserver']['try_counter'] + 1;
-
-		/* Set the new try counter */
-//		$this->_rescueData['mongodbserver']['try_counter'] = $tryCount;
-
-		/* if 5 times will not work, we have to give up... */
-//		if ($tryCount > 5){
-//			$app->log('MongoDB is down! Rescue will not help!', LOGLEVEL_ERROR);
-//			return;
-//		}
-
-
-//		$app->log('MongoDB is down! Try rescue MongoDB (try:' . $tryCount . ')...', LOGLEVEL_WARN);
-
-//		if(is_file($conf['init_scripts'] . '/' . 'mongodb')) {
-//			$daemon = 'mongodb';
-//		} else {
-//			$daemon = 'mongodb';
-//		}
-
-//		$this->_rescueDaemon($daemon);
-//	}
 
 	/**
 	 * restarts mysql, if needed

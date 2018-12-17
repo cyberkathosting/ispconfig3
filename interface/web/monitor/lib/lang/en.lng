@@ -46,6 +46,7 @@ $wb['Show Clamav-Log'] = 'Show Clamav-Log';
 $wb['Show ISPConfig-Log'] = 'Show ISPConfig-Log';
 $wb['Show RKHunter-Log'] = 'Show RKHunter-Log';
 $wb['Show Jobqueue'] = 'Show Jobqueue';
+$wb['Show Data Log History'] = 'Show Data Log History';
 $wb['Show fail2ban-Log'] = 'Show fail2ban-Log';
 $wb['Show MongoDB-Log'] = 'Show MongoDB-Log';
 $wb['Show IPTables'] = 'Show IPTables';

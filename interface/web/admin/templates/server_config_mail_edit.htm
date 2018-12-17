@@ -32,18 +32,20 @@
 						{tmpl_var name='dkim_strength'}
 					</select></div>
 			</div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='pop3_imap_daemon_txt'}</label>
-                <div class="col-sm-9"><select name="pop3_imap_daemon" id="pop3_imap_daemon" class="form-control">
-                        {tmpl_var name='pop3_imap_daemon'}
+			<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='content_filter_txt'}</label>
+                <div class="col-sm-9"><select name="content_filter" id="content_filter" class="form-control">
+                        {tmpl_var name='content_filter'}
                     </select></div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='mail_filter_syntax_txt'}</label>
-                <div class="col-sm-9"><select name="mail_filter_syntax" id="mail_filter_syntax" class="form-control">
-                        {tmpl_var name='mail_filter_syntax'}
-                    </select></div>
+			<div class="form-group rspamd">
+                <label for="rspamd_url" class="col-sm-3 control-label col-text">{tmpl_var name='rspamd_url_txt'}</label>
+                <div class="col-sm-6"><a href="{tmpl_var name='rspamd_url'}" target="_blank">{tmpl_var name='rspamd_url'}</a><a href="{tmpl_var name='rspamd_url'}" target="_blank" class="btn btn-default formbutton-default formbutton-narrow" style="margin-left:20px"><span class="icon icon-link"></span></a></div>
             </div>
+			<div class="form-group rspamd">
+                <label for="rspamd_password" class="col-sm-3 control-label">{tmpl_var name='rspamd_password_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="rspamd_password" id="rspamd_password" value="{tmpl_var name='rspamd_password'}" class="form-control" /></div>
+			</div>
             <div class="form-group">
                 <label for="mailuser_uid" class="col-sm-3 control-label">{tmpl_var name='mailuser_uid_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="mailuser_uid" id="mailuser_uid" value="{tmpl_var name='mailuser_uid'}" class="form-control" /></div></div>
@@ -117,12 +119,6 @@
                     {tmpl_var name='overquota_notify_onok'}
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='mailinglist_manager_txt'}</label>
-                <div class="col-sm-9"><select name="mailinglist_manager" id="mailinglist_manager" class="form-control">
-                        {tmpl_var name='mailinglist_manager'}
-                    </select></div>
-            </div>
         
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
@@ -131,3 +127,24 @@
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/server_config_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
+
+<script>
+	if($('#rspamd_password').val() == ''){
+		var pword = password(8, false, 1);
+		jQuery('#rspamd_password').val(pword);
+	}
+	
+	if($('#content_filter').val() === 'rspamd'){
+		$('.rspamd').show();
+	} else {
+		$('.rspamd').hide();
+	}
+	
+	$('#content_filter').change(function(){
+		if($(this).val() === 'rspamd'){
+			$('.rspamd').show();
+		} else {
+			$('.rspamd').hide();
+		}
+	});
+</script>

@@ -21,6 +21,3 @@ module=generic
 
 [file]
 module=generic
-
-[vserver]
-module=generic

@@ -273,7 +273,10 @@ class page_action extends tform_actions {
 		}
 
 		//* make sure that the email domain is lowercase
-		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		if(isset($this->dataRecord["domain"])){
+			$this->dataRecord["domain"] = $app->functions->idn_encode($this->dataRecord["domain"]);
+			$this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		}
 
 
 		parent::onSubmit();
@@ -411,9 +414,6 @@ class page_action extends tform_actions {
 				}
 			}
 
-			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_userid = ?, sys_groupid = ? WHERE domain = ?", $client_user_id, $sys_groupid, $this->oldDataRecord['domain']);
-			
 			//* Update fetchmail accounts
 			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $this->oldDataRecord['domain']);
 			if(is_array($fetchmail)) {

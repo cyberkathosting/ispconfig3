@@ -50,7 +50,8 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
+$conf['services']['proxy'] = false;
+$conf['services']['firewall'] = false;
 
 //* MySQL
 $conf['mysql']['installed'] = false; // will be detected automatically during installation
@@ -123,45 +124,26 @@ $conf['postfix']['vmail_groupid'] = '5000';
 $conf['postfix']['vmail_groupname'] = 'vmail';
 $conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
-//* Mailman
-$conf['mailman']['installed'] = false; // will be detected automatically during installation
-$conf['mailman']['config_dir'] = '/etc/mailman';
-$conf['mailman']['init_script'] = 'mailman';
-
-//* mlmmj
-$conf['mlmmj']['installed'] = false; // will be detected automatically during installation
-$conf['mlmmj']['config_dir'] = '/etc/mlmmj';
-
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['user'] = 'getmail';
 $conf['getmail']['config_dir'] = '/etc/getmail';
 $conf['getmail']['program'] = '/usr/bin/getmail';
 
-//* Courier
-$conf['courier']['installed'] = false; // will be detected automatically during installation
-$conf['courier']['config_dir'] = '/etc/courier/authlib';
-$conf['courier']['courier-authdaemon'] = 'courier-authlib';
-$conf['courier']['courier-imap'] = 'courier-imapd';
-$conf['courier']['courier-imap-ssl'] = 'courier-imapd-ssl';
-$conf['courier']['courier-pop'] = 'courier-pop3d';
-$conf['courier']['courier-pop-ssl'] = 'courier-pop3d-ssl';
-
 //* Dovecot
 $conf['dovecot']['installed'] = false; // will be detected automatically during installation
 $conf['dovecot']['config_dir'] = '/etc/dovecot';
 $conf['dovecot']['init_script'] = 'dovecot';
 
-//* SASL
-$conf['saslauthd']['installed'] = false; // will be detected automatically during installation
-$conf['saslauthd']['config_file'] = '/etc/conf.d/saslauthd';
-$conf['saslauthd']['config_dir'] = '/etc/sasl2';
-$conf['saslauthd']['init_script'] = 'saslauthd';
-
 //* Amavisd
 $conf['amavis']['installed'] = false; // will be detected automatically during installation
 $conf['amavis']['config_file'] = '/etc/amavisd.conf';
 $conf['amavis']['init_script'] = 'amavisd';
+
+//* Rspamd
+$conf['rspamd']['installed'] = false; // will be detected automatically during installation
+$conf['rspamd']['config_dir'] = '/etc/rspamd';
+$conf['rspamd']['init_script'] = 'rspamd';
 
 //* ClamAV
 $conf['clamav']['installed'] = false; // will be detected automatically during installation
@@ -222,6 +204,10 @@ $conf['nginx']['php_fpm_pool_dir'] = '/etc/php5/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php5-fpm';
 
+//*Bastille-Firwall
+$conf['bastille']['installed'] = false;
+$conf['bastille']['config_dir'] = '/etc/Bastille';
+
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc/vlogger';
 
@@ -230,8 +216,3 @@ $conf['cron']['init_script'] = 'vixie-cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['group'] = 'cron';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-//* OpenVZ
-$conf['openvz']['installed'] = false;
-
-?>

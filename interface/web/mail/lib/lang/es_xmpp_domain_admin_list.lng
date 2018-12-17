@@ -1,8 +1,0 @@
-<?php
-$wb['active_txt'] = 'Habilitado';
-$wb['add_new_record_txt'] = 'Añadir un nuevo dominio';
-$wb['domain_txt'] = 'Dominio';
-$wb['list_head_txt'] = 'Dominio XMPP';
-$wb['server_id_txt'] = 'Servidor';
-$wb['sys_groupid_txt'] = 'Cliente';
-?>

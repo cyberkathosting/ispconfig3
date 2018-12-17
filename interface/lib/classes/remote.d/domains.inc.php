@@ -47,7 +47,7 @@ class remoting_domains extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'domains_domain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -59,7 +59,7 @@ class remoting_domains extends remoting {
 	public function domains_domain_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'domains_domain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../client/form/domain.tform.php', $client_id, $params);
@@ -69,7 +69,7 @@ class remoting_domains extends remoting {
 	public function domains_domain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'domains_domain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../client/form/domain.tform.php', $primary_id);
@@ -82,7 +82,7 @@ class remoting_domains extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'domains_get_all_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$group_id = $app->functions->intval($group_id);

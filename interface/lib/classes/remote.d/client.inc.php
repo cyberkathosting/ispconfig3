@@ -53,7 +53,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -98,7 +98,7 @@ class remoting_client extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_id')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -108,7 +108,7 @@ class remoting_client extends remoting {
 		if(isset($rec['client_id'])) {
 			return $app->functions->intval($rec['client_id']);
 		} else {
-			throw new SoapFault('no_client_found', 'There is no sysuser account for this client ID.');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no sysuser account for this client ID.');
 			return false;
 		}
 
@@ -119,7 +119,7 @@ class remoting_client extends remoting {
 		global $app;
 		
 		if(!$this->checkPerm($session_id, 'client_get_emailcontact')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -130,7 +130,7 @@ class remoting_client extends remoting {
 		if(is_array($rec)) {
 			return $rec;
 		} else {
-			throw new SoapFault('no_client_found', 'There is no client with this client ID.');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no client with this client ID.');
 			return false;
 		}
 	}
@@ -139,7 +139,7 @@ class remoting_client extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_id')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -149,7 +149,7 @@ class remoting_client extends remoting {
 		if(isset($rec['groupid'])) {
 			return $app->functions->intval($rec['groupid']);
 		} else {
-			throw new SoapFault('no_group_found', 'There is no group for this client ID.');
+			throw new ISPConfigRemoteException('no_group_found', 'There is no group for this client ID.');
 			return false;
 		}
 
@@ -162,7 +162,7 @@ class remoting_client extends remoting {
 		
 		if (!$this->checkPerm($session_id, 'client_add'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if(!isset($params['parent_client_id']) || $params['parent_client_id'] == 0) $params['parent_client_id'] = $reseller_id;
@@ -174,7 +174,7 @@ class remoting_client extends remoting {
 				// Selected client is not a reseller. REMOVING PARENT_CLIENT_ID!!!
 				$params['parent_client_id'] = 0;
 			} elseif(isset($params['limit_client']) && $params['limit_client'] != 0) {
-				throw new SoapFault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				throw new ISPConfigRemoteException('Invalid reseller', 'Reseller cannot be client of another reseller.');
 				return false;
 			}
 		}
@@ -191,7 +191,7 @@ class remoting_client extends remoting {
 
 		if (!$this->checkPerm($session_id, 'client_update'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -208,12 +208,12 @@ class remoting_client extends remoting {
 			// check if this one is reseller
 			$check = $app->db->queryOneRecord('SELECT `limit_client` FROM `client` WHERE `client_id` = ?', intval($params['parent_client_id']));
 			if($check['limit_client'] == 0) {
-				throw new SoapFault('Invalid reseller', 'Selected client is not a reseller.');
+				throw new ISPConfigRemoteException('Invalid reseller', 'Selected client is not a reseller.');
 				return false;
 			}
 
 			if(isset($params['limit_client']) && $params['limit_client'] != 0) {
-				throw new SoapFault('Invalid reseller', 'Reseller cannot be client of another reseller.');
+				throw new ISPConfigRemoteException('Invalid reseller', 'Reseller cannot be client of another reseller.');
 				return false;
 			}
 		}
@@ -251,7 +251,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -259,7 +259,7 @@ class remoting_client extends remoting {
 			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ?";
 			return $app->db->queryOneRecord($sql, $client_id);
 		} else {
-			throw new SoapFault('The ID must be an integer.');
+			throw new ISPConfigRemoteException('The ID must be an integer.');
 			return array();
 		}
 	}
@@ -289,7 +289,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -297,13 +297,13 @@ class remoting_client extends remoting {
 			// check if client exists
 			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
-				throw new SoapFault('Invalid client');
+				throw new ISPConfigRemoteException('Invalid client');
 				return false;
 			}
 			// check if template exists
 			$check = $app->db->queryOneRecord('SELECT `template_id` FROM `client_template` WHERE `template_id` = ?', $template_id);
 			if(!$check) {
-				throw new SoapFault('Invalid template');
+				throw new ISPConfigRemoteException('Invalid template');
 				return false;
 			}
 
@@ -318,7 +318,7 @@ class remoting_client extends remoting {
 
 			return $insert_id;
 		} else {
-			throw new SoapFault('The IDs must be of type integer.');
+			throw new ISPConfigRemoteException('The IDs must be of type integer.');
 			return false;
 		}
 	}
@@ -327,7 +327,7 @@ class remoting_client extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'client_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -335,13 +335,13 @@ class remoting_client extends remoting {
 			// check if client exists
 			$check = $app->db->queryOneRecord('SELECT `client_id` FROM `client` WHERE `client_id` = ?', $client_id);
 			if(!$check) {
-				throw new SoapFault('Invalid client');
+				throw new ISPConfigRemoteException('Invalid client');
 				return false;
 			}
 			// check if template exists
 			$check = $app->db->queryOneRecord('SELECT `assigned_template_id` FROM `client_template_assigned` WHERE `client_id` = ? AND `client_template_id` = ?', $client_id, $assigned_template_id);
 			if(!$check) {
-				throw new SoapFault('Invalid template');
+				throw new ISPConfigRemoteException('Invalid template');
 				return false;
 			}
 
@@ -356,7 +356,7 @@ class remoting_client extends remoting {
 
 			return $affected_rows;
 		} else {
-			throw new SoapFault('The IDs must be of type integer.');
+			throw new ISPConfigRemoteException('The IDs must be of type integer.');
 			return false;
 		}
 	}
@@ -367,7 +367,7 @@ class remoting_client extends remoting {
 
 		if (!$this->checkPerm($session_id, 'client_delete'))
 		{
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../client/form/client.tform.php', $client_id);
@@ -384,7 +384,7 @@ class remoting_client extends remoting {
 		global $app, $conf;
 
 		if(!$this->checkPerm($session_id, 'client_delete_everything')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -404,7 +404,7 @@ class remoting_client extends remoting {
 			$app->db->query("DELETE FROM sys_user WHERE client_id = ?", $client_id);
 
 			//* Delete all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'cron,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic,domain,mail_mailinglist,client';
+			$tables = 'cron,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic,domain,client';
 			$tables_array = explode(',', $tables);
 			$client_group_id = $app->functions->intval($client_group['groupid']);
 			if($client_group_id > 1) {
@@ -440,7 +440,7 @@ class remoting_client extends remoting {
 
 		}
 		if (!$this->checkPerm($session_id, 'client_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../client/form/client.tform.php', $client_id);
@@ -460,14 +460,14 @@ class remoting_client extends remoting {
 	public function client_get_by_username($session_id, $username) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_by_username')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$rec = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE username = ?", $username);
 		if (isset($rec)) {
 			return $rec;
 		} else {
-			throw new SoapFault('no_client_found', 'There is no user account for this user name.');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no user account for this user name.');
 			return false;
 		}
 	}
@@ -475,12 +475,12 @@ class remoting_client extends remoting {
 	public function client_get_by_customer_no($session_id, $customer_no) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_by_customer_no')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$customer_no = trim($customer_no);
 		if($customer_no == '') {
-			throw new SoapFault('permission_denied', 'There was no customer number specified.');
+			throw new ISPConfigRemoteException('permission_denied', 'There was no customer number specified.');
 			return false;
 		}
 		$customer_no = $app->db->quote($customer_no);
@@ -488,7 +488,7 @@ class remoting_client extends remoting {
 		if (isset($rec)) {
 			return $rec;
 		} else {
-			throw new SoapFault('no_client_found', 'There is no user account for this customer number.');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no user account for this customer number.');
 			return false;
 		}
 	}
@@ -501,7 +501,7 @@ class remoting_client extends remoting {
 	public function client_get_all($session_id) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_all')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$result = $app->db->queryAllRecords("SELECT client_id FROM client WHERE 1");
@@ -529,7 +529,7 @@ class remoting_client extends remoting {
 		$app->uses('auth');
 
 		if(!$this->checkPerm($session_id, 'client_change_password')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -542,7 +542,7 @@ class remoting_client extends remoting {
 			$app->db->query($sql, $new_password, $client_id);
 			return true;
 		} else {
-			throw new SoapFault('no_client_found', 'There is no user account for this client_id');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no user account for this client_id');
 			return false;
 		}
 	}
@@ -555,7 +555,7 @@ class remoting_client extends remoting {
 	public function client_templates_get_all($session_id) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_templates_get_all')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$sql    = "SELECT * FROM client_template";
@@ -568,17 +568,17 @@ class remoting_client extends remoting {
 		
 		//* Check permissions
 		if(!$this->checkPerm($session_id, 'client_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
 		//* Check username and password
 		if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $username)) {
-			throw new SoapFault('user_regex_error', 'Username contains invalid characters.');
+			throw new ISPConfigRemoteException('user_regex_error', 'Username contains invalid characters.');
 			return false;
 		}
 		if(!preg_match("/^.{1,64}$/i", $password)) {
-			throw new SoapFault('password_length_error', 'Invalid password length or no password provided.');
+			throw new ISPConfigRemoteException('password_length_error', 'Invalid password length or no password provided.');
 			return false;
 		}
 		
@@ -588,7 +588,7 @@ class remoting_client extends remoting {
 		
 		//* too many failedlogins
 		if($alreadyfailed['times'] > 5) {
-			throw new SoapFault('error_user_too_many_logins', 'Too many failed logins.');
+			throw new ISPConfigRemoteException('error_user_too_many_logins', 'Too many failed logins.');
 			return false;
 		}
 		
@@ -659,7 +659,7 @@ class remoting_client extends remoting {
 									'language'	=>	$user['language'],
 									'country'	=>	'de');
 			} else {
-				throw new SoapFault('login_failed', 'Login failed.');
+				throw new ISPConfigRemoteException('login_failed', 'Login failed.');
 			}
 		}
 		

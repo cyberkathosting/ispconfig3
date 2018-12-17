@@ -99,13 +99,14 @@ require_once 'lib/classes/tpl.inc.php';
     die('We will stop here. There is already a ISPConfig installation, use the update script to update this installation.');
 }*/
 
-// Patch is required to reapir latest amavis versions
+// Patch is required to repair latest amavis versions
 if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start installation again.');
 
 //** Get distribution identifier
 $dist = get_distname();
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
+if(!$dist['supported']) die('This distribution is not supported.');
 
 //** Include the autoinstaller configuration (for non-interactive setups)
 error_reporting(E_ALL ^ E_NOTICE);
@@ -170,7 +171,9 @@ if(is_dir('/usr/local/ispconfig')) {
 }
 
 //** Detect the installed applications
+$inst->raiseEvent('find_installed_apps::before');
 $inst->find_installed_apps();
+$inst->raiseEvent('find_installed_apps::after');
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
@@ -182,6 +185,7 @@ $conf['language_file_import_enabled'] = true;
 
 //** Select installation mode
 $install_mode = $inst->simple_query('Installation mode', array('standard', 'expert'), 'standard','install_mode');
+$inst->set_install_mode($install_mode);
 
 //** tRNG dependencies
 $conf['tRNG']='';
@@ -252,10 +256,8 @@ $conf['services']['web'] = false;
 $conf['services']['dns'] = false;
 $conf['services']['file'] = false;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = false;
 $conf['services']['firewall'] = false;
 $conf['services']['proxy'] = false;
-$conf['services']['xmpp'] = false;
 
 //** Get Server ID
 // $conf['server_id'] = $inst->free_query('Unique Numeric ID of the server','1');
@@ -339,48 +341,16 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 	}
 
 	if($conf['services']['mail']) {
-		//* Configure Mailman
-		$force = @($conf['mailman']['installed']) ? true : $inst->force_configure_app('Mailman', ($install_mode == 'expert'));
-		if($force) {
-			swriteln('Configuring Mailman');
-			$inst->configure_mailman();
-		}
-
-		//* Configure mlmmj
-		if($conf['mlmmj']['installed'] == true) {
-			swriteln('Configuring Mlmmj');
-			$inst->configure_mlmmj(/*install*/);
-		}
-
-		//* Check for Dovecot and Courier
-		if(!$conf['dovecot']['installed'] && !$conf['courier']['installed']) {
+		//* Check for Dovecot
+		if(!$conf['dovecot']['installed']) {
 			$conf['dovecot']['installed'] = $inst->force_configure_app('Dovecot', ($install_mode == 'expert'));
-			$conf['courier']['installed'] = $inst->force_configure_app('Courier', ($install_mode == 'expert'));
-		}
-		//* Configure Mailserver - Dovecot or Courier
-		if($conf['dovecot']['installed'] && $conf['courier']['installed']) {
-			$mail_server_to_use = $inst->simple_query('Dovecot and Courier detected. Select server to use with ISPConfig:', array('dovecot', 'courier'), 'dovecot','mail_server');
-			if($mail_server_to_use == 'dovecot'){
-				$conf['courier']['installed'] = false;
-			} else {
-				$conf['dovecot']['installed'] = false;
-			}
 		}
 		//* Configure Dovecot
 		if($conf['dovecot']['installed']) {
 			swriteln('Configuring Dovecot');
 			$inst->configure_dovecot();
 		}
-		//* Configure Courier
-		if($conf['courier']['installed']) {
-			swriteln('Configuring Courier');
-			$inst->configure_courier();
-			swriteln('Configuring SASL');
-			$inst->configure_saslauthd();
-			swriteln('Configuring PAM');
-			$inst->configure_pam();
-		}
-
+		
 		//* Configure Spamasassin
 		$force = @($conf['spamassassin']['installed']) ? true : $inst->force_configure_app('Spamassassin', ($install_mode == 'expert'));
 		if($force) {
@@ -395,6 +365,12 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 			$inst->configure_amavis();
 		}
 
+		//* Configure Rspamd
+		$force = @($conf['rspamd']['installed']) ? true : $inst->force_configure_app('Rspamd', ($install_mode == 'expert'));
+		if($force) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
+		}
 		//* Configure Getmail
 		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', ($install_mode == 'expert'));
 		if($force) {
@@ -483,12 +459,7 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Web 
 	}
 }
 
-//* Configure OpenVZ
-$force = @($conf['openvz']['installed']) ? true : $inst->force_configure_app('OpenVZ', ($install_mode == 'expert'));
-if($force) {
-	$conf['services']['vserver'] = true;
-	swriteln('Configuring OpenVZ');
-}
+$inst->raiseEvent('configure_webserver_selection::after');
 
 if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Firewall Server', array('y', 'n'), 'y','configure_firewall')) == 'y') {
 	//* Check for Firewall
@@ -518,22 +489,6 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Fire
 		$conf['services']['firewall'] = true;
 		$conf['bastille']['installed'] = true;
 	}
-}
-
-if($install_mode == 'standard' || strtolower($inst->simple_query('Configure XMPP Server', array('y', 'n') , 'y','configure_xmpp') ) == 'y') {
-//* Configure XMPP Metronome
-    if ($conf['metronome']['installed']) {
-        swriteln('Configuring Metronome XMPP Server');
-        $inst->configure_metronome();
-        $conf['services']['xmpp'] = true;
-    }
-
-//* Configure XMPP Prosody
-    if ($conf['prosody']['installed']) {
-        swriteln('Configuring Prosody XMPP Server');
-        $inst->configure_prosody();
-        $conf['services']['xmpp'] = true;
-    }
 }
 
 //* Configure Fail2ban
@@ -597,7 +552,9 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 	$inst->install_ispconfig_interface = false;
 }
 
+$inst->raiseEvent('install_ispconfig::before');
 $inst->install_ispconfig();
+$inst->raiseEvent('install_ispconfig::after');
 
 //* Configure DBServer
 swriteln('Configuring DBServer');
@@ -606,7 +563,6 @@ $inst->configure_dbserver();
 //* Configure ISPConfig
 swriteln('Installing ISPConfig crontab');
 if($conf['cron']['installed']) {
-	swriteln('Installing ISPConfig crontab');
 	$inst->install_crontab();
 } else swriteln('[ERROR] Cron not found');
 
@@ -616,18 +572,10 @@ $inst->detect_ips();
 swriteln('Restarting services ...');
 if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
-if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
-if($conf['courier']['installed'] == true){
-	if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
-	if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
-	if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
-	if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
-	if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
-}
 if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
 //* Reload is enough for nginx
 if($conf['nginx']['installed'] == true){
@@ -641,7 +589,6 @@ if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') sys
 //if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_file($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 if($conf['ufw']['installed'] == true && $conf['ufw']['init_script'] != '') system($inst->getinitcommand($conf['ufw']['init_script'], 'restart').' &> /dev/null');
-if($conf['metronome']['installed'] == true && $conf['metronome']['init_script'] != '') system($inst->getinitcommand($conf['metronome']['init_script'], 'restart').' &> /dev/null');
 
 //* test tRNG
 if($conf['tRNG']) tRNG();

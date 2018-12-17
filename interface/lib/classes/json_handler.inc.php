@@ -115,11 +115,17 @@ class ISPConfigJSONHandler {
 		
 		try {
 			$this->_return_json('ok', '', call_user_func_array(array($this->classes[$class_name], $method), $params));
-		} catch(SoapFault $e) {
+		} catch(ISPConfigRemoteException $e) {
 			$this->_return_json('remote_fault', $e->getMessage());
 		}
 	}
 
 }
 
-?>
+if(!class_exists('ISPConfigRemoteException')) {
+	class ISPConfigRemoteException extends Exception {
+		public function __construct($code = '', $message = '') {
+			parent::__construct($message . ' (' . $code . ')', 0);
+		}
+	}
+}

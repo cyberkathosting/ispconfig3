@@ -50,7 +50,6 @@ $conf['services']['web'] = true;
 $conf['services']['dns'] = true;
 $conf['services']['file'] = true;
 $conf['services']['db'] = true;
-$conf['services']['vserver'] = true;
 $conf['services']['proxy'] = false;
 $conf['services']['firewall'] = false;
 
@@ -115,39 +114,25 @@ $conf['postfix']['vmail_groupid'] = '5000';
 $conf['postfix']['vmail_groupname'] = 'vmail';
 $conf['postfix']['vmail_mailbox_base'] = '/var/vmail';
 
-//* Mailman
-$conf['mailman']['installed'] = false; // will be detected automatically during installation
-$conf['mailman']['config_dir'] = '/etc/mailman';
-$conf['mailman']['init_script'] = 'mailman';
-
 //* Getmail
 $conf['getmail']['installed'] = false; // will be detected automatically during installation
 $conf['getmail']['config_dir'] = '/etc/getmail';
 $conf['getmail']['program'] = '/usr/bin/getmail';
-
-//* Courier
-$conf['courier']['installed'] = false; // will be detected automatically during installation
-$conf['courier']['config_dir'] = '/etc/courier';
-$conf['courier']['courier-authdaemon'] = 'courier-authdaemon';
-$conf['courier']['courier-imap'] = 'courier-imap';
-$conf['courier']['courier-imap-ssl'] = 'courier-imap-ssl';
-$conf['courier']['courier-pop'] = 'courier-pop';
-$conf['courier']['courier-pop-ssl'] = 'courier-pop-ssl';
 
 //* Dovecot
 $conf['dovecot']['installed'] = false; // will be detected automatically during installation
 $conf['dovecot']['config_dir'] = '/etc/dovecot';
 $conf['dovecot']['init_script'] = 'dovecot';
 
-//* SASL
-$conf['saslauthd']['installed'] = false; // will be detected automatically during installation
-$conf['saslauthd']['config'] = '/etc/default/saslauthd';
-$conf['saslauthd']['init_script'] = 'saslauthd';
-
 //* Amavisd
 $conf['amavis']['installed'] = false; // will be detected automatically during installation
 $conf['amavis']['config_dir'] = '/etc/amavis';
 $conf['amavis']['init_script'] = 'amavis';
+
+//* Rspamd
+$conf['rspamd']['installed'] = false; // will be detected automatically during installation
+$conf['rspamd']['config_dir'] = '/etc/rspamd';
+$conf['rspamd']['init_script'] = 'rspamd';
 
 //* ClamAV
 $conf['clamav']['installed'] = false; // will be detected automatically during installation
@@ -207,9 +192,6 @@ $conf['nginx']['php_fpm_pool_dir'] = '/etc/php/7.1/fpm/pool.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
 $conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php7.1-fpm';
 
-//* OpenVZ
-$conf['openvz']['installed'] = false;
-
 //*Bastille-Firwall
 $conf['bastille']['installed'] = false;
 $conf['bastille']['config_dir'] = '/etc/Bastille';
@@ -221,19 +203,3 @@ $conf['vlogger']['config_dir'] = '/etc';
 $conf['cron']['init_script'] = 'cron';
 $conf['cron']['crontab_dir'] = '/etc/cron.d';
 $conf['cron']['wget'] = '/usr/bin/wget';
-
-//* Metronome XMPP
-$conf['metronome']['installed'] = false;
-$conf['metronome']['init_script'] = 'metronome';
-$conf['metronome']['initial_modules'] = 'saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons';
-
-//* Prosody XMPP
-$conf['prosody']['installed'] = false;
-$conf['prosody']['init_script'] = 'prosody';
-$conf['prosody']['storage_database'] = 'prosody';
-$conf['prosody']['storage_user'] = 'prosody';
-$conf['prosody']['storage_password'] = md5(uniqid(rand()));
-$conf['prosody']['initial_modules'] = 'roster, saslauth, tls, dialback, disco, carbons, pep, private, blocklist, vcard, version, uptime, time, ping, admin_adhoc, mam, bosh, websocket, http_files, announce, proxy65, offline, posix, webpresence, smacks, csi_battery_saver, pep_vcard_avatar, omemo_all_access';
-
-
-?>

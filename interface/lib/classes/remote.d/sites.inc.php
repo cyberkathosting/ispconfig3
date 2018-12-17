@@ -47,7 +47,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_cron_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -59,7 +59,7 @@ class remoting_sites extends remoting {
 	public function sites_cron_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_cron_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/cron.tform.php', $client_id, $params);
@@ -69,7 +69,7 @@ class remoting_sites extends remoting {
 	public function sites_cron_update($session_id, $client_id, $cron_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_cron_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/cron.tform.php', $client_id, $cron_id, $params);
@@ -80,7 +80,7 @@ class remoting_sites extends remoting {
 	public function sites_cron_delete($session_id, $cron_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_cron_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/cron.tform.php', $cron_id);
@@ -95,7 +95,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -110,14 +110,14 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
 		//* Check for duplicates
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as dbnum FROM web_database WHERE database_name = ? AND server_id = ?", $params['database_name'], $params["server_id"]);
 		if($tmp['dbnum'] > 0) {
-			throw new SoapFault('database_name_error_unique', 'There is already a database with that name on the same server.');
+			throw new ISPConfigRemoteException('database_name_error_unique', 'There is already a database with that name on the same server.');
 			return false;
 		}
 
@@ -151,7 +151,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -183,7 +183,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_database_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -202,7 +202,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -214,7 +214,7 @@ class remoting_sites extends remoting {
 	public function sites_database_user_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_database_user_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -227,7 +227,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_user_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -257,7 +257,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_database_user_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -285,7 +285,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_ftp_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -297,7 +297,7 @@ class remoting_sites extends remoting {
 	public function sites_ftp_user_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_ftp_user_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/ftp_user.tform.php', $client_id, $params);
@@ -307,7 +307,7 @@ class remoting_sites extends remoting {
 	public function sites_ftp_user_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_ftp_user_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/ftp_user.tform.php', $client_id, $primary_id, $params);
@@ -318,7 +318,7 @@ class remoting_sites extends remoting {
 	public function sites_ftp_user_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_ftp_user_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/ftp_user.tform.php', $primary_id);
@@ -331,7 +331,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_ftp_user_server_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -353,7 +353,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_shell_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -365,7 +365,7 @@ class remoting_sites extends remoting {
 	public function sites_shell_user_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_shell_user_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/shell_user.tform.php', $client_id, $params);
@@ -375,7 +375,7 @@ class remoting_sites extends remoting {
 	public function sites_shell_user_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_shell_user_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/shell_user.tform.php', $client_id, $primary_id, $params);
@@ -386,7 +386,7 @@ class remoting_sites extends remoting {
 	public function sites_shell_user_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_shell_user_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/shell_user.tform.php', $primary_id);
@@ -401,7 +401,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_domain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -414,7 +414,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_domain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -445,7 +445,7 @@ class remoting_sites extends remoting {
 	public function sites_web_domain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_domain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -465,7 +465,7 @@ class remoting_sites extends remoting {
 	public function sites_web_domain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_domain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
@@ -480,7 +480,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -493,7 +493,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -517,7 +517,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_aliasdomain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -537,7 +537,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_aliasdomain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
@@ -552,7 +552,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -565,7 +565,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -589,7 +589,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_subdomain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -609,7 +609,7 @@ class remoting_sites extends remoting {
 	public function sites_web_vhost_subdomain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_vhost_domain.tform.php', $primary_id);
@@ -624,7 +624,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -636,7 +636,7 @@ class remoting_sites extends remoting {
 	public function sites_web_aliasdomain_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/web_childdomain.tform.php', $client_id, $params);
@@ -646,7 +646,7 @@ class remoting_sites extends remoting {
 	public function sites_web_aliasdomain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/web_childdomain.tform.php', $client_id, $primary_id, $params);
@@ -657,7 +657,7 @@ class remoting_sites extends remoting {
 	public function sites_web_aliasdomain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_aliasdomain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_childdomain.tform.php', $primary_id);
@@ -672,7 +672,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -684,7 +684,7 @@ class remoting_sites extends remoting {
 	public function sites_web_subdomain_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/web_childdomain.tform.php', $client_id, $params);
@@ -694,7 +694,7 @@ class remoting_sites extends remoting {
 	public function sites_web_subdomain_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/web_childdomain.tform.php', $client_id, $primary_id, $params);
@@ -705,7 +705,7 @@ class remoting_sites extends remoting {
 	public function sites_web_subdomain_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_subdomain_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_childdomain.tform.php', $primary_id);
@@ -720,7 +720,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_folder_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -732,7 +732,7 @@ class remoting_sites extends remoting {
 	public function sites_web_folder_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_folder_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/web_folder.tform.php', $client_id, $params);
@@ -742,7 +742,7 @@ class remoting_sites extends remoting {
 	public function sites_web_folder_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_folder_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/web_folder.tform.php', $client_id, $primary_id, $params);
@@ -754,7 +754,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_folder_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -778,7 +778,7 @@ class remoting_sites extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'sites_web_folder_user_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -790,7 +790,7 @@ class remoting_sites extends remoting {
 	public function sites_web_folder_user_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_folder_user_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../sites/form/web_folder_user.tform.php', $client_id, $params);
@@ -800,7 +800,7 @@ class remoting_sites extends remoting {
 	public function sites_web_folder_user_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_folder_user_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../sites/form/web_folder_user.tform.php', $client_id, $primary_id, $params);
@@ -811,7 +811,7 @@ class remoting_sites extends remoting {
 	public function sites_web_folder_user_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'sites_web_folder_user_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../sites/form/web_folder_user.tform.php', $primary_id);
@@ -831,7 +831,7 @@ class remoting_sites extends remoting {
 	public function client_get_sites_by_user($session_id, $sys_userid, $sys_groupid) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'client_get_sites_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$sys_userid  = $app->functions->intval($sys_userid);
@@ -846,7 +846,7 @@ class remoting_sites extends remoting {
 		if(isset($result)) {
 			return $result;
 		} else {
-			throw new SoapFault('no_client_found', 'There is no site for this user');
+			throw new ISPConfigRemoteException('no_client_found', 'There is no site for this user');
 			return false;
 		}
 	}
@@ -864,7 +864,7 @@ class remoting_sites extends remoting {
 	public function sites_web_domain_set_status($session_id, $primary_id, $status) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_web_domain_set_status')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if(in_array($status, array('active', 'inactive'))) {
@@ -880,7 +880,7 @@ class remoting_sites extends remoting {
 			$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', 0, $primary_id, $params);
 			return $affected_rows;
 		} else {
-			throw new SoapFault('status_undefined', 'The status is not available');
+			throw new ISPConfigRemoteException('status_undefined', 'The status is not available');
 			return false;
 		}
 	}
@@ -893,7 +893,7 @@ class remoting_sites extends remoting {
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'sites_database_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$client_id = $app->functions->intval($client_id);
@@ -908,7 +908,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		
@@ -922,7 +922,7 @@ class remoting_sites extends remoting {
 		global $app;
 	
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -936,19 +936,19 @@ class remoting_sites extends remoting {
 	
 		//* Basic validation of variables
 		if ($server_id <= 0) {
-			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
+			throw new ISPConfigRemoteException('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
 	
 		if ($action_type != 'backup_download' and $action_type != 'backup_restore' and $action_type != 'backup_delete') {
-			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
+			throw new ISPConfigRemoteException('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
 	
 		//* Validate instance
 		$instance_record = $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`= ? and `action_type`= ? and `action_state`= ?", $primary_id, $action_type, 'pending');
 		if ($instance_record['action_id'] >= 1) {
-			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
+			throw new ISPConfigRemoteException('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
 	
@@ -967,7 +967,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	
@@ -980,7 +980,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -995,7 +995,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 		
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
@@ -1010,7 +1010,7 @@ class remoting_sites extends remoting {
 		$app->uses('quota_lib');
 	
 		if(!$this->checkPerm($session_id, 'databasequota_get_by_user')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 	

@@ -98,7 +98,7 @@ if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
 	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
 }
 
-// Patch is required to reapir latest amavis versions
+// Patch is required to repair latest amavis versions
 if(is_installed('amavisd-new') && !is_installed('patch')) die('The patch command is missing. Install patch command and start update again.');
 
 //** Get distribution identifier
@@ -109,6 +109,7 @@ $conf_old = $conf;
 unset($conf);
 
 if($dist['id'] == '') die('Linux distribution or version not recognized.');
+if(!$dist['supported']) die('This distribution is not supported.');
 
 //** Include the autoinstaller configuration (for non-interactive setups)
 error_reporting(E_ALL ^ E_NOTICE);
@@ -141,10 +142,17 @@ if(isset($cmd_opt['autoinstall']) && is_file($cmd_opt['autoinstall'])) {
 	define('AUTOINSTALL', false);
 }
 
+
 //** Include the distribution-specific installer class library and configuration
 if(is_file('dist/lib/'.$dist['baseid'].'.lib.php')) include_once 'dist/lib/'.$dist['baseid'].'.lib.php';
 include_once 'dist/lib/'.$dist['id'].'.lib.php';
 include_once 'dist/conf/'.$dist['confid'].'.conf.php';
+
+$inst = new installer();
+if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
+$inst->is_update = true;
+
+$inst->raiseEvent('set_dist_config', $dist);
 
 //** tRNG dependencies
 $conf['tRNG']='';
@@ -185,10 +193,6 @@ if(!$conf['mysql']['ip'] = gethostbyname($conf['mysql']['host'])) die('Unable to
 
 $conf['server_id'] = intval($conf_old["server_id"]);
 $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
-
-$inst = new installer();
-if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
-$inst->is_update = true;
 
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
@@ -298,7 +302,9 @@ checkDbHealth();
 /*
  *  dump the new Database and reconfigure the server.ini
  */
+$inst->raiseEvent('updateDbAndIni::before');
 updateDbAndIni();
+$inst->raiseEvent('updateDbAndIni::after');
 
 //** read server config from db into $conf['server_config']
 $tmp = $inst->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
@@ -320,22 +326,24 @@ if($reconfigure_master_database_rights_answer == 'yes') {
 //}
 
 //** Detect the installed applications
+$inst->raiseEvent('find_installed_apps::before');
 $inst->find_installed_apps();
+$inst->raiseEvent('find_installed_apps::after');
 
 //** Check for current service config state and compare to our results
-if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
-else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,xmpp_server,firewall_server,vserver_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+$inst->raiseEvent('check_service_config_state::before');
+if ($conf['mysql']['master_slave_setup'] == 'y') $current_svc_config = $inst->dbmaster->queryOneRecord("SELECT mail_server,web_server,dns_server,firewall_server,db_server FROM ?? WHERE server_id=?", $conf['mysql']['master_database'] . '.server', $conf['server_id']);
+else $current_svc_config = $inst->db->queryOneRecord("SELECT mail_server,web_server,dns_server,firewall_server,db_server FROM ?? WHERE server_id=?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 $conf['services']['mail'] = check_service_config_state('mail_server', $conf['postfix']['installed']);
 $conf['services']['dns'] = check_service_config_state('dns_server', ($conf['powerdns']['installed'] || $conf['bind']['installed'] || $conf['mydns']['installed']));
 $conf['services']['web'] = check_service_config_state('web_server', ($conf['apache']['installed'] || $conf['nginx']['installed']));
-$conf['services']['xmpp'] = check_service_config_state('xmpp_server', $conf['metronome']['installed']);
 $conf['services']['firewall'] = check_service_config_state('firewall_server', ($conf['ufw']['installed'] || $conf['firewall']['installed']));
-$conf['services']['vserver'] = check_service_config_state('vserver_server', $conf['services']['vserver']);
 $conf['services']['db'] = check_service_config_state('db_server', true); /* Will always offer as MySQL is of course installed on this host as it's a requirement for ISPC to work... */
 unset($current_svc_config);
+$inst->raiseEvent('check_service_config_state::after');
 
 //** Write new decisions into DB
-$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', vserver_server = '{$conf['services']['vserver']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
+$sql = "UPDATE ?? SET mail_server = '{$conf['services']['mail']}', web_server = '{$conf['services']['web']}', dns_server = '{$conf['services']['dns']}', file_server = '{$conf['services']['file']}', db_server = '{$conf['services']['db']}', proxy_server = '{$conf['services']['proxy']}', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
 $inst->db->query($sql, $conf['mysql']['database'].'.server', $conf['server_id']);
 if($conf['mysql']['master_slave_setup'] == 'y') {
 	$inst->dbmaster->query($sql, $conf['mysql']['master_database'].'.server', $conf['server_id']);
@@ -365,32 +373,8 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 				//* Configure dovecot
 				swriteln('Configuring Dovecot');
 				$inst->configure_dovecot();
-			} elseif ($conf['courier']['installed'] == true) {
-				//** Configure saslauthd
-				swriteln('Configuring SASL');
-				$inst->configure_saslauthd();
-
-				//** Configure PAM
-				swriteln('Configuring PAM');
-				$inst->configure_pam();
-
-				//* Configure courier
-				swriteln('Configuring Courier');
-				$inst->configure_courier();
 			}
 
-		}
-
-		//** Configure mailman
-		if($conf['mailman']['installed'] == true && $inst->reconfigure_app('Mailman', $reconfigure_services_answer)) {
-			swriteln('Configuring Mailman');
-			$inst->configure_mailman('update');
-		}
-
-		//* Configure mlmmj
-		if($conf['mlmmj']['installed'] == true && $inst->reconfigure_app('Mlmmj', $reconfigure_services_answer)) {
-			swriteln('Configuring Mlmmj');
-			$inst->configure_mlmmj(/*update*/);
 		}
 
 		//** Configure Spamasassin
@@ -403,6 +387,12 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		if($conf['amavis']['installed'] == true && $inst->reconfigure_app('Amavisd', $reconfigure_services_answer)) {
 			swriteln('Configuring Amavisd');
 			$inst->configure_amavis();
+		}
+
+		//** Configure Rspamd
+		if($conf['rspamd']['installed'] == true && $inst->reconfigure_app('Rspamd', $reconfigure_services_answer)) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
 		}
 
 		//** Configure Getmail
@@ -465,17 +455,6 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 	}
 
-    if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
-        //** Configure Metronome XMPP
-        if($conf['prosody']['installed'] == true) {
-            swriteln('Configuring Prosody XMPP');
-            $inst->configure_prosody('dont-create-certs');
-        } elseif ($conf['metronome']['installed'] == true) {
-            swriteln('Configuring Metronome XMPP');
-            $inst->configure_metronome('dont-create-certs');
-        }
-    }
-
 	if($conf['services']['firewall'] && $inst->reconfigure_app('Firewall', $reconfigure_services_answer)) {
 		if($conf['ufw']['installed'] == true) {
 			//* Configure Ubuntu Firewall
@@ -524,7 +503,9 @@ if ($inst->install_ispconfig_interface) {
 	}
 }
 
+$inst->raiseEvent('install_ispconfig::before');
 $inst->install_ispconfig();
+$inst->raiseEvent('install_ispconfig::after');
 
 // Cleanup
 $inst->cleanup_ispconfig();
@@ -542,18 +523,10 @@ if($reconfigure_services_answer == 'yes') {
 	if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') system($inst->getinitcommand($conf['mysql']['init_script'], 'restart').' >/dev/null 2>&1');
 	if($conf['services']['mail']) {
 		if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
-		if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 		if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+		if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 		if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
-		if($conf['courier']['installed'] == true){
-			if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));
-			if($conf['courier']['courier-imap'] != '') system($inst->getinitcommand($conf['courier']['courier-imap'], 'restart'));
-			if($conf['courier']['courier-imap-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-imap-ssl'], 'restart'));
-			if($conf['courier']['courier-pop'] != '') system($inst->getinitcommand($conf['courier']['courier-pop'], 'restart'));
-			if($conf['courier']['courier-pop-ssl'] != '') system($inst->getinitcommand($conf['courier']['courier-pop-ssl'], 'restart'));
-		}
 		if($conf['dovecot']['installed'] == true && $conf['dovecot']['init_script'] != '') system($inst->getinitcommand($conf['dovecot']['init_script'], 'restart'));
-		if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 	}
 	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
 		if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
@@ -570,11 +543,7 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['bind']['installed'] == true && $conf['bind']['init_script'] != '') system($inst->getinitcommand($conf['bind']['init_script'], 'restart').' &> /dev/null');
 	}
 
-    if($conf['services']['xmpp']) {
-        if($conf['metronome']['installed'] == true && $conf['metronome']['init_script'] != '') system($inst->getinitcommand($conf['metronome']['init_script'], 'restart').' &> /dev/null');
-    }
-
-	if($conf['services']['proxy']) {
+    if($conf['services']['proxy']) {
 		// if($conf['squid']['installed'] == true && $conf['squid']['init_script'] != '' && is_executable($conf['init_scripts'].'/'.$conf['squid']['init_script']))     system($conf['init_scripts'].'/'.$conf['squid']['init_script'].' restart &> /dev/null');
 		if($conf['nginx']['installed'] == true && $conf['nginx']['init_script'] != '') system($inst->getinitcommand($conf['nginx']['init_script'], 'restart').' &> /dev/null');
 	}

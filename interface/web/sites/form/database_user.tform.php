@@ -115,15 +115,7 @@ $form["tabs"]['database_user'] = array (
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
-		),
-		'database_password_mongo' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'PASSWORD',
-			'default' => '',
-			'value'  => '',
-			'width'  => '30',
-			'maxlength' => '255'
-		),
+		)
 		//#################################
 		// ENDE Datatable fields
 		//#################################

@@ -101,6 +101,12 @@
 				<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
 				</div>
             </div>
+	    <div class="form-group">
+                <label for="jailkit_jkupdate_cron" class="col-sm-3 control-label">{tmpl_var name='jailkit_jkupdate_cron_txt'}{tmpl_if name="ttip_jailkit_jkupdate_cron_txt"}<div class="ttip" title="{tmpl_var name='ttip_jailkit_jkupdate_cron_txt'}" ></div>{/tmpl_if}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='jailkit_jkupdate_cron'}
+                </div>
+            </div>
             <div class="form-group apache">
                 <label for="apache_directives" class="col-sm-3 control-label">{tmpl_var name='apache_directives_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="apache_directives" id="apache_directives" rows='10' cols='50'>{tmpl_var name='apache_directives'}</textarea>

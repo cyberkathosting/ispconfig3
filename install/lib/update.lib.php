@@ -103,7 +103,8 @@ function checkDbHealth() {
 	$notok = array();
 
 	echo "Checking ISPConfig database .. ";
-	exec("mysqlcheck -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -P ".escapeshellarg($conf['mysql']['port'])." -r ".escapeshellarg($conf["mysql"]["database"]), $result);
+	$result = null;
+	exec("mysqlcheck -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -P ".escapeshellarg($conf['mysql']['port'])." ".escapeshellarg($conf["mysql"]["database"]), $result);
 	for( $i=0; $i<sizeof($result);$i++) {
 		if ( substr($result[$i], -2) != "OK" ) {
 			$notok[] = $result[$i];
@@ -154,7 +155,6 @@ function updateDbAndIni() {
 	$conf['services']['dns'] = ($tmp['dns_server'] == 1)?true:false;
 	$conf['services']['file'] = ($tmp['file_server'] == 1)?true:false;
 	$conf['services']['db'] = ($tmp['db_server'] == 1)?true:false;
-	$conf['services']['vserver'] = ($tmp['vserver_server'] == 1)?true:false;
 	$conf['services']['proxy'] = (isset($tmp['proxy_server']) && $tmp['proxy_server'] == 1)?true:false;
 	$conf['services']['firewall'] = (isset($tmp['firewall_server']) && $tmp['firewall_server'] == 1)?true:false;
 
@@ -333,8 +333,6 @@ function updateDbAndIni() {
 	$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 	$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
 	$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
-	$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
-	$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
 	$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 	$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 	$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -351,8 +349,6 @@ function updateDbAndIni() {
 	$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 	$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 	$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
-
-    $tpl_ini_array['xmpp']['xmpp_daemon'] = ($conf['metronome']['installed'] == true)?'metronome':'prosody';
 
 	if ($conf['nginx']['installed'] == true) {
 		$tpl_ini_array['web']['server_type'] = 'nginx';
@@ -439,11 +435,16 @@ function setDefaultServers(){
  *	@param $servicename string the name of the Database-Field in "servers" for this service
  *	@param $detected_value boolean The result of service detection
  */
-function check_service_config_state($servicename, $detected_value) {
-	global $current_svc_config, $inst, $conf;
+function check_service_config_state($servicename, $detected_value, $use_current_config = null) {
+	global $current_svc_config, $inst;
 	
-	if ($current_svc_config[$servicename] == 1) $current_state = 1;
-	else $current_state = 0;
+	if(is_array($use_current_config)) {
+		if ($use_current_config[$servicename] == 1) $current_state = 1;
+		else $current_state = 0;
+	} else {
+		if ($current_svc_config[$servicename] == 1) $current_state = 1;
+		else $current_state = 0;
+	}
 
 	if ($detected_value) $detected_value = 1;
 	else $detected_value = 0;

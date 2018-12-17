@@ -2388,11 +2388,7 @@ class apache2_plugin {
 		$web_folder = 'web';
 		if($website['type'] == 'vhostsubdomain' || $website['type'] == 'vhostalias') $web_folder = $website['web_folder'];
 
-		//* Get the folder path.
-		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
-		if(substr($folder['path'], -1) == '/') $folder['path'] = substr($folder['path'], 0, -1);
-		$folder_path = realpath($website['document_root'].'/' . $web_folder . '/'.$folder['path']);
-		if(substr($folder_path, -1) != '/') $folder_path .= '/';
+		$app->plugin_webserver_base->eventUpdate($event_name, $data, $this->action, 'apache');
 
 		//* Check if the resulting path is inside the docroot
 		if(substr($folder_path, 0, strlen($website['document_root'])) != $website['document_root']) {

@@ -331,7 +331,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monit_user' => array(
 			'datatype' => 'VARCHAR',
@@ -345,7 +350,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monit_password' => array(
 			'datatype' => 'VARCHAR',
@@ -353,7 +363,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_url' => array(
 			'datatype' => 'VARCHAR',
@@ -365,7 +380,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_user' => array(
 			'datatype' => 'VARCHAR',
@@ -379,7 +399,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'munin_password' => array(
 			'datatype' => 'VARCHAR',
@@ -387,7 +412,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_url' => array(
 			'datatype' => 'VARCHAR',
@@ -399,7 +429,12 @@ $form["tabs"]['server'] = array(
 			),
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_user' => array(
 			'datatype' => 'VARCHAR',
@@ -407,7 +442,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'nagios_password' => array(
 			'datatype' => 'VARCHAR',
@@ -415,7 +455,12 @@ $form["tabs"]['server'] = array(
 			'default' => '',
 			'value' => '',
 			'width' => '40',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'filters'   => array( 0 => array(
+					'event' => 'SAVE',
+					'type' => 'TRIM'
+				),
+			)
 		),
 		'monitor_system_updates' => array(
 			'datatype' => 'VARCHAR',
@@ -494,6 +539,23 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'content_filter' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rspamd',
+			'value' => array('amavisd' => 'Amavisd', 'rspamd' => 'Rspamd')
+		),
+		'rspamd_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
+		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -523,18 +585,6 @@ $form["tabs"]['mail'] = array(
             'maxlength' => '255'
         ),
 
-		'pop3_imap_daemon' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '20',
-			'value' => array('courier' => 'Courier', 'dovecot' => 'Dovecot')
-		),
-		'mail_filter_syntax' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '20',
-			'value' => array('maildrop' => 'Maildrop', 'sieve' => 'Sieve')
-		),
 		'mailuser_uid' => array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -702,12 +752,6 @@ $form["tabs"]['mail'] = array(
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
-		),
-		'mailinglist_manager' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '20',
-			'value' => array('mlmmj' => 'Mlmmj', 'mailman' => 'Mailman')
 		),
 		//#################################
 		// ENDE Datatable fields
@@ -1602,119 +1646,13 @@ $form["tabs"]['fastcgi'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
-		),
-		'fastcgi_config_syntax' => array(
-			'datatype' => 'INTEGER',
-			'formtype' => 'SELECT',
-			'default' => '2',
-			'value' => array('1' => 'Old (apache 2.0)', '2' => 'New (apache 2.2)'),
-			'width' => '40',
-			'maxlength' => '255'
-		),
+		)
 		//#################################
 		// ENDE Datatable fields
 		//#################################
 	)
 );
 
-
-$form["tabs"]['xmpp'] = array(
-    'title' => "XMPP",
-    'width' => 80,
-    'template' => "templates/server_config_xmpp_edit.htm",
-    'fields' => array(
-        //#################################
-        // Begin Datatable fields
-        //#################################
-        'xmpp_daemon' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'SELECT',
-            'default' => '20',
-            'value' => array('prosody' => 'Prosody', 'metronome' => 'Metronome')
-        ),
-        'xmpp_use_ipv6' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value' => array(0 => 'n', 1 => 'y')
-        ),
-        'xmpp_bosh_max_inactivity' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '30',
-            'validators' => array(0 => array('type' => 'ISINT',
-                'errmsg' => 'ip_address_error_wrong'),
-                array('type'=>'RANGE', 'range'=>'15:360', 'errmsg' => 'xmpp_bosh_timeout_range_wrong')
-            ),
-            'value' => '',
-            'width' => '15'
-        ),
-
-        'xmpp_server_admins' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-			'filters'   => array(
-					0 => array( 'event' => 'SAVE',
-					'type' => 'STRIPTAGS'),
-					1 => array( 'event' => 'SAVE',
-					'type' => 'STRIPNL')
-			),
-            'default' => 'admin@service.com, superuser@service.com',
-            'value' => '',
-            'width' => '15'
-        ),
-
-        'xmpp_modules_enabled' => array(
-            'datatype' => 'TEXT',
-            'formtype' => 'TEXT',
-			'filters'   => array(
-					0 => array( 'event' => 'SAVE',
-					'type' => 'STRIPTAGS'),
-					1 => array( 'event' => 'SAVE',
-					'type' => 'STRIPNL')
-			),
-            'default' => "saslauth, tls, dialback, disco, discoitems, version, uptime, time, ping, admin_adhoc, admin_telnet, bosh, posix, announce, offline, webpresence, mam, stream_management, message_carbons",
-            'value' => '',
-            'separator' => ","
-        ),
-
-        'xmpp_port_http' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '5290',
-            'validators' => array(0 => array('type' => 'ISINT')),
-            'value' => '5290',
-            'width' => '15'
-        ),
-        'xmpp_port_https' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '5291',
-            'validators' => array(0 => array('type' => 'ISINT')),
-            'value' => '5291',
-            'width' => '15'
-        ),
-        'xmpp_port_pastebin' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '5292',
-            'validators' => array(0 => array('type' => 'ISINT')),
-            'value' => '5292',
-            'width' => '15'
-        ),
-        'xmpp_port_bosh' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'TEXT',
-            'default' => '5280',
-            'validators' => array(0 => array('type' => 'ISINT')),
-            'value' => '5280',
-            'width' => '15'
-        ),
-        //#################################
-        // ENDE Datatable fields
-        //#################################
-    )
-);
 
 $form["tabs"]['jailkit'] = array(
 	'title' => "Jailkit",
@@ -1753,13 +1691,13 @@ $form["tabs"]['jailkit'] = array(
 			'maxlength' => '1000'
 		),
 		'jailkit_chroot_app_programs' => array(
-			'datatype' => 'VARCHAR',
+			'datatype' => 'TEXT',
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 										'errmsg' => 'jailkit_chroot_app_programs_error_empty'),
 									1 => array ( 	'type' => 'REGEX',
-										'regex' => '/^[a-zA-Z0-9\*\.\-\_\/\ ]{1,}$/',
+										'regex' => '/^[a-zA-Z0-9\*\.\-\_\/\ \r\n]{1,}$/',
 										'errmsg'=> 'jailkit_chroot_app_programs_error_regex'),
 			),
 			'value' => '',
@@ -1956,12 +1894,6 @@ $form["tabs"]['rescue'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
-		'do_not_try_rescue_mongodb' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'n',
-			'value' => array(0 => 'n', 1 => 'y')
-		),
 		'do_not_try_rescue_mysql' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -1979,4 +1911,10 @@ $form["tabs"]['rescue'] = array(
 		//#################################
 	)
 );
-?>
+
+$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+if(!isset($mail_config['rspamd_available']) || $mail_config['rspamd_available'] != 'y') {
+	$form['tabs']['mail']['fields']['content_filter']['default'] = 'amavisd';
+	unset($form['tabs']['mail']['fields']['content_filter']['value']['rspamd']);
+	unset($form['tabs']['mail']['fields']['rspamd_password']);
+}

@@ -46,7 +46,7 @@ class remoting_dns extends remoting {
 	{
 		global $app, $conf;
 		if(!$this->checkPerm($session_id, 'dns_templatezone_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
@@ -180,7 +180,7 @@ class remoting_dns extends remoting {
 			return $dns_soa_id;
 			exit;
 		} else {
-			throw new SoapFault('permission_denied', $error);
+			throw new ISPConfigRemoteException('permission_denied', $error);
 		}
 	}
 
@@ -191,7 +191,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -203,7 +203,7 @@ class remoting_dns extends remoting {
 	public function dns_slave_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../dns/form/dns_slave.tform.php', $client_id, $params);
@@ -213,7 +213,7 @@ class remoting_dns extends remoting {
 	public function dns_slave_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../dns/form/dns_slave.tform.php', $client_id, $primary_id, $params);
@@ -224,7 +224,7 @@ class remoting_dns extends remoting {
     public function dns_slave_delete($session_id, $primary_id)
     {
 		if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->deleteQuery('../dns/form/dns_slave.tform.php', $primary_id);
@@ -236,12 +236,12 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_zone_get_id')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 
 		if(!preg_match('/^([a-z0-9][a-z0-9\-]+[a-z0-9]|[a-z0-9]{2})(\.[a-z]{2,63})+$/i', $origin)){
-			throw new SoapFault('no_domain_found', 'Invalid domain name.');
+			throw new ISPConfigRemoteException('no_domain_found', 'Invalid domain name.');
 			return false;
 		}
 
@@ -249,7 +249,7 @@ class remoting_dns extends remoting {
 		if(isset($rec['id'])) {
 			return $app->functions->intval($rec['id']);
 		} else {
-			throw new SoapFault('no_domain_found', 'There is no domain ID with informed domain name.');
+			throw new ISPConfigRemoteException('no_domain_found', 'There is no domain ID with informed domain name.');
 			return false;
 		}
 	}
@@ -258,7 +258,7 @@ class remoting_dns extends remoting {
 	public function dns_zone_add($session_id, $client_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		return $this->insertQuery('../dns/form/dns_soa.tform.php', $client_id, $params);
@@ -268,7 +268,7 @@ class remoting_dns extends remoting {
 	public function dns_zone_update($session_id, $client_id, $primary_id, $params)
 	{
 		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../dns/form/dns_soa.tform.php', $client_id, $primary_id, $params);
@@ -279,7 +279,7 @@ class remoting_dns extends remoting {
 	public function dns_zone_delete($session_id, $primary_id)
 	{
 		if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_soa.tform.php', $primary_id);
@@ -294,7 +294,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_aaaa_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -306,7 +306,7 @@ class remoting_dns extends remoting {
 	public function dns_aaaa_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -317,7 +317,7 @@ class remoting_dns extends remoting {
 	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->updateQuery('../dns/form/dns_aaaa.tform.php', $client_id, $primary_id, $params);
@@ -329,7 +329,7 @@ class remoting_dns extends remoting {
 	public function dns_aaaa_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_aaaa_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_aaaa.tform.php', $primary_id);
@@ -345,7 +345,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_a_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -357,7 +357,7 @@ class remoting_dns extends remoting {
 	public function dns_a_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -368,7 +368,7 @@ class remoting_dns extends remoting {
 	public function dns_a_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -380,7 +380,7 @@ class remoting_dns extends remoting {
 	public function dns_a_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_a_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_a.tform.php', $primary_id);
@@ -396,7 +396,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_alias_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -408,7 +408,7 @@ class remoting_dns extends remoting {
 	public function dns_alias_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -419,7 +419,7 @@ class remoting_dns extends remoting {
 	public function dns_alias_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -431,7 +431,7 @@ class remoting_dns extends remoting {
 	public function dns_alias_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_alias_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_alias.tform.php', $primary_id);
@@ -447,7 +447,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_cname_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -459,7 +459,7 @@ class remoting_dns extends remoting {
 	public function dns_cname_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -470,7 +470,7 @@ class remoting_dns extends remoting {
 	public function dns_cname_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -482,7 +482,7 @@ class remoting_dns extends remoting {
 	public function dns_cname_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_cname_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_cname.tform.php', $primary_id);
@@ -498,7 +498,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_hinfo_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -510,7 +510,7 @@ class remoting_dns extends remoting {
 	public function dns_hinfo_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -521,7 +521,7 @@ class remoting_dns extends remoting {
 	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -533,7 +533,7 @@ class remoting_dns extends remoting {
 	public function dns_hinfo_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_hinfo_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_hinfo.tform.php', $primary_id);
@@ -549,7 +549,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_mx_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -561,7 +561,7 @@ class remoting_dns extends remoting {
 	public function dns_mx_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -572,7 +572,7 @@ class remoting_dns extends remoting {
 	public function dns_mx_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -584,7 +584,7 @@ class remoting_dns extends remoting {
 	public function dns_mx_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_mx_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_mx.tform.php', $primary_id);
@@ -600,7 +600,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_ns_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -612,7 +612,7 @@ class remoting_dns extends remoting {
 	public function dns_ns_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -623,7 +623,7 @@ class remoting_dns extends remoting {
 	public function dns_ns_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -635,7 +635,7 @@ class remoting_dns extends remoting {
 	public function dns_ns_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ns_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ns.tform.php', $primary_id);
@@ -651,7 +651,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_ptr_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -663,7 +663,7 @@ class remoting_dns extends remoting {
 	public function dns_ptr_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -674,7 +674,7 @@ class remoting_dns extends remoting {
 	public function dns_ptr_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -686,7 +686,7 @@ class remoting_dns extends remoting {
 	public function dns_ptr_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_ptr_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_ptr.tform.php', $primary_id);
@@ -702,7 +702,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_rp_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -714,7 +714,7 @@ class remoting_dns extends remoting {
 	public function dns_rp_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -725,7 +725,7 @@ class remoting_dns extends remoting {
 	public function dns_rp_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -737,7 +737,7 @@ class remoting_dns extends remoting {
 	public function dns_rp_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_rp_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_rp.tform.php', $primary_id);
@@ -753,7 +753,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_srv_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -765,7 +765,7 @@ class remoting_dns extends remoting {
 	public function dns_srv_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -776,7 +776,7 @@ class remoting_dns extends remoting {
 	public function dns_srv_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -788,7 +788,7 @@ class remoting_dns extends remoting {
 	public function dns_srv_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_srv_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_srv.tform.php', $primary_id);
@@ -804,7 +804,7 @@ class remoting_dns extends remoting {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_txt_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$app->uses('remoting_lib');
@@ -816,7 +816,7 @@ class remoting_dns extends remoting {
 	public function dns_txt_add($session_id, $client_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_add')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -827,7 +827,7 @@ class remoting_dns extends remoting {
 	public function dns_txt_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_update')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
@@ -839,7 +839,7 @@ class remoting_dns extends remoting {
 	public function dns_txt_delete($session_id, $primary_id, $update_serial=false)
 	{
 		if(!$this->checkPerm($session_id, 'dns_txt_delete')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$affected_rows = $this->deleteQuery('../dns/form/dns_txt.tform.php', $primary_id);
@@ -856,7 +856,7 @@ class remoting_dns extends remoting {
 	public function dns_zone_get_by_user($session_id, $client_id, $server_id) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if (!empty($client_id) && !empty($server_id)) {
@@ -880,7 +880,7 @@ class remoting_dns extends remoting {
 	public function dns_rr_get_all_by_zone($session_id, $zone_id) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		$sql    = "SELECT * FROM dns_rr WHERE zone = ?";
@@ -898,7 +898,7 @@ class remoting_dns extends remoting {
 	public function dns_zone_set_status($session_id, $primary_id, $status) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'dns_zone_set_status')) {
-			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if(in_array($status, array('active', 'inactive'))) {
@@ -912,7 +912,7 @@ class remoting_dns extends remoting {
 			$result = $app->db->affectedRows();
 			return $result;
 		} else {
-			throw new SoapFault('status_undefined', 'The status is not available');
+			throw new ISPConfigRemoteException('status_undefined', 'The status is not available');
 			return false;
 		}
 	}

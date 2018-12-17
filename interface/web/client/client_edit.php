@@ -438,7 +438,6 @@ class page_action extends tform_actions {
 				'mail_user_smtp' => 'mailuser_id',
 				'mail_forwarding' => 'forwarding_id',
 				'mail_get' => 'mailget_id',
-				'openvz_vm' => 'vm_id',
 				'shell_user' => 'shell_user_id',
 				'webdav_user' => 'webdav_user_id',
 				'web_database' => 'database_id',
@@ -446,6 +445,11 @@ class page_action extends tform_actions {
 				'web_folder' => 'web_folder_id',
 				'web_folder_user' => 'web_folder_user_id'
 			);
+			
+			$addons_disable = $app->plugin->raiseEvent('client::get_lockable_data', $this->id, true);
+			if(is_array($addons_disable) && !empty($addons_disable)) {
+				$to_disable = array_merge($to_disable, $addons_disable);
+			}
 
 			$udata = $app->db->queryOneRecord('SELECT `userid` FROM `sys_user` WHERE `client_id` = ?', $this->id);
 			$gdata = $app->db->queryOneRecord('SELECT `groupid` FROM `sys_group` WHERE `client_id` = ?', $this->id);

@@ -4,7 +4,6 @@
 ######################################################
 
 <tmpl_var name="vhost_port_listen"> Listen <tmpl_var name="vhost_port">
-<tmpl_if name='apache_version' op='<' value='2.4' format='version'>NameVirtualHost *:<tmpl_var name="vhost_port"></tmpl_if>
 
 <VirtualHost _default_:<tmpl_var name="vhost_port">>
   ServerAdmin webmaster@localhost
@@ -33,12 +32,7 @@
         SetHandler fcgid-script
       </FilesMatch>
       FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
-      <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
       Require all granted
-      <tmpl_else>
-      Order allow,deny
-      Allow from all
-      </tmpl_if>
     </Directory>
     IPCCommTimeout  7200
     MaxRequestLen 15728640
@@ -52,12 +46,7 @@
       # php_admin_value open_basedir "/usr/local/ispconfig/interface:/usr/share:/tmp"
       Options +FollowSymLinks
       AllowOverride None
-      <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
       Require all granted
-      <tmpl_else>
-      Order allow,deny
-      Allow from all
-      </tmpl_if>
       php_value magic_quotes_gpc        0
     </Directory>
   </IfModule>
@@ -121,20 +110,10 @@
 
 <Directory /var/www/php-cgi-scripts>
   AllowOverride None
-  <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
   Require all denied
-  <tmpl_else>
-  Order Deny,Allow
-  Deny from all
-  </tmpl_if>
 </Directory>
 
 <Directory /var/www/php-fcgi-scripts>
   AllowOverride None
-  <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
   Require all denied
-  <tmpl_else>
-  Order Deny,Allow
-  Deny from all
-  </tmpl_if>
 </Directory>

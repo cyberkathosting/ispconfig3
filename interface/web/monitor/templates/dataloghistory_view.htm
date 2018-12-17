@@ -1,0 +1,124 @@
+<tmpl_if name="list_head_txt">
+<div class='page-header'>
+        <h1><tmpl_var name="list_head_txt"></h1>
+</div>
+</tmpl_if>
+<div class="table-wrapper marginTop15">
+	<table class="table">
+		<thead class="dark form-group-sm">
+			<tr>
+				<th width="25%"><tmpl_var name="id_txt"></th>
+				<th><tmpl_var name="id"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><tmpl_var name="timestamp_txt"></td>
+				<td><tmpl_var name="timestamp"></td>
+			</tr>
+			<tr>
+				<td><tmpl_var name="table_txt"></td>
+				<td><tmpl_var name="table"></td>
+			</tr>
+			<tr>
+				<td><tmpl_var name="action_txt"></td>
+				<td><tmpl_var name="action_name"></td>
+			</tr>
+			<tr>
+				<td><tmpl_var name="session_id_txt"></td>
+				<td><tmpl_var name="session_id"></td>
+			</tr>
+		</tbody>
+    </table>
+</div>
+
+<tmpl_if name='action_char' value='i'>
+	<h2><tmpl_var name="fields_inserted_txt"></h2>
+</tmpl_if>
+<tmpl_if name='action_char' value='u'>
+	<h2><tmpl_var name="fields_updated_txt"></h2>
+</tmpl_if>
+<tmpl_if name='action_char' value='d'>
+	<h2><tmpl_var name="fields_deleted_txt"></h2>
+</tmpl_if>
+
+<div class="table-wrapper marginTop15">
+	<table class="table">
+		<tmpl_if name='action_char' value='i'>
+			<thead class="dark form-group-sm">
+				<tr>
+					<th width="25%"><tmpl_var name="field_txt"></th>
+					<th><tmpl_var name="value_txt"></th>
+				</tr>
+			</thead>
+			<tmpl_loop name='inserts'>
+				<tr>
+					<td><tmpl_var name="key"></td>
+					<td><tmpl_var name="value"></td>
+				</tr>
+			</tmpl_loop>
+		</tmpl_if>
+		<tmpl_if name='action_char' value='u'>
+			<tmpl_if name='no_changes'>
+				<tbody>
+					<tr>
+						<td class="text-center"><h3><tmpl_var name="no_changes_txt"></h3></td>
+					</tr>
+				</tbody>
+			<tmpl_else>
+				<thead class="dark form-group-sm">
+					<tr>
+						<th width="25%"><tmpl_var name="field_txt"></th>
+						<th><tmpl_var name="old_txt"></th>
+						<th><tmpl_var name="new_txt"></th>
+					</tr>
+				</thead>
+				<tbody>
+				<tmpl_loop name='updates'>
+					<tmpl_if name='is_diff'>
+						<tr>
+							<td><tmpl_var name="key"></td>
+							<td colspan="2">
+								<div class="alert alert-warning"><tmpl_var name="is_diff_txt"> (<span class="finediff"><ins><tmpl_var name="is_diff_inserts_txt"></ins></span> / <span class="finediff"><del><tmpl_var name="is_diff_deletes_txt"></del></span>)</div>
+								<div class="finediff"><tmpl_var name="diff"></div>
+							</td>
+						</tr>
+					<tmpl_else>
+						<tr>
+							<td><tmpl_var name="key"></td>
+							<td><tmpl_var name="old"></td>
+							<td><tmpl_var name="new"></td>
+						</tr>
+					</tmpl_if>
+				</tmpl_loop>
+				</tbody>
+			</tmpl_if>
+		</tmpl_if>
+		<tmpl_if name='action_char' value='d'>
+			<thead class="dark form-group-sm">
+				<tr>
+					<th width="25%"><tmpl_var name="field_txt"></th>
+					<th><tmpl_var name="value_txt"></th>
+				</tr>
+			</thead>
+			<tbody>
+			<tmpl_loop name='deletes'>
+				<tr>
+					<td><tmpl_var name="key"></td>
+					<td><tmpl_var name="value"></td>
+				</tr>
+			</tmpl_loop>
+			</tbody>
+		</tmpl_if>
+
+    </table>
+</div>
+
+<div class="clear">
+	<div class="right">
+		<tmpl_if name='can_undo'>
+			<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('monitor/dataloghistory_undo.php?id={tmpl_var name='id'}','{tmpl_var name='undo_confirmation_txt'}');"> {tmpl_var name='undo_txt'}</a>
+		</tmpl_if>
+		<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="monitor/dataloghistory_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+	</div>
+</div>

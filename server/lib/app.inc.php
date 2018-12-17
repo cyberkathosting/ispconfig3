@@ -69,6 +69,14 @@ class app {
 
 	}
 
+	public function __get($prop) {
+		if(property_exists($this, $prop)) return $this->{$prop};
+		
+		$this->uses($prop);
+		if(property_exists($this, $prop)) return $this->{$prop};
+		else return null;
+	}
+	
 	function setCaller($caller) {
 		$this->_calling_script = $caller;
 	}

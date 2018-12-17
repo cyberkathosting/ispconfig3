@@ -20,4 +20,4 @@ $wb['Add DNS Zone'] = 'Add DNS-Zone';
 $wb['Templates'] = 'Templates';
 $wb['Secondary Zones'] = 'Secondary DNS-Zones';
 $wb['Import Zone File'] = 'Zone-File Import';
-?>
+$wb['Bulk Editor'] = 'Bulk Editor';

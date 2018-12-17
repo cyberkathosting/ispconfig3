@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ Sanal Makina Kalıbı';
-$wb['active_txt'] = 'Etkin';
-$wb['template_name_txt'] = 'Kalıp Adı';
-?>

@@ -1,9 +1,0 @@
-<?php
-$wb['server_id_txt'] = 'Ime host servera';
-$wb['ip_address_txt'] = 'IP adresa';
-$wb['vm_id_txt'] = 'Virtualni server';
-$wb['reserved_txt'] = 'Rezervirano';
-$wb['ip_error_wrong'] = 'Unesite ispravnu IPv4 adresu.';
-$wb['ip_error_unique'] = 'Ova IP adresa već postoji.';
-$wb['IP address'] = 'IP adresa';
-?>

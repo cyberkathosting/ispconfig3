@@ -20,8 +20,7 @@ NameVirtualHost *:{vhost_port}
            SetHandler fcgid-script
       </FilesMatch>
       FCGIWrapper /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter .php
-      Order allow,deny
-      Allow from all
+      Require all granted
     </Directory>
     DirectoryIndex index.php
   </IfModule>
@@ -32,8 +31,7 @@ NameVirtualHost *:{vhost_port}
     <Directory /usr/local/ispconfig/interface/web>
       Options +FollowSymLinks
       AllowOverride None
-      Order allow,deny
-      Allow from all
+      Require all granted
 	  php_value magic_quotes_gpc        0
     </Directory>
   </IfModule>

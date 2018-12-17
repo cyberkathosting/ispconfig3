@@ -29,8 +29,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 class installer_dist extends installer_base {
-	protected $mailman_group = 'mailman';
-	
 	public function __construct() {
 		//** check apache modules */
 		$mods = getapachemodules();
@@ -194,15 +192,6 @@ class installer_dist extends installer_base {
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
 
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postmap /var/lib/mailman/data/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';
 		if(is_file($config_dir.'/'.$configfile)) {
@@ -247,10 +236,6 @@ class installer_dist extends installer_base {
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
-
-		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755  /var/run/authdaemon.courier-imap';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 
 		//* Check maildrop service in posfix master.cf
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
@@ -302,73 +287,6 @@ class installer_dist extends installer_base {
 		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
 		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
-	}
-
-	public function configure_saslauthd() {
-		global $conf;
-
-		// Edit the file /etc/init.d/saslauthd
-		$configfile = $conf["init_scripts"].'/'.$conf["saslauthd"]["init_script"];
-		$content = rf($configfile);
-		$content = str_replace('/sbin/startproc $AUTHD_BIN -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1', '/sbin/startproc $AUTHD_BIN -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1', $content);
-		$content = str_replace('/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1', '/sbin/startproc $AUTHD_BIN $SASLAUTHD_PARAMS -r -a $SASLAUTHD_AUTHMECH -n $SASLAUTHD_THREADS > /dev/null 2>&1', $content);
-
-
-		if(is_file($configfile)) wf($configfile, $content);
-
-	}
-
-	public function configure_pam()
-	{
-		global $conf;
-		$pam = $conf['pam'];
-		//* configure pam for SMTP authentication agains the ispconfig database
-		$configfile = 'pamd_smtp';
-		if(is_file("$pam/smtp"))    copy("$pam/smtp", "$pam/smtp~");
-		if(is_file("$pam/smtp~"))   exec("chmod 400 $pam/smtp~");
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf("$pam/smtp", $content);
-		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
-		if(is_file("$pam/smtp"))    exec("chmod o= $pam/smtp");
-	}
-
-	public function configure_courier()
-	{
-		global $conf;
-		$config_dir = $conf['courier']['config_dir'];
-		//* authmysqlrc
-		$configfile = 'authmysqlrc';
-		if(is_file("$config_dir/$configfile")){
-			copy("$config_dir/$configfile", "$config_dir/$configfile~");
-		}
-		exec("chmod 400 $config_dir/$configfile~");
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/$configfile.master");
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
-		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
-		wf("$config_dir/$configfile", $content);
-
-		exec("chmod 660 $config_dir/$configfile");
-		exec("chown root:root $config_dir/$configfile");
-
-		//* authdaemonrc
-		$configfile = $conf['courier']['config_dir'].'/authdaemonrc';
-		if(is_file($configfile)){
-			copy($configfile, $configfile.'~');
-		}
-		if(is_file($configfile.'~')){
-			exec('chmod 400 '.$configfile.'~');
-		}
-		$content = rf($configfile);
-		$content = str_replace('authmodulelist=', 'authmodulelist="authmysql"', $content);
-		wf($configfile, $content);
 	}
 
 	public function configure_dovecot()
@@ -1062,12 +980,11 @@ class installer_dist extends installer_base {
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
-		$vserver_server_enabled = ($conf['services']['vserver'])?1:0;
-		$sql = "UPDATE `server` SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ?, vserver_server = ? WHERE server_id = ?";
+		$sql = "UPDATE `server` SET mail_server = ?, web_server = ?, dns_server = ?, file_server = ?, db_server = ? WHERE server_id = ?";
 
-		$this->db->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
+		$this->db->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
-			$this->dbmaster->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $conf['server_id']);
+			$this->dbmaster->query($sql, $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $conf['server_id']);
 		}
 
 		// chown install dir to root and chmod 755

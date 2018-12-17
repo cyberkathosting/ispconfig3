@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ OSTemplate';
-$wb['active_txt'] = 'Actif';
-$wb['template_name_txt'] = 'Nom du modèle';
-$wb['server_id_txt'] = 'Serveur';
-$wb['allservers_txt'] = 'Existe sur tous les serveurs';
-$wb['ostemplate_id_txt'] = 'ID';
-?>

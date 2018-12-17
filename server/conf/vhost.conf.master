@@ -2,12 +2,7 @@
 
 <Directory {tmpl_var name='web_basedir'}/{tmpl_var name='domain'}>
 		AllowOverride None
-		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all denied
-		<tmpl_else>
-		Order Deny,Allow
-		Deny from all
-		</tmpl_if>
 </Directory>
 
 <tmpl_loop name='vhosts'>
@@ -89,12 +84,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
-				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
-				<tmpl_else>
-				Order allow,deny
-				Allow from all
-				</tmpl_if>
 <tmpl_if name='ssi' op='==' value='y'>
 
 				# ssi enabled
@@ -104,13 +94,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
 				<Files ~ '.php[s3-6]{0,1}$'>
-						<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 						Require all denied
-						<tmpl_else>
-						Order allow,deny
-						Deny from all
-						Allow from none
-						</tmpl_if>
 				</Files>
 </tmpl_if>
 		</Directory>
@@ -121,12 +105,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 				</FilesMatch>
 				Options +FollowSymLinks
 				AllowOverride <tmpl_var name='allow_override'>
-				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
-				<tmpl_else>
-				Order allow,deny
-				Allow from all
-				</tmpl_if>
 <tmpl_if name='ssi' op='==' value='y'>
 
 				# ssi enabled
@@ -136,13 +115,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='no'>
 				<Files ~ '.php[s3-6]{0,1}$'>
-					<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 					Require all denied
-					<tmpl_else>
-					Order allow,deny
-					Deny from all
-					Allow from none
-					</tmpl_if>
 				</Files>
 </tmpl_if>
 		</Directory>
@@ -209,12 +182,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 <tmpl_if name='cgi' op='==' value='y'>
 		# cgi enabled
 	<Directory {tmpl_var name='document_root'}/cgi-bin>
-			<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 			Require all granted
-			<tmpl_else>
-			Order allow,deny
-			Allow from all
-			</tmpl_if>
 		</Directory>
 		ScriptAlias  /cgi-bin/ <tmpl_var name='document_root'>/cgi-bin/
 		<FilesMatch "\.(cgi|pl)$">
@@ -245,7 +213,6 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 		# php as fast-cgi enabled
 	# For config options see: http://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
 		<IfModule mod_fcgid.c>
-<tmpl_if name='fastcgi_config_syntax' op='==' value='2'>
 				FcgidIdleTimeout 300
 				FcgidProcessLifeTime 3600
 				# FcgidMaxProcesses 1000
@@ -256,16 +223,6 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 				FcgidIOTimeout 600
 				FcgidBusyTimeout 3600
 				FcgidMaxRequestLen 1073741824
-<tmpl_else>
-				IdleTimeout 300
-				ProcessLifeTime 3600
-				# MaxProcessCount 1000
-				DefaultMinClassProcessCount 0
-				DefaultMaxClassProcessCount 10
-				IPCConnectTimeout 3
-				IPCCommTimeout 600
-				BusyTimeout 3600
-</tmpl_if>
 		</IfModule>
 		<Directory {tmpl_var name='web_document_root_www'}>
 				<FilesMatch "\.php[345]?$">
@@ -277,12 +234,7 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php5
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
-				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
-				<tmpl_else>
-				Order allow,deny
-				Allow from all
-				</tmpl_if>
 		</Directory>
 		<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
@@ -294,44 +246,26 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 				FCGIWrapper <tmpl_var name='fastcgi_starter_path'><tmpl_var name='fastcgi_starter_script'> .php5
 				Options +ExecCGI
 				AllowOverride <tmpl_var name='allow_override'>
-				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
-				<tmpl_else>
-				Order allow,deny
-				Allow from all
-				</tmpl_if>
 		</Directory>
 </tmpl_if>
 <tmpl_if name='php' op='==' value='php-fpm'>
 		<IfModule mod_fastcgi.c>
 				<Directory {tmpl_var name='document_root'}/cgi-bin>
-					<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 					Require all granted
-					<tmpl_else>
-					Order allow,deny
-					Allow from all
-					</tmpl_if>
 			    </Directory>
 				<Directory {tmpl_var name='web_document_root_www'}>
 					<FilesMatch "\.php[345]?$">
-                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
-                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                SetHandler php-fcgi
-                            </If>
-                    <tmpl_else>
-                            SetHandler php-fcgi
-                    </tmpl_if>
+						<If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
 				<Directory {tmpl_var name='web_document_root'}>
 					<FilesMatch "\.php[345]?$">
-                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
-                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                SetHandler php-fcgi
-                            </If>
-                    <tmpl_else>
-                            SetHandler php-fcgi
-                    </tmpl_if>
+						<If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
                 Action php-fcgi /php-fcgi virtual
@@ -348,13 +282,9 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
-                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
-                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                    SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
-                            </If>
-                    <tmpl_else>
-                            SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
-                    </tmpl_if>
+						<If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+								SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+						</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -362,13 +292,9 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
-                    <tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
-                            <If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
-                                    SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
-                            </If>
-                    <tmpl_else>
-                            SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
-                    </tmpl_if>
+						<If "-f %{DOCUMENT_ROOT} . '/' . %{REQUEST_URI}">
+								SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+						</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -377,38 +303,25 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 
 <tmpl_if name="rewrite_enabled">
 		RewriteEngine on
-<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		RewriteCond %{REQUEST_URI} ^/\.well-known/acme-challenge/
 		RewriteRule ^ - [END]
-</tmpl_if>
 <tmpl_if name='ssl_enabled'>
 <tmpl_else>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
 		RewriteCond %{HTTPS} off
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
-</tmpl_if>
 		RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </tmpl_if>
 </tmpl_if>
 <tmpl_if name='seo_redirect_enabled'>
 		RewriteCond %{HTTP_HOST} <tmpl_var name='seo_redirect_operator'>^<tmpl_var name='seo_redirect_origin_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
-		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
-		</tmpl_if>
 		RewriteRule ^ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='seo_redirect_target_domain'>%{REQUEST_URI} [R=301,NE,L]
 </tmpl_if>
 <tmpl_loop name="alias_seo_redirects">
 		RewriteCond %{HTTP_HOST} <tmpl_var name='alias_seo_redirect_operator'>^<tmpl_var name='alias_seo_redirect_origin_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
-		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
-		</tmpl_if>
 		RewriteRule ^ http<tmpl_if name='ssl_enabled'>s</tmpl_if>://<tmpl_var name='alias_seo_redirect_target_domain'>%{REQUEST_URI} [R=301,NE,L]
 </tmpl_loop>
 <tmpl_loop name="redirects">
 		RewriteCond %{HTTP_HOST} <tmpl_var name='rewrite_domain'>$ [NC]
-		<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
-		RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
-		</tmpl_if>
 <tmpl_if name="rewrite_is_url" op="==" value="n">
 		RewriteCond %{REQUEST_URI} !^/webdav/
 		RewriteCond %{REQUEST_URI} !^/php-fcgi/
@@ -421,8 +334,6 @@ DocumentRoot <tmpl_var name='web_document_root_www'>
 <tmpl_else>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         RewriteCond %{HTTPS} off
-        <tmpl_if name='apache_version' op='<' value='2.4' format='version'>RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
-</tmpl_if>
         RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 </tmpl_if>
 </tmpl_if>

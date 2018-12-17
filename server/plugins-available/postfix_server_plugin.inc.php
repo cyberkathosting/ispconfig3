@@ -60,15 +60,11 @@ class postfix_server_plugin {
 		Register for the events
 		*/
 
-		$app->plugins->registerEvent('server_insert', 'postfix_server_plugin', 'insert');
-		$app->plugins->registerEvent('server_update', 'postfix_server_plugin', 'update');
-
-
-
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'insert');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'update');
 	}
 
 	function insert($event_name, $data) {
-		global $app, $conf;
 
 		$this->update($event_name, $data);
 
@@ -116,7 +112,7 @@ class postfix_server_plugin {
 			if($rbl_hosts != ''){
 				$rbl_hosts = explode(",", $rbl_hosts);
 			}
-			$options = explode(", ", exec("postconf -h smtpd_recipient_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_rbl_client/', $value)) {
@@ -162,7 +158,8 @@ class postfix_server_plugin {
 		}		
 		
 		if($app->system->is_installed('dovecot')) {
-			$temp = exec("postconf -n virtual_transport", $out);
+			$out = null;
+			exec("postconf -n virtual_transport", $out);
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				// If dovecot switch to lmtp
 				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp") {
@@ -182,12 +179,51 @@ class postfix_server_plugin {
 			}
 		}
 
-		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'"); //TODO : no reload?
-		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'"); //TODO : no reload?
+		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
+			if($mail_config['content_filter'] == 'rspamd'){
+				exec("postconf -X 'receive_override_options'");
+				exec("postconf -X 'content_filter'");
+				
+				exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+				exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
+				exec("postconf -e 'milter_protocol = 6'");
+				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
+				exec("postconf -e 'milter_default_action = accept'");
+				
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+				
+				$new_options = array();
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+				foreach ($options as $key => $value) {
+					if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+						$new_options[] = $value;
+					}
+				}
+				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+			} elseif($mail_config['content_filter'] == 'amavisd'){
+				exec("postconf -X 'smtpd_milters'");
+				exec("postconf -X 'milter_protocol'");
+				exec("postconf -X 'milter_mail_macros'");
+				exec("postconf -X 'milter_default_action'");
+				
+				exec("postconf -e 'receive_override_options = no_address_mappings'");
+				exec("postconf -e 'content_filter = amavis:[127.0.0.1]:10024'");
+				
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
+			}
+		}
 		
+		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {
+			$tpl = new tpl();
+			$tpl->newTemplate('rspamd_worker-controller.inc.master');
+			$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+			$app->services->restartServiceDelayed('rspamd', 'reload');
+		}
 
+		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
+		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
+		$app->services->restartServiceDelayed('postfix', 'reload');
 	}
 
 } // end class
-
-?>

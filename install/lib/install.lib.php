@@ -48,6 +48,7 @@ function get_distname() {
 	$distver = '';
 	$distid = '';
 	$distbaseid = '';
+	$distsupported = false;
 
 	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
@@ -100,22 +101,27 @@ function get_distname() {
 			case "18.04":
 				$relname = "(Bionic Beaver)";
 				$distconfid = 'ubuntu1804';
+				$distsupported = true;
 				break;
 			case "17.10":
 				$relname = "(Artful Aardvark)";
 				$distconfid = 'ubuntu1710';
+				$distsupported = true;
 				break;
 			case "17.04":
 				$relname = "(Zesty Zapus)";
 				$distconfid = 'ubuntu1604';
+				$distsupported = true;
 				break;
 			case "16.10":
 				$relname = "(Yakkety Yak)";
 				$distconfid = 'ubuntu1604';
+				$distsupported = true;
 				break;
 			case "16.04":
 				$relname = "(Xenial Xerus)";
 				$distconfid = 'ubuntu1604';
+				$distsupported = true;
 				break;
 			case "15.10":
 				$relname = "(Wily Werewolf)";
@@ -221,6 +227,7 @@ function get_distname() {
 			$distver = 'Jessie';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
+			$distsupported = true;
 			swriteln("Operating System: Debian 8.0 (Jessie) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 			$distname = 'Debian';
@@ -228,6 +235,7 @@ function get_distname() {
 			$distconfid = 'debian90';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
+			$distsupported = true;
 			swriteln("Operating System: <strong>Debian 9.0 (Stretch)</strong> or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
@@ -235,6 +243,7 @@ function get_distname() {
 			$distid = 'debian60';
 			$distconfid = 'debiantesting';
 			$distbaseid = 'debian';
+			$distsupported = true;
 			swriteln("Operating System: Debian Testing\n");
 		} else {
 			$distname = 'Debian';
@@ -242,6 +251,7 @@ function get_distname() {
 			$distid = 'debian60';
 			$distconfid = 'debian90';
 			$distbaseid = 'debian';
+			$distsupported = true;
 			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
 	}
@@ -259,6 +269,7 @@ function get_distname() {
             $distver = 'Ceres';
             $distid = 'debiantesting';
             $distbaseid = 'debian';
+			$distsupported = true;
             swriteln("Operating System: Devuan Unstable (Ceres) or compatible\n");
         }
     }
@@ -282,12 +293,14 @@ function get_distname() {
 			$distver = '11.2';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
+			$distsupported = true;
 			swriteln("Operating System: openSUSE 11.2 or compatible\n");
 		}  else {
 			$distname = 'openSUSE';
 			$distver = 'Unknown';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
+			$distsupported = true;
 			swriteln("Operating System: openSUSE or compatible, unknown version.\n");
 		}
 	}
@@ -321,6 +334,7 @@ function get_distname() {
 			$distver = '5.2';
 			$distid = 'centos52';
 			$distbaseid = 'fedora';
+			$distsupported = true;
 			swriteln("Operating System: CentOS 5.2 or compatible\n");
 		} elseif(stristr($content, 'CentOS release 5.3 (Final)')) {
 			$distname = 'CentOS';
@@ -347,6 +361,8 @@ function get_distname() {
 			$var=explode(" ", $content);
 			$var=explode(".", $var[3]);
 			$var=$var[0].".".$var[1];
+			$distver = $var;
+			$distsupported = true;
 			if($var=='7.0' || $var=='7.1') {
 				$distid = 'centos70';
 			} else {
@@ -372,6 +388,7 @@ function get_distname() {
 		$distver = $version[0][0].$version[0][1];
 		$distid = 'gentoo';
 		$distbaseid = 'gentoo';
+		$distsupported = true;
 		swriteln("Operating System: Gentoo $distver or compatible\n");
 
 	} else {
@@ -381,7 +398,7 @@ function get_distname() {
 	// Set $distconfid to distid, if no different id for the config is defined
 	if(!isset($distconfid)) $distconfid = $distid;
 
-	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'confid' => $distconfid, 'baseid' => $distbaseid);
+	return array('name' => $distname, 'version' => $distver, 'id' => $distid, 'confid' => $distconfid, 'baseid' => $distbaseid, 'supported' => $distsupported);
 }
 
 function sread() {
@@ -970,20 +987,20 @@ function getapacheversion($get_minor = false) {
 	elseif(is_installed('apachectl')) $cmd = 'apachectl -v';
 	else {
 		ilog("Could not check apache version, apachectl not found.");
-		return '2.2';
+		return '2.4';
 	}
 	
 	exec($cmd, $output, $return_var);
 	if($return_var != 0 || !$output[0]) {
 		ilog("Could not check apache version, apachectl did not return any data.");
-		return '2.2';
+		return '2.4';
 	}
 	
 	if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
 		return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
 	} else {
 		ilog("Could not check apache version, did not find version string in apachectl output.");
-		return '2.2';
+		return '2.4';
 	}
 }
 

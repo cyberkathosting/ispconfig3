@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Datalog-History-Eintrag';
+$wb['success_txt'] = 'Erfolgreich zurückgesetzt';
+$wb['error_txt'] = 'Fehler beim Zurücksetzen: Eintrag existiert nicht mehr';
+$wb['error_undelete_txt'] = 'Fehler beim Wiederherstellen: Eintrag mit dieser Id existiert bereits';
+$wb['btn_cancel_txt'] = 'Zurück';
+?>

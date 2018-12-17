@@ -156,7 +156,13 @@ class plugins {
 				$state = call_user_func(array($app->loaded_plugins[$plugin_name], $function_name), $action_name, $data);
 				//* ensure that we return the highest warning / error level if a error occured in one of the functions
 				if($return_data) {
-					if($state) $result .= $state;
+					if($state) {
+						if(is_array($state) && (!$result || is_array($result))) {
+							$result = array_merge($result, $state);
+						} elseif(!is_array($state)) {
+							$result .= $state;
+						}
+					}
 				} else {
 					if($state == 'warning' && $state_out != 'error') $state_out = 'warning';
 					elseif($state == 'error') $state_out = 'error';

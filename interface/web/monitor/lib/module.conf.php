@@ -26,6 +26,11 @@ $items[] = array( 'title'  => 'Show Jobqueue',
 	'link' => 'monitor/datalog_list.php',
 	'html_id' => 'jobqueue');
 
+$items[] = array( 'title'  => 'Show Data Log History',
+	'target'  => 'content',
+	'link' => 'monitor/dataloghistory_list.php',
+	'html_id' => 'dataloghistory');
+
 $module["nav"][] = array( 'title' => 'System State (All Servers)',
 	'open'  => 1,
 	'items' => $items);
@@ -201,12 +206,6 @@ $items[] = array( 'title'  => "Show fail2ban-Log",
 	'link' => 'monitor/show_data.php?type=fail2ban',
 	'html_id' => 'fai2ban');
 
-/*
-$items[] = array( 'title'  => "Show MongoDB-Log",
-	'target'  => 'content',
-	'link' => 'monitor/show_data.php?type=mongodb',
-	'html_id' => 'mongodb');
-*/
 $items[] = array( 'title'  => "Show IPTables",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=iptables',

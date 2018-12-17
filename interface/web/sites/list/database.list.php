@@ -78,7 +78,6 @@ $liste["item"][] = array( 'field'  => "type",
 	'suffix' => "",
 	'width'  => "",
 	'value'  => array(
-		'mongo' => "MongoDB",
 		'mysql' => "MySQL"
 	)
 );

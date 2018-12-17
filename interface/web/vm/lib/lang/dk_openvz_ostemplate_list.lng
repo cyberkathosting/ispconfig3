@@ -1,8 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ OSSkabelon';
-$wb['active_txt'] = 'Aktiv';
-$wb['template_name_txt'] = 'Skabelon navn';
-$wb['server_id_txt'] = 'Server';
-$wb['allservers_txt'] = 'Findes på alle servere';
-$wb['ostemplate_id_txt'] = 'ID';
-?>

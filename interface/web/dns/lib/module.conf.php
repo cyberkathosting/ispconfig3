@@ -25,6 +25,10 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 		'html_id' => 'dns_template_list');
 }
 
+$items[] = array(  'title'  => "Bulk Editor",
+	'target'  => 'content',
+	'link'  => 'dns/dns_bulk_editor.php',
+	'html_id' => 'dns_bulk_editor');
 
 $module["nav"][] = array( 'title' => 'DNS Wizard',
 	'open'  => 1,

@@ -28,6 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+require_once realpath(dirname(__FILE__)) . '/classes/ispconfig_addon_installer.inc.php';
+
 class installer_base {
 
 	var $wb = array();
@@ -37,9 +39,9 @@ class installer_base {
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
 	public $min_php = '5.3.3'; // minimal php-version for update / install
-	protected $mailman_group = 'list';
-
-
+	private $addon_classes = null;
+	private $install_mode = '';
+	
 	public function __construct() {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
 		//$this->conf = $conf;
@@ -58,6 +60,14 @@ class installer_base {
 		echo 'WARNING: '.$msg."\n";
 	}
 
+	public function set_install_mode($mode) {
+		$this->install_mode = $mode;
+	}
+	
+	public function get_install_mode() {
+		return $this->install_mode;
+	}
+	
 	public function simple_query($query, $answers, $default, $name = '') {
 		global $autoinstall, $autoupdate;
 		$finished = false;
@@ -152,18 +162,15 @@ class installer_base {
 	//** Detect installed applications
 	public function find_installed_apps() {
 		global $conf;
-
+	
 		if(is_installed('mysql') || is_installed('mysqld')) $conf['mysql']['installed'] = true;
 		if(is_installed('postfix')) $conf['postfix']['installed'] = true;
 		if(is_installed('postgrey')) $conf['postgrey']['installed'] = true;
-		if(is_installed('mailman') || is_installed('mmsitepass')) $conf['mailman']['installed'] = true;
-		if(is_installed('mlmmj') || is_installed('mlmmj-make-ml')) $conf['mlmmj']['installed'] = true;
 		if(is_installed('apache') || is_installed('apache2') || is_installed('httpd') || is_installed('httpd2')) $conf['apache']['installed'] = true;
 		if(is_installed('getmail')) $conf['getmail']['installed'] = true;
-		if(is_installed('courierlogger')) $conf['courier']['installed'] = true;
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
-		if(is_installed('saslauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new') || is_installed('amavisd')) $conf['amavis']['installed'] = true;
+		if(is_installed('rspamd')) $conf['rspamd']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
 		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
@@ -178,9 +185,6 @@ class installer_base {
 			$conf['firewall']['installed'] = true;
 		}
 		if(is_installed('fail2ban-server')) $conf['fail2ban']['installed'] = true;
-		if(is_installed('vzctl')) $conf['openvz']['installed'] = true;
-        if(is_installed('metronome') && is_installed('metronomectl')) $conf['metronome']['installed'] = true;
-        if(is_installed('prosody') && is_installed('prosodyctl')) $conf['prosody']['installed'] = true;
 		if(is_installed('spamassassin')) $conf['spamassassin']['installed'] = true;
 		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		// ISPConfig ships with vlogger, so it is always installed.
@@ -288,7 +292,6 @@ class installer_base {
 
 		// Delete ISPConfig user in the local database, in case that it exists
 		$this->db->query("DROP USER ?@?", $conf['mysql']['ispconfig_user'], $from_host);
-		$this->db->query("DROP DATABASE IF EXISTS ?", $conf['mysql']['database']);
 
 		//* Create the ISPConfig database user in the local database
 		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
@@ -321,9 +324,6 @@ class installer_base {
 		$tpl_ini_array['web']['group'] = $conf['apache']['group'];
 		$tpl_ini_array['web']['php_ini_path_apache'] = $conf['apache']['php_ini_path_apache'];
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
-		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
-		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
-		$tpl_ini_array['mail']['mailinglist_manager'] = ($conf['mlmmj']['installed'] == true)?'mlmmj':'mailman';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -340,9 +340,6 @@ class installer_base {
 		$tpl_ini_array['web']['php_fpm_pool_dir'] = $conf['nginx']['php_fpm_pool_dir'];
 		$tpl_ini_array['web']['php_fpm_start_port'] = $conf['nginx']['php_fpm_start_port'];
 		$tpl_ini_array['web']['php_fpm_socket_dir'] = $conf['nginx']['php_fpm_socket_dir'];
-
-        $tpl_ini_array['xmpp']['xmpp_daemon'] = ($conf['metronome']['installed'] == true)?'metronome':'prosody';
-        $tpl_ini_array['xmpp']['xmpp_modules_enabled'] = $conf[$tpl_ini_array['xmpp']['xmpp_daemon']]['initial_modules'];
 
 		if ($conf['nginx']['installed'] == true) {
 			$tpl_ini_array['web']['server_type'] = 'nginx';
@@ -362,7 +359,6 @@ class installer_base {
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
-		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = (isset($conf['services']['proxy']) && $conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = (isset($conf['services']['firewall']) && $conf['services']['firewall'])?1:0;
 
@@ -384,14 +380,13 @@ class installer_base {
 		if($conf['mysql']['master_slave_setup'] == 'y') {
 
 			//* Insert the server record in master DB
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
-			$this->dbmaster->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->dbmaster->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->dbmaster->insertID();
-			$conf['server_id'] = $conf['server_id'];
 
 			//* Insert the same record in the local DB
-			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
-			$this->db->query($sql, $conf['server_id'], $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
+			$sql = "INSERT INTO `server` (`server_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server``, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (?,1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['server_id'], $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 
 			//* username for the ispconfig user
 			$conf['mysql']['master_ispconfig_user'] = 'ispcsrv'.$conf['server_id'];
@@ -400,13 +395,10 @@ class installer_base {
 
 		} else {
 			//* Insert the server, if its not a mster / slave setup
-			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `vserver_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
-			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $vserver_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
+			$sql = "INSERT INTO `server` (`sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `server_name`, `mail_server`, `web_server`, `dns_server`, `file_server`, `db_server`, `config`, `updated`, `active`, `dbversion`,`firewall_server`,`proxy_server`) VALUES (1, 1, 'riud', 'riud', 'r', ?, ?, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?);";
+			$this->db->query($sql, $conf['hostname'], $mail_server_enabled, $web_server_enabled, $dns_server_enabled, $file_server_enabled, $db_server_enabled, $server_ini_content, $current_db_version, $proxy_server_enabled, $firewall_server_enabled);
 			$conf['server_id'] = $this->db->insertID();
-			$conf['server_id'] = $conf['server_id'];
 		}
-
-
 	}
 
 	public function detect_ips(){
@@ -757,171 +749,6 @@ class installer_base {
 
 	}
 
-	public function configure_mailman($status = 'insert') {
-		global $conf;
-
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'mm_cfg.py';
-		//* Backup exiting file
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'mm_cfg.py~');
-		}
-
-		// load files
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/mm_cfg.py.master', 'tpl/mm_cfg.py.master');
-		$old_file = rf($full_file_name);
-
-		$old_options = array();
-		$lines = explode("\n", $old_file);
-		foreach ($lines as $line)
-		{
-			if (trim($line) != '' && substr($line, 0, 1) != '#')
-			{
-				@list($key, $value) = @explode("=", $line);
-				if (isset($value) && $value !== '')
-				{
-					$key = rtrim($key);
-					$old_options[$key] = trim($value);
-				}
-			}
-		}
-
-		$virtual_domains = '';
-		if($status == 'update')
-		{
-			// create virtual_domains list
-			$domainAll = $this->db->queryAllRecords("SELECT domain FROM mail_mailinglist GROUP BY domain");
-
-			if(is_array($domainAll)) {
-				foreach($domainAll as $domain)
-				{
-					if ($domainAll[0]['domain'] == $domain['domain'])
-						$virtual_domains .= "'".$domain['domain']."'";
-					else
-						$virtual_domains .= ", '".$domain['domain']."'";
-				}
-			}
-		}
-		else
-			$virtual_domains = "' '";
-
-		$content = str_replace('{hostname}', $conf['hostname'], $content);
-		if(!isset($old_options['DEFAULT_SERVER_LANGUAGE']) || $old_options['DEFAULT_SERVER_LANGUAGE'] == '') $old_options['DEFAULT_SERVER_LANGUAGE'] = "'en'";
-		$content = str_replace('{default_language}', $old_options['DEFAULT_SERVER_LANGUAGE'], $content);
-		$content = str_replace('{virtual_domains}', $virtual_domains, $content);
-
-		wf($full_file_name, $content);
-
-		//* Write virtual_to_transport.sh script
-		$config_dir = $conf['mailman']['config_dir'].'/';
-		$full_file_name = $config_dir.'virtual_to_transport.sh';
-
-		//* Backup exiting virtual_to_transport.sh script
-		if(is_file($full_file_name)) {
-			copy($full_file_name, $config_dir.'virtual_to_transport.sh~');
-		}
-
-		if(is_dir('/etc/mailman')) {
-			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh')) {
-				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/mailman-virtual_to_transport.sh', $full_file_name);
-			} else {
-				copy('tpl/mailman-virtual_to_transport.sh', $full_file_name);
-			}
-			chgrp($full_file_name, $this->mailman_group);
-			chmod($full_file_name, 0755);
-		}
-
-		//* Create aliasaes
-		if($status == 'install') exec('/usr/lib/mailman/bin/genaliases 2>/dev/null');
-
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-	}
-
-	public function configure_mlmmj() {
-		global $conf;
-
-		$configDir = $conf['mlmmj']['config_dir'];
-		@mkdir($configDir, 0755, true);
-
-		$configFile = 'mlmmj.conf';
-
-		//* Backup exiting file
-		if(is_file("$configDir/$configFile")) {
-			copy("$configDir/$configFile", "$configDir/$configFile~");
-		}
-
-		// load files
-		if(is_file($conf['ispconfig_install_dir']."/server/conf-custom/install/$configFile.master")) {
-			copy($conf['ispconfig_install_dir']."/server/conf-custom/install/$configFile.master", "$configDir/$configFile");
-		} else {
-			copy("tpl/$configFile.master", "$configDir/$configFile");
-		}
-
-		$mlConfig = @parse_ini_file("$configDir/$configFile");
-		// Force PHP7 to use # to mark comments
-		if(PHP_MAJOR_VERSION >= 7)
-			$mlConfig = array_filter($mlConfig, function($v){return(substr($v,0,1)!=='#');}, ARRAY_FILTER_USE_KEY);
-
-		$command = 'useradd --system mlmmj --home '.$mlConfig['spool_dir'].' --shell /usr/false';
-		if(!is_user('mlmmj')) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		@mkdir($mlConfig['spool_dir'], 0755, true);
-		chown($mlConfig['spool_dir'], 'mlmmj');
-		chgrp($mlConfig['spool_dir'], 'mlmmj');
-
-		// Make a backup copy of master.cf and main.cf files
-		copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~mlmmj');
-
-		//* Update postfix main.cf
-		$content  = rf($conf['postfix']['config_dir'].'/main.cf');
-
-		if(!preg_match("/^alias_maps = .*hash:\/etc\/mlmmj\/aliases.*/m", $content)) {
-			$content = preg_replace("/^alias_maps = (.*)/m", "$0, hash:$configDir/aliases", $content);
-		}
-
-		if(!preg_match("/^alias_database = .*hash:\/etc\/mlmmj\/aliases.*/m", $content)) {
-			$content = preg_replace("/^alias_database = (.*)/m", "$0, hash:$configDir/aliases", $content);
-		}
-
-		if(!preg_match("/^virtual_alias_maps = .*hash:\/etc\/mlmmj\/virtual.*/m", $content)) {
-			$content = preg_replace("/^virtual_alias_maps = (.*)/m", "$0, hash:$configDir/virtual", $content);
-		}
-
-		if(!preg_match("/^transport_maps = .*hash:\/etc\/mlmmj\/transport.*/m", $content)) {
-			$content = preg_replace("/transport_maps = (.*)/m", "$0, hash:$configDir/transport", $content);
-		}
-
-		if(!preg_match("/^mlmmj_destination_recipient_limit.*/m", $content)) {
-			$content .= "\n# Only deliver one message to Mlmmj at a time\nmlmmj_destination_recipient_limit = 1\n";
-		}
-
-		wf($conf['postfix']['config_dir'].'/main.cf', $content);
-
-		//* Update postfix master.cf
-		$content  = rf($conf['postfix']['config_dir'].'/master.cf');
-		if(!preg_match('/^mlmmj\s+unix\s+-\s+n\s+n\s+-\s+-\s+pipe\s*$/m', $content)) {
-			copy($conf['postfix']['config_dir'].'/master.cf', $conf['postfix']['config_dir'].'/master.cf~mlmmj');
-			$content .= "\n# mlmmj mailing lists\n";
-			$content .= "mlmmj   unix  -       n       n       -       -       pipe\n";
-			$content .= "  flags=ORhu user=mlmmj argv=/usr/bin/mlmmj-receive -F -L ";
-			$content .= $mlConfig['spool_dir']."/\$nexthop\n\n";
-			wf($conf['postfix']['config_dir'].'/master.cf', $content);
-		}
-
-		//* Create aliasaes
-		touch("$configDir/aliases");
-		exec("nohup /usr/sbin/postalias $configDir/aliases >/dev/null 2>&1");
-		touch("$configDir/virtual");
-		exec("nohup /usr/sbin/postmap $configDir/virtual >/dev/null 2>&1");
-		touch("$configDir/transport");
-		exec("nohup /usr/sbin/postmap $configDir/transport >/dev/null 2>&1");
-
-		//* Create/update cron entry
-		$cronEntry = '0 */2 * * * find /var'.$mlConfig['spool_dir'].'/ -mindepth 1 -maxdepth 1 -type d -exec /usr/bin/mlmmj-maintd -F -d {} \;';
-		file_put_contents('/etc/cron.d/mlmmj', $cronEntry);
-	}
-
 	public function get_postfix_service($service, $type) {
 		global $conf;
 
@@ -1081,15 +908,6 @@ class installer_base {
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
 
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/var/lib/mailman/data/virtual-mailman')) touch('/var/lib/mailman/data/virtual-mailman');
-		exec('postmap /var/lib/mailman/data/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';
 		if(is_file($config_dir.'/'.$configfile)) {
@@ -1134,10 +952,6 @@ class installer_base {
 			$command = 'chmod o= '.$config_dir.'/smtpd.key';
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 		}
-
-		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755  /var/run/courier/authdaemon/';
-		if(is_file('/var/run/courier/authdaemon/')) caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 
 		//* Check maildrop service in posfix master.cf
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
@@ -1188,119 +1002,6 @@ class installer_base {
 
 	}
 
-	public function configure_saslauthd() {
-		global $conf;
-
-		//* Get saslsauthd version
-		exec('saslauthd -v 2>&1', $out);
-		$parts = explode(' ', $out[0]);
-		$saslversion = $parts[1];
-		unset($parts);
-		unset($out);
-
-		if(version_compare($saslversion , '2.1.23', '<=')) {
-			//* Configfile for saslauthd versions up to 2.1.23
-			$configfile = 'sasl_smtpd.conf';
-		} else {
-			//* Configfile for saslauthd versions 2.1.24 and newer
-			$configfile = 'sasl_smtpd2.conf';
-		}
-
-		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf')) copy($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $conf['postfix']['config_dir'].'/sasl/smtpd.conf~');
-		if(is_file($conf['postfix']['config_dir'].'/sasl/smtpd.conf~')) chmod($conf['postfix']['config_dir'].'/sasl/smtpd.conf~', 0400);
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf($conf['postfix']['config_dir'].'/sasl/smtpd.conf', $content);
-
-		// TODO: Chmod and chown on the config file
-
-
-		// Recursively create the spool directory
-		if(!@is_dir('/var/spool/postfix/var/run/saslauthd')) mkdir('/var/spool/postfix/var/run/saslauthd', 0755, true);
-
-		// Edit the file /etc/default/saslauthd
-		$configfile = $conf['saslauthd']['config'];
-		if(is_file($configfile)) copy($configfile, $configfile.'~');
-		if(is_file($configfile.'~')) chmod($configfile.'~', 0400);
-		$content = rf($configfile);
-		$content = str_replace('START=no', 'START=yes', $content);
-		// Debian
-		$content = str_replace('OPTIONS="-c"', 'OPTIONS="-m /var/spool/postfix/var/run/saslauthd -r"', $content);
-		// Ubuntu
-		$content = str_replace('OPTIONS="-c -m /var/run/saslauthd"', 'OPTIONS="-c -m /var/spool/postfix/var/run/saslauthd -r"', $content);
-		wf($configfile, $content);
-
-		// Edit the file /etc/init.d/saslauthd
-		$configfile = $conf['init_scripts'].'/'.$conf['saslauthd']['init_script'];
-		$content = rf($configfile);
-		$content = str_replace('PIDFILE=$RUN_DIR/saslauthd.pid', 'PIDFILE="/var/spool/postfix/var/run/${NAME}/saslauthd.pid"', $content);
-		wf($configfile, $content);
-
-		// add the postfix user to the sasl group (at least necessary for Ubuntu 8.04 and most likely Debian Lenny as well.
-		exec('adduser postfix sasl');
-
-
-	}
-
-	public function configure_pam() {
-		global $conf;
-		$pam = $conf['pam'];
-		//* configure pam for SMTP authentication agains the ispconfig database
-		$configfile = 'pamd_smtp';
-		if(is_file($pam.'/smtp'))    copy($pam.'/smtp', $pam.'/smtp~');
-		if(is_file($pam.'/smtp~'))   chmod($pam.'/smtp~', 0400);
-
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		wf($pam.'/smtp', $content);
-		// On some OSes smtp is world readable which allows for reading database information.  Removing world readable rights should have no effect.
-		if(is_file($pam.'/smtp'))    exec("chmod o= $pam/smtp");
-		chmod($pam.'/smtp', 0660);
-		chown($pam.'/smtp', 'daemon');
-		chgrp($pam.'/smtp', 'daemon');
-
-	}
-
-	public function configure_courier() {
-		global $conf;
-		$config_dir = $conf['courier']['config_dir'];
-		//* authmysqlrc
-		$configfile = 'authmysqlrc';
-		if(is_file($config_dir.'/'.$configfile)) {
-			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
-		}
-		chmod($config_dir.'/'.$configfile.'~', 0400);
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_host}', $conf['mysql']['host'], $content);
-		$content = str_replace('{mysql_server_port}', $conf['mysql']['port'], $content);
-		wf($config_dir.'/'.$configfile, $content);
-
-		chmod($config_dir.'/'.$configfile, 0660);
-		chown($config_dir.'/'.$configfile, 'daemon');
-		chgrp($config_dir.'/'.$configfile, 'daemon');
-
-		//* authdaemonrc
-		$configfile = $config_dir.'/authdaemonrc';
-		if(is_file($configfile)) {
-			copy($configfile, $configfile.'~');
-		}
-		if(is_file($configfile.'~')) {
-			chmod($configfile.'~', 0400);
-		}
-		$content = rf($configfile);
-		$content = str_replace('authmodulelist="authpam"', 'authmodulelist="authmysql"', $content);
-		wf($configfile, $content);
-	}
-
 	public function configure_dovecot() {
 		global $conf;
 
@@ -1340,7 +1041,6 @@ class installer_base {
 		}
 
 		//* Reconfigure postfix to use dovecot authentication
-		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
 			'virtual_transport = '.$virtual_transport,
@@ -1517,6 +1217,171 @@ class installer_base {
 		if(!empty($amavis_user)) exec('chown -R '.$amavis_user.' /var/lib/amavis/dkim');
 		if(!empty($amavis_group)) exec('chgrp -R '.$amavis_group.' /var/lib/amavis/dkim');
 
+	}
+	
+	public function configure_rspamd() {
+		global $conf;
+		
+		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+		
+		$mail_config = $server_ini_array['mail'];
+		if($mail_config['content_filter'] === 'rspamd') {
+			exec("postconf -X 'receive_override_options'");
+			exec("postconf -X 'content_filter'");
+
+			exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'milter_protocol = 6'");
+			exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
+			exec("postconf -e 'milter_default_action = accept'");
+
+			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+
+			$new_options = array();
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+			foreach ($options as $value) {
+				if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					$new_options[] = $value;
+				}
+			}
+			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		}
+
+		if(!is_dir('/etc/rspamd/local.d/')){
+			mkdir('/etc/rspamd/local.d/', 0755, true);
+		}
+
+		if(!is_dir('/etc/rspamd/override.d/')){
+			mkdir('/etc/rspamd/override.d/', 0755, true);
+		}
+
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_users.conf.master');
+
+		$whitelist_ips = array();
+		$ips = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+		if(is_array($ips) && !empty($ips)){
+			foreach($ips as $ip){
+				$whitelist_ips[] = array('ip' => $ip['ip_address']);
+			}
+		}
+		$tpl->setLoop('whitelist_ips', $whitelist_ips);
+		wf('/etc/rspamd/local.d/users.conf', $tpl->grab());
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+		} else {
+			exec('cp tpl/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+		} else {
+			exec('cp tpl/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+		} else {
+			exec('cp tpl/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+		} else {
+			exec('cp tpl/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
+		} else {
+			exec('cp tpl/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
+		} else {
+			exec('cp tpl/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
+		} else {
+			exec('cp tpl/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+		} else {
+			exec('cp tpl/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+		} else {
+			exec('cp tpl/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+		} else {
+			exec('cp tpl/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+		} else {
+			exec('cp tpl/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		} else {
+			exec('cp tpl/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		} else {
+			exec('cp tpl/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		}
+
+		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
+
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
+		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
+
+		$command = 'usermod -a -G amavis _rspamd';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			
+		if(strpos(rf('/etc/rspamd/rspamd.conf'), '.include "$LOCAL_CONFDIR/local.d/users.conf"') === false){
+			af('/etc/rspamd/rspamd.conf', '.include "$LOCAL_CONFDIR/local.d/users.conf"');
+		}
+		
+		if(!isset($mail_config['rspamd_password']) || !$mail_config['rspamd_password']) {
+			$mail_config['rspamd_password'] = str_shuffle(bin2hex(openssl_random_pseudo_bytes(12)));
+			
+			$server_ini_array['mail']['rspamd_password'] = $mail_config['rspamd_password'];
+		}
+
+		$server_ini_array['mail']['rspamd_available'] = 'y';
+		$server_ini_string = array_to_ini($server_ini_array);
+		if($this->dbmaster != $this->db) {
+			$this->dbmaster->query('UPDATE `server` SET `config` = ? WHERE `server_id` = ?', $server_ini_string, $conf['server_id']);
+		}
+		$this->db->query('UPDATE `server` SET `config` = ? WHERE `server_id` = ?', $server_ini_string, $conf['server_id']);
+		unset($server_ini_array);
+		unset($server_ini_string);
+		
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_worker-controller.inc.master');
+		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());		
 	}
 
 	public function configure_spamassassin() {
@@ -1721,215 +1586,6 @@ class installer_base {
 		//* Install scripts for dnssec implementation
 		$this->process_bind_file('named.conf.options', '/etc/bind/', true); //TODO replace hardcoded path
 	}
-
-
-	public function configure_metronome($options = '') {
-		global $conf;
-
-		if($conf['metronome']['installed'] == false) return;
-		//* Create the logging directory for xmpp server
-		if(!@is_dir('/var/log/metronome')) mkdir('/var/log/metronome', 0755, true);
-		chown('/var/log/metronome', 'metronome');
-		if(!@is_dir('/var/run/metronome')) mkdir('/var/run/metronome', 0755, true);
-		chown('/var/run/metronome', 'metronome');
-		if(!@is_dir('/var/lib/metronome')) mkdir('/var/lib/metronome', 0755, true);
-		chown('/var/lib/metronome', 'metronome');
-		if(!@is_dir('/etc/metronome/hosts')) mkdir('/etc/metronome/hosts', 0755, true);
-		if(!@is_dir('/etc/metronome/status')) mkdir('/etc/metronome/status', 0755, true);
-		unlink('/etc/metronome/metronome.cfg.lua');
-
-		$row = $this->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $conf["server_id"]);
-		$server_name = $row["server_name"];
-
-		$tpl = new tpl('xmpp_metronome_conf_main.master');
-		wf('/etc/metronome/metronome.cfg.lua', $tpl->grab());
-		unset($tpl);
-
-		$tpl = new tpl('xmpp_metronome_conf_global.master');
-		$tpl->setVar('xmpp_admins','');
-		wf('/etc/metronome/global.cfg.lua', $tpl->grab());
-		unset($tpl);
-
-		// Copy isp libs
-		if(!@is_dir('/usr/lib/metronome/isp-modules')) mkdir('/usr/lib/metronome/isp-modules', 0755, true);
-		caselog('cp -rf apps/xmpp_libs/* /usr/lib/metronome/isp-modules/', __FILE__, __LINE__);
-		caselog('chmod 755 /usr/lib/metronome/isp-modules/mod_auth_external/authenticate_isp.sh', __FILE__, __LINE__);
-		// Process db config
-		$full_file_name = '/usr/lib/metronome/isp-modules/mod_auth_external/db_conf.inc.php';
-		$content = rf($full_file_name);
-		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-		$content = str_replace('{server_id}', $conf['server_id'], $content);
-		wf($full_file_name, $content);
-
-		if(!stristr($options, 'dont-create-certs')){
-			// Create SSL Certificate for localhost
-			// Ensure no line is left blank
-			echo "writing new private key to 'localhost.key'\n-----\n";
-			$ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
-			$ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
-			$ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
-			$ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
-			$ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
-			$ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
-
-			$tpl = new tpl('xmpp_conf_ssl.master');
-			$tpl->setVar('ssl_country',$ssl_country);
-			$tpl->setVar('ssl_locality',$ssl_locality);
-			$tpl->setVar('ssl_organisation',$ssl_organisation);
-			$tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
-			$tpl->setVar('domain',$ssl_domain);
-			$tpl->setVar('ssl_email',$ssl_email);
-			wf('/etc/metronome/certs/localhost.cnf', $tpl->grab());
-			unset($tpl);
-			// Generate new key, csr and cert
-			exec("(cd /etc/metronome/certs && make localhost.key)");
-			exec("(cd /etc/metronome/certs && make localhost.csr)");
-			exec("(cd /etc/metronome/certs && make localhost.cert)");
-			exec('chmod 0400 /etc/metronome/certs/localhost.key');
-			exec('chown metronome /etc/metronome/certs/localhost.key');
-
-			echo "IMPORTANT:\n";
-			echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/metronome/certs\n";
-			echo "In order to work with all clients, the server must have a trusted certificate, so use the Csr\n";
-			echo "to get a trusted certificate from your CA or replace Key and Cert with already signed files for\n";
-			echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
-			echo "\n";
-
-		}else{
-			/*
-			echo "-----\n";
-            echo "Metronome XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
-            echo "# (cd /etc/metronome/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown metronome localhost.key)\n";
-            echo "-----\n";
-			*/
-		}
-
-		// Copy init script
-		caselog('cp -f apps/metronome-init /etc/init.d/metronome', __FILE__, __LINE__);
-		caselog('chmod u+x /etc/init.d/metronome', __FILE__, __LINE__);
-		caselog('update-rc.d metronome defaults', __FILE__, __LINE__);
-
-		exec($this->getinitcommand($conf['metronome']['init_script'], 'restart'));
-	}
-
-    public function configure_prosody($options = '') {
-        global $conf;
-
-        if($conf['prosody']['installed'] == false) return;
-        //* Create the logging directory for xmpp server
-        if(!@is_dir('/var/log/prosody')) mkdir('/var/log/prosody', 0755, true);
-        chown('/var/log/prosody', 'prosody');
-        if(!@is_dir('/var/run/prosody')) mkdir('/var/run/prosody', 0755, true);
-        chown('/var/run/prosody', 'prosody');
-        if(!@is_dir('/var/lib/prosody')) mkdir('/var/lib/prosody', 0755, true);
-        chown('/var/lib/prosody', 'prosody');
-        if(!@is_dir('/etc/prosody/hosts')) mkdir('/etc/prosody/hosts', 0755, true);
-        if(!@is_dir('/etc/prosody/status')) mkdir('/etc/prosody/status', 0755, true);
-        unlink('/etc/prosody/prosody.cfg.lua');
-
-        $tpl = new tpl('xmpp_prosody_conf_main.master');
-        wf('/etc/prosody/prosody.cfg.lua', $tpl->grab());
-        unset($tpl);
-
-        $tpl = new tpl('xmpp_prosody_conf_global.master');
-        $tpl->setVar('main_host', $conf['hostname']);
-        $tpl->setVar('xmpp_admins','');
-        wf('/etc/prosody/global.cfg.lua', $tpl->grab());
-        unset($tpl);
-
-        //** Create the database
-        if(!$this->db->query('CREATE DATABASE IF NOT EXISTS ?? DEFAULT CHARACTER SET ?', $conf['prosody']['storage_database'], $conf['mysql']['charset'])) {
-            $this->error('Unable to create MySQL database: '.$conf['prosody']['storage_database'].'.');
-        }
-        if($conf['mysql']['host'] == 'localhost') {
-            $from_host = 'localhost';
-        } else {
-            $from_host = $conf['hostname'];
-        }
-        $this->dbmaster->query("CREATE USER ?@? IDENTIFIED BY ?", $conf['prosody']['storage_user'], $from_host, $conf['prosody']['storage_password']); // ignore the error
-        $query = 'GRANT ALL PRIVILEGES ON ?? TO ?@? IDENTIFIED BY ?';
-        if(!$this->db->query($query, $conf['prosody']['storage_database'] . ".*", $conf['prosody']['storage_user'], $from_host, $conf['prosody']['storage_password'])) {
-            $this->error('Unable to create database user: '.$conf['prosody']['storage_user'].' Error: '.$this->db->errorMessage);
-        }
-
-
-
-        $tpl = new tpl('xmpp_prosody_conf_storage.master');
-        $tpl->setVar('db_name', $conf['prosody']['storage_database']);
-        $tpl->setVar('db_host', $conf['mysql']['host']);
-        $tpl->setVar('db_port', $conf['mysql']['port']);
-        $tpl->setVar('db_username', $conf['prosody']['storage_user']);
-        $tpl->setVar('db_password', $conf['prosody']['storage_password']);
-        wf('/etc/prosody/storage.cfg.lua', $tpl->grab());
-        unset($tpl);
-
-
-        // Copy isp libs
-        if(!@is_dir('/usr/local/lib/prosody/auth')) mkdir('/usr/local/lib/prosody/auth', 0755, true);
-        caselog('cp -rf apps/xmpp_libs/auth_prosody/* /usr/local/lib/prosody/auth/', __FILE__, __LINE__);
-		caselog('chmod 755 /usr/local/lib/prosody/auth/authenticate_isp.sh', __FILE__, __LINE__);
-		caselog('chown root:ispconfig /usr/local/lib/prosody/auth/prosody-purge', __FILE__, __LINE__);
-		caselog('chmod 750 /usr/local/lib/prosody/auth/prosody-purge', __FILE__, __LINE__);
-
-        // Process db config
-        $full_file_name = '/usr/local/lib/prosody/auth/db_conf.inc.php';
-        $content = rf($full_file_name);
-        $content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
-        $content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
-        $content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
-        $content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
-        $content = str_replace('{server_id}', $conf['server_id'], $content);
-        wf($full_file_name, $content);
-
-        if(!stristr($options, 'dont-create-certs')){
-            // Create SSL Certificate for localhost
-            // Ensure no line is left blank
-            echo "writing new private key to 'localhost.key'\n-----\n";
-            $ssl_country = $this->free_query('Country Name (2 letter code)', 'AU','ssl_cert_country');
-            $ssl_locality = $this->free_query('Locality Name (eg, city)', 'City Name','ssl_cert_locality');
-            $ssl_organisation = $this->free_query('Organization Name (eg, company)', 'Internet Widgits Pty Ltd','ssl_cert_organisation');
-            $ssl_organisation_unit = $this->free_query('Organizational Unit Name (eg, section)', 'Infrastructure','ssl_cert_organisation_unit');
-            $ssl_domain = $this->free_query('Common Name (e.g. server FQDN or YOUR name)', $conf['hostname'],'ssl_cert_common_name');
-            $ssl_email = $this->free_query('Email Address', 'hostmaster@'.$conf['hostname'],'ssl_cert_email');
-
-            $tpl = new tpl('xmpp_prosody_conf_ssl.master');
-            $tpl->setVar('ssl_country',$ssl_country);
-            $tpl->setVar('ssl_locality',$ssl_locality);
-            $tpl->setVar('ssl_organisation',$ssl_organisation);
-            $tpl->setVar('ssl_organisation_unit',$ssl_organisation_unit);
-            $tpl->setVar('domain',$ssl_domain);
-            $tpl->setVar('ssl_email',$ssl_email);
-            wf('/etc/prosody/certs/localhost.cnf', $tpl->grab());
-            unset($tpl);
-            // Generate new key, csr and cert
-            exec("(cd /etc/prosody/certs && make localhost.key)");
-            exec("(cd /etc/prosody/certs && make localhost.csr)");
-            exec("(cd /etc/prosody/certs && make localhost.crt)");
-            exec('chmod 0400 /etc/prosody/certs/localhost.key');
-            exec('chown prosody /etc/prosody/certs/localhost.key');
-
-            echo "IMPORTANT:\n";
-            echo "Localhost Key, Csr and a self-signed Cert have been saved to /etc/prosody/certs\n";
-            echo "In order to work with all clients, the server must have a trusted certificate, so use the Csr\n";
-            echo "to get a trusted certificate from your CA or replace Key and Cert with already signed files for\n";
-            echo "your domain. Clients like Pidgin dont allow to use untrusted self-signed certificates.\n";
-            echo "\n";
-
-        }else{
-            /*
-            echo "-----\n";
-            echo "Prosody XMPP SSL server certificate is not renewed. Run the following command manual as root to recreate it:\n";
-            echo "# (cd /etc/prosody/certs && make localhost.key && make localhost.csr && make localhost.cert && chmod 0400 localhost.key && chown prosody localhost.key)\n";
-            echo "-----\n";
-            */
-        }
-
-        exec($this->getinitcommand($conf['prosody']['init_script'], 'restart'));
-    }
-
 
 	public function configure_apache() {
 		global $conf;
@@ -2539,7 +2195,7 @@ class installer_base {
 		// TODO: Implement a selector which modules and plugins shall be enabled.
 		$dir = $install_dir.'/server/mods-available/';
 		if (is_dir($dir)) {
-			if ($dh = opendir($dir)) {
+			if (($dh = opendir($dir))) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..' && substr($file, -8, 8) == '.inc.php') {
 						include_once $install_dir.'/server/mods-available/'.$file;
@@ -2566,7 +2222,7 @@ class installer_base {
 
 		$dir = $install_dir.'/server/plugins-available/';
 		if (is_dir($dir)) {
-			if ($dh = opendir($dir)) {
+			if (($dh = opendir($dir))) {
 				while (($file = readdir($dh)) !== false) {
 					if($conf['apache']['installed'] == true && $file == 'nginx_plugin.inc.php') continue;
 					if($conf['nginx']['installed'] == true && $file == 'apache2_plugin.inc.php') continue;
@@ -2599,12 +2255,10 @@ class installer_base {
 		$dns_server_enabled = ($conf['services']['dns'])?1:0;
 		$file_server_enabled = ($conf['services']['file'])?1:0;
 		$db_server_enabled = ($conf['services']['db'])?1:0;
-		$vserver_server_enabled = ($conf['openvz']['installed'])?1:0;
 		$proxy_server_enabled = ($conf['services']['proxy'])?1:0;
 		$firewall_server_enabled = ($conf['services']['firewall'])?1:0;
-		$xmpp_server_enabled = ($conf['services']['xmpp'])?1:0;
 
-		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', vserver_server = '$vserver_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled', xmpp_server = '$xmpp_server_enabled' WHERE server_id = ?";
+		$sql = "UPDATE `server` SET mail_server = '$mail_server_enabled', web_server = '$web_server_enabled', dns_server = '$dns_server_enabled', file_server = '$file_server_enabled', db_server = '$db_server_enabled', proxy_server = '$proxy_server_enabled', firewall_server = '$firewall_server_enabled' WHERE server_id = ?";
 
 		$this->db->query($sql, $conf['server_id']);
 		if($conf['mysql']['master_slave_setup'] == 'y') {
@@ -2936,6 +2590,7 @@ class installer_base {
 		$content = str_replace('{hostname}', $conf['mysql']['host'], $content);
 		$content = str_replace('{username}', $conf['mysql']['admin_user'], $content);
 		$content = str_replace('{password}', addslashes($conf['mysql']['admin_password']), $content);
+		$content = str_replace('{port}', addslashes($conf['mysql']['port']), $content);
 		wf($install_dir.'/server/lib/mysql_clientdb.conf', $content);
 		chmod($install_dir.'/server/lib/mysql_clientdb.conf', 0600);
 		chown($install_dir.'/server/lib/mysql_clientdb.conf', 'root');
@@ -3184,7 +2839,62 @@ class installer_base {
 
 		return $tContents;
 	}
+	
+	private function loadAddonClasses($path) {
+		if(!is_dir($path)) {
+			return false;
+		}
+		$libpath = $path;
+		if(($dir = opendir($libpath))) {
+			while(false !== ($cur = readdir($dir))) {
+				if($cur === '.' || $cur === '..' || strpos($cur, '..') !== false || !is_dir($libpath . '/' . $cur)) {
+					continue;
+				}
+				$addon_file = $libpath . '/' . $cur . '/' . $cur . '.addon.php';
+				if(!is_file($addon_file)) {
+					continue;
+				}
+
+				$class_name = $cur . '_addon_installer';
+				
+				if(isset($this->addon_classes[$class_name]) && is_object($this->addon_classes[$class_name])) {
+					// don't override
+					continue;
+				}
+				
+				include_once $addon_file;
+				if(!class_exists($class_name)) {
+					continue;
+				}
+
+				if(!is_array($this->addon_classes)) {
+					$this->addon_classes = array();
+				}
+				
+				$this->addon_classes[$class_name] = new $class_name;
+			}
+			closedir($dir);
+		}
+	}
+	
+	public function raiseEvent($event_name, $data = false) {
+		global $conf;
+		
+		if(is_null($this->addon_classes)) {
+			// load addon libs
+			$this->addon_classes = array();
+			
+			$addonpath = $conf['ispconfig_install_dir'] . '/addons';
+			$this->loadAddonClasses($addonpath);
+		}
+		
+		$call_method = 'onRaisedInstallerEvent';
+		reset($this->addon_classes);
+		foreach($this->addon_classes as $cl) {
+			if(method_exists($cl, $call_method)) {
+				call_user_func(array($cl, $call_method), $event_name, $data);
+			}
+		}
+	}
 
 }
-
-?>

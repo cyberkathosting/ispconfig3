@@ -1,0 +1,26 @@
+<tmpl_if name="list_head_txt">
+<div class='page-header'>
+        <h1><tmpl_var name="list_head_txt"></h1>
+</div>
+</tmpl_if>
+<tmpl_if name="list_desc_txt"><p><tmpl_var name="list_desc_txt"></p></tmpl_if>
+
+<tmpl_if name="error">
+	<div class='alert alert-danger clear'>
+		<div class='alert-label'><strong><tmpl_var name="error_txt"></strong></div>
+		<div class='alert-content'>
+			<ol>
+				<li><tmpl_var name="error"></li>
+			</ol>
+		</div>
+		</div>
+</tmpl_if>
+
+<div class="content-tab-wrapper">
+<div id="tabbox_content" class="tab-content">
+<div class="tab-pane active fade in">
+        <legend><tmpl_var name="legend_result_txt"></legend>
+	<tmpl_var name="result">
+</div>
+</div>
+</div>

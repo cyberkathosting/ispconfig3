@@ -740,20 +740,6 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
-		'limit_mailmailinglist' => array (
-			'datatype' => 'INTEGER',
-			'formtype' => 'TEXT',
-			'validators' => array (  0 => array ( 'type' => 'ISINT',
-					'errmsg'=> 'limit_mailmailinglist_error_notint'),
-			),
-			'default' => '-1',
-			'value'  => '',
-			'separator' => '',
-			'width'  => '10',
-			'maxlength' => '10',
-			'rows'  => '',
-			'cols'  => ''
-		),
 		'limit_mailbox' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -922,118 +908,7 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
-        'default_xmppserver' => array (
-            'datatype' => 'INTEGER',
-            'formtype' => 'SELECT',
-            'default' => '1',
-            'datasource' => array (  'type' => 'CUSTOM',
-                'class'=> 'custom_datasource',
-                'function'=> 'client_servers'
-            ),
-            'value'  => '',
-            'name'  => 'default_xmppserver'
-        ),
-        'xmpp_servers' => array (
-            'datatype' => 'VARCHAR',
-            'formtype' => 'MULTIPLE',
-            'separator' => ',',
-            'default' => '1',
-            'datasource' => array (  'type' => 'CUSTOM',
-                'class'=> 'custom_datasource',
-                'function'=> 'client_servers'
-            ),
-            'validators'    => array (
-                0 => array ( 'type' => 'CUSTOM',
-                    'class' => 'validate_client',
-                    'function' => 'check_used_servers',
-                    'errmsg'=> 'xmpp_servers_used'),
-            ),
-            'value'  => '',
-            'name'  => 'xmpp_servers'
-        ),
-        'limit_xmpp_domain' => array(
-            'datatype' => 'INTEGER',
-            'formtype' => 'TEXT',
-            'validators' => array (  0 => array ( 'type' => 'ISINT',
-                'errmsg'=> 'limit_xmpp_domain_error_notint'),
-            ),
-            'default' => '-1',
-            'value'  => '',
-            'separator' => '',
-            'width'  => '10',
-            'maxlength' => '10',
-            'rows'  => '',
-            'cols'  => ''
-        ),
-        'limit_xmpp_user' => array(
-            'datatype' => 'INTEGER',
-            'formtype' => 'TEXT',
-            'validators' => array (  0 => array ( 'type' => 'ISINT',
-                'errmsg'=> 'limit_xmpp_user_error_notint'),
-            ),
-            'default' => '-1',
-            'value'  => '',
-            'separator' => '',
-            'width'  => '10',
-            'maxlength' => '10',
-            'rows'  => '',
-            'cols'  => ''
-        ),
-        'limit_xmpp_muc' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_anon' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_vjud' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_proxy' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_status' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_webpresence' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_http_upload' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_pastebin' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-        'limit_xmpp_httparchive' => array(
-            'datatype' => 'VARCHAR',
-            'formtype' => 'CHECKBOX',
-            'default' => 'n',
-            'value'  => array(0 => 'n', 1 => 'y')
-        ),
-		'default_webserver' => array (
+        'default_webserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
 			'default' => '1',
@@ -1466,31 +1341,6 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
-		),
-		'limit_openvz_vm' => array (
-			'datatype' => 'INTEGER',
-			'formtype' => 'TEXT',
-			'validators' => array (  0 => array ( 'type' => 'ISINT',
-					'errmsg'=> 'limit_openvz_vm_error_notint'),
-			),
-			'default' => '0',
-			'value'  => '',
-			'separator' => '',
-			'width'  => '10',
-			'maxlength' => '10',
-			'rows'  => '',
-			'cols'  => ''
-		),
-		'limit_openvz_vm_template_id' => array (
-			'datatype' => 'INTEGER',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'datasource' => array (  'type' => 'SQL',
-				'querystring' => 'SELECT template_id,template_name FROM openvz_template WHERE 1 ORDER BY template_name',
-				'keyfield'=> 'template_id',
-				'valuefield'=> 'template_name'
-			),
-			'value'  => array(0 => ' ')
 		),
 		'limit_aps' => array (
 			'datatype' => 'INTEGER',

@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Plantilla de maquina virtual OpenVZ';
-$wb['active_txt'] = 'Habilitado';
-$wb['template_name_txt'] = 'Nombre de la plantilla';
-?>

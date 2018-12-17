@@ -83,12 +83,6 @@ class page_action extends tform_actions {
 			$app->db->datalogDelete('spamfilter_users', 'id', $rec['id']);
 		}
 
-		// Delete all mailinglists that belong to this domain
-		$records = $app->db->queryAllRecords("SELECT mailinglist_id FROM mail_mailinglist WHERE domain = ?", $domain);
-		foreach($records as $rec) {
-			$app->db->datalogDelete('mail_mailinglist', 'mailinglist_id', $rec['id']);
-		}
-
 	}
 
 }

@@ -102,9 +102,6 @@ if($type == 'globalsearch'){
 	// email transports
 	$result[] = _search('mail', 'mail_transport');
 
-	// mailinglists
-	$result[] = _search('mail', 'mail_mailinglist');
-
 	// getmails
 	$result[] = _search('mail', 'mail_get');
 
@@ -114,21 +111,26 @@ if($type == 'globalsearch'){
 	// secondary dns zones
 	$result[] = _search('dns', 'dns_slave');
 
-	// virtual machines
-	$result[] = _search('vm', 'openvz_vm');
-
-	// virtual machines os templates
-	$result[] = _search('vm', 'openvz_ostemplate');
-
-	// virtual machines vm templates
-	$result[] = _search('vm', 'openvz_template');
-
-	// virtual machines ip addresses
-	$result[] = _search('vm', 'openvz_ip');
-
 	// directive snippets
 	$result[] = _search('admin', 'directive_snippets');
 
+	$data = $app->plugin->raiseEvent('dashboard:get_searchable_data', false, true);
+	if(is_array($data) && !empty($data)) {
+		foreach($data as $add_result) {
+			if(!isset($add_result['module']) || !isset($add_result['section'])) {
+				continue;
+			}
+			
+			if(!isset($add_result['sql']) || !$add_result['sql']) {
+				$add_result['sql'] = '';
+			}
+			if(!isset($add_result['params']) || !$add_result['params']) {
+				$add_result['params'] = '';
+			}
+			$result[] = _search($add_result['module'], $add_result['section'], $add_result['sql'], $add_result['params']);
+		}
+	}
+	
 	$json = $app->functions->json_encode($result);
 }
 
@@ -221,4 +223,3 @@ function _search($module, $section, $additional_sql = '', $params = ''){
 
 header('Content-type: application/json');
 echo $json;
-?>

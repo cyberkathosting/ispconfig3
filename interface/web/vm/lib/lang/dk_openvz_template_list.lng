@@ -1,5 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'OpenVZ Virtual Machine Skabelon';
-$wb['active_txt'] = 'Aktiv';
-$wb['template_name_txt'] = 'Skabelon navn';
-?>

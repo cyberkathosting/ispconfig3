@@ -1,7 +1,0 @@
-<?php
-$wb['Virtual Servers'] = 'Εικονικοί Servers';
-$wb['OS Templates'] = 'OS Templates';
-$wb['VM Templates'] = 'VM Templates';
-$wb['IP addresses'] = 'Διευθύνσεις IP';
-$wb['OpenVZ'] = 'OpenVZ';
-?>

@@ -740,32 +740,22 @@ class ispcmail {
 		}
 
 		if($this->use_smtp == true) {
-			if(!$this->_logged_in || !$this->_smtp_conn) {
-				$result = $this->_smtp_login();
-				if(!$result) return false;
-			}
 			$bcc_cc_sent = false;
 			foreach($recipients as $recipname => $recip) {
-				if($this->_sent_mails >= $this->smtp_max_mails) {
-					// close connection to smtp and reconnect
-					$this->_sent_mails = 0;
-					$this->_smtp_close();
-					$result = $this->_smtp_login();
-					if(!$result) return false;
-				}
-				$this->_sent_mails += 1;
+				// Build mail headers, content etc.
+
+				$m_recipients = array();
+				$m_mail_content = '';
 
 				$recipname = trim(str_replace('"', '', $recipname));
 				$recip = $this->_encodeHeader($recip, $this->mail_charset);
 				$recipname = $this->_encodeHeader($recipname, $this->mail_charset);
 
 				//Email From
-				fputs($this->_smtp_conn, 'MAIL FROM: <' . $this->_mail_sender . '>' . $this->_crlf);
-				$response = fgets($this->_smtp_conn, 515);
+				$m_from = $this->_mail_sender;
 
 				//Email To
-				fputs($this->_smtp_conn, 'RCPT TO: <' . $recip . '>' . $this->_crlf);
-				$response = fgets($this->_smtp_conn, 515);
+				$m_recipients[] = $recip;
 
 				if($bcc_cc_sent == false) {
 					$add_recips = array();
@@ -773,16 +763,11 @@ class ispcmail {
 					if($this->getHeader('Bcc') != '') $add_recips = array_merge($add_recips, $this->_extract_names($this->getHeader('Bcc')));
 					foreach($add_recips as $add_recip) {
 						if(!$add_recip['mail']) continue;
-						fputs($this->_smtp_conn, 'RCPT TO: <' . $this->_encodeHeader($add_recip['mail'], $this->mail_charset) . '>' . $this->_crlf);
-						$response = fgets($this->_smtp_conn, 515);
+						$m_recipients[] = $this->_encodeHeader($add_recip['mail'], $this->mail_charset);
 					}
 					unset($add_recips);
 					$bcc_cc_sent = true;
 				}
-
-				//The Email
-				fputs($this->_smtp_conn, 'DATA' . $this->_crlf);
-				$response = fgets($this->_smtp_conn, 515);
 
 				//Construct Headers
 				if($recipname && !is_numeric($recipname)) $this->setHeader('To', $recipname . ' <' . $recip . '>');
@@ -793,10 +778,32 @@ class ispcmail {
 				if($this->getHeader('Cc') != '') $mail_content .= 'Cc: ' . $this->_encodeHeader($this->getHeader('Cc'), $this->mail_charset) . $this->_crlf;
 				$mail_content .= implode($this->_crlf, $headers) . $this->_crlf . ($this->_is_signed == false ? $this->_crlf : '') . $this->body;
 
-				fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
-				$response = fgets($this->_smtp_conn, 515);
+				$m_mail_content = $mail_content;
 
-				// hopefully message was correctly sent now
+				// Attempt SMTP login:
+
+				if(!$this->_logged_in || !$this->_smtp_conn) {
+					$result = $this->_smtp_login();
+				}
+
+				if($this->_sent_mails >= $this->smtp_max_mails) {
+					// close connection to smtp and reconnect
+					$this->_sent_mails = 0;
+					$this->_smtp_close();
+					$result = $this->_smtp_login();
+				}
+				$this->_sent_mails += 1;
+
+				// Send mail or queue it
+
+				if ($result) {
+					$this->send_smtp($m_from, $m_recipients, $m_mail_content);
+				} else {
+					$this->add_to_queue($m_from, $m_recipients, $m_mail_content);
+				}
+
+				// hopefully message was correctly sent or queued now
+
 				$result = true;
 			}
 		} else {
@@ -824,7 +831,87 @@ class ispcmail {
 		return $result;
 	}
 
+	/**
+	 * Send all mails in queue (usually called from cron)
+	 */
+	public function send_queue() {
+		global $app;
 
+		$mails = $app->db->queryAllRecords('SELECT * FROM sys_mailqueue');
+
+		if (is_array($mails)) {
+			foreach ($mails as $mail) {
+				// Open SMTP connections if not open:
+
+				if(!$this->_logged_in || !$this->_smtp_conn) {
+					$result = $this->_smtp_login();
+				}
+
+				if($this->_sent_mails >= $this->smtp_max_mails) {
+					// close connection to smtp and reconnect
+					$this->_sent_mails = 0;
+					$this->_smtp_close();
+					$result = $this->_smtp_login();
+				}
+				$this->_sent_mails += 1;
+
+				if (!$result) {
+					return false;
+				}
+
+				// Send mail:
+
+				$id = $mail['id'];
+				$from = $mail['from_address'];
+				$recipients = explode("\n", $mail['recipients']);
+				$mail_content = $mail['mail_content'];
+
+				$this->send_smtp($from, $recipients, $mail_content);
+
+				// Delete from queue:
+
+				$app->db->query('DELETE FROM sys_mailqueue WHERE id = ?', $id);
+			}
+		}
+	}
+
+	/**
+         * Send mail via SMTP
+         */
+	private function send_smtp($from, $recipients, $mail_content) {
+		// from:
+
+		fputs($this->_smtp_conn, 'MAIL FROM: <' . $from . '>' . $this->_crlf);
+		$response = fgets($this->_smtp_conn, 515);
+
+		// recipients (To, Cc or Bcc):
+
+		foreach ($recipients as $recipient) {
+			fputs($this->_smtp_conn, 'RCPT TO: <' . $recipient . '>' . $this->_crlf);
+			$response = fgets($this->_smtp_conn, 515);
+		}
+
+		// mail content:
+
+		fputs($this->_smtp_conn, 'DATA' . $this->_crlf);
+		$response = fgets($this->_smtp_conn, 515);
+
+		fputs($this->_smtp_conn, $mail_content . $this->_crlf . '.' . $this->_crlf);
+		$response = fgets($this->_smtp_conn, 515);
+
+		// hopefully message was correctly sent now
+		$result = true;
+
+		return $result;
+        }
+
+	/**
+         * Add mail to queue for sending later
+         */
+	private function add_to_queue($from, $recipients, $mail_content) {
+		global $app;
+		$app->db->query('INSERT INTO `sys_mailqueue` (`from_address`, `recipients`, `mail_content`) VALUES (?,?,?)', $from, implode("\n", $recipients), $mail_content);
+        }
 
 	/**
 	 * Close mail connections

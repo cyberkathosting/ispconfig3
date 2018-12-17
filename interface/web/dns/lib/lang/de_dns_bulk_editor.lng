@@ -1,0 +1,33 @@
+<?php
+$wb['list_head_txt'] = 'Bulk-Editor';
+$wb['list_desc_txt'] = 'DNS-EintrÃ¤ge per Suchen und Ersetzen Ã¤ndern';
+$wb['error_txt'] = 'Fehler';
+$wb['error_no_client_txt'] = 'Bitte einen Kunden auswÃ¤hlen';
+$wb['error_no_action_txt'] = 'Bitte eine Aktion auswÃ¤hlen';
+$wb['error_no_zone_txt'] = 'Bitte mindestens eine Zone auswÃ¤hlen';
+$wb['error_invalid_zone_txt'] = 'UngÃ¼ltige Zone';
+$wb['error_no_search_replace_txt'] = 'Bitte Werte fÃ¼r Suchen und Ersetzen eingeben';
+$wb['error_no_ttl_txt'] = 'Bitte gÃ¼ltigen TTL-Wert eingeben';
+$wb['error_invalid_ip_txt'] = 'Bitte eine gÃ¼ltige IP-Adresse eingeben';
+$wb['error_invalid_dns_zone_txt'] = 'Bitte einen gÃ¼ltigen Zonennamen eingeben';
+$wb['error_ip_type_mismatch_txt'] = 'Bitte entweder IPv4- oder IPv6-Adressen eingeben';
+$wb['legend_client_txt'] = 'Kunde auswÃ¤hlen';
+$wb['legend_action_txt'] = 'Aktion auswÃ¤hlen';
+$wb['legend_zones_txt'] = 'Zonen auswÃ¤hlen';
+$wb['legend_result_txt'] = 'Folgendes wurde geÃ¤ndert:';
+$wb['select_client_txt'] = 'Bitte einen Kunden auswÃ¤hlen';
+$wb['client_txt'] = 'Kunde';
+$wb['search_txt'] = 'Suchen';
+$wb['replace_txt'] = 'Ersetzen';
+$wb['a_records_txt'] = 'A-Records';
+$wb['mx_records_txt'] = 'MX-Records';
+$wb['ttl_txt'] = 'TTL';
+$wb['ttl_desc_txt'] = 'von A-, AAAA- und MX-Records';
+$wb['check_uncheck_all_txt'] = 'Alle/keine auswÃ¤hlen';
+$wb['zone_txt'] = 'Zone';
+$wb['btn_ok_txt'] = 'Ãndern';
+$wb['no_matches_txt'] = 'Keine Treffer.';
+$wb['ttip_a_records_txt'] = 'Bitte geben Sie entweder eine vollstÃ¤ndige IPv4-Adresse oder eine vollstÃ¤ndige IPv6-Adresse in die Felder ein.';
+$wb['ttip_mx_records_txt'] = 'Wenn Sie einen kompletten Hostnamen angeben, vergessen Sie bitte auf keinen Fall, einen Punkt am Ende hinzuzufÃ¼gen, z.B.: www.meinedomain.de<b><u>.</u></b><br><br>Wenn Sie eine Subdomain Ihrer Domain angeben und und die Domain weglassen (z.B. <i>www</i> statt <i>www.meinedomain.de</i>), dann geben Sie bitte <b>keinen</b> Punkt am Ende an.';
+$wb['ttip_ttl_txt'] = 'Bitte geben Sie den gewÃ¼nschten TTL-Wert als Ganzzahl in Sekunden ein.';
+?>

@@ -244,12 +244,6 @@ class functions {
 				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
 			}
 		}
-		$results = $app->db->queryAllRecords("SELECT ip_address AS ip FROM openvz_ip");
-		if(!empty($results) && is_array($results)){
-			foreach($results as $result){
-				if(preg_match($regex, $result['ip'])) $ips[] = $result['ip'];
-			}
-		}
 		$results = $app->db->queryAllRecords("SELECT data AS ip FROM dns_rr WHERE type = 'A' OR type = 'AAAA'");
 		if(!empty($results) && is_array($results)){
 			foreach($results as $result){
@@ -303,6 +297,12 @@ class functions {
 				}
 			}
 		}
+		
+		$tmp_ips = $app->plugins->raiseAction('get_server_ips', 0, true);
+		if(is_array($tmp_ips) && !empty($tmp_ips)) {
+			$ips = array_merge($ips, $tmp_ips);
+		}
+		
 		$ips = array_unique($ips);
 		sort($ips, SORT_NUMERIC);
 
