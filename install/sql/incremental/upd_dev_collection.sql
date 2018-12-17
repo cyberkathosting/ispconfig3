@@ -1,5 +1,8 @@
 ALTER TABLE `sys_user` ADD `last_login_ip` VARCHAR(50) NULL AFTER `lost_password_reqtime`;
 ALTER TABLE `sys_user` ADD `last_login_at` BIGINT(20) NULL AFTER `last_login_ip`;
+-- DNS-Status (2 lines)
+ALTER TABLE `dns_soa` ADD COLUMN `status` enum('OK','ERROR','PENDING') NOT NULL DEFAULT 'OK' AFTER `active`;
+ALTER TABLE `dns_soa` ADD COLUMN `status_txt` text AFTER `status`;
 ALTER TABLE `sys_remoteaction` CHANGE `action_state` `action_state` ENUM('pending','processing','ok','warning','error') NOT NULL DEFAULT 'pending';
 
 CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (

@@ -296,9 +296,14 @@ class bind_plugin {
 
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename), $out, $return_status);
+			$out=array();
+			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename).' 2>&1', $out, $return_status);
+			$statustext='';
+			foreach ($out as $line) $statustext .= $line."\n";
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
+				$app->db->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
+				$app->dbmaster->query('UPDATE dns_soa SET status=\'OK\', status_txt=\'\' WHERE id='.$data['new']['id']);
 			} else {
 				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
 				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
@@ -314,6 +319,8 @@ class bind_plugin {
 				} else {
 					rename($filename, $filename.'.err');
 				}
+				$app->db->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
+				$app->dbmaster->query('UPDATE dns_soa SET status=\'ERROR\', status_txt=\''.str_replace(array('"', '\''), '', $statustext).'\' WHERE id='.$data['new']['id']);
 			}
 			unset($tpl);
 			unset($records);
@@ -357,8 +364,8 @@ class bind_plugin {
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
- 		}
- 		
+		}
+
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
 		if($data['new']['update_acl'] != '') {
 			$app->services->restartServiceDelayed('bind', 'restart');
@@ -609,5 +616,6 @@ class bind_plugin {
 
 
 } // end class
+
 
 ?>

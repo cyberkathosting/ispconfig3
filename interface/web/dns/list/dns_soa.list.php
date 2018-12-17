@@ -61,7 +61,27 @@ $liste["item"][] = array( 'field'  => "active",
 	'width'  => "",
 	'value'  => array('Y' => $app->lng('yes_txt'), 'N' => $app->lng('no_txt')));
 
+	
+$liste["item"][] = array( 'field'  => "status",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('OK' => '', 'ERROR' => 'background-color:red', 'PENDING' => 'background-color:yellow'));
 
+	
+$liste["item"][] = array( 'field'  => "status_txt",
+	'datatype' => "VARCHAR",
+	'formtype' => "TEXT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => '');
+
+	
 $liste["item"][] = array( 'field'  => "server_id",
 	'datatype' => "VARCHAR",
 	'formtype' => "SELECT",
