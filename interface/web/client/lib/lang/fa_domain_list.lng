@@ -1,0 +1,6 @@
+<?php
+$wb['list_head_txt'] = 'دامنه ها';
+$wb['add_new_record_txt'] = 'افزودن دامنه جدید';
+$wb['domain_txt'] = 'دامنه';
+$wb['user_txt'] = 'مشتری';
+?>
