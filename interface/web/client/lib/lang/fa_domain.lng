@@ -1,0 +1,6 @@
+<?php
+$wb['domain_error_empty'] = 'نام دامنه خالی می باشد.';
+$wb['domain_error_unique'] = 'دامنه از قبل وجود دارد.';
+$wb['domain_error_regex'] = 'نام دامنه مجاز نیست';
+$wb['Domain'] = 'دامنه';
+?>
