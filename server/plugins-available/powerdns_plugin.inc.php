@@ -151,6 +151,8 @@ class powerdns_plugin {
 
 		//* tell pdns to rediscover zones in DB
 		$this->zoneRediscover();
+		//* handle dnssec
+		$this->handle_dnssec($data);
 		//* tell pdns to use 'pdnssec rectify' on the new zone
 		$this->rectifyZone($data);
 		//* tell pdns to send notify to slave
@@ -181,10 +183,6 @@ class powerdns_plugin {
 				$ttl = $data["new"]["ttl"];
 				$app->db->query("UPDATE powerdns.records SET name = ?, content = ?, ttl = ?, change_date = UNIX_TIMESTAMP() WHERE ispconfig_id = ? AND type = 'SOA'", $origin, $content, $ttl, $data["new"]["id"]);
 
-				//* tell pdns to use 'pdnssec rectify' on the new zone
-				$this->rectifyZone($data);
-				//* tell pdns to send notify to slave
-				$this->notifySlave($data);
 			} else {
 				$this->soa_insert($event_name, $data);
 				$ispconfig_id = $data["new"]["id"];
@@ -196,11 +194,14 @@ class powerdns_plugin {
 						$this->rr_insert("dns_rr_insert", $data);
 					}
 				}
-				//* tell pdns to use 'pdnssec rectify' on the new zone
-				$this->rectifyZone($data);
-				//* tell pdns to send notify to slave
-				$this->notifySlave($data);
 			}
+
+			//* handle dnssec
+			$this->handle_dnssec($data);
+			//* tell pdns to use 'pdnssec rectify' on the new zone
+			$this->rectifyZone($data);
+			//* tell pdns to send notify to slave
+			$this->notifySlave($data);
 		}
 	}
 
@@ -463,6 +464,199 @@ class powerdns_plugin {
 			//* fallback to version 2
 			return 2;
 		}
+	}
+
+	function handle_dnssec($data) {
+		// If origin changed, delete keys first
+		if ($data['old']['origin'] != $data['new']['origin']) {
+			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) {
+				$this->soa_dnssec_delete($data);
+			}
+		}
+
+		// If DNSSEC is disabled, but was enabled before, just disable DNSSEC but leave the keys in dns_info
+		if ($data['new']['dnssec_wanted'] === 'N' && $data['old']['dnssec_initialized'] === 'Y') {
+			$this->soa_dnssec_disable($data);
+
+			return;
+		}
+
+		// If DNSSEC is wanted, enable it
+		if ($data['new']['dnssec_wanted'] === 'Y') {
+			$this->soa_dnssec_create($data);
+		}
+	}
+
+	function soa_dnssec_create($data) {
+		global $app;
+
+		if (!preg_match('/^3/',$this->get_pdns_version()) ) {
+			return;
+		}
+
+		$pdns_pdnssec = $this->find_pdns_pdnssec();
+		if ($pdns_pdnssec === false) {
+			return;
+		}
+
+		$zone = rtrim($data['new']['origin'],'.');
+		$log = array();
+
+		// We don't log the actual commands here, because having commands in the dnssec_info field will trigger
+		// the IDS if you try to save the record using the interface afterwards.
+		$cmd_secure_zone = sprintf('%s secure-zone %s 2>&1', $pdns_pdnssec, $zone);
+		$log[] = sprintf("\r\n%s %s", date('c'), 'Running secure-zone command...');
+		exec($cmd_secure_zone, $log);
+
+		$cmd_set_nsec3 = sprintf('%s set-nsec3 %s "1 0 10 deadbeef" 2>&1', $pdns_pdnssec, $zone);
+		$log[] = sprintf("\r\n%s %s", date('c'), 'Running set-nsec3 command...');
+		exec($cmd_set_nsec3, $log);
+
+		$pubkeys = [];
+		$cmd_show_zone = sprintf('%s show-zone %s 2>&1', $pdns_pdnssec, $zone);
+		$log[] = sprintf("\r\n%s %s", date('c'), 'Running show-zone command...');
+		exec($cmd_show_zone, $pubkeys);
+
+		$log = array_merge($log, $pubkeys);
+
+		$dnssec_info = array_merge($this->format_dnssec_pubkeys($pubkeys), ['', '== Raw log ============================'], $log);
+		$dnssec_info = implode("\r\n", $dnssec_info);
+
+		if ($app->dbmaster !== $app->db) {
+			$app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=? WHERE id=?', $dnssec_info, 'Y', intval($data['new']['id']));
+		}
+		$app->db->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=? WHERE id=?', $dnssec_info, 'Y', intval($data['new']['id']));
+	}
+
+	function format_dnssec_pubkeys($lines) {
+		$formatted = [];
+
+		// We don't care about the first two lines about presigning and NSEC
+		array_shift($lines);
+		array_shift($lines);
+
+		foreach ($lines as $line) {
+			switch ($part = substr($line, 0, 3)) {
+				case 'ID ':
+					// Only process active keys
+					if (!strpos($line, 'Active: 1')) {
+						continue;
+					}
+
+					// Determine key type (KSK or ZSK)
+					preg_match('/(KSK|ZSK)/', $line, $matches_key_type);
+					$key_type = $matches_key_type[1];
+
+					// We only care about the KSK
+					if ('ZSK' === $key_type) {
+						continue;
+					}
+
+					// Determine key tag
+					preg_match('/ tag = (\d+),/', $line, $matches_key_tag);
+					$formatted[] = sprintf('%s key tag: %d', $key_type, $matches_key_tag[1]);
+
+					// Determine algorithm
+					preg_match('/ algo = (\d+),/', $line, $matches_algo_id);
+					preg_match('/ \( (.*) \)$/', $line, $matches_algo_name);
+					$formatted[] = sprintf('Algo: %d (%s)', $matches_algo_id[1], $matches_algo_name[1]);
+
+					// Determine bits
+					preg_match('/ bits = (\d+)/', $line, $matches_bits);
+					$formatted[] = sprintf('Bits: %d', $matches_bits[1]);
+
+					break;
+
+				case 'KSK':
+					// Determine DNSKEY
+					preg_match('/ IN DNSKEY \d+ \d+ \d+ (.*) ;/', $line, $matches_dnskey);
+					$formatted[] = sprintf('DNSKEY: %s', $matches_dnskey[1]);
+
+					break;
+
+				case 'DS ':
+					// Determine key tag
+					preg_match('/ IN DS (\d+) \d+ \d+ /', $line, $matches_ds_key_tag);
+					$formatted[] = sprintf('  - DS key tag: %d', $matches_ds_key_tag[1]);
+
+					// Determine key tag
+					preg_match('/ IN DS \d+ (\d+) \d+ /', $line, $matches_ds_algo);
+					$formatted[] = sprintf('    Algo: %d', $matches_ds_algo[1]);
+
+					// Determine digest
+					preg_match('/ IN DS \d+ \d+ (\d+) /', $line, $matches_ds_digest_id);
+					preg_match('/ \( (.*) \)$/', $line, $matches_ds_digest_name);
+					$formatted[] = sprintf('    Digest: %d (%s)', $matches_ds_digest_id[1], $matches_ds_digest_name[1]);
+
+					// Determine public key
+					preg_match('/ IN DS \d+ \d+ \d+ (.*) ;/', $line, $matches_ds_key);
+					$formatted[] = sprintf('    Public key: %s', $matches_ds_key[1]);
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		return $formatted;
+	}
+
+	function soa_dnssec_disable($data) {
+		global $app;
+
+		if (!preg_match('/^3/',$this->get_pdns_version()) ) {
+			return;
+		}
+
+		$pdns_pdnssec = $this->find_pdns_pdnssec();
+		if ($pdns_pdnssec === false) {
+			return;
+		}
+
+		$zone = rtrim($data['new']['origin'],'.');
+		$log = array();
+
+		// We don't log the actual commands here, because having commands in the dnssec_info field will trigger
+		// the IDS if you try to save the record using the interface afterwards.
+		$cmd_disable_dnssec = sprintf('%s disable-dnssec %s 2>&1', $pdns_pdnssec, $zone);
+		$log[] = sprintf("\r\n%s %s", date('c'), 'Running disable-dnssec command...');
+		exec($cmd_disable_dnssec, $log);
+
+		if ($app->dbmaster !== $app->db) {
+			$app->dbmaster->query('UPDATE dns_soa SET dnssec_initialized=? WHERE id=?', 'N', intval($data['new']['id']));
+		}
+		$app->db->query('UPDATE dns_soa SET dnssec_initialized=? WHERE id=?', 'N', intval($data['new']['id']));
+	}
+
+	function soa_dnssec_delete($data) {
+		global $app;
+
+		if (!preg_match('/^3/',$this->get_pdns_version()) ) {
+			return;
+		}
+
+		$pdns_pdnssec = $this->find_pdns_pdnssec();
+		if ($pdns_pdnssec === false) {
+			return;
+		}
+
+		$zone = rtrim($data['old']['origin'],'.');
+		$log = array();
+
+		// We don't log the actual commands here, because having commands in the dnssec_info field will trigger
+		// the IDS if you try to save the record using the interface afterwards.
+		$cmd_disable_dnssec = sprintf('%s disable-dnssec %s 2>&1', $pdns_pdnssec, $zone);
+		$log[] = sprintf("\r\n%s %s", date('c'), 'Running disable-dnssec command...');
+		exec($cmd_disable_dnssec, $log);
+
+
+		$dnssec_info = array_merge(['== Raw log ============================'], $log);
+		$dnssec_info = implode("\r\n", $dnssec_info);
+
+		if ($app->dbmaster !== $app->db) {
+			$app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=? WHERE id=?', $dnssec_info, 'N', intval($data['new']['id']));
+		}
+		$app->db->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=? WHERE id=?', $dnssec_info, 'N', intval($data['new']['id']));
 	}
 
 	function rectifyZone($data) {

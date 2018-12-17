@@ -305,4 +305,4 @@ $wb['content_filter_txt'] = 'Content Filter';
 $wb['rspamd_url_txt'] = 'Rspamd URL';
 $wb['rspamd_user_txt'] = 'Rspamd User';
 $wb['rspamd_password_txt'] = 'Rspamd Password';
-
+$wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';

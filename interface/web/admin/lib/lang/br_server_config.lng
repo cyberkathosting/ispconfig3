@@ -292,4 +292,5 @@ $wb['logging_desc_txt'] = 'Use Tools > Resync to apply changes to existing sites
 $wb['log_retention_txt'] = 'Log retention (days)';
 $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
 $wb['php_default_name_txt'] = 'Description Default PHP-Version';
+$wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 ?>
