@@ -1,0 +1,9 @@
+<?php
+$wb["Client Circle"] = 'حلقه مشتری';
+$wb["Circle"] = 'حلقه';
+$wb["circle_txt"] = 'حلقه';
+$wb["circle_name_txt"] = 'نام حلقه';
+$wb["client_ids_txt"] = 'مشتریان/نمایندگان فروش';
+$wb["description_txt"] = 'توضیحات';
+$wb["active_txt"] = 'فعال کردن';
+?>
