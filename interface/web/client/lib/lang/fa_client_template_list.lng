@@ -1,0 +1,7 @@
+<?php
+$wb["list_head_txt"] = 'قالب های مشتری و نماینده فروش';
+$wb["template_type_txt"] = 'نوع';
+$wb["template_name_txt"] = 'نام قالب';
+$wb['template_id_txt'] = 'آیدی قالب';
+$wb['sys_groupid_txt'] = 'نماینده فروش';
+?>
