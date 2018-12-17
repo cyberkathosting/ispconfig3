@@ -1,0 +1,20 @@
+<?php
+$wb["page_head_txt"] = 'ارسال اطلاعات مشتری';
+$wb["btn_send_txt"] = 'ارسال ایمیل';
+$wb["btn_cancel_txt"] = 'لغو';
+$wb["sender_txt"] = 'آدرس فرستنده ایمیل';
+$wb["subject_txt"] = 'موضوع';
+$wb["message_txt"] = 'پیغام';
+$wb["form_legend_client_txt"] = 'ارسال ایمیل به مشتریان.';
+$wb["form_legend_admin_txt"] = 'ارسال ایمیل به مشتریان و نمایندگان فروش.';
+$wb["sender_invalid_error"] = 'فرستنده ایمیل مجاز نیست.';
+$wb["subject_invalid_error"] = 'موضوع خالی است.';
+$wb["message_invalid_error"] = 'پیغام خالی است.';
+$wb["email_sent_to_txt"] = 'ایمیل ارسال شده به:';
+$wb["recipient_txt"] = 'گیرنده';
+$wb["all_clients_resellers_txt"] = 'همه مشتریان و نمایندگان فروش';
+$wb["all_clients_txt"] = 'همه مشتری ها';
+$wb["variables_txt"] = 'متغیرها:';
+$wb['gender_m_txt'] = 'آقای.';
+$wb['gender_f_txt'] = 'خانم.';
+?>
