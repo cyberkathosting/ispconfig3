@@ -1,0 +1,5 @@
+<?php
+$wb["list_head_txt"] = 'قالب های ایمیل';
+$wb["template_type_txt"] = 'پیام برای';
+$wb["template_name_txt"] = 'نام قالب';
+?>
