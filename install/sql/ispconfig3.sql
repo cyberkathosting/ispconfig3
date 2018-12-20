@@ -1785,8 +1785,8 @@ CREATE TABLE IF NOT EXISTS `sys_theme` (
 
 CREATE TABLE `sys_user` (
   `userid` int(11) unsigned NOT NULL auto_increment,
-  `sys_userid` int(11) unsigned NOT NULL default '1',
-  `sys_groupid` int(11) unsigned NOT NULL default '1',
+  `sys_userid` int(11) unsigned NOT NULL default '1' COMMENT 'Created by userid',
+  `sys_groupid` int(11) unsigned NOT NULL default '1' COMMENT 'Created by groupid',
   `sys_perm_user` varchar(5) NOT NULL default 'riud',
   `sys_perm_group` varchar(5) NOT NULL default 'riud',
   `sys_perm_other` varchar(5) NOT NULL default '',
