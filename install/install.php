@@ -553,9 +553,10 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 }
 
 // Create SSL certs for non-webserver(s)?
-if(!file_exists(/usr/local/ispconfig/interface/ssl/ispserver.crt)) {
-    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
+if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
+    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y') {
         $inst->make_ispconfig_ssl_cert();
+	}
 }
 
 $inst->raiseEvent('install_ispconfig::before');
