@@ -1,5 +1,7 @@
 <?php
 
+$userid=$app->auth->get_user_id();
+
 $module["name"]   = "dns";
 $module["title"]   = "top_menu_dns";
 $module["template"]  = "module.tpl.htm";
@@ -56,16 +58,20 @@ $module["nav"][] = array( 'title' => 'DNS',
 
 unset($items);
 
-$items[] = array( 'title'  => "Secondary Zones",
-	'target'  => 'content',
-	'link' => 'dns/dns_slave_list.php',
-	'html_id' => 'dns_slave_list');
+if($app->auth->get_client_limit($userid, 'dns_slave_zone') != 0)
+{
+	$items[] = array( 'title'  => "Secondary Zones",
+		'target'  => 'content',
+		'link' => 'dns/dns_slave_list.php',
+		'html_id' => 'dns_slave_list');
 
-$module["nav"][] = array( 'title' => 'Secondary DNS',
-	'open'  => 1,
-	'items' => $items);
+	$module["nav"][] = array( 'title' => 'Secondary DNS',
+		'open'  => 1,
+		'items' => $items);
+	
+	unset($items);
+}
 
-unset($items);
 
 
 
