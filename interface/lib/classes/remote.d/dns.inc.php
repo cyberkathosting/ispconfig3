@@ -197,6 +197,21 @@ class remoting_dns extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 	
+	//* Get slave zone details
+	public function dns_slave_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_slave.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	
 	//* Add a slave zone
     public function dns_slave_add($session_id, $client_id, $params)
     {
