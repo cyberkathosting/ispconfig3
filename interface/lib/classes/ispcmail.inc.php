@@ -430,6 +430,9 @@ class ispcmail {
 		if($text == true && $html == false && $attach == false) {
 			// only text
 			$content_type = 'text/plain; charset="' . strtolower($this->mail_charset) . '"';
+			if($this->mail_charset == 'UTF-8') {
+				$this->headers['Content-Transfer-Encoding'] = '8bit';
+			}
 			$textonly = true;
 		} elseif($text == true && $html == false && $attach == true) {
 			// text and attachment
@@ -440,6 +443,9 @@ class ispcmail {
 		} elseif($html == true && $text == false && $attach == false) {
 			// html only (or text too)
 			$content_type = 'text/html; charset="' . strtolower($this->mail_charset) . '"';
+			if($this->mail_charset == 'UTF-8') {
+				$this->headers['Content-Transfer-Encoding'] = '8bit';
+			}
 			$htmlonly = true;
 		} elseif($html == true && $attach == true) {
 			// html and attachments
@@ -564,17 +570,14 @@ class ispcmail {
 	 * @access private
 	 */
 	private function _encodeSubject($input, $charset = 'ISO-8859-1') {
-		/*
-		if($charset == 'UTF-8' && function_exists('imap_8bit')) {
-			$input = "=?utf-8?Q?" . imap_8bit($input) . "?=";
-		} else {
-			preg_match_all('/(\s?\w*[\x80-\xFF]+\w*\s?)/', $input, $matches);
-			foreach ($matches[1] as $value) {
-				$replacement = preg_replace('/([\x20\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
-				$input = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $input);
+		if(preg_match('/(?:[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}|\xED[\x80-\x9F][\x80-\xBF]|\xF0[\x90-\xBF][\x80-\xBF]{2}|[\xF1-\xF3][\x80-\xBF]{3}|\xF4[\x80-\x8F][\x80-\xBF]{2})/s', $input)) {
+			// needs encoding
+			if(function_exists('imap_8bit')) {
+				$input = "=?utf-8?Q?" . str_replace("?","=3F", imap_8bit($input)) . "?=";
+			} else {
+				$input = '=?utf-8?B?' . base64_encode($input) . '?=';
 			}
-		}*/
-		$input='=?UTF-8?B?'.base64_encode($input).'?=';
+		}
 
 		return $input;
 	}
