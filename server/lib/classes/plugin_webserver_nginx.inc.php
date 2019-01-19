@@ -632,7 +632,7 @@ class plugin_webserver_nginx {
 		if(count($server_alias) > 0) {
 			$server_alias_str = '';
 			foreach($server_alias as $tmp_alias) {
-				$server_alias_str .= $tmp_alias;
+				$server_alias_str .= ' ' . $tmp_alias;
 			}
 			unset($tmp_alias);
 

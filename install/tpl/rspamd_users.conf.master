@@ -4,10 +4,10 @@ settings {
 		authenticated = yes;
 		#apply "default" { groups_disabled = ["rbl", "spf"]; }
 		apply "default" {
-			symbols_enabled = [];
+			#symbols_enabled = [];
 			symbols_disabled = [];
-			groups_enabled = [];
-			groups_disabled = [];
+			#groups_enabled = [];
+			groups_disabled = ["rbl"];
 		}
 	}
 	whitelist {

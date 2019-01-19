@@ -104,6 +104,8 @@ class mail_plugin_dkim {
 	function check_system($data) {
 		global $app, $mail_config;
 
+		/** TODO: FIX IF ONLY RSPAMD IS INSTALLED AND NO AMAVIS! **/
+		
 		$app->uses('getconf');
 		$check=true;
 

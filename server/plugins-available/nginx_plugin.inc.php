@@ -98,7 +98,7 @@ class nginx_plugin {
 
 		if($this->action != 'insert') $this->action = 'update';
 
-		$app->plugins_webserver_base->eventUpdate($event_name, $data, 'nginx');
+		$app->plugin_webserver_base->eventUpdate($event_name, $data, $this->action, 'nginx');
 
 		//* Unset action to clean it for next processed vhost.
 		$this->action = '';

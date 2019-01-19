@@ -88,7 +88,7 @@ class rspamd_plugin {
 		$app->uses('getconf,system,functions');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
-		if($mail_config['content_filter'] == 'rspamd'){
+		if(is_dir('/etc/rspamd')) {
 			$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
 			
 			//* Create the config file
@@ -129,10 +129,14 @@ class rspamd_plugin {
 		
 				$app->system->file_put_contents($user_file, $tpl->grab());
 			} else {
-				if(is_file($user_file)) unlink($user_file);
+				if(is_file($user_file)) {
+					unlink($user_file);
+				}
 			}
-			//if(is_file('/etc/init.d/rspamd')) exec('/etc/init.d/rspamd reload &> /dev/null');
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			
+			if($mail_config['content_filter'] == 'rspamd'){
+				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			}
 		}
 	}
 
@@ -143,11 +147,14 @@ class rspamd_plugin {
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
-		if($mail_config['content_filter'] == 'rspamd'){
+		if(is_dir('/etc/rspamd')) {
 			//* delete the config file
 			$user_file = $this->users_config_dir.'spamfilter_user_'.intval($data['old']['id']).'.conf';
 			if(is_file($user_file)) unlink($user_file);
-			//if(is_file('/etc/init.d/rspamd')) exec('/etc/init.d/rspamd reload &> /dev/null');
+			
+		}
+		
+		if($mail_config['content_filter'] == 'rspamd') {
 			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 	}
@@ -166,7 +173,7 @@ class rspamd_plugin {
 		$app->uses('getconf,system,functions');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
-		if($mail_config['content_filter'] == 'rspamd'){
+		if(is_dir('/etc/rspamd')) {
 			$recipient = $app->db->queryOneRecord("SELECT email FROM spamfilter_users WHERE id = ?", intval($data['new']['rid']));
 			//* Create the config file
 			$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.intval($data['new']['wblist_id']).'.conf';
@@ -191,8 +198,10 @@ class rspamd_plugin {
 			} else {
 				if(is_file($wblist_file)) unlink($wblist_file);
 			}
-			//if(is_file('/etc/init.d/rspamd')) exec('/etc/init.d/rspamd reload &> /dev/null');
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			
+			if($mail_config['content_filter'] == 'rspamd'){
+				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			}
 		}
 	}
 	
@@ -202,12 +211,14 @@ class rspamd_plugin {
 		$app->uses('getconf');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
-		if($mail_config['content_filter'] == 'rspamd'){
+		if(is_dir('/etc/rspamd')) {
 			//* delete the config file
 			$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.intval($data['old']['wblist_id']).'.conf';
 			if(is_file($wblist_file)) unlink($wblist_file);
-			//if(is_file('/etc/init.d/rspamd')) exec('/etc/init.d/rspamd reload &> /dev/null');
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			
+			if($mail_config['content_filter'] == 'rspamd'){
+				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			}
 		}
 	}
 
@@ -220,7 +231,7 @@ class rspamd_plugin {
 
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
-		if($mail_config['content_filter'] == 'rspamd'){
+		if(is_dir('/etc/rspamd')) {
 			$tpl = new tpl();
 			$tpl->newTemplate('rspamd_users.conf.master');
 				
@@ -234,7 +245,9 @@ class rspamd_plugin {
 			$tpl->setLoop('whitelist_ips', $whitelist_ips);
 			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
 				
-			$app->services->restartServiceDelayed('rspamd', 'reload');
+			if($mail_config['content_filter'] == 'rspamd'){
+				$app->services->restartServiceDelayed('rspamd', 'reload');
+			}
 		}
 	}
 	

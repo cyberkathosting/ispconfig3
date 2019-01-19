@@ -1719,7 +1719,7 @@ class plugin_webserver_base {
 			$this->action = 'update';
 			$this->update_letsencrypt = true;
 			// just run the update function
-			$this->update($event_name, $data);
+			$this->eventUpdate($event_name, $data, 'update', $server_type);
 
 		} else {
 			$conf_prefix = '';
