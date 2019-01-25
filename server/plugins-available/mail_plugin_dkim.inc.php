@@ -105,6 +105,7 @@ class mail_plugin_dkim {
 		global $app, $mail_config;
 
 		/** TODO: FIX IF ONLY RSPAMD IS INSTALLED AND NO AMAVIS! **/
+		/** TODO: FIX DKIM FOR RSPAMD, RSPAMD CANNOT READ FILES OF amavis:root **/
 		
 		$app->uses('getconf');
 		$check=true;

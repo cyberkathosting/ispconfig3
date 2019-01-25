@@ -8,7 +8,7 @@ rules {
       max_usages = 200;
       max_iterations = 25;
       learning_rate = 0.01,
-      spam_score = 8;
+      spam_score = 10;
       ham_score = -2;
     }
     symbol_spam = "NEURAL_SPAM_LONG";
@@ -21,7 +21,7 @@ rules {
       max_usages = 2;
       max_iterations = 25;
       learning_rate = 0.01,
-      spam_score = 8;
+      spam_score = 10;
       ham_score = -2;
     }
     symbol_spam = "NEURAL_SPAM_SHORT";
