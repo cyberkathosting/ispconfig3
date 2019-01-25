@@ -331,6 +331,7 @@ class mysql_clientdb_plugin {
 				$timestamp = time();
 
 				$tables = $link->query("SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='".$old_name."' AND TABLE_TYPE='BASE TABLE'");
+				$tables_all = $link->query("SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema='".$old_name."'");
 				if ($tables->num_rows > 0) {
 					while ($row = $tables->fetch_assoc()) {
 						$tables_array[] = $row['TABLE_NAME'];
@@ -435,6 +436,11 @@ class mysql_clientdb_plugin {
 							$app->system->unlink($timestamp.$old_name.'.views');
 						}
 					}
+
+				} elseif ($tables->num_rows == 0 && $tables_all->num_rows == 0) {
+					//* Rename empty database by creating a new one and dropping the old database
+					$this->db_insert($event_name, $data);
+					$this->db_delete($event_name, $data);
 
 				} else { //* SELECT TABLE_NAME error
 					$app->log('Unable to rename database '.$old_name.' to '.$new_name, LOGLEVEL_ERROR);

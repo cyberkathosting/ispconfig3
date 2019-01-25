@@ -195,14 +195,14 @@ class app {
 			/*
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
-					$this->error('Unable to open logfile.');
+					$this->error('Unable to open logfile: ' . $this->_conf['log_file']);
 				}
 				if (!fwrite($fp, date('d.m.Y-H:i').' - '. $msg."\r\n")) {
-					$this->error('Unable to write to logfile.');
+					$this->error('Unable to write to logfile: ' . $this->_conf['log_file']);
 				}
 				fclose($fp);
 			} else {
-				$this->error('Unable to write to logfile.');
+				$this->error('Unable to write to logfile: ' . $this->_conf['log_file']);
 			}
 			*/
 		}

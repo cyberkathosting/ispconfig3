@@ -42,8 +42,7 @@ class remoting_dns extends remoting {
 	// DNS Function --------------------------------------------------------------------------------------------------
 
 	//* Create Zone with Template
-	public function dns_templatezone_add($session_id, $client_id, $template_id, $domain, $ip, $ns1, $ns2, $email)
-	{
+	public function dns_templatezone_add($session_id, $client_id, $template_id, $domain, $ip, $ns1, $ns2, $email) {
 		global $app, $conf;
 		if(!$this->checkPerm($session_id, 'dns_templatezone_add')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
@@ -186,8 +185,7 @@ class remoting_dns extends remoting {
 
 
 	//* Get record details
-	public function dns_zone_get($session_id, $primary_id)
-	{
+	public function dns_zone_get($session_id, $primary_id) {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
@@ -199,9 +197,22 @@ class remoting_dns extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 	
+	//* Get slave zone details
+	public function dns_slave_get($session_id, $primary_id) {
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'dns_zone_get')) {
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_slave.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	
 	//* Add a slave zone
-	public function dns_slave_add($session_id, $client_id, $params)
-	{
+    public function dns_slave_add($session_id, $client_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -210,8 +221,7 @@ class remoting_dns extends remoting {
 	}
 
 	//* Update a slave zone
-	public function dns_slave_update($session_id, $client_id, $primary_id, $params)
-	{
+	public function dns_slave_update($session_id, $client_id, $primary_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -221,8 +231,7 @@ class remoting_dns extends remoting {
 	}
 
     //* Delete a slave zone
-    public function dns_slave_delete($session_id, $primary_id)
-    {
+    public function dns_slave_delete($session_id, $primary_id) {
 		if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -231,8 +240,7 @@ class remoting_dns extends remoting {
     }
 
 	//* Get record id by origin
-	public function dns_zone_get_id($session_id, $origin)
-	{
+	public function dns_zone_get_id($session_id, $origin) {
 		global $app;
 
 		if(!$this->checkPerm($session_id, 'dns_zone_get_id')) {
@@ -255,8 +263,7 @@ class remoting_dns extends remoting {
 	}
 
 	//* Add a record
-	public function dns_zone_add($session_id, $client_id, $params)
-	{
+	public function dns_zone_add($session_id, $client_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -265,8 +272,7 @@ class remoting_dns extends remoting {
 	}
 
 	//* Update a record
-	public function dns_zone_update($session_id, $client_id, $primary_id, $params)
-	{
+	public function dns_zone_update($session_id, $client_id, $primary_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -276,8 +282,7 @@ class remoting_dns extends remoting {
 	}
 
 	//* Delete a record
-	public function dns_zone_delete($session_id, $primary_id)
-	{
+	public function dns_zone_delete($session_id, $primary_id) {
 		if(!$this->checkPerm($session_id, 'dns_zone_delete')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -288,563 +293,312 @@ class remoting_dns extends remoting {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
-	//* Get record details
-	public function dns_aaaa_get($session_id, $primary_id)
-	{
+	private function dns_rr_get($session_id, $primary_id, $rr_type = 'A') {
 		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_aaaa_get')) {
+	
+		$rr_type = strtolower($rr_type);
+		if(!preg_match('/^[a-z]+$/', $rr_type)) {
+			throw new ISPConfigRemoteException('permission denied', 'Invalid rr type');
+		}
+		
+		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_get')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
 		}
 		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_aaaa.tform.php');
+		$app->remoting_lib->loadFormDef('../dns/form/dns_' . $rr_type . '.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-
+	
 	//* Add a record
-	public function dns_aaaa_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_aaaa_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
+	private function dns_rr_add($session_id, $client_id, $params, $update_serial=false, $rr_type = 'A') {
+		$rr_type = strtolower($rr_type);
+		if(!preg_match('/^[a-z]+$/', $rr_type)) {
+			throw new ISPConfigRemoteException('permission denied', 'Invalid rr type');
 		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_aaaa.tform.php', $client_id, $params);
+		
+		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_add')) {
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
+		}
+		if($update_serial) {
+			$this->increase_serial($session_id, $client_id, $params);
+		}
+		return $this->insertQuery('../dns/form/dns_' . $rr_type . '.tform.php', $client_id, $params);
 	}
 
 	//* Update a record
-	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_aaaa_update')) {
+	private function dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial=false, $rr_type = 'A') {
+		$rr_type = strtolower($rr_type);
+		if(!preg_match('/^[a-z]+$/', $rr_type)) {
+			throw new ISPConfigRemoteException('permission denied', 'Invalid rr type');
+		}
+		
+		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_update')) {
 			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		$affected_rows = $this->updateQuery('../dns/form/dns_aaaa.tform.php', $client_id, $primary_id, $params);
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
+		$affected_rows = $this->updateQuery('../dns/form/dns_' . $rr_type . '.tform.php', $client_id, $primary_id, $params);
+		if($update_serial) {
+			$this->increase_serial($session_id, $client_id, $params);
+		}
 		return $affected_rows;
+	}
+	
+	//* Delete a record
+	private function dns_rr_delete($session_id, $primary_id, $update_serial=false, $rr_type = 'A') {
+		$rr_type = strtolower($rr_type);
+		if(!preg_match('/^[a-z]+$/', $rr_type)) {
+			throw new ISPConfigRemoteException('permission denied', 'Invalid rr type');
+		}
+		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_delete')) {
+			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
+		}
+		if($update_serial) {
+			$this->increase_serial($session_id, 0, array('dns_rr_id' => $primary_id));
+		}
+		$affected_rows = $this->deleteQuery('../dns/form/dns_' . $rr_type . '.tform.php', $primary_id);
+		return $affected_rows;
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------------
+	
+	//* Get record details
+	public function dns_aaaa_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'AAAA');
+	}
+
+	//* Add a record
+	public function dns_aaaa_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'AAAA');
+	}
+
+	//* Update a record
+	public function dns_aaaa_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'AAAA');
 	}
 
 	//* Delete a record
-	public function dns_aaaa_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_aaaa_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_aaaa.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_aaaa_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'AAAA');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_a_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_a_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_a.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_a_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'A');
 	}
 
 	//* Add a record
-	public function dns_a_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_a_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_a.tform.php', $client_id, $params);
+	public function dns_a_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'A');
 	}
 
 	//* Update a record
-	public function dns_a_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_a_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_a.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_a_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'A');
 	}
 
 	//* Delete a record
-	public function dns_a_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_a_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_a.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_a_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'A');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_alias_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_alias_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_alias.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_alias_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'ALIAS');
 	}
 
 	//* Add a record
-	public function dns_alias_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_alias_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_alias.tform.php', $client_id, $params);
+	public function dns_alias_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'ALIAS');
 	}
 
 	//* Update a record
-	public function dns_alias_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_alias_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_alias.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_alias_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'ALIAS');
 	}
 
 	//* Delete a record
-	public function dns_alias_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_alias_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_alias.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_alias_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'ALIAS');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_cname_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_cname_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_cname.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_cname_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'CNAME');
 	}
 
 	//* Add a record
-	public function dns_cname_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_cname_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_cname.tform.php', $client_id, $params);
+	public function dns_cname_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'CNAME');
 	}
 
 	//* Update a record
-	public function dns_cname_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_cname_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_cname.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_cname_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'CNAME');
 	}
 
 	//* Delete a record
-	public function dns_cname_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_cname_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_cname.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_cname_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'CNAME');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_hinfo_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_hinfo_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_hinfo.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_hinfo_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'HINFO');
 	}
 
 	//* Add a record
-	public function dns_hinfo_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_hinfo_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_hinfo.tform.php', $client_id, $params);
+	public function dns_hinfo_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'HINFO');
 	}
 
 	//* Update a record
-	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_hinfo_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_hinfo.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_hinfo_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'HINFO');
 	}
 
 	//* Delete a record
-	public function dns_hinfo_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_hinfo_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_hinfo.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_hinfo_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'HINFO');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_mx_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_mx_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_mx.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_mx_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'MX');
 	}
 
 	//* Add a record
-	public function dns_mx_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_mx_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_mx.tform.php', $client_id, $params);
+	public function dns_mx_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'MX');
 	}
 
 	//* Update a record
-	public function dns_mx_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_mx_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_mx.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_mx_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'MX');
 	}
 
 	//* Delete a record
-	public function dns_mx_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_mx_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_mx.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_mx_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'MX');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_ns_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_ns_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_ns.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_ns_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'NS');
 	}
 
 	//* Add a record
-	public function dns_ns_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ns_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_ns.tform.php', $client_id, $params);
+	public function dns_ns_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'NS');
 	}
 
 	//* Update a record
-	public function dns_ns_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ns_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_ns.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_ns_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'NS');
 	}
 
 	//* Delete a record
-	public function dns_ns_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ns_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_ns.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_ns_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'NS');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_ptr_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_ptr_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_ptr.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_ptr_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'PTR');
 	}
 
 	//* Add a record
-	public function dns_ptr_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ptr_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_ptr.tform.php', $client_id, $params);
+	public function dns_ptr_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'PTR');
 	}
 
 	//* Update a record
-	public function dns_ptr_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ptr_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_ptr.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_ptr_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'PTR');
 	}
 
 	//* Delete a record
-	public function dns_ptr_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_ptr_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_ptr.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_ptr_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'PTR');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_rp_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_rp_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_rp.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_rp_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'RP');
 	}
 
 	//* Add a record
-	public function dns_rp_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_rp_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_rp.tform.php', $client_id, $params);
+	public function dns_rp_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'RP');
 	}
 
 	//* Update a record
-	public function dns_rp_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_rp_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_rp.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_rp_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'RP');
 	}
 
 	//* Delete a record
-	public function dns_rp_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_rp_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_rp.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_rp_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'RP');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_srv_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_srv_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_srv.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_srv_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'SRV');
 	}
 
 	//* Add a record
-	public function dns_srv_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_srv_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_srv.tform.php', $client_id, $params);
+	public function dns_srv_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'SRV');
 	}
 
 	//* Update a record
-	public function dns_srv_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_srv_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_srv.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_srv_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'SRV');
 	}
 
 	//* Delete a record
-	public function dns_srv_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_srv_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_srv.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_srv_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'SRV');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_txt_get($session_id, $primary_id)
-	{
-		global $app;
-
-		if(!$this->checkPerm($session_id, 'dns_txt_get')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$app->uses('remoting_lib');
-		$app->remoting_lib->loadFormDef('../dns/form/dns_txt.tform.php');
-		return $app->remoting_lib->getDataRecord($primary_id);
+	public function dns_txt_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'TXT');
 	}
 
 	//* Add a record
-	public function dns_txt_add($session_id, $client_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_txt_add')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		return $this->insertQuery('../dns/form/dns_txt.tform.php', $client_id, $params);
+	public function dns_txt_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'TXT');
 	}
 
 	//* Update a record
-	public function dns_txt_update($session_id, $client_id, $primary_id, $params, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_txt_update')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		if($update_serial) $this->increase_serial($session_id, $client_id, $params);
-		$affected_rows = $this->updateQuery('../dns/form/dns_txt.tform.php', $client_id, $primary_id, $params);
-		return $affected_rows;
+	public function dns_txt_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'TXT');
 	}
 
 	//* Delete a record
-	public function dns_txt_delete($session_id, $primary_id, $update_serial=false)
-	{
-		if(!$this->checkPerm($session_id, 'dns_txt_delete')) {
-			throw new ISPConfigRemoteException('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
-		}
-		$affected_rows = $this->deleteQuery('../dns/form/dns_txt.tform.php', $primary_id);
-		if($update_serial) $this->increase_serial($session_id, $client_id, array('dns_rr_id' => $primary_id));
-		return $affected_rows;
+	public function dns_txt_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'TXT');
 	}
 
 	/**
@@ -944,5 +698,3 @@ class remoting_dns extends remoting {
 		$this->dns_zone_update($session_id, $client_id, $soa['id'], $soa);
 	}
 }
-
-?>

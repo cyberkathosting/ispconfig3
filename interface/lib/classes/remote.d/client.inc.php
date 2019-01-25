@@ -678,6 +678,27 @@ class remoting_client extends remoting {
 		
 		return $returnval;
 	}
+	
+	public function client_get_by_groupid($session_id, $group_id)
+	{
+		global $app;
+		if(!$this->checkPerm($session_id, 'client_get_id')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		$group_id = $app->functions->intval($group_id);
+
+		$rec = $app->db->queryOneRecord("SELECT client_id FROM sys_group WHERE groupid = ?", $group_id);
+		if(isset($rec['client_id'])) {
+			$client_id = $app->functions->intval($rec['client_id']);
+			return $this->client_get($session_id, $client_id);
+		} else {
+			throw new SoapFault('no_group_found', 'There is no client for this group ID.');
+			return false;
+		}
+	}
+
 }
 
 ?>

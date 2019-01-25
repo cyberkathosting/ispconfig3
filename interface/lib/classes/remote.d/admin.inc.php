@@ -272,6 +272,49 @@ class remoting_admin extends remoting {
 		
 		return $app->db->query('DELETE FROM sys_config WHERE `group` = ? AND `name` = ?',$group,$name);
 	}
+	
+	// Get datalog information with tstamp >=
+	public function sys_datalog_get_by_tstamp($session_id, $tstamp)	
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'server_get')) {
+	        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+        		return false;
+		}
+		
+		$tstamp = $app->functions->intval($tstamp);
+
+		if($tstamp > 0)	{
+			$rec = $app->db->queryAllRecords("SELECT datalog_id, server_id, dbtable, dbidx, action, tstamp, user, data, status, error FROM sys_datalog WHERE tstamp >= ? ORDER BY datalog_id DESC", $tstamp);
+			return $rec;
+		}
+	}
+	
+	// Get datalog information by datalog_id
+	public function sys_datalog_get($session_id, $datalog_id, $newer = false)	
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'server_get')) {
+	        	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+        		return false;
+		}
+		
+		$tstamp = $app->functions->intval($tstamp);
+
+		if($datalog_id > 0 && $newer === true)	{
+			$rec = $app->db->queryAllRecords("SELECT datalog_id, server_id, dbtable, dbidx, action, tstamp, user, data, status, error FROM sys_datalog WHERE datalog_id >= ? ORDER BY datalog_id DESC", $datalog_id);
+			return $rec;
+		} elseif ($datalog_id > 0) {
+			$rec = $app->db->queryAllRecords("SELECT datalog_id, server_id, dbtable, dbidx, action, tstamp, user, data, status, error FROM sys_datalog WHERE datalog_id = ? ORDER BY datalog_id DESC", $datalog_id);
+			return $rec;
+		} else {
+			throw new SoapFault('invalid_datalog_id', 'The ID passed to the function must be > 0');
+        	return false;
+		}
+	}
+
 
 }
 

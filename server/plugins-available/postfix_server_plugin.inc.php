@@ -85,7 +85,7 @@ class postfix_server_plugin {
 			$content = file_exists('/etc/postfix/sasl_passwd') ? file_get_contents('/etc/postfix/sasl_passwd') : '';
 			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost']).'\s+[^\n]*(:?\n|)/m','',$content);
 
-			if (!empty($mail_config['relayhost']) || !empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
+			if (!empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
 				$content .= "\n".$mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
 			}
 			
