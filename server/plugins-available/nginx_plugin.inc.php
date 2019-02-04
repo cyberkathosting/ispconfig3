@@ -1041,6 +1041,7 @@ class nginx_plugin {
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
+		$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('rnd_php_dummy_file', '/'.md5(uniqid(microtime(), 1)).'.htm');
@@ -2741,6 +2742,14 @@ class nginx_plugin {
 			$tpl->setVar('enable_php_open_basedir', '');
 		} else {
 			$tpl->setVar('enable_php_open_basedir', ';');
+		}
+
+		// Chrooted PHP-FPM
+		if ($data['new']['php_fpm_chroot'] === 'y') {
+			$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
+			$tpl->setVar('php_fpm_chroot_dir', $data['new']['document_root']);
+			$tpl->setVar('php_open_basedir', str_replace($tpl->getVar('document_root'), '', $tpl->getVar('php_open_basedir')));
+			$tpl->setVar('document_root', '');
 		}
 
 		// Custom php.ini settings

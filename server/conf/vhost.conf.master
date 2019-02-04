@@ -377,6 +377,12 @@
 </tmpl_if>
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
+<tmpl_if name='php_fpm_chroot' op='==' value='y'>
+			ProxyFCGISetEnvIf "true" DOCUMENT_ROOT "/web"
+			ProxyFCGISetEnvIf "true" CONTEXT_DOCUMENT_ROOT "%{reqenv:DOCUMENT_ROOT}"
+			ProxyFCGISetEnvIf "true" HOME "%{reqenv:DOCUMENT_ROOT}"
+			ProxyFCGISetEnvIf "true" SCRIPT_FILENAME "%{reqenv:DOCUMENT_ROOT}%{reqenv:SCRIPT_NAME}"
+</tmpl_if>
 <tmpl_if name='use_tcp'>
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>

@@ -79,6 +79,7 @@ $wb['seo_redirect_txt'] = 'Przekierowanie SEO';
 $wb['non_www_to_www_txt'] = 'bez www -> www';
 $wb['www_to_non_www_txt'] = 'www -> bez www';
 $wb['php_fpm_use_socket_txt'] = 'Użyj gniazda dla PHP-FPM';
+$wb['php_fpm_chroot_txt'] = 'Chroot PHP-FPM';
 $wb['error_no_sni_txt'] = 'SNI dla SSL nie jest aktywowane na tym serwerze. Możesz utworzyć tylko jeden certyfikat SSL dla jednego adresu IP.';
 $wb['python_txt'] = 'Python';
 $wb['pm_max_children_txt'] = 'PHP-FPM pm.max_children';
