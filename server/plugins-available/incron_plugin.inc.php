@@ -111,6 +111,7 @@ class incron_plugin {
 		}
 
 		exec(sprintf('chown %s:%s %s', $systemUser, $systemGroup, $triggerFile));
+		exec(sprintf('chattr +i %s', $triggerFile));
 
 		$app->log(sprintf('Ensured incron trigger file "%s"', $triggerFile), LOGLEVEL_DEBUG);
 	}
@@ -127,6 +128,7 @@ class incron_plugin {
 	private function deleteTriggerFile($triggerFile) {
 		global $app;
 
+		exec(sprintf('chattr -i %s', $triggerFile));
 		unlink($triggerFile);
 
 		$app->log(sprintf('Deleted incron trigger file "%s"', $triggerFile), LOGLEVEL_DEBUG);
