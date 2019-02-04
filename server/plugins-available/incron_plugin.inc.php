@@ -159,6 +159,11 @@ class incron_plugin {
 	private function restartIncronService() {
 		global $app;
 
-		exec($app->system->getinitcommand('incrond', 'restart'));
+		$serviceName = 'incrond';
+		if (file_exists('/etc/debian_version')) {
+			$serviceName = 'incron';
+		}
+
+		exec($app->system->getinitcommand($serviceName, 'restart'));
 	}
 }
