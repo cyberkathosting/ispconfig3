@@ -5,11 +5,14 @@
  * configuration which will take care of reloading the php-fpm pool when the file /private/php-fpm.reload is touched.
  * Projects which use deployment tools can use this to reload php-fpm to clear the opcache at deploy time, without
  * requiring superuser privileges.
+ *
+ * The plugin is called `z_incron_plugin` because plugins are executed alphabetically, and this plugin can only run
+ * when apache2/nginx plugins have already run so the directories and user/group exist.
  */
-class incron_plugin {
+class z_incron_plugin {
 
-	var $plugin_name = 'incron_plugin';
-	var $class_name = 'incron_plugin';
+	var $plugin_name = 'z_incron_plugin';
+	var $class_name = 'z_incron_plugin';
 
 	function onInstall() {
 		global $conf;
@@ -111,7 +114,6 @@ class incron_plugin {
 		}
 
 		exec(sprintf('chown %s:%s %s', $systemUser, $systemGroup, $triggerFile));
-		exec(sprintf('chattr +i %s', $triggerFile));
 
 		$app->log(sprintf('Ensured incron trigger file "%s"', $triggerFile), LOGLEVEL_DEBUG);
 	}
@@ -128,7 +130,6 @@ class incron_plugin {
 	private function deleteTriggerFile($triggerFile) {
 		global $app;
 
-		exec(sprintf('chattr -i %s', $triggerFile));
 		unlink($triggerFile);
 
 		$app->log(sprintf('Deleted incron trigger file "%s"', $triggerFile), LOGLEVEL_DEBUG);
