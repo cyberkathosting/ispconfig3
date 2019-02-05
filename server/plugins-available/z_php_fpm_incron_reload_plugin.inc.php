@@ -6,30 +6,32 @@
  * Projects which use deployment tools can use this to reload php-fpm to clear the opcache at deploy time, without
  * requiring superuser privileges.
  *
- * The plugin is called `z_incron_plugin` because plugins are executed alphabetically, and this plugin can only run
- * when apache2/nginx plugins have already run so the directories and user/group exist.
+ * The plugin is prefixed with `z_` because plugins are executed alphabetically, and this plugin
+ * must only run after apache2/nginx plugins so we are sure the directories and user/group exist.
  */
-class z_incron_plugin {
+class z_php_fpm_incron_reload_plugin {
 
-	var $plugin_name = 'z_incron_plugin';
-	var $class_name = 'z_incron_plugin';
+	var $plugin_name = 'z_php_fpm_incron_reload_plugin';
+	var $class_name = 'z_php_fpm_incron_reload_plugin';
 
 	function onInstall() {
 		global $conf;
 
-		if ($conf['services']['web'] !== true) {
-			return false;
-		}
-
-		if ($this->isIncronAvailable() === false) {
-			return false;
-		}
-
-		return true;
+		return $conf['services']['web'] === true;
 	}
 
 	function onLoad() {
 		global $app;
+
+		if ($this->isPluginEnabled() === false) {
+			return;
+		}
+
+		if ($this->isIncronAvailable() === false) {
+			$app->log('You must install incron in order to use this plugin', LOGLEVEL_DEBUG);
+
+			return;
+		}
 
 		$app->plugins->registerEvent('web_domain_insert', $this->plugin_name, 'incronInsert');
 		$app->plugins->registerEvent('web_domain_update', $this->plugin_name, 'incronUpdate');
@@ -88,6 +90,15 @@ class z_incron_plugin {
 		return $retval === 0;
 	}
 
+	private function isPluginEnabled() {
+		global $app, $conf;
+
+		$app->uses('getconf');
+		$serverConfig = $app->getconf->get_server_config($conf['server_id'], 'web');
+
+		return $serverConfig['php_fpm_incron_reload'] === 'y';
+	}
+
 	private function createIncronConfiguration($triggerFile, $systemUser, $fastcgiPhpVersion) {
 		global $app;
 
@@ -122,6 +133,10 @@ class z_incron_plugin {
 		global $app;
 
 		$configFile = $this->getIncronConfigurationFilePath($systemUser);
+		if (!file_exists($configFile)) {
+			return;
+		}
+
 		unlink($configFile);
 
 		$app->log(sprintf('Deleted incron configuration "%s"', $configFile), LOGLEVEL_DEBUG);
@@ -129,6 +144,10 @@ class z_incron_plugin {
 
 	private function deleteTriggerFile($triggerFile) {
 		global $app;
+
+		if (!file_exists($triggerFile)) {
+			return;
+		}
 
 		unlink($triggerFile);
 
