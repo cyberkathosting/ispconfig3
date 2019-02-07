@@ -68,20 +68,31 @@ class app {
 				$this->db = false;
 			}
 		}
+		$this->uses('functions'); // we need this before all others!
+		$this->uses('auth,plugin,ini_parser,getconf');
+		
+	}
 
+	public function __get($prop) {
+		if(property_exists($this, $prop)) return $this->{$prop};
+		
+		$this->uses($prop);
+		if(property_exists($this, $prop)) return $this->{$prop};
+		else return null;
+	}
+	
+	public function __destruct() {
+		session_write_close();
+	}
+	
+	public function initialize_session() {
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
-
 			$this->uses('session');
 			$sess_timeout = $this->conf('interface', 'session_timeout');
-			$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
-			
-			// Workaround for Nginx servers
-			if($cookie_domain == '_') {
-				$tmp = explode(':',$_SERVER["HTTP_HOST"]);
-				$cookie_domain = $tmp[0];
-				unset($tmp);
-			}
+			$cookie_domain = $this->get_cookie_domain();
+			$this->log("cookie_domain is ".$cookie_domain,0);
+			$cookie_domain = '';
 			$cookie_secure = ($_SERVER["HTTPS"] == 'on')?true:false;
 			if($sess_timeout) {
 				/* check if user wants to stay logged in */
@@ -122,23 +133,8 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 
-		$this->uses('functions'); // we need this before all others!
-		$this->uses('auth,plugin,ini_parser,getconf');
-		
-	}
-
-	public function __get($prop) {
-		if(property_exists($this, $prop)) return $this->{$prop};
-		
-		$this->uses($prop);
-		if(property_exists($this, $prop)) return $this->{$prop};
-		else return null;
 	}
 	
-	public function __destruct() {
-		session_write_close();
-	}
-
 	public function uses($classes) {
 		$cl = explode(',', $classes);
 		if(is_array($cl)) {
@@ -192,7 +188,7 @@ class app {
 			$tstamp = time();
 			$msg = '[INTERFACE]: '.$msg;
 			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES (?, 0, ?, ?, ?)", $server_id, $priority,$tstamp,$msg);
-			/*
+			
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
 					$this->error('Unable to open logfile: ' . $this->_conf['log_file']);
@@ -204,7 +200,7 @@ class app {
 			} else {
 				$this->error('Unable to write to logfile: ' . $this->_conf['log_file']);
 			}
-			*/
+			
 		}
 	}
 
@@ -336,12 +332,33 @@ class app {
 		$this->tpl->setVar('globalsearch_noresults_limit_txt', $this->lng('globalsearch_noresults_limit_txt'));
 		$this->tpl->setVar('globalsearch_searchfield_watermark_txt', $this->lng('globalsearch_searchfield_watermark_txt'));
 	}
+	
+	private function get_cookie_domain() {
+		$proxy_panel_allowed = $this->getconf->get_security_config('permissions')['reverse_proxy_panel_allowed'];
+		$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
+		// Workaround for Nginx servers
+		if($cookie_domain == '_') {
+			$tmp = explode(':',$_SERVER["HTTP_HOST"]);
+			$cookie_domain = $tmp[0];
+			unset($tmp);
+		}
+		$this->log("Server: ".print_r($_SERVER,true));
+		if ($proxy_panel_allowed == 'all') {
+			return '';
+		}
+		return $cookie_domain;
+	}
 
 } // end class
 
 //** Initialize application (app) object
 //* possible future =  new app($conf);
 $app = new app();
+/* split session creation out of constructor is IMHO better.
+   otherwise we have some circular references to global $app like in
+   getconfig property of App - RA
+*/
+$app->initialize_session();
 
 // load and enable PHP Intrusion Detection System (PHPIDS)
 $ids_security_config = $app->getconf->get_security_config('ids');
