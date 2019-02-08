@@ -335,6 +335,9 @@ class app {
 	
 	private function get_cookie_domain() {
 		$proxy_panel_allowed = $this->getconf->get_security_config('permissions')['reverse_proxy_panel_allowed'];
+		if ($proxy_panel_allowed == 'all') {
+			return '';
+		}
 		$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
 		// Workaround for Nginx servers
 		if($cookie_domain == '_') {
@@ -342,10 +345,18 @@ class app {
 			$cookie_domain = $tmp[0];
 			unset($tmp);
 		}
-		$this->log("Server: ".print_r($_SERVER,true));
-		if ($proxy_panel_allowed == 'all') {
-			return '';
+		if($proxy_panel_allowed == 'sites') {
+			$forwarded_host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : null );
+			if($forwarded_host !== null && $forwarded_host !== $cookie_domain) {
+				$sql = "SELECT domain_id from web_domain where domain = '$forwarded_host'";
+				$recs = $this->db->queryOneRecord($sql);
+				if($recs !== null) {
+					$cookie_domain = $forwarded_host;
+				}
+				unset($forwarded_host);
+			}
 		}
+		
 		return $cookie_domain;
 	}
 
