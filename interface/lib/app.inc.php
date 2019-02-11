@@ -338,6 +338,11 @@ class app {
 		if ($proxy_panel_allowed == 'all') {
 			return '';
 		}
+		/*
+		 * See ticket #5238: It should be ensured, that _SERVER_NAME is always set.
+		 * Otherwise the security improvement doesn't work with nginx. If this is done,
+		 * the check for HTTP_HOST and workaround for nginx is obsolete.
+		 */
 		$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
 		// Workaround for Nginx servers
 		if($cookie_domain == '_') {
@@ -348,6 +353,7 @@ class app {
 		if($proxy_panel_allowed == 'sites') {
 			$forwarded_host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : null );
 			if($forwarded_host !== null && $forwarded_host !== $cookie_domain) {
+				// Just check for complete domain name and not auto subdomains
 				$sql = "SELECT domain_id from web_domain where domain = '$forwarded_host'";
 				$recs = $this->db->queryOneRecord($sql);
 				if($recs !== null) {
@@ -365,7 +371,8 @@ class app {
 //** Initialize application (app) object
 //* possible future =  new app($conf);
 $app = new app();
-/* split session creation out of constructor is IMHO better.
+/* 
+   split session creation out of constructor is IMHO better.
    otherwise we have some circular references to global $app like in
    getconfig property of App - RA
 */
