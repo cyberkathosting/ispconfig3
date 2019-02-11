@@ -188,7 +188,7 @@ class app {
 			$tstamp = time();
 			$msg = '[INTERFACE]: '.$msg;
 			$this->db->query("INSERT INTO sys_log (server_id,datalog_id,loglevel,tstamp,message) VALUES (?, 0, ?, ?, ?)", $server_id, $priority,$tstamp,$msg);
-			
+			/*
 			if (is_writable($this->_conf['log_file'])) {
 				if (!$fp = fopen ($this->_conf['log_file'], 'a')) {
 					$this->error('Unable to open logfile: ' . $this->_conf['log_file']);
@@ -200,7 +200,7 @@ class app {
 			} else {
 				$this->error('Unable to write to logfile: ' . $this->_conf['log_file']);
 			}
-			
+			*/
 		}
 	}
 
