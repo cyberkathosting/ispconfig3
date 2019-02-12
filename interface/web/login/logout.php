@@ -48,10 +48,8 @@ if ((isset($_SESSION['s_old']) && ($_SESSION['s_old']['user']['typ'] == 'admin' 
 	echo '
 		<br /> <br />	<br /> <br />
 		'.str_replace('{UTYPE}', $utype, $wb['login_as_or_logout_txt']).'<br />
-		<div style="visibility:hidden">
-			<input type="text" name="username" value="' . $_SESSION['s_old']['user']['username'] . '" />
-			<input type="password" name="password" value="' . $_SESSION['s_old']['user']['passwort'] .'" />
-		</div>
+		<input type="hidden" name="username" value="' . $_SESSION['s_old']['user']['username'] . '" />
+		<input type="hidden" name="password" value="' . $_SESSION['s_old']['user']['passwort'] .'" />
 		<input type="hidden" name="s_mod" value="login" />
 		<input type="hidden" name="s_pg" value="index" />
 		<input type="hidden" name="login_as" value="1" />
