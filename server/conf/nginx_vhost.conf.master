@@ -173,7 +173,13 @@ server {
             fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
 </tmpl_if>
             fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot' op='==' value='y'>
+            fastcgi_param DOCUMENT_ROOT /web;
+            fastcgi_param HOME /web;
+            fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+<tmpl_else>
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
             #fastcgi_param PATH_INFO $fastcgi_script_name;
             fastcgi_intercept_errors on;
         }
@@ -184,7 +190,13 @@ server {
 				include /etc/nginx/fastcgi_params;
 				fastcgi_pass unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock;
 				fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot'>
+				fastcgi_param DOCUMENT_ROOT /web;
+				fastcgi_param HOME /web;
+				fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+<tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
 				fastcgi_intercept_errors on;
 				error_page 500 501 502 503 = @phpfallback;
@@ -200,7 +212,13 @@ server {
 				fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
 </tmpl_if>
 				fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot'>
+				fastcgi_param DOCUMENT_ROOT /web;
+				fastcgi_param HOME /web;
+				fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+<tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
 				fastcgi_intercept_errors on;
 			}
@@ -220,7 +238,13 @@ server {
             gzip off;
             fastcgi_pass  unix:/var/run/fcgiwrap.socket;
             fastcgi_index index.cgi;
+<tmpl_if name='php_fpm_chroot'>
+            fastcgi_param DOCUMENT_ROOT /web;
+            fastcgi_param HOME /web;
+            fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+<tmpl_else>
             fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+</tmpl_if>
             fastcgi_intercept_errors on;
         }
 </tmpl_if>

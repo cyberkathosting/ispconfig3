@@ -82,6 +82,7 @@ $wb['seo_redirect_txt'] = 'SEO Redirect';
 $wb['non_www_to_www_txt'] = 'Nicht-www -> www';
 $wb['www_to_non_www_txt'] = 'www -> Nicht-www';
 $wb['php_fpm_use_socket_txt'] = 'Benutze Socket für PHP-FPM';
+$wb['php_fpm_chroot_txt'] = 'Chroot PHP-FPM';
 $wb['ipv6_address_txt'] = 'IPv6 Adresse';
 $wb['error_no_sni_txt'] = 'SNI für SSL ist auf diesem Server nicht aktiviert. Sie können daher nur ein SSL Zertifikat pro IP Adresse eintragen.';
 $wb['python_txt'] = 'Python';
