@@ -113,6 +113,7 @@ class remoting_dns extends remoting {
 		if($vars['expire'] == '') $error .= $app->lng('error_expire_empty').'<br />';
 		if($vars['minimum'] == '') $error .= $app->lng('error_minimum_empty').'<br />';
 		if($vars['ttl'] == '') $error .= $app->lng('error_ttl_empty').'<br />';
+		if(!isset($vars['xfer'])) $vars['xfer'] = '';
 
 		if($error == '') {
 			// Insert the soa record
