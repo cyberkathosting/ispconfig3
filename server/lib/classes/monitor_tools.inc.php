@@ -200,12 +200,12 @@ class monitor_tools {
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
 			$distname = 'Debian';
 			$distver = 'Jessie';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 			$distname = 'Debian';
 			$distver = 'Stretch';
 			$distconfid = 'debian90';
