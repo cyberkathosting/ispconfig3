@@ -514,16 +514,16 @@ class db
 	public function escape($sString) {
 		global $app;
 		if(!is_string($sString) && !is_numeric($sString)) {
-			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_INFO);
+			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_DEBUG);
 			//$sAddMsg = getDebugBacktrace();
-			$app->log($sAddMsg, LOGLEVEL_DEBUG);
+			//$app->log($sAddMsg, LOGLEVEL_DEBUG);
 			$sString = '';
 		}
 
 		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
+				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_DEBUG);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
