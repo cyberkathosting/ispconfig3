@@ -730,5 +730,21 @@ $form["tabs"]['misc'] = array (
 	)
 );
 
+$form['tabs']['dns_ca'] = array (
+	'title'  => 'DNS CAs',
+	'width'  => 100,
+	'template'  => 'templates/system_config_dns_ca.htm',
+	'fields'  => array (),
+	'plugins' => array (
+		'dns_ca' => array (
+			'class'   => 'plugin_system_config_dns_ca',
+			'options' => array()
+		),
+		'dns_ca_list' => array (
+			'class'   => 'plugin_system_config_dns_ca_list',
+			'options' => array()
+		)
+	)
+);
 
 ?>
