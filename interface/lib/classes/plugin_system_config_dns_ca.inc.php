@@ -43,7 +43,7 @@ class plugin_system_config_dns_ca extends plugin_base {
 
 		$pluginTpl = new tpl;
 		$pluginTpl->newTemplate('templates/system_config_dns_ca_edit.htm');
-		include 'lib/lang/'.$_SESSION['s']['language'].'_system_config.lng';
+		include 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_system_config.lng';
 		$pluginTpl->setVar($wb);
 		$ca_id = $app->functions->intval($_GET['id']);
 		if(isset($_GET['action']) && ($_GET['action'] == 'edit') && $ca_id > 0) {
@@ -59,12 +59,12 @@ class plugin_system_config_dns_ca extends plugin_base {
 		} elseif(isset($_GET['action']) && ($_GET['action'] == 'save') && $ca_id > 0) {
 			$pluginTpl->setVar('edit_record', 0);
 			$pluginTpl->setVar('id', $ca_id);
-			$pluginTpl->setVar('ca_name', $_POST['ca_name']);
-			$pluginTpl->setVar('ca_issue', $_POST['ca_issue']);
-			$pluginTpl->setVar('ca_wildcard', $_POST['ca_wildcard']);
-			$pluginTpl->setVar('ca_critical', $_POST['ca_critical']);
-			$pluginTpl->setVar('ca_iodef', $_POST['ca_iodef']);
-			$pluginTpl->setVar('active', $_POST['active']);
+			$pluginTpl->setVar('ca_name', $app->functions->htmlentities($_POST['ca_name']));
+			$pluginTpl->setVar('ca_issue', $app->functions->htmlentities($_POST['ca_issue']));
+			$pluginTpl->setVar('ca_wildcard', $app->functions->htmlentities($_POST['ca_wildcard']));
+			$pluginTpl->setVar('ca_critical', $app->functions->htmlentities($_POST['ca_critical']));
+			$pluginTpl->setVar('ca_iodef', $app->functions->htmlentities($_POST['ca_iodef']));
+			$pluginTpl->setVar('active', $app->functions->htmlentities($_POST['active']));
 		} else {
 			$pluginTpl->setVar('edit_record', 0);
 		}
