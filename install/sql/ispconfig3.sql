@@ -478,7 +478,6 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
 -- 
 -- Table structure for table  `dns_rr`
 -- 
-
 CREATE TABLE `dns_rr` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `sys_userid` int(11) unsigned NOT NULL DEFAULT '0',
