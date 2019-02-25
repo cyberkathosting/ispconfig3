@@ -548,12 +548,7 @@ CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
 
 ALTER TABLE `dns_ssl_ca` ADD UNIQUE(`ca_issue`);
 
-UPDATE `dns_ssl_ca` SET `ca_issue` = 'comodo.com' WHERE `ca_issue` = 'comodoca.com';
-DELETE FROM `dns_ssl_ca` WHERE `ca_issue` = 'geotrust.com';
-DELETE FROM `dns_ssl_ca` WHERE `ca_issue` = 'thawte.com';
-UPDATE `dns_ssl_ca` SET `ca_name` = 'Symantec / Thawte / GeoTrust' WHERE `ca_issue` = 'symantec.com';
-
-INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `active`, `ca_name`, `ca_issue`, `ca_wildcard`, `ca_iodef`, `ca_critical`) VALUES
+INSERT INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `active`, `ca_name`, `ca_issue`, `ca_wildcard`, `ca_iodef`, `ca_critical`) VALUES
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'AC Camerfirma', 'camerfirma.com', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'ACCV', 'accv.es', 'Y', '', 0),
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'Actalis', 'actalis.it', 'Y', '', 0),
