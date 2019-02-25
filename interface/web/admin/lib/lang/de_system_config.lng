@@ -81,4 +81,12 @@ $wb['default_webserver_txt'] = 'Default Webserver';
 $wb['default_dnsserver_txt'] = 'Default DNS Server';
 $wb['default_slave_dnsserver_txt'] = 'Default Secondary DNS Server';
 $wb['default_dbserver_txt'] = 'Default Database Server';
+$wb['ca_name_txt'] = 'Name';
+$wb['ca_issue_txt'] = 'Issue';
+$wb['ca_wildcard_txt'] = 'Wildcard verwenden';
+$wb['ca_critical_txt'] = 'Strikte Überprüfung'; //For future use.  At this time, CA’s do not recognize any other flag values as described in RFC 6844
+$wb['ca_iodef_txt'] = 'iodef';
+$wb['active_txt'] = 'Aktiv';
+$wb['btn_save_txt'] = 'Speichern';
+$wb['btn_cancel_txt'] = 'Abbrechen';
 ?>

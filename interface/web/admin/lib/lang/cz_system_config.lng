@@ -81,4 +81,12 @@ $wb['reseller_can_use_options_txt'] = 'Reseller can use the option-tab for websi
 $wb['custom_login_text_txt'] = 'Vlastní text na přihlašovací stránce';
 $wb['custom_login_link_txt'] = 'Vlastní odkaz (URL) na přihlašovací stránce (vlastní text)';
 $wb['login_link_error_regex'] = 'Neplatný formát URL pro vlastní odkaz na přihlašovací stránce';
+$wb['ca_name_txt'] = 'Name';
+$wb['ca_issue_txt'] = 'Issue';
+$wb['ca_wildcard_txt'] = 'Use Wildcard';
+$wb['ca_critical_txt'] = 'Strict Check'; //For future use.  At this time, CA’s do not recognize any other flag values as described in RFC 6844
+$wb['ca_iodef_txt'] = 'iodef';
+$wb['active_txt'] = 'Aktive';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
 ?>

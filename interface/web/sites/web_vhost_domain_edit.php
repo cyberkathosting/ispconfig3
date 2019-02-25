@@ -275,7 +275,6 @@ class page_action extends tform_actions {
 			// add limits to template to be able to hide settings
 			foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
 
-
 			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
 
@@ -940,6 +939,13 @@ class page_action extends tform_actions {
 			}
 		}
 		$app->tpl->setLoop('folder_directive_snippets', $folder_directive_snippets);
+		if(is_array($web_config[$server_id])) {
+			$app->tpl->setVar('is_spdy_enabled', ($web_config[$server_id]['enable_spdy'] === 'y'));
+			$app->tpl->setVar('is_pagespeed_enabled', ($web_config[$server_id]['nginx_enable_pagespeed']));
+		} else {
+			$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+			$app->tpl->setVar('is_pagespeed_enabled', ($web_config['nginx_enable_pagespeed']));
+		}
 
 		parent::onShowEnd();
 	}
