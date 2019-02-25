@@ -44,7 +44,7 @@ class plugin_system_config_dns_ca_list extends plugin_base {
 		$listTpl->newTemplate('templates/system_config_dns_ca_list.htm');
 
 		//* Loading language file
-		$lng_file = 'lib/lang/'.$_SESSION['s']['language'].'_system_config.lng';
+		$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_system_config.lng';
 		include $lng_file;
 		$listTpl->setVar($wb);
 		if($_SESSION['s']['user']['typ'] == 'admin') {
