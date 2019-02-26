@@ -35,7 +35,7 @@ require_once '../../lib/app.inc.php';
 $app->auth->check_module_permissions('dns');
 
 $type = $_GET["type"];
-$ca_id = $_GET['ca_id'];
+$ca_id = $app->functions->intval($_GET['ca_id']);
 
 if($type == 'get_ipv4'){
 	$result = array();
