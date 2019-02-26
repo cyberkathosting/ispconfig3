@@ -62,7 +62,7 @@ class system_config_dns_ca_plugin {
 				}
 			}
 		}
-	} //* End function
+	} 
 
 	function web_vhost_domain_edit($event_name, $page_form) {
 		global $app;
