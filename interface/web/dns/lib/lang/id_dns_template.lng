@@ -3,4 +3,5 @@ $wb['name_txt'] = 'Nama';
 $wb['fields_txt'] = 'Kolom';
 $wb['template_txt'] = 'Template';
 $wb['visible_txt'] = 'Terlihat';
+$wb['placeholder_txt'] = 'Placeholder';
 ?>
