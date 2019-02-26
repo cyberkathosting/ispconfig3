@@ -86,8 +86,8 @@ class cronjob {
 		if($run_it == true) {
 			$this->onRunJob();
 			$this->onAfterRun();
+			$this->onCompleted();
 		}
-		$this->onCompleted();
 
 		return;
 	}
