@@ -620,7 +620,7 @@ CREATE TABLE `dns_soa` (
   `minimum` int(11) unsigned NOT NULL default '3600',
   `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL DEFAULT 'N',
-  `xfer` varchar(255) NOT NULL DEFAULT '',
+  `xfer` TEXT NOT NULL DEFAULT '',
   `also_notify` varchar(255) default NULL,
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
