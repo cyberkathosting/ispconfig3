@@ -3,4 +3,5 @@ $wb['name_txt'] = 'Név';
 $wb['fields_txt'] = 'Mezők';
 $wb['template_txt'] = 'Template';
 $wb['visible_txt'] = 'Látható';
+$wb['placeholder_txt'] = 'Placeholder';
 ?>

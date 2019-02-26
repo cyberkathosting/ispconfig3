@@ -3,4 +3,5 @@ $wb['name_txt'] = 'Navn';
 $wb['fields_txt'] = 'Felter';
 $wb['template_txt'] = 'Skabelon';
 $wb['visible_txt'] = 'Synlig';
+$wb['placeholder_txt'] = 'Placeholder';
 ?>

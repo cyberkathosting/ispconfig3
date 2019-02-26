@@ -3,4 +3,5 @@ $wb['name_txt'] = 'Ad';
 $wb['fields_txt'] = 'Alanlar';
 $wb['template_txt'] = 'Kalıp';
 $wb['visible_txt'] = 'Görünür';
+$wb['placeholder_txt'] = 'Placeholder';
 ?>
