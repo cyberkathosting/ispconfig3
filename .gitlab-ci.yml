@@ -1,6 +1,7 @@
 # Defines stages which are to be executed
 stages:
   - syntax
+  - test
 
 #
 ### Stage syntax
@@ -13,6 +14,7 @@ syntax:lint:
   only:
     - schedules
     - web
+    - merge_requests
 
   script:
     - composer require overtrue/phplint
@@ -20,3 +22,17 @@ syntax:lint:
     - echo "For more information http://www.icosaedro.it/phplint/"
     - vendor/bin/phplint
 
+
+test:install:
+  stage: test
+  image: jerob/docker-ispconfig
+  only:
+    - schedules
+    - web
+    - merge_requests
+  script:
+    - $CI_PROJECT_DIR/helper_scripts/test_install_docker.sh
+    - apt-get update
+    - apt-get --yes install curl
+    - curl --insecure https://127.0.0.1:8080/login/
+    - ps xaf
