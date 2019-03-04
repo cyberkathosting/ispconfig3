@@ -249,6 +249,15 @@ class ApsGUIController extends ApsBase
 			$settings['main_database_host'] = 'localhost';
 			$mysql_db_remote_access = 'n';
 			$mysql_db_remote_ips = '';
+
+			// If we are dealing with chrooted PHP-FPM, use a network connection instead because the MySQL socket file
+			// does not exist within the chroot.
+			$php_fpm_chroot = $app->db->queryOneRecord("SELECT php_fpm_chroot FROM web_domain WHERE domain_id = ?", $websrv['domain_id']);
+			if ($php_fpm_chroot['php_fpm_chroot'] === 'y') {
+				$settings['main_database_host'] = '127.0.0.1';
+				$mysql_db_remote_access = 'y';
+				$mysql_db_remote_ips = '127.0.0.1';
+			}
 		} else {
 			//* get the default database server of the client
 			$client = $app->db->queryOneRecord("SELECT default_dbserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $websrv['sys_groupid']);
