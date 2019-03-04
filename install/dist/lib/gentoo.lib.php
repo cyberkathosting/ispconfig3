@@ -785,7 +785,7 @@ class installer extends installer_base
 			$content = str_replace('{cgi_socket}', $cgi_socket, $content);
 			
 			// SSL in apps vhost is off by default. Might change later.
-			$content = str_replace('{ssl_on}', 'off', $content);
+			$content = str_replace('{ssl_on}', 'ssl', $content);
 			$content = str_replace('{ssl_comment}', '#', $content);
 			
 			wf($vhost_conf_dir.'/apps.vhost', $content);
@@ -1139,11 +1139,11 @@ class installer extends installer_base
 			$content = str_replace('{vhost_port}', $conf['nginx']['vhost_port'], $content);
 
 			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
-				$content = str_replace('{ssl_on}', ' on', $content);
+				$content = str_replace('{ssl_on}', 'ssl', $content);
 				$content = str_replace('{ssl_comment}', '', $content);
 				$content = str_replace('{fastcgi_ssl}', 'on', $content);
 			} else {
-				$content = str_replace('{ssl_on}', ' off', $content);
+				$content = str_replace('{ssl_on}', '', $content);
 				$content = str_replace('{ssl_comment}', '#', $content);
 				$content = str_replace('{fastcgi_ssl}', 'off', $content);
 			}
