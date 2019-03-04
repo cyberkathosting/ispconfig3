@@ -2047,8 +2047,8 @@ class installer_base {
 			//copy('tpl/apache_ispconfig.vhost.master', "$vhost_conf_dir/ispconfig.vhost");
 			//* and create the symlink
 			if(@is_link($vhost_conf_enabled_dir.'/apps.vhost')) unlink($vhost_conf_enabled_dir.'/apps.vhost');
-			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
-				symlink($vhost_conf_dir.'/apps.vhost', $vhost_conf_enabled_dir.'/000-apps.vhost');
+			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost') && @is_file($vhost_conf_dir.'/apps.vhost')) {
+				@symlink($vhost_conf_dir.'/apps.vhost', $vhost_conf_enabled_dir.'/000-apps.vhost');
 			}
 
 			if(!is_file($conf['web']['website_basedir'].'/php-fcgi-scripts/apps/.php-fcgi-starter')) {
