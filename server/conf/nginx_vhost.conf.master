@@ -174,9 +174,9 @@ server {
 </tmpl_if>
             fastcgi_index index.php;
 <tmpl_if name='php_fpm_chroot' op='==' value='y'>
-            fastcgi_param DOCUMENT_ROOT /web;
-            fastcgi_param HOME /web;
-            fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+            fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
 <tmpl_else>
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 </tmpl_if>
@@ -191,9 +191,9 @@ server {
 				fastcgi_pass unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock;
 				fastcgi_index index.php;
 <tmpl_if name='php_fpm_chroot'>
-				fastcgi_param DOCUMENT_ROOT /web;
-				fastcgi_param HOME /web;
-				fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+				fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
 <tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 </tmpl_if>
@@ -201,7 +201,7 @@ server {
 				fastcgi_intercept_errors on;
 				error_page 500 501 502 503 = @phpfallback;
 			}
-			
+
 			location @phpfallback {
 				try_files $uri =404;
 				include /etc/nginx/fastcgi_params;
@@ -213,9 +213,9 @@ server {
 </tmpl_if>
 				fastcgi_index index.php;
 <tmpl_if name='php_fpm_chroot'>
-				fastcgi_param DOCUMENT_ROOT /web;
-				fastcgi_param HOME /web;
-				fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+				fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
 <tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 </tmpl_if>
@@ -229,7 +229,7 @@ server {
         }
 	</tmpl_if>
 </tmpl_if>
-		
+
 <tmpl_if name='cgi' op='==' value='y'>
         location /cgi-bin/ {
             try_files $uri =404;
@@ -239,9 +239,9 @@ server {
             fastcgi_pass  unix:/var/run/fcgiwrap.socket;
             fastcgi_index index.cgi;
 <tmpl_if name='php_fpm_chroot'>
-            fastcgi_param DOCUMENT_ROOT /web;
-            fastcgi_param HOME /web;
-            fastcgi_param SCRIPT_FILENAME /web$fastcgi_script_name;
+            fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
 <tmpl_else>
             fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
 </tmpl_if>

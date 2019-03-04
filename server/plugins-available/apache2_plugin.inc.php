@@ -1581,6 +1581,7 @@ class apache2_plugin {
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
 		$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
+		$tpl->setVar('php_fpm_chroot_web_folder', sprintf('/%s', trim($web_folder, '/')));
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
@@ -1823,7 +1824,7 @@ class apache2_plugin {
 			$this->awstats_update($data, $web_config);
 		}
 
-		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
+		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder);
 		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
@@ -3024,7 +3025,7 @@ class apache2_plugin {
 	}
 
 	//* Update the PHP-FPM pool configuration file
-	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
+	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder = null) {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
 		//$reload = false;
@@ -3115,6 +3116,7 @@ class apache2_plugin {
 		if ($data['new']['php_fpm_chroot'] === 'y') {
 			$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
 			$tpl->setVar('php_fpm_chroot_dir', $data['new']['document_root']);
+			$tpl->setVar('php_fpm_chroot_web_folder', sprintf('/%s', trim($web_folder, '/')));
 			$tpl->setVar('php_open_basedir', str_replace($tpl->getVar('document_root'), '', $tpl->getVar('php_open_basedir')));
 			$tpl->setVar('document_root', '');
 		}
