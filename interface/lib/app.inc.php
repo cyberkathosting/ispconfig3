@@ -88,6 +88,7 @@ class app {
 	public function initialize_session() {
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
+			session_name('ISPCSESS');
 			$this->uses('session');
 			$sess_timeout = $this->conf('interface', 'session_timeout');
 			$cookie_domain = $this->get_cookie_domain();
