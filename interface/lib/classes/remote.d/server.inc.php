@@ -233,7 +233,7 @@ class remoting_server extends remoting {
 			$func = array();
 			foreach($all as $key => $value) {
 				if($key === 'mirror_server_id' || substr($key, -7) === '_server') {
-					if($value == 0 || $value == 1) {
+					if(is_numeric($value)) {
 						$func[$key] = $value;
 					}
 				}
