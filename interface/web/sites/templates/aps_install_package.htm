@@ -1,58 +1,125 @@
 <h1>
-    {tmpl_var name='installation_txt'}: {tmpl_var name='pkg_name'} {tmpl_var name='pkg_version'}-{tmpl_var name='pkg_release'}
-    <span style="float:right">
-        <tmpl_if name='pkg_icon' op='!=' value=''>
-            <img src="{tmpl_var name='pkg_icon'}" height="32" width="32" alt="{tmpl_var name='pkg_name'}" style="vertical-align:text-bottom;" /> 
-        </tmpl_if>
-    </span>
+	{tmpl_var name='installation_txt'}: {tmpl_var name='pkg_name'} {tmpl_var name='pkg_version'}-{tmpl_var name='pkg_release'}
+	<span style="float:right">
+		<tmpl_if name='pkg_icon' op='!=' value=''>
+			<img src="{tmpl_var name='pkg_icon'}" height="32" width="32" alt="{tmpl_var name='pkg_name'}" style="vertical-align:text-bottom;" />
+		</tmpl_if>
+	</span>
 </h1>
-    
+
 <tmpl_if name='error'>
-    <div id="errorMsg"><h3>ERROR</h3><ol>{tmpl_var name='error'}</ol></div>
+	<div id="errorMsg"><h3>ERROR</h3><ol>{tmpl_var name='error'}</ol></div>
 </tmpl_if>
 
 
-        
-            <legend>{tmpl_var name='basic_settings_txt'}</legend>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='install_location_txt'}</label>
-                <div class="col-sm-9">
-				    <div class='input-group'>
+
+			<legend>{tmpl_var name='basic_settings_txt'}</legend>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">{tmpl_var name='install_location_txt'}</label>
+				<div class="col-sm-9">
+					<div class='input-group'>
 						<span class='input-group-addon'>http(s)://</span>
 						<div class='input-group-field'>
 							DOMAIN_LIST_SPACE
 						</div>
 						<span class='input-group-addon'>/</span>
 						<input type="text" id="main_location" name="main_location" value="{tmpl_var name='inp_main_location'}" class="form-control" />
-                    </div>
+					</div>
 				</div>
-            </div>
+			</div>
 			<tmpl_if name='pkg_requirements_database' op='!=' value=''>
-                <div class="form-group">
-                    <label for="main_database_password" class="col-sm-3 control-label">{tmpl_var name='new_database_password_txt'}</label>
-                    <div class="col-sm-9"><input type="text" class="form-control" name="main_database_password" id="main_database_password" value="{tmpl_var name='inp_main_database_password'}" /></div></div>
-            </tmpl_if>
-                
-            PKG_SETTINGS_SPACE
-                
-            <legend>{tmpl_var name='license_txt'}</legend>
-            <div class="form-group">
-                <label for="license" class="col-sm-3 control-label">{tmpl_var name='license_txt'}</label>
-                <tmpl_if name='pkg_license_content' op='==' value=''>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
-                <tmpl_if name='pkg_license_type' op='==' value='url'>
-                    <a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
-                    <tmpl_elseif name='pkg_license_content'>
-                        <div class="col-sm-9"><textarea class="form-control" rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea></div>
-                </tmpl_if>
-            </div>
-            <div class="form-group">
-                <label for="license" class="col-sm-3 control-label">{tmpl_var name='acceptance_txt'}</label>
-                <div class="col-sm-6"><input type="checkbox" name="license" id="license" <tmpl_if name='inp_license' op='==' value='true'>checked</tmpl_if>/> &nbsp;&nbsp;{tmpl_var name='acceptance_text'}
-            </div>
-        
-            
-        <input type="hidden" name="install" value="0" />
-        <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; ISPConfig.submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-        </div></div>
+				<div class="form-group">
+					<label for="main_database_password" class="col-sm-3 control-label">{tmpl_var name='new_database_password_txt'}</label>
+					<div class="col-sm-9"><input type="text" class="form-control" name="main_database_password" id="main_database_password" value="{tmpl_var name='inp_main_database_password'}" /></div>
+				</div>
+			</tmpl_if>
+
+			PKG_SETTINGS_SPACE
+
+			<legend>{tmpl_var name='license_txt'}</legend>
+			<div class="form-group">
+				<label for="license" class="col-sm-3 control-label">{tmpl_var name='license_txt'}</label>
+				<tmpl_if name='pkg_license_content' op='==' value=''>{tmpl_var name='pkg_license_name'}<br /></tmpl_if>
+				<tmpl_if name='pkg_license_type' op='==' value='url'>
+					<a href="{tmpl_var name='pkg_license_content'}" target="_blank">{tmpl_var name='pkg_license_content'}</a>
+					<tmpl_elseif name='pkg_license_content'>
+						<div class="col-sm-9"><textarea class="form-control" rows="10" cols="80" id="license_text">{tmpl_var name='pkg_license_content'}</textarea></div>
+				</tmpl_if>
+			</div>
+			<div class="form-group">
+				<label for="license" class="col-sm-3 control-label">{tmpl_var name='acceptance_txt'}</label>
+				<div class="col-sm-6">
+					<input type="checkbox" name="license" id="license" <tmpl_if name='inp_license' op='==' value='true'>checked</tmpl_if>/> &nbsp;&nbsp;{tmpl_var name='acceptance_text'}
+				</div>
+			</div>
+
+
+		<input type="hidden" name="install" value="0" />
+		<div class="clear">
+			<div class="right">
+				<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_install_txt'}" name="btn_install" onclick="document.pageForm.install.value=1; ISPConfig.submitForm('pageForm','sites/aps_install_package.php?id={tmpl_var name='pkg_id'}');">{tmpl_var name='btn_install_txt'}</button>
+				<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/aps_availablepackages_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+			</div>
+		</div>
+
+		<div class="hidden" id="passwordFieldWithChecks">
+			<div class="form-group">
+				<label for="password" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
+				<div class="col-sm-9">
+					<div class="input-group">
+						<input type="password" name="password" id="password" value="{tmpl_var name='password'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
+						</span>
+						<p class="formHint"></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">{tmpl_var name='password_strength_txt'}</label>
+				<div class="col-sm-9 checkbox">
+					<div id="passBar"></div>
+					<span id="passText">&nbsp;</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="repeat_password" class="col-sm-3 control-label">{tmpl_var name='repeat_password_txt'}</label>
+				<div class="col-sm-9"><input type="password" name="repeat_password" id="repeat_password" value="" class="form-control" autocomplete="off" onkeyup="checkPassMatch('password','repeat_password');" /></div></div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<div id="confirmpasswordError" style="display:none;" class="confirmpassworderror">{tmpl_var name='password_mismatch_txt'}</div>
+					<div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			jQuery(document).ready(function () {
+				let passwordField = jQuery('[type=password]').first();
+				if (!passwordField) {
+					return;
+				}
+
+				let passwordFieldFormGroup = passwordField.closest('.form-group');
+				let passwordFieldWithChecks = jQuery('#passwordFieldWithChecks');
+		
+				let originalLabel = passwordFieldFormGroup.find('label').first().text();
+				let originalName = passwordField.prop('name');
+				let originalMaxLength = passwordField.prop('maxlength');
+				let originalValue = passwordField.prop('value');
+				let originalFormHint = passwordField.next('.formHint').text();
+
+				let passwordFieldWithChecksInputField = passwordFieldWithChecks.find('[type=password]').first();
+				passwordFieldWithChecksInputField.prop('name', originalName);
+				passwordFieldWithChecksInputField.prop('value', originalValue);
+				passwordFieldWithChecksInputField.prop('name', originalName);
+				passwordFieldWithChecks.find('label').first().text(originalLabel);
+				passwordFieldWithChecks.find('.formHint').text(originalFormHint);
+		
+				if (originalMaxLength && originalMaxLength > 0) {
+					passwordFieldWithChecksInputField.prop('maxlength', originalMaxLength);
+				}
+
+				passwordFieldFormGroup.replaceWith(passwordFieldWithChecks.children());
+			});
+		</script>

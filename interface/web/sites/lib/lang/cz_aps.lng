@@ -55,4 +55,9 @@ $wb['packagelist_update_finished_txt'] = 'APS aktualizace seznamu balíčků byl
 $wb['btn_install_txt'] = 'Instalovat';
 $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['limit_aps_txt'] = 'Max. počet APS  instancí u vašeho účtu je dosaženo.';
+$wb['generate_password_txt'] = 'Generovat heslo';
+$wb['repeat_password_txt'] = 'Opakujte heslo';
+$wb['password_mismatch_txt'] = 'Hesla se neshodují.';
+$wb['password_match_txt'] = 'Hesla se shodují.';
+$wb['password_strength_txt'] = 'Bezpečnost hesla';
 ?>
