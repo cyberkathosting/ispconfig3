@@ -55,4 +55,9 @@ $wb['packagelist_update_finished_txt'] = 'Aktualizacja listy pakietów APS zako�
 $wb['btn_install_txt'] = 'Instaluj';
 $wb['btn_cancel_txt'] = 'Anuluj';
 $wb['limit_aps_txt'] = 'Maksymalna liczba instancji APS dla Twojego konta została wyczerpana.';
+$wb['generate_password_txt'] = 'Generuj hasło';
+$wb['repeat_password_txt'] = 'Powtórz hasło';
+$wb['password_mismatch_txt'] = 'Hasła nie pasują do siebie';
+$wb['password_match_txt'] = 'Hasła pasują';
+$wb['password_strength_txt'] = 'Siła hasła';
 ?>

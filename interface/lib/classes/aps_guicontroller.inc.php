@@ -567,6 +567,16 @@ class ApsGUIController extends ApsBase
 		}
 		else $error[] = $app->lng('error_main_domain');
 
+		if(isset($postinput['admin_password']))
+		{
+			$app->uses('validate_password');
+
+			$passwordError = $app->validate_password->password_check('', $postinput['admin_password'], '');
+			if ($passwordError) {
+				$error[] = $passwordError;
+			}
+		}
+
 		// Main location (not obligatory but must be supplied)
 		if(isset($postinput['main_location']))
 		{

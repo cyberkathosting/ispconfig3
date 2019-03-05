@@ -55,4 +55,9 @@ $wb['supported_languages_txt'] = 'Idiomas soportados';
 $wb['supported_php_versions_txt'] = 'Versiones de PHP soportadas';
 $wb['version_txt'] = 'Versión';
 $wb['yes_txt'] = 'Sí';
+$wb['generate_password_txt'] = 'Generar contraseña';
+$wb['repeat_password_txt'] = 'Repetir contraseña';
+$wb['password_mismatch_txt'] = 'Las contraseñas no coinciden.';
+$wb['password_match_txt'] = 'Las contraseñas coinciden.';
+$wb['password_strength_txt'] = 'Fortaleza de la contraseña';
 ?>
