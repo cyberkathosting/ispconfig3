@@ -79,3 +79,5 @@ INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 (NULL, 1, 1, 'riud', 'riud', '', 'Y', 'WoSign', 'wosign.com', 'Y', '', 0);
 
 ALTER TABLE `dns_soa` CHANGE `xfer` `xfer` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `dns_soa` CHANGE `also_notify` `also_notify` TEXT NOT NULL DEFAULT '';
+ALTER TABLE `dns_slave` CHANGE `xfer` `xfer` TEXT NOT NULL DEFAULT '';

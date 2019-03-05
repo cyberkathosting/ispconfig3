@@ -516,7 +516,7 @@ CREATE TABLE `dns_slave` (
   `origin` varchar(255) NOT NULL DEFAULT '',
   `ns` varchar(255) NOT NULL DEFAULT '',
   `active` enum('N','Y') NOT NULL DEFAULT 'N',
-  `xfer` varchar(255) NOT NULL DEFAULT '',
+  `xfer` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slave` (`origin`,`server_id`),
   KEY `active` (`active`)
@@ -621,7 +621,7 @@ CREATE TABLE `dns_soa` (
   `ttl` int(11) unsigned NOT NULL default '3600',
   `active` enum('N','Y') NOT NULL DEFAULT 'N',
   `xfer` TEXT NOT NULL DEFAULT '',
-  `also_notify` varchar(255) default NULL,
+  `also_notify` TEXT NOT NULL DEFAULT '',
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
   `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
