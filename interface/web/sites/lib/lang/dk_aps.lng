@@ -55,4 +55,9 @@ $wb['installation_success_txt'] = 'Installeret';
 $wb['installation_remove_txt'] = 'Fjernelse planlagt';
 $wb['packagelist_update_finished_txt'] = 'APS Pakke Liste opdatering er færdig.';
 $wb['limit_aps_txt'] = 'Max. antal af APS forekomster for din konto er nået.';
+$wb['generate_password_txt'] = 'Generer Adgangskode';
+$wb['repeat_password_txt'] = 'Gentage Adgangskode';
+$wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
+$wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
+$wb['password_strength_txt'] = 'Adgangskode styrke';
 ?>

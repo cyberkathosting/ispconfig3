@@ -55,4 +55,9 @@ $wb['packagelist_update_finished_txt'] = 'Обновление списка па
 $wb['btn_install_txt'] = 'Установка';
 $wb['btn_cancel_txt'] = 'Отменить';
 $wb['limit_aps_txt'] = 'Макс. количество экземпляров APS достигнуто.';
+$wb['generate_password_txt'] = 'Создать пароль';
+$wb['repeat_password_txt'] = 'Повторить пароль';
+$wb['password_mismatch_txt'] = 'Пароли не совпадают.';
+$wb['password_match_txt'] = 'Эти пароли совпадают.';
+$wb['password_strength_txt'] = 'Стойкость пароля';
 ?>
