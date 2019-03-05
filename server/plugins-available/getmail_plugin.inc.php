@@ -76,6 +76,9 @@ class getmail_plugin {
 
 	function update($event_name, $data) {
 		global $app, $conf;
+		
+		// Do not write getmail config files on mirror servers to avoid double fetching of emails.
+		if($conf['mirror_server_id'] > 0) return true;
 
 		// load the server specific configuration options for getmail
 		$app->uses("getconf");
