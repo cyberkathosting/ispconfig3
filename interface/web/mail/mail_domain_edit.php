@@ -281,11 +281,13 @@ class page_action extends tform_actions {
 
 	function onAfterInsert() {
 		global $app, $conf;
+		
+		$domain = $app->functions->idn_encode($this->dataRecord["domain"]);
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
 		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $domain);
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
 				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
@@ -301,8 +303,8 @@ class page_action extends tform_actions {
 					"server_id" => $this->dataRecord["server_id"],
 					"priority" => 5,
 					"policy_id" => $policy_id,
-					"email" => '@' . $this->dataRecord["domain"],
-					"fullname" => '@' . $this->dataRecord["domain"],
+					"email" => '@' . $domain,
+					"fullname" => '@' . $domain,
 					"local" => 'Y'
 				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
@@ -324,6 +326,8 @@ class page_action extends tform_actions {
 
 	function onBeforeUpdate() {
 		global $app, $conf;
+		
+		$domain = $app->functions->idn_encode($this->dataRecord["domain"]);
 
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
@@ -339,7 +343,7 @@ class page_action extends tform_actions {
 		} else {
 			//* We do not allow users to change a domain which has been created by the admin
 			$rec = $app->db->queryOneRecord("SELECT domain from mail_domain WHERE domain_id = ?", $this->id);
-			if($rec['domain'] != $this->dataRecord["domain"] && !$app->tform->checkPerm($this->id, 'u')) {
+			if($rec['domain'] != $domain && !$app->tform->checkPerm($this->id, 'u')) {
 				//* Add a error message and switch back to old server
 				$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
 				$this->dataRecord["domain"] = $rec['domain'];
@@ -352,9 +356,11 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		$domain = $app->functions->idn_encode($this->dataRecord["domain"]);
+		
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $domain);
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
@@ -371,8 +377,8 @@ class page_action extends tform_actions {
 					"server_id" => $this->dataRecord["server_id"],
 					"priority" => 5,
 					"policy_id" => $policy_id,
-					"email" => '@' . $this->dataRecord["domain"],
-					"fullname" => '@' . $this->dataRecord["domain"],
+					"email" => '@' . $domain,
+					"fullname" => '@' . $domain,
 					"local" => 'Y'
 				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
@@ -385,7 +391,7 @@ class page_action extends tform_actions {
 			}
 		} // endif spamfilter policy
 		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
-		if($this->oldDataRecord['domain'] != $this->dataRecord['domain'] || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
+		if($this->oldDataRecord['domain'] != $domain || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
 
@@ -398,7 +404,7 @@ class page_action extends tform_actions {
 				foreach($mailusers as $rec) {
 					// setting Maildir, Homedir, UID and GID
 					$mail_parts = explode("@", $rec['email']);
-					$maildir = str_replace("[domain]", $this->dataRecord['domain'], $mail_config["maildir_path"]);
+					$maildir = str_replace("[domain]", $domain, $mail_config["maildir_path"]);
 					$maildir = str_replace("[localpart]", $mail_parts[0], $maildir);
 					$email = $mail_parts[0].'@'.$this->dataRecord['domain'];
 					$app->db->datalogUpdate('mail_user', array("maildir" => $maildir, "email" => $email, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailuser_id', $rec['mailuser_id']);
@@ -409,8 +415,8 @@ class page_action extends tform_actions {
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like ? OR destination like ?", '%@' . $this->oldDataRecord['domain'], '%@' . $this->oldDataRecord['domain']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
-					$destination = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']);
-					$source = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['source']);
+					$destination = str_replace($this->oldDataRecord['domain'], $domain, $rec['destination']);
+					$source = str_replace($this->oldDataRecord['domain'], $domain, $rec['source']);
 					$app->db->datalogUpdate('mail_forwarding', array("source" => $source, "destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
@@ -422,7 +428,7 @@ class page_action extends tform_actions {
 			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $this->oldDataRecord['domain']);
 			if(is_array($fetchmail)) {
 				foreach($fetchmail as $rec) {
-					$destination = str_replace($this->oldDataRecord['domain'], $this->dataRecord['domain'], $rec['destination']);
+					$destination = str_replace($this->oldDataRecord['domain'], $domain, $rec['destination']);
 					$app->db->datalogUpdate('mail_get', array("destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailget_id', $rec['mailget_id']);
 				}
 			}
@@ -436,15 +442,15 @@ class page_action extends tform_actions {
 
 		//* update dns-record when the dkim record was changed
 		// NOTE: only if the domain-name was not changed
-		if ( $this->dataRecord['active'] == 'y' && $this->dataRecord['domain'] ==  $this->oldDataRecord['domain'] ) {
+		if ( $this->dataRecord['active'] == 'y' && $domain ==  $this->oldDataRecord['domain'] ) {
 			$dkim_active = @($this->dataRecord['dkim'] == 'y') ? true : false; 
 			$selector = @($this->dataRecord['dkim_selector'] != $this->oldDataRecord['dkim_selector']) ? true : false;
 			$dkim_private = @($this->dataRecord['dkim_private'] != $this->oldDataRecord['dkim_private']) ? true : false;
 			
-			$soaDomain = $this->dataRecord['domain'].'.';
+			$soaDomain = $domain.'.';
 			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
-				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
+				$soaDomain = preg_replace("/^[\w\-]+\./","",$soaDomain);
 			}
 
 			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )
@@ -455,7 +461,7 @@ class page_action extends tform_actions {
 			if (! $dkim_active) {
 				// updated existing dmarc-record to policy 'none'
 				$sql = "SELECT * from dns_rr WHERE name = ? AND data LIKE 'v=DMARC1%' AND " . $app->tform->getAuthSQL('r');
-				$rec = $app->db->queryOneRecord($sql, '_dmarc.'.$this->dataRecord['domain'].'.');
+				$rec = $app->db->queryOneRecord($sql, '_dmarc.'.$domain.'.');
 				if (is_array($rec))
 					if (strpos($rec['data'], 'p=none=') === false) {
 						$rec['data'] = str_replace(array('quarantine', 'reject'), 'none', $rec['data']);
