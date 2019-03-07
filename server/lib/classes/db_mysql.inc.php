@@ -719,8 +719,8 @@ class db
 			if($action == 'INSERT') $action = 'i';
 			if($action == 'UPDATE') $action = 'u';
 			if($action == 'DELETE') $action = 'd';
-			$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			$app->db->query($sql, $db_table, $dbidx, $server_id, $action, time(), $username, $diffstr);
+			$sql = "INSERT INTO sys_datalog (dbtable,dbidx,server_id,action,tstamp,user,data,session_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			$app->db->query($sql, $db_table, $dbidx, $server_id, $action, time(), $username, $diffstr, session_id());
 		}
 
 		return true;
@@ -759,6 +759,9 @@ class db
 		
 		$old_rec = array();
 		$index_value = $this->insertID();
+		if(!$index_value && isset($insert_data[$index_field])) {
+			$index_value = $insert_data[$index_field];
+		}
 		$new_rec = $this->queryOneRecord("SELECT * FROM ?? WHERE ?? = ?", $tablename, $index_field, $index_value);
 		$this->datalogSave($tablename, 'INSERT', $index_field, $index_value, $old_rec, $new_rec);
 
