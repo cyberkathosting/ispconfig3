@@ -490,7 +490,7 @@ class shelluser_jailkit_plugin {
 			// add root's key
 			$app->file->mkdirs($sshdir, '0755');
 			$authorized_keys_template = $this->jailkit_config['jailkit_chroot_authorized_keys_template'];
-			if(is_file('/root/.ssh/authorized_keys')) $app->system->file_put_contents($sshkeys, $app->system->file_get_contents($authorized_keys_template));
+			if(is_file($authorized_keys_template)) $app->system->file_put_contents($sshkeys, $app->system->file_get_contents($authorized_keys_template));
 
 			// Remove duplicate keys
 			$existing_keys = @file($sshkeys, FILE_IGNORE_NEW_LINES);
