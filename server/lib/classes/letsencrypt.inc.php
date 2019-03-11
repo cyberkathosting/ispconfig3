@@ -284,7 +284,17 @@ class letsencrypt {
                     } else {
                         $acme_version = 'https://acme-v01.api.letsencrypt.org/directory';
                     }
-                    $letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
+					if ($letsencrypt_version >= 0.31) {
+						$webroot_map = array();
+						for($i = 0; $i < count($temp_domains); $i++) {
+							$webroot_map[$temp_domains[$i]] = '/usr/local/ispconfig/interface/acme';
+						}
+						$webroot_args = "--webroot-map " . escapeshellarg(str_replace(array("\r", "\n"), '', json_encode($webroot_map)));
+					} else {
+						$webroot_args = "$cli_domain_arg --webroot-path /usr/local/ispconfig/interface/acme";
+					}
+					
+                    $letsencrypt_cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $webroot_args";
 					$success = $app->system->_exec($letsencrypt_cmd);
 				}
 			} else {
