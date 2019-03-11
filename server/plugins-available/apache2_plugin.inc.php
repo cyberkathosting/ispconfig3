@@ -1801,27 +1801,34 @@ class apache2_plugin {
 
 		//* Create .htaccess and .htpasswd file for website statistics
 		//if(!is_file($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess') or $data['old']['document_root'] != $data['new']['document_root']) {
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdir($data['new']['document_root'].'/' . $web_folder . '/stats');
-		$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data['new']['document_root']."/web/stats/.htpasswd_stats\nrequire valid-user";
-		$app->system->file_put_contents($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', $ht_file);
-		$app->system->chmod($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', 0755);
-		unset($ht_file);
-		//}
 
-		if(!is_file($data['new']['document_root'].'/web/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
-			if(trim($data['new']['stats_password']) != '') {
-				$htp_file = 'admin:'.trim($data['new']['stats_password']);
-				$app->system->web_folder_protection($data['new']['document_root'], false);
-				$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats', $htp_file);
-				$app->system->web_folder_protection($data['new']['document_root'], true);
-				$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats', 0755);
-				unset($htp_file);
+		if($data['new']['stats_type'] != '') {
+			if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdir($data['new']['document_root'].'/' . $web_folder . '/stats');
+			$ht_file = "AuthType Basic\nAuthName \"Members Only\"\nAuthUserFile ".$data['new']['document_root']."/web/stats/.htpasswd_stats\nrequire valid-user";
+			$app->system->file_put_contents($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', $ht_file);
+			$app->system->chmod($data['new']['document_root'].'/' . $web_folder . '/stats/.htaccess', 0755);
+			unset($ht_file);
+
+			if(!is_file($data['new']['document_root'].'/web/stats/.htpasswd_stats') || $data['new']['stats_password'] != $data['old']['stats_password']) {
+				if(trim($data['new']['stats_password']) != '') {
+					$htp_file = 'admin:'.trim($data['new']['stats_password']);
+					$app->system->web_folder_protection($data['new']['document_root'], false);
+					$app->system->file_put_contents($data['new']['document_root'].'/web/stats/.htpasswd_stats', $htp_file);
+					$app->system->web_folder_protection($data['new']['document_root'], true);
+					$app->system->chmod($data['new']['document_root'].'/web/stats/.htpasswd_stats', 0755);
+					unset($htp_file);
+				}
 			}
 		}
 
 		//* Create awstats configuration
 		if($data['new']['stats_type'] == 'awstats' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$this->awstats_update($data, $web_config);
+		}
+
+		//* Remove Stats-Folder when Statistics set to none
+		if($data['new']['stats_type'] == '' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
+			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder);
