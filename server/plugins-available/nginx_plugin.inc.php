@@ -1891,7 +1891,7 @@ class nginx_plugin {
 
 		//* Remove Stats-Folder when Statistics set to none
 		if($data['new']['stats_type'] == '' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
-			exec('rm -rf '.$data['new']['document_root'].'/web/stats');
+			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
 		}
 
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder);
