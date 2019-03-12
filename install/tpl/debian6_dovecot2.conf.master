@@ -8,6 +8,7 @@ ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
 mail_max_userip_connections = 100
+mail_plugins = quota
 passdb {
   args = /etc/dovecot/dovecot-sql.conf
   driver = sql
@@ -66,7 +67,6 @@ protocol lmtp {
   postmaster_address = webmaster@localhost
   mail_plugins = quota sieve
 }
-mail_plugins = $mail_plugins quota
 imap_capability=+SEPCIAL-USE XLIST
 namespace inbox {
   inbox = yes
