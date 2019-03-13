@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CUR=`dirname $0`
 bash ${CUR}/update_from_dev.sh

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Add specified programs and their libraries to the jailkit chroot
 

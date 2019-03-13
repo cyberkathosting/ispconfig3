@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #  this is a bash script library to be called by other scripts, 
 #  but not to be run directly
