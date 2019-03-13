@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #### Config ################################
 
 DBHOST="localhost"

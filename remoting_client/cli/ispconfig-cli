@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Command line for ISPConfig remote user REST API using either smart functions or raw methods.
 # Author: Johan Ehnberg, johan@molnix.com
