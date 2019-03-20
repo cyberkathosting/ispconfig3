@@ -59,6 +59,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 error_reporting(E_ALL|E_STRICT);
 
 define('INSTALLER_RUN', true);
+define('INSTALLER_UPDATE', true);
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
