@@ -132,6 +132,14 @@ class page_action extends tform_actions {
 					}
 				}
 			}
+			
+			if($section === 'mail') {
+				if(isset($server_config_array['mail']['rspamd_available']) && $server_config_array['mail']['rspamd_available'] === 'y') {
+					$this->dataRecord['rspamd_available'] = 'y';
+				} else {
+					$this->dataRecord['rspamd_available'] = 'n';
+				}
+			}
 
 			if(isset($this->dataRecord['jailkit_chroot_app_programs'])) {
 				$app->uses('file');

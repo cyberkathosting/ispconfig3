@@ -556,6 +556,12 @@ $form["tabs"]['mail'] = array(
 												'type' => 'TRIM'),
 			),
 		),
+		'rspamd_available' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
