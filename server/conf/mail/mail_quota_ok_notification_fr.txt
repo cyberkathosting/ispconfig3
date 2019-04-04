@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Quota de votre compte email ok
+
+Le compte email {email} n'est plus à la limite de son quota.
+
+Compte email :	    	{email}
+Nom :				    {name}
+Espace utilisé :		{used}
+Quota :				    {quota}
+Ratio d'utilisation :	{ratio}
