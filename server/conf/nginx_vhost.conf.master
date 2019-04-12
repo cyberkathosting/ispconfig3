@@ -143,6 +143,7 @@ server {
 		location ^~ /.well-known/acme-challenge/ {
 			access_log off;
 			log_not_found off;
+			auth_basic off;
 			root /usr/local/ispconfig/interface/acme/;
 			autoindex off;
 			index index.html;
