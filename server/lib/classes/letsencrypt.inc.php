@@ -265,26 +265,34 @@ class letsencrypt {
 		unset($subdomains);
 		unset($aliasdomains);
 		
+		$letsencrypt_use_certcommand = false;
 		$letsencrypt_cmd = '';
+		$letsencrypt = false;
 		$success = false;
+		
+		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
+		$letsencrypt = reset($letsencrypt);
+		if(!is_executable($letsencrypt)) {
+			$letsencrypt = false;
+		}
 		if(!empty($cli_domain_arg)) {
 			if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
 				$app->log("Create Let's Encrypt SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				$app->log("Let's Encrypt SSL Cert domains: $cli_domain_arg", LOGLEVEL_DEBUG);
 			
-				$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
-				$letsencrypt = reset($letsencrypt);
-				if(is_executable($letsencrypt)) {
+				if($letsencrypt) {
 				    $letsencrypt_version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
                     if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $letsencrypt_version, $matches)) {
                         $letsencrypt_version = $matches[2];
                     }
-                    if ($letsencrypt_version >=0.22) {
+                    if (version_compare($letsencrypt_version, '0.22', '>=')) {
                         $acme_version = 'https://acme-v02.api.letsencrypt.org/directory';
                     } else {
                         $acme_version = 'https://acme-v01.api.letsencrypt.org/directory';
                     }
-					if ($letsencrypt_version >= 0.31) {
+					if (version_compare($letsencrypt_version, '0.30', '>=')) {
+						$app->log("LE version is " . $letsencrypt_version . ", so using certificates command", LOGLEVEL_DEBUG);
+						$letsencrypt_use_certcommand = true;
 						$webroot_map = array();
 						for($i = 0; $i < count($temp_domains); $i++) {
 							$webroot_map[$temp_domains[$i]] = '/usr/local/ispconfig/interface/acme';
@@ -302,8 +310,50 @@ class letsencrypt {
 				$success = true;
 			}
 		}
-		
-		$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
+		$le_files = array();
+		if($letsencrypt_use_certcommand === true && $letsencrypt) {
+			$letsencrypt_cmd = $letsencrypt . " certificates " . $cli_domain_arg;
+			$output = explode("\n", shell_exec($letsencrypt_cmd . " 2>/dev/null | grep -v '^\$'"));
+			$le_path = '';
+			$skip_to_next = true;
+			foreach($output as $outline) {
+				$outline = trim($outline);
+				$app->log("LE CERT OUTPUT: " . $outline, LOGLEVEL_DEBUG);
+				
+				if($skip_to_next === true && !preg_match('/^\s*Certificate Name/', $outline)) {
+					continue;
+				}
+				$skip_to_next = false;
+				
+				if(preg_match('/^\s*Expiry.*?VALID:\s+\D/', $outline)) {
+					$app->log("Found LE path is expired or invalid: " . $matches[1], LOGLEVEL_DEBUG);
+					$skip_to_next = true;
+					continue;
+				}
+				
+				if(preg_match('/^\s*Certificate Path:\s*(\/.*?)\s*$/', $outline, $matches)) {
+					$app->log("Found LE path: " . $matches[1], LOGLEVEL_DEBUG);
+					$le_path = dirname($matches[1]);
+					if(is_dir($le_path)) {
+						break;
+					} else {
+						$le_path = false;
+					}
+				}
+			}
+			
+			if($le_path) {
+				$le_files = array(
+					'privkey' => $le_path . '/privkey.pem',
+					'chain' => $le_path . '/chain.pem',
+					'cert' => $le_path . '/cert.pem',
+					'fullchain' => $le_path . '/fullchain.pem'
+				);
+			}
+		}
+		if(empty($le_files)) {
+			$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
+		}
 		unset($temp_domains);
 		
 		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {

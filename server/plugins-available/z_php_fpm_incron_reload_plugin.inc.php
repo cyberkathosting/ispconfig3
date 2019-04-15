@@ -17,7 +17,7 @@ class z_php_fpm_incron_reload_plugin {
 	function onInstall() {
 		global $conf;
 
-		return $conf['services']['web'] === true;
+		return $conf['services']['web'] == true;
 	}
 
 	function onLoad() {
