@@ -61,6 +61,8 @@ if(!$data = unserialize(stripslashes($record['data']))) {
 	$data = unserialize($record['data']);
 }
 
+$out = describe($record['dbtable'], $data, $out);
+
 switch ($record['action']) {
 	case 'i':
 		$inserts = array();
@@ -73,7 +75,6 @@ switch ($record['action']) {
 		$app->tpl->setLoop('inserts', $inserts);
 		break;
 	case 'u':
-		$out = describe($record['dbtable'], $data, $out);
 		$updates = array();
 		foreach ($data['new'] as $key=>$value) {
 			if ($value != $data['old'][$key]) {
@@ -134,6 +135,10 @@ function describe($dbtable, $data, $out) {
 		case 'client':
 			$check = 'username';
 		break;
+		case 'cron':
+			$temp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
+			$out['describe_data'] = $temp['domain'];
+		break;
 		case 'directive_snippets':
 			$check = 'name';
 		break;
@@ -184,7 +189,9 @@ function describe($dbtable, $data, $out) {
 		break;
 	}
 
-	$out['describe_data'] = @(isset($data['old'][$check]) && $data['old'][$check] != $data['new'][$check])?$data['old'][$check].'/'.$data['new'][$check]:$data['new'][$check];
+	 if(!isset($out['describe_data'])) {
+		$out['describe_data'] = @(isset($data['old'][$check]) && $data['old'][$check] != $data['new'][$check])?$data['old'][$check].'/'.$data['new'][$check]:$data['new'][$check];
+	}
 
 	return $out;
 }

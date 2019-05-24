@@ -24,6 +24,7 @@ $wb['btn_cancel_txt'] = 'Zurück';
 $wb['undo_txt'] = 'Rückgängig machen';
 $wb['undo_confirmation_txt'] = 'Soll diese Änderung wirklich rückgängig gemacht werden?';
 $wb['describe_client'] = 'Username';
+$wb['describe_cron'] = 'Webseite';
 $wb['describe_directive_snippets'] = 'Direktiven Schnippsel';
 $wb['describe_domain'] = 'Domain';
 $wb['describe_ftp_user'] = 'FTP-User';
