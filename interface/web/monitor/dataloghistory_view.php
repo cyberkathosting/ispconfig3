@@ -61,7 +61,7 @@ if(!$data = unserialize(stripslashes($record['data']))) {
 	$data = unserialize($record['data']);
 }
 
-$out = describe($record['dbtable'], $data, $out);
+$out = describe($record['dbtable'], $data, $out, $record['action']);
 
 switch ($record['action']) {
 	case 'i':
@@ -136,7 +136,8 @@ function describe($dbtable, $data, $out) {
 			$check = 'username';
 		break;
 		case 'cron':
-			$temp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
+			$where = @($action == 'd')?$data['old']['parent_domain_id']:$data['new']['parent_domain_id'];
+			$temp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ?", $where);
 			$out['describe_data'] = $temp['domain'];
 		break;
 		case 'directive_snippets':
