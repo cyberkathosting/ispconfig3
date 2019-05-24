@@ -1,5 +1,4 @@
 <?php
-
 /*
 Copyright (c) 2007-2008, Till Brehm, projektfarm Gmbh and Oliver Vogel www.muv.com
 All rights reserved.
@@ -48,7 +47,6 @@ $app->tpl->setvar($wb);
 $id = intval($_GET['id']);
 
 $record = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE datalog_id = ?', $id);
-
 $out['id'] = $id;
 
 $out['timestamp'] = date($app->lng('conf_format_datetime'), $record['tstamp']);
@@ -62,6 +60,8 @@ $out['session_id'] = $record['session_id'];
 if(!$data = unserialize(stripslashes($record['data']))) {
 	$data = unserialize($record['data']);
 }
+
+$out = describe($record['dbtable'], $data, $out);
 
 switch ($record['action']) {
 	case 'i':
@@ -126,6 +126,74 @@ function show_diff_if_needed($old, $new) {
 	} else {
 		return array('is_diff'=>false, 'old'=>$old, 'new'=>$new, 'diff'=>'');
 	}
+}
+
+function describe($dbtable, $data, $out) {
+	global $app;
+	$out['describe'] = $app->lng('describe_'.$dbtable);
+	switch ($dbtable) {
+		case 'client':
+			$check = 'username';
+		break;
+		case 'cron':
+			$temp = $app->db->queryOneRecord("SELECT domain FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
+			$out['describe_data'] = $temp['domain'];
+		break;
+		case 'directive_snippets':
+			$check = 'name';
+		break;
+		case 'domain':
+			$check = 'domain';
+		break;
+		case 'ftp_user':
+			$check = 'username';
+		break;
+		case 'mail_domain':
+			$check = 'domain';
+		break;
+		case 'mail_forwarding':
+			$check = 'source';
+		break;
+		case 'mail_user':
+			$check = 'email';
+		break;
+		case 'mail_user_filter':
+			$check = 'rulename';
+		break;
+		case 'remote_user':
+			$check = 'remote_username';
+		break;
+		case 'server_php':
+			$check = 'name';
+		break;
+		case 'shell_user':
+			$check = 'username';
+		break;
+		case 'spamfilter_policy':
+			$check = 'policy_name';
+		break;
+		case 'spamfilter_users':
+			$check = 'email';
+		break;
+		case 'web_domain':
+			$check = 'domain';
+		break;
+		case 'web_database_user':
+			$check = 'database_user';
+		break;
+		case 'web_database':
+			$check = 'database_name';
+		break;
+		case 'web_folder_user':
+			$check = 'username';
+		break;
+	}
+
+	 if(!isset($out['describe_data'])) {
+		$out['describe_data'] = @(isset($data['old'][$check]) && $data['old'][$check] != $data['new'][$check])?$data['old'][$check].'/'.$data['new'][$check]:$data['new'][$check];
+	}
+
+	return $out;
 }
 
 ?>

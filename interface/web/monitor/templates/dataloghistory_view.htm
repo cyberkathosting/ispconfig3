@@ -20,6 +20,12 @@
 				<td><tmpl_var name="table_txt"></td>
 				<td><tmpl_var name="table"></td>
 			</tr>
+			<tmpl_if name="describe_data" op="!=" value="">
+				<tr>
+					<td><tmpl_var name="describe"></td>
+					<td><tmpl_var name="describe_data"></td>
+				</tr>
+			</tmpl_if>
 			<tr>
 				<td><tmpl_var name="action_txt"></td>
 				<td><tmpl_var name="action_name"></td>
