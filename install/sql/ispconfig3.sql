@@ -1559,6 +1559,21 @@ CREATE TABLE `sys_group` (
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table  `sys_login`
+-- 
+
+CREATE TABLE `sys_login` (
+  `session_id` varchar(64) NOT NULL,
+  `username` varchar(64) NOT NULL default '',
+  `ip` varchar(255) NOT NULL default '',
+  `login-time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table  `sys_ini`
 -- 
 

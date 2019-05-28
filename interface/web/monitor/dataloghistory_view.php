@@ -57,6 +57,13 @@ $out['action_name'] = $app->lng($record['action']);
 
 $out['session_id'] = $record['session_id'];
 
+if ($out['session_id'] != '') {
+	$temp = $app->db->queryOneRecord("SELECT username, ip FROM sys_login WHERE session_id = ?", $out['session_id']);
+	$out['datalog_username'] = $temp['username'];
+	$out['datalog_userip'] = $temp['ip'];
+	unset($temp);
+}
+
 if(!$data = unserialize(stripslashes($record['data']))) {
 	$data = unserialize($record['data']);
 }
@@ -118,7 +125,7 @@ function show_diff_if_needed($old, $new) {
 	global $app;
 
 	$diff_min_lines = 6;
-
+$where = @($action == 'd')?$data['old']['parent_domain_id']:$data['new']['parent_domain_id'];
 	if (substr_count($old, "\n") >= $diff_min_lines || substr_count($new, "\n") >= $diff_min_lines) {
 		$opcodes = FineDiff::getDiffOpcodes($old, $new);
 		$html = FineDiff::renderUTF8DiffToHTMLFromOpcodes($old, $opcodes);
@@ -128,7 +135,7 @@ function show_diff_if_needed($old, $new) {
 	}
 }
 
-function describe($dbtable, $data, $out) {
+function describe($dbtable, $data, $out, $action) {
 	global $app;
 	$out['describe'] = $app->lng('describe_'.$dbtable);
 	switch ($dbtable) {
@@ -149,6 +156,14 @@ function describe($dbtable, $data, $out) {
 		case 'ftp_user':
 			$check = 'username';
 		break;
+		case 'mail_archive':
+			$check = 'storage';
+		break;
+		case 'mail_archive_store':
+			$where = @($action == 'd')?$data['old']['domain_id']:$data['new']['domain_id'];
+			$temp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain_id = ?", $where);
+			$out['describe_data'] = $temp['domain'];
+		break;
 		case 'mail_domain':
 			$check = 'domain';
 		break;
@@ -160,6 +175,12 @@ function describe($dbtable, $data, $out) {
 		break;
 		case 'mail_user_filter':
 			$check = 'rulename';
+		break;
+		case 'managed_monitor_checks':
+			$check = 'description';
+		break;
+		case 'managed_php':
+			$check = 'version';
 		break;
 		case 'remote_user':
 			$check = 'remote_username';
@@ -190,7 +211,7 @@ function describe($dbtable, $data, $out) {
 		break;
 	}
 
-	 if(!isset($out['describe_data'])) {
+	if(!isset($out['describe_data'])) {
 		$out['describe_data'] = @(isset($data['old'][$check]) && $data['old'][$check] != $data['new'][$check])?$data['old'][$check].'/'.$data['new'][$check]:$data['new'][$check];
 	}
 
