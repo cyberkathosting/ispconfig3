@@ -268,6 +268,16 @@ if(count($_POST) > 0) {
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);
 						$app->db->query("INSERT INTO sys_login (`session_id`, `username`, `ip`, `login-time`) VALUES (?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE `login-time`=CURRENT_TIMESTAMP", session_id(), $username, $_SERVER['REMOTE_ADDR']);
+
+						// get last IP used to login 
+						$user_data = $app->db->queryOneRecord("SELECT last_login_ip,last_login_at FROM sys_user WHERE username = ?", $username);
+						
+						$_SESSION['s']['last_login_ip'] = $user_data['last_login_ip'];
+						$_SESSION['s']['last_login_at'] = $user_data['last_login_at'];
+						if(!$loginAs) {
+							$app->db->query("UPDATE sys_user SET last_login_ip =  ?, last_login_at = ? WHERE username = ?", $_SERVER['REMOTE_ADDR'], time(), $username);
+						}
+
 						/*
 						* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 						* new theme, if the logged-in user has another
