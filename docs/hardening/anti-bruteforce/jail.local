@@ -1,10 +1,13 @@
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++
+# + NetworkSEC / NwSEC Layer 7 Bruteforce Protection +
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# This goes into (or at the end of) /etc/fail2ban/jail.local
+# This goes into /etc/fail2ban/jail.local on Debian/GNU Linux
 #
-[wp-auth]
- enabled = true
- filter = wp-auth
- action = iptables-multiport[name=wp-auth, port="http,https"]
- logpath = /var/log/ispconfig/httpd/*/*.log
- bantime = 1200
- maxretry = 5
+[nws-wp]
+enabled = true
+filter = nws-wp
+action = iptables-multiport[name=nws-wp, port="http,https"]
+logpath = /var/www/clients/client*/web*/log/*.log
+bantime = 1200
+maxretry = 5
