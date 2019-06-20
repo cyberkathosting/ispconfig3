@@ -94,7 +94,6 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			//'value'  => array('contains'=>'contains_txt','is' => 'Is','begins'=>'Begins with','ends'=>'Ends with')
 			'value'  => array('contains'=>'contains_txt', 'is' => 'is_txt', 'begins'=>'begins_with_txt', 'ends'=>'ends_with_txt')
 		),
 		'searchterm' => array (
