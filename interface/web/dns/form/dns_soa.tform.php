@@ -289,7 +289,7 @@ $form["tabs"]['dns_soa'] = array (
  			'maxlength' => '10000'
  		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -304,7 +304,7 @@ $form["tabs"]['dns_records'] = array (
 		//#################################
 
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	),
 	'plugins' => array (

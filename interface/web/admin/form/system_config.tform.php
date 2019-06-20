@@ -211,7 +211,7 @@ $form["tabs"]['sites'] = array (
 			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -397,7 +397,7 @@ $form["tabs"]['mail'] = array (
 			'name'  => 'default_mailserver'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -433,7 +433,7 @@ $form["tabs"]['dns'] = array (
 			'name'  => 'default_slave_dnsserver'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -463,7 +463,7 @@ $form["tabs"]['domains'] = array (
 			'value'  => ''
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -735,7 +735,7 @@ $form["tabs"]['misc'] = array (
 			'value'  => array('' => 'None', '1' => 'strength_1', '2' => 'strength_2', '3' => 'strength_3', '4' => 'strength_4', '5' => 'strength_5')
 		)
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

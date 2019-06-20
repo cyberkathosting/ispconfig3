@@ -146,7 +146,7 @@ $form["tabs"]['domain'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -193,7 +193,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'maxlength' => '255'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);

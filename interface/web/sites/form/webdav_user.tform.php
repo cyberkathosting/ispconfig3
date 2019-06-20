@@ -142,7 +142,7 @@ $form["tabs"]['webdav'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

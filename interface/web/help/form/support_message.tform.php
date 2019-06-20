@@ -136,7 +136,7 @@ $form["tabs"]['message'] = array (
 			'maxlength' => '30'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

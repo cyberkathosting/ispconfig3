@@ -123,7 +123,7 @@ $form["tabs"]['directive_snippets'] = array (
 			'separator' => ',',
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

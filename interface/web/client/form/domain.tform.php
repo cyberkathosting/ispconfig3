@@ -109,7 +109,7 @@ $form["tabs"]['domain'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

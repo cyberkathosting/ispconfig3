@@ -185,7 +185,7 @@ $form["tabs"]['database'] = array (
 			'searchable' => 2
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
