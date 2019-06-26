@@ -69,9 +69,10 @@ $conf['server_id'] = intval($conf['server_id']);
 
 
 // Load required base-classes
-$app->uses('ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions');
 $app->load('libdatetime,cronjob');
 
+$app->modules->loadModules('web');
 
 // read all cron jobs
 $path = SCRIPT_PATH . '/lib/classes/cron.d';
@@ -113,6 +114,8 @@ foreach($files as $f) {
 	}
 }
 unset($files);
+
+$app->services->processDelayedActions();
 
 // Remove lock
 @unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');
