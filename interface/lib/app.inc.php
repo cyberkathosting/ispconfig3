@@ -335,7 +335,8 @@ class app {
 	}
 	
 	private function get_cookie_domain() {
-		$proxy_panel_allowed = $this->getconf->get_security_config('permissions')['reverse_proxy_panel_allowed'];
+		$sec_config = $this->getconf->get_security_config('permissions');
+		$proxy_panel_allowed = $sec_config['reverse_proxy_panel_allowed'];
 		if ($proxy_panel_allowed == 'all') {
 			return '';
 		}

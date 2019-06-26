@@ -40,7 +40,11 @@ $domain_id = $_GET['domain_id'];
 if($type == 'create_dkim' && $domain_id != ''){
 	$dkim_public = $_GET['dkim_public'];
 	$dkim_selector = $_GET['dkim_selector'];
-	$domain=@(is_numeric($domain_id))?$app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $domain_id)['domain']:$domain_id;
+	$domain = $domain_id;
+	if(is_numeric($domain_id)) {
+		$temp = $app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $domain_id);
+		$domain = $temp['domain'];
+	}
 	$rec = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ?", $domain);
 	$server_id = $rec['server_id'];
 	$maildomain = $rec['domain'];
