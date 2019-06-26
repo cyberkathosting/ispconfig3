@@ -72,8 +72,6 @@ $conf['server_id'] = intval($conf['server_id']);
 $app->uses('modules,ini_parser,file,services,getconf,system,cron,functions');
 $app->load('libdatetime,cronjob');
 
-$app->modules->loadModules('web');
-
 // read all cron jobs
 $path = SCRIPT_PATH . '/lib/classes/cron.d';
 if(!is_dir($path)) die('Cron path missing!');

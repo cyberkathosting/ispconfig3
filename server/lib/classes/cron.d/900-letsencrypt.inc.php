@@ -44,6 +44,7 @@ class cronjob_letsencrypt extends cronjob {
 	public function onBeforeRun() {
 		global $app;
 
+		$app->modules->loadModules('web_module');
 		return parent::onBeforeRun();
 	}
 
