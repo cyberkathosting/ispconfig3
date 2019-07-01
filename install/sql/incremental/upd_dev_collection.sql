@@ -166,3 +166,12 @@ CREATE TABLE IF NOT EXISTS `sys_mailqueue` (
 
 ALTER TABLE `web_domain` ADD `jailkit_jkupdate_cron` enum('n','y') NOT NULL DEFAULT 'y' AFTER `custom_php_ini`;
 ALTER TABLE `sys_datalog` ADD `session_id` varchar(64) NOT NULL DEFAULT '' AFTER `error`;
+
+CREATE TABLE IF NOT EXISTS `sys_login` (
+  `session_id` varchar(64) NOT NULL,
+  `username` varchar(64) NOT NULL default '',
+  `ip` varchar(255) NOT NULL default '',
+  `login-time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+

@@ -34,6 +34,12 @@
 				<td><tmpl_var name="session_id_txt"></td>
 				<td><tmpl_var name="session_id"></td>
 			</tr>
+			<tmpl_if name="datalog_username" op="!=" value="">
+				<tr>
+					<td><tmpl_var name="datalog_username_txt"></td>
+					<td><tmpl_var name="datalog_username"> (<tmpl_var name="datalog_userip_txt">: <tmpl_var name="datalog_userip">)</td>
+				</tr>
+			</tmpl_if>
 		</tbody>
     </table>
 </div>

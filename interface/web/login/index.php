@@ -262,11 +262,13 @@ if(count($_POST) > 0) {
 						$app->plugin->raiseEvent('login', $username);
 						
 						//* Save successfull login message to var
-						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' with session ID ' .session_id();						
+						//$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s');
+						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' with session ID ' .session_id();	
 						$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);
-						
+						$app->db->query("INSERT INTO sys_login (`session_id`, `username`, `ip`, `login-time`) VALUES (?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE `login-time`=CURRENT_TIMESTAMP", session_id(), $username, $_SERVER['REMOTE_ADDR']);
+
 						// get last IP used to login 
 						$user_data = $app->db->queryOneRecord("SELECT last_login_ip,last_login_at FROM sys_user WHERE username = ?", $username);
 						
@@ -275,12 +277,13 @@ if(count($_POST) > 0) {
 						if(!$loginAs) {
 							$app->db->query("UPDATE sys_user SET last_login_ip =  ?, last_login_at = ? WHERE username = ?", $_SERVER['REMOTE_ADDR'], time(), $username);
 						}
+
 						/*
 						* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 						* new theme, if the logged-in user has another
 						*/
 						
-						if($loginAs) {
+						if ($loginAs){
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
 						} else {
@@ -292,7 +295,8 @@ if(count($_POST) > 0) {
 					$error = $app->lng('error_user_blocked');
 				}
 			} else {
-				if(!$alreadyfailed['times']) {
+				if(!$alreadyfailed['times'] )
+				{
 					//* user login the first time wrong
 					$sql = "INSERT INTO `attempts_login` (`ip`, `times`, `login_time`) VALUES (?, 1, NOW())";
 					$app->db->query($sql, $ip);
@@ -351,17 +355,7 @@ $app->tpl->setVar('current_theme', isset($_SESSION['s']['theme']) ? $_SESSION['s
 //die(isset($_SESSION['s']['theme']) ? $_SESSION['s']['theme'] : 'default');
 
 // Logo
-$logo = $app->db->queryOneRecord("SELECT * FROM sys_ini WHERE sysini_id = 1");
-if($logo['custom_logo'] != ''){
-	$base64_logo_txt = $logo['custom_logo'];
-} else {
-	$base64_logo_txt = $logo['default_logo'];
-}
-$tmp_base64 = explode(',', $base64_logo_txt, 2);
-$logo_dimensions = $app->functions->getimagesizefromstring(base64_decode($tmp_base64[1]));
-$app->tpl->setVar('base64_logo_width', $logo_dimensions[0].'px');
-$app->tpl->setVar('base64_logo_height', $logo_dimensions[1].'px');
-$app->tpl->setVar('base64_logo_txt', $base64_logo_txt);
+$app->tpl->logo();
 
 // Title
 if (!empty($sys_config['company_name'])) {

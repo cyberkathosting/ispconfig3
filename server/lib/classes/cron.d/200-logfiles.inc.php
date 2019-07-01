@@ -206,6 +206,8 @@ class cronjob_logfiles extends cronjob {
 			}
 		}
 
+		$app->db->query("DELETE FROM `sys_login` WHERE `login-time` < ADDDATE(NOW(), INTERVAL -? DAY)", $max_syslog);
+
 		//######################################################################################################
 		// Cleanup website tmp directories
 		//######################################################################################################
