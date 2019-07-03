@@ -682,8 +682,8 @@ CREATE TABLE `firewall` (
   `sys_perm_group` varchar(5) default NULL,
   `sys_perm_other` varchar(5) default NULL,
   `server_id` int(11) unsigned NOT NULL default '0',
-  `tcp_port` varchar(255) default NULL,
-  `udp_port` varchar(255) default NULL,
+  `tcp_port` text,
+  `udp_port` text,
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`firewall_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

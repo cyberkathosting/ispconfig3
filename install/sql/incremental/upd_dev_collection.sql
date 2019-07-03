@@ -81,3 +81,5 @@ INSERT IGNORE INTO `dns_ssl_ca` (`id`, `sys_userid`, `sys_groupid`, `sys_perm_us
 ALTER TABLE `dns_soa` CHANGE `xfer` `xfer` TEXT NULL;
 ALTER TABLE `dns_soa` CHANGE `also_notify` `also_notify` TEXT NULL;
 ALTER TABLE `dns_slave` CHANGE `xfer` `xfer` TEXT NULL;
+ALTER TABLE `firewall` CHANGE `tcp_port` `tcp_port` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `firewall` CHANGE `udp_port` `udp_port` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
