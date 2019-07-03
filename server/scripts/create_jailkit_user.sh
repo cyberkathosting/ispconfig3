@@ -21,6 +21,12 @@ CHROOT_SHELL=$4
 CHROOT_P_USER=$5
 CHROOT_P_USER_HOMEDIR=$6
 
+### Check if USERHOMEDIR already exists ###
+if [ ! -d $CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR ]; then
+ mkdir -p $CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR
+ chown -R $CHROOT_USERNAME $CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR
+fi
+
 ### Reconfigure the chroot home directory for the user ###
 usermod --home=$CHROOT_HOMEDIR/.$CHROOT_USERHOMEDIR $CHROOT_USERNAME 2>/dev/null
 
