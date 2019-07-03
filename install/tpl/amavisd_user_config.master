@@ -83,7 +83,6 @@ $notify_method = 'smtp:127.0.0.1:*';
 $interface_policy{'10026'} = 'ORIGINATING';
 $policy_bank{'ORIGINATING'} = {
   originating => 1,
-  smtpd_discard_ehlo_keywords => ['8BITMIME'],
 };
 
 # IP-Addresses for internal networks => load policy MYNETS
