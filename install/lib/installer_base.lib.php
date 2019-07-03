@@ -288,10 +288,14 @@ class installer_base {
 		$this->db->query("DROP USER ?@?", $conf['mysql']['ispconfig_user'], $from_host);
 		$this->db->query("DROP DATABASE IF EXISTS ?", $conf['mysql']['database']);
 
-		//* Create the ISPConfig database user in the local database
-		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@? IDENTIFIED BY ?';
-		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host, $conf['mysql']['ispconfig_password'])) {
+		//* Create the ISPConfig database user and grant permissions in the local database
+		$query = 'CREATE USER ?@? IDENTIFIED BY ?';
+		if(!$this->db->query($query, $conf['mysql']['ispconfig_user'], $from_host, $conf['mysql']['ispconfig_password'])) {
 			$this->error('Unable to create database user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
+		}
+		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@?';
+		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host)) {
+			$this->error('Unable to grant databse permissions to user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
 
 		//* Set the database name in the DB library
