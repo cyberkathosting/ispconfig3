@@ -266,7 +266,7 @@ class page_action extends tform_actions {
 		$app->functions->generate_ssh_key($this->id, $username);
 
 		// Create the controlpaneluser for the client
-		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
+		$sql = "INSERT INTO sys_user (`username`,`passwort`,`modules`,`startmodule`,`app_theme`,`typ`,`active`,`language`,`groups`,`default_group`,`client_id`)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$app->db->query($sql, $username, $password, $modules, $startmodule, $usertheme, $type, $active, $language, $groups, $groupid, $this->id);
 
