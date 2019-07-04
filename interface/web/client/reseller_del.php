@@ -60,7 +60,48 @@ class page_action extends tform_actions {
 		$client_id = $app->functions->intval($this->dataRecord['client_id']);
 
 		$tmp = $app->db->queryOneRecord("SELECT count(client_id) as number FROM client WHERE parent_client_id = ?", $client_id);
-		if($tmp["number"] > 0) $app->error($app->lng('error_has_clients'));
+		if($tmp["number"] > 0) {
+			$app->error($app->lng('error_has_clients'));
+		} else {
+			$parent_client_id = $app->functions->intval($this->dataRecord['parent_client_id']);
+			$parent_user = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE client_id = ?", $parent_client_id);
+			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
+			
+			// Delete all records (mail, web, etc....) of this reseller.
+			$tables = 'cron,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_folder,web_folder_user,domain,mail_mailinglist,spamfilter_wblist';
+			$tables_array = explode(',', $tables);
+			$client_group_id = $app->functions->intval($client_group['groupid']);
+			if($client_group_id > 1) {
+				foreach($tables_array as $table) {
+					if($table != '') {
+						//* find the primary ID of the table
+						$table_info = $app->db->tableInfo($table);
+						$index_field = '';
+						foreach($table_info as $tmp) {
+							if($tmp['option'] == 'primary') $index_field = $tmp['name'];
+						}
+						//* Delete the records
+						if($index_field != '') {
+							$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ? ORDER BY ?? DESC", $table, $client_group_id, $index_field);
+							if(is_array($records)) {
+								foreach($records as $rec) {
+									$app->db->datalogDelete($table, $index_field, $rec[$index_field]);
+									//* Delete traffic records that dont have a sys_groupid column
+									if($table == 'web_domain') {
+										$app->db->query("DELETE FROM web_traffic WHERE hostname = ?", $rec['domain']);
+									}
+									//* Delete mail_traffic records that dont have a sys_groupid
+									if($table == 'mail_user') {
+										$app->db->query("DELETE FROM mail_traffic WHERE mailuser_id = ?", $rec['mailuser_id']);
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+		}
 
 	}
 
