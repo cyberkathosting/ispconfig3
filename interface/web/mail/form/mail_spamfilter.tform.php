@@ -114,7 +114,7 @@ $form["tabs"]['spamfilter'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => '***SPAM***',
+			'default' => '***SPAM*** ',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
