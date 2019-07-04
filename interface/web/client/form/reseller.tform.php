@@ -1080,6 +1080,7 @@ $form["tabs"]['limits'] = array (
 		'web_php_options' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOXARRAY',
+			'valuelimit' => 'system:sites:web_php_options',
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'web_php_options_notempty'),
 			),

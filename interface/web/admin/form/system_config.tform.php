@@ -200,6 +200,16 @@ $form["tabs"]['sites'] = array (
 			'value'  => '',
 			'name'  => 'default_dbserver'
 		),
+		'web_php_options' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOXARRAY',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'web_php_options_notempty'),
+			),
+			'default' => '',
+			'separator' => ',',
+			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################

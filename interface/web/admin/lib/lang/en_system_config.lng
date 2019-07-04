@@ -92,4 +92,5 @@ $wb['ca_iodef_txt'] = 'iodef';
 $wb['active_txt'] = 'Active';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
+$wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 ?>

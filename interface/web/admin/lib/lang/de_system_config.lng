@@ -89,4 +89,5 @@ $wb['ca_iodef_txt'] = 'iodef';
 $wb['active_txt'] = 'Aktiv';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
+$wb['web_php_options_txt'] = 'PHP Handler (Nur Apache)';
 ?>
