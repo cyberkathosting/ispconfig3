@@ -598,7 +598,13 @@ class ispcmail {
 		if($this->smtp_crypt == 'tls') {
 			fputs($this->_smtp_conn, 'STARTTLS' . $this->_crlf);
 			fgets($this->_smtp_conn, 515);
-			stream_socket_enable_crypto($this->_smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+			$crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+
+			if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+				$crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+				$crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+			}
+			stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method);
 		}
 
 		//AUTH LOGIN

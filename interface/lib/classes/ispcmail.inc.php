@@ -599,10 +599,16 @@ class ispcmail {
 			fputs($this->_smtp_conn, 'STARTTLS' . $this->_crlf);
 			fgets($this->_smtp_conn, 515);
 			
+			$crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+
+			if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+				$crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+				$crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+			}
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_host', false);
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_peer', false);
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'allow_self_signed', true);
-			stream_socket_enable_crypto($this->_smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+			stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method);
 		}
 
 		//AUTH LOGIN
