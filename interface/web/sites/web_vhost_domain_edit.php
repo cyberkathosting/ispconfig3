@@ -1065,6 +1065,11 @@ class page_action extends tform_actions {
 			}
 			
 			if($this->_vhostdomain_type == 'domain') {
+				//* ensure that quota value is not 0 when vhost type = domain
+				if(isset($_POST["hd_quota"]) && $_POST["hd_quota"] == 0) {
+					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_not_0_txt")."<br>";
+				}
+				
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ? AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'), $this->id);
