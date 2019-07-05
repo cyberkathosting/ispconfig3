@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Gabarito de limites para clientes';
 $wb['template_type_txt'] = 'Tipo';
 $wb['template_name_txt'] = 'Nome do Gabarito';
 $wb['template_id_txt'] = 'ID do Gabarito';
+$wb['sys_groupid_txt'] = 'Reseller';
 ?>

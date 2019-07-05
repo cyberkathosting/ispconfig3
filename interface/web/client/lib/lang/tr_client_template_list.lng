@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Müşteri ve Bayi Kalıpları';
 $wb['template_type_txt'] = 'Tip';
 $wb['template_name_txt'] = 'Kalıp adı';
 $wb['template_id_txt'] = 'Kalıp kodu';
+$wb['sys_groupid_txt'] = 'Reseller';
 ?>

@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Kundmallar';
 $wb['template_type_txt'] = 'Typ';
 $wb['template_name_txt'] = 'Mallnamn';
 $wb['template_id_txt'] = 'Mall-ID';
+$wb['sys_groupid_txt'] = 'Reseller';
 ?>

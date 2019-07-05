@@ -161,4 +161,5 @@ $wb['monitor_database_domain_txt'] = 'Domínio';
 $wb['Show MongoDB-Log'] = 'Exibir logs do MongoDB';
 $wb['monitor_services_mongodb_txt'] = 'Servidor MongoDB:';
 $wb['monitor_title_mongodb_txt'] = 'Logs do MongoDB';
+$wb['Show Data Log History'] = 'Show Data Log History';
 ?>

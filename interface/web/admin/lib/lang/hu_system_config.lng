@@ -84,9 +84,10 @@ $wb['default_dbserver_txt'] = 'Default Database Server';
 $wb['ca_name_txt'] = 'Name';
 $wb['ca_issue_txt'] = 'Issue';
 $wb['ca_wildcard_txt'] = 'Use Wildcard';
-$wb['ca_critical_txt'] = 'Strict Check'; //For future use.  At this time, CA’s do not recognize any other flag values as described in RFC 6844
+$wb['ca_critical_txt'] = 'Strict Check';
 $wb['ca_iodef_txt'] = 'iodef';
 $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
+$wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 ?>
