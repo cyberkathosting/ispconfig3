@@ -3058,6 +3058,8 @@ class apache2_plugin {
 
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		$php_fpm_reload_mode = ($web_config['php_fpm_reload_mode'] == 'reload')?'reload':'restart';
 
 		if($data['new']['php'] != 'php-fpm'){
 			if(@is_file($pool_dir.$pool_name.'.conf')){
@@ -3066,9 +3068,9 @@ class apache2_plugin {
 			}
 			if($data['old']['php'] == 'php-fpm'){
 				if(!$default_php_fpm){
-					$app->services->restartService('php-fpm', 'reload:'.$custom_php_fpm_init_script);
+					$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$custom_php_fpm_init_script);
 				} else {
-					$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+					$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 				}
 			}
 			//if($reload == true) $app->services->restartService('php-fpm','reload');
@@ -3205,7 +3207,7 @@ class apache2_plugin {
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
 				$app->system->unlink($default_pool_dir.$pool_name.'.conf');
 				$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf', LOGLEVEL_DEBUG);
-				$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+				$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $conf["server_id"]);
@@ -3217,7 +3219,7 @@ class apache2_plugin {
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
 						$app->system->unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
 						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf', LOGLEVEL_DEBUG);
-						$app->services->restartService('php-fpm', 'reload:'.$php_version['php_fpm_init_script']);
+						$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$php_version['php_fpm_init_script']);
 					}
 				}
 			}
@@ -3225,9 +3227,9 @@ class apache2_plugin {
 		// Reload current PHP-FPM after all others
 		sleep(1);
 		if(!$default_php_fpm){
-			$app->services->restartService('php-fpm', 'reload:'.$custom_php_fpm_init_script);
+			$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$custom_php_fpm_init_script);
 		} else {
-			$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+			$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
 
 		//$reload = true;
@@ -3238,6 +3240,11 @@ class apache2_plugin {
 	//* Delete the PHP-FPM pool configuration file
 	private function php_fpm_pool_delete ($data, $web_config) {
 		global $app, $conf;
+		
+		$app->uses("getconf");
+		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
+		
+		$php_fpm_reload_mode = ($web_config['php_fpm_reload_mode'] == 'reload')?'reload':'restart';
 
 		if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){
 			$default_php_fpm = false;
@@ -3271,7 +3278,7 @@ class apache2_plugin {
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
 				$app->system->unlink($default_pool_dir.$pool_name.'.conf');
 				$app->log('Removed PHP-FPM config file: '.$default_pool_dir.$pool_name.'.conf', LOGLEVEL_DEBUG);
-				$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+				$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 			}
 		}
 		$php_versions = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ?", $data['old']['server_id']);
@@ -3283,7 +3290,7 @@ class apache2_plugin {
 					if ( @is_file($php_version['php_fpm_pool_dir'].$pool_name.'.conf') ) {
 						$app->system->unlink($php_version['php_fpm_pool_dir'].$pool_name.'.conf');
 						$app->log('Removed PHP-FPM config file: '.$php_version['php_fpm_pool_dir'].$pool_name.'.conf', LOGLEVEL_DEBUG);
-						$app->services->restartService('php-fpm', 'reload:'.$php_version['php_fpm_init_script']);
+						$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$php_version['php_fpm_init_script']);
 					}
 				}
 			}
@@ -3292,9 +3299,9 @@ class apache2_plugin {
 		// Reload current PHP-FPM after all others
 		sleep(1);
 		if(!$default_php_fpm){
-			$app->services->restartService('php-fpm', 'reload:'.$custom_php_fpm_init_script);
+			$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$custom_php_fpm_init_script);
 		} else {
-			$app->services->restartService('php-fpm', 'reload:'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
+			$app->services->restartService('php-fpm', $php_fpm_reload_mode.':'.$conf['init_scripts'].'/'.$web_config['php_fpm_init_script']);
 		}
 	}
 

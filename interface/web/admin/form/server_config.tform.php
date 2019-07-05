@@ -1376,6 +1376,14 @@ $form["tabs"]['web'] = array(
 				1 => 'y'
 			)
 		),
+		'php_fpm_reload_mode' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'reload',
+			'value' => array('reload' => 'Reload', 'restart' => 'Restart'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		//#################################
 		// ENDE Datatable fields
 		//#################################
