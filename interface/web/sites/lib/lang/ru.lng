@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Доступные пакеты';
 $wb['Installed packages'] = 'Установленные пакеты';
 $wb['Update Packagelist'] = 'Обновить список пакетов';
 $wb['Subdomain (Vhost)'] = 'Поддомен (Vhost)';
-$wb['error_proxy_requires_url'] = 'Тип редиректа \\"proxy\\" требует URL в качестве пути перенаправления.';
+$wb['error_proxy_requires_url'] = 'Тип редиректа \"proxy\" требует URL в качестве пути перенаправления.';
 ?>

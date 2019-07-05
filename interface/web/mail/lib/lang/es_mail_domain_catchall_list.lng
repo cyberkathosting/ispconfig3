@@ -1,9 +1,9 @@
 <?php
 $wb['active_txt'] = 'Habilitado';
-$wb['add_new_record_txt'] = 'Añadir correo \\"recoge-todo\\"';
+$wb['add_new_record_txt'] = 'Añadir correo \"recoge-todo\"';
 $wb['destination_txt'] = 'Dirección de correo de destino';
 $wb['domain_txt'] = 'Dominio';
-$wb['list_head_txt'] = 'Correo \\"recoge-todo\\"';
+$wb['list_head_txt'] = 'Correo \"recoge-todo\"';
 $wb['server_id_txt'] = 'Servidor';
 $wb['source_txt'] = 'Origen';
 ?>

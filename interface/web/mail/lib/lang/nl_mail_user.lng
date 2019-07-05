@@ -36,7 +36,7 @@ $wb['name_txt'] = 'Echte naam';
 $wb['name_optional_txt'] = '(Optioneel)';
 $wb['autoresponder_active'] = 'Inschakelen autoresponder';
 $wb['cc_txt'] = 'Stuur kopie naar';
-$wb['cc_error_isemail'] = 'Het \\"Stuur kopie naar\\" veld bevat geen geldig e-mail adres';
+$wb['cc_error_isemail'] = 'Het \"Stuur kopie naar\" veld bevat geen geldig e-mail adres';
 $wb['domain_txt'] = 'Domain';
 $wb['now_txt'] = 'Now';
 $wb['login_error_unique'] = 'Login is already taken.';
@@ -60,6 +60,6 @@ $wb['cc_note_txt'] = '(Meerdere e-mail adressen scheiden met een komma)';
 $wb['disablesmtp_txt'] = 'Uitschakelen SMTP (versturen)';
 $wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autoresponder is enabled.';
 $wb['sender_cc_txt'] = 'Stuur uitgaande kopie aan';
-$wb['sender_cc_error_isemail'] = 'Het \\"Stuur uitgaande kopie aan\\" veld bevat geen geldig e-mail adres';
+$wb['sender_cc_error_isemail'] = 'Het \"Stuur uitgaande kopie aan\" veld bevat geen geldig e-mail adres';
 $wb['sender_cc_note_txt'] = '(Meerdere e-mail adressen scheiden met een komma)';
 ?>

@@ -15,5 +15,5 @@ $wb['source_username_error_isempty'] = 'Brugernavn er tom.';
 $wb['source_password_error_isempty'] = 'Adgangskode er tom.';
 $wb['destination_error_isemail'] = 'Ingen destination er valgt.';
 $wb['source_server_error_regex'] = 'Pop3/Imap Server er ikke et gyldigt domænenavn.';
-$wb['error_delete_read_all_combination'] = 'Ulovlig kombination af muligheder. Du kan ikke bruge \\"Slet e-mails efter hentning\\" = nej sammen med \\"Hent alle e-mails\\" = ja';
+$wb['error_delete_read_all_combination'] = 'Ulovlig kombination af muligheder. Du kan ikke bruge \"Slet e-mails efter hentning\" = nej sammen med \"Hent alle e-mails\" = ja';
 ?>

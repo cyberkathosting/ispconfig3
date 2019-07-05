@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Beschikbare pakketten';
 $wb['Installed packages'] = 'Geïnstalleerde pakketten';
 $wb['Update Packagelist'] = 'Pakkettenlijst bijwerken';
 $wb['Subdomain (Vhost)'] = 'Subdomein (Vhost)';
-$wb['error_proxy_requires_url'] = 'Redirect Type \\"proxy\\" requires a URL as the redirect path.';
+$wb['error_proxy_requires_url'] = 'Redirect Type \"proxy\" requires a URL as the redirect path.';
 ?>

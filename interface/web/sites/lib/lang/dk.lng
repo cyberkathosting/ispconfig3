@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Tilgængelig pakker';
 $wb['Installed packages'] = 'Installeret pakker';
 $wb['Update Packagelist'] = 'Opdater Pakkeliste';
 $wb['Subdomain (Vhost)'] = 'Sub-domæne (Vhost)';
-$wb['error_proxy_requires_url'] = 'Omdiriger Type \\"proxy\\" requires a URL as the redirect path.';
+$wb['error_proxy_requires_url'] = 'Omdiriger Type \"proxy\" requires a URL as the redirect path.';
 ?>
