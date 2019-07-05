@@ -75,14 +75,14 @@
 		# </IfModule>
 		SSLCertificateFile <tmpl_var name='ssl_crt_file'>
 		SSLCertificateKeyFile <tmpl_var name='ssl_key_file'>
-<tmpl_if name='has_bundle_cert'>
-		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
-		SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
-		</tmpl_if>
 		<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
 		SSLUseStapling on
 		SSLStaplingResponderTimeout 5
 		SSLStaplingReturnResponderErrors off
+		</tmpl_if>
+<tmpl_if name='has_bundle_cert'>
+		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
+		SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
 		</tmpl_if>
 </tmpl_if>
 </tmpl_if>

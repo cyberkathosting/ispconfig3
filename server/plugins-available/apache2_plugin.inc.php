@@ -1223,8 +1223,9 @@ class apache2_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ? AND `server_id` = ?", $data['new']['ssl'], 'n', $data['new']['domain'], $conf['server_id']);
  			}
 		}
-
-		if(@is_file($bundle_file)) $vhost_data['has_bundle_cert'] = 1;
+		
+		// Use separate bundle file only for apache versions < 2.4.8
+		if(@is_file($bundle_file) && version_compare($app->system->getapacheversion(true), '2.4.8', '<')) $vhost_data['has_bundle_cert'] = 1;
 
 		// HTTP/2.0 ?
 		$vhost_data['enable_http2']  = 'n';
