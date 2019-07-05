@@ -991,6 +991,7 @@ class nginx_plugin {
 				}
 			}
 		}
+		if($data['new']['ip_address'] == '*' && $data['new']['ipv6_address'] == '') $tpl->setVar('ipv6_wildcard', 1);
 
 		// PHP-FPM
 		// Support for multiple PHP versions
