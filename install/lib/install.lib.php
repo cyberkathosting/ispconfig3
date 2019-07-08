@@ -186,7 +186,7 @@ function get_distname() {
 				break;
 			default:
 				$relname = "UNKNOWN";
-				$distconfid = 'ubuntu1604';
+				$distconfid = 'ubuntu1804';
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distname.' '.$distver."\n");
