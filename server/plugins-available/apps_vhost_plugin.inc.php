@@ -106,6 +106,16 @@ class apps_vhost_plugin {
 				$vhost_port_listen = '#';
 			}
 			$tpl->setVar('vhost_port_listen', $vhost_port_listen);
+			
+			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			if($mail_config['content_filter'] == 'rspamd'){
+				$use_rspamd = true;
+				exec('/usr/sbin/a2enmod proxy');
+				exec('/usr/sbin/a2enmod proxy_http');
+			} else {
+				$use_rspamd = false;
+			}
+			$tpl->setVar('use_rspamd', $use_rspamd);
 
 			$content = $tpl->grab();
 
@@ -184,6 +194,14 @@ class apps_vhost_plugin {
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
 			
+			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			if($mail_config['content_filter'] == 'rspamd'){
+				$use_rspamd = '';
+			} else {
+				$use_rspamd = '#';
+			}
+			$content = str_replace('{use_rspamd}', $use_rspamd, $content);
+
 			// Fix socket path on PHP 7 systems
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
@@ -221,7 +239,3 @@ class apps_vhost_plugin {
 
 
 } // end class
-
-
-
-?>

@@ -163,6 +163,7 @@ class installer_base {
 		if(is_installed('dovecot')) $conf['dovecot']['installed'] = true;
 		if(is_installed('saslauthd')) $conf['saslauthd']['installed'] = true;
 		if(is_installed('amavisd-new') || is_installed('amavisd')) $conf['amavis']['installed'] = true;
+		if(is_installed('rspamd')) $conf['rspamd']['installed'] = true;
 		if(is_installed('clamdscan')) $conf['clamav']['installed'] = true;
 		if(is_installed('pure-ftpd') || is_installed('pure-ftpd-wrapper')) $conf['pureftpd']['installed'] = true;
 		if(is_installed('mydns') || is_installed('mydns-ng')) $conf['mydns']['installed'] = true;
@@ -1424,6 +1425,171 @@ class installer_base {
 		if(!empty($amavis_user)) exec('chown -R '.$amavis_user.' /var/lib/amavis/dkim');
 		if(!empty($amavis_group)) exec('chgrp -R '.$amavis_group.' /var/lib/amavis/dkim');
 
+	}
+
+	public function configure_rspamd() {
+		global $conf;
+		
+		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		unset($server_ini_rec);
+		
+		$mail_config = $server_ini_array['mail'];
+		if($mail_config['content_filter'] === 'rspamd') {
+			exec("postconf -X 'receive_override_options'");
+			exec("postconf -X 'content_filter'");
+
+			exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'milter_protocol = 6'");
+			exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
+			exec("postconf -e 'milter_default_action = accept'");
+
+			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+
+			$new_options = array();
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+			foreach ($options as $value) {
+				if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					$new_options[] = $value;
+				}
+			}
+			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		}
+
+		if(!is_dir('/etc/rspamd/local.d/')){
+			mkdir('/etc/rspamd/local.d/', 0755, true);
+		}
+
+		if(!is_dir('/etc/rspamd/override.d/')){
+			mkdir('/etc/rspamd/override.d/', 0755, true);
+		}
+
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_users.conf.master');
+
+		$whitelist_ips = array();
+		$ips = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+		if(is_array($ips) && !empty($ips)){
+			foreach($ips as $ip){
+				$whitelist_ips[] = array('ip' => $ip['ip_address']);
+			}
+		}
+		$tpl->setLoop('whitelist_ips', $whitelist_ips);
+		wf('/etc/rspamd/local.d/users.conf', $tpl->grab());
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+		} else {
+			exec('cp tpl/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+		} else {
+			exec('cp tpl/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+		} else {
+			exec('cp tpl/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+		} else {
+			exec('cp tpl/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
+		} else {
+			exec('cp tpl/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
+		} else {
+			exec('cp tpl/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
+		} else {
+			exec('cp tpl/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+		} else {
+			exec('cp tpl/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+		} else {
+			exec('cp tpl/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+		} else {
+			exec('cp tpl/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+		} else {
+			exec('cp tpl/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		} else {
+			exec('cp tpl/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
+		}
+
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master')) {
+			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		} else {
+			exec('cp tpl/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
+		}
+
+		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
+
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
+		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
+
+		$command = 'usermod -a -G amavis _rspamd';
+		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			
+		if(strpos(rf('/etc/rspamd/rspamd.conf'), '.include "$LOCAL_CONFDIR/local.d/users.conf"') === false){
+			af('/etc/rspamd/rspamd.conf', '.include "$LOCAL_CONFDIR/local.d/users.conf"');
+		}
+		
+		if(!isset($mail_config['rspamd_password']) || !$mail_config['rspamd_password']) {
+			$mail_config['rspamd_password'] = str_shuffle(bin2hex(openssl_random_pseudo_bytes(12)));
+			
+			$server_ini_array['mail']['rspamd_password'] = $mail_config['rspamd_password'];
+		}
+
+		$server_ini_array['mail']['rspamd_available'] = 'y';
+		$server_ini_string = array_to_ini($server_ini_array);
+		if($this->dbmaster != $this->db) {
+			$this->dbmaster->query('UPDATE `server` SET `config` = ? WHERE `server_id` = ?', $server_ini_string, $conf['server_id']);
+		}
+		$this->db->query('UPDATE `server` SET `config` = ? WHERE `server_id` = ?', $server_ini_string, $conf['server_id']);
+		unset($server_ini_array);
+		unset($server_ini_string);
+		
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_worker-controller.inc.master');
+		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());		
 	}
 
 	public function configure_spamassassin() {

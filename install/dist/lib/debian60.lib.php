@@ -68,7 +68,6 @@ class installer extends installer_base {
 		}
 
 		//* Reconfigure postfix to use dovecot authentication
-		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
 			'virtual_transport = '.$virtual_transport,

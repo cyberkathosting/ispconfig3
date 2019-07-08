@@ -1,0 +1,11 @@
+--- interface/web/admin/lib/lang/de_server_config.lng
++++ interface/web/admin/lib/lang/de_server_config.lng
+@@ -295,4 +295,7 @@ $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
+ $wb['php_default_name_txt'] = 'Beschreibung Standard PHP';
+ $wb['php_default_name_error_empty'] = 'Beschreibung Standard PHP ist leer.';
+ $wb['error_mailbox_message_size_txt'] = 'Mailboxgröße muss gleich oder größer als max. Nachrichtengröße sein.';
+-?>
++$wb['content_filter_txt'] = 'Content-Filter';
++$wb['rspamd_url_txt'] = 'Rspamd-URL';
++$wb['rspamd_user_txt'] = 'Rspamd-Benutzer';
++$wb['rspamd_password_txt'] = 'Rspamd-Passwort';

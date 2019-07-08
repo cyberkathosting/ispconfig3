@@ -19,16 +19,20 @@
                         <th data-column="policy_name"><tmpl_var name="policy_name_txt"></th>
                         <th data-column="virus_lover"><tmpl_var name="virus_lover_txt"></th>
                         <th data-column="spam_lover"><tmpl_var name="spam_lover_txt"></th>
+						<tmpl_if name='content_filter' op='==' value='amavisd'>
                         <th data-column="banned_files_lover"><tmpl_var name="banned_files_lover_txt"></th>
                         <th data-column="bad_header_lover"><tmpl_var name="bad_header_lover_txt"></th>
+						</tmpl_if>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
                     </tr>
                     <tr>
                         <td><input class="form-control" type="text" name="search_policy_name" value="{tmpl_var name='search_policy_name'}" /></td>
                         <td><select class="form-control" name="search_virus_lover">{tmpl_var name='search_virus_lover'}</select></td>
                         <td><select class="form-control" name="search_spam_lover">{tmpl_var name='search_spam_lover'}</select></td>
+						<tmpl_if name='content_filter' op='==' value='amavisd'>
                         <td><select class="form-control" name="search_banned_files_lover">{tmpl_var name='search_banned_files_lover'}</select></td>
                         <td><select class="form-control" name="search_bad_header_lover">{tmpl_var name='search_bad_header_lover'}</select></td>
+						</tmpl_if>
                         <td class="text-right">
                             <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" data-submit-form="pageForm" data-form-action="mail/spamfilter_policy_list.php"><span class="icon icon-filter"></span></button>
                         </td>
@@ -40,8 +44,10 @@
                         <td><a href="#" data-load-content="mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}">{tmpl_var name="policy_name"}</a></td>
                         <td><a href="#" data-load-content="mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}">{tmpl_var name="virus_lover"}</a></td>
                         <td><a href="#" data-load-content="mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}">{tmpl_var name="spam_lover"}</a></td>
+						<tmpl_if name='content_filter' op='==' value='amavisd'>
                         <td><a href="#" data-load-content="mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}">{tmpl_var name="banned_files_lover"}</a></td>
                         <td><a href="#" data-load-content="mail/spamfilter_policy_edit.php?id={tmpl_var name='id'}">{tmpl_var name="bad_header_lover"}</a></td>
+						</tmpl_if>
                         <td class="text-right">
                             <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('mail/spamfilter_policy_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
                         </td>
@@ -49,14 +55,14 @@
                 </tmpl_loop>
                 <tmpl_unless name="records">
                     <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                        <td colspan="6">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                        <td colspan="{tmpl_if name='content_filter' op='==' value='amavisd'}6{/tmpl_else}4{/tmpl_if}">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                     </tr>
                 </tmpl_unless>
                 </tbody>
 
                 <tfoot>
                     <tr>
-                        <td colspan="6"><tmpl_var name="paging"></td>
+                        <td colspan="{tmpl_if name='content_filter' op='==' value='amavisd'}6{/tmpl_else}4{/tmpl_if}"><tmpl_var name="paging"></td>
                     </tr>
                 </tfoot>
             </table>
