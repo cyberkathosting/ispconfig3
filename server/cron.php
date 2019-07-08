@@ -69,7 +69,7 @@ $conf['server_id'] = intval($conf['server_id']);
 
 
 // Load required base-classes
-$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions,plugins');
 $app->load('libdatetime,cronjob');
 
 // read all cron jobs
