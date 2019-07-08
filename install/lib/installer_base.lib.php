@@ -1050,7 +1050,7 @@ class installer_base {
 		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
 		$configfile = $config_dir.'/master.cf';
 		if($this->get_postfix_service('maildrop', 'unix')) {
-			exec ("postconf -M maildrop.unix &> /dev/null", $out, $ret);
+			exec ("postconf -M maildrop.unix 2> /dev/null", $out, $ret);
 			$change_maildrop_flags = @(preg_match($regex, $out[0]) && $out[0] !='')?false:true;
 		} else {
 			$change_maildrop_flags = @(preg_match($regex, $configfile))?false:true;
