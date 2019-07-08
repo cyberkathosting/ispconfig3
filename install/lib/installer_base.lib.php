@@ -1458,6 +1458,12 @@ class installer_base {
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 		}
 
+		if(is_user('_rspamd') && is_group('amavis')) {
+			exec("usermod -G amavis _rspamd");
+		} elseif(is_user('rspamd') && is_group('amavis')) {
+			exec("usermod -G amavis rspamd");
+		}
+				
 		if(!is_dir('/etc/rspamd/local.d/')){
 			mkdir('/etc/rspamd/local.d/', 0755, true);
 		}
