@@ -55,9 +55,11 @@ if(is_file($lockFile)) {
 					exit;
 				}
 			}
+		} else {
+			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
+
 		}
 	}
-	if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
 }
 
 // Set Lockfile
