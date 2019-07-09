@@ -215,6 +215,7 @@
 <tmpl_if name='cgi' op='==' value='y'>
 		# cgi enabled
 	<Directory {tmpl_var name='document_root'}/cgi-bin>
+			AllowOverride <tmpl_var name='allow_override'>
 			<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 			Require all granted
 			<tmpl_else>
