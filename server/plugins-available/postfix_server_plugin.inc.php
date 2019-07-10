@@ -215,6 +215,8 @@ class postfix_server_plugin {
 		}
 		
 		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {
+			$app->load('tpl');
+
 			$tpl = new tpl();
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
 			$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
