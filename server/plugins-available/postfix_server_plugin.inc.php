@@ -217,9 +217,15 @@ class postfix_server_plugin {
 		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {
 			$app->load('tpl');
 
+			$rspamd_password = $mail_config['rspamd_password'];
+			$crypted_password = trim(exec('rspamadm pw -p ' . escapeshellarg($rspamd_password)));
+			if($crypted_password) {
+				$rspamd_password = $crypted_password;
+			}
+			
 			$tpl = new tpl();
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
-			$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+			$tpl->setVar('rspamd_password', $rspamd_password);
 			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
