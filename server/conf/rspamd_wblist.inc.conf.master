@@ -1,0 +1,18 @@
+spamfilter_wblist-<tmpl_var name='record_id'> {
+	priority = <tmpl_var name='priority'>;
+	from = "<tmpl_var name='from'>";
+	rcpt = "<tmpl_var name='recipient'>";
+<tmpl_if name='wblist' op='==' value='W'>
+	want_spam = yes;
+</tmpl_else>
+	apply "default" {
+		R_DUMMY = 999.0;
+		actions {
+			reject = 0.2;
+			add_header = 0.1;
+			greylist = 0.1;
+			rewrite_subject = 0.1;
+		}
+	}
+</tmpl_if>
+}
