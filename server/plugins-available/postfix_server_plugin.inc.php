@@ -200,6 +200,21 @@ class postfix_server_plugin {
 					}
 				}
 				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+				
+				// get all domains that have dkim enabled
+				if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
+					$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
+				}
+				$dkim_domains = $app->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM `mail_domain` WHERE `dkim` = ? ORDER BY `domain` ASC', 'y');
+				$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
+				$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
+				foreach($dkim_domains as $dkim_domain) {
+					fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
+					fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector']);
+				}
+				fclose($fpp);
+				fclose($fps);
+				unset($dkim_domains);
 			}	
 			if($mail_config['content_filter'] == 'amavisd'){
 				exec("postconf -X 'smtpd_milters'");

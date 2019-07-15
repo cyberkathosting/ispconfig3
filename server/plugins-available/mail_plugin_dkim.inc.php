@@ -347,6 +347,9 @@ class mail_plugin_dkim {
 			}
 			if ($this->write_dkim_key($mail_config['dkim_path']."/".$data['new']['domain'], $data['new']['dkim_private'], $data['new']['domain'])) {
 				if($mail_config['content_filter'] == 'rspamd') {
+					$app->system->replaceLine('/etc/rspamd/local.d/dkim_domains.map', 'REGEX:/^' . preg_quote($data['new']['domain'], '/') . ' /', $data['new']['domain'] . ' ' . $mail_config['dkim_path']."/".$data['new']['domain'] . '.private');
+					$app->system->replaceLine('/etc/rspamd/local.d/dkim_selectors.map', 'REGEX:/^' . preg_quote($data['new']['domain'], '/') . ' /', $data['new']['domain'] . ' ' . $data['new']['dkim_selector']);
+					
 					$app->services->restartServiceDelayed('rspamd', 'reload');
 				} elseif ($this->add_to_amavis($data['new']['domain'], $data['new']['dkim_selector'], $data['old']['dkim_selector'] )) {
 					$this->restart_amavis();
@@ -373,6 +376,8 @@ class mail_plugin_dkim {
 		$this->remove_dkim_key($mail_config['dkim_path']."/".$_data['domain'], $_data['domain']);
 		
 		if($mail_config['content_filter'] == 'rspamd') {
+			$app->system->removeLine('/etc/rspamd/local.d/dkim_domains.map', 'REGEX:/^' . preg_quote($_data['domain'], '/') . ' /');
+			$app->system->removeLine('/etc/rspamd/local.d/dkim_selectors.map', 'REGEX:/^' . preg_quote($_data['domain'], '/') . ' /');
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		} elseif ($this->remove_from_amavis($_data['domain'])) {
 			$this->restart_amavis();
