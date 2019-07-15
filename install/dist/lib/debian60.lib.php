@@ -116,6 +116,32 @@ class installer extends installer_base {
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
 			}
+			if(version_compare($dovecot_version,2.3) >= 0) {
+				// Remove deprecated setting(s)
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+				
+				// Check if we have a dhparams file and if not, create it
+				if(!file_exists('/etc/dovecot/dh.pem')) {
+					swriteln('Creating new DHParams file, this takes several minutes. Do not interrupt the script.');
+					if(file_exists('/var/lib/dovecot/ssl-parameters.dat')) {
+						// convert existing ssl parameters file
+						$command = 'dd if=/var/lib/dovecot/ssl-parameters.dat bs=1 skip=88 | openssl dhparam -inform der > /etc/dovecot/dh.pem';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					} else {
+						/*
+						   Create a new dhparams file. We use 2048 bit only as it simply takes too long
+						   on smaller systems to generate a 4096 bit dh file (> 30 minutes). If you need
+						   a 4096 bit file, create it manually before you install ISPConfig
+						*/
+						$command = 'openssl dhparam -out /etc/dovecot/dh.pem 2048';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					}
+				}
+			} else {
+				// remove settings which are not supported in Dovecot < 2.3
+				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');
+				removeLine($config_dir.'/'.$configfile, 'ssl_dh =');
+			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
