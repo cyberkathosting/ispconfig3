@@ -1457,19 +1457,6 @@ class installer_base {
 			}
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 			
-			if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
-				$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
-			}
-			$dkim_domains = $this->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM `mail_domain` WHERE `dkim` = ? ORDER BY `domain` ASC', 'y');
-			$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
-			$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
-			foreach($dkim_domains as $dkim_domain) {
-				fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
-				fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector']);
-			}
-			fclose($fpp);
-			fclose($fps);
-			unset($dkim_domains);
 		}
 
 		if(is_user('_rspamd') && is_group('amavis')) {
@@ -1485,6 +1472,20 @@ class installer_base {
 		if(!is_dir('/etc/rspamd/override.d/')){
 			mkdir('/etc/rspamd/override.d/', 0755, true);
 		}
+		
+		if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
+			$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
+		}
+		$dkim_domains = $this->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM `mail_domain` WHERE `dkim` = ? ORDER BY `domain` ASC', 'y');
+		$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
+		$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
+		foreach($dkim_domains as $dkim_domain) {
+			fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
+			fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector'] . "\n");
+		}
+		fclose($fpp);
+		fclose($fps);
+		unset($dkim_domains);
 
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_users.conf.master');

@@ -210,7 +210,7 @@ class postfix_server_plugin {
 				$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
 				foreach($dkim_domains as $dkim_domain) {
 					fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
-					fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector']);
+					fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector'] . "\n");
 				}
 				fclose($fpp);
 				fclose($fps);
