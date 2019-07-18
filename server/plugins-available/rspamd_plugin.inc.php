@@ -189,7 +189,8 @@ class rspamd_plugin {
 				$tpl = new tpl();
 				$tpl->newTemplate('rspamd_wblist.inc.conf.master');
 				$tpl->setVar('record_id', intval($data['new']['wblist_id']));
-				$tpl->setVar('priority', intval($data['new']['priority']));
+				// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
+				$tpl->setVar('priority', intval($data['new']['priority']) + 10);
 				$tpl->setVar('from', $app->functions->idn_encode($data['new']['email']));
 				$tpl->setVar('recipient', $app->functions->idn_encode($recipient['email']));
 				//$tpl->setVar('action', ($data['new']['wb'] == 'W'? 'want_spam = yes;' : 'action = "reject";'));
