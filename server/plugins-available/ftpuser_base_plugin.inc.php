@@ -83,8 +83,7 @@ class ftpuser_base_plugin {
 			}
 
 			$app->system->web_folder_protection($web['document_root'], false);
-			exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
-			exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
+			$app->system->mkdirpath($data['new']['dir'], 0755, $web["system_user"], $web["system_group"]);
 			$app->system->web_folder_protection($web['document_root'], true);
 
 			$app->log("Added ftpuser_dir: ".$data['new']['dir'], LOGLEVEL_DEBUG);
@@ -109,8 +108,7 @@ class ftpuser_base_plugin {
 			}
 
 			$app->system->web_folder_protection($web['document_root'], false);
-			exec('mkdir -p '.escapeshellcmd($data['new']['dir']));
-			exec('chown '.escapeshellcmd($web["system_user"]).':'.escapeshellcmd($web['system_group']).' '.$data['new']['dir']);
+			$app->system->mkdirpath($data['new']['dir'], 0755, $web["system_user"], $web["system_group"]);
 			$app->system->web_folder_protection($web['document_root'], true);
 			
 			
