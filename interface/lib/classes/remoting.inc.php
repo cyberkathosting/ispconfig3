@@ -99,28 +99,22 @@ class remoting {
 			if($user) {
 				$saved_password = stripslashes($user['passwort']);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
+				if(preg_match('/^\$[156]\$/', $saved_password)) {
 					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
-
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
+					if(crypt(stripslashes($password), $saved_password) != $saved_password) {
 						throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-						return false;
 					}
 				} else {
 					//* The password is md5 encrypted
 					if(md5($password) != $saved_password) {
 						throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-						return false;
 					}
 				}
 			} else {
 				throw new SoapFault('client_login_failed', 'The login failed. Username or password wrong.');
-				return false;
 			}
 			if($user['active'] != 1) {
 				throw new SoapFault('client_login_failed', 'The login failed. User is blocked.');
-				return false;
 			}
 
 			// now we need the client data

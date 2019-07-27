@@ -604,11 +604,9 @@ class remoting_client extends remoting {
 			if($user) {
 				$saved_password = stripslashes($user['password']);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
-					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
-
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
+				if(preg_match('/^\$[156]\$/', $saved_password)) {
+					//* The password is crypt encrypted
+					if(crypt(stripslashes($password), $saved_password) !== $saved_password) {
 						$user = false;
 					}
 				} else {
@@ -636,11 +634,9 @@ class remoting_client extends remoting {
 			if($user) {
 				$saved_password = stripslashes($user['passwort']);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
+				if(preg_match('/^\$[156]\$/', $saved_password)) {
 					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
-
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
+					if(crypt(stripslashes($password), $saved_password) != $saved_password) {
 						$user = false;
 					}
 				} else {
