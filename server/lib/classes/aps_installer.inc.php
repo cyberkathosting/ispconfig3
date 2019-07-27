@@ -395,7 +395,7 @@ class ApsInstaller extends ApsBase
 						mkdir($this->document_root, 0777, true);
 					}
 				} else {
-					exec("rm -Rf ".escapeshellarg($this->local_installpath).'*');
+					$app->system->exec_safe("rm -Rf ?*", $this->local_installpath);
 				}
 			} else {
 				mkdir($this->local_installpath, 0777, true);
@@ -412,7 +412,7 @@ class ApsInstaller extends ApsBase
 					|| ($this->extractZip($this->packages_dir.'/'.$task['path'], 'scripts', $this->local_installpath.'install_scripts/') === false) )
 				{
 					// Clean already extracted data
-					exec("rm -Rf ".escapeshellarg($this->local_installpath).'*');
+					$app->system->exec_safe("rm -Rf ?*", $this->local_installpath);
 					throw new Exception('Unable to extract the package '.$task['path']);
 				}
 
@@ -423,11 +423,11 @@ class ApsInstaller extends ApsBase
 				$owner_res = $app->db->queryOneRecord("SELECT system_user, system_group FROM web_domain WHERE domain = ?", $main_domain['value']);
 				$this->file_owner_user = $owner_res['system_user'];
 				$this->file_owner_group = $owner_res['system_group'];
-				exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
+				$app->system->exec_safe('chown -R ?:? ?', $this->file_owner_user, $this->file_owner_group, $this->local_installpath);
 
 				//* Chown stats directory back
 				if(is_dir($this->local_installpath.'stats')) {
-					exec('chown -R root:root '.escapeshellarg($this->local_installpath.'stats'));
+					$app->system->exec_safe('chown -R root:root ?', $this->local_installpath.'stats');
 				}
 			}
 		}
@@ -554,7 +554,9 @@ class ApsInstaller extends ApsBase
 
 			$shell_retcode = true;
 			$shell_ret = array();
-			exec('php '.escapeshellarg($this->local_installpath.'install_scripts/'.$cfgscript).' install 2>&1', $shell_ret, $shell_retcode);
+			$app->system->exec_safe('php ? install 2>&1', $this->local_installpath.'install_scripts/'.$cfgscript);
+			$shell_ret = $app->system->last_exec_out();
+			$shell_retcode = $app->system->last_exec_retcode();
 			$shell_ret = array_filter($shell_ret);
 			$shell_ret_str = implode("\n", $shell_ret);
 
@@ -566,11 +568,11 @@ class ApsInstaller extends ApsBase
 			else
 			{
 				// The install succeeded, chown newly created files too
-				exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
+				$app->system->exec_safe('chown -R ?:? ?', $this->file_owner_user, $this->file_owner_group, $this->local_installpath);
 
 				//* Chown stats directory back
 				if(is_dir($this->local_installpath.'stats')) {
-					exec('chown -R root:root '.escapeshellarg($this->local_installpath.'stats'));
+					$app->system->exec_safe('chown -R root:root ?', $this->local_installpath.'stats');
 				}
 
 				$app->dbmaster->query('UPDATE aps_instances SET instance_status = ? WHERE id = ?', INSTANCE_SUCCESS, $task['instance_id']);
@@ -597,8 +599,9 @@ class ApsInstaller extends ApsBase
 	 */
 	private function cleanup($task, $sxe)
 	{
+		global $app;
 		chdir($this->local_installpath);
-		exec("rm -Rf ".escapeshellarg($this->local_installpath).'install_scripts');
+		$app->system->exec_safe("rm -Rf ?", $this->local_installpath.'install_scripts');
 	}
 
 

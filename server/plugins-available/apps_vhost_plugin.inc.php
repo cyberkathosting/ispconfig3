@@ -156,11 +156,11 @@ class apps_vhost_plugin {
 				$apps_vhost_ip = $web_config['apps_vhost_ip'].':';
 			}
 
-			$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+			$socket_dir = $web_config['php_fpm_socket_dir'];
 			if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
-			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+			if(!is_dir($socket_dir)) $app->system->exec_safe('mkdir -p ?', $socket_dir);
 			$fpm_socket = $socket_dir.'apps.sock';
-			$cgi_socket = escapeshellcmd($web_config['nginx_cgi_socket']);
+			$cgi_socket = $web_config['nginx_cgi_socket'];
 
 			$content = str_replace('{apps_vhost_ip}', $apps_vhost_ip, $content);
 			$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);

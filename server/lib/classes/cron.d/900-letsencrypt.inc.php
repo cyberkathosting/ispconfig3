@@ -66,7 +66,7 @@ class cronjob_letsencrypt extends cronjob {
 					} else {
 						$marker_file = '/usr/local/ispconfig/server/le.restart';
 						$cmd = "echo '1' > " . $marker_file;
-						exec($letsencrypt . ' -n renew --post-hook ' . escapeshellarg($cmd));
+						$app->system->exec_safe($letsencrypt . ' -n renew --post-hook ?', $cmd);
 						if(file_exists($marker_file) && trim(file_get_contents($marker_file)) == '1') {
 							unlink($marker_file);
 							$app->services->restartServiceDelayed('httpd', 'force-reload');

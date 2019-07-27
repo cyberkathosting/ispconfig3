@@ -54,8 +54,8 @@ if($type == 'create_dkim' && $domain_id != ''){
 	if ($dkim_strength=='') $dkim_strength = 2048;
 	
 	$rnd_val = $dkim_strength * 10;
-	exec('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
-	exec('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
+	$app->system->exec_safe('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
+	$app->system->exec_safe('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
 	unlink("../../temp/random-data.bin");
 	$dkim_private='';
 	foreach($privkey as $values) $dkim_private=$dkim_private.$values."\n";
@@ -79,12 +79,14 @@ if($type == 'create_dkim' && $domain_id != ''){
 			$selector = 'invalid domain or selector';
 		}
 		unset($dkim_public);
-		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
+		$app->system->exec_safe('echo ?|openssl rsa -pubout -outform PEM 2> /dev/null', $dkim_private);
+		$pubkey = $app->system->last_exec_out();
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
 		$selector = $dkim_selector;
 	} else {
 		unset($dkim_public);
-		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
+		$app->system->exec_safe('echo ?|openssl rsa -pubout -outform PEM 2> /dev/null', $dkim_private);
+		$pubkey = $app->system->last_exec_out();
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
 		$selector = $dkim_selector;
 	}

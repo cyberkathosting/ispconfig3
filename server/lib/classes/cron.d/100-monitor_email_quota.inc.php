@@ -90,7 +90,7 @@ class cronjob_monitor_email_quota extends cronjob {
 				$email_parts = explode('@', $mb['email']);
 				$filename = $mb['maildir'].'/.quotausage';
 				if(!file_exists($filename) && $dovecot) {
-					exec('doveadm quota recalc -u '.$email);
+					$app->system->exec_safe('doveadm quota recalc -u ?', $email);
 				}
 				if(file_exists($filename) && !is_link($filename)) {
 					$quotafile = file($filename);
@@ -99,7 +99,8 @@ class cronjob_monitor_email_quota extends cronjob {
 					$app->log("Mail storage $email: " . $storage_value[1], LOGLEVEL_DEBUG);
 					unset($quotafile);
 				} else {
-					exec('du -s '.escapeshellcmd($mb['maildir']), $out);
+					$app->system->exec_safe('du -s ?', $mb['maildir']);
+					$out = $app->system->last_exec_out();
 					$parts = explode(' ', $out[0]);
 					$data[$email]['used'] = intval($parts[0])*1024;
 					unset($out);

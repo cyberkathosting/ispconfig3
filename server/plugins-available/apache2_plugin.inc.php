@@ -332,36 +332,38 @@ class apache2_plugin {
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
 
-			$rand_file = escapeshellcmd($rand_file);
-			$key_file2 = escapeshellcmd($key_file2);
+			$rand_file = $rand_file;
+			$key_file2 = $key_file2;
 			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
-			$key_file = escapeshellcmd($key_file);
+			$key_file = $key_file;
 			$openssl_cmd_key_file = $key_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$ssl_days = 3650;
-			$csr_file = escapeshellcmd($csr_file);
+			$csr_file = $csr_file;
 			$openssl_cmd_csr_file = $csr_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
-			$config_file = escapeshellcmd($ssl_cnf_file);
-			$crt_file = escapeshellcmd($crt_file);
+			$config_file = $ssl_cnf_file;
+			$crt_file = $crt_file;
 			$openssl_cmd_crt_file = $crt_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file2 2048");
-				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file2 -out $openssl_cmd_key_file");
+				$app->system->exec_safe("openssl genrsa -des3 -rand ? -passout pass:? -out ? 2048", $rand_file, $ssl_password, $openssl_cmd_key_file2);
+				$app->system->exec_safe("openssl req -new -sha256 -passin pass:? -passout pass:? -key ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $ssl_days, $config_file);
+				$app->system->exec_safe("openssl rsa -passin pass:? -in ? -out ?", $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_key_file);
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file");
+					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
+					if(filesize($crt_file) == 0 || !file_exists($crt_file)) {
+						$app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config " . $web_config['CA_path'] . "/openssl.cnf -passin pass:" . $web_config['CA_pass'] . " -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
+					}
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
+					$app->system->exec_safe("openssl req -x509 -passin pass:? -passout pass:? -key ? -in ? -out ? -days ? -config ? ", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $openssl_cmd_crt_file, $ssl_days, $config_file);
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
@@ -402,7 +404,8 @@ class apache2_plugin {
 		if($data["new"]["ssl_action"] == 'save') {
 			$tmp = array();
 			$crt_data = '';
-			exec('openssl x509 -noout -text -in '.escapeshellarg($crt_file),$tmp);
+			$app->system->exec_safe('openssl x509 -noout -text -in ?', $crt_file);
+			$tmp = $app->system->last_exec_out();
 			$crt_data = implode("\n",$tmp);
 			if(stristr($crt_data,'.acme.invalid')) {
 				$data["new"]["ssl_action"] = '';

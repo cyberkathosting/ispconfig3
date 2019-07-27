@@ -54,7 +54,7 @@ class cronjob_logfiles extends cronjob {
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		
 		if($server_config['log_retention'] > 0) {
-			$max_syslog = $server_config['log_retention'];
+			$max_syslog = $app->functions->intval($server_config['log_retention']);
 		} else {
 			$max_syslog = 10;
 		}
@@ -113,18 +113,18 @@ class cronjob_logfiles extends cronjob {
 			}
 
 			$yesterday2 = date('Ymd', time() - 86400*2);
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday2.'-access.log');
+			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday2.'-access.log';
 
 			//* Compress logfile
 			if(@is_file($logfile)) {
 				// Compress yesterdays logfile
-				exec("gzip -c $logfile > $logfile.gz");
+				$app->system->exec_safe("gzip -c ? > ?", $logfile, $logfile . '.gz');
 				unlink($logfile);
 			}
 			
 			$cron_logfiles = array('cron.log', 'cron_error.log', 'cron_wget.log');
 			foreach($cron_logfiles as $cron_logfile) {
-				$cron_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/' . $cron_logfile);
+				$cron_logfile = $rec['document_root'].'/' . $log_folder . '/' . $cron_logfile;
 				
 				// rename older files (move up by one)
 				$num = $log_retention;
@@ -135,8 +135,8 @@ class cronjob_logfiles extends cronjob {
 				
 				// compress current logfile
 				if(is_file($cron_logfile)) {
-					exec("gzip -c $cron_logfile > $cron_logfile.1.gz");
-					exec("cat /dev/null > $cron_logfile");
+					$app->system->exec_safe("gzip -c ? > ?", $cron_logfile, $cron_logfile . '.1.gz');
+					$app->system->exec_safe("cat /dev/null > ?", $cron_logfile);
 				}
 				// remove older logs
 				$num = $log_retention;
@@ -156,8 +156,8 @@ class cronjob_logfiles extends cronjob {
 			}
 			// compress current logfile
 			if(is_file($error_logfile)) {
-				exec("gzip -c $error_logfile > $error_logfile.1.gz");
-				exec("cat /dev/null > $error_logfile");
+				$app->system->exec_safe("gzip -c ? > ?", $error_logfile, $error_logfile . '.1.gz');
+				$app->system->exec_safe("cat /dev/null > ?", $error_logfile);
 			}
 
 			// delete logfiles after x days (default 10)
@@ -175,7 +175,7 @@ class cronjob_logfiles extends cronjob {
 		//* Delete old logfiles in /var/log/ispconfig/httpd/ that were created by vlogger for the hostname of the server
 		exec('hostname -f', $tmp_hostname);
 		if($tmp_hostname[0] != '' && is_dir('/var/log/ispconfig/httpd/'.$tmp_hostname[0])) {
-			exec('cd /var/log/ispconfig/httpd/'.$tmp_hostname[0]."; find . -mtime +$max_syslog -name '*.log' | xargs rm > /dev/null 2> /dev/null");
+			$app->system->exec_safe("cd ?; find . -mtime +$max_syslog -name '*.log' | xargs rm > /dev/null 2> /dev/null", '/var/log/ispconfig/httpd/'.$tmp_hostname[0]);
 		}
 		unset($tmp_hostname);
 
@@ -195,8 +195,8 @@ class cronjob_logfiles extends cronjob {
 			}
 			// compress current logfile
 			if(is_file($ispconfig_logfile)) {
-				exec("gzip -c $ispconfig_logfile > $ispconfig_logfile.1.gz");
-				exec("cat /dev/null > $ispconfig_logfile");
+				$app->system->exec_safe("gzip -c ? > ?", $ispconfig_logfile, $ispconfig_logfile . '.1.gz');
+				$app->system->exec_safe("cat /dev/null > ?", $ispconfig_logfile);
 			}
 			// remove older logs
 			$num = $max_syslog;
@@ -215,9 +215,9 @@ class cronjob_logfiles extends cronjob {
 		$app->uses('system');
 		if(is_array($records)) {
 			foreach($records as $rec){
-				$tmp_path = realpath(escapeshellcmd($rec['document_root'].'/tmp'));
+				$tmp_path = realpath($rec['document_root'].'/tmp');
 				if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
-					exec('cd '.$tmp_path."; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null");
+					exec("cd ?; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null", $tmp_path);
 				}
 			}
 		}

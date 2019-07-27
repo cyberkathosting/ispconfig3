@@ -152,10 +152,10 @@ class remoteaction_core_module {
 					$template_cache_dir = '/vz/template/cache/';
 					$template_name = escapeshellcmd($parts[1]);
 					if($veid > 0 && $template_name != '' && is_dir($template_cache_dir)) {
-						$command = "vzdump --suspend --compress --stdexcludes --dumpdir $template_cache_dir $veid";
-						exec($command);
-						exec("mv ".$template_cache_dir."vzdump-openvz-".$veid."*.tgz ".$template_cache_dir.$template_name.".tar.gz");
-						exec("rm -f ".$template_cache_dir."vzdump-openvz-".$veid."*.log");
+						$command = "vzdump --suspend --compress --stdexcludes --dumpdir ? ?";
+						$app->system->exec_safe($command, $template_cache_dir, $veid);
+						$app->system->exec_safe("mv ?*.tgz ?", $template_cache_dir."vzdump-openvz-".$veid, $template_cache_dir.$template_name.".tar.gz");
+						$app->system->exec_safe("rm -f ?*.log", $template_cache_dir."vzdump-openvz-".$veid);
 					}
 					$this->_actionDone($action['action_id'], 'ok');
 					/* this action takes so much time,
@@ -191,7 +191,8 @@ class remoteaction_core_module {
 	}
 
 	private function _doIspCUpdate($action) {
-
+		global $app;
+		
 		// Ensure that this code is not executed twice as this would cause a loop in case of a failure
 		$this->_actionDone($action['action_id'], 'ok');
 
@@ -210,14 +211,14 @@ class remoteaction_core_module {
 		chdir("/tmp");
 
 		/* delete the old files (if there are any...) */
-		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
+		$app->system->exec_safe("rm ?", "/tmp/ISPConfig-" . $new_version . ".tar.gz");
 		exec("rm /tmp/ispconfig3_install -R");
 
 		/* get the newest version */
-		exec("wget http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
+		$app->system->exec_safe("wget ?", "http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
 
 		/* extract the files */
-		exec("tar xvfz ISPConfig-" . $new_version . ".tar.gz");
+		$app->system->exec_safe("tar xvfz ?", "ISPConfig-" . $new_version . ".tar.gz");
 
 		/*
 		 * Initialize the automated update
@@ -229,7 +230,7 @@ class remoteaction_core_module {
 		/*
 		 * do some clean-up
 		 */
-		exec("rm /tmp/ISPConfig-" . $new_version . ".tar.gz");
+		$app->system->exec_safe("rm ?", "/tmp/ISPConfig-" . $new_version . ".tar.gz");
 
 		/*
 		 * go back to the "old path"
