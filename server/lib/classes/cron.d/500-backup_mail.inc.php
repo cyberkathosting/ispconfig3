@@ -69,9 +69,9 @@ class cronjob_backup_mail extends cronjob {
 			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir != ''", intval($conf['server_id']));
 			if(is_array($records) && $run_backups) {
 				if(!is_dir($backup_dir)) {
-					mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
+					mkdir($backup_dir, $backup_dir_permissions, true);
 				} else {
-					chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
+					chmod($backup_dir, $backup_dir_permissions);
 				}
 				system('which pigz > /dev/null', $ret);
 				if($ret === 0) {
@@ -122,7 +122,7 @@ class cronjob_backup_mail extends cronjob {
 						if ($rec['maildir_format'] == 'mdbox') {
 							if (empty($this->tmp_backup_dir)) $this->tmp_backup_dir = $rec['maildir'];
 							// Create temporary backup-mailbox
-							exec("su -c ?", 'dsync backup -u "'.$rec["email"].'" mdbox:' . $this->tmp_backup_dir . '/backup');
+							$app->system->exec_safe("su -c ?", 'dsync backup -u "'.$rec["email"].'" mdbox:' . $this->tmp_backup_dir . '/backup');
 		
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';

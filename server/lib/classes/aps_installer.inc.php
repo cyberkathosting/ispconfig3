@@ -544,7 +544,6 @@ class ApsInstaller extends ApsBase
 			chmod($this->local_installpath.'install_scripts/'.$cfgscript, 0755);
 
 			// Change to the install folder (import for the exec() below!)
-			//exec('chown -R '.$this->file_owner_user.':'.$this->file_owner_group.' '.escapeshellarg($this->local_installpath));
 			chdir($this->local_installpath.'install_scripts/');
 
 			// Set the enviroment variables

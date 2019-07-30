@@ -73,7 +73,7 @@ class mailman_plugin {
 
 		$this->update_config();
 
-		$pid = exec("nohup /usr/lib/mailman/bin/newlist -u ".escapeshellcmd($data["new"]["domain"])." -e ".escapeshellcmd($data["new"]["domain"])." ".escapeshellcmd($data["new"]["listname"])." ".escapeshellcmd($data["new"]["email"])." ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 & echo $!;");
+		$pid = $app->system->exec_safe("nohup /usr/lib/mailman/bin/newlist -u ? -e ? ? ? ? >/dev/null 2>&1 & echo $!;", $data["new"]["domain"], $data["new"]["domain"], $data["new"]["listname"], $data["new"]["email"], $data["new"]["password"]);
 		// wait for /usr/lib/mailman/bin/newlist-call
 		$running = true;
 		do {
@@ -91,7 +91,7 @@ class mailman_plugin {
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 		
 		// Fix list URL
-		exec('/usr/sbin/withlist -l -r fix_url '.escapeshellcmd($data["new"]["listname"]));
+		$app->system->exec_safe('/usr/sbin/withlist -l -r fix_url ?', $data["new"]["listname"]);
 
 		$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ?", $data["new"]['mailinglist_id']);
 
@@ -104,7 +104,7 @@ class mailman_plugin {
 		$this->update_config();
 
 		if($data["new"]["password"] != $data["old"]["password"] && $data["new"]["password"] != '') {
-			exec("nohup /usr/lib/mailman/bin/change_pw -l ".escapeshellcmd($data["new"]["listname"])." -p ".escapeshellcmd($data["new"]["password"])." >/dev/null 2>&1 &");
+			$app->system->exec_safe("nohup /usr/lib/mailman/bin/change_pw -l ? -p ? >/dev/null 2>&1 &", $data["new"]["listname"], $data["new"]["password"]);
 			exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 			$app->db->query("UPDATE mail_mailinglist SET password = '' WHERE mailinglist_id = ?", $data["new"]['mailinglist_id']);
 		}
@@ -118,7 +118,7 @@ class mailman_plugin {
 
 		$this->update_config();
 
-		exec("nohup /usr/lib/mailman/bin/rmlist -a ".escapeshellcmd($data["old"]["listname"])." >/dev/null 2>&1 &");
+		$app->system->exec_safe("nohup /usr/lib/mailman/bin/rmlist -a ? >/dev/null 2>&1 &", $data["old"]["listname"]);
 
 		exec('nohup '.$conf['init_scripts'] . '/' . 'mailman reload >/dev/null 2>&1 &');
 		

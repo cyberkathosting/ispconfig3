@@ -150,7 +150,7 @@ class remoteaction_core_module {
 					$parts = explode(':', $action['action_param']);
 					$veid = intval($parts[0]);
 					$template_cache_dir = '/vz/template/cache/';
-					$template_name = escapeshellcmd($parts[1]);
+					$template_name = $parts[1];
 					if($veid > 0 && $template_name != '' && is_dir($template_cache_dir)) {
 						$command = "vzdump --suspend --compress --stdexcludes --dumpdir ? ?";
 						$app->system->exec_safe($command, $template_cache_dir, $veid);

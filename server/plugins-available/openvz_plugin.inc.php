@@ -86,11 +86,11 @@ class openvz_plugin {
 		}
 
 		$tmp = $app->db->queryOneRecord("SELECT template_file FROM openvz_ostemplate WHERE ostemplate_id = ?", $data['new']['ostemplate_id']);
-		$ostemplate = escapeshellcmd($tmp['template_file']);
+		$ostemplate = $tmp['template_file'];
 		unset($tmp);
 
 		//* Create the virtual machine
-		exec("vzctl create $veid --ostemplate $ostemplate");
+		$app->system->exec_safe("vzctl create ? --ostemplate ?", $veid, $ostemplate);
 		$app->log("Create OpenVZ VM: vzctl create $veid --ostemplate $ostemplate", LOGLEVEL_DEBUG);
 
 		//* Write the configuration of the VM
@@ -103,7 +103,7 @@ class openvz_plugin {
 		}
 
 		//* Set the root password in the virtual machine
-		exec("vzctl set $veid --userpasswd root:".escapeshellcmd($data['new']['vm_password']));
+		$app->system->exec_safe("vzctl set ? --userpasswd root:?", $veid, $data['new']['vm_password']);
 
 	}
 
@@ -123,7 +123,7 @@ class openvz_plugin {
 
 		//* new diskspace for ploop-containers requieres "vzctl set"
 		if($data['new']['diskspace'] != $data['old']['diskspace']) {
-			exec("vzctl set ".$veid." --diskspace ".$data['new']['diskspace']."G --save");
+			escapeshell("vzctl set ? --diskspace ? --save", $veid, $data['new']['diskspace']."G");
 		}
 
 		//* Apply config changes to the VM
@@ -140,7 +140,7 @@ class openvz_plugin {
 
 		//* Set the root password in the virtual machine
 		if($data['new']['vm_password'] != $data['old']['vm_password']) {
-			exec("vzctl set $veid --userpasswd root:".escapeshellcmd($data['new']['vm_password']));
+			$app->system->exec_safe("vzctl set ? --userpasswd root:?", $veid, $data['new']['vm_password']);
 		}
 
 
@@ -193,12 +193,12 @@ class openvz_plugin {
 			$parts = explode(':', $data);
 			$veid = intval($parts[0]);
 			$template_cache_dir = '/vz/template/cache/';
-			$template_name = escapeshellcmd($parts[1]);
+			$template_name = $parts[1];
 			if($veid > 0 && $template_name != '' && is_dir($template_cache_dir)) {
-				$command = "vzdump --suspend --compress --stdexcludes --dumpdir $template_cache_dir $veid";
-				exec($command);
-				exec("mv ".$template_cache_dir."vzdump-openvz-".$veid."*.tgz ".$template_cache_dir.$template_name.".tar.gz");
-				exec("rm -f ".$template_cache_dir."vzdump-openvz-".$veid."*.log");
+				$command = "vzdump --suspend --compress --stdexcludes --dumpdir ? ?";
+				$app->system->exec_safe($command, $template_cache_dir, $veid);
+				$app->system->exec_safe("mv ?*.tgz ?", $template_cache_dir."vzdump-openvz-".$veid, $template_cache_dir.$template_name.".tar.gz");
+				$app->system->exec_safe("rm -f ?*.log", $template_cache_dir."vzdump-openvz-".$veid);
 			}
 			$app->log("Created OpenVZ OStemplate $template_name from VM $veid", LOGLEVEL_DEBUG);
 			return 'ok';

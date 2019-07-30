@@ -94,9 +94,9 @@ class cronjob_webalizer extends cronjob {
 				$log_folder .= '/' . $subdomain_host;
 				unset($tmp);
 			}
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log');
+			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			if(!@is_file($logfile)) {
-				$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz');
+				$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz';
 				if(!@is_file($logfile)) {
 					continue;
 				}

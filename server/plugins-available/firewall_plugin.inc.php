@@ -145,7 +145,7 @@ class firewall_plugin {
 		//* add tcp ports
 		foreach($tcp_ports_new_array as $port) {
 			if(!in_array($port, $tcp_ports_old_array) && $port > 0) {
-				exec('ufw allow '.$port.'/tcp');
+				$app->system->exec_safe('ufw allow ?', $port.'/tcp');
 				$app->log('ufw allow '.$port.'/tcp', LOGLEVEL_DEBUG);
 				sleep(1);
 			}
@@ -154,7 +154,7 @@ class firewall_plugin {
 		//* remove tcp ports
 		foreach($tcp_ports_old_array as $port) {
 			if(!in_array($port, $tcp_ports_new_array) && $port > 0) {
-				exec('ufw delete allow '.$port.'/tcp');
+				$app->system->exec_safe('ufw delete allow ?', $port.'/tcp');
 				$app->log('ufw delete allow '.$port.'/tcp', LOGLEVEL_DEBUG);
 				sleep(1);
 			}
@@ -163,7 +163,7 @@ class firewall_plugin {
 		//* add udp ports
 		foreach($udp_ports_new_array as $port) {
 			if(!in_array($port, $udp_ports_old_array) && $port > 0) {
-				exec('ufw allow '.$port.'/udp');
+				$app->system->exec_safe('ufw allow ?', $port.'/udp');
 				$app->log('ufw allow '.$port.'/udp', LOGLEVEL_DEBUG);
 				sleep(1);
 			}
@@ -172,31 +172,11 @@ class firewall_plugin {
 		//* remove udp ports
 		foreach($udp_ports_old_array as $port) {
 			if(!in_array($port, $udp_ports_new_array) && $port > 0) {
-				exec('ufw delete allow '.$port.'/udp');
+				$app->system->exec_safe('ufw delete allow ?', $port.'/udp');
 				$app->log('ufw delete allow '.$port.'/udp', LOGLEVEL_DEBUG);
 				sleep(1);
 			}
 		}
-
-		/*
-		if($tcp_ports_new != $tcp_ports_old) {
-			exec('ufw allow to any proto tcp port '.$tcp_ports_new);
-			$app->log('ufw allow to any proto tcp port '.$tcp_ports_new,LOGLEVEL_DEBUG);
-			if($event_name == 'firewall_update') {
-				exec('ufw delete allow to any proto tcp port '.$tcp_ports_old);
-				$app->log('ufw delete allow to any proto tcp port '.$tcp_ports_old,LOGLEVEL_DEBUG);
-			}
-		}
-
-		if($udp_ports_new != $udp_ports_old) {
-			exec('ufw allow to any proto udp port '.$udp_ports_new);
-			$app->log('ufw allow to any proto udp port '.$udp_ports_new,LOGLEVEL_DEBUG);
-			if($event_name == 'firewall_update') {
-				exec('ufw delete allow to any proto udp port '.$udp_ports_old);
-				$app->log('ufw delete allow to any proto udp port '.$udp_ports_old,LOGLEVEL_DEBUG);
-			}
-		}
-		*/
 
 		if($data['new']['active'] == 'y') {
 			if($data['new']['active'] == $data['old']['active']) {

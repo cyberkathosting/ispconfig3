@@ -112,15 +112,15 @@ class cron_plugin {
 		// Create group and user, if not exist
 		$app->uses("system");
 
-		$groupname = escapeshellcmd($parent_domain["system_group"]);
+		$groupname = $parent_domain["system_group"];
 		if($parent_domain["system_group"] != '' && !$app->system->is_group($parent_domain["system_group"])) {
-			exec("groupadd $groupname");
+			$app->system->exec_safe("groupadd ?", $groupname);
 			$app->log("Adding the group: $groupname", LOGLEVEL_DEBUG);
 		}
 
-		$username = escapeshellcmd($parent_domain["system_user"]);
+		$username = $parent_domain["system_user"];
 		if($parent_domain["system_user"] != '' && !$app->system->is_user($parent_domain["system_user"])) {
-			exec("useradd -d ".escapeshellcmd($parent_domain["document_root"])." -g $groupname $username -s /bin/false");
+			$app->system->exec_safe("useradd -d ? -g ? ? -s /bin/false", $parent_domain["document_root"], $groupname, $username);
 			$app->log("Adding the user: $username", LOGLEVEL_DEBUG);
 		}
         
@@ -136,19 +136,19 @@ class cron_plugin {
             }
 
             // get the primitive folder for document_root and the filesystem, will need it later.
-            $df_output=explode(" ", exec("df -T " . escapeshellarg($parent_domain["document_root"]) . "|awk 'END{print \$2,\$NF}'"));
+            $df_output=explode(" ", $app->system->exec_safe("df -T ?|awk 'END{print \$2,\$NF}'", $parent_domain["document_root"]));
             $file_system = $df_output[0];
             $primitive_root = $df_output[1];
 
             if ( in_array($file_system , array('ext2','ext3','ext4'),true) ) {
-              exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-              exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+              $app->system->exec_safe('setquota -u ? ? ? 0 0 -a &> /dev/null', $username, $blocks_soft, $blocks_hard);
+              $app->system->exec_safe('setquota -T -u ? 604800 604800 -a &> /dev/null', $username);
             } elseif ($file_system == 'xfs') {
                 
-              exec("xfs_quota -x -c 'limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+              $app->system->exec_safe("xfs_quota -x -c ? ?", "limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username", $primitive_root);
 
               // xfs only supports timers globally, not per user.
-              exec("xfs_quota -x -c 'timer -bir -i 604800' $primitive_root");
+              $app->system->exec_safe("xfs_quota -x -c 'timer -bir -i 604800' ?", $primitive_root);
 
               unset($project_uid, $username_position, $xfs_projects);
               unset($primitive_root, $df_output, $mb_hard, $mb_soft);
@@ -164,7 +164,7 @@ class cron_plugin {
 		}
 
 		// make temp directory writable for the apache and website users
-		$app->system->chmod(escapeshellcmd($parent_domain["document_root"].'/tmp'), 0777);
+		$app->system->chmod($parent_domain["document_root"].'/tmp', 0777);
 
 		/** TODO READ CRON MASTER **/
 
@@ -272,7 +272,7 @@ class cron_plugin {
 			}
 		}
 
-		$cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"]);
+		$cron_file = $cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"];
 		//TODO : change this when distribution information has been integrated into server record
 		//* Gentoo vixie-cron requires files to end with .cron in the cron.d directory
 		if (file_exists('/etc/gentoo-release')) {
@@ -287,7 +287,7 @@ class cron_plugin {
 			$app->log("Deleted Cron file $cron_file", LOGLEVEL_DEBUG);
 		}
 
-		$cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"]);
+		$cron_file = $cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"];
 		if($chr_cmd_count > 0) {
 			$app->system->file_put_contents($cron_file, $chr_cron_content);
 			$app->log("Wrote Cron file $cron_file with content:\n$chr_cron_content", LOGLEVEL_DEBUG);

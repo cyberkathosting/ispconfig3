@@ -1601,22 +1601,20 @@ class system{
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 
 		if($subfolder != '') {
-			$dir = escapeshellcmd($maildir_path.'/.'.$subfolder);
+			$dir = $maildir_path.'/.'.$subfolder;
 		} else {
-			$dir = escapeshellcmd($maildir_path);
+			$dir = $maildir_path;
 		}
 
 		if(!is_dir($dir)) mkdir($dir, 0700, true);
 
 		if($user != '' && $user != 'root' && $this->is_user($user)) {
-			$user = escapeshellcmd($user);
 			if(is_dir($dir)) $this->chown($dir, $user);
 
 			$chown_mdsub = true;
 		}
 
 		if($group != '' && $group != 'root' && $this->is_group($group)) {
-			$group = escapeshellcmd($group);
 			if(is_dir($dir)) $this->chgrp($dir, $group);
 		
 			$chgrp_mdsub = true;
@@ -1638,7 +1636,7 @@ class system{
 			// Courier
 			if($mail_config['pop3_imap_daemon'] == 'courier') {
 				if(!is_file($maildir_path.'/courierimapsubscribed')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
+					$tmp_file = $maildir_path.'/courierimapsubscribed';
 					touch($tmp_file);
 					chmod($tmp_file, 0744);
 					chown($tmp_file, 'vmail');
@@ -1650,7 +1648,7 @@ class system{
 			// Dovecot
 			if($mail_config['pop3_imap_daemon'] == 'dovecot') {
 				if(!is_file($maildir_path.'/subscriptions')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
+					$tmp_file = $maildir_path.'/subscriptions';
 					touch($tmp_file);
 					chmod($tmp_file, 0744);
 					chown($tmp_file, 'vmail');
@@ -2059,6 +2057,10 @@ class system{
 	
 	public function exec_safe($cmd) {
 		$arg_count = func_num_args();
+		if($arg_count != substr_count($cmd, '?') + 1) {
+			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
+			return false;
+		}
 		if($arg_count > 1) {
 			$args = func_get_args();
 

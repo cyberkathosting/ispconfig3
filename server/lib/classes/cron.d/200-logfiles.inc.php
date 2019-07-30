@@ -147,7 +147,7 @@ class cronjob_logfiles extends cronjob {
 			}
 
 			// rotate and compress the error.log 
-			$error_logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/error.log');
+			$error_logfile = $rec['document_root'].'/' . $log_folder . '/error.log';
 			// rename older files (move up by one)
 			$num = $log_retention;
 			while($num >= 1) {
@@ -187,7 +187,7 @@ class cronjob_logfiles extends cronjob {
 		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log');
 		foreach($ispconfig_logfiles as $ispconfig_logfile) {
 			$num = $max_syslog;
-			$ispconfig_logfile = escapeshellcmd($conf['ispconfig_log_dir'].'/'.$ispconfig_logfile);
+			$ispconfig_logfile = $conf['ispconfig_log_dir'].'/'.$ispconfig_logfile;
 			// rename older files (move up by one)
 			while($num >= 1) {
 				if(is_file($ispconfig_logfile . '.' . $num . '.gz')) rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');

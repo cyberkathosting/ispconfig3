@@ -111,11 +111,12 @@ class software_update_plugin {
 		$software_update["update_url"] = str_replace('{key}', $software_package['package_key'], $software_update["update_url"]);
 
 		//* Download the update package
-		$cmd = "cd $temp_dir && wget ".$software_update["update_url"];
 		if($installuser == '') {
-			exec($cmd);
+			$cmd = "cd ? && wget ?";
+			$app->system->exec_safe($cmd, $temp_dir, $software_update["update_url"]);
 		} else {
-			exec("su -c ".escapeshellarg($cmd)." $installuser");
+			$cmd = "cd $temp_dir && wget ".$software_update["update_url"];
+			$app->system->exec_safe("su -c ? ?", $cmd, $installuser);
 		}
 		$app->log("Downloading the update file from: ".$software_update["update_url"], LOGLEVEL_DEBUG);
 
@@ -135,7 +136,7 @@ class software_update_plugin {
 
 		if($update_filename == '') {
 			$app->log("No package file found. Download failed? Installation aborted.", LOGLEVEL_WARN);
-			exec("rm -rf $temp_dir");
+			$app->system->exec_safe("rm -rf ?", $temp_dir);
 			$app->log("Deleting the temp directory $temp_dir", LOGLEVEL_DEBUG);
 			$this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 			return false;
@@ -148,7 +149,7 @@ class software_update_plugin {
 			//* Checking the md5sum
 			if(md5_file($temp_dir.'/'.$update_filename) != $software_update["update_md5"]) {
 				$app->log("The md5 sum of the downloaded file is incorrect. Update aborted.", LOGLEVEL_WARN);
-				exec("rm -rf $temp_dir");
+				$app->system->exec_safe("rm -rf ", $temp_dir);
 				$app->log("Deleting the temp directory $temp_dir", LOGLEVEL_DEBUG);
 				$this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 				return false;
@@ -158,11 +159,13 @@ class software_update_plugin {
 
 
 			//* unpacking the update
-			$cmd = "cd $temp_dir && unzip $update_filename";
+			
 			if($installuser == '') {
-				exec($cmd);
+				$cmd = "cd ? && unzip ?";
+				$app->system->exec_safe($cmd, $temp_dir, $update_filename);
 			} else {
-				exec("su -c ".escapeshellarg($cmd)." $installuser");
+				$cmd = "cd $temp_dir && unzip $update_filename";
+				$app->system->exec_safe("su -c ? ?", $cmd, $installuser);
 			}
 
 			//* Create a database, if the package requires one
@@ -181,7 +184,7 @@ class software_update_plugin {
 						$db_config['database_password'] != '' &&
 						$db_config['database_name'] != '' &&
 						$db_config['database_host'] != '') {
-						system("mysql --default-character-set=utf8 --force -h '".$db_config['database_host']."' -u '".$db_config['database_user']."' ".$db_config['database_name']." < ".escapeshellcmd($temp_dir.'/setup.sql'));
+						$app->system->exec_safe("mysql --default-character-set=utf8 --force -h ? -u ? ? < ?", $db_config['database_host'], $db_config['database_user'], $db_config['database_name'], $temp_dir.'/setup.sql');
 						$app->log("Loading setup.sql dump into the app db.", LOGLEVEL_DEBUG);
 					}
 				}
@@ -196,13 +199,15 @@ class software_update_plugin {
 
 			if(is_file($temp_dir.'/setup.sh')) {
 				// Execute the setup script
-				exec('chmod +x '.$temp_dir.'/setup.sh');
+				$app->system->exec_safe('chmod +x ?', $temp_dir.'/setup.sh');
 				$app->log("Executing setup.sh file in directory $temp_dir", LOGLEVEL_DEBUG);
-				$cmd = 'cd '.$temp_dir.' && ./setup.sh > package_install.log';
+				
 				if($installuser == '') {
-					exec($cmd);
+					$cmd = 'cd ? && ./setup.sh > package_install.log';
+					$app->system->exec_safe($cmd, $temp_dir);
 				} else {
-					exec("su -c ".escapeshellarg($cmd)." $installuser");
+					$cmd = 'cd '.$temp_dir.' && ./setup.sh > package_install.log';
+					$app->system->exec_safe("su -c ? ?", $cmd, $installuser);
 				}
 
 				$log_data = @file_get_contents("{$temp_dir}/package_install.log");
@@ -223,7 +228,7 @@ class software_update_plugin {
 			$this->set_install_status($data["new"]["software_update_inst_id"], "failed");
 		}
 
-		if($temp_dir != '' && $temp_dir != '/') exec("rm -rf $temp_dir");
+		if($temp_dir != '' && $temp_dir != '/') $app->system->exec_safe("rm -rf ?", $temp_dir);
 		$app->log("Deleting the temp directory $temp_dir", LOGLEVEL_DEBUG);
 	}
 
