@@ -295,7 +295,7 @@ class page_action extends tform_actions {
 					"priority" => 10,
 					"policy_id" => $policy_id,
 					"email" => $this->dataRecord["email"],
-					"fullname" => $this->dataRecord["email"],
+					"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
 					"local" => 'Y'
 				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
@@ -342,7 +342,7 @@ class page_action extends tform_actions {
 						"priority" => 10,
 						"policy_id" => $policy_id,
 						"email" => $this->dataRecord["email"],
-						"fullname" => $this->dataRecord["email"],
+						"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
 						"local" => 'Y'
 					);
 					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');

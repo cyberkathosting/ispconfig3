@@ -385,7 +385,14 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Configure Mail
 			$inst->configure_amavis();
 		}
 
-		//* Configure Getmail
+		//* Configure Rspamd
+		$force = @($conf['rspamd']['installed']) ? true : $inst->force_configure_app('Rspamd', ($install_mode == 'expert'));
+		if($force) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
+		}
+
+//* Configure Getmail
 		$force = @($conf['getmail']['installed']) ? true : $inst->force_configure_app('Getmail', ($install_mode == 'expert'));
 		if($force) {
 			swriteln('Configuring Getmail');
@@ -538,20 +545,6 @@ $install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 
 if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
 	swriteln('Installing ISPConfig');
 
-	//** We want to check if the server is a module or cgi based php enabled server
-	//** TODO: Don't always ask for this somehow ?
-	/*
-	$fast_cgi = $inst->simple_query('CGI PHP Enabled Server?', array('yes','no'),'no');
-
-	if($fast_cgi == 'yes') {
-		$alias = $inst->free_query('Script Alias', '/php/');
-		$path = $inst->free_query('Script Alias Path', '/path/to/cgi/bin');
-		$conf['apache']['vhost_cgi_alias'] = sprintf('ScriptAlias %s %s', $alias, $path);
-	} else {
-		$conf['apache']['vhost_cgi_alias'] = "";
-	}
-	*/
-
 	//** Customise the port ISPConfig runs on
 	$ispconfig_vhost_port = $inst->free_query('ISPConfig Port', '8080','ispconfig_port');
 	$temp_admin_password = str_shuffle(bin2hex(openssl_random_pseudo_bytes(4)));
@@ -602,6 +595,7 @@ if($conf['mysql']['installed'] == true && $conf['mysql']['init_script'] != '') s
 if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
 if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 if($conf['courier']['installed'] == true){
 	if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));

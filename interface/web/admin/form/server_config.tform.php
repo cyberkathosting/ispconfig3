@@ -466,6 +466,29 @@ $form["tabs"]['mail'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'content_filter' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rspamd',
+			'value' => array('amavisd' => 'Amavisd', 'rspamd' => 'Rspamd')
+		),
+		'rspamd_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
+		),
+		'rspamd_available' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1953,4 +1976,10 @@ $form["tabs"]['rescue'] = array(
 		//#################################
 	)
 );
-?>
+
+/*$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+if(!isset($mail_config['rspamd_available']) || $mail_config['rspamd_available'] != 'y') {
+	$form['tabs']['mail']['fields']['content_filter']['default'] = 'amavisd';
+	unset($form['tabs']['mail']['fields']['content_filter']['value']['rspamd']);
+	unset($form['tabs']['mail']['fields']['rspamd_password']);
+}*/

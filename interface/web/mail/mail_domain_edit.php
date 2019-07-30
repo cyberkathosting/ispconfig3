@@ -273,7 +273,10 @@ class page_action extends tform_actions {
 		}
 
 		//* make sure that the email domain is lowercase
-		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		if(isset($this->dataRecord["domain"])){
+			$this->dataRecord["domain"] = $app->functions->idn_encode($this->dataRecord["domain"]);
+			$this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		}
 
 
 		parent::onSubmit();
@@ -317,7 +320,7 @@ class page_action extends tform_actions {
 			$soaDomain = $this->dataRecord['domain'].'.';
  			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
-				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
+				$soaDomain = preg_replace("/^[^\.]+\./","",$soaDomain);
 			}
 			if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
 		}
@@ -450,7 +453,7 @@ class page_action extends tform_actions {
 			$soaDomain = $domain.'.';
 			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
-				$soaDomain = preg_replace("/^[\w\-]+\./","",$soaDomain);
+				$soaDomain = preg_replace("/^[^\.]+\./","",$soaDomain);
 			}
 
 			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )
