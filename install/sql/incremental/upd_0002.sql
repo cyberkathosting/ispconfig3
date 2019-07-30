@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS `sys_session` (
   `session_data` longtext,
   PRIMARY KEY  (`session_id`),
   KEY `last_updated` (`last_updated`)
-) ENGINE=MyISAM;
+);

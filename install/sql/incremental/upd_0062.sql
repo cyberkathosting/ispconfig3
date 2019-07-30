@@ -8,7 +8,7 @@ CREATE TABLE `mail_backup` (
   `filename` varchar(255) NOT NULL,
   `filesize` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`backup_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `mail_user` ADD `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none';
 ALTER TABLE `mail_user` ADD `backup_copies` INT NOT NULL DEFAULT '1';

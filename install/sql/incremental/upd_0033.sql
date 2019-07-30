@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `client_circle` (
   `description` text,
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY (`circle_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

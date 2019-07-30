@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `dns_ssl_ca` (
   `ca_critical` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY (`ca_issue`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `dns_ssl_ca` ADD UNIQUE(`ca_issue`);
 

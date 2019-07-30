@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `aps_instances` (
   `package_id` int(4) NOT NULL,
   `instance_status` int(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `aps_instances_settings` (
   `name` varchar(255) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `aps_packages` (
   `package_url` TEXT NOT NULL,
   `package_status` int(1) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `aps_settings` (
   `value` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 

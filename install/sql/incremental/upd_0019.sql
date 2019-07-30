@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `help_faq` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`hf_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+)  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `help_faq_sections` (
   `hfs_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `help_faq_sections` (
   `sys_perm_group` varchar(5) DEFAULT NULL,
   `sys_perm_other` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`hfs_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+)  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `web_folder` (
   `web_folder_id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `web_folder` (
   `path` varchar(255) DEFAULT NULL,
   `active` varchar(255) NOT NULL DEFAULT 'y',
   PRIMARY KEY (`web_folder_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `web_folder_user` (
   `web_folder_user_id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `web_folder_user` (
   `password` varchar(255) DEFAULT NULL,
   `active` varchar(255) NOT NULL DEFAULT 'y',
   PRIMARY KEY (`web_folder_user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE `mail_greylist`;
 DROP TABLE `firewall_filter`;

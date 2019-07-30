@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `sys_theme` (
   `username` varchar(64) NOT NULL,
   `logo_url` varchar(255) NOT NULL,
   PRIMARY KEY (`var_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+) DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
