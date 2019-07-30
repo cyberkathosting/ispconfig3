@@ -1832,7 +1832,7 @@ class system{
 	function is_mounted($mountpoint){
 		//$cmd = 'df 2>/dev/null | grep " '.$mountpoint.'$"';
 		$cmd = 'mount 2>/dev/null | grep ?';
-		exec($cmd, ' on '. $mountpoint . ' type ');
+		$this->exec_safe($cmd, ' on '. $mountpoint . ' type ');
 		$return_var = $this->last_exec_retcode();
 		return $return_var == 0 ? true : false;
 	}
