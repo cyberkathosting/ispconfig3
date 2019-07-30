@@ -49,10 +49,13 @@ class validate_dkim {
 	 * Validator function for private DKIM-Key
 	 */
 	function check_private_key($field_name, $field_value, $validator) {
+		global $app;
+		
 		$dkim_enabled=$_POST['dkim'];
 		if ($dkim_enabled == 'y') {
 			if (empty($field_value)) return $this->get_error($validator['errmsg']);
-			exec('echo '.escapeshellarg($field_value).'|openssl rsa -check', $output, $result);
+			$app->system->exec_safe('echo ?|openssl rsa -check', $field_value);
+			$result = $app->system->last_exec_retcode();
 			if($result != 0) return $this->get_error($validator['errmsg']);
 		}
 	}

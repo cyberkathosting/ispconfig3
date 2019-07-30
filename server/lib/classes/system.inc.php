@@ -37,6 +37,9 @@ class system{
 	var $min_uid = 500;
 	var $min_gid = 500;
 	
+	private $_last_exec_out = null;
+	private $_last_exec_retcode = null;
+	
 	/**
 	 * Construct for this class
 	 *
@@ -716,8 +719,10 @@ class system{
 	function posix_getgrnam($group) {
 		if(!function_exists('posix_getgrnam')){
 			$group_datei = $this->server_conf['group_datei'];
-			$cmd = 'grep -m 1 "^'.$group.':" '.$group_datei;
-			exec($cmd, $output, $return_var);
+			$cmd = 'grep -m 1 ? ?';
+			$this->exec_safe($cmd, '^'.$group.':', $group_datei);
+			$output = $this->last_exec_out();
+			$return_var = $this->last_exec_retcode();
 			if($return_var != 0 || !$output[0]) return false;
 			list($f1, $f2, $f3, $f4) = explode(':', $output[0]);
 			$f2 = trim($f2);
@@ -1073,10 +1078,10 @@ class system{
 		} else { // Linux
 			if(substr($dist, 0, 4) == 'suse'){
 				if($action == 'on'){
-					exec("chkconfig --add $service &> /dev/null");
+					$this->exec_safe("chkconfig --add ? &> /dev/null", $service);
 				}
 				if($action == 'off'){
-					exec("chkconfig --del $service &> /dev/null");
+					$this->exec_safe("chkconfig --del ? &> /dev/null", $service);
 				}
 			} else {
 				$runlevels = explode(',', $rl);
@@ -1375,7 +1380,7 @@ class system{
 					if(!empty($ifconfig['IP'])){
 						foreach($ifconfig['IP'] as $key => $val){
 							if(!strstr($val, 'lo') && !strstr($val, 'lp') && strstr($val, $main_interface)){
-								exec('ifconfig '.$val.' down &> /dev/null');
+								$this->exec_safe('ifconfig ? down &> /dev/null', $val);
 								unset($ifconfig['INTERFACE'][$val]);
 							}
 						}
@@ -1391,7 +1396,7 @@ class system{
 									$i = -1;
 								}
 							}
-							exec('ifconfig '.$new_interface.' '.$to.' netmask '.$this->server_conf['server_netzmaske'].' up &> /dev/null');
+							$this->exec_safe('ifconfig ? ? netmask ? up &> /dev/null', $new_interface, $to, $this->server_conf['server_netzmaske']);
 							$ifconfig['INTERFACE'][$new_interface] = $to;
 						}
 					}
@@ -1610,22 +1615,20 @@ class system{
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
 
 		if($subfolder != '') {
-			$dir = escapeshellcmd($maildir_path.'/.'.$subfolder);
+			$dir = $maildir_path.'/.'.$subfolder;
 		} else {
-			$dir = escapeshellcmd($maildir_path);
+			$dir = $maildir_path;
 		}
 
 		if(!is_dir($dir)) mkdir($dir, 0700, true);
 
 		if($user != '' && $user != 'root' && $this->is_user($user)) {
-			$user = escapeshellcmd($user);
 			if(is_dir($dir)) $this->chown($dir, $user);
 
 			$chown_mdsub = true;
 		}
 
 		if($group != '' && $group != 'root' && $this->is_group($group)) {
-			$group = escapeshellcmd($group);
 			if(is_dir($dir)) $this->chgrp($dir, $group);
 		
 			$chgrp_mdsub = true;
@@ -1641,22 +1644,13 @@ class system{
 
 		chmod($dir, 0700);
 
-		/*
-		if($user != '' && $this->is_user($user) && $user != 'root') {
-			$user = escapeshellcmd($user);
-			// I assume that the name of the (vmail group) is the same as the name of the mail user in ISPConfig 3
-			$group = $user;
-			exec("chown $user:$group $dir $dir_cur $dir_new $dir_tmp");
-		}
-		*/
-
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
 			
 			// Courier
 			if($mail_config['pop3_imap_daemon'] == 'courier') {
 				if(!is_file($maildir_path.'/courierimapsubscribed')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/courierimapsubscribed');
+					$tmp_file = $maildir_path.'/courierimapsubscribed';
 					touch($tmp_file);
 					chmod($tmp_file, 0744);
 					chown($tmp_file, 'vmail');
@@ -1668,7 +1662,7 @@ class system{
 			// Dovecot
 			if($mail_config['pop3_imap_daemon'] == 'dovecot') {
 				if(!is_file($maildir_path.'/subscriptions')) {
-					$tmp_file = escapeshellcmd($maildir_path.'/subscriptions');
+					$tmp_file = $maildir_path.'/subscriptions';
 					touch($tmp_file);
 					chmod($tmp_file, 0744);
 					chown($tmp_file, 'vmail');
@@ -1712,7 +1706,9 @@ class system{
 
 	//* Check if a application is installed
 	function is_installed($appname) {
-		exec('which '.escapeshellcmd($appname).' 2> /dev/null', $out, $returncode);
+		$this->exec_safe('which ? 2> /dev/null', $appname);
+		$out = $this->last_exec_out();
+		$returncode = $this->last_exec_retcode();
 		if(isset($out[0]) && stristr($out[0], $appname) && $returncode == 0) {
 			return true;
 		} else {
@@ -1734,10 +1730,10 @@ class system{
 
 		if($protect == true && $web_config['web_folder_protection'] == 'y') {
 			//* Add protection
-			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root, '..')) exec('chattr +i '.escapeshellcmd($document_root));
+			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root, '..')) $this->exec_safe('chattr +i ?', $document_root);
 		} else {
 			//* Remove protection
-			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root, '..')) exec('chattr -i '.escapeshellcmd($document_root));
+			if($document_root != '' && $document_root != '/' && strlen($document_root) > 6 && !stristr($document_root, '..')) $this->exec_safe('chattr -i ?', $document_root);
 		}
 	}
 
@@ -1849,8 +1845,9 @@ class system{
 
 	function is_mounted($mountpoint){
 		//$cmd = 'df 2>/dev/null | grep " '.$mountpoint.'$"';
-		$cmd = 'mount 2>/dev/null | grep " on '.$mountpoint.' type "';
-		exec($cmd, $output, $return_var);
+		$cmd = 'mount 2>/dev/null | grep ?';
+		exec($cmd, ' on '. $mountpoint . ' type ');
+		$return_var = $this->last_exec_retcode();
 		return $return_var == 0 ? true : false;
 	}
 
@@ -1922,7 +1919,8 @@ class system{
 		// systemd
 		if(is_executable('/bin/systemd') || is_executable('/usr/bin/systemctl')){
 			if ($check_service) {
-				exec("systemctl is-enabled ".$servicename." 2>&1", $out, $ret_val);
+				$this->exec_safe("systemctl is-enabled ? 2>&1", $servicename);
+				$ret_val = $this->last_exec_retcode();
 			}
 			if ($ret_val == 0 || !$check_service) {
 				return 'systemctl '.$action.' '.$servicename.'.service';
@@ -2063,6 +2061,46 @@ class system{
 		return true;
 	}
 	
-}
+	public function last_exec_out() {
+		return $this->_last_exec_out;
+	}
+	
+	public function last_exec_retcode() {
+		return $this->_last_exec_retcode;
+	}
+	
+	public function exec_safe($cmd) {
+		$arg_count = func_num_args();
+		if($arg_count != substr_count($cmd, '?') + 1) {
+			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
+			return false;
+		}
+		if($arg_count > 1) {
+			$args = func_get_args();
 
-?>
+			$pos = 0;
+			$a = 0;
+			foreach($args as $value) {
+				$a++;
+				
+				$pos = strpos($cmd, '?', $pos);
+				if($pos === false) {
+					break;
+				}
+				$value = escapeshellarg($value);
+				$cmd = substr_replace($cmd, $value, $pos, 1);
+				$pos += strlen($value);
+			}
+		}
+		
+		$this->_last_exec_out = null;
+		$this->_last_exec_retcode = null;
+		return exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+	}
+	
+	public function system_safe($cmd) {
+		call_user_func_array(array($this, 'exec_safe'), func_get_args());
+		return implode("\n", $this->_last_exec_out);
+	}
+	
+}

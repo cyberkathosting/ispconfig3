@@ -451,9 +451,9 @@ class functions {
 		if(file_exists($id_rsa_file)) unset($id_rsa_file);
 		if(file_exists($id_rsa_pub_file)) unset($id_rsa_pub_file);
 		if(!file_exists($id_rsa_file) && !file_exists($id_rsa_pub_file)) {
-			exec('ssh-keygen -t rsa -C '.$username.'-rsa-key-'.time().' -f '.$id_rsa_file.' -N ""');
+			$app->system->exec_safe('ssh-keygen -t rsa -C ? -f ? -N ""', $username.'-rsa-key-'.time(), $id_rsa_file);
 			$app->db->query("UPDATE client SET created_at = UNIX_TIMESTAMP(), id_rsa = ?, ssh_rsa = ? WHERE client_id = ?", @file_get_contents($id_rsa_file), @file_get_contents($id_rsa_pub_file), $client_id);
-			exec('rm -f '.$id_rsa_file.' '.$id_rsa_pub_file);
+			$app->system->exec_safe('rm -f ? ?', $id_rsa_file, $id_rsa_pub_file);
 		} else {
 			$app->log("Failed to create SSH keypair for ".$username, LOGLEVEL_WARN);
 		}

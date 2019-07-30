@@ -448,16 +448,20 @@ class powerdns_plugin {
 	}
 
 	function notifySlave($data) {
+		global $app;
+		
 		$pdns_control = $this->find_pdns_control();
 		if ( $pdns_control != false ) {
-			exec($pdns_control . ' notify ' . rtrim($data["new"]["origin"],"."));
+			$app->system->exec_safe($pdns_control . ' notify ?', rtrim($data["new"]["origin"],"."));
 		}
 	}
 
 	function fetchFromMaster($data) {
+		global $app;
+		
 		$pdns_control = $this->find_pdns_control();
 		if ( $pdns_control != false ) {
-			exec($pdns_control . ' retrieve ' . rtrim($data["new"]["origin"],"."));
+			$app->system->exec_safe($pdns_control . ' retrieve ?', rtrim($data["new"]["origin"],"."));
 		}
 	}
 
@@ -693,11 +697,11 @@ class powerdns_plugin {
 		if ( $pdns_pdnssec != false ) {
 			if (isset($data["new"]["origin"])) {
 				//* data has origin field only for SOA recordtypes
-				exec($pdns_pdnssec . ' rectify-zone ' . rtrim($data["new"]["origin"],"."));
+				$app->system->exec_safe($pdns_pdnssec . ' rectify-zone ?', rtrim($data["new"]["origin"],"."));
 			} else {
 				// get origin from DB for all other recordtypes
 				$zn = $app->db->queryOneRecord("SELECT d.name AS name FROM powerdns.domains d, powerdns.records r WHERE r.ispconfig_id=? AND r.domain_id = d.id", $data["new"]["id"]);
-				exec($pdns_pdnssec . ' rectify-zone ' . trim($zn["name"]));
+				$app->system->exec_safe($pdns_pdnssec . ' rectify-zone ?', trim($zn["name"]));
 			}
 		}
 	}

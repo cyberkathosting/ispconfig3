@@ -280,8 +280,8 @@ class network_settings_plugin {
 				
 				//* Executing the postconf commands
 				foreach($postconf_commands as $cmd) {
-					$command = "postconf -e '$cmd'";
-					exec($command);
+					$command = "postconf -e ?";
+					$app->system->exec_safe($command, $cmd);
 				}
 				
 				$app->log('Changed changed myhostname and mydestination in postfix main.cf to '.$new_hostname, LOGLEVEL_DEBUG);

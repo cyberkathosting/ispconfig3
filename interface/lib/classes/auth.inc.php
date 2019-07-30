@@ -231,12 +231,27 @@ class auth {
 		if($charset != 'UTF-8') {
 			$cleartext_password = mb_convert_encoding($cleartext_password, $charset, 'UTF-8');
 		}
-		$salt="$1$";
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		for ($n=0;$n<8;$n++) {
-			$salt.=$base64_alphabet[mt_rand(0, 63)];
+		
+		if(defined('CRYPT_SHA512') && CRYPT_SHA512 == 1) {
+			$salt = '$6$rounds=5000$';
+			$salt_length = 16;
+		} elseif(defined('CRYPT_SHA256') && CRYPT_SHA256 == 1) {
+			$salt = '$5$rounds=5000$';
+			$salt_length = 16;
+		} else {
+			$salt = '$1$';
+			$salt_length = 12;
 		}
-		$salt.="$";
+		
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			$salt .= substr(bin2hex(openssl_random_pseudo_bytes($salt_length)), 0, $salt_length);
+		} else {
+			$base64_alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+			for($n = 0; $n < $salt_length; $n++) {
+				$salt .= $base64_alphabet[mt_rand(0, 63)];
+			}
+		}
+		$salt .= "$";
 		return crypt($cleartext_password, $salt);
 	}
 	

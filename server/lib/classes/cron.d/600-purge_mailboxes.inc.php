@@ -58,7 +58,7 @@ class cronjob_purge_mailboxes extends cronjob {
 		
 		if(is_array($records)) {
 			foreach($records as $rec){
-				exec("su -c 'doveadm purge -u \"".$rec["email"]."\"'");
+				$app->system->exec_safe("su -c ?", 'doveadm purge -u "' . $rec["email"] . '"');
 			}
 		}
 

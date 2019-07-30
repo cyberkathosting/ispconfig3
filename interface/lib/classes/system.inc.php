@@ -31,6 +31,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class system {
 
 	var $client_service = null;
+	private $_last_exec_out = null;
+	private $_last_exec_retcode = null;
 
 	public function has_service($userid, $service) {
 		global $app;
@@ -52,8 +54,47 @@ class system {
 			return false;
 		}
 	}
+
+	public function last_exec_out() {
+		return $this->_last_exec_out;
+	}
+	
+	public function last_exec_retcode() {
+		return $this->_last_exec_retcode;
+	}
+	
+	public function exec_safe($cmd) {
+		$arg_count = func_num_args();
+		if($arg_count != substr_count($cmd, '?') + 1) {
+			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
+			return false;
+		}
+		if($arg_count > 1) {
+			$args = func_get_args();
+
+			$pos = 0;
+			$a = 0;
+			foreach($args as $value) {
+				$a++;
+				
+				$pos = strpos($cmd, '?', $pos);
+				if($pos === false) {
+					break;
+				}
+				$value = escapeshellarg($value);
+				$cmd = substr_replace($cmd, $value, $pos, 1);
+				$pos += strlen($value);
+			}
+		}
+		
+		$this->_last_exec_out = null;
+		$this->_last_exec_retcode = null;
+		return exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+	}
+	
+	public function system_safe($cmd) {
+		call_user_func_array(array($this, 'exec_safe'), func_get_args());
+		return implode("\n", $this->_last_exec_out);
+	}	
+	
 } //* End Class
-
-?>
-
-

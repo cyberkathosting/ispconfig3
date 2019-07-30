@@ -215,7 +215,8 @@ class mail_plugin_dkim {
 			$pubkey = null;
 			$result = 0;
 			/* now we get the DKIM Public-key */
-			exec('cat '.escapeshellarg($key_file.'.private').'|openssl rsa -pubout 2> /dev/null', $pubkey, $result);
+			$app->system->exec_safe('cat ?|openssl rsa -pubout 2> /dev/null', $key_file.'.private');
+			$pubkey = $app->system->last_exec_out();
 			$public_key='';
 			foreach($pubkey as $values) {
 				$public_key = $public_key . $values . "\n";

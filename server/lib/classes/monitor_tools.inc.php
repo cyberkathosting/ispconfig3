@@ -593,13 +593,12 @@ class monitor_tools {
 
 		// Getting the logfile content
 		if ($logfile != '') {
-			$logfile = escapeshellcmd($logfile);
 			if (stristr($logfile, ';') or substr($logfile, 0, 9) != '/var/log/' or stristr($logfile, '..')) {
 				$log = 'Logfile path error.';
 			} else {
 				$log = '';
 				if (is_readable($logfile)) {
-					$fd = popen('tail -n 100 ' . $logfile, 'r');
+					$fd = popen('tail -n 100 ' . escapeshellarg($logfile), 'r');
 					if ($fd) {
 						while (!feof($fd)) {
 							$log .= fgets($fd, 4096);

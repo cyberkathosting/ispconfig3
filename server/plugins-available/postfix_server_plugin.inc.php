@@ -95,7 +95,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'smtp_sasl_auth_enable = no'");
 			}
 			
-			exec("postconf -e 'relayhost = ".$mail_config['relayhost']."'");
+			$app->system->exec_safe("postconf -e ?", 'relayhost = '.$mail_config['relayhost']);
 			file_put_contents('/etc/postfix/sasl_passwd', $content);
 			chmod('/etc/postfix/sasl_passwd', 0600);
 			chown('/etc/postfix/sasl_passwd', 'root');
@@ -134,7 +134,7 @@ class postfix_server_plugin {
 					if($value != '') $new_options[] = "reject_rbl_client ".$value;
 				}
 			}
-			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+			$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_restrictions = '.implode(", ", $new_options));
 			exec('postfix reload');
 		}
 		
@@ -153,7 +153,7 @@ class postfix_server_plugin {
 				while (isset($new_options[$i]) && substr($new_options[$i], 0, 19) == 'check_sender_access') ++$i;
 				array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
 			}
-			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
+			$app->system->exec_safe("postconf -e ?", 'smtpd_sender_restrictions = '.implode(", ", $new_options));
 			exec('postfix reload');
 		}		
 		

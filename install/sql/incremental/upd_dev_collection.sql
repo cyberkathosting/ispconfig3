@@ -30,3 +30,8 @@ UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '999.00' WHERE id = 3;
 UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '8.00' WHERE id = 6;
 UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '20.00' WHERE id = 7;
 -- end of rspamd
+ALTER TABLE `client` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
+ALTER TABLE `ftp_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
+ALTER TABLE `shell_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
+ALTER TABLE `sys_user` CHANGE COLUMN `passwort` `passwort` VARCHAR(200) DEFAULT NULL;
+ALTER TABLE `webdav_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;

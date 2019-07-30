@@ -240,8 +240,8 @@ class xmpp_plugin {
         $app->system->unlink("/etc/metronome/certs/$domain.csr");
         // Remove all stored data
         var_dump('rm -rf /var/lib/metronome/'.$folder);
-        exec('rm -rf /var/lib/metronome/'.$folder);
-        exec('rm -rf /var/lib/metronome/*%2e'.$folder);
+        $app->system->exec_safe('rm -rf ?', '/var/lib/metronome/'.$folder);
+        $app->system->exec_safe('rm -rf ?*?', '/var/lib/metronome/', '%2e'.$folder);
 
         $app->services->restartServiceDelayed('metronome', 'reload');
     }
@@ -264,7 +264,7 @@ class xmpp_plugin {
         // Don't allow manual user deletion for mailaccount controlled domains
 
         // Remove account from metronome
-        exec('metronomectl deluser '.$data['old']['jid']);
+        $app->system->exec_safe('metronomectl deluser ?', $data['old']['jid']);
     }
 
     // Handle the creation of SSL certificates
@@ -311,9 +311,9 @@ class xmpp_plugin {
             $app->system->file_put_contents($cnf_file, $tpl->grab());
 
             // Generate new key, csr and cert
-            exec("(cd /etc/metronome/certs && make $domain.key)");
-            exec("(cd /etc/metronome/certs && make $domain.csr)");
-            exec("(cd /etc/metronome/certs && make $domain.cert)");
+            $app->system->exec_safe("(cd /etc/metronome/certs && make ?)", "$domain.key");
+            $app->system->exec_safe("(cd /etc/metronome/certs && make ?)", "$domain.csr");
+            $app->system->exec_safe("(cd /etc/metronome/certs && make ?)", "$domain.cert");
 
             $ssl_key = $app->system->file_get_contents($key_file);
             $app->system->chmod($key_file, 0400);

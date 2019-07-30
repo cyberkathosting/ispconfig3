@@ -200,6 +200,9 @@ class page_action extends tform_actions {
 	*/
 	function onAfterInsert() {
 		global $app, $conf;
+		
+		$app->uses('auth');
+		
 		// Create the group for the reseller
 		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
@@ -213,14 +216,8 @@ class page_action extends tform_actions {
 		$active = 1;
 		$language = $this->dataRecord["language"];
 
-		$salt="$1$";
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		for ($n=0;$n<8;$n++) {
-			$salt.=$base64_alphabet[mt_rand(0, 63)];
-		}
-		$salt.="$";
-		$password = crypt(stripslashes($password), $salt);
-
+		$password = $app->auth->crypt_password(stripslashes($password));
+		
 		// Create the controlpaneluser for the reseller
 		$sql = "INSERT INTO sys_user (`username`,`passwort`,`modules`,`startmodule`,`app_theme`,`typ`, `active`,`language`,`groups`,`default_group`,`client_id`)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -313,6 +310,8 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		$app->uses('auth');
+		
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $this->dataRecord["username"];
@@ -329,13 +328,8 @@ class page_action extends tform_actions {
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $this->dataRecord["password"];
 			$client_id = $this->id;
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0, 63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($password), $salt);
+			
+			$password = $app->auth->crypt_password(stripslashes($password));
 			$sql = "UPDATE sys_user SET passwort = ? WHERE client_id = ?";
 			$app->db->query($sql, $password, $client_id);
 		}

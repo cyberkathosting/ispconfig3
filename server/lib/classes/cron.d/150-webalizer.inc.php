@@ -94,19 +94,19 @@ class cronjob_webalizer extends cronjob {
 				$log_folder .= '/' . $subdomain_host;
 				unset($tmp);
 			}
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log');
+			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			if(!@is_file($logfile)) {
-				$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz');
+				$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz';
 				if(!@is_file($logfile)) {
 					continue;
 				}
 			}
 
-			$domain = escapeshellcmd($rec['domain']);
-			$statsdir = escapeshellcmd($rec['document_root'].'/'.(($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') ? $rec['web_folder'] : 'web').'/stats');
+			$domain = $rec['domain'];
+			$statsdir = $rec['document_root'].'/'.(($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') ? $rec['web_folder'] : 'web').'/stats';
 			$webalizer = '/usr/bin/webalizer';
 			$webalizer_conf_main = '/etc/webalizer/webalizer.conf';
-			$webalizer_conf = escapeshellcmd($rec['document_root'].'/log/webalizer.conf');
+			$webalizer_conf = $rec['document_root'].'/log/webalizer.conf';
 
 			if(is_file($statsdir.'/index.php')) unlink($statsdir.'/index.php');
 
@@ -122,13 +122,13 @@ class cronjob_webalizer extends cronjob {
 
 
 			if(!@is_dir($statsdir)) mkdir($statsdir);
-			$username = escapeshellcmd($rec['system_user']);
-			$groupname = escapeshellcmd($rec['system_group']);
+			$username = $rec['system_user'];
+			$groupname = $rec['system_group'];
 			chown($statsdir, $username);
 			chgrp($statsdir, $groupname);
-			exec("$webalizer -c $webalizer_conf -n $domain -s $domain -r $domain -q -T -p -o $statsdir $logfile");
+			$app->system->exec_safe("$webalizer -c ? -n ? -s ? -r ? -q -T -p -o ? ?", $webalizer_conf, $domain, $domain, $domain, $statsdir, $logfile);
 			
-			exec('chown -R '.$username.':'.$groupname.' '.$statsdir);
+			exec('chown -R ?:? ?', $username, $groupname, $statsdir);
 		}
 
 
