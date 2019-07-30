@@ -71,11 +71,14 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		
+		//* global mail access filters
+		$app->plugins->registerEvent('mail_access_insert', $this->plugin_name, 'spamfilter_wblist_insert');
+		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
+		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
 	}
 
 	function spamfilter_users_insert($event_name, $data) {
-		global $app, $conf;
-
 		$this->action = 'insert';
 		// just run the spamfilter_users_update function
 		$this->spamfilter_users_update($event_name, $data);
@@ -161,8 +164,6 @@ class rspamd_plugin {
 	}
 
 	function spamfilter_wblist_insert($event_name, $data) {
-		global $app, $conf;
-		
 		$this->action = 'insert';
 		// just run the spamfilter_wblist_update function
 		$this->spamfilter_wblist_update($event_name, $data);
@@ -175,34 +176,78 @@ class rspamd_plugin {
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 		
 		if(is_dir('/etc/rspamd')) {
-			$recipient = $app->db->queryOneRecord("SELECT email FROM spamfilter_users WHERE id = ?", intval($data['new']['rid']));
+			$global_filter = false;
 			//* Create the config file
-			$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.intval($data['new']['wblist_id']).'.conf';
+			$filter = null;
+			if($event_name === 'mail_access_insert' || $event_name === 'mail_access_update') {
+				$global_filter = true;
+				$record_id = intval($data['new']['access_id']);
+				$wblist_file = $this->users_config_dir.'global_wblist_'.$record_id.'.conf';
+				$filter = array(
+					'wb' => ($data['new']['access'] === 'OK' ? 'W' : 'B'),
+					'from' => ($data['new']['type'] === 'sender' ? $app->functions->idn_encode($data['new']['source']) : ''),
+					'rcpt' => ($data['new']['type'] === 'recipient' ? $app->functions->idn_encode($data['new']['source']) : ''),
+					'ip' => ($data['new']['type'] === 'client' && $this->_is_valid_ip_address($data['new']['source']) ? $data['new']['source'] : ''),
+					'hostname' => ($data['new']['type'] === 'client' && !$this->_is_valid_ip_address($data['new']['source']) ? $data['new']['source'] : '')
+				);
+			} else {
+				$record_id = intval($data['new']['wblist_id']);
+				$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.$record_id.'.conf';
+				$tmp = $app->db->queryOneRecord("SELECT email FROM spamfilter_users WHERE id = ?", intval($data['new']['rid']));
+				if($tmp && !empty($tmp)) {
+					$filter = array(
+						'wb' => $data['new']['wb'],
+						'from' => $app->functions->idn_encode($data['new']['email']),
+						'rcpt' => $app->functions->idn_encode($tmp['email']),
+						'ip' => '',
+						'hostname' => ''
+					);
+				}
+			}
 		
-			if($data['new']['active'] == 'y' && is_array($recipient) && !empty($recipient)){
+			if($data['new']['active'] == 'y' && is_array($filter) && !empty($filter)){
 				if(!is_dir($this->users_config_dir)){
 					$app->system->mkdirpath($this->users_config_dir);
 				}
 		
 				$app->load('tpl');
 
+				$filter_from = $filter['from'];
+				if($filter_from != '') {
+					if(strpos($filter_from, '@') === false) {
+						$filter_from = '@' . $filter_from;
+					} elseif(substr($filter_from, 0, 2) === '*@') {
+						$filter_from = substr($filter_from, 1);
+					}
+				}
+				$filter_rcpt = $filter['rcpt'];
+				if($filter_rcpt != '') {
+					if(strpos($filter_rcpt, '@') === false) {
+						$filter_rcpt = '@' . $filter_rcpt;
+					} elseif(substr($filter_rcpt, 0, 2) === '*@') {
+						$filter_rcpt = substr($filter_rcpt, 1);
+					}
+				}
+				
 				$tpl = new tpl();
 				$tpl->newTemplate('rspamd_wblist.inc.conf.master');
-				$tpl->setVar('record_id', intval($data['new']['wblist_id']));
+				$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
+				$tpl->setVar('record_id', $record_id);
 				// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-				$tpl->setVar('priority', intval($data['new']['priority']) + 10);
-				$tpl->setVar('from', $app->functions->idn_encode($data['new']['email']));
-				$tpl->setVar('recipient', $app->functions->idn_encode($recipient['email']));
-				//$tpl->setVar('action', ($data['new']['wb'] == 'W'? 'want_spam = yes;' : 'action = "reject";'));
-				$tpl->setVar('wblist', $data['new']['wb']);
+				$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 20 : 10));
+				$tpl->setVar('from', $filter_from);
+				$tpl->setVar('recipient', $filter_rcpt);
+				$tpl->setVar('hostname', $filter['hostname']);
+				$tpl->setVar('ip', $filter['ip']);
+				$tpl->setVar('wblist', $filter['wb']);
 		
 				$app->system->file_put_contents($wblist_file, $tpl->grab());
-			} else {
-				if(is_file($wblist_file)) unlink($wblist_file);
+			} elseif(is_file($wblist_file)) {
+				unlink($wblist_file);
 			}
 			
-			if($mail_config['content_filter'] == 'rspamd'){
-				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			if($mail_config['content_filter'] == 'rspamd' && is_file('/etc/init.d/rspamd')) {
+				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
 	}
@@ -215,9 +260,15 @@ class rspamd_plugin {
 
 		if(is_dir('/etc/rspamd')) {
 			//* delete the config file
-			$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.intval($data['old']['wblist_id']).'.conf';
-			if(is_file($wblist_file)) unlink($wblist_file);
-			
+			if($event_name === 'mail_access_delete') {
+				$wblist_file = $this->users_config_dir.'global_wblist_'.intval($data['old']['access_id']).'.conf';
+			} else {
+				$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.intval($data['old']['wblist_id']).'.conf';
+			}
+			if(is_file($wblist_file)) {
+				unlink($wblist_file);
+			}
+
 			if($mail_config['content_filter'] == 'rspamd'){
 				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
 			}
@@ -250,6 +301,18 @@ class rspamd_plugin {
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
+		}
+	}
+	
+	private function _is_valid_ip_address($ip) {
+		if(function_exists('filter_var')) {
+			if(!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
 		}
 	}
 	

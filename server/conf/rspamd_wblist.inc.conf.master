@@ -1,7 +1,17 @@
-spamfilter_wblist-<tmpl_var name='record_id'> {
+<tmpl_var name='list_scope'>_wblist-<tmpl_var name='record_id'> {
 	priority = <tmpl_var name='priority'>;
+<tmpl_if name="from">
 	from = "<tmpl_var name='from'>";
+</tmpl_if>
+<tmpl_if name="recipient">
 	rcpt = "<tmpl_var name='recipient'>";
+</tmpl_if>
+<tmpl_if name="ip">
+	ip = "<tmpl_var name='ip'>";
+</tmpl_if>
+<tmpl_if name="hostname">
+	hostname = "<tmpl_var name='hostname'>";
+</tmpl_if>
 <tmpl_if name='wblist' op='==' value='W'>
 	want_spam = yes;
 	apply {
