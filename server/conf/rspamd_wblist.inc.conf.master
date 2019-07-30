@@ -1,0 +1,36 @@
+<tmpl_var name='list_scope'>_wblist-<tmpl_var name='record_id'> {
+	priority = <tmpl_var name='priority'>;
+<tmpl_if name="from">
+	from = "<tmpl_var name='from'>";
+</tmpl_if>
+<tmpl_if name="recipient">
+	rcpt = "<tmpl_var name='recipient'>";
+</tmpl_if>
+<tmpl_if name="ip">
+	ip = "<tmpl_var name='ip'>";
+</tmpl_if>
+<tmpl_if name="hostname">
+	hostname = "<tmpl_var name='hostname'>";
+</tmpl_if>
+<tmpl_if name='wblist' op='==' value='W'>
+	want_spam = yes;
+	apply {
+		actions {
+			reject = null;
+			"add header" = null;
+			greylist = null;
+			"rewrite subject" = null;
+		}
+	}
+</tmpl_else>
+	apply {
+		R_DUMMY = 999.0;
+		actions {
+			reject = 0.2;
+			"add header" = 0.1;
+			greylist = 0.1;
+			"rewrite subject" = 0.1;
+		}
+	}
+</tmpl_if>
+}

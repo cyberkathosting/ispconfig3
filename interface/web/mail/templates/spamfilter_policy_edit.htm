@@ -20,6 +20,7 @@
                     {tmpl_var name='spam_lover'}
                 </select></div>
             </div>
+			<tmpl_if name='content_filter' op='==' value='amavisd'>
             <div class="form-group">
                 <label for="banned_files_lover" class="col-sm-3 control-label">{tmpl_var name='banned_files_lover_txt'}</label>
                 <div class="col-sm-9"><select name="banned_files_lover" id="banned_files_lover" class="form-control">
@@ -50,7 +51,7 @@
                     {tmpl_var name='bypass_header_checks'}
                 </select></div>
             </div>
-        
+			</tmpl_if>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

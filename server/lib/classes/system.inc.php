@@ -1540,7 +1540,14 @@ class system{
 		$found = 0;
 		if(is_array($lines)) {
 			foreach($lines as $line) {
-				if($strict == 0) {
+				if($strict == 0 && preg_match('/^REGEX:(.*)$/', $search_pattern)) {
+					if(preg_match(substr($search_pattern, 6), $line)) {
+						$out .= $new_line."\n";
+						$found = 1;
+					} else {
+						$out .= $line;
+					}
+				} elseif($strict == 0) {
 					if(stristr($line, $search_pattern)) {
 						$out .= $new_line."\n";
 						$found = 1;
@@ -1578,7 +1585,14 @@ class system{
 		if($lines = @file($filename)) {
 			$out = '';
 			foreach($lines as $line) {
-				if($strict == 0) {
+				if($strict == 0 && preg_match('/^REGEX:(.*)$/', $search_pattern)) {
+					if(preg_match(substr($search_pattern, 6), $line)) {
+						$out .= $new_line."\n";
+						$found = 1;
+					} else {
+						$out .= $line;
+					}
+				} elseif($strict == 0) {
 					if(!stristr($line, $search_pattern)) {
 						$out .= $line;
 					}
