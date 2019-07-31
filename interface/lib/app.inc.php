@@ -78,7 +78,7 @@ class app {
 		
 		$this->uses($prop);
 		if(property_exists($this, $prop)) return $this->{$prop};
-		else trigger_error('Undefined property ' . $name . ' of class app', E_USER_WARNING);
+		else trigger_error('Undefined property ' . $prop . ' of class app', E_USER_WARNING);
 	}
 	
 	public function __destruct() {
