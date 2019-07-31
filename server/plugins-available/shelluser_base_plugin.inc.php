@@ -128,7 +128,7 @@ class shelluser_base_plugin {
 					$app->system->chown($homedir,$data['new']['puser'],false);
 					$app->system->chgrp($homedir,$data['new']['pgroup'],false);
 				}
-				$command = 'useradd -d ? -g ? -o ?'; // non unique
+				$command = 'useradd -d ? -g ? -o'; // non unique
 				if($data['new']['password'] != '') $command .= ' -p ' . escapeshellarg($data['new']['password']);
 				$command .= ' -s ? -u ? ?';
 				$app->system->exec_safe($command, $homedir, $data['new']['pgroup'], $data['new']['shell'], $uid, $data['new']['username']);
