@@ -129,9 +129,9 @@ class shelluser_base_plugin {
 					$app->system->chgrp($homedir,$data['new']['pgroup'],false);
 				}
 				$command = 'useradd -d ? -g ? -o ?'; // non unique
-				if($data['new']['password'] != '') $command .= ' -p ?';
+				if($data['new']['password'] != '') $command .= ' -p ' . escapeshellarg($data['new']['password']);
 				$command .= ' -s ? -u ? ?';
-				$app->system->exec_safe($command, $homedir, $data['new']['pgroup'], $data['new']['password'], $data['new']['shell'], $uid, $data['new']['username']);
+				$app->system->exec_safe($command, $homedir, $data['new']['pgroup'], $data['new']['shell'], $uid, $data['new']['username']);
 				$app->log("Executed command: ".$command, LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'], LOGLEVEL_DEBUG);
 				
