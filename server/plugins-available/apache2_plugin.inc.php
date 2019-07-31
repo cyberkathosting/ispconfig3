@@ -606,7 +606,7 @@ class apache2_plugin {
 
 		$groupname = $data['new']['system_group'];
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
-			$app->system->exec_safe('groupadd ? ?', $fixed_gid_param, $groupname);
+			$app->system->exec_safe('groupadd ' . $fixed_gid_param . ' ?', $groupname);
 			if($apache_chrooted) $app->system->exec_safe('chroot ? groupadd ?', $web_config['website_basedir'], $groupname);
 			$app->log('Adding the group: '.$groupname, LOGLEVEL_DEBUG);
 		}
@@ -614,11 +614,11 @@ class apache2_plugin {
 		$username = $data['new']['system_user'];
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
 			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
-				$app->system->exec_safe('useradd -d ? -g ? ? -G sshusers ? -s /bin/false', $data['new']['document_root'], $groupname, $fixed_uid_param, $username);
-				if($apache_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ? -G sshusers ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $fixed_uid_param, $username);
+				$app->system->exec_safe('useradd -d ? -g ? ' . $fixed_uid_param . ' -G sshusers ? -s /bin/false', $data['new']['document_root'], $groupname, $username);
+				if($apache_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ' . $fixed_uid_param . ' -G sshusers ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $username);
 			} else {
-				$app->system->exec_safe('useradd -d ? -g ? ? ? -s /bin/false', $data['new']['document_root'], $groupname, $fixed_uid_param, $username);
-				if($apache_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ? ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $fixed_uid_param, $username);
+				$app->system->exec_safe('useradd -d ? -g ? ' . $fixed_uid_param . ' ? -s /bin/false', $data['new']['document_root'], $groupname, $username);
+				if($apache_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ' . $fixed_uid_param . ' ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $username);
 			}
 			$app->log('Adding the user: '.$username, LOGLEVEL_DEBUG);
 		}
