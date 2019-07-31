@@ -2077,6 +2077,7 @@ class system{
 		}
 		if($arg_count > 1) {
 			$args = func_get_args();
+			array_shift($args);
 
 			$pos = 0;
 			$a = 0;
