@@ -54,8 +54,9 @@ if($type == 'create_dkim' && $domain_id != ''){
 	if ($dkim_strength=='') $dkim_strength = 2048;
 	
 	$rnd_val = $dkim_strength * 10;
-	$app->system->exec_safe('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
-	$app->system->exec_safe('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
+	$app->system->exec_safe('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null');
+	$app->system->exec_safe('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null');
+	$privkey = $app->system->last_exec_out();
 	unlink("../../temp/random-data.bin");
 	$dkim_private='';
 	foreach($privkey as $values) $dkim_private=$dkim_private.$values."\n";
