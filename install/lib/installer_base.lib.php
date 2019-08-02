@@ -1578,13 +1578,13 @@ class installer_base {
 			exec('cp tpl/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
 		}
 
-		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
-
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
 		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
 		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
 
+		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
+		
 		$command = 'usermod -a -G amavis _rspamd';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 			
