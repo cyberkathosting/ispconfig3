@@ -1559,9 +1559,11 @@ class apache2_plugin {
 
 		if($default_php_fpm){
 			$pool_dir = $web_config['php_fpm_pool_dir'];
+		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
 		$pool_dir = trim($pool_dir);
+
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['new']['domain_id'];
 		$socket_dir = $web_config['php_fpm_socket_dir'];
