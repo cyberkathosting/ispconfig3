@@ -2226,7 +2226,10 @@ class installer_base {
 				$tpl->setVar('logging','yes');
 			}
 
-
+			if($conf['rspamd']['installed'] == true) {
+				$tpl->setVar('use_rspamd', 'yes');
+			}
+			
 			// comment out the listen directive if port is 80 or 443
 			if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
 				$tpl->setVar('vhost_port_listen','#');
@@ -2294,6 +2297,12 @@ class installer_base {
 				$apps_vhost_ip = $conf['web']['apps_vhost_ip'].':';
 			}
 
+			if($conf['rspamd']['installed'] == true) {
+				$content = str_replace('{use_rspamd}', '', $content);
+			} else {
+				$content = str_replace('{use_rspamd}', '# ', $content);
+			}
+			
 			$socket_dir = escapeshellcmd($conf['nginx']['php_fpm_socket_dir']);
 			if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
 			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
