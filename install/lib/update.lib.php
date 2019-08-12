@@ -335,6 +335,9 @@ function updateDbAndIni() {
 	$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
 	$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
 	$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
+	// do not switch to rspamd automatically!
+	// $tpl_ini_array['mail']['content_filter'] = @($conf['rspamd']['installed']) ? 'rspamd' : 'amavis';
+	$tpl_ini_array['mail']['rspamd_available'] = @($conf['rspamd']['installed']) ? 'y' : 'n';
 	$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 	$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 	$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
