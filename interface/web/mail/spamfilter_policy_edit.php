@@ -49,48 +49,9 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-
-	function onShow() {
-		global $app, $conf;
-		
-		// get the config
-		$app->uses('getconf');
-		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		
-		$content_filter = 'amavisd';
-		if($mail_config['content_filter'] == 'rspamd'){
-			$content_filter = 'rspamd';
-			unset($app->tform->formDef["tabs"]["policy"]['fields']['banned_files_lover']);
-			unset($app->tform->formDef["tabs"]["policy"]['fields']['bad_header_lover']);
-			unset($app->tform->formDef["tabs"]["policy"]['fields']['bypass_virus_checks']);
-			unset($app->tform->formDef["tabs"]["policy"]['fields']['bypass_banned_checks']);
-			unset($app->tform->formDef["tabs"]["policy"]['fields']['bypass_header_checks']);
-			
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_tag_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_tag2_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_kill_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_dsn_cutoff_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_quarantine_cutoff_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_modifies_subj']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_subject_tag']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['spam_subject_tag2']);
-			
-			unset($app->tform->formDef["tabs"]["quarantine"]);
-			unset($app->tform->formDef["tabs"]["other"]);
-		} else {
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['rspamd_greylisting']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['rspamd_spam_greylisting_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['rspamd_spam_tag_level']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['rspamd_spam_tag_method']);
-			unset($app->tform->formDef["tabs"]["taglevel"]['fields']['rspamd_spam_kill_level']);
-		}
-		$app->tpl->setVar("content_filter", $content_filter);
-		
-		parent::onShow();
-	}
 	
 	function onShowNew() {
-		global $app, $conf;
+		global $app;
 
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
@@ -106,7 +67,7 @@ class page_action extends tform_actions {
 	}
 
 	function onSubmit() {
-		global $app, $conf;
+		global $app;
 
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
@@ -128,35 +89,30 @@ class page_action extends tform_actions {
 	}
 	
 	function onAfterUpdate() {
-		global $app, $conf;
+		global $app;
 		
-		$app->uses('getconf');
-		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-		
-		if($mail_config['content_filter'] == 'rspamd'){
-			$record_has_changed = false;
-			if(isset($this->dataRecord['rspamd_spam_greylisting_level']) && !isset($this->dataRecord['rspamd_greylisting'])) $this->dataRecord['rspamd_greylisting'] = 'n';
-			foreach($this->dataRecord as $key => $val) {
-				if(isset($this->oldDataRecord[$key]) && @$this->oldDataRecord[$key] != $val) {
-					// Record has changed
-					$record_has_changed = true;
-				}
+		$record_has_changed = false;
+		if(isset($this->dataRecord['rspamd_spam_greylisting_level']) && !isset($this->dataRecord['rspamd_greylisting'])) {
+			$this->dataRecord['rspamd_greylisting'] = 'n';
+		}
+		foreach($this->dataRecord as $key => $val) {
+			if(isset($this->oldDataRecord[$key]) && @$this->oldDataRecord[$key] != $val) {
+				// Record has changed
+				$record_has_changed = true;
 			}
-		
-			if($record_has_changed){
-				$spamfilter_users = $app->db->queryAllRecords("SELECT * FROM spamfilter_users WHERE policy_id = ?", intval($this->id));
+		}
 
-				if(is_array($spamfilter_users) && !empty($spamfilter_users)){
-					foreach($spamfilter_users as $spamfilter_user){
-						$app->db->datalogUpdate('spamfilter_users', $spamfilter_user, 'id', $spamfilter_user["id"], true);
-					}
+		if($record_has_changed){
+			$spamfilter_users = $app->db->queryAllRecords("SELECT * FROM spamfilter_users WHERE policy_id = ?", intval($this->id));
+
+			if(is_array($spamfilter_users) && !empty($spamfilter_users)){
+				foreach($spamfilter_users as $spamfilter_user){
+					$app->db->datalogUpdate('spamfilter_users', $spamfilter_user, 'id', $spamfilter_user["id"], true);
 				}
 			}
 		}
 	}
-
 }
 
 $app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
-?>
