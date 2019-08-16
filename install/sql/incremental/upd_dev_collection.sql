@@ -35,3 +35,5 @@ ALTER TABLE `ftp_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT 
 ALTER TABLE `shell_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
 ALTER TABLE `sys_user` CHANGE COLUMN `passwort` `passwort` VARCHAR(200) DEFAULT NULL;
 ALTER TABLE `webdav_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
+
+DELETE FROM sys_cron WHERE `next_run` IS NOT NULL AND `next_run` >= DATE_ADD(`last_run`, INTERVAL 30 DAY) AND `next_run` BETWEEN '2020-01-01' AND '2020-01-02';
