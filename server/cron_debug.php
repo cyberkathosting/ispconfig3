@@ -39,7 +39,7 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE);
 $conf['server_id'] = intval($conf['server_id']);
 
 // Load required base-classes
-$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('modules,plugins,ini_parser,file,services,getconf,system,cron,functions');
 $app->load('libdatetime,cronjob');
 
 // Path settings
