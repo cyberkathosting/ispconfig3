@@ -100,7 +100,7 @@ class cronjob {
 		// check the run time and values for this job
 
 		// get previous run data
-		$data = $app->db->queryOneRecord("SELECT `last_run`, `next_run`, `running` FROM `sys_cron` WHERE `name` = ?", get_class($this));
+		$data = $app->db->queryOneRecord("SELECT `last_run`, `next_run`, IF(`last_run` IS NOT NULL AND `last_run` < DATE_SUB(NOW(), INTERVAL 24 HOUR), 0, `running`) as `running` FROM `sys_cron` WHERE `name` = ?", get_class($this));
 		if($data) {
 			if($data['last_run']) $this->_last_run = $data['last_run'];
 			if($data['next_run']) $this->_next_run = $data['next_run'];
