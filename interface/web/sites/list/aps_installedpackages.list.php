@@ -28,6 +28,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+// Load the APS language file
+$lngfile = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_aps.lng';
+require_once $lngfile;
+$app->tpl->setVar($wb);
+$app->load_language_file('web/sites/'.$lngfile);
+
 $liste['name'] = 'aps_instances'; // Name of the list
 $liste['table'] = 'aps_instances'; // Database table
 $liste['table_idx'] = 'id'; // Table index
@@ -85,9 +91,9 @@ $liste["item"][] = array('field'    => 'instance_status',
 	'prefix'   => '',
 	'suffix'   => '',
 	'width'    => '',
-	'value'    => array(INSTANCE_INSTALL => $app->lng('Installation_task'),
-		INSTANCE_ERROR => $app->lng('Installation_error'),
-		INSTANCE_SUCCESS => $app->lng('Installation_success'),
-		INSTANCE_REMOVE => $app->lng('Installation_remove')),
+	'value'    => array(INSTANCE_INSTALL => $app->lng('installation_task_txt'),
+		INSTANCE_ERROR => $app->lng('installation_error_txt'),
+		INSTANCE_SUCCESS => $app->lng('installation_success_txt'),
+		INSTANCE_REMOVE => $app->lng('installation_remove_txt')),
 	'table' => 'aps_instances');
 ?>
