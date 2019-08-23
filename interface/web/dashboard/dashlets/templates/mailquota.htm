@@ -12,7 +12,7 @@
 		<tbody>
 		<tmpl_loop name='mailquota'>
 			<tr>
-				<td>{tmpl_var name='email'}</td>
+				<td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='mailuser_id'}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{tmpl_var name='email'}">{tmpl_var name='email'}</a></td>
 				<td>{tmpl_var name='name'}</td>
 				<td>{tmpl_var name='used'}</td>
 				<td>{tmpl_var name='quota'}</td>
