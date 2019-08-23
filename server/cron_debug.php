@@ -66,6 +66,7 @@ $cronjob->onPrepare();
 $cronjob->onBeforeRun();
 $cronjob->onRunJob();
 $cronjob->onAfterRun();
+$cronjob->onCompleted();
 
 die("finished.\n");
 
