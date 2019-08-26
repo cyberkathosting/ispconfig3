@@ -293,6 +293,22 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 */
 checkDbHealth();
 
+
+/*
+ * Check command line mysql login
+ */
+if( !empty($conf["mysql"]["admin_password"]) ) {
+	$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -P ".escapeshellarg($conf['mysql']['port'])." -D ".escapeshellarg($conf['mysql']['database'])." -e ". escapeshellarg('SHOW DATABASES');
+} else {
+	$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -P ".escapeshellarg($conf['mysql']['port'])." -D ".escapeshellarg($conf['mysql']['database'])." -e ". escapeshellarg('SHOW DATABASES');
+}
+$retval = 0;
+$retout = array();
+exec($cmd, $retout, $retval);
+if($retval != 0) {
+	die("Unable to call mysql command line with credentials from mysql_clientdb.conf\n");
+}
+
 /*
  *  dump the new Database and reconfigure the server.ini
  */
