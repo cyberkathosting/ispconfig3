@@ -2070,6 +2070,8 @@ class system{
 	}
 	
 	public function exec_safe($cmd) {
+		global $app;
+		
 		$arg_count = func_num_args();
 		if($arg_count != substr_count($cmd, '?') + 1) {
 			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
@@ -2096,12 +2098,93 @@ class system{
 		
 		$this->_last_exec_out = null;
 		$this->_last_exec_retcode = null;
-		return exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+		$ret = exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+		
+		$this->app->log("safe_exec cmd: " . $cmd . " - return code: " . $this->_last_exec_retcode, LOGLEVEL_DEBUG);
+		
+		return $ret;
 	}
 	
 	public function system_safe($cmd) {
 		call_user_func_array(array($this, 'exec_safe'), func_get_args());
 		return implode("\n", $this->_last_exec_out);
+	}
+	
+	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		// Check if USERHOMEDIR already exists
+		if(!is_dir($home_dir . '/.' . $user_home_dir)) {
+			$this->mkdirpath($home_dir . '/.' . $user_home_dir, 0755, $username);
+		}
+
+		// Reconfigure the chroot home directory for the user
+		$cmd = 'usermod --home=? ? 2>/dev/null';
+		$this->exec_safe($cmd, $home_dir . '/.' . $user_home_dir, $username);
+
+		// Add the chroot user
+		$cmd = 'jk_jailuser -n -s ? -j ? ?';
+		$this->exec_safe($cmd, $shell, $home_dir, $username);
+
+		//  We have to reconfigure the chroot home directory for the parent user
+		if($p_user !== null) {
+			$cmd = 'usermod --home=? ? 2>/dev/null';
+			$this->exec_safe($cmd, $home_dir . '/.' . $p_user_home_dir, $p_user);
+		}
+		
+		return true;
+	}
+	
+	public function create_jailkit_programs($home_dir, $programs = array()) {
+		if(empty($programs)) {
+			return true;
+		}
+		$program_args = '';
+		foreach($programs as $prog) {
+			$program_args .= ' ' . escapeshellarg($prog);
+		}
+		
+		$cmd = 'jk_cp -k ?' . $program_args;
+		$this->exec_safe($cmd, $home_dir);
+		
+		return true;
+	}
+	
+	public function create_jailkit_chroot($home_dir, $app_sections = array()) {
+		if(empty($app_sections)) {
+			return true;
+		}
+		
+		// Change ownership of the chroot directory to root
+		$app->system->chown($home_dir, 'root');
+		$app->system->chgrp($home_dir, 'root');
+
+		$app_args = '';
+		foreach($app_sections as $app_section) {
+			$app_args .= ' ' . escapeshellarg($app_section);
+		}
+		
+		// Initialize the chroot into the specified directory with the specified applications
+		$cmd = 'jk_init -f -k -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
+		$this->exec_safe($cmd, $home_dir);
+
+		// Create the temp directory
+		if(!is_dir($home_dir . '/tmp')) {
+			$this->mkdirpath($home_dir . '/tmp', 0777);
+		} else {
+			$this->chmod($home_dir . '/tmp', 0777);
+		}
+
+		// Fix permissions of the root firectory
+		$this->chmod($home_dir . '/bin', 0755);  // was chmod g-w $CHROOT_HOMEDIR/bin
+
+		// mysql needs the socket in the chrooted environment
+		$this->mkdirpath($home_dir . '/var/run/mysqld');
+		
+		// ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
+		if(!file_exists("/var/run/mysqld/mysqld.sock")) {
+			$this->exec_safe('ln ? ?', '/var/run/mysqld/mysqld.sock', $home_dir . '/var/run/mysqld/mysqld.sock');
+		}
+		
+		return true;
 	}
 	
 }

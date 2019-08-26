@@ -273,10 +273,8 @@ class shelluser_jailkit_plugin {
 		//check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->data['new']['dir'].'/etc/jailkit'))
 		{
-			$command = '/usr/local/ispconfig/server/scripts/create_jailkit_chroot.sh ? ?';
-			$app->system->exec_safe($command.' 2>/dev/null', $this->data['new']['dir'], $this->jailkit_config['jailkit_chroot_app_sections']);
-
-			$this->app->log("Added jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+			$app->system->create_jailkit_chroot($this->data['new']['dir'], preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']));
+			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->_add_jailkit_programs();
 
@@ -323,10 +321,8 @@ class shelluser_jailkit_plugin {
 				$jailkit_chroot_app_program = trim($jailkit_chroot_app_program);
 				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){			
 					//copy over further programs and its libraries
-					$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh ? ?';
-					$app->system->exec_safe($command.' 2>/dev/null', $this->data['new']['dir'], $jailkit_chroot_app_program);
-
-					$this->app->log("Added programs to jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+					$app->system->create_jailkit_programs($this->data['new']['dir'], $jailkit_chroot_app_program);
+					$this->app->log("Added programs to jailkit chroot", LOGLEVEL_DEBUG);
 				}
 			}
 		}
@@ -357,16 +353,13 @@ class shelluser_jailkit_plugin {
 		// ALWAYS create the user. Even if the user was created before
 		// if we check if the user exists, then a update (no shell -> jailkit) will not work
 		// and the user has FULL ACCESS to the root of the server!
-		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_user.sh ? ? ? ? ? ?';
-		$app->system->exec_safe($command.' 2>/dev/null', $this->data['new']['username'], $this->data['new']['dir'], $jailkit_chroot_userhome, $this->data['new']['shell'], $this->data['new']['puser'], $jailkit_chroot_puserhome);
+		$app->system->create_jailkit_user($this->data['new']['username'], $this->data['new']['dir'], $jailkit_chroot_userhome, $this->data['new']['shell'], $this->data['new']['puser'], $jailkit_chroot_puserhome);
 
 		$shell = '/usr/sbin/jk_chrootsh';
 		if($this->data['new']['active'] != 'y') $shell = '/bin/false';
 		
 		$app->system->usermod($this->data['new']['username'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, $shell);
 		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_puserhome, '/usr/sbin/jk_chrootsh');
-
-		$this->app->log("Added jailkit user to chroot with command: ".$command, LOGLEVEL_DEBUG);
 
 		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_userhome)) {
 			if(is_dir($this->data['old']['dir'].$jailkit_chroot_userhome_old)) {
