@@ -2154,8 +2154,8 @@ class system{
 		}
 		
 		// Change ownership of the chroot directory to root
-		$app->system->chown($home_dir, 'root');
-		$app->system->chgrp($home_dir, 'root');
+		$this->chown($home_dir, 'root');
+		$this->chgrp($home_dir, 'root');
 
 		$app_args = '';
 		foreach($app_sections as $app_section) {
