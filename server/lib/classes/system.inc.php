@@ -2136,6 +2136,8 @@ class system{
 	public function create_jailkit_programs($home_dir, $programs = array()) {
 		if(empty($programs)) {
 			return true;
+		} elseif(is_string($programs)) {
+			$programs = preg_split('/[\s,]+/', $programs);
 		}
 		$program_args = '';
 		foreach($programs as $prog) {
@@ -2151,6 +2153,8 @@ class system{
 	public function create_jailkit_chroot($home_dir, $app_sections = array()) {
 		if(empty($app_sections)) {
 			return true;
+		} elseif(is_string($app_sections)) {
+			$app_sections = preg_split('/[\s,]+/', $app_sections);
 		}
 		
 		// Change ownership of the chroot directory to root
@@ -2170,11 +2174,11 @@ class system{
 		if(!is_dir($home_dir . '/tmp')) {
 			$this->mkdirpath($home_dir . '/tmp', 0777);
 		} else {
-			$this->chmod($home_dir . '/tmp', 0777);
+			$this->chmod($home_dir . '/tmp', 0777, true);
 		}
 
 		// Fix permissions of the root firectory
-		$this->chmod($home_dir . '/bin', 0755);  // was chmod g-w $CHROOT_HOMEDIR/bin
+		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
 
 		// mysql needs the socket in the chrooted environment
 		$this->mkdirpath($home_dir . '/var/run/mysqld');

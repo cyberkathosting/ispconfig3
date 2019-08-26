@@ -216,7 +216,7 @@ class cron_jailkit_plugin {
 		//check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->parent_domain['document_root'].'/etc/jailkit'))
 		{
-			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']));
+			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections']);
 
 			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
@@ -256,10 +256,10 @@ class cron_jailkit_plugin {
 		global $app;
 
 		//copy over further programs and its libraries
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_programs']));
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs']);
 		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
 		
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_cron_programs']));
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs']);
 		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 

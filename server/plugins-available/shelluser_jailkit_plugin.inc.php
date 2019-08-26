@@ -273,7 +273,7 @@ class shelluser_jailkit_plugin {
 		//check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->data['new']['dir'].'/etc/jailkit'))
 		{
-			$app->system->create_jailkit_chroot($this->data['new']['dir'], preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']));
+			$app->system->create_jailkit_chroot($this->data['new']['dir'], $this->jailkit_config['jailkit_chroot_app_sections']);
 			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->_add_jailkit_programs();
