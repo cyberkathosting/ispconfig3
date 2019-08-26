@@ -2100,7 +2100,7 @@ class system{
 		$this->_last_exec_retcode = null;
 		$ret = exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
 		
-		$this->app->log("safe_exec cmd: " . $cmd . " - return code: " . $this->_last_exec_retcode, LOGLEVEL_DEBUG);
+		$app->log("safe_exec cmd: " . $cmd . " - return code: " . $this->_last_exec_retcode, LOGLEVEL_DEBUG);
 		
 		return $ret;
 	}
