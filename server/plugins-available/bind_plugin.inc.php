@@ -391,7 +391,7 @@ class bind_plugin {
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
  		//* DNSSEC-Implementation
- 		if($data['old']['dnssec_initialized'] == 'Y') {
+ 		if($data['old']['dnssec_initialized'] == 'Y' && file_exists('/usr/local/ispconfig/server/scripts/dnssec-delete.sh')) {
 			//delete keys
 			$app->system->exec_safe('/usr/local/ispconfig/server/scripts/dnssec-delete.sh ?', $data['old']['origin']);
 		}
