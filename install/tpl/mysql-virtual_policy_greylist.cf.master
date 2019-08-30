@@ -1,5 +1,6 @@
 user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
-query = SELECT 'greylisting' FROM (SELECT greylisting, source AS email FROM mail_forwarding WHERE server_id = {server_id} UNION SELECT greylisting, email FROM mail_user WHERE server_id = {server_id}) addresses WHERE addresses.email='%s' AND addresses.greylisting='y' UNION SELECT 'greylisting' FROM `mail_forwarding` f CROSS JOIN `mail_user` u ON u.email = f.destination WHERE f.type = 'catchall' AND u.greylisting = 'y' AND u.server_id = {server_id} AND f.source = '@%s'
+query = SELECT 'greylisting' FROM (SELECT `greylisting`, 1 as `prio` FROM `mail_user` WHERE `server_id` = {server_id} AND `email` = '%s' UNION SELECT `greylisting`, 2 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '%s' UNION SELECT `greylisting`, 3 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '@%s' ORDER BY `prio` ASC LIMIT 1) as rules WHERE rules.greylisting = 'y'
+
 hosts = {mysql_server_ip}
