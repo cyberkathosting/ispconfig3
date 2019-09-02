@@ -6,7 +6,7 @@
 <table class="table">
                 <thead class="dark form-group-sm">
                     <tr>
-                        <th>{tmpl_var name='name_txt'}</th>
+                        <th colspan="2">{tmpl_var name='name_txt'}</th>
                         <th>{tmpl_var name='version_txt'}</th>
                         <th>{tmpl_var name='category_txt'}</th>
                             <tmpl_if name='is_admin'>
@@ -15,7 +15,7 @@
                         <th class="small-col text-right">&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
+                        <td colspan="2"><input class="form-control" type="text" name="search_name" value="{tmpl_var name='search_name'}" /></td>
                         <td><input class="form-control" type="text" name="search_version" value="{tmpl_var name='search_version'}" /></td>
                         <td><select class="form-control" name="search_category" onChange="ISPConfig.submitForm('pageForm','sites/aps_availablepackages_list.php');">{tmpl_var name='search_category'}</select></td>
                             <tmpl_if name='is_admin'>
@@ -27,7 +27,7 @@
                 <tbody>
                     <tmpl_loop name='records'>
                         <tr>
-                            <td><a href="#" data-load-content="sites/aps_packagedetails_show.php?id={tmpl_var name='id'}">{tmpl_var name='name'}</a></td>
+                            <td colspan="2"><a href="#" data-load-content="sites/aps_packagedetails_show.php?id={tmpl_var name='id'}">{tmpl_var name='name'}</a></td>
                             <td>{tmpl_var name='version'}-{tmpl_var name='release'}</td>
                             <td>{tmpl_var name='category'}</td>
                                 <tmpl_if name='is_admin'>
