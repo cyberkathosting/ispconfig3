@@ -33,7 +33,7 @@ class rspamd_plugin {
 	var $plugin_name = 'rspamd_plugin';
 	var $class_name  = 'rspamd_plugin';
 	var $users_config_dir = '/etc/rspamd/local.d/users/';
-
+	
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
@@ -57,109 +57,195 @@ class rspamd_plugin {
 		Register for the events
 		*/
 
-		//* spamfilter_users
-		$app->plugins->registerEvent('spamfilter_users_insert', $this->plugin_name, 'spamfilter_users_insert');
-		$app->plugins->registerEvent('spamfilter_users_update', $this->plugin_name, 'spamfilter_users_update');
-		$app->plugins->registerEvent('spamfilter_users_delete', $this->plugin_name, 'spamfilter_users_delete');
-
 		//* spamfilter_wblist
 		$app->plugins->registerEvent('spamfilter_wblist_insert', $this->plugin_name, 'spamfilter_wblist_insert');
 		$app->plugins->registerEvent('spamfilter_wblist_update', $this->plugin_name, 'spamfilter_wblist_update');
 		$app->plugins->registerEvent('spamfilter_wblist_delete', $this->plugin_name, 'spamfilter_wblist_delete');
+		
+		//* global mail access filters
+		$app->plugins->registerEvent('mail_access_insert', $this->plugin_name, 'spamfilter_wblist_insert');
+		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
+		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
 		
 		//* server ip
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
 		
-		//* global mail access filters
-		$app->plugins->registerEvent('mail_access_insert', $this->plugin_name, 'spamfilter_wblist_insert');
-		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
-		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
+		//* spamfilter_users
+		$app->plugins->registerEvent('spamfilter_users_insert', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('spamfilter_users_update', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('spamfilter_users_delete', $this->plugin_name, 'user_settings_update');
+
+		//* mail user / fwd / catchall changed (greylisting)
+		$app->plugins->registerEvent('mail_user_insert', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('mail_user_update', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('mail_user_delete', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('mail_forwarding_insert', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('mail_forwarding_update', $this->plugin_name, 'user_settings_update');
+		$app->plugins->registerEvent('mail_forwarding_delete', $this->plugin_name, 'user_settings_update');
 	}
 
-	function spamfilter_users_insert($event_name, $data) {
-		$this->action = 'insert';
-		// just run the spamfilter_users_update function
-		$this->spamfilter_users_update($event_name, $data);
-	}
-
-	function spamfilter_users_update($event_name, $data) {
+	function user_settings_update($event_name, $data) {
 		global $app, $conf;
+		
+		if(!is_dir('/etc/rspamd')) {
+			return;
+		}
+		
+		$use_data = 'new';
+		if(substr($event_name, -7) === 'delete') {
+			$mode = 'delete';
+			$use_data = 'old';
+		} elseif(substr($event_name, -7) === 'insert') {
+			$mode = 'insert';
+		} else {
+			$mode = 'update';
+		}
 
 		// get the config
 		$app->uses('getconf,system,functions');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-
-		if(is_dir('/etc/rspamd')) {
-			$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+		
+		$type = false;
+		$identifier = false;
+		$entry_id = false;
+		if(substr($event_name, 0, 17) === 'spamfilter_users_') {
+			$identifier = 'email';
+			$type = 'spamfilter_user';
+			$entry_id = $data[$use_data]['id'];
+		} elseif(substr($event_name, 0, 16) === 'mail_forwarding_') {
+			$identifier = 'source';
+			$type = 'mail_forwarding';
+			$entry_id = $data[$use_data]['forwarding_id'];
+		} elseif(substr($event_name, 0, 10) === 'mail_user_') {
+			$identifier = 'email';
+			$type = 'mail_user';
+			$entry_id = $data[$use_data]['mailuser_id'];
+		} else {
+			// invalid event
+			$app->log('Invalid event name for rspamd_plugin: ' . $event_name, LOGLEVEL_WARN);
+			return;
+		}
+		
+		$is_domain = false;
+		$email_address = $data[$use_data][$identifier];
+		$settings_name =  $email_address;
+		if(!$email_address) {
+			// problem reading identifier
+			$app->log('Empty email address in rspamd_plugin from identifier: ' . $use_data . '/' . $identifier, LOGLEVEL_WARN);
+			return;
+		} elseif(substr($email_address, 0, 1) === '@') {
+			$settings_name = substr($email_address, 1);
+			$is_domain = true;
+		} elseif(strpos($email_address, '@') === false) {
+			$email_address = '@' . $email_address;
+			$is_domain = true;
+		}
+		
+		if($settings_name == '') {
+			// missing settings file name
+			$app->log('Empty email address in rspamd_plugin from identifier: ' . $use_data . '/' . $identifier, LOGLEVEL_WARN);
+			return;
+		}
+		
+		$settings_file = $this->users_config_dir . str_replace('@', '_', $settings_name) . '.conf';
+		$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
+		if($mode === 'delete') {
+			if(is_file($settings_file)) {
+				unlink($settings_file);
+			}
+		} else {
+			$settings_priority = 20;
+			if(isset($data[$use_data]['priority'])) {
+				$settings_priority = intval($data[$use_data]['priority']);
+			} elseif($is_domain === true) {
+				$settings_priority = 18;
+			}
 			
-			//* Create the config file
-			$user_file = $this->users_config_dir.'spamfilter_user_'.intval($data['new']['id']).'.conf';
-		
-			if(is_array($policy) && !empty($policy)){
-				if(!is_dir($this->users_config_dir)){
-					$app->system->mkdirpath($this->users_config_dir);
+			// get policy for entry
+			if($type === 'spamfilter_user') {
+				$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+				
+				$check = $app->db->queryOneRecord('SELECT `greylisting` FROM `mail_user` WHERE `server_id` = ? AND `email` = ? UNION SELECT `greylisting` FROM `mail_forwarding` WHERE `server_id` = ? AND `source` = ? ORDER BY (`greylisting` = ?) DESC', $conf['server_id'], $email_address, $conf['server_id'], $email_address, 'y');
+				if($check) {
+					$greylisting = $check['greylisting'];
+				} else {
+					$greylisting = 'n';
 				}
-		
-				$app->load('tpl');
-
-				$tpl = new tpl();
-				$tpl->newTemplate('rspamd_users.inc.conf.master');
-				$tpl->setVar('record_id', intval($data['new']['id']));
-				$tpl->setVar('priority', intval($data['new']['priority']));
-				$tpl->setVar('email', $app->functions->idn_encode($data['new']['email']));
-				$tpl->setVar('local', $data['new']['local']);
-				
-				$tpl->setVar('rspamd_greylisting', $policy['rspamd_greylisting']);
-				$tpl->setVar('rspamd_spam_greylisting_level', floatval($policy['rspamd_spam_greylisting_level']));
-				
-				$tpl->setVar('rspamd_spam_tag_level', floatval($policy['rspamd_spam_tag_level']));
-				$tpl->setVar('rspamd_spam_tag_method', $policy['rspamd_spam_tag_method']);
-				
-				$tpl->setVar('rspamd_spam_kill_level', floatval($policy['rspamd_spam_kill_level']));
-				$tpl->setVar('rspamd_virus_kill_level', floatval($policy['rspamd_spam_kill_level']) + 1000);
-				
-				$spam_lover_virus_lover = '';
-				if($policy['spam_lover'] == 'Y' && $policy['virus_lover'] == 'Y') $spam_lover_virus_lover = 'spam_lover_AND_virus_lover';
-				if($policy['spam_lover'] == 'Y' && $policy['virus_lover'] != 'Y') $spam_lover_virus_lover = 'spam_lover_AND_NOTvirus_lover';
-				if($policy['spam_lover'] != 'Y' && $policy['virus_lover'] == 'Y') $spam_lover_virus_lover = 'NOTspam_lover_AND_virus_lover';
-				if($policy['spam_lover'] != 'Y' && $policy['virus_lover'] != 'Y') $spam_lover_virus_lover = 'NOTspam_lover_AND_NOTvirus_lover';
-				
-				$tpl->setVar('spam_lover_virus_lover', $spam_lover_virus_lover);
-				
-				//$groups_disabled = array();
-				//if($policy['virus_lover'] == 'Y') $groups_disabled[] = '';
-		
-				$app->system->file_put_contents($user_file, $tpl->grab());
 			} else {
-				if(is_file($user_file)) {
-					unlink($user_file);
+				$search_for_policy[] = $email_address;
+				$search_for_policy[] = substr($email_address, strpos($email_address, '@'));
+				
+				$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id =  AND u.email IN ? ORDER BY u.priority DESC", $conf['server_id'], $search_for_policy);
+				
+				$greylisting = $data[$use_data]['greylisting'];
+			}
+			
+			if(!is_dir($this->users_config_dir)){
+				$app->system->mkdirpath($this->users_config_dir);
+			}
+			
+			$app->load('tpl');
+			
+			$tpl = new tpl();
+			$tpl->newTemplate('rspamd_users.inc.conf.master');
+			
+			$tpl->setVar('record_identifier', 'ispc_' . $type . '_' . $entry_id);
+			$tpl->setVar('priority', $settings_priority);
+			
+			if($type === 'spamfilter_user') {
+				if($data[$use_data]['local'] === 'Y') {
+					$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
+				} else {
+					$tpl->setVar('from_email', $app->functions->idn_encode($email_address));
 				}
+				$spamfilter = $data[$use_data];
+			} else {
+				$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
+				
+				// need to get matching spamfilter user if any
+				$spamfilter = $app->db->queryOneRecord('SELECT * FROM spamfilter_users WHERE `email` = ?', $email_address);
 			}
 			
-			if($mail_config['content_filter'] == 'rspamd'){
-				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+			if(!isset($policy['rspamd_spam_tag_level'])) {
+				$policy['rspamd_spam_tag_level'] = 6.0;
 			}
-		}
-	}
-
-	function spamfilter_users_delete($event_name, $data) {
-		global $app, $conf;
-
-		// get the config
-		$app->uses('getconf');
-		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
-
-		if(is_dir('/etc/rspamd')) {
-			//* delete the config file
-			$user_file = $this->users_config_dir.'spamfilter_user_'.intval($data['old']['id']).'.conf';
-			if(is_file($user_file)) unlink($user_file);
+			if(!isset($policy['rspamd_spam_tag_method'])) {
+				$policy['rspamd_spam_tag_method'] = 'add_header';
+			}
+			if(!isset($policy['rspamd_spam_kill_level'])) {
+				$policy['rspamd_spam_kill_level'] = 15.0;
+			}
+			if(!isset($policy['rspamd_virus_kill_level'])) {
+				$policy['rspamd_virus_kill_level'] = floatval($policy['rspamd_spam_kill_level']) + 1000;
+			}
 			
+			$tpl->setVar('rspamd_spam_tag_level', floatval($policy['rspamd_spam_tag_level']));
+			$tpl->setVar('rspamd_spam_tag_method', floatval($policy['rspamd_spam_tag_method']));
+			$tpl->setVar('rspamd_spam_kill_level', floatval($policy['rspamd_spam_kill_level']));
+			$tpl->setVar('rspamd_virus_kill_level', floatval($policy['rspamd_spam_kill_level']) + 1000);
+			
+			if(isset($policy['spam_lover']) && $policy['spam_lover'] == 'Y') {
+				$tpl->setVar('spam_lover', true);
+			}
+			if(isset($policy['virus_lover']) && $policy['virus_lover'] == 'Y') {
+				$tpl->setVar('virus_lover', true);
+			}
+			
+			$tpl->setVar('greylisting', $greylisting);
+
+			if(isset($policy['rspamd_spam_greylisting_level'])) {
+				$tpl->setVar('greylisting_level', floatval($policy['rspamd_spam_greylisting_level']));
+			} else {
+				$tpl->setVar('greylisting_level', 0.1);
+			}
+
+			$app->system->file_put_contents($settings_file, $tpl->grab());
 		}
-		
-		if($mail_config['content_filter'] == 'rspamd') {
-			if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+
+		if($mail_config['content_filter'] == 'rspamd'){
+			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 	}
 
@@ -234,7 +320,7 @@ class rspamd_plugin {
 				$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
 				$tpl->setVar('record_id', $record_id);
 				// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-				$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 20 : 10));
+				$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
 				$tpl->setVar('from', $filter_from);
 				$tpl->setVar('recipient', $filter_rcpt);
 				$tpl->setVar('hostname', $filter['hostname']);
@@ -315,5 +401,4 @@ class rspamd_plugin {
 			return false;
 		}
 	}
-	
 } // end class

@@ -92,9 +92,6 @@ class page_action extends tform_actions {
 		global $app;
 		
 		$record_has_changed = false;
-		if(isset($this->dataRecord['rspamd_spam_greylisting_level']) && !isset($this->dataRecord['rspamd_greylisting'])) {
-			$this->dataRecord['rspamd_greylisting'] = 'n';
-		}
 		foreach($this->dataRecord as $key => $val) {
 			if(isset($this->oldDataRecord[$key]) && @$this->oldDataRecord[$key] != $val) {
 				// Record has changed

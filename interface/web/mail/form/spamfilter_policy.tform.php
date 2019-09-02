@@ -471,12 +471,6 @@ $form["tabs"]['rspamd'] = array (
 		//#################################
 		// Begin Datatable fields
 		//#################################
-		'rspamd_greylisting' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'y',
-			'value'  => array(0 => 'n', 1 => 'y')
-		),
 		'rspamd_spam_greylisting_level' => array (
 			'datatype' => 'DOUBLE',
 			'formtype' => 'TEXT',
