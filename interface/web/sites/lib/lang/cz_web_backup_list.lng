@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Stávající zálohy';
+$wb['list_head_txt'] = 'Dostupné zálohy';
 $wb['date_txt'] = 'Datum';
 $wb['backup_type_txt'] = 'Verze';
 $wb['filename_txt'] = 'Záloha souborů';
@@ -16,6 +16,6 @@ $wb['filesize_txt'] = 'Velikost souboru';
 $wb['delete_backup_txt'] = 'Smazat zálohu';
 $wb['delete_info_txt'] = 'Bylo zahájeno odstranění zálohy. Tato akce může trvat několik minut než bude dokončena.';
 $wb['delete_confirm_txt'] = 'Opravdu chcete smazat tuto zálohu ?';
-$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
+$wb['delete_pending_txt'] = 'Již existuje čekající úloha pro odstranění zálohy.';
 $wb['backup_type_mongodb'] = 'MongoDB Database';
 ?>

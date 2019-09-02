@@ -38,7 +38,7 @@ $wb['xfer_error_regex'] = 'Také oznámí: Prosím, použijte IP adresu.';
 $wb['dnssec_info_txt'] = 'DNSSEC DS-Data for registry';
 $wb['dnssec_wanted_txt'] = 'Podepsat zónu (DNSSEC)';
 $wb['dnssec_wanted_info'] = 'Když deaktivujete DNSSEC klíče nebudou odstraněny, ale DNS záznamy (zóna) již nebudou propagovány v podepsaném formátu. Pokud používáte PowerDNS, budou klíče WILL vymazány!';
-$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['error_not_allowed_server_id'] = 'Vybraný server není pro tento účet povolen.';
 $wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
 ?>
