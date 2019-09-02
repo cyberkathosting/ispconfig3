@@ -61,12 +61,7 @@ if(preg_match('/^\d+\-(.*)$/', $name, $match)) $name = $match[1]; // strip numer
 include $path . '/' . $cronjob_file;
 $class_name = 'cronjob_' . $name;
 $cronjob = new $class_name();
-
-$cronjob->onPrepare();
-$cronjob->onBeforeRun();
-$cronjob->onRunJob();
-$cronjob->onAfterRun();
-$cronjob->onCompleted();
+$cronjob->run(true);
 
 die("finished.\n");
 

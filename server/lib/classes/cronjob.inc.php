@@ -76,14 +76,14 @@ class cronjob {
 
 
 	/** run through cronjob sequence **/
-	public function run() {
+	public function run($debug_mode = false) {
 		global $conf;
 		
 		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called run() for class " . get_class($this) . "\n";
 		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Job has schedule: " . $this->getSchedule() . "\n";
 		$this->onPrepare();
 		$run_it = $this->onBeforeRun();
-		if($run_it == true) {
+		if($run_it == true || $debug_mode === true) {
 			$this->onRunJob();
 			$this->onAfterRun();
 			$this->onCompleted();
