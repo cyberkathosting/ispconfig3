@@ -113,6 +113,7 @@ class mail_module {
 		$app->modules->registerTableHook('spamfilter_wblist', 'mail_module', 'process'); 
 
 		$app->services->registerService('rspamd', 'mail_module', 'restartRspamd');
+		$app->services->registerService('postfix', 'mail_module', 'restartPostfix');
 	}
 
 	/*
@@ -183,6 +184,22 @@ class mail_module {
 		$app->uses('system');
 
 		$daemon = 'rspamd';
+
+		$retval = array('output' => '', 'retval' => 0);
+		if($action == 'restart') {
+			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
+		} else {
+			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
+		}
+		return $retval;
+	}
+	
+	function restartPostfix($action = 'reload') {
+		global $app;
+
+		$app->uses('system');
+
+		$daemon = 'postfix';
 
 		$retval = array('output' => '', 'retval' => 0);
 		if($action == 'restart') {
