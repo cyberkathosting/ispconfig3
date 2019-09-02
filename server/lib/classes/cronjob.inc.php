@@ -174,7 +174,7 @@ class cronjob {
 	}
 
 	// child classes may NOT override this!
-	private function onCompleted() {
+	protected function onCompleted() {
 		global $app, $conf;
 
 		if($conf['log_priority'] <= LOGLEVEL_DEBUG) print "Called onCompleted() for class " . get_class($this) . "\n";

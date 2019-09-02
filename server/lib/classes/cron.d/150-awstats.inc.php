@@ -148,7 +148,9 @@ class cronjob_awstats extends cronjob {
 				}
 
 				$statsdirold = $statsdir."/".$awyear."-".$awmonth."/";
-				mkdir($statsdirold);
+				if(!is_dir($statsdirold)) {
+					mkdir($statsdirold);
+				}
 				$files = scandir($statsdir);
 				foreach ($files as $file) {
 					if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") copy("$statsdir"."/"."$file", "$statsdirold"."$file");
