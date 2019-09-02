@@ -238,6 +238,9 @@ class remoting_aps extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadUserProfile(0);
 	
 		$app->load('aps_guicontroller');
 		$gui = new ApsGUIController($app);

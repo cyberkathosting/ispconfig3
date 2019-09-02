@@ -56,7 +56,9 @@ class remoting_dns extends remoting {
 		$tform_def_file = "../../web/dns/form/dns_soa.tform.php";
 		$app->uses('tform');
 		$app->tform->loadFormDef($tform_def_file);
-		$app->uses('tpl,validate_dns');
+		$app->uses('tpl,validate_dns,remoting_lib');
+		
+		$app->remoting_lib->loadUserProfile($client_id);
 
 		//* replace template placeholders
 		$tpl_content = $template_record['template'];
