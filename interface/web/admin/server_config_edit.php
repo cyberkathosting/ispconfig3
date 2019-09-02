@@ -174,7 +174,7 @@ class page_action extends tform_actions {
 					}
 				}
 				
-				$mail_users = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND (autoresponder = 'y' OR move_junk = 'y')", intval($this->id));
+				$mail_users = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ?", intval($this->id));
 				if(is_array($mail_users) && !empty($mail_users)){
 					foreach($mail_users as $mail_user){
 						if($mail_user['autoresponder'] == 'y'){
@@ -182,13 +182,21 @@ class page_action extends tform_actions {
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 							$mail_user['autoresponder'] = 'y';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
-						} else {
+						} elseif($mail_user['move_junk'] == 'y') {
 							$mail_user['move_junk'] = 'n';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 							$mail_user['move_junk'] = 'y';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
+						} else {
+							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 						}
-						
+					}
+				}
+				
+				$mail_forwards = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE server_id = ?", intval($this->id));
+				if(is_array($mail_forwards) && !empty($mail_forwards)){
+					foreach($mail_forwards as $mail_forward){
+						$app->db->datalogUpdate('mail_forwarding', $mail_forward, 'forwarding_id', $mail_forward["forwarding_id"], true);
 					}
 				}
 			}
