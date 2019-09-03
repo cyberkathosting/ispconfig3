@@ -150,7 +150,7 @@ class rspamd_plugin {
 		}
 		
 		$settings_file = $this->users_config_dir . str_replace('@', '_', $settings_name) . '.conf';
-		$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
+		//$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
 		if($mode === 'delete') {
 			if(is_file($settings_file)) {
 				unlink($settings_file);
