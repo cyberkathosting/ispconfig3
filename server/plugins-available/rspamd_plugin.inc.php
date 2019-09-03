@@ -177,7 +177,7 @@ class rspamd_plugin {
 				$search_for_policy[] = $email_address;
 				$search_for_policy[] = substr($email_address, strpos($email_address, '@'));
 				
-				$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id =  AND u.email IN ? ORDER BY u.priority DESC", $conf['server_id'], $search_for_policy);
+				$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id = ? AND u.email IN ? ORDER BY u.priority DESC", $conf['server_id'], $search_for_policy);
 				
 				$greylisting = $data[$use_data]['greylisting'];
 			}
