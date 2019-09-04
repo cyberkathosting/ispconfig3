@@ -228,7 +228,7 @@ $wb['reject_sender_login_mismatch_txt'] = 'Rechazar remitente e inicio de sesió
 $wb['relayhost_password_txt'] = 'Contraseña del servidor de retransmisión';
 $wb['relayhost_txt'] = 'Servidor de retransmisión';
 $wb['relayhost_user_txt'] = 'Usuario del servidor de retransmisión';
-$wb['rescue_description_txt'] = '<b>Información:</b> Si desea detener el servicio de MySQL debe seleccionar la casilla \"Deshabilitar monitorización de MySQL\" y luego esperar 2-3 minutos.<br>Si no espera 2-3 minutos, el rescatador intentará reiniciar el servicio';
+$wb['rescue_description_txt'] = '<b>Información:</b> Si desea detener el servicio de MySQL debe seleccionar la casilla \\"Deshabilitar monitorización de MySQL\\" y luego esperar 2-3 minutos.<br>Si no espera 2-3 minutos, el rescatador intentará reiniciar el servicio';
 $wb['security_level_txt'] = 'Nivel de seguridad';
 $wb['server_type_txt'] = 'Tipo de servidor';
 $wb['set_folder_permissions_on_update_txt'] = 'Establecer permisos de carpetas al actualizar';
@@ -296,4 +296,8 @@ $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
 $wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 $wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload mode';
+$wb['content_filter_txt'] = 'Content Filter';
+$wb['rspamd_url_txt'] = 'Rspamd URL';
+$wb['rspamd_user_txt'] = 'Rspamd User';
+$wb['rspamd_password_txt'] = 'Rspamd Password';
 ?>

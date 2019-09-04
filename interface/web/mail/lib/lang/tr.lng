@@ -45,4 +45,6 @@ $wb['Global Filters'] = 'Genel Süzgeçler';
 $wb['Domain Alias'] = 'Takma Alan Adı';
 $wb['Relay Recipients'] = 'Aktarılan Alıcılar';
 $wb['Mailbox quota'] = 'Posta Kutusu Kotası';
+$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
 ?>

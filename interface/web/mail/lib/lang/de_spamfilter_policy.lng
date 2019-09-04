@@ -42,10 +42,10 @@ $wb['rspamd_spam_tag_method_txt'] = 'SPAM-Markierungsmethode';
 $wb['rspamd_spam_kill_level_txt'] = 'SPAM-Reject-Level';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
-
 $wb['amavis_settings_txt'] = 'Einstellungen';
 $wb['amavis_taglevel_txt'] = 'Tag-Level';
 $wb['amavis_quarantine_txt'] = 'Quarantäne';
 $wb['amavis_other_txt'] = 'Sonstiges';
 $wb['add_header_txt'] = 'Header hinzufügen';
 $wb['rewrite_subject_txt'] = 'Betreff ändern';
+?>

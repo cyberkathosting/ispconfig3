@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Invalid domain name od domain contiene caratteri no
 $wb['limit_mailcatchall_txt'] = 'The max. number of email catchall accounts raggiunto per il tuo account.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

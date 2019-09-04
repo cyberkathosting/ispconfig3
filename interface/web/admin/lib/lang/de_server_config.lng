@@ -300,3 +300,4 @@ $wb['content_filter_txt'] = 'Content-Filter';
 $wb['rspamd_url_txt'] = 'Rspamd-URL';
 $wb['rspamd_user_txt'] = 'Rspamd-Benutzer';
 $wb['rspamd_password_txt'] = 'Rspamd-Passwort';
+?>

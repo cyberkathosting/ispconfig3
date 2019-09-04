@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'O domínio contém caracteres inválidos';
 $wb['limit_mailcatchall_txt'] = 'O limite de contas cata tudo para este domínio foi alcançado.';
 $wb['source_txt'] = 'Origem';
 $wb['destination_error_isemail'] = 'Destino não é um e-mail válido.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

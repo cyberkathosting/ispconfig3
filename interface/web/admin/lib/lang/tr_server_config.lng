@@ -152,7 +152,7 @@ $wb['try_rescue_txt'] = 'Hizmetler izlensin ve sorun çıktığında yeniden ba�
 $wb['do_not_try_rescue_httpd_txt'] = 'HTTPD izlenmesin';
 $wb['do_not_try_rescue_mysql_txt'] = 'MySQL izlenmesin';
 $wb['do_not_try_rescue_mail_txt'] = 'E-posta izlenmesin';
-$wb['rescue_description_txt'] = '<b>Uyarı:</b> mysql sunucusunu kapatmak istiyorsanız \"MySQL izlenmesin\" seçeneğini işaretleyip 2-3 dakika bekleyin.<br>2-3 dakika beklemezseniz, kurtarma işlemi mysql sunucusunu yeniden başlatmaya çalışır!';
+$wb['rescue_description_txt'] = '<b>Uyarı:</b> mysql sunucusunu kapatmak istiyorsanız \\"MySQL izlenmesin\\" seçeneğini işaretleyip 2-3 dakika bekleyin.<br>2-3 dakika beklemezseniz, kurtarma işlemi mysql sunucusunu yeniden başlatmaya çalışır!';
 $wb['enable_sni_txt'] = 'SNI Kullanılsın';
 $wb['set_folder_permissions_on_update_txt'] = 'Güncellenirken klasör izinleri ayarlansın';
 $wb['add_web_users_to_sshusers_group_txt'] = 'Web kullanıcıları -sshusers- grubuna eklensin';
@@ -296,4 +296,8 @@ $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
 $wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 $wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload mode';
+$wb['content_filter_txt'] = 'Content Filter';
+$wb['rspamd_url_txt'] = 'Rspamd URL';
+$wb['rspamd_user_txt'] = 'Rspamd User';
+$wb['rspamd_password_txt'] = 'Rspamd Password';
 ?>

@@ -143,7 +143,7 @@ $wb['php_fpm_socket_dir_error_empty'] = 'PHP-FPM adresář pro socket je prázdn
 $wb['try_rescue_txt'] = 'Povolit monitorování služeb a restartovat při selhání';
 $wb['do_not_try_rescue_mysql_txt'] = 'Zakázat MySQL monitorování';
 $wb['do_not_try_rescue_mail_txt'] = 'Zakázat E-mail monitorování';
-$wb['rescue_description_txt'] = '<b>Informace:</b> Pokud chcete např. vypnout MySQL službu zatrhněte políčko \"Zakázat MySQL monitorování\" změna se provede do 2-3 minut.<br>Pokud nepočkáte 2-3 minuty, monitorování nastartuje službu MySQL automaticky znovu !';
+$wb['rescue_description_txt'] = '<b>Informace:</b> Pokud chcete např. vypnout MySQL službu zatrhněte políčko \\"Zakázat MySQL monitorování\\" změna se provede do 2-3 minut.<br>Pokud nepočkáte 2-3 minuty, monitorování nastartuje službu MySQL automaticky znovu !';
 $wb['enable_sni_txt'] = 'Aktivovat SNI (Server Name Indication)';
 $wb['do_not_try_rescue_httpd_txt'] = 'Zakázat HTTPD monitorování';
 $wb['set_folder_permissions_on_update_txt'] = 'Nastavení oprávnění složky při aktualizaci';
@@ -296,4 +296,8 @@ $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
 $wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 $wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload mode';
+$wb['content_filter_txt'] = 'Content Filter';
+$wb['rspamd_url_txt'] = 'Rspamd URL';
+$wb['rspamd_user_txt'] = 'Rspamd User';
+$wb['rspamd_password_txt'] = 'Rspamd Password';
 ?>

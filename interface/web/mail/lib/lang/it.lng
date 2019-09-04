@@ -45,4 +45,6 @@ $wb['Global Filters'] = 'Filtri globali';
 $wb['Domain Alias'] = 'Alias dominio';
 $wb['Relay Recipients'] = 'Destinatari inoltro';
 $wb['Mailbox quota'] = 'Quota Casella di Posta';
+$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
 ?>

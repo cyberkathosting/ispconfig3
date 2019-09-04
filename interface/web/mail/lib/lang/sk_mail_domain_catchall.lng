@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Neplatný názov domény alebo doména obsahuje nep
 $wb['limit_mailcatchall_txt'] = 'Max. počet e-mailových doménových košov pre Váš účet je dosiahnutý.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

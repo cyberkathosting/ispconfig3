@@ -30,6 +30,6 @@ $wb['Available packages'] = 'Dostupni paketi';
 $wb['Installed packages'] = 'Instalirani paketi';
 $wb['Update Packagelist'] = 'Osvježi listu paketa';
 $wb['Subdomain (Vhost)'] = 'Poddomena (Vhost)';
-$wb['error_proxy_requires_url'] = '\"proxy\" redirekcija zahtijeva URL za redirekcijsku putanju.';
+$wb['error_proxy_requires_url'] = '\\"proxy\\" redirekcija zahtijeva URL za redirekcijsku putanju.';
 $wb['Domain'] = 'Domain';
 ?>

@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Alan adı geçersiz ya da geçersiz karakterler iç
 $wb['limit_mailcatchall_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla tümünü al hesabı sayısına ulaştınız.';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>
