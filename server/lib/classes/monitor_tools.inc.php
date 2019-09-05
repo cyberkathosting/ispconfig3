@@ -249,6 +249,14 @@ class monitor_tools {
 			$distver = '11.2';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
+		} elseif(stristr(file_get_contents('/etc/os-release'), 'opensuse')) {
+			$content = file_get_contents('/etc/os-release');
+            preg_match_all('/NAME=\"([\w ]+)\"/m', $content, $name);
+            preg_match_all('/VERSION_ID=\"([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*).$/m', $content, $version);
+			$distname = is_array($name) ? $name[1][0] : 'openSUSE';
+			$distver = is_array($version) ? implode('.', array_filter([$version[1][0],$version[2][0],$version[3][0]],'strlen')) : 'Unknown';
+			$distid = 'opensuse112';
+			$distbaseid = 'opensuse';
 		}  else {
 			$distname = 'openSUSE';
 			$distver = 'Unknown';
@@ -299,8 +307,9 @@ class monitor_tools {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
+			preg_match_all('/([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*)/', $content, $version);
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = is_array($version)? implode('.', array_filter([$version[1][0],$version[2][0],$version[3][0]],'strlen')) :'Unknown';
 			$distbaseid = 'fedora';
 			$var=explode(" ", $content);
 			$var=explode(".", $var[3]);
