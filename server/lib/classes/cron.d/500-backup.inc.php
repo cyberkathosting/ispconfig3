@@ -135,7 +135,7 @@ class cronjob_backup extends cronjob {
 								//* Create a tar.gz backup as root user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
 								if ($use_pigz) {
-									$app->system->exec_safe('tar pcf - --directory ? . --exclude=./backup\*'.$backup_excludes.' | pigz > ?', $web_path, $web_backup_dir.'/'.$web_backup_file);
+									$app->system->exec_safe('tar pcf - --exclude=./backup\*'.$backup_excludes.' --directory ? . | pigz > ?', $web_path, $web_backup_dir.'/'.$web_backup_file);
 									$retval = $app->system->last_exec_retcode();
 								} else {
 									$app->system->exec_safe('tar pczf ? --exclude=./backup\*'.$backup_excludes.' --directory ? .', $web_backup_dir.'/'.$web_backup_file, $web_path);
