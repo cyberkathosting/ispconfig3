@@ -242,6 +242,7 @@ class postfix_server_plugin {
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
 			$tpl->setVar('rspamd_password', $rspamd_password);
 			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+			chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 
