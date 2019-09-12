@@ -1644,7 +1644,8 @@ class installer_base {
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_worker-controller.inc.master');
 		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
-		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());		
+		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+		chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 	}
 
 	public function configure_spamassassin() {
