@@ -94,10 +94,10 @@ class rspamd_plugin {
 		}
 		
 		$use_data = 'new';
-		if(substr($event_name, -7) === 'delete') {
+		if(substr($event_name, -7) === '_delete') {
 			$mode = 'delete';
 			$use_data = 'old';
-		} elseif(substr($event_name, -7) === 'insert') {
+		} elseif(substr($event_name, -7) === '_insert') {
 			$mode = 'insert';
 		} else {
 			$mode = 'update';
