@@ -107,6 +107,17 @@ if(isset($_POST['connected'])) {
 		}
 		$app->tpl->setVar("client_group_id", $client_select);
 
+		//* Fill the mail server select field
+		$sql = "SELECT server_id, server_name FROM server WHERE mail_server = 1 and mirror_server_id = 0";
+		$mail_servers = $app->db->queryAllRecords($sql);
+		$mail_server_select = "";
+		if(is_array($mail_servers)) {
+			foreach( $mail_servers as $m_server) {
+				$selected = @($m_server['server_id'] == $_POST['local_server_id'])?'SELECTED':'';
+				$mail_server_select .= "<option value='$m_server[server_id]' $selected>$m_server[server_name]</option>\r\n";
+			}
+		}
+		$app->tpl->setVar("local_server_id", $mail_server_select);
 
 		try {
 			//* Allow connections to self signed SSL certs
@@ -161,6 +172,7 @@ $app->tpl->setVar('connected', $connected);
 $app->tpl->setVar('remote_session_id', $remote_session_id);
 $app->tpl->setVar('msg', $msg);
 $app->tpl->setVar('error', $error);
+$app->tpl->setVar('local_server_id', $_POST['local_server_id'], true);
 
 //* SET csrf token
 $csrf_token = $app->auth->csrf_token_get('ispconfig_import');
@@ -188,7 +200,10 @@ function start_domain_import($mail_domain) {
 	$server_id = intval($tmp['server_id']);
 	unset($tmp);
 	if($server_id == 0) $server_id = 1;
-
+	
+    if (isset($_POST['local_server_id']) && intval($_POST['local_server_id']) !== $server_id){
+        $server_id = intval($_POST['local_server_id']);
+    }
 	//* get the mail domain record
 	$mail_domain_rec = $client->mail_domain_get($remote_session_id, array('domain' => $mail_domain));
 	if(is_array($mail_domain_rec)) {
