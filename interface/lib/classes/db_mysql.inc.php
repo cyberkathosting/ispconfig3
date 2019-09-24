@@ -709,7 +709,7 @@ class db
 
 		if($diff_num > 0) {
 			$diffstr = serialize($diffrec_full);
-			if(isset($_SESSION)) {
+			if(!empty($_SESSION['s']['user']['username'])) {
 				$username = $_SESSION['s']['user']['username'];
 			} else {
 				$username = 'admin';
