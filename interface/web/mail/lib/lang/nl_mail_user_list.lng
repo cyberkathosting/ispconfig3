@@ -1,11 +1,11 @@
 <?php
 $wb['list_head_txt'] = 'Mailbox';
 $wb['email_txt'] = 'E-mail';
-$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['autoresponder_txt'] = 'Autobeantwoorden';
 $wb['add_new_record_txt'] = 'Toevoegen mailbox';
 $wb['name_txt'] = 'Echte naam';
 $wb['login_txt'] = 'Login';
-$wb['postfix_txt'] = 'Receiving';
+$wb['postfix_txt'] = 'Ontvangen';
 $wb['disablesmtp_txt'] = 'SMTP (sending)';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
