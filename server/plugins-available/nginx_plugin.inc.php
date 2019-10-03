@@ -694,7 +694,7 @@ class nginx_plugin {
 			
 			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
 			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language']), 0, 2)) {
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2))) {
 					if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
 
 					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
