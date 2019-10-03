@@ -129,13 +129,19 @@ class listform_actions {
 
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
+		
+		$csrf_token = $app->auth->csrf_token_get($app->listform->listDef['name']);
+		$_csrf_id = $csrf_token['csrf_id'];
+		$_csrf_key = $csrf_token['csrf_key'];
 
 		$this->DataRowColor = "#FFFFFF";
 		$records_new = array();
 		if(is_array($records)) {
 			$this->idx_key = $app->listform->listDef["table_idx"];
-			foreach($records as $rec) {
-				$records_new[] = $this->prepareDataRow($rec);
+			foreach($records as $key => $rec) {
+				$records_new[$key] = $this->prepareDataRow($rec);
+				$records_new[$key]['csrf_id'] = $_csrf_id;
+				$records_new[$key]['csrf_key'] = $_csrf_key;
 			}
 		}
 

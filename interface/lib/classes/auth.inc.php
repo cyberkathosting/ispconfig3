@@ -268,16 +268,27 @@ class auth {
 		return array('csrf_id' => $_csrf_id,'csrf_key' => $_csrf_key);
 	}
 	
-	public function csrf_token_check() {
+	public function csrf_token_check($method = 'POST') {
 		global $app;
 		
-		if(isset($_POST) && is_array($_POST)) {
+		if($method == 'POST') {
+			$input_vars = $_POST;
+		} elseif ($method == 'GET') {
+			$input_vars = $_GET;
+		} else {
+			$app->error('Unknown CSRF verification method.');
+		}
+		
+		//print_r($input_vars);
+		//die(print_r($_SESSION['_csrf']));
+		
+		if(isset($input_vars) && is_array($input_vars)) {
 			$_csrf_valid = false;
-			if(isset($_POST['_csrf_id']) && isset($_POST['_csrf_key'])) {
-				$_csrf_id = trim($_POST['_csrf_id']);
-				$_csrf_key = trim($_POST['_csrf_key']);
+			if(isset($input_vars['_csrf_id']) && isset($input_vars['_csrf_key'])) {
+				$_csrf_id = trim($input_vars['_csrf_id']);
+				$_csrf_key = trim($input_vars['_csrf_key']);
 				if(isset($_SESSION['_csrf']) && isset($_SESSION['_csrf'][$_csrf_id]) && isset($_SESSION['_csrf_timeout']) && isset($_SESSION['_csrf_timeout'][$_csrf_id])) {
-					if($_SESSION['_csrf'][$_csrf_id] === $_csrf_key && $_SESSION['_csrf_timeout'] >= time()) $_csrf_valid = true;
+					if($_SESSION['_csrf'][$_csrf_id] === $_csrf_key && $_SESSION['_csrf_timeout'][$_csrf_id] >= time()) $_csrf_valid = true;
 				}
 			}
 			if($_csrf_valid !== true) {
