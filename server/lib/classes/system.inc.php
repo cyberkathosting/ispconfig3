@@ -834,23 +834,55 @@ class system{
 		}
 	}
 
-	function file_put_contents($filename, $data, $allow_symlink = false) {
+	function file_put_contents($filename, $data, $allow_symlink = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename", LOGLEVEL_WARN);
 			return false;
 		}
-		if(file_exists($filename)) unlink($filename);
-		return file_put_contents($filename, $data);
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			if(!$this->check_run_as_user($run_as_user)) {
+				$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+				return false;
+			}
+			if(file_exists($filename)) {
+				$cmd = $this->get_sudo_command('rm ' . escapeshellarg($filename), $run_as_user);
+				$this->exec_safe($cmd);
+			}
+			$cmd = $this->get_sudo_command('cat - > ' . escapeshellarg($filename), $run_as_user);
+			$retval = null;
+			$stderr = '';
+			$this->pipe_exec($cmd, $data, $retval, $stderr);
+			if($retval > 0) {
+				$app->log("Safe file_put_contents failed: $stderr", LOGLEVEL_WARN);
+				return false;
+			} else {
+				$size = filesize($filename);
+				return $size;
+			}
+		} else {
+			if(file_exists($filename)) unlink($filename);
+			return file_put_contents($filename, $data);
+		}
 	}
 
-	function file_get_contents($filename, $allow_symlink = false) {
+	function file_get_contents($filename, $allow_symlink = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename", LOGLEVEL_WARN);
 			return false;
 		}
-		return file_get_contents($filename, $data);
+		
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			if(!$this->check_run_as_user($run_as_user)) {
+				$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+				return false;
+			}
+			$cmd = $this->get_sudo_command('cat ' . escapeshellarg($filename), $run_as_user) . ' 2>/dev/null';
+			return $this->system_safe($cmd);
+		} else {
+			return file_get_contents($filename);
+		}
 	}
 
 	function rename($filename, $new_filename, $allow_symlink = false) {
@@ -862,13 +894,29 @@ class system{
 		return rename($filename, $new_filename);
 	}
 
-	function mkdir($dirname, $allow_symlink = false, $mode = 0777, $recursive = false) {
+	function mkdir($dirname, $allow_symlink = false, $mode = 0777, $recursive = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($dirname) == false) {
 			$app->log("Action aborted, file is a symlink: $dirname", LOGLEVEL_WARN);
 			return false;
 		}
-		if(@mkdir($dirname, $mode, $recursive)) {
+		if($run_as_user !== null && !$this->check_run_as_user($run_as_user)) {
+			$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+			return false;
+		}
+		$success = false;
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			$cmd = $this->get_sudo_command('mkdir ' . ($recursive ? '-p ' : '') . escapeshellarg($dirname), $run_as_user) . ' >/dev/null 2>&1';
+			$this->exec_safe($cmd);
+			if($this->last_exec_retcode() != 0) {
+				$success = false;
+			} else {
+				$success = true;
+			}
+		} else {
+			$success = @mkdir($dirname, $mode, $recursive);
+		}
+		if($success) {
 			return true;
 		} else {
 			$app->log("mkdir failed: $dirname", LOGLEVEL_DEBUG);
@@ -1677,14 +1725,14 @@ class system{
 	}
 
 	//* Function to create directory paths and chown them to a user and group
-	function mkdirpath($path, $mode = 0755, $user = '', $group = '') {
+	function mkdirpath($path, $mode = 0755, $user = '', $group = '', $run_as_user = null) {
 		$path_parts = explode('/', $path);
 		$new_path = '';
 		if(is_array($path_parts)) {
 			foreach($path_parts as $part) {
 				$new_path .= '/'.$part;
 				if(!@is_dir($new_path)) {
-					$this->mkdir($new_path);
+					$this->mkdir($new_path, false, 0777, false, $run_as_user);
 					$this->chmod($new_path, $mode);
 					if($user != '') $this->chown($new_path, $user);
 					if($group != '') $this->chgrp($new_path, $group);
@@ -2215,6 +2263,18 @@ class system{
 			
 			return $result;
 		} else {
+			return false;
+		}
+	}
+	
+	private function get_sudo_command($cmd, $run_as_user) {
+		return 'sudo -u ' . escapeshellarg($run_as_user) . ' sh -c ' . escapeshellarg($cmd);
+	}
+	
+	private function check_run_as_user($username) {
+		if(preg_match('/^[a-zA-Z0-9_\-]+$/', $username)) {
+			return true;
+		} else{
 			return false;
 		}
 	}
