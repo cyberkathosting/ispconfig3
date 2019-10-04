@@ -2191,4 +2191,31 @@ class system{
 		return true;
 	}
 	
+	
+	public function pipe_exec($cmd, $stdin, &$retval = null, &$stderr = null) {
+		$descriptors = array(
+			0 => array('pipe', 'r'),
+			1 => array('pipe', 'w'),
+			2 => array('pipe', 'w')
+		);
+		
+		$result = '';
+		$pipes = null;
+		$proc = proc_open($cmd, $descriptors, $pipes);
+		if(is_resource($proc)) {
+			fwrite($pipes[0], $stdin);
+			fclose($pipes[0]);
+			
+			$result = stream_get_contents($pipes[1]);
+			$stderr = stream_get_contents($pipes[2]);
+			fclose($pipes[1]);
+			fclose($pipes[2]);
+			
+			$retval = proc_close($proc);
+			
+			return $result;
+		} else {
+			return false;
+		}
+	}
 }

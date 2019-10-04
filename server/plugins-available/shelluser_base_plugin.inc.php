@@ -129,12 +129,20 @@ class shelluser_base_plugin {
 					$app->system->chgrp($homedir,$data['new']['pgroup'],false);
 				}
 				$command = 'useradd -d ? -g ? -o'; // non unique
-				if($data['new']['password'] != '') $command .= ' -p ' . escapeshellarg($data['new']['password']);
 				$command .= ' -s ? -u ? ?';
 				$app->system->exec_safe($command, $homedir, $data['new']['pgroup'], $data['new']['shell'], $uid, $data['new']['username']);
 				$app->log("Executed command: ".$command, LOGLEVEL_DEBUG);
 				$app->log("Added shelluser: ".$data['new']['username'], LOGLEVEL_DEBUG);
-				
+
+				if($data['new']['password'] != '') {
+					$retval = null;
+					$stderr = '';
+					$app->system->pipe_exec('chpasswd -e ' . escapeshellarg($data['new']['username']), $data['new']['username'] . ':' . $data['new']['password'], $retval, $stderr);
+					if($retval != 0) {
+						$app->log("Command chpasswd failed for user ".$data['new']['username'] . ' with code ' . $retval . ': ' . $stderr, LOGLEVEL_WARN);
+					}
+				}
+			
 				$app->system->chown($data['new']['dir'],$data['new']['username'],false);
 				$app->system->chgrp($data['new']['dir'],$data['new']['pgroup'],false);
 				
