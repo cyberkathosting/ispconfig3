@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Círculos de Clientes';
-$wb['circle_id_txt'] = 'ID do Círculo';
-$wb['circle_name_txt'] = 'Nome do Círculo';
+$wb['list_head_txt'] = 'Círculo de clientes';
+$wb['circle_id_txt'] = 'ID do círculo';
+$wb['circle_name_txt'] = 'Nome do círculo';
 $wb['description_txt'] = 'Descrição';
 $wb['add_new_record_txt'] = 'Adicionar novo círculo';
 $wb['filter_txt'] = 'Filtro';

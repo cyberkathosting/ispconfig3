@@ -1,4 +1,5 @@
 <?php
+
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Bölgeler';
 $wb['DNS A'] = 'DNS A';
@@ -17,6 +18,6 @@ $wb['DNS TXT'] = 'DNS TXT';
 $wb['DNS Wizard'] = 'DNS Yardımcısı';
 $wb['Add DNS Zone'] = 'DNS Bölgesi Ekle';
 $wb['Templates'] = 'Kalıplar';
-$wb['Secondary Zones'] = 'İkincil Bölgeler';
-$wb['Import Zone File'] = 'Bölge Dosyası Alma';
+$wb['Secondary Zones'] = 'İkincil DNS Bölgeleri';
+$wb['Import Zone File'] = 'Bölge Dosyası İçe Aktarma';
 ?>

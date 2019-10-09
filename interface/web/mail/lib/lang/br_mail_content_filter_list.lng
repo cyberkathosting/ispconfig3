@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Cabeçalhos postfix e body checks';
+$wb['list_head_txt'] = 'Verificações de cabeçalho e corpo de e-mail - Postfix';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['pattern_txt'] = 'Padrão';

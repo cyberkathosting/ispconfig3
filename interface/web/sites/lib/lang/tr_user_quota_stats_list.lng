@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Web Sitesi Disk Kotası';
-$wb['domain_txt'] = 'Alan Adı / Web Sitesi';
+$wb['domain_txt'] = 'Etki Alanı / Web Sitesi';
 $wb['system_user_txt'] = 'Linux Kullanıcısı';
 $wb['used_txt'] = 'Kullanılan Alan';
 $wb['hard_txt'] = 'Donanım Sınırı';

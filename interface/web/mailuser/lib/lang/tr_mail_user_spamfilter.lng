@@ -1,6 +1,6 @@
 <?php
-$wb['mailbox_spamfilter_txt'] = 'Önemsiz Posta Süzgeci';
-$wb['spamfilter_txt'] = 'Önemsiz posta süzgeci';
+$wb['mailbox_spamfilter_txt'] = 'Önemsiz İleti Süzgeci';
+$wb['spamfilter_txt'] = 'Önemsiz ileti süzgeci';
 $wb['email_txt'] = 'E-posta';
 $wb['no_policy'] = '- devre dışı -';
 $wb['policy_txt'] = 'Kural';

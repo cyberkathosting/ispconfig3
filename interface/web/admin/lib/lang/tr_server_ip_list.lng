@@ -4,7 +4,7 @@ $wb['server_id_txt'] = 'Sunucu';
 $wb['client_id_txt'] = 'Müşteri';
 $wb['ip_address_txt'] = 'IP Adresi';
 $wb['add_new_record_txt'] = 'IP Adresi Ekle';
-$wb['virtualhost_txt'] = 'HTTP SSunucu';
+$wb['virtualhost_txt'] = 'HTTP sSunucu';
 $wb['virtualhost_port_txt'] = 'HTTP Kapıları';
-$wb['ip_type_txt'] = 'Tip';
+$wb['ip_type_txt'] = 'Tür';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['shop_txt'] = 'Order';
-$wb['name_txt'] = 'Name';
-$wb['price_txt'] = 'Price';
-$wb['setup_fee_txt'] = 'Setup Fee';
-$wb['no_products_txt'] = 'No products found.';
-$wb['order_txt'] = 'Order';
+$wb['shop_txt'] = 'Sipariş';
+$wb['name_txt'] = 'Ad';
+$wb['price_txt'] = 'Fiyat';
+$wb['setup_fee_txt'] = 'Kurulum Ücreti';
+$wb['no_products_txt'] = 'Herhangi bir ürün bulunamadı.';
+$wb['order_txt'] = 'Sipariş';
 ?>

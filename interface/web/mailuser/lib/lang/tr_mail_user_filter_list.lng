@@ -4,5 +4,5 @@ $wb['rulename_txt'] = 'Ad';
 $wb['add_new_record_txt'] = 'Süzgeç Ekle';
 $wb['page_txt'] = 'Sayfa';
 $wb['page_of_txt'] = '/';
-$wb['delete_confirmation'] = 'Posta süzgecini silmek istediğinize emin misiniz?';
+$wb['delete_confirmation'] = 'E-posta süzgecini silmek istediğinize emin misiniz?';
 ?>

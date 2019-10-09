@@ -1,12 +1,13 @@
 <?php
 $wb['domain_txt'] = 'Domínio';
-$wb['destination_txt'] = 'Destino';
+$wb['destination_txt'] = 'Endereço de e-mail de destino';
 $wb['active_txt'] = 'Ativo';
-$wb['domain_error_unique'] = 'Já existe uma conta cata tudo para este domínio.';
+$wb['domain_error_unique'] = 'Já existe uma conta cata-tudo para este domínio.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
-$wb['domain_error_regex'] = 'O domínio contém caracteres inválidos';
-$wb['limit_mailcatchall_txt'] = 'O limite de contas cata tudo para este domínio foi alcançado.';
+$wb['domain_error_regex'] = 'O domínio é inválido ou contêm caracteres inválidos.';
+$wb['limit_mailcatchall_txt'] = 'O limite de contas cata-tudo para esta conta foi alcançado.';
+$wb['domain_txt'] = 'Domínio';
 $wb['source_txt'] = 'Origem';
-$wb['destination_error_isemail'] = 'Destino não é um e-mail válido.';
-$wb['greylisting_txt'] = 'Enable greylisting';
+$wb['destination_error_isemail'] = 'Endereço de e-mail de destino é inválido.';
+$wb['greylisting_txt'] = 'Habilitar greylist';
 ?>

@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Posta Listesi';
-$wb['domain_txt'] = 'Alan Adı';
+$wb['list_head_txt'] = 'E-posta Listesi';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['listname_txt'] = 'Liste Adı';
 ?>

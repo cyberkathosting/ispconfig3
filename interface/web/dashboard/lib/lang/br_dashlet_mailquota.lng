@@ -1,6 +1,6 @@
 <?php
-$wb['mailquota_txt'] = 'Cota para contas de e-mail';
-$wb['email_txt'] = 'e-mail';
+$wb['mailquota_txt'] = 'Cota de contas de e-mail';
+$wb['email_txt'] = 'Endereço de e-mail';
 $wb['name_txt'] = 'Nome';
 $wb['used_txt'] = 'Espaço utilizado';
 $wb['quota_txt'] = 'Cota';

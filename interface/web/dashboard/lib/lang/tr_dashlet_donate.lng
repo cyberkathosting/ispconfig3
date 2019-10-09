@@ -1,7 +1,7 @@
 <?php
-$wb['donate_txt'] = 'The ISPConfig Hosting Control Panel is free software. Maybe you are aware, that it takes a lot of time and effort to develop, maintain and support a software project of this complexity. If you want to support the further development of ISPConfig, please consider making a donation. As a bonus you will get a copy of the current ISPConfig Manual.';
-$wb['donate2_txt'] = 'The donation amount can be 5 EUR or more, the amount is chosen during checkout. The payment method is PayPal. You will receive an receipt as PDF from ISPConfig UG.';
-$wb['hide_btn_txt'] = 'Hide';
-$wb['donate_btn_txt'] = 'Support ISPConfig and get the Manual';
-$wb['more_btn_txt'] = 'More';
+$wb['donate_txt'] = 'ISPConfig Hosting Control Panel uygulaması ücretsiz dağıtılmaktadır. Belki bu düzeyde bir yazılımı geliştirmek, güncellemek ve desteklemek için çok fazla zaman ve emek harcandığının farkındasınızdır. ISPConfig uygulamasının geliştirmesine destek olmak için bağış yapmak isteyebilirsiniz.  Hediye olarak ISPConfig kılavuzunu alacaksınız.';
+$wb['donate2_txt'] = 'Bağış tutarı en az 5 EUR ya da ödeme sırasında seçeceğiniz başka bir tutar olabilir. Ödemeleri PayPal üzerinden alıyoruz. PDF alındısında ISPConfig UG yazar.';
+$wb['hide_btn_txt'] = 'Gizle';
+$wb['donate_btn_txt'] = 'ISPConfig uygulamasını destekleyerek kılavuzu edinin';
+$wb['more_btn_txt'] = 'Ayrıntılar';
 ?>

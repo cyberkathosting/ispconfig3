@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'E-posta Alan Adı';
+$wb['list_head_txt'] = 'E-posta Etki Alanı';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Alan Adı';
-$wb['add_new_record_txt'] = 'Alan Adı Ekle';
+$wb['domain_txt'] = 'Etki Alanı';
+$wb['add_new_record_txt'] = 'Etki Alanı Ekle';
 $wb['active_txt'] = 'Etkin';
 ?>

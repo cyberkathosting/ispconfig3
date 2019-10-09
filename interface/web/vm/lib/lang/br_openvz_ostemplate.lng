@@ -1,11 +1,11 @@
 <?php
 $wb['template_name_txt'] = 'Nome do gabarito';
-$wb['template_file_txt'] = 'Arquivo do gabarito';
-$wb['server_id_txt'] = 'Servidor';
+$wb['template_file_txt'] = 'Nome do arquivo';
+$wb['server_id_txt'] = 'Virtualizador';
 $wb['allservers_txt'] = 'Disponível em todos os servidores';
 $wb['active_txt'] = 'Ativo';
 $wb['description_txt'] = 'Descrição';
 $wb['template_name_error_empty'] = 'Nome do gabarito está em branco.';
-$wb['template_file_error_empty'] = 'Nome o arquivo do gabarito está em branco.';
+$wb['template_file_error_empty'] = 'Nome do arquivo está em branco.';
 $wb['Template'] = 'Gabarito';
 ?>

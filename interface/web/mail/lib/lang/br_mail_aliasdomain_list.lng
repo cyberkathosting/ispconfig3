@@ -1,7 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Apelido de domínio';
+$wb['list_head_txt'] = 'Alias de domínio';
 $wb['active_txt'] = 'Ativo';
 $wb['source_txt'] = 'Origem';
 $wb['destination_txt'] = 'Destino';
-$wb['add_new_record_txt'] = 'Adicionar novo apelido';
+$wb['source_txt'] = 'Origem';
+$wb['add_new_record_txt'] = 'Adicionar novo alias de domínio';
 ?>

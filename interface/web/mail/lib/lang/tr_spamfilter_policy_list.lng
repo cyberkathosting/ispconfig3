@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Önemsiz Posta Süzgeci Kuralları';
+$wb['list_head_txt'] = 'Önemsiz İleti Süzgeci Kuralları';
 $wb['policy_name_txt'] = 'Ad';
 $wb['virus_lover_txt'] = 'Virüs Koruması';
-$wb['spam_lover_txt'] = 'Önemsiz Posta Koruması';
+$wb['spam_lover_txt'] = 'Önemsiz İleti Koruması';
 $wb['banned_files_lover_txt'] = 'Yasaklı Dosya Koruması';
-$wb['bad_header_lover_txt'] = 'Kötü Üstbilgi Koruması';
+$wb['bad_header_lover_txt'] = 'Kötü Üst Bilgi Koruması';
 $wb['add_new_record_txt'] = 'Kural Kaydı Ekle';
 ?>

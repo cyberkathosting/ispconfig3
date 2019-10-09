@@ -1,12 +1,12 @@
 <?php
-$wb['domain_txt'] = 'Alan Adı';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['destination_txt'] = 'Hedef';
 $wb['active_txt'] = 'Etkin';
-$wb['domain_error_unique'] = 'Bu alan adı için zaten bir tümünü al kayıdı var.';
-$wb['no_domain_perm'] = 'Bu alan adı için izniniz yok.';
-$wb['domain_error_regex'] = 'Alan adı geçersiz ya da geçersiz karakterler içeriyor.';
+$wb['domain_error_unique'] = 'Bu etki alanı için zaten bir tümünü al kayıdı var.';
+$wb['no_domain_perm'] = 'Bu etki alanı için izniniz yok.';
+$wb['domain_error_regex'] = 'Etki alanı geçersiz ya da geçersiz karakterler içeriyor.';
 $wb['limit_mailcatchall_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla tümünü al hesabı sayısına ulaştınız.';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
-$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

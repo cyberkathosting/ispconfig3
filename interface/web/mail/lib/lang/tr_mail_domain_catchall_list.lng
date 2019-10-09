@@ -2,8 +2,8 @@
 $wb['list_head_txt'] = 'E-posta Tümünü Al Hesabı';
 $wb['active_txt'] = 'Etkin';
 $wb['source_txt'] = 'Kaynak';
-$wb['destination_txt'] = 'Hedef e-posta adresi';
+$wb['destination_txt'] = 'Hedef E-posta Adresi';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Alan Adı';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['add_new_record_txt'] = 'Tümünü Al Hesabı Ekle';
 ?>
