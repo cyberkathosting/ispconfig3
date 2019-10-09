@@ -50,6 +50,7 @@ service lmtp {
 #   process_min_avail = 5
   }
 }
+lmtp_rcpt_check_quota = yes
 service imap-login {
   client_limit = 1000
   process_limit = 512
