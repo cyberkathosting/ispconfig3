@@ -7,6 +7,7 @@ mail_privileged_group = vmail
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
+mail_plugins = quota
 passdb {
   args = /etc/dovecot-sql.conf
   driver = sql
@@ -77,3 +78,23 @@ mail_plugins = $mail_plugins quota
 #2.3+         mode = 0660
 #2.3+     }
 #2.3+ }
+
+imap_capability=+SEPCIAL-USE XLIST
+namespace inbox {
+  inbox = yes
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+}

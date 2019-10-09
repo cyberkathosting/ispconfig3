@@ -10,6 +10,7 @@ ssl_dh = </etc/dovecot/dh.pem
 ssl_protocols = !SSLv2 !SSLv3
 ssl_min_protocol = TLSv1
 mail_max_userip_connections = 100
+mail_plugins = quota
 passdb {
   args = /etc/dovecot/dovecot-sql.conf
   driver = sql
@@ -83,3 +84,22 @@ protocol lmtp {
 #2.3+     }
 #2.3+ }
 
+imap_capability=+SEPCIAL-USE XLIST
+namespace inbox {
+  inbox = yes
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+}
