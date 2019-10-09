@@ -38,6 +38,13 @@ $app->auth->check_security_permissions('admin_allow_software_packages');
 //* This is only allowed for administrators
 if(!$app->auth->is_admin()) die('only allowed for administrators.');
 
+// Check CSRF Token
+if(count($_POST) > 0) {
+	$app->auth->csrf_token_check('POST');
+} else {
+	$app->auth->csrf_token_check('GET');
+}
+
 $package_name = $_REQUEST['package'];
 $install_server_id = $app->functions->intval($_REQUEST['server_id']);
 $install_key = trim($_REQUEST['install_key']);
