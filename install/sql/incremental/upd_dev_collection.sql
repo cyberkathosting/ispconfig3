@@ -26,3 +26,6 @@ ALTER TABLE `mail_user`
 
 -- doveadm should be enabled for all mailboxes
 UPDATE `mail_user` set `disabledoveadm` = 'n';
+
+-- add disablequota-status for quota-status policy daemon
+ALTER TABLE `mail_user` ADD `disablequota-status` ENUM('n','y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'n' AFTER `disabledoveadm`;

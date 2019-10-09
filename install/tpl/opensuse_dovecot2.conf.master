@@ -79,6 +79,21 @@ mail_plugins = $mail_plugins quota
 #2.3+     }
 #2.3+ }
 
+service quota-status {
+  executable = quota-status -p postfix
+  inet_listener {
+    # separate multiple addresses with space:
+    address = 127.0.0.1
+    port = 10060
+  }
+  client_limit = 1
+}
+plugin {
+  quota_status_success = DUNNO
+  quota_status_nouser = DUNNO
+  quota_status_overquota = "552 5.2.2 Mailbox is full"
+}
+
 imap_capability=+SEPCIAL-USE XLIST
 namespace inbox {
   inbox = yes
