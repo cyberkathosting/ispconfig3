@@ -114,3 +114,5 @@ namespace inbox {
     special_use = \Trash
   }
 }
+
+#managesieve+ protocols = $protocols sieve

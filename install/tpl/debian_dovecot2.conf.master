@@ -96,3 +96,5 @@ plugin {
   quota_status_nouser = DUNNO
   quota_status_overquota = "552 5.2.2 Mailbox is full"
 }
+
+#managesieve+ protocols = $protocols sieve

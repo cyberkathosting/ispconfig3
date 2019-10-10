@@ -138,7 +138,7 @@ class installer extends installer_base {
 				}
 				//remove #2.3+ comment
 				$content = file_get_contents($config_dir.'/'.$configfile);
-				$content = str_replace('#2.3+','',$content);
+				$content = str_replace('#2.3+ ','',$content);
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
 				
@@ -155,6 +155,15 @@ class installer extends installer_base {
 			}
 		}
 		
+		//* dovecot-managesieved
+		if($configure_managesieve = is_file('/usr/lib/dovecot/managesieve')) {
+			//remove #mangesieve+ comment
+			$content = file_get_contents($config_dir.'/'.$configfile);
+			$content = str_replace('#mangesieve+ ','',$content);
+			file_put_contents($config_dir.'/'.$configfile,$content);
+			unset($content);
+		}
+
 		//* dovecot-lmtpd
 		if($configure_lmtp) {
 			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);

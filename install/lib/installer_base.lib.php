@@ -1347,7 +1347,7 @@ class installer_base {
 				}
 				//remove #2.3+ comment
 				$content = file_get_contents($config_dir.'/'.$configfile);
-				$content = str_replace('#2.3+','',$content);
+				$content = str_replace('#2.3+ ','',$content);
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
 				
@@ -1356,6 +1356,15 @@ class installer_base {
 				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');
 				removeLine($config_dir.'/'.$configfile, 'ssl_dh =');
 			}
+		}
+
+		//* dovecot-managesieved
+		if($configure_managesieve = is_file('/usr/lib/dovecot/managesieve')) {
+			//remove #mangesieve+ comment
+			$content = file_get_contents($config_dir.'/'.$configfile);
+			$content = str_replace('#mangesieve+ ','',$content);
+			file_put_contents($config_dir.'/'.$configfile,$content);
+			unset($content);
 		}
 
 		//* dovecot-lmtpd
