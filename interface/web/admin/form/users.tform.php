@@ -218,12 +218,6 @@ $form['tabs']['users'] = array (
 		'app_theme' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'RADIO',
-			'validators' => array (  0 => array (    'type' => 'NOTEMPTY',
-					'errmsg'=> 'app_theme_empty'),
-				1 => array (    'type' => 'REGEX',
-					'regex' => '/^[a-z0-9\_]{0,64}$/',
-					'errmsg'=> 'app_theme_regex'),
-			),
 			'regex'  => '',
 			'errmsg' => '',
 			'default' => 'default',
