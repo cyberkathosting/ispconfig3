@@ -123,6 +123,10 @@ class plugin_listview extends plugin_base {
 		$lng_file = "lib/lang/".$app->functions->check_language($_SESSION["s"]["language"])."_".$app->listform->listDef['name']."_list.lng";
 		include $lng_file;
 		$listTpl->setVar($wb);
+		
+		$csrf_token = $app->auth->csrf_token_get($app->listform->listDef['name']);
+		$_csrf_id = $csrf_token['csrf_id'];
+		$_csrf_key = $csrf_token['csrf_key'];
 
 
 		// Get the data
@@ -157,6 +161,10 @@ class plugin_listview extends plugin_base {
 				// The variable "id" contains always the index field
 				$rec["id"] = $rec[$idx_key];
 				$rec["delete_confirmation"] = $wb['delete_confirmation'];
+				
+				// CSRF Token
+				$rec["csrf_id"] = $_csrf_id;
+				$rec["csrf_key"] = $_csrf_key;
 
 				$records_new[] = $rec;
 			}
