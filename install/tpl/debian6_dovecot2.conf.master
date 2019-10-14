@@ -120,4 +120,3 @@ namespace inbox {
   }
 }
 
-#managesieve+ protocols = $protocols sieve

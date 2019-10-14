@@ -1233,11 +1233,16 @@ class installer_base {
 
 	public function configure_dovecot() {
 		global $conf;
-		
+	
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
-		
+
+		// use lmtp if installed
+		if($configure_lmtp = is_file('/usr/lib/dovecot/lmtp')) {
+			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+		}
+
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
@@ -1358,19 +1363,19 @@ class installer_base {
 			}
 		}
 
-		//* dovecot-managesieved
-		if($configure_managesieve = is_file('/usr/lib/dovecot/managesieve')) {
-			//remove #mangesieve+ comment
-			$content = file_get_contents($config_dir.'/'.$configfile);
-			$content = str_replace('#mangesieve+ ','',$content);
-			file_put_contents($config_dir.'/'.$configfile,$content);
-			unset($content);
-		}
+		$dovecot_protocols = 'imap pop3';
 
 		//* dovecot-lmtpd
 		if($configure_lmtp) {
-			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);
+			$dovecot_protocols .= ' lmtp'
 		}
+
+		//* dovecot-managesieved
+		if(is_file('/usr/lib/dovecot/managesieve')) {
+			$dovecot_protocols .= ' sieve'
+		}
+
+		replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', "protocols = $dovecot_protocols", 1, 0);
 
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';
