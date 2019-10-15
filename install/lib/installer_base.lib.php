@@ -927,17 +927,26 @@ class installer_base {
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
+		// test if lmtp if available
+		$configure_lmtp = $this->get_postfix_service('lmtp','unix');
+
 		//* postfix-dkim
 		$filename='tag_as_originating.re';
 		$full_file_name=$config_dir.'/'.$filename;
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		if($configure_lmtp) {
+			$content = preg_replace('/amavis:/', 'lmtp:', $content);
+		}
 		wf($full_file_name, $content);
 
 		$filename='tag_as_foreign.re';
 		$full_file_name=$config_dir.'/'.$filename;
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
+		if($configure_lmtp) {
+			$content = preg_replace('/amavis:/', 'lmtp:', $content);
+		}
 		wf($full_file_name, $content);
 
 		//* Changing mode and group of the new created config files.
@@ -1423,6 +1432,8 @@ class installer_base {
 
 		// TODO: chmod and chown on the config file
 
+		// test if lmtp if available
+		$configure_lmtp = $this->get_postfix_service('lmtp','unix');
 
 		// Adding the amavisd commands to the postfix configuration
 		// Add array for no error in foreach and maybe future options
@@ -1430,7 +1441,8 @@ class installer_base {
 
 		// Check for amavisd -> pure webserver with postfix for mailing without antispam
 		if ($conf['amavis']['installed']) {
-			$postconf_commands[] = 'content_filter = amavis:[127.0.0.1]:10024';
+			$content_filter_service = ($configure_lmtp) ? 'lmtp' : 'amavis';
+			$postconf_commands[] = "content_filter = ${content_filter_service}:[127.0.0.1]:10024";
 			$postconf_commands[] = 'receive_override_options = no_address_mappings';
 		}
 
