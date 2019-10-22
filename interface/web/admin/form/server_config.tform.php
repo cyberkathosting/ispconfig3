@@ -848,6 +848,14 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'apache_init_script' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'nginx_enable_pagespeed' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
