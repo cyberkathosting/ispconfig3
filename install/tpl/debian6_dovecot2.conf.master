@@ -87,10 +87,10 @@ protocol lmtp {
 
 service quota-status {
   executable = quota-status -p postfix
-  inet_listener {
-    # separate multiple addresses with space:
-    address = 127.0.0.1
-    port = 10060
+  unix_listener /var/spool/postfix/private/quota-status {
+    group = postfix
+    mode = 0660
+    user = postfix
   }
   client_limit = 1
 }
