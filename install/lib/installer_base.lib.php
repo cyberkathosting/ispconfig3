@@ -864,13 +864,75 @@ class installer_base {
 				exec ("postconf -M $service.$type 2> /dev/null", $out, $ret);
 			}
 			$postfix_service = @($out[0]=='')?false:true;
-        } else { //* fallback - Postfix < 2.9
+		} else { //* fallback - Postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
 			$regex = "/^((?!#)".$service.".*".$type.".*)$/m"; 
 			$postfix_service = @(preg_match($regex, $content))?true:false;
 		}
 
 		return $postfix_service;
+	}
+
+	public function remove_postfix_service( $service, $type ) {
+		global $conf;
+
+		// nothing to do if the service isn't even defined.
+		if (! $this->get_postfix_service( $service, $type ) ) {
+			return true;
+		}
+
+		$postfix_version = `postconf -d mail_version 2>/dev/null`;
+		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
+
+		if ( version_compare( $postfix_version, '2.11', '>=' ) ) {
+
+			exec("postconf -X -M $service/$type 2> /dev/null", $out, $ret);
+
+			# reduce 3 or more newlines to 2
+			$content = rf($conf['postfix']['config_dir'].'/master.cf');
+			$content = preg_replace( '/(\r?\n){3,}/', '$1$1', $content );
+			wf( $conf['postfix']['config_dir'].'/master.cf', $content );
+
+		} else { //* fallback - Postfix < 2.11
+
+			if ( ! $cf = fopen( $conf['postfix']['config_dir'].'/master.cf', 'r' ) ) {
+				return false;
+			}
+
+			$out = "";
+			$reading_service = false;
+
+			while ( !feof( $cf ) ) {
+				$line = fgets( $cf );
+
+				if ( $reading_service ) {
+					# regex matches a new service or "empty" (whitespace) line
+					if ( preg_match( '/^([^\s#]+.*|\s*)$/', $line ) &&
+					   ! preg_match( '/^'.$service.'\s+'.$type.'/', $line ) ) {
+						$out .= $line;
+						$reading_service = false;
+					}
+
+					# $skipped_lines .= $line;
+
+				# regex matches definition matching service to be removed
+				} else if ( preg_match( '/^'.$service.'\s+'.$type.'/', $line ) ) {
+
+					$reading_service = true;
+					# $skipped_lines .= $line;
+
+				} else {
+					$out .= $line;
+				}
+			}
+			fclose( $cf );
+
+			$out = preg_replace( '/(\r?\n){3,}/', '$1$1', $out ); # reduce 3 or more newlines to 2
+
+			return wf( $conf['postfix']['config_dir'].'/master.cf', $out );
+		}
+
+		return true;
 	}
 
 	public function configure_postfix($options = '') {
@@ -1376,12 +1438,12 @@ class installer_base {
 
 		//* dovecot-lmtpd
 		if($configure_lmtp) {
-			$dovecot_protocols .= ' lmtp'
+			$dovecot_protocols .= ' lmtp';
 		}
 
 		//* dovecot-managesieved
 		if(is_file('/usr/lib/dovecot/managesieve')) {
-			$dovecot_protocols .= ' sieve'
+			$dovecot_protocols .= ' sieve';
 		}
 
 		replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', "protocols = $dovecot_protocols", 1, 0);
@@ -1458,10 +1520,15 @@ class installer_base {
 		$config_dir = $conf['postfix']['config_dir'];
 
 		// Adding amavis-services to the master.cf file if the service does not already exists
-		$add_amavis = !$this->get_postfix_service('amavis','unix');
-		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
-		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
+//		$add_amavis = !$this->get_postfix_service('amavis','unix');
+//		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
+//		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
 		//*TODO: check templates against existing postfix-services to make sure we use the template
+
+		// Or just remove the old service definitions and add them again?
+		$add_amavis = $this->remove_postfix_service('amavis','unix');
+		$add_amavis_10025 = $this->remove_postfix_service('127.0.0.1:10025','inet');
+		$add_amavis_10027 = $this->remove_postfix_service('127.0.0.1:10027','inet');
 
 		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
 			//* backup master.cf

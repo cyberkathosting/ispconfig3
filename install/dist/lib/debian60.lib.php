@@ -164,12 +164,12 @@ class installer extends installer_base {
 
 		//* dovecot-lmtpd
 		if($configure_lmtp) {
-			$dovecot_protocols .= ' lmtp'
+			$dovecot_protocols .= ' lmtp';
 		}
 
 		//* dovecot-managesieved
 		if(is_file('/usr/lib/dovecot/managesieve')) {
-			$dovecot_protocols .= ' sieve'
+			$dovecot_protocols .= ' sieve';
 		}
 
 		replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', "protocols = $dovecot_protocols", 1, 0);
