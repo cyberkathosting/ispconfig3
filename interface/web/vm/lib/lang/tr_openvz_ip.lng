@@ -1,7 +1,7 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
 $wb['ip_address_txt'] = 'IP Adresi';
-$wb['vm_id_txt'] = 'Sanal Sunucu';
+$wb['vm_id_txt'] = 'sSunucu';
 $wb['reserved_txt'] = 'Ayrılmış';
 $wb['ip_error_wrong'] = 'Lütfen geçerli bir IPv4 adresi yazın.';
 $wb['ip_error_unique'] = 'Bu IP adresi zaten var.';

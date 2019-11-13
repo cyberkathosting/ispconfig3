@@ -254,7 +254,7 @@ class monitor_tools {
             preg_match_all('/NAME=\"([\w ]+)\"/m', $content, $name);
             preg_match_all('/VERSION_ID=\"([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*).$/m', $content, $version);
 			$distname = is_array($name) ? $name[1][0] : 'openSUSE';
-			$distver = is_array($version) ? implode('.', array_filter([$version[1][0],$version[2][0],$version[3][0]],'strlen')) : 'Unknown';
+			$distver = is_array($version) ? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) : 'Unknown';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
 		}  else {
@@ -309,7 +309,7 @@ class monitor_tools {
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
 			preg_match_all('/([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*)/', $content, $version);
 			$distname = 'CentOS';
-			$distver = is_array($version)? implode('.', array_filter([$version[1][0],$version[2][0],$version[3][0]],'strlen')) :'Unknown';
+			$distver = is_array($version)? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) :'Unknown';
 			$distbaseid = 'fedora';
 			$var=explode(" ", $content);
 			$var=explode(".", $var[3]);

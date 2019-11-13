@@ -3,7 +3,7 @@ $wb['list_head_txt'] = 'Dil Paketi Yükleme';
 $wb['list_desc_txt'] = 'UYARI: Güvenilmeyen kaynaklardan aldığınız dil paketlerini yüklemeyin.';
 $wb['language_import_txt'] = 'Yüklenecek Dil Dosyası';
 $wb['btn_save_txt'] = 'Dil Paketini Yükle';
-$wb['language_overwrite_txt'] = 'Var olan dosyaları değiştir';
+$wb['language_overwrite_txt'] = 'Var Olan Dosyalar Değiştirilsin';
 $wb['btn_cancel_txt'] = 'Geri';
-$wb['ignore_version_txt'] = 'ISPConfig sürümüne bakma';
+$wb['ignore_version_txt'] = 'ISPConfig Sürümü Denetlenmesin';
 ?>

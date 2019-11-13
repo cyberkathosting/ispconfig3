@@ -1,16 +1,16 @@
 <?php
 $wb['config_txt'] = 'Ayarlar';
 $wb['server_name_txt'] = 'Sunucu Adı';
-$wb['mail_server_txt'] = 'Posta Sunucusu';
+$wb['mail_server_txt'] = 'E-posta Sunucusu';
 $wb['web_server_txt'] = 'Web Sunucusu';
 $wb['dns_server_txt'] = 'DNS Sunucusu';
 $wb['file_server_txt'] = 'Dosya Sunucusu';
 $wb['db_server_txt'] = 'Veritabanı Sunucusu';
-$wb['vserver_server_txt'] = 'SSunucu Sunucusu';
+$wb['vserver_server_txt'] = 'sSunucu Sunucusu';
 $wb['proxy_server_txt'] = 'Vekil Sunucu';
 $wb['firewall_server_txt'] = 'Güvenlik Duvarı Sunucusu';
 $wb['active_txt'] = 'Etkin';
 $wb['mirror_server_id_txt'] = 'Sunucunun Yansısı';
 $wb['- None -'] = '- Hiçbiri -';
-$wb['xmpp_server_txt'] = 'XMPP Server';
+$wb['xmpp_server_txt'] = 'XMPP Sunucusu';
 ?>

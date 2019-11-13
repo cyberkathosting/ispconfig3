@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Servidor virtual';
+$wb['list_head_txt'] = 'Máquina virtual';
 $wb['active_txt'] = 'Ativo';
-$wb['server_id_txt'] = 'ID do servidor';
+$wb['server_id_txt'] = 'Virtualizador';
 $wb['ostemplate_id_txt'] = 'Gabarito do SO';
 $wb['template_id_txt'] = 'Gabarito';
-$wb['hostname_txt'] = 'Servidor';
+$wb['hostname_txt'] = 'Nome do host';
 $wb['ip_address_txt'] = 'Endereço IP';
 $wb['veid_txt'] = 'VEID';
 ?>

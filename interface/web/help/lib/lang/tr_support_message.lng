@@ -7,10 +7,10 @@ $wb['tstamp_txt'] = 'Zaman damgası';
 $wb['reply_txt'] = 'Yanıt';
 $wb['date_txt'] = 'Tarih';
 $wb['support_request_subject_txt'] = 'Destek İsteği';
-$wb['support_request_txt'] = 'Bir destek isteğinde bulundunuz. Lütfen bu e-postay yanıtlamayın. Destek isteğinizi ISPConfig üzerinden izleyin.';
+$wb['support_request_txt'] = 'Bir destek isteğinde bulundunuz. Lütfen bu e-postayı yanıtlamayın. Destek isteğinizi ISPConfig üzerinden izleyin.';
 $wb['answer_to_support_request_txt'] = 'Destek isteğiniz yanıtlandı. Lütfen bu e-postayı yanıtlamayın. Destek isteğinizi ISPConfig üzerinden izleyin.';
 $wb['answer_to_support_request_sent_txt'] = 'Destek isteğinize yazdığınız yanıt gönderildi. Lütfen bu e-potayı yanıtlamayın.';
 $wb['support_request_sent_txt'] = 'Destek isteğiniz gönderildi. Lütfen bu e-postayı yanıtlamayın.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Gönderen ya da alıcı adresi geçersiz olduğundan bu ileti gönderilemedi.';
-$wb['subject_is_empty'] = 'The subject can not be empty.';
+$wb['subject_is_empty'] = 'Konu boş olamaz.';
 ?>

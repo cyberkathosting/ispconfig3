@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Transporte de e-mails';
-$wb['active_txt'] = 'Ativa';
+$wb['list_head_txt'] = 'Roteamento avançado de e-mail';
+$wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Domínio';
 $wb['transport_txt'] = 'Transporte';

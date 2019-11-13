@@ -1,13 +1,13 @@
 <?php
-$wb['mailbox_autoresponder_txt'] = 'Autoresposta';
-$wb['autoresponder_subject'] = 'Resposta de ausência temporária';
+$wb['mailbox_autoresponder_txt'] = 'Auto-resposta';
+$wb['autoresponder_subject'] = 'Resposta automática';
 $wb['autoresponder_text_txt'] = 'Texto';
 $wb['autoresponder_txt'] = 'Ativo';
-$wb['autoresponder_start_date_txt'] = 'Início';
-$wb['autoresponder_start_date_isfuture'] = 'A data de início não pode ser menor que a data atual.';
-$wb['autoresponder_end_date_txt'] = 'Término';
-$wb['autoresponder_end_date_isgreater'] = 'A data de término não pode ser menor que a data de início.';
-$wb['autoresponder_active'] = 'Habilitar autoresposta';
+$wb['autoresponder_start_date_txt'] = 'Iniciar em';
+$wb['autoresponder_start_date_isfuture'] = 'O campo "Iniciar em" não pode ser menor que data atual.';
+$wb['autoresponder_end_date_txt'] = 'Terminar em';
+$wb['autoresponder_end_date_isgreater'] = 'O campo "Terminar em" não pode ser menor que "Iniciar em".';
+$wb['autoresponder_active'] = 'Habilitar auto-resposta';
 $wb['now_txt'] = 'Agora';
 $wb['autoresponder_subject_txt'] = 'Assunto';
 ?>

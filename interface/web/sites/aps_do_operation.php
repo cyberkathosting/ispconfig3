@@ -64,6 +64,9 @@ if($_GET['action'] == 'change_status')
 }
 else if($_GET['action'] == 'delete_instance')
 	{
+		// Check CSRF Token
+		$app->auth->csrf_token_check('GET');
+		
 		// Make sure a valid package ID is given (also corresponding to the calling user)
 		$client_id = 0;
 		$is_admin = ($_SESSION['s']['user']['typ'] == 'admin') ? true : false;

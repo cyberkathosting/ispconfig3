@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Datalog History';
-$wb['tstamp_txt'] = 'Date';
-$wb['server_id_txt'] = 'Server';
-$wb['dbtable_txt'] = 'DB Table';
-$wb['action_txt'] = 'Action';
-$wb['status_txt'] = 'Status';
+$wb['list_head_txt'] = 'Histórico do log';
+$wb['tstamp_txt'] = 'Data';
+$wb['server_id_txt'] = 'Servidor';
+$wb['dbtable_txt'] = 'Tabela do BD';
+$wb['action_txt'] = 'Ação';
+$wb['status_txt'] = 'Estado';
 ?>

@@ -1,16 +1,16 @@
 <?php
-$wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
-$wb['name_txt'] = 'Hostname';
-$wb['type_txt'] = 'type';
-$wb['data_txt'] = 'Data';
-$wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['name_error_empty'] = 'The hostname is empty.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['data_error_empty'] = 'Text empty';
-$wb['data_error_regex'] = 'Text format invalid';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['zone_txt'] = 'Bölge';
+$wb['name_txt'] = 'Sunucu Adı';
+$wb['type_txt'] = 'Tür';
+$wb['data_txt'] = 'Veri';
+$wb['ttl_txt'] = 'TTL Süresi';
+$wb['active_txt'] = 'Etkin';
+$wb['limit_dns_record_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla DNS kaydı sınırına ulaştınız.';
+$wb['no_zone_perm'] = 'Bu DNS bölgesine kayıt ekleme izniniz yok.';
+$wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
+$wb['name_error_regex'] = 'Sunucu adı biçimi geçersiz.';
+$wb['data_error_empty'] = 'Metin boş';
+$wb['data_error_regex'] = 'Metin biçimi geçersiz';
+$wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 ?>

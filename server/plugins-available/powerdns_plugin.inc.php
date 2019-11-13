@@ -536,14 +536,14 @@ class powerdns_plugin {
 		$log[] = sprintf("\r\n%s %s", date('c'), 'Running set-nsec3 command...');
 		exec($cmd_set_nsec3, $log);
 
-		$pubkeys = [];
+		$pubkeys = array();
 		$cmd_show_zone = sprintf('%s show-zone %s 2>&1', $pdns_pdnssec, $zone);
 		$log[] = sprintf("\r\n%s %s", date('c'), 'Running show-zone command...');
 		exec($cmd_show_zone, $pubkeys);
 
 		$log = array_merge($log, $pubkeys);
 
-		$dnssec_info = array_merge($this->format_dnssec_pubkeys($pubkeys), ['', '== Raw log ============================'], $log);
+		$dnssec_info = array_merge($this->format_dnssec_pubkeys($pubkeys), array('', '== Raw log ============================'), $log);
 		$dnssec_info = implode("\r\n", $dnssec_info);
 
 		if ($app->dbmaster !== $app->db) {
@@ -553,7 +553,7 @@ class powerdns_plugin {
 	}
 
 	function format_dnssec_pubkeys($lines) {
-		$formatted = [];
+		$formatted = array();
 
 		// We don't care about the first two lines about presigning and NSEC
 		array_shift($lines);
@@ -574,7 +574,7 @@ class powerdns_plugin {
 					$key_type = $matches_key_type[1];
 
 					// We only care about the KSK or CSK
-					if (!in_array($key_type, ['KSK', 'CSK'], true)) {
+					if (!in_array($key_type, array('KSK', 'CSK'), true)) {
 						break;
 					}
 
@@ -677,7 +677,7 @@ class powerdns_plugin {
 		exec($cmd_disable_dnssec, $log);
 
 
-		$dnssec_info = array_merge(['== Raw log ============================'], $log);
+		$dnssec_info = array_merge(array('== Raw log ============================'), $log);
 		$dnssec_info = implode("\r\n", $dnssec_info);
 
 		if ($app->dbmaster !== $app->db) {

@@ -93,7 +93,7 @@
 				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
 						SetHandler None
 				</FilesMatch>
-				Options +FollowSymLinks
+				Options +SymlinksIfOwnerMatch
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
@@ -125,7 +125,7 @@
 				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
 						SetHandler None
 				</FilesMatch>
-				Options +FollowSymLinks
+				Options +SymlinksIfOwnerMatch
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted

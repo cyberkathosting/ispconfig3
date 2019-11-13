@@ -1,16 +1,16 @@
 <?php
+$wb['zone_file_import_txt'] = 'Importar arquivo de zona';
 $wb['server_id_txt'] = 'Servidor';
 $wb['client_txt'] = 'Cliente';
-$wb['btn_save_txt'] = 'Salvar';
+$wb['btn_save_txt'] = 'Importar arquivo de zona';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['domain_txt'] = 'Domínio';
-$wb['zone_file_successfully_imported_txt'] = 'O arquivo de zona foi importado com sucesso!';
-$wb['error_no_valid_zone_file_txt'] = 'Este arquivo não parece ser um arquivo de zona válido!';
-$wb['zonefile_to_import_txt'] = 'Arquivo de zona';
-$wb['domain_field_desc_txt'] = 'Pode ficar em branco caso o domínio é o mesmo nome do arquivo ou faz parte do conteúdo do mesmo.';
-$wb['title'] = 'Importar arquivos de zonas';
-$wb['no_file_uploaded_error'] = 'Nenhum arquivo de zona importado.';
-$wb['zone_file_import_txt'] = 'Importar arquivo de zona';
-$wb['error_no_server_id'] = 'Nenhum servidor informado.';
-$wb['error_not_allowed_server_id'] = 'O servidor selecionado não tem permissão para esta conta.';
+$wb['zone_file_successfully_imported_txt'] = 'O arquivo de zona dns foi importado com sucesso!';
+$wb['error_no_valid_zone_file_txt'] = 'Aparentemente este não é um arquivo de zona dns válido!';
+$wb['zonefile_to_import_txt'] = 'Arquivo de Zona';
+$wb['domain_field_desc_txt'] = 'Pode ficar em branco caso o domínio seja o mesmo nome do arquivo ou faz parte do conteúdo do mesmo.';
+$wb['title'] = 'Importar arquivo de zona';
+$wb['no_file_uploaded_error'] = 'Nenhum arquivo de zona dns foi carregado.';
+$wb['error_no_server_id'] = 'Nenhum servidor foi informado.';
+$wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido nesta conta.';
 ?>

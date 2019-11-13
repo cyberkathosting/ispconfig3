@@ -1,25 +1,25 @@
 <?php
 $wb['data_txt'] = 'Registro SPF';
 $wb['spf_mechanism_txt'] = 'Mecanismo SPF';
-$wb['spf_mechanism_pass_txt'] = 'Pass - permite e-mail de outros remetentes';
-$wb['spf_mechanism_fail_txt'] = 'Fail - rejeita e-mails de outros remetentes';
+$wb['spf_mechanism_pass_txt'] = 'Pass - permitir e-mails de outros remetentes';
+$wb['spf_mechanism_fail_txt'] = 'Fail - rejeitar e-mails de outros remetentes';
 $wb['spf_mechanism_softfail_txt'] = 'SoftFail - permite e-mails de outros remetentes mas marca os mesmos';
 $wb['spf_mechanism_neutral_txt'] = 'Neutral - não faz nada';
 $wb['spf_mx_txt'] = 'Permite servidores listados como MX enviar e-mail deste domínio';
 $wb['spf_a_txt'] = 'Permite o endereço IP atual do domínio enviar e-mails deste domínio';
 $wb['spf_ip_txt'] = 'Endereço IP adicional no formato CIDR pode entregar ou retransmitir e-mails para este domínio';
-$wb['spf_ip_note_txt'] = '(endereços IPs separados por espaços em branco)';
-$wb['spf_invalid_ip_txt'] = 'Endereço IP é inválido.';
+$wb['spf_ip_note_txt'] = '(endereços IPs separados por espaços)';
+$wb['spf_invalid_ip_txt'] = 'Endereço IP inválido.';
 $wb['spf_hostname_txt'] = 'Qualquer outro servidor pode entregar ou retransmitir e-mails para este domínio';
-$wb['spf_hostname_note_txt'] = '(servidors separados por espaço em branco)';
-$wb['spf_invalid_hostname_txt'] = 'Hospedeiro inválido';
+$wb['spf_hostname_note_txt'] = '(servidores separados por espaço)';
+$wb['spf_invalid_hostname_txt'] = 'O nome do host é inválido.';
 $wb['spf_domain_txt'] = 'Qualquer domínio pode entregar ou retransmitir e-mails para este domínio';
-$wb['spf_domain_note_txt'] = '(domínios separados por espaço em branco)';
-$wb['spf_invalid_domain_txt'] = 'Domínio é inválido.';
+$wb['spf_domain_note_txt'] = '(domínios separados por espaço)';
+$wb['spf_invalid_domain_txt'] = 'O domínio é inválido.';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
-$wb['record_exists_txt'] = 'Registro DS já existe.';
+$wb['record_exists_txt'] = 'Registro dns já existe.';
 $wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
-$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
-$wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
+$wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
 ?>

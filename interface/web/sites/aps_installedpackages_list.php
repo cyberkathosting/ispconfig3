@@ -112,12 +112,16 @@ if(!$is_admin) {
 $records = $app->db->queryAllRecords($query);
 $app->listform_actions->DataRowColor = '#FFFFFF';
 
+$csrf_token = $app->auth->csrf_token_get($app->listform->listDef['name']);
+$_csrf_id = $csrf_token['csrf_id'];
+$_csrf_key = $csrf_token['csrf_key'];
+
 // Re-form all result entries and add extra entries
 $records_new = array();
 if(is_array($records))
 {
 	$app->listform_actions->idx_key = $app->listform->listDef["table_idx"];
-	foreach($records as $rec)
+	foreach($records as $key => $rec)
 	{
 		// Set an abbreviated install location to beware the page layout
 		$ils = '';
@@ -129,7 +133,9 @@ if(is_array($records))
 		if($rec['instance_status'] != INSTANCE_REMOVE && $rec['instance_status'] != INSTANCE_INSTALL)
 			$rec['delete_possible'] = 'true';
 
-		$records_new[] = $app->listform_actions->prepareDataRow($rec);
+		$records_new[$key] = $app->listform_actions->prepareDataRow($rec);
+		$records_new[$key]['csrf_id'] = $_csrf_id;
+		$records_new[$key]['csrf_key'] = $_csrf_key;
 	}
 }
 $app->tpl->setLoop('records', $records_new);

@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Mensagens do Suporte';
-$wb['sender_id_txt'] = 'De';
+$wb['list_head_txt'] = 'Mensagens de Suporte';
+$wb['sender_id_txt'] = 'Remetente';
 $wb['subject_txt'] = 'Assunto';
-$wb['add_new_record_txt'] = 'Adicionar uma nova mensagem de suporte';
+$wb['add_new_record_txt'] = 'Adicionar nova mensagem de suporte';
 $wb['date_txt'] = 'Data';
 ?>

@@ -1,20 +1,20 @@
 <?php
-$wb['getmail_config_dir_txt'] = 'Caminho de configuração getmail ';
+$wb['getmail_config_dir_txt'] = 'Caminho das configurações do getmail';
 $wb['ip_address_txt'] = 'Endereço IP';
-$wb['netmask_txt'] = 'Máscara de rede';
+$wb['netmask_txt'] = 'Máscara';
 $wb['gateway_txt'] = 'Gateway';
-$wb['hostname_txt'] = 'Nome do servidor';
-$wb['nameservers_txt'] = 'Servidor de nomes';
+$wb['hostname_txt'] = 'Nome do host';
+$wb['nameservers_txt'] = 'Servidor(es) dns';
 $wb['module_txt'] = 'Módulo do servidor';
-$wb['maildir_path_txt'] = 'Caminho do Maildir';
-$wb['homedir_path_txt'] = 'Caminho do Homedir';
-$wb['mailuser_uid_txt'] = 'Usuário de e-mail (UID)';
-$wb['mailuser_gid_txt'] = 'Grupo de e-mail (GID)';
-$wb['mailuser_name_txt'] = 'Nome do usuário de e-mail';
-$wb['mailuser_group_txt'] = 'Grupo do usuário de e-mail';
-$wb['relayhost_txt'] = 'Host Relay';
-$wb['relayhost_user_txt'] = 'Usuário host relay';
-$wb['relayhost_password_txt'] = 'Senha host relay';
-$wb['mailbox_size_limit_txt'] = 'Tamanho da conta de e-mail';
-$wb['message_size_limit_txt'] = 'Tamanho da mensagem';
+$wb['maildir_path_txt'] = 'Caminho do maildir';
+$wb['homedir_path_txt'] = 'Caminho do homedir';
+$wb['mailuser_uid_txt'] = 'UID do mailuser';
+$wb['mailuser_gid_txt'] = 'GID do mailuser';
+$wb['mailuser_name_txt'] = 'Nome do mailuser';
+$wb['mailuser_group_txt'] = 'Grupo do mailuser';
+$wb['relayhost_txt'] = 'Host de retransmissão';
+$wb['relayhost_user_txt'] = 'Usuário de retransmissão';
+$wb['relayhost_password_txt'] = 'Senha do host de retransmissão';
+$wb['mailbox_size_limit_txt'] = 'Limite da conta de e-mail';
+$wb['message_size_limit_txt'] = 'Limite do tamanho da mensagem';
 ?>

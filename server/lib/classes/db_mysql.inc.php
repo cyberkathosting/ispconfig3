@@ -272,7 +272,7 @@ class db
 				if(!is_object($this->_iConnId)) {
 					$this->_iConnId = mysqli_init();
 				}
-				if(!mysqli_real_connect($this->_isConnId, $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
+				if(!mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
 					if(mysqli_connect_errno() == '111') {
 						// server is not available
 						if($try > 9) {

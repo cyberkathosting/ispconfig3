@@ -1,6 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Alan Adları';
-$wb['add_new_record_txt'] = 'Alan Adı Ekle';
-$wb['domain_txt'] = 'Alan Adı';
+$wb['list_head_txt'] = 'Etki Alanları';
+$wb['add_new_record_txt'] = 'Etki Alanı Ekle';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['user_txt'] = 'Müşteri';
 ?>

@@ -1,13 +1,13 @@
 <?php
-$wb['email_txt'] = 'e-mail';
-$wb['destination_txt'] = 'e-mail de destino';
+$wb['email_txt'] = 'e-Mail';
+$wb['destination_txt'] = 'Endereço e-mail de destino';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_mailforward_txt'] = 'O limite de encaminhamentos para esta conta foi alcançado.';
-$wb['duplicate_mailbox_txt'] = 'Já existe um e-mail com este endereço.';
+$wb['limit_mailforward_txt'] = 'O limite de encaminhamentos de e-mail para esta conta foi alcançado.';
+$wb['duplicate_mailbox_txt'] = 'Já existe um conta de e-mail idêntica.';
 $wb['domain_txt'] = 'Domínio';
-$wb['source_txt'] = 'Origem';
-$wb['greylisting_txt'] = 'Habilitar greylist';
-$wb['email_error_isemail'] = 'Por favor, insira um e-mail válido.';
+$wb['source_txt'] = 'Endereço de e-mail de origem';
+$wb['email_error_isemail'] = 'Por favor informe um endereço de e-mail válido.';
 $wb['send_as_txt'] = 'Enviar como';
-$wb['send_as_exp'] = 'Permite o alvo enviar e-mails usando este endereço como origem (se o alvo for interno)';
+$wb['send_as_exp'] = 'Permitir o destino enviar e-mails usando este endereço como origem (se o destino for interno)';
+$wb['greylisting_txt'] = 'Habilitar greylist';
 ?>
