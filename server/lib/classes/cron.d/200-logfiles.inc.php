@@ -240,6 +240,18 @@ class cronjob_logfiles extends cronjob {
              */
 			$sql = "DELETE FROM sys_log WHERE tstamp < ? AND server_id != 0";
 			$app->dbmaster->query($sql, $tstamp);
+			
+			/*
+			 * now delete those entries without a linked datalog entry (datalog_id = 0)
+			 */
+			$sql = "DELETE FROM sys_log WHERE tstamp < ? AND server_id = 0 AND datalog_id = 0";
+			$app->dbmaster->query($sql, $tstamp);
+
+			/*
+			 * now delete those entries with a linked datalog entry (datalog_id != 0) only if older than 30 days
+			 */
+			$sql = "DELETE FROM sys_log WHERE tstamp < ? AND server_id = 0 AND datalog_id != 0";
+			$app->dbmaster->query($sql, $tstamp - (3600 * 24 * 23));
 
 			/*
              * Delete all remote-actions "done" and older than 7 days
