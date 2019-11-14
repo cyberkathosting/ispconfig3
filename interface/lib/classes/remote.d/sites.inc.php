@@ -423,7 +423,7 @@ class remoting_sites extends remoting {
 			$params['client_group_id'] = $rec['groupid'];
 		}
 
-		//* Set a few params to "not empty" values which get overwritten by the sites_web_domain_plugin
+		//* Set a few params to "not empty" values which get overwritten by the sites_web_vhost_domain_plugin
 		if($params['document_root'] == '') $params['document_root'] = '-';
 		if($params['system_user'] == '') $params['system_user'] = '-';
 		if($params['system_group'] == '') $params['system_group'] = '-';
