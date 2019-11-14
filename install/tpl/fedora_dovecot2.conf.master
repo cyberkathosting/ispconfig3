@@ -105,6 +105,7 @@ plugin {
 imap_capability=+SEPCIAL-USE XLIST
 namespace inbox {
   inbox = yes
+  separator = .
   mailbox Drafts {
     special_use = \Drafts
   }
