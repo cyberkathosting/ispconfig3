@@ -1742,13 +1742,14 @@ class system{
 
 	}
 	
-	function _exec($command) {
+	function _exec($command, $allow_return_codes = null) {
 		global $app;
 		$out = array();
 		$ret = 0;
 		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
 		exec($command, $out, $ret);
-		if($ret != 0) return false;
+		if(is_array($allow_return_codes) && in_array($ret, $allow_return_codes)) return true;
+		elseif($ret != 0) return false;
 		else return true;
 	}
 
