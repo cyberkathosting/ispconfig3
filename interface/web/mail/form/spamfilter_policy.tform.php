@@ -88,7 +88,7 @@ $form["tabs"]['policy'] = array (
 			'value'  => array('N' => 'No', 'Y' => 'Yes')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -458,7 +458,7 @@ $form["tabs"]['amavis'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -502,7 +502,7 @@ $form["tabs"]['rspamd'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

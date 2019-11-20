@@ -160,7 +160,7 @@ $form["tabs"]['dns'] = array (
 			'maxlength' => '10'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

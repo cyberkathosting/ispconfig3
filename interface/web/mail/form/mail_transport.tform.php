@@ -122,7 +122,7 @@ $form["tabs"]['transport'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

@@ -151,7 +151,7 @@ $form["tabs"]['remote_user'] = array (
 		)
 
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

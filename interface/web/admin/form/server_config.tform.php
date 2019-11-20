@@ -413,7 +413,7 @@ $form["tabs"]['server'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -699,7 +699,7 @@ $form["tabs"]['mail'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -727,7 +727,7 @@ $form["tabs"]['getmail'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1408,7 +1408,7 @@ $form["tabs"]['web'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1498,7 +1498,7 @@ $form["tabs"]['dns'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1615,7 +1615,7 @@ $form["tabs"]['fastcgi'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1778,7 +1778,7 @@ $form["tabs"]['jailkit'] = array(
 			'maxlength' => '1000'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1841,7 +1841,7 @@ $form["tabs"]['ufw_firewall'] = array (
 			'value'		=> array('low' => 'low', 'medium' => 'medium', 'high' => 'high')
 		)
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -1870,7 +1870,7 @@ $form["tabs"]['vlogger'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1928,7 +1928,7 @@ $form["tabs"]['cron'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1972,7 +1972,7 @@ $form["tabs"]['rescue'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

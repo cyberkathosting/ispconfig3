@@ -1560,7 +1560,7 @@ $form["tabs"]['ipaddress'] = array (
 			'separator'	=> ';'
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );

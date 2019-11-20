@@ -710,7 +710,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* czarna lista e-mail
+	//* Add a new spamfilter blacklist
 	public function mail_spamfilter_blacklist_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_blacklist_add'))
@@ -810,7 +810,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* polityki filtrów spamu e-mail
+	//* Add a spam policy
 	public function mail_policy_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_policy_add'))
@@ -860,7 +860,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* fetchmail
+	//* Add fetchmail
 	public function mail_fetchmail_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_fetchmail_add'))
@@ -960,7 +960,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* wpisy białej listy
+	//* Add blacklist
 	public function mail_blacklist_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_blacklist_add'))
@@ -1010,7 +1010,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* wpisy filtrow e-mail
+	//* Add mail filter
 	public function mail_filter_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_filter_add'))
