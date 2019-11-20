@@ -121,7 +121,7 @@ $form["tabs"]['server'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -247,7 +247,7 @@ $form["tabs"]['mail'] = array (
 			'maxlength' => '15'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -272,7 +272,7 @@ $form["tabs"]['getmail'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

@@ -146,7 +146,7 @@ $form["tabs"]['ftp'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -256,7 +256,7 @@ if($app->auth->is_admin()) {
 				'maxlength' => '7'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);
@@ -290,7 +290,7 @@ if($app->auth->is_admin()) {
 				'maxlength' => '255'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);
