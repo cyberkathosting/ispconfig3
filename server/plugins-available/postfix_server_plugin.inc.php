@@ -158,24 +158,35 @@ class postfix_server_plugin {
 		}		
 		
 		if($app->system->is_installed('dovecot')) {
+			$virtual_transport = 'dovecot';
+			$configure_lmtp = false;
+			$dovecot_protocols = 'imap pop3';
+
+			//* dovecot-lmtpd
+			if( ($configure_lmtp = is_file('/usr/lib/dovecot/lmtp')) ||
+			    ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') )
+			{
+				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+				$dovecot_protocols .= ' lmtp';
+			}
+
+			//* dovecot-managesieved
+			if(is_file('/usr/lib/dovecot/managesieve')) {
+				$dovecot_protocols .= ' sieve';
+			}
+
 			$out = null;
 			exec("postconf -n virtual_transport", $out);
-			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
-				// If dovecot switch to lmtp
-				if($out[0] != "virtual_transport = lmtp:unix:private/dovecot-lmtp") {
-					exec("postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp'");
-					exec('postfix reload');
-					$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3", "protocols = imap pop3 lmtp");
-					exec($conf['init_scripts'] . '/' . 'dovecot restart');
-				}
-			} else {
-				// If dovecot switch to dovecot
-				if($out[0] != "virtual_transport = dovecot") {
-					exec("postconf -e 'virtual_transport = dovecot'");
-					exec('postfix reload');
-					$app->system->replaceLine("/etc/dovecot/dovecot.conf", "protocols = imap pop3 lmtp", "protocols = imap pop3");
-					exec($conf['init_scripts'] . '/' . 'dovecot restart');
-				}
+			if($out[0] != "virtual_transport = $virtual_transport") {
+				exec("postconf -e 'virtual_transport = $virtual_transport'");
+				exec('postfix reload');
+			}
+
+			$out = null;
+			exec("grep '^protocols\s' /etc/dovecot/dovecot.conf", $out);
+			if($out[0] != "protocols = $dovecot_protocols") {
+				$app->system->replaceLine("/etc/dovecot/dovecot.conf", 'REGEX:/^protocols\s=/', "protocols = $dovecot_protocols");
+				exec($conf['init_scripts'] . '/' . 'dovecot restart');
 			}
 		}
 
@@ -222,7 +233,7 @@ class postfix_server_plugin {
 				exec("postconf -X 'milter_default_action'");
 				
 				exec("postconf -e 'receive_override_options = no_address_mappings'");
-				exec("postconf -e 'content_filter = amavis:[127.0.0.1]:10024'");
+				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
 				
 				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
 			}
