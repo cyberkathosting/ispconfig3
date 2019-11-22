@@ -53,7 +53,8 @@ class letsencrypt {
 		}
 	}
 	
-	public function get_acme_command($domains, $key_file, $bundle_file, $cert_file) {
+	public function get_acme_command($domains, $key_file, $bundle_file, $cert_file, $server_type = 'apache') {
+		global $app;
 		
 		$letsencrypt = $this->get_acme_script();
 		
@@ -66,8 +67,14 @@ class letsencrypt {
 		if($cmd == '') {
 			return false;
 		}
+
+		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
+			$cert_arg = '--fullchain-file ' . escapeshellarg($cert_file);
+		} else {
+			$cert_arg = '--fullchain-file ' . escapeshellarg($bundle_file) . ' --cert-file ' . escapeshellarg($cert_file);
+		}
 		
-		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme ; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' --fullchain-file ' . escapeshellarg($bundle_file) . ' --cert-file ' . escapeshellarg($cert_file) . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
+		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme ; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' ' . $cert_arg . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
 		
 		return $cmd;
 	}
@@ -393,7 +400,7 @@ class letsencrypt {
 		$letsencrypt_cmd = '';
 		$allow_return_codes = null;
 		if($use_acme) {
-			$letsencrypt_cmd = $this->get_acme_command($temp_domains, $key_file, $bundle_file, $crt_file);
+			$letsencrypt_cmd = $this->get_acme_command($temp_domains, $key_file, $bundle_file, $crt_file, $server_type);
 			$allow_return_codes = array(2);
 		} else {
 			$letsencrypt_cmd = $this->get_certbot_command($temp_domains);
