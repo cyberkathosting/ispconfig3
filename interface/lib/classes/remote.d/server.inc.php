@@ -289,5 +289,3 @@ class remoting_server extends remoting {
 		}
 	}
 }
-
-?>

@@ -88,7 +88,7 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt')
+			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt', 'List-Id'=>'list_id_txt')
 		),
 		'op' => array (
 			'datatype' => 'VARCHAR',
