@@ -215,8 +215,7 @@ class postfix_server_plugin {
 				fclose($fpp);
 				fclose($fps);
 				unset($dkim_domains);
-			}	
-			if($mail_config['content_filter'] == 'amavisd'){
+			} else {
 				exec("postconf -X 'smtpd_milters'");
 				exec("postconf -X 'milter_protocol'");
 				exec("postconf -X 'milter_mail_macros'");
