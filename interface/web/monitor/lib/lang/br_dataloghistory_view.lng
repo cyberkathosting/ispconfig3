@@ -1,0 +1,26 @@
+<?php
+$wb['i'] = 'Inserir';
+$wb['u'] = 'Atualizar';
+$wb['d'] = 'Remover';
+$wb['list_head_txt'] = 'Histórico do log';
+$wb['id_txt'] = 'ID';
+$wb['timestamp_txt'] = 'Data/Hora';
+$wb['table_txt'] = 'Tabela';
+$wb['action_txt'] = 'Ação';
+$wb['session_id_txt'] = 'ID da sessão';
+$wb['fields_txt'] = 'Campos';
+$wb['fields_inserted_txt'] = 'Campos cadastrados';
+$wb['fields_updated_txt'] = 'Atualizar campos';
+$wb['fields_deleted_txt'] = 'Remover campos';
+$wb['no_changes_txt'] = 'Nenhuma alteração (sincronizar)';
+$wb['is_diff_txt'] = 'As diferenças são destacadas';
+$wb['is_diff_inserts_txt'] = 'Inserções';
+$wb['is_diff_deletes_txt'] = 'Remoções';
+$wb['field_txt'] = 'Campo';
+$wb['value_txt'] = 'Valor';
+$wb['old_txt'] = 'Antigo';
+$wb['new_txt'] = 'Novo';
+$wb['btn_cancel_txt'] = 'Voltar';
+$wb['undo_txt'] = 'Desfazer ação';
+$wb['undo_confirmation_txt'] = 'Você realmente deseja desfazer esta ação?';
+?>

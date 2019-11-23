@@ -37,18 +37,32 @@ class modules {
 	/*
 	 This function is called to load the modules from the mods-enabled or the mods-core folder
 	*/
-	function loadModules($type) {
+	function loadModules($type = 'all') {
 		global $app, $conf;
 
 		$subPath = 'mods-enabled';
-		if ($type == 'core') $subPath = 'mods-core';
+		if ($type == 'core') {
+			$subPath = 'mods-core';
+		} elseif ($type == 'all') {
+			$type = '';
+		} elseif (!preg_match('/^\w+$/', $type)) {
+			$app->log('Invalid loadModules type ' . $type, LOGLEVEL_ERROR);
+			return false;
+		} else {
+			$subPath = 'mods-available';
+		}
 
+		$loaded = false;
 		$modules_dir = $conf['rootpath'].$conf['fs_div'].$subPath.$conf['fs_div'];
 		if (is_dir($modules_dir)) {
 			if ($dh = opendir($modules_dir)) {
 				while (($file = readdir($dh)) !== false) {
 					if($file != '.' && $file != '..' && substr($file, -8, 8) == '.inc.php') {
 						$module_name = substr($file, 0, -8);
+						if($type && $type !== 'core' && $type != $module_name) {
+							continue;
+						}
+						$loaded = true;
 						include_once $modules_dir.$file;
 						if($this->debug) $app->log('Loading Module: '.$module_name, LOGLEVEL_DEBUG);
 						$app->loaded_modules[$module_name] = new $module_name;
@@ -60,6 +74,9 @@ class modules {
 			$app->log('Modules directory missing: '.$modules_dir, LOGLEVEL_ERROR);
 		}
 
+		if($type && $type !== 'core' && $loaded === false) {
+			$app->log('Module ' . $type . ' not found.', LOGLEVEL_ERROR);
+		}
 	}
 
 	/*

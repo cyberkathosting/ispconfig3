@@ -3,4 +3,5 @@ $wb['list_head_txt'] = 'Kunde og Forhandler Skabeloner';
 $wb['template_type_txt'] = 'Type';
 $wb['template_name_txt'] = 'Skabelon navn';
 $wb['template_id_txt'] = 'Skabelon ID';
+$wb['sys_groupid_txt'] = 'Reseller';
 ?>

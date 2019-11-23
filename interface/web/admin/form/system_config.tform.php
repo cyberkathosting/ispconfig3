@@ -206,7 +206,7 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
-                'default_remote_dbserver' => array (
+        'default_remote_dbserver' => array (
 			'datatype'  => 'TEXT',
 			'formtype'  => 'TEXT',
 			'validators'  => array (  0 => array (  'type' => 'CUSTOM',
@@ -218,9 +218,19 @@ $form["tabs"]['sites'] = array (
 			'value'   => '',
 			'width'   => '60',
 			'searchable' => 2
+        ),
+		'web_php_options' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOXARRAY',
+			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+					'errmsg'=> 'web_php_options_notempty'),
+			),
+			'default' => '',
+			'separator' => ',',
+			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -406,7 +416,7 @@ $form["tabs"]['mail'] = array (
 			'name'  => 'default_mailserver'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -442,7 +452,7 @@ $form["tabs"]['dns'] = array (
 			'name'  => 'default_slave_dnsserver'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -472,7 +482,7 @@ $form["tabs"]['domains'] = array (
 			'value'  => ''
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -744,10 +754,26 @@ $form["tabs"]['misc'] = array (
 			'value'  => array('' => 'None', '1' => 'strength_1', '2' => 'strength_2', '3' => 'strength_3', '4' => 'strength_4', '5' => 'strength_5')
 		)
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
 
+$form['tabs']['dns_ca'] = array (
+	'title'  => 'DNS CAs',
+	'width'  => 100,
+	'template'  => 'templates/system_config_dns_ca.htm',
+	'fields'  => array (),
+	'plugins' => array (
+		'dns_ca' => array (
+			'class'   => 'plugin_system_config_dns_ca',
+			'options' => array()
+		),
+		'dns_ca_list' => array (
+			'class'   => 'plugin_system_config_dns_ca_list',
+			'options' => array()
+		)
+	)
+);
 
 ?>

@@ -1,11 +1,11 @@
 <?php
-$wb['page_head_txt'] = 'Posta Kutusu Ayarları';
+$wb['page_head_txt'] = 'E-posta Kutusu Ayarları';
 $wb['page_desc_txt'] = 'E-posta hesabı ayarları buradan yapılabilir.';
 $wb['email_txt'] = 'E-posta adresi';
 $wb['login_txt'] = 'Kullanıcı Adı';
-$wb['server_address_txt'] = 'Posta sunucusu adresi';
-$wb['cc_txt'] = 'Kopya adresi (CC)';
-$wb['quota_txt'] = 'Posta kutusu boyutu';
+$wb['server_address_txt'] = 'E-posta Sunucusu Adresi';
+$wb['cc_txt'] = 'Kopya Adresi (CC)';
+$wb['quota_txt'] = 'E-posta Kutusu Boyutu';
 $wb['unlimited_txt'] = 'Sınırsız';
 $wb['mb_txt'] = 'MB';
 $wb['none_txt'] = 'Yok';

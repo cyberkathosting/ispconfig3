@@ -107,25 +107,6 @@ class cronjob_mailbox_stats extends cronjob {
 			$mail_boxes = array();
 			$mail_rewrites = array(); // we need to read all mail aliases and forwards because the address in amavis is not always the mailbox address
 
-			function parse_mail_log_line($line) {
-				//Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
-
-				if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
-
-				$timestamp = strtotime($matches[1]);
-				if(!$timestamp) return false;
-
-				$to = array();
-				$recipients = explode(',', $matches[3]);
-				foreach($recipients as $recipient) {
-					$recipient = substr($recipient, 1, -1);
-					if(!$recipient || $recipient == $matches[2]) continue;
-					$to[] = $recipient;
-				}
-
-				return array('line' => $line, 'timestamp' => $timestamp, 'size' => $matches[6], 'from' => $matches[2], 'to' => $to, 'message-id' => $matches[5]);
-			}
-
 			function add_mailbox_traffic(&$traffic_array, $address, $traffic,$mail_boxes, $mail_rewrites) {
 				//global $mail_boxes, $mail_rewrites;
 				//echo '##'.print_r($mail_boxes).'##';
@@ -192,6 +173,10 @@ class cronjob_mailbox_stats extends cronjob {
 							continue;
 						}
 					}
+					
+					$this->mail_boxes = $mail_boxes;
+				    $this->mail_rewrites = $mail_rewrites;
+					
 					$this->add_mailbox_traffic($cur_line['from'], $cur_line['size'],$mail_boxes, $mail_rewrites);
 					//echo "1\n";
 					//print_r($this->mailbox_traffic);
@@ -240,6 +225,7 @@ class cronjob_mailbox_stats extends cronjob {
 			$tstamp = date('Y-m');
 			$sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ?";
 			$records = $app->db->queryAllRecords($sql, $conf['server_id']);
+			$mailbox_traffic = $this->mailbox_traffic;
 			foreach($records as $rec) {
 				if(array_key_exists($rec['email'], $mailbox_traffic)) {
 					$sql = "SELECT * FROM mail_traffic WHERE month = ? AND mailuser_id = ?";
@@ -275,9 +261,26 @@ class cronjob_mailbox_stats extends cronjob {
 	private function parse_mail_log_line($line) {
 		//Oct 31 17:35:48 mx01 amavis[32014]: (32014-05) Passed CLEAN, [IPv6:xxxxx] [IPv6:xxxxx] <xxx@yyyy> -> <aaaa@bbbb>, Message-ID: <xxxx@yyyyy>, mail_id: xxxxxx, Hits: -1.89, size: 1591, queued_as: xxxxxxx, 946 ms
 
-		if(preg_match('/^(\w+\s+\d+\s+\d+:\d+:\d+)\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
+		// Oct 31 17:35:48
+		$timestampSyslog = '\w+\s+\d+\s+\d+:\d+:\d+';
+		$timePatternRsyslog = 'Y-m-d\TH:i:sT';
+		// 2019-02-12T18:17:19+01:00
+		$timestampRsyslog = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[\+-]\d{2}:\d{2}';
+		// 2019-02-12T18:17:19.203313+01:00
+		$timestampHighPrecision = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[\+-]\d{2}:\d{2}';
+		$timePatternHighPrecision = 'Y-m-d\TH:i:s.uT';
+
+		$timestampAll = $timestampSyslog . '|' . $timestampRsyslog . '|' . $timestampHighPrecision;
+
+		if(preg_match('/^('. $timestampAll .')\s+[^ ]+\s+amavis.* <([^>]+)>\s+->\s+((<[^>]+>,)+) .*Message-ID:\s+<([^>]+)>.* size:\s+(\d+),.*$/', $line, $matches) == false) return false;
 
 		$timestamp = strtotime($matches[1]);
+		if(!$timestamp) {
+			$timestamp = DateTime::createFromFormat($timePatternRsyslog, $matches[1]);
+		}
+		if(!$timestamp) {
+			$timestamp = DateTime::createFromFormat($timePatternHighPrecision, $matches[1]);
+		}
 		if(!$timestamp) return false;
 
 		$to = array();

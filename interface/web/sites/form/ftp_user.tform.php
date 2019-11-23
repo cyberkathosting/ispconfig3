@@ -146,7 +146,7 @@ $form["tabs"]['ftp'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -256,7 +256,7 @@ if($app->auth->is_admin()) {
 				'maxlength' => '7'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);
@@ -276,7 +276,10 @@ if($app->auth->is_admin()) {
 				'formtype'  => 'TEXT',
 				'validators'    => array (  0 => array (    'type'  => 'NOTEMPTY',
 						'errmsg'=> 'directory_error_empty'),
-					1 => array (    'type'  => 'CUSTOM',
+											1 => array ( 	'type' => 'REGEX',
+															'regex' => '/^\/[a-zA-Z0-9\ \.\-\_\/]{10,128}$/',
+															'errmsg'=> 'directory_error_regex'),
+					2 => array (    'type'  => 'CUSTOM',
 						'class' => 'validate_ftpuser',
 						'function' => 'ftp_dir',
 						'errmsg' => 'directory_error_notinweb'),
@@ -287,7 +290,7 @@ if($app->auth->is_admin()) {
 				'maxlength' => '255'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);

@@ -1,12 +1,12 @@
 <?php
-$wb['page_head_txt'] = 'Configurações de contas de e-mail';
-$wb['page_desc_txt'] = 'Aqui você edita as configurações para as contas de e-mail.';
+$wb['page_head_txt'] = 'Configurações de conta de e-mail';
+$wb['page_desc_txt'] = 'Aqui você pode editar as configurações da conta de e-mail.';
 $wb['email_txt'] = 'Endereço de e-mail';
 $wb['login_txt'] = 'Acesso';
 $wb['server_address_txt'] = 'Endereço do servidor de e-mails';
-$wb['cc_txt'] = 'Enviar cópia para (CC)';
-$wb['quota_txt'] = 'Tamanho da caixa postal';
-$wb['unlimited_txt'] = 'ilimitada';
+$wb['cc_txt'] = 'Enviar cópia oculta (BCC) para';
+$wb['quota_txt'] = 'Cota da conta de e-mail';
+$wb['unlimited_txt'] = 'Ilimitado';
 $wb['mb_txt'] = 'MB';
 $wb['none_txt'] = 'Nenhum';
 ?>

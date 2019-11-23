@@ -1,18 +1,18 @@
 <?php
-$wb['list_head_txt'] = 'Takma Alan Adı';
+$wb['list_head_txt'] = 'Takma Etki Alanı';
 $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['parent_domain_id_txt'] = 'Web Sitesi';
-$wb['domain_txt'] = 'Takma Alan Adı';
-$wb['domain_error_empty'] = 'Alan adı boş olamaz.';
-$wb['domain_error_unique'] = 'Aynı alan adı zaten var.';
-$wb['domain_error_regex'] = 'Alan adı geçersiz.';
+$wb['domain_txt'] = 'Takma Etki Alanı';
+$wb['add_new_subdomain_txt'] = 'Alt Etki Alanı Ekle';
+$wb['add_new_aliasdomain_txt'] = 'Takma Etki Alanı Ekle';
+$wb['domain_error_empty'] = 'Etki alanı boş olamaz.';
+$wb['domain_error_unique'] = 'Aynı etki alanı zaten var.';
+$wb['domain_error_regex'] = 'Etki alanı geçersiz.';
+$wb['domain_error_acme_invalid'] = 'acme.invalid etki alanı adı kullanılamaz.';
 $wb['no_redirect_txt'] = 'Yönlendirme yok';
 $wb['no_flag_txt'] = 'İşaret yok';
 $wb['none_txt'] = 'Yok';
-$wb['add_new_subdomain_txt'] = 'Add new Subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new Aliasdomain';
-$wb['aliasdomain_list_head_txt'] = 'Aliasdomains';
-$wb['subdomain_list_head_txt'] = 'Subdomains';
-$wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
+$wb['aliasdomain_list_head_txt'] = 'Takma Etki Alanları';
+$wb['subdomain_list_head_txt'] = 'Alt Etki Alanları';
 ?>

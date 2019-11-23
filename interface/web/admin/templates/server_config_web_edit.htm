@@ -256,7 +256,7 @@
     <div id="collapsePHP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPHP">
       <div class="panel-body">
 	  <!-- Begin content -->
-                <div class="form-group">
+				<div class="form-group">
                     <label for="php_default_name" class="col-sm-3 control-label">{tmpl_var name='php_default_name_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="php_default_name" id="php_default_name" value="{tmpl_var name='php_default_name'}" class="form-control" /></div></div>
 			    <div class="form-group apache">
@@ -293,6 +293,18 @@
                             {tmpl_var name='php_handler'}
                         </select></div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_incron_reload_txt'}</label>
+                    <div class="col-sm-9">
+                        {tmpl_var name='php_fpm_incron_reload'}
+                    </div>
+                </div>
+				<div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_reload_mode_txt'}</label>
+                <div class="col-sm-9"><select name="php_fpm_reload_mode" id="php_fpm_reload_mode" class="form-control">
+                        {tmpl_var name='php_fpm_reload_mode'}
+                    </select></div>
+            </div>
 	  <!-- End content -->
 	  </div>
 	</div>

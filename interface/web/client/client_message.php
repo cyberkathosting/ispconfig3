@@ -71,18 +71,18 @@ if(isset($_POST) && count($_POST) > 1) {
 					$where[] = 'client_id = '.$app->functions->intval($tmp_client_id);
 				}
 				if(!empty($where)) $where_clause = ' AND ('.implode(' OR ', $where).')';
-				$sql = "SELECT * FROM client WHERE email != ''".$where_clause;
+				$sql = "SELECT * FROM client WHERE canceled != 'y' AND email != ''".$where_clause;
 			} else {
-				$sql = "SELECT * FROM client WHERE 0";
+				$sql = "SELECT * FROM client WHERE canceled != 'y'";
 			}
 		} else {
 			//* Select all clients and resellers
 			if($_SESSION["s"]["user"]["typ"] == 'admin'){
-				$sql = "SELECT * FROM client WHERE email != ''";
+				$sql = "SELECT * FROM client WHERE email != '' AND canceled != 'y'";
 			} else {
 				$client_id = $app->functions->intval($_SESSION['s']['user']['client_id']);
 				if($client_id == 0) die('Invalid Client ID.');
-				$sql = "SELECT * FROM client WHERE email != '' AND parent_client_id = '$client_id'";
+				$sql = "SELECT * FROM client WHERE email != '' AND canceled != 'y' AND parent_client_id = '$client_id'";
 			}
 		}
 

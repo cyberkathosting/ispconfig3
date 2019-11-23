@@ -45,4 +45,6 @@ $wb['Domain Alias'] = 'Alias de domaine';
 $wb['Relay Recipients'] = 'Destinataires de relais';
 $wb['Mailbox quota'] = 'Mailbox quota';
 $wb['Email'] = 'Email';
+$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
 ?>

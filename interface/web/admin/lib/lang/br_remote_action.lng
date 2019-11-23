@@ -1,12 +1,12 @@
 <?php
-$wb['select_server_txt'] = 'Selecione o Servidor';
+$wb['select_server_txt'] = 'Selecionar servidor';
 $wb['btn_do_txt'] = 'Executar ação';
-$wb['do_osupdate_caption'] = 'Atualização do sistema operacional no servidor';
-$wb['do_osupdate_desc'] = 'Este comando fará um aptitude -y upgrade no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
-$wb['do_ispcupdate_caption'] = 'Atualização do ISPConfig 3 no servidor';
-$wb['do_ispcupdate_desc'] = 'Esta ação fará uma atualização do ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
-$wb['action_scheduled'] = 'Esta ação está agendada para execução';
+$wb['do_osupdate_caption'] = 'Atualizar sistema operacional no servidor remoto';
+$wb['do_osupdate_desc'] = 'Esta ação fará o comando \'aptitude -y upgrade\' no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['do_ispcupdate_caption'] = 'Atualizar ISPConfig 3 - Atualizar o servidor remoto';
+$wb['do_ispcupdate_desc'] = 'Esta ação atualizará o ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['action_scheduled'] = 'A ação foi agendada.';
 $wb['select_all_server'] = 'Todos os servidores';
 $wb['ispconfig_update_title'] = 'Instruções de atualização do ISPConfig';
-$wb['ispconfig_update_text'] = 'Acesse como root no shell do seu servidor e execute os seguintes comandos<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />para iniciar a atualização do ISPConfig.<br /><br /><a href=http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/ target=_blank>Clique aqui para instruções detalhadas sobre atualização</a>';
+$wb['ispconfig_update_text'] = 'Acesse com o usuário root no shell do servidor e execute o comando<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />para iniciar a atualização do ISPConfig.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Clique aqui para instruções detalhadas</a>';
 ?>

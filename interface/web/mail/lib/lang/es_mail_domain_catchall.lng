@@ -8,4 +8,5 @@ $wb['domain_txt'] = 'Dominio';
 $wb['limit_mailcatchall_txt'] = 'Ha alcanzado el número máx. de correo \\"recoge-todo\\" para correo permitidos para su cuenta.';
 $wb['no_domain_perm'] = 'No tiene permisos para usar este dominio.';
 $wb['source_txt'] = 'Origen';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

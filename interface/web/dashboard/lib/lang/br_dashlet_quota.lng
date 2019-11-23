@@ -1,8 +1,8 @@
 <?php
-$wb['quota_txt'] = 'Cota para sites';
+$wb['quota_txt'] = 'Cota de site (disco)';
 $wb['domain_txt'] = 'Domínio/Site';
 $wb['used_txt'] = 'Espaço utilizado';
-$wb['hard_txt'] = 'Limite';
+$wb['hard_txt'] = 'Limite para bloqueio';
 $wb['soft_txt'] = 'Limite para alerta';
 $wb['no_sites_txt'] = 'Nenhum site encontrado.';
 ?>

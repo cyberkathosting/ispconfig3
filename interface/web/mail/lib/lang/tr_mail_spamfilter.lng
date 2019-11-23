@@ -7,11 +7,11 @@ $wb['spam_rewrite_subject_txt'] = 'Konuyu yeniden yaz';
 $wb['spam_redirect_maildir_txt'] = 'Mail kutusuna yönlendir';
 $wb['active_txt'] = 'Etkin';
 $wb['spam_rewrite_txt'] = 'Bu puanın üzerindeki e-posta konusunu yeniden yaz.';
-$wb['spam_redirect_txt'] = 'Bu puanın üzerindeki e-postayı seçilmiş posta kutusuna yönlendir.';
+$wb['spam_redirect_txt'] = 'Bu puanın üzerindeki e-postayı seçilmiş e-posta kutusuna yönlendir.';
 $wb['spam_delete_txt'] = 'Bu puanın üzerindeki e-postayı sil.';
 $wb['disable_txt'] = 'İpucu: Bir süzgeç seçeneğini devre dışı bırakmak için, puanı 0.00 olarak yazın.';
 $wb['email_error_isemail'] = 'E-posta adresi geçersiz.';
-$wb['email_error_unique'] = 'Bu e-posta adresi için önemiz posta süzgeci kaydı zaten var.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Posta klasörü';
+$wb['email_error_unique'] = 'Bu e-posta adresi için önemiz  e-posta süzgeci kaydı zaten var.';
+$wb['spam_redirect_maildir_purge_txt'] = 'E-posta Klasörü';
 $wb['days_txt'] = ' gün aralıklarla temizlensin.';
 ?>

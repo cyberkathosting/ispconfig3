@@ -82,6 +82,7 @@ $wb['seo_redirect_txt'] = 'SEO Redirect';
 $wb['non_www_to_www_txt'] = 'Non-www -&gt; www';
 $wb['www_to_non_www_txt'] = 'www -&gt; non-www';
 $wb['php_fpm_use_socket_txt'] = 'Use Socket For PHP-FPM';
+$wb['php_fpm_chroot_txt'] = 'Chroot PHP-FPM';
 $wb['error_no_sni_txt'] = 'SNI for SSL is not activated on this server. You can enable only one SSL certificate on each IP address.';
 $wb['python_txt'] = 'Python';
 $wb['perl_txt'] = 'Perl';
@@ -156,4 +157,5 @@ $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
 $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
 $wb['log_retention_txt'] = 'Logfiles retention time';
 $wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
+$wb['limit_web_quota_not_0_txt'] = 'Harddisk Quota cannot be set to 0.';
 ?>

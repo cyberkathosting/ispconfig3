@@ -69,6 +69,22 @@ class app {
 
 	}
 
+	public function __get($name) {
+		$valid_names = array('functions', 'getconf', 'letsencrypt', 'modules', 'plugins', 'services', 'system');
+		if(!in_array($name, $valid_names)) {
+			trigger_error('Undefined property ' . $name . ' of class app', E_USER_WARNING);
+		}
+		if(property_exists($this, $name)) {
+			return $this->{$name};
+		}
+		$this->uses($name);
+		if(property_exists($this, $name)) {
+			return $this->{$name};
+		} else {
+			trigger_error('Undefined property ' . $name . ' of class app', E_USER_WARNING);
+		}
+	}
+	
 	function setCaller($caller) {
 		$this->_calling_script = $caller;
 	}

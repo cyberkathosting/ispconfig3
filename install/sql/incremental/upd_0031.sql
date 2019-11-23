@@ -14,5 +14,5 @@ CREATE TABLE `server_php` (
   `php_fpm_ini_dir` varchar(255) DEFAULT NULL,
   `php_fpm_pool_dir` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`server_php_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 ALTER TABLE `web_domain` ADD `fastcgi_php_version` VARCHAR( 255 ) NULL DEFAULT NULL;

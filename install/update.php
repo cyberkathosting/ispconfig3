@@ -59,6 +59,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 error_reporting(E_ALL|E_STRICT);
 
 define('INSTALLER_RUN', true);
+define('INSTALLER_UPDATE', true);
 
 //** The banner on the command line
 echo "\n\n".str_repeat('-', 80)."\n";
@@ -292,6 +293,22 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 */
 checkDbHealth();
 
+
+/*
+ * Check command line mysql login
+ */
+if( !empty($conf["mysql"]["admin_password"]) ) {
+	$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -p".escapeshellarg($conf['mysql']['admin_password'])." -P ".escapeshellarg($conf['mysql']['port'])." -D ".escapeshellarg($conf['mysql']['database'])." -e ". escapeshellarg('SHOW DATABASES');
+} else {
+	$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -P ".escapeshellarg($conf['mysql']['port'])." -D ".escapeshellarg($conf['mysql']['database'])." -e ". escapeshellarg('SHOW DATABASES');
+}
+$retval = 0;
+$retout = array();
+exec($cmd, $retout, $retval);
+if($retval != 0) {
+	die("Unable to call mysql command line with credentials from mysql_clientdb.conf\n");
+}
+
 /*
  *  dump the new Database and reconfigure the server.ini
  */
@@ -394,6 +411,12 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 		if($conf['amavis']['installed'] == true && $inst->reconfigure_app('Amavisd', $reconfigure_services_answer)) {
 			swriteln('Configuring Amavisd');
 			$inst->configure_amavis();
+		}
+
+		//** Configure Rspamd
+		if($conf['rspamd']['installed'] == true && $inst->reconfigure_app('Rspamd', $reconfigure_services_answer)) {
+			swriteln('Configuring Rspamd');
+			$inst->configure_rspamd();
 		}
 
 		//** Configure Getmail
@@ -531,6 +554,7 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['postfix']['installed'] == true && $conf['postfix']['init_script'] != '') system($inst->getinitcommand($conf['postfix']['init_script'], 'restart'));
 		if($conf['saslauthd']['installed'] == true && $conf['saslauthd']['init_script'] != '') system($inst->getinitcommand($conf['saslauthd']['init_script'], 'restart'));
 		if($conf['amavis']['installed'] == true && $conf['amavis']['init_script'] != '') system($inst->getinitcommand($conf['amavis']['init_script'], 'restart'));
+		if($conf['rspamd']['installed'] == true && $conf['rspamd']['init_script'] != '') system($inst->getinitcommand($conf['rspamd']['init_script'], 'restart'));
 		if($conf['clamav']['installed'] == true && $conf['clamav']['init_script'] != '') system($inst->getinitcommand($conf['clamav']['init_script'], 'restart'));
 		if($conf['courier']['installed'] == true){
 			if($conf['courier']['courier-authdaemon'] != '') system($inst->getinitcommand($conf['courier']['courier-authdaemon'], 'restart'));

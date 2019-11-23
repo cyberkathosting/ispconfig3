@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Busca de mensagens de um servidor POP3/IMAP';
+$wb['list_head_txt'] = 'Busca de e-mails de servidores externos - POP3/IMAP';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['source_server_txt'] = 'Servidor externo';

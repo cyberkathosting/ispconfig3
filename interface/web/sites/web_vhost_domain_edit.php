@@ -206,7 +206,7 @@ class page_action extends tform_actions {
 			}
 			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client on the current server
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
@@ -222,7 +222,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			//$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -274,7 +274,6 @@ class page_action extends tform_actions {
 
 			// add limits to template to be able to hide settings
 			foreach($read_limits as $limit) $app->tpl->setVar($limit, $client[$limit]);
-
 
 			//* Reseller: If the logged in user is not admin and has sub clients (is a reseller)
 		} elseif ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
@@ -353,7 +352,7 @@ class page_action extends tform_actions {
 			}
 			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
@@ -369,7 +368,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -550,7 +549,7 @@ class page_action extends tform_actions {
 			}
 
 			//* Fill the IPv4 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND server_id = ?";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND virtualhost = 'y' AND server_id = ?";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -565,7 +564,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND server_id = ?";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' AND server_id = ?";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -864,8 +863,12 @@ class page_action extends tform_actions {
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}
-		
-		$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+
+		if($is_admin) {
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+		} else {
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+		}
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 			foreach($directive_snippets as $directive_snippet){
@@ -940,6 +943,13 @@ class page_action extends tform_actions {
 			}
 		}
 		$app->tpl->setLoop('folder_directive_snippets', $folder_directive_snippets);
+		if(is_array($web_config[$server_id])) {
+			$app->tpl->setVar('is_spdy_enabled', ($web_config[$server_id]['enable_spdy'] === 'y'));
+			$app->tpl->setVar('is_pagespeed_enabled', ($web_config[$server_id]['nginx_enable_pagespeed']));
+		} else {
+			$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
+			$app->tpl->setVar('is_pagespeed_enabled', ($web_config['nginx_enable_pagespeed']));
+		}
 
 		parent::onShowEnd();
 	}
@@ -1059,6 +1069,11 @@ class page_action extends tform_actions {
 			}
 			
 			if($this->_vhostdomain_type == 'domain') {
+				//* ensure that quota value is not 0 when vhost type = domain
+				if(isset($_POST["hd_quota"]) && $_POST["hd_quota"] == 0) {
+					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_not_0_txt")."<br>";
+				}
+				
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ? AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'), $this->id);
@@ -1295,7 +1310,7 @@ class page_action extends tform_actions {
 					// value inside ''
 					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*\'.*\'\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					// everything else
-					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s\|]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					$custom_php_ini_settings_are_valid = false;
 					break;
 				}

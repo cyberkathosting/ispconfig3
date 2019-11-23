@@ -39,7 +39,7 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE);
 $conf['server_id'] = intval($conf['server_id']);
 
 // Load required base-classes
-$app->uses('ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('modules,plugins,ini_parser,file,services,getconf,system,cron,functions');
 $app->load('libdatetime,cronjob');
 
 // Path settings
@@ -61,11 +61,7 @@ if(preg_match('/^\d+\-(.*)$/', $name, $match)) $name = $match[1]; // strip numer
 include $path . '/' . $cronjob_file;
 $class_name = 'cronjob_' . $name;
 $cronjob = new $class_name();
-
-$cronjob->onPrepare();
-$cronjob->onBeforeRun();
-$cronjob->onRunJob();
-$cronjob->onAfterRun();
+$cronjob->run(true);
 
 die("finished.\n");
 

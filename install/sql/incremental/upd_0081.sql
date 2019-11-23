@@ -126,7 +126,7 @@ CREATE TABLE `xmpp_domain` (
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),
   KEY `domain_active` (`domain`,`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Table structure for table  `xmpp_user`
@@ -146,7 +146,7 @@ CREATE TABLE `xmpp_user` (
   PRIMARY KEY  (`xmppuser_id`),
   KEY `server_id` (`server_id`,`jid`),
   KEY `jid_active` (`jid`,`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -176,7 +176,7 @@ CREATE TABLE `server_ip_map` (
   `destination_ip` varchar(35) DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`server_ip_map_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `web_domain` ADD COLUMN `rewrite_to_https` ENUM('y','n') NOT NULL DEFAULT 'n' AFTER `seo_redirect`;
 
@@ -199,7 +199,7 @@ CREATE TABLE `ftp_traffic` (
 	`in_bytes` bigint(32) unsigned NOT NULL,
 	`out_bytes` bigint(32) unsigned NOT NULL, 
 	UNIQUE KEY (`hostname`,`traffic_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `mail_forwarding` ADD COLUMN `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `active`;
 UPDATE `mail_forwarding` SET `allow_send_as` = 'y' WHERE `type` = 'alias';

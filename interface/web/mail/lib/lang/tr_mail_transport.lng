@@ -1,8 +1,8 @@
 <?php
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Alan Adı';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['destination_txt'] = 'Hedef';
-$wb['type_txt'] = 'Tip';
+$wb['type_txt'] = 'Tür';
 $wb['mx_txt'] = 'MX taraması yok';
 $wb['sort_order_txt'] = 'Sıralama';
 $wb['active_txt'] = 'Etkin';

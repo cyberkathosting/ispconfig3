@@ -35,4 +35,17 @@ $wb['bad_header_admin_txt'] = 'Админ: кривые заголовки';
 $wb['spam_admin_txt'] = 'Админ: СПАМ';
 $wb['message_size_limit_txt'] = 'Превышен размер сообщения';
 $wb['banned_rulenames_txt'] = 'Правила банов';
+$wb['rspamd_greylisting_txt'] = 'Use greylisting';
+$wb['rspamd_spam_greylisting_level_txt'] = 'Greylisting level';
+$wb['rspamd_spam_tag_level_txt'] = 'SPAM tag level';
+$wb['rspamd_spam_tag_method_txt'] = 'SPAM tag method';
+$wb['rspamd_spam_kill_level_txt'] = 'SPAM reject level';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['amavis_settings_txt'] = 'Settings';
+$wb['amavis_taglevel_txt'] = 'Tag-Level';
+$wb['amavis_quarantine_txt'] = 'Quarantine';
+$wb['amavis_other_txt'] = 'Other';
+$wb['add_header_txt'] = 'Add header';
+$wb['rewrite_subject_txt'] = 'Rewrite subject';
 ?>

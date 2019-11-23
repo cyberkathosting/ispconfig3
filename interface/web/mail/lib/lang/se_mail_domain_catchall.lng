@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Ogiltig domän eller domänen innehåller ogiltiga 
 $wb['limit_mailcatchall_txt'] = 'Det maximala antalet catchall-adresser för ditt konto är uppnått.';
 $wb['source_txt'] = 'Källa';
 $wb['destination_error_isemail'] = 'Destinationen när inte en giltig epostadress.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

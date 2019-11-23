@@ -1,0 +1,151 @@
+ #!/bin/bash
+#####################################################################################
+#                                                                                   #
+# Syntax: fixcerts DOMAIN                                                           #
+#                                                                                   #
+# Use: Extend Letsencrypt SSl certificates for commonly grouped services such as    #
+#       Apache,Postfix,Dovecot using Certbot. Useful for keeping all client         #
+#       applications referencing the same virtual domain name, such as auto-config  #
+#       email clients on phones, i.e. mailuser@mydomain.TLD smtp.mydomain.TLD       #
+#       imaps.mydomain.TLD instead of mailuser@mydomain.TLD mail.ISPmaildomain.TLD  #
+#       Also useful when sending mail through services like Gmail that will         #
+#       validate sender through a negotiated TLS encrypted connection.              #
+#                                                                                   #
+#       Ex: sh fixcerts myhosteddomain.com                                          #
+#                                                                                   #
+# Prerequisites:                                                                    #
+#   - A Letsencrypt certificate for the DOMAIN must already exist                   #
+#   - A seperate certificate each for Dovecot and Postfix were previously generated #
+#   - All new host names to add MUST  already exist in DNS at least as a CNAME      #
+#   - Edit the Dovecot/Postfix conf to use the alternate certificate                #
+#   - Set the variable wr_file to a directory that certbot can read and write from  #
+#   - Set the dom_cert=,dv_cert=,pf_cert=,dv_file=, and pf_file= variables          #
+#                                                                                   #
+# In my case, I ran:                                                                #
+#   certbot certonly -webroot /usr/local/ispconfig/interface/acme -d dc.hrst.xyz    #
+#   certbot certonly -webroot /usr/local/ispconfig/interface/acme -d pf.hrst.xyz    #
+#   to create the separate Dovecot and Postscript certificates, then edited and     #
+#   ran the script to extend those certificate, once per hosted domain              #
+#                                                                                   #
+# If you use only one alternate certifcate for both mail services, set both dv_file #
+#     and pf_file to the same file name and set one of  _cert files=""  and         #
+#     use the other. If you don't wish to add to a particular certificate, set the  #
+#     variable ="", such as dom_cert                                                #
+# TODO: Pre-validate desired additions as already existing in DNS                   #
+#       Generate SRV Records and add to DNS to autoconfig clients                   #
+#                                                                                   #
+# Author: tad.hasse@gmail.com                                                       #
+#                                                                                   #
+#####################################################################################
+
+#bail out on error
+set -e
+
+# Hostnames to add to the main domain certificate
+dom_cert="webmail"
+
+# Hostnames to add to the Dovecot domain certificate
+dv_cert="pop3s imap"
+
+# Hostnames to add to the Postfix domain certificate
+pf_cert="mail smtp smtps"
+
+# Name of the certificate file that handles Dovecot
+dv_file="dc.hrst.xyz"
+
+# Name of the certificate file that handles Postfix
+pf_file="pf.hrst.xyz"
+
+# Writeable webroot for certbot (I use ISPConfig,
+wr_file="/usr/local/ispconfig/interface/acme"
+
+new_cert=""
+nanobot=""
+affected_services=""
+
+if [ -z "$1" ]                           # Is parameter #1 zero length?
+   then
+     echo "-No DOMAIN specified"          # Or no parameter passed.
+     exit 1
+   fi
+
+#live_check='/etc/letsencrypt/live/'$1
+if [[ ! -d '/etc/letsencrypt/live/'$1 ]]; then
+    echo "- DOMAIN certificate for \"$1\" not found -"
+    exit 1
+   fi
+
+if [[ ! -d '/etc/letsencrypt/live/'${dv_file} ]]; then
+    echo "- Dovecot/postoffice certificate" ${dv_file}" for \"$1\" not found -"
+    exit 1
+   fi
+
+if [[ ! -d '/etc/letsencrypt/live/'${pf_file} ]]; then
+    echo "- Postfix/mail certificate" ${pf_file}" for \"$1\" not found -"
+    exit 1
+   fi
+
+# Have certbot generate its current certificate list for use as input
+certbot certificates >~/certfile
+
+# Extend base domain certificate which typically only contains the domain.TLD and www.domain.TLD
+if [[ ! -z "${dom_cert}" ]]; then
+    echo
+    new_cert=$(echo $dom_cert| sed -e "s/ /.$1 /g" -e 's/ / -d /g' -e "s/$/.$1 /g" -e 's/^/-d /g')
+    echo "Adding" ${new_cert} " to "$1
+    nanobot=$(grep -A1 "Certificate Name: "$1 certfile |awk -F': ' '{ {getline}; $1=""; print }'|sed  's/ / -d /g')
+    doit_cert=$(echo "certbot certonly --webroot -w ${wr_file}${nanobot} ${new_cert}")
+    ${doit_cert}
+    affected_services=${affected_services}+"A"
+else
+    echo "Domain Certificate unaffected"
+  fi
+
+# Extend the Dovecot certificate
+if [[ ! -z "${dv_cert}" ]]; then
+    echo
+    new_cert=$(echo $dv_cert| sed -e "s/ /.$1 /g" -e 's/ / -d /g' -e "s/$/.$1 /g" -e 's/^/-d /g')
+    echo "Adding" ${new_cert} " to "${dv_file}
+    nanobot=$(grep -A1 "Certificate Name: "${dv_file} certfile |awk -F': ' '{ {getline}; $1=""; print }'|sed  's/ / -d /g')
+    doit_cert=$(echo "certbot certonly --webroot -w ${wr_file}${nanobot} ${new_cert}")
+    ${doit_cert}
+    affected_services=${affected_services}+"D"
+else
+    echo "Dovecot Certificate unaffected"
+  fi
+
+# Extend the Postscript certificate
+if [[ ! -z "{$pf_cert}" ]]; then
+    echo
+    new_cert=$(echo $pf_cert| sed -e "s/ /.$1 /g" -e 's/ / -d /g' -e "s/$/.$1 /g" -e 's/^/-d /g')
+    echo "Adding" ${new_cert} " to " ${pf_file}
+    nanobot=$(grep -A1 "Certificate Name: "${pf_file} certfile |awk -F': ' '{ {getline}; $1=""; print }'|sed  's/ / -d /g')
+    doit_cert=$(echo "certbot certonly --webroot -w ${wr_file}${nanobot} ${new_cert}")
+    ${doit_cert}
+    affected_services=${affected_services}+"P"
+else
+    echo "Postfix Certificate unaffected"
+  fi
+
+  if [[ $affected_services == *"A"* ]]; then
+     echo "Remember to restart the httpd service"
+   fi
+  if [[ $affected_services == *"D"* ]]; then
+    echo "Remember to restart the dovecot/postoffice service"
+   fi
+  if [[ $affected_services == *"P"* ]]; then
+    echo "Remember to restart the postfix/sendmail  service"
+   fi
+
+echo
+echo
+echo "Add the following SRV records to DNS for client setup for "$1
+  if [[ $affected_services == *"D"* ]]; then
+    echo "_imaps._tcp."$1 "SRV 3600  4 60 993 imaps"
+    echo "_pop3s._tcp."$1 "SRV 3600  6 60 995 pop3s"
+    echo "_imap._tcp."$1 " SRV 3600  8 60 143 imap"
+  fi
+if [[ $affected_services == *"P"* ]]; then
+    echo "_smtps._tcp."$1 "SRV 3600  8 60 465 smtps"
+    echo "_smtp._tcp."$1 " SRV 3600 10 60 587 smtp"
+  fi

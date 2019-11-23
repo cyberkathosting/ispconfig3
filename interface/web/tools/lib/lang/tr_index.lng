@@ -1,4 +1,4 @@
 <?php
 $wb['page_head_txt'] = 'ISPConfig Araçları';
-$wb['page_desc_txt'] = 'Kullanıcı ayarlarını değiştirme';
+$wb['page_desc_txt'] = 'Kullanıcı Ayarlarını Değiştirme';
 ?>

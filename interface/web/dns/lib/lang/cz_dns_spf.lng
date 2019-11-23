@@ -19,7 +19,7 @@ $wb['spf_invalid_domain_txt'] = 'Neplatné doménové jméno';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivní';
 $wb['record_exists_txt'] = 'DNS záznam již existuje';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
+$wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>

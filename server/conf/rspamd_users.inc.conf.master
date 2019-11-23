@@ -1,0 +1,57 @@
+<tmpl_var name='record_identifier'> {
+	priority = <tmpl_var name='priority'>;
+<tmpl_if name='from_email'>
+	from = "<tmpl_var name='from_email'>";
+</tmpl_if>
+<tmpl_if name='to_email'>
+	rcpt = "<tmpl_var name='to_email'>";
+</tmpl_if>
+
+<tmpl_if name='spam_lover'>
+<tmpl_if name='virus_lover'>
+	want_spam = yes;
+<tmpl_else>
+	apply {
+		CLAM_VIRUS = 1999.0;
+		JUST_EICAR = 1999.0;
+		actions {
+			reject = null;
+	<tmpl_if name='greylisting'>
+		<tmpl_if name='greylisting' op='==' value='y'>
+			greylist = <tmpl_var name='greylisting_level'>;
+		<tmpl_else>
+			greylist = null;
+		</tmpl_if>
+	</tmpl_if>
+		}
+	}
+	</tmpl_if>
+<tmpl_else>
+	apply {
+	<tmpl_if name='virus_lover'>
+		CLAM_VIRUS = -999.0;
+		JUST_EICAR = -999.0;
+	<tmpl_else>
+		CLAM_VIRUS = <tmpl_var name='rspamd_virus_kill_level'>;
+		JUST_EICAR = <tmpl_var name='rspamd_virus_kill_level'>;
+	</tmpl_if>
+		actions {
+		<tmpl_if name='rspamd_spam_tag_method' op='==' value='rewrite_subject'>
+			"rewrite subject" =  <tmpl_var name='rspamd_spam_tag_level'>;
+		</tmpl_if>
+		<tmpl_if name='rspamd_spam_tag_method' op='==' value='add_header'>
+			"add header" =  <tmpl_var name='rspamd_spam_tag_level'>;
+		</tmpl_if>
+			reject = <tmpl_var name='rspamd_spam_kill_level'>;
+	<tmpl_if name='greylisting'>
+		<tmpl_if name='greylisting' op='==' value='y'>
+			greylist = <tmpl_var name='greylisting_level'>;
+		<tmpl_else>
+			greylist = null;
+		</tmpl_if>
+	</tmpl_if>
+		}
+	}
+</tmpl_if>
+
+}

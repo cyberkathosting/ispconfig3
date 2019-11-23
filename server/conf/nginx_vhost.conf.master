@@ -3,7 +3,9 @@ server {
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='http_port'>;
 </tmpl_if>
-		
+<tmpl_if name='ipv6_wildcard'>
+        listen [::]:<tmpl_var name='http_port'>;
+</tmpl_if>
 <tmpl_if name='ssl_enabled'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -11,6 +13,9 @@ server {
 		# ssl_prefer_server_ciphers on;
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+</tmpl_if>
+<tmpl_if name='ipv6_wildcard'>
+        listen [::]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
 </tmpl_if>
         ssl_certificate <tmpl_var name='ssl_crt_file'>;
         ssl_certificate_key <tmpl_var name='ssl_key_file'>;
@@ -20,6 +25,13 @@ server {
 
         root   <tmpl_var name='web_document_root_www'>;
 		
+<tmpl_if name='ssl_enabled'>
+<tmpl_if name='rewrite_to_https' op='==' value='y'>
+        if ($scheme != "https") {
+            rewrite ^ https://$http_host$request_uri? permanent;
+        }
+</tmpl_if>
+</tmpl_if>
 <tmpl_if name='seo_redirect_enabled'>
         if ($http_host <tmpl_var name='seo_redirect_operator'> "<tmpl_var name='seo_redirect_origin_domain'>") {
             rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri? permanent;
@@ -35,13 +47,6 @@ server {
             rewrite ^<tmpl_var name='local_redirect_exclude'>(.*)$ <tmpl_var name='local_redirect_target'>$2 <tmpl_var name='local_redirect_type'>;
         }
 </tmpl_loop>
-<tmpl_if name='ssl_enabled'>
-<tmpl_if name='rewrite_to_https' op='==' value='y'>
-        if ($scheme != "https") {
-            rewrite ^ https://$http_host$request_uri? permanent;
-        }
-</tmpl_if>
-</tmpl_if>
 
 <tmpl_loop name="own_redirects">
 <tmpl_if name='use_rewrite'>
@@ -128,6 +133,7 @@ server {
 		location ^~ /.well-known/acme-challenge/ {
 			access_log off;
 			log_not_found off;
+			auth_basic off;
 			root /usr/local/ispconfig/interface/acme/;
 			autoindex off;
 			index index.html;
@@ -173,7 +179,13 @@ server {
             fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
 </tmpl_if>
             fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot' op='==' value='y'>
+            fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
+<tmpl_else>
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
             #fastcgi_param PATH_INFO $fastcgi_script_name;
             fastcgi_intercept_errors on;
         }
@@ -184,12 +196,18 @@ server {
 				include /etc/nginx/fastcgi_params;
 				fastcgi_pass unix:/var/run/hhvm/hhvm.<tmpl_var name='system_user'>.sock;
 				fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot'>
+				fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
+<tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
 				fastcgi_intercept_errors on;
 				error_page 500 501 502 503 = @phpfallback;
 			}
-			
+
 			location @phpfallback {
 				try_files $uri =404;
 				include /etc/nginx/fastcgi_params;
@@ -200,7 +218,13 @@ server {
 				fastcgi_pass unix:<tmpl_var name='fpm_socket'>;
 </tmpl_if>
 				fastcgi_index index.php;
+<tmpl_if name='php_fpm_chroot'>
+				fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+				fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
+<tmpl_else>
 				fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</tmpl_if>
 				#fastcgi_param PATH_INFO $fastcgi_script_name;
 				fastcgi_intercept_errors on;
 			}
@@ -211,7 +235,7 @@ server {
         }
 	</tmpl_if>
 </tmpl_if>
-		
+
 <tmpl_if name='cgi' op='==' value='y'>
         location /cgi-bin/ {
             try_files $uri =404;
@@ -220,7 +244,13 @@ server {
             gzip off;
             fastcgi_pass  unix:/var/run/fcgiwrap.socket;
             fastcgi_index index.cgi;
+<tmpl_if name='php_fpm_chroot'>
+            fastcgi_param DOCUMENT_ROOT <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param HOME <tmpl_var name='php_fpm_chroot_web_folder'>;
+            fastcgi_param SCRIPT_FILENAME <tmpl_var name='php_fpm_chroot_web_folder'>$fastcgi_script_name;
+<tmpl_else>
             fastcgi_param SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+</tmpl_if>
             fastcgi_intercept_errors on;
         }
 </tmpl_if>

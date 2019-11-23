@@ -33,4 +33,8 @@ $wb['username_error_collision'] = 'The username may not be web or web plus a num
 $wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 $wb['lost_password_function_txt'] = 'Forgot password function is available';
 $wb['no_user_insert'] = 'CP-Users of type -user- get added and updated automatically when you add a client or reseller.';
+$wb['startmodule_empty'] = 'Startmodule empty.';
+$wb['startmodule_regex'] = 'Invalid chars in Startmodule.';
+$wb['app_theme_empty'] = 'App theme empty.';
+$wb['app_theme_regex'] = 'Invalid chars in App theme.';
 ?>

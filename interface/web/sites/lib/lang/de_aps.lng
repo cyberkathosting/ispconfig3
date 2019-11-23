@@ -55,4 +55,9 @@ $wb['installation_success_txt'] = 'Installiert';
 $wb['installation_remove_txt'] = 'Deinstallation vorgemerkt';
 $wb['packagelist_update_finished_txt'] = 'APS Paketlistenupdate beendet.';
 $wb['limit_aps_txt'] = 'Die maximale Anzahl an APS-Instanzen für Ihr Konto wurde erreicht.';
+$wb['generate_password_txt'] = 'Passwort erzeugen';
+$wb['repeat_password_txt'] = 'Passwort wiederholen';
+$wb['password_mismatch_txt'] = 'Die Passwörter stimmen nicht überein.';
+$wb['password_match_txt'] = 'Die Passwörter stimmen überein.';
+$wb['password_strength_txt'] = 'Passwortkomplexität';
 ?>

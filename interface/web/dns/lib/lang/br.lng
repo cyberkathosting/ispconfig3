@@ -1,4 +1,5 @@
 <?php
+
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zonas';
 $wb['DNS A'] = 'A';
@@ -9,14 +10,15 @@ $wb['DNS mx'] = 'MX';
 $wb['DNS ns'] = 'NS';
 $wb['DNS ptr'] = 'PTR';
 $wb['DNS RP'] = 'RP';
-$wb['DNS Zone'] = 'Zona';
+$wb['DNS Zone'] = 'ZONA';
 $wb['Records'] = 'Registros';
 $wb['DNS SRV'] = 'SRV';
 $wb['DNS TXT Record'] = 'Registro TXT';
 $wb['DNS TXT'] = 'TXT';
-$wb['DNS Wizard'] = 'Assistente dns';
-$wb['Add DNS Zone'] = 'Adicionar nova zona';
-$wb['Import Zone File'] = 'Importar arquivo de zona';
+$wb['DNS Wizard'] = 'Assistente DNS';
+$wb['Add DNS Zone'] = 'Adicionar zona dns';
 $wb['Templates'] = 'Gabaritos';
+$wb['Secondary DNS'] = 'DNS secundário';
 $wb['Secondary Zones'] = 'Zonas secundárias';
+$wb['Import Zone File'] = 'Importar arquivo de zona';
 ?>

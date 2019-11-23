@@ -114,9 +114,7 @@ class bind_plugin {
 		}
 		
 		//Do some magic...
-		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-		'dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE '.escapeshellcmd($domain).';'.
-		'dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE '.escapeshellcmd($domain));
+		$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
 
 		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
 		$data['new']['dnssec_initialized']='Y';
@@ -148,8 +146,7 @@ class bind_plugin {
 		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
 		
 		//Sign the zone and set it valid for max. 16 days
-		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 'dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o '.escapeshellcmd($domain).' -t '.$filespre.escapeshellcmd($domain));
+		$app->system->exec_safe('cd ?; dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o ? -t ?', $dns_config['bind_zonefiles_dir'], $domain, $filespre.$domain);
 			 
 		//Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
@@ -187,8 +184,8 @@ class bind_plugin {
 		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) $this->soa_dnssec_create($data);
 		
 		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id=?', intval($data['new']['id']));
-		exec('cd '.escapeshellcmd($dns_config['bind_zonefiles_dir']).';'.
-			 'named-checkzone '.escapeshellcmd($domain).' '.escapeshellcmd($dns_config['bind_zonefiles_dir']).'/'.$filespre.escapeshellcmd($domain).' | egrep -ho \'[0-9]{10}\'', $serial, $retState);
+		$app->system->exec_safe('cd ?; named-checkzone ? ? | egrep -ho \'[0-9]{10}\'', $dns_config['bind_zonefiles_dir'], $domain, $dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
+		$retState = $app->system->last_exec_retcode();
 		if ($retState != 0) {
 			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
 			return false;
@@ -236,6 +233,17 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 
+		//* Get the bind version
+		$bind_caa = false;
+        $bind = explode("\n", shell_exec('which named bind'));
+        $bind = reset($bind);
+        if(is_executable($bind)) {
+			exec($bind . ' -v 2>&1', $tmp);
+			$bind_caa = @(version_compare($tmp[0],"BIND 9.9.6", '>='))?true:false;
+			unset($tmp);
+		}
+		unset($bind);
+
 		//* Write the domain file
 		if(!empty($data['new']['id'])) {
 			$tpl = new tpl();
@@ -253,26 +261,41 @@ class bind_plugin {
 					if($records[$i]['type'] == 'TXT' && strlen($records[$i]['data']) > 255) {
 						$records[$i]['data'] = implode('" "',str_split( $records[$i]['data'], 255));
 					}
+					//* CAA-Records - Type257 for older bind-versions
+					if($records[$i]['type'] == 'CAA' && !$bind_caa) {
+						$records[$i]['type'] = 'TYPE257';
+						$temp = explode(' ', $records[$i]['data']);
+						unset($temp[0]);
+						$records[$i]['data'] = implode(' ', $temp);
+						$data_new = str_replace(array('"', ' '), '', $records[$i]['data']);
+						$hex = unpack('H*', $data_new);
+						$hex[1] = '0005'.strtoupper($hex[1]);
+						$length = strlen($hex[1])/2;
+						$data_new = "\# $length $hex[1]";
+						$records[$i]['data'] = $data_new;
+					}
 				}
 			}
 			$tpl->setLoop('zones', $records);
 
 			//TODO : change this when distribution information has been integrated into server record
 			if (file_exists('/etc/gentoo-release')) {
-				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($zone['origin'], 0, -1));
 			}
 			else {
-				$filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1)));
+				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1));
 			}
 
 			$old_zonefile = @file_get_contents($filename);
 			file_put_contents($filename, $tpl->grab());
-			chown($filename, escapeshellcmd($dns_config['bind_user']));
-			chgrp($filename, escapeshellcmd($dns_config['bind_group']));
+			chown($filename, $dns_config['bind_user']);
+			chgrp($filename, $dns_config['bind_group']);
 
 			//* Check the zonefile
 			if(is_file($filename.'.err')) unlink($filename.'.err');
-			exec('named-checkzone '.escapeshellarg($zone['origin']).' '.escapeshellarg($filename), $out, $return_status);
+			$app->system->exec_safe('named-checkzone ? ?', $zone['origin'], $filename);
+			$out = $app->system->last_exec_out();
+			$return_status = $app->system->last_exec_retcode();
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 			} else {
@@ -285,8 +308,8 @@ class bind_plugin {
 				if ($old_zonefile != '') {
 					rename($filename, $filename.'.err');
 					file_put_contents($filename, $old_zonefile);
-					chown($filename, escapeshellcmd($dns_config['bind_user']));
-					chgrp($filename, escapeshellcmd($dns_config['bind_group']));
+					chown($filename, $dns_config['bind_user']);
+					chgrp($filename, $dns_config['bind_group']);
 				} else {
 					rename($filename, $filename.'.err');
 				}
@@ -368,7 +391,10 @@ class bind_plugin {
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
  		//* DNSSEC-Implementation
- 		if ($data['old']['dnssec_initialized'] == 'Y') exec('/usr/local/ispconfig/server/scripts/dnssec-delete.sh '.$data['old']['origin']); //delete keys
+ 		if($data['old']['dnssec_initialized'] == 'Y' && file_exists('/usr/local/ispconfig/server/scripts/dnssec-delete.sh')) {
+			//delete keys
+			$app->system->exec_safe('/usr/local/ispconfig/server/scripts/dnssec-delete.sh ?', $data['old']['origin']);
+		}
  		
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
@@ -558,11 +584,6 @@ class bind_plugin {
 				'zonefile_path' => $sec_zonefiles_path.str_replace("/", "_", substr($tmp['origin'], 0, -1)),
 				'options' => $options
 			);
-
-			//   $filename = escapeshellcmd($dns_config['bind_zonefiles_dir'].'/slave/sec.'.substr($tmp['origin'],0,-1));
-			//   $app->log("Writing BIND domain file: ".$filename,LOGLEVEL_DEBUG);
-
-
 		}
 
 		$tpl_sec = new tpl();

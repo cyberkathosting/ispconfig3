@@ -1,0 +1,19 @@
+<?php
+$wb['ca_list_txt'] = 'Zertifizierungsstelle';
+$wb['ca_domain_txt'] = 'Domain';
+$wb['ca_hostname_txt'] = 'zusätzliche Hostnamen';
+$wb['ca_hostname_note_txt'] = '(mit Komma getrennte Liste - leer für alle Namen)';
+$wb['ca_options_txt'] = 'zusätzliche Angaben';
+$wb['ca_options_note_txt'] = 'von der Zertifizierungsstelle vorgegeben (mit Komma getrennte Liste)';
+$wb['ca_wildcard_txt'] = 'Wildcard verwenden';
+$wb['ca_critical_txt'] = 'Strikte Überprüfung durch die Zertifizierungsstelle';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktiv';
+$wb['select_txt'] = 'Zertifizierungstelle auswählen';
+$wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';
+$wb['limit_dns_record_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
+$wb['ca_error_txt'] = 'Keine Zertifizierungsstelle gewählt';
+$wb['caa_exists_error'] = 'Eintrag bereits vorhanden';
+$wb['ca_option_error'] = 'Ungültiges Format für zusätzliche Angaben. OPTION=WERT';
+$wb['ttl_range_error'] = 'Min. TTL ist 60 Sekunden.';
+?>

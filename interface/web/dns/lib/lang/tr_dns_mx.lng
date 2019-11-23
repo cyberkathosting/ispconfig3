@@ -2,17 +2,17 @@
 $wb['server_id_txt'] = 'Sunucu';
 $wb['zone_txt'] = 'Bölge';
 $wb['name_txt'] = 'Sunucu Adı';
-$wb['type_txt'] = 'Tip';
-$wb['data_txt'] = 'Posta sunucusu adı';
+$wb['type_txt'] = 'Tür';
+$wb['data_txt'] = 'E-posta Sunucusu Adı';
 $wb['aux_txt'] = 'Öncelik';
 $wb['ttl_txt'] = 'TTL Süresi';
 $wb['active_txt'] = 'Etkin';
 $wb['limit_dns_record_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla DNS kaydı sınırına ulaştınız.';
-$wb['no_zone_perm'] = 'Bu DNS bölgesi kaydını ekleme izniniz yok.';
+$wb['no_zone_perm'] = 'Bu DNS bölgesine kayıt ekleme izniniz yok.';
 $wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
 $wb['name_error_regex'] = 'Sunucu adı biçimi geçersiz.';
-$wb['data_error_empty'] = 'Posta sunucusu adı boş olamaz';
-$wb['data_error_regex'] = 'Posta sunucusu adı biçimi geçersiz';
+$wb['data_error_empty'] = 'E-posta sunucusu adı boş olamaz';
+$wb['data_error_regex'] = 'E-posta sunucusu adı biçimi geçersiz';
 $wb['duplicate_mx_record_txt'] = 'Bu MX kaydı zaten var.';
 $wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 ?>

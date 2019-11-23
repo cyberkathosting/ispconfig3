@@ -69,9 +69,9 @@ class cronjob_backup extends cronjob {
 			}
 
 			if(!is_dir($backup_dir)) {
-				mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
+				mkdir($backup_dir, $backup_dir_permissions, true);
 			} else {
-				chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
+				chmod($backup_dir, $backup_dir_permissions);
 			}
             $run_backups = true;
             //* mount backup directory, if necessary
@@ -127,16 +127,20 @@ class cronjob_backup extends cronjob {
 							if($backup_mode == 'userzip') {
 								//* Create a .zip backup as web user and include also files owned by apache / nginx user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
-								exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -group '.escapeshellarg($web_group).' -print 2> /dev/null | zip -b '.escapeshellarg($backup_tmp).' --exclude=./backup\*'.$backup_excludes.' --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
-								if($retval == 0 || $retval == 12) exec('cd '.escapeshellarg($web_path).' && sudo -u '.escapeshellarg($web_user).' find . -user '.escapeshellarg($http_server_user).' -print 2> /dev/null | zip -b '.escapeshellarg($backup_tmp).' --exclude=./backup\*'.$backup_excludes.' --update --symlinks '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' -@', $tmp_output, $retval);
+								$app->system->exec_safe('cd ? && sudo -u ? find . -group ? -print 2> /dev/null | zip -b ? --exclude=./backup\*'.$backup_excludes.' --symlinks ? -@', $web_path, $web_user, $web_group, $backup_tmp, $web_backup_dir.'/'.$web_backup_file);
+								$retval = $app->system->last_exec_retcode();
+								if($retval == 0 || $retval == 12) $app->system->exec_safe('cd ? && sudo -u ? find . -user ? -print 2> /dev/null | zip -b ? --exclude=./backup\*'.$backup_excludes.' --update --symlinks ? -@', $web_path, $web_user, $http_server_user, $backup_tmp, $web_backup_dir.'/'.$web_backup_file);
+								$retval = $app->system->last_exec_retcode();
 							} else {
 								//* Create a tar.gz backup as root user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.tar.gz';
 								if ($use_pigz) {
-									exec('tar pcf - --directory '.escapeshellarg($web_path).' . --exclude=./backup\*'.$backup_excludes.' | pigz > '.escapeshellarg($web_backup_dir.'/'.$web_backup_file), $tmp_output, $retval);
+									$app->system->exec_safe('tar pcf - --exclude=./backup\*'.$backup_excludes.' --directory ? . | pigz > ?', $web_path, $web_backup_dir.'/'.$web_backup_file);
+									$retval = $app->system->last_exec_retcode();
 								} else {
-									exec('tar pczf '.escapeshellarg($web_backup_dir.'/'.$web_backup_file).' --exclude=./backup\*'.$backup_excludes.' --directory '.escapeshellarg($web_path).' .', $tmp_output, $retval);
-}
+									$app->system->exec_safe('tar pczf ? --exclude=./backup\*'.$backup_excludes.' --directory ? .', $web_backup_dir.'/'.$web_backup_file, $web_path);
+									$retval = $app->system->last_exec_retcode();
+								}
 							}
 							if($retval == 0 || ($backup_mode != 'userzip' && $retval == 1) || ($backup_mode == 'userzip' && $retval == 12)) { // tar can return 1, zip can return 12(due to harmless warings) and still create valid backups  
 								if(is_file($web_backup_dir.'/'.$web_backup_file)){
@@ -225,6 +229,11 @@ class cronjob_backup extends cronjob {
 				if(is_array($records)) {
 
 					include '/usr/local/ispconfig/server/lib/mysql_clientdb.conf';
+					
+					//* Check mysqldump capabilities
+					exec('mysqldump --help',$tmp);
+					$mysqldump_routines = (strpos(implode($tmp),'--routines') !== false)?'--routines':'';
+					unset($tmp);
 
 					foreach($records as $rec) {
 
@@ -251,13 +260,16 @@ class cronjob_backup extends cronjob {
 							$db_id = $rec['database_id'];
 							$db_name = $rec['database_name'];
 							$db_backup_file = 'db_'.$db_name.'_'.date('Y-m-d_H-i').'.sql';
-							//$command = "mysqldump -h '".escapeshellcmd($clientdb_host)."' -u '".escapeshellcmd($clientdb_user)."' -p'".escapeshellcmd($clientdb_password)."' -c --add-drop-table --create-options --quick --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
-							$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." -c --add-drop-table --create-options --quick --max_allowed_packet=512M --result-file='".$db_backup_dir.'/'.$db_backup_file."' '".$db_name."'";
-							exec($command, $tmp_output, $retval);
-
+							$command = "mysqldump -h ? -u ? -p? -c --add-drop-table --create-options --quick --max_allowed_packet=512M ".$mysqldump_routines." --result-file=? ?";
+							$app->system->exec_safe($command, $clientdb_host, $clientdb_user, $clientdb_password, $db_backup_dir.'/'.$db_backup_file, $db_name);
+							$retval = $app->system->last_exec_retcode();
+							
 							//* Compress the backup with gzip / pigz
-							if($retval == 0) exec("$zip_cmd -c '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file)."' > '".escapeshellcmd($db_backup_dir.'/'.$db_backup_file).".gz'", $tmp_output, $retval);
-
+							if($retval == 0) {
+								$app->system->exec_safe("$zip_cmd -c ? > ?", $db_backup_dir.'/'.$db_backup_file, $db_backup_dir.'/'.$db_backup_file . '.gz');
+								$retval = $app->system->last_exec_retcode();
+							}
+							
 							if($retval == 0){
 								if(is_file($db_backup_dir.'/'.$db_backup_file.'.gz')){
 									chmod($db_backup_dir.'/'.$db_backup_file.'.gz', 0750);

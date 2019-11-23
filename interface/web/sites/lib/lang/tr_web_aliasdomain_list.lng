@@ -1,14 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Takma Alan Adı';
+$wb['list_head_txt'] = 'Takma Etki Alanı Adı';
 $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['parent_domain_id_txt'] = 'Web Sitesi';
-$wb['domain_txt'] = 'Takma Alan Adı';
-$wb['add_new_record_txt'] = 'Takma Alan Adı Ekle';
-$wb['domain_error_empty'] = 'Alan adı boş olamaz.';
-$wb['domain_error_unique'] = 'Aynı alan adı zaten var.';
-$wb['domain_error_regex'] = 'Alan adı geçersiz.';
+$wb['parent_domain_id_txt'] = 'Web Sitesş';
+$wb['domain_txt'] = 'Takma Etki Alanı Adı';
+$wb['add_new_record_txt'] = 'Yeni takma etki alanı adı ekle';
+$wb['domain_error_empty'] = 'Etki alanı adı boş olamaz.';
+$wb['domain_error_unique'] = 'Etki alanı adı eşsiz olmalıdır.';
+$wb['domain_error_regex'] = 'Etki alanı adı geçersiz.';
 $wb['no_redirect_txt'] = 'Yönlendirme yok';
 $wb['no_flag_txt'] = 'İşaret yok';
-$wb['none_txt'] = 'Yok';
+$wb['none_txt'] = 'Hiçbiri';
 ?>

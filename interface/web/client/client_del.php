@@ -58,9 +58,14 @@ class page_action extends tform_actions {
 		if(!is_object($app->tform)) $app->uses('tform');
 
 		if($_POST["confirm"] == 'yes') {
+			if(isset($_POST['_csrf_id'])) $_GET['_csrf_id'] = $_POST['_csrf_id'];
+			if(isset($_POST['_csrf_key'])) $_GET['_csrf_key'] = $_POST['_csrf_key'];
 			parent::onDelete();
 		} else {
 
+			// Check CSRF Token
+			$app->auth->csrf_token_check('GET');
+			
 			$app->uses('tpl');
 			$app->tpl->newTemplate("form.tpl.htm");
 			$app->tpl->setInclude('content_tpl', 'templates/client_del.htm');
@@ -100,6 +105,11 @@ class page_action extends tform_actions {
 			$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_client_del.lng';
 			include $lng_file;
 			$app->tpl->setVar($wb);
+			
+			// get new csrf token
+			$csrf_token = $app->auth->csrf_token_get('client_del');
+			$app->tpl->setVar('_csrf_id', $csrf_token['csrf_id']);
+			$app->tpl->setVar('_csrf_key', $csrf_token['csrf_key']);
 
 			$app->tpl_defaults();
 			$app->tpl->pparse();

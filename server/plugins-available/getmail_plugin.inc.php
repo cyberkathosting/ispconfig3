@@ -76,6 +76,9 @@ class getmail_plugin {
 
 	function update($event_name, $data) {
 		global $app, $conf;
+		
+		// Do not write getmail config files on mirror servers to avoid double fetching of emails.
+		if($conf['mirror_server_id'] > 0) return true;
 
 		// load the server specific configuration options for getmail
 		$app->uses("getconf");
@@ -91,7 +94,7 @@ class getmail_plugin {
 			$this->delete($event_name, $data);
 
 			// Get the new config file path
-			$config_file_path = escapeshellcmd($this->getmail_config_dir.'/'.$this->_clean_path($data["new"]["source_server"]).'_'.$this->_clean_path($data["new"]["source_username"]).'.conf');
+			$config_file_path = $this->getmail_config_dir.'/'.$this->_clean_path($data["new"]["source_server"]).'_'.$this->_clean_path($data["new"]["source_username"]).'.conf';
 			if(stristr($config_file_path, "..") or stristr($config_file_path, "|") or stristr($config_file_path, ";") or stristr($config_file_path, '$')) {
 				$app->log("Possibly faked path for getmail config file: '$config_file_path'. File is not written.", LOGLEVEL_ERROR);
 				return false;
@@ -159,7 +162,7 @@ class getmail_plugin {
 		$getmail_config = $app->getconf->get_server_config($conf["server_id"], 'getmail');
 		$this->getmail_config_dir = $getmail_config["getmail_config_dir"];
 
-		$config_file_path = escapeshellcmd($this->getmail_config_dir.'/'.$this->_clean_path($data["old"]["source_server"]).'_'.$this->_clean_path($data["old"]["source_username"]).'.conf');
+		$config_file_path = $this->getmail_config_dir.'/'.$this->_clean_path($data["old"]["source_server"]).'_'.$this->_clean_path($data["old"]["source_username"]).'.conf';
 		if(stristr($config_file_path, "..") || stristr($config_file_path, "|") || stristr($config_file_path, ";") || stristr($config_file_path, '$')) {
 			$app->log("Possibly faked path for getmail config file: '$config_file_path'. File is not written.", LOGLEVEL_ERROR);
 			return false;

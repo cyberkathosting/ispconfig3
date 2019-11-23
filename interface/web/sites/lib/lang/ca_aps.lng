@@ -55,4 +55,9 @@ $wb['packagelist_update_finished_txt'] = 'Mise à jour APS Packagelist terminée
 $wb['btn_install_txt'] = 'Installer';
 $wb['btn_cancel_txt'] = 'Annuler';
 $wb['limit_aps_txt'] = 'Le nombre max d\'instances APS pour votre compte a été atteint.';
+$wb['generate_password_txt'] = 'Générer un mot de passe';
+$wb['repeat_password_txt'] = 'Vérification du mot de passe';
+$wb['password_mismatch_txt'] = 'Les mots de passe ne correspondent pas.';
+$wb['password_match_txt'] = 'Les mots de passe correspondent.';
+$wb['password_strength_txt'] = 'Force du mot de passe';
 ?>

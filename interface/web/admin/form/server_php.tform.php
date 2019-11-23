@@ -174,7 +174,7 @@ $form["tabs"]['php_fastcgi'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -230,7 +230,7 @@ $form["tabs"]['php_fpm'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

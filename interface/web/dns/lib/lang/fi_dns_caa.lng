@@ -1,0 +1,19 @@
+<?php
+$wb['ca_list_txt'] = 'Certifiction Authority';
+$wb['ca_domain_txt'] = 'Domain';
+$wb['ca_hostname_txt'] = 'Additional Hostnames';
+$wb['ca_hostname_note_txt'] = '(Sepearated list with commas - empty for all hostnames)';
+$wb['ca_options_txt'] = 'Additional Options';
+$wb['ca_options_note_txt'] = 'requested by the CA (Sepearated list with commas)';
+$wb['ca_wildcard_txt'] = 'Use Wildcard SSL';
+$wb['ca_critical_txt'] = 'Strict check';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Active';
+$wb['select_txt'] = 'Select Certifiction Authority';
+$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
+$wb['ca_error_txt'] = 'No Certifiction Authority selected';
+$wb['caa_exists_error'] = 'CAA Record already exists';
+$wb['ca_option_error'] = 'Invalid format for additional options; OPTION=VALUE';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+?>

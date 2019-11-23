@@ -105,7 +105,6 @@ class nginx_plugin {
 		//* Only vhosts can have a ssl cert
 		if($data["new"]["type"] != "vhost" && $data["new"]["type"] != "vhostsubdomain" && $data["new"]["type"] != "vhostalias") return;
 
-		// if(!is_dir($data['new']['document_root'].'/ssl')) exec('mkdir -p '.$data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/ssl') && !is_dir($data['old']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 
 		$ssl_dir = $data['new']['document_root'].'/ssl';
@@ -170,36 +169,36 @@ class nginx_plugin {
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
 
-			$rand_file = escapeshellcmd($rand_file);
-			$key_file2 = escapeshellcmd($key_file2);
+			$rand_file = $rand_file;
+			$key_file2 = $key_file2;
 			$openssl_cmd_key_file2 = $key_file2;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
-			$key_file = escapeshellcmd($key_file);
+			$key_file = $key_file;
 			$openssl_cmd_key_file = $key_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$ssl_days = 3650;
-			$csr_file = escapeshellcmd($csr_file);
+			$csr_file = $csr_file;
 			$openssl_cmd_csr_file = $csr_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
-			$config_file = escapeshellcmd($ssl_cnf_file);
-			$crt_file = escapeshellcmd($crt_file);
+			$config_file = $ssl_cnf_file;
+			$crt_file = $crt_file;
 			$openssl_cmd_crt_file = $crt_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 
-				exec("openssl genrsa -des3 -rand $rand_file -passout pass:$ssl_password -out $openssl_cmd_key_file2 2048");
-				exec("openssl req -new -sha256 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -out $openssl_cmd_csr_file -days $ssl_days -config $config_file");
-				exec("openssl rsa -passin pass:$ssl_password -in $openssl_cmd_key_file2 -out $openssl_cmd_key_file");
+				$app->system->exec_safe("openssl genrsa -des3 -rand ? -passout pass:? -out ? 2048", $rand_file, $ssl_password, $openssl_cmd_key_file2);
+				$app->system->exec_safe("openssl req -new -sha256 -passin pass:? -passout pass:? -key ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $ssl_days, $config_file);
+				$app->system->exec_safe("openssl rsa -passin pass:? -in ? -out ?", $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_key_file);
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					exec("openssl ca -batch -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file");
+					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					exec("openssl req -x509 -passin pass:$ssl_password -passout pass:$ssl_password -key $openssl_cmd_key_file2 -in $openssl_cmd_csr_file -out $openssl_cmd_crt_file -days $ssl_days -config $config_file ");
+					$app->system->exec_safe("openssl req -x509 -passin pass:? -passout pass:? -key ? -in ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $openssl_cmd_crt_file, $ssl_days, $config_file);
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 				};
 
@@ -240,7 +239,8 @@ class nginx_plugin {
 		if($data["new"]["ssl_action"] == 'save') {
 			$tmp = array();
 			$crt_data = '';
-			exec('openssl x509 -noout -text -in '.escapeshellarg($crt_file),$tmp);
+			$app->system->exec_safe('openssl x509 -noout -text -in ?', $crt_file);
+			$tmp = $app->system->last_exec_out();
 			$crt_data = implode("\n",$tmp);
 			if(stristr($crt_data,'.acme.invalid')) {
 				$data["new"]["ssl_action"] = '';
@@ -303,7 +303,7 @@ class nginx_plugin {
 		if($data['new']['ssl_action'] == 'del') {
 			if(file_exists($web_config['CA_path'].'/openssl.cnf') && !is_link($web_config['CA_path'].'/openssl.cnf'))
 			{
-				exec("openssl ca -batch -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -revoke ".escapeshellcmd($crt_file));
+				$app->system->exec_safe("openssl ca -batch -config ? -passin pass:? -revoke ?", $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $crt_file);
 				$app->log("Revoking CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 			};
 			$app->system->unlink($csr_file);
@@ -439,31 +439,31 @@ class nginx_plugin {
 
 			//* Check if a ispconfigend user and group exists and create them
 			if(!$app->system->is_group('ispconfigend')) {
-				exec('groupadd --gid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+				$app->system->exec_safe('groupadd --gid ? ispconfigend', $connect_userid_to_webid_start + 10000);
 			}
 			if(!$app->system->is_user('ispconfigend')) {
-				exec('useradd -g ispconfigend -d /usr/local/ispconfig --uid '.($connect_userid_to_webid_start + 10000).' ispconfigend');
+				$app->system->exec_safe('useradd -g ispconfigend -d /usr/local/ispconfig --uid ? ispconfigend', $connect_userid_to_webid_start + 10000);
 			}
 		} else {
 			$fixed_uid_param = '';
 			$fixed_gid_param = '';
 		}
 
-		$groupname = escapeshellcmd($data['new']['system_group']);
+		$groupname = $data['new']['system_group'];
 		if($data['new']['system_group'] != '' && !$app->system->is_group($data['new']['system_group'])) {
-			exec('groupadd '.$fixed_gid_param.' '.$groupname);
-			if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' groupadd '.$groupname);
+			$app->system->exec_safe('groupadd ' . $fixed_gid_param . ' ?', $groupname);
+			if($nginx_chrooted) $app->system->exec_safe('chroot ? groupadd ?', $web_config['website_basedir'], $groupname);
 			$app->log('Adding the group: '.$groupname, LOGLEVEL_DEBUG);
 		}
 
-		$username = escapeshellcmd($data['new']['system_user']);
+		$username = $data['new']['system_user'];
 		if($data['new']['system_user'] != '' && !$app->system->is_user($data['new']['system_user'])) {
 			if($web_config['add_web_users_to_sshusers_group'] == 'y') {
-				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
-				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param -G sshusers $username -s /bin/false");
+				$app->system->exec_safe('useradd -d ? -g ? ' . $fixed_uid_param . ' -G sshusers ? -s /bin/false', $data['new']['document_root'], $groupname, $username);
+				if($nginx_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ' . $fixed_uid_param . ' -G sshusers ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $username);
 			} else {
-				exec('useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
-				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' useradd -d '.escapeshellcmd($data['new']['document_root'])." -g $groupname $fixed_uid_param $username -s /bin/false");
+				$app->system->exec_safe('useradd -d ? -g ? ' . $fixed_uid_param . ' ? -s /bin/false', $data['new']['document_root'], $groupname, $username);
+				if($nginx_chrooted) $app->system->exec_safe('chroot ? useradd -d ? -g ? ' . $fixed_uid_param . ' ? -s /bin/false', $web_config['website_basedir'], $data['new']['document_root'], $groupname, $username);
 			}
 			$app->log('Adding the user: '.$username, LOGLEVEL_DEBUG);
 		}
@@ -486,7 +486,7 @@ class nginx_plugin {
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
 					// create the symlinks, if not exist
 					if(is_link($tmp_symlink)) {
-						exec('rm -f '.escapeshellcmd($tmp_symlink));
+						$app->system->exec_safe('rm -f ?', $tmp_symlink);
 						$app->log('Removed symlink: rm -f '.$tmp_symlink, LOGLEVEL_DEBUG);
 					}
 				}
@@ -510,12 +510,12 @@ class nginx_plugin {
 				}
 				
 				//* Unmount the old log directory bfore we move the log dir
-				exec('umount '.escapeshellcmd($old_dir.'/log'));
+				$app->system->exec_safe('umount ?', $old_dir.'/log');
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
 				$app->system->web_folder_protection($data['old']['document_root'], false);
-				exec('mv '.escapeshellarg($data['old']['document_root']).' '.escapeshellarg($new_dir));
+				$app->system->exec_safe('mv ? ?', $data['old']['document_root'], $new_dir);
 				//$app->system->rename($data['old']['document_root'],$new_dir);
 				$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir, LOGLEVEL_DEBUG);
 
@@ -523,17 +523,17 @@ class nginx_plugin {
 				$data['new']['php_open_basedir'] = str_replace($data['old']['document_root'], $data['new']['document_root'], $data['old']['php_open_basedir']);
 
 				//* Change the owner of the website files to the new website owner
-				exec('chown --recursive --from='.escapeshellcmd($data['old']['system_user']).':'.escapeshellcmd($data['old']['system_group']).' '.escapeshellcmd($data['new']['system_user']).':'.escapeshellcmd($data['new']['system_group']).' '.$new_dir);
+				$app->system->exec_safe('chown --recursive --from=?:? ?:? ?', $data['old']['system_user'], $data['old']['system_group'], $data['new']['system_user'], $data['new']['system_group'], $new_dir);
 
 				//* Change the home directory and group of the website user
-				$command = 'killall -u '.escapeshellcmd($data['new']['system_user']).' ; usermod';
-				$command .= ' --home '.escapeshellcmd($data['new']['document_root']);
-				$command .= ' --gid '.escapeshellcmd($data['new']['system_group']);
-				$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
-				exec($command);
+				$command = 'killall -u ? ; usermod';
+				$command .= ' --home ?';
+				$command .= ' --gid ?';
+				$command .= ' ? 2>/dev/null';
+				$app->system->exec_safe($command, $data['new']['system_user'], $data['new']['document_root'], $data['new']['system_group'], $data['new']['system_user']);
 			}
 
-			if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+			if($nginx_chrooted) $app->system->exec_safe('chroot ? ?', $web_config['website_basedir'], $command);
 
 			//* Change the log mount
 			/*
@@ -555,7 +555,7 @@ class nginx_plugin {
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
 			}
 			
-			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
+			$app->system->exec_safe('mount --bind ? ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'], $data['new']['document_root'].'/'.$log_folder);
 
 		}
 
@@ -567,11 +567,9 @@ class nginx_plugin {
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
 		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
-		//if(!is_dir($data['new']['document_root'].'/'.$log_folder)) exec('mkdir -p '.$data['new']['document_root'].'/'.$log_folder);
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
-		//if(!is_dir($data['new']['document_root'].'/webdav')) $app->system->mkdirpath($data['new']['document_root'].'/webdav');
 		
 		if(!is_dir($data['new']['document_root'].'/.ssh')) {
 			$app->system->mkdirpath($data['new']['document_root'].'/.ssh');
@@ -591,7 +589,7 @@ class nginx_plugin {
 
 		// Remove the symlink for the site, if site is renamed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
-			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/httpd/'.$data['old']['domain']);
+			if(is_dir('/var/log/ispconfig/httpd/'.$data['old']['domain'])) $app->system->exec_safe('rm -rf ?', '/var/log/ispconfig/httpd/'.$data['old']['domain']);
 			if(is_link($data['old']['document_root'].'/'.$old_log_folder)) $app->system->unlink($data['old']['document_root'].'/'.$old_log_folder);
 
 			//* remove old log mount
@@ -599,19 +597,18 @@ class nginx_plugin {
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 
 			//* Unmount log directory
-			//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
-			exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$old_log_folder));
+			$app->system->exec_safe('umount ?', $data['old']['document_root'].'/'.$old_log_folder);
 		}
 
 		//* Create the log dir if nescessary and mount it
 		if(!is_dir($data['new']['document_root'].'/'.$log_folder) || !is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain']) || is_link($data['new']['document_root'].'/'.$log_folder)) {
 			if(is_link($data['new']['document_root'].'/'.$log_folder)) unlink($data['new']['document_root'].'/'.$log_folder);
-			if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/httpd/'.$data['new']['domain']);
+			if(!is_dir('/var/log/ispconfig/httpd/'.$data['new']['domain'])) $app->system->exec_safe('mkdir -p ?', '/var/log/ispconfig/httpd/'.$data['new']['domain']);
 			$app->system->mkdirpath($data['new']['document_root'].'/'.$log_folder);
 			$app->system->chown($data['new']['document_root'].'/'.$log_folder, 'root');
 			$app->system->chgrp($data['new']['document_root'].'/'.$log_folder, 'root');
 			$app->system->chmod($data['new']['document_root'].'/'.$log_folder, 0755);
-			exec('mount --bind '.escapeshellarg('/var/log/ispconfig/httpd/'.$data['new']['domain']).' '.escapeshellarg($data['new']['document_root'].'/'.$log_folder));
+			$app->system->exec_safe('mount --bind ? ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'], $data['new']['document_root'].'/'.$log_folder);
 			//* add mountpoint to fstab
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nobootwait';
 			$fstab_line .= @($web_config['network_filesystem'] == 'y')?',_netdev    0 0':'    0 0';
@@ -636,7 +633,7 @@ class nginx_plugin {
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
 					// remove the symlinks, if not exist
 					if(is_link($tmp_symlink)) {
-						exec('rm -f '.escapeshellcmd($tmp_symlink));
+						$app->system->exec_safe('rm -f ?', $tmp_symlink);
 						$app->log('Removed symlink: rm -f '.$tmp_symlink, LOGLEVEL_DEBUG);
 					}
 				}
@@ -657,11 +654,10 @@ class nginx_plugin {
 				}
 				// create the symlinks, if not exist
 				if(!is_link($tmp_symlink)) {
-					//     exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
 					if ($web_config["website_symlinks_rel"] == 'y') {
-						$app->system->create_relative_link(escapeshellcmd($data["new"]["document_root"]), escapeshellcmd($tmp_symlink));
+						$app->system->create_relative_link($data["new"]["document_root"], $tmp_symlink);
 					} else {
-						exec("ln -s ".escapeshellcmd($data["new"]["document_root"])."/ ".escapeshellcmd($tmp_symlink));
+						$app->system->exec_safe("ln -s ? ?", $data["new"]["document_root"]."/", $tmp_symlink);
 					}
 
 					$app->log('Creating symlink: ln -s '.$data['new']['document_root'].'/ '.$tmp_symlink, LOGLEVEL_DEBUG);
@@ -681,69 +677,65 @@ class nginx_plugin {
 
 			// Copy the error pages
 			if($data['new']['errordocs']) {
-				$error_page_path = escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/error/';
-				if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-					exec('cp ' . $conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2).'/* '.$error_page_path);
+				$error_page_path = $data['new']['document_root'].'/' . $web_folder . '/error/';
+				if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr($conf['language'], 0, 2))) {
+					$app->system->exec_safe('cp ?* ?', $conf['rootpath'] . '/conf-custom/error/'.substr($conf['language'], 0, 2).'/', $error_page_path);
 				}
 				else {
 					if (file_exists($conf['rootpath'] . '/conf-custom/error/400.html')) {
-						exec('cp '. $conf['rootpath'] . '/conf-custom/error/*.html '.$error_page_path);
+						$app->system->exec_safe('cp ?*.html ?', $conf['rootpath'] . '/conf-custom/error/', $error_page_path);
 					}
 					else {
-						exec('cp ' . $conf['rootpath'] . '/conf/error/'.substr(escapeshellcmd($conf['language']), 0, 2).'/* '.$error_page_path);
+						$app->system->exec_safe('cp ?* ?', $conf['rootpath'] . '/conf/error/'.substr($conf['language'], 0, 2).'/', $error_page_path);
 					}
 				}
-				exec('chmod -R a+r '.$error_page_path);
+				$app->system->exec_safe('chmod -R a+r ?', $error_page_path);
 			}
 			
 			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
 			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-					if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2))) {
+					if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
 
 					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/favicon.ico')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/favicon.ico', $data['new']['document_root'].'/' . $web_folder . '/');
 					}
 					if(is_file($conf['rootpath'] . '/conf-custom/index/robots.txt')) {
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/robots.txt')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/robots.txt', $data['new']['document_root'].'/' . $web_folder . '/');
 					}
-					//if(is_file($conf['rootpath'] . '/conf-custom/index/.htaccess')) {
-					//	exec('cp ' . $conf['rootpath'] . '/conf-custom/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
-					//}
 				} else {
 					if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf-custom/index/standard_index.html '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html', $data['new']['document_root'].'/' . $web_folder . '/index.html');
 					} else {
-						if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html')) exec('cp ' . $conf['rootpath'] . '/conf/index/standard_index.html_'.substr(escapeshellcmd($conf['language']), 0, 2).' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/index.html');
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
 						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
-							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/favicon.ico')) exec('cp ' . $conf['rootpath'] . '/conf/index/favicon.ico '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+							if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/favicon.ico')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/favicon.ico', $data['new']['document_root'].'/' . $web_folder . '/');
 						}
 						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
-							if(!file_exists(escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/robots.txt')) exec('cp ' . $conf['rootpath'] . '/conf/index/robots.txt '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+							if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/robots.txt')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/robots.txt', $data['new']['document_root'].'/' . $web_folder . '/');
 						}
-						//if(is_file($conf['rootpath'] . '/conf/index/.htaccess')) exec('cp ' . $conf['rootpath'] . '/conf/index/.htaccess '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
 					}
 				}
 			}
-			exec('chmod -R a+r '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/');
+			$app->system->exec_safe('chmod -R a+r ?', $data['new']['document_root'].'/' . $web_folder . '/');
 
 			//** Copy the error documents on update when the error document checkbox has been activated and was deactivated before
 		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
 
-			$error_page_path = escapeshellcmd($data['new']['document_root']).'/' . $web_folder . '/error/';
-			if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2))) {
-				exec('cp ' . $conf['rootpath'] . '/conf-custom/error/'.substr(escapeshellcmd($conf['language']), 0, 2).'/* '.$error_page_path);
+			$error_page_path = $data['new']['document_root'].'/' . $web_folder . '/error/';
+			if (file_exists($conf['rootpath'] . '/conf-custom/error/'.substr($conf['language'], 0, 2))) {
+				$app->system->exec_safe('cp ?* ?', $conf['rootpath'] . '/conf-custom/error/'.substr($conf['language'], 0, 2).'/', $error_page_path);
 			}
 			else {
 				if (file_exists($conf['rootpath'] . '/conf-custom/error/400.html')) {
-					exec('cp ' . $conf['rootpath'] . '/conf-custom/error/*.html '.$error_page_path);
+					$app->system->exec_safe('cp ?*.html ?', $conf['rootpath'] . '/conf-custom/error/', $error_page_path);
 				}
 				else {
-					exec('cp ' . $conf['rootpath'] . '/conf/error/'.substr(escapeshellcmd($conf['language']), 0, 2).'/* '.$error_page_path);
+					$app->system->exec_safe('cp ?* ?', $conf['rootpath'] . '/conf/error/'.substr($conf['language'], 0, 2).'/', $error_page_path);
 				}
 			}
-			exec('chmod -R a+r '.$error_page_path);
-			exec('chown -R '.$data['new']['system_user'].':'.$data['new']['system_group'].' '.$error_page_path);
+			$app->system->exec_safe('chmod -R a+r ?', $error_page_path);
+			$app->system->exec_safe('chown -R ?:? ?', $data['new']['system_user'], $data['new']['system_group'], $error_page_path);
 		}  // end copy error docs
 
 		// Set the quota for the user, but only for vhosts, not vhostsubdomains or vhostalias
@@ -758,39 +750,39 @@ class nginx_plugin {
 			}
 
 			// get the primitive folder for document_root and the filesystem, will need it later.
-			$df_output=explode(" ", exec("df -T " . escapeshellarg($data['new']['document_root']) . "|awk 'END{print \$2,\$NF}'"));
+			$df_output=explode(" ", $app->system->exec_safe("df -T ?|awk 'END{print \$2,\$NF}'", $data['new']['document_root']));
 			$file_system = $df_output[0];
 			$primitive_root = $df_output[1];
 
 			if($file_system == 'xfs') {
-				exec("xfs_quota -x -c " . escapeshellarg("limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $username) . " " . escapeshellarg($primitive_root));
+				$app->system->exec_safe("xfs_quota -x -c ? ?", "limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " " . $username, $primitive_root);
 
 				// xfs only supports timers globally, not per user.
-				exec("xfs_quota -x -c 'timer -bir -i 604800' " . escapeshellarg($primitive_root));
+				$app->system->exec_safe("xfs_quota -x -c 'timer -bir -i 604800' ?", $primitive_root);
 
 				unset($project_uid, $username_position, $xfs_projects);
 				unset($primitive_root, $df_output, $mb_hard, $mb_soft);
 			} else {
 				if($app->system->is_installed('setquota')) {
-					exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-					exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+					$app->system->exec_safe('setquota -u ? ? ? 0 0 -a &> /dev/null', $username, $blocks_soft, $blocks_hard);
+					$app->system->exec_safe('setquota -T -u ? 604800 604800 -a &> /dev/null', $username);
 				}
 			}
 		}
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$app->system->_exec('chown -R '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+			$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $data['new']['document_root'].'/' . $web_folder);
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
-				$app->system->_exec('chown '.$username.':'.$groupname.' '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->exec_safe('chown ?:? ?', $username, $groupname, $data['new']['document_root'].'/' . $web_folder);
 			} else {
-				$app->system->_exec('chown root:root '.escapeshellcmd($data['new']['document_root']).'/' . $web_folder);
+				$app->system->exec_safe('chown root:root ?', $data['new']['document_root'].'/' . $web_folder);
 			}
 		}
 
 		//* add the nginx user to the client group if this is a vhost and security level is set to high, no matter if this is an insert or update and regardless of set_folder_permissions_on_update
-		if($data['new']['type'] == 'vhost' && $web_config['security_level'] == 20) $app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
+		if($data['new']['type'] == 'vhost' && $web_config['security_level'] == 20) $app->system->add_user_to_group($groupname, $web_config['nginx_user']);
 
 		//* If the security level is set to high
 		if(($this->action == 'insert' && $data['new']['type'] == 'vhost') or ($web_config['set_folder_permissions_on_update'] == 'y' && $data['new']['type'] == 'vhost') or ($web_folder != $old_web_folder && $data['new']['type'] == 'vhost')) {
@@ -820,18 +812,18 @@ class nginx_plugin {
 				if($web_config['add_web_users_to_sshusers_group'] == 'y') {
 					$command = 'usermod';
 					$command .= ' --groups sshusers';
-					$command .= ' '.escapeshellcmd($data['new']['system_user']).' 2>/dev/null';
-					$app->system->_exec($command);
+					$command .= ' ? 2>/dev/null';
+					$app->system->exec_safe($command, $data['new']['system_user']);
 				}
 
 				//* if we have a chrooted nginx environment
 				if($nginx_chrooted) {
-					$app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+					$app->system->exec_safe('chroot ? ?', $web_config['website_basedir'], $command);
 
 					//* add the nginx user to the client group in the chroot environment
 					$tmp_groupfile = $app->system->server_conf['group_datei'];
 					$app->system->server_conf['group_datei'] = $web_config['website_basedir'].'/etc/group';
-					$app->system->add_user_to_group($groupname, escapeshellcmd($web_config['nginx_user']));
+					$app->system->add_user_to_group($groupname, $web_config['nginx_user']);
 					$app->system->server_conf['group_datei'] = $tmp_groupfile;
 					unset($tmp_groupfile);
 				}
@@ -945,7 +937,7 @@ class nginx_plugin {
 
 		if($data['new']['type'] == 'vhost') {
 			// Change the ownership of the error log to the root user
-			if(!@is_file('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log')) exec('touch '.escapeshellcmd('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log'));
+			if(!@is_file('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log')) $app->system->exec_safe('touch ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log');
 			$app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 			$app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 		}
@@ -991,6 +983,7 @@ class nginx_plugin {
 				}
 			}
 		}
+		if($data['new']['ip_address'] == '*' && $data['new']['ipv6_address'] == '') $tpl->setVar('ipv6_wildcard', 1);
 
 		// PHP-FPM
 		// Support for multiple PHP versions
@@ -1022,14 +1015,14 @@ class nginx_plugin {
 		}
 
 		if($default_php_fpm){
-			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+			$pool_dir = $web_config['php_fpm_pool_dir'];
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
 		$pool_dir = trim($pool_dir);
 		if(substr($pool_dir, -1) != '/') $pool_dir .= '/';
 		$pool_name = 'web'.$data['new']['domain_id'];
-		$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+		$socket_dir = $web_config['php_fpm_socket_dir'];
 		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
 
 		if($data['new']['php_fpm_use_socket'] == 'y'){
@@ -1041,6 +1034,8 @@ class nginx_plugin {
 		}
 		$tpl->setVar('use_tcp', $use_tcp);
 		$tpl->setVar('use_socket', $use_socket);
+		$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
+		$tpl->setVar('php_fpm_chroot_web_folder', sprintf('/%s', trim($web_folder, '/')));
 		$fpm_socket = $socket_dir.$pool_name.'.sock';
 		$tpl->setVar('fpm_socket', $fpm_socket);
 		$tpl->setVar('rnd_php_dummy_file', '/'.md5(uniqid(microtime(), 1)).'.htm');
@@ -1811,7 +1806,7 @@ class nginx_plugin {
 		$basic_auth_locations = $this->_create_web_folder_auth_configuration($data['new']);
 		if(is_array($basic_auth_locations) && !empty($basic_auth_locations)) $tpl->setLoop('basic_auth_locations', $basic_auth_locations);
 
-		$vhost_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost');
+		$vhost_file = $web_config['nginx_vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost';
 		//* Make a backup copy of vhost file
 		if(file_exists($vhost_file)) copy($vhost_file, $vhost_file.'~');
 
@@ -1822,17 +1817,17 @@ class nginx_plugin {
 
 		//* Set the symlink to enable the vhost
 		//* First we check if there is a old type of symlink and remove it
-		$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost');
+		$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost';
 		if(is_link($vhost_symlink)) $app->system->unlink($vhost_symlink);
 
 		//* Remove old or changed symlinks
 		if($data['new']['subdomain'] != $data['old']['subdomain'] or $data['new']['active'] == 'n') {
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost';
 			if(is_link($vhost_symlink)) {
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost';
 			if(is_link($vhost_symlink)) {
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
@@ -1841,9 +1836,9 @@ class nginx_plugin {
 
 		//* New symlink
 		if($data['new']['subdomain'] == '*') {
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['new']['domain'].'.vhost';
 		} else {
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['new']['domain'].'.vhost';
 		}
 		if($data['new']['active'] == 'y' && !is_link($vhost_symlink)) {
 			symlink($vhost_file, $vhost_symlink);
@@ -1852,22 +1847,22 @@ class nginx_plugin {
 
 		// remove old symlink and vhost file, if domain name of the site has changed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)) {
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)) {
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)) {
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_file = $web_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost';
 			$app->system->unlink($vhost_file);
 			$app->log('Removing file: '.$vhost_file, LOGLEVEL_DEBUG);
 		}
@@ -1887,7 +1882,12 @@ class nginx_plugin {
 			$this->awstats_update($data, $web_config);
 		}
 
-		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir);
+		//* Remove Stats-Folder when Statistics set to none
+		if($data['new']['stats_type'] == '' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
+			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
+		}
+
+		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder);
 		$this->hhvm_update($data, $web_config);
 
 		if($web_config['check_apache_config'] == 'y') {
@@ -2054,14 +2054,10 @@ class nginx_plugin {
 		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias'){
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
-					//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
-					//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
-					exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+					$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 				}
 			} else {
-				//if($app->system->is_mounted($data['old']['document_root'].'/'.$log_folder)) exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder));
-				//exec('fuser -km '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
-				exec('umount '.escapeshellarg($data['old']['document_root'].'/'.$log_folder).' 2>/dev/null');
+				$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 			}
 			
 			// remove letsencrypt if it exists (renew will always fail otherwise)
@@ -2101,19 +2097,19 @@ class nginx_plugin {
 		} else {
 			//* This is a website
 			// Deleting the vhost file, symlink and the data directory
-			$vhost_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_file = $web_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost';
 
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)){
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/900-'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)){
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 			}
-			$vhost_symlink = escapeshellcmd($web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $web_config['nginx_vhost_conf_enabled_dir'].'/100-'.$data['old']['domain'].'.vhost';
 			if(is_link($vhost_symlink)){
 				$app->system->unlink($vhost_symlink);
 				$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
@@ -2123,11 +2119,11 @@ class nginx_plugin {
 			$app->log('Removing vhost file: '.$vhost_file, LOGLEVEL_DEBUG);
 
 			if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
-				$docroot = escapeshellcmd($data['old']['document_root']);
+				$docroot = $data['old']['document_root'];
 				if($docroot != '' && !stristr($docroot, '..')) {
 					if($data['old']['type'] == 'vhost') {
 						// this is a vhost - we delete everything in here.
-						exec('rm -rf '.$docroot);
+						$app->system->exec_safe('rm -rf ?', $docroot);
 					} elseif(!stristr($data['old']['web_folder'], '..')) {
 						// this is a vhost subdomain
 						// IMPORTANT: do some folder checks before we delete this!
@@ -2177,7 +2173,7 @@ class nginx_plugin {
 							unset($used_paths);
 						}
 
-						if($do_delete === true && $delete_folder !== '') exec('rm -rf '.$docroot.'/'.$delete_folder);
+						if($do_delete === true && $delete_folder !== '') $app->system->exec_safe('rm -rf ?', $docroot.'/'.$delete_folder);
 
 						unset($delete_folder);
 						unset($path_elements);
@@ -2190,12 +2186,12 @@ class nginx_plugin {
 					$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['fastcgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($fastcgi_starter_path)) {
-							exec('rm -rf '.$fastcgi_starter_path);
+							$app->system->exec_safe('rm -rf ?', $fastcgi_starter_path);
 						}
 					} else {
 						$fcgi_starter_script = $fastcgi_starter_path.$web_config['fastcgi_starter_script'].'_web'.$data['old']['domain_id'];
 						if (file_exists($fcgi_starter_script)) {
-							exec('rm -f '.$fcgi_starter_script);
+							$app->system->exec_safe('rm -f ?', $fcgi_starter_script);
 						}
 					}
 				}
@@ -2216,12 +2212,12 @@ class nginx_plugin {
 					$cgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['cgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($cgi_starter_path)) {
-							exec('rm -rf '.$cgi_starter_path);
+							$app->system->exec_safe('rm -rf ?', $cgi_starter_path);
 						}
 					} else {
 						$cgi_starter_script = $cgi_starter_path.'php-cgi-starter_web'.$data['old']['domain_id'];
 						if (file_exists($cgi_starter_script)) {
-							exec('rm -f '.$cgi_starter_script);
+							$app->system->exec_safe('rm -f ?', $cgi_starter_script);
 						}
 					}
 				}
@@ -2250,16 +2246,16 @@ class nginx_plugin {
 			}
 
 			// Delete the log file directory
-			$vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/httpd/'.$data['old']['domain']);
-			if($data['old']['domain'] != '' && !stristr($vhost_logfile_dir, '..')) exec('rm -rf '.$vhost_logfile_dir);
+			$vhost_logfile_dir = '/var/log/ispconfig/httpd/'.$data['old']['domain'];
+			if($data['old']['domain'] != '' && !stristr($vhost_logfile_dir, '..')) $app->system->exec_safe('rm -rf ?', $vhost_logfile_dir);
 			$app->log('Removing website logfile directory: '.$vhost_logfile_dir, LOGLEVEL_DEBUG);
 
 			if($data['old']['type'] == 'vhost') {
 				//delete the web user
-				$command = 'killall -u '.escapeshellcmd($data['old']['system_user']).' ; userdel';
-				$command .= ' '.escapeshellcmd($data['old']['system_user']);
-				exec($command);
-				if($nginx_chrooted) $app->system->_exec('chroot '.escapeshellcmd($web_config['website_basedir']).' '.$command);
+				$command = 'killall -u ? ; userdel';
+				$command .= ' ?';
+				$app->system->exec_safe($command, $data['old']['system_user'], $data['old']['system_user']);
+				if($nginx_chrooted) $app->system->exec_safe('chroot ? ?', $web_config['website_basedir'], $command);
 
 			}
 
@@ -2280,7 +2276,7 @@ class nginx_plugin {
 					if($mount_backup){
 						$web_backup_dir = $backup_dir.'/web'.$data_old['domain_id'];
 						//** do not use rm -rf $web_backup_dir because database(s) may exits
-						exec(escapeshellcmd('rm -f '.$web_backup_dir.'/web'.$data_old['domain_id'].'_').'*');
+						$app->system->exec_safe('rm -f ?*', $web_backup_dir.'/web'.$data_old['domain_id'].'_');
 						//* cleanup database
 						$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename LIKE ?";
 						$app->db->query($sql, $conf['server_id'], $data_old['domain_id'], "web".$data_old['domain_id']."_%");
@@ -2330,7 +2326,7 @@ class nginx_plugin {
 		//* Get the folder path.
 		if(substr($folder['path'], 0, 1) == '/') $folder['path'] = substr($folder['path'], 1);
 		if(substr($folder['path'], -1) == '/') $folder['path'] = substr($folder['path'], 0, -1);
-		$folder_path = escapeshellcmd($website['document_root'].'/' . $web_folder . '/'.$folder['path']);
+		$folder_path = $website['document_root'].'/' . $web_folder . '/'.$folder['path'];
 		if(substr($folder_path, -1) != '/') $folder_path .= '/';
 
 		//* Check if the resulting path is inside the docroot
@@ -2436,7 +2432,7 @@ class nginx_plugin {
 
 		if(substr($data['new']['path'], 0, 1) == '/') $data['new']['path'] = substr($data['new']['path'], 1);
 		if(substr($data['new']['path'], -1) == '/') $data['new']['path'] = substr($data['new']['path'], 0, -1);
-		$new_folder_path = escapeshellcmd($website['document_root'].'/' . $web_folder . '/'.$data['new']['path']);
+		$new_folder_path = $website['document_root'].'/' . $web_folder . '/'.$data['new']['path'];
 		if(substr($new_folder_path, -1) != '/') $new_folder_path .= '/';
 
 		//* Check if the resulting path is inside the docroot
@@ -2483,7 +2479,7 @@ class nginx_plugin {
 		//* Create the domain.auth file which is included in the vhost configuration file
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
-		$basic_auth_file = escapeshellcmd($web_config['nginx_vhost_conf_dir'].'/'.$website['domain'].'.auth');
+		$basic_auth_file = $web_config['nginx_vhost_conf_dir'].'/'.$website['domain'].'.auth';
 		//$app->load('tpl');
 		//$tpl = new tpl();
 		//$tpl->newTemplate('nginx_http_authentication.auth.master');
@@ -2608,9 +2604,9 @@ class nginx_plugin {
 
 			$content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $content);
 			file_put_contents('/etc/init.d/hhvm_' . $data['new']['system_user'], $content);
-			exec('chmod +x /etc/init.d/hhvm_' . $data['new']['system_user'] . ' >/dev/null 2>&1');
-			exec('/usr/sbin/update-rc.d hhvm_' . $data['new']['system_user'] . ' defaults >/dev/null 2>&1');
-			exec('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
+			$app->system->exec_safe('chmod +x ? >/dev/null 2>&1', '/etc/init.d/hhvm_' . $data['new']['system_user']);
+			$app->system->exec_safe('/usr/sbin/update-rc.d ? defaults >/dev/null 2>&1', 'hhvm_' . $data['new']['system_user']);
+			$app->system->exec_safe('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
 			
 			if(is_dir('/etc/monit/conf.d')){
 				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
@@ -2622,7 +2618,7 @@ class nginx_plugin {
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			if($data['old']['system_user'] != ''){
 				exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
-				exec('/usr/sbin/update-rc.d hhvm_' . $data['old']['system_user'] . ' remove >/dev/null 2>&1');
+				$app->system->exec_safe('/usr/sbin/update-rc.d remove >/dev/null 2>&1', 'hhvm_' . $data['old']['system_user']);
 				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
@@ -2640,7 +2636,7 @@ class nginx_plugin {
 	}
 
 	//* Update the PHP-FPM pool configuration file
-	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir) {
+	private function php_fpm_pool_update ($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder = null) {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
 		$rh_releasefiles = array('/etc/centos-release', '/etc/redhat-release');
@@ -2735,12 +2731,21 @@ class nginx_plugin {
 		$tpl->setVar('document_root', $data['new']['document_root']);
 		$tpl->setVar('security_level', $web_config['security_level']);
 		$tpl->setVar('domain', $data['new']['domain']);
-		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?escapeshellcmd($data['new']['document_root']):escapeshellcmd($data['new']['php_open_basedir']);
+		$php_open_basedir = ($data['new']['php_open_basedir'] == '')?$data['new']['document_root']:$data['new']['php_open_basedir'];
 		$tpl->setVar('php_open_basedir', $php_open_basedir);
 		if($php_open_basedir != ''){
 			$tpl->setVar('enable_php_open_basedir', '');
 		} else {
 			$tpl->setVar('enable_php_open_basedir', ';');
+		}
+
+		// Chrooted PHP-FPM
+		if ($data['new']['php_fpm_chroot'] === 'y') {
+			$tpl->setVar('php_fpm_chroot', $data['new']['php_fpm_chroot']);
+			$tpl->setVar('php_fpm_chroot_dir', $data['new']['document_root']);
+			$tpl->setVar('php_fpm_chroot_web_folder', sprintf('/%s', trim($web_folder, '/')));
+			$tpl->setVar('php_open_basedir', str_replace($tpl->getVar('document_root'), '', $tpl->getVar('php_open_basedir')));
+			$tpl->setVar('document_root', '');
 		}
 
 		// Custom php.ini settings
@@ -2813,7 +2818,7 @@ class nginx_plugin {
 		unset($tpl);
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
+		$default_pool_dir = trim($web_config['php_fpm_pool_dir']);
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -2858,7 +2863,7 @@ class nginx_plugin {
 		}
 
 		if($default_php_fpm){
-			$pool_dir = escapeshellcmd($web_config['php_fpm_pool_dir']);
+			$pool_dir = $web_config['php_fpm_pool_dir'];
 		} else {
 			$pool_dir = $custom_php_fpm_pool_dir;
 		}
@@ -2873,7 +2878,7 @@ class nginx_plugin {
 		}
 
 		// delete pool in all other PHP versions
-		$default_pool_dir = trim(escapeshellcmd($web_config['php_fpm_pool_dir']));
+		$default_pool_dir = trim($web_config['php_fpm_pool_dir']);
 		if(substr($default_pool_dir, -1) != '/') $default_pool_dir .= '/';
 		if($default_pool_dir != $pool_dir){
 			if ( @is_file($default_pool_dir.$pool_name.'.conf') ) {
@@ -3076,7 +3081,7 @@ class nginx_plugin {
 			}
 
 			if($app->system->is_group('client'.$client_id)){
-				$app->system->_exec('groupdel client'.$client_id);
+				$app->system->exec_safe('groupdel ?', 'client'.$client_id);
 				$app->log('Removed group client'.$client_id, LOGLEVEL_DEBUG);
 			}
 		}

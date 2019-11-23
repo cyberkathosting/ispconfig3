@@ -260,6 +260,7 @@ $wb['backup_delete_txt'] = 'Delete backups on domain/website delete';
 $wb['overquota_db_notify_admin_txt'] = 'Send DB quota warnings to admin';
 $wb['overquota_db_notify_client_txt'] = 'Send DB quota warnings to client';
 $wb['php_handler_txt'] = 'Default PHP Handler';
+$wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['disabled_txt'] = 'Disabled';
 $wb['dkim_strength_txt'] = 'DKIM strength';
 $wb['php_ini_check_minutes_txt'] = 'Check php.ini every X minutes for changes';
@@ -294,4 +295,9 @@ $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
 $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
 $wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
+$wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload mode';
+$wb['content_filter_txt'] = 'Content Filter';
+$wb['rspamd_url_txt'] = 'Rspamd URL';
+$wb['rspamd_user_txt'] = 'Rspamd User';
+$wb['rspamd_password_txt'] = 'Rspamd Password';
 ?>

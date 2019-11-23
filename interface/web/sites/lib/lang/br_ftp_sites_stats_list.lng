@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Tráfego ftp';
+$wb['list_head_txt'] = 'Tráfego FTP';
 $wb['domain_txt'] = 'Domínio';
 $wb['this_month_txt'] = 'Este mês';
 $wb['last_month_txt'] = 'Último mês';
 $wb['this_year_txt'] = 'Este ano';
 $wb['last_year_txt'] = 'Último ano';
 $wb['sum_txt'] = 'Soma (Download + Upload)';
-$wb['in_out_txt'] = 'DL/UL';
+$wb['in_out_txt'] = 'DOWN/UP';
 ?>

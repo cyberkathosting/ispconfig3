@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Ungültiger Domainname oder ungültige Zeichen im D
 $wb['limit_mailcatchall_txt'] = 'Die maximale Anzahl an Catchall Einträgen für Ihr Konto wurde erreicht.';
 $wb['source_txt'] = 'Quelle';
 $wb['destination_error_isemail'] = 'Das Ziel ist keine gültige E-Mail Adresse.';
+$wb['greylisting_txt'] = 'Aktiviere Greylisting';
 ?>

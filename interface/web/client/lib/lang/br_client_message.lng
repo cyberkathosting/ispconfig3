@@ -1,16 +1,16 @@
 <?php
+$wb['page_head_txt'] = 'Enviar informações do cliente';
 $wb['btn_send_txt'] = 'Enviar e-mail';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['sender_txt'] = 'Remetente';
+$wb['sender_txt'] = 'e-Mail do remetente';
 $wb['subject_txt'] = 'Assunto';
 $wb['message_txt'] = 'Mensagem';
-$wb['form_legend_client_txt'] = 'Enviar mensagem a todos os clientes.';
-$wb['form_legend_admin_txt'] = 'Enviar mensagem a todos clientes e revendas.';
-$wb['sender_invalid_error'] = 'O e-mail do remetente é é inválido.';
-$wb['subject_invalid_error'] = 'O assunto está em branco.';
-$wb['message_invalid_error'] = 'A mensagem está em branco.';
-$wb['email_sent_to_txt'] = 'Enviar e-mail para:';
-$wb['page_head_txt'] = 'Enviar informações aos clientes';
+$wb['form_legend_client_txt'] = 'Enviar e-mail para clientes.';
+$wb['form_legend_admin_txt'] = 'Enviar e-mail para clientes e revendas.';
+$wb['sender_invalid_error'] = 'Remetente inválido.';
+$wb['subject_invalid_error'] = 'Assunto está em branco.';
+$wb['message_invalid_error'] = 'Mensagem está em branco.';
+$wb['email_sent_to_txt'] = 'e-Mail enviado para:';
 $wb['recipient_txt'] = 'Destinatário';
 $wb['all_clients_resellers_txt'] = 'Todos os clientes e revendas';
 $wb['all_clients_txt'] = 'Todos os clientes';

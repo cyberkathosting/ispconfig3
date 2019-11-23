@@ -1017,6 +1017,56 @@ class remoting_sites extends remoting {
 		return $app->quota_lib->get_databasequota_data($client_id, false);
 	}
 	
+	// ----------------------------------------------------------------------------------------------------------
+
+	//* Get record details
+	public function sites_webdav_user_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/webdav_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	//* Add a record
+	public function sites_webdav_user_add($session_id, $client_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_add')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/webdav_user.tform.php', $client_id, $params);
+	}
+
+	//* Update a record
+	public function sites_webdav_user_update($session_id, $client_id, $primary_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_update')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/webdav_user.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+
+	//* Delete a record
+	public function sites_webdav_user_delete($session_id, $primary_id)
+	{
+		global $app;
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_delete')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		$affected_rows = $this->deleteQuery('../sites/form/webdav_user.tform.php', $primary_id);
+		return $affected_rows;
+	}
+	
 	
 }
 

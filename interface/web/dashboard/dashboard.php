@@ -149,7 +149,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 		$info[] = array('info_msg' => '<p>There is a new Version of ISPConfig 3 available!</p>' .
 			'<p>This Version: <b>' . $v1 . '</b></p>' .
 			'<p>New Version : <b>' . $v2 .  '</b></p>' .
-			'<p><a href="http://www.ispconfig.org/ispconfig-3/download" target="ISPC">See more...</a></p>');
+			'<p><a href="https://www.ispconfig.org/ispconfig-3/download" target="ISPC">See more...</a></p>');
 	}
 }
 

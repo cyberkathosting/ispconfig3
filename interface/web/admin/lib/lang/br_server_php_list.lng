@@ -3,5 +3,6 @@ $wb['list_head_txt'] = 'Versões adicionais do php';
 $wb['server_id_txt'] = 'Servidor';
 $wb['add_new_record_txt'] = 'Adicionar nova versão do php';
 $wb['client_id_txt'] = 'Cliente';
-$wb['name_txt'] = 'Nome da versão do php';
+$wb['name_txt'] = 'Nome da versão';
+$wb['active_txt'] = 'Ativo';
 ?>

@@ -1,0 +1,19 @@
+<?php
+$wb['ca_list_txt'] = 'Autoridade Certificadora - CA';
+$wb['ca_domain_txt'] = 'Domínio';
+$wb['ca_hostname_txt'] = 'Nome de hosts adicionais';
+$wb['ca_hostname_note_txt'] = '(separado por vírgulas - em branco para todos os hosts)';
+$wb['ca_options_txt'] = 'Opções adicionais';
+$wb['ca_options_note_txt'] = 'solicitado pela CA (lista separado por vírgulas)';
+$wb['ca_wildcard_txt'] = 'Usar curingas SSL';
+$wb['ca_critical_txt'] = 'Verificação estrita';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Ativo';
+$wb['select_txt'] = 'Selecionar autoridade certificadora';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
+$wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
+$wb['ca_error_txt'] = 'Nenhuma autoridade certificadora selecionada.';
+$wb['caa_exists_error'] = 'Registro CAA já existe.';
+$wb['ca_option_error'] = 'Formato inválido para opções adicionais; OPÇÃO=VALOR';
+$wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
+?>

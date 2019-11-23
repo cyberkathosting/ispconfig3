@@ -200,15 +200,21 @@ class monitor_tools {
 			$distver = 'Wheezy/Sid';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '8') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '8') {
 			$distname = 'Debian';
 			$distver = 'Jessie';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
-		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '9') || substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,1) == '9') {
 			$distname = 'Debian';
 			$distver = 'Stretch';
 			$distconfid = 'debian90';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,2) == '10') {
+			$distname = 'Debian';
+			$distver = 'Buster';
+			$distconfid = 'debian100';
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
@@ -220,7 +226,8 @@ class monitor_tools {
 		} else {
 			$distname = 'Debian';
 			$distver = 'Unknown';
-			$distid = 'debian40';
+			$distid = 'debian60';
+			$distconfid = 'debian100';
 			$distbaseid = 'debian';
 		}
 	}
@@ -240,6 +247,14 @@ class monitor_tools {
 		} elseif(stristr(file_get_contents('/etc/SuSE-release'), '11.2')) {
 			$distname = 'openSUSE';
 			$distver = '11.2';
+			$distid = 'opensuse112';
+			$distbaseid = 'opensuse';
+		} elseif(stristr(file_get_contents('/etc/os-release'), 'opensuse')) {
+			$content = file_get_contents('/etc/os-release');
+            preg_match_all('/NAME=\"([\w ]+)\"/m', $content, $name);
+            preg_match_all('/VERSION_ID=\"([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*).$/m', $content, $version);
+			$distname = is_array($name) ? $name[1][0] : 'openSUSE';
+			$distver = is_array($version) ? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) : 'Unknown';
 			$distid = 'opensuse112';
 			$distbaseid = 'opensuse';
 		}  else {
@@ -292,8 +307,9 @@ class monitor_tools {
 			$distid = 'centos53';
 			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS Linux release 7')) {
+			preg_match_all('/([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*)/', $content, $version);
 			$distname = 'CentOS';
-			$distver = 'Unknown';
+			$distver = is_array($version)? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) :'Unknown';
 			$distbaseid = 'fedora';
 			$var=explode(" ", $content);
 			$var=explode(".", $var[3]);
@@ -586,13 +602,12 @@ class monitor_tools {
 
 		// Getting the logfile content
 		if ($logfile != '') {
-			$logfile = escapeshellcmd($logfile);
 			if (stristr($logfile, ';') or substr($logfile, 0, 9) != '/var/log/' or stristr($logfile, '..')) {
 				$log = 'Logfile path error.';
 			} else {
 				$log = '';
 				if (is_readable($logfile)) {
-					$fd = popen('tail -n 100 ' . $logfile, 'r');
+					$fd = popen('tail -n 100 ' . escapeshellarg($logfile), 'r');
 					if ($fd) {
 						while (!feof($fd)) {
 							$log .= fgets($fd, 4096);

@@ -4,6 +4,6 @@ $wb['list_head_txt'] = 'Web Siteleri';
 $wb['domain_id_txt'] = 'Kod';
 $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['domain_txt'] = 'Alan Adı';
+$wb['domain_txt'] = 'Etki Alanı';
 $wb['add_new_record_txt'] = 'Web Sitesi Ekle';
 ?>

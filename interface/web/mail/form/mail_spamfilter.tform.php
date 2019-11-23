@@ -114,7 +114,7 @@ $form["tabs"]['spamfilter'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => '***SPAM***',
+			'default' => '***SPAM*** ',
 			'value'  => '',
 			'width'  => '30',
 			'maxlength' => '255'
@@ -145,7 +145,7 @@ $form["tabs"]['spamfilter'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

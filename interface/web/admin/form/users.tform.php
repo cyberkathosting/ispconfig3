@@ -199,6 +199,12 @@ $form['tabs']['users'] = array (
 		'startmodule' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
+			'validators' => array (  0 => array (    'type' => 'NOTEMPTY',
+					'errmsg'=> 'startmodule_empty'),
+				1 => array (    'type' => 'REGEX',
+					'regex' => '/^[a-z0-9\_]{0,64}$/',
+					'errmsg'=> 'startmodule_regex'),
+			),
 			'regex'  => '',
 			'errmsg' => '',
 			'default' => '',

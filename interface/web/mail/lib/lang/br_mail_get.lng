@@ -1,19 +1,19 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['type_txt'] = 'Tipo';
-$wb['source_server_txt'] = 'Servidor pop3/imap';
+$wb['source_server_txt'] = 'Servidor POP3/IMAP';
 $wb['source_username_txt'] = 'Usuário';
 $wb['source_password_txt'] = 'Senha';
-$wb['source_delete_txt'] = 'Remover mensagens da origem após o recebimento';
+$wb['source_delete_txt'] = 'Remover e-mails após recuperação';
+$wb['source_delete_note_txt'] = 'Verifique primeiro se a recuperação de e-mails funciona antes de ativar esta opção.';
+$wb['source_read_all_txt'] = 'Recuperar todos e-mails (inclusive e-mails lidos)';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_fetchmail_txt'] = 'O limite de contas de buscas para esta conta foi alcançado.';
-$wb['source_server_error_isempty'] = 'Servidor está em branco.';
-$wb['source_username_error_isempty'] = 'Usuário está em branco.';
-$wb['source_password_error_isempty'] = 'Senha está em branco.';
-$wb['destination_error_isemail'] = 'Destino não selecionado.';
-$wb['source_server_error_regex'] = 'Servidor pop3/imap não é um domínio válido.';
-$wb['source_read_all_txt'] = 'Receber todos os e-mails (inclusive e-mails lidos)';
-$wb['error_delete_read_all_combination'] = 'Combinação ilegal de opções. Você não pode usar \'Apagar e-mails após recebimento\' = não junto com \'Receber todos os e-mail\' = sim.';
-$wb['source_delete_note_txt'] = 'Por favor, verifique se o e-mail do para recepção está operacional, antes de ativar esta configuração.';
+$wb['limit_fetchmail_txt'] = 'O limite de registros de busca de e-mails para esta conta foi alcançado.';
+$wb['source_server_error_isempty'] = 'O servidor está em branco.';
+$wb['source_username_error_isempty'] = 'O usuário está em branco.';
+$wb['source_password_error_isempty'] = 'A senha está em branco.';
+$wb['destination_error_isemail'] = 'Nenhum destino selecionado.';
+$wb['source_server_error_regex'] = 'O servidor POP3/IMAP é inválido.';
+$wb['error_delete_read_all_combination'] = 'Combinação ilegal nas opções. Não pode ser utilizado "Remover e-mails após recuperação" = "não" e "Recuperar todos e-mail" = "sim".';
 ?>

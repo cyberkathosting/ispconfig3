@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Pacotes Disponíveis';
+$wb['list_head_txt'] = 'Pacotes disponíveis';
 $wb['name_txt'] = 'Nome';
 $wb['version_txt'] = 'Versão';
 $wb['category_txt'] = 'Categoria';

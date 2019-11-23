@@ -77,4 +77,4 @@ CREATE TABLE IF NOT EXISTS `dns_slave` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `slave` (`origin`,`server_id`),
   KEY `active` (`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

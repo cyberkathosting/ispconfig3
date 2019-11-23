@@ -49,7 +49,7 @@ $final_spam_destiny = D_DISCARD;
 $final_banned_destiny = D_BOUNCE;
 $final_bad_header_destiny = D_PASS;
 
-# Default settings, we st this very high to not filter aut emails accidently
+# Default settings, we set this very high to not filter out emails accidentally
 $sa_spam_subject_tag = '***SPAM*** ';
 $sa_tag_level_deflt  = 20.0;  # add spam info headers if at, or above that level
 $sa_tag2_level_deflt = 60.0; # add 'spam detected' headers at that level
@@ -83,7 +83,6 @@ $notify_method = 'smtp:127.0.0.1:*';
 $interface_policy{'10026'} = 'ORIGINATING';
 $policy_bank{'ORIGINATING'} = {
   originating => 1,
-  smtpd_discard_ehlo_keywords => ['8BITMIME'],
 };
 
 # IP-Addresses for internal networks => load policy MYNETS

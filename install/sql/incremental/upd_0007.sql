@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS `mail_mailinglist` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY  (`mailinglist_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1;
+) AUTO_INCREMENT=1;
 
 DROP TABLE `mail_mailman_domain`;

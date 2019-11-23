@@ -1,7 +1,7 @@
 server {
-        listen {apps_vhost_port};
-        listen [::]:{apps_vhost_port} ipv6only=on;
-        ssl {ssl_on};
+        listen {apps_vhost_port} {ssl_on};
+        listen [::]:{apps_vhost_port} {ssl_on} ipv6only=on;
+
         {ssl_comment}ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         {ssl_comment}ssl_certificate /usr/local/ispconfig/interface/ssl/ispserver.crt;
         {ssl_comment}ssl_certificate_key /usr/local/ispconfig/interface/ssl/ispserver.key;
@@ -208,4 +208,28 @@ server {
                alias /var/lib/mailman/archives/public;
                autoindex on;
         }
+
+        {use_rspamd}location /rspamd/ {
+                {use_rspamd}proxy_pass http://127.0.0.1:11334/;
+                {use_rspamd}rewrite ^//(.*) /$1;
+                {use_rspamd}proxy_set_header X-Forwarded-Proto $scheme;
+                {use_rspamd}proxy_set_header Host $host;
+                {use_rspamd}proxy_set_header X-Real-IP $remote_addr;
+                {use_rspamd}proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                {use_rspamd}proxy_pass_header Authorization;
+                {use_rspamd}client_max_body_size 0;
+                {use_rspamd}client_body_buffer_size 1m;
+                {use_rspamd}proxy_intercept_errors on;
+                {use_rspamd}proxy_buffering on;
+                {use_rspamd}proxy_buffer_size 128k;
+                {use_rspamd}proxy_buffers 256 16k;
+                {use_rspamd}proxy_busy_buffers_size 256k;
+                {use_rspamd}proxy_temp_file_write_size 256k;
+                {use_rspamd}proxy_max_temp_file_size 0;
+                {use_rspamd}proxy_read_timeout 300;
+                {use_rspamd}
+                {use_rspamd}location ~* ^/rspamd/(.+\.(jpg|jpeg|gif|css|png|js|ico|html?|xml|txt))$ {
+                       {use_rspamd}alias /usr/share/rspamd/www/$1;
+                {use_rspamd}}
+        {use_rspamd}}
 }

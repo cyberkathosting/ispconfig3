@@ -250,7 +250,7 @@ $form["tabs"]['domain'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'fast-cgi',
-			'valuelimit' => 'client:web_php_options',
+			'valuelimit' => 'system:sites:web_php_options;client:web_php_options',
 			'value'  => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
@@ -299,7 +299,7 @@ $form["tabs"]['domain'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	),
 	'plugins' => array (
@@ -435,7 +435,7 @@ $form["tabs"]['redirect'] = array (
 			)
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -601,7 +601,7 @@ if($ssl_available) {
 				)
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);
@@ -641,7 +641,7 @@ $form["tabs"]['stats'] = array (
 			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -683,7 +683,7 @@ if ($backup_available) {
 				'maxlength' => '255'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		),
 		'plugins' => array (
@@ -771,6 +771,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'formtype' => 'CHECKBOX',
 				'default' => 'n',
 				'value'  => array(0 => 'n', 1 => 'y')
+			),
+			'php_fpm_chroot' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'n',
+				'value' => array(0 => 'n', 1 => 'y')
 			),
 			'pm' => array (
 				'datatype' => 'VARCHAR',
@@ -966,7 +972,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'maxlength' => '4'
 			)
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);

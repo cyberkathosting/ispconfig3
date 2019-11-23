@@ -1,14 +1,14 @@
 <?php
-$wb['Support Message'] = 'Mensagem do suporte';
+$wb['Support Message'] = 'Mensagem de suporte';
 $wb['Message'] = 'Mensagem';
 $wb['Send message'] = 'Enviar mensagem';
-$wb['View messages'] = 'Visualizar mensagem';
+$wb['View messages'] = 'Visualizar mensagens';
 $wb['Support'] = 'Suporte';
 $wb['About ISPConfig'] = 'Sobre o ISPConfig';
 $wb['Version'] = 'Versão';
-$wb['Frequently Asked Questions'] = 'Perguntas frequentes (FAQ)';
-$wb['FAQ Sections'] = 'Sessões FAQ';
-$wb['Manage Sections'] = 'Gerenciar sessões';
-$wb['Add a Question & Answer Pair'] = 'Adicionar par pergunta/resposta';
-$wb['Manage Questions'] = 'Gerenciar perguntas';
+$wb['Frequently Asked Questions'] = 'Questões Frequentes - FAQ';
+$wb['FAQ Sections'] = 'Seções FAQ';
+$wb['Manage Sections'] = 'Gerenciar seções';
+$wb['Add a Question & Answer Pair'] = 'Adicionar novo par questão/resposta';
+$wb['Manage Questions'] = 'Gerenciar questões';
 ?>

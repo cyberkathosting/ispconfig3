@@ -55,9 +55,9 @@ class mail_user_filter_plugin {
 
 
 	/*
-		function to create the mail filter rule and insert it into the custom rules
-		field when a new mail filter is added or modified.
-	*/
+	 *	Render the mail filter rule in the desired format and insert it into the custom rules
+	 *	field when a new mail filter is added or modified.
+	 */
 	function mail_user_filter_edit($event_name, $page_form) {
 		global $app, $conf;
 
@@ -91,6 +91,9 @@ class mail_user_filter_plugin {
 
 	}
 
+	/*
+	 *	Remove the rendered filter from custom_mailfilter when a mail_user_filter is deleted
+	 */
 	function mail_user_filter_del($event_name, $page_form) {
 		global $app, $conf;
 

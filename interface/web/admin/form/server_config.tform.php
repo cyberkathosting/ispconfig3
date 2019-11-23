@@ -413,7 +413,7 @@ $form["tabs"]['server'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -465,6 +465,29 @@ $form["tabs"]['mail'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'content_filter' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rspamd',
+			'value' => array('amavisd' => 'Amavisd', 'rspamd' => 'Rspamd')
+		),
+		'rspamd_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
+		),
+		'rspamd_available' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
@@ -676,7 +699,7 @@ $form["tabs"]['mail'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -704,7 +727,7 @@ $form["tabs"]['getmail'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1211,6 +1234,12 @@ $form["tabs"]['web'] = array(
 			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
+		'php_fpm_incron_reload' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'nginx_cgi_socket' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1370,8 +1399,16 @@ $form["tabs"]['web'] = array(
 				1 => 'y'
 			)
 		),
+		'php_fpm_reload_mode' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'reload',
+			'value' => array('reload' => 'Reload', 'restart' => 'Restart'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1461,7 +1498,7 @@ $form["tabs"]['dns'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1578,7 +1615,7 @@ $form["tabs"]['fastcgi'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1741,7 +1778,7 @@ $form["tabs"]['jailkit'] = array(
 			'maxlength' => '1000'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1804,7 +1841,7 @@ $form["tabs"]['ufw_firewall'] = array (
 			'value'		=> array('low' => 'low', 'medium' => 'medium', 'high' => 'high')
 		)
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -1833,7 +1870,7 @@ $form["tabs"]['vlogger'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1891,7 +1928,7 @@ $form["tabs"]['cron'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1935,8 +1972,14 @@ $form["tabs"]['rescue'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
-?>
+
+/*$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+if(!isset($mail_config['rspamd_available']) || $mail_config['rspamd_available'] != 'y') {
+	$form['tabs']['mail']['fields']['content_filter']['default'] = 'amavisd';
+	unset($form['tabs']['mail']['fields']['content_filter']['value']['rspamd']);
+	unset($form['tabs']['mail']['fields']['rspamd_password']);
+}*/

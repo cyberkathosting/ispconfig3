@@ -272,7 +272,7 @@ class db
 				if(!is_object($this->_iConnId)) {
 					$this->_iConnId = mysqli_init();
 				}
-				if(!mysqli_real_connect($this->_isConnId, $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
+				if(!mysqli_real_connect($this->_iConnId, $this->dbHost, $this->dbUser, $this->dbPass, $this->dbName, (int)$this->dbPort, NULL, $this->dbClientFlags)) {
 					if(mysqli_connect_errno() == '111') {
 						// server is not available
 						if($try > 9) {
@@ -514,16 +514,16 @@ class db
 	public function escape($sString) {
 		global $app;
 		if(!is_string($sString) && !is_numeric($sString)) {
-			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_INFO);
+			$app->log('NON-String given in escape function! (' . gettype($sString) . ')', LOGLEVEL_DEBUG);
 			//$sAddMsg = getDebugBacktrace();
-			$app->log($sAddMsg, LOGLEVEL_DEBUG);
+			//$app->log($sAddMsg, LOGLEVEL_DEBUG);
 			$sString = '';
 		}
 
 		$cur_encoding = mb_detect_encoding($sString);
 		if($cur_encoding != "UTF-8") {
 			if($cur_encoding != 'ASCII') {
-				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_INFO);
+				if(is_object($app) && method_exists($app, 'log')) $app->log('String ' . substr($sString, 0, 25) . '... is ' . $cur_encoding . '.', LOGLEVEL_DEBUG);
 				if($cur_encoding) $sString = mb_convert_encoding($sString, 'UTF-8', $cur_encoding);
 				else $sString = mb_convert_encoding($sString, 'UTF-8');
 			}
@@ -709,7 +709,7 @@ class db
 
 		if($diff_num > 0) {
 			$diffstr = serialize($diffrec_full);
-			if(isset($_SESSION)) {
+			if(!empty($_SESSION['s']['user']['username'])) {
 				$username = $_SESSION['s']['user']['username'];
 			} else {
 				$username = 'admin';

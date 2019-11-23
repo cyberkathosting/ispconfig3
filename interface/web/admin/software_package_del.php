@@ -36,6 +36,9 @@ $app->auth->check_module_permissions('admin');
 $app->auth->check_security_permissions('admin_allow_software_packages');
 if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
 
+// Check CSRF Token
+$app->auth->csrf_token_check('GET');
+
 $software_update_inst_id = $app->functions->intval($_GET['software_update_inst_id']);
 
 if($software_update_inst_id > 0) {

@@ -4,6 +4,6 @@ $wb['Overview'] = 'Özet';
 $wb['Password'] = 'Parola';
 $wb['Autoresponder'] = 'Otomatik yanıtlayıcı';
 $wb['Send copy'] = 'Kopya gönder';
-$wb['Spamfilter'] = 'Önemsiz posta süzgeci';
+$wb['Spamfilter'] = 'Önemsiz ileti süzgeci';
 $wb['Email Filters'] = 'E-posta Süzgeçleri';
 ?>

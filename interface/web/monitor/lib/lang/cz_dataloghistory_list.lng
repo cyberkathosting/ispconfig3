@@ -1,0 +1,8 @@
+<?php
+$wb['list_head_txt'] = 'Protokol historie datového logu';
+$wb['tstamp_txt'] = 'Datum';
+$wb['server_id_txt'] = 'Server';
+$wb['dbtable_txt'] = 'DB Tabulka';
+$wb['action_txt'] = 'Akce';
+$wb['status_txt'] = 'Stav';
+?>

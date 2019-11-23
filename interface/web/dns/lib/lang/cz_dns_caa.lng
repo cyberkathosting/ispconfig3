@@ -1,0 +1,19 @@
+<?php
+$wb['ca_list_txt'] = 'Certifikační autorita';
+$wb['ca_domain_txt'] = 'Doména';
+$wb['ca_hostname_txt'] = 'Omezit na názvy hostitelů';
+$wb['ca_hostname_note_txt'] = '(Oddělený seznam s čárkami - prázdný pro všechna jména hostitelů)';
+$wb['ca_options_txt'] = 'Další možnosti názvu hostitele';
+$wb['ca_options_note_txt'] = 'requested by the CA (Oddělený seznam s čárkami)';
+$wb['ca_wildcard_txt'] = 'Použití Wildcard (*) SSL';
+$wb['ca_critical_txt'] = 'Přísná kontrola';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktivní';
+$wb['select_txt'] = 'Vyberte certifikační autoritu';
+$wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
+$wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
+$wb['ca_error_txt'] = 'Nebyla vybrána žádná certifikační autorita';
+$wb['caa_exists_error'] = 'CAA záznam již existuje';
+$wb['ca_option_error'] = 'Neplatný formát pro další možnosti; OPTION=VALUE';
+$wb['ttl_range_error'] = 'Min. TTL čas je 60 sekund.';
+?>

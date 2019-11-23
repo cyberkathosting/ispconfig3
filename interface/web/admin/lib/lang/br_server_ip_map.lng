@@ -1,12 +1,12 @@
 <?php
-$wb['server_id_txt'] = 'Servidor';
+$wb['server_id_txt'] = 'Servidor para mapeamento IP';
 $wb['source_txt'] = 'Endereço IP de origem';
 $wb['destination_txt'] = 'Endereço IP de destino';
 $wb['active_txt'] = 'Ativo';
-$wb['ip_error_wrong'] = 'Endereço IP é inválido.';
-$wb['destination_ip_empty'] = 'Endereço IP de destino está em branco.';
-$wb['source_ip_empty'] = 'Endereço IP de origem está em branco.';
-$wb['server_empty_error'] = 'Servidor está em branco.';
-$wb['duplicate_mapping_error'] = 'Mapeamento já existe.';
-$wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser um endereço IP do servidor.';
+$wb['ip_error_wrong'] = 'O endereço IP de destino é inválido.';
+$wb['destination_ip_empty'] = 'O endereço IP de destino está em branco.';
+$wb['source_ip_empty'] = 'O endereço IP de origem está em branco.';
+$wb['server_empty_error'] = 'O servidor está em branco.';
+$wb['duplicate_mapping_error'] = 'Este mapeamento IP já existe.';
+$wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser o mesmo IP do servidor para o mapeamento.';
 ?>

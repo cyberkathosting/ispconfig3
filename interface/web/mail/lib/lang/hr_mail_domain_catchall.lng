@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Neispravan naziv domene ili naziv sadrži nedozvolj
 $wb['limit_mailcatchall_txt'] = 'Iskorišten ja maksimalan broj email catchall računa.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

@@ -144,7 +144,7 @@ $form["tabs"]['dns_slave'] = array (
 			'value'  => array(0 => 'N', 1 => 'Y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

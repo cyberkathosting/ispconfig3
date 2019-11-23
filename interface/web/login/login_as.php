@@ -90,10 +90,8 @@ echo '
 	<br /> <br />	<br /> <br />
 	'.$wb['login_1_txt'].' ' .  $dbData['username'] . '?<br />
 	'.$wb['login_2_txt'].'<br />
-	<div style="visibility:hidden">
-		<input type="text" name="username" value="' . $dbData['username'] . '" />
-		<input type="password" name="password" value="' . $dbData['passwort'] .'" />
-	</div>
+	<input type="hidden" name="username" value="' . $dbData['username'] . '" />
+	<input type="hidden" name="password" value="' . $dbData['passwort'] .'" />
 	<input type="hidden" name="s_mod" value="dashboard" />
 	<input type="hidden" name="s_pg" value="dashboard" />
 	<input type="hidden" name="login_as" value="1" />

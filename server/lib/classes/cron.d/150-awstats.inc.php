@@ -71,16 +71,16 @@ class cronjob_awstats extends cronjob {
 				$log_folder .= '/' . $subdomain_host;
 				unset($tmp);
 			}
-			$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log');
+			$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log';
 			if(!@is_file($logfile)) {
-				$logfile = escapeshellcmd($rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz');
+				$logfile = $rec['document_root'].'/' . $log_folder . '/'.$yesterday.'-access.log.gz';
 				if(!@is_file($logfile)) {
 					continue;
 				}
 			}
 			$web_folder = (($rec['type'] == 'vhostsubdomain' || $rec['type'] == 'vhostalias') ? $rec['web_folder'] : 'web');
-			$domain = escapeshellcmd($rec['domain']);
-			$statsdir = escapeshellcmd($rec['document_root'].'/'.$web_folder.'/stats');
+			$domain = $rec['domain'];
+			$statsdir = $rec['document_root'].'/'.$web_folder.'/stats';
 			$awstats_pl = $web_config['awstats_pl'];
 			$awstats_buildstaticpages_pl = $web_config['awstats_buildstaticpages_pl'];
 
@@ -117,8 +117,8 @@ class cronjob_awstats extends cronjob {
 			}
 
 			if(!@is_dir($statsdir)) mkdir($statsdir);
-			$username = escapeshellcmd($rec['system_user']);
-			$groupname = escapeshellcmd($rec['system_group']);
+			$username = $rec['system_user'];
+			$groupname = $rec['system_group'];
 			chown($statsdir, $username);
 			chgrp($statsdir, $groupname);
 			if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
@@ -138,7 +138,7 @@ class cronjob_awstats extends cronjob {
 			// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/'.$web_folder.'/stats -awstatsprog=/path/to/awstats.pl
 			// $command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
 
-			$command = "$awstats_buildstaticpages_pl -month='$awmonth' -year='$awyear' -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
+			$command = escapeshellcmd($awstats_buildstaticpages_pl) . ' -month=' . escapeshellarg($awmonth) . ' -year=' . escapeshellarg($awyear) . ' -update -config=' . escapeshellarg($domain) . ' -lang=' . escapeshellarg($conf['language']) . ' -dir=' . escapeshellarg($statsdir) . ' -awstatsprog=' . escapeshellarg($awstats_pl);
 
 			if (date("d") == 2) {
 				$awmonth = date("m")-1;
@@ -148,7 +148,9 @@ class cronjob_awstats extends cronjob {
 				}
 
 				$statsdirold = $statsdir."/".$awyear."-".$awmonth."/";
-				mkdir($statsdirold);
+				if(!is_dir($statsdirold)) {
+					mkdir($statsdirold);
+				}
 				$files = scandir($statsdir);
 				foreach ($files as $file) {
 					if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") copy("$statsdir"."/"."$file", "$statsdirold"."$file");
@@ -178,7 +180,7 @@ class cronjob_awstats extends cronjob {
 				chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
 			}
 
-			exec('chown -R '.$username.':'.$groupname.' '.$statsdir);
+			$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 		}
 
 

@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Log do Painel';
-$wb['tstamp_txt'] = 'Data';
+$wb['list_head_txt'] = 'Log do ISPConfig';
+$wb['tstamp_txt'] = 'Data/hora';
 $wb['server_id_txt'] = 'Servidor';
-$wb['loglevel_txt'] = 'Nível do Log';
+$wb['loglevel_txt'] = 'Nível';
 $wb['message_txt'] = 'Mensagem';
 ?>

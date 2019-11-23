@@ -17,5 +17,6 @@ $wb['subject_txt'] = 'Asunto';
 $wb['target_error_regex'] = 'La carpeta solo debe contener estos caracteres: a-z, 0-9, -, ., _, y {espacio}';
 $wb['target_txt'] = 'Carpeta';
 $wb['to_txt'] = 'Para';
+$wb['list_id_txt'] = 'List ID';
 $wb['mailbox_filter_txt'] = 'Mailbox filter';
 ?>

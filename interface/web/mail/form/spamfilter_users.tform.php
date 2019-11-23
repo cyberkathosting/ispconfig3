@@ -133,7 +133,7 @@ $form["tabs"]['users'] = array (
 		),
 
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

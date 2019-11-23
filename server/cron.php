@@ -33,24 +33,33 @@ require SCRIPT_PATH."/lib/config.inc.php";
 
 // Check whether another instance of this script is already running
 $lockFile = $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock';
-if (is_file($lockFile)) {
+if(is_file($lockFile)) {
 	clearstatcache();
-
-	// Maybe we hit a deadlock and the lock file is no longer relevant
-	if(filemtime($lockFile) > time() - 86400) { // 86400 seconds = 1 day
-		if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - The cron lock file is older than one day.' . "\n";
-		exit;
-	}
-
-	// Check if the process id we have in the lock file is still present
+	
+// Check if the process id we have in the lock file is still present
 	$pid = trim(file_get_contents($lockFile));
 	if(preg_match('/^[0-9]+$/', $pid)) {
-		if(file_exists('/proc/' . $pid)) {
-			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of server.php running with pid ' . $pid . '.' . "\n";
-			exit;
+		if(is_dir('/proc/' . $pid)) {
+			if(file_exists('/proc/' . $pid . '/cmdline')) {
+				if(strpos(file_get_contents('/proc/' . $pid . '/cmdline'), 'cron.php') !== false) {
+					if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of cron.php running with pid ' . $pid . '.' . "\n";
+					exit;
+				} else {
+					if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is a process running with pid ' . $pid . ' but it seems not to be cron.php, continuing.' . "\n";
+				}
+			} else {
+				if(filemtime($lockFile) < time() - 86400) {
+					if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of cron.php running with pid ' . $pid . ' but process is older than 1 day. Continuing.' . "\n";
+				} else {
+					if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already an instance of cron.php running with pid ' . $pid . '.' . "\n";
+					exit;
+				}
+			}
+		} else {
+			if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
+
 		}
 	}
-	if($conf['log_priority'] <= LOGLEVEL_WARN) print @date('d.m.Y-H:i').' - WARNING - There is already a lockfile set, but no process running with this pid (' . $pid . '). Continuing.' . "\n";
 }
 
 // Set Lockfile
@@ -69,9 +78,8 @@ $conf['server_id'] = intval($conf['server_id']);
 
 
 // Load required base-classes
-$app->uses('ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions,plugins');
 $app->load('libdatetime,cronjob');
-
 
 // read all cron jobs
 $path = SCRIPT_PATH . '/lib/classes/cron.d';
@@ -113,6 +121,8 @@ foreach($files as $f) {
 	}
 }
 unset($files);
+
+$app->services->processDelayedActions();
 
 // Remove lock
 @unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');

@@ -40,7 +40,11 @@ $domain_id = $_GET['domain_id'];
 if($type == 'create_dkim' && $domain_id != ''){
 	$dkim_public = $_GET['dkim_public'];
 	$dkim_selector = $_GET['dkim_selector'];
-	$domain=@(is_numeric($domain_id))?$app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $domain_id)['domain']:$domain_id;
+	$domain = $domain_id;
+	if(is_numeric($domain_id)) {
+		$temp = $app->db->queryOneRecord("SELECT domain FROM domain WHERE domain_id = ? AND ".$app->tform->getAuthSQL('r'), $domain_id);
+		$domain = $temp['domain'];
+	}
 	$rec = $app->db->queryOneRecord("SELECT server_id, domain FROM mail_domain WHERE domain = ?", $domain);
 	$server_id = $rec['server_id'];
 	$maildomain = $rec['domain'];
@@ -50,8 +54,9 @@ if($type == 'create_dkim' && $domain_id != ''){
 	if ($dkim_strength=='') $dkim_strength = 2048;
 	
 	$rnd_val = $dkim_strength * 10;
-	exec('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null', $output, $result);
-	exec('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null', $privkey, $result);
+	$app->system->exec_safe('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null');
+	$app->system->exec_safe('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null');
+	$privkey = $app->system->last_exec_out();
 	unlink("../../temp/random-data.bin");
 	$dkim_private='';
 	foreach($privkey as $values) $dkim_private=$dkim_private.$values."\n";
@@ -75,12 +80,14 @@ if($type == 'create_dkim' && $domain_id != ''){
 			$selector = 'invalid domain or selector';
 		}
 		unset($dkim_public);
-		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
+		$app->system->exec_safe('echo ?|openssl rsa -pubout -outform PEM 2> /dev/null', $dkim_private);
+		$pubkey = $app->system->last_exec_out();
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
 		$selector = $dkim_selector;
 	} else {
 		unset($dkim_public);
-		exec('echo '.escapeshellarg($dkim_private).'|openssl rsa -pubout -outform PEM 2> /dev/null',$pubkey,$result);
+		$app->system->exec_safe('echo ?|openssl rsa -pubout -outform PEM 2> /dev/null', $dkim_private);
+		$pubkey = $app->system->last_exec_out();
 		foreach($pubkey as $values) $dkim_public=$dkim_public.$values."\n";
 		$selector = $dkim_selector;
 	}

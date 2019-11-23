@@ -49,8 +49,9 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
+	
 	function onShowNew() {
-		global $app, $conf;
+		global $app;
 
 		// we will check only users, not admins
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
@@ -66,7 +67,7 @@ class page_action extends tform_actions {
 	}
 
 	function onSubmit() {
-		global $app, $conf;
+		global $app;
 
 		// Check the client limits, if user is not the admin
 		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
@@ -86,11 +87,43 @@ class page_action extends tform_actions {
 
 		parent::onSubmit();
 	}
+	
+	function onAfterUpdate() {
+		global $app;
+		
+		$record_has_changed = false;
+		foreach($this->dataRecord as $key => $val) {
+			if(isset($this->oldDataRecord[$key]) && @$this->oldDataRecord[$key] != $val) {
+				// Record has changed
+				$record_has_changed = true;
+			}
+		}
 
+		if($record_has_changed){
+			$spamfilter_users = $app->db->queryAllRecords("SELECT * FROM spamfilter_users WHERE policy_id = ?", intval($this->id));
+
+			if(is_array($spamfilter_users) && !empty($spamfilter_users)){
+				foreach($spamfilter_users as $spamfilter_user){
+					$app->db->datalogUpdate('spamfilter_users', $spamfilter_user, 'id', $spamfilter_user["id"], true);
+					
+					// check if this is an email domain
+					if(substr($spamfilter_user['email'],0,1) == '@') {
+						$domain = substr($spamfilter_user['email'],1);
+						$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source LIKE ? OR destination LIKE ?", "%@" . $domain, "%@" . $domain);
+						
+						// Force-update aliases and forwards
+						if(is_array($forwardings)) {
+							foreach($forwardings as $rec) {
+								$app->db->datalogUpdate('mail_forwarding', array("source" => $rec['source']), 'forwarding_id', $rec['forwarding_id'],true);
+							}
+						}
+					}
+					
+				}
+			}
+		}
+	}
 }
 
 $app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
-
-
-?>

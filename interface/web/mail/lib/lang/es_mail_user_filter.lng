@@ -25,5 +25,6 @@ $wb['subject_txt'] = 'Asunto';
 $wb['target_error_regex'] = 'El destino solo puede contener los siguientes caracteres: a-z, 0-9, -, ., _, y {espacio}';
 $wb['target_txt'] = 'Carpeta';
 $wb['to_txt'] = 'Para';
+$wb['list_id_txt'] = 'List ID';
 $wb['move_to_txt'] = 'Move to';
 ?>

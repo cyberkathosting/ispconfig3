@@ -81,4 +81,13 @@ $wb['default_webserver_txt'] = 'Default Webserver';
 $wb['default_dnsserver_txt'] = 'Default DNS Server';
 $wb['default_slave_dnsserver_txt'] = 'Default Secondary DNS Server';
 $wb['default_dbserver_txt'] = 'Default Database Server';
+$wb['ca_name_txt'] = 'Name';
+$wb['ca_issue_txt'] = 'Issue';
+$wb['ca_wildcard_txt'] = 'Use Wildcard';
+$wb['ca_critical_txt'] = 'Strict Check';
+$wb['ca_iodef_txt'] = 'iodef';
+$wb['active_txt'] = 'Aktive';
+$wb['btn_save_txt'] = 'Save';
+$wb['btn_cancel_txt'] = 'Cancel';
+$wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 ?>

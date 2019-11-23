@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Histórico do log';
+$wb['success_txt'] = 'O comando "Desfazer ação" foi realizado com sucesso';
+$wb['error_txt'] = 'Erro durante desfazer ação: O registro não existe mais';
+$wb['error_undelete_txt'] = 'Erro durante a remoção: Registro com ID primário ainda existe.';
+$wb['btn_cancel_txt'] = 'Voltar';
+?>

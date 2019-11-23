@@ -53,8 +53,8 @@ class validate_autoresponder extends validate_datetime
 		
 		// Parse date
 		$datetimeformat = (isset($app->remoting_lib) ? $app->remoting_lib->datetimeformat : $app->tform->datetimeformat);
-		$start_date_array = date_parse_from_format($datetimeformat,$start_date);
-		$end_date_array = date_parse_from_format($datetimeformat,$field_value);
+		$start_date_array = date_parse_from_format($datetimeformat, $start_date);
+		$end_date_array = date_parse_from_format($datetimeformat, $field_value);
 		
 		//calculate timestamps
 		$start_date_tstamp = mktime($start_date_array['hour'], $start_date_array['minute'], $start_date_array['second'], $start_date_array['month'], $start_date_array['day'], $start_date_array['year']);

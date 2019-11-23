@@ -9,4 +9,4 @@ CREATE TABLE `web_backup` (
   `tstamp` int(10) unsigned NOT NULL,
   `filename` varchar(255) NOT NULL,
   PRIMARY KEY (`backup_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

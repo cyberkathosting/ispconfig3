@@ -68,20 +68,32 @@ class app {
 				$this->db = false;
 			}
 		}
+		$this->uses('functions'); // we need this before all others!
+		$this->uses('auth,plugin,ini_parser,getconf');
+		
+	}
 
+	public function __get($prop) {
+		if(property_exists($this, $prop)) return $this->{$prop};
+		
+		$this->uses($prop);
+		if(property_exists($this, $prop)) return $this->{$prop};
+		else trigger_error('Undefined property ' . $prop . ' of class app', E_USER_WARNING);
+	}
+	
+	public function __destruct() {
+		session_write_close();
+	}
+	
+	public function initialize_session() {
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
-
+			session_name('ISPCSESS');
 			$this->uses('session');
 			$sess_timeout = $this->conf('interface', 'session_timeout');
-			$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
-			
-			// Workaround for Nginx servers
-			if($cookie_domain == '_') {
-				$tmp = explode(':',$_SERVER["HTTP_HOST"]);
-				$cookie_domain = $tmp[0];
-				unset($tmp);
-			}
+			$cookie_domain = $this->get_cookie_domain();
+			$this->log("cookie_domain is ".$cookie_domain,0);
+			$cookie_domain = '';
 			$cookie_secure = ($_SERVER["HTTPS"] == 'on')?true:false;
 			if($sess_timeout) {
 				/* check if user wants to stay logged in */
@@ -122,23 +134,8 @@ class app {
 			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
 		}
 
-		$this->uses('functions'); // we need this before all others!
-		$this->uses('auth,plugin,ini_parser,getconf');
-		
-	}
-
-	public function __get($prop) {
-		if(property_exists($this, $prop)) return $this->{$prop};
-		
-		$this->uses($prop);
-		if(property_exists($this, $prop)) return $this->{$prop};
-		else return null;
 	}
 	
-	public function __destruct() {
-		session_write_close();
-	}
-
 	public function uses($classes) {
 		$cl = explode(',', $classes);
 		if(is_array($cl)) {
@@ -251,7 +248,7 @@ class app {
 			}
 			$this->_language_inc = 1;
 		}
-		if(isset($this->_wb[$text]) && $this->wb[$text] !== '') {
+		if(isset($this->_wb[$text]) && $this->_wb[$text] !== '') {
 			$text = $this->_wb[$text];
 		} else {
 			if($this->_conf['debug_language']) {
@@ -336,12 +333,52 @@ class app {
 		$this->tpl->setVar('globalsearch_noresults_limit_txt', $this->lng('globalsearch_noresults_limit_txt'));
 		$this->tpl->setVar('globalsearch_searchfield_watermark_txt', $this->lng('globalsearch_searchfield_watermark_txt'));
 	}
+	
+	private function get_cookie_domain() {
+		$sec_config = $this->getconf->get_security_config('permissions');
+		$proxy_panel_allowed = $sec_config['reverse_proxy_panel_allowed'];
+		if ($proxy_panel_allowed == 'all') {
+			return '';
+		}
+		/*
+		 * See ticket #5238: It should be ensured, that _SERVER_NAME is always set.
+		 * Otherwise the security improvement doesn't work with nginx. If this is done,
+		 * the check for HTTP_HOST and workaround for nginx is obsolete.
+		 */
+		$cookie_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
+		// Workaround for Nginx servers
+		if($cookie_domain == '_') {
+			$tmp = explode(':',$_SERVER["HTTP_HOST"]);
+			$cookie_domain = $tmp[0];
+			unset($tmp);
+		}
+		if($proxy_panel_allowed == 'sites') {
+			$forwarded_host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : null );
+			if($forwarded_host !== null && $forwarded_host !== $cookie_domain) {
+				// Just check for complete domain name and not auto subdomains
+				$sql = "SELECT domain_id from web_domain where domain = '$forwarded_host'";
+				$recs = $this->db->queryOneRecord($sql);
+				if($recs !== null) {
+					$cookie_domain = $forwarded_host;
+				}
+				unset($forwarded_host);
+			}
+		}
+		
+		return $cookie_domain;
+	}
 
 } // end class
 
 //** Initialize application (app) object
 //* possible future =  new app($conf);
 $app = new app();
+/* 
+   split session creation out of constructor is IMHO better.
+   otherwise we have some circular references to global $app like in
+   getconfig property of App - RA
+*/
+$app->initialize_session();
 
 // load and enable PHP Intrusion Detection System (PHPIDS)
 $ids_security_config = $app->getconf->get_security_config('ids');
