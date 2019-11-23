@@ -12,8 +12,7 @@
 
 <tmpl_loop name='vhosts'>
 <VirtualHost {tmpl_var name='ip_address'}:{tmpl_var name='port'}>
-
-<tmpl_if name='proxy_protocol' op='==' value='y'>
+<tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='apache_version' op='>=' value='2.4.30' format='version'>
 	<IfModule mod_remoteip.c>
 		RemoteIPProxyProtocol On

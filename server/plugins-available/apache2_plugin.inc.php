@@ -1680,7 +1680,7 @@ class apache2_plugin {
 		if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
 			if((int)$web_config['vhost_proxy_protocol_http_port'] > 0) {
 				$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_http_port'];
-				$tmp_vhost_arr['proxy_protocol'] = $data['new']['proxy_protocol'];
+				$tmp_vhost_arr['use_proxy_protocol'] = $data['new']['proxy_protocol'];
 				$vhosts[]                        = $tmp_vhost_arr;
 			}
 		}
@@ -1704,7 +1704,7 @@ class apache2_plugin {
 			if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
 				if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
 					$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_https_port'];
-					$tmp_vhost_arr['proxy_protocol'] = $data['new']['proxy_protocol'];
+					$tmp_vhost_arr['use_proxy_protocol'] = $data['new']['proxy_protocol'];
 					$vhosts[]                        = $tmp_vhost_arr;
 				}
 			}

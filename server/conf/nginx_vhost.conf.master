@@ -1,6 +1,6 @@
 server {
         listen <tmpl_var name='ip_address'>:<tmpl_var name='http_port'>;
-<tmpl_if name='proxy_protocol' op='==' value='y'>
+<tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='proxy_protocol_http' op='>' value='0'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_http'> proxy_protocol;
 </tmpl_if>
@@ -13,7 +13,7 @@ server {
 </tmpl_if>
 <tmpl_if name='ssl_enabled'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
-<tmpl_if name='proxy_protocol' op='==' value='y'>
+<tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='proxy_protocol_https' op='>' value='0'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl proxy_protocol;
 </tmpl_if>
