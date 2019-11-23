@@ -54,6 +54,20 @@
 				{tmpl_var name='vhost_rewrite_v6'}
 			</div>
 		</div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_enabled" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_enabled_txt'}</label>
+            <div class="col-sm-9">
+                {tmpl_var name='vhost_proxy_protocol_enabled'}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_http_port" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_http_port_txt'}</label>
+            <div class="col-sm-9"><input type="text" name="vhost_proxy_protocol_http_port" id="vhost_proxy_protocol_http_port" value="{tmpl_var name='vhost_proxy_protocol_http_port'}" class="form-control"/></div>
+        </div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_https_port" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_https_port_txt'}</label>
+            <div class="col-sm-9"><input type="text" name="vhost_proxy_protocol_https_port" id="vhost_proxy_protocol_https_port" value="{tmpl_var name='vhost_proxy_protocol_https_port'}" class="form-control"/></div>
+        </div>
             <div class="form-group apache">
                 <label for="vhost_conf_dir" class="col-sm-3 control-label">{tmpl_var name='vhost_conf_dir_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="vhost_conf_dir" id="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" class="form-control" /></div></div>

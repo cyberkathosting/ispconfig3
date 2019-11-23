@@ -1675,6 +1675,16 @@ class apache2_plugin {
 		if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
 		if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
 		$vhosts[] = $tmp_vhost_arr;
+
+		//if proxy protocol is enabled we need to add a new port to lsiten to
+		if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
+			if((int)$web_config['vhost_proxy_protocol_http_port'] > 0) {
+				$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_http_port'];
+				$tmp_vhost_arr['proxy_protocol'] = $data['new']['proxy_protocol'];
+				$vhosts[]                        = $tmp_vhost_arr;
+			}
+		}
+
 		unset($tmp_vhost_arr);
 
 		//* Add vhost for ipv4 IP with SSL
@@ -1689,6 +1699,16 @@ class apache2_plugin {
 			}
 			if(count($ipv4_ssl_alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $ipv4_ssl_alias_seo_redirects);
 			$vhosts[] = $tmp_vhost_arr;
+
+			//if proxy protocol is enabled we need to add a new port to lsiten to
+			if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
+				if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
+					$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_https_port'];
+					$tmp_vhost_arr['proxy_protocol'] = $data['new']['proxy_protocol'];
+					$vhosts[]                        = $tmp_vhost_arr;
+				}
+			}
+
 			unset($tmp_vhost_arr, $ipv4_ssl_alias_seo_redirects);
 			$app->log('Enable SSL for: '.$domain, LOGLEVEL_DEBUG);
 		}
