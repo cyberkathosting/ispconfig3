@@ -848,6 +848,18 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'apache_init_script' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(	0 => array('type' => 'REGEX',
+										'regex' => '/^(|[a-zA-Z0-9\.\-\_]{1,128})$/',
+										'errmsg' => 'apache_init_script_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'nginx_enable_pagespeed' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

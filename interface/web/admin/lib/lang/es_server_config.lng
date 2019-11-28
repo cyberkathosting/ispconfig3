@@ -2,6 +2,9 @@
 $wb['add_web_users_to_sshusers_group_txt'] = 'Añadir usuarios web al grupo -sshusers-';
 $wb['admin_notify_events_txt'] = 'Enviar correo al administrador a partir de siguiente nivel';
 $wb['apache_group_error_empty'] = 'El grupo de Apache está vacío.';
+$wb['apache_init_script_note_txt'] = 'Dejar esto vacío detectará automáticamente el script de inicio de Apache';
+$wb['apache_init_script_txt'] = 'Apache init script';
+$wb['apache_init_script_error_regex'] = 'Guión de inicio Apache no válido.';
 $wb['apache_user_error_empty'] = 'El usuario de Apache está vacío.';
 $wb['apps_vhost_enabled_txt'] = 'Host virtual de aplicaciones habilitado';
 $wb['apps_vhost_ip_error_empty'] = 'La IP para el host virtual de las aplicaciones está vacía.';

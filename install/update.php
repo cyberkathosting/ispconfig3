@@ -567,7 +567,14 @@ if($reconfigure_services_answer == 'yes') {
 		if($conf['mailman']['installed'] == true && $conf['mailman']['init_script'] != '') system('nohup '.$inst->getinitcommand($conf['mailman']['init_script'], 'restart').' >/dev/null 2>&1 &');
 	}
 	if($conf['services']['web'] || $inst->install_ispconfig_interface) {
-		if($conf['webserver']['server_type'] == 'apache' && $conf['apache']['init_script'] != '') system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
+		if($conf['webserver']['server_type'] == 'apache') {
+			// If user has configured a custom Apache init script, use that. Otherwise use the default auto-detected init script
+			if(!empty($conf['server_config']['web']['apache_init_script'])) {
+				system($inst->getinitcommand($conf['server_config']['web']['apache_init_script'], 'restart'));
+			} elseif(!empty($conf['apache']['init_script'])) {
+				system($inst->getinitcommand($conf['apache']['init_script'], 'restart'));
+			}
+		}
 		//* Reload is enough for nginx
 		if($conf['webserver']['server_type'] == 'nginx'){
 			if($conf['nginx']['php_fpm_init_script'] != '') system($inst->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
