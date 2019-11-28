@@ -529,7 +529,16 @@
 			# WEBDAV END
 		</IfModule>
 
-<tmpl_var name='apache_directives'>
+<tmpl_if name='ssl_enabled'>
+	<tmpl_var name='apache_directives'>
+<tmpl_else>
+	<tmpl_if name='rewrite_to_https' op='==' value='y'>
+		# skipping apache_directives, as that will be handled by the ssl vhost
+	<tmpl_else>
+		<tmpl_var name='apache_directives'>
+	</tmpl_if>
+</tmpl_if>
+
 <tmpl_hook name='apache2_vhost:vhost_footer'>
 </VirtualHost>
 
