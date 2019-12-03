@@ -68,7 +68,7 @@ class rspamd_plugin {
 			return false; // invalid character
 		} elseif(strpos($domain, '..') !== false) {
 			return false; // two dots not allowed
-		} elseif(!preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\", "", $local))) {
+		} elseif($local && !preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\", "", $local))) {
 			// character not valid in local part unless
 			// local part is quoted
 			if(!preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\", "", $local))) {
