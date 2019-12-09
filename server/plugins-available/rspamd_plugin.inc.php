@@ -46,6 +46,59 @@ class rspamd_plugin {
 		}
 	}
 
+	private function isValidEmail($email) {
+		$atIndex = strrpos($email, '@');
+		if($atIndex === false) {
+			return false;
+		}
+
+		$domain = substr($email, $atIndex + 1);
+		$local = substr($email, 0, $atIndex);
+		$localLen = strlen($local);
+		$domainLen = strlen($domain);
+		if($localLen > 64) {
+			return false;
+		} elseif($domainLen < 1 || $domainLen > 255) {
+			return false;
+		} elseif(substr($local, 0, 1) == '.' || substr($local, -1, 1) == '.') {
+			return false; // first or last sign is dot
+		} elseif(strpos($local, '..') !== false) {
+			return false; // two dots not allowed
+		} elseif(!preg_match('/^[A-Za-z0-9\\-\\.]+$/', $domain)) {
+			return false; // invalid character
+		} elseif(strpos($domain, '..') !== false) {
+			return false; // two dots not allowed
+		} elseif($local && !preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\", "", $local))) {
+			// character not valid in local part unless
+			// local part is quoted
+			if(!preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\", "", $local))) {
+				return false;
+			}
+		}
+
+		$domain_array = explode('.', $domain);
+		for($i = 0; $i < count($domain_array); $i++) {
+			if(!preg_match("/^(([A-Za-z0-9!#$%&'*+\/=?^_`{|}~-][A-Za-z0-9!#$%&'*+\/=?^_`{|}~\.-]{0,63})|(\"[^(\\|\")]{0,62}\"))$/", $domain_array[$i])) {
+				return false;
+			}
+		}
+
+		if(!preg_match("/^\[?[0-9\.]+\]?$/", $domain)) {
+			$domain_array = explode('.', $domain);
+			if(count($domain_array) < 2) {
+				return false; // Not enough parts to domain
+			}
+
+			for($i = 0; $i < count($domain_array); $i++) {
+				if(!preg_match("/^(([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]+))$/", $domain_array[$i])) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+	
 	/*
 	 	This function is called when the plugin is loaded
 	*/
@@ -190,62 +243,69 @@ class rspamd_plugin {
 				$app->system->mkdirpath($this->users_config_dir);
 			}
 			
-			$app->load('tpl');
-			
-			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_users.inc.conf.master');
-			
-			$tpl->setVar('record_identifier', 'ispc_' . $type . '_' . $entry_id);
-			$tpl->setVar('priority', $settings_priority);
-			
-			if($type === 'spamfilter_user') {
-				if($data[$use_data]['local'] === 'Y') {
-					$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
-				} else {
-					$tpl->setVar('from_email', $app->functions->idn_encode($email_address));
+			if(!$this->isValidEmail($app->functions->idn_encode($email_address))) {
+				if(is_file($settings_file)) {
+					unlink($settings_file);
 				}
-				$spamfilter = $data[$use_data];
 			} else {
-				$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
-				
-				// need to get matching spamfilter user if any
-				$spamfilter = $app->db->queryOneRecord('SELECT * FROM spamfilter_users WHERE `email` = ?', $email_address);
-			}
-			
-			if(!isset($policy['rspamd_spam_tag_level'])) {
-				$policy['rspamd_spam_tag_level'] = 6.0;
-			}
-			if(!isset($policy['rspamd_spam_tag_method'])) {
-				$policy['rspamd_spam_tag_method'] = 'add_header';
-			}
-			if(!isset($policy['rspamd_spam_kill_level'])) {
-				$policy['rspamd_spam_kill_level'] = 15.0;
-			}
-			if(!isset($policy['rspamd_virus_kill_level'])) {
-				$policy['rspamd_virus_kill_level'] = floatval($policy['rspamd_spam_kill_level']) + 1000;
-			}
-			
-			$tpl->setVar('rspamd_spam_tag_level', floatval($policy['rspamd_spam_tag_level']));
-			$tpl->setVar('rspamd_spam_tag_method', floatval($policy['rspamd_spam_tag_method']));
-			$tpl->setVar('rspamd_spam_kill_level', floatval($policy['rspamd_spam_kill_level']));
-			$tpl->setVar('rspamd_virus_kill_level', floatval($policy['rspamd_spam_kill_level']) + 1000);
-			
-			if(isset($policy['spam_lover']) && $policy['spam_lover'] == 'Y') {
-				$tpl->setVar('spam_lover', true);
-			}
-			if(isset($policy['virus_lover']) && $policy['virus_lover'] == 'Y') {
-				$tpl->setVar('virus_lover', true);
-			}
-			
-			$tpl->setVar('greylisting', $greylisting);
 
-			if(isset($policy['rspamd_spam_greylisting_level'])) {
-				$tpl->setVar('greylisting_level', floatval($policy['rspamd_spam_greylisting_level']));
-			} else {
-				$tpl->setVar('greylisting_level', 0.1);
-			}
+				$app->load('tpl');
 
-			$app->system->file_put_contents($settings_file, $tpl->grab());
+				$tpl = new tpl();
+				$tpl->newTemplate('rspamd_users.inc.conf.master');
+
+				$tpl->setVar('record_identifier', 'ispc_' . $type . '_' . $entry_id);
+				$tpl->setVar('priority', $settings_priority);
+
+				if($type === 'spamfilter_user') {
+					if($data[$use_data]['local'] === 'Y') {
+						$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
+					} else {
+						$tpl->setVar('from_email', $app->functions->idn_encode($email_address));
+					}
+					$spamfilter = $data[$use_data];
+				} else {
+					$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
+
+					// need to get matching spamfilter user if any
+					$spamfilter = $app->db->queryOneRecord('SELECT * FROM spamfilter_users WHERE `email` = ?', $email_address);
+				}
+
+				if(!isset($policy['rspamd_spam_tag_level'])) {
+					$policy['rspamd_spam_tag_level'] = 6.0;
+				}
+				if(!isset($policy['rspamd_spam_tag_method'])) {
+					$policy['rspamd_spam_tag_method'] = 'add_header';
+				}
+				if(!isset($policy['rspamd_spam_kill_level'])) {
+					$policy['rspamd_spam_kill_level'] = 15.0;
+				}
+				if(!isset($policy['rspamd_virus_kill_level'])) {
+					$policy['rspamd_virus_kill_level'] = floatval($policy['rspamd_spam_kill_level']) + 1000;
+				}
+
+				$tpl->setVar('rspamd_spam_tag_level', floatval($policy['rspamd_spam_tag_level']));
+				$tpl->setVar('rspamd_spam_tag_method', floatval($policy['rspamd_spam_tag_method']));
+				$tpl->setVar('rspamd_spam_kill_level', floatval($policy['rspamd_spam_kill_level']));
+				$tpl->setVar('rspamd_virus_kill_level', floatval($policy['rspamd_spam_kill_level']) + 1000);
+
+				if(isset($policy['spam_lover']) && $policy['spam_lover'] == 'Y') {
+					$tpl->setVar('spam_lover', true);
+				}
+				if(isset($policy['virus_lover']) && $policy['virus_lover'] == 'Y') {
+					$tpl->setVar('virus_lover', true);
+				}
+
+				$tpl->setVar('greylisting', $greylisting);
+
+				if(isset($policy['rspamd_spam_greylisting_level'])) {
+					$tpl->setVar('greylisting_level', floatval($policy['rspamd_spam_greylisting_level']));
+				} else {
+					$tpl->setVar('greylisting_level', 0.1);
+				}
+
+				$app->system->file_put_contents($settings_file, $tpl->grab());
+			}
 		}
 
 		if($mail_config['content_filter'] == 'rspamd'){
@@ -318,20 +378,32 @@ class rspamd_plugin {
 						$filter_rcpt = substr($filter_rcpt, 1);
 					}
 				}
-				
-				$tpl = new tpl();
-				$tpl->newTemplate('rspamd_wblist.inc.conf.master');
-				$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
-				$tpl->setVar('record_id', $record_id);
-				// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-				$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
-				$tpl->setVar('from', $filter_from);
-				$tpl->setVar('recipient', $filter_rcpt);
-				$tpl->setVar('hostname', $filter['hostname']);
-				$tpl->setVar('ip', $filter['ip']);
-				$tpl->setVar('wblist', $filter['wb']);
-		
-				$app->system->file_put_contents($wblist_file, $tpl->grab());
+
+				if(!$this->isValidEmail($filter_from)) {
+					$filter_from = '';
+				}
+				if(!$this->isValidEmail($filter_rcpt)) {
+					$filter_rcpt = '';
+				}
+				if(($global_filter === true && !$filter_from && !$filter_rcpt) || ($global_filter === false && (!$filter_from || !$filter_rcpt))) {
+					if(is_file($wblist_file)) {
+						unlink($wblist_file);
+					}
+				} else {
+					$tpl = new tpl();
+					$tpl->newTemplate('rspamd_wblist.inc.conf.master');
+					$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
+					$tpl->setVar('record_id', $record_id);
+					// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
+					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
+					$tpl->setVar('from', $filter_from);
+					$tpl->setVar('recipient', $filter_rcpt);
+					$tpl->setVar('hostname', $filter['hostname']);
+					$tpl->setVar('ip', $filter['ip']);
+					$tpl->setVar('wblist', $filter['wb']);
+
+					$app->system->file_put_contents($wblist_file, $tpl->grab());
+				}
 			} elseif(is_file($wblist_file)) {
 				unlink($wblist_file);
 			}
