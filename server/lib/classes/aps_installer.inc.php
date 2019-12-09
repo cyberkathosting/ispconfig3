@@ -550,21 +550,10 @@ class ApsInstaller extends ApsBase
 			foreach($this->putenv as $var) {
 				putenv($var);
 			}
-			
-			$tmpi = "<?php\n\n";
-			foreach($this->putenv as $var) {
-				$tmpi .= "putenv('".$var."');\n";
-			}
-			$tmpi .= "chdir('".$this->local_installpath.'install_scripts/'."');\n";
-			$tmpi .= 'exec("php '.$this->local_installpath.'install_scripts/'.$cfgscript.' install");';
-			
-			$app->system->file_put_contents($this->local_installpath.'install_scripts/ispinstall.php', $tmpi);
-			exec('php '.$this->local_installpath.'install_scripts/ispinstall.php');
-			die();
 
 			$shell_retcode = true;
 			$shell_ret = array();
-			//$app->system->exec_safe('sudo -u ? php ? install 2>&1', $this->file_owner_user, $this->local_installpath.'install_scripts/'.$cfgscript);
+			$app->system->exec_safe('php ? install 2>&1', $this->local_installpath.'install_scripts/'.$cfgscript);
 			$shell_ret = $app->system->last_exec_out();
 			$shell_retcode = $app->system->last_exec_retcode();
 			$shell_ret = array_filter($shell_ret);
