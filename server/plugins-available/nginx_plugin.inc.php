@@ -2778,6 +2778,7 @@ class nginx_plugin {
 			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
 			$ini_settings = explode("\n", $custom_php_ini_settings);
 			if(is_array($ini_settings) && !empty($ini_settings)){
+				$ini_settings = str_replace('{WEBROOT}', $data['new']['document_root'].'/web', $ini_settings);
 				foreach($ini_settings as $ini_setting){
 					$ini_setting = trim($ini_setting);
 					if(substr($ini_setting, 0, 1) == ';') continue;
