@@ -72,6 +72,7 @@ website_symlinks_rel=n
 network_filesystem=n
 vhost_conf_dir=/etc/apache2/sites-available
 vhost_conf_enabled_dir=/etc/apache2/sites-enabled
+apache_init_script=
 nginx_vhost_conf_dir=/etc/nginx/sites-available
 nginx_vhost_conf_enabled_dir=/etc/nginx/sites-enabled
 security_level=20

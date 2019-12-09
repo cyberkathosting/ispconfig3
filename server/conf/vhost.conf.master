@@ -379,10 +379,12 @@
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
 <tmpl_if name='php_fpm_chroot' op='==' value='y'>
-			ProxyFCGISetEnvIf "true" DOCUMENT_ROOT "<tmpl_var name='php_fpm_chroot_web_folder'>"
-			ProxyFCGISetEnvIf "true" CONTEXT_DOCUMENT_ROOT "%{reqenv:DOCUMENT_ROOT}"
-			ProxyFCGISetEnvIf "true" HOME "%{reqenv:DOCUMENT_ROOT}"
-			ProxyFCGISetEnvIf "true" SCRIPT_FILENAME "%{reqenv:DOCUMENT_ROOT}%{reqenv:SCRIPT_NAME}"
+			<IfVersion >= 2.4.26>
+				ProxyFCGISetEnvIf "true" DOCUMENT_ROOT "<tmpl_var name='php_fpm_chroot_web_folder'>"
+				ProxyFCGISetEnvIf "true" CONTEXT_DOCUMENT_ROOT "%{reqenv:DOCUMENT_ROOT}"
+				ProxyFCGISetEnvIf "true" HOME "%{reqenv:DOCUMENT_ROOT}"
+				ProxyFCGISetEnvIf "true" SCRIPT_FILENAME "%{reqenv:DOCUMENT_ROOT}%{reqenv:SCRIPT_NAME}"
+			</IfVersion>
 </tmpl_if>
 <tmpl_if name='use_tcp'>
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
@@ -529,7 +531,16 @@
 			# WEBDAV END
 		</IfModule>
 
-<tmpl_var name='apache_directives'>
+<tmpl_if name='ssl_enabled'>
+	<tmpl_var name='apache_directives'>
+<tmpl_else>
+	<tmpl_if name='rewrite_to_https' op='==' value='y'>
+		# skipping apache_directives, as that will be handled by the ssl vhost
+	<tmpl_else>
+		<tmpl_var name='apache_directives'>
+	</tmpl_if>
+</tmpl_if>
+
 <tmpl_hook name='apache2_vhost:vhost_footer'>
 </VirtualHost>
 
