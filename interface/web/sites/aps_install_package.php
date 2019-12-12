@@ -49,8 +49,8 @@ $app->load_language_file('web/sites/'.$lngfile);
 
 // we will check only users, not admins
 if($_SESSION["s"]["user"]["typ"] == 'user') {
-	$app->tform->formDef['db_table_idx'] = 'client_id';
-	$app->tform->formDef['db_table'] = 'client';
+	$app->tform->formDef['db_table_idx'] = 'id';
+	$app->tform->formDef['db_table'] = 'aps_instances';
 	if(!$app->tform->checkClientLimit('limit_aps')) {
 		$app->error($app->lng("limit_aps_txt"));
 	}

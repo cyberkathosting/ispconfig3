@@ -208,9 +208,9 @@ class remoting_mail extends remoting {
 
 		//* Check if mail domain exists
 		$email_parts = explode('@', $params['email']);
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ? AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain')", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
-			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
+			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist as primary.');
 			return false;
 		}
 
@@ -234,11 +234,11 @@ class remoting_mail extends remoting {
 			return false;
 		}
 
-		//* Check if mail domain exists
+		//* Check if mail domain exists, and is not used as aliasdomain
 		$email_parts = explode('@', $params['email']);
-		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ?", $email_parts[1]);
+		$tmp = $app->db->queryOneRecord("SELECT domain FROM mail_domain WHERE domain = ? AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain')", $email_parts[1]);
 		if($tmp['domain'] != $email_parts[1]) {
-			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist.');
+			throw new SoapFault('mail_domain_does_not_exist', 'Mail domain - '.$email_parts[1].' - does not exist as primary.');
 			return false;
 		}
 
