@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
 $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
+$wb['unlimited_txt'] = 'neograničeno';
 ?>

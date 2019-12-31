@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Όρια Λογαριασμών';
 $wb['of_txt'] = 'από';
-$wb['unlimited_txt'] = 'Απεριόριστα';
 $wb['limit_maildomain_txt'] = 'Αριθμός email domains';
 $wb['limit_mailbox_txt'] = 'Αριθμός θυρίδων';
 $wb['limit_mailalias_txt'] = 'Αριθμός ψευδωνύμων email';
