@@ -39,6 +39,18 @@ class system {
 
 		if(!preg_match('/^[a-z]+$/', $service)) $app->error('Invalid service '.$service);
 
+               // Check the servers table to see which kinds of servers we actually have enabled.
+               // simple query cache
+               if($this->server_count===null) {
+                       $this->server_count = $app->db->queryOneRecord("SELECT SUM(mail_server) as mail, SUM(web_server) AS web, SUM(dns_server) AS dns, SUM(file_server) AS file,
+                               SUM(db_server) AS db, SUM(vserver_server) AS vserver, SUM(proxy_server) AS proxy, SUM(firewall_server) AS firewall, SUM(xmpp_server) AS xmpp
+                               FROM `server` WHERE mirror_server_id = 0");
+               }
+               // Check if we have the service enabled.
+               if ($this->server_count[$service] == 0) {
+                       return FALSE;
+               }
+
 		if(isset($_SESSION['s']['user']) && $_SESSION['s']['user']['typ'] == 'admin') return true; //* We do not check admin-users
 
 		// simple query cache
