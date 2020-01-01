@@ -80,7 +80,7 @@ class mail_user_filter_plugin {
 			}
 		}
 
-		// We did not found our rule, so we add it now as first rule.
+		// We did not find our rule, so we add it now as first rule.
 		if($found == false && $page_form->dataRecord["active"] == 'y') {
 			$new_rule = $this->mail_user_filter_get_rule($page_form);
 			$out = $new_rule . $out;
@@ -92,7 +92,7 @@ class mail_user_filter_plugin {
 	}
 
 	/*
-	 *	Remove the rendered filter from custom_mailfilter when a mail_user_filter is deleted
+	 *	Remove the rendered filter from custom_mailfilter when a mail_user_filter is deleted.
 	 */
 	function mail_user_filter_del($event_name, $page_form) {
 		global $app, $conf;

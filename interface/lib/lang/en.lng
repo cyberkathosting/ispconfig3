@@ -159,4 +159,5 @@ $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
 $wb['select_directive_snippet_txt'] = 'Directive Snippets';
 $wb['select_master_directive_snippet_txt'] = 'Master Directive Snippets';
+$wb['unlimited_txt'] = "Unlimited";
 ?>

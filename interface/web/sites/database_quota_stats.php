@@ -72,7 +72,7 @@ class list_action extends listform_actions {
 			$rec['quota'] = $monitor_data[$rec['server_id'].'.'.$database_name]['quota'];
 
 			if($rec['quota'] == 0){
-				$rec['quota'] = $app->lng('unlimited');
+				$rec['quota'] = $app->lng('unlimited_txt');
 				$rec['percentage'] = '';
 			} else {
 				if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) ).'%';

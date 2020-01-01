@@ -1,0 +1,4 @@
+From: ISPConfig <postmaster@localhost.localdomain>
+Subject: Welkom in uw nieuwe account.
+
+Welkom in uw nieuwe email account. Uw webmaster.

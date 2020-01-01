@@ -71,11 +71,11 @@ class quota_lib {
 						$sites[$i]['hard'] .= ' KB';
 					}
 			
-					if($sites[$i]['soft'] == " KB") $sites[$i]['soft'] = $app->lng('unlimited');
-					if($sites[$i]['hard'] == " KB") $sites[$i]['hard'] = $app->lng('unlimited');
+					if($sites[$i]['soft'] == " KB") $sites[$i]['soft'] = $app->lng('unlimited_txt');
+					if($sites[$i]['hard'] == " KB") $sites[$i]['hard'] = $app->lng('unlimited_txt');
 					
-					if($sites[$i]['soft'] == '0 B' || $sites[$i]['soft'] == '0 KB' || $sites[$i]['soft'] == '0') $sites[$i]['soft'] = $app->lng('unlimited');
-					if($sites[$i]['hard'] == '0 B' || $sites[$i]['hard'] == '0 KB' || $sites[$i]['hard'] == '0') $sites[$i]['hard'] = $app->lng('unlimited');
+					if($sites[$i]['soft'] == '0 B' || $sites[$i]['soft'] == '0 KB' || $sites[$i]['soft'] == '0') $sites[$i]['soft'] = $app->lng('unlimited_txt');
+					if($sites[$i]['hard'] == '0 B' || $sites[$i]['hard'] == '0 KB' || $sites[$i]['hard'] == '0') $sites[$i]['hard'] = $app->lng('unlimited_txt');
 					
 					/*
 					 if(!strstr($sites[$i]['used'],'M') && !strstr($sites[$i]['used'],'K')) $sites[$i]['used'].= ' B';
@@ -266,7 +266,7 @@ class quota_lib {
 					if($used_ratio >= 1) $emails[$i]['display_colour'] = '#cc0000';
 			
 					if($emails[$i]['quota'] == 0){
-						$emails[$i]['quota'] = $app->lng('unlimited');
+						$emails[$i]['quota'] = $app->lng('unlimited_txt');
 					} else {
                                                $emails[$i]['quota'] = round($emails[$i]['quota'] / 1048576, 1).' MB';
 					}
@@ -327,7 +327,7 @@ class quota_lib {
 					if($used_ratio >= 1) $databases[$i]['display_colour'] = '#cc0000';
 						
 					if($databases[$i]['database_quota'] == 0){
-						$databases[$i]['database_quota'] = $app->lng('unlimited');
+						$databases[$i]['database_quota'] = $app->lng('unlimited_txt');
 					} else {
 						$databases[$i]['database_quota'] = $databases[$i]['database_quota'] . ' MB';
 					}
