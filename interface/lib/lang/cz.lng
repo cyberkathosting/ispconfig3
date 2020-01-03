@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Smazat XMPP doménu';
 $wb['datalog_status_i_xmpp_user'] = 'Vytvořit XMPP uživatele';
 $wb['datalog_status_u_xmpp_user'] = 'Aktualizovat XMPP uživatele';
 $wb['datalog_status_d_xmpp_user'] = 'Smazat XMPP uživatele';
+$wb['unlimited_txt'] = 'neomezeno';
 ?>

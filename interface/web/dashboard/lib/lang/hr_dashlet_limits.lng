@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Ograničenja';
 $wb['of_txt'] = 'od';
-$wb['unlimited_txt'] = 'neograničeno';
 $wb['limit_maildomain_txt'] = 'Mail domene';
 $wb['limit_mailbox_txt'] = 'Mailboxi';
 $wb['limit_mailalias_txt'] = 'Mail aliasi';

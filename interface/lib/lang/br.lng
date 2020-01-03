@@ -158,4 +158,5 @@ $wb['security_check1_txt'] = 'Verifique as permissões de segurança:';
 $wb['security_check2_txt'] = 'falhou.';
 $wb['select_directive_snippet_txt'] = 'Diretiva de trechos de código';
 $wb['select_master_directive_snippet_txt'] = 'Diretiva mestre de trechos de código';
+$wb['unlimited_txt'] = 'Ilimitado';
 ?>

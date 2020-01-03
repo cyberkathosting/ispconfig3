@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Sintesi account';
 $wb['of_txt'] = 'su';
-$wb['unlimited_txt'] = 'illimitati';
 $wb['limit_maildomain_txt'] = 'Domini email';
 $wb['limit_mailbox_txt'] = 'Caselle email';
 $wb['limit_mailalias_txt'] = 'Alias di email';

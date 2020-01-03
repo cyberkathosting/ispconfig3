@@ -27,7 +27,6 @@ $wb['limit_web_subdomain_txt'] = 'Cantidad de sub-dominios';
 $wb['limit_webdav_user_txt'] = 'Cantidad de usuarios Webdav';
 $wb['limits_txt'] = 'Límites de la cuenta';
 $wb['of_txt'] = 'de';
-$wb['unlimited_txt'] = 'Ilimitado';
 $wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
 $wb['limit_web_quota_txt'] = 'Assigned web quota';
 $wb['limit_database_quota_txt'] = 'Assigned database quota';

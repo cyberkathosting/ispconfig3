@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Limites de contas';
 $wb['of_txt'] = 'de';
-$wb['unlimited_txt'] = 'Ilimitado';
 $wb['limit_maildomain_txt'] = 'Número de domínios de e-mail';
 $wb['limit_mailmailinglist_txt'] = 'Número de listas de e-mail';
 $wb['limit_mailbox_txt'] = 'Número de contas de e-mail';

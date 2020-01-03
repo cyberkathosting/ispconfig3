@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Акаунт ограничения';
 $wb['of_txt'] = 'на';
-$wb['unlimited_txt'] = 'Неограничен';
 $wb['limit_maildomain_txt'] = 'Брой на email домейни';
 $wb['limit_mailbox_txt'] = 'Брой на пощенските кутии';
 $wb['limit_mailalias_txt'] = 'Брой на email псевдоними';
