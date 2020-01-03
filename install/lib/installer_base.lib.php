@@ -409,80 +409,92 @@ class installer_base {
 
 
 	}
-	
+
+	public function get_host_ips() {
+		$out = array();
+		exec('hostname --all-ip-addresses', $ret, $val);
+		if($val == 0) {
+			if(is_array($ret) && !empty($ret)){
+				$temp = (explode(' ', $ret[0]));
+				foreach($temp as $ip) {
+					$out[] = $ip;
+				}
+			}
+		}
+
+		return $out;
+	}
+
 	public function detect_ips(){
 		global $conf;
+			
+		$output = $this->get_host_ips();
 
-		exec("ip addr show | awk '/global/ { print $2 }' | cut -d '/' -f 1", $output, $retval);
-		
-		if($retval == 0){
-			if(is_array($output) && !empty($output)){
-				foreach($output as $line){
-					$line = trim($line);
-					$ip_type = '';
-					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-						$ip_type = 'IPv4';
-					}
-					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-						$ip_type = 'IPv6';
-					}
-					if($ip_type == '') continue;
-					if($this->db->dbHost != $this->dbmaster->dbHost){
-						$this->dbmaster->query('INSERT INTO server_ip (
-							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $conf['server_id'], $ip_type, $line);
-						$server_ip_id = $this->dbmaster->insertID();
-						$this->db->query('INSERT INTO server_ip (
-							server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							?,
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $server_ip_id, $conf['server_id'], $ip_type, $line);
-					} else {
-						$this->db->query('INSERT INTO server_ip (
-							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $conf['server_id'], $ip_type, $line);
-					}
+		if(is_array($output) && !empty($output)){
+			foreach($output as $line){
+				$ip_type = '';
+				if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+					$ip_type = 'IPv4';
+				}
+				if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+					$ip_type = 'IPv6';
+				}
+				if($ip_type == '') continue;
+				if($this->db->dbHost != $this->dbmaster->dbHost){
+					$this->dbmaster->query('INSERT INTO server_ip (
+						sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $conf['server_id'], $ip_type, $line);
+					$server_ip_id = $this->dbmaster->insertID();
+					$this->db->query('INSERT INTO server_ip (
+						server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						?,
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $server_ip_id, $conf['server_id'], $ip_type, $line);
+				} else {
+					$this->db->query('INSERT INTO server_ip (
+						sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $conf['server_id'], $ip_type, $line);
 				}
 			}
 		}
@@ -509,15 +521,23 @@ class installer_base {
 
 			//* insert the ispconfig user in the remote server
 			$from_host = $conf['hostname'];
-			$from_ip = gethostbyname($conf['hostname']);
-
 			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
 			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 
-			$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
-			$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
-			$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+			$host_ips = $this->get_host_ips();
+			if(is_arary($host_ips) && !empty($host_ips)) {
+				foreach($host_ips as $ip) {
+					$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+					$hosts[$ip]['db'] = $conf['mysql']['master_database'];
+					$hosts[$ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+				}
+			} else {
+				$from_ip = gethostbyname($conf['hostname']);
+				$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+				$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
+				$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+			}
 		} else{
 			/*
 			 * it is NOT a master-slave - Setup so we have to find out all clients and their
@@ -693,6 +713,14 @@ class installer_base {
 					echo $query ."\n";
 				}
 				if(!$this->dbmaster->query($query, $value['db'] . '.ftp_traffic', $value['user'], $host)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
+
+				$query = "GRANT SELECT, INSERT, UPDATE ON ?? TO ?@?";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query, $value['db'] . '.managed_php', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
