@@ -122,7 +122,8 @@ $form["tabs"]['mailuser'] = array(
 			'default' => '',
 			'value'   => '',
 			'width'   => '30',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'searchable' => 2
 		),
 		'password' => array (
 			'datatype' => 'VARCHAR',
