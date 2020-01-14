@@ -217,7 +217,7 @@ class cronjob_logfiles extends cronjob {
 			foreach($records as $rec){
 				$tmp_path = realpath($rec['document_root'].'/tmp');
 				if($tmp_path != '' && strlen($tmp_path) > 10 && is_dir($tmp_path) && $app->system->is_user($rec['system_user'])){
-					exec("cd ?; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null", $tmp_path);
+					$app->system->exec_safe("cd ?; find . -mtime +1 -name 'sess_*' | grep -v -w .no_delete | xargs rm > /dev/null 2> /dev/null", $tmp_path);
 				}
 			}
 		}
