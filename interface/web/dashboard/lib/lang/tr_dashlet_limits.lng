@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Hesap Sınırları';
 $wb['of_txt'] = '/';
-$wb['unlimited_txt'] = 'Sınırsız';
 $wb['limit_maildomain_txt'] = 'E-posta Etki Alanı Sayısı';
 $wb['limit_mailmailinglist_txt'] = 'E-posta Listesi Sayısı';
 $wb['limit_mailbox_txt'] = 'E-posta Kutusu Sayısı';

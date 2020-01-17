@@ -63,8 +63,8 @@ class list_action extends listform_actions {
 		$rec['used']=$app->functions->formatBytes($rec['used']*1024);
 		$rec['soft']=$app->functions->formatBytes($rec['soft']*1024);
 		$rec['hard']=$app->functions->formatBytes($rec['hard']*1024);
-		if($rec['soft'] == "NAN") $rec['soft'] = $app->lng('unlimited');
-		if($rec['hard'] == "NAN") $rec['hard'] = $app->lng('unlimited');
+		if($rec['soft'] == "NAN") $rec['soft'] = $app->lng('unlimited_txt');
+		if($rec['hard'] == "NAN") $rec['hard'] = $app->lng('unlimited_txt');
 /*
 		if($rec['used'] > 1024) {
 			$rec['used'] = round($rec['used'] / 1024, 2).' MB';
@@ -84,8 +84,8 @@ class list_action extends listform_actions {
 			$rec['hard'] .= ' KB';
 		}
 
-		if($rec['soft'] == " KB") $rec['soft'] = $app->lng('unlimited');
-		if($rec['hard'] == " KB") $rec['hard'] = $app->lng('unlimited');
+		if($rec['soft'] == " KB") $rec['soft'] = $app->lng('unlimited_txt');
+		if($rec['hard'] == " KB") $rec['hard'] = $app->lng('unlimited_txt');
 */
 
 		/*
@@ -94,8 +94,8 @@ class list_action extends listform_actions {
 		if(!strstr($rec['hard'],'M') && !strstr($rec['hard'],'K')) $rec['hard'].= ' B';
 		*/
 /*
-		if($rec['soft'] == '0 B' || $rec['soft'] == '0 KB' || $rec['soft'] == '0') $rec['soft'] = $app->lng('unlimited');
-		if($rec['hard'] == '0 B' || $rec['hard'] == '0 KB' || $rec['hard'] == '0') $rec['hard'] = $app->lng('unlimited');
+		if($rec['soft'] == '0 B' || $rec['soft'] == '0 KB' || $rec['soft'] == '0') $rec['soft'] = $app->lng('unlimited_txt');
+		if($rec['hard'] == '0 B' || $rec['hard'] == '0 KB' || $rec['hard'] == '0') $rec['hard'] = $app->lng('unlimited_txt');
 */
 		//* The variable "id" contains always the index variable
 		$rec['id'] = $rec[$this->idx_key];

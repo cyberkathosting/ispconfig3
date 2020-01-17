@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Удалить  домен XMPP';
 $wb['datalog_status_i_xmpp_user'] = 'Создать пользователя XMPP';
 $wb['datalog_status_u_xmpp_user'] = 'Обновить пользователя XMPP';
 $wb['datalog_status_d_xmpp_user'] = 'Удалить пользователя XMPP';
+$wb['unlimited_txt'] = 'Безлимитный';
 ?>

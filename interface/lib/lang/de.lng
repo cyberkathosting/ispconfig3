@@ -158,4 +158,5 @@ $wb['security_check1_txt'] = 'Sicherheitsüberprüfung für:';
 $wb['security_check2_txt'] = 'fehlgeschlagen.';
 $wb['select_directive_snippet_txt'] = 'Direktiven Schnipsel';
 $wb['select_master_directive_snippet_txt'] = 'Master Direktiven Schnipsel';
+$wb['unlimited_txt'] = 'unlimitiert';
 ?>

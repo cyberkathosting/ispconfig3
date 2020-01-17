@@ -159,4 +159,5 @@ $wb['security_check1_txt'] = 'Güvenlik iznini denetle:';
 $wb['security_check2_txt'] = 'başarısız.';
 $wb['select_directive_snippet_txt'] = 'Yönerge Kod Parçaları';
 $wb['select_master_directive_snippet_txt'] = 'Ana Komut Parçaları';
+$wb['unlimited_txt'] = 'Sınırsız';
 ?>
