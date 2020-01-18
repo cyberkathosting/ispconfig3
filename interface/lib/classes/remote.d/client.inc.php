@@ -257,7 +257,7 @@ class remoting_client extends remoting {
 
 		if(@is_numeric($client_id)) {
 			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ?";
-			return $app->db->queryOneRecord($sql, $client_id);
+			return $app->db->queryAllRecords($sql, $client_id);
 		} else {
 			throw new SoapFault('The ID must be an integer.');
 			return array();
