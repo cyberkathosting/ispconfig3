@@ -1,7 +1,7 @@
 <?php
-$wb['databasequota_txt'] = 'Database Quota';
-$wb['database_txt'] = 'Database Name';
-$wb['used_txt'] = 'Used Space';
+$wb['databasequota_txt'] = 'Quota Database';
+$wb['database_txt'] = 'Nome Database';
+$wb['used_txt'] = 'Spazio Usato';
 $wb['quota_txt'] = 'Quota';
-$wb['no_database_accounts_txt'] = 'No databases found.';
+$wb['no_database_accounts_txt'] = 'Nessun database trovato.';
 ?>
