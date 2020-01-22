@@ -19,7 +19,8 @@
                 <label for="snippet" class="col-sm-3 control-label">{tmpl_var name='snippet_txt'}</label>
                 <tmpl_if name='is_master'><div class="col-sm-9 col-text"><pre>{tmpl_var name='snippet'}</pre></div></tmpl_else><div class="col-sm-9"><textarea class="form-control" name="snippet" id="snippet" rows='10' cols='50'>{tmpl_var name='snippet'}</textarea>
                 &nbsp; Nginx {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a><br />
-				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>
+				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a> <br />
+				&nbsp; PHP {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{WEBROOT}</a>
 				</div></tmpl_if>
             </div>
             <tmpl_if name='is_master'></tmpl_else>

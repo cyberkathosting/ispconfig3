@@ -9,6 +9,7 @@ ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
 mail_max_userip_connections = 100
+mail_plugins = $mail_plugins quota
 passdb {
   args = /etc/dovecot/dovecot-sql.conf
   driver = sql
@@ -65,7 +66,6 @@ protocol lmtp {
   mail_plugins = quota sieve
 }
 
-mail_plugins = $mail_plugins quota
 
 #2.3+ service stats {
 #2.3+     unix_listener stats-reader {
