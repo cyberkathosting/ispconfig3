@@ -70,6 +70,9 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
+		// Workaround for #5448, accessed via link on quota dashlet.
+		$app->tpl->setVar('app_module', 'mail');
+
 		$email = $this->dataRecord["email"];
 		$email_parts = explode("@", $email);
 		$app->tpl->setVar("email_local_part", $email_parts[0]);
