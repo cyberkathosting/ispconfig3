@@ -8,7 +8,7 @@
   <meta name='viewport' content='width=device-width, user-scalable=yes'>
   <meta name='description' lang='en' content='' />
   <meta name='keywords' lang='en' content='' />
-  <meta name='robots' content='index, follow' />
+  <meta name='robots' content='noindex, nofollow' />
 
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/fonts.min.css' />
@@ -123,15 +123,15 @@
   <script>
   <!--
 	//$('.ttip').tipsy({live: true, gravity: 'ne', html: true});
-	
+
 	ISPConfig.tabChangeDiscard = '<tmpl_var name="tabchange_discard_enabled">';
 	ISPConfig.tabChangeWarning = '<tmpl_var name="tabchange_warning_enabled">';
 	ISPConfig.tabChangeWarningTxt = '<tmpl_var name="global_tabchange_warning_txt">';
 	ISPConfig.tabChangeDiscardTxt = '<tmpl_var name="global_tabchange_discard_txt">';
-	
+
 	<tmpl_if name="use_loadindicator" value="y">ISPConfig.setOption('useLoadIndicator', true);</tmpl_if>
 	<tmpl_if name="use_combobox" value="y">ISPConfig.setOption('useComboBox', true);</tmpl_if>
-	
+
 	$(document).ready(function() {
 		$('#globalsearch').ispconfigSearch({
 			dataSrc: '/dashboard/ajax_get_json.php?type=globalsearch',
