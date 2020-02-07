@@ -9,7 +9,14 @@
 
 
         {tmpl_hook name="begin_form"}
-		<tmpl_if name="vhostdomain_type" value="domain">
+            <tmpl_if name="vhostdomain_type" value="domain">
+            <tmpl_if name="web_aliasdomains_info">
+            Children:
+            <ul>
+              <tmpl_loop name="web_aliasdomains_info"><li>{tmpl_var name='type'}: {tmpl_var name='domain'}</li></tmpl_loop>
+            </ul>
+            <br />
+            </tmpl_if>
             <tmpl_if name="is_admin">
                 <div class="form-group">
                     <tmpl_if name="edit_disabled">
