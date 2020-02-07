@@ -559,7 +559,7 @@ class db
 		} elseif(is_object($app) && method_exists($app, 'log') && $bNoLog == false) {
 			$app->log($sErrormsg . $sAddMsg . ' -> ' . $mysql_errno . ' (' . $mysql_error . ')', LOGLEVEL_WARN, false);
 		} elseif(php_sapi_name() == 'cli') {
-			echo $sErrormsg . $sAddMsg;
+			echo $sErrormsg . ' ' . $sAddMsg;
 		}
 	}
 
