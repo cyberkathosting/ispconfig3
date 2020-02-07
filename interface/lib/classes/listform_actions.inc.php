@@ -189,6 +189,7 @@ class listform_actions {
 		//* substitute value for select fields
 		if(is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
 			foreach($app->listform->listDef['item'] as $field) {
+				if($rec['active'] == 'n') $rec['warn_inactive'] = 'y';
 				$key = $field['field'];
 				if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
 					if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {

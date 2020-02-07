@@ -37,8 +37,14 @@
                 </thead>
                 <tbody>
                 <tmpl_loop name="records">
-                    <tr>
+						<tr <tmpl_if name="site_error"> class="danger" </tmpl_if> <tmpl_if name="warn_inactive"> class="danger" </tmpl_if> >
                     	<tmpl_if name="vhostdomain_type" value="domain"><td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="domain_id"}</a></td></tmpl_if>
+<tmpl_if name="site_error">
+&nbsp;
+<a href="#" data-toggle="tooltip" title="{tmpl_var name="site_error"}">
+<span class="glyphicon glyphicon-warning-sign"></span></a>
+</tmpl_if>
+</a></td></tmpl_if>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="active"}</a></td>
                         <tmpl_if name="vhostdomain_type" value="domain"><td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="sys_groupid"}</a></td></tmpl_if>
                         <td><a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='id'}&type={tmpl_var name='vhostdomain_type'}">{tmpl_var name="server_id"}</a></td>
