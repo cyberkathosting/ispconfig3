@@ -39,6 +39,7 @@ class listform_actions {
 	private $sortKeys;
 
 	private function _sort($aOne, $aTwo) {
+		$suffixes=array('k' => 1, 'M' => 1024, 'G' => 1048576, 'T' => 1099511627776);
 		if(!is_array($aOne) || !is_array($aTwo)) return 0;
 
 		if(!is_array($this->sortKeys)) $this->sortKeys = array($this->sortKeys);
@@ -49,6 +50,15 @@ class listform_actions {
 			}
 			$a = $aOne[$sKey];
 			$b = $aTwo[$sKey];
+
+			if(preg_match('/(\d+\.?\d*) ([kMGT])B/', $a, $match)) {
+				$a = $match[1] * $suffixes[$match[2]];
+			}
+
+			if(preg_match('/(\d+\.?\d*) ([kMGT])B/', $b, $match)) {
+				$b = $match[1]  * $suffixes[$match[2]];
+			}
+
 			if(is_string($a)) $a = strtolower($a);
 			if(is_string($b)) $b = strtolower($b);
 			if($a < $b) return $sDir == 'DESC' ? 1 : -1;
@@ -129,7 +139,7 @@ class listform_actions {
 
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
-		
+
 		$csrf_token = $app->auth->csrf_token_get($app->listform->listDef['name']);
 		$_csrf_id = $csrf_token['csrf_id'];
 		$_csrf_key = $csrf_token['csrf_key'];

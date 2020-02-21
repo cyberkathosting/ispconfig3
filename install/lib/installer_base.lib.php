@@ -526,7 +526,7 @@ class installer_base {
 			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 
 			$host_ips = $this->get_host_ips();
-			if(is_arary($host_ips) && !empty($host_ips)) {
+			if(is_array($host_ips) && !empty($host_ips)) {
 				foreach($host_ips as $ip) {
 					$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
 					$hosts[$ip]['db'] = $conf['mysql']['master_database'];
