@@ -189,12 +189,13 @@ $items[] = array( 'title'  => 'Mailbox traffic',
 	'target'  => 'content',
 	'link' => 'mail/mail_user_stats.php',
 	'html_id' => 'mail_user_stats');
-$items[] = array (
-    'title'   => 'Backup Stats',
-    'target'  => 'content',
-    'link'    => 'mail/backup_stats.php',
-    'html_id' => 'backup_stats');
-
+if($app->auth->get_client_limit($userid, 'backup') == 'y') {
+        $items[] = array (
+            'title'   => 'Backup Stats',
+            'target'  => 'content',
+            'link'    => 'mail/backup_stats.php',
+            'html_id' => 'backup_stats');
+}
 
 $module['nav'][] = array( 'title' => 'Statistics',
 	'open'  => 1,
