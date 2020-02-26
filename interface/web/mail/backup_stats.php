@@ -9,7 +9,7 @@ $list_def_file = 'list/backup_stats.list.php';
 ******************************************/
 
 //* Check permissions for module
-$app->auth->check_module_permissions('sites');
+$app->auth->check_module_permissions('mail');
 
 $app->load('listform_actions','functions');
 
