@@ -8,7 +8,7 @@ stages:
 
 syntax:lint:
   stage: syntax
-  image: bobey/docker-gitlab-ci-runner-php7
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   allow_failure: false
   only:
     - schedules
