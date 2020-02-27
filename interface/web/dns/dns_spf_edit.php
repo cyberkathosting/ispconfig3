@@ -72,13 +72,16 @@ class page_action extends tform_actions {
 	}
 
 	function onShowEnd() {
-		global $app, $conf;
+		global $app;
 
-		$zone = $app->functions->intval($_GET['zone']);
+		$id = $app->functions->intval($_GET['id']);
+
+		// if there is no existing SPF record, assume we want a new active record
+		$app->tpl->setVar('active', 'CHECKED');
 
 		//* check for an existing spf-record
-		$sql = "SELECT data, active FROM dns_rr WHERE data LIKE 'v=spf1%' AND zone = ? AND " . $app->tform->getAuthSQL('r');
-		$rec = $app->db->queryOneRecord($sql, $zone);
+		$sql = "SELECT data, active FROM dns_rr WHERE id = ? AND " . $app->tform->getAuthSQL('r');
+		$rec = $app->db->queryOneRecord($sql, $id);
 		if ( isset($rec) && !empty($rec) ) {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
@@ -132,7 +135,6 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
-
 		// Get the parent soa record of the domain
 		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $app->functions->intval($_POST["zone"]));
 
@@ -153,8 +155,27 @@ class page_action extends tform_actions {
 				}
 			}
 		} // end if user is not admin
+		
+		// Check that the record does not yet exist
+		$existing_records = $app->db->queryAllRecords("SELECT id FROM dns_rr WHERE id != ? AND zone = ? AND name = ? AND type = 'TXT'", $this->dataRecord['id'], $_POST['zone'], $_POST['name']);
+		if (!empty($existing_records)) {
+			if (count($existing_records) > 1) {
+				$multiple_existing_records_error_txt = $app->tform->wordbook['spf_record_exists_multiple_txt'];
+				$multiple_existing_records_error_txt = str_replace('{hostname}', $_POST['name'], $multiple_existing_records_error_txt);
 
-		//create spf-record
+				$app->error($multiple_existing_records_error_txt);
+			}
+
+			$existing_record = array_pop($existing_records);
+			
+			$existing_record_error_txt = $app->tform->wordbook['spf_record_exists_txt'];
+			$existing_record_error_txt = str_replace('{hostname}', $_POST['name'], $existing_record_error_txt);
+			$existing_record_error_txt = str_replace('{existing_record_id}', $existing_record['id'], $existing_record_error_txt);
+
+			$app->error($existing_record_error_txt);
+		}
+
+		// Create spf-record
 		if (!empty($this->dataRecord['spf_mx'])) {
 			$spf_record[] = 'mx';
 		}
@@ -217,7 +238,6 @@ class page_action extends tform_actions {
 		else $this->dataRecord['data'] = 'v=spf1 ' . $this->dataRecord['spf_mechanism'] . 'all';
 		unset($temp);
 
-		$this->dataRecord['name'] = $soa['origin'];
 		if (isset($this->dataRecord['active'])) $this->dataRecord['active'] = 'Y';
 		
 		// Set the server ID of the rr record to the same server ID as the parent record.
@@ -227,10 +247,6 @@ class page_action extends tform_actions {
 		$soa = $app->db->queryOneRecord("SELECT serial FROM dns_rr WHERE id = ?", $this->id);
 		$this->dataRecord["serial"] = $app->validate_dns->increase_serial($soa["serial"]);
 		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
-
-		// always update an existing entry
-		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data LIKE 'v=spf1%' AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord['name']);
-		$this->id = $check['id'];
 
 		if (!isset($this->dataRecord['active'])) $this->dataRecord['active'] = 'N';
 

@@ -1,5 +1,6 @@
 <?php
 $wb['data_txt'] = 'SPF Record';
+$wb['name_txt'] = 'Hostname';
 $wb['spf_mechanism_txt'] = 'SPF Mechanismus';
 $wb['spf_mechanism_pass_txt'] = 'Pass - Mails von anderen Sendern zulassen';
 $wb['spf_mechanism_fail_txt'] = 'Fail - Mails von anderen Sendern abweisen';
@@ -19,7 +20,10 @@ $wb['spf_invalid_domain_txt'] = 'Ungültiger Domainname';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktiv';
 $wb['record_exists_txt'] = 'DNS-Eintrag existiert bereits';
+$wb['spf_record_exists_txt'] = 'SPF-Record already exists for hostname "{hostname}". Do you want to <a href="#" data-load-content="dns/dns_spf_edit.php?id={existing_record_id}">edit the existing record</a>?';
+$wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname "{hostname}". This will cause recipients to reject your mail! Delete or merge duplicate existing records and try again.';
 $wb['ttl_range_error'] = 'Min. TTL time ist 60 Sekunden.';
 $wb['limit_dns_record_txt'] = 'Die maximale Anzahl an DNS Einträgen für Ihr Konto wurde erreicht.';
 $wb['no_zone_perm'] = 'Sie haben nicht die Berechtigung, einen Eintrag zu dieser DNS Zone hinzuzufügen.';
+$wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>
