@@ -172,7 +172,7 @@ var ISPConfig = {
 						ISPConfig.loadContent(parts[1]);
 					} else if (jqXHR.responseText.indexOf('LOGIN_REDIRECT:') > -1) {
 						// Go to the login page
-						document.location.href = '/index.php';
+						document.location.href = './index.php';
 					} else {
 						$('#pageContent').html(jqXHR.responseText);
 						ISPConfig.onAfterContentLoad(target, $('#'+formname).serialize());
