@@ -1,9 +1,12 @@
 <?php
 $wb['active_txt'] = 'Habilitado';
+$wb['name_txt'] = 'Hostname';
 $wb['data_txt'] = 'Registro SPF';
 $wb['limit_dns_record_txt'] = 'Ha alcanzado el número máx. de registros DNS permitidos para su cuenta.';
 $wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona DNS.';
 $wb['record_exists_txt'] = 'El registro DNS ya existe';
+$wb['spf_record_exists_txt'] = 'SPF-Record already exists for hostname "{hostname}". Do you want to <a href="#" data-load-content="dns/dns_spf_edit.php?id={existing_record_id}">edit the existing record</a>?';
+$wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname "{hostname}". This will cause recipients to reject your mail! Delete or merge duplicate existing records and try again.';
 $wb['spf_a_txt'] = 'Permitir a la dirección IP actual del dominio enviar correo electrónico para este dominio';
 $wb['spf_domain_note_txt'] = '(dominios separados por espacios en blanco)';
 $wb['spf_domain_txt'] = 'Cualquier dominio que pueda entregar o retransmitir correo para este dominio';
@@ -22,4 +25,5 @@ $wb['spf_mechanism_txt'] = 'Mecanismo SPF';
 $wb['spf_mx_txt'] = 'Permite a los servidores configurados como MX enviar correos desde este dominio';
 $wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 $wb['ttl_txt'] = 'TTL';
+$wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>
