@@ -157,7 +157,7 @@ class page_action extends tform_actions {
 		} // end if user is not admin
 		
 		// Check that the record does not yet exist
-		$existing_records = $app->db->queryAllRecords("SELECT id FROM dns_rr WHERE id != ? AND zone = ? AND name = ? AND type = 'TXT'", $this->dataRecord['id'], $_POST['zone'], $_POST['name']);
+		$existing_records = $app->db->queryAllRecords("SELECT id FROM dns_rr WHERE zone = ? AND name = ? AND type = 'TXT' AND data LIKE 'v=spf1%'", $_POST['zone'], $_POST['name']);
 		if (!empty($existing_records)) {
 			if (count($existing_records) > 1) {
 				$multiple_existing_records_error_txt = $app->tform->wordbook['spf_record_exists_multiple_txt'];
@@ -166,13 +166,18 @@ class page_action extends tform_actions {
 				$app->error($multiple_existing_records_error_txt);
 			}
 
+			// If there is just one existing record, three things can be going on:
+			// - if we are adding a new record, show a warning that it already exists and offer to edit it
+			// - if we are editing an existing record and changing its 'name' field to one that is already existing, also show the warning
+			// - otherwise we are just editing the existing the record, so there is no need for a warning
 			$existing_record = array_pop($existing_records);
-			
-			$existing_record_error_txt = $app->tform->wordbook['spf_record_exists_txt'];
-			$existing_record_error_txt = str_replace('{hostname}', $_POST['name'], $existing_record_error_txt);
-			$existing_record_error_txt = str_replace('{existing_record_id}', $existing_record['id'], $existing_record_error_txt);
+			if (empty($this->dataRecord['id']) || ($this->dataRecord['id'] !== $existing_record['id'])) {
+				$existing_record_error_txt = $app->tform->wordbook['spf_record_exists_txt'];
+				$existing_record_error_txt = str_replace('{hostname}', $_POST['name'], $existing_record_error_txt);
+				$existing_record_error_txt = str_replace('{existing_record_id}', $existing_record['id'], $existing_record_error_txt);
 
-			$app->error($existing_record_error_txt);
+				$app->error($existing_record_error_txt);
+			}
 		}
 
 		// Create spf-record
