@@ -43,7 +43,7 @@ $app->tpl->setInclude('content_tpl', 'templates/password_reset.htm');
 
 $app->tpl_defaults();
 
-include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'.lng';
+include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$app->functions->check_language($conf['language']).'.lng';
 $app->tpl->setVar($wb);
 $continue = true;
 
