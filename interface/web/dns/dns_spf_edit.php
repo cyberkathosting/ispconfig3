@@ -176,6 +176,8 @@ class page_action extends tform_actions {
 		}
 
 		// Create spf-record
+		$spf_record = [];
+
 		if (!empty($this->dataRecord['spf_mx'])) {
 			$spf_record[] = 'mx';
 		}
