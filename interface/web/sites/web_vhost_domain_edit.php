@@ -257,7 +257,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y'", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -403,7 +405,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y'", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -623,7 +627,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y'", $parent_domain['server_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -1375,6 +1381,8 @@ class page_action extends tform_actions {
 			}
 		}
 		
+		$this->validateDefaultFastcgiPhpVersion();
+		
 		parent::onSubmit();
 	}
 	
@@ -1538,6 +1546,47 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
+	}
+	
+	function validateDefaultFastcgiPhpVersion() {
+		global $app;
+
+		// If PHP is not enabled, we don't need to validate the default PHP version
+		if (empty($this->dataRecord['php']) || 'no' === $this->dataRecord['php']) {
+			return;
+		}
+
+		// If the default PHP version is not hidden, we don't need to do any additional validation
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($this->dataRecord['server_id'], 'web');
+		if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+			return;
+		}
+
+		// The default PHP version is indicated by an empty string, so if the default PHP version is hidden
+		// then an empty string is not a valid PHP version.
+		if (empty($this->dataRecord['fastcgi_php_version'])) {
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_invalid_txt'));
+			return;
+		}
+		
+		// If the default PHP version is now hidden but this vhost was using it, we don't want to implicitly
+		// switch the user to some random Additional PHP version. So we show a warning instead.
+		$old_fastcgi_php_version = null;
+		if ($this->id > 0) {
+			$existing = $app->db->queryOneRecord('SELECT fastcgi_php_version FROM web_domain WHERE domain_id = ?', $this->id);
+			$old_fastcgi_php_version = $existing['fastcgi_php_version'];
+		}
+
+		if ('' === $old_fastcgi_php_version) {
+			// Warning was already shown, user confirmed the new PHP version
+			if (!empty($_POST['fastcgi_php_version_default_hidden_warning_confirmed'])) {
+				return;
+			}
+
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_default_hidden_warning_txt'));
+			$app->tpl->setVar('fastcgi_php_version_default_hidden_warning_confirmed', 1);
+		}
 	}
 }
 
