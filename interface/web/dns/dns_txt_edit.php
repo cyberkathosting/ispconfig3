@@ -53,7 +53,7 @@ class page_action extends dns_page_action {
 		}
 
 		// Redirect to SPF wizard if we detect a SPF record
-		if (!empty($this->dataRecord['data'])) {
+		if ('GET' === $_SERVER['REQUEST_METHOD'] && !empty($this->dataRecord['data'])) {
 			if ('v=spf1' === mb_substr($this->dataRecord['data'], 0, 6)) {
 				header(sprintf('Location: dns_spf_edit.php?id=%d', $this->dataRecord['id']));
 				exit;
