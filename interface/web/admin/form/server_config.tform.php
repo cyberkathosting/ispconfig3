@@ -1129,6 +1129,12 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_default_hide' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'php_default_name' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

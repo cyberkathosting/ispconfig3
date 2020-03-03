@@ -7,6 +7,9 @@ class dashlet_databasequota {
 
 		//* Loading Template
 		$app->uses('tpl,quota_lib');
+               if (!$app->auth->verify_module_permissions('sites')) {
+                       return;
+               }
 
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/databasequota.htm");
