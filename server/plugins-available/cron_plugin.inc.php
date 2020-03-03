@@ -259,7 +259,13 @@ class cron_plugin {
 
 					$command .= "\t";
 					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-					$command .= $job['command'] . " " . $log_target;
+
+					$command .= $job['command'];
+
+					// Add a default log target when no redirection is included in the command.
+					if (!preg_match('/>/', $job['command'])) {
+						$command .= " " . $log_target;
+					}
 				}
 
 				if($job['type'] == 'chrooted') {
