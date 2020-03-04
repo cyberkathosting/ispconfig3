@@ -2071,6 +2071,7 @@ CREATE TABLE `web_domain` (
   `https_port` int(11) unsigned NOT NULL DEFAULT '443',
   `folder_directive_snippets` text,
   `log_retention` int(11) NOT NULL DEFAULT '10',
+  `proxy_protocol` enum('n','y') NOT NULL default 'n',
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

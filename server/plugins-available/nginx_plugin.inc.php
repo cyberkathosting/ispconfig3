@@ -1519,6 +1519,19 @@ class nginx_plugin {
 			}
 			unset($tmp_output, $tmp_retval);
 		}
+
+		//proxy protocol settings
+		if($web_config['vhost_proxy_protocol_enabled'] == "y"){
+		    if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
+			    $vhost_data['use_proxy_protocol'] = $data['new']['proxy_protocol'];
+			    $vhost_data['proxy_protocol_http'] = (int)$web_config['vhost_proxy_protocol_http_port'];
+			    $vhost_data['proxy_protocol_https'] = (int)$web_config['vhost_proxy_protocol_https_port'];
+		    } else {
+		        $vhost_data['use_proxy_protocol'] = "n";
+		    }
+		}else{
+			$vhost_data['use_proxy_protocol'] = "n";
+		}
 		
 		// set logging variable
 		$vhost_data['logging'] = $web_config['logging'];

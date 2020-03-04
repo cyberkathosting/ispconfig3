@@ -305,3 +305,6 @@ $wb['content_filter_txt'] = 'Content Filter';
 $wb['rspamd_url_txt'] = 'Rspamd URL';
 $wb['rspamd_user_txt'] = 'Rspamd User';
 $wb['rspamd_password_txt'] = 'Rspamd Password';
+$wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
+$wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
+$wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';

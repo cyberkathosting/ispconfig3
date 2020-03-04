@@ -298,4 +298,7 @@ $wb['log_retention_error_ispositive'] = 'Günlük tutma süresi 0 değerinden b�
 $wb['php_default_hide_txt'] = 'Hide Default PHP-Version in selectbox';
 $wb['php_default_name_txt'] = 'Varsayılan PHP Sürümü Açıklaması';
 $wb['php_default_name_error_empty'] = 'Varsayılan PHP sürümü açıklaması boş olamaz';
+$wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
+$wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
+$wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';
 ?>

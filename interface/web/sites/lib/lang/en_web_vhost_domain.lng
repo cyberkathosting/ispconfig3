@@ -160,4 +160,5 @@ $wb['enable_pagespeed_txt'] = 'Enable PageSpeed';
 $wb['log_retention_txt'] = 'Logfiles retention time';
 $wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
 $wb['limit_web_quota_not_0_txt'] = 'Harddisk Quota cannot be set to 0.';
+$wb['proxy_protocol_txt'] = 'Enable PROXY Protocol';
 ?>
