@@ -224,7 +224,7 @@ class cron_plugin {
 					$command = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
 				
-				$log_target = ">/dev/null 2>&1";
+				$log_target = "";
 				$log_wget_target = '/dev/null';
 				$log_root = '';
 				if($job['log'] == 'y') {
@@ -259,13 +259,7 @@ class cron_plugin {
 
 					$command .= "\t";
 					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-
-					$command .= $job['command'];
-
-					// Add a default log target when no redirection is included in the command.
-					if (!preg_match('/>/', $job['command'])) {
-						$command .= " " . $log_target;
-					}
+					$command .= $job['command'] . " " . $log_target;
 				}
 
 				if($job['type'] == 'chrooted') {
