@@ -25,5 +25,6 @@ $wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname
 $wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
 $wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
 $wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
+$wb['name_error_regex'] = 'The hostname has the wrong format.';
 $wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>
