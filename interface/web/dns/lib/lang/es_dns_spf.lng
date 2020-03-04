@@ -25,5 +25,6 @@ $wb['spf_mechanism_txt'] = 'Mecanismo SPF';
 $wb['spf_mx_txt'] = 'Permite a los servidores configurados como MX enviar correos desde este dominio';
 $wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 $wb['ttl_txt'] = 'TTL';
+$wb['name_error_regex'] = 'The hostname has the wrong format.';
 $wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>

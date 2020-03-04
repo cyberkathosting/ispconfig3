@@ -25,5 +25,6 @@ $wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname
 $wb['limit_dns_record_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla DNS kaydı sınırına ulaştınız.';
 $wb['no_zone_perm'] = 'Bu DNS bölgesine kayıt ekleme izniniz yok.';
 $wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
+$wb['name_error_regex'] = 'The hostname has the wrong format.';
 $wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>
