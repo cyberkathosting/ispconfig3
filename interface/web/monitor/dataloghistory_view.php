@@ -54,6 +54,16 @@ $out['username'] = $record['user'];
 
 $out['timestamp'] = date($app->lng('conf_format_datetime'), $record['tstamp']);
 $out['table'] = $record['dbtable'];
+list($key, $value) = explode(':', $record['dbidx']);
+if (!empty($value)) {
+       if ($record['action'] == 'd') {
+               // No link for deleted content.
+               $out['table_id'] = $record['dbidx'];
+       } else {
+               // TODO link per content type
+               $out['table_id'] = '<a href="#" data-load-content="mail/mail_user_edit.php?id=' . $value .'" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="link">'.$record['dbidx'].'</a>';
+       }
+}
 
 $out['action_char'] = $record['action'];
 $out['action_name'] = $app->lng($record['action']);
