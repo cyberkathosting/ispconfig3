@@ -50,6 +50,7 @@ $id = intval($_GET['id']);
 $record = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE datalog_id = ?', $id);
 
 $out['id'] = $id;
+$out['username'] = $record['user'];
 
 $out['timestamp'] = date($app->lng('conf_format_datetime'), $record['tstamp']);
 $out['table'] = $record['dbtable'];

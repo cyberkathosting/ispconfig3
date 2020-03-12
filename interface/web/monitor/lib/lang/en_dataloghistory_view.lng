@@ -23,4 +23,5 @@ $wb['new_txt'] = 'New';
 $wb['btn_cancel_txt'] = 'Back';
 $wb['undo_txt'] = 'Undo action';
 $wb['undo_confirmation_txt'] = 'Do you really want to undo this action?';
+$wb['username_txt'] = 'Username';
 ?>
