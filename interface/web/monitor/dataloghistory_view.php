@@ -56,13 +56,26 @@ $out['timestamp'] = date($app->lng('conf_format_datetime'), $record['tstamp']);
 $out['table'] = $record['dbtable'];
 list($key, $value) = explode(':', $record['dbidx']);
 if (!empty($value)) {
-       if ($record['action'] == 'd') {
-               // No link for deleted content.
-               $out['table_id'] = $record['dbidx'];
-       } else {
-               // TODO link per content type
-               $out['table_id'] = '<a href="#" data-load-content="mail/mail_user_edit.php?id=' . $value .'" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="link">'.$record['dbidx'].'</a>';
-       }
+  if ($record['action'] == 'd') {
+    // No link for deleted content.
+    $out['table_id'] = $record['dbidx'];
+  } else {
+    switch ($out['table']) {
+      case 'mail_forwarding':
+        $file = 'mail/mail_forward_edit.php';
+        break;
+      case 'mail_user':
+        $file = 'mail/mail_user_edit.php';
+        break;
+      case 'mail_domain':
+        $file = 'mail/mail_domain_edit.php';
+        break;
+      default:
+        $file = '';
+    }
+    // TODO link per content type
+    $out['table_id'] = '<a href="#" data-load-content="' . $file . '?id=' . $value .'" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="link">'.$record['dbidx'] . $file .'</a>';
+  }
 }
 
 $out['action_char'] = $record['action'];
