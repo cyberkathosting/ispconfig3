@@ -141,12 +141,18 @@ class auth {
 		}
 	}
 
-	public function check_module_permissions($module) {
+
+       /**
+        * Check that the user has access to the given module.
+        *
+        * @return boolean
+        */
+       public function verify_module_permissions($module)  {
 		// Check if the current user has the permissions to access this module
 		$module = trim(preg_replace('@\s+@', '', $module));
 		$user_modules = explode(',',$_SESSION["s"]["user"]["modules"]);
+               $can_use_module = false;
 		if(strpos($module, ',') !== false){
-			$can_use_module = false;
 			$tmp_modules = explode(',', $module);
 			if(is_array($tmp_modules) && !empty($tmp_modules)){
 				foreach($tmp_modules as $tmp_module){
@@ -158,17 +164,21 @@ class auth {
 					}
 				}
 			}
-			if(!$can_use_module){
-				// echo "LOGIN_REDIRECT:/index.php";
-				header("Location: /index.php");
-				exit;
-			}
-		} else {
-			if(!in_array($module,$user_modules)) {
-				// echo "LOGIN_REDIRECT:/index.php";
-				header("Location: /index.php");
-				exit;
-			}
+               }
+               elseif(in_array($module,$user_modules)) {
+                       $can_use_module = true;
+               }
+               return $can_use_module;
+       }
+
+       /**
+        * Check that the user has access to the given module, redirect and exit on failure.
+        */
+       public function check_module_permissions($module)  {
+               if(!$this->verify_module_permissions($module)) {
+                       // echo "LOGIN_REDIRECT:/index.php";
+                       header("Location: /index.php");
+                       exit;
 		}
 	}
 	

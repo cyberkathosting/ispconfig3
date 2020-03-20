@@ -766,6 +766,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'width'  => '30',
 				'maxlength' => '255'
 			),
+			'proxy_protocol' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'y',
+				'value' => array(0 => 'n',1 => 'y')
+			),
 			'php_fpm_use_socket' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'CHECKBOX',

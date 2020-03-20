@@ -12,6 +12,18 @@
 
 <tmpl_loop name='vhosts'>
 <VirtualHost {tmpl_var name='ip_address'}:{tmpl_var name='port'}>
+<tmpl_if name='use_proxy_protocol' op='==' value='y'>
+<tmpl_if name='apache_version' op='>=' value='2.4.30' format='version'>
+	<IfModule mod_remoteip.c>
+		RemoteIPProxyProtocol On
+	</IfModule>
+	</tmpl_else>
+	<IfModule mod_proxy_protocol.c>
+		ProxyProtocol On
+	</IfModule>
+</tmpl_if>
+</tmpl_if>
+
 <tmpl_hook name='apache2_vhost:vhost_header'>
 <tmpl_if name='php' op='==' value='suphp'>
 		DocumentRoot <tmpl_var name='web_document_root'>

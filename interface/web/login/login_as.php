@@ -96,7 +96,7 @@ echo '
 	<input type="hidden" name="s_pg" value="dashboard" />
 	<input type="hidden" name="login_as" value="1" />
     <div class="wf_actions buttons">
-      <button class="btn btn-default formbutton-success" type="button" value="'.$wb['btn_yes_txt'].'" data-submit-form="pageForm" data-form-action="/login/index.php"><span>'.$wb['btn_yes_txt'].'</span></button>
+      <button class="btn btn-default formbutton-success" type="button" value="'.$wb['btn_yes_txt'].'" data-submit-form="pageForm" data-form-action="login/index.php"><span>'.$wb['btn_yes_txt'].'</span></button>
       <button class="btn btn-default formbutton-default" value="'.$wb['btn_back_txt'].'" data-load-content="'.$backlink.'"><span>'.$wb['btn_back_txt'].'</span></button>
     </div>
 ';

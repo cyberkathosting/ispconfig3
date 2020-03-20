@@ -295,6 +295,10 @@ $wb['logging_txt'] = 'Web Sitesi Erişim ve Hata Günlükleri Kaydedilsin';
 $wb['logging_desc_txt'] = 'Değişiklikleri var olan sitelere uygulamak için Araçlar > Yeniden Eşitle komutunu kullanın. Apache için, erişim ve hata günlükleri anonimleştirilebilir. nginx için, only erişim günlüğü anonimleştirilebilir, hata günlüğüne IP adresleri kaydedilir.';
 $wb['log_retention_txt'] = 'Günlük Tutma Süresi (Gün)';
 $wb['log_retention_error_ispositive'] = 'Günlük tutma süresi 0 değerinden büyük bir sayı olmalıdır';
+$wb['php_default_hide_txt'] = 'Hide Default PHP-Version in selectbox';
 $wb['php_default_name_txt'] = 'Varsayılan PHP Sürümü Açıklaması';
 $wb['php_default_name_error_empty'] = 'Varsayılan PHP sürümü açıklaması boş olamaz';
+$wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
+$wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
+$wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';
 ?>

@@ -98,6 +98,8 @@ $wb['pm_max_spare_servers_error_regex'] = 'PHP-FPM pm.max_spare_servers deve ter
 $wb['hd_quota_error_regex'] = 'Cota do disco é inválida.';
 $wb['traffic_quota_error_regex'] = 'Cota de tráfego é inválida.';
 $wb['fastcgi_php_version_txt'] = 'Versão do php';
+$wb['fastcgi_php_version_invalid_txt'] = 'PHP Version is invalid.';
+$wb['fastcgi_php_version_default_hidden_warning_txt'] = 'PHP Version was set to "default" but that can no longer be selected. Choose your desired PHP Version and save your settings.';
 $wb['pm_txt'] = 'Gerenciador de Processos do php-fpm';
 $wb['pm_process_idle_timeout_txt'] = 'PHP-FPM pm.process_idle_timeout';
 $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
@@ -158,4 +160,5 @@ $wb['enable_pagespeed_txt'] = 'Habilitar PageSpeed';
 $wb['log_retention_txt'] = 'Tempo de retenção do log de arquivos';
 $wb['log_retention_error_regex'] = 'Tempo de retenção em dias (valores permitidos: mínimo 0, máximo 9999)';
 $wb['limit_web_quota_not_0_txt'] = 'Cota de disco não pode ser configurada para 0.';
+$wb['proxy_protocol_txt'] = 'Enable PROXY Protocol';
 ?>

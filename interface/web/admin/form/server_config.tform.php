@@ -820,6 +820,28 @@ $form["tabs"]['web'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n',1 => 'y')
 		),
+		'vhost_proxy_protocol_enabled' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
+		),
+		'vhost_proxy_protocol_http_port' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '880',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'vhost_proxy_protocol_https_port' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '8443',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1128,6 +1150,12 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'php_default_hide' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'php_default_name' => array(
 			'datatype' => 'VARCHAR',

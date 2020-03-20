@@ -96,6 +96,8 @@ $wb['traffic_quota_error_regex'] = 'Le quota de trafic est invalide.';
 $wb['ssl_key_txt'] = 'Clé SSL';
 $wb['perl_txt'] = 'Perl';
 $wb['fastcgi_php_version_txt'] = 'Version de PHP';
+$wb['fastcgi_php_version_invalid_txt'] = 'PHP Version is invalid.';
+$wb['fastcgi_php_version_default_hidden_warning_txt'] = 'PHP Version was set to "default" but that can no longer be selected. Choose your desired PHP Version and save your settings.';
 $wb['pm_txt'] = 'Manager de process PHP-FPM';
 $wb['pm_process_idle_timeout_txt'] = 'PHP-FPM pm.process_idle_timeout';
 $wb['pm_max_requests_txt'] = 'PHP-FPM pm.max_requests';
@@ -153,4 +155,5 @@ $wb['log_retention_txt'] = 'Logfiles retention time';
 $wb['log_retention_error_regex'] = 'Retention time in days (allowed values: min. 0 - max. 9999)';
 $wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
 $wb['limit_web_quota_not_0_txt'] = 'Harddisk Quota cannot be set to 0.';
+$wb['proxy_protocol_txt'] = 'Enable PROXY Protocol';
 ?>
