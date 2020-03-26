@@ -131,11 +131,10 @@ class remoting_admin extends remoting {
 	/**
 	 Get the values of the system configuration
 	 @param int session id
-	 @param string  section of the config field in the table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
-	 @param string key of the option that you want to set
-	 @param string option value that you want to set
+	 @param string section of the config field in the table. Could be 'web', 'dns', 'mail', 'dns', 'cron', etc
+	 @param string|null key of the option that you want to get 
 	 */
-	public function system_config_get($session_id, $section, $key) {
+	public function system_config_get($session_id, $section, $key = null) {
 		global $app;
 		if(!$this->checkPerm($session_id, 'system_config_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
