@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2013, Marius Cramer, pixcept KG
+Copyright (c) 2020, ISPConfig
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -26,32 +26,50 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
 OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 */
 
+class ISPConfigRemotingHandlerBase
+{
+	protected $methods = array();
+	protected $classes = array();
 
-class ISPConfigSoapHandler extends ISPConfigRemotingHandlerBase {
-	public function __call($method, $params) {
-		if(array_key_exists($method, $this->methods) == false) {
-			throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist');
-		}
+	public function __construct()
+	{
+		global $app;
 
-		$class_name = $this->methods[$method];
-		if(array_key_exists($class_name, $this->classes) == false) {
-			throw new SoapFault('invalid_class', 'Class ' . $class_name . ' does not exist');
-		}
+		// load main remoting file
+		$app->load('remoting');
 
-		if(method_exists($this->classes[$class_name], $method) == false) {
-			throw new SoapFault('invalid_method', 'Method ' . $method . ' does not exist in the class it was expected (' . $class_name . ')');
-		}
+		// load all remoting classes and get their methods
+		$this->load_remoting_classes(realpath(__DIR__) . '/remote.d/*.inc.php');
 
-		try {
-			return call_user_func_array(array($this->classes[$class_name], $method), $params);
-		} catch(SoapFault $e) {
-			throw $e;
-		}
+		// load all remoting classes from modules
+		$this->load_remoting_classes(realpath(__DIR__) . '/../../web/*/lib/classes/remote.d/*.inc.php');
+
+		// add main methods
+		$this->methods['login'] = 'remoting';
+		$this->methods['logout'] = 'remoting';
+		$this->methods['get_function_list'] = 'remoting';
+
+		// create main class
+		$this->classes['remoting'] = new remoting(array_keys($this->methods));
 	}
 
-}
+	private function load_remoting_classes($glob_pattern)
+	{
+		$files = glob($glob_pattern);
 
-?>
+		foreach ($files as $file) {
+			$name = str_replace('.inc.php', '', basename($file));
+			$class_name = 'remoting_' . $name;
+
+			include_once $file;
+			if(class_exists($class_name, false)) {
+				$this->classes[$class_name] = new $class_name();
+				foreach(get_class_methods($this->classes[$class_name]) as $method) {
+					$this->methods[$method] = $class_name;
+				}
+			}
+		}
+	}
+}
