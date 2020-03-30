@@ -132,9 +132,7 @@ class cronjob_backup extends cronjob {
 							if($backup_mode == 'userzip') {
 								//* Create a .zip backup as web user and include also files owned by apache / nginx user
 								$web_backup_file = 'web'.$web_id.'_'.date('Y-m-d_H-i').'.zip';
-								$app->system->exec_safe('cd ? && sudo -u ? find . -group ? -print 2> /dev/null | zip -b ? --exclude=./backup\*'.$backup_excludes.' --symlinks ? -@', $web_path, $web_user, $web_group, $backup_tmp, $web_backup_dir.'/'.$web_backup_file);
-								$retval = $app->system->last_exec_retcode();
-								if($retval == 0 || $retval == 12) $app->system->exec_safe('cd ? && sudo -u ? find . -user ? -print 2> /dev/null | zip -b ? --exclude=./backup\*'.$backup_excludes.' --update --symlinks ? -@', $web_path, $web_user, $http_server_user, $backup_tmp, $web_backup_dir.'/'.$web_backup_file);
+								$app->system->exec_safe('cd ? && sudo -u ? find . -group ? -or -user ? -print 2> /dev/null | zip -b ? --exclude=./backup\*'.$backup_excludes.' --symlinks ? -@', $web_path, $web_user, $web_group, $http_server_user, $backup_tmp, $web_backup_dir.'/'.$web_backup_file);
 								$retval = $app->system->last_exec_retcode();
 							} else {
 								//* Create a tar.gz backup as root user
